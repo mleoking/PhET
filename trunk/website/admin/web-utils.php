@@ -47,22 +47,28 @@
 		
 		return url_exists($file);
 	}
-    
-	function url_exists($file) {
-		$file_headers = get_headers($file);
-		
-		if (!$file_headers) return false;
-	
-		if (preg_match('/\b404\b/', $file_headers[0])) {
-			$exists = false;
-		}
-		else {
-			$exists = true;
-		}
-		
-	   return $exists;
+
+	/**
+	 * From the header information, check that we haven't received a 404 (page not found) error
+	 *
+	 * @param string $file
+	 * @return bool true of 404 is not in the header
+	 */
+    function url_exists($file) {
+        $file_headers = get_headers($file);
+
+        if (!$file_headers) return false;
+
+        if (preg_match('/\b404\b/', $file_headers[0])) {
+            $exists = false;
+        }
+        else {
+            $exists = true;
+        }
+        
+        return $exists;
 	}
-    
+
 	/**
 	 * Markup a string for HTML display using htmlentities(html_entity_decode()))
 	 *
@@ -74,17 +80,23 @@
     }
     
     /**
-     * Markup a string or an array of strings in HTML.  Ultimately calls format_for_html(). 
+     * Markup a string or an array of strings in HTML.  Ultimately calls format_string_for_html(). 
      * 
-     * @param string or string array $array - string(s) to format for displaying in html
-     * @return string or string array - string(s) formatted in html 
+     * @param string or string array $array string(s) to format for displaying in html
+     * @return string or string array string(s) formatted in html 
      */
     function format_for_html($array) {
         if (is_array($array)) {
             $clean = array();
         
             foreach($array as $key => $value) {
-                $clean["$key"] = format_for_html("$value");
+                // Slight speed improvement
+                if (is_array($value)) {
+                    $clean["$key"] = format_for_html("$value");
+                }
+                else {
+                    $clean["$key"] = format_string_for_html($value);
+                }
             }
         
             return $clean;
@@ -141,7 +153,7 @@
         }
 
         $parsed['first_initial'] = strlen($parsed['first_name']) > 0 ? strtoupper($parsed['first_name'][0]) : '';
-        $parsed['last_initial']  = strtoupper($parsed['last_name'][0]);        
+        $parsed['last_initial']  = strtoupper($parsed['last_name'][0]);
 
         return $parsed;
     }
@@ -766,21 +778,27 @@ EOT;
         return $encoded_string;
     }  
 
-	function parse_multiselect_control($multiselect_control_name) {
-		$matches = array();
-        
+    /**
+     * Parses the string for the form: multiselect_([a-zA-Z0-9_]+)_id_([0-9]+)
+     *
+     * @param string $multiselect_control_name string to parse
+     * @return false with no match, else an array with the table_name and row_id
+     */
+    function parse_multiselect_control($multiselect_control_name) {
+        $matches = array();
+
         if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_([0-9]+)$/i', $multiselect_control_name, $matches) !== 1) {
             return false;
         }
-        
-		$parsed = array();
-		
+
+        $parsed = array();
+
         $parsed['table_name'] = $matches[1];
-		$parsed['row_id']	  = $matches[2];
-		
-		return $parsed;
-	}
-    
+        $parsed['row_id']	  = $matches[2];
+
+        return $parsed;
+    }
+
     function create_multiselect_control_name($table_name, $row_id) {
         return "multiselect_${table_name}_id_${row_id}";
     }
@@ -793,6 +811,12 @@ EOT;
         return "keep_${name}_id_${id}";
     }
 
+    /**
+     * Parses the named control and returns the id section
+     *
+     * @param string $control_name name of control
+     * @return int on successful parse, false on failure
+     */
     function get_deletable_item_control_id($control_name) {
         $matches = array();
         
@@ -803,9 +827,15 @@ EOT;
             return false;
         }
     }
-    
+
+    /**
+     * Parse the name to determine if a control is deletable, form: keep_*_id_* means it IS deletable
+     *
+     * @param string $control_name name of the control
+     * @return true if the form matches, false otherwise
+     */
     function is_deletable_item_control($control_name) {
-        if (preg_match('/keep_([a-zA-Z0-9_]+)_id_([0-9])+$/i', $control_name) == 1) {
+        if (preg_match('/keep_([a-zA-Z0-9_]+)_id_([0-9]+)$/i', $control_name) == 1) {
             return true;
         }
         else {
@@ -829,11 +859,14 @@ EOT;
         
         $options = '<option value="" selected="selected">Select '.$select_user_name.':</option>';
         
-        foreach($options_array as $identifier => $text) {   
-			$text = html_entity_decode($text);
-			
+        foreach($options_array as $identifier => $text) {
+            // TODO: On the "teacher_ideas/contribute.php" the identifiers
+            // come in already formatted in HTML and don't need this.  Check to
+            // see if others rely on this method.
+            //$text = html_entity_decode($text);
+
             $options .= "<option value=\"$identifier\">$text</option>";
-            
+
             $text_to_identifier["$text"] = "$identifier";
         }
         
@@ -854,8 +887,9 @@ EOT;
 		$should_invalidate_on_empty = $print_select ? 'true' : 'false';
 
         foreach($selections_array as $text) {
-			$text = html_entity_decode($text);
-			
+            
+            $text = html_entity_decode($text);
+
             if (isset($text_to_identifier["$text"])) {
                 $identifier = $text_to_identifier["$text"];
             }
@@ -872,6 +906,9 @@ EOT;
         if (!$has_printed_javascript) {
             $has_printed_javascript = true;
 
+			// TODO: remove this when JS validation is done
+			// Moving this to another file, but keeping here for reference
+            if (false) {
             print <<<EOT
             <script type="text/javascript">
                 /* <![CDATA[ */
@@ -938,11 +975,11 @@ EOT;
                 }
 
                 function ms_add_li(basename, list_id, text, name, invalidate_on_empty) {
-					if (invalidate_on_empty == undefined) invalidate_on_empty = true;
-					
+                    if (invalidate_on_empty == undefined) invalidate_on_empty = true;
+
                     var Parent = document.getElementById(list_id);
 
-					ms_mark_as_valid(Parent);
+                    ms_mark_as_valid(Parent);
 
                     var li_children = Parent.getElementsByTagName("li");
 
@@ -966,14 +1003,14 @@ EOT;
                 }
 
                 function ms_on_change(basename, list_id, dropdown, invalidate_on_empty) {
-                	var index  = dropdown.selectedIndex;
+                    var index  = dropdown.selectedIndex;
 
-                	var text   = dropdown.options[index].text;
-                	var value  = dropdown.options[index].value;
+                    var text   = dropdown.options[index].text;
+                    var value  = dropdown.options[index].value;
 
-					if (value && value != '') {
-                    	ms_add_li(basename, list_id, text, value, invalidate_on_empty);
-					}
+                    if (value && value != '') {
+                        ms_add_li(basename, list_id, text, value, invalidate_on_empty);
+                    }
 
                 	return false;
                 }
@@ -981,6 +1018,7 @@ EOT;
                 /* ]]> */
             </script>
 EOT;
+            }
         }        
 
         if ($print_select) {
@@ -992,18 +1030,16 @@ EOT;
 EOT;
         }
 
-       	if (count($selections) > 1) {
-        	print <<<EOT
-				<ul id="$list_id">
-                	$selections
-            	</ul>
+        print <<<EOT
+            <ul id="$list_id">
+                $selections
+            </ul>
 EOT;
-       	}
-       	
+
         print <<<EOT
             <script type="text/javascript">
-				$script_creation_code
-			</script>
+                $script_creation_code
+            </script>
 EOT;
     }
 
@@ -1024,20 +1060,21 @@ EOT;
             <select name="$select_name" id="${select_name}_uid" $other_attributes>
 EOT;
 
-		$natural_ordering = 0;
+        $natural_ordering = 0;
 
         foreach($value_to_text as $value => $text) {
-			if ($natural_ordering++ == $value) $value = $text;
-			
+            if ($natural_ordering++ == $value) $value = $text;
+
             if ($text == $selected || $value == $selected) {
                 $is_selected = 'selected="selected"';
             }
             else {
                 $is_selected = '';
             }
-            
+
+            $formatted_text = format_for_html($text);
             print <<<EOT
-                <option value="$value" $is_selected>$text</option>
+                <option value="$value" $is_selected>$formatted_text</option>
 EOT;
         }
 
@@ -1045,7 +1082,7 @@ EOT;
             </select>
 EOT;
     }
-    
+
     function print_checkbox($checkbox_name, $checkbox_text, $checkbox_value) {
         $is_checked = $checkbox_value == "1" ? "checked=\"checked\"" : "";
         

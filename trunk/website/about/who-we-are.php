@@ -16,11 +16,11 @@
 
         <div>
             <div class="caption">
-                <em><strong><u>Back Row:</u></strong></em> Mindy Gratny, Chris Malley, Chris Keller, John De Goes, Sam Reid, Carl Wieman
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Back Row:</span> Mindy Gratny, Chris Malley, Chris Keller, John De Goes, Sam Reid, Carl Wieman
             </div>
 
             <div class="caption">
-                <em><strong><u>Front Row:</u></strong></em> Kathy Perkins, Alex Adams, Wendy Adams, Angie Jardine, Mike Dubson, Noah Finkelstein
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Front Row:</span> Kathy Perkins, Alex Adams, Wendy Adams, Angie Jardine, Mike Dubson, Noah Finkelstein
             </div>
 
             <p>&nbsp;</p>
@@ -33,8 +33,12 @@
                     $team_members = contributor_get_team_members();
                     
                     foreach($team_members as $team_member) {
-	            		eval(get_code_to_create_variables_from_array($team_member));
-                        
+                        $contributor_name = format_for_html($team_member["contributor_name"]);
+                        $contributor_title = format_for_html($team_member["contributor_title"]);
+                        $contributor_primary_phone = format_for_html($team_member["contributor_primary_phone"]);
+                        $contributor_secondary_phone = format_for_html($team_member["contributor_secondary_phone"]);
+                        $contributor_office = format_for_html($team_member["contributor_office"]);
+
                         print "<li>$contributor_name - $contributor_title";
 
 						if ($is_team_member) {
@@ -50,7 +54,7 @@
 											$contributor_primary_phone
 										</td>
 									</tr>
-									
+
 									<tr>
 										<td>
 											secondary phone:
@@ -69,7 +73,7 @@
 										<td>
 											$contributor_office
 										</td>
-									</tr>									
+									</tr>
 								</table>
 								<br/>
 EOT;

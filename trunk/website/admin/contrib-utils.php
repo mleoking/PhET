@@ -55,17 +55,17 @@
     function contribution_get_files_listing_html($contribution_id) {
         $files_html = '<p>No files</p>';
 
-        $files = contribution_get_contribution_files($contribution_id);
+        $files = contribution_get_contribution_file_infos($contribution_id);
 
         if (count($files) > 0) {
             $files_html = '<ul>';
 
             foreach($files as $file) {
-                $contribution_file_id   = $file['contribution_file_id'];
-                $contribution_file_name = $file['contribution_file_name'];
+                $contribution_file_id   = format_string_for_html($file['contribution_file_id']);
+                $contribution_file_name = format_string_for_html($file['contribution_file_name']);
                 $contribution_file_size = $file['contribution_file_size'];
 
-                $kb = ceil($contribution_file_size / 1024);
+                $kb = format_string_for_html(ceil($contribution_file_size / 1024));
 
                 $files_html .= "<li><a href=\"../admin/get-upload.php?contribution_file_id=$contribution_file_id\">".
                                "$contribution_file_name</a>".
@@ -94,7 +94,7 @@
 
             $sim_url = sim_get_url_to_sim_page($sim_id);
 
-            $simulations_html .= "<li>$delete <a href=\"$sim_url\">$sim_name</a></li>";
+            $simulations_html .= "<li>$delete <a href=\"$sim_url\">".format_string_for_html($sim_name)."</a></li>";
         }
 
         $simulations_html .= "</ul>";
@@ -126,9 +126,9 @@
     /**
      * Returns the HTML code to display the gold star if the contribution is a gold star contribution
      *
-     * @param array $contribution - assoc array from a db query
-     * @param int $image_width - width of the gold star image
-     * @return string - <img ...> HTML code if it is a gold star, else blank
+     * @param array $contribution assoc array from a db query
+     * @param int $image_width width of the gold star image
+     * @return string <img ...> HTML code if it is a gold star, else blank
      */
     function contribution_get_gold_star_html_for_contribution($contribution, $image_width = 37) {
         if (contribution_is_gold_star_contribution($contribution)) {
@@ -469,6 +469,15 @@ EOT;
 EOT;
     }
 
+    /**
+     * Looks through all the $REQUST key => value pairs and does one of 3 things:
+     * 1. if the key is a multiselect control, make an association with the proper table (I assume this means levels etc)
+     * 2. if the key is a "deletable_item", then add it to the files to keep list which will be returned (naming convention is confusing)
+     * 3. if the key is a simulation id of form sim_id_* associate the contribution with that simulation
+     * 
+     * @param int $contribution_id id of the contribution
+     * @return string array list of files to keep- TODO: not sure what this means
+     */
     function contribution_establish_multiselect_associations_from_script_params($contribution_id) {
         $files_to_keep = array();
 
@@ -533,7 +542,7 @@ EOT;
         if ($contribution_keywords == '' && isset($GLOBALS['sim_id'])) {
             $simulation = sim_get_sim_by_id($GLOBALS['sim_id']);
 
-            $contribution_keywords = $simulation['sim_keywords'];
+            $contribution_keywords = format_for_html($simulation['sim_keywords']);
         }
 
         $all_contribution_types = contribution_get_all_template_type_names();
@@ -547,6 +556,7 @@ EOT;
                 else {
                     print_contribute_login_form('../teacher_ideas/edit-contribution.php', $contribution_id, $referrer);
                 }
+                return;
             }
         }
 
@@ -818,6 +828,15 @@ EOT;
 
             if ($contributor_is_team_member) {
                 print <<<EOT
+                <table class="form">
+                    <thead>
+                    <tr>
+                        <td colspan="2">
+                            PhET Team Member Options
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <tr>
                         <td>
                             from phet
@@ -855,6 +874,8 @@ EOT;
                 print <<<EOT
                         </td>
                     </tr>
+                    </tbody>
+                    </table>
 EOT;
             }
 
@@ -877,8 +898,9 @@ EOT;
     function contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member, $referrer = '') {
         // eval(get_code_to_create_variables_from_array($contribution));
         $contribution_id       = $contribution['contribution_id'];
-        $contribution_title    = $contribution['contribution_title'];
-        $contribution_approved = $contribution['contribution_approved'];
+        $contribution_title    = format_string_for_html($contribution['contribution_title']);
+        $contribution_authors  = format_string_for_html($contribution['contribution_authors']);
+        $contribution_approved = format_string_for_html($contribution['contribution_approved']);
 
         $path_prefix = SITE_ROOT."teacher_ideas/";
 
@@ -904,7 +926,7 @@ EOT;
 
         $contribution_link = "${path_prefix}view-contribution.php$query_string";
 
-        print "<li><a href=\"$contribution_link\">$contribution_title</a> - ($edit$delete$approve)</li>";
+        print "<li><a href=\"$contribution_link\">$contribution_title</a> - $contribution_authors- ($edit$delete$approve)</li>";
     }
 
     /**
@@ -954,91 +976,6 @@ EOT;
         return $list;
     }
 
-    function contribution_print_summary2($contribution_id, $print_sims = true) {
-        $contribution = contribution_get_contribution_by_id($contribution_id);
-
-        eval(get_code_to_create_variables_from_array($contribution));
-
-        $contribution_files = contribution_get_contribution_files($contribution_id);
-
-        $contribution_levels = contribution_get_levels_for_contribution($contribution_id);
-        $contribution_types  = contribution_get_types_for_contribution($contribution_id);
-        $contribution_sims   = contribution_get_associated_simulation_listings($contribution_id);
-
-        $sim_list = '';
-
-        $is_first = true;
-
-        foreach($contribution_sims as $listing) {
-            eval(get_code_to_create_variables_from_array($listing));
-
-            $sim = sim_get_sim_by_id($sim_id);
-
-            eval(get_code_to_create_variables_from_array($sim));
-
-            if ($is_first) {
-                $is_first = false;
-            }
-            else {
-                $sim_list .= '<br/>';
-            }
-
-            $sim_url = sim_get_url_to_sim_page($sim_id);
-
-            $sim_list .= '<a href="'.$sim_url.'">'.$sim_name.'</a>';
-        }
-
-        $contribution_authors = explode(',', $contribution_authors);
-
-        $contribution_author = $contribution_authors[0];
-
-        $parsed_name = parse_name($name);
-
-        $author_first_initial = $parsed_name['first_initial'];
-        $author_last_name     = $parsed_name['last_name'];
-
-        $level_list = contribution_generate_association_list('contribution_level', $contribution_levels);
-        $type_list  = contribution_generate_association_list('contribution_type',  $contribution_types);
-
-        $time = strtotime($contribution_date_updated);
-
-        $contribution_date_updated = date('n/y', $time);
-
-        print <<<EOT
-            <tr>
-                <td>
-                    $contribution_title
-                </td>
-
-                <td>
-                    $author_first_initial. $author_last_name
-                </td>
-
-                <td>
-                    $level_list
-                </td>
-
-                <td>
-                    $type_list
-                </td>
-EOT;
-
-        if ($print_sims) {
-            print <<<EOT
-                <td>
-                    $sim_list
-                </td>
-EOT;
-        }
-
-        print <<<EOT
-                <td>
-                    $contribution_date_updated
-                </td>
-            </tr>
-EOT;
-    }
-
     function contribution_get_simulation_listings_as_list($contribution_id) {
         $names = contribution_get_associated_simulation_listing_names($contribution_id);
 
@@ -1067,28 +1004,17 @@ EOT;
      * @param boolean $print_sims TRUE means print the "Simulations" column
      * @return string HTML table row
      */
-    function contribution_get_contribution_summary_as_html($contribution, $print_sims = true, $format_in_html = false) {
+    function contribution_get_contribution_summary_as_html($contribution, $print_sims = true) {
         // TODO: rename this function, since getting everything in HTML at this point is undesirable
         global $referrer;
 
         $html = '';
-
-        if ($format_in_html) {
-            $sim_name = format_for_html($contribution["sim_name"]);
-            $contribution_authors = format_for_html($contribution["contribution_authors"]);
-            $contribution_date_updated = format_for_html($contribution["contribution_date_updated"]);
-            $contribution_title = format_for_html($contribution["contribution_title"]);
-            $contribution_id = format_for_html($contribution["contribution_id"]);
-            $contribution_from_phet = format_for_html($contribution["contribution_from_phet"]);
-        }
-        else {
-            $sim_name = $contribution["sim_name"];
-            $contribution_authors = $contribution["contribution_authors"];
-            $contribution_date_updated = $contribution["contribution_date_updated"];
-            $contribution_title = $contribution["contribution_title"];
-            $contribution_id = $contribution["contribution_id"];
-            $contribution_from_phet = $contribution["contribution_from_phet"];
-        }
+        $sim_name = format_string_for_html($contribution["sim_name"]);
+        $contribution_authors = format_string_for_html($contribution["contribution_authors"]);
+        $contribution_date_updated = format_string_for_html($contribution["contribution_date_updated"]);
+        $contribution_title = format_string_for_html($contribution["contribution_title"]);
+        $contribution_id = format_string_for_html($contribution["contribution_id"]);
+        $contribution_from_phet = format_string_for_html($contribution["contribution_from_phet"]);
 
         $gold_star_html = contribution_get_gold_star_html_for_contribution($contribution, 10);
 
@@ -1155,7 +1081,7 @@ EOT;
 EOT;
 
         if ($contribution_from_phet == 1) {
-            $title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
+        $title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
         }
 
         $title_html .= $gold_star_html;
@@ -1174,7 +1100,7 @@ EOT;
     function contribution_get_contribution_file_names($contribution_id) {
         $contribution_file_names = array();
 
-        $contribution_files = contribution_get_contribution_files($contribution_id);
+        $contribution_files = contribution_get_contribution_file_infos($contribution_id);
 
         foreach($contribution_files as $contribution_file) {
             $name = create_deletable_item_control_name('contribution_file_url', $contribution_file['contribution_file_id']);
@@ -1185,18 +1111,32 @@ EOT;
         return $contribution_file_names;
     }
 
+    /**
+     * Deletes the specified file from the database 
+     *
+     * @param int $contribution_file_id id of the contributed file
+     * @return true no matter the result of the operation
+     */
     function contribution_delete_contribution_file($contribution_file_id) {
         $condition = array( 'contribution_file_id' => $contribution_file_id );
 
         db_delete_row('contribution_file', $condition);
 
+        // TODO: return something more indicitave of the sucess of the operation (not that anybody is checking)
         return true;
     }
 
+    /**
+     * Given the contribution id and an array of file ids, delete all files that are not associated with the contribution
+     *
+     * @param int $contribution_id id of the contribution with associated files
+     * @param int array $files_to_keep array of file ids that should NOT be deleted
+     * @return true no matter the result
+     */
     function contribution_delete_all_files_not_in_list($contribution_id, $files_to_keep) {
         $all_files = array();
 
-        $contribution_files = contribution_get_contribution_files($contribution_id);
+        $contribution_files = contribution_get_contribution_file_infos($contribution_id);
 
         foreach($contribution_files as $contribution_file) {
             $all_files[] = $contribution_file['contribution_file_id'];
@@ -1208,16 +1148,49 @@ EOT;
             contribution_delete_contribution_file($file_to_delete);
         }
 
+        // TODO: should return a result more indictative of the result of the function's success
         return true;
     }
 
+    /**
+     * Get the info for all files associated with the contribution_id, no file content contents
+     *
+     * @param int $contribution_id id of the contribution
+     * @return array containing the info for all the files associated with the id (empty if no files)
+     */
+    function contribution_get_contribution_file_infos($contribution_id) {
+        $contribution_files = array();
+
+        // Get all columns except the actual file
+        $columns = array('contribution_file_id',
+                         'contribution_file_name', 
+                         'contribution_file_url', 
+                         'contribution_file_size', 
+                         'contribution_id');
+
+        $query = "SELECT ".join(',', $columns)." FROM `contribution_file` WHERE `contribution_id`='$contribution_id'";
+        $contribution_file_rows = db_exec_query($query);
+
+        while ($contribution = mysql_fetch_assoc($contribution_file_rows)) {
+            $contribution_files[] = $contribution;
+        }
+
+        return $contribution_files;
+    }
+
+    /**
+     * Return all files & info associated with a contribution id
+     *
+     * @param int $contribution_id id of the contribution to get file info
+     * @return array all file info (empty if no files associated with id)
+     */
     function contribution_get_contribution_files($contribution_id) {
         $contribution_files = array();
 
         $contribution_file_rows = db_exec_query("SELECT * FROM `contribution_file` WHERE `contribution_id`='$contribution_id' ");
 
         while ($contribution = mysql_fetch_assoc($contribution_file_rows)) {
-            $contribution_files[] = format_for_html($contribution);
+            $contribution_files[] = $contribution;
         }
 
         return $contribution_files;
@@ -1238,7 +1211,7 @@ EOT;
     }
 
     function contribution_get_contributions_for_contributor_id($contributor_id) {
-        return db_get_rows_by_condition('contribution', array('contributor_id' => $contributor_id), false, true, 'ORDER BY `contribution_title` ASC');
+        return db_get_rows_by_condition('contribution', array('contributor_id' => $contributor_id), false, false, 'ORDER BY `contribution_title` ASC');
     }
 
     function contribution_get_coauthored_contributions_for_contributor_id($contributor_id) {
@@ -1259,7 +1232,7 @@ EOT;
         $contributions = array();
 
         while ($contribution = mysql_fetch_assoc($result)) {
-            $contributions[] = format_for_html($contribution);
+            $contributions[] = $contribution;
         }
 
         return $contributions;
@@ -1283,7 +1256,7 @@ EOT;
         $contributions = array();
 
         while ($contribution = mysql_fetch_assoc($result)) {
-            $contributions[] = format_for_html($contribution);
+            $contributions[] = $contribution;
         }
 
         return $contributions;
@@ -1342,6 +1315,14 @@ EOT;
         return $abbrev;
     }
 
+    /**
+     * Returns the id of the table (embedded in the control_name) with the table_desc matching the given text.  Creates the association if none exists.
+     *
+     * @param int $contribution_id id of the contribution
+     * @param string $multiselect_control_name name of control of form multiselect_([a-zA-Z0-9_]+)_id_([0-9]+)
+     * @param string $text string to match in the table's table_desc column
+     * @return false if control_name is not of from, else id if the association
+     */
     function contribution_create_multiselect_association($contribution_id, $multiselect_control_name, $text) {
         $text = html_entity_decode($text);
 
@@ -1353,11 +1334,11 @@ EOT;
 
         $table_name = $matches[1];
 
+        // FIXME: no escaping of $text, or $table_name
         $result = db_exec_query("SELECT * FROM `$table_name` WHERE `${table_name}_desc`='$text' AND `contribution_id`='$contribution_id' ");
 
         if ($first_row = mysql_fetch_assoc($result)) {
             $id = $first_row["${table_name}_id"];
-
             return $id;
         }
         else {
@@ -1459,6 +1440,13 @@ EOT;
         return true;
     }
 
+    /**
+     * Automatically inserts a row to associate the sim_id with the contribution.  FIXME: if this creates duplicates
+     *
+     * @param int $contribution_id id of the contribution
+     * @param int $sim_id id of the simulation
+     * @return int id of the association in the simulation_contribution table
+     */
     function contribution_associate_contribution_with_simulation($contribution_id, $sim_id) {
         $simulation_contribution_id = db_insert_row(
             'simulation_contribution',
@@ -1481,7 +1469,7 @@ EOT;
 
             $name = create_multiselect_control_name('contribution_level', $id);
 
-            $levels[$name] = format_for_html($contribution_level['contribution_level_desc']);
+            $levels[$name] = $contribution_level['contribution_level_desc'];
         }
 
         return array_unique($levels);
@@ -1553,7 +1541,7 @@ EOT;
 
             $name = create_multiselect_control_name('contribution_subject', $id);
 
-            $subjects[$name] = format_for_html($contribution_subject['contribution_subject_desc']);
+            $subjects[$name] = $contribution_subject['contribution_subject_desc'];
         }
 
         return array_unique($subjects);
@@ -1569,7 +1557,7 @@ EOT;
 
             $name = create_multiselect_control_name('contribution_subject', $id);
 
-            $subjects[$name] = format_for_html($contribution_subject);
+            $subjects[$name] = $contribution_subject;
         }
 
         return $subjects;
@@ -1617,7 +1605,7 @@ EOT;
 
             $name = create_multiselect_control_name('contribution_subject', $id);
 
-            $subjects[$name] = format_for_html($contribution_subject);
+            $subjects[$name] = $contribution_subject;
         }
 
         return $subjects;
@@ -1714,7 +1702,7 @@ EOT;
         while ($simulation_contribution = mysql_fetch_assoc($simulation_contribution_rows)) {
             $id = $simulation_contribution['sim_id'];
 
-            $simulation_contributions["sim_id_$id"] = format_for_html($simulation_contribution);
+            $simulation_contributions["sim_id_$id"] = $simulation_contribution;
         }
 
         return $simulation_contributions;
@@ -1743,7 +1731,7 @@ EOT;
             $new_contrib = $contribution;
 
             foreach($element as $key => $value) {
-                $new_contrib["$key"] = format_for_html("$value");
+                $new_contrib["$key"] = "$value";
             }
 
             $new_contribs[] = $new_contrib;
@@ -1789,7 +1777,7 @@ EOT;
 
                 if (is_array($simulation)) {
                     foreach($simulation as $key => $value) {
-                        $contribution["$key"] = format_for_html("$value");
+                        $contribution["$key"] = "$value";
                     }
                 }
             }
@@ -1800,7 +1788,7 @@ EOT;
         return $final;
     }
 
-    function contribution_get_specific_contributions($sim_names, $type_descs, $level_descs, $format_in_html = true) {
+    function contribution_get_specific_contributions($sim_names, $type_descs, $level_descs) {
         $contributions = array();
 
         $sim_names   = array_remove($sim_names,   'all');
@@ -1850,12 +1838,7 @@ EOT;
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
             $contribution_id = $contribution['contribution_id'];
 
-            if ($format_in_html) {
-                $contributions["$contribution_id"] = format_for_html($contribution);
-            }
-            else {
-                $contributions["$contribution_id"] = $contribution; //format_for_html($contribution);
-            }
+            $contributions["$contribution_id"] = $contribution;
         }
 
         return $contributions;
@@ -1869,7 +1852,7 @@ EOT;
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
             $contribution_id = $contribution['contribution_id'];
 
-            $contributions["$contribution_id"] = format_for_html($contribution);
+            $contributions["$contribution_id"] = $contribution;
         }
 
         return $contributions;
@@ -1881,7 +1864,7 @@ EOT;
         $contribution_rows = db_exec_query("SELECT * FROM `contribution` , `simulation_contribution` WHERE `contribution` . `contribution_id` = `simulation_contribution` . `contribution_id` AND `simulation_contribution` . `sim_id` = '$sim_id' ORDER BY `contribution_title` ASC");
 
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
-            $contributions[] = format_for_html($contribution);
+            $contributions[] = $contribution;
         }
 
         return $contributions;
@@ -1902,34 +1885,71 @@ EOT;
     function contribution_get_contribution_by_id($contribution_id) {
         $contribution_rows = db_exec_query("SELECT * FROM `contribution` WHERE `contribution_id`='$contribution_id' ");
 
-        return format_for_html(mysql_fetch_assoc($contribution_rows));
+        return mysql_fetch_assoc($contribution_rows);
     }
 
-    function contributor_get_all_contributors() {
+    /**
+     * Get all contributor data from the database
+     *
+     * @param string $email_keys (optional) if specified, return an array with usernames as keys, else just a normal array
+     * @return array all contributor information, orderd by name
+     */
+    function contributor_get_all_contributors($email_keys = false) {
         $contributors = array();
 
         $contributor_rows =
-        db_exec_query("SELECT * from `contributor` ORDER BY `contributor_name` ASC ");
+            db_exec_query("SELECT * from `contributor` ORDER BY `contributor_name` ASC ");
 
-        while ($contributor = mysql_fetch_assoc($contributor_rows)) {
-            $contributors[] = format_for_html($contributor);
+        if ($email_keys === false) {
+            while ($contributor = mysql_fetch_assoc($contributor_rows)) {
+                $contributors[] = $contributor;
+            }
+        }
+        else {
+            while ($contributor = mysql_fetch_assoc($contributor_rows)) {
+                $contributors[$contributor['contributor_email']] = $contributor;
+            }
         }
 
         return $contributors;
     }
 
-    function contributor_is_contributor($username) {
+    /**
+     * Get the contributor information with the given username
+     *
+     * @param string $username email address to find
+     * @return mixed an arry of contributor info, else false
+     */
+    function contributor_get_from_contributor_email($username) {
         if (strlen(trim($username)) == 0) return false;
 
-        $contributors = contributor_get_all_contributors();
+        $condition = array('contributor_email' => $username);
+        $contributors = db_get_rows_by_condition('contributor', $condition, false, false);
+        assert((count($contributors) == 0) || (count($contributors) == 1));
 
-        foreach($contributors as $contributor) {
-            if (strtolower($contributor['contributor_email']) == strtolower($username)) {
-                return true;
-            }
+        if (count($contributors) > 0) {
+            return $contributors[0];
         }
 
         return false;
+    }
+
+    /**
+     * Determines if the given email address is a contributor in the database
+     *
+     * @param string $username FIXME: this is an email address of the contributor to find
+     * @return bool true if found, false otherwise
+     */
+    function contributor_is_contributor($username) {
+        if (strlen(trim($username)) == 0) return false;
+
+        // Refactor: The database is case insensitive (as specified on creation), so can do this much faster
+        $contributor = contributor_get_from_contributor_email($username);
+        if ($contributor === false) {
+            return false;
+        }
+
+        return true;
     }
 
     function contributor_send_password_reminder($username) {
@@ -1962,18 +1982,29 @@ EOT;
         }
     }
 
+    /**
+     * Return all team members in the database
+     *
+     * @return an array with all team members
+     */
     function contributor_get_team_members() {
         $admins = array();
 
         $contributor_rows = db_exec_query("SELECT * from `contributor` WHERE `contributor_is_team_member`='1' ORDER BY `contributor_name` ASC ");
 
         while ($contributor = mysql_fetch_assoc($contributor_rows)) {
-            $admins[] = format_for_html($contributor);
+            $admins[] = $contributor;
         }
 
         return $admins;
     }
 
+    /**
+     * Returns true if the email address is a team member
+     *
+     * @param string $username FIXME: this is an email address of the contributor to find
+     * @return bool true if email is a team member, false otherwise
+     */
     function contributor_is_admin_username($username) {
         $admins = contributor_get_team_members();
 
@@ -1986,50 +2017,100 @@ EOT;
         return false;
     }
 
+    /**
+     * For the given email address, return the id of the contributor
+     *
+     * @param string $username FIXME: this is an email address of the contributor to find
+     * @return id if email found in database, else false
+     */
     function contributor_get_id_from_contributor_email($username) {
-        $contributors = contributor_get_all_contributors();
+        $contributor = contributor_get_from_contributor_email($username);
+        if ($contributor === false) {
+            return false;
+        }
 
-        foreach($contributors as $contributor) {
-            if (strtolower($contributor['contributor_email']) == strtolower($username)) {
-                return $contributor['contributor_id'];
-            }
+        return $contributor['contributor_id'];
+    }
+
+    /**
+     * Confirm that the username and the password are in the database and associated with each other
+     *
+     * @param unknown_type $username
+     * @param unknown_type $password
+     * @return unknown
+     */
+    function contributor_valid_email_and_password($username, $password) {
+        $contributor = contributor_get_from_contributor_email($username);
+        if ($contributor === false) {
+            return false;
+        }
+
+        if ($contributor['contributor_password'] == $password) {
+            return true;
         }
 
         return false;
     }
 
+    /**
+     * Return the id of the contributor who matches the given email and password
+     *
+     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $password password associated with the email (will convert to lower case)
+     * @return id if match, false otherwise
+     */
     function contributor_get_id_from_contributor_email_and_password($username, $password) {
-        $contributors = contributor_get_all_contributors();
+        $contributor = contributor_get_from_contributor_email($username);
+        if ($contributor === false) {
+            return false;
+        }
 
-        foreach($contributors as $contributor) {
-            if (strtolower($contributor['contributor_email']) == strtolower($username)) {
-                if ($contributor['contributor_password'] == $password) {
-                    return $contributor['contributor_id'];
-                }
-            }
+        if ($contributor['contributor_password'] == $password) {
+            return $contributor['contributor_id'];
         }
 
         return false;
     }
 
+    /**
+     * Return the id of the contributor who matches the given email and password. 
+     *
+     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $password password associated with the email (will convert to lower case)
+     * @return id if match, false otherwise
+     */
     function contributor_get_id_from_contributor_email_and_password_hash($username, $password_hash) {
-        $contributors = contributor_get_all_contributors();
+        $contributor = contributor_get_from_contributor_email($username);
+        if ($contributor === false) {
+            return false;
+        }
 
-        foreach($contributors as $contributor) {
-            if (strtolower($contributor['contributor_email']) == strtolower($username)) {
-                if (md5($contributor['contributor_password']) == $password_hash) {
-                    return $contributor['contributor_id'];
-                }
-            }
+        if (md5($contributor['contributor_password']) == $password_hash) {
+            return $contributor['contributor_id'];
         }
 
         return false;
     }
 
+    /**
+     * Determines if the name and password are associated in the database
+     *
+     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $password_hash password to match the email address
+     * @return bool true if a match is found, false otherwise
+     */
     function contributor_is_valid_login($username, $password_hash) {
-        return contributor_get_id_from_contributor_email_and_password_hash($username, $password_hash) !== false;
+        return (contributor_get_id_from_contributor_email_and_password_hash($username, $password_hash) !== false);
     }
 
+
+    /**
+     * Determine if the email address and password are for an administrator.
+     *
+     * @param string $username FIXME: this is an email address of the contributor to find
+     * @param string $password_hash password to match the email address
+     * @return bool true if they match and are an administrator, false otherwise
+     */
     function contributor_is_valid_admin_login($username, $password_hash) {
         if (!contributor_is_admin_username($username)) return false;
 
@@ -2086,10 +2167,22 @@ EOT;
         );
     }
 
+    /**
+     * Return contributor information for the given id
+     *
+     * @param unknown_type $contributor_id
+     * @return id on success, unknown on failure
+     */
     function contributor_get_contributor_by_id($contributor_id) {
         return db_get_row_by_id('contributor', 'contributor_id', $contributor_id);
     }
 
+    /**
+     * Finds contributor data give the name
+     *
+     * @param string $contributor_name name of the contributor to find, must match exactly
+     * @return false if not found, contributor info otherwise
+     */
     function contributor_get_contributor_by_name($contributor_name) {
         $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_name`='$contributor_name' ");
 
@@ -2097,9 +2190,15 @@ EOT;
             return false;
         }
 
-        return format_for_html(mysql_fetch_assoc($result));
+        return mysql_fetch_assoc($result);
     }
 
+    /**
+     * Finds contributor data give the email address
+     *
+     * @param string $contributor_email email address of the contributor  FIXME: security risk: partial matches on email address
+     * @return false if not found, contributor info otherwise
+     */
     function contributor_get_contributor_by_email($contributor_email) {
         $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_email` LIKE '%$contributor_email%' ");
 
@@ -2107,7 +2206,7 @@ EOT;
             return false;
         }
 
-        return format_for_html(mysql_fetch_assoc($result));
+        return mysql_fetch_assoc($result);
     }
 
     function contributor_print_desc_list($contributor_desc, $wide) {

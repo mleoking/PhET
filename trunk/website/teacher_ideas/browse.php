@@ -71,12 +71,12 @@
         return $new_contribs;
     }
     
-    function get_contributions($format_in_html = true) {
+    function get_contributions() {
         global $sort_by, $order, $next_order;
         
         global $Simulations, $Types, $Levels;
 
-        $contributions = contribution_get_specific_contributions($Simulations, $Types, $Levels, $format_in_html);
+        $contributions = contribution_get_specific_contributions($Simulations, $Types, $Levels);
 
         $contributions = sort_contributions($contributions, $sort_by, $order);
 
@@ -85,9 +85,9 @@
     
     function get_sorting_link($link_sort_by, $desc) {
         global $sort_by, $order, $next_order, $referrer;
-            
+
         $arrow_xml = '';
-        
+
         if ($sort_by == $link_sort_by) {
             $link_order = $next_order;
             
@@ -268,7 +268,7 @@ EOT;
             return;
         }
 
-        $contributions = get_contributions(false);
+        $contributions = get_contributions();
 
         $title  = get_sorting_link('contribution_title',        'Title');
         $author = get_sorting_link('contribution_authors',      'Author');
@@ -535,7 +535,7 @@ EOT;
 		$GLOBALS['g_content_only'] 		 = false;
 		$GLOBALS['g_cache_current_page'] = true;
 		
-        print_site_page('print_content_with_header', 3, null, 0, false);
+        print_site_page('print_content_with_header', 3);
     }
 
 ?>

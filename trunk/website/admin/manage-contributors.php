@@ -46,7 +46,7 @@
 
     function print_contributors() {
         eval(get_code_to_create_variables_from_array($_REQUEST));
-    
+
         $contributors = contributor_get_all_contributors();
 
         print <<<EOT
@@ -68,15 +68,15 @@
 EOT;
     
         foreach($contributors as $contributor) {
-            $contributor_id             = $contributor['contributor_id'];
-            $contributor_name           = $contributor['contributor_name'];
-            $contributor_email          = $contributor['contributor_email'];
-            $contributor_is_team_member = $contributor['contributor_is_team_member'];
+            $contributor_id             = format_for_html($contributor['contributor_id']);
+            $contributor_name           = format_for_html($contributor['contributor_name']);
+            $contributor_email          = format_for_html($contributor['contributor_email']);
+            $contributor_is_team_member = format_for_html($contributor['contributor_is_team_member']);
 
-			$contributor_is_team_member_html = $contributor_is_team_member == '1' ? 'Y' : 'N';
-        
+            $contributor_is_team_member_html = $contributor_is_team_member == '1' ? 'Y' : 'N';
+
             $checked_status = $contributor_is_team_member == '1' ? "checked=\"checked\"" : "";
-        
+
             print <<<EOT
                         <tr>
 							<td>

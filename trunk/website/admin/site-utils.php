@@ -270,7 +270,7 @@ EOT;
         return $utility_panel_html;
     }
 
-    function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0, $do_jsparse_for_patterns = true) {
+    function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0) {
         if (isset($GLOBALS['g_cache_current_page'])) {
             cache_auto_start();
         }
@@ -333,20 +333,11 @@ EOT;
                 <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript"></script>
                 <script src="$prefix/js/http.js"                type="text/javascript"></script>
                 <script src="$prefix/js/form-validation.js"     type="text/javascript"></script>
+                <script src="$prefix/js/multi-select.js"     type="text/javascript"></script>
                 <script src="$prefix/js/phet-scripts.js"        type="text/javascript"></script>
                 <script type="text/javascript">
                     //<![CDATA[
 
-EOT;
-
-        if ($do_jsparse_for_patterns) {
-            print "                    do_jsparse_for_patterns = true;\n\n";
-        }
-        else {
-            print "                    do_jsparse_for_patterns = false;\n\n";
-        }
-
-        print <<<EOT
                     function select_current_navbar_category() {
                         $("li.subnav a").each(function(i) {
                             var re = /^.+(\.com|\.edu|\.net|\.org|(localhost:\d+))(\/.+)$/i;
@@ -368,6 +359,7 @@ EOT;
 
                     $(document).ready(
                         function() {
+
                             // $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php',
                             //     {
                             //         onItemSelect: function(li, v) {
@@ -378,55 +370,16 @@ EOT;
 
                             select_current_navbar_category();
 
-                            // DEFAULT VALIDATIONS
-                            if (do_jsparse_for_patterns) {
-                                $('*[@name=contributor_email], *[@name=contribution_contact_email]').each(
-                                    function() {
-                                        this.pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
-                                    }
-                                );
-                            }
+                            // Old method used a lot of $() to find inputs and place a regex
+                            // validation pattern in it, which really bogged down on big pages.
+                            // Replaced with a method to just look for inputs and moved it to
+                            // form-validation.js to clean up a little.
+                            // On my computer, improvement on big pages is from ~5s to 0.005s,
+                            // small pages from about 0.200s to 0.0s (time too small to measure)
+                            setup_input_validation_patterns();
 
-                            if (do_jsparse_for_patterns) {
-                                $('*[@name=contributor_name], *[@name=contribution_authors]').each(
-                                    function() {
-                                        this.pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
-                                    }
-                                );
-                            }
-
-                            if (do_jsparse_for_patterns) {
-                                $('*[@name=contribution_title]').each(
-                                    function() {
-                                        this.pattern = /^\S+\s+\S+.*$/;
-                                    }
-                                );
-                            }
-
-                            if (do_jsparse_for_patterns) {
-                                $('*[@name=contributor_organization], *[@name=contribution_authors_organization]').each(
-                                    function() {
-                                        this.pattern = /^\S{2,}.*$/;
-                                    }
-                                );
-                            }
-                            
-                            if (do_jsparse_for_patterns) {
-                                $('*[@name=contributor_password]').each(
-                                    function() {
-                                        this.pattern = /\S+/;
-                                    }
-                                );
-                            }
-
-                            if (do_jsparse_for_patterns) {
-                                $('*[@name=contribution_keywords]').each(
-                                    function() {
-                                        this.pattern = /\S{3,}.*/;
-                                    }
-                                );
-                            }
-
+                            // This could be improved, but at the moment it isn't taking enough
+                            // time to worry about.
                             $('input, button, textarea, select').each(
                                 function() {
                                     if (this.pattern) {
@@ -471,9 +424,11 @@ EOT;
                                 }
                             );
 
+                            // This could be improved, but at the moment it isn't taking enough
+                            // time to worry about
                             $('input').each(
                                 function() {
-                                if (this.getAttribute('type') == 'submit') {
+                                    if (this.getAttribute('type') == 'submit') {
                                         this.onclick = function() {
                                             return validate_entire_form(this.form);
                                         }
