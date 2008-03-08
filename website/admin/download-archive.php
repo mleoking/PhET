@@ -16,11 +16,11 @@
     $files = contribution_get_contribution_files($contribution_id);
     
     foreach($files as $file) {
-        eval(get_code_to_create_variables_from_array($file));
-        
-        $decoded_file_contents = base64_decode($contribution_file_contents);
-        
-        $zipfile->add_file($decoded_file_contents, $contribution_file_name);
+        //eval(get_code_to_create_variables_from_array($file));
+
+        $decoded_file_contents = base64_decode($file['contribution_file_contents']);
+
+        $zipfile->add_file($decoded_file_contents, $file['contribution_file_name']);
     }
     
     send_file_to_browser("${contribution_title}.zip", $zipfile->build_zipped_file(), 'application/zip');

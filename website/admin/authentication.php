@@ -102,21 +102,21 @@
             if (isset($_REQUEST['contributor_email'])) {
                 $contributor_email = $_REQUEST['contributor_email'];
             }
-			if (isset($_REQUEST['contributor_name'])) {
-				$contributor_name = $_REQUEST['contributor_name'];
-			}
-        
+            if (isset($_REQUEST['contributor_name'])) {
+                $contributor_name = $_REQUEST['contributor_name'];
+            }
+
             if ((!isset($contributor_email) || trim($contributor_email) == '') && 
                 isset($contributor_name) && trim($contributor_name) != '') {
                 // Username not present, but contributor name is. 
                 // Deduce email from contributor name:
                 $contributor = contributor_get_contributor_by_name($contributor_name);
-            
+
                 if ($contributor) {
                     $contributor_email = $contributor['contributor_email'];
                 }
             }
-        
+
             if (isset($_REQUEST['contributor_password'])) {
                 $contributor_password = $_REQUEST['contributor_password'];
             }
@@ -135,10 +135,11 @@
                 if (contributor_is_contributor($contributor_email)) {
                     // The contributor_email already exists and denotes a contributor. Check 
                     // the contributor_password to make sure it is correct.
-        
+
                     $contributor_password_hash = md5($contributor_password);
-        
-                    if (!contributor_is_valid_login($contributor_email, $contributor_password_hash)) {
+
+
+                    if (!contributor_valid_email_and_password($contributor_email, $contributor_password)) {
                         contributor_send_password_reminder($contributor_email);
 
                         if ($login_required) {
@@ -227,7 +228,7 @@
             // Stuff all the contributor fields into global variables:
             gather_array_into_globals(contributor_get_contributor_by_id($contributor_id));
         }
-        
+
         return $contributor_authenticated;
     }
 ?>

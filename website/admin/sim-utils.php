@@ -21,196 +21,196 @@
             SIM_TYPE_FLASH  => 'flash.png'
         );
 
-	$LANGUAGE_CODE_TO_LANGUAGE_NAME = array(
-		"es" => "Spanish",		
-	    "aa" => "Afar",
-		"ab" => "Abkhazian",
-		"ae" => "Avestan",
-		"af" => "Afrikaans",
-		"ak" => "Akan",
-		"am" => "Amharic",
-		"an" => "Aragonese",
-		"ar" => "Arabic",
-		"as" => "Assamese",
-		"av" => "Avaric",
-		"ay" => "Aymara",
-		"az" => "Azerbaijani",
-		"ba" => "Bashkir",
-		"be" => "Belarusian",
-		"bg" => "Bulgarian",
-		"bh" => "Bihari",
-		"bi" => "Bislama",
-		"bm" => "Bambara",
-		"bn" => "Bengali",
-		"bo" => "Tibetan",
-		"br" => "Breton",
-		"bs" => "Bosnian",
-		"ca" => "Catalan",
-		"ce" => "Chechen",
-		"ch" => "Chamorro",
-		"co" => "Corsican",
-		"cr" => "Cree",
-		"cs" => "Czech",
-		"cu" => "Church",
-		"cv" => "Chuvash",
-		"cy" => "Welsh",
-		"da" => "Danish",
-		"de" => "German",
-		"dv" => "Divehi",
-		"dz" => "Dzongkha",
-		"ee" => "Ewe",
-		"el" => "Greek",
-		"en" => "English",
-		"eo" => "Esperanto",
-		"et" => "Estonian",
-		"eu" => "Basque",
-		"fa" => "Persian",
-		"ff" => "Fulah",
-		"fi" => "Finnish",
-		"fj" => "Fijian",
-		"fo" => "Faroese",
-		"fr" => "French",
-		"fy" => "Western Frisian",
-		"ga" => "Irish",
-		"gd" => "Scottish Gaelic",
-		"gl" => "Galician",
-		"gn" => "Guaraní",
-		"gu" => "Gujarati",
-		"gv" => "Manx",
-		"ha" => "Hausa",
-		"he" => "Hebrew",
-		"hi" => "Hindi",
-		"ho" => "Hiri Motu",
-		"hr" => "Croatian",
-		"ht" => "Haitian",
-		"hu" => "Hungarian",
-		"hy" => "Armenian",
-		"hz" => "Herero",
-		"ia" => "Interlingua",
-		"id" => "Indonesian",
-		"ie" => "Interlingue",
-		"ig" => "Igbo",
-		"ii" => "Sichuan Yi",
-		"ik" => "Inupiaq",
-		"io" => "Ido",
-		"is" => "Icelandic",
-		"it" => "Italian",
-		"iu" => "Inuktitut",
-		"ja" => "Japanese",
-		"jv" => "Javanese",
-		"ka" => "Georgian",
-		"kg" => "Kongo",
-		"ki" => "Kikuyu",
-		"kj" => "Kwanyama",
-		"kk" => "Kazakh",
-		"kl" => "Kalaallisut",
-		"km" => "Khmer",
-		"kn" => "Kannada",
-		"ko" => "Korean",
-		"kr" => "Kanuri",
-		"ks" => "Kashmiri",
-		"ku" => "Kurdish",
-		"kv" => "Komi",
-		"kw" => "Cornish",
-		"ky" => "Kirghiz",
-		"la" => "Latin",
-		"lb" => "Luxembourgish",
-		"lg" => "Ganda",
-		"li" => "Limburgish",
-		"ln" => "Lingala",
-		"lo" => "Lao",
-		"lt" => "Lithuanian",
-		"lu" => "Luba-Katanga",
-		"lv" => "Latvian",
-		"mg" => "Malagasy",
-		"mh" => "Marshallese",
-		"mi" => "Māori",
-		"mk" => "Macedonian",
-		"ml" => "Malayalam",
-		"mn" => "Mongolian",
-		"mo" => "Moldavian",
-		"mr" => "Marathi",
-		"ms" => "Malay",
-		"mt" => "Maltese",
-		"my" => "Burmese",
-		"na" => "Nauru",
-		"nb" => "Norwegian Bokmål",
-		"nd" => "North Ndebele",
-		"ne" => "Nepali",
-		"ng" => "Ndonga",
-		"nl" => "Dutch",
-		"nn" => "Norwegian Nynorsk",
-		"no" => "Norwegian",
-		"nr" => "South Ndebele",
-		"nv" => "Navajo",
-		"ny" => "Chichewa",
-		"oc" => "Occitan",
-		"oj" => "Ojibwa",
-		"om" => "Oromo",
-		"or" => "Oriya",
-		"os" => "Ossetian",
-		"pa" => "Panjabi",
-		"pi" => "Pāli",
-		"pl" => "Polish",
-		"ps" => "Pashto",
-		"pt" => "Portuguese",
-		"qu" => "Quechua",
-		"rm" => "Raeto-Romance",
-		"rn" => "Kirundi",
-		"ro" => "Romanian",
-		"ru" => "Russian",
-		"rw" => "Kinyarwanda",
-		"ry" => "Rusyn",
-		"sa" => "Sanskrit",
-		"sc" => "Sardinian",
-		"sd" => "Sindhi",
-		"se" => "Northern Sami",
-		"sg" => "Sango",
-		"sh" => "Serbo-Croatian",
-		"si" => "Sinhalese",
-		"sk" => "Slovak",
-		"sl" => "Slovenian",
-		"sm" => "Samoan",
-		"sn" => "Shona",
-		"so" => "Somali",
-		"sq" => "Albanian",
-		"sr" => "Serbian",
-		"ss" => "Swati",
-		"st" => "Sotho",
-		"su" => "Sundanese",
-		"sv" => "Swedish",
-		"sw" => "Swahili",
-		"ta" => "Tamil",
-		"te" => "Telugu",
-		"tg" => "Tajik",
-		"th" => "Thai",
-		"ti" => "Tigrinya",
-		"tk" => "Turkmen",
-		"tl" => "Tagalog",
-		"tn" => "Tswana",
-		"to" => "Tonga",
-		"tr" => "Turkish",
-		"ts" => "Tsonga",
-		"tt" => "Tatar",
-		"tw" => "Twi",
-		"ty" => "Tahitian",
-		"ug" => "Uighur",
-		"uk" => "Ukrainian",
-		"ur" => "Urdu",
-		"uz" => "Uzbek",
-		"ve" => "Venda",
-		"vi" => "Vietnamese",
-		"vo" => "Volapük",
-		"wa" => "Walloon",
-		"wo" => "Wolof",
-		"xh" => "Xhosa",
-		"yi" => "Yiddish",
-		"yo" => "Yoruba",
-		"za" => "Zhuang",
-		"zh" => "Chinese",
-		"zu" => "Zulu"
-	);
-        
+    $LANGUAGE_CODE_TO_LANGUAGE_NAME = array(
+        "es" => "Spanish",		
+        "aa" => "Afar",
+        "ab" => "Abkhazian",
+        "ae" => "Avestan",
+        "af" => "Afrikaans",
+        "ak" => "Akan",
+        "am" => "Amharic",
+        "an" => "Aragonese",
+        "ar" => "Arabic",
+        "as" => "Assamese",
+        "av" => "Avaric",
+        "ay" => "Aymara",
+        "az" => "Azerbaijani",
+        "ba" => "Bashkir",
+        "be" => "Belarusian",
+        "bg" => "Bulgarian",
+        "bh" => "Bihari",
+        "bi" => "Bislama",
+        "bm" => "Bambara",
+        "bn" => "Bengali",
+        "bo" => "Tibetan",
+        "br" => "Breton",
+        "bs" => "Bosnian",
+        "ca" => "Catalan",
+        "ce" => "Chechen",
+        "ch" => "Chamorro",
+        "co" => "Corsican",
+        "cr" => "Cree",
+        "cs" => "Czech",
+        "cu" => "Church",
+        "cv" => "Chuvash",
+        "cy" => "Welsh",
+        "da" => "Danish",
+        "de" => "German",
+        "dv" => "Divehi",
+        "dz" => "Dzongkha",
+        "ee" => "Ewe",
+        "el" => "Greek",
+        "en" => "English",
+        "eo" => "Esperanto",
+        "et" => "Estonian",
+        "eu" => "Basque",
+        "fa" => "Persian",
+        "ff" => "Fulah",
+        "fi" => "Finnish",
+        "fj" => "Fijian",
+        "fo" => "Faroese",
+        "fr" => "French",
+        "fy" => "Western Frisian",
+        "ga" => "Irish",
+        "gd" => "Scottish Gaelic",
+        "gl" => "Galician",
+        "gn" => "Guaraní",
+        "gu" => "Gujarati",
+        "gv" => "Manx",
+        "ha" => "Hausa",
+        "he" => "Hebrew",
+        "hi" => "Hindi",
+        "ho" => "Hiri Motu",
+        "hr" => "Croatian",
+        "ht" => "Haitian",
+        "hu" => "Hungarian",
+        "hy" => "Armenian",
+        "hz" => "Herero",
+        "ia" => "Interlingua",
+        "id" => "Indonesian",
+        "ie" => "Interlingue",
+        "ig" => "Igbo",
+        "ii" => "Sichuan Yi",
+        "ik" => "Inupiaq",
+        "io" => "Ido",
+        "is" => "Icelandic",
+        "it" => "Italian",
+        "iu" => "Inuktitut",
+        "ja" => "Japanese",
+        "jv" => "Javanese",
+        "ka" => "Georgian",
+        "kg" => "Kongo",
+        "ki" => "Kikuyu",
+        "kj" => "Kwanyama",
+        "kk" => "Kazakh",
+        "kl" => "Kalaallisut",
+        "km" => "Khmer",
+        "kn" => "Kannada",
+        "ko" => "Korean",
+        "kr" => "Kanuri",
+        "ks" => "Kashmiri",
+        "ku" => "Kurdish",
+        "kv" => "Komi",
+        "kw" => "Cornish",
+        "ky" => "Kirghiz",
+        "la" => "Latin",
+        "lb" => "Luxembourgish",
+        "lg" => "Ganda",
+        "li" => "Limburgish",
+        "ln" => "Lingala",
+        "lo" => "Lao",
+        "lt" => "Lithuanian",
+        "lu" => "Luba-Katanga",
+        "lv" => "Latvian",
+        "mg" => "Malagasy",
+        "mh" => "Marshallese",
+        "mi" => "Māori",
+        "mk" => "Macedonian",
+        "ml" => "Malayalam",
+        "mn" => "Mongolian",
+        "mo" => "Moldavian",
+        "mr" => "Marathi",
+        "ms" => "Malay",
+        "mt" => "Maltese",
+        "my" => "Burmese",
+        "na" => "Nauru",
+        "nb" => "Norwegian Bokmål",
+        "nd" => "North Ndebele",
+        "ne" => "Nepali",
+        "ng" => "Ndonga",
+        "nl" => "Dutch",
+        "nn" => "Norwegian Nynorsk",
+        "no" => "Norwegian",
+        "nr" => "South Ndebele",
+        "nv" => "Navajo",
+        "ny" => "Chichewa",
+        "oc" => "Occitan",
+        "oj" => "Ojibwa",
+        "om" => "Oromo",
+        "or" => "Oriya",
+        "os" => "Ossetian",
+        "pa" => "Panjabi",
+        "pi" => "Pāli",
+        "pl" => "Polish",
+        "ps" => "Pashto",
+        "pt" => "Portuguese",
+        "qu" => "Quechua",
+        "rm" => "Raeto-Romance",
+        "rn" => "Kirundi",
+        "ro" => "Romanian",
+        "ru" => "Russian",
+        "rw" => "Kinyarwanda",
+        "ry" => "Rusyn",
+        "sa" => "Sanskrit",
+        "sc" => "Sardinian",
+        "sd" => "Sindhi",
+        "se" => "Northern Sami",
+        "sg" => "Sango",
+        "sh" => "Serbo-Croatian",
+        "si" => "Sinhalese",
+        "sk" => "Slovak",
+        "sl" => "Slovenian",
+        "sm" => "Samoan",
+        "sn" => "Shona",
+        "so" => "Somali",
+        "sq" => "Albanian",
+        "sr" => "Serbian",
+        "ss" => "Swati",
+        "st" => "Sotho",
+        "su" => "Sundanese",
+        "sv" => "Swedish",
+        "sw" => "Swahili",
+        "ta" => "Tamil",
+        "te" => "Telugu",
+        "tg" => "Tajik",
+        "th" => "Thai",
+        "ti" => "Tigrinya",
+        "tk" => "Turkmen",
+        "tl" => "Tagalog",
+        "tn" => "Tswana",
+        "to" => "Tonga",
+        "tr" => "Turkish",
+        "ts" => "Tsonga",
+        "tt" => "Tatar",
+        "tw" => "Twi",
+        "ty" => "Tahitian",
+        "ug" => "Uighur",
+        "uk" => "Ukrainian",
+        "ur" => "Urdu",
+        "uz" => "Uzbek",
+        "ve" => "Venda",
+        "vi" => "Vietnamese",
+        "vo" => "Volapük",
+        "wa" => "Walloon",
+        "wo" => "Wolof",
+        "xh" => "Xhosa",
+        "yi" => "Yiddish",
+        "yo" => "Yoruba",
+        "za" => "Zhuang",
+        "zh" => "Chinese",
+        "zu" => "Zulu"
+    );
+
     define("SIM_RATING_BETA_MINUS",     "0");
     define("SIM_RATING_BETA",           "1");
     define("SIM_RATING_BETA_PLUS",      "2");
@@ -244,11 +244,11 @@
     define("SIM_NO_MAC_IMAGE", '../images/sims/ratings/no-mac25x25.png');
     define("SIM_CRUTCH_IMAGE", '../images/sims/ratings/crutch25x25.png');
 
-	define("FROM_PHET_IMAGE_HTML", '<a href="../about/legend.php"><img src="../images/phet-logo-icon.jpg" alt="Designed by PhET Icon" title="PhET Designed: This contribution was designed by PhET." /></a>');
-    
+    define("FROM_PHET_IMAGE_HTML", '<a href="../about/legend.php"><img src="../images/phet-logo-icon.jpg" alt="Designed by PhET Icon" title="PhET Designed: This contribution was designed by PhET." /></a>');
+
     define("SIM_NO_MAC_IMAGE_HTML", 
             "<a href=\"../about/legend.php\"><img src=\"".SIM_NO_MAC_IMAGE."\" alt=\"No Mac\" title=\"Not supported on Mac\"/></a>");
-            
+
     define("SIM_CRUTCH_IMAGE_HTML", 
         "<a href=\"../about/legend.php\"><img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" width=\"37\" title=\"Guidance Recommended: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.\"/></a>");    
 
@@ -268,53 +268,53 @@
         return $matches[3];
     }
 
-	function sim_get_language_icon_url_from_language_name($language_name, $is_vertical = false) {
-		global $LANGUAGE_CODE_TO_LANGUAGE_NAME;
-		
-		$language_code = null;
+    function sim_get_language_icon_url_from_language_name($language_name, $is_vertical = false) {
+        global $LANGUAGE_CODE_TO_LANGUAGE_NAME;
 
-		foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $name) {
-			if (strtolower($name) == strtolower($language_name)) {
-				$language_code = $code;
-				
-				break;
-			}
-		}
-		
-		if ($language_code == null) {
-			return false;
-		}
-		
-		$icon_name = strtolower($language_name).'-'.strtolower($language_code).'.png';
-		
-		$icon_location = "../images/languages/$icon_name";
-		
-		if ($is_vertical) {
-			$vertical_icon_location = "../images/languages/vertical-$icon_name";
-			
-			if (!file_exists($vertical_icon_location)) {
-				$source = imagecreatefrompng($icon_location);
-				
-				if (!$source) { /* See if it failed */
-			        $source  = imagecreatetruecolor(150, 30); /* Create a blank image */
-			        $bgc     = imagecolorallocate($source, 255, 255, 255);
-			        $tc      = imagecolorallocate($source, 0, 0, 0);
-			        imagefilledrectangle($source, 0, 0, 150, 30, $bgc);
-			        /* Output an errmsg */
-			        imagestring($source, 1, 5, 5, "Error loading $icon_location", $tc);
-			    }
+        $language_code = null;
 
-				// Rotate
-				$rotate = imagerotate($source, 90, 0);
-				
-				imagepng($rotate, $vertical_icon_location, 9);
-			}
-			
-			return $vertical_icon_location;
-		}
-		
-		return $icon_location;
-	}
+        foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $name) {
+            if (strtolower($name) == strtolower($language_name)) {
+                $language_code = $code;
+
+                break;
+            }
+        }
+
+        if ($language_code == null) {
+            return false;
+        }
+
+        $icon_name = strtolower($language_name).'-'.strtolower($language_code).'.png';
+
+        $icon_location = "../images/languages/$icon_name";
+
+        if ($is_vertical) {
+            $vertical_icon_location = "../images/languages/vertical-$icon_name";
+
+            if (!file_exists($vertical_icon_location)) {
+                $source = imagecreatefrompng($icon_location);
+
+                if (!$source) { /* See if it failed */
+                $source  = imagecreatetruecolor(150, 30); /* Create a blank image */
+                $bgc     = imagecolorallocate($source, 255, 255, 255);
+                $tc      = imagecolorallocate($source, 0, 0, 0);
+                imagefilledrectangle($source, 0, 0, 150, 30, $bgc);
+                /* Output an errmsg */
+                imagestring($source, 1, 5, 5, "Error loading $icon_location", $tc);
+            }
+
+                // Rotate
+                $rotate = imagerotate($source, 90, 0);
+
+                imagepng($rotate, $vertical_icon_location, 9);
+            }
+
+            return $vertical_icon_location;
+        }
+
+        return $icon_location;
+    }
 
 	function sim_get_all_translated_language_names() {
 		$all_translations = cache_get(SIM_TRANSLATIONS_CACHE, 'all-translations.cache', 24);
@@ -364,8 +364,8 @@
 			$launch_file = $launch_file_base_dir."/${dirname}/${translated_flavorname}.jnlp";
 			
 			$launch_url = sim_form_launch_url($dirname, $translated_flavorname, SIM_TYPE_JAVA);
-			
-			if (file_exists($launch_file_base_dir)) {
+
+            if (file_exists($launch_file_base_dir)) {
 				if (file_exists($launch_file)) {
 					$translations[$language_name] = $launch_url;
 				}
@@ -672,7 +672,7 @@
 			$condition = "WHERE `sim_is_real`='1'";
 		}
         
-        $simulation_rows = db_exec_query("SELECT * FROM `simulation` $condition ORDER BY `sim_sorting_name` ");
+        $simulation_rows = db_exec_query("SELECT sim_id, sim_name FROM `simulation` $condition ORDER BY `sim_sorting_name` ");
         
         while($simulation = mysql_fetch_assoc($simulation_rows)) {
             $sim_id   = $simulation['sim_id'];

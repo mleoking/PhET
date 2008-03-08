@@ -27,10 +27,10 @@ function validate_create_blank_error_message_element(element) {
 	// create a new error message row:
 	if (!next_row || next_row.className != 'error-message') {
 		var new_next_row = document.createElement("tr");
-		
+
 		new_next_row.className  = 'error-message';
 		new_next_row.input_form = element.form;
-		
+
 		// Insert the new row into the table at the appropriate position:
 		if (!next_row) {
 			table.appendChild(new_next_row);
@@ -38,9 +38,9 @@ function validate_create_blank_error_message_element(element) {
 		else {
 			table.insertBefore(new_next_row, next_row);
 		}
-		
+
 		next_row = new_next_row;
-		
+
 		// Give the row two columns:
 		next_row.appendChild(document.createElement('td'));
 		next_row.appendChild(document.createElement('td'));
@@ -130,4 +130,69 @@ function validate_entire_form(specified_form) {
 	}
 	
 	return true;
+}
+
+function setup_input_validation_patterns() {
+    hits = 0;
+
+    // Patterns that the input must match
+    email_pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
+    name_pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
+    title_pattern = /^\S+\s+\S+.*$/;
+    organization_pattern = /^\S{2,}.*$/;
+    password_pattern = /\S+/;
+    keywords_pattern = /\S{3,}.*/;
+
+    // Go through all the document forms
+    for (var i = 0; i < document.forms.length; ++i) {
+        // Go through all the elements on the form
+        for (var j = 0; j < document.forms[i].length; ++j) {
+            // Get the form element
+            thing = document.forms[i][j];
+
+            // Process if the element is an input (probably a faster way to do this?)
+            if (thing.nodeName == "INPUT") {
+                switch (thing.name) {
+                    case "contributor_email":
+                    case "contribution_contact_email":
+                        //alert("new: " + thing.name);
+                        ++hits;
+                        thing.pattern = email_pattern;
+                        break;
+
+                    case "contributor_name":
+                    case "contribution_authors":
+                        ++hits;
+                        thing.pattern = name_pattern;
+                        break;
+
+                    case "contribution_title":
+                        ++hits;
+                        thing.pattern = title_pattern;
+                        break;
+
+                    case "contributor_organization":
+                    case "contribution_authors_organization":
+                        ++hits;
+                        thing.pattern = organization_pattern;
+                        break;
+
+                    case "contributor_password":
+                        ++hits;
+                        thing.pattern = password_pattern;
+                        break;
+
+                    case "contribution_keywords":
+                        ++hits;
+                        thing.pattern = keywords_pattern;
+                        break;
+
+                    default:
+                       //alert("no match");
+                       break;
+                }
+            }
+        }
+    }
+return hits;
 }
