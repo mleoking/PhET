@@ -11,8 +11,9 @@
     
         foreach($contributors as $contributor) {
             $contributor_name = $contributor['contributor_name'];
-        
+
             if (string_starts_with(strtoupper($contributor_name), strtoupper($name_prefix))) {
+                // TODO: Does this need format_for_html?  I'm not sure of the context it is used in.
                 print $contributor_name."\n";
             }
         }
