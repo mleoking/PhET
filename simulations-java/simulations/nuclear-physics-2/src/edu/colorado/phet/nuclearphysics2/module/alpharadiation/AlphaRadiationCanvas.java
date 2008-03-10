@@ -31,8 +31,10 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         _alphaParticleNode = new AlphaParticleNode(alphaRadiationModel.getAlphaParticle());
         addWorldChild( _alphaParticleNode );
         
-        // Add the chart that depicts the tunneling energy threshold to the canvas.
-        _alphaRadiationChart = new AlphaRadiationChart(100, 500);
+        // Add the chart that depicts the tunneling energy threshold to the
+        // canvas.  The initial size is arbitrary and will be scaled when the
+        // canvas is painted.
+        _alphaRadiationChart = new AlphaRadiationChart(900, 600);
         addScreenChild( _alphaRadiationChart );
 
         // Add a listener for when the canvas is resized.
