@@ -196,7 +196,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         BufferedImage bi;
         // If the wavelength is in the IR, use the special graphic
         if( photon.getWavelength() > QuantumConfig.MAX_WAVELENGTH ) {
-            bi = COMET_GRAPHIC?s_IRphotonGraphic:createImage( VisibleColor.MIN_WAVELENGTH -1 );
+//            bi = COMET_GRAPHIC?s_IRphotonGraphic:createImage( VisibleColor.MIN_WAVELENGTH -1 );
+            bi = COMET_GRAPHIC?s_IRphotonGraphic:createImage( VisibleColor.MAX_WAVELENGTH+1 );
         }
         // Otherwise, get an image that is the appropriate duotone color
         else {
