@@ -1,5 +1,3 @@
-Here are some comments:
-
 - Unfortunately performance is an issue ... it's pretty easy to get 
 to the point where the mouse isn't working well and it is frustrating 
 to build anything... is there any hope of improving this (ever)???
@@ -30,4 +28,3 @@ For future:
 to read where you are, also would be nice to have a cursor which 
 could move around and scroll along graph, this would require a play, 
 pause, step  button to be added in bottom of sim.
--
