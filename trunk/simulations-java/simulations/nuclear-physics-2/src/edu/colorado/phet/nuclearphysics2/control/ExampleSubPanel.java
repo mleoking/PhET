@@ -42,9 +42,6 @@ public class ExampleSubPanel extends JPanel {
         
         _listeners = new ArrayList();
         
-        // Title
-        JLabel titleLabel = new JLabel( NuclearPhysics2Strings.TITLE_EXAMPLE_CONTROL_PANEL );
-        
         // Position display
         _positionDisplay = new JLabel();
         
@@ -73,7 +70,6 @@ public class ExampleSubPanel extends JPanel {
         layout.setFill( GridBagConstraints.HORIZONTAL );
         int row = 0;
         int column = 0;
-        layout.addComponent( titleLabel, row++, column );
         layout.addComponent( _positionDisplay, row++, column );
         layout.addComponent( _orientationControl, row++, column );
     }

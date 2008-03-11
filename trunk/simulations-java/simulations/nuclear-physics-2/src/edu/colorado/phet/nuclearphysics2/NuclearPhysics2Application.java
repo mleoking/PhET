@@ -78,7 +78,7 @@ public class NuclearPhysics2Application extends PhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
-    /*
+    /**
      * Initializes the tabbed pane.
      */
     private void initTabbedPane() {
@@ -94,7 +94,7 @@ public class NuclearPhysics2Application extends PhetApplication {
         setTabbedPaneType( tabbedPaneType );
     }
     
-    /*
+    /**
      * Initializes the modules.
      */
     private void initModules() {
@@ -109,8 +109,8 @@ public class NuclearPhysics2Application extends PhetApplication {
         
     }
 
-    /*
-     * Initializes the menubar.
+    /**
+     * Initializes the menu bar.
      */
     private void initMenubar( String[] args ) {
 
@@ -118,29 +118,6 @@ public class NuclearPhysics2Application extends PhetApplication {
 
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( frame );
-        }
-
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( NuclearPhysics2Resources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( NuclearPhysics2Resources.getChar( "menu.file.save.mnemonic", 'S' ) );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( NuclearPhysics2Resources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( NuclearPhysics2Resources.getChar( "menu.file.load.mnemonic", 'L' ) );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
         }
 
         // Options menu
@@ -189,51 +166,6 @@ public class NuclearPhysics2Application extends PhetApplication {
 
     public Color getControlPanelBackground() {
         return ( (Module) getModule( 0 ) ).getControlPanel().getBackground();
-    }
-
-    //----------------------------------------------------------------------------
-    // Persistence
-    //----------------------------------------------------------------------------
-
-    /*
-     * Saves the simulation's configuration.
-     */
-    private void save() {
-        
-        NuclearPhysics2Config appConfig = new NuclearPhysics2Config();
-        
-        appConfig.setVersionString( getApplicationConfig().getVersion().toString() );
-        appConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
-        appConfig.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
-        appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
-        appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
-        
-        ExampleConfig exampleConfig = _exampleModule.save();
-        appConfig.setExampleConfig( exampleConfig );
-        
-        _persistenceManager.save( appConfig );
-    }
-
-    /*
-     * Loads the simulation's configuration.
-     */
-    private void load() {
-        
-        Object object = _persistenceManager.load();
-        if ( object != null ) {
-            
-            if ( object instanceof NuclearPhysics2Config ) {
-                NuclearPhysics2Config appConfig = (NuclearPhysics2Config) object;
-                
-                ExampleConfig exampleConfig = appConfig.getExampleConfig();
-                _exampleModule.load( exampleConfig );
-            }
-            else {
-                String message = NuclearPhysics2Resources.getString( "message.notAConfigFile" );
-                String title = NuclearPhysics2Resources.getString( "title.error" );
-                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
-            }
-        }
     }
 
     //----------------------------------------------------------------------------
