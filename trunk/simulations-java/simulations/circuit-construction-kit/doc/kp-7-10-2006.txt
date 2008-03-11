@@ -18,4 +18,4 @@ the circuit (?). Do you have a short cut of keys that I may have pushed?
 - graphs ... would be nice to add dashed grid in background so easier 
 to read where you are, also would be nice to have a cursor which 
 could move around and scroll along graph, this would require a play, 
-pause, step  button to be added in bottom of sim.
+pause, step button to be added in bottom of sim.
