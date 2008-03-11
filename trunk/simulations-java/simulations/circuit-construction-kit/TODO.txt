@@ -18,7 +18,3 @@ does not get drawn correctly ... nothing appears in the window.
 - Is there a way to have the computer detect when the sim is
 completely obscured by another window, and then make it stop running
 at that point ... right now to get it to stop you have to minimize.
-
-Bug Report 7-12-2007
-I did the experiment and it is not working - lets say the timer constant was .5 seconds and got 5 seconds.
-The current changes with time as expected (exponential) but the measure values are almost ten times bigger.
