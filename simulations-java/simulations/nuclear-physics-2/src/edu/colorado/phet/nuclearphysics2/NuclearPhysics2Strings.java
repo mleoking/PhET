@@ -16,16 +16,10 @@ public class NuclearPhysics2Strings {
     public static final String LABEL_POSITION = NuclearPhysics2Resources.getString( "label.position");
     public static final String LABEL_ORIENTATION = NuclearPhysics2Resources.getString( "label.orientation");
     
-    public static final String TITLE_EXAMPLE_CONTROL_PANEL = NuclearPhysics2Resources.getString( "title.exampleControlPanel");
     public static final String TITLE_EXAMPLE_MODULE = NuclearPhysics2Resources.getString( "title.exampleModule" );
     
-    public static final String TITLE_ALPHA_RADIATION_CONTROL_PANEL = NuclearPhysics2Resources.getString( "title.alphaRadiationControlPanel");
-    public static final String TITLE_ALPHA_RADIATION_MODULE = NuclearPhysics2Resources.getString( "title.alphaRadiationModule" );
+    public static final String TITLE_ALPHA_RADIATION_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.AlphaDecayModule" );
 
-    public static final String TITLE_FISSION_ONE_NUCLEUS_CONTROL_PANEL = NuclearPhysics2Resources.getString( "title.fissionOneNucleusControlPanel");
-    public static final String TITLE_FISSION_ONE_NUCLEUS_MODULE = NuclearPhysics2Resources.getString( "title.fissionOneNucleusModule" );
-
-    public static final String UNITS_DISTANCE = NuclearPhysics2Resources.getString( "units.distance");
     public static final String UNITS_ORIENTATION = NuclearPhysics2Resources.getString( "units.orientation");
     public static final String UNITS_TIME = NuclearPhysics2Resources.getString( "units.time" );
 
