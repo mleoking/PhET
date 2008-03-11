@@ -18,4 +18,6 @@ in meeting, time-series charts looked non-smooth for simple AC RC circuit
 See faraday's AC source graphics
 
 
-I noticed that there is nothing in the window title of the various versions of CCK that distinguish the regular versions from the Virtual Lab versions. Also, the CCK DC+AC versions just say "Circuit Construction Kit III" in the window's title bar. I would probably be useful to have a more meaningful title.
+I noticed that there is nothing in the window title of the various versions of CCK that distinguish the
+regular versions from the Virtual Lab versions. Also, the CCK DC+AC versions just say "Circuit Construction Kit III"
+in the window's title bar. I would probably be useful to have a more meaningful title.
