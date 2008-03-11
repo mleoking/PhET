@@ -27,10 +27,3 @@ sure if it's effects can be easily seen with a more complicated circuit.
 capacitor, and then disconnect the capacitor from the circuit and move the 
 charged capacitor around, it leaves a trail of + and - around in the play 
 area.  The capacitor still remains charged though.
-
--There's a problem with the ammeter (in-circuit ammeters).  When you check 
-the box to have it added to the tool bar and then click on an ammeter in the 
-tool bar, a full sized ammeter appears, but it will not move.  You have to 
-unclick and re-click it again to get one to leave the toolbar.
-
-That's all for now--I didn't have time to test the inductor that much.
