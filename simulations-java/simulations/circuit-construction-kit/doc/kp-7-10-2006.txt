@@ -11,9 +11,6 @@ shows features that aren't really there?
 doesn't show the electrons flowing again to fill up the plate with 
 more or less charge.
 
-- If its trivial, please add a play pause step button ... if it's 
-not, then add that to the list for the future.
-
 - I ran across a wierd bug, (see attached). I had a nice looking 
 circuit and when I was trying to add a bulb to it, it was sort of 
 bogging down as I was dragging the bulb, and then all of a sudden it 
