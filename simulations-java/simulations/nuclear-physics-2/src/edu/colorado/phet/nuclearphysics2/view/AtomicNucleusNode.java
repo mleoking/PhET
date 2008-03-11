@@ -16,7 +16,7 @@ public class AtomicNucleusNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    final private double NUCLEUS_DIAMETER = 75.0f;
+    final private double NUCLEUS_DIAMETER = 11.0f;
     
     private PPath _displayShape;
     private AtomicNucleus _atom;

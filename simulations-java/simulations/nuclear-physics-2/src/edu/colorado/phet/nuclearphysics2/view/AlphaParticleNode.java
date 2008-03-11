@@ -17,6 +17,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class AlphaParticleNode extends PNode {
     
+    private final static double PARTICLE_DIAMETER = 3.0d;  // Femto meters.
+    
     private PPath _displayShape;
     private AlphaParticle _alphaParticle;
     
@@ -24,7 +26,8 @@ public class AlphaParticleNode extends PNode {
     {
         _alphaParticle = alphaParticle;
         
-        _displayShape = new PPath(new Ellipse2D.Double(alphaParticle.getPosition().getX(), alphaParticle.getPosition().getY(), 10, 10));
+        _displayShape = new PPath(new Ellipse2D.Double(alphaParticle.getPosition().getX(), 
+                alphaParticle.getPosition().getY(), PARTICLE_DIAMETER, PARTICLE_DIAMETER));
         _displayShape.setPaint( new Color(200, 100, 0) );
         addChild(_displayShape);
         alphaParticle.addListener(new AlphaParticle.Listener(){

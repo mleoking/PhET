@@ -52,10 +52,6 @@ public class AlphaRadiationChart extends PComposite {
     private DoubleArrowNode _xAxisOfGraph;
     private DoubleArrowNode _yAxisOfGraph;
     
-    // Variables used to calculate scaling when the size of the chart changes.
-    private double _canvasWidth;
-    private double _canvasHeight;
-
     // Variable used for positioning nodes within the graph.
     double _usableAreaOriginX;
     double _usableAreaOriginY;
@@ -68,20 +64,7 @@ public class AlphaRadiationChart extends PComposite {
     // Constructor
     //------------------------------------------------------------------------
 
-    public AlphaRadiationChart(double canvasWidth, double canvasHeight) {
-
-        // Figure out the usable area and the graph origin.
-        
-        _usableAreaOriginX = BORDER_STROKE_WIDTH;
-        _usableAreaOriginY = canvasHeight - ( canvasHeight * SCREEN_FRACTION_Y ) + BORDER_STROKE_WIDTH;
-        _usableWidth       = canvasWidth - ( BORDER_STROKE_WIDTH * 2 );
-        _usableHeight      = canvasHeight * SCREEN_FRACTION_Y - ( BORDER_STROKE_WIDTH * 2);
-        _graphOriginX      = _usableWidth * ORIGIN_PROPORTION_X + _usableAreaOriginX;
-        _graphOriginY      = _usableHeight * ORIGIN_PROPORTION_Y + _usableAreaOriginY;
-        
-        // Save the height and width for scaling calculations when we get resized.
-        _canvasHeight = canvasHeight;
-        _canvasWidth  = canvasWidth;
+    public AlphaRadiationChart() {
 
         // Create the border for this chart.
         
@@ -91,17 +74,17 @@ public class AlphaRadiationChart extends PComposite {
         _borderNode.setPaint( BACKGROUND_COLOR );
         addChild( _borderNode );
         
-        // Initialize the arrow nodes that will comprise the axes of the chart.
+        // Initialize the arrow nodes that will comprise the axes of the
+        // chart.  The initial sizes and positions are arbitrary, and the
+        // real sizes and positions will be set when the bounds are updated.
 
-        _xAxisOfGraph = new DoubleArrowNode( new Point2D.Double( _usableAreaOriginX + 0.03 * _usableWidth, _graphOriginY ), 
-                new Point2D.Double( _usableAreaOriginX + 0.85 * _usableWidth, _graphOriginY ), 
+        _xAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
                 15, 10, AXES_LINE_WIDTH);
         _xAxisOfGraph.setPaint( Color.black );
         _xAxisOfGraph.setStrokePaint( Color.black );
         addChild( _xAxisOfGraph);
         
-        _yAxisOfGraph = new DoubleArrowNode(new Point2D.Double( _graphOriginX, _usableAreaOriginY + (_usableHeight * 0.20d) ),
-                new Point2D.Double(_graphOriginX, _usableAreaOriginY + (_usableHeight * 1.0d)), 
+        _yAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
                 15, 10, AXES_LINE_WIDTH);
         _yAxisOfGraph.setPaint( Color.black );
         _yAxisOfGraph.setStrokePaint( Color.black );
@@ -142,12 +125,6 @@ public class AlphaRadiationChart extends PComposite {
      */
     private void updateBounds( double canvasWidth, double canvasHeight ) {
         
-        if ((canvasWidth == _canvasWidth) && (canvasHeight == _canvasHeight))
-        {
-            // The size hasn't really changed, so don't do anything.
-            return;
-        }
-        
         // Recalculate the usable area and origin for the chart.
         
         _usableAreaOriginX = BORDER_STROKE_WIDTH;
@@ -156,14 +133,6 @@ public class AlphaRadiationChart extends PComposite {
         _usableHeight      = canvasHeight * SCREEN_FRACTION_Y - ( BORDER_STROKE_WIDTH * 2);
         _graphOriginX      = _usableWidth * ORIGIN_PROPORTION_X + _usableAreaOriginX;
         _graphOriginY      = _usableHeight * ORIGIN_PROPORTION_Y + _usableAreaOriginY;
-        
-        // Figure out the vertical and horizontal scaling that has occurred.
-        double horizScalingFactor = canvasWidth/_canvasWidth;
-        double vertScalingFactor  = canvasHeight/_canvasHeight;
-        
-        // Save height and width for the next update.
-        _canvasWidth = canvasWidth;
-        _canvasHeight = canvasHeight;
         
         // Set up the border for the graph.
         
