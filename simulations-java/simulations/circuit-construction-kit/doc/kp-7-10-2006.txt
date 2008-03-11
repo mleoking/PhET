@@ -2,8 +2,6 @@
 to the point where the mouse isn't working well and it is frustrating 
 to build anything... is there any hope of improving this (ever)???
 
-- add (Amps) onto current graph.
-
 - is there any way to make the current graph smoother?  Right now it 
 shows features that aren't really there?
 
@@ -11,16 +9,12 @@ shows features that aren't really there?
 doesn't show the electrons flowing again to fill up the plate with 
 more or less charge.
 
-- I ran across a wierd bug, (see attached). I had a nice looking 
+- I ran across a weird bug, (see attached). I had a nice looking 
 circuit and when I was trying to add a bulb to it, it was sort of 
 bogging down as I was dragging the bulb, and then all of a sudden it 
 collapsed to one line, as shown and totally changed the components in 
 the circuit (?). Do you have a short cut of keys that I may have pushed?
 
-- The stop watch needs some beautifying .. right now it has 
-programmer names on the buttons.
-
-For future:
 - graphs ... would be nice to add dashed grid in background so easier 
 to read where you are, also would be nice to have a cursor which 
 could move around and scroll along graph, this would require a play, 
