@@ -49,7 +49,12 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         this( new ConstantTransformStrategy( new AffineTransform() ) );
     }
 
-    public PhetPCanvas( Dimension renderingSize ) {
+    /**
+     * Creates a PhetPCanvas with the size that will be used as the reference coordinate frame size
+     * for world graphics.
+     * @param renderingSize the reference coordinate frame size
+     */
+    public PhetPCanvas( Dimension2D renderingSize ) {
         this( new ConstantTransformStrategy( new AffineTransform() ) );
         setTransformStrategy( new RenderingSizeStrategy( this, renderingSize ) );
     }
@@ -300,9 +305,9 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
 
     public static class RenderingSizeStrategy implements TransformStrategy {
         private PhetPCanvas phetPCanvas;
-        private Dimension renderingSize;
+        private Dimension2D renderingSize;
 
-        public RenderingSizeStrategy( PhetPCanvas phetPCanvas, Dimension renderingSize ) {
+        public RenderingSizeStrategy( PhetPCanvas phetPCanvas, Dimension2D renderingSize ) {
             this.phetPCanvas = phetPCanvas;
             this.renderingSize = renderingSize;
             phetPCanvas.addComponentListener( new ComponentAdapter() {
@@ -345,11 +350,11 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         }
 
         private double getScaleY() {
-            return ( (double) phetPCanvas.getHeight() ) / renderingSize.height;
+            return ( (double) phetPCanvas.getHeight() ) / renderingSize.getHeight();
         }
 
         private double getScaleX() {
-            return ( (double) phetPCanvas.getWidth() ) / renderingSize.width;
+            return ( (double) phetPCanvas.getWidth() ) / renderingSize.getWidth();
         }
     }
 
