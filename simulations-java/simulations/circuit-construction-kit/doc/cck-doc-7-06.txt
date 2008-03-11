@@ -1,4 +1,0 @@
-inductors should auto-discharge when not in a loop
-capacitor area should be a function of capacitance
-time-series charts look non-smooth for simple AC RC circuit
-See faraday's AC source graphics

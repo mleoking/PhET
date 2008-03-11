@@ -315,9 +315,11 @@ We came up with this because one of the benefits of simulations is being able to
 without negative consequences and when students study electricity this is one of the most engaging
 topics and in lab students are quite often afraid of electrocuting themselves.  What do you think?
 
-################################################
-#Lower Priority
-#######################
+inductors should auto-discharge when not in a loop
+capacitor area should be a function of capacitance
+time-series charts look non-smooth for simple AC RC circuit
+See faraday's AC source graphics
+
 Help button should be moved south.
 o Improve the approximation for determining capacitor current.
 -Could use solution from companion model, but more difficult to code.
@@ -350,3 +352,109 @@ there is a noticeable lag between the cursor and the wire moving with it.
 -When you have 2 caps in the play area and you turn one of them 180 degrees
 around, it looks a little strange next to the other one that has not been
 turned around--sort of an MC Escher effect.  See cck_escher.gif.
+
+-I noticed the same performance issues as Kathy.  As soon as there were many
+components in the play area, things got bogged down.
+
+-When I have 2 caps in series with a bulb and battery and turned the voltage
+up rather high, only one of the caps catches on fire (the one near the
+battery).  See cck_fire.gif.
+
+-When you have 2 caps in the play area and you turn one of them 180 degrees
+around, it looks a little strange next to the other one that has not been
+turned around--sort of an MC Escher effect.  See cck_escher.gif.
+
+-I noticed the plus and minus signs on the caps are sometimes near other
+objects (when there are only 3 charges present) and it makes it hard to see
+them.  Possibly the charges could be moved a few pixels away from other
+objects? (see cck_charge_signs.gif)
+
+-There's a slight issues with the capacitors.  I charged up two identical
+capacitor at different voltages (100 V and 10 V) so that there are different
+amounts of charges on them.  Then, I removed the charged caps from their
+circuits (see cck_caps_separate.gif).  I connected the positive side of one
+cap to the negative side of the other cap.  I expected to see the charges on
+these two connected plates redistribute themselves, but nothing happened.
+(see cck_caps_together.gif).  When you connect the outside plates of this 2
+cap combo with some wires, the charges on the plates then properly
+distribute themselves.
+
+-On that same note, when I had 2 independent charged capacitors (not
+attached to anything else) it was sometimes hard to grab them with the
+cursor and move them.  When you click on them, they would not be highlighted
+in yellow like usual.
+
+
+I played around with this version (3.01.07) and found a few interesting
+things.
+
+-When the frequency is turned up to 10 Hz, you don't see the stuttering of
+the light rays from a light bulb anymore.
+
+-The current plots on the strip chart recorders do look smoother than before
+when the frequency and voltage are turned up, but there is still a slight
+kink in the plot every so often (see attached picture).  When I added a
+similar circuit to the play area (so that there are two different circuits
+running), the plot on the strip chart doesn't get any worse.
+
+-However, when there were two circuits running in the play area, there was
+definitely a decrease in performance and things ran a bit slower.  If you
+grab a wire, say, from the tool bar and drag it around in the play area,
+there is a noticeable lag between the cursor and the wire moving with it.
+
+-When you have an AC voltage source and a light bulb in series and turn the
+frequency to 10 Hz, it looks like the current drifts slightly (counter
+clockwise) as it oscillates back and forth.  I put the mouse cursor next to
+one of the blue dots and watched how one particular blue dot moves over
+time.  Every 10 secs or so, the current stutters ever so slightly and shifts
+the current over.  This seems like a very small/minor problem, but I'm not
+sure if it's effects can be easily seen with a more complicated circuit.
+
+-If you hook a battery and light bulb up to a resistor in series, charge the
+capacitor, and then disconnect the capacitor from the circuit and move the
+charged capacitor around, it leaves a trail of + and - around in the play
+area.  The capacitor still remains charged though.
+
+- Unfortunately performance is an issue ... it's pretty easy to get
+to the point where the mouse isn't working well and it is frustrating
+to build anything... is there any hope of improving this (ever)???
+
+- is there any way to make the current graph smoother?  Right now it
+shows features that aren't really there?
+
+- Changing capacitance still doesn't show the right thing ... it
+doesn't show the electrons flowing again to fill up the plate with
+more or less charge.
+
+- I ran across a weird bug, (see attached). I had a nice looking
+circuit and when I was trying to add a bulb to it, it was sort of
+bogging down as I was dragging the bulb, and then all of a sudden it
+collapsed to one line, as shown and totally changed the components in
+the circuit (?). Do you have a short cut of keys that I may have pushed?
+
+- graphs ... would be nice to add dashed grid in background so easier
+to read where you are, also would be nice to have a cursor which
+could move around and scroll along graph, this would require a play,
+pause, step button to be added in bottom of sim.
+
+__
+I recently made the observation that in an RL circuit in the CCK, after letting the current reach the steady state, if you remove a wire or the battery, then the electrons oscillate in the inductor.  This is the result from the time dependent circuit analysis, and it has taken me some time to understand the physical reason for this.
+
+First, the induced EMF (voltage drop, for an ideal inductor) is proportional to the time-derivative of the current through the inductor.  Therefore in the instance in which the circuit is stopped instantly, we analytically obtain an infinite voltage drop across the inductor.
+
+Second, Capacitors and Inductors are both energy-storage components, storing their energy in the electric field and magnetic field, respectively.  When the RL circuit is broken, the magnetic energy stored in the ideal inductor is not dissipated, and indeed if you reconnect the circuit (without a battery), the steady-state current continues through the circuit.
+
+This looks like an appropriate way to handle ideal inductors, but there are a few caveats:
+1. It looks weird to visualize the stored energy inside an inductor as oscillating electrons.  I'm sure this will raise lots of questions that might distract from the learning goals of the simulation.
+2. I don’t think this would happen in real life; I think a real-life inductor would dissipate its energy, though I'm not sure of the mechanism or rate for this.
+
+Here are some references to address the latter caveat:
+http://techlib.com/craig/switching.htm
+>>At the bottom is a proposed model of a real world (nonideal) inductor.  Maybe we should model something like this.
+http://www.play-hookey.com/dc_theory/rl_circuits.html
+>>This page presents as a believable mechanism, might be good to model.  See the paragraph associated with the last figure.
+
+Despite the caveats and what would happen in real life, it may be good to show the ideal case, and depict it as we currently do (this solution would certainly be the easiest to implement.)
+
+Please let me know how you to treat inductors in this circumstance.
+__
