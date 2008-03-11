@@ -11,8 +11,10 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.nodes.PLine;
 
@@ -90,8 +92,7 @@ public class AlphaRadiationChart extends PComposite {
         addChild( _borderNode );
         
         // Initialize the arrow nodes that will comprise the axes of the chart.
-        // TODO: The locations are currently hacked to make them look right initially,
-        // but they don't resize correctly, so this needs work.
+
         _xAxisOfGraph = new DoubleArrowNode( new Point2D.Double( _usableAreaOriginX + 0.03 * _usableWidth, _graphOriginY ), 
                 new Point2D.Double( _usableAreaOriginX + 0.85 * _usableWidth, _graphOriginY ), 
                 15, 10, AXES_LINE_WIDTH);
@@ -114,16 +115,15 @@ public class AlphaRadiationChart extends PComposite {
         addChild( _totalEnergyLine);
         
         // Initialize attributes of the curve that shows the potential energy well.
+        
         _potentialEnergyWell = new PPath();
-        _potentialEnergyWell.append( new QuadCurve2D.Double(0,100,75,100,100,80), false );
-        _potentialEnergyWell.append( new Line2D.Double(100,80,100,180), false );
-        _potentialEnergyWell.append( new Line2D.Double(100,180,200,180), false );
-        _potentialEnergyWell.append( new Line2D.Double(200,180,200,80), false );
-        _potentialEnergyWell.append( new QuadCurve2D.Double(200,80,225,100,300,100), false );
-        _potentialEnergyWell.setStrokePaint( new Color(0xff00ff) );
+        _potentialEnergyWell.setStrokePaint( new Color(0x990099) );
         _potentialEnergyWell.setStroke( TOTAL_ENERGY_LINE_STROKE );
         addChild( _potentialEnergyWell);
         
+        // Add the text for the Y axis.
+        PText yAxisText = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel1" ));
+        addChild( yAxisText );
     }
 
     //------------------------------------------------------------------------
@@ -176,49 +176,43 @@ public class AlphaRadiationChart extends PComposite {
                 20 ) );
         
         // Position the axes for the graph.
+        Point2D xAxisTailPt = new Point2D.Double( _usableAreaOriginX + BORDER_STROKE_WIDTH, _graphOriginY );
+        Point2D xAxisTipPt = new Point2D.Double( _usableAreaOriginX + _usableWidth - BORDER_STROKE_WIDTH, _graphOriginY );
+        _xAxisOfGraph.setTipAndTailLocations( xAxisTailPt, xAxisTipPt );
+        Point2D yAxisTailPt = new Point2D.Double( _graphOriginX, _usableAreaOriginY + BORDER_STROKE_WIDTH );
+        Point2D yAxisTipPt = new Point2D.Double( _graphOriginX, _usableAreaOriginY + _usableHeight - BORDER_STROKE_WIDTH );
+        _yAxisOfGraph.setTipAndTailLocations( yAxisTailPt, yAxisTipPt );
         
-        //_xAxisOfGraph.scaleAboutPoint( horizScalingFactor, new Point2D.Double(100, 100) );
-        //_xAxisOfGraph.setOffset( _usableAreaOriginX + 0.03 * _usableWidth, _graphOriginY );
-        //_xAxisOfGraph.moveTo( (float)(_usableAreaOriginX + 0.03 * _usableWidth), (float)_graphOriginY );
-        //_xAxisOfGraph.setOffset( 0, 0 );
-        //_xAxisOfGraph.scale(horizScalingFactor);
-        
-
-        // Position the Total Energy line.
+        // Position the line that represents the total energy.
         _totalEnergyLine.removeAllPoints();
-        _totalEnergyLine.addPoint( 0, _usableAreaOriginX + BORDER_STROKE_WIDTH, _usableAreaOriginY + _usableHeight/3 );
-        _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - BORDER_STROKE_WIDTH, _usableAreaOriginY + _usableHeight/3 );
+        _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, _graphOriginY - _usableHeight * 0.07 );
+        _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, _graphOriginY - _usableHeight * 0.07 );
 
         // Position the curve that represents the potential energy.
+
         _potentialEnergyWell.reset();
-        Point2D leftmostPoint = new Point2D.Double(_usableAreaOriginX, _graphOriginY - (0.05 * _usableHeight));
-        Point2D leftPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.8, 
-                _graphOriginY - (0.20 * _usableHeight));
-        Point2D leftCurveControlPoint = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.7, 
-                _graphOriginY - (0.10 * _usableHeight));
-        Point2D leftBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.8,
-                _graphOriginY + (0.50 * _usableHeight));
-        Point2D rightBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.2,
-                _graphOriginY + (0.50 * _usableHeight));
-        Point2D rightPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.2,
-                _graphOriginY - (0.20 * _usableHeight));
-        Point2D rightCurveControlPoint = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.3, 
-                _graphOriginY - (0.10 * _usableHeight));
-        Point2D rightmostPoint = new Point2D.Double(_usableAreaOriginX + _usableWidth, 
-                _graphOriginY - (0.05 * _usableHeight));
         
-        _potentialEnergyWell.append( new QuadCurve2D.Double(_usableAreaOriginX, _graphOriginY - (0.05 * _usableHeight), 
-                (_usableAreaOriginX + (_usableWidth/2)) * 0.7, _graphOriginY - (0.10 * _usableHeight),
-                (_usableAreaOriginX + (_usableWidth/2)) * 0.8, _graphOriginY - (0.20 * _usableHeight)),
+        Point2D leftPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.9, 
+                _graphOriginY - (0.20 * _usableHeight));
+        Point2D leftBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.9,
+                _graphOriginY + (0.50 * _usableHeight));
+        Point2D rightBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.1,
+                _graphOriginY + (0.50 * _usableHeight));
+        Point2D rightPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.1,
+                _graphOriginY - (0.20 * _usableHeight));
+        
+        _potentialEnergyWell.append( new QuadCurve2D.Double(_usableAreaOriginX + 3 * BORDER_STROKE_WIDTH, 
+                _graphOriginY - (0.03 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 0.8,
+                _graphOriginY - (0.05 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 0.9, 
+                _graphOriginY - (0.20 * _usableHeight)),
                 false );
         _potentialEnergyWell.append( new Line2D.Double(leftPeakOfEnergyWell, leftBottomOfEnergyWell), false);
         _potentialEnergyWell.append( new Line2D.Double(leftBottomOfEnergyWell, rightBottomOfEnergyWell), false);
         _potentialEnergyWell.append( new Line2D.Double(rightBottomOfEnergyWell, rightPeakOfEnergyWell), false);
-        _potentialEnergyWell.append( new QuadCurve2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.2,
-                _graphOriginY - (0.20 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 1.3,
-                _graphOriginY - (0.10 * _usableHeight), _usableAreaOriginX + _usableWidth,
-                _graphOriginY - (0.05 * _usableHeight)), false );
-
+        _potentialEnergyWell.append( new QuadCurve2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.1,
+                _graphOriginY - (0.20 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 1.2,
+                _graphOriginY - (0.05 * _usableHeight), _usableAreaOriginX + _usableWidth - 3 * BORDER_STROKE_WIDTH,
+                _graphOriginY - (0.03 * _usableHeight)), false );
     }
 
     public void componentResized( double width, double height ) {
