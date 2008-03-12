@@ -1,42 +1,3 @@
-High priority issues that weren't yet addressed:
-1. Capacitor physics issues.
-2. Current chart shows inconsistent sign of current.
-3. Performance issues on some machines.
-
-Top taskbar is covered up on windows.
->>Should I do anything about this?  Code is to maximize to visible screen area (discluding taskbars) for <=768 screen height,
->>otherwise center at the top of the screen, leaving 100 pixels at the bottom.
-
-Fixed: When dragging a junction in a connected circuit, there becomes a gap in the electron flow 2 components away.
->>My fix has the effect of holding the electrons still while dragging a junction.
->>I could make them continue to flow with constant density with a bit more work, but not sure it's worth it.
-
-Solution for "Fixed: When adjusting a voltage or resistance continuously with a slider, the circuit doesn't update until stopped dragging."
-includes a non-elegant hack; not sure of an elegant way to solve this problem.
-
-Voltage chart reads wrong value after switching sizes
-
-Chart tips don't move, should move on resize
-
-Inductor & capacitor incorrectly readout ohms, not Henries & Farads
-
-Change in AC Frequency shows readout for voltage.
-
-Noncontact ammeter doesn't update its reading when wire resistivity changes.
-
-He had a circuit partially built, then tried to undo something by reflexively hitting Ctrl-Z.
-His circuit dissappear, and was replaced by a battery and a resistor with electrons flowing in both directions through them.
-I tested this on my PC, and the same thing happened.
-This test behaviour should be taken out.
-
-He would like to be able to reduce the number of significant figures in the ammeter
-so that the resistance in the wires doesn't keep the numbers from looking perfect when he
-constructs simple circuits. He said that when he first builds a simple parallel circuit, he would
-like the currents to look exactly the same in both branches. With three decimal places, they don't,
-and he has to explain it at a time when he'd rather not.
-
-Get the time units to work out correctly.
-
 o Is the ac current (in a circuit with capacitor) symmetric?
     o If not, is the asymmetry correct?
 -When you have an AC voltage source and a light bulb in series and turn the
@@ -285,4 +246,3 @@ http://www.play-hookey.com/dc_theory/rl_circuits.html
 Despite the caveats and what would happen in real life, it may be good to show the ideal case, and depict it as we currently do (this solution would certainly be the easiest to implement.)
 
 Please let me know how you to treat inductors in this circumstance.
-__
