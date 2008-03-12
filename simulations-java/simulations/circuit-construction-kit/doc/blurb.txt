@@ -12,11 +12,3 @@ The series of steps described above are combined into the Circuit Analysis algor
 
 [1] Electronic Circuit and System Simulation Methods, Lawrence T. Pillage, Ronald A. Rohrer, Chandramouli Visweswariah.  McGraw-Hill, 1995.
 [2] JAMA http://math.nist.gov/javanumerics/jama/
-
-__
-short version:
-Linear Circuit Analysis in the Circuit Construction Kit
-PhET
-Sam Reid
-
-The Circuit Construction Kit combines graph theory, linear algebra and physics to perform circuit analysis.  Modified Nodal Analysis models Kirkhoff’s laws, and transforms the circuit graph into a matrix system, which is solved using standard linear algebra techniques.  To model reactive components such as inductors or capacitors, the circuit analysis is recomputed at each time step in the simulation.  At each step, the reactive component is converted into a companion model consisting of a voltage source and resistor, and an integration approximation technique is used to determine the current and voltage drop.
