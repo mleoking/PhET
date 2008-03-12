@@ -8,6 +8,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 
+/**
+ * This class contains the Model portion of the Model-View-Controller 
+ * architecture that is used demonstrate Alpha Radiation within this sim.
+ *
+ * @author John Blanco
+ */
 public class AlphaRadiationModel {
 
     private AtomicNucleus _atomicNucleus;
@@ -17,8 +23,8 @@ public class AlphaRadiationModel {
     public AlphaRadiationModel()
     {
         // Create the elements of the model.
-        _atomicNucleus = new AtomicNucleus(20, 10);
-        _alphaParticle = new AlphaParticle(20, 10);
+        _atomicNucleus = new AtomicNucleus(0, 0);
+        _alphaParticle = new AlphaParticle(0, 0);
 
         // Create the clock that will drive this model.
         _clock = new ConstantDtClock(30, 1.0);

@@ -146,7 +146,22 @@ public class DoubleArrowNode extends PPath {
         m_overallShape.append( m_midToTail.getShape(), false );       
         setPathTo( m_overallShape );
     }
+    
+    public double getHeadHeight()
+    {
+        return m_midToTail.getHeadHeight();
+    }
 
+    public double getHeadWidth()
+    {
+        return m_midToTail.getHeadWidth();
+    }
+    
+    public double getTailWidth()
+    {
+        return m_midToTail.getTailWidth();
+    }
+    
     private Point2D midPoint(Point2D point1, Point2D point2){ 
         
         return (new Point2D.Double( point1.getX() +( (point2.getX()-point1.getX())/2 ), point1.getY() +( (point2.getY()-point1.getY())/2 ) ));
