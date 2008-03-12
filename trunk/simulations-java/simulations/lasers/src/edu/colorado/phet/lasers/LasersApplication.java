@@ -14,6 +14,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -79,11 +81,11 @@ public class LasersApplication extends PhetApplication {
         setModules( modules );
 
 
-        for( int i = 0; i < modules.length; i++ ) {
+        for ( int i = 0; i < modules.length; i++ ) {
             JButton photoBtn = new JButton( SimStrings.getInstance().getString( "LaserPhotoButtonLabel" ) );
             photoBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if( photoDlg == null ) {
+                    if ( photoDlg == null ) {
                         photoDlg = new PhotoWindow( getPhetFrame() );
                     }
                     photoDlg.setVisible( true );
@@ -158,7 +160,7 @@ public class LasersApplication extends PhetApplication {
         final JRadioButtonMenuItem colorEnergyRepStrategy = new JRadioButtonMenuItem( "Colored energy levels" );
         colorEnergyRepStrategy.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( colorEnergyRepStrategy.isSelected() ) {
+                if ( colorEnergyRepStrategy.isSelected() ) {
                     AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
                 }
             }
@@ -176,13 +178,13 @@ public class LasersApplication extends PhetApplication {
         //todo: remove need for this cast
         final ClockProfiler profiler = new ClockProfiler( getPhetFrame(),
                                                           ( getActiveModule() == null ? getModule( 0 ) : getActiveModule() ).getName(),
-                                                          (ConstantDtClock)( getActiveModule() == null ? getModule( 0 ) : getActiveModule() ).getClock() );
+                                                          (ConstantDtClock) ( getActiveModule() == null ? getModule( 0 ) : getActiveModule() ).getClock() );
         addModuleObserver( new ModuleObserver() {
             public void moduleAdded( ModuleEvent event ) {
             }
 
             public void activeModuleChanged( ModuleEvent event ) {
-                profiler.setModule( getActiveModule().getName(), (ConstantDtClock)getActiveModule().getClock() );
+                profiler.setModule( getActiveModule().getName(), (ConstantDtClock) getActiveModule().getClock() );
             }
 
             public void moduleRemoved( ModuleEvent event ) {
@@ -199,7 +201,7 @@ public class LasersApplication extends PhetApplication {
     private static void setLAF() {
         // Install the look and feel. If we're not on Windows,
         // then use the native L&F
-        if( !PhetUtilities.isWindows() ) {
+        if ( !PhetUtilities.isWindows() ) {
             // Get the native look and feel class name
             try {
                 UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
@@ -253,10 +255,12 @@ public class LasersApplication extends PhetApplication {
                 setLAF();
                 SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
 
-//                String str = JOptionPane.showInputDialog("Enter the speed for the 1st and 2nd panel, separated by whitespace", ONE_ATOM_MODULE_SPEED + " " + MULTI_ATOM_MODULE_SPEED);
-//                StringTokenizer st = new StringTokenizer(str);
-//                ONE_ATOM_MODULE_SPEED = Double.parseDouble(st.nextToken());
-//                MULTI_ATOM_MODULE_SPEED = Double.parseDouble(st.nextToken());
+                if ( Arrays.asList( args ).indexOf( "-selectspeed" ) >= 0 ) {
+                    String str = JOptionPane.showInputDialog( "Enter the speed for the 1st and 2nd panel, separated by whitespace", ONE_ATOM_MODULE_SPEED + " " + MULTI_ATOM_MODULE_SPEED );
+                    StringTokenizer st = new StringTokenizer( str );
+                    ONE_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
+                    MULTI_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
+                }
 
                 LasersApplication application = new LasersApplication( args );
                 application.startApplication();
