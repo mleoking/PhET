@@ -220,7 +220,7 @@ public class PhetProject {
         if ( simProject.exists() && isProject( simProject ) ) {
             return simProject;
         }
-        throw new RuntimeException( "No path found for token=" + token + ", antBaseDir="+getAntBaseDir().getAbsolutePath()+", in project=" + this );
+        throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + getAntBaseDir().getAbsolutePath() + ", in project=" + this );
     }
 
     public File[] getAllSourceRoots() {
@@ -400,7 +400,9 @@ public class PhetProject {
                     englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
                     title = englishProperties.getProperty( titleKey );
                     new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() + ", using english" ).printStackTrace();
-
+                    if ( title == null ) {
+                        title = flavorName;
+                    }
                 }
                 String descriptionKey = flavorName + ".description";
                 description = localizedProperties.getProperty( descriptionKey );
@@ -409,6 +411,9 @@ public class PhetProject {
                     englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
                     description = englishProperties.getProperty( descriptionKey );
                     new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() + ", using english" ).printStackTrace();
+                    if ( description == null ) {
+                        description = descriptionKey;
+                    }
                 }
             }
             else {
