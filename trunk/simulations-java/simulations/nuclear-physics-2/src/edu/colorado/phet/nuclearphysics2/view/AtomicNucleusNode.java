@@ -17,7 +17,7 @@ public class AtomicNucleusNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    final private double NUCLEUS_DIAMETER = 11.0f;
+    final private double NUCLEUS_DIAMETER = 15.0f;
     
     private PNode _displayImage;
     private AtomicNucleus _atom;
@@ -32,7 +32,7 @@ public class AtomicNucleusNode extends PNode {
         
         // Do some calculations so that the representation is centered on the
         // locations dictated by the model.
-        _displayImage = NuclearPhysics2Resources.getImageNode("Atomic Nuclei Large And Simple.png");
+        _displayImage = NuclearPhysics2Resources.getImageNode("Atomic Nucleus.png");
         _displayImage.scale( NUCLEUS_DIAMETER/_displayImage.getWidth() );
         addChild(_displayImage);
         atom.addListener(new AtomicNucleus.Listener(){
