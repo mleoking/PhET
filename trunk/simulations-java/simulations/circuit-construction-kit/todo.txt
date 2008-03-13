@@ -1,18 +1,3 @@
-o Is the ac current (in a circuit with capacitor) symmetric?
-    o If not, is the asymmetry correct?
--When you have an AC voltage source and a light bulb in series and turn the
-frequency to 10 Hz, it looks like the current drifts slightly (counter
-clockwise) as it oscillates back and forth.  I put the mouse cursor next to
-one of the blue dots and watched how one particular blue dot moves over
-time.  Every 10 secs or so, the current stutters ever so slightly and shifts
-the current over.  This seems like a very small/minor problem, but I'm not
-sure if it's effects can be easily seen with a more complicated circuit.
-
--When I have 2 caps in series with a bulb and battery and turned the voltage
-up rather high, only one of the caps catches on fire (the one near the
-battery).  See cck_fire.gif.
->>Couldn't reproduce this yet.
-
 -There's a slight issues with the capacitors.  I charged up two identical
 capacitor at different voltages (100 V and 10 V) so that there are different
 amounts of charges on them.  Then, I removed the charged caps from their
@@ -22,7 +7,9 @@ these two connected plates redistribute themselves, but nothing happened.
 (see cck_caps_together.gif).  When you connect the outside plates of this 2
 cap combo with some wires, the charges on the plates then properly
 distribute themselves.
->>Yes, this is a real problem I'm not sure is addressed by my circuit analysis.  I'm not sure whether my circuit analysis should be giving the right behavior here, or if we'll have to detect it and handle it separately.
+>>Yes, this is a real problem I'm not sure is addressed by my circuit analysis.
+I'm not sure whether my circuit analysis should be giving the right behavior here,
+or if we'll have to detect it and handle it separately.
 
 -On that same note, when I had 2 independent charged capacitors (not
 attached to anything else) it was sometimes hard to grab them with the
