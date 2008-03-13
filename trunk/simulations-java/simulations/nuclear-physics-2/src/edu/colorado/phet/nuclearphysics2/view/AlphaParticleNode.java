@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics2.view;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -19,17 +20,16 @@ public class AlphaParticleNode extends PNode {
     
     private final static double PARTICLE_DIAMETER = 3.0d;  // Femto meters.
     
-    private PPath _displayShape;
+    private PNode _displayImage;
     private AlphaParticle _alphaParticle;
     
     public AlphaParticleNode(AlphaParticle alphaParticle)
     {
         _alphaParticle = alphaParticle;
         
-        _displayShape = new PPath(new Ellipse2D.Double(alphaParticle.getPosition().getX(), 
-                alphaParticle.getPosition().getY(), PARTICLE_DIAMETER, PARTICLE_DIAMETER));
-        _displayShape.setPaint( new Color(200, 100, 0) );
-        addChild(_displayShape);
+        _displayImage = NuclearPhysics2Resources.getImageNode("Alpha Particle.png");
+        _displayImage.scale( PARTICLE_DIAMETER/_displayImage.getWidth() );
+        addChild(_displayImage);
         alphaParticle.addListener(new AlphaParticle.Listener(){
             public void positionChanged()
             {
@@ -44,6 +44,8 @@ public class AlphaParticleNode extends PNode {
     }
     
     private void update(){
-        _displayShape.setOffset( _alphaParticle.getPosition() );
+        _displayImage.setOffset( _alphaParticle.getPosition().getX() - PARTICLE_DIAMETER/2,  
+                _alphaParticle.getPosition().getY() - PARTICLE_DIAMETER/2);
+
     }
 }
