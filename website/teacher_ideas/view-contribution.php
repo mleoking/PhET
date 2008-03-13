@@ -16,25 +16,26 @@
         $type_names    = contribution_get_type_names_for_contribution($contribution_id);
 
         $contribution = contribution_get_contribution_by_id($contribution_id);
-        
+
+        $contribution = format_for_html($contribution);
         eval(get_code_to_create_variables_from_array($contribution));
-            
+
         // Perform cleanup for some fields:
         $contribution_keywords = convert_comma_list_into_linked_keyword_list($contribution_keywords);
-        
+
         $contribution_date_created = db_simplify_sql_timestamp($contribution_date_created);
         $contribution_date_updated = db_simplify_sql_timestamp($contribution_date_updated);        
-        
+
         $contribution_answers_included = $contribution_answers_included == 1 ? "Yes" : "No";
-        
+
         $type_list    = convert_array_to_comma_list($type_names);
         $subject_list = convert_array_to_comma_list($subject_names);
         $level_list   = convert_array_to_comma_list($level_names);        
 
         $files_html = contribution_get_files_listing_html($contribution_id);
-        
+
         $download_script = SITE_ROOT."admin/download-archive.php?contribution_id=$contribution_id";
-        
+
         if ($contribution_duration == '') {
             $contribution_duration = 0;
         }
@@ -203,9 +204,11 @@ EOT;
             
             <div style="display: none">
                 <form method="post" action="add-comment.php" onsubmit="javascript:return false;">
-                    <input type="hidden" name="contribution_id" value="$contribution_id" />
-                    <input type="hidden" name="referrer"        value="$php_self?contribution_id=$contribution_id&referrer=$referrer" />
-                    
+                    <p>
+                        <input type="hidden" name="contribution_id" value="$contribution_id" />
+                        <input type="hidden" name="referrer"        value="$php_self?contribution_id=$contribution_id&amp;referrer=$referrer" />
+                    </p>
+
                     <div class="field">
                         <span class="label_content">                
                             <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();" value="$contributor_name"/>

@@ -13,12 +13,12 @@
 			'referring_statistics_source_page' => $source,
 			'referring_statistics_target_page' => $target
 		);
-		
+
 		$row = db_get_row_by_condition('referring_statistics', $condition);
-		
+
 		if (!$row) {
 			$condition['referring_statistics_count'] = "1";
-			
+
 			return db_insert_row('referring_statistics', $condition);
 		}
 		else {
@@ -38,7 +38,7 @@
 	}
 	
 	function referring_statistics_get_all() {
-		$rows = db_get_rows_by_condition('referring_statistics');
+		$rows = db_get_rows_by_condition('referring_statistics', array(), false, false);
 		
 		usort($rows, "referring_statistics_comparator");
 		
@@ -61,9 +61,9 @@
 EOT;
 		
 		foreach (referring_statistics_get_all() as $stat) {
-			$source = $stat['referring_statistics_source_page'];
-			$target = $stat['referring_statistics_target_page'];
-			$count  = $stat['referring_statistics_count'];
+			$source = format_for_html($stat['referring_statistics_source_page']);
+			$target = format_for_html($stat['referring_statistics_target_page']);
+			$count  = format_for_html($stat['referring_statistics_count']);
 			
 			print <<<EOT
 				<tr>

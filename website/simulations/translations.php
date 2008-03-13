@@ -9,8 +9,9 @@
 	include_once(SITE_ROOT."admin/sim-utils.php");
 	include_once(SITE_ROOT."admin/site-utils.php");
 	include_once(SITE_ROOT."admin/contrib-utils.php");
-	
+
 	function print_translations() {
+
 		print "<h1>Translated Sims</h1>";
 		
 		print <<<EOT
@@ -20,7 +21,7 @@
 EOT;
 
 		$sim_to_translations = sim_get_all_translated_language_names();
-		 		
+
  		$languages = array();
  		
  		foreach ($sim_to_translations as $sim_name => $map) {
@@ -82,9 +83,10 @@ EOT;
 			flush();
 
 			$sim_page_link = sim_get_url_to_sim_page_by_sim_name($sim_name);
-			
-			print "<td class=\"even\"><a href=\"$sim_page_link#versions\">$sim_name</a></td>";
-			
+
+			$formatted_sim_name = format_string_for_html($sim_name);
+			print "<td class=\"even\"><a href=\"$sim_page_link#versions\">$formatted_sim_name</a></td>";
+
 			flush();
 			
 			$col_count = 1;
@@ -131,15 +133,16 @@ EOT;
 		
 		foreach ($languages as $language) {
 			$url = sim_get_language_icon_url_from_language_name($language);
-			
+
 			print "<h1 id=\"$language\"><img src=\"$url\" alt=\"\" title=\"$language\"/></h1>";
-			
+
 			print "<ul>";
-			
+
 			foreach ($sim_to_translations as $sim_name => $translation) {
 				foreach ($translation as $cur_language => $launch_url) {
 					if ($cur_language == $language) {
-						print "<li><a href=\"$launch_url\">$sim_name</a></li>";
+                       $formatted_sim_name = format_string_for_html($sim_name);
+						print "<li><a href=\"$launch_url\">$formatted_sim_name</a></li>";
 					}
 				}
 			}
@@ -149,7 +152,7 @@ EOT;
 		
 		flush();
 	}
-	
+
 	print_site_page('print_translations', 2);
 
 ?>

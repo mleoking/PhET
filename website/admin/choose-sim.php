@@ -23,17 +23,18 @@ EOT;
 	
         while ($sim = mysql_fetch_row($simulation_table)) {      
             $sim_id   = $sim[0];
-            $simtitle = $sim[1];
+            $simtitle = format_string_for_html($sim[1]);
 	
             //print drop down menu
-            print "<option value=\"$sim_id\">$simtitle";
+            print "<option value=\"$sim_id\">$simtitle</option>";
         }
 
         // close drop down menu and form
         print <<<EOT
                     </select>
                     
-                <input type="submit" value="edit">
+                <input type="submit" value="edit" />
+                </p>
             </form>
 EOT;
     }

@@ -514,6 +514,7 @@ EOT;
             $contribution = db_get_blank_row('contribution');
         }
 
+        $contribution = format_for_html($contribution);
         eval(get_code_to_create_variables_from_array($contribution));
 
         do_authentication(false);
@@ -902,6 +903,12 @@ EOT;
         $contribution_authors  = format_string_for_html($contribution['contribution_authors']);
         $contribution_approved = format_string_for_html($contribution['contribution_approved']);
 
+        $row_style = '';
+        if (!$contribution_approved) {
+            // TODO: move this into the main.css
+            $row_style = "style=\"background-color: #ffdddd;\"";
+        }
+
         $path_prefix = SITE_ROOT."teacher_ideas/";
 
         $query_string = "?contribution_id=$contribution_id&amp;referrer=$referrer";
@@ -926,7 +933,15 @@ EOT;
 
         $contribution_link = "${path_prefix}view-contribution.php$query_string";
 
-        print "<li><a href=\"$contribution_link\">$contribution_title</a> - $contribution_authors- ($edit$delete$approve)</li>";
+        // Quick print something if it blank
+        if ($contribution_title == '') {
+            $contribution_title = "<em>no title specified</em>";
+        }
+        if ($contribution_authors == '') {
+            $contribution_authors = "<em>no authors specified</em>";
+        }
+        //print "<li><a href=\"$contribution_link\">$contribution_title</a> - $contribution_authors- ($edit$delete$approve)</li>";
+        print "<tr $row_style><td><a href=\"$contribution_link\">$contribution_title</a></td><td>$contribution_authors</td><td>($edit$delete$approve)</td></tr>";
     }
 
     /**
@@ -1399,16 +1414,16 @@ EOT;
     }
 
     function contribution_get_contribution_file_name($contribution_file_id) {
-        eval(get_code_to_create_variables_from_array(contribution_get_contribution_file_by_id($contribution_file_id)));
-
-        return $contribution_file_name;
+        $contribution = contribution_get_contribution_file_by_id($contribution_file_id);
+        
+        return $contribution['contribution_file_name'];
     }
 
     function contribution_get_contribution_file_contents($contribution_file_id) {
-        eval(get_code_to_create_variables_from_array(contribution_get_contribution_file_by_id($contribution_file_id)));
+        $contribution = contribution_get_contribution_file_by_id($contribution_file_id);
 
-        if ($contribution_file_contents != '') {
-            return base64_decode($contribution_file_contents);
+        if ($contribution['contribution_file_contents'] != '') {
+            return base64_decode($contribution['contribution_file_contents']);
         }
 
         return file_get_contents(SITE_ROOT.$contribution_file_url);
