@@ -334,7 +334,22 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
             double scale = sx < sy ? sx : sy;
             scale = scale <= 0 ? 1.0 : scale;//if scale is negative or zero, just use scale=1
 
-            return AffineTransform.getScaleInstance( scale, scale );
+            AffineTransform transform = getPreprocessedTransform();
+            
+            transform.scale( scale, scale );
+            
+            return transform;
+        }
+        
+        /**
+         * This method returns the transform for this canvas, and is intended
+         * to be overridden in subclasses that need to perform transforms other
+         * than straight scaling.
+         * 
+         * @return The current affine transform.
+         */
+        protected AffineTransform getPreprocessedTransform() {
+            return new AffineTransform();
         }
 
         private void setRenderingSize() {
