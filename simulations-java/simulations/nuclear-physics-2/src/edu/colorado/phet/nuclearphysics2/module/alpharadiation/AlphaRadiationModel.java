@@ -34,7 +34,7 @@ public class AlphaRadiationModel {
         _clock.addClockListener( new ClockAdapter(){
             public void clockTicked(ClockEvent clockEvent){
                 
-                if (random.nextDouble() <= 0.05)
+                if (random.nextDouble() <= 0.02)
                 {
                     AlphaParticle alpha = new AlphaParticle(0, 0);
                     _alphaParticles.add( alpha );
@@ -49,8 +49,8 @@ public class AlphaRadiationModel {
                 for (int i = 0; i < _alphaParticles.size(); i++)
                 {
                     AlphaParticle alpha = (AlphaParticle)_alphaParticles.get( i );
-                    alpha.translate( 0.2, 0.1 );
-                }                
+                    alpha.translate( 0.1, 0.01 );
+                }
             }
         });
         

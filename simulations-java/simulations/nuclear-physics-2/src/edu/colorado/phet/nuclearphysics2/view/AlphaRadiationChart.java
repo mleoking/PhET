@@ -231,24 +231,24 @@ public class AlphaRadiationChart extends PComposite {
 
         _potentialEnergyWell.reset();
         
-        Point2D leftPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.9, 
+        Point2D leftPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.85, 
                 _graphOriginY - (0.20 * _usableHeight));
-        Point2D leftBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.9,
+        Point2D leftBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.85,
                 _graphOriginY + (0.50 * _usableHeight));
-        Point2D rightBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.1,
+        Point2D rightBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.15,
                 _graphOriginY + (0.50 * _usableHeight));
-        Point2D rightPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.1,
+        Point2D rightPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.15,
                 _graphOriginY - (0.20 * _usableHeight));
         
         _potentialEnergyWell.append( new QuadCurve2D.Double(_usableAreaOriginX + 3 * BORDER_STROKE_WIDTH, 
                 _graphOriginY - (0.03 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 0.8,
-                _graphOriginY - (0.05 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 0.9, 
+                _graphOriginY - (0.05 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 0.85, 
                 _graphOriginY - (0.20 * _usableHeight)),
                 false );
         _potentialEnergyWell.append( new Line2D.Double(leftPeakOfEnergyWell, leftBottomOfEnergyWell), false);
         _potentialEnergyWell.append( new Line2D.Double(leftBottomOfEnergyWell, rightBottomOfEnergyWell), false);
         _potentialEnergyWell.append( new Line2D.Double(rightBottomOfEnergyWell, rightPeakOfEnergyWell), false);
-        _potentialEnergyWell.append( new QuadCurve2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.1,
+        _potentialEnergyWell.append( new QuadCurve2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.15,
                 _graphOriginY - (0.20 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 1.2,
                 _graphOriginY - (0.05 * _usableHeight), _usableAreaOriginX + _usableWidth - 3 * BORDER_STROKE_WIDTH,
                 _graphOriginY - (0.03 * _usableHeight)), false );
