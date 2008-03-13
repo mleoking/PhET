@@ -29,7 +29,11 @@ public class AtomicNucleusNode extends PNode {
     {
         _atom = atom;
         
-        _displayShape = new PPath(new Ellipse2D.Double(atom.getPosition().getX(), atom.getPosition().getY(), NUCLEUS_DIAMETER, NUCLEUS_DIAMETER));
+        // Do some calculations so that the representation is centered on the
+        // locations dictated by the model.
+        double xPos = atom.getPosition().getX() - (NUCLEUS_DIAMETER/2);
+        double yPos = atom.getPosition().getY() - (NUCLEUS_DIAMETER/2);
+        _displayShape = new PPath(new Ellipse2D.Double(xPos, yPos, NUCLEUS_DIAMETER, NUCLEUS_DIAMETER));
         _displayShape.setPaint( new Color(100, 200, 50) );
         addChild(_displayShape);
         atom.addListener(new AtomicNucleus.Listener(){
