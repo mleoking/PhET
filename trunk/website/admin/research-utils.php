@@ -6,8 +6,8 @@
     include_once(SITE_ROOT."admin/db-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");    
     
-    function research_get_all() {    
-        return db_get_rows_by_condition('research');
+    function research_get_all() {
+        return db_get_rows_by_condition('research', array(), false, false);
     }
     
     function research_get_by_id($research_id) {    
@@ -42,14 +42,15 @@
         
         return db_insert_row('research', $research);
     }
-    
+
     function research_print($research_id) {
         $research = research_get_by_id($research_id);
-        
-        eval(get_code_to_create_variables_from_array($research));
-        
+
+        //eval(get_code_to_create_variables_from_array($research));
+
         $publication_lookup_html = '';
-        
+
+        $research_publication_lookup = format_for_html($research['research_publication_lookup']);
         if ($research_publication_lookup != '') {
             $publication_lookup_html = <<<EOT
                 <span class="publication_lookup">
@@ -57,9 +58,10 @@
                 </span>,
 EOT;
         }
-        
+
         $other_links_html = '';
-        
+
+        $research_publication_htmllink_url = format_for_html($research['research_publication_htmllink_url']);
         if ($research_publication_htmllink_url != '') {
             $other_links_html .= <<<EOT
                 (<span class="publication_htmllink">
@@ -67,31 +69,38 @@ EOT;
                 </span>
 EOT;
         }
-        
+
+        $research_publication_pdflink_url = format_for_html($research['research_publication_pdflink_url']);
         if ($research_publication_pdflink_url != '') {
             if (strlen($other_links_html) > 0) {
                 $other_links_html .= ", ";
             }
-            
+
             $other_links_html .= <<<EOT
                 <span class="publication_pdflink">
                     <a href="$research_publication_pdflink_url">pdf</a>
                 </span>
 EOT;
         }
-        
+
         if (strlen($other_links_html) > 0) {
             $other_links_html .= ")";
         }
-        
+
         $publication_date_html = '';
-        
+
+        $research_publication_month = $research['research_publication_month'];
         if ($research_publication_month != 'NA') {
-            $publication_date_html .= "$research_publication_month ";
+            $publication_date_html .= format_for_html($research_publication_month)." ";
         }
-        
-        $publication_date_html .= $research_publication_year;
-        
+
+        $research_publication_year = format_for_html($research['research_publication_year']);
+        $publication_date_html .= format_for_html($research_publication_year);
+
+        $research_publication_mainlink_url = format_for_html($research['research_publication_mainlink_url']);
+        $research_title = format_for_html($research['research_title']);
+        $research_authors = format_for_html($research['research_authors']);
+        $research_publication_name = format_for_html($research['research_publication_name']);
         print <<<EOT
             <div class="research">
                 <span class="title"><a href="$research_publication_mainlink_url">$research_title</a></span>,
@@ -117,31 +126,31 @@ EOT;
 		);
 	}
 	
-	function research_sort_categories_cmp($r1, $r2) {		
+	function research_sort_categories_cmp($r1, $r2) {
 		if (($r1 == 'Student Beliefs and Learning') && ($r2 == 'Studies of PhET Effectiveness')) {
 			return 1;
 		}
 		else if (($r2 == 'Student Beliefs and Learning') && ($r1 == 'Studies of PhET Effectiveness')) {
 			return -1;
 		}
-		
+
 		return strcasecmp($r1, $r2);
 	}
-    
+
     function research_get_all_categories() {
         $categories = array();
-        
+
         foreach(research_get_all() as $research) {
             $cat = $research['research_category'];
-            
+
             $categories[strtolower("$cat")] = "$cat";
         }
-        
+
         usort($categories, 'research_sort_categories_cmp');
-        
+
         return $categories;
     }
-    
+
     function research_get_categories_as_javascript_array() {
         $default_categories = array(
             strtolower("About PhET")                    => "About PhET",
@@ -189,23 +198,23 @@ EOT;
     function research_compare($research1, $research2) {
         return research_get_publication_date($research2) - research_get_publication_date($research1);
     }
-    
-    function research_get_all_by_category($selected_cat) {        
+
+    function research_get_all_by_category($selected_cat) {
         $researches = array();
-        
+
         foreach(research_get_all() as $research) {
             $current_cat = $research['research_category'];
-            
+
             if (strtolower($current_cat) == strtolower($selected_cat)) {
                 $researches[] = $research;
             }
         }
-        
+
         usort($researches, 'research_compare');
-        
+
         return $researches;
     }
-    
+
     function research_print_edit($research_id = null) {
         if ($research_id == null) {
             $research = db_get_blank_row('research');
@@ -214,10 +223,12 @@ EOT;
             $research = research_get_by_id($research_id);
         }
         
+        // I don't like leaving the eval but no time to make it all pretty
+        $research = format_for_html($research);
         eval(get_code_to_create_variables_from_array($research));
         
         $cat_array = research_get_categories_as_javascript_array();
-
+        
 		$javascript_autocomplete = '';
 		
 		if (web_detect_browser() != 'internet-explorer') {

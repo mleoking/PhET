@@ -9,23 +9,23 @@
 	include_once(SITE_ROOT."admin/db-utils.php");
 	
 	function order_get_all_orders($table_name, $condition) {
-	    $rows = db_get_rows_by_condition($table_name, $condition);
-	    
+	    $rows = db_get_rows_by_condition($table_name, $condition, false, false);
+
 	    $orders = array();
-	    
+
 	    foreach($rows as $row) {
 	        $orders[] = $row["${table_name}_order"];
 	    }
-	    
+
 	    // This sorts by values (category order)
 	    asort($orders);
-	    
+
 	    // Reindex and remove duplicates:
 	    $orders = array_unique(array_values($orders));
-	    
+
 	    return $orders;
 	}
-	
+
 	function order_get_order_number_by_id($table_name, $id) {
 	    $row = db_get_row_by_id($table_name, "${table_name}_id", $id);
 	    
@@ -70,24 +70,24 @@
         
         return " AND ".db_convert_condition_array_to_sql($condition);
     }
-    
+
     function order_move_higher($table_name, $id, $condition) {
         $orders = order_get_all_orders($table_name, $condition);
-        
+
         $order_number = order_get_order_number_by_id($table_name, $id);
-        
+
         $new_order = order_get_previous_order_number($orders, $order_number);
-        
+
         $condition_postfix = order_get_sql_condition_postfix($condition);
-        
+
         // Swap the orders of the two adjacents:
         db_exec_query("UPDATE `$table_name` SET `${table_name}_order`='$new_order' WHERE `${table_name}_id`='$id' $condition_postfix ");
-        
+
         $updated_order = $new_order + 1;
-        
+
         db_exec_query("UPDATE `$table_name` SET `${table_name}_order`='$updated_order' WHERE `${table_name}_order`='$new_order' AND `${table_name}_id`<>'$id' $condition_postfix ");
     }
-    
+
     function order_move_lower($table_name, $id, $condition) {
         $orders = order_get_all_orders($table_name, $condition);
         

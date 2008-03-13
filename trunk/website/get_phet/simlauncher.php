@@ -25,7 +25,7 @@
 		<?php
 			
 			foreach (sim_get_all_sims() as $simulation) {
-				$sim_name = $simulation['sim_name'];
+				$sim_name = format_string_for_html($simulation['sim_name']);
 				
 				$sim_run_offline_link = sim_get_run_offline_link($simulation);
 				

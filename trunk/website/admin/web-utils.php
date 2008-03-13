@@ -22,7 +22,7 @@
     }
 
     function generate_check_status($item_num, $checked_item_num) {
-        if ($checked_item_num == null && $item_num == "0" || $item_num == $checked_item_num) return "checked";
+        if ($checked_item_num == null && $item_num == "0" || $item_num == $checked_item_num) return "checked=\"checked\"";
     
         return " ";
     }
@@ -328,7 +328,8 @@
     }
 
     function print_editable_area($control_name, $contents, $rows = "20", $cols = "40") {
-        print("<textarea name=\"$control_name\" rows=\"$rows\" cols=\"$cols\">$contents</textarea>");
+        $formatted_contents = format_string_for_html($contents);
+        print("<textarea name=\"$control_name\" rows=\"$rows\" cols=\"$cols\">$formatted_contents</textarea>");
     }
     
     function print_captioned_editable_area($caption, $control_name, $contents, $rows = "20", $cols = "40") {
@@ -375,10 +376,12 @@ EO_PRINT_HIDDEN_INPUT;
     }
     
     function print_captioned_url_upload_control($caption, $control_name, $contents, $rows = "20", $cols = "40") {
-        print("<p>$caption<p/>");
-        
+        print("<p>$caption</p>\n");
+
+        print "<p>\n";
         print_editable_area($control_name, $contents, $rows, $cols);
-        print("<p>Or upload a file: <input name=\"${control_name}_file_upload\" type=\"file\" /></p>");
+        print "Or upload a file: <input name=\"${control_name}_file_upload\" type=\"file\" />";
+        print "</p>\n";
     }
     
     function process_url_upload_control($control_name, $value) {
@@ -573,7 +576,7 @@ EO_DISPLAY_SLIDESHOW_2;
     function convert_comma_list_into_linked_keyword_list($list, $print_commas = false) {  
         global $referrer;
           
-        $xml = '<div class="keywordlist">';
+        $xml = '<span class="keywordlist">';
         
         $comma_xml = '';
         
@@ -596,7 +599,7 @@ EO_DISPLAY_SLIDESHOW_2;
             $xml .= '<a href="'.SITE_ROOT.'simulations/search.php?search_for='.urlencode($keyword).'&amp;referrer='.$referrer.'">'.$keyword.'</a>';
         }
         
-        $xml .= '</div>';
+        $xml .= '</span>';
         
         return $xml;
     }
@@ -864,8 +867,8 @@ EOT;
             // come in already formatted in HTML and don't need this.  Check to
             // see if others rely on this method.
             //$text = html_entity_decode($text);
-
-            $options .= "<option value=\"$identifier\">$text</option>";
+            $formatted_text = format_string_for_html($text);
+            $options .= "<option value=\"$identifier\">$formatted_text</option>";
 
             $text_to_identifier["$text"] = "$identifier";
         }
@@ -887,22 +890,22 @@ EOT;
 		$should_invalidate_on_empty = $print_select ? 'true' : 'false';
 
         foreach($selections_array as $text) {
-            
-            $text = html_entity_decode($text);
+            $text = format_string_for_html($text);
+            $decode_text = html_entity_decode($text);
 
-            if (isset($text_to_identifier["$text"])) {
-                $identifier = $text_to_identifier["$text"];
+            if (isset($text_to_identifier["$decode_text"])) {
+                $identifier = $text_to_identifier["$decode_text"];
             }
             else {
-                $identifier = "$text";
+                $identifier = "$decode_text";
             }
 
             $script_creation_code .= "ms_add_li('$name', '$list_id', '$text', '$identifier', $should_invalidate_on_empty);";
         }
-        
+
         $select_id   = "${name}_uid";
         $select_name = "${name}_select";
-        
+
         if (!$has_printed_javascript) {
             $has_printed_javascript = true;
 
@@ -1033,7 +1036,6 @@ EOT;
                 $selections
             </ul>
 EOT;
-
         print <<<EOT
             <script type="text/javascript">
                 $script_creation_code
@@ -1086,7 +1088,7 @@ EOT;
         
         print <<<EOT
                 <input type="hidden"   name="$checkbox_name" value="0" />
-                <input type="checkbox" name="$checkbox_name" value="1" id="${checkbox_name}_uid" $is_checked>$checkbox_text</input>
+                <input type="checkbox" name="$checkbox_name" value="1" id="${checkbox_name}_uid" $is_checked />$checkbox_text
 EOT;
     }
     

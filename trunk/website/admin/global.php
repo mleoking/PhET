@@ -1,6 +1,6 @@
 <?php
 
-	error_reporting(E_ERROR);
+    error_reporting(E_ERROR);
 
     ini_set("session.gc_maxlifetime", "999999999"); 
     ini_set("session.cache_expire",   "999999999");

@@ -19,18 +19,20 @@
 
         foreach (sim_get_all_sims() as $simulation) {
             $sim_id = $simulation['sim_id'];
-            
-            print "<tr><td><h3>".$simulation['sim_name']."</h3>";
+
+            print "<tr><td><h3>".format_string_for_html($simulation['sim_name'])."</h3>";
             print "<a href=\"delete-sim.php?sim_id=$sim_id&amp;delete=0\">Delete</a>, ";
             print "<a href=\"edit-sim.php?sim_id=$sim_id\">Edit</a>";
             print "</td></tr>";
-        
+
             foreach($simulation as $key => $value) {
                 if ($key != 'sim_name') {
-                    print "<tr><td>$key</td><td>$value</td></tr>";
+                    $formatted_key = format_string_for_html($key);
+                    $formatted_value = format_string_for_html($value);
+                    print "<tr><td>$formatted_key</td><td>$formatted_value</td></tr>";
                 }
             }
-            
+
             print "<tr><td>&nbsp;</td></tr>";
         }
         

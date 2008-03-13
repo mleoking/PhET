@@ -37,10 +37,10 @@ EOT;
 
         foreach(sim_get_categories() as $category) {
             $cat_id   = $category['cat_id'];
-            $cat_name = $category['cat_name'];
+            $cat_name = format_string_for_html($category['cat_name']);
             
             print <<<EOT
-                <h2 id="$cat_id">$cat_name</h2>
+                <h2 id="cat_$cat_id">$cat_name</h2>
                 
                 <table>
                     <thead>
@@ -57,14 +57,14 @@ EOT;
             foreach(sim_get_sim_listings_by_cat_id($cat_id) as $sim_listing) {
                 eval(get_code_to_create_variables_from_array($sim_listing));
 
-				$sim = sim_get_sim_by_id($sim_listing['sim_id']);
+                $sim = sim_get_sim_by_id($sim_listing['sim_id']);
 
-				$sim_name = $sim['sim_name'];
-                
+                $sim_name = format_string_for_html($sim['sim_name']);
+
                 if (isset($_REQUEST['auto_order'])) {
                     db_exec_query("UPDATE `simulation_listing` SET `simulation_listing_order`='$auto_order' WHERE `simulation_listing_id`='$simulation_listing_id' ");
                 }
-                
+
                 print <<<EOT
                     <tr>
                         <td>$sim_name</td>  

@@ -12,14 +12,14 @@
 	function print_file_to_stats($file_to_stats, $print_missing = true) {
 		if (count($file_to_stats) > 0) {
 			print "<ul>";
-			
+
 			foreach($file_to_stats as $stats) {
 				$file  = basename($stats['file']);
 				$count = $stats['count'];
-				
+
 				print "<li>$file - $count</li>";
 			}
-			
+
 			print "</ul>";
 		}
 		else if ($print_missing) {
@@ -114,7 +114,7 @@ EOT;
 			foreach ($stats as $contribution_id => $count) {
 				$contribution = contribution_get_contribution_by_id($contribution_id);
 			
-				$title      = $contribution['contribution_title'];
+				$title      = format_string_for_html($contribution['contribution_title']);
 				$title_html = "<a href=\"../teacher_ideas/edit-contribution.php?contribution_id=$contribution_id\">$title</a>";
 				
 				$desc  = $descs[$contribution_id];

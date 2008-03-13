@@ -15,9 +15,9 @@
 				'contributor_id'  => $contributor_id
 			)
 		);
-		
+
 		if (!$row) return false;
-		
+
 		return true;
 	}
 	
@@ -71,28 +71,28 @@
 		
 		return $contrib_to_nom_count;
 	}
-	
+
 	function get_nomination_descriptions() {
 		static $contrib_to_descs = null;
-		
+
 		if ($contrib_to_descs != null) {
 			return $contrib_to_descs;
 		}
-		
+
 		$nominations = db_get_all_rows('contribution_nomination');
-		
+
 		$contrib_to_descs = array();
-		
+
 		foreach ($nominations as $nomination) {
 			$contribution_id = $nomination['contribution_id'];
-			
+
 			if (!isset($contrib_to_descs["$contribution_id"])) {
 				$contrib_to_descs["$contribution_id"] = '';
 			}
-			
-			$contrib_to_descs["$contribution_id"] .= '<br/>"<em>'.$nomination['contribution_nomination_desc'].'</em>"';
+
+			$contrib_to_descs["$contribution_id"] .= '<br/>"<em>'.format_string_for_html($nomination['contribution_nomination_desc']).'</em>"';
 		}
-		
+
 		return $contrib_to_descs;
 	}
 ?>
