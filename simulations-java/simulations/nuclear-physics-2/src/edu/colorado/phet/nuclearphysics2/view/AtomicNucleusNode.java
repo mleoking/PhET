@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics2.view;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -18,7 +19,7 @@ public class AtomicNucleusNode extends PNode {
     
     final private double NUCLEUS_DIAMETER = 11.0f;
     
-    private PPath _displayShape;
+    private PNode _displayImage;
     private AtomicNucleus _atom;
     
     //------------------------------------------------------------------------
@@ -31,11 +32,9 @@ public class AtomicNucleusNode extends PNode {
         
         // Do some calculations so that the representation is centered on the
         // locations dictated by the model.
-        double xPos = atom.getPosition().getX() - (NUCLEUS_DIAMETER/2);
-        double yPos = atom.getPosition().getY() - (NUCLEUS_DIAMETER/2);
-        _displayShape = new PPath(new Ellipse2D.Double(xPos, yPos, NUCLEUS_DIAMETER, NUCLEUS_DIAMETER));
-        _displayShape.setPaint( new Color(100, 200, 50) );
-        addChild(_displayShape);
+        _displayImage = NuclearPhysics2Resources.getImageNode("Atomic Nuclei Large And Simple.png");
+        _displayImage.scale( NUCLEUS_DIAMETER/_displayImage.getWidth() );
+        addChild(_displayImage);
         atom.addListener(new AtomicNucleus.Listener(){
             public void positionChanged()
             {
@@ -50,7 +49,8 @@ public class AtomicNucleusNode extends PNode {
     }
     
     private void update(){
-        _displayShape.setOffset( _atom.getPosition() );
+        _displayImage.setOffset( _atom.getPosition().getX() - NUCLEUS_DIAMETER/2,  
+                _atom.getPosition().getY() - NUCLEUS_DIAMETER/2);
     }
 
 }
