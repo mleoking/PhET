@@ -21,6 +21,13 @@ import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 public class AlphaRadiationModel {
 
     //------------------------------------------------------------------------
+    // Class data
+    //------------------------------------------------------------------------
+    
+    public static final double NUCLEUS_RADIUS = 1.0; // In femtometers.
+    public static final double BREAKOUT_RADIUS =11.0; // In femtometers, but not a realistic value.
+    
+    //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
     
@@ -29,6 +36,9 @@ public class AlphaRadiationModel {
     private ArrayList _listeners = new ArrayList();
     private ConstantDtClock _clock;
     private int _tickCounter = 0;
+    
+    // JPB TBD temp
+    private int _alphaParticleCount = 0;
     
     
     //------------------------------------------------------------------------
@@ -39,7 +49,8 @@ public class AlphaRadiationModel {
     {
         // Various random number generators needed for model behavior.
         final Random numParticlesRand = new Random();
-        final Random particleLocationRand = new Random();
+        final Random initialParticlePosRand = new Random();
+        final Random moveParticlesRand = new Random();
         
         // Create the clock that will drive this model.
         _clock = new ConstantDtClock(30, 1.0);
@@ -53,6 +64,7 @@ public class AlphaRadiationModel {
                 
                 _tickCounter++;
                 
+                /* JPB TBD - not getting rid of particles for now.
                 // Decide if any particles should be added or removed.  Note
                 // that we don't do this on every tick, otherwise things look
                 // too chaotic.
@@ -60,7 +72,7 @@ public class AlphaRadiationModel {
                 {
                     int numParticles = _alphaParticles.size();
                     
-                    double temp = Math.round( numParticlesRand.nextGaussian() + 3.0 );
+                    double temp = Math.round( numParticlesRand.nextGaussian() + 100.0 );
                     if (temp < 0){
                         temp = 0;
                     }
@@ -74,7 +86,7 @@ public class AlphaRadiationModel {
                         {
                             // Add a new particle.
                             
-                            double randPos = particleLocationRand.nextDouble();
+                            double randPos = initialParticlePosRand.nextDouble();
                             double xPos = Math.sin( randPos * 2 * Math.PI ) * 7;
                             double yPos = Math.cos( randPos * 2 * Math.PI ) * 7;
                             AlphaParticle alpha = new AlphaParticle(xPos, yPos);
@@ -106,35 +118,44 @@ public class AlphaRadiationModel {
                         }
                     }
                 }
+                */
+                
+                // JPB TBD - add particles until we have all that we need.
+                while (_alphaParticleCount < 60)
+                {
+                    // Add a new particle.
+                    
+                    double randPos = initialParticlePosRand.nextDouble();
+                    double xPos = Math.sin( randPos * 2 * Math.PI ) * 7;
+                    double yPos = Math.cos( randPos * 2 * Math.PI ) * 7;
+                    AlphaParticle alpha = new AlphaParticle(xPos, yPos);
+                    _alphaParticles.add( alpha );                    
+
+                    for (int j = 0; j < _listeners.size(); j++)
+                    {
+                        Listener listener = (Listener)_listeners.get( j );
+                        listener.particleAdded(alpha);
+                    }
+                    
+                    _alphaParticleCount++;
+                } 
         
-                // Move each of the particles.
+                // Move the alpha particles around.
+
                 for (int i = 0; i < _alphaParticles.size(); i++)
                 {
                     AlphaParticle alpha = (AlphaParticle)_alphaParticles.get( i );
-                    /*
-                    // Test particle removal.                    
-                    Point2D pos = alpha.getPosition();
-                    if (pos.getX() > 20)
+
+                    if (moveParticlesRand.nextDouble() > 0.90)
                     {
-                        // Notify the listeners that the particle is being removed.
-                        for (int j = 0; j < _listeners.size(); j++)
-                        {
-                            Listener listener = (Listener)_listeners.get( j );
-                            listener.particleRemoved(alpha);
-                        }
-                        
-                        // Remove the particle from our list.
-                        _alphaParticles.remove( i );
-                        
-                        // Only remove one per clock tick.
-                        break;
+                        // Have this particle tunnel to a new location.
+                        alpha.tunnel( NUCLEUS_RADIUS, BREAKOUT_RADIUS * 1.02 );
                     }
-                    */
-                    
-                    // Position the particle.
-                    Point2D alphaPos = alpha.getPosition();
-                    double normalizer = alphaPos.distance( 0, 0 );
-                    alpha.translate( 0.2*(alphaPos.getX()/normalizer), 0.2*(alphaPos.getY()/normalizer ));
+                    else
+                    {
+                        // Have this particle move.
+                        alpha.autoTranslate();
+                    }
                 }
             }
         });

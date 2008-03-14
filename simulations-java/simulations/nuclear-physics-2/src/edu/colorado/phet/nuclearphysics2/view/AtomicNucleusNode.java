@@ -17,7 +17,7 @@ public class AtomicNucleusNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    final private double NUCLEUS_DIAMETER = 15.0f;
+    final private double NUCLEUS_DIAMETER = 20.0f;
     
     private PNode _displayImage;
     private AtomicNucleus _atom;
@@ -32,9 +32,11 @@ public class AtomicNucleusNode extends PNode {
         
         // Do some calculations so that the representation is centered on the
         // locations dictated by the model.
+        /* JPB TBD - getting rid of this as a test of dynmic nucleus.
         _displayImage = NuclearPhysics2Resources.getImageNode("Atomic Nucleus.png");
         _displayImage.scale( NUCLEUS_DIAMETER/_displayImage.getWidth() );
         addChild(_displayImage);
+        */
         atom.addListener(new AtomicNucleus.Listener(){
             public void positionChanged()
             {
@@ -49,8 +51,10 @@ public class AtomicNucleusNode extends PNode {
     }
     
     private void update(){
+        /* JPB TBD - Also part of dynamic nucleus experiment
         _displayImage.setOffset( _atom.getPosition().getX() - NUCLEUS_DIAMETER/2,  
                 _atom.getPosition().getY() - NUCLEUS_DIAMETER/2);
+                */
     }
 
 }
