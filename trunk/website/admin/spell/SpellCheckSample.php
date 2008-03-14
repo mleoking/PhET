@@ -1,5 +1,8 @@
 <?php
 
+  // Dano: changed 'tree.php' to 'tree.php.bigarray' to stop it from 
+  //   being searched during in multi-file searches.
+
   ////////////////////////////////////////////////////////////////////////////  
   // File   : Sample Spell Check
   // Author : Jeff Welch (jeff@jwelch.org)
@@ -40,9 +43,9 @@
     // Get the current dictionary speed and pick the 
     // appropriate dictionary
     if($_POST['dictionary'] == 'fast') {
-      include('tree.php');
+      include('tree.php.bigarray');
     } else {
-      include('tree.php');
+      include('tree.php.bigarray');
     }
 
     // Where all the magic happens
