@@ -1,5 +1,8 @@
 <?php
 
+  // Dano: changed 'tree.php' to 'tree.php.bigarray' to stop it from 
+  //   being searched during in multi-file searches.
+
   ////////////////////////////////////////////////////////////////////////////  
   // File   : Dictionary To BST
   // Author : Jeff Welch (jeff@jwelch.org)
@@ -21,7 +24,7 @@
   $dictionary_location = 'dictionary.txt';
   
   // Destination for the tree file
-  $tree_destination = 'tree.php';
+  $tree_destination = 'tree.php.bigarray';
   
   ##### CONFIGURATIONS END HERE #####
   
@@ -76,7 +79,7 @@
   // Freeing up some memory
   unset($array);
   
-  // Open tree.php and inserts the declaration for the
+  // Open tree.php.bigarray and inserts the declaration for the
   // array-based BST $tree
   $handle = fopen($tree_destination, 'w');
   fputs($handle, '<?php $tree=array(');
