@@ -4,16 +4,19 @@ This build file is specific to the PhET website. However, it borrows some
 build-related libraries from the simulations-java project.
 
 -->
-<project name="PhET Website Utility Script" default="deploy" basedir=".">
+<project name="PhET Website Utility Script" default="deploy to live server" basedir=".">
     <!-- Website properties -->
     <property name="dir.website" value="${basedir}" />
 
     <!-- Deployment properties -->
-    <property name="deploy.server.name" value="tigercat.colorado.edu" />
+    <property name="deploy.live_server.name" value="tigercat.colorado.edu" />
+    <property name="deploy.test_server.name" value="192.168.42.103" />
 
     <!-- Properties for deploy output-->
-    <property name="deploy.server.path" value="/web/htdocs/phet/new" />
-    <property name="deploy.server.url" value="http://phet.colorado.edu/new/" />
+    <property name="deploy.live_server.path" value="/web/htdocs/phet/new" />
+    <property name="deploy.live_server.url" value="http://phet.colorado.edu/new/" />
+    <property name="deploy.test_server.path" value="/var/www/phet/new" />
+    <property name="deploy.test_server.url" value="http://${deploy.test_server.name}/new/" />
 
     <!-- Build tools -->
     <property name="dir.build-tools" value="${basedir}/../simulations-java/build-tools/" />
@@ -60,22 +63,41 @@ build-related libraries from the simulations-java project.
         </if>
     </target>
 
-    <target name="deploy" description="This task deploys the website." depends="_read-username-and-password">
-        <maverick-ssh host="${deploy.server.name}" username="${deploy.username}" password="${deploy.password}" version="2">
+    <target name="deploy to live server" description="This task deploys the live website." depends="_read-username-and-password">
+        <maverick-ssh host="${deploy.live_server.name}" username="${deploy.username}" password="${deploy.password}" version="2">
             <!-- Make the remote directory: -->
-            <sftp action="mkdir" remotedir="${deploy.server.path}" verbose="true" />
+            <sftp action="mkdir" remotedir="${deploy.live_server.path}" verbose="true" />
 
             <!-- Put all files to the remote directory: -->
-            <sftp action="put" remotedir="${deploy.server.path}" verbose="true">
+            <sftp action="put" remotedir="${deploy.live_server.path}" verbose="true">
                 <fileset dir="${dir.website}">
                     <exclude name=".svn" />
                     <exclude name="**/cached-*/*" />
-                    <exclude name="login-info.php" />
+                    <exclude name="admin/login-info.php" />
                 </fileset>
             </sftp>
 
             <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
-            <exec cmd="chmod -R 775 ${deploy.server.path}" />
+            <exec cmd="chmod -R 775 ${deploy.live_server.path}" />
+        </maverick-ssh>
+    </target>
+
+    <target name="deploy to test server" description="This task deploys the website to a test server." depends="_read-username-and-password">
+        <maverick-ssh host="${deploy.test_server.name}" username="${deploy.username}" password="${deploy.password}" version="2">
+            <!-- Make the remote directory: -->
+            <sftp action="mkdir" remotedir="${deploy.test_server.path}" verbose="true" />
+
+            <!-- Put all files to the remote directory: -->
+            <sftp action="put" remotedir="${deploy.test_server.path}" verbose="true">
+                <fileset dir="${dir.website}">
+                    <exclude name=".svn" />
+                    <exclude name="**/cached-*/*" />
+                    <exclude name="admin/login-info.php" />
+                </fileset>
+            </sftp>
+
+            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
+            <exec cmd="chmod -R 775 ${deploy.test_server.path}" />
         </maverick-ssh>
     </target>
 </project>
