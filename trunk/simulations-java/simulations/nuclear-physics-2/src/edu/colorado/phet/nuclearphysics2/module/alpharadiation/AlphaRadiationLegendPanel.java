@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2008, University of Colorado */
 
 package edu.colorado.phet.nuclearphysics2.module.alpharadiation;
 
@@ -52,7 +52,7 @@ public class AlphaRadiationLegendPanel extends JPanel {
         
         addLegendItem( "Neutron.png", "NuclearPhysicsControlPanel.NeutronLabel", 15 );
         addLegendItem( "Proton.png", "NuclearPhysicsControlPanel.ProtonLabel", 15 );
-        addLegendItem( "Alpha Particle 001.png", "NuclearPhysicsControlPanel.AlphaParticleLabel", 26 );        
+        addLegendItem( "Alpha Particle 001.png", "NuclearPhysicsControlPanel.AlphaParticleLabel", 25 );
     }
     
     private void addLegendItem( String imageName, String labelName, int width ) {
