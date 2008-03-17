@@ -50,24 +50,15 @@ public class AlphaRadiationLegendPanel extends JPanel {
 
         // Add the images and labels that make up the legend.
         
-        Image neutronImage = NuclearPhysics2Resources.getImage( "Neutron 001.png");
-        ImageIcon neutronImageImageIcon = new ImageIcon(neutronImage.getScaledInstance( 15, -1, Image.SCALE_SMOOTH ));
-        add(new JLabel(neutronImageImageIcon));
-
-        add(new JLabel("Neutron"));
-
-        Image protonImage = NuclearPhysics2Resources.getImage( "Proton 001.png");
-        ImageIcon protonImageIcon = new ImageIcon(protonImage.getScaledInstance( 15, -1, Image.SCALE_SMOOTH ));
-        add(new JLabel(protonImageIcon));
-
-        add(new JLabel("Proton"));
-
-        Image alphaParticleImage = NuclearPhysics2Resources.getImage( "Alpha Particle 001.png");
-        ImageIcon alphaParticleImageIcon = 
-            new ImageIcon(alphaParticleImage.getScaledInstance( 26, -1, Image.SCALE_SMOOTH ));
-        add(new JLabel(alphaParticleImageIcon));
-
-        add(new JLabel("Alpha Particle"));
+        addLegendItem( "Neutron.png", "NuclearPhysicsControlPanel.NeutronLabel", 15 );
+        addLegendItem( "Proton.png", "NuclearPhysicsControlPanel.ProtonLabel", 15 );
+        addLegendItem( "Alpha Particle 001.png", "NuclearPhysicsControlPanel.AlphaParticleLabel", 26 );        
     }
-
+    
+    private void addLegendItem( String imageName, String labelName, int width ) {
+        Image im = NuclearPhysics2Resources.getImage( imageName );
+        ImageIcon icon = new ImageIcon(im.getScaledInstance( width, -1, Image.SCALE_SMOOTH ));
+        add(new JLabel(icon));
+        add(new JLabel( NuclearPhysics2Resources.getString( labelName ) ));
+    }
 }
