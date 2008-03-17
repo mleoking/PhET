@@ -16,6 +16,7 @@ public class AlphaRadiationControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private AlphaRadiationLegendPanel _legendPanel;
+    private AlphaRadiationTimerPanel  _timerPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -36,11 +37,12 @@ public class AlphaRadiationControlPanel extends ControlPanel {
         
         // Create sub-panels
         _legendPanel = new AlphaRadiationLegendPanel();
+        _timerPanel = new AlphaRadiationTimerPanel();
         
         // Layout
         {
             addControlFullWidth( _legendPanel );
-            addSeparator();
+            addControlFullWidth( _timerPanel );
             // JPB TBD - commented out due to compiler error.  Come back and figure out why.
             // addResetAllButton( alphaRadiationModule );
             // end JPB TBD
