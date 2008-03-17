@@ -15,7 +15,7 @@ public class AlphaRadiationControlPanel extends ControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ExampleSubPanel _exampleSubPanel;
+    private AlphaRadiationLegendPanel _legendPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -35,11 +35,11 @@ public class AlphaRadiationControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Create sub-panels
-        _exampleSubPanel = new ExampleSubPanel();
+        _legendPanel = new AlphaRadiationLegendPanel();
         
         // Layout
         {
-            addControlFullWidth( _exampleSubPanel );
+            addControlFullWidth( _legendPanel );
             addSeparator();
             // JPB TBD - commented out due to compiler error.  Come back and figure out why.
             // addResetAllButton( alphaRadiationModule );
@@ -59,7 +59,4 @@ public class AlphaRadiationControlPanel extends ControlPanel {
     // Access to subpanels
     //----------------------------------------------------------------------------
     
-    public ExampleSubPanel getExampleSubPanel() {
-        return _exampleSubPanel;
-    }
 }

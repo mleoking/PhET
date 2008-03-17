@@ -145,7 +145,7 @@ public class AlphaRadiationChart extends PComposite {
         addChild( _legend );
         
         // Add the title to the legend.
-        _legendTitle = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.title") + ":");
+        _legendTitle = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.title"));
         _legendTitle.setFont( new PhetDefaultFont( Font.BOLD, 16 ) );
         _legend.addChild( _legendTitle );
         
