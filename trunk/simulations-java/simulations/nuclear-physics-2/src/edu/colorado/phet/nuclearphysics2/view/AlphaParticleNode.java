@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
+import java.util.Random;
 
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
@@ -26,8 +27,17 @@ public class AlphaParticleNode extends PNode {
     public AlphaParticleNode(AlphaParticle alphaParticle)
     {
         _alphaParticle = alphaParticle;
+        Random rand = new Random();
         
-        _displayImage = NuclearPhysics2Resources.getImageNode("Alpha Particle.png");
+        // Randomly choose an image for this particle.  This is done to give
+        // the nucleus a more random and thus realistic look.
+        if (rand.nextDouble() > 0.5){
+           _displayImage = NuclearPhysics2Resources.getImageNode("Alpha Particle 001.png");
+        }
+        else {
+            _displayImage = NuclearPhysics2Resources.getImageNode("Alpha Particle 002.png");            
+        }
+        
         _displayImage.scale( PARTICLE_DIAMETER/_displayImage.getWidth() );
         addChild(_displayImage);
         alphaParticle.addListener(new AlphaParticle.Listener(){
