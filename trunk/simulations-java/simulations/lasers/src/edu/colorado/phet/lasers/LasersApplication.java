@@ -247,7 +247,7 @@ public class LasersApplication extends PhetApplication {
     //----------------------------------------------------------------
 
     public static double ONE_ATOM_MODULE_SPEED = 0.5;
-    public static double MULTI_ATOM_MODULE_SPEED = 1.0;
+    public static double MULTI_ATOM_MODULE_SPEED = 0.5;
 
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
