@@ -260,7 +260,7 @@
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="false" project-jdk-name="1.6" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/temp/classes" />
+    <output url="file://$PROJECT_DIR$/../../../../../../../Temp/simulations-java/temp/classes" />
   </component>
   <component name="ResourceManagerContainer">
     <option name="myResourceBundles">
