@@ -26,7 +26,7 @@ public class ProcessRecentChanges {
 
     public ProcessRecentChanges( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         this.args = args;
-        unfuddleAccount = new UnfuddleAccount( new File( SVN_TRUNK + "\\util\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
+        unfuddleAccount = new UnfuddleAccount( new File( SVN_TRUNK + "\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );
         unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
 
         running = new JFrame( "Process Unfuddle Changes" );
