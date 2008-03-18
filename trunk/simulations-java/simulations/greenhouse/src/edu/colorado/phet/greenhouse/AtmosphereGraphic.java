@@ -6,11 +6,6 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
-import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
-
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -19,8 +14,14 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImagingOpException;
 import java.util.Observable;
 import java.util.Observer;
+
+import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
+import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
 
 /**
  * An overlay graphic that is supposed to look like polluted air. It fades in and out depending on the
@@ -49,17 +50,26 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer, Sha
             public void componentResized( ComponentEvent e ) {
                 Component component = e.getComponent();
                 Rectangle2D newBounds = component.getBounds();
-                if( atmosphereImageGraphic != null ) {
+                if ( atmosphereImageGraphic != null ) {
                     BufferedImage bi = atmosphereImageGraphic.getBufferedImage();
-                    double scaleWidth = newBounds.getWidth() / bi.getWidth();
-                    double scaleHeight = newBounds.getHeight() / bi.getHeight();
-                    AffineTransform atx = AffineTransform.getScaleInstance( scaleWidth, scaleHeight );
-                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
-                    bi = atxOp.filter( bi, null );
-                    removeGraphic( atmosphereImageGraphic );
-                    atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, 0 ) );
+                    if ( newBounds.getWidth() != 0 && newBounds.getHeight() != 0 && bi.getWidth() != 0 && bi.getHeight() != 0 ) {
+                        double scaleWidth = newBounds.getWidth() / bi.getWidth();
+                        double scaleHeight = newBounds.getHeight() / bi.getHeight();
+
+                        AffineTransform atx = AffineTransform.getScaleInstance( scaleWidth, scaleHeight );
+                        AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+                        try {
+                            bi = atxOp.filter( bi, null );
+                            removeGraphic( atmosphereImageGraphic );
+                            atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, 0 ) );
 //                    atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
-                    addGraphic( atmosphereImageGraphic, 1 );
+                            addGraphic( atmosphereImageGraphic, 1 );
+                        }
+                        catch( ImagingOpException ioe ) {
+                            System.out.println( "Caught ioe=" + ioe );
+                            ioe.printStackTrace();
+                        }
+                    }
                 }
             }
         } );
@@ -86,8 +96,8 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer, Sha
     }
 
     private float computeGreenhouseAlpha() {
-        if( visible ) {
-            return (float)( maxAlpha * atmosphere.getGreenhouseGasConcentration() / GreenhouseConfig.maxGreenhouseGasConcentration );
+        if ( visible ) {
+            return (float) ( maxAlpha * atmosphere.getGreenhouseGasConcentration() / GreenhouseConfig.maxGreenhouseGasConcentration );
         }
         else {
             return 0;
