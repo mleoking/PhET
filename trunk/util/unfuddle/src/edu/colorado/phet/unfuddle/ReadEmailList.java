@@ -54,7 +54,7 @@ public class ReadEmailList {
 
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
-        UnfuddleAccount unfuddleAccount = new UnfuddleAccount( new File( ProcessRecentChanges.SVN_TRUNK+"\\util\\unfuddle\\data\\phet.unfuddled.20080221215524.xml" ) );
+        UnfuddleAccount unfuddleAccount = new UnfuddleAccount( new File( ProcessRecentChanges.SVN_TRUNK+"\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );
         ReadEmailList readEmailList = new ReadEmailList( unfuddleAccount, curl );
         String[] s = readEmailList.getEmailsForComponent( "charts" );
         System.out.println( "Arrays.asList( = " + Arrays.asList( s ) );
