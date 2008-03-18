@@ -38,6 +38,8 @@
     <list default="true" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/EarthGraphic.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/EarthGraphic.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.ipr" afterPath="$PROJECT_DIR$/intellij-idea-all.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" afterPath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" />
     </list>
     <list name="rotation-render" comment="" />
     <list name="build-12-7-2007" comment="" />
@@ -177,7 +179,7 @@
       <file leaf-file-name="AlphaRadiationLegendPanel.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/alpharadiation/AlphaRadiationLegendPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="68" selection-start="618" selection-end="618" vertical-scroll-proportion="0.24109015">
+            <state line="21" column="68" selection-start="618" selection-end="618" vertical-scroll-proportion="0.17884915">
               <folding />
             </state>
           </provider>
@@ -186,7 +188,7 @@
       <file leaf-file-name="NuclearPhysics2Application.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/NuclearPhysics2Application.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="189" column="51" selection-start="6869" selection-end="6869" vertical-scroll-proportion="1.1731602">
+            <state line="189" column="51" selection-start="6869" selection-end="6869" vertical-scroll-proportion="0.8630573">
               <folding />
             </state>
           </provider>
@@ -195,7 +197,7 @@
       <file leaf-file-name="PhetAboutDialog.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/application/PhetAboutDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="131" column="45" selection-start="5008" selection-end="5008" vertical-scroll-proportion="0.2792208">
+            <state line="131" column="45" selection-start="5008" selection-end="5008" vertical-scroll-proportion="0.20541401">
               <folding />
             </state>
           </provider>
@@ -204,7 +206,7 @@
       <file leaf-file-name="AtmosphereGraphic.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/AtmosphereGraphic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="29" selection-start="2927" selection-end="2927" vertical-scroll-proportion="0.4989518">
+            <state line="61" column="29" selection-start="2927" selection-end="2927" vertical-scroll-proportion="0.3789809">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -215,7 +217,16 @@
       <file leaf-file-name="EarthGraphic.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/EarthGraphic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="78" column="44" selection-start="3322" selection-end="3322" vertical-scroll-proportion="0.36897275">
+            <state line="146" column="50" selection-start="6482" selection-end="6482" vertical-scroll-proportion="0.49522293">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ImageLoader.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/phetcommon/src/edu/colorado/phet/common_greenhouse/view/util/graphics/ImageLoader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="42" column="32" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.43234837">
               <folding />
             </state>
           </provider>
@@ -224,7 +235,16 @@
       <file leaf-file-name="GreenhouseApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="89" selection-start="1450" selection-end="1450" vertical-scroll-proportion="-2.495671">
+            <state line="87" column="36" selection-start="4308" selection-end="4308" vertical-scroll-proportion="0.45700637">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="intellij-idea-all.iml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/intellij-idea-all.iml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -233,25 +253,7 @@
       <file leaf-file-name="RectangularShape.java" pinned="false" current="false" current-in-tab="false">
         <entry file="jar://$PROJECT_DIR$/../../../../../../../Program Files/Java/jdk1.6.0_02/src.zip!/java/awt/geom/RectangularShape.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="27" selection-start="1929" selection-end="1929" vertical-scroll-proportion="0.4591195">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AtomicNucleus.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/model/AtomicNucleus.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="13" selection-start="169" selection-end="169" vertical-scroll-proportion="0.2494759">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AlphaRadiationModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/alpharadiation/AlphaRadiationModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="130" column="29" selection-start="5818" selection-end="5818" vertical-scroll-proportion="0.035639413">
+            <state line="64" column="27" selection-start="1929" selection-end="1929" vertical-scroll-proportion="0.34059098">
               <folding />
             </state>
           </provider>
@@ -260,7 +262,7 @@
       <file leaf-file-name="AlphaParticle.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/model/AlphaParticle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="13" selection-start="3210" selection-end="3210" vertical-scroll-proportion="0.035639413">
+            <state line="96" column="13" selection-start="3210" selection-end="3210" vertical-scroll-proportion="0.02643857">
               <folding />
             </state>
           </provider>
@@ -337,6 +339,170 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse\src\edu\colorado\phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse\src\edu\colorado\phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse\src\edu\colorado\phet\greenhouse" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse\phetcommon" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse\phetcommon\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse\phetcommon\src\edu\colorado\phet" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\greenhouse\phetcommon" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -595,24 +761,6 @@
     </UpdateInfo>
   </component>
   <component name="RunManager" selected="Application.GreenhouseApplication">
-    <tempConfiguration default="false" name="GreenhouseApplication" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.greenhouse.GreenhouseApplication" />
-      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="intellij-idea-all" />
-      <envs />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </tempConfiguration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -695,6 +843,30 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="" />
       <envs />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="GreenhouseApplication" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.greenhouse.GreenhouseApplication" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="JProfiler">
+        <option name="WINDOW" value="false" />
+        <option name="JVMPI" value="false" />
+        <option name="INTERPRETED" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="JProfiler" />
+      <ConfigurationWrapper RunnerId="Run" />
       <method>
         <option name="Make" value="true" />
       </method>
@@ -799,19 +971,19 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="15" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27983952" order="9" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4653962" order="10" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4653962" order="10" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998997" order="7" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
       <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32898697" order="8" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15196393" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23824856" order="0" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="11" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17836446" order="2" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39919758" order="6" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="13" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22567703" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2988967" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="5" />
       <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998997" order="8" />
@@ -837,7 +1009,7 @@
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="update iws file" />
+    <option name="LAST_COMMIT_MESSAGE" value="added debug output for testing under web start" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -848,7 +1020,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="trial bugfix: IR photon graphics were showing up like UV" />
     <MESSAGE value="added sk translations" />
     <MESSAGE value="intermediate work for testing scale layout strategy" />
     <MESSAGE value="generalized initial" />
@@ -873,6 +1044,7 @@
     <MESSAGE value="`" />
     <MESSAGE value="attempted fix for reported bug on Linux" />
     <MESSAGE value="update iws file" />
+    <MESSAGE value="added debug output for testing under web start" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -931,20 +1103,6 @@
     <option name="myLastEditedConfigurable" value="find-deprecated" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../simulations/bound-states/src/edu/colorado/phet/boundstates/view/BSEnergyLegend.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="13" selection-start="724" selection-end="724" vertical-scroll-proportion="0.018220793">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/radio-waves/src/edu/colorado/phet/radiowaves/view/EmfControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="391" column="18" selection-start="18500" selection-end="18500" vertical-scroll-proportion="0.6091298">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/energy-skate-park/src/edu/colorado/phet/energyskatepark/common/Legend.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="13" selection-start="630" selection-end="630" vertical-scroll-proportion="0.02587519">
@@ -982,65 +1140,79 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/alpharadiation/AlphaRadiationModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="130" column="29" selection-start="5818" selection-end="5818" vertical-scroll-proportion="0.035639413">
+        <state line="130" column="29" selection-start="5818" selection-end="5818" vertical-scroll-proportion="0.023743017">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/model/AlphaParticle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="13" selection-start="3210" selection-end="3210" vertical-scroll-proportion="0.035639413">
+        <state line="96" column="13" selection-start="3210" selection-end="3210" vertical-scroll-proportion="0.02643857">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/alpharadiation/AlphaRadiationLegendPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="68" selection-start="618" selection-end="618" vertical-scroll-proportion="0.24109015">
+        <state line="21" column="68" selection-start="618" selection-end="618" vertical-scroll-proportion="0.17884915">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/NuclearPhysics2Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="189" column="51" selection-start="6869" selection-end="6869" vertical-scroll-proportion="1.1731602">
+        <state line="189" column="51" selection-start="6869" selection-end="6869" vertical-scroll-proportion="0.8630573">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/application/PhetAboutDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="131" column="45" selection-start="5008" selection-end="5008" vertical-scroll-proportion="0.2792208">
+        <state line="131" column="45" selection-start="5008" selection-end="5008" vertical-scroll-proportion="0.20541401">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/../../../../../../../Program Files/Java/jdk1.6.0_02/src.zip!/java/awt/geom/RectangularShape.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="27" selection-start="1929" selection-end="1929" vertical-scroll-proportion="0.4591195">
+        <state line="64" column="27" selection-start="1929" selection-end="1929" vertical-scroll-proportion="0.34059098">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/AtmosphereGraphic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="29" selection-start="2927" selection-end="2927" vertical-scroll-proportion="0.4989518">
+        <state line="61" column="29" selection-start="2927" selection-end="2927" vertical-scroll-proportion="0.3789809">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/phetcommon/src/edu/colorado/phet/common_greenhouse/view/util/graphics/ImageLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="32" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.43234837">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/intellij-idea-all.iml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="89" selection-start="1450" selection-end="1450" vertical-scroll-proportion="-2.495671">
+        <state line="87" column="36" selection-start="4308" selection-end="4308" vertical-scroll-proportion="0.45700637">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/EarthGraphic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="78" column="44" selection-start="3322" selection-end="3322" vertical-scroll-proportion="0.36897275">
+        <state line="146" column="50" selection-start="6482" selection-end="6482" vertical-scroll-proportion="0.49522293">
           <folding />
         </state>
       </provider>

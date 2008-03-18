@@ -139,7 +139,13 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         redSum += red;
         red = Math.min( 2 * redSum / numRedsToAve, 255 );
         if( earthAnimation != null ) {
+            try{
             g2.drawImage( earthAnimation.getCurrFrame(), earthTx, null );
+            }catch (OutOfMemoryError outOfMemoryError){
+                System.out.println( "Caught OutOfMemoryError: "+outOfMemoryError );
+                outOfMemoryError.printStackTrace(  );
+                System.out.println( "Continuing..." );
+            }
         }
         g2.setColor( Color.gray );
     }
