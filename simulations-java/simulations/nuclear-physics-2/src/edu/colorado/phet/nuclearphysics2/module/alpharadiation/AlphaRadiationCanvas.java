@@ -16,7 +16,6 @@ import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationChart;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -38,7 +37,6 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    private AtomicNucleusNode _atomicNucleusNode; 
     private AlphaRadiationChart _alphaRadiationChart;
     private PPath _breakoutCircle;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
@@ -49,10 +47,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     
     public AlphaRadiationCanvas(AlphaRadiationModel alphaRadiationModel) {
         
-        // Call the constructor that will allow the canvas to be scaled.  The
-        // units are assumed to be femtometers (fm).  As a point of reference,
-        // the nucleus of an atom of uranium is about 15 fm in diameter.  We
-        // are also assuming an initial aspect ratio of 4:3.
+        // Set the transform strategy in such a way that the center of the
+        // visible canvas will be at 0,0.
         setTransformStrategy( new RenderingSizeStrategy(this, new PDimension(150.0d * SCALE, 115.0d * SCALE) ){
             protected AffineTransform getPreprocessedTransform(){
                 return AffineTransform.getTranslateInstance( getWidth()/2, getHeight()/4 );
@@ -71,11 +67,9 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 
                 AlphaParticleNode alphaParticleNode = new AlphaParticleNode(alphaParticle);
                 
-                // Add at layer 0 so it is behind other things on the canvas,
-                // such as the chart.
-                // addWorldChild( 0, alphaParticleNode );
-                // JPB TBD - For testing.
-                addWorldChild( 3, alphaParticleNode );
+                // TODO: JPB TBD - Need to determine the best index/layer at
+                // which to add this.
+                addWorldChild( 0, alphaParticleNode );
                 
                 // Map the particle to the node so that we can remove it later.
                 _mapAlphaParticlesToNodes.put( alphaParticle, alphaParticleNode );
@@ -96,10 +90,6 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         
         // Set the background color.
         setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
-        
-        // Add the nucleus node to the canvas.
-        _atomicNucleusNode = new AtomicNucleusNode(alphaRadiationModel.getAtom());
-        addWorldChild( _atomicNucleusNode );
         
         // Add the breakout radius to the canvas.
         double radius = AlphaRadiationModel.BREAKOUT_RADIUS;

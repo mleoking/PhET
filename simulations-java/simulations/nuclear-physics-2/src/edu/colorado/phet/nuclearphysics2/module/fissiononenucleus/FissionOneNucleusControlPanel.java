@@ -1,24 +1,17 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics2.module.alpharadiation;
+package edu.colorado.phet.nuclearphysics2.module.fissiononenucleus;
 
-import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
-import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
 
 
-public class AlphaRadiationControlPanel extends ControlPanel {
-
+public class FissionOneNucleusControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
-    private AlphaRadiationLegendPanel _legendPanel;
-    private AlphaRadiationTimerPanel  _timerPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -30,7 +23,7 @@ public class AlphaRadiationControlPanel extends ControlPanel {
      * @param alphaRadiationModule
      * @param parentFrame parent frame, for creating dialogs
      */
-    public AlphaRadiationControlPanel( AlphaRadiationModule alphaRadiationModule, Frame parentFrame ) {
+    public FissionOneNucleusControlPanel( FissionOneNucleusModule alphaRadiationModule, Frame parentFrame ) {
         super();
         
         // Set the control panel's minimum width.
@@ -38,14 +31,8 @@ public class AlphaRadiationControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Create sub-panels
-        _legendPanel = new AlphaRadiationLegendPanel();
-        _timerPanel = new AlphaRadiationTimerPanel();
+        // TODO: Add the pannels.
         
-        // Add the sub-panels
-        {
-            addControlFullWidth( _legendPanel );
-            addControlFullWidth( _timerPanel );
-        }
     }
     
     //----------------------------------------------------------------------------
@@ -59,5 +46,4 @@ public class AlphaRadiationControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Access to subpanels
     //----------------------------------------------------------------------------
-    
 }

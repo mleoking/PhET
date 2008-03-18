@@ -19,6 +19,7 @@ public class NuclearPhysics2Strings {
     public static final String TITLE_EXAMPLE_MODULE = NuclearPhysics2Resources.getString( "title.exampleModule" );
     
     public static final String TITLE_ALPHA_RADIATION_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.AlphaDecayModule" );
+    public static final String TITLE_FISSION_ONE_NUCLEUS_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.SingleNucleusFissionModule" );
 
     public static final String UNITS_ORIENTATION = NuclearPhysics2Resources.getString( "units.orientation");
     public static final String UNITS_TIME = NuclearPhysics2Resources.getString( "units.time" );

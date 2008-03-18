@@ -1,57 +1,49 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics2.module.alpharadiation;
+package edu.colorado.phet.nuclearphysics2.module.fissiononenucleus;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Application;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
-import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
 import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
-import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleCanvas;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleModel;
-import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
-import edu.colorado.phet.nuclearphysics2.view.ExampleNode;
+
 
 /**
- * This class is where the model and view classes for the Alpha Radiation
- * tab of this simulation are created and contained. 
+ * This class is where the model and view classes for the "Fission: One 
+ * Nucleus" tab of this simulation are created and contained.
  *
  * @author John Blanco
  */
-public class AlphaRadiationModule extends PiccoloModule {
-    
+public class FissionOneNucleusModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private AlphaRadiationModel _model;
-    private AlphaRadiationCanvas _canvas;
-    private AlphaRadiationControlPanel _controlPanel;
+    private FissionOneNucleusModel _model;
+    private FissionOneNucleusCanvas _canvas;
+    private FissionOneNucleusControlPanel _controlPanel;
     private ClockControlPanelWithTimeDisplay _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public AlphaRadiationModule( Frame parentFrame ) {
-        super( NuclearPhysics2Strings.TITLE_ALPHA_RADIATION_MODULE, 
+    public FissionOneNucleusModule( Frame parentFrame ) {
+        super( NuclearPhysics2Strings.TITLE_FISSION_ONE_NUCLEUS_MODULE, 
                new NuclearPhysics2Clock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ));
  
         // Model
-        NuclearPhysics2Clock clock = (NuclearPhysics2Clock) getClock();
-        _model = new AlphaRadiationModel();
+        _model = new FissionOneNucleusModel();
 
         // Canvas
-        _canvas = new AlphaRadiationCanvas( _model );
+        _canvas = new FissionOneNucleusCanvas( _model );
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new AlphaRadiationControlPanel( this, parentFrame );
+        _controlPanel = new FissionOneNucleusControlPanel( this, parentFrame );
         setControlPanel( _controlPanel );
         
         // Clock controls
@@ -59,13 +51,6 @@ public class AlphaRadiationModule extends PiccoloModule {
         _clockControlPanel.setUnits( NuclearPhysics2Strings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
-
-        // Controller
-        // JPB TBD
-        /*
-        FakeAlphaRadiationController controller = 
-            new AlphaRadiationControlPanel( _model, _canvas, _controlPanel );
-            */
         
         // Help
         if ( hasHelp() ) {
