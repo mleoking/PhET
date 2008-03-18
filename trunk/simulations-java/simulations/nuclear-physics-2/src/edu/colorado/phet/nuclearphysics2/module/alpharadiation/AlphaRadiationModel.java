@@ -14,7 +14,7 @@ import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
- * architecture that is used demonstrate Alpha Radiation within this sim.
+ * architecture that is used to demonstrate Alpha Radiation within this sim.
  *
  * @author John Blanco
  */
@@ -146,16 +146,7 @@ public class AlphaRadiationModel {
                 {
                     AlphaParticle alpha = (AlphaParticle)_alphaParticles.get( i );
 
-                    if (moveParticlesRand.nextDouble() > 0.90)
-                    {
-                        // Have this particle tunnel to a new location.
-                        alpha.tunnel( NUCLEUS_RADIUS, BREAKOUT_RADIUS * 1.02 );
-                    }
-                    else
-                    {
-                        // Have this particle move.
-                        alpha.autoTranslate();
-                    }
+                    alpha.autoTranslate();
                 }
             }
         });

@@ -24,6 +24,7 @@ import edu.colorado.phet.nuclearphysics2.developer.DeveloperMenu;
 import edu.colorado.phet.nuclearphysics2.menu.OptionsMenu;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModule;
 import edu.colorado.phet.nuclearphysics2.module.example.ExampleModule;
+import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModule;
 import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
 import edu.colorado.phet.nuclearphysics2.persistence.NuclearPhysics2Config;
 
@@ -50,7 +51,9 @@ public class NuclearPhysics2Application extends PhetApplication {
     // Module for the tab that displays alpha radiation behavior.
     private AlphaRadiationModule _alphaRadiationModule;
     
-
+    // Module for the tab that displays fission of a single atomic nucleus.
+    private FissionOneNucleusModule _fissionOneNucleusModule;
+    
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
 
@@ -103,6 +106,9 @@ public class NuclearPhysics2Application extends PhetApplication {
 
         _alphaRadiationModule = new AlphaRadiationModule( parentFrame );
         addModule( _alphaRadiationModule );
+
+        _fissionOneNucleusModule = new FissionOneNucleusModule( parentFrame );
+        addModule( _fissionOneNucleusModule );
 
         _exampleModule = new ExampleModule( parentFrame );
         addModule( _exampleModule );
