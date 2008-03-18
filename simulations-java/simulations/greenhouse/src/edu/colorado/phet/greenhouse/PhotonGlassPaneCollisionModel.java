@@ -14,7 +14,7 @@ public class PhotonGlassPaneCollisionModel {
 
     public static void handle( Photon photon, GlassPane glassPane ) {
 
-        if( irPassFilter.absorbs( photon.getWavelength() ) ) {
+        if ( irPassFilter.absorbs( photon.getWavelength() ) ) {
             double dt = GreenhouseApplication.getClock().getRequestedDT();
 
             Point2D p0 = new Point2D.Double( photon.getLocation().getX() - photon.getVelocity().getX() * dt,
@@ -26,7 +26,7 @@ public class PhotonGlassPaneCollisionModel {
                                           glassPane.getBounds().getY() + glassPane.getBounds().getHeight() / 2 );
             boolean photoCrossedGlassPaneCenterline = l.intersectsLine( p0.getX(), p0.getY(), p1.getX(), p1.getY() );
 
-            if( photoCrossedGlassPaneCenterline ) {
+            if ( photoCrossedGlassPaneCenterline ) {
                 doScatter( photon, glassPane );
             }
         }
@@ -40,11 +40,11 @@ public class PhotonGlassPaneCollisionModel {
         theta += Math.random() < 0.5 ? 0 : Math.PI;
         float vBar = photon.getVelocity().getMagnitude();
         Photon newPhoton = new Photon( photon.getWavelength(), glassPane );
-        newPhoton.setVelocity( vBar * (float)Math.cos( theta ),
-                               vBar * (float)Math.sin( theta ) );
+        newPhoton.setVelocity( vBar * (float) Math.cos( theta ),
+                               vBar * (float) Math.sin( theta ) );
 
         double y = glassPane.getBounds().getY();
-        if( theta % ( 2 * Math.PI ) < Math.PI ) {
+        if ( theta % ( 2 * Math.PI ) < Math.PI ) {
             y = glassPane.getBounds().getMaxY();
         }
         else {

@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.math.Vector2D;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common_greenhouse.math.Vector2D;
 
 public class PhotonEarthCollisionModel {
 
@@ -19,9 +19,9 @@ public class PhotonEarthCollisionModel {
     public static void handle( Photon photon, Earth earth ) {
 
         double separation = Math.abs( photon.getLocation().distance( earth.getLocation() ) );
-        if( separation <= Earth.radius ) {
-            loa.setComponents( (float)( photon.getLocation().getX() - earth.getLocation().getX() ),
-                               (float)( photon.getLocation().getY() - earth.getLocation().getY() ) );
+        if ( separation <= Earth.radius ) {
+            loa.setComponents( (float) ( photon.getLocation().getX() - earth.getLocation().getX() ),
+                               (float) ( photon.getLocation().getY() - earth.getLocation().getY() ) );
             earth.absorbPhoton( photon );
         }
 
@@ -30,7 +30,7 @@ public class PhotonEarthCollisionModel {
 //        }
 
 //        if( earth.getReflectivity( photon ) > 1 ) {
-        if( earth.getReflectivity( photon ) >= Math.random() ) {
+        if ( earth.getReflectivity( photon ) >= Math.random() ) {
             photon.setVelocity( photon.getVelocity().getX(), -photon.getVelocity().getY() );
         }
     }

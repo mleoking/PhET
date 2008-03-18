@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.coreadditions_greenhouse.graphics;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
+
+import javax.swing.*;
 
 /**
  * BufferedImageUtils
@@ -46,8 +47,8 @@ public class BufferedImageUtils {
     }
 
     public static BufferedImage rescaleFractional( BufferedImage in, double dx, double dy ) {
-        int width = (int)( in.getWidth() * dx );
-        int height = (int)( in.getHeight() * dy );
+        int width = (int) ( in.getWidth() * dx );
+        int height = (int) ( in.getHeight() * dy );
         BufferedImage newImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
 
         Graphics2D g2 = newImage.createGraphics();
@@ -69,7 +70,7 @@ public class BufferedImageUtils {
 
     public static BufferedImage flipX( BufferedImage source ) {
         int type = source.getType();
-        if( source.getType() == 0 ) {
+        if ( source.getType() == 0 ) {
             type = BufferedImage.TYPE_INT_ARGB;  //This is a hack that works.
         }
         BufferedImage output = new BufferedImage( source.getWidth(), source.getHeight(), type );
@@ -108,22 +109,22 @@ public class BufferedImageUtils {
         double alpha = 0;
         double w = bImage.getWidth();
         double h = bImage.getHeight();
-        if( theta >= 0 && theta <= Math.PI / 2 ) {
+        if ( theta >= 0 && theta <= Math.PI / 2 ) {
             x = h * Math.sin( theta );
             y = 0;
         }
-        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+        if ( theta > Math.PI / 2 && theta <= Math.PI ) {
             alpha = theta - Math.PI / 2;
             x = w * Math.sin( alpha ) + h * Math.cos( alpha );
             y = h * Math.sin( alpha );
         }
-        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+        if ( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
             alpha = theta - Math.PI;
             x = w * Math.cos( alpha );
             y = w * Math.sin( alpha ) + h * Math.cos( alpha );
         }
         // Works
-        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+        if ( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
             alpha = Math.PI * 2 - theta;
             x = 0;
             y = w * Math.sin( alpha );
@@ -140,8 +141,8 @@ public class BufferedImageUtils {
     // Taken from The Java Developer's Almanac, 1.4
     public static boolean hasAlpha( Image image ) {
         // If buffered image, the color model is readily available
-        if( image instanceof BufferedImage ) {
-            BufferedImage bimage = (BufferedImage)image;
+        if ( image instanceof BufferedImage ) {
+            BufferedImage bimage = (BufferedImage) image;
             return bimage.getColorModel().hasAlpha();
         }
 
@@ -167,8 +168,8 @@ public class BufferedImageUtils {
      */
     public static int getTransparency( Image image ) {
         // If buffered image, the color model is readily available
-        if( image instanceof BufferedImage ) {
-            BufferedImage bimage = (BufferedImage)image;
+        if ( image instanceof BufferedImage ) {
+            BufferedImage bimage = (BufferedImage) image;
             return bimage.getColorModel().getTransparency();
         }
         // Use a pixel grabber to retrieve the image's color model;
@@ -184,7 +185,7 @@ public class BufferedImageUtils {
         ColorModel cm = pg.getColorModel();
 
         int transparency = Transparency.OPAQUE;
-        if( cm != null ) {
+        if ( cm != null ) {
             transparency = cm.getTransparency();
         }
         return transparency;
@@ -193,8 +194,8 @@ public class BufferedImageUtils {
     // This method returns a buffered image with the contents of an image
     // Taken from The Java Developer's Almanac, 1.4
     public static BufferedImage toBufferedImage( Image image ) {
-        if( image instanceof BufferedImage ) {
-            return (BufferedImage)image;
+        if ( image instanceof BufferedImage ) {
+            return (BufferedImage) image;
         }
 
         // This code ensures that all the pixels in the image are loaded
@@ -214,11 +215,11 @@ public class BufferedImageUtils {
             // The system does not have a screen
         }
 
-        if( bimage == null ) {
+        if ( bimage == null ) {
             // Create a buffered image using the default color model
             boolean hasAlpha = hasAlpha( image );
             int type = BufferedImage.TYPE_INT_RGB;
-            if( hasAlpha ) {
+            if ( hasAlpha ) {
                 type = BufferedImage.TYPE_INT_ARGB;
             }
             bimage = new BufferedImage( image.getWidth( null ), image.getHeight( null ), type );

@@ -36,10 +36,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonFactory.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonFactory.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Cloud.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Cloud.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GlassPaneGraphic.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GlassPaneGraphic.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseConfig.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseConfig.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonGraphic.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonGraphic.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonGlassPaneCollisionModel.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonGlassPaneCollisionModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/ScatterEvent.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/ScatterEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GlassPaneControlPanel.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GlassPaneControlPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Star.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Star.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonCloudCollisionModel.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonCloudCollisionModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GlassPaneModule.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GlassPaneModule.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseControlPanel.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseControlPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseModule.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseModule.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Photon.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Photon.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/CloudGraphic.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/CloudGraphic.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/BlackHole.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/BlackHole.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/TestApparatusPanel.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/TestApparatusPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/AbstractPhotonEmitter.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/AbstractPhotonEmitter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/DiskGraphic.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/DiskGraphic.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/AbstractPhotonAbsorber.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/AbstractPhotonAbsorber.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseApplication.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseLegend.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseLegend.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseModel.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/ScatterEventGraphic.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/ScatterEventGraphic.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/EarthGraphic.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/EarthGraphic.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.ipr" afterPath="$PROJECT_DIR$/intellij-idea-all.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" afterPath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Earth.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Earth.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Atmosphere.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/Atmosphere.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/BaseGreenhouseModule.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/BaseGreenhouseModule.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/StarGraphic.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/StarGraphic.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonEarthCollisionModel.java" afterPath="$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/PhotonEarthCollisionModel.java" />
     </list>
     <list name="rotation-render" comment="" />
     <list name="build-12-7-2007" comment="" />
@@ -217,8 +243,25 @@
       <file leaf-file-name="EarthGraphic.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/EarthGraphic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="146" column="50" selection-start="6482" selection-end="6482" vertical-scroll-proportion="0.49522293">
-              <folding />
+            <state line="146" column="27" selection-start="6436" selection-end="6436" vertical-scroll-proportion="0.46815288">
+              <folding>
+                <marker date="1205838225933" expanded="false" signature="181:983" placeholder="..." />
+                <marker date="1205838225933" expanded="true" signature="5187:5258" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="5305:5524" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="5530:5605" placeholder="/**...*/" />
+                <marker date="1205838225933" expanded="true" signature="5645:6580" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="6607:6843" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="6877:6996" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="7031:7220" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="7249:7438" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="7466:7654" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="7683:7808" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="7841:7937" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="8028:8746" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="8833:9219" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="9302:9708" placeholder="{...}" />
+                <marker date="1205838225933" expanded="true" signature="9761:10783" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -235,8 +278,10 @@
       <file leaf-file-name="GreenhouseApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="36" selection-start="4308" selection-end="4308" vertical-scroll-proportion="0.45700637">
-              <folding />
+            <state line="88" column="36" selection-start="4309" selection-end="4309" vertical-scroll-proportion="0.45700637">
+              <folding>
+                <marker date="1205838225906" expanded="false" signature="171:1218" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -1205,15 +1250,34 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/GreenhouseApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="36" selection-start="4308" selection-end="4308" vertical-scroll-proportion="0.45700637">
-          <folding />
+        <state line="88" column="36" selection-start="4309" selection-end="4309" vertical-scroll-proportion="0.45700637">
+          <folding>
+            <marker date="1205838225906" expanded="false" signature="171:1218" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/EarthGraphic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="146" column="50" selection-start="6482" selection-end="6482" vertical-scroll-proportion="0.49522293">
-          <folding />
+        <state line="146" column="27" selection-start="6436" selection-end="6436" vertical-scroll-proportion="0.46815288">
+          <folding>
+            <marker date="1205838225933" expanded="false" signature="181:983" placeholder="..." />
+            <marker date="1205838225933" expanded="true" signature="5187:5258" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="5305:5524" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="5530:5605" placeholder="/**...*/" />
+            <marker date="1205838225933" expanded="true" signature="5645:6580" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="6607:6843" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="6877:6996" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="7031:7220" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="7249:7438" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="7466:7654" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="7683:7808" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="7841:7937" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="8028:8746" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="8833:9219" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="9302:9708" placeholder="{...}" />
+            <marker date="1205838225933" expanded="true" signature="9761:10783" placeholder="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>

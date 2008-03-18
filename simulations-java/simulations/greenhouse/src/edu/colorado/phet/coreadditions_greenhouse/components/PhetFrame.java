@@ -6,14 +6,15 @@
  */
 package edu.colorado.phet.coreadditions_greenhouse.components;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.application.PhetApplication;
 import edu.colorado.phet.common_greenhouse.view.components.menu.HelpMenu;
 import edu.colorado.phet.common_greenhouse.view.components.menu.PhetFileMenu;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;
@@ -68,7 +69,7 @@ public class PhetFrame extends JFrame {
 
     public void removeFileMenuItem( JMenuItem menuItem ) {
         JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
+        if ( testMenu != null && testMenu instanceof PhetFileMenu ) {
             getJMenuBar().remove( testMenu );
         }
         getJMenuBar().add( defaultFileMenu, 0 );
@@ -76,7 +77,7 @@ public class PhetFrame extends JFrame {
 
     public void setFileMenu( PhetFileMenu defaultFileMenu ) {
         JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
+        if ( testMenu != null && testMenu instanceof PhetFileMenu ) {
             getJMenuBar().remove( testMenu );
         }
         getJMenuBar().add( defaultFileMenu, 0 );

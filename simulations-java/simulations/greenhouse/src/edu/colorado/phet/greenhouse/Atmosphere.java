@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.coreadditions_greenhouse.Annulus;
-import edu.colorado.phet.filter.BandpassFilter;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+
+import edu.colorado.phet.coreadditions_greenhouse.Annulus;
+import edu.colorado.phet.filter.BandpassFilter;
 
 public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ implements PhotonEmitter, PhotonAbsorber {
 
@@ -49,13 +49,13 @@ public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ impleme
     public void interactWithPhoton( Photon photon ) {
 
         // Is the photon of a wavelength that is affected by greenhouse gasses?
-        if( greenhouseGasFilter.passes( photon.getWavelength() ) ) {
+        if ( greenhouseGasFilter.passes( photon.getWavelength() ) ) {
 
             // The likelihood of being scattered is dependent on the altitude
             double altitude = troposphere.distanceFromInnerDiameter( photon.getLocation() );
             double probability = ( troposphereThickness - altitude ) * greenhouseGasConcentration;
             boolean event = Math.random() <= probability;
-            if( event ) {
+            if ( event ) {
                 // Scatter the photon in a random direction
                 double dispersionAngle = Math.PI / 4;
                 double theta = Math.random() * dispersionAngle + ( Math.PI * 3 / 2 ) - ( dispersionAngle / 2 );
@@ -63,11 +63,11 @@ public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ impleme
 //                double theta = Math.random() * Math.PI * 2;
                 float vBar = photon.getVelocity().getMagnitude();
 
-                photon.setVelocity( vBar * (float)Math.cos( theta ),
-                                    vBar * (float)Math.sin( theta ) );
+                photon.setVelocity( vBar * (float) Math.cos( theta ),
+                                    vBar * (float) Math.sin( theta ) );
 
-                for( int i = 0; i < listeners.size(); i++ ) {
-                    ScatterEventListener scatterEventListener = (ScatterEventListener)listeners.get( i );
+                for ( int i = 0; i < listeners.size(); i++ ) {
+                    ScatterEventListener scatterEventListener = (ScatterEventListener) listeners.get( i );
                     scatterEventListener.photonScatered( photon );
                 }
 
@@ -107,8 +107,8 @@ public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ impleme
     private Photon photonToEmit;
 
     public Photon emitPhoton() {
-        for( Iterator iterator = photonEmitterListeners.iterator(); iterator.hasNext(); ) {
-            PhotonEmitter.Listener listener = (PhotonEmitter.Listener)iterator.next();
+        for ( Iterator iterator = photonEmitterListeners.iterator(); iterator.hasNext(); ) {
+            PhotonEmitter.Listener listener = (PhotonEmitter.Listener) iterator.next();
             listener.photonEmitted( photonToEmit );
         }
         return photonToEmit;
@@ -123,8 +123,8 @@ public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ impleme
     }
 
     public void absorbPhoton( Photon photon ) {
-        for( Iterator iterator = photonAbsorberListeners.iterator(); iterator.hasNext(); ) {
-            PhotonAbsorber.Listener listener = (PhotonAbsorber.Listener)iterator.next();
+        for ( Iterator iterator = photonAbsorberListeners.iterator(); iterator.hasNext(); ) {
+            PhotonAbsorber.Listener listener = (PhotonAbsorber.Listener) iterator.next();
             listener.photonAbsorbed( photon );
         }
     }

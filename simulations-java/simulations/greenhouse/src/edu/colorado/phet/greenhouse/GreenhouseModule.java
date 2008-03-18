@@ -6,16 +6,17 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_greenhouse.application.PhetApplication;
-import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
-import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-
-import javax.swing.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.application.PhetApplication;
+import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
+import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
 
 public class GreenhouseModule extends BaseGreenhouseModule {
 
@@ -81,15 +82,15 @@ public class GreenhouseModule extends BaseGreenhouseModule {
 
     public void cloudsEnabled( boolean enabled ) {
         Collection clouds = cloudsToGraphicMap.keySet();
-        for( Iterator iterator = clouds.iterator(); iterator.hasNext(); ) {
-            Cloud cloud = (Cloud)iterator.next();
-            if( !cloudsEnabled && enabled ) {
+        for ( Iterator iterator = clouds.iterator(); iterator.hasNext(); ) {
+            Cloud cloud = (Cloud) iterator.next();
+            if ( !cloudsEnabled && enabled ) {
                 getGreenhouseModel().addCloud( cloud );
-                getApparatusPanel().addGraphic( (Graphic)cloudsToGraphicMap.get( cloud ), ApparatusPanel.LAYER_DEFAULT );
+                getApparatusPanel().addGraphic( (Graphic) cloudsToGraphicMap.get( cloud ), ApparatusPanel.LAYER_DEFAULT );
             }
-            else if( cloudsEnabled && !enabled ) {
+            else if ( cloudsEnabled && !enabled ) {
                 getGreenhouseModel().removeCloud( cloud );
-                getApparatusPanel().removeGraphic( (Graphic)cloudsToGraphicMap.get( cloud ) );
+                getApparatusPanel().removeGraphic( (Graphic) cloudsToGraphicMap.get( cloud ) );
             }
         }
         cloudsEnabled = enabled;
@@ -98,17 +99,17 @@ public class GreenhouseModule extends BaseGreenhouseModule {
     public void numCloudsEnabled( int numClouds ) {
         Collection clouds = cloudsToGraphicMap.keySet();
         int n = 0;
-        for( Iterator iterator = clouds.iterator(); iterator.hasNext(); ) {
-            Cloud cloud = (Cloud)iterator.next();
+        for ( Iterator iterator = clouds.iterator(); iterator.hasNext(); ) {
+            Cloud cloud = (Cloud) iterator.next();
             getGreenhouseModel().removeCloud( cloud );
-            getApparatusPanel().removeGraphic( (Graphic)cloudsToGraphicMap.get( cloud ) );
+            getApparatusPanel().removeGraphic( (Graphic) cloudsToGraphicMap.get( cloud ) );
         }
-        for( Iterator iterator = clouds.iterator(); iterator.hasNext(); ) {
-            Cloud cloud = (Cloud)iterator.next();
+        for ( Iterator iterator = clouds.iterator(); iterator.hasNext(); ) {
+            Cloud cloud = (Cloud) iterator.next();
             n++;
-            if( n <= numClouds ) {
+            if ( n <= numClouds ) {
                 getGreenhouseModel().addCloud( cloud );
-                getApparatusPanel().addGraphic( (Graphic)cloudsToGraphicMap.get( cloud ), ApparatusPanel.LAYER_DEFAULT );
+                getApparatusPanel().addGraphic( (Graphic) cloudsToGraphicMap.get( cloud ), ApparatusPanel.LAYER_DEFAULT );
             }
         }
     }

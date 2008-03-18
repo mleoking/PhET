@@ -1,13 +1,14 @@
 /*, 2003.*/
 package edu.colorado.phet.coreadditions_greenhouse.components;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
 
 /**
  * A panel for the apparatus, large and in the left side.  A north panel for display, an east panel for controls, and a south panel for other controls.
@@ -32,7 +33,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setControlPanel( JComponent panel ) {
-        if( east != null ) {
+        if ( east != null ) {
             remove( east );
         }
         east = panel;
@@ -40,7 +41,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setMonitorPanel( JComponent panel ) {
-        if( north != null ) {
+        if ( north != null ) {
             remove( north );
         }
         north = panel;
@@ -48,7 +49,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setApparatusPanelContainer( JComponent panel ) {
-        if( center != null ) {
+        if ( center != null ) {
             remove( center );
         }
         center = panel;
@@ -56,7 +57,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     public void setAppControlPanel( JComponent panel ) {
-        if( south != null ) {
+        if ( south != null ) {
             remove( south );
         }
         south = panel;
@@ -64,7 +65,7 @@ public class BasicPhetPanel extends JPanel {
     }
 
     private void setPanel( JComponent component, String place ) {
-        if( component != null ) {
+        if ( component != null ) {
             add( component, place );
         }
         repaint();
@@ -72,12 +73,12 @@ public class BasicPhetPanel extends JPanel {
 
 
     public void toggleFullScreen() {
-        if( east != null && east.isVisible() ) {
+        if ( east != null && east.isVisible() ) {
             east.setVisible( false );
-            if( north != null ) {
+            if ( north != null ) {
                 north.setVisible( false );
             }
-            if( south != null ) {
+            if ( south != null ) {
                 south.setVisible( false );
             }
 
@@ -97,16 +98,16 @@ public class BasicPhetPanel extends JPanel {
             buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();
             buttonDlg.pack();
-            buttonDlg.setLocation( (int)( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
-                                   (int)( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
+            buttonDlg.setLocation( (int) ( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
+                                   (int) ( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
             buttonDlg.setVisible( true );
         }
         else {
             east.setVisible( true );
-            if( north != null ) {
+            if ( north != null ) {
                 north.setVisible( true );
             }
-            if( south != null ) {
+            if ( south != null ) {
                 south.setVisible( true );
             }
         }

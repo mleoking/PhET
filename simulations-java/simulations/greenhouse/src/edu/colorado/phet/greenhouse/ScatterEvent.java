@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.model.ModelElement;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common_greenhouse.model.ModelElement;
 
 public class ScatterEvent extends ModelElement {
     Point2D.Double location;
@@ -32,7 +32,7 @@ public class ScatterEvent extends ModelElement {
 
     public void stepInTime( double dt ) {
         this.radius -= .04;//t*radiusShrinkSpeed;
-        if( radius <= 0 ) {
+        if ( radius <= 0 ) {
             module.removeScatterEvent( this );
         }
         updateObservers();

@@ -32,11 +32,11 @@ import edu.colorado.phet.coreadditions_greenhouse.ModelViewTx1D;
 public class GreenhouseControlPanel extends JPanel {
 
     private static Color adjustableGGColor = Color.black;
-//    private static Color adjustableGGColor = Color.cyan;
+    //    private static Color adjustableGGColor = Color.cyan;
     //    private static Color adjustableGGColor = new Color( 255, 160, 180 );
     private static Color iceAgeColor = new Color( 0, 28, 229 );
     private static Color preIndRevColor = new Color( 176, 0, 219 );
-//    private static Color preIndRevColor = Color.green;
+    //    private static Color preIndRevColor = Color.green;
     //    private static Color todayColor = new Color( 60, 200, 255 );
     private static Color todayColor = new Color( 11, 142, 0 );
     //    private static Color todayColor = Color.yellow;
@@ -149,12 +149,12 @@ public class GreenhouseControlPanel extends JPanel {
         cloudsSpinner = new JSpinner( cloudSpinnerModel );
         cloudsSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                JSpinner spinner = (JSpinner)e.getSource();
-                int i = ( (Integer)spinner.getValue() ).intValue();
+                JSpinner spinner = (JSpinner) e.getSource();
+                int i = ( (Integer) spinner.getValue() ).intValue();
                 module.numCloudsEnabled( i );
             }
         } );
-        JFormattedTextField tf = ( (JSpinner.DefaultEditor)cloudsSpinner.getEditor() ).getTextField();
+        JFormattedTextField tf = ( (JSpinner.DefaultEditor) cloudsSpinner.getEditor() ).getTextField();
         tf.setEditable( false );
         tf.setBackground( Color.white );
 
@@ -186,7 +186,7 @@ public class GreenhouseControlPanel extends JPanel {
         allPhotonsCB = new JCheckBox( SimStrings.get( "GreenhouseControlPanel.ViewPhotonsCheckbox" ) );
         allPhotonsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( allPhotonsCB.isSelected() ) {
+                if ( allPhotonsCB.isSelected() ) {
                     module.setVisiblePhotonRatio( 1.0 );
                 }
                 else {
@@ -491,7 +491,7 @@ public class GreenhouseControlPanel extends JPanel {
                                                              GridBagConstraints.EAST,
                                                              GridBagConstraints.NONE,
                                                              new Insets( 0, 5, 0, 5 ), 0, 0 );
-            for( int rowIdx = 0; rowIdx < concentrations.length; rowIdx++ ) {
+            for ( int rowIdx = 0; rowIdx < concentrations.length; rowIdx++ ) {
                 gbc.gridy = rowIdx;
                 gbc.gridx = 0;
                 gbc.anchor = GridBagConstraints.EAST;
@@ -525,7 +525,7 @@ public class GreenhouseControlPanel extends JPanel {
                                     0, 10000 );
             slider = new JSlider( SwingConstants.HORIZONTAL, 0,
                                   10000,
-                                  (int)tx.modelToView( defaultModelValue ) );
+                                  (int) tx.modelToView( defaultModelValue ) );
             slider.setPaintLabels( true );
             int rowIdx = 0;
             try {
@@ -551,27 +551,27 @@ public class GreenhouseControlPanel extends JPanel {
             JLabel todayTick = new JLabel( "|" );
             todayTick.setFont( tickFont );
             todayTick.setForeground( todayColor );
-            labelTable.put( new Integer( (int)tx.modelToView( GreenhouseConfig.greenhouseGasConcentrationIceAge ) ),
+            labelTable.put( new Integer( (int) tx.modelToView( GreenhouseConfig.greenhouseGasConcentrationIceAge ) ),
                             iceAgeTick );
-            labelTable.put( new Integer( (int)tx.modelToView( GreenhouseConfig.greenhouseGasConcentrationToday ) ),
+            labelTable.put( new Integer( (int) tx.modelToView( GreenhouseConfig.greenhouseGasConcentrationToday ) ),
                             todayTick );
-            labelTable.put( new Integer( (int)tx.modelToView( GreenhouseConfig.greenhouseGasConcentration1750 ) ),
+            labelTable.put( new Integer( (int) tx.modelToView( GreenhouseConfig.greenhouseGasConcentration1750 ) ),
                             preIndRevTick );
 
             JLabel noneTick = new JLabel( SimStrings.get( "GreenhouseControlPanel.None" ) );
             JLabel lotsTick = new JLabel( SimStrings.get( "GreenhouseControlPanel.Lots" ) );
-            labelTable.put( new Integer( (int)tx.modelToView( maxModelValue ) ),
+            labelTable.put( new Integer( (int) tx.modelToView( maxModelValue ) ),
                             lotsTick );
-            labelTable.put( new Integer( (int)tx.modelToView( minModelValue ) ),
+            labelTable.put( new Integer( (int) tx.modelToView( minModelValue ) ),
                             noneTick );
 
             slider.setLabelTable( labelTable );
-            slider.setMajorTickSpacing( (int)( tx.modelToView( maxModelValue ) - tx.modelToView( minModelValue ) ) );
+            slider.setMajorTickSpacing( (int) ( tx.modelToView( maxModelValue ) - tx.modelToView( minModelValue ) ) );
             slider.setPaintTicks( true );
         }
 
         void setMaxValue( double value ) {
-            int max = (int)tx.modelToView( value );
+            int max = (int) tx.modelToView( value );
             slider.setMaximum( max );
         }
 
@@ -584,7 +584,7 @@ public class GreenhouseControlPanel extends JPanel {
         }
 
         void setModelValue( double value ) {
-            slider.setValue( (int)tx.modelToView( value ) );
+            slider.setValue( (int) tx.modelToView( value ) );
             putClientProperty( "JSlider.isFilled", Boolean.TRUE );
         }
 
@@ -596,9 +596,9 @@ public class GreenhouseControlPanel extends JPanel {
         void addTick( double value, Color color ) {
             JLabel label = new JLabel( "|" );
             label.setForeground( color );
-            Integer loc = new Integer( (int)tx.modelToView( value ) );
+            Integer loc = new Integer( (int) tx.modelToView( value ) );
             Dictionary labelTable = slider.getLabelTable();
-            if( labelTable == null ) {
+            if ( labelTable == null ) {
                 labelTable = new Hashtable();
                 labelTable.put( loc, label );
                 slider.setLabelTable( labelTable );
@@ -629,7 +629,7 @@ public class GreenhouseControlPanel extends JPanel {
                                     0, 100 );
             slider = new JSlider( SwingConstants.HORIZONTAL, 0,
                                   100,
-                                  (int)tx.modelToView( defaultModelValue ) );
+                                  (int) tx.modelToView( defaultModelValue ) );
             slider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     double rate = tx.viewToModel( slider.getValue() );
@@ -671,10 +671,10 @@ public class GreenhouseControlPanel extends JPanel {
 
     private class TemperatureUnitsSetter implements ActionListener {
         public void actionPerformed( ActionEvent e ) {
-            if( fahrenheitRB.isSelected() ) {
+            if ( fahrenheitRB.isSelected() ) {
                 GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.FAHRENHEIT;
             }
-            else if( celsiusRB.isSelected() ) {
+            else if ( celsiusRB.isSelected() ) {
                 GreenhouseConfig.TEMPERATURE_UNITS = GreenhouseConfig.CELSIUS;
             }
         }

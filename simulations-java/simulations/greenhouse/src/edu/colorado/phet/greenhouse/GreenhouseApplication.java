@@ -6,6 +6,12 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -19,11 +25,6 @@ import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.Appara
 import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
 import edu.colorado.phet.coreadditions_greenhouse.clock.StaticClockModel;
 import edu.colorado.phet.coreadditions_greenhouse.clock.SwingTimerClock;
-
-import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import javax.swing.*;
 
 /**
  * General comments, issues:
@@ -111,8 +112,8 @@ public class GreenhouseApplication extends PhetApplication {
 
     public static void paintContentImmediately() {
         Container contentPane = s_application.getApplicationView().getPhetFrame().getContentPane();
-        if( contentPane instanceof JComponent ) {
-            JComponent jComponent = (JComponent)contentPane;
+        if ( contentPane instanceof JComponent ) {
+            JComponent jComponent = (JComponent) contentPane;
             jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
         }
     }

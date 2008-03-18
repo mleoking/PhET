@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.coreadditions_greenhouse.Disk;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.coreadditions_greenhouse.Disk;
 
 public class Photon extends Disk {
 
@@ -32,8 +32,8 @@ public class Photon extends Disk {
     }
 
     public void setDirection( double theta ) {
-        super.setVelocity( (float)( speedOfLight * Math.cos( theta ) ),
-                           (float)( speedOfLight * Math.sin( theta ) ) );
+        super.setVelocity( (float) ( speedOfLight * Math.cos( theta ) ),
+                           (float) ( speedOfLight * Math.sin( theta ) ) );
     }
 
     public double getMass() {

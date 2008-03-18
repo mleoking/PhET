@@ -63,7 +63,6 @@ public class StarGraphic extends DiskGraphic {
             }
         }
 
-
         // draw flares
         double angleSubtended = Math.PI * 2 / numFlares;
 //        int flareIdx = 0;

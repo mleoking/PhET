@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+
 import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
 import edu.colorado.phet.coreadditions_greenhouse.Disk;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 public class DiskGraphic implements Graphic, ShapeGraphicType {
     private Disk disk;

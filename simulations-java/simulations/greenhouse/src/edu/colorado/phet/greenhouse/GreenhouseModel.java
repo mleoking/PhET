@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common_greenhouse.model.BaseModel;
 import edu.colorado.phet.common_greenhouse.model.IClock;
 import edu.colorado.phet.common_greenhouse.model.ModelElement;
-
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener, PhotonAbsorber.Listener {
     private Star sun;
@@ -45,17 +45,17 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
 
         // Check for interactions between photons and other elements
         // in the model
-        for( int i = photons.size() - 1; i >= 0; i-- ) {
-            Photon photon = (Photon)photons.get( i );
+        for ( int i = photons.size() - 1; i >= 0; i-- ) {
+            Photon photon = (Photon) photons.get( i );
             PhotonEarthCollisionModel.handle( photon, earth );
 
-            for( int j = 0; j < clouds.size(); j++ ) {
-                Cloud cloud = (Cloud)clouds.get( j );
+            for ( int j = 0; j < clouds.size(); j++ ) {
+                Cloud cloud = (Cloud) clouds.get( j );
                 PhotonCloudCollisionModel.handle( photon, cloud );
             }
 
-            for( int j = 0; j < glassPanes.size(); j++ ) {
-                GlassPane glassPane = (GlassPane)glassPanes.get( j );
+            for ( int j = 0; j < glassPanes.size(); j++ ) {
+                GlassPane glassPane = (GlassPane) glassPanes.get( j );
                 PhotonGlassPaneCollisionModel.handle( photon, glassPane );
             }
             atmosphere.interactWithPhoton( photon );

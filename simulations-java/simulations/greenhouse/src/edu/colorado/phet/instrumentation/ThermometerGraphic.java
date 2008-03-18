@@ -6,11 +6,6 @@
  */
 package edu.colorado.phet.instrumentation;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
-import edu.colorado.phet.greenhouse.GreenhouseConfig;
-
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -24,6 +19,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Observable;
 import java.util.Observer;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
+import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.greenhouse.GreenhouseConfig;
 
 public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
 
@@ -54,7 +54,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
             Rectangle2D origBounds;
 
             public void componentResized( ComponentEvent e ) {
-                if( !init ) {
+                if ( !init ) {
                     init = true;
                     origBounds = e.getComponent().getBounds();
                 }
@@ -106,7 +106,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
                                                                      temperatureHeight );
 
         // Draw everything
-        Graphics2D gbi = (Graphics2D)thermometerBI.getGraphics();
+        Graphics2D gbi = (Graphics2D) thermometerBI.getGraphics();
         gbi.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1 ) );
         gbi.drawImage( thermometerBackground, 0, 0, this );
         gbi.setColor( Color.RED );
@@ -135,11 +135,11 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
         // Fahrenheit
         double nonKelvinTemperature = 0;
         String units = "";
-        if( GreenhouseConfig.TEMPERATURE_UNITS == GreenhouseConfig.FAHRENHEIT ) {
+        if ( GreenhouseConfig.TEMPERATURE_UNITS == GreenhouseConfig.FAHRENHEIT ) {
             nonKelvinTemperature = kelvinToFahrenheit( thermometer.getTemperature() );
             units = SimStrings.get( "ThermometerGraphic.FahrenheitUnits" );
         }
-        else if( GreenhouseConfig.TEMPERATURE_UNITS == GreenhouseConfig.CELSIUS ) {
+        else if ( GreenhouseConfig.TEMPERATURE_UNITS == GreenhouseConfig.CELSIUS ) {
             nonKelvinTemperature = kelvinToCelcius( thermometer.getTemperature() );
             units = SimStrings.get( "ThermometerGraphic.CelsiusUnits" );
         }
@@ -196,7 +196,7 @@ public class ThermometerGraphic implements Graphic, ImageObserver, Observer {
     }
 
     public void update( Observable o, Object arg ) {
-        if( o instanceof Thermometer ) {
+        if ( o instanceof Thermometer ) {
             this.update();
         }
     }

@@ -37,8 +37,8 @@ public class PhotonFactory implements PhotonEmitter, PhotonAbsorber {
 
     public Photon emitPhoton() {
 
-        for( Iterator iterator = emitterListeners.iterator(); iterator.hasNext(); ) {
-            PhotonEmitter.Listener listener = (PhotonEmitter.Listener)iterator.next();
+        for ( Iterator iterator = emitterListeners.iterator(); iterator.hasNext(); ) {
+            PhotonEmitter.Listener listener = (PhotonEmitter.Listener) iterator.next();
             listener.photonEmitted( emittedPhoton );
         }
         return null;
@@ -53,8 +53,8 @@ public class PhotonFactory implements PhotonEmitter, PhotonAbsorber {
     }
 
     public void absorbPhoton( Photon photon ) {
-        for( Iterator iterator = absorberListeners.iterator(); iterator.hasNext(); ) {
-            PhotonAbsorber.Listener listener = (PhotonAbsorber.Listener)iterator.next();
+        for ( Iterator iterator = absorberListeners.iterator(); iterator.hasNext(); ) {
+            PhotonAbsorber.Listener listener = (PhotonAbsorber.Listener) iterator.next();
             listener.photonAbsorbed( photon );
         }
     }
