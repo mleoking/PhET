@@ -6,15 +6,15 @@
  */
 package edu.colorado.phet.coreadditions_greenhouse.graphics;
 
-import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+
+import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
+import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
 
 public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
 
@@ -79,9 +79,9 @@ public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
 
     public boolean contains( Point2D.Double p ) {
         boolean result = false;
-        if( orgTx != null
-            && p.getX() >= location.getX() && p.getX() < this.location.getX() + image.getWidth() / orgTx.getScaleX()
-            && p.getY() >= location.getY() && p.getY() < this.location.getY() + Math.abs( image.getHeight() / orgTx.getScaleY() ) ) {
+        if ( orgTx != null
+             && p.getX() >= location.getX() && p.getX() < this.location.getX() + image.getWidth() / orgTx.getScaleX()
+             && p.getY() >= location.getY() && p.getY() < this.location.getY() + Math.abs( image.getHeight() / orgTx.getScaleY() ) ) {
             result = true;
         }
         return result;
@@ -90,14 +90,14 @@ public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
 
     public int getRGB( Point2D.Double p ) {
         int result = 0;
-        if( orgTx != null ) {
+        if ( orgTx != null ) {
 
             // Note the Math.abs() call in determining the upper bound of the image. This may or may not be
             // universally correct
-            if( this.contains( p ) ) {
+            if ( this.contains( p ) ) {
                 Point2D p2 = orgTx.transform( p, null );
-                int x = Math.min( image.getWidth() - 1, Math.max( 0, (int)p2.getX() ) );
-                int y = Math.min( image.getHeight() - 1, Math.max( 0, (int)p2.getY() ) );
+                int x = Math.min( image.getWidth() - 1, Math.max( 0, (int) p2.getX() ) );
+                int y = Math.min( image.getHeight() - 1, Math.max( 0, (int) p2.getY() ) );
                 return getBufferedImage().getRGB( x, y );
             }
         }

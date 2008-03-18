@@ -1,17 +1,18 @@
 /*, 2003.*/
 package edu.colorado.phet.coreadditions_greenhouse.components;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.model.ApplicationModel;
 import edu.colorado.phet.common_greenhouse.model.command.Command;
 import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -128,7 +129,7 @@ public class ApplicationModelControlPanel extends JPanel {
         ImageIcon resetIcon = new ImageIcon( resetU );
         resetButton = new JButton( SimStrings.get( "ApplicationModelControlPanel.ResetButton" ), resetIcon );
         resetButton.addActionListener( new ResetActionListener() );
-        if( rh != null ) {
+        if ( rh != null ) {
             add( resetButton );
         }
 
@@ -144,7 +145,7 @@ public class ApplicationModelControlPanel extends JPanel {
     }
 
     public void setResettable( Resettable r ) {
-        if( r == null ) {
+        if ( r == null ) {
             remove( resetButton );
         }
         else {

@@ -25,14 +25,14 @@ public class BlackHole extends BasicPhotonAbsorber {
                               model.getBounds().getWidth() + 20 );
         // If a photon is way outside the view, delete it
         ArrayList photonsToRemove = new ArrayList();
-        for( int i = 0; i < model.getPhotons().size(); i++ ) {
-            Photon photon = (Photon)model.getPhotons().get( i );
-            if( !eventHorizon.contains( photon.getLocation() ) ) {
+        for ( int i = 0; i < model.getPhotons().size(); i++ ) {
+            Photon photon = (Photon) model.getPhotons().get( i );
+            if ( !eventHorizon.contains( photon.getLocation() ) ) {
                 photonsToRemove.add( photon );
             }
         }
-        for( int i = 0; i < photonsToRemove.size(); i++ ) {
-            Photon photon = (Photon)photonsToRemove.get( i );
+        for ( int i = 0; i < photonsToRemove.size(); i++ ) {
+            Photon photon = (Photon) photonsToRemove.get( i );
             notifyListeners( photon );
             model.removePhoton( photon );
 //            model.getPhotons().remove( photon );

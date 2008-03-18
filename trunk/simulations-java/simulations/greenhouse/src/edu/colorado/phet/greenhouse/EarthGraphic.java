@@ -7,13 +7,6 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
-import edu.colorado.phet.common_greenhouse.view.graphics.Animation;
-import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
-
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -26,6 +19,13 @@ import java.awt.image.ColorModel;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
+import edu.colorado.phet.common_greenhouse.view.graphics.Animation;
+import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
+import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
 
 /**
  * Quirks:
@@ -76,7 +76,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         earthLoc.setLocation( earthLoc.getX() - earth.getRadius() / 2,
                               earthLoc.getY() + earth.getRadius() / 2 );
         this.earthTx = AffineTransform.getScaleInstance( gifToModelScale, -gifToModelScale );
-        System.out.println( "gifToModelScale="+gifToModelScale );
+        System.out.println( "gifToModelScale=" + gifToModelScale );
         earthTx.translate( -this.gif.getWidth() / 2, 0 );
         apparatusPanel.addGraphic( this, GreenhouseConfig.EARTH_BASE_LAYER + 1 );
 
@@ -92,8 +92,8 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
                 Component component = e.getComponent();
                 Rectangle2D newBounds = component.getBounds();
                 // Create a scaled version of each original backdrop image
-                for( Iterator iterator = scaledBackgroundImages.keySet().iterator(); iterator.hasNext(); ) {
-                    BufferedImage origImage = (BufferedImage)iterator.next();
+                for ( Iterator iterator = scaledBackgroundImages.keySet().iterator(); iterator.hasNext(); ) {
+                    BufferedImage origImage = (BufferedImage) iterator.next();
                     double scale = newBounds.getWidth() / origImage.getWidth();
                     AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
                     AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
@@ -102,7 +102,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
                 }
 
                 // Set the proper backdrop
-                if( currentBackdropImage != null ) {
+                if ( currentBackdropImage != null ) {
                     setBackDropImage( currentBackdropImage, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );
                 }
             }
@@ -116,7 +116,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
     public int getPixelColor( int x, int y ) {
         int result = 0;
-        if( backdropGraphic != null ) {
+        if ( backdropGraphic != null ) {
             result = backdropGraphic.getBufferedImage().getRGB( x, y );
             System.out.println( result );
         }
@@ -129,21 +129,22 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
     public void paint( Graphics2D g2 ) {
 
         // Compute color for the earth, based on its temperature
-        int red = Math.max( 0, Math.min( (int)( earth.getTemperature() - GreenhouseConfig.earthBaseTemperature ), 255 ) );
+        int red = Math.max( 0, Math.min( (int) ( earth.getTemperature() - GreenhouseConfig.earthBaseTemperature ), 255 ) );
         int redSum = 0;
-        for( int i = numRedsToAve - 1; i > 0; i-- ) {
+        for ( int i = numRedsToAve - 1; i > 0; i-- ) {
             redsToAve[i] = redsToAve[i - 1];
             redSum += redsToAve[i];
         }
         redsToAve[0] = red;
         redSum += red;
         red = Math.min( 2 * redSum / numRedsToAve, 255 );
-        if( earthAnimation != null ) {
-            try{
-            g2.drawImage( earthAnimation.getCurrFrame(), earthTx, null );
-            }catch (OutOfMemoryError outOfMemoryError){
-                System.out.println( "Caught OutOfMemoryError: "+outOfMemoryError );
-                outOfMemoryError.printStackTrace(  );
+        if ( earthAnimation != null ) {
+            try {
+                g2.drawImage( earthAnimation.getCurrFrame(), earthTx, null );
+            }
+            catch( OutOfMemoryError outOfMemoryError ) {
+                System.out.println( "Caught OutOfMemoryError: " + outOfMemoryError );
+                outOfMemoryError.printStackTrace();
                 System.out.println( "Continuing..." );
             }
         }
@@ -152,10 +153,10 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
     public void update() {
         double temperature = 0;
-        if( earth != null ) {
+        if ( earth != null ) {
             temperature = earth.getTemperature();
         }
-        disk.setPaint( new Color( Math.min( (int)temperature, 255 ), 180, 20 ) );
+        disk.setPaint( new Color( Math.min( (int) temperature, 255 ), 180, 20 ) );
         disk.update();
     }
 
@@ -216,10 +217,10 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
     private void setBackDrop( BufferedImage backdropImage, Point2D.Double location ) {
         currentBackdropImage = backdropImage;
-        if( backdropGraphic != null ) {
+        if ( backdropGraphic != null ) {
             apparatusPanel.removeGraphic( backdropGraphic );
         }
-        if( backdropImage != null ) {
+        if ( backdropImage != null ) {
             backdropGraphic = new ImageGraphic( backdropImage, location );
             apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
         }
@@ -227,21 +228,21 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 
     private void setBackDropImage( BufferedImage bImg, Point2D.Double location ) {
         currentBackdropImage = bImg;
-        if( backdropGraphic != null ) {
+        if ( backdropGraphic != null ) {
             apparatusPanel.removeGraphic( backdropGraphic );
         }
-        BufferedImage scaledImage = (BufferedImage)scaledBackgroundImages.get( bImg );
+        BufferedImage scaledImage = (BufferedImage) scaledBackgroundImages.get( bImg );
         backdropGraphic = new ImageGraphic( scaledImage, location );
         apparatusPanel.addGraphic( backdropGraphic, GreenhouseConfig.EARTH_BACKDROP_LAYER );
     }
 
     public double getReflectivity( Photon photon ) {
         double reflectivity = 0;
-        if( isIceAge ) {
-            if( backdropGraphic != null
-                && backdropGraphic.contains( photon.getLocation() )
-                && photon.getVelocity().getY() < 0
-                && photon.getWavelength() == GreenhouseConfig.sunlightWavelength ) {
+        if ( isIceAge ) {
+            if ( backdropGraphic != null
+                 && backdropGraphic.contains( photon.getLocation() )
+                 && photon.getVelocity().getY() < 0
+                 && photon.getWavelength() == GreenhouseConfig.sunlightWavelength ) {
 
                 // The 1 in the following line is a hack number that is needed to make the locations work out
                 pUtil.setLocation( photon.getLocation().getX(), photon.getLocation().getY() + 1 );
@@ -250,7 +251,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
                 int red = colorModel.getRed( pixel );
                 int blue = colorModel.getBlue( pixel );
                 int green = colorModel.getGreen( pixel );
-                if( red == 255 && green == 255 && blue == 255 ) {
+                if ( red == 255 && green == 255 && blue == 255 ) {
                     reflectivity = .6;
                 }
             }
@@ -273,10 +274,10 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
         }
 
         public void run() {
-            while( !stop ) {
+            while ( !stop ) {
                 try {
                     Thread.sleep( 1000 / 20 );
-                    if( earthAnimation != null ) {
+                    if ( earthAnimation != null ) {
                         earthAnimation.getNextFrame();
                     }
                 }

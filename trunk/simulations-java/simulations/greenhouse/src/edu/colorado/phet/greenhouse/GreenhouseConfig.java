@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
-
 import java.awt.*;
+
+import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
 
 public class GreenhouseConfig {
 

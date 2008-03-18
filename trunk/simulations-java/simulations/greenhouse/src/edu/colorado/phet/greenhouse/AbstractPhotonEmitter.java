@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.model.ModelElement;
-
 import java.util.HashSet;
 import java.util.Iterator;
+
+import edu.colorado.phet.common_greenhouse.model.ModelElement;
 
 public abstract class AbstractPhotonEmitter extends ModelElement implements PhotonEmitter {
     private double productionRate;
@@ -35,8 +35,8 @@ public abstract class AbstractPhotonEmitter extends ModelElement implements Phot
 
     public void stepInTime( double dt ) {
         timeSincePhotonsProduced += dt;
-        int numPhotons = (int)( productionRate * timeSincePhotonsProduced );
-        for( int i = 0; i < numPhotons; i++ ) {
+        int numPhotons = (int) ( productionRate * timeSincePhotonsProduced );
+        for ( int i = 0; i < numPhotons; i++ ) {
             Photon photon = emitPhoton();
             notifyListeners( photon );
             timeSincePhotonsProduced = 0;
@@ -45,8 +45,8 @@ public abstract class AbstractPhotonEmitter extends ModelElement implements Phot
 
     // Notify all listeners
     protected void notifyListeners( Photon photon ) {
-        for( Iterator iterator = listeners.iterator(); iterator.hasNext(); ) {
-            Listener listener = (Listener)iterator.next();
+        for ( Iterator iterator = listeners.iterator(); iterator.hasNext(); ) {
+            Listener listener = (Listener) iterator.next();
             listener.photonEmitted( photon );
         }
     }

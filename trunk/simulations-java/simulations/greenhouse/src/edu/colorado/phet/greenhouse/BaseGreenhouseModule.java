@@ -6,6 +6,14 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.application.Module;
 import edu.colorado.phet.common_greenhouse.application.PhetApplication;
@@ -18,13 +26,6 @@ import edu.colorado.phet.filter.BandpassFilter;
 import edu.colorado.phet.filter.Filter1D;
 import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.instrumentation.ThermometerGraphic;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
-import java.util.Iterator;
 
 
 public abstract class BaseGreenhouseModule extends Module {
@@ -146,7 +147,7 @@ public abstract class BaseGreenhouseModule extends Module {
         thermometerEnabled( false );
 
         // Kick off the zoom
-        if( !s_zoomed ) {
+        if ( !s_zoomed ) {
             s_zoomed = true;
             Zoomer zoomer = new Zoomer( initialModelBounds, finalModelBounds );
             zoomer.start();
@@ -157,9 +158,9 @@ public abstract class BaseGreenhouseModule extends Module {
             earthGraphic.stopAnimation();
             atmosphereGraphic.setVisible( true );
 
-            ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( finalModelBounds );
+            ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
             thermometerEnabled( true );
-            ( (TestApparatusPanel)getApparatusPanel() ).setAffineTransformFactory( new FlipperAffineTransformFactory( finalModelBounds ) );
+            ( (TestApparatusPanel) getApparatusPanel() ).setAffineTransformFactory( new FlipperAffineTransformFactory( finalModelBounds ) );
             sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
         }
     }
@@ -177,27 +178,27 @@ public abstract class BaseGreenhouseModule extends Module {
         earth.reset();
         sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
 
-        java.util.List photons = ( (GreenhouseModel)getModel() ).getPhotons();
-        for( int i = 0; i < photons.size(); i++ ) {
-            Photon photon = (Photon)photons.get( i );
-            ( (GreenhouseModel)getModel() ).photonAbsorbed( photon );
+        java.util.List photons = ( (GreenhouseModel) getModel() ).getPhotons();
+        for ( int i = 0; i < photons.size(); i++ ) {
+            Photon photon = (Photon) photons.get( i );
+            ( (GreenhouseModel) getModel() ).photonAbsorbed( photon );
         }
 
-        photons = ( (GreenhouseModel)getModel() ).getPhotons();
-        ( (GreenhouseModel)getModel() ).getPhotons().clear();
+        photons = ( (GreenhouseModel) getModel() ).getPhotons();
+        ( (GreenhouseModel) getModel() ).getPhotons().clear();
         sun.setProductionRate( GreenhouseConfig.defaultSunPhotonProductionRate );
 
         Iterator keyIt = photonToGraphicsMap.keySet().iterator();
-        while( keyIt.hasNext() ) {
+        while ( keyIt.hasNext() ) {
             Object o = keyIt.next();
-            PhotonGraphic pg = (PhotonGraphic)photonToGraphicsMap.get( o );
+            PhotonGraphic pg = (PhotonGraphic) photonToGraphicsMap.get( o );
             getApparatusPanel().removeGraphic( pg );
         }
         photonToGraphicsMap.clear();
     }
 
     public GreenhouseModel getGreenhouseModel() {
-        return (GreenhouseModel)getModel();
+        return (GreenhouseModel) getModel();
     }
 
     public Earth getEarth() {
@@ -210,7 +211,7 @@ public abstract class BaseGreenhouseModule extends Module {
 
     public void thermometerEnabled( boolean enabled ) {
         thermometerEnabled = enabled;
-        if( enabled ) {
+        if ( enabled ) {
             getApparatusPanel().addGraphic( thermometerGraphic, ApparatusPanel.LAYER_DEFAULT );
 
         }
@@ -221,20 +222,20 @@ public abstract class BaseGreenhouseModule extends Module {
 
     public void setVisiblePhotonRatio( double ratio ) {
         double cnt = 0;
-        for( Iterator iterator = photonToGraphicsMap.keySet().iterator(); iterator.hasNext(); ) {
-            PhotonGraphic graphic = (PhotonGraphic)photonToGraphicsMap.get( iterator.next() );
+        for ( Iterator iterator = photonToGraphicsMap.keySet().iterator(); iterator.hasNext(); ) {
+            PhotonGraphic graphic = (PhotonGraphic) photonToGraphicsMap.get( iterator.next() );
             cnt += ratio;
             drawingCanvas.removeGraphic( graphic );
             graphic.setVisible( false );
-            if( cnt >= 1 ) {
+            if ( cnt >= 1 ) {
                 drawingCanvas.addGraphic( graphic, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER );
                 graphic.setVisible( true );
                 cnt = 0;
             }
         }
-        invisiblePhotonCnt = (int)( 1 / ratio );
-        earthPhotonEmitterListener.setInvisiblePhotonCnt( (int)( 1 / ratio ) );
-        sunPhotonEmitterListener.setInvisiblePhotonCnt( (int)( 1 / ratio ) );
+        invisiblePhotonCnt = (int) ( 1 / ratio );
+        earthPhotonEmitterListener.setInvisiblePhotonCnt( (int) ( 1 / ratio ) );
+        sunPhotonEmitterListener.setInvisiblePhotonCnt( (int) ( 1 / ratio ) );
     }
 
     public boolean isThermometerEnabled() {
@@ -243,7 +244,7 @@ public abstract class BaseGreenhouseModule extends Module {
 
     public void removeScatterEvent( ScatterEvent event ) {
         getModel().removeModelElement( event );
-        ScatterEventGraphic seg = (ScatterEventGraphic)scatterToGraphicMap.get( event );
+        ScatterEventGraphic seg = (ScatterEventGraphic) scatterToGraphicMap.get( event );
         getApparatusPanel().removeGraphic( seg );
         scatterToGraphicMap.remove( event );
     }
@@ -290,7 +291,7 @@ public abstract class BaseGreenhouseModule extends Module {
             PhotonGraphic photonView = new PhotonGraphic( photon );
             photonToGraphicsMap.put( photon, photonView );
             photonView.setVisible( false );
-            if( n >= invisiblePhotonCnt ) {
+            if ( n >= invisiblePhotonCnt ) {
                 photonView.setVisible( true );
                 double layer = irFilter.absorbs( photon.getWavelength() )
                                ? GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER
@@ -309,7 +310,7 @@ public abstract class BaseGreenhouseModule extends Module {
     protected class PhotonAbsorberListener implements PhotonAbsorber.Listener {
         public void photonAbsorbed( Photon photon ) {
             Filter1D irPassFilter = new BandpassFilter( 800E-9, 1500E-9 );
-            PhotonGraphic photonView = (PhotonGraphic)photonToGraphicsMap.get( photon );
+            PhotonGraphic photonView = (PhotonGraphic) photonToGraphicsMap.get( photon );
 //            getApparatusPanel().removeGraphic( photonView );
             drawingCanvas.removeGraphic( photonView );
             photonToGraphicsMap.remove( photon );
@@ -318,10 +319,10 @@ public abstract class BaseGreenhouseModule extends Module {
 
     public class ModuleScatterEventListener implements Atmosphere.ScatterEventListener {
         public void photonScatered( Photon photon ) {
-            if( photonToGraphicsMap.get( photon ) != null ) {
+            if ( photonToGraphicsMap.get( photon ) != null ) {
                 ScatterEvent se = new ScatterEvent( photon, BaseGreenhouseModule.this );
                 getModel().addModelElement( se );
-                if( ( (PhotonGraphic)photonToGraphicsMap.get( photon ) ).isVisible() ) {
+                if ( ( (PhotonGraphic) photonToGraphicsMap.get( photon ) ).isVisible() ) {
                     ScatterEventGraphic seg = new ScatterEventGraphic( se );
                     getApparatusPanel().addGraphic( seg, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER - 1 );
                     scatterToGraphicMap.put( se, seg );
@@ -351,7 +352,7 @@ public abstract class BaseGreenhouseModule extends Module {
                 earthGraphic.setNoBackdrop();
 
                 // Sit here until things outside this thread are initialized
-                while( PhetApplication.instance() == null ) {
+                while ( PhetApplication.instance() == null ) {
                     Thread.sleep( 200 );
                 }
 
@@ -366,7 +367,7 @@ public abstract class BaseGreenhouseModule extends Module {
                 boolean doZoom = false;
 
                 Object val = jop.getValue();
-                if( val instanceof String ) {
+                if ( val instanceof String ) {
                     doZoom = val.equals( options[0] );
                 }
 //                Point2D.Double sunRefPt = new Point2D.Double( sun.getLocation().getX(),
@@ -383,7 +384,7 @@ public abstract class BaseGreenhouseModule extends Module {
                 double dcy = ( cfy - c0y ) / n;
 
                 // If we're supposed to zoom, do it
-                for( ; n > 0 && doZoom; n-- ) {
+                for ( ; n > 0 && doZoom; n-- ) {
 
                     Thread.sleep( 20 );
 
@@ -397,21 +398,21 @@ public abstract class BaseGreenhouseModule extends Module {
                     double newMaxY = zoomCenter.getY() + h / 2;
 
                     currModelBounds.setRect( newMinX, newMinY, newMaxX - newMinX, newMaxY - newMinY );
-                    ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( currModelBounds );
+                    ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( currModelBounds );
                 }
 
                 currModelBounds.setRect( finalModelBounds.getX(),
                                          finalModelBounds.getY(),
                                          finalModelBounds.getWidth(),
                                          finalModelBounds.getHeight() );
-                ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( currModelBounds );
+                ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( currModelBounds );
 
                 getApparatusPanel().removeGraphic( sunGraphic );
                 sunGraphic.stopAnimation();
                 earthGraphic.stopAnimation();
                 setToday();
                 atmosphereGraphic.setVisible( true );
-                ( (TestApparatusPanel)getApparatusPanel() ).setModelBounds( finalModelBounds );
+                ( (TestApparatusPanel) getApparatusPanel() ).setModelBounds( finalModelBounds );
                 thermometerEnabled( true );
 
                 GreenhouseApplication.paintContentImmediately();

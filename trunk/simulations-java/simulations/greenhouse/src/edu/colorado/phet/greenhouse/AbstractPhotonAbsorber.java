@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.model.ModelElement;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.common_greenhouse.model.ModelElement;
 
 public abstract class AbstractPhotonAbsorber extends ModelElement implements PhotonAbsorber {
 
@@ -23,8 +23,8 @@ public abstract class AbstractPhotonAbsorber extends ModelElement implements Pho
     }
 
     protected void notifyListeners( Photon photon ) {
-        for( int j = 0; j < listeners.size(); j++ ) {
-            Listener listener = (Listener)listeners.get( j );
+        for ( int j = 0; j < listeners.size(); j++ ) {
+            Listener listener = (Listener) listeners.get( j );
             listener.photonAbsorbed( photon );
         }
     }

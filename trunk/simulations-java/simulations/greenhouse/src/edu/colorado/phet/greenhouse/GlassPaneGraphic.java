@@ -6,13 +6,13 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+
+import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
 
 /**
  * GlassPaneGraphic
@@ -40,10 +40,10 @@ public class GlassPaneGraphic implements Graphic {
         // compute the paint that we will need for the glass pane to look right over the
         // background
         BufferedImage bi = backgroundGraphic.getBufferedImage();
-        int y = (int)( bi.getHeight() - ( glassPane.getBounds().getY() * bi.getHeight() / modelBounds.getHeight() ) );
+        int y = (int) ( bi.getHeight() - ( glassPane.getBounds().getY() * bi.getHeight() / modelBounds.getHeight() ) );
         int rgb = bi.getRGB( bi.getWidth() / 2, y );
         ColorModel colorModel = bi.getColorModel();
-        int whiteComponent = (int)( glassAlpha * 255 );
+        int whiteComponent = (int) ( glassAlpha * 255 );
         int red = getSrcOver( colorModel.getRed( rgb ), whiteComponent, glassAlpha );
         int green = getSrcOver( colorModel.getGreen( rgb ), whiteComponent, glassAlpha );
         int blue = getSrcOver( colorModel.getBlue( rgb ), whiteComponent, glassAlpha );
@@ -51,7 +51,7 @@ public class GlassPaneGraphic implements Graphic {
     }
 
     private int getSrcOver( int cd, int cs, float as ) {
-        return (int)( ( 1 - as ) * (float)cd ) + cs;
+        return (int) ( ( 1 - as ) * (float) cd ) + cs;
     }
 
     public void paint( Graphics2D g2 ) {

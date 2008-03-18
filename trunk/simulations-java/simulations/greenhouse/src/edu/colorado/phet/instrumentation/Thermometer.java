@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.instrumentation;
 
-import edu.colorado.phet.common_greenhouse.model.ModelElement;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common_greenhouse.model.ModelElement;
 
 public class Thermometer extends ModelElement {
     private TemperatureReporter temperatureReporter;
@@ -25,7 +25,7 @@ public class Thermometer extends ModelElement {
     public void stepInTime( double dt ) {
 
         double sum = 0;
-        for( int i = temperatureHistory.length - 2; i >= 0; i-- ) {
+        for ( int i = temperatureHistory.length - 2; i >= 0; i-- ) {
             sum += temperatureHistory[i];
             temperatureHistory[i + 1] = temperatureHistory[i];
         }

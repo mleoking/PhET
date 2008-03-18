@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.coreadditions_greenhouse;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common_greenhouse.math.Vector2D;
 import edu.colorado.phet.common_greenhouse.model.ModelElement;
-
-import java.awt.geom.Point2D;
 
 public abstract class Body extends ModelElement {
     private double omega;

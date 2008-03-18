@@ -6,16 +6,17 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
+import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
 
 
 public class GlassPaneControlPanel extends JPanel {
@@ -45,13 +46,13 @@ public class GlassPaneControlPanel extends JPanel {
         glassPaneSpinner.getEditor().setBackground( Color.white );
         glassPaneSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                JSpinner spinner = (JSpinner)e.getSource();
-                int i = ( (Integer)spinner.getValue() ).intValue();
+                JSpinner spinner = (JSpinner) e.getSource();
+                int i = ( (Integer) spinner.getValue() ).intValue();
                 module.numGlassPanesEnabled( i );
             }
         } );
 
-        JFormattedTextField tf = ( (JSpinner.DefaultEditor)glassPaneSpinner.getEditor() ).getTextField();
+        JFormattedTextField tf = ( (JSpinner.DefaultEditor) glassPaneSpinner.getEditor() ).getTextField();
         tf.setEditable( false );
         tf.setBackground( Color.white );
         glassPanePanel.add( glassPaneSpinner );
@@ -69,7 +70,7 @@ public class GlassPaneControlPanel extends JPanel {
         allPhotonsCB = new JCheckBox( SimStrings.get( "GlassPaneControlPanel.ViewPhotonsCheckbox" ) );
         allPhotonsCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( allPhotonsCB.isSelected() ) {
+                if ( allPhotonsCB.isSelected() ) {
                     module.setVisiblePhotonRatio( 1.0 );
                 }
                 else {
@@ -148,23 +149,23 @@ public class GlassPaneControlPanel extends JPanel {
     private void setBackground( Container container ) {
         container.setBackground( panelBackground );
         Component[] components = container.getComponents();
-        for( int i = 0; i < components.length; i++ ) {
+        for ( int i = 0; i < components.length; i++ ) {
             Component component = components[i];
-            if( component instanceof JLabel
-                || component instanceof JCheckBox ) {
+            if ( component instanceof JLabel
+                 || component instanceof JCheckBox ) {
 //                component.setForeground( panelForeground );
             }
-            if( !( component instanceof JButton ) ) {
+            if ( !( component instanceof JButton ) ) {
 //                component.setBackground( panelBackground );
             }
-            if( component.getForeground().equals( Color.black )
-                && !( component instanceof JButton ) ) {
+            if ( component.getForeground().equals( Color.black )
+                 && !( component instanceof JButton ) ) {
 //                component.setForeground( panelForeground );
             }
-            if( component instanceof Container
-                && !( component instanceof JButton )
-                && !( component instanceof JSpinner ) ) {
-                setBackground( (Container)component );
+            if ( component instanceof Container
+                 && !( component instanceof JButton )
+                 && !( component instanceof JSpinner ) ) {
+                setBackground( (Container) component );
             }
         }
     }

@@ -7,12 +7,12 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
+
+import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
 
 public class CloudGraphic implements Graphic, ShapeGraphicType {
 
@@ -26,7 +26,7 @@ public class CloudGraphic implements Graphic, ShapeGraphicType {
 
     public CloudGraphic( Cloud cloud ) {
         this.cloud = cloud;
-        for( int i = 0; i < auxillaryOvals.length; i++ ) {
+        for ( int i = 0; i < auxillaryOvals.length; i++ ) {
             auxillaryOvals[i] = new Ellipse2D.Double();
         }
         this.update();
@@ -39,7 +39,7 @@ public class CloudGraphic implements Graphic, ShapeGraphicType {
         g.fill( baseOval );
 
 //        g.setPaint( Color.white );
-        for( int i = 0; i < auxillaryOvals.length; i++ ) {
+        for ( int i = 0; i < auxillaryOvals.length; i++ ) {
             Ellipse2D auxillaryOval = auxillaryOvals[i];
             g.fill( auxillaryOval );
         }
@@ -48,7 +48,7 @@ public class CloudGraphic implements Graphic, ShapeGraphicType {
 
     public void update() {
         baseOval = cloud.getBounds();
-        for( int i = 0; i < auxillaryOvals.length; i++ ) {
+        for ( int i = 0; i < auxillaryOvals.length; i++ ) {
             double height = Math.max( random.nextDouble() * baseOval.getHeight(), baseOval.getHeight() / 4 );
             double width = Math.max( random.nextDouble() * ( baseOval.getWidth() / 3 ), height * 8 );
             double dx = random.nextDouble() * ( baseOval.getWidth() / 3 ) * ( random.nextBoolean() ? 1 : -1 );

@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
 import edu.colorado.phet.common_greenhouse.view.FlipperAffineTransformFactory;
-
-import java.awt.geom.Rectangle2D;
 
 public class TestApparatusPanel extends ApparatusPanel {
     private double aspectRatio;

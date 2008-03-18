@@ -6,12 +6,13 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_greenhouse.view.util.GraphicsUtil;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.view.util.GraphicsUtil;
 
 public class GreenhouseLegend extends JPanel {
 
@@ -19,7 +20,7 @@ public class GreenhouseLegend extends JPanel {
 
         // Draw an IR photon and a sunlight photon
         BufferedImage irPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
-        Graphics2D g2 = (Graphics2D)irPhotonBI.getGraphics();
+        Graphics2D g2 = (Graphics2D) irPhotonBI.getGraphics();
         Photon irPhoton = new Photon( GreenhouseConfig.irWavelength, null );
         PhotonGraphic irPhotonGraphic = new PhotonGraphic( irPhoton );
 //        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {
@@ -32,7 +33,7 @@ public class GreenhouseLegend extends JPanel {
 //        ImageIcon irPhotonIcon = new ImageIcon( irPhotonBI );
 
         BufferedImage sunlightPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
-        g2 = (Graphics2D)sunlightPhotonBI.getGraphics();
+        g2 = (Graphics2D) sunlightPhotonBI.getGraphics();
         Photon sunlightPhoton = new Photon( GreenhouseConfig.sunlightWavelength, null );
         PhotonGraphic sunlightPhotonGraphic = new PhotonGraphic( sunlightPhoton );
 //        for( int i = 0; i < PhotonGraphic.numTailPts; i ++ ) {

@@ -7,10 +7,10 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.coreadditions_greenhouse.Body;
-
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.coreadditions_greenhouse.Body;
 
 public class Cloud extends Body {
 

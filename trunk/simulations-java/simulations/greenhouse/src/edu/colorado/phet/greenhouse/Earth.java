@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.coreadditions_greenhouse.Disk;
 import edu.colorado.phet.coreadditions_greenhouse.ModelViewTx1D;
 import edu.colorado.phet.instrumentation.TemperatureReporter;
-
-import java.awt.geom.Point2D;
 
 public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, PhotonAbsorber, PhotonEmitter.Listener {
 
@@ -37,7 +37,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
         temperature = GreenhouseConfig.earthBaseTemperature;
         baseTemperature = GreenhouseConfig.earthBaseTemperature;
 
-        for( int i = 0; i < temperatureHistory.length; i++ ) {
+        for ( int i = 0; i < temperatureHistory.length; i++ ) {
             temperatureHistory[i] = baseTemperature;
         }
     }
@@ -45,7 +45,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         computeTemperature();
-        while( netEnergy > 0 ) {
+        while ( netEnergy > 0 ) {
             photonSource.notifyListeners( photonSource.emitPhoton() );
         }
     }
@@ -56,7 +56,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
 
     private void computeTemperature() {
         double thSum = 0;
-        for( int i = temperatureHistory.length - 2; i >= 0; i-- ) {
+        for ( int i = temperatureHistory.length - 2; i >= 0; i-- ) {
             double t = temperatureHistory[i];
             thSum += temperatureHistory[i];
             temperatureHistory[i + 1] = temperatureHistory[i];
@@ -65,18 +65,18 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
         thSum += temperatureHistory[0];
         temperature = thSum / temperatureHistoryLength;
 
-        if( jimmyArray != null ) {
+        if ( jimmyArray != null ) {
             jimmyTemperature();
         }
     }
 
     public void setJimmyArray( double[][] jimmyArray ) {
         this.jimmyArray = jimmyArray;
-        if( jimmyArray != null ) {
+        if ( jimmyArray != null ) {
             txArray = new ModelViewTx1D[jimmyArray.length - 1];
-            for( int i = 0; i < jimmyArray.length - 1; i++ ) {
+            for ( int i = 0; i < jimmyArray.length - 1; i++ ) {
                 ModelViewTx1D tx = new ModelViewTx1D( jimmyArray[i][0], jimmyArray[i + 1][0],
-                                                      (int)jimmyArray[i][1], (int)jimmyArray[i + 1][1] );
+                                                      (int) jimmyArray[i][1], (int) jimmyArray[i + 1][1] );
                 txArray[i] = tx;
             }
         }
@@ -85,15 +85,15 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
     private void jimmyTemperature() {
 
         ModelViewTx1D tx = null;
-        for( int i = 0; i < jimmyArray.length - 1; i++ ) {
-            if( temperature >= jimmyArray[i][0] && temperature >= jimmyArray[i][0] ) {
+        for ( int i = 0; i < jimmyArray.length - 1; i++ ) {
+            if ( temperature >= jimmyArray[i][0] && temperature >= jimmyArray[i][0] ) {
                 tx = txArray[i];
             }
         }
-        if( tx == null ) {
+        if ( tx == null ) {
             throw new RuntimeException( "no 1D tx found" );
         }
-        temperature = (int)tx.modelToView( temperature );
+        temperature = (int) tx.modelToView( temperature );
 
         // Find the x value in the array to which the real temperature is closest
 //        double t = Double.MAX_VALUE;
@@ -175,7 +175,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
 
     public double getReflectivity( Photon photon ) {
         double reflectivity = 0;
-        if( reflectivityAssessor != null ) {
+        if ( reflectivityAssessor != null ) {
             reflectivity = reflectivityAssessor.getReflectivity( photon );
         }
         return reflectivity;
@@ -191,7 +191,7 @@ public class Earth extends Disk implements TemperatureReporter, PhotonEmitter, P
 
 
     public void reset() {
-        for( int i = 0; i < temperatureHistory.length; i++ ) {
+        for ( int i = 0; i < temperatureHistory.length; i++ ) {
             temperatureHistory[i] = baseTemperature;
         }
 //        temperatureHistory = new double[temperatureHistoryLength];

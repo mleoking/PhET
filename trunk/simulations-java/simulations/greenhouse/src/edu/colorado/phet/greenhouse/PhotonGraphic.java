@@ -6,26 +6,22 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.BufferedImageUtils;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.DuotoneImageOp;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
-import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
-
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.BufferedImageUtils;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.DuotoneImageOp;
+import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
 
 public class PhotonGraphic extends CompositeGraphic implements Observer {
 
@@ -68,7 +64,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     }
 
     private static Color genColor( double wavelength ) {
-        return (Color)colorLUT.get( new Double( wavelength ) );
+        return (Color) colorLUT.get( new Double( wavelength ) );
     }
 
     // A cache for phton graphic
@@ -99,11 +95,11 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 
     public void update() {
         double theta = Math.atan2( -photon.getVelocity().getY(), photon.getVelocity().getX() );
-        if( theta != directionOfTravel || scaleChanged ) {
+        if ( theta != directionOfTravel || scaleChanged ) {
             scaleChanged = false;
             directionOfTravel = theta;
 
-            if( photonImage != null ) {
+            if ( photonImage != null ) {
                 removeGraphic( photonImage );
             }
             photonImage = new ImageGraphic( photon.getWavelength() > 6E-7 ? redImage : yellowImage, position );
@@ -113,7 +109,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         // Adjust the position of the image so that the head of the photon graphic is coincident with the
         // position of the photon itself.
         double sy = 0;
-        if( photon.getVelocity().getY() > 0 ) {
+        if ( photon.getVelocity().getY() > 0 ) {
             sy = 1;
         }
         double ratio = 0.03;
