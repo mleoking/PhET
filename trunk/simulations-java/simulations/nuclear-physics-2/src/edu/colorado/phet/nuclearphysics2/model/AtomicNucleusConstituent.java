@@ -30,5 +30,5 @@ public interface AtomicNucleusConstituent {
      * @param minDistance - Minimum distance from origin where particle can end up.
      * @param maxDistance - Maximum distance from origin where particle can end up.
      */
-    public void tunnel(double minDistance, double maxDistance);
+    public void tunnel(double minDistance, double nucleusRadius, double tunnelRadius);
 }

@@ -135,7 +135,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
         
         // Add the breakout radius to the canvas.
-        double radius = AtomicNucleus.RADIUS;
+        double radius = AtomicNucleus.TUNNEL_OUT_RADIUS;
         _breakoutCircle = new PPath(new Ellipse2D.Double(-radius, -radius, 2*radius, 2*radius));
         _breakoutCircle.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {2, 2 }, 0) );
