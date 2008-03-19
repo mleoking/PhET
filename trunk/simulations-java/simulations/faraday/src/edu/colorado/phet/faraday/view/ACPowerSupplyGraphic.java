@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.model.ACPowerSupply;
 
@@ -442,8 +443,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
             
             // Title label
             {
-                String s = FaradayResources.getString( "ACPowerSupplyGraphic.title" );
-                PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
+                PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, FaradayStrings.TITLE_AC_POWER_SUPPLY, TITLE_COLOR );
                 graphicLayerSet.addGraphic( title, TITLE_LAYER );
                 title.centerRegistrationPoint();
                 title.setLocation( panel.getWidth() / 2, 36 );

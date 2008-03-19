@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.module;
 
@@ -20,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
@@ -33,7 +25,6 @@ import edu.colorado.phet.faraday.view.*;
  * GeneratorModule is the "Generator" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class GeneratorModule extends FaradayModule {
 
@@ -99,7 +90,7 @@ public class GeneratorModule extends FaradayModule {
      */
     public GeneratorModule() {
 
-        super( FaradayResources.getString( "GeneratorModule.title" ) );
+        super( FaradayStrings.TITLE_GENERATOR_MODULE );
 
         //----------------------------------------------------------------------------
         // Model

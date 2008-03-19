@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.module;
 
@@ -21,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
@@ -34,7 +26,6 @@ import edu.colorado.phet.faraday.view.*;
  * BarMagnetModule is the "Bar Magnet" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BarMagnetModule extends FaradayModule {
 
@@ -82,7 +73,7 @@ public class BarMagnetModule extends FaradayModule {
      */
     public BarMagnetModule() {
         
-        super( FaradayResources.getString( "BarMagnetModule.title" ) );
+        super( FaradayStrings.TITLE_BAR_MAGNET_MODULE );
         
         //----------------------------------------------------------------------------
         // Model

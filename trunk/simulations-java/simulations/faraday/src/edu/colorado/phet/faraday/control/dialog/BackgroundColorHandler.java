@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.control.dialog;
 
@@ -19,7 +10,7 @@ import javax.swing.JDialog;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
-import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
 
 
@@ -28,7 +19,6 @@ import edu.colorado.phet.faraday.module.ICompassGridModule;
  * of the apparatus panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BackgroundColorHandler implements ColorChooserFactory.Listener {
 
@@ -51,7 +41,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
     public BackgroundColorHandler( NonPiccoloPhetApplication app ) {
         super();
         _app = app;
-        String title = FaradayResources.getString( "BackgroundColorDialog.title" );
+        String title = FaradayStrings.TITLE_BACKGROUND_COLOR;
         Component parent = app.getPhetFrame();
 
         // Start with the active module's background color.
@@ -68,14 +58,14 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
      * Shows the dialog.
      */
     public void showDialog() {
-        _dialog.show();
+        _dialog.setVisible( true );
     }
 
     /**
      * Hides the dialog.
      */
     public void hideDialog() {
-        _dialog.hide();
+        _dialog.setVisible( false );
     }
 
     //----------------------------------------------------------------------------

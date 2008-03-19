@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.control.panel;
 
@@ -28,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
@@ -99,8 +91,7 @@ public class BarMagnetPanel extends FaradayPanel {
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = FaradayResources.getString( "BarMagnetPanel.title" );
-        TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
+        TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, FaradayStrings.TITLE_BAR_MAGNET_PANEL );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
         
@@ -111,8 +102,7 @@ public class BarMagnetPanel extends FaradayPanel {
             int min = (int) ( 100.0 * FaradayConstants.BAR_MAGNET_STRENGTH_MIN / FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
 
             // Slider
-            String label = FaradayResources.getString( "BarMagnetPanel.strength" );
-            _strengthControl = new LinearValueControl( min, max, label, "0", "%" );
+            _strengthControl = new LinearValueControl( min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
             _strengthControl.setValue( min );
             _strengthControl.setMinorTickSpacing( 10 );
             _strengthControl.setTextFieldEditable( true );
@@ -122,19 +112,19 @@ public class BarMagnetPanel extends FaradayPanel {
         }
 
         //  Flip Polarity button
-        _flipPolarityButton = new JButton( FaradayResources.getString( "BarMagnetPanel.flipPolarity" ) );
+        _flipPolarityButton = new JButton( FaradayStrings.BUTTON_FLIP_POLARITY );
 
         // Magnet transparency on/off
-        _seeInsideCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.seeInside" ) );
+        _seeInsideCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SEE_INSIDE );
 
         // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.showGrid" ) );
+        _gridCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_GRID );
         
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.showFieldMeter" ) );
+        _fieldMeterCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
 
         // Compass on/off
-        _compassCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.showCompass" ) );
+        _compassCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_COMPASS );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
