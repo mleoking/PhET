@@ -3,6 +3,7 @@ Changes for faraday
 ===============================================================================
 
 DONE:
+3/19/08 - remove MessageFormat-style strings from localization files, convert to symbolic constants
 3/19/08 - remove obsolete/disabled "challenge" from Transformer module and localization files
 11/9/07 - move about.credits property to localization file
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
