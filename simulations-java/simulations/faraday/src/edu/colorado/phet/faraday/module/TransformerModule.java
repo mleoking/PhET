@@ -12,11 +12,9 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Point;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
@@ -24,8 +22,21 @@ import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
-import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.view.*;
+import edu.colorado.phet.faraday.model.ACPowerSupply;
+import edu.colorado.phet.faraday.model.AbstractVoltageSource;
+import edu.colorado.phet.faraday.model.Battery;
+import edu.colorado.phet.faraday.model.Compass;
+import edu.colorado.phet.faraday.model.Electromagnet;
+import edu.colorado.phet.faraday.model.FieldMeter;
+import edu.colorado.phet.faraday.model.Lightbulb;
+import edu.colorado.phet.faraday.model.PickupCoil;
+import edu.colorado.phet.faraday.model.SourceCoil;
+import edu.colorado.phet.faraday.model.Voltmeter;
+import edu.colorado.phet.faraday.view.CompassGraphic;
+import edu.colorado.phet.faraday.view.CompassGridGraphic;
+import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
+import edu.colorado.phet.faraday.view.FieldMeterGraphic;
+import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
 
 /**
@@ -277,16 +288,6 @@ public class TransformerModule extends FaradayModule {
         }
         
         reset();
-        
-        //----------------------------------------------------------------------------
-        // Help
-        //----------------------------------------------------------------------------
-        
-        // Challenge
-        ThisChallengeGraphic challenge = new ThisChallengeGraphic( apparatusPanel, model, _lightbulbModel );
-        challenge.setLocation( CHALLENGE_LOCATION );
-        challenge.setEnabled( false ); // per 4/27/2005 status meeting
-        apparatusPanel.addGraphic( challenge, HELP_LAYER );
     }
     
     //----------------------------------------------------------------------------
@@ -355,61 +356,5 @@ public class TransformerModule extends FaradayModule {
         // Control panel
         _electromagnetPanel.update();
         _pickupCoilPanel.update();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /**
-     * ThisChallengeGraphic is the "challenge" for this module.
-     * It disappears when the lightbulb lights, or the lightbulb is disabled.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private static class ThisChallengeGraphic extends ChallengeGraphic implements SimpleObserver {
-
-        private Lightbulb _lightbulbModel;
-        private int _count;
-
-        /**
-         * Sole constructor.
-         * 
-         * @param component
-         * @param model
-         * @param lightbulbModel
-         */
-        public ThisChallengeGraphic( Component component, BaseModel model, Lightbulb lightbulbModel ) {
-            super( component, model );
-
-            _lightbulbModel = lightbulbModel;
-            lightbulbModel.addObserver( this );
-            
-            _count = 0;
-            
-            setText( FaradayResources.getString( "TransformerModule.challenge" ), null, Color.RED );
-            setRange( 20, 20 );
-            setEnabled( true );
-        }
-
-        /*
-         * @see edu.colorado.phet.common.util.SimpleObserver#update()
-         * 
-         * If the lightbulb lights or the lightbulb is disabled, disable and unwire the challenge.
-         */
-        public void update() {
-            /*
-             * A bit of a hack here... 
-             * The lightbulb lights when we first enter the module, before the user has done anything.
-             * So we need to wait for the second time that the lightbulb lights.
-             */
-            if ( ( _lightbulbModel.getIntensity() != 0 && ++_count == 2 ) || !_lightbulbModel.isEnabled() ) {
-                // Disable
-                setEnabled( false );
-                // Unwire
-                _lightbulbModel.removeObserver( this );
-            }
-        }
     }
 }
