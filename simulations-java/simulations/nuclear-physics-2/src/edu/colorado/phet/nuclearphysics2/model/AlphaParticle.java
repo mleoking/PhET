@@ -17,20 +17,27 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    static final double MAX_AUTO_TRANSLATE_AMT = 0.75;
+    private static final double MAX_AUTO_TRANSLATE_AMT = 0.75;
     
     // The radius at which an alpha particle will tunnel out of the nucleus.
-    static final double TUNNEL_OUT_RADIUS = 20.0;
+    private static final double TUNNEL_OUT_RADIUS = 20.0;
     
     // The maximum radius at which a particle may tunnel.
-    static final double MAX_TUNNEL_RADIUS = 20.0;
+    private static final double MAX_TUNNEL_RADIUS = 20.0;
     
     // Radius at which we are considered outside the nucleus
-    static final double BASIC_NUCLEUS_RADIUS = 8.0;
+    private static final double BASIC_NUCLEUS_RADIUS = 8.0;
     
     // Hysteresis count - used to lock out changes when needed.
-    static final int HYSTERESIS_VALUE = 8;
+    private static final int HYSTERESIS_VALUE = 8;
     
+    // Possible states for tunneling.
+    public static final int IN_NUCLEUS                 = 0;
+    public static final int TUNNELING_OUT_OF_NUCLEUS   = 1;
+    public static final int TUNNELED_OUT_OF_NUCLEUS    = 2;
+    
+    // Distance at which we consider the particle done tunneling, in fm.
+    private static final double MAX_TUNNELING_DISTANCE = 1000;
     
     //------------------------------------------------------------------------
     // Instance data
@@ -48,6 +55,9 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     // Random number generator, used for creating some random behavior.
     Random _rand = new Random();
     
+    // State of this particle with respect to tunneling out.
+    private int _tunnelingState = IN_NUCLEUS;
+    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -64,9 +74,12 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     // Accessor methods
     //------------------------------------------------------------------------
     
-    public Point2D getPosition()
-    {
+    public Point2D getPosition(){
         return new Point2D.Double(_position.getX(), _position.getY());
+    }
+    
+    public int getTunnelingState(){
+        return _tunnelingState;
     }
     
     //------------------------------------------------------------------------
@@ -158,7 +171,7 @@ public class AlphaParticle implements AtomicNucleusConstituent {
             {
                 // Tunnel to a new location.
                 //tunnel(0, MAX_TUNNEL_RADIUS);
-                tunnel(0, BASIC_NUCLEUS_RADIUS);
+                tunnel(0, BASIC_NUCLEUS_RADIUS, BASIC_NUCLEUS_RADIUS);
                 
                 // Reset the hysteresis counter.
                 _changeHysteresis = HYSTERESIS_VALUE;
@@ -217,11 +230,23 @@ public class AlphaParticle implements AtomicNucleusConstituent {
      * confines of the supplied parameters.
      * 
      * @param minDistance - Minimum distance from origin (0,0).  This is
-     * generally the radius of the nucleus.
-     * @param maxDistance - Maximum distance from origin (0,0).
+     * generally 0.
+     * @param nucleusRadius - Radius of the nucleus where this particle resides.
+     * @param tunnelRadius - Radius at which this particle could tunnel out of nucleus.
      */
-    public void tunnel(double minDistance, double maxDistance)
-    {       
+    public void tunnel(double minDistance, double nucleusRadius, double tunnelRadius)
+    {
+        double maxDistance = nucleusRadius;
+        
+        if (_rand.nextDouble() > 0.99)
+        {
+            // Every once in a while use the tunnel radius as the max distance
+            // to which this particle might tunnel.  This creates the effect of
+            // having particles occasionally appear as though they are almost
+            // tunneling out.
+            maxDistance = tunnelRadius;    
+        }
+        
         // Create a probability distribution that will cause the particles to
         // be fairly evenly spread around the core of the nucleus and appear
         // occasionally at the outer reaches.
@@ -253,6 +278,83 @@ public class AlphaParticle implements AtomicNucleusConstituent {
             ((Listener)_listeners.get( i )).positionChanged(); 
         }        
     }
+    
+    /**
+     * This method forces the particle to tunnel out of the nucleus.
+     * 
+     * @param radius - Radius at which it should tunnel out too.
+     */
+    public void tunnelOut(double radius){
+        
+        // Make sure we are in the expected state.
+        assert (_tunnelingState == IN_NUCLEUS);
+        
+        // Choose the angle at which to tunnel out.  To assure that it is
+        // clear to the user, we only tunnel out at the sides of the
+        // nucleus, otherwise the particle tends to disappear too quickly.
+        
+        double newAngle;
+        
+        if (_rand.nextBoolean()){
+            // Go out on the right side.
+            newAngle = Math.PI / 3 + (_rand.nextDouble() * Math.PI / 3);
+        }
+        else {
+            // Go out on left side.
+            newAngle = Math.PI + (Math.PI / 3) + (_rand.nextDouble() * Math.PI / 3);
+        }
+        
+        double xPos = Math.sin( newAngle ) * radius;
+        double yPos = Math.cos( newAngle ) * radius;
+        
+        // Save the new position.
+        _position.setLocation( xPos, yPos );
+
+        // Notify all listeners of the position change.
+        for (int i = 0; i < _listeners.size(); i++)
+        {
+            ((Listener)_listeners.get( i )).positionChanged(); 
+        }
+        
+        // Set our initial values for translating out of the nucleus.
+        _xAutoDelta = 0.75 * Math.sin( newAngle );
+        _yAutoDelta = 0.75 * Math.cos( newAngle );
+        
+        // Change our tunneling state.
+        _tunnelingState = TUNNELING_OUT_OF_NUCLEUS;
+    }
+    
+    /**
+     * This method tells the particle to take its next step in moving away
+     * from the nucleus, and is only applicable when the particle is in the
+     * process of tunneling out of the nucleus.
+     */
+    public void moveOut(){
+        
+        if (_tunnelingState != TUNNELING_OUT_OF_NUCLEUS){
+            return;
+        }
+        
+        if (Point2D.distance( 0, 0, _position.x, _position.y ) > MAX_TUNNELING_DISTANCE){
+            // This is far enough away that we don't need to bother moving it any more.
+            _tunnelingState = TUNNELED_OUT_OF_NUCLEUS;
+            return;
+        }
+        
+        // Move some amount.
+        _position.x += _xAutoDelta;
+        _position.y += _yAutoDelta;
+
+        // Notify all listeners of the position change.
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).positionChanged(); 
+        }
+        
+        // Accelerate.
+        _xAutoDelta += 0.1 * _xAutoDelta;
+        _yAutoDelta += 0.1 * _yAutoDelta;
+    }
+    
     
     //------------------------------------------------------------------------
     // Listener support
