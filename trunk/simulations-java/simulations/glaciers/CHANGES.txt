@@ -70,6 +70,7 @@ CLEANUP:
 
 
 DONE:
+3/18/08 - first pass at using image for mountains and valley, offset via trial & error
 ******** 0.00.12 (20191)
 3/7/08 - set some temporary axis ranges for time-based charts
 3/7/08 - make headwall steeper

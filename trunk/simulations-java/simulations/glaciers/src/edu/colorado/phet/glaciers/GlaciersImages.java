@@ -23,4 +23,5 @@ public class GlaciersImages {
     public static final BufferedImage TRACER_FLAG = GlaciersResources.getImage( "tracerFlag.png" );
     public static final BufferedImage TRASH_CAN = GlaciersResources.getImage( "trashCan.png" );
     public static final BufferedImage PENGUIN = GlaciersResources.getImage( "penguin.png" );
+    public static final BufferedImage MOUNTAINS = GlaciersResources.getImage( "mountains.png" );
 }

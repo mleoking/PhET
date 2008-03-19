@@ -19,6 +19,7 @@ import javax.swing.event.AncestorListener;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
+import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
@@ -27,6 +28,7 @@ import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * PlayArea is the area of the application that constains the birds-eye and zoomed views
@@ -60,7 +62,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
     
     // offset of upper-left corner of birds-eye viewport from highest point on the glacier
-    private static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -500, +1000 ); // meters
+    private static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -1500, +1000 ); // meters
     
     // width of the stroke used to display the zoomed viewport, in pixels
     private static final float VIEWPORT_STROKE_WIDTH = 1;
@@ -82,7 +84,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     // View
     private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private PLayer _mountainsLayer, _valleyLayer, _iceLayer, _flowLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
+    private PLayer _backgroundLayer, _iceLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private IceFlowNode _iceFlowNode;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
@@ -175,18 +177,14 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         this.addAncestorListener( resizeListener );
         
         // Layers, back to front
-        _mountainsLayer = new PLayer();
-        _valleyLayer = new PLayer();
+        _backgroundLayer = new PLayer();
         _iceLayer = new PLayer();
-        _flowLayer = new PLayer();
         _coordinatesLayer = new PLayer();
         _toolboxLayer = new PLayer();
         _toolsLayer = new PLayer();
         _viewportLayer = new PLayer();
-        addToBothViews( _mountainsLayer );
-        addToBothViews( _valleyLayer );
+        addToBothViews( _backgroundLayer );
         addToBothViews( _iceLayer );
-        addToZoomedView( _flowLayer );
         addToZoomedView( _coordinatesLayer );
         addToZoomedView( _toolboxLayer );
         addToBothViews( _toolsLayer );
@@ -197,19 +195,17 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         ViewportNode viewportNode = new ViewportNode( _zoomedViewport, strokeWidth, _mvt );
         _viewportLayer.addChild( viewportNode );
         
-        // Mountains
-        PNode mountainsNode = new MountainsNode( _model.getValley(), _mvt, valleyMinX, valleyMaxX );
-        _mountainsLayer.addChild( mountainsNode );
-        
-        // Valley
-        PNode valleyNode = new ValleyNode( _model.getValley(), _mvt, valleyMinX, valleyMaxX );
-        _valleyLayer.addChild( valleyNode );
+        // Background image (mountains & valley)
+        PImage backgroundImage = new PImage( GlaciersImages.MOUNTAINS );
+        Point2D backgroundOffset = _mvt.modelToView( -6065 /* m */, 9100 /* m */); //XXX dependent on image, determined via trial & error
+        backgroundImage.setOffset( backgroundOffset.getX(), backgroundOffset.getY() );
+        _backgroundLayer.addChild( backgroundImage );
         
         // Glacier
         IceNode iceNode = new IceNode( _model.getGlacier(), _mvt );
         _iceLayer.addChild( iceNode );
         _iceFlowNode = new IceFlowNode( _model.getGlacier(), _mvt );
-        _flowLayer.addChild( _iceFlowNode );
+        _iceLayer.addChild( _iceFlowNode );
         
         // Axes
         _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false );
