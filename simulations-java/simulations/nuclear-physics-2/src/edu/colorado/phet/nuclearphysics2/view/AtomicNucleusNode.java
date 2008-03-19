@@ -2,13 +2,9 @@
 
 package edu.colorado.phet.nuclearphysics2.view;
 
-import java.awt.Color;
-import java.awt.geom.Ellipse2D;
-
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 
 public class AtomicNucleusNode extends PNode {
@@ -17,7 +13,7 @@ public class AtomicNucleusNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    final private double NUCLEUS_DIAMETER = 16.0;
+    final private double NUCLEUS_DIAMETER = 11.6;
     
     private PNode _displayImage;
     private AtomicNucleus _atom;
@@ -50,10 +46,8 @@ public class AtomicNucleusNode extends PNode {
     }
     
     private void update(){
-        /* JPB TBD - Also part of dynamic nucleus experiment
         _displayImage.setOffset( _atom.getPosition().getX() - NUCLEUS_DIAMETER/2,  
                 _atom.getPosition().getY() - NUCLEUS_DIAMETER/2);
-                */
     }
 
 }

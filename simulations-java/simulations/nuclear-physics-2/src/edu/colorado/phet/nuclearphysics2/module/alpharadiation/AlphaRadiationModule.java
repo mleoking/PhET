@@ -59,13 +59,6 @@ public class AlphaRadiationModule extends PiccoloModule {
         _clockControlPanel.setUnits( NuclearPhysics2Strings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
-
-        // Controller
-        // JPB TBD
-        /*
-        FakeAlphaRadiationController controller = 
-            new AlphaRadiationControlPanel( _model, _canvas, _controlPanel );
-            */
         
         // Help
         if ( hasHelp() ) {
@@ -86,7 +79,7 @@ public class AlphaRadiationModule extends PiccoloModule {
     public void reset() {
 
         // Clock
-        /* JPB TBD
+        /* TODO: JPB TBD - Need to implement reset functionality.
         NuclearPhysics2Clock clock = _model.getClock();
         clock.setDt( ExampleDefaults.CLOCK_DT );
         setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
@@ -101,7 +94,7 @@ public class AlphaRadiationModule extends PiccoloModule {
         */
 
         // Control panel settings
-        /* JPB TBD
+        /*
         ExampleSubPanel subPanel = _controlPanel.getExampleSubPanel();
         subPanel.setPosition( exampleModelElement.getPositionReference() );
         subPanel.setOrientation( exampleModelElement.getOrientation() );

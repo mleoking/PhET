@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.nuclearphysics2.module.alpharadiation;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,22 +23,16 @@ public class AlphaRadiationModel {
     // Class data
     //------------------------------------------------------------------------
     
-    public static final double NUCLEUS_RADIUS = 1.0; // In femtometers.
-    public static final double BREAKOUT_RADIUS =11.0; // In femtometers, but not a realistic value.
+    public static final double BREAKOUT_RADIUS = 11.0; // In femtometers, but not a realistic value.
     
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
     
-    private AtomicNucleus _atomicNucleus = new AtomicNucleus(0, 0);
-    private ArrayList _alphaParticles = new ArrayList();
-    private ArrayList _listeners = new ArrayList();
+    private AtomicNucleus _atomicNucleus;
     private ConstantDtClock _clock;
     private int _tickCounter = 0;
-    
-    // JPB TBD temp
-    private int _alphaParticleCount = 0;
-    
+    private ArrayList _listeners = new ArrayList();
     
     //------------------------------------------------------------------------
     // Constructor
@@ -52,6 +45,9 @@ public class AlphaRadiationModel {
         final Random initialParticlePosRand = new Random();
         final Random moveParticlesRand = new Random();
         
+        // Create a nucleus with an atomic weight of 211, which is Polonium.
+        _atomicNucleus = new AtomicNucleus(0, 0, 211);
+        
         // Create the clock that will drive this model.
         _clock = new ConstantDtClock(30, 1.0);
         _clock.addClockListener( new ClockAdapter(){
@@ -63,91 +59,11 @@ public class AlphaRadiationModel {
             public void clockTicked(ClockEvent clockEvent){
                 
                 _tickCounter++;
+                final Random rand = new Random();
                 
-                /* JPB TBD - not getting rid of particles for now.
-                // Decide if any particles should be added or removed.  Note
-                // that we don't do this on every tick, otherwise things look
-                // too chaotic.
-                if (_tickCounter % 20 == 0)
-                {
-                    int numParticles = _alphaParticles.size();
-                    
-                    double temp = Math.round( numParticlesRand.nextGaussian() + 100.0 );
-                    if (temp < 0){
-                        temp = 0;
-                    }
-                        
-                    //int targetParticleNum = (int)((numParticlesRand.nextGaussian() + 1.0) * 3);
-                    int targetParticleNum = (int)(temp);
-                    
-                    if (targetParticleNum > numParticles)
-                    {
-                        for (int i = 0; i < targetParticleNum - numParticles; i++)
-                        {
-                            // Add a new particle.
-                            
-                            double randPos = initialParticlePosRand.nextDouble();
-                            double xPos = Math.sin( randPos * 2 * Math.PI ) * 7;
-                            double yPos = Math.cos( randPos * 2 * Math.PI ) * 7;
-                            AlphaParticle alpha = new AlphaParticle(xPos, yPos);
-                            _alphaParticles.add( alpha );                    
-
-                            for (int j = 0; j < _listeners.size(); j++)
-                            {
-                                Listener listener = (Listener)_listeners.get( j );
-                                listener.particleAdded(alpha);
-                            }
-                        } 
-                    }
-                    else if (numParticles > targetParticleNum)
-                    {
-                        for (int i = 0; i < numParticles - targetParticleNum; i++)
-                        {
-                            // Get the particle to be removed.
-                            AlphaParticle alphaToBeRemoved = (AlphaParticle)_alphaParticles.get( 0 );
-                            
-                            // Notify the listeners that the particle is being removed.
-                            for (int j = 0; j < _listeners.size(); j++)
-                            {
-                                Listener listener = (Listener)_listeners.get( j );
-                                listener.particleRemoved(alphaToBeRemoved);
-                            }
-                            
-                            // Remove the particle from our list.
-                            _alphaParticles.remove( alphaToBeRemoved );                            
-                        }
-                    }
-                }
-                */
+                // Let the nucleus know that the clock ticked so that it can 'agitate'.
+                _atomicNucleus.clockTicked();
                 
-                // JPB TBD - add particles until we have all that we need.
-                while (_alphaParticleCount < 60)
-                {
-                    // Add a new particle.
-                    
-                    double randPos = initialParticlePosRand.nextDouble();
-                    double xPos = Math.sin( randPos * 2 * Math.PI ) * 7;
-                    double yPos = Math.cos( randPos * 2 * Math.PI ) * 7;
-                    AlphaParticle alpha = new AlphaParticle(xPos, yPos);
-                    _alphaParticles.add( alpha );                    
-
-                    for (int j = 0; j < _listeners.size(); j++)
-                    {
-                        Listener listener = (Listener)_listeners.get( j );
-                        listener.particleAdded(alpha);
-                    }
-                    
-                    _alphaParticleCount++;
-                } 
-        
-                // Move the alpha particles around.
-
-                for (int i = 0; i < _alphaParticles.size(); i++)
-                {
-                    AlphaParticle alpha = (AlphaParticle)_alphaParticles.get( i );
-
-                    alpha.autoTranslate();
-                }
             }
         });
         
@@ -165,7 +81,7 @@ public class AlphaRadiationModel {
      * 
      * @return - Reference to the nucleus model element.
      */
-    public AtomicNucleus getAtom()
+    public AtomicNucleus getAtomNucleus()
     {
         return _atomicNucleus;
     }

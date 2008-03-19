@@ -12,25 +12,24 @@ import java.util.Random;
  *
  * @author John Blanco
  */
-public class AlphaParticle {
+public class AlphaParticle implements AtomicNucleusConstituent {
     
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    static final double MAX_AUTO_TRANSLATE_AMT = 0.5;
+    static final double MAX_AUTO_TRANSLATE_AMT = 0.75;
     
     // The radius at which an alpha particle will tunnel out of the nucleus.
     static final double TUNNEL_OUT_RADIUS = 20.0;
     
-    // Radius at which we are considered outside the nucleus
-    static final double BASIC_NUCLEUS_RADIUS = 12.0;
+    // The maximum radius at which a particle may tunnel.
+    static final double MAX_TUNNEL_RADIUS = 20.0;
     
-    // JPB TBD - This is for an experiment, and I should make this come from
-    // a better place or be controlled elsewhere at some point.
-    static final double MAX_DISTANCE = 8.0;
+    // Radius at which we are considered outside the nucleus
+    static final double BASIC_NUCLEUS_RADIUS = 8.0;
     
     // Hysteresis count - used to lock out changes when needed.
-    static final int HYSTERESIS_VALUE = 3;
+    static final int HYSTERESIS_VALUE = 8;
     
     
     //------------------------------------------------------------------------
@@ -98,8 +97,28 @@ public class AlphaParticle {
         {
             _changeHysteresis--;
         }
-        else if (Point2D.distance( _position.x, _position.y, 0, 0 ) > MAX_DISTANCE)
+        else if (Point2D.distance( _position.x, _position.y, 0, 0 ) > BASIC_NUCLEUS_RADIUS)
         {
+            /*
+            // Needs to be pulled back in to the center.
+            if (_position.x > 0)
+            {
+               _xAutoDelta = -MAX_AUTO_TRANSLATE_AMT;
+            }
+            else
+            {
+                _xAutoDelta = MAX_AUTO_TRANSLATE_AMT;                
+            }
+            
+            if (_position.y > 0)
+            {
+               _yAutoDelta = -MAX_AUTO_TRANSLATE_AMT;
+            }
+            else
+            {
+                _xAutoDelta = MAX_AUTO_TRANSLATE_AMT;                
+            }
+            */
             // Time to "bounce", meaning that we change direction more toward
             // the center of the nucleus.  This is a simple bouncing algorithm
             // intended to minimize computation.
@@ -134,7 +153,8 @@ public class AlphaParticle {
             if (changeDecider < 0.01)
             {
                 // Tunnel to a new location.
-                tunnel(0, MAX_DISTANCE);
+                //tunnel(0, MAX_TUNNEL_RADIUS);
+                tunnel(0, BASIC_NUCLEUS_RADIUS);
                 
                 // Reset the hysteresis counter.
                 _changeHysteresis = HYSTERESIS_VALUE;
@@ -196,14 +216,28 @@ public class AlphaParticle {
      * generally the radius of the nucleus.
      * @param maxDistance - Maximum distance from origin (0,0).
      */
-    private void tunnel(double minDistance, double maxDistance)
+    public void tunnel(double minDistance, double maxDistance)
     {
-        double guassian = Math.abs( _rand.nextGaussian() / 5.0 );
+        /*
+        double guassian = Math.abs( _rand.nextGaussian() / 1.0 );
         if (guassian > 1.0){
             // Hard limit guassian to a max of 1.0.
             guassian = 1.0;
         }
         double newRadius = minDistance + (guassian * (maxDistance - minDistance));
+        */
+        //double newRadius = minDistance + (_rand.nextDouble() * (maxDistance - minDistance));
+        //double newRadius = minDistance + (_rand.nextDouble() * _rand.nextDouble() * (maxDistance - minDistance));
+        
+        double multiplier = _rand.nextDouble();
+        if (multiplier > 0.8)
+        {
+            // Cause the distribution to tail off in the outer regions of the
+            // nucleus.
+            multiplier = _rand.nextDouble() * _rand.nextDouble();
+        }
+        double newRadius = minDistance + (multiplier * (maxDistance - minDistance));
+
         
         // Calculate the new angle, in radians, from the origin.
         double newAngle = _rand.nextDouble() * 2 * Math.PI;
@@ -214,6 +248,12 @@ public class AlphaParticle {
         
         // Save the new position.
         _position.setLocation( xPos, yPos );
+
+        // Notify all listeners of the position change.
+        for (int i = 0; i < _listeners.size(); i++)
+        {
+            ((Listener)_listeners.get( i )).positionChanged(); 
+        }        
     }
     
     //------------------------------------------------------------------------
