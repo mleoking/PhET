@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -23,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.Voltmeter;
 
 /**
@@ -31,7 +23,6 @@ import edu.colorado.phet.faraday.model.Voltmeter;
  * Registration point is at bottom-center of the meter body.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObserver {
     
@@ -201,8 +192,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
             
             // Title label
             {
-                String s = FaradayResources.getString( "VoltmeterGraphic.title" );
-                PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, s, TITLE_COLOR );
+                PhetTextGraphic title = new PhetTextGraphic( component, TITLE_FONT, FaradayStrings.TITLE_VOLTMETER, TITLE_COLOR );
                 title.centerRegistrationPoint();
                 title.setLocation( body.getWidth() / 2, body.getHeight() + 3 );
                 graphicLayerSet.addGraphic( title, TITLE_LAYER );

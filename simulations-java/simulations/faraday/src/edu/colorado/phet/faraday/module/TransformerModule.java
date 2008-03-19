@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.module;
 
@@ -17,33 +8,19 @@ import java.awt.Point;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
-import edu.colorado.phet.faraday.model.ACPowerSupply;
-import edu.colorado.phet.faraday.model.AbstractVoltageSource;
-import edu.colorado.phet.faraday.model.Battery;
-import edu.colorado.phet.faraday.model.Compass;
-import edu.colorado.phet.faraday.model.Electromagnet;
-import edu.colorado.phet.faraday.model.FieldMeter;
-import edu.colorado.phet.faraday.model.Lightbulb;
-import edu.colorado.phet.faraday.model.PickupCoil;
-import edu.colorado.phet.faraday.model.SourceCoil;
-import edu.colorado.phet.faraday.model.Voltmeter;
-import edu.colorado.phet.faraday.view.CompassGraphic;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
-import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
-import edu.colorado.phet.faraday.view.FieldMeterGraphic;
-import edu.colorado.phet.faraday.view.PickupCoilGraphic;
+import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.view.*;
 
 
 /**
  * TransformerModule is the "Transformer" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TransformerModule extends FaradayModule {
 
@@ -65,7 +42,6 @@ public class TransformerModule extends FaradayModule {
     private static final Point COMPASS_LOCATION = new Point( 100, 525 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
     private static final Point PICKUP_COIL_LOCATION = new Point( 500, 400 );
-    private static final Point CHALLENGE_LOCATION = new Point( 250, 50 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -121,7 +97,7 @@ public class TransformerModule extends FaradayModule {
      */
     public TransformerModule() {
 
-        super( FaradayResources.getString( "TransformerModule.title" ) );
+        super( FaradayStrings.TITLE_TRANSFORMER_MODULE );
 
         //----------------------------------------------------------------------------
         // Model

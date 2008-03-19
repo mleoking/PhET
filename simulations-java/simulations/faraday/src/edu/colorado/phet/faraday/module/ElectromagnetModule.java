@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
@@ -92,7 +93,7 @@ public class ElectromagnetModule extends FaradayModule {
      */
     public ElectromagnetModule() {
 
-        super( FaradayResources.getString( "ElectromagnetModule.title" ) );
+        super( FaradayStrings.TITLE_ELECTROMAGNET_MODULE );
 
         //----------------------------------------------------------------------------
         // Model

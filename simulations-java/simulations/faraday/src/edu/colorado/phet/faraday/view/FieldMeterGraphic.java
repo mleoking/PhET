@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -24,6 +15,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.util.Vector2D;
 
@@ -37,7 +29,6 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * positive X axis.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class FieldMeterGraphic extends CompositePhetGraphic
     implements SimpleObserver, ApparatusPanel2.ChangeListener {
@@ -125,8 +116,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         addGraphic( body );
         
         // Title text, registration point at bottom center.
-        String titleString = FaradayResources.getString( "FieldMeter.title" );
-        PhetTextGraphic titleText = new PhetTextGraphic( component, TITLE_FONT, titleString, TITLE_COLOR, 0, 0 );
+        PhetTextGraphic titleText = new PhetTextGraphic( component, TITLE_FONT, FaradayStrings.TITLE_FIELD_METER, TITLE_COLOR, 0, 0 );
         int width = titleText.getBounds().width;
         int height = titleText.getBounds().height;
         titleText.setRegistrationPoint( width /2, height ); // bottom center

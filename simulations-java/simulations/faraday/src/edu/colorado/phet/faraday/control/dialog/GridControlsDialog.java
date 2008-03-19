@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.control.dialog;
 
@@ -24,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.panel.FaradayPanel;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
 
@@ -63,7 +54,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
         super( app.getPhetFrame() );
         _app = app;
 
-        super.setTitle( FaradayResources.getString( "GridControlsDialog.title" ) );
+        super.setTitle( FaradayStrings.TITLE_GRID_CONTROLS );
         super.setModal( false );
         super.setResizable( false );
 
@@ -128,13 +119,13 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
     private JPanel createInputPanel() {
 
         // Warning panel
-        JLabel warningMessage = new JLabel( FaradayResources.getString( "GridControlsDialog.warning" ) );
+        JLabel warningMessage = new JLabel( FaradayStrings.LABEL_GRID_CONTROLS_WARNING );
         JPanel warningPanel = new JPanel();
         warningPanel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
         warningPanel.add( warningMessage );
 
         // Grid spacing
-        JLabel spacingLabel = new JLabel( FaradayResources.getString( "GridControlsDialog.spacing" ) );
+        JLabel spacingLabel = new JLabel( FaradayStrings.LABEL_NEEDLE_SPACING );
         {
             // Slider
             _spacingSlider = new JSlider();
@@ -150,7 +141,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
         }
 
         // Needle size
-        JLabel needleSizeLabel = new JLabel( FaradayResources.getString( "GridControlsDialog.needleSize" ) );
+        JLabel needleSizeLabel = new JLabel( FaradayStrings.LABEL_NEEDLE_SIZE );
         {
             // Slider
             _needleSizeSlider = new JSlider();
@@ -204,10 +195,10 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      */
     private JPanel createActionsPanel()
     {
-      _okButton = new JButton( FaradayResources.getString( "GridControlsDialog.ok" ) );
+      _okButton = new JButton( FaradayStrings.BUTTON_OK );
       _okButton.addActionListener( this );
 
-      _cancelButton = new JButton( FaradayResources.getString( "GridControlsDialog.cancel" ) );
+      _cancelButton = new JButton( FaradayStrings.BUTTON_CANCEL );
       _cancelButton.addActionListener( this );
 
       JPanel innerPanel = new JPanel( new GridLayout(1,2,10,0) );

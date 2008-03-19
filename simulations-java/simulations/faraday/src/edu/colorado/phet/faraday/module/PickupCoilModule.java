@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.module;
 
@@ -21,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
@@ -34,7 +26,6 @@ import edu.colorado.phet.faraday.view.*;
  * PickupCoilModule is the "Pickup Coil" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PickupCoilModule extends FaradayModule {
 
@@ -100,7 +91,7 @@ public class PickupCoilModule extends FaradayModule {
      */
     public PickupCoilModule() {
 
-        super( FaradayResources.getString( "PickupCoilModule.title" ) );
+        super( FaradayStrings.TITLE_PICKUP_COIL_MODULE );
         
         //----------------------------------------------------------------------------
         // Model
