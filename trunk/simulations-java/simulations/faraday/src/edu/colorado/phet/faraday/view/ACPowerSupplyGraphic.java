@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -52,6 +43,8 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     // Amplitude & frequency values
     private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
     private static final Color VALUE_COLOR = Color.GREEN;
+    private static final String AMPLITUDE_FORMAT = "{0}%";
+    private static final String FREQUENCY_FORMAT = "{0}%";
     
     // Sine wave
     private static final Dimension WAVE_VIEWPORT_SIZE = new Dimension( 156, 122 );
@@ -74,8 +67,6 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     private PhetTextGraphic2 _debugAmplitudeValue; // set DEBUG=true to display this
     private SineWaveGraphic _waveGraphic;
     private PhetShapeGraphic _cursorGraphic;
-    private String _amplitudeFormat;
-    private String _frequencyFormat;
     private double _previousMaxAmplitude;
     private double _previousFrequency;
     private double _cursorAngle;
@@ -125,8 +116,6 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         {
             _maxAmplitudeValue = new PhetTextGraphic2( component, VALUE_FONT, "", VALUE_COLOR );
             _maxAmplitudeValue.setLocation( 45, 57 );
-            
-            _amplitudeFormat = FaradayResources.getString( "ACPowerSupplyGraphic.amplitude.format" );
         }
         
         // Amplitude value  (debug)
@@ -153,8 +142,6 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         {
             _frequencyValue = new PhetTextGraphic2( component, VALUE_FONT, " ", VALUE_COLOR );
             _frequencyValue.setLocation( 210, 193 );
-            
-            _frequencyFormat = FaradayResources.getString( "ACPowerSupplyGraphic.frequency.format" );
         }
         
         // Sine Wave
@@ -250,7 +237,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     // Format the text
                     int value = (int) ( amplitude * 100 );
                     Object[] args = { new Integer( value ) };
-                    String text = MessageFormat.format( _amplitudeFormat, args );
+                    String text = MessageFormat.format( AMPLITUDE_FORMAT, args );
                     _debugAmplitudeValue.setText( text );
                     
                     // Right justify
@@ -279,7 +266,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     // Format the text
                     int value = (int) ( maxAmplitude * 100 );
                     Object[] args = { new Integer( value ) };
-                    String text = MessageFormat.format( _amplitudeFormat, args );
+                    String text = MessageFormat.format( AMPLITUDE_FORMAT, args );
                     _maxAmplitudeValue.setText( text );
 
                     // Right justify
@@ -299,7 +286,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
                     // Format the text
                     int value = (int) ( 100 * frequency );
                     Object[] args = { new Integer( value ) };
-                    String text = MessageFormat.format( _frequencyFormat, args );
+                    String text = MessageFormat.format( FREQUENCY_FORMAT, args );
                     _frequencyValue.setText( text );
 
                     // Right justify
