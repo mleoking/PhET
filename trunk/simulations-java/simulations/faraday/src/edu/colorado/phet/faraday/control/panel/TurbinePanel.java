@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.control.panel;
 
@@ -15,9 +6,9 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -26,7 +17,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.model.Turbine;
@@ -37,7 +28,6 @@ import edu.colorado.phet.faraday.view.CompassGridGraphic;
  * TurbinePanel contains the controls for the turbine. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TurbinePanel extends FaradayPanel {
 
@@ -90,8 +80,7 @@ public class TurbinePanel extends FaradayPanel {
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = FaradayResources.getString( "TurbinePanel.title" );
-        TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
+        TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, FaradayStrings.TITLE_TURBINE_PANEL );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
         
@@ -102,8 +91,7 @@ public class TurbinePanel extends FaradayPanel {
             int min = (int) ( 100.0 * FaradayConstants.BAR_MAGNET_STRENGTH_MIN / FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
 
             // Slider
-            String label = FaradayResources.getString( "TurbinePanel.strength" );
-            _strengthControl = new LinearValueControl( min, max, label, "0", "%" );
+            _strengthControl = new LinearValueControl( min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
             _strengthControl.setValue( min );
             _strengthControl.setMinorTickSpacing( 10 );
             _strengthControl.setTextFieldEditable( true );
@@ -113,13 +101,13 @@ public class TurbinePanel extends FaradayPanel {
         }
 
         // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( FaradayResources.getString( "TurbinePanel.showGrid" ) );
+        _gridCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_GRID );
         
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( FaradayResources.getString( "BarMagnetPanel.showFieldMeter" ) );
+        _fieldMeterCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
         
         // Compass on/off
-        _compassCheckBox = new JCheckBox( FaradayResources.getString( "TurbinePanel.showCompass" ) );
+        _compassCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_COMPASS );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );

@@ -3,21 +3,17 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Point;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.TurbinePanel;
 import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -45,7 +41,6 @@ public class GeneratorModule extends FaradayModule {
     private static final Point PICKUP_COIL_LOCATION = new Point( 550, TURBINE_LOCATION.y );
     private static final Point COMPASS_LOCATION = new Point( 350, 175 );
     private static final Point FIELD_METER_LOCATION = new Point( 450, 460 );
-    private static final Point WIGGLE_ME_LOCATION = new Point( 240, 60 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -224,16 +219,6 @@ public class GeneratorModule extends FaradayModule {
             // Reset button
             controlPanel.addResetAllButton( this );
         }
-        
-        //----------------------------------------------------------------------------
-        // Help
-        //----------------------------------------------------------------------------
-        
-        // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _turbineModel );
-        wiggleMe.setLocation( WIGGLE_ME_LOCATION );
-        wiggleMe.setEnabled( false ); // per 4/27/2005 status meeting
-        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
     //----------------------------------------------------------------------------
@@ -280,57 +265,5 @@ public class GeneratorModule extends FaradayModule {
         // Control panel
         _turbinePanel.update();
         _pickupCoilPanel.update();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /**
-     * ThisWiggleMeGraphic is the wiggle me for this module.
-     * It disappears when the turbine speed is changed.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
-
-        private Turbine _turbineModel;
-        private double _turbineSpeed;
-
-        /**
-         * Sole constructor.
-         * 
-         * @param component
-         * @param model
-         * @param turbineModel
-         */
-        public ThisWiggleMeGraphic( Component component, BaseModel model, Turbine turbineModel ) {
-            super( component, model );
-
-            _turbineModel = turbineModel;
-            _turbineSpeed = turbineModel.getSpeed();
-            turbineModel.addObserver( this );
-            
-            setText( FaradayResources.getString( "GeneratorModule.wiggleMe" ) );
-            addArrow( WiggleMeGraphic.MIDDLE_LEFT, new Vector2D( -80, 0 ) );
-            setRange( 25, 0 );
-            setCycleDuration( 10 );
-            setEnabled( true );
-        }
-
-        /*
-         * @see edu.colorado.phet.common.util.SimpleObserver#update()
-         * 
-         * If the turbine speed changes, disable and unwire the wiggle me.
-         */
-        public void update() {
-            if ( _turbineSpeed != _turbineModel.getSpeed()  ) {
-                // Disable
-                setEnabled( false );
-                // Unwire
-                _turbineModel.removeObserver( this );
-            }
-        }
     }
 }

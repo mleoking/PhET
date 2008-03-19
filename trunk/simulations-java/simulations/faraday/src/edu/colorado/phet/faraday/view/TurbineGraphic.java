@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -27,6 +18,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.model.Turbine;
 
@@ -35,7 +27,6 @@ import edu.colorado.phet.faraday.model.Turbine;
  * TurbineGraphic is the graphical representation of a simple turbine.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, ApparatusPanel2.ChangeListener {
 
@@ -170,8 +161,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             _rpmValue.setLocation( 0, 10 );
             _rpmValue.setIgnoreMouse( !TURBINE_IS_DRAGGABLE );
 
-            String unitsString = FaradayResources.getString( "TurbineGraphic.rpm" );
-            PhetTextGraphic rpmUnits = new PhetTextGraphic( component, RPM_UNITS_FONT, unitsString, RPM_COLOR );
+            PhetTextGraphic rpmUnits = new PhetTextGraphic( component, RPM_UNITS_FONT, FaradayStrings.UNITS_RPM, RPM_COLOR );
             addGraphic( rpmUnits, RPM_LAYER );
             rpmUnits.centerRegistrationPoint();
             rpmUnits.setLocation( 0, 22 );

@@ -244,7 +244,7 @@ public class BarMagnetModule extends FaradayModule {
             _compassLocation = compassModel.getLocation();
             compassModel.addObserver( this );
             
-            setText( FaradayResources.getString( "BarMagnetModule.wiggleMe" ) );
+            setText( FaradayStrings.WIGGLEME_BAR_MAGNET );
             addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -40, 50 ) );
             addArrow( WiggleMeGraphic.BOTTOM_RIGHT, new Vector2D( 40, 50 ) );
             setRange( 20, 10 );
