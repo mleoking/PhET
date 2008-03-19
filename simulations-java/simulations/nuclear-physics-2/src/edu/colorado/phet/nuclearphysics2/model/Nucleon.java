@@ -56,23 +56,18 @@ public class Nucleon implements AtomicNucleusConstituent {
      */
     public void tunnel(double minDistance, double maxDistance)
     {
-        /*
-        double guassian = Math.abs( _rand.nextGaussian() / 1.0 );
-        if (guassian > 1.0){
-            // Hard limit guassian to a max of 1.0.
-            guassian = 1.0;
-        }
-        double newRadius = minDistance + (guassian * (maxDistance - minDistance));
-        */
-        //double newRadius = minDistance + (_rand.nextDouble() * (maxDistance - minDistance));
-        //double newRadius = minDistance + (_rand.nextDouble() * _rand.nextDouble() * (maxDistance - minDistance));
+        // Create a probability distribution that will cause the particles to
+        // be fairly evenly spread around the core of the nucleus and appear
+        // occasionally at the outer reaches.
+
         double multiplier = _rand.nextDouble();
-        if (multiplier > 0.8)
-        {
+        
+        if (multiplier > 0.8){
             // Cause the distribution to tail off in the outer regions of the
             // nucleus.
             multiplier = _rand.nextDouble() * _rand.nextDouble();
         }
+        
         double newRadius = minDistance + (multiplier * (maxDistance - minDistance));
         
         // Calculate the new angle, in radians, from the origin.
