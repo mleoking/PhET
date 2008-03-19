@@ -20,6 +20,8 @@ HIGH PRIORITY:
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
+- delete ValleyNode and MountainsNode if they are no longer used
+- create a node that encapulates the background image of mountains + valley
 - confirm that titles and axes on graphs are as desired
 - add view of valley floor with rivers
 - add moving debris
