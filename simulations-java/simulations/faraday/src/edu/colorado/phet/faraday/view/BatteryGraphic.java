@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -27,6 +18,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradaySlider;
 import edu.colorado.phet.faraday.control.GraphicSlider;
 import edu.colorado.phet.faraday.model.Battery;
@@ -36,7 +28,6 @@ import edu.colorado.phet.faraday.model.Battery;
  * BatteryGraphic is the graphical representation of a battery.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
 
@@ -162,7 +153,7 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
             {
                 // Format the text
                 Object[] args = { new Double( Math.abs(voltage) ) };
-                String text = MessageFormat.format( FaradayResources.getString( "BatteryGraphic.voltage" ), args );
+                String text = MessageFormat.format( FaradayStrings.FORMAT_BATTERY_VOLTAGE, args );
                 _amplitudeValue.setText( text );
 
                 // Move the voltage label to the positive end of the battery

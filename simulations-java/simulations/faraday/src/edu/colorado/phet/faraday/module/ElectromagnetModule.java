@@ -1,40 +1,28 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Point;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.util.Vector2D;
-import edu.colorado.phet.faraday.view.*;
+import edu.colorado.phet.faraday.view.CompassGraphic;
+import edu.colorado.phet.faraday.view.CompassGridGraphic;
+import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
+import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
 
 /**
  * ElectromagnetModule is the "Electromagnet" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ElectromagnetModule extends FaradayModule {
 
@@ -53,7 +41,6 @@ public class ElectromagnetModule extends FaradayModule {
     private static final Point ELECTROMAGNET_LOCATION = new Point( 400, 400 );
     private static final Point COMPASS_LOCATION = new Point( 150, 200 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
-    private static final Point WIGGLE_ME_LOCATION = new Point( 500, 150 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -220,16 +207,6 @@ public class ElectromagnetModule extends FaradayModule {
         }
         
         reset();
-        
-        //----------------------------------------------------------------------------
-        // Help
-        //----------------------------------------------------------------------------
-        
-        // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _batteryModel, _electromagnetModel );
-        wiggleMe.setLocation( WIGGLE_ME_LOCATION );
-        wiggleMe.setEnabled( false ); // per 4/27/2005 status meeting
-        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
     //----------------------------------------------------------------------------
@@ -284,68 +261,5 @@ public class ElectromagnetModule extends FaradayModule {
         
         // Control panel
         _electromagnetPanel.update();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /**
-     * ThisWiggleMeGraphic is the wiggle me for this module.
-     * It disappears when the electromagnet battery's voltage is changed, 
-     * or the battery is disabled, or the electromagnet is moved.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
-
-        private Battery _batteryModel;
-        private double _batteryVoltage;
-        private Electromagnet _electromagnetModel;
-        private Point2D _electromagnetLocation;
-
-        /**
-         * Sole constructor.
-         * 
-         * @param component
-         * @param model
-         * @param batteryModel
-         * @param electromagnetModel
-         */
-        public ThisWiggleMeGraphic( Component component, BaseModel model, 
-                Battery batteryModel, Electromagnet electromagnetModel ) {
-            super( component, model );
-
-            _batteryModel = batteryModel;
-            _batteryVoltage = _batteryModel.getVoltage();
-            _batteryModel.addObserver( this );
-            _electromagnetModel = electromagnetModel;
-            _electromagnetLocation = _electromagnetModel.getLocation();
-            _electromagnetModel.addObserver( this );
-            
-            setText( FaradayResources.getString( "ElectromagnetModule.wiggleMe" ) );
-            addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -50, 50 ) );
-            setRange( 25, 0 );
-            setCycleDuration( 5 );
-            setEnabled( true );
-        }
-
-        /*
-         * @see edu.colorado.phet.common.util.SimpleObserver#update()
-         * 
-         * If the battery voltage changes or the battery is disabled, disable and unwire the wiggle me.
-         */
-        public void update() {
-            if ( _batteryVoltage != _batteryModel.getVoltage() || 
-                    ! _batteryModel.isEnabled() ||
-                    ! _electromagnetLocation.equals( _electromagnetModel.getLocation() )  ) {
-                // Disable
-                setEnabled( false );
-                // Unwire
-                _batteryModel.removeObserver( this );
-                _electromagnetModel.removeObserver( this );
-            }
-        }
     }
 }

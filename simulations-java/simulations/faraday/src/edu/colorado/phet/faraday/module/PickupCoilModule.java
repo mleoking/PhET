@@ -3,22 +3,17 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Point;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.model.*;
-import edu.colorado.phet.faraday.util.Vector2D;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -46,7 +41,6 @@ public class PickupCoilModule extends FaradayModule {
     private static final Point PICKUP_COIL_LOCATION = new Point( 500, 400 );
     private static final Point COMPASS_LOCATION = new Point( 100, 525 );
     private static final Point FIELD_METER_LOCATION = new Point( 150, 400 );
-    private static final Point WIGGLE_ME_LOCATION = new Point( 150, 250 );
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
@@ -233,16 +227,6 @@ public class PickupCoilModule extends FaradayModule {
         }
 
         reset();
-        
-        //----------------------------------------------------------------------------
-        // Help
-        //----------------------------------------------------------------------------
-        
-        // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _barMagnetModel, _pickupCoilModel );
-        wiggleMe.setLocation( WIGGLE_ME_LOCATION );
-        wiggleMe.setEnabled( false ); // per 4/27/2005 status meeting
-        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
     }
     
     //----------------------------------------------------------------------------
@@ -291,66 +275,5 @@ public class PickupCoilModule extends FaradayModule {
         // Control panel
         _barMagnetPanel.update();
         _pickupCoilPanel.update();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /**
-     * ThisWiggleMeGraphic is the wiggle me for this module.
-     * It disappears when the bar magnet or pickup coil is moved.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
-
-        private BarMagnet _barMagnetModel;
-        private Point2D _barMagnetLocation;
-        private PickupCoil _pickupCoilModel;
-        private Point2D _pickupCoilLocation;
-
-        /**
-         * Sole constructor.
-         * 
-         * @param component
-         * @param model
-         * @param barMagnetModel
-         * @param pickupCoilModel
-         */
-        public ThisWiggleMeGraphic( Component component, BaseModel model, BarMagnet barMagnetModel, PickupCoil pickupCoilModel ) {
-            super( component, model );
-
-            _barMagnetModel = barMagnetModel;
-            _barMagnetLocation = barMagnetModel.getLocation();
-            barMagnetModel.addObserver( this );
-            
-            _pickupCoilModel = pickupCoilModel;
-            _pickupCoilLocation = pickupCoilModel.getLocation();
-            pickupCoilModel.addObserver( this );
-            
-            setText( FaradayResources.getString( "PickupCoilModule.wiggleMe" ) );
-            addArrow( WiggleMeGraphic.BOTTOM_CENTER, new Vector2D( 0, 75 ) );
-            addArrow( WiggleMeGraphic.MIDDLE_RIGHT, new Vector2D( 75, 0 ) );
-            setRange( 20, 10 );
-            setEnabled( true );
-        }
-
-        /*
-         * @see edu.colorado.phet.common.util.SimpleObserver#update()
-         * 
-         * If the bar magnet or pickup coil is moved, disable and unwire the wiggle me.
-         */
-        public void update() {
-            if ( !_barMagnetLocation.equals( _barMagnetModel.getLocation() ) ||
-                 !_pickupCoilLocation.equals( _pickupCoilModel.getLocation() ) ) {
-                // Disable
-                setEnabled( false );
-                // Unwire
-                _barMagnetModel.removeObserver( this );
-                _pickupCoilModel.removeObserver( this );
-            }
-        }
     }
 }

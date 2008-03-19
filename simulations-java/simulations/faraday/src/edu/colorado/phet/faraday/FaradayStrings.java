@@ -28,11 +28,22 @@ public class FaradayStrings {
     public static final String CHECK_BOX_SHOW_FIELD_METER = FaradayResources.getString( "BarMagnetPanel.showFieldMeter" );
     public static final String CHECK_BOX_SHOW_GRID = FaradayResources.getString( "BarMagnetPanel.showGrid" );
     
+    public static final String FORMAT_BATTERY_VOLTAGE = FaradayResources.getString( "BatteryGraphic.voltage" );
+    
     public static final String LABEL_GRID_CONTROLS_WARNING = FaradayResources.getString( "GridControlsDialog.warning" );
+    public static final String LABEL_LOOP_AREA = FaradayResources.getString( "PickupCoilPanel.area" );
     public static final String LABEL_NEEDLE_SIZE = FaradayResources.getString( "GridControlsDialog.needleSize" );
     public static final String LABEL_NEEDLE_SPACING = FaradayResources.getString( "GridControlsDialog.spacing" );
     public static final String LABEL_NUMBER_OF_LOOPS = FaradayResources.getString( "ElectromagnetPanel.numberOfLoops" );
     public static final String LABEL_STRENGTH = FaradayResources.getString( "BarMagnetPanel.strength" );
+    
+    public static final String MENU_OPTIONS = FaradayResources.getString( "Menubar.options" );
+    public static final String MENU_ITEM_BACKGROUND_COLOR = FaradayResources.getString( "Menubar.backgroundColor" );
+    public static final String MENU_ITEM_GRID_CONTROLS = FaradayResources.getString( "Menubar.gridControls" );
+    
+    public static final char MNEMONIC_BACKGROUND_COLOR =FaradayResources.getChar( "Menubar.backgroundColor.mnemonic", '?' );
+    public static final char MNEMONIC_GRID_CONTROLS = FaradayResources.getChar( "Menubar.gridControls.mnemonic", '?' );
+    public static final char MNEMONIC_OPTIONS = FaradayResources.getChar( "Menubar.options.mnemonic", '?' );
     
     public static final String RADIO_BUTTON_AC = FaradayResources.getString( "ElectromagnetPanel.ac" );
     public static final String RADIO_BUTTON_DC = FaradayResources.getString( "ElectromagnetPanel.dc" );
@@ -47,9 +58,16 @@ public class FaradayStrings {
     public static final String TITLE_FIELD_METER = FaradayResources.getString( "FieldMeter.title" );
     public static final String TITLE_GENERATOR_MODULE = FaradayResources.getString( "GeneratorModule.title" );
     public static final String TITLE_GRID_CONTROLS = FaradayResources.getString( "GridControlsDialog.title" );
+    public static final String TITLE_INDICATOR = FaradayResources.getString( "PickupCoilPanel.indicator" );
     public static final String TITLE_PICKUP_COIL_MODULE = FaradayResources.getString( "PickupCoilModule.title" );
+    public static final String TITLE_PICKUP_COIL_PANEL = FaradayResources.getString( "PickupCoilPanel.title" );
     public static final String TITLE_TRANSFORMER_MODULE = FaradayResources.getString( "TransformerModule.title" );
+    public static final String TITLE_TURBINE_PANEL = FaradayResources.getString( "TurbinePanel.title" );
     public static final String TITLE_VOLTMETER = FaradayResources.getString( "VoltmeterGraphic.title" );
+    
+    public static final String UNITS_RPM = FaradayResources.getString( "TurbineGraphic.rpm" );
+    
+    public static final String WIGGLEME_BAR_MAGNET = FaradayResources.getString( "BarMagnetModule.wiggleMe" );
     
     //----------------------------------------------------------------------------
     // Common library strings

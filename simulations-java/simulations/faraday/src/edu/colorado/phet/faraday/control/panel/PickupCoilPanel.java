@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.control.panel;
 
@@ -26,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
@@ -37,7 +29,6 @@ import edu.colorado.phet.faraday.view.PickupCoilGraphic;
  * PickupCoilPanel contains the controls for the pickup coil.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PickupCoilPanel extends FaradayPanel {
 
@@ -91,15 +82,14 @@ public class PickupCoilPanel extends FaradayPanel {
         
         //  Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
-        String title = FaradayResources.getString( "PickupCoilPanel.title" );
-        TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, title );
+        TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, FaradayStrings.TITLE_PICKUP_COIL_PANEL );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
 
         JPanel indicatorPanel = new JPanel();
         {
             // Title
-            TitledBorder indicatorBorder = new TitledBorder( FaradayResources.getString( "PickupCoilPanel.indicator" ) );
+            TitledBorder indicatorBorder = new TitledBorder( FaradayStrings.TITLE_INDICATOR );
             indicatorPanel.setBorder( indicatorBorder );
 
             // Layout
@@ -130,7 +120,7 @@ public class PickupCoilPanel extends FaradayPanel {
         // Number of loops
         JPanel loopsPanel = new JPanel();
         {
-            JLabel loopsLabel = new JLabel( FaradayResources.getString( "PickupCoilPanel.numberOfLoops" ) );
+            JLabel loopsLabel = new JLabel( FaradayStrings.LABEL_NUMBER_OF_LOOPS );
 
             // Spinner, keyboard editing disabled.
             SpinnerNumberModel spinnerModel = new SpinnerNumberModel();
@@ -160,8 +150,7 @@ public class PickupCoilPanel extends FaradayPanel {
             int min = (int) ( 100.0 * FaradayConstants.MIN_PICKUP_LOOP_AREA / FaradayConstants.MAX_PICKUP_LOOP_AREA );
 
             // Slider
-            String label = FaradayResources.getString( "PickupCoilPanel.area" );
-            _areaControl = new LinearValueControl( min, max, label, "0", "%" );
+            _areaControl = new LinearValueControl( min, max, FaradayStrings.LABEL_LOOP_AREA, "0", "%" );
             _areaControl.setValue( min );
             _areaControl.setMinorTickSpacing( 10 );
             _areaControl.setTextFieldEditable( true );
@@ -171,7 +160,7 @@ public class PickupCoilPanel extends FaradayPanel {
         }
         
         // Electrons on/off
-        _electronsCheckBox = new JCheckBox( FaradayResources.getString( "PickupCoilPanel.showElectrons" ) );
+        _electronsCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
