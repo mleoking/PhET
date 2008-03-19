@@ -42,7 +42,7 @@ public class FissionOneNucleusModel {
     public FissionOneNucleusModel()
     {
         // Add the atomic nucleus to the center of this model.
-        _atomicNucleus = new AtomicNucleus(0, 0);
+        _atomicNucleus = new AtomicNucleus(0, 0, 235);
         
         // Create the clock that will drive this model.
         _clock = new ConstantDtClock(30, 1.0);

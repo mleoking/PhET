@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class AlphaParticleNode extends PNode {
     
-    private final static double PARTICLE_DIAMETER = 4.2d;  // Femto meters.
+    private final static double PARTICLE_DIAMETER = 3.2d;  // Femto meters.
     
     private PNode _displayImage;
     private AlphaParticle _alphaParticle;

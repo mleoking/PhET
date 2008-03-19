@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.nuclearphysics2.developer.DeveloperMenu;
@@ -200,6 +201,10 @@ public class NuclearPhysics2Application extends PhetApplication {
             public void run() {
 
                 PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysics2Constants.FRAME_SETUP, NuclearPhysics2Resources.getResourceLoader() );
+                
+                PhetLookAndFeel p = new PhetLookAndFeel();
+                p.setBackgroundColor( new Color (0xfffacd) );
+                p.initLookAndFeel();
 
                 // Create the application.
                 NuclearPhysics2Application app = new NuclearPhysics2Application( config );

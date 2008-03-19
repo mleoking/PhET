@@ -71,7 +71,7 @@ public class FissionOneNucleusModule extends PiccoloModule {
     public void reset() {
 
         // Clock
-        /* JPB TBD
+        /* TODO: JPB TBD - Need to implement real reset functionality - stubbed for now.
         NuclearPhysics2Clock clock = _model.getClock();
         clock.setDt( ExampleDefaults.CLOCK_DT );
         setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
@@ -86,7 +86,7 @@ public class FissionOneNucleusModule extends PiccoloModule {
         */
 
         // Control panel settings
-        /* JPB TBD
+        /*
         ExampleSubPanel subPanel = _controlPanel.getExampleSubPanel();
         subPanel.setPosition( exampleModelElement.getPositionReference() );
         subPanel.setOrientation( exampleModelElement.getOrientation() );
