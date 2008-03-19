@@ -202,24 +202,15 @@ public class Atom extends SolidSphere {
         changeListenerProxy.stateChanged( new ChangeEvent( this, newState, oldState ) );
     }
 
-    /**
-     *
-     */
-    void emitPhoton( final Photon emittedPhoton ) {
+    protected void emitPhoton( final Photon emittedPhoton ) {
         photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( this, emittedPhoton ) );
     }
 
-    /**
-     *
-     */
     public void removeFromSystem() {
         leftSystemListenerProxy.leftSystem( new LeftSystemEvent( this ) );
         changeListenerProxy.stateChanged( new ChangeEvent( this, null, this.getCurrState() ) );
     }
 
-    /**
-     * @param photon
-     */
     public void collideWithPhoton( Photon photon ) {
         currState.collideWithPhoton( this, photon );
     }
