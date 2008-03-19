@@ -28,7 +28,7 @@ public class FaradayStrings {
     public static final String CHECK_BOX_SHOW_FIELD_METER = FaradayResources.getString( "BarMagnetPanel.showFieldMeter" );
     public static final String CHECK_BOX_SHOW_GRID = FaradayResources.getString( "BarMagnetPanel.showGrid" );
     
-    public static final String FORMAT_BATTERY_VOLTAGE = FaradayResources.getString( "BatteryGraphic.voltage" );
+    public static final String UNITS_VOLTS = FaradayResources.getString( "BatteryGraphic.voltage" );
     
     public static final String LABEL_GRID_CONTROLS_WARNING = FaradayResources.getString( "GridControlsDialog.warning" );
     public static final String LABEL_LOOP_AREA = FaradayResources.getString( "PickupCoilPanel.area" );
