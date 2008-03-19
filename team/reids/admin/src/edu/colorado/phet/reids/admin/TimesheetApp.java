@@ -33,7 +33,7 @@ public class TimesheetApp extends JFrame {
     private String RECENT_FILES = "recentFiles";
     private String CURRENT_FILE = "currentFile";
     private JMenu fileMenu = new JMenu( "File" );
-    private File PREFERENCES_FILE = new File( System.getProperty( "user.home", "." ), "timesheet-app.properties" );
+    private File PREFERENCES_FILE = new File( System.getProperty( "user.home", "." ), ".timesheet/timesheet-app.properties" );
 
     public TimesheetApp() throws IOException {
         super( "Timesheet" );
