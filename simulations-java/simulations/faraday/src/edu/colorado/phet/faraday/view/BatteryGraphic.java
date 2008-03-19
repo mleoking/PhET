@@ -7,6 +7,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
 import javax.swing.event.ChangeEvent;
@@ -43,6 +44,8 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Point VALUE_POSITIVE_LOCATION = new Point( 158, 83 );
     private static final Point VALUE_NEGATIVE_LOCATION = new Point( 55, 83 );
+    
+    private static final DecimalFormat VOLTAGE_FORMAT = new DecimalFormat( "0" );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -152,8 +155,7 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
             // Update the displayed value.
             {
                 // Format the text
-                Object[] args = { new Double( Math.abs(voltage) ) };
-                String text = MessageFormat.format( FaradayStrings.FORMAT_BATTERY_VOLTAGE, args );
+                String text = VOLTAGE_FORMAT.format( Math.abs(voltage) ) + " " + FaradayStrings.UNITS_VOLTS;
                 _amplitudeValue.setText( text );
 
                 // Move the voltage label to the positive end of the battery
