@@ -6,8 +6,6 @@ import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Iterator;
 
-
-
 /**
  * CollisionDetector handles collision detection.
  * <b>
@@ -90,7 +88,7 @@ public class CollisionDetector {
     
     /**
      * Determines if the object would collide with anything if we moved it 
-     * a hypotechical amount.
+     * a hypothetical amount.
      * 
      * @param dx horizontal delta
      * @param dy vertical delta
