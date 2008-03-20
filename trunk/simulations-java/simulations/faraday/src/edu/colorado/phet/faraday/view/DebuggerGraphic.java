@@ -1,3 +1,5 @@
+/* Copyright 2004-2008, University of Colorado */
+
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
@@ -13,7 +15,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
  * The location marker is drawn as a crosshair.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class DebuggerGraphic extends PhetGraphic {
     

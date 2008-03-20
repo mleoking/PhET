@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -21,7 +12,6 @@ import edu.colorado.phet.faraday.FaradayConstants;
  * It is derived from the CoilMagnet model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class Electromagnet extends CoilMagnet implements SimpleObserver {
     

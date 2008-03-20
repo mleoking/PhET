@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -27,7 +18,6 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * then gradually reach equillibrium.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class Compass extends FaradayObservable implements ModelElement, SimpleObserver {
 

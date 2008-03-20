@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -23,7 +14,6 @@ import edu.colorado.phet.faraday.FaradayConstants;
  * It uses an ad hoc algorithm that makes the needle wobble around the zero point.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class Voltmeter extends FaradayObservable implements ModelElement, SimpleObserver {
   

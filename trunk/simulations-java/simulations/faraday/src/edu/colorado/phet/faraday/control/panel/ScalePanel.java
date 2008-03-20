@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.control.panel;
 
@@ -32,7 +23,6 @@ import edu.colorado.phet.faraday.view.PickupCoilGraphic;
  * ScalePanel is a debugging panel for adjusting the scale of various simulation components.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ScalePanel extends FaradayPanel {
 

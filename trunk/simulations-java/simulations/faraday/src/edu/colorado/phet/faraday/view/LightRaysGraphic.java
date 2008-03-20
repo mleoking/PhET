@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -23,7 +14,6 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * LightRaysGraphic is the graphical representation of a set of light rays.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 class LightRaysGraphic extends PhetGraphic {
     

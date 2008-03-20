@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -28,7 +19,6 @@ import edu.colorado.phet.faraday.model.FaradayObservable;
  * detection and constraining the drag boundaries.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class FaradayMouseHandler extends MouseInputAdapter {
 

@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.util;
 
@@ -23,7 +14,6 @@ import java.awt.geom.QuadCurve2D;
  * points along the curve.
  *
  * @author Sam Reid, Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class QuadBezierSpline extends QuadCurve2D.Double {
 
