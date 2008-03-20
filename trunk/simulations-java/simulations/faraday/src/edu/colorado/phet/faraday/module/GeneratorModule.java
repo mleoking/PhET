@@ -52,7 +52,7 @@ public class GeneratorModule extends FaradayModule {
     
     // Pickup Coil
     private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
-    private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConstants.MAX_PICKUP_LOOP_AREA;
+    private static final double PICKUP_COIL_LOOP_AREA = 36815;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
     

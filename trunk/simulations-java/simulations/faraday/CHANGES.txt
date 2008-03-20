@@ -3,6 +3,7 @@ Changes for faraday
 ===============================================================================
 
 DONE:
+3/20/08 - increase range of loop area control [#425]
 3/20/08 - revert settings if Field Controls dialog is closed via close button in window dressing
 3/20/08 - ensure that Options menu can't open multiple copies of the same dialog [#427]
 3/20/08 - convert to new-style tabs for switching modules [#426]
