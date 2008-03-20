@@ -51,21 +51,11 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
     }
 
     //----------------------------------------------------------------------------
-    // Dialog controls
+    // Setters and getters
     //----------------------------------------------------------------------------
 
-    /**
-     * Shows the dialog.
-     */
-    public void showDialog() {
-        _dialog.setVisible( true );
-    }
-
-    /**
-     * Hides the dialog.
-     */
-    public void hideDialog() {
-        _dialog.setVisible( false );
+    public JDialog getDialog() {
+        return _dialog;
     }
 
     //----------------------------------------------------------------------------
