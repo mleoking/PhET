@@ -33,6 +33,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
     // Class data
     //----------------------------------------------------------------------------
     
+    public static boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = false;
     public static boolean DEBUG_DISPLAY_FLUX = false;
     
     //----------------------------------------------------------------------------
@@ -110,7 +111,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
         setDraggingEnabled( true );
         
         // Points on the coil where the magnetic field is sampled to compute flux.
-        if ( FaradayConstants.DEBUG_DRAW_PICKUP_SAMPLE_POINTS ) {
+        {
             _samplePointsGraphic = new SamplePointsGraphic( component );           
             _foreground.addGraphic( _samplePointsGraphic );
         }
@@ -251,7 +252,8 @@ public class PickupCoilGraphic extends GraphicLayerSet
             _background.rotate( _pickupCoilModel.getDirection() );
 
             // Sample points
-            if ( _samplePointsGraphic != null ) {
+            _samplePointsGraphic.setVisible( DEBUG_DRAW_PICKUP_SAMPLE_POINTS );
+            if ( DEBUG_DRAW_PICKUP_SAMPLE_POINTS ) {
                 _samplePointsGraphic.setPointLocations( (int)_pickupCoilModel.getRadius() );
             }
             
