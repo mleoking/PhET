@@ -75,11 +75,11 @@ public class GreenhouseApplication extends PhetApplication {
                         greenhouseModule2
                 };
                 ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
-                        new String( SimStrings.get( "GreenHouseApplication.title" )
+                        new String( SimStrings.get( "greenhouse.name" )
                                     + " ("
                                     + VERSION
                                     + ")" ),
-                        MessageFormatter.format( SimStrings.get( "GreenHouseApplication.description" ) ),
+                        MessageFormatter.format( SimStrings.get( "greenhouse.description" ) ),
                         VERSION,
                         1024, 768 );
 //                clock = new SwingTimerClock( new StaticClockModel( 10, 20 ) );
