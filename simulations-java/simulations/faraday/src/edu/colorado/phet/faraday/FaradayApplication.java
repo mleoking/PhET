@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.*;
@@ -27,7 +28,7 @@ import edu.colorado.phet.faraday.module.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FaradayApplication extends NonPiccoloPhetApplication {
+public class FaradayApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
     // Constructors
