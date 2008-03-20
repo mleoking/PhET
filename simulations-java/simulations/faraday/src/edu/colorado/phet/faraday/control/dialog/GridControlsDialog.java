@@ -219,11 +219,15 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
             this.dispose();
         }
         else if ( e.getSource() == _cancelButton ) {
-            setAllGrids( _xSpacing, _ySpacing, _needleSize );
+            revert();
             this.dispose();
         }
     }
 
+    public void revert() {
+        setAllGrids( _xSpacing, _ySpacing, _needleSize );
+    }
+    
     /**
      * Handles changes to the sliders.  Since the parameters are closely
      * related, we simply read and update all values.

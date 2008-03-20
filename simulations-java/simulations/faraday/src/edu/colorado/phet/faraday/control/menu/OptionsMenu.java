@@ -4,7 +4,10 @@ package edu.colorado.phet.faraday.control.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -22,12 +25,6 @@ import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
 public class OptionsMenu extends JMenu {
     
     //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private FaradayApplication _application;
-    
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -36,54 +33,56 @@ public class OptionsMenu extends JMenu {
      * 
      * @param application
      */
-    public OptionsMenu( FaradayApplication application ) {
+    public OptionsMenu( final FaradayApplication application ) {
         
         super( FaradayStrings.MENU_OPTIONS );
         
-        _application = application;
-        
         setMnemonic( FaradayStrings.MNEMONIC_OPTIONS );
 
-        // Background Color menu item
-        JMenuItem backgroundColorMenuItem = new JMenuItem( FaradayStrings.MENU_ITEM_BACKGROUND_COLOR );
+        // Background Color menu item, disabled when dialog is open
+        final JMenuItem backgroundColorMenuItem = new JMenuItem( FaradayStrings.MENU_ITEM_BACKGROUND_COLOR );
         backgroundColorMenuItem.setMnemonic( FaradayStrings.MNEMONIC_BACKGROUND_COLOR );
         backgroundColorMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                handleBackgroundColorMenuItem();
+                BackgroundColorHandler handler = new BackgroundColorHandler( application );
+                JDialog backgroundColorDialog = handler.getDialog();
+                backgroundColorDialog.addWindowListener( new WindowAdapter() {
+                    // called when dispose is called
+                    public void windowClosed( WindowEvent e ) {
+                        backgroundColorMenuItem.setEnabled( true );
+                    }
+                    // called when the close button in the dialog's window dressing is clicked
+                    public void windowClosing( WindowEvent e ) {
+                        backgroundColorMenuItem.setEnabled( true );
+                    }
+                } );
+                backgroundColorDialog.setVisible( true );
+                backgroundColorMenuItem.setEnabled( false );
             }
         } );
         add( backgroundColorMenuItem );
 
-        // Grid Controls dialog
-        JMenuItem gridControlsMenuItem = new JMenuItem( FaradayStrings.MENU_ITEM_GRID_CONTROLS );
+        // Grid Controls dialog, disabled when dialog is open
+        final JMenuItem gridControlsMenuItem = new JMenuItem( FaradayStrings.MENU_ITEM_GRID_CONTROLS );
         gridControlsMenuItem.setMnemonic( FaradayStrings.MNEMONIC_GRID_CONTROLS );
         gridControlsMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                handleGridControlsMenuItem();
+                final GridControlsDialog gridControlsDialog = new GridControlsDialog( application );
+                gridControlsDialog.addWindowListener( new WindowAdapter() {
+                    // called when dispose is called
+                    public void windowClosed( WindowEvent e ) {
+                        gridControlsMenuItem.setEnabled( true );
+                    }
+                    // called when the close button in the dialog's window dressing is clicked
+                    public void windowClosing( WindowEvent e ) {
+                        gridControlsDialog.revert();
+                        gridControlsMenuItem.setEnabled( true );
+                    }
+                } );
+                gridControlsDialog.setVisible( true );
+                gridControlsMenuItem.setEnabled( false );
             }
         } );
         add( gridControlsMenuItem );
-    }
-
-    //----------------------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Handles the "Background Color" menu item.
-     * Displays a Color dialog and changes the background of all apparatus panels.
-     */
-    private void handleBackgroundColorMenuItem() {
-        BackgroundColorHandler dialog = new BackgroundColorHandler( _application );
-        dialog.showDialog();
-    }
-    
-    /**
-     * Handles the "Grid Controls" menu item.
-     * Opens a dialog that contains controls for the "compass grid".
-     */
-    public void handleGridControlsMenuItem() {
-        GridControlsDialog dialog = new GridControlsDialog( _application );
-        dialog.setVisible( true );
     }
 }
