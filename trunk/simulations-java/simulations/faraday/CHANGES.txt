@@ -3,6 +3,7 @@ Changes for faraday
 ===============================================================================
 
 DONE:
+3/20/08 - convert to new-style tabs for switching modules [#426]
 3/19/08 - remove redundant entries from localization files
 3/19/08 - statically load all localized strings in FaradayStrings
 3/19/08 - remove MessageFormat-style strings from localization files, convert to symbolic constants
