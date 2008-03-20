@@ -27,17 +27,26 @@ public class DeveloperMenu extends JMenu {
         super( "Developer" );
         
         setMnemonic( 'v' );
-
+        
+        // Pickup Coil sample points
+        final JCheckBoxMenuItem samplesMenuItem = new JCheckBoxMenuItem( "Show pickup coil sample points" );
+        samplesMenuItem.setSelected( PickupCoilGraphic.DEBUG_DRAW_PICKUP_SAMPLE_POINTS );
+        samplesMenuItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                PickupCoilGraphic.DEBUG_DRAW_PICKUP_SAMPLE_POINTS = samplesMenuItem.isSelected();
+            }
+        } );
+        add( samplesMenuItem );
+        
         // Pickup Coil flux display
-        {
-            final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( "Display pickup coil flux" );
-            menuItem.setSelected( PickupCoilGraphic.DEBUG_DISPLAY_FLUX );
-            menuItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    PickupCoilGraphic.DEBUG_DISPLAY_FLUX = menuItem.isSelected();
-                }
-            } );
-            add( menuItem );
-        }
+        final JCheckBoxMenuItem fluxMenuItem = new JCheckBoxMenuItem( "Display pickup coil flux" );
+        fluxMenuItem.setSelected( PickupCoilGraphic.DEBUG_DISPLAY_FLUX );
+        fluxMenuItem.addActionListener( new ActionListener() {
+
+            public void actionPerformed( ActionEvent e ) {
+                PickupCoilGraphic.DEBUG_DISPLAY_FLUX = fluxMenuItem.isSelected();
+            }
+        } );
+        add( fluxMenuItem );
     }
 }
