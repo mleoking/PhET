@@ -65,7 +65,7 @@ public class GreenhouseApplication extends PhetApplication {
                 initLookAndFeel();
 
                 JFrame window = new JFrame();
-                AWTSplashWindow splashWindow = new AWTSplashWindow( window, SimStrings.get( "GreenHouseApplication.title" ) );
+                AWTSplashWindow splashWindow = new AWTSplashWindow( window, SimStrings.get( "greenhouse.name" ) );
                 splashWindow.show();
 
                 BaseGreenhouseModule greenhouseModule = new GreenhouseModule();
