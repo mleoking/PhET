@@ -248,7 +248,7 @@ class CompassNeedleCache {
         Color color = _northColorTable[ index ];
         if ( color == null ) {
             if ( _alphaEnabled ) {
-                // Alpha works on any background, but you pay a peformance price.
+                // Alpha works on any background, but you pay a performance price.
                 color = new Color( 255, 0, 0, index );
             }
             else {
