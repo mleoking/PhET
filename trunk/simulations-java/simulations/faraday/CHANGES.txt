@@ -3,6 +3,7 @@ Changes for faraday
 ===============================================================================
 
 DONE:
+3/20/08 - change bar magnet range to 0-100%, adjust major ticks on slider [#435]
 3/20/08 - add developer control to show electromagnet model shape
 3/20/08 - add developer control to turn on/off display of pickup coil sample points
 3/20/08 - simplify setting of DEBUG_DISPLAY_FLUX from Developer menu

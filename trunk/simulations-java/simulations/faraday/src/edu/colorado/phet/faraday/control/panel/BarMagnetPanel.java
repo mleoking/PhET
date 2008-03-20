@@ -103,6 +103,7 @@ public class BarMagnetPanel extends FaradayPanel {
             // Slider
             _strengthControl = new LinearValueControl( min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
             _strengthControl.setValue( min );
+            _strengthControl.setMajorTickSpacing( 50 );
             _strengthControl.setMinorTickSpacing( 10 );
             _strengthControl.setTextFieldEditable( true );
             _strengthControl.setTextFieldColumns( 3 );
