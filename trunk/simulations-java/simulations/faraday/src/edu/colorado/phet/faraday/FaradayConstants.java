@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday;
 
@@ -21,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * See modules for module-specific parameters.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class FaradayConstants {
    
@@ -96,7 +86,6 @@ public class FaradayConstants {
     public static final int ELECTROMAGNET_LOOPS_MAX = 4;
     public static final int ELECTROMAGNET_LOOPS_MIN = 1;
     public static final int ELECTROMAGNET_WIRE_WIDTH = 20;
-    public static final double ELECTROMAGNET_ASPECT_RATIO = 4/1;  // width:height
     
     //----------------------------------------------------------------------------
     // Turbine parameters
