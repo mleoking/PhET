@@ -7,6 +7,7 @@ import java.awt.geom.Ellipse2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
@@ -32,7 +33,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
     // Class data
     //----------------------------------------------------------------------------
     
-    private static boolean _displayFluxEnabled = false;
+    public static boolean DEBUG_DISPLAY_FLUX = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -116,17 +117,17 @@ public class PickupCoilGraphic extends GraphicLayerSet
         
         // Area & flux display
         {
-            _fluxFormatter = new DecimalFormat( "###0.00" );
+            _fluxFormatter = new DefaultDecimalFormat( "###0.00" );
             Font font = new Font( "SansSerif", Font.PLAIN, 15 );
             
             final int x = 20;
             
             _fluxValue = new PhetTextGraphic( component, font, "XXX", Color.YELLOW, x, -25 );
-            _fluxValue.setVisible( _displayFluxEnabled );
+            _fluxValue.setVisible( DEBUG_DISPLAY_FLUX );
             _deltaFluxValue = new PhetTextGraphic( component, font, "YYY", Color.YELLOW, x, 0 );
-            _deltaFluxValue.setVisible( _displayFluxEnabled );
+            _deltaFluxValue.setVisible( DEBUG_DISPLAY_FLUX );
             _emfValue = new PhetTextGraphic( component, font, "WWW", Color.YELLOW, x, 25 );
-            _emfValue.setVisible( _displayFluxEnabled );
+            _emfValue.setVisible( DEBUG_DISPLAY_FLUX );
             
             _foreground.addGraphic( _fluxValue );
             _foreground.addGraphic( _deltaFluxValue );
@@ -200,24 +201,6 @@ public class PickupCoilGraphic extends GraphicLayerSet
         }
     }
     
-    /**
-     * Enables or disabled the display of debugging info.
-     * 
-     * @param displayFluxEnabled true or false
-     */
-    public static void setDisplayFluxEnabled( boolean displayFluxEnabled ) {
-        _displayFluxEnabled = displayFluxEnabled;
-    }
-    
-    /**
-     * Is the display of debugging info enabled?
-     * 
-     * @return true or false
-     */
-    public static boolean isDisplayFluxEnabled() {
-        return _displayFluxEnabled;
-    }
-    
     //----------------------------------------------------------------------------
     // GraphicLayerSet overrides
     //----------------------------------------------------------------------------
@@ -274,11 +257,11 @@ public class PickupCoilGraphic extends GraphicLayerSet
             
             // Flux display
             {
-                _fluxValue.setVisible( _displayFluxEnabled );
-                _deltaFluxValue.setVisible( _displayFluxEnabled );
-                _emfValue.setVisible( _displayFluxEnabled );
+                _fluxValue.setVisible( DEBUG_DISPLAY_FLUX );
+                _deltaFluxValue.setVisible( DEBUG_DISPLAY_FLUX );
+                _emfValue.setVisible( DEBUG_DISPLAY_FLUX );
                 
-                if ( _displayFluxEnabled ) {
+                if ( DEBUG_DISPLAY_FLUX ) {
                     double flux = _pickupCoilModel.getFlux();
                     double deltaFlux = _pickupCoilModel.getDeltaFlux();
                     double emf = _pickupCoilModel.getEmf();
