@@ -31,10 +31,10 @@ public class DeveloperMenu extends JMenu {
         // Pickup Coil flux display
         {
             final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( "Display pickup coil flux" );
-            menuItem.setSelected( PickupCoilGraphic.isDisplayFluxEnabled() );
+            menuItem.setSelected( PickupCoilGraphic.DEBUG_DISPLAY_FLUX );
             menuItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    PickupCoilGraphic.setDisplayFluxEnabled( menuItem.isSelected() );
+                    PickupCoilGraphic.DEBUG_DISPLAY_FLUX = menuItem.isSelected();
                 }
             } );
             add( menuItem );

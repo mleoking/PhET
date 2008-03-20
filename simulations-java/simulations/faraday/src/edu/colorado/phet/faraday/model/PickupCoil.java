@@ -1,4 +1,4 @@
-/* Copyright 2004-208, University of Colorado */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 

@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
@@ -21,6 +22,12 @@ import edu.colorado.phet.faraday.module.*;
 public class FaradayApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private final boolean _developControlsEnabled;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
@@ -29,6 +36,7 @@ public class FaradayApplication extends PhetApplication {
      */
     public FaradayApplication( PhetApplicationConfig config ) {
         super( config );
+        _developControlsEnabled = CommandLineUtils.contains( config.getCommandLineArgs(), "-dev" );
         initModules();
         initMenubar();
     }
@@ -56,12 +64,12 @@ public class FaradayApplication extends PhetApplication {
         getPhetFrame().addMenu( optionsMenu );
 
         // Developer menu
-        if ( FaradayConstants.DEBUG_ENABLE_DEVELOPER_MENU ) {
+        if ( _developControlsEnabled ) {
             DeveloperMenu developerMenu = new DeveloperMenu();
             getPhetFrame().addMenu( developerMenu );
         }
     }
-
+    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
