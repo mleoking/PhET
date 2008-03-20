@@ -29,6 +29,12 @@ public class ElectromagnetGraphic extends GraphicLayerSet
 implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    public static boolean DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = false;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -84,8 +90,9 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
          */
         
         // Graphic that represents the magnet's bounds.
-        if ( FaradayConstants.DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE ) {
+        {
             _modelShapeGraphic = new PhetShapeGraphic( component );
+            _modelShapeGraphic.setVisible( DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE );
             _modelShapeGraphic.setBorderColor( Color.YELLOW );
             _modelShapeGraphic.setStroke( new BasicStroke( 1f ) );
             _foreground.addGraphic( _modelShapeGraphic );
@@ -203,7 +210,8 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         if ( isVisible() ) {
             
             // Configure the graphic that represents the magnet's shape.
-            if ( _modelShapeGraphic != null ) {
+            _modelShapeGraphic.setVisible( DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE );
+            if ( DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE ) {
                 _modelShapeGraphic.setShape( _electromagnetModel.getShape() );
             }
             

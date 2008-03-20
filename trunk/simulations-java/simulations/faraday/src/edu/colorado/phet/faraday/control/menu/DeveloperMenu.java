@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
+import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
 import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
 
@@ -42,11 +43,20 @@ public class DeveloperMenu extends JMenu {
         final JCheckBoxMenuItem fluxMenuItem = new JCheckBoxMenuItem( "Display pickup coil flux" );
         fluxMenuItem.setSelected( PickupCoilGraphic.DEBUG_DISPLAY_FLUX );
         fluxMenuItem.addActionListener( new ActionListener() {
-
             public void actionPerformed( ActionEvent e ) {
                 PickupCoilGraphic.DEBUG_DISPLAY_FLUX = fluxMenuItem.isSelected();
             }
         } );
         add( fluxMenuItem );
+        
+        // Electromagnet shape
+        final JCheckBoxMenuItem electromagnetShapeItem = new JCheckBoxMenuItem( "Show electromagnet model shape" );
+        electromagnetShapeItem.setSelected( ElectromagnetGraphic.DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE );
+        electromagnetShapeItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                ElectromagnetGraphic.DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = electromagnetShapeItem.isSelected();
+            }
+        } );
+        add( electromagnetShapeItem ); 
     }
 }

@@ -21,7 +21,6 @@ public class FaradayConstants {
     
     public static final boolean DEBUG_PICKUP_COIL_EMF = false;
     public static final boolean DEBUG_ENABLE_SCALE_PANEL = false;
-    public static final boolean DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = false;
     
     //----------------------------------------------------------------------------
     // Application
