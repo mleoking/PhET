@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
-import java.text.MessageFormat;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

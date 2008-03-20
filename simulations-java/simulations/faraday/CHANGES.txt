@@ -3,6 +3,7 @@ Changes for faraday
 ===============================================================================
 
 DONE:
+3/20/08 - delete CVS file headers, remove CVS keywords from javadoc, organize imports
 3/20/08 - increase range of loop area control [#425]
 3/20/08 - revert settings if Field Controls dialog is closed via close button in window dressing
 3/20/08 - ensure that Options menu can't open multiple copies of the same dialog [#427]

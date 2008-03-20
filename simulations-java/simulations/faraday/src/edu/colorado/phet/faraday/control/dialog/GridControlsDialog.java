@@ -26,7 +26,6 @@ import edu.colorado.phet.faraday.module.ICompassGridModule;
  * grids in the entire application.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class GridControlsDialog extends JDialog implements ActionListener, ChangeListener {
 

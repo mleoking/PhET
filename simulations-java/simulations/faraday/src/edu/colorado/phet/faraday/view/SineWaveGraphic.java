@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -30,7 +21,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
  * be drawn.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class SineWaveGraphic extends PhetShapeGraphic {
     

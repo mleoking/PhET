@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -29,7 +20,6 @@ import edu.colorado.phet.faraday.model.BarMagnet;
  * The registration point is at the center of the image.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BarMagnetGraphic extends PhetImageGraphic
     implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {

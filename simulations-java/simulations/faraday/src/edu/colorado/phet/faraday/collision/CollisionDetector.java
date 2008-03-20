@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.collision;
 
@@ -24,7 +15,6 @@ import java.util.Iterator;
  * Two objects collide if any of the Rectangles in their collision bounds intersect.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class CollisionDetector {
 

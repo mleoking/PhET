@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-208, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
 
@@ -26,7 +17,6 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * It's behavior follows Faraday's Law for electromagnetic induction.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObserver {
     

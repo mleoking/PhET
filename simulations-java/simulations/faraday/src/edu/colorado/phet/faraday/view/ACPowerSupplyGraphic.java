@@ -23,7 +23,6 @@ import edu.colorado.phet.faraday.model.ACPowerSupply;
  * ACPowerSupplyGraphic is the graphical representation of an AC power supply.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObserver {
 

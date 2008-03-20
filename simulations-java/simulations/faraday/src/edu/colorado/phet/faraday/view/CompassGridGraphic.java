@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.view;
 
@@ -30,7 +21,6 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * and orientation of a magnetic field at a grid of points in 2D space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, ApparatusPanel2.ChangeListener {
 

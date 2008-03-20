@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.control.menu;
 
@@ -28,7 +19,6 @@ import edu.colorado.phet.faraday.view.PickupCoilGraphic;
  * Since this is a debugging menu, it is not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class DeveloperMenu extends JMenu {
     

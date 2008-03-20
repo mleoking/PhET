@@ -1,13 +1,4 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.control;
 
@@ -29,7 +20,6 @@ import edu.colorado.phet.faraday.FaradayResources;
  * It has a knob, a knob hightlight, and a track, with no background.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class FaradaySlider extends GraphicSlider {
 

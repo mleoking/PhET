@@ -1,16 +1,6 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2008, University of Colorado */
 
 package edu.colorado.phet.faraday.model;
-
 
 
 /**
@@ -18,7 +8,6 @@ package edu.colorado.phet.faraday.model;
  * capable of creating voltage.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public abstract class AbstractVoltageSource extends FaradayObservable {
 
