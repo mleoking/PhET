@@ -73,7 +73,7 @@ public class FaradayConstants {
     //----------------------------------------------------------------------------
     
     public static final double BAR_MAGNET_STRENGTH_MAX = 300.0; // Gauss
-    public static final double BAR_MAGNET_STRENGTH_MIN = 0;//0.50 * BAR_MAGNET_STRENGTH_MAX; // Gauss
+    public static final double BAR_MAGNET_STRENGTH_MIN = 0; // Gauss
 
     //----------------------------------------------------------------------------
     // Electromagnet parameters
@@ -89,7 +89,7 @@ public class FaradayConstants {
     //----------------------------------------------------------------------------
     
     public static final double TURBINE_STRENGTH_MAX = 300.0; // Gauss
-    public static final double TURBINE_STRENGTH_MIN = 0.50 * TURBINE_STRENGTH_MAX; // Gauss;
+    public static final double TURBINE_STRENGTH_MIN = 0; // Gauss;
     
     //----------------------------------------------------------------------------
     // Compass Grid parameters
