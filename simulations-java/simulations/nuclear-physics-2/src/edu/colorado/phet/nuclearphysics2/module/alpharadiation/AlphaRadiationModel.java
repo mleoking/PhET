@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -38,19 +39,12 @@ public class AlphaRadiationModel {
     // Constructor
     //------------------------------------------------------------------------
     
-    public AlphaRadiationModel()
+    public AlphaRadiationModel(NuclearPhysics2Clock clock)
     {
-        // Various random number generators needed for model behavior.
-        final Random numParticlesRand = new Random();
-        final Random initialParticlePosRand = new Random();
-        final Random moveParticlesRand = new Random();
-        
         // Create a nucleus with an atomic weight of 211, which is Polonium.
         _atomicNucleus = new AtomicNucleus(0, 0, 211);
         
-        // Create the clock that will drive this model.
-        _clock = new ConstantDtClock(30, 1.0);
-        _clock.addClockListener( new ClockAdapter(){
+        clock.addClockListener( new ClockAdapter(){
             
             /**
              * Clock tick handler - causes the model to move forward one
@@ -59,16 +53,20 @@ public class AlphaRadiationModel {
             public void clockTicked(ClockEvent clockEvent){
                 
                 _tickCounter++;
-                final Random rand = new Random();
                 
                 // Let the nucleus know that the clock ticked so that it can 'agitate'.
                 _atomicNucleus.clockTicked();
                 
             }
+            
+            public void simulationTimeReset(ClockEvent clockEvent){
+                _tickCounter = 0;
+                _atomicNucleus.reset();
+            }
         });
         
         // Start the clock.
-        _clock.start();
+        clock.start();
     }
     
     //------------------------------------------------------------------------

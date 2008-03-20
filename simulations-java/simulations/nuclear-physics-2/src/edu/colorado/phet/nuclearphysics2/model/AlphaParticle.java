@@ -48,8 +48,10 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     private Point2D.Double _position;
     
     // Values used for autonomous translation.
-    private double _xAutoDelta;
-    private double _yAutoDelta;
+    private double _xVelocity;
+    private double _yVelocity;
+    private double _xAcceleration;
+    private double _yAcceleration;
     private int _changeHysteresis = HYSTERESIS_VALUE;
     
     // Random number generator, used for creating some random behavior.
@@ -66,8 +68,8 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     {
         _position = new Point2D.Double(xPos, yPos);
 
-        _xAutoDelta = MAX_AUTO_TRANSLATE_AMT *((_rand.nextDouble() * 2.0) - 1.0); 
-        _yAutoDelta = MAX_AUTO_TRANSLATE_AMT * ((_rand.nextDouble() * 2.0) - 1.0); 
+        _xVelocity = MAX_AUTO_TRANSLATE_AMT *((_rand.nextDouble() * 2.0) - 1.0); 
+        _yVelocity = MAX_AUTO_TRANSLATE_AMT * ((_rand.nextDouble() * 2.0) - 1.0); 
     }
     
     //------------------------------------------------------------------------
@@ -142,18 +144,18 @@ public class AlphaParticle implements AtomicNucleusConstituent {
             if (Math.abs( _position.x ) > 3 * Math.abs( _position.y ))
             {
                 // Bounce only in x direction.
-                _xAutoDelta = - _xAutoDelta;
+                _xVelocity = - _xVelocity;
             }
             else if (Math.abs( _position.y ) > 3 * Math.abs( _position.x ))
             {
                 // Bounce only in y direction.
-                _yAutoDelta = - _yAutoDelta;
+                _yVelocity = - _yVelocity;
             }
             else
             {
                 // Bounce in both directions.
-                _xAutoDelta = - _xAutoDelta;
-                _yAutoDelta = - _yAutoDelta;
+                _xVelocity = - _xVelocity;
+                _yVelocity = - _yVelocity;
             }
             
             // Reset the hysteresis counter.
@@ -183,8 +185,8 @@ public class AlphaParticle implements AtomicNucleusConstituent {
                 // Change our auto-translation speed and direction.  This is
                 // done to simulate collisions and other interactions in the
                 // nucleus.
-                _xAutoDelta = MAX_AUTO_TRANSLATE_AMT *((_rand.nextDouble() * 2.0) - 1.0); 
-                _yAutoDelta = MAX_AUTO_TRANSLATE_AMT * ((_rand.nextDouble() * 2.0) - 1.0);             
+                _xVelocity = MAX_AUTO_TRANSLATE_AMT *((_rand.nextDouble() * 2.0) - 1.0); 
+                _yVelocity = MAX_AUTO_TRANSLATE_AMT * ((_rand.nextDouble() * 2.0) - 1.0);             
                 
                 if (distanceFromOrigin > BASIC_NUCLEUS_RADIUS)
                 {
@@ -192,19 +194,19 @@ public class AlphaParticle implements AtomicNucleusConstituent {
                     // create a slight bias towards moving back towards the
                     // center.
                     
-                    if (((_xAutoDelta > 0.0) && (_position.x > 0.0)) ||
-                        ((_xAutoDelta < 0.0) && (_position.x < 0.0)))
+                    if (((_xVelocity > 0.0) && (_position.x > 0.0)) ||
+                        ((_xVelocity < 0.0) && (_position.x < 0.0)))
                     {
                         // Reverse our direction in this dimension in order to
                         // tend more toward the origin.
-                        _xAutoDelta = -_xAutoDelta;
+                        _xVelocity = -_xVelocity;
                     }
-                    if (((_yAutoDelta > 0.0) && (_position.y > 0.0)) ||
-                            ((_yAutoDelta < 0.0) && (_position.y < 0.0)))
+                    if (((_yVelocity > 0.0) && (_position.y > 0.0)) ||
+                            ((_yVelocity < 0.0) && (_position.y < 0.0)))
                     {
                         // Reverse our direction in this dimension in order to
                         // tend more toward the origin.
-                        _yAutoDelta = -_yAutoDelta;
+                        _yVelocity = -_yVelocity;
                     }
                 }
                 
@@ -214,8 +216,8 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         }
         
         // Update our position based on our current delta (i.e. velocity).
-        _position.x += _xAutoDelta;
-        _position.y += _yAutoDelta;
+        _position.x += _xVelocity;
+        _position.y += _yVelocity;
         
         // Notify all listeners of the position change.
         for (int i = 0; i < _listeners.size(); i++)
@@ -317,8 +319,10 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         }
         
         // Set our initial values for translating out of the nucleus.
-        _xAutoDelta = 0.75 * Math.sin( newAngle );
-        _yAutoDelta = 0.75 * Math.cos( newAngle );
+        _xVelocity = 0.75 * Math.sin( newAngle );
+        _yVelocity = 0.75 * Math.cos( newAngle );
+        _xAcceleration = 0.3 * _xVelocity;
+        _yAcceleration = 0.3 * _yVelocity;
         
         // Change our tunneling state.
         _tunnelingState = TUNNELING_OUT_OF_NUCLEUS;
@@ -342,17 +346,36 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         }
         
         // Move some amount.
-        _position.x += _xAutoDelta;
-        _position.y += _yAutoDelta;
-
+        _position.x += _xVelocity;
+        _position.y += _yVelocity;
+        
         // Notify all listeners of the position change.
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).positionChanged(); 
         }
         
         // Accelerate.
-        _xAutoDelta += 0.1 * _xAutoDelta;
-        _yAutoDelta += 0.1 * _yAutoDelta;
+        _xVelocity += _xAcceleration;
+        _yVelocity += _yAcceleration;
+    }
+    
+    /**
+     * This method returns to the nucleus a particle that is in the process
+     * of tunneling or that has fully tunneled away.
+     */
+    public void resetTunneling(){
+        
+        if (_tunnelingState == IN_NUCLEUS){
+            // We are currently in the nucleus, so no changes are required.
+            return;
+        }
+        
+        // Return our position to the origin.
+        _position.x = 0;
+        _position.y = 0;
+        
+        // Reset the tunneling state.
+        _tunnelingState = IN_NUCLEUS;
     }
     
     

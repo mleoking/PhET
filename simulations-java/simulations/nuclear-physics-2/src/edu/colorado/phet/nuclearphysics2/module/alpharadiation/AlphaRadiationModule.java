@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Application;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
+import edu.colorado.phet.nuclearphysics2.defaults.AlphaRadiationDefaults;
 import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
 import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
@@ -39,12 +40,12 @@ public class AlphaRadiationModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public AlphaRadiationModule( Frame parentFrame ) {
-        super( NuclearPhysics2Strings.TITLE_ALPHA_RADIATION_MODULE, 
-               new NuclearPhysics2Clock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ));
+        super( NuclearPhysics2Strings.TITLE_ALPHA_RADIATION_MODULE,
+               new NuclearPhysics2Clock( AlphaRadiationDefaults.CLOCK_FRAME_RATE, AlphaRadiationDefaults.CLOCK_DT ));
  
         // Model
         NuclearPhysics2Clock clock = (NuclearPhysics2Clock) getClock();
-        _model = new AlphaRadiationModel();
+        _model = new AlphaRadiationModel(clock);
 
         // Canvas
         _canvas = new AlphaRadiationCanvas( _model );
