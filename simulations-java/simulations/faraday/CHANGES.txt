@@ -3,6 +3,7 @@ Changes for faraday
 ===============================================================================
 
 DONE:
+********* version 1.05.03 (17033)
 3/20/08 - change turbine range to 0-100%, adjust major ticks on slider [#435]
 3/20/08 - change bar magnet range to 0-100%, adjust major ticks on slider [#435]
 3/20/08 - add developer control to show electromagnet model shape
@@ -20,6 +21,9 @@ DONE:
 3/19/08 - remove obsolete/disabled "challenge" from Transformer module and localization files
 11/9/07 - move about.credits property to localization file
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
+********* version 1.05.02 (?)
+********* version 1.05.01 (?)
+10/8/07 - added Arabic translation
 ********* version 1.05.00 (17033)
 7/27/07 - new version published as part of new website deployment
 7/2/07 - wrap the body of main in invokeLater

@@ -1,0 +1,15 @@
+<html>
+<p>
+<big><big><b>
+Faraday's Electromagnetic Laboratory, version 1.05.03
+</b></big></big>
+<p>
+<b>What's new:</b>
+<p>
+<ul>
+<li>new-style tabs are used for panel switching [#426]
+<li>loop area has a larger range [#425]
+<li>bar magnet and turbine strength range is changed to 0-100% [#435]
+<li>duplicate dialogs cannot be opened from the Options menu [#427]
+</ul>
+</html>
