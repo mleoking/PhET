@@ -47,7 +47,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
     private CompositePhetGraphic _foreground, _background;
     private CollisionDetector _collisionDetector;
     private FluxDisplayGraphic _fluxDisplayGraphic;
-    private SamplePointsGraphic _samplePointsGraphic;
+    private PickupCoilSamplePointsGraphic _samplePointsGraphic;
     private FaradayMouseHandler _mouseHandler;
     
     //----------------------------------------------------------------------------
@@ -110,7 +110,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
         setDraggingEnabled( true );
         
         // Points on the coil where the magnetic field is sampled to compute flux.
-        _samplePointsGraphic = new SamplePointsGraphic( component, pickupCoilModel );
+        _samplePointsGraphic = new PickupCoilSamplePointsGraphic( component, pickupCoilModel );
         _foreground.addGraphic( _samplePointsGraphic );
         
         // Area & flux display
