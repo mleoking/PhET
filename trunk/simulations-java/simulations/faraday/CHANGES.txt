@@ -3,6 +3,9 @@ Changes for faraday
 ===============================================================================
 
 DONE:
+3/21/08 - promote graphic that displays coil sample points to top-level
+3/21/08 - generalize view of pickup coil sample points to handle variable number of sample points
+3/21/08 - change pickup coil model to store and provide access to sample points
 3/21/08 - pull flux display graphics out of PickupCoilGraphic and into FluxDisplayGraphic
 3/21/08 - change "AC Power Supply" to "AC Current Supply" [#80]
 ********* version 1.05.03 (20342)
