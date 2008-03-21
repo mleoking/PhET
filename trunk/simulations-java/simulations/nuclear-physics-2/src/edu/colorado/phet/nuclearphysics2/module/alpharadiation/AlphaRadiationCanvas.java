@@ -19,8 +19,10 @@ import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationChart;
+import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics2.view.ProtonNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -68,6 +70,11 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         AtomicNucleus atomicNucleus = alphaRadiationModel.getAtomNucleus();
         ArrayList nucleusConstituents = atomicNucleus.getConstituents();
         
+        // Create the layer where we will display the nucleus.  This is being
+        // done so that a label can be placed over the top of it.
+        PNode nucleusLayer = new PNode();
+        addWorldChild(nucleusLayer);
+        
         for (int i = 0; i < nucleusConstituents.size(); i++){
             
             Object constituent = nucleusConstituents.get( i );
@@ -75,17 +82,20 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
             if (constituent instanceof AlphaParticle){
                 // Add a visible representation of the alpha particle to the canvas.
                 AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
-                addWorldChild(alphaNode);
+                nucleusLayer.addChild( alphaNode );
+                // JPB TBD addWorldChild(alphaNode);
             }
             else if (constituent instanceof Proton){
                 // Add a visible representation of the proton to the canvas.
                 ProtonNode protonNode = new ProtonNode((Proton)constituent);
-                addWorldChild(protonNode);
+                nucleusLayer.addChild( protonNode );
+                // JPB TBD addWorldChild(protonNode);
             }
             else if (constituent instanceof Neutron){
                 // Add a visible representation of the neutron to the canvas.
                 NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
-                addWorldChild(neutronNode);
+                nucleusLayer.addChild( neutronNode );
+                // JPB TBD addWorldChild(neutronNode);
             }
             else {
                 // There is some unexpected object in the list of constituents
@@ -94,6 +104,16 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 assert false;
             }
         }
+
+        // Add the nucleus node itself to the canvas, which is actually only
+        // the label, since the individual nodes show the individual particles.
+        // This must be added last so that it can appear on top of the nucleus.
+        PNode labelLayer = new PNode();
+        addWorldChild(labelLayer);
+        AtomicNucleusNode nucleusNode = new AtomicNucleusNode(atomicNucleus);
+        labelLayer.addChild( nucleusNode );
+        // JPB TBD addWorldChild(5, nucleusNode);
+
         
         // Register with the model for notifications of alpha particles coming
         // and going.

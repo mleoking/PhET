@@ -24,4 +24,7 @@ public class NuclearPhysics2Strings {
     public static final String UNITS_ORIENTATION = NuclearPhysics2Resources.getString( "units.orientation");
     public static final String UNITS_TIME = NuclearPhysics2Resources.getString( "units.time" );
 
+    public static final String POLONIUM_211_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Polonium211Graphic.Symbol" );
+    public static final String POLONIUM_211_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Polonium211Graphic.Number" );
+
 }
