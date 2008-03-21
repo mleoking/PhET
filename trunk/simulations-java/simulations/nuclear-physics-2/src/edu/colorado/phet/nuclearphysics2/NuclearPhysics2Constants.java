@@ -76,6 +76,13 @@ public class NuclearPhysics2Constants {
     // Default color for module tabs
     public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
     
+    // Color for nuclei labeled as polonium.
+    public static final Color POLONIUM_LABEL_COLOR = Color.MAGENTA;
+    
+    // Color for nuclei labeled as lead.
+    public static final Color LEAD_LABEL_COLOR = new Color(0x00bfff);
+    
+    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
