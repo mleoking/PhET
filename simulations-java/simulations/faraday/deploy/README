@@ -11,5 +11,6 @@ Faraday's Electromagnetic Lab, version 1.05.03
 <li>loop area has a larger range [#425]
 <li>bar magnet and turbine strength range is changed to 0-100% [#435]
 <li>duplicate dialogs cannot be opened from the Options menu [#427]
+<li>exposed Developer menu for various developer controls
 </ul>
 </html>
