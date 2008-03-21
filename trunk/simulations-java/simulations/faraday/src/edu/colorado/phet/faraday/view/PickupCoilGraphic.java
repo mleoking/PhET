@@ -4,14 +4,15 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.Lightbulb;
@@ -45,8 +46,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
     private VoltmeterGraphic _voltmeterGraphic;
     private CompositePhetGraphic _foreground, _background;
     private CollisionDetector _collisionDetector;
-    private PhetTextGraphic _fluxValue, _deltaFluxValue, _emfValue;
-    private DecimalFormat _fluxFormatter;
+    private FluxDisplayGraphic _fluxDisplayGraphic;
     private SamplePointsGraphic _samplePointsGraphic;
     private FaradayMouseHandler _mouseHandler;
     
@@ -110,29 +110,13 @@ public class PickupCoilGraphic extends GraphicLayerSet
         setDraggingEnabled( true );
         
         // Points on the coil where the magnetic field is sampled to compute flux.
-        {
-            _samplePointsGraphic = new SamplePointsGraphic( component );           
-            _foreground.addGraphic( _samplePointsGraphic );
-        }
+        _samplePointsGraphic = new SamplePointsGraphic( component );
+        _foreground.addGraphic( _samplePointsGraphic );
         
         // Area & flux display
-        {
-            _fluxFormatter = new DefaultDecimalFormat( "###0.00" );
-            Font font = new Font( "SansSerif", Font.PLAIN, 15 );
-            
-            final int x = 20;
-            
-            _fluxValue = new PhetTextGraphic( component, font, "XXX", Color.YELLOW, x, -25 );
-            _fluxValue.setVisible( DEBUG_DISPLAY_FLUX );
-            _deltaFluxValue = new PhetTextGraphic( component, font, "YYY", Color.YELLOW, x, 0 );
-            _deltaFluxValue.setVisible( DEBUG_DISPLAY_FLUX );
-            _emfValue = new PhetTextGraphic( component, font, "WWW", Color.YELLOW, x, 25 );
-            _emfValue.setVisible( DEBUG_DISPLAY_FLUX );
-            
-            _foreground.addGraphic( _fluxValue );
-            _foreground.addGraphic( _deltaFluxValue );
-            _foreground.addGraphic( _emfValue );
-        }
+        _fluxDisplayGraphic = new FluxDisplayGraphic( component, pickupCoilModel );
+        _fluxDisplayGraphic.setLocation( 50, 0 );
+        _foreground.addGraphic( _fluxDisplayGraphic );
         
         update();
     }
@@ -257,21 +241,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
             }
             
             // Flux display
-            {
-                _fluxValue.setVisible( DEBUG_DISPLAY_FLUX );
-                _deltaFluxValue.setVisible( DEBUG_DISPLAY_FLUX );
-                _emfValue.setVisible( DEBUG_DISPLAY_FLUX );
-                
-                if ( DEBUG_DISPLAY_FLUX ) {
-                    double flux = _pickupCoilModel.getFlux();
-                    double deltaFlux = _pickupCoilModel.getDeltaFlux();
-                    double emf = _pickupCoilModel.getEmf();
-
-                    _fluxValue.setText( "Flux = " + _fluxFormatter.format( flux ) + " W" );
-                    _deltaFluxValue.setText( "Delta Flux = " + _fluxFormatter.format( deltaFlux ) + " W" );
-                    _emfValue.setText( "EMF = " + _fluxFormatter.format( emf ) + " V" );
-                }
-            }
+            _fluxDisplayGraphic.setVisible( DEBUG_DISPLAY_FLUX );
             
             _foreground.repaint();
             _background.repaint();
