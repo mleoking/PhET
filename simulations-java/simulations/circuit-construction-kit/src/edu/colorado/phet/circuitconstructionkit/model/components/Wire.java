@@ -3,9 +3,9 @@ package edu.colorado.phet.circuitconstructionkit.model.components;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.circuitconstructionkit.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
+import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 
 /**
  * User: Sam Reid
@@ -14,8 +14,8 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
  */
 
 public class Wire extends Branch {
-    public static final double LIFELIKE_THICKNESS = CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE;
-    public static final double SCHEMATIC_THICKNESS = CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE * 0.6;
+    public static final double LIFELIKE_THICKNESS = CCKDefaults.WIRE_THICKNESS * CCKDefaults.DEFAULT_SCALE;
+    public static final double SCHEMATIC_THICKNESS = CCKDefaults.WIRE_THICKNESS * CCKDefaults.DEFAULT_SCALE * 0.6;
     private double thickness = LIFELIKE_THICKNESS;
 
     public Wire( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {

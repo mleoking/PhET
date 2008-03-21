@@ -5,9 +5,9 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
+import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -31,7 +31,7 @@ public class PathBranch extends Branch {
     }
 
     public Shape getShape() {
-        return new BasicStroke( (float) ( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( getPath() );
+        return new BasicStroke( (float) ( CCKDefaults.WIRE_THICKNESS * CCKDefaults.DEFAULT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( getPath() );
     }
 
     public GeneralPath getPath() {

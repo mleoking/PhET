@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.common;
+package edu.colorado.phet.circuitconstructionkit.model;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
