@@ -3,7 +3,7 @@ Changes for faraday
 ===============================================================================
 
 DONE:
-********* version 1.05.03 (17033)
+********* version 1.05.03 (20342)
 3/20/08 - change turbine range to 0-100%, adjust major ticks on slider [#435]
 3/20/08 - change bar magnet range to 0-100%, adjust major ticks on slider [#435]
 3/20/08 - add developer control to show electromagnet model shape
