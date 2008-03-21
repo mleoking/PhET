@@ -14,8 +14,8 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.faraday.model.PickupCoil;
 
 /**
- * FluxDisplayGraphic display flux and emf information related to a pickup coil.
- * This is used for debugging.
+ * FluxDisplayGraphic displays flux and emf information related to a pickup coil.
+ * This is used for debugging and is not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
