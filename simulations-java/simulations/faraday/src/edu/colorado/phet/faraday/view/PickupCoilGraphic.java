@@ -2,8 +2,9 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -12,7 +13,6 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.Lightbulb;
@@ -110,7 +110,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
         setDraggingEnabled( true );
         
         // Points on the coil where the magnetic field is sampled to compute flux.
-        _samplePointsGraphic = new SamplePointsGraphic( component );
+        _samplePointsGraphic = new SamplePointsGraphic( component, pickupCoilModel );
         _foreground.addGraphic( _samplePointsGraphic );
         
         // Area & flux display
@@ -236,9 +236,6 @@ public class PickupCoilGraphic extends GraphicLayerSet
 
             // Sample points
             _samplePointsGraphic.setVisible( DEBUG_DRAW_PICKUP_SAMPLE_POINTS );
-            if ( DEBUG_DRAW_PICKUP_SAMPLE_POINTS ) {
-                _samplePointsGraphic.setPointLocations( (int)_pickupCoilModel.getRadius() );
-            }
             
             // Flux display
             _fluxDisplayGraphic.setVisible( DEBUG_DISPLAY_FLUX );
@@ -275,85 +272,5 @@ public class PickupCoilGraphic extends GraphicLayerSet
      */
     public void canvasSizeChanged( ChangeEvent event ) {
         _mouseHandler.setDragBounds( 0, 0, event.getCanvasSize().width, event.getCanvasSize().height );   
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /**
-     * SamplePointsGraphic is the graphical representation of the
-     * points on the coil where the magnetic field is sampled.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    public static class SamplePointsGraphic extends CompositePhetGraphic {
-        
-        private static final int POINT_RADIUS = 2;
-        private static final Color POINT_COLOR = Color.YELLOW;
-        private static final Color CENTER_COLOR = Color.RED;
-        
-        private PhetShapeGraphic _centerPoint;
-        private PhetShapeGraphic[] _abovePoints;
-        private PhetShapeGraphic[] _belowPoints;
-        
-        /**
-         * Sole constructor.
-         * Creates a set of graphics that represent the sample points.
-         * 
-         * @param component
-         */
-        public SamplePointsGraphic( Component component ) {
-            super( component );
-
-            int r = POINT_RADIUS;
-            Shape pointShape = new Ellipse2D.Double( -r, r, r * 2, r * 2 );
-
-            _centerPoint = new PhetShapeGraphic( component );
-            _centerPoint.setShape( pointShape );
-            _centerPoint.setColor( CENTER_COLOR );
-            _centerPoint.centerRegistrationPoint();
-            addGraphic( _centerPoint );
-
-            _abovePoints = new PhetShapeGraphic[ PickupCoil.SAMPLE_POINTS_ABOVE ];
-            for ( int i = 0; i < _abovePoints.length; i++ ) {
-                _abovePoints[i] = new PhetShapeGraphic( component );
-                _abovePoints[i].setShape( pointShape );
-                _abovePoints[i].setColor( POINT_COLOR );
-                _abovePoints[i].centerRegistrationPoint();
-                addGraphic( _abovePoints[i] );
-            }
-
-            _belowPoints = new PhetShapeGraphic[ PickupCoil.SAMPLE_POINTS_BELOW ];
-            for ( int i = 0; i < _belowPoints.length; i++ ) {
-                _belowPoints[i] = new PhetShapeGraphic( component );
-                _belowPoints[i].setShape( pointShape );
-                _belowPoints[i].setColor( POINT_COLOR );
-                _belowPoints[i].centerRegistrationPoint();
-                addGraphic( _belowPoints[i] );
-            }
-        }
-        
-        /**
-         * Sets the location of the sample points,
-         * typically called when the coil's radius is changed.
-         * 
-         * @param radius
-         */
-        public void setPointLocations( int radius ) {
-            // Center point
-            _centerPoint.setLocation( 0, 0 );
-            // Points above the center
-            for ( int i = 0; i < _abovePoints.length; i++ ) {
-                int y = ( i + 1 ) * ( radius / _abovePoints.length );
-                _abovePoints[i].setLocation( 0, -y );
-            }
-            // Points below the center
-            for ( int i = 0; i < _belowPoints.length; i++ ) {
-                int y = ( i + 1 ) * ( radius / _belowPoints.length );
-                _belowPoints[i].setLocation( 0, y );
-            }
-        }
     }
 }
