@@ -21,7 +21,7 @@ import edu.colorado.phet.faraday.model.PickupCoil;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SamplePointsGraphic extends CompositePhetGraphic implements SimpleObserver {
+public class PickupCoilSamplePointsGraphic extends CompositePhetGraphic implements SimpleObserver {
     
     private static final Color POINT_COLOR = Color.YELLOW;
     private static final Shape POINT_SHAPE = new Ellipse2D.Double( -2, 2, 4, 4 );
@@ -34,7 +34,7 @@ public class SamplePointsGraphic extends CompositePhetGraphic implements SimpleO
      * 
      * @param component
      */
-    public SamplePointsGraphic( Component component, PickupCoil pickupCoilModel ) {
+    public PickupCoilSamplePointsGraphic( Component component, PickupCoil pickupCoilModel ) {
         super( component );
         _pickupCoilModel = pickupCoilModel;
         _pickupCoilModel.addObserver( this );
