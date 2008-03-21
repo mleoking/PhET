@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.circuitconstructionkit.common.SimpleObservableDebug;
+import edu.colorado.phet.circuitconstructionkit.model.SimpleObservableDebug;
 
 /**
  * User: Sam Reid

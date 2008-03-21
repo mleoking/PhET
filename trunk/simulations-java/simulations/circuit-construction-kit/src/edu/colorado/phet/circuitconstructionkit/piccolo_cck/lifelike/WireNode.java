@@ -4,6 +4,7 @@ import java.awt.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
+import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.BranchNode;
@@ -28,7 +29,7 @@ public class WireNode extends BranchNode {
     private PPath wirePPath;
     private PPath wireHighlightPPath;
     private CircuitInteractionModel circuitInteractionModel;
-    public static final double DEFAULT_HIGHLIGHT_STROKE_WIDTH = CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE * CCKLookAndFeel.HIGHLIGHT_SCALE;
+    public static final double DEFAULT_HIGHLIGHT_STROKE_WIDTH = CCKDefaults.WIRE_THICKNESS * CCKDefaults.DEFAULT_SCALE * CCKLookAndFeel.HIGHLIGHT_SCALE;
     private double highlightStrokeWidth = DEFAULT_HIGHLIGHT_STROKE_WIDTH;
     private SimpleObserver wireObserver = new SimpleObserver() {
         public void update() {

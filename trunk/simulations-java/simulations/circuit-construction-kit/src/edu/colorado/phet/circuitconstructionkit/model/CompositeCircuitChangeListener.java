@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.phetgraphics;
+package edu.colorado.phet.circuitconstructionkit.model;
 
 import java.util.ArrayList;
 
