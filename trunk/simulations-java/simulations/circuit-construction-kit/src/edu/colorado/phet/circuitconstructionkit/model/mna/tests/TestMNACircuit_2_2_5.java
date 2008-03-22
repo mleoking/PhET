@@ -1,10 +1,10 @@
 /*  */
-package edu.colorado.phet.circuitconstructionkit.mna.tests;
+package edu.colorado.phet.circuitconstructionkit.model.mna.tests;
 
 import Jama.Matrix;
 
-import edu.colorado.phet.circuitconstructionkit.mna.JamaUtil;
-import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
+import edu.colorado.phet.circuitconstructionkit.model.mna.JamaUtil;
+import edu.colorado.phet.circuitconstructionkit.model.mna.MNACircuit;
 
 /**
  * User: Sam Reid

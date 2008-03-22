@@ -1,9 +1,9 @@
 /*  */
-package edu.colorado.phet.circuitconstructionkit.mna.tests;
+package edu.colorado.phet.circuitconstructionkit.model.mna.tests;
 
 import Jama.Matrix;
 
-import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
+import edu.colorado.phet.circuitconstructionkit.model.mna.MNACircuit;
 
 /**
  * User: Sam Reid
@@ -11,12 +11,11 @@ import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
  * Time: 4:16:22 PM
  */
 
-public class MNATest3 {
+public class MNATest {
     public static void main( String[] args ) {
         String[] netlist = new String[]{
-                "V1 0 1 8",
-                "R1 1 0 1",
-                "R2 1 0 1",
+                "V1 0 1 10",
+                "R1 1 0 1"
         };
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );

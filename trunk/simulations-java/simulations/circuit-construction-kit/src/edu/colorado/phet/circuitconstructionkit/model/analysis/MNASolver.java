@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.model.analysis;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
+import edu.colorado.phet.circuitconstructionkit.model.mna.MNACircuit;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 

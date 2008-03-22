@@ -1,7 +1,7 @@
 /*  */
-package edu.colorado.phet.circuitconstructionkit.mna.tests;
+package edu.colorado.phet.circuitconstructionkit.model.mna.tests;
 
-import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
+import edu.colorado.phet.circuitconstructionkit.model.mna.MNACircuit;
 
 /**
  * User: Sam Reid

@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.circuitconstructionkit.mna;
+package edu.colorado.phet.circuitconstructionkit.model.mna;
 
 import Jama.Matrix;
 
