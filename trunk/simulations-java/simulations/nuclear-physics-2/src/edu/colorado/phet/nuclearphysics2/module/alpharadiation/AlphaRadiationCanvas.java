@@ -75,8 +75,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         AtomicNucleus atomicNucleus = alphaRadiationModel.getAtomNucleus();
         ArrayList nucleusConstituents = atomicNucleus.getConstituents();
         
-        // Create the layer where we will display the nucleus.  This is being
-        // done so that a label can be placed over the top of it.
+        // Create a parent node where we will display the nucleus.  This is
+        // being done so that a label can be placed over the top of it.
         PNode nucleusLayer = new PNode();
         addWorldChild(nucleusLayer);
         

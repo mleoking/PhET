@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics2.view.FissionEnergyChart;
+import edu.colorado.phet.nuclearphysics2.view.NeutronSourceNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -34,6 +35,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
     private AtomicNucleusNode _atomicNucleusNode; 
+    private NeutronSourceNode _neutronSourceNode; 
     private FissionEnergyChart _fissionEnergyChart;
 
     //----------------------------------------------------------------------------
@@ -59,6 +61,10 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         // Add the nucleus node to the canvas.
         _atomicNucleusNode = new AtomicNucleusNode(fissionOneNucleusModel.getAtom());
         addWorldChild( _atomicNucleusNode );
+        
+        // Add the neutron source to the canvas.
+        _neutronSourceNode = new NeutronSourceNode(fissionOneNucleusModel.getNeutronSource());
+        addWorldChild( _neutronSourceNode );
         
         // Add to the canvas the chart that will depict the energy of the nucleus.
         _fissionEnergyChart = new FissionEnergyChart();
