@@ -12,10 +12,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 
 /**
- * TemplateConstants is a collection of constants that configure global properties.
+ * This class is a collection of constants that configure global properties.
  * If you change something here, it will change *everywhere* in this simulation.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco
  */
 public class NuclearPhysics2Constants {
 
@@ -76,11 +76,11 @@ public class NuclearPhysics2Constants {
     // Default color for module tabs
     public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
     
-    // Color for nuclei labeled as polonium.
+    // Color for the label used for the Polonium nucleus.
     public static final Color POLONIUM_LABEL_COLOR = Color.MAGENTA;
     
-    // Color for nuclei labeled as lead.
-    public static final Color LEAD_LABEL_COLOR = new Color(0x00bfff);
+    // Color for label used for the Lead nucleus.
+    public static final Color LEAD_LABEL_COLOR = new Color(0xc0ffff);
     
     
     //----------------------------------------------------------------------------
