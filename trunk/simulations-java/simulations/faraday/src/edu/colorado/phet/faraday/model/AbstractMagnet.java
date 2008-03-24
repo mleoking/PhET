@@ -182,19 +182,39 @@ public abstract class AbstractMagnet extends FaradayObservable {
     /**
      * Sets the physical size of the magnet.
      * 
+     * @param size the size
+     * @throws IllegalArgumentException if both dimensions are not > 0
+     */
+    public void setSize( Dimension size ) {
+        assert( size != null );
+        setSize( size.getWidth(), size.getHeight() );
+    }
+    
+    /**
+     * Sets the physical size of the magnet.
+     * 
      * @param width the width
      * @param height the height
      * @throws IllegalArgumentException if width or height is <= 0
      */
-    public void setSize( int width, int height ) {
+    public void setSize( double width, double height ) {
         if ( width <= 0 || height <= 0) {
             throw new IllegalArgumentException( "dimensions must be > 0" );
         }
-        if ( width != _size.width || height != _size.height ) {
+        if ( width != _size.getWidth() || height != _size.getHeight() ) {
             _size.setSize( width, height );
             notifySelf();
             notifyObservers();
         }
+    }
+    
+    /** 
+     * Gets the physical size of the magnet.
+     * 
+     * @return the size
+     */
+    public Dimension getSize() {
+        return new Dimension( _size );
     }
     
     /**
@@ -202,8 +222,8 @@ public abstract class AbstractMagnet extends FaradayObservable {
      * 
      * @return the width
      */
-    public int getWidth() {
-        return _size.width;
+    public double getWidth() {
+        return _size.getWidth();
     }
     
     /**
@@ -211,7 +231,7 @@ public abstract class AbstractMagnet extends FaradayObservable {
      * 
      * @return the height
      */
-    public int getHeight() {
-        return _size.height;
+    public double getHeight() {
+        return _size.getHeight();
     }
 }
