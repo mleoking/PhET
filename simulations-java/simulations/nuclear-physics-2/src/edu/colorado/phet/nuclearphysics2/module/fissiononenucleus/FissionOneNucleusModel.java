@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel.Listener;
 
 /**
@@ -31,9 +32,9 @@ public class FissionOneNucleusModel {
     //------------------------------------------------------------------------
     
     private AtomicNucleus _atomicNucleus;
+    private NeutronSource _neutronSource;
     private ArrayList _listeners = new ArrayList();
     private ConstantDtClock _clock;
-    private int _tickCounter = 0;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -43,6 +44,9 @@ public class FissionOneNucleusModel {
     {
         // Add the atomic nucleus to the center of this model.
         _atomicNucleus = new AtomicNucleus(0, 0, 235);
+        
+        // Add the neutron source to the side of the model.
+        _neutronSource = new NeutronSource(-50, 0);
         
         // Create the clock that will drive this model.
         _clock = new ConstantDtClock(30, 1.0);
@@ -55,7 +59,7 @@ public class FissionOneNucleusModel {
              * increment in time.
              */
             public void clockTicked(ClockEvent clockEvent){
-                // TODO: This needs to be filled in.
+                _atomicNucleus.clockTicked();
             }
         });
         
@@ -73,9 +77,18 @@ public class FissionOneNucleusModel {
      * 
      * @return - Reference to the nucleus model element.
      */
-    public AtomicNucleus getAtom()
-    {
+    public AtomicNucleus getAtom(){
         return _atomicNucleus;
+    }
+    
+    /**
+     * Get a reference to the neutron source, of which there is only one
+     * in this model.
+     * 
+     * @return - Reference to the neutron generator model element.
+     */
+    public NeutronSource getNeutronSource(){
+        return _neutronSource;
     }
     
     /**
