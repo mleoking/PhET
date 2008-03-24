@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
@@ -13,6 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
@@ -38,7 +40,7 @@ public class AlphaRadiationChart extends PComposite {
 
     // Constants for controlling the appearance of the chart.
     private static final Color   BORDER_COLOR = Color.DARK_GRAY;
-    private static final float   BORDER_STROKE_WIDTH = 8f;
+    private static final float   BORDER_STROKE_WIDTH = 6f;
     private static final Stroke  BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final Color   BACKGROUND_COLOR = Color.WHITE;
     private static final double  SCREEN_FRACTION_Y = 0.5d;
@@ -56,6 +58,14 @@ public class AlphaRadiationChart extends PComposite {
     private static final double  LEGEND_SIZE_X = 190.0d;
     private static final double  LEGEND_SIZE_Y = 100.0d;
 
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+
+    // Variables that control the dynamic attributes of the chart.
+    private double _energyWellWidth;  // In screen coordinates.
+    private PhetPCanvas _parentCanvas;
+
     // References to the various components of the chart.
     private PPath _borderNode;
     private PLine _totalEnergyLine;
@@ -71,7 +81,7 @@ public class AlphaRadiationChart extends PComposite {
     private PLine _potentialEnergyLegendLine;
     private PLine _totalEnergyLegendLine;
     
-    // Variable used for positioning nodes within the graph.
+    // Variables used for positioning nodes within the graph.
     double _usableAreaOriginX;
     double _usableAreaOriginY;
     double _usableWidth;
@@ -83,7 +93,10 @@ public class AlphaRadiationChart extends PComposite {
     // Constructor
     //------------------------------------------------------------------------
 
-    public AlphaRadiationChart() {
+    public AlphaRadiationChart(double energyWellWidth, PhetPCanvas parentCanvas) {
+        
+        _energyWellWidth = energyWellWidth;
+        _parentCanvas = parentCanvas;
 
         // Create the border for this chart.
         
@@ -184,6 +197,14 @@ public class AlphaRadiationChart extends PComposite {
      * height.
      */
     private void updateBounds( double canvasWidth, double canvasHeight ) {
+
+        AffineTransform worldToScreenTransform = _parentCanvas.getTransform();
+        double scale = 1.0;
+        double energyWellWidth = _energyWellWidth;
+        if (worldToScreenTransform != null){
+            scale = worldToScreenTransform.getScaleX();
+            energyWellWidth = scale * _energyWellWidth;
+        }
         
         // Recalculate the usable area and origin for the chart.
         
@@ -231,26 +252,30 @@ public class AlphaRadiationChart extends PComposite {
 
         _potentialEnergyWell.reset();
         
-        Point2D leftPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.85, 
-                _graphOriginY - (0.20 * _usableHeight));
-        Point2D leftBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 0.85,
+        Point2D leftPeakOfEnergyWell = 
+            new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) - (energyWellWidth/2), 
+                    _graphOriginY - (0.20 * _usableHeight));
+        Point2D leftBottomOfEnergyWell = 
+            new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) - (energyWellWidth/2),
                 _graphOriginY + (0.50 * _usableHeight));
-        Point2D rightBottomOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.15,
+        Point2D rightBottomOfEnergyWell = 
+            new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) + (_energyWellWidth/2),
                 _graphOriginY + (0.50 * _usableHeight));
-        Point2D rightPeakOfEnergyWell = new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.15,
+        Point2D rightPeakOfEnergyWell = 
+            new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) + (_energyWellWidth/2),
                 _graphOriginY - (0.20 * _usableHeight));
         
         _potentialEnergyWell.append( new QuadCurve2D.Double(_usableAreaOriginX + 3 * BORDER_STROKE_WIDTH, 
-                _graphOriginY - (0.03 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 0.8,
-                _graphOriginY - (0.05 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 0.85, 
-                _graphOriginY - (0.20 * _usableHeight)),
+        _graphOriginY - (0.03 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 0.8,
+        _graphOriginY - (0.05 * _usableHeight), leftPeakOfEnergyWell.getX(), leftPeakOfEnergyWell.getY()), 
                 false );
         _potentialEnergyWell.append( new Line2D.Double(leftPeakOfEnergyWell, leftBottomOfEnergyWell), false);
         _potentialEnergyWell.append( new Line2D.Double(leftBottomOfEnergyWell, rightBottomOfEnergyWell), false);
         _potentialEnergyWell.append( new Line2D.Double(rightBottomOfEnergyWell, rightPeakOfEnergyWell), false);
-        _potentialEnergyWell.append( new QuadCurve2D.Double((_usableAreaOriginX + (_usableWidth/2)) * 1.15,
-                _graphOriginY - (0.20 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 1.2,
-                _graphOriginY - (0.05 * _usableHeight), _usableAreaOriginX + _usableWidth - 3 * BORDER_STROKE_WIDTH,
+        _potentialEnergyWell.append( new QuadCurve2D.Double(rightPeakOfEnergyWell.getX(),
+                rightPeakOfEnergyWell.getY(), (_usableAreaOriginX + (_usableWidth/2)) * 1.2,
+                _graphOriginY - (0.05 * _usableHeight),
+                _usableAreaOriginX + _usableWidth - 3 * BORDER_STROKE_WIDTH,
                 _graphOriginY - (0.03 * _usableHeight)), false );
         
         // Lay out the legend.

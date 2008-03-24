@@ -8,6 +8,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,13 +41,16 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
 
     // Canvas size in femto meters.  Assumes a 4:3 aspect ratio.
     private final double CANVAS_WIDTH = 100;
-    private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3/4);
+    private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
+    
+    // Translation factors, used to set origin of canvas area.
+    private final double WIDTH_TRANSLATION_FACTOR = 2.0;
+    private final double HEIGHT_TRANSLATION_FACTOR = 4.0;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     private AlphaRadiationChart _alphaRadiationChart;
-    private PPath _breakoutCircle;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
 
     //----------------------------------------------------------------------------
@@ -60,7 +64,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         setTransformStrategy( new RenderingSizeStrategy(this, 
                 new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
             protected AffineTransform getPreprocessedTransform(){
-                return AffineTransform.getTranslateInstance( getWidth()/2, getHeight()/4 );
+                return AffineTransform.getTranslateInstance( getWidth()/WIDTH_TRANSLATION_FACTOR, 
+                        getHeight()/HEIGHT_TRANSLATION_FACTOR );
             }
         });
         
@@ -83,19 +88,16 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 // Add a visible representation of the alpha particle to the canvas.
                 AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
                 nucleusLayer.addChild( alphaNode );
-                // JPB TBD addWorldChild(alphaNode);
             }
             else if (constituent instanceof Proton){
                 // Add a visible representation of the proton to the canvas.
                 ProtonNode protonNode = new ProtonNode((Proton)constituent);
                 nucleusLayer.addChild( protonNode );
-                // JPB TBD addWorldChild(protonNode);
             }
             else if (constituent instanceof Neutron){
                 // Add a visible representation of the neutron to the canvas.
                 NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
                 nucleusLayer.addChild( neutronNode );
-                // JPB TBD addWorldChild(neutronNode);
             }
             else {
                 // There is some unexpected object in the list of constituents
@@ -112,7 +114,6 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         addWorldChild(labelLayer);
         AtomicNucleusNode nucleusNode = new AtomicNucleusNode(atomicNucleus);
         labelLayer.addChild( nucleusNode );
-        // JPB TBD addWorldChild(5, nucleusNode);
 
         
         // Register with the model for notifications of alpha particles coming
@@ -156,18 +157,35 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         
         // Add the breakout radius to the canvas.
         double radius = AtomicNucleus.TUNNEL_OUT_RADIUS;
-        _breakoutCircle = new PPath(new Ellipse2D.Double(-radius, -radius, 2*radius, 2*radius));
-        _breakoutCircle.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-                new float[] {2, 2 }, 0) );
-        _breakoutCircle.setStrokePaint( new Color(0x990099) );
-        addWorldChild(_breakoutCircle);
+        PPath breakoutCircle = new PPath(new Ellipse2D.Double(-radius, -radius, 2*radius, 2*radius));
+        breakoutCircle.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+                new float[] {0.75f, 0.75f }, 0) );
+        breakoutCircle.setStrokePaint( new Color(0x990099) );
+        addWorldChild(breakoutCircle);
         
-
-        // Add the chart that depicts the tunneling energy threshold to the
-        // canvas.  The initial size is arbitrary and will be scaled when the
-        // canvas is painted.
-        _alphaRadiationChart = new AlphaRadiationChart();
+        // Add the chart that depicts the tunneling energy threshold.
+        this.
+        _alphaRadiationChart = new AlphaRadiationChart(50, this);
         addScreenChild( _alphaRadiationChart );
+
+        // Add the lines that make it clear that the tunneling radius is at
+        // the point where the particle energy exceeds the potential energy.
+        
+        PPath leftBreakoutLine = new PPath(new Line2D.Double(-radius, 
+                CANVAS_HEIGHT * HEIGHT_TRANSLATION_FACTOR, -radius, 
+                CANVAS_HEIGHT * (1 - HEIGHT_TRANSLATION_FACTOR)));
+        leftBreakoutLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+                new float[] {2, 2 }, 0) );
+        leftBreakoutLine.setStrokePaint( new Color(0x990099) );
+        addWorldChild(leftBreakoutLine);
+
+        PPath rightBreakoutLine = new PPath(new Line2D.Double(radius, 
+                CANVAS_HEIGHT * HEIGHT_TRANSLATION_FACTOR, radius, 
+                CANVAS_HEIGHT * (1 - HEIGHT_TRANSLATION_FACTOR)));
+        rightBreakoutLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+                new float[] {2, 2 }, 0) );
+        rightBreakoutLine.setStrokePaint( new Color(0x990099) );
+        addWorldChild(rightBreakoutLine);
 
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
