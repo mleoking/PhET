@@ -127,6 +127,7 @@ public class AtomicNucleusNode extends PNode {
             _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
             _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL );
             
+            
             break;
             
         case 207:
