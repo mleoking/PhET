@@ -33,7 +33,7 @@ public abstract class CoilMagnet extends AbstractMagnet {
     private static final double DEFAULT_DISTANCE_EXPONENT = 3.0;
     
     // Number of pixels per 1 unit of distance.
-    private static final int PIXELS_PER_DISTANCE = 1;
+    private static final double PIXELS_PER_DISTANCE = 1.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -80,8 +80,8 @@ public abstract class CoilMagnet extends AbstractMagnet {
      * in this case changes to the magnet's size via super.setSize.
      */
     protected void notifySelf() {
-        int width = PIXELS_PER_DISTANCE * getWidth();
-        int height = PIXELS_PER_DISTANCE * getHeight() ;
+        double width = PIXELS_PER_DISTANCE * getWidth();
+        double height = PIXELS_PER_DISTANCE * getHeight() ;
         _modelShape.setFrame( -width/2, -height/2, width, height );
     }
     
