@@ -106,7 +106,7 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
          * Adding half the wire width makes it look a little better.
          */
         double diameter = ( 2 * _sourceCoilModel.getRadius() ) +  ( _sourceCoilModel.getWireWidth() / 2 );
-        super.setSize( diameter, diameter );
+        super.setSize( (int) diameter, (int) diameter );
         
         // Current amplitude is proportional to voltage amplitude.
         _sourceCoilModel.setCurrentAmplitude( _voltageSource.getAmplitude() );
