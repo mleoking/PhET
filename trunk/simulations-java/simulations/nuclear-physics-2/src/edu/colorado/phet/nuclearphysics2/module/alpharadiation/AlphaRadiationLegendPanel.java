@@ -111,11 +111,11 @@ public class AlphaRadiationLegendPanel extends JPanel {
         // Add the new image and the associated label to the legend.
         ImageIcon icon = new ImageIcon(im.getScaledInstance( 50, -1, Image.SCALE_SMOOTH ));
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Resources.getString( NuclearPhysics2Strings.POLONIUM_LEGEND_LABEL ) ));
+        add(new JLabel( NuclearPhysics2Strings.POLONIUM_LEGEND_LABEL ) );
         
         // Now add the graphic and label for the lead nucleus.
         
-        // Get the image for the nuclues.
+        // Get the image for the nucleus.
         im = NuclearPhysics2Resources.getImage( "Small Graphic of Large Nucleus 002.png" );
         
         // Get a Graphics2D and set up the strings and fonts that we will need.
@@ -152,7 +152,7 @@ public class AlphaRadiationLegendPanel extends JPanel {
         // Add the new image and the associated label to the legend.
         icon = new ImageIcon(im.getScaledInstance( 50, -1, Image.SCALE_SMOOTH ));
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Resources.getString( NuclearPhysics2Strings.LEAD_LEGEND_LABEL ) ));
+        add(new JLabel( NuclearPhysics2Strings.LEAD_LEGEND_LABEL ));
     }
     
     /**

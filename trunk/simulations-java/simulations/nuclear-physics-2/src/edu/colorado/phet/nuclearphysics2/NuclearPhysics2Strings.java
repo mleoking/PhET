@@ -30,8 +30,8 @@ public class NuclearPhysics2Strings {
     public static final String LEAD_207_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Lead207Graphic.Symbol" );
     public static final String LEAD_207_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Lead207Graphic.Number" );
     
-    public static final String POLONIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "<html>Polonium<sup><font size=-1> 211</font><sup></html>" );
-    public static final String LEAD_LEGEND_LABEL = NuclearPhysics2Resources.getString( "<html>Lead<sup><font size=-1> 207</font><sup></html>" );
+    public static final String POLONIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Polonium211Label" );
+    public static final String LEAD_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Lead207Label" );
 
     
 }
