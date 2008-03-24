@@ -23,15 +23,6 @@ import edu.colorado.phet.faraday.util.Vector2D;
 public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObserver {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    /* Number of sample points above the center of the coil. */
-    private static final int SAMPLE_POINTS_ABOVE = FaradayConstants.PICKUP_SAMPLE_POINTS / 2;
-    /*  Number of sample points below the center of the coil. */
-    private static final int SAMPLE_POINTS_BELOW = SAMPLE_POINTS_ABOVE;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -44,6 +35,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private double _emf; // in volts
     private double _biggestEmf; // in volts
     private ArrayList _samplePoints; // array of Point2D
+    private int _samplePointsPerMagnetHeight; // number of sample points per height of the magnet
     
     // Reusable objects
     private AffineTransform _someTransform;
@@ -60,7 +52,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * 
      * @param magnetModel the magnet that is affecting the coil
      */
-    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent ) {
+    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent, int samplePointsPerMagnetHeight ) {
         super();
         
         assert( magnetModel != null );
@@ -68,6 +60,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _magnetModel.addObserver( this );
         
         _distanceExponent = distanceExponent;
+        _samplePointsPerMagnetHeight = samplePointsPerMagnetHeight;
         
         _flux = 0.0;
         _deltaFlux = 0.0;
@@ -187,6 +180,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         
         _samplePoints.clear();
         
+        final double sampleSpacing = _magnetModel.getHeight() / _samplePointsPerMagnetHeight;
+        final int numberOfPointsAboveCenter = (int)( getRadius() / sampleSpacing );
+        final int numberOfPointsBelowCenter = numberOfPointsAboveCenter;
+        
         // Center point.
         _samplePoints.add( getLocation() );
         
@@ -194,14 +191,16 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         final double x = getX();
         
         // Points above the center
-        for ( int i = 0; i < SAMPLE_POINTS_ABOVE; i++ ) {
-            double y = getY() - ( ( i + 1 ) * ( getRadius() / SAMPLE_POINTS_ABOVE ) );
+        double y = getY();
+        for ( int i = 0; i < numberOfPointsAboveCenter; i++ ) {
+            y -= sampleSpacing;
             _samplePoints.add( new Point2D.Double( x, y ) );
         }
         
         // Points below the center
-        for ( int i = 0; i < SAMPLE_POINTS_BELOW; i++ ) {
-            double y = getY() + ( ( i + 1 ) * ( getRadius() / SAMPLE_POINTS_BELOW ) );
+        y = getY();
+        for ( int i = 0; i < numberOfPointsBelowCenter; i++ ) {
+            y += sampleSpacing;
             _samplePoints.add( new Point2D.Double( x, y ) );
         }
     }

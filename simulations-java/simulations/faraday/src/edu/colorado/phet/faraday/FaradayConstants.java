@@ -117,7 +117,6 @@ public class FaradayConstants {
     public static final double MAX_PICKUP_LOOP_AREA = Math.PI * MAX_PICKUP_LOOP_RADIUS * MAX_PICKUP_LOOP_RADIUS;
     public static final double MIN_PICKUP_LOOP_AREA = Math.PI * MIN_PICKUP_LOOP_RADIUS * MIN_PICKUP_LOOP_RADIUS;
     public static final double DEFAULT_PICKUP_LOOP_AREA = MAX_PICKUP_LOOP_AREA / 2; 
-    public static final int PICKUP_SAMPLE_POINTS = 9; // should be an odd number
     
     //----------------------------------------------------------------------------
     // Battery parameters 
