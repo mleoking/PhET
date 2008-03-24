@@ -20,7 +20,7 @@ HIGH PRIORITY:
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
-- delete ValleyNode and MountainsNode if they are no longer used
+- delete ValleyNode if it is no longer used
 - create a node that encapulates the background image of mountains + valley
 - confirm that titles and axes on graphs are as desired
 - add view of valley floor with rivers
@@ -72,6 +72,8 @@ CLEANUP:
 
 
 DONE:
+3/24/08 - new mountains image, realign (slightly off)
+3/24/08 - add MountainsAndValleyNode to encapsulate image file
 3/18/08 - first pass at using image for mountains and valley, offset via trial & error
 ******** 0.00.12 (20191)
 3/7/08 - set some temporary axis ranges for time-based charts

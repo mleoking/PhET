@@ -196,10 +196,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _viewportLayer.addChild( viewportNode );
         
         // Background image (mountains & valley)
-        PImage backgroundImage = new PImage( GlaciersImages.MOUNTAINS );
-        Point2D backgroundOffset = _mvt.modelToView( -6065 /* m */, 9100 /* m */); //XXX dependent on image, determined via trial & error
-        backgroundImage.setOffset( backgroundOffset.getX(), backgroundOffset.getY() );
-        _backgroundLayer.addChild( backgroundImage );
+        PNode mountainsAndValleyNode = new MountainsAndValleyNode();
+        Point2D backgroundOffset = _mvt.modelToView( -5680 /* m */, 6680 /* m */); //XXX dependent on image, determined via trial & error
+        mountainsAndValleyNode.setOffset( backgroundOffset.getX(), backgroundOffset.getY() );
+        _backgroundLayer.addChild( mountainsAndValleyNode );
         
         // Glacier
         IceNode iceNode = new IceNode( _model.getGlacier(), _mvt );
