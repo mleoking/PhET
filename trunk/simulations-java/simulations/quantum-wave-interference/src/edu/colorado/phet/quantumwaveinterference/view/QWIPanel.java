@@ -118,7 +118,7 @@ public class QWIPanel extends BufferedPhetPCanvas {
     }
 
     private void setRenderingSize( int width, int height ) {
-        super.setTransformStrategy( new RenderingSizeStrategy( this, new Dimension( width, height ) ) );
+        super.setWorldTransformStrategy( new RenderingSizeStrategy( this, new Dimension( width, height ) ) );
     }
 
     protected void updateScreen() {

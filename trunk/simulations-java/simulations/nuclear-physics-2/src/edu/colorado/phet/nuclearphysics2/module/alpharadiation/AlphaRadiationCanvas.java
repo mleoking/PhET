@@ -61,7 +61,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
-        setTransformStrategy( new RenderingSizeStrategy(this, 
+        setWorldTransformStrategy( new RenderingSizeStrategy(this, 
                 new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
             protected AffineTransform getPreprocessedTransform(){
                 return AffineTransform.getTranslateInstance( getWidth()/WIDTH_TRANSLATION_FACTOR, 

@@ -47,7 +47,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         // Set up the transform strategy so that the scale is in femtometers
         // and so that the center of the screen above the chart is at
         // coordinate location (0,0).
-        setTransformStrategy( new RenderingSizeStrategy(this, new PDimension(150.0d * SCALE, 115.0d * SCALE) ){
+        setWorldTransformStrategy( new RenderingSizeStrategy(this, new PDimension(150.0d * SCALE, 115.0d * SCALE) ){
             protected AffineTransform getPreprocessedTransform(){
                 return AffineTransform.getTranslateInstance( getWidth()/2, getHeight()/4 );
             }
