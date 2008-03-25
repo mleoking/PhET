@@ -72,6 +72,7 @@ CLEANUP:
 
 
 DONE:
+3/25/08 - yet-another mountains image that doesn't line up (Archie is building scaling into the image!)
 3/25/08 - new mountains image with alignment point, realign (valley floor contour is not correct)
 3/25/08 - add alignment point for debugging alignment of mountains image
 3/24/08 - new mountains image, realign (slightly off)
