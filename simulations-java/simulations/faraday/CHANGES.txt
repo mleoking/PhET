@@ -3,6 +3,7 @@ Changes for faraday
 ===============================================================================
 
 DONE:
+3/25/08 - use Point2D[] instead of double[] for sample points on pickup coil
 3/24/08 - revert to fixed number of sample points on pickup coil
 3/24/08 - calculate pickup coil sample points as y offset from coil's center, update only when radius changes
 3/24/08 - change instance data and accessors for AbstractMagnet size, delete unused code

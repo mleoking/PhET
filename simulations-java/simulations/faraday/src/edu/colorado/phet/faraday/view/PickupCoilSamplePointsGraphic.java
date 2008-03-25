@@ -56,11 +56,10 @@ public class PickupCoilSamplePointsGraphic extends CompositePhetGraphic implemen
     public void update() {
         if ( isVisible() ) {
             clear(); // remove all child graphics
-            final double xOffset = _pickupCoilModel.getSamplePointsXOffset();
-            final double[] yOffsets = _pickupCoilModel.getSamplePointsYOffset();
+            final Point2D[] samplePoints = _pickupCoilModel.getSamplePoints();
             Component component = getComponent();
-            for ( int i = 0; i < yOffsets.length; i++ ) {
-                PhetGraphic samplePointGraphic = createGraphic( component, (int)xOffset, (int)yOffsets[i] );
+            for ( int i = 0; i < samplePoints.length; i++ ) {
+                PhetGraphic samplePointGraphic = createGraphic( component, (int)samplePoints[i].getX(), (int)samplePoints[i].getY() );
                 addGraphic( samplePointGraphic );
             }
         }
