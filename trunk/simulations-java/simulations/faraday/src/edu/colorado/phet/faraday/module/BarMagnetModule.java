@@ -60,7 +60,6 @@ public class BarMagnetModule extends FaradayModule {
     private FieldMeter _fieldMeterModel;
     private BarMagnetGraphic _barMagnetGraphic;
     private CompassGridGraphic _gridGraphic;
-    private FieldMeterGraphic fieldMeterGraphic;
     private BarMagnetPanel _barMagnetPanel;
     
     //----------------------------------------------------------------------------
