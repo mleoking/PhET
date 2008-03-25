@@ -26,7 +26,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     
     // all sample points have the same x offset from the center of the coil
     private static final double SAMPLE_POINTS_X_OFFSET = 0;
-    private static final int NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER = 4;
+    private static final int NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER = 4; // same number will be above and below center point
     
     //----------------------------------------------------------------------------
     // Instance data
