@@ -24,9 +24,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     // Class data
     //----------------------------------------------------------------------------
     
-    // all sample points have the same x offset from the center of the coil
-    private static final double SAMPLE_POINTS_X_OFFSET = 0;
-    private static final int NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER = 4; // same number will be above and below center point
+    private static final int NUMBER_OF_SAMPLE_POINTS = 9; // must be odd!
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -40,7 +38,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private double _deltaFlux; // in webers
     private double _emf; // in volts
     private double _biggestEmf; // in volts
-    private double _samplePointsYOffset[]; // y offsets of sample points from center of coil
+    private Point2D _samplePoints[]; // B-field sample points
     
     // Reusable objects
     private AffineTransform _someTransform;
@@ -65,7 +63,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _magnetModel.addObserver( this );
         
         _distanceExponent = distanceExponent;
-        _samplePointsYOffset = null;
+        _samplePoints = null;
         
         _flux = 0.0;
         _deltaFlux = 0.0;
@@ -133,25 +131,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     }
     
     /**
-     * Gets the x offset for the sample points used to calculate emf.
-     * The offset is from the center of the coil.
-     * Sample points are arranged in a vertical line, 
-     * so all sample points share the same x offsert.
+     * Gets the sample points used to measure the B-field and calculate emf.
      * 
      * @return
      */
-    public double getSamplePointsXOffset() {
-        return SAMPLE_POINTS_X_OFFSET;
-    }
-    
-    /**
-     * Gets the y offsets for the sample points used to calculate emf.
-     * The offset is from the center of the coil.
-     * 
-     * @return
-     */
-    public double[] getSamplePointsYOffset() {
-        return _samplePointsYOffset;
+    public Point2D[] getSamplePoints() {
+        return _samplePoints;
     }
     
     /**
@@ -171,6 +156,39 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     }
     
     //----------------------------------------------------------------------------
+    // Sample points
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the sample points used to calculate the emf.
+     * A fixed number of points is evenly distributed along a vertical line 
+     * that goes through the center of the coil.
+     */
+    private void updateSamplePoints() {
+
+        assert( NUMBER_OF_SAMPLE_POINTS % 2 == 1 ); // must be odd!
+
+        _samplePoints = new Point2D[NUMBER_OF_SAMPLE_POINTS];
+        final double numberOfSamplePointsOnRadius = ( NUMBER_OF_SAMPLE_POINTS - 1 ) / 2;
+        final double samplePointsYSpacing = getRadius() / numberOfSamplePointsOnRadius;
+
+        // all sample points share the same x offset
+        final double xOffset = 0;
+
+        // Center
+        int index = 0;
+        _samplePoints[index++] = new Point2D.Double( xOffset, 0 );
+
+        // Offsets below & above the center
+        double y = 0;
+        for ( int i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
+            y += samplePointsYSpacing;
+            _samplePoints[index++] = new Point2D.Double( xOffset, y );
+            _samplePoints[index++] = new Point2D.Double( xOffset, -y );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
     
@@ -187,29 +205,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         }
     }
     
-    /*
-     * Updates the sample points used to calculate the emf.
-     * A fixed number of points is evenly distributed along a vertical line 
-     * that goes through the center of the coil.
-     */
-    private void updateSamplePoints() {
-        
-        _samplePointsYOffset = new double[ 1 + NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER + NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER ];
-        final double samplePointsYSpacing = getRadius() / NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER;
-        
-        // Center
-        int index = 0;
-        _samplePointsYOffset[index++] = 0;
-        
-        // Offsets below & above the center
-        double y = 0;
-        for ( int i = 0; i < NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER; i++ ) {
-            y += samplePointsYSpacing;
-            _samplePointsYOffset[ index++ ] = y;
-            _samplePointsYOffset[ index++ ] = -y;
-        }
-    }
-    
     /**
      * Updates the induced emf, using Faraday's Law.
      */
@@ -217,9 +212,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         
         // Sum the B-field sample points.
         _fieldVector.setMagnitudeAngle( 0, 0 );
-        for ( int i = 0; i < _samplePointsYOffset.length; i++ ) {
+        for ( int i = 0; i < _samplePoints.length; i++ ) {
             
-            _samplePoint.setLocation( getX() + SAMPLE_POINTS_X_OFFSET, getY() + _samplePointsYOffset[i] );
+            _samplePoint.setLocation( getX() + _samplePoints[i].getX(), getY() + _samplePoints[i].getY() );
             if ( getDirection() != 0 ) {
                 // Adjust for rotation.
                 _someTransform.setToIdentity();
@@ -235,7 +230,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         }
         
         // Average the B-field sample points.
-        double scale = 1.0 / _samplePointsYOffset.length;
+        double scale = 1.0 / _samplePoints.length;
         _fieldVector.scale( scale );
         
         // Flux in one loop.
