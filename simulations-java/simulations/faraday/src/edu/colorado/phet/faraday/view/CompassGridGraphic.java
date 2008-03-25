@@ -40,7 +40,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     // Threshold for applying rescaling of field strength. 
     private static final double RESCALE_THRESHOLD = 0.8;  // 0 ... 1
     
-    // Exponent used for rescaling field strenght.
+    // Exponent used for rescaling field strength.
     private static final double RESCALE_EXPONENT = 0.4;   // 0.3 ... 0.8
     
     //----------------------------------------------------------------------------
@@ -145,7 +145,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     //----------------------------------------------------------------------------
     
     /**
-     * Eanbled and disables rescaling, used to make values look better when displayed.
+     * Enables and disables rescaling, used to make values look better when displayed.
      * 
      * @param rescalingEnabled true or false
      */
@@ -356,7 +356,6 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
                 southColor = _needleCache.getSouthColor( needleDescriptor.strength );
                 northShape = _needleCache.getNorthShape( needleDescriptor.direction );
                 southShape = _needleCache.getSouthShape( needleDescriptor.direction );
-                
                 
                 if ( needleDescriptor.strength >= _strengthThreshold ) {
                     
