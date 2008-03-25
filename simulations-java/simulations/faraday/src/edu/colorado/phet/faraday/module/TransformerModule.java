@@ -63,7 +63,6 @@ public class TransformerModule extends FaradayModule {
     private static final double PICKUP_COIL_LOOP_AREA = 0.75 * FaradayConstants.MAX_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
-    private static final int PICKUP_COIL_SAMPLES_PER_MAGNET_HEIGHT = 12; // more points because electromagnet is taller
     
     // Scaling
     private static final double LIGHTBULB_SCALE = 10.0;
@@ -156,7 +155,7 @@ public class TransformerModule extends FaradayModule {
         _fieldMeterModel.setEnabled( false );
         
         // Pickup Coil
-        _pickupCoilModel = new PickupCoil( _electromagnetModel, PICKUP_COIL_DISTANCE_EXPONENT, PICKUP_COIL_SAMPLES_PER_MAGNET_HEIGHT );
+        _pickupCoilModel = new PickupCoil( _electromagnetModel, PICKUP_COIL_DISTANCE_EXPONENT );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );

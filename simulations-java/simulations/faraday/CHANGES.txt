@@ -3,6 +3,8 @@ Changes for faraday
 ===============================================================================
 
 DONE:
+3/24/08 - revert to fixed number of sample points on pickup coil
+3/24/08 - calculate pickup coil sample points as y offset from coil's center, update only when radius changes
 3/24/08 - change instance data and accessors for AbstractMagnet size, delete unused code
 3/24/08 - undo conversion of magnet dimensions to integer precision
 3/24/08 - convert magnet dimensions to integer precision to satisfy constraints of new pickup coil model
