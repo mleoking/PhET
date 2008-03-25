@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
+    private AlphaRadiationModel _alphaRadiationModel;
+    private AtomicNucleusNode _nucleusNode;
     private AlphaRadiationChart _alphaRadiationChart;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
 
@@ -58,6 +61,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     public AlphaRadiationCanvas(AlphaRadiationModel alphaRadiationModel) {
+
+        _alphaRadiationModel = alphaRadiationModel;
         
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
@@ -112,8 +117,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         // This must be added last so that it can appear on top of the nucleus.
         PNode labelLayer = new PNode();
         addWorldChild(labelLayer);
-        AtomicNucleusNode nucleusNode = new AtomicNucleusNode(atomicNucleus);
-        labelLayer.addChild( nucleusNode );
+        _nucleusNode = new AtomicNucleusNode(atomicNucleus);
+        labelLayer.addChild( _nucleusNode );
 
         
         // Register with the model for notifications of alpha particles coming
@@ -189,10 +194,31 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
 
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
+            
+            /**
+             * This method is called when the canvas is resized.  In response,
+             * we generally pass this event on to child nodes that need to be
+             * aware of it.
+             */
             public void componentResized( ComponentEvent e ) {
+                
+                // Get the diameter of the atomic nucleus so that it can be
+                // used to set the width of the energy well in the chart.
+                double nucleusDiameter = _alphaRadiationModel.getAtomNucleus().getDiameter();
+                Dimension2D nucleasDiameterDim = new PDimension(nucleusDiameter, nucleusDiameter);
+                
+                // Convert the diameter to screen coordinates so that we have
+                // the right units for setting the width of the energy well in
+                // the chart.
+                Dimension2D converted1 = _nucleusNode.localToGlobal( nucleasDiameterDim );
+                Dimension2D converted2 = _alphaRadiationChart.globalToLocal( converted1 );
+                
+                // Set the new desired width of the energy well.
+                _alphaRadiationChart.setEnergyWellWidth(converted2.getHeight());
+
+                // Let the chart know that the resizing event occurred.
                 _alphaRadiationChart.componentResized( getWidth(), getHeight() );
             }
         } );
     }
-
 }
