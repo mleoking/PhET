@@ -1,13 +1,5 @@
-/* Copyright 2003-2005, University of Colorado */
+/* Copyright 2003-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14676 $
- * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
- */
 package edu.colorado.phet.common.piccolophet;
 
 import java.awt.geom.AffineTransform;
@@ -21,14 +13,123 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Arranges graphics into screen and world graphics,
- * which may have separate transforms, and may
- * be interleaved.
+ * PhetRootPNode provides a convenient mechanism for interleaving 
+ * "screen" and "world" nodes.
+ * <p>
+ * "Screen" nodes are in screen coordinates and have an identity transform.
+ * "World" nodes are intended to be in model coordinates, and can have some
+ * arbitrary transform specified.
+ * There is purposely no support for specifying a transform on screen
+ * nodes; they are expected to have a unity transform, and a 1:1 mapping
+ * to screen coordinates.
+ * <p>
+ * The order that you call addScreenChild and addWorldChild determines the 
+ * rendering order of all nodes (screen and world).  
+ * When you call addScreenChild or addWorldChild, the node you provide 
+ * will be wrapped (see WrapperNode). World transforms will be specified
+ * on the wrapper node, leaving your node's transform undisturbed.
+ * Any nodes added directly via addChild will be interleaved with 
+ * the screen and world nodes, but you will be responsible for managing
+ * their transforms.
+ * <p>
+ * This node is intended for use by PhetPCanvas only, and should not be 
+ * used directly in simulations.
  */
-
 public class PhetRootPNode extends PNode {
-    private PNode worldNode = new PNode();//used for storing the transform only, nodes are not added to this
-    private PNode screenNode = new PNode();//used for storing the transform only, nodes are not added to this
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private final PNode worldNode; // used for storing the transform only, nodes are not added to this
+    private final PNode screenNode; // used for storing the transform only, nodes are not added to this
+
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     */
+    public PhetRootPNode() {
+        super();
+        worldNode = new PNode();
+        screenNode = new PNode();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Node management
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Adds a node as a world node.
+     *
+     * @param worldChild
+     */
+    public void addWorldChild( PNode worldChild ) {
+        WorldNode child = new WorldNode( worldChild );
+        child.setTransform( worldNode.getTransform() );
+        addChild( child );
+    }
+    
+    /**
+     * Adds a node as a world node at the specified index.
+     *
+     * @param index
+     * @param node
+     */
+    public void addWorldChild( int index, PNode graphic ) {
+        WorldNode worldChild = new WorldNode( graphic );
+        worldChild.setTransform( worldNode.getTransform() );
+        addChild( index, worldChild );
+    }
+    
+    /**
+     * Removes a node that was added via addWorldChild.
+     *
+     * @param worldChild the node to be removed.
+     */
+    public void removeWorldChild( PNode worldChild ) {
+        int index = super.indexOfChild( new WorldNode( worldChild ) );
+        if ( index >= 0 ) {
+            removeChild( index );
+        }
+    }
+    
+    /**
+     * Adds a node as a screen node.
+     *
+     * @param screenChild
+     */
+    public void addScreenChild( PNode screenChild ) {
+        ScreenNode child = new ScreenNode( screenChild );
+        child.setTransform( screenNode.getTransform() );
+        addChild( child );
+    }
+    
+    /**
+     * Adds a node as a screen node at the specified index.
+     *
+     * @param index
+     * @param node
+     */
+    public void addScreenChild( int index, PNode node ) {
+        ScreenNode child = new ScreenNode( node );
+        child.setTransform( screenNode.getTransform() );
+        addChild( index, child );
+    }
+    
+    /**
+     * Removes a node that was added via addScreenChild.
+     *
+     * @param screenChild the node to be removed.
+     */
+    public void removeScreenChild( PNode screenChild ) {
+        int index = super.indexOfChild( new ScreenNode( screenChild ) );
+        if ( index >= 0 ) {
+            removeChild( index );
+        }
+    }
 
     /**
      * Todo: this appears to have a bug; this code is inadvertently changing the parent of the specified node
@@ -42,11 +143,11 @@ public class PhetRootPNode extends PNode {
         if ( index >= 0 ) {
             return index;
         }
-        index = super.indexOfChild( new WorldChild( child ) );
+        index = super.indexOfChild( new WorldNode( child ) );
         if ( index >= 0 ) {
             return index;
         }
-        index = super.indexOfChild( new ScreenChild( child ) );
+        index = super.indexOfChild( new ScreenNode( child ) );
         if ( index >= 0 ) {
             return index;
         }
@@ -59,71 +160,12 @@ public class PhetRootPNode extends PNode {
     public boolean hasChild( PNode node ) {
         return indexOfChild( node ) >= 0;
     }
-
-    /**
-     * Adds the child as a screen child.
-     *
-     * @param screenChild
+    
+    /*
+     * Gets all child nodes of a specified type.
+     * 
+     * @return ArrayList of nodes, possibly empty
      */
-    public void addScreenChild( PNode screenChild ) {
-        ScreenChild child = new ScreenChild( screenChild );
-        child.setTransform( screenNode.getTransform() );
-        addChild( child );
-    }
-
-    /**
-     * Removes the specified node from this graphic
-     *
-     * @param screenChild the node to be removed.
-     */
-    public void removeScreenChild( PNode screenChild ) {
-        int index = super.indexOfChild( new ScreenChild( screenChild ) );
-        if ( index >= 0 ) {
-            removeChild( index );
-        }
-    }
-
-    /**
-     * Removes the specified node from the world.
-     *
-     * @param worldChild the node to be removed.
-     */
-    public void removeWorldChild( PNode worldChild ) {
-        int index = super.indexOfChild( new WorldChild( worldChild ) );
-        if ( index >= 0 ) {
-            removeChild( index );
-        }
-    }
-
-    /**
-     * Adds the child as a screen child at the specified index.
-     *
-     * @param index
-     * @param node
-     */
-    public void addScreenChild( int index, PNode node ) {
-        ScreenChild child = new ScreenChild( node );
-        child.setTransform( screenNode.getTransform() );
-        addChild( index, child );
-    }
-
-    public void addWorldChild( int index, PNode graphic ) {
-        WorldChild worldChild = new WorldChild( graphic );
-        worldChild.setTransform( worldNode.getTransform() );
-        addChild( index, worldChild );
-    }
-
-    /**
-     * Adds the child to the world.
-     *
-     * @param worldChild
-     */
-    public void addWorldChild( PNode worldChild ) {
-        WorldChild child = new WorldChild( worldChild );
-        child.setTransform( worldNode.getTransform() );
-        addChild( child );
-    }
-
     private ArrayList getChildren( Class type ) {
         ArrayList list = new ArrayList();
         for ( int i = 0; i < getChildrenCount(); i++ ) {
@@ -134,9 +176,40 @@ public class PhetRootPNode extends PNode {
         }
         return list;
     }
+    
+    /*
+     * Gets all nodes of type WorldNode.
+     * 
+     * @return ArrayList of WorldNode, possibly empty
+     */
+    private ArrayList getWorldChildren() {
+        return getChildren( WorldNode.class );
+    }
+    
+    //----------------------------------------------------------------------------
+    // World transform management
+    //----------------------------------------------------------------------------
 
     /**
-     * Translates all world node containers.
+     * Adds a listener for changes to the world transform.
+     * 
+     * @param listener
+     */
+    public void addWorldTransformListener( PropertyChangeListener listener ) {
+        worldNode.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, listener );
+    }
+    
+    /**
+     * Removes a listener for changes to the world transform.
+     * 
+     * @param listener
+     */
+    public void removeWorldTransformListener( PropertyChangeListener listener ) {
+        worldNode.removePropertyChangeListener( PNode.PROPERTY_TRANSFORM, listener );
+    }
+    
+    /**
+     * Translates all world nodes.
      *
      * @param dx
      * @param dy
@@ -157,12 +230,8 @@ public class PhetRootPNode extends PNode {
         updateWorldNodes();
     }
 
-    private ArrayList getWorldChildren() {
-        return getChildren( WorldChild.class );
-    }
-
     /**
-     * Sets the world node container transforms.
+     * Sets the world node transform.
      *
      * @param worldTransform
      */
@@ -171,6 +240,9 @@ public class PhetRootPNode extends PNode {
         updateWorldNodes();
     }
 
+    /*
+     * Visits all WorldNodes and updates their transform.
+     */
     protected void updateWorldNodes() {
         ArrayList worldChildren = getWorldChildren();
         for ( int i = 0; i < worldChildren.size(); i++ ) {
@@ -178,12 +250,30 @@ public class PhetRootPNode extends PNode {
             node.setTransform( worldNode.getTransformReference( true ) );
         }
     }
+    
+    /**
+     * Gets the world transform scale.
+     * 
+     * @return scale
+     */
+    public double getWorldScale() {
+        return worldNode.getScale();
+    }
 
     /**
-     * Converts the specified point global to screen coordinates.
-     *
-     * @param point
+     * Sets the world transform scale.
+     * 
+     * @param scale
      */
+    public void setWorldScale( double scale ) {
+        worldNode.setScale( scale );
+        updateWorldNodes();
+    }
+
+    //----------------------------------------------------------------------------
+    // Transforms between coordinate spaces
+    //----------------------------------------------------------------------------
+    
     public void globalToScreen( Point2D point ) {
         screenNode.globalToLocal( point );
     }
@@ -196,11 +286,6 @@ public class PhetRootPNode extends PNode {
         screenNode.globalToLocal( d );
     }
 
-    /**
-     * Converts the specified point from global to world coordinates.
-     *
-     * @param point
-     */
     public void globalToWorld( Point2D point ) {
         worldNode.globalToLocal( point );
     }
@@ -229,16 +314,18 @@ public class PhetRootPNode extends PNode {
         worldNode.globalToLocal( dim );
     }
 
-    public double getWorldScale() {
-        return worldNode.getScale();
-    }
-
-    public void setWorldScale( double scale ) {
-        worldNode.setScale( scale );
-        updateWorldNodes();
-    }
-
-    private static class WrapperNode extends PNode {
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * WrapperNode is used to wrap screen and world nodes.
+     * When we call addScreenChild or addWorldChid, we pass in a PNode that may have
+     * a meaningful transform attached to it.  We don't want to disturb that transform,
+     * so we wrap our PNode in a WrapperNode.  Screen and world transforms will then
+     * be applied to the WrapperNode, leaving our PNode's transform undisturbed. 
+     */
+    private static abstract class WrapperNode extends PNode {
         private PNode node;
 
         public WrapperNode( PNode node ) {
@@ -251,18 +338,24 @@ public class PhetRootPNode extends PNode {
         }
     }
 
-    public void addWorldTransformListener( PropertyChangeListener listener ) {
-        worldNode.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, listener );
-    }
-
-    private static class ScreenChild extends WrapperNode {
-        public ScreenChild( PNode node ) {
+    /*
+     * ScreenNode is the wrapper class for nodes that are added with addScreenChild.
+     * This class serves as a marker class, so that we can identify the type of nodes
+     * when we need to change the screen transform.
+     */
+    private static class ScreenNode extends WrapperNode {
+        public ScreenNode( PNode node ) {
             super( node );
         }
     }
 
-    private static class WorldChild extends WrapperNode {
-        public WorldChild( PNode node ) {
+    /*
+     * WorldNode is the wrapper class for nodes that are added with addWorldChild.
+     * This class serves as a marker class, so that we can identify the type of nodes
+     * when we need to change the world transform.
+     */
+    private static class WorldNode extends WrapperNode {
+        public WorldNode( PNode node ) {
             super( node );
         }
     }
