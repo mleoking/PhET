@@ -260,7 +260,7 @@ public class PickupCoilModule extends FaradayModule {
         _voltmeterModel.setEnabled( false );
         
         // Bar Magnet view
-        _barMagnetGraphic.setTransparencyEnabled( false );
+        _barMagnetGraphic.setSeeInsideEnabled( false );
         
         // Pickup Coil view
         _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
