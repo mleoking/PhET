@@ -4,8 +4,10 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
@@ -19,7 +21,6 @@ import javax.swing.event.AncestorListener;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
@@ -28,7 +29,7 @@ import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * PlayArea is the area of the application that constains the birds-eye and zoomed views
@@ -49,6 +50,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlayArea extends JPanel implements ToolProducerListener {
+    
+    //----------------------------------------------------------------------------
+    // Debug
+    //----------------------------------------------------------------------------
+    
+    private static final boolean DEBUG_BACKGROUND_IMAGE_ALIGNMENT = true;
     
     //----------------------------------------------------------------------------
     // Class data
@@ -197,9 +204,19 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // Background image (mountains & valley)
         PNode mountainsAndValleyNode = new MountainsAndValleyNode();
-        Point2D backgroundOffset = _mvt.modelToView( -5680 /* m */, 6680 /* m */); //XXX dependent on image, determined via trial & error
+        Point2D backgroundOffset = _mvt.modelToView( -4038 /* m */, 6053 /* m */); //XXX dependent on image, determined via trial & error
         mountainsAndValleyNode.setOffset( backgroundOffset.getX(), backgroundOffset.getY() );
         _backgroundLayer.addChild( mountainsAndValleyNode );
+        
+        if ( DEBUG_BACKGROUND_IMAGE_ALIGNMENT ) {
+            Shape markerShape = new Ellipse2D.Double( -1, -1, 2, 2 );
+            PPath markerNode = new PPath( markerShape );
+            markerNode.setStroke( null );
+            markerNode.setPaint( Color.BLUE );
+            Point2D offset = _mvt.modelToView( 0, _model.getValley().getElevation( 0 ) );
+            markerNode.setOffset( offset );
+            _backgroundLayer.addChild( markerNode );
+        }
         
         // Glacier
         IceNode iceNode = new IceNode( _model.getGlacier(), _mvt );
