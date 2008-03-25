@@ -204,7 +204,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // Background image (mountains & valley)
         PNode mountainsAndValleyNode = new MountainsAndValleyNode();
-        Point2D backgroundOffset = _mvt.modelToView( -4038 /* m */, 6053 /* m */); //XXX dependent on image, determined via trial & error
+        Point2D backgroundOffset = _mvt.modelToView( -5054 /* m */, 6433 /* m */); //XXX dependent on image, determined via trial & error
         mountainsAndValleyNode.setOffset( backgroundOffset.getX(), backgroundOffset.getY() );
         _backgroundLayer.addChild( mountainsAndValleyNode );
         
