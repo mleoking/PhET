@@ -212,9 +212,6 @@ public class BarMagnetModule extends FaradayModule {
     /**
      * ThisWiggleMeGraphic is the wiggle me for this module.
      * It disappears when the bar magnet or compass is moved.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
      */
     private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
 
