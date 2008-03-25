@@ -76,7 +76,6 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         
         // Get the nucleus from the model and then get the constituents
         // and create a visible node for each.
-        
         AtomicNucleus atomicNucleus = alphaRadiationModel.getAtomNucleus();
         ArrayList nucleusConstituents = atomicNucleus.getConstituents();
         
@@ -85,6 +84,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         PNode nucleusLayer = new PNode();
         addWorldChild(nucleusLayer);
         
+        // Add a node for each particle that comprises the nucleus.
         for (int i = 0; i < nucleusConstituents.size(); i++){
             
             Object constituent = nucleusConstituents.get( i );
