@@ -4,8 +4,6 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -23,6 +21,14 @@ import edu.colorado.phet.faraday.util.Vector2D;
 public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObserver {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // all sample points have the same x offset from the center of the coil
+    private static final double SAMPLE_POINTS_X_OFFSET = 0;
+    private static final int NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER = 4;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -34,8 +40,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private double _deltaFlux; // in webers
     private double _emf; // in volts
     private double _biggestEmf; // in volts
-    private ArrayList _samplePoints; // array of Point2D
-    private int _samplePointsPerMagnetHeight; // number of sample points per height of the magnet
+    private double _samplePointsYOffset[]; // y offsets of sample points from center of coil
     
     // Reusable objects
     private AffineTransform _someTransform;
@@ -52,7 +57,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      * 
      * @param magnetModel the magnet that is affecting the coil
      */
-    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent, int samplePointsPerMagnetHeight ) {
+    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent ) {
         super();
         
         assert( magnetModel != null );
@@ -60,14 +65,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _magnetModel.addObserver( this );
         
         _distanceExponent = distanceExponent;
-        _samplePointsPerMagnetHeight = samplePointsPerMagnetHeight;
+        _samplePointsYOffset = null;
         
         _flux = 0.0;
         _deltaFlux = 0.0;
         _emf = 0.0;
         _biggestEmf = 0.0;
-        
-        _samplePoints = new ArrayList();
         
         // Reusable objects
         _someTransform = new AffineTransform();
@@ -130,19 +133,32 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     }
     
     /**
-     * Gets the sample points used to calculate emf.
+     * Gets the x offset for the sample points used to calculate emf.
+     * The offset is from the center of the coil.
+     * Sample points are arranged in a vertical line, 
+     * so all sample points share the same x offsert.
      * 
      * @return
      */
-    public Point2D[] getSamplePoints() {
-        return (Point2D[]) _samplePoints.toArray( new Point2D[_samplePoints.size()] );
+    public double getSamplePointsXOffset() {
+        return SAMPLE_POINTS_X_OFFSET;
     }
     
     /**
-     * When the coil changes, update the sample points.
+     * Gets the y offsets for the sample points used to calculate emf.
+     * The offset is from the center of the coil.
+     * 
+     * @return
      */
-    public void notifySelf() {
-        super.notifySelf();
+    public double[] getSamplePointsYOffset() {
+        return _samplePointsYOffset;
+    }
+    
+    /**
+     * When the coil's radius changes, update the sample points.
+     */
+    public void setRadius( double radius ) {
+        super.setRadius( radius );
         updateSamplePoints();
     }
     
@@ -178,30 +194,19 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      */
     private void updateSamplePoints() {
         
-        _samplePoints.clear();
+        _samplePointsYOffset = new double[ 1 + NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER + NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER ];
+        final double samplePointsYSpacing = getRadius() / NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER;
         
-        final double sampleSpacing = _magnetModel.getHeight() / _samplePointsPerMagnetHeight;
-        final int numberOfPointsAboveCenter = (int)( getRadius() / sampleSpacing );
-        final int numberOfPointsBelowCenter = numberOfPointsAboveCenter;
+        // Center
+        int index = 0;
+        _samplePointsYOffset[index++] = 0;
         
-        // Center point.
-        _samplePoints.add( getLocation() );
-        
-        // all the sample points have the same x coordinate
-        final double x = getX();
-        
-        // Points above the center
-        double y = getY();
-        for ( int i = 0; i < numberOfPointsAboveCenter; i++ ) {
-            y -= sampleSpacing;
-            _samplePoints.add( new Point2D.Double( x, y ) );
-        }
-        
-        // Points below the center
-        y = getY();
-        for ( int i = 0; i < numberOfPointsBelowCenter; i++ ) {
-            y += sampleSpacing;
-            _samplePoints.add( new Point2D.Double( x, y ) );
+        // Offsets below & above the center
+        double y = 0;
+        for ( int i = 0; i < NUMBER_OF_SAMPLE_POINTS_ABOVE_CENTER; i++ ) {
+            y += samplePointsYSpacing;
+            _samplePointsYOffset[ index++ ] = y;
+            _samplePointsYOffset[ index++ ] = -y;
         }
     }
     
@@ -212,11 +217,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         
         // Sum the B-field sample points.
         _fieldVector.setMagnitudeAngle( 0, 0 );
-        Iterator i = _samplePoints.iterator();
-        while ( i.hasNext() ) {
+        for ( int i = 0; i < _samplePointsYOffset.length; i++ ) {
             
-            Point2D p = (Point2D)i.next();
-            _samplePoint.setLocation( p.getX(), p.getY() );
+            _samplePoint.setLocation( getX() + SAMPLE_POINTS_X_OFFSET, getY() + _samplePointsYOffset[i] );
             if ( getDirection() != 0 ) {
                 // Adjust for rotation.
                 _someTransform.setToIdentity();
@@ -232,7 +235,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         }
         
         // Average the B-field sample points.
-        double scale = 1.0 / _samplePoints.size();
+        double scale = 1.0 / _samplePointsYOffset.length;
         _fieldVector.scale( scale );
         
         // Flux in one loop.
