@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.nuclearphysics2.view;
 
+import java.awt.geom.Point2D;
+
 import javax.swing.JButton;
 
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
@@ -9,6 +11,8 @@ import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.util.FireButtonNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -22,16 +26,16 @@ public class NeutronSourceNode extends PNode{
     // Class Data
     //------------------------------------------------------------------------
 
-    private final static double GRAPHIC_SIZE =   15.0;  // In world coordinates.
-    private final static double POSITION_X   = -100.0;  // In world coordinates.
-    private final static double POSITION_Y   =    0.0;  // In world coordinates.
+    private final static double GRAPHIC_SIZE =   20.0;  // In world coordinates.
+    private final static Point2D BUTTON_OFFSET = new Point2D.Double(25, 10);
     
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
     
     private PNode         _displayImage;
-    private PNode         _fireButton;
+    private PNode         _fireButtonUp;
+    private PNode         _fireButtonDown;
     private NeutronSource _neutronSource;
     
     //------------------------------------------------------------------------
@@ -45,13 +49,32 @@ public class NeutronSourceNode extends PNode{
         // Load the graphic image for this device.
         _displayImage = NuclearPhysics2Resources.getImageNode("neutron-gun.png");
         
-        // Add the "Fire" button as a child of this node.
-        _fireButton = new FireButtonNode();
-        _displayImage.addChild( _fireButton );
-        
         // Scale the graphic and add it.
         _displayImage.scale( GRAPHIC_SIZE/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
         addChild(_displayImage);
+        
+        // Add the node that will be visible when the fire button is down,
+        // i.e. pressed.
+        _fireButtonDown = NuclearPhysics2Resources.getImageNode("fire-button-down.png");
+        _displayImage.addChild( _fireButtonDown );
+        _fireButtonDown.setOffset( BUTTON_OFFSET );
+        
+        // Add the node that will be visible when the fire button is not being
+        // pressed.
+        _fireButtonUp = NuclearPhysics2Resources.getImageNode("fire-button.png");
+        _displayImage.addChild( _fireButtonUp );
+        _fireButtonUp.setOffset( BUTTON_OFFSET );
+        _fireButtonUp.addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+                System.out.println("Mouse Pressed.");
+                // TODO: JPB TBD - Tell model to fire a neutron.
+                _fireButtonUp.setVisible( false );
+            }
+            public void mouseReleased( PInputEvent event ) {
+                System.out.println("Mouse Released.");
+                _fireButtonUp.setVisible( true );
+            }
+        } );
         
         // Register as a listener for events from the model component.
         _neutronSource.addListener(new NeutronSource.Listener(){

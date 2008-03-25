@@ -109,6 +109,10 @@ public class AtomicNucleus {
         return _numNeutrons + _numProtons + (_numAlphas * 4);
     }
     
+    public double getDiameter(){
+        return 2 * CORE_RADIUS;
+    }
+    
     //------------------------------------------------------------------------
     // Other methods
     //------------------------------------------------------------------------

@@ -183,7 +183,21 @@ public class AlphaRadiationChart extends PComposite {
     }
 
     //------------------------------------------------------------------------
-    // Methods
+    // Accessor Methods
+    //------------------------------------------------------------------------
+    
+    /**
+     * Set the desired width of the energy well.
+     * 
+     * @param newEnergyWellWidth - Desired width of the energy well in screen
+     * coordinates.
+     */
+    public void setEnergyWellWidth( double newEnergyWellWidth){
+        _energyWellWidth = newEnergyWellWidth;
+    }
+    
+    //------------------------------------------------------------------------
+    // Additional Methods
     //------------------------------------------------------------------------
 
     /**
@@ -198,14 +212,6 @@ public class AlphaRadiationChart extends PComposite {
      */
     private void updateBounds( double canvasWidth, double canvasHeight ) {
 
-        AffineTransform worldToScreenTransform = _parentCanvas.getTransform();
-        double scale = 1.0;
-        double energyWellWidth = _energyWellWidth;
-        if (worldToScreenTransform != null){
-            scale = worldToScreenTransform.getScaleX();
-            energyWellWidth = scale * _energyWellWidth;
-        }
-        
         // Recalculate the usable area and origin for the chart.
         
         _usableAreaOriginX = BORDER_STROKE_WIDTH;
@@ -226,6 +232,7 @@ public class AlphaRadiationChart extends PComposite {
                 20 ) );
         
         // Position the axes for the graph.
+
         Point2D xAxisTailPt = new Point2D.Double( _usableAreaOriginX + BORDER_STROKE_WIDTH, _graphOriginY );
         Point2D xAxisTipPt = new Point2D.Double( _usableAreaOriginX + _usableWidth - BORDER_STROKE_WIDTH, _graphOriginY );
         _xAxisOfGraph.setTipAndTailLocations( xAxisTailPt, xAxisTipPt );
@@ -253,10 +260,10 @@ public class AlphaRadiationChart extends PComposite {
         _potentialEnergyWell.reset();
         
         Point2D leftPeakOfEnergyWell = 
-            new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) - (energyWellWidth/2), 
+            new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) - (_energyWellWidth/2), 
                     _graphOriginY - (0.20 * _usableHeight));
         Point2D leftBottomOfEnergyWell = 
-            new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) - (energyWellWidth/2),
+            new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) - (_energyWellWidth/2),
                 _graphOriginY + (0.50 * _usableHeight));
         Point2D rightBottomOfEnergyWell = 
             new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) + (_energyWellWidth/2),
@@ -279,6 +286,7 @@ public class AlphaRadiationChart extends PComposite {
                 _graphOriginY - (0.03 * _usableHeight)), false );
         
         // Lay out the legend.
+        
         double legendOriginX = _usableAreaOriginX + _usableWidth - LEGEND_SIZE_X - (2 * BORDER_STROKE_WIDTH);
         double legendOriginY = _usableAreaOriginY + _usableHeight - LEGEND_SIZE_Y - (2 * BORDER_STROKE_WIDTH);
         _legend.setPathTo( new RoundRectangle2D.Double( 
