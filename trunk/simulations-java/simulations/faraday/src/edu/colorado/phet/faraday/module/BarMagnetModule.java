@@ -192,7 +192,7 @@ public class BarMagnetModule extends FaradayModule {
         _compassModel.setEnabled( true );
         
         // Bar Magnet view
-        _barMagnetGraphic.setTransparencyEnabled( false );
+        _barMagnetGraphic.setSeeInsideEnabled( false );
         
         // Compass Grid view
         _gridGraphic.setVisible( true );

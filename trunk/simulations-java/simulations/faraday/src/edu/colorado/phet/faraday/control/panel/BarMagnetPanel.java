@@ -155,7 +155,7 @@ public class BarMagnetPanel extends FaradayPanel {
      */
     public void update() {
         _strengthControl.setValue( (int) ( 100.0 * _barMagnetModel.getStrength() / FaradayConstants.BAR_MAGNET_STRENGTH_MAX ) );
-        _seeInsideCheckBox.setSelected( _barMagnetGraphic.isTransparencyEnabled() );
+        _seeInsideCheckBox.setSelected( _barMagnetGraphic.isSeeInsideEnabled() );
         _gridCheckBox.setSelected( _gridGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
@@ -231,7 +231,7 @@ public class BarMagnetPanel extends FaradayPanel {
             }
             else if ( e.getSource() == _seeInsideCheckBox ) {
                 // Magnet transparency enable
-                _barMagnetGraphic.setTransparencyEnabled( _seeInsideCheckBox.isSelected() );
+                _barMagnetGraphic.setSeeInsideEnabled( _seeInsideCheckBox.isSelected() );
             }
             else if ( e.getSource() == _fieldMeterCheckBox ) {
                 // Meter enable

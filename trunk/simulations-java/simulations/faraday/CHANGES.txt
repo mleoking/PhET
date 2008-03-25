@@ -3,30 +3,31 @@ Changes for faraday
 ===============================================================================
 
 DONE:
-3/25/08 - use Point2D[] instead of double[] for sample points on pickup coil
-3/24/08 - revert to fixed number of sample points on pickup coil
-3/24/08 - calculate pickup coil sample points as y offset from coil's center, update only when radius changes
-3/24/08 - change instance data and accessors for AbstractMagnet size, delete unused code
-3/24/08 - undo conversion of magnet dimensions to integer precision
-3/24/08 - convert magnet dimensions to integer precision to satisfy constraints of new pickup coil model
-3/24/08 - set spacing of pickup coil sample points based on height of magnet
-3/21/08 - promote graphic that displays coil sample points to top-level
-3/21/08 - generalize view of pickup coil sample points to handle variable number of sample points
-3/21/08 - change pickup coil model to store and provide access to sample points
-3/21/08 - pull flux display graphics out of PickupCoilGraphic and into FluxDisplayGraphic
-3/21/08 - change "AC Power Supply" to "AC Current Supply" [#80]
+3/25/08 - rename methods related to bar magnet "see inside" feature [351]
+3/25/08 - use Point2D[] instead of double[] for sample points on pickup coil [248]
+3/24/08 - revert to fixed number of sample points on pickup coil [248]
+3/24/08 - calculate pickup coil sample points as y offset from coil's center, update only when radius changes [248]
+3/24/08 - change instance data and accessors for AbstractMagnet size, delete unused code [248]
+3/24/08 - undo conversion of magnet dimensions to integer precision [248]
+3/24/08 - convert magnet dimensions to integer precision to satisfy constraints of new pickup coil model [248]
+3/24/08 - set spacing of pickup coil sample points based on height of magnet [248]
+3/21/08 - promote graphic that displays coil sample points to top-level [248]
+3/21/08 - generalize view of pickup coil sample points to handle variable number of sample points [248]
+3/21/08 - change pickup coil model to store and provide access to sample points [248]
+3/21/08 - pull flux display graphics out of PickupCoilGraphic and into FluxDisplayGraphic [248]
+3/21/08 - change "AC Power Supply" to "AC Current Supply" [80]
 ********* version 1.05.03 (20342)
-3/20/08 - change turbine range to 0-100%, adjust major ticks on slider [#435]
-3/20/08 - change bar magnet range to 0-100%, adjust major ticks on slider [#435]
+3/20/08 - change turbine range to 0-100%, adjust major ticks on slider [435]
+3/20/08 - change bar magnet range to 0-100%, adjust major ticks on slider [435]
 3/20/08 - add developer control to show electromagnet model shape
 3/20/08 - add developer control to turn on/off display of pickup coil sample points
 3/20/08 - simplify setting of DEBUG_DISPLAY_FLUX from Developer menu
 3/20/08 - read -dev command line arg to enable developer controls
 3/20/08 - delete CVS file headers, remove CVS keywords from javadoc, organize imports
-3/20/08 - increase range of loop area control [#425]
+3/20/08 - increase range of loop area control [425]
 3/20/08 - revert settings if Field Controls dialog is closed via close button in window dressing
-3/20/08 - ensure that Options menu can't open multiple copies of the same dialog [#427]
-3/20/08 - convert to new-style tabs for switching modules [#426]
+3/20/08 - ensure that Options menu can't open multiple copies of the same dialog [427]
+3/20/08 - convert to new-style tabs for switching modules [426]
 3/19/08 - remove redundant entries from localization files
 3/19/08 - statically load all localized strings in FaradayStrings
 3/19/08 - remove MessageFormat-style strings from localization files, convert to symbolic constants

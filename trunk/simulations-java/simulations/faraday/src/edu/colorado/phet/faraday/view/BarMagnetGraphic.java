@@ -14,7 +14,6 @@ import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.BarMagnet;
 
-
 /**
  * BarMagnetGraphic is the graphical representation of a bar magnet.
  * The registration point is at the center of the image.
@@ -36,7 +35,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
     //----------------------------------------------------------------------------
 
     private BarMagnet _barMagnetModel;
-    private boolean _transparencyEnabled;
+    private boolean _seeInsideEnabled;
     private CollisionDetector _collisionDetector;
     private Rectangle[] _collisionBounds;
     private FaradayMouseHandler _mouseHandler;
@@ -74,8 +73,8 @@ public class BarMagnetGraphic extends PhetImageGraphic
         super.setCursorHand();
         super.addMouseInputListener( _mouseHandler );
         
-        // Use the opaque image by default.
-        setTransparencyEnabled( false );
+        // "See Inside" feature is off by default.
+        setSeeInsideEnabled( false );
         
         // Synchronize view with model.
         update();
@@ -103,22 +102,22 @@ public class BarMagnetGraphic extends PhetImageGraphic
     }
     
     /** 
-     * Enabled and disables transparency of the magnet graphic.
+     * Enables and disables the "see inside" feature.
      * 
-     * @param enabled true for transparency, false for opaque
+     * @param enabled true or false
      */
-    public void setTransparencyEnabled( boolean enabled ) {
-        _transparencyEnabled = enabled;
+    public void setSeeInsideEnabled( boolean enabled ) {
+        _seeInsideEnabled = enabled;
         repaint();
     }
     
     /**
-     * Gets the current state of the magnet graphic transparency.
+     * Is the "see inside" feature enabled?
      * 
-     * @return true if transparency, false if opaque
+     * @return true or false
      */
-    public boolean isTransparencyEnabled() {
-        return _transparencyEnabled;
+    public boolean isSeeInsideEnabled() {
+        return _seeInsideEnabled;
     }
     
     //----------------------------------------------------------------------------
@@ -159,7 +158,7 @@ public class BarMagnetGraphic extends PhetImageGraphic
      */
     public void paint( Graphics2D g2 ) {
         if ( isVisible() ) {
-            if ( _transparencyEnabled ) {
+            if ( _seeInsideEnabled ) {
                 Composite oldComposite = g2.getComposite(); // save
                 g2.setComposite( COMPOSITE );
                 super.paint( g2 );
