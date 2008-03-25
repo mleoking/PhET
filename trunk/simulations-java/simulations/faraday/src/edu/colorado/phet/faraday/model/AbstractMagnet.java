@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.faraday.model;
 
-import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.faraday.util.Vector2D;
@@ -18,7 +17,7 @@ public abstract class AbstractMagnet extends FaradayObservable {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private Dimension _size;
+    private double _width, _height;
     private double _strength;
     private double _maxStrength;
     private double _minStrength;
@@ -32,7 +31,8 @@ public abstract class AbstractMagnet extends FaradayObservable {
      */
     public AbstractMagnet() {
         super();
-        _size = new Dimension( 250, 50 );
+        _width = 250;
+        _height = 50;
         _strength = 1.0;
         _minStrength = 0.0;  // couldn't be any weaker
         _maxStrength = Double.POSITIVE_INFINITY;  // couldn't be any stronger
@@ -182,17 +182,6 @@ public abstract class AbstractMagnet extends FaradayObservable {
     /**
      * Sets the physical size of the magnet.
      * 
-     * @param size the size
-     * @throws IllegalArgumentException if both dimensions are not > 0
-     */
-    public void setSize( Dimension size ) {
-        assert( size != null );
-        setSize( size.getWidth(), size.getHeight() );
-    }
-    
-    /**
-     * Sets the physical size of the magnet.
-     * 
      * @param width the width
      * @param height the height
      * @throws IllegalArgumentException if width or height is <= 0
@@ -201,20 +190,12 @@ public abstract class AbstractMagnet extends FaradayObservable {
         if ( width <= 0 || height <= 0) {
             throw new IllegalArgumentException( "dimensions must be > 0" );
         }
-        if ( width != _size.getWidth() || height != _size.getHeight() ) {
-            _size.setSize( width, height );
+        if ( width != _width || height != _height ) {
+            _width = width;
+            _height = height;
             notifySelf();
             notifyObservers();
         }
-    }
-    
-    /** 
-     * Gets the physical size of the magnet.
-     * 
-     * @return the size
-     */
-    public Dimension getSize() {
-        return new Dimension( _size );
     }
     
     /**
@@ -223,7 +204,7 @@ public abstract class AbstractMagnet extends FaradayObservable {
      * @return the width
      */
     public double getWidth() {
-        return _size.getWidth();
+        return _width;
     }
     
     /**
@@ -232,6 +213,6 @@ public abstract class AbstractMagnet extends FaradayObservable {
      * @return the height
      */
     public double getHeight() {
-        return _size.getHeight();
+        return _height;
     }
 }
