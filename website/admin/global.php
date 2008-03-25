@@ -1,11 +1,38 @@
 <?php
+/*
+ * These are not for the live site...
+    @include_once("local-debug-settings.php");
+
+    if (debug_is_on()) {
+        error_reporting(E_ERROR | E_ALL | E_STRICT);
+        assert_options(ASSERT_BAIL, 1);
+    }
+    else {
+        print "<h1>DEBUGGING SHOULD BE ON YOU BOZO</h1>\n";
+        exit();
+        error_reporting(E_ERROR);
+        assert_options(ASSERT_ACTIVE, 0);
+    }
+*/
 
     error_reporting(E_ERROR);
+    assert_options(ASSERT_ACTIVE, 0);
 
     ini_set("session.gc_maxlifetime", "999999999"); 
     ini_set("session.cache_expire",   "999999999");
     ini_set('upload_max_filesize',    '20M');
 
+    if (isset($GLOBALS['IE6_DOWNLOAD_WORKAROUND']) &&
+        ($GLOBALS['IE6_DOWNLOAD_WORKAROUND'])) {
+        // Workaround for IE6 which has a bug with meta refresh
+        // and downloading files.  Double check this against the
+        // local test machine before uncommenting.
+        $browser = $_SERVER['HTTP_USER_AGENT'];
+        if (strstr($browser, 'MSIE 5.5') ||
+            strstr($browser, 'MSIE 6.0')) {
+            session_cache_limiter('must-revalidate');
+        }
+    }
     session_start();
 
     /**

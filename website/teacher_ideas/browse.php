@@ -1,5 +1,10 @@
 <?php
 
+include_once("../admin/global.php");
+include_once(SITE_ROOT."teacher_ideas/referrer.php");
+include_once(SITE_ROOT."teacher_ideas/browse-utils.php");
+
+/*
     include_once("../admin/global.php");
 
     include_once(SITE_ROOT."admin/contrib-utils.php");
@@ -9,11 +14,13 @@
     include_once(SITE_ROOT."teacher_ideas/referrer.php");
     include_once(SITE_ROOT."admin/nominate-utils.php");
     include_once(SITE_ROOT."admin/cache-utils.php");
+*/
 
-    define("UP_ARROW",       SITE_ROOT."images/sorting-uarrow.gif");
-    define("DOWN_ARROW",     SITE_ROOT."images/sorting-darrow.gif");
 
-    function sort_contributions($contributions, $sort_by, $order) {
+include_once("../admin/BasePage.php");
+
+class BrowseContributions extends BasePage {
+    function HIDE_sort_contributions($contributions, $sort_by, $order) {
         $keyed_contributions = array();
         $id_to_contribution  = array();
 
@@ -69,27 +76,21 @@
         return $new_contribs;
     }
 
-    function get_contributions() {
-        global $sort_by, $order, $next_order;
+    function HIDE_get_contributions() {
+        $contributions = contribution_get_specific_contributions($this->Simulations, $this->Types, $this->Levels);
 
-        global $Simulations, $Types, $Levels;
-
-        $contributions = contribution_get_specific_contributions($Simulations, $Types, $Levels);
-
-        $contributions = sort_contributions($contributions, $sort_by, $order);
+        $contributions = $this->sort_contributions($contributions, $this->sort_by, $this->order);
 
         return $contributions;
     }
 
-    function get_sorting_link($link_sort_by, $desc) {
-        global $sort_by, $order, $next_order, $referrer;
-
+    function HIDE_get_sorting_link($link_sort_by, $desc) {
         $arrow_xml = '';
 
-        if ($sort_by == $link_sort_by) {
-            $link_order = $next_order;
+        if ($this->sort_by == $link_sort_by) {
+            $link_order = $this->next_order;
 
-            if ($order == 'asc') {
+            if ($this->order == 'asc') {
                 $arrow_xml = '<img src="'.UP_ARROW.'" alt="Ascending Sort (Z-A)" />';
             }
             else {
@@ -97,15 +98,13 @@
             }
         }
         else {
-            $link_order = $order;
+            $link_order = $this->order;
         }
 
-        global $Simulations, $Types, $Levels;
-
         $filter_options =
-            url_encode_list('Simulations[]', $Simulations).
-            url_encode_list('Types[]',       $Types).
-            url_encode_list('Levels[]',      $Levels);
+            $this->url_encode_list('Simulations[]', $this->Simulations).
+            $this->url_encode_list('Types[]',       $this->Types).
+            $this->url_encode_list('Levels[]',      $this->Levels);
 
         // Remove all the parameters we insert ourselves:
         $php_self = remove_script_param_from_url("content_only",    $_SERVER['REQUEST_URI']);
@@ -124,7 +123,7 @@
             $prefix = '&amp;';
         }
 
-        $script = "${php_self}${prefix}order=${link_order}&amp;sort_by=${link_sort_by}${filter_options}&amp;referrer=${referrer}";
+        $script = "${php_self}${prefix}order=${link_order}&amp;sort_by={$link_sort_by}{$filter_options}&amp;referrer={$this->referrer}";
 
         // Cleanup excess question marks:
         $script = preg_replace('/\?+/', '?', $script);
@@ -153,10 +152,10 @@ EOT;
 
         $list .= '<select class="'.$all_filter_name.'" name="'.$all_filter_name.'[]" '.$on_change.' multiple="multiple" size="'.$size.'" id="'.$all_filter_name.'_uid">';
 
-        $list .= build_option_string('all', "All $all_filter_name", $selected_values);
+        $list .= $this->build_option_string('all', "All $all_filter_name", $selected_values);
 
         foreach($names as $name) {
-            $list .= build_option_string($name, $name, $selected_values);
+            $list .= $this->build_option_string($name, $name, $selected_values);
         }
 
         $list .= '</select>';
@@ -167,22 +166,22 @@ EOT;
     function build_sim_list($selected_values) {
         $sim_names = sim_get_all_sim_names();
 
-        return build_association_filter_list($sim_names, "Simulations", $selected_values);
+        return $this->build_association_filter_list($sim_names, "Simulations", $selected_values);
     }
 
     function build_level_list($selected_values) {
         $level_names = contribution_get_all_template_level_names();
 
-        return build_association_filter_list($level_names, "Levels", $selected_values);
+        return $this->build_association_filter_list($level_names, "Levels", $selected_values);
     }
 
     function build_type_list($selected_values) {
         $type_names = contribution_get_all_template_type_names();
 
-        return build_association_filter_list($type_names, "Types", $selected_values);
+        return $this->build_association_filter_list($type_names, "Types", $selected_values);
     }
 
-    function url_encode_list($name, $list) {
+    function HIDE_url_encode_list($name, $list) {
         // [name1]=[value1]&[name2]=[value2]&[name3]=[value3]&
 
         $encoded = '';
@@ -244,13 +243,9 @@ EOT;
         return $new;
     }
 
-    function print_content_only($print_simulations = true) {
-        global $sort_by, $order, $next_order;
-
-        global $Simulations, $Types, $Levels;
-
+    function HIDE_print_content_only($print_simulations = true) {
         // Create an id that uniquely identifies the browse parameters:
-        $browse_id = md5(implode('', $Simulations).implode('', $Types).implode('', $Levels).$sort_by.$order );
+        $browse_id = md5(implode('', $this->Simulations).implode('', $this->Types).implode('', $this->Levels).$this->sort_by.$this->order );
 
         $browse_resource = "${browse_id}.cache";
 
@@ -262,25 +257,26 @@ EOT;
             return;
         }
 
-        $contributions = get_contributions();
+        $contributions = $this->get_contributions();
 
-        $title  = get_sorting_link('contribution_title',        'Title');
-        $author = get_sorting_link('contribution_authors',      'Author');
-        $level  = get_sorting_link('contribution_level_desc',   'Level');
-        $type   = get_sorting_link('contribution_type_desc',    'Type');
+        $title  = $this->get_sorting_link('contribution_title',        'Title');
+        $author = $this->get_sorting_link('contribution_authors',      'Author');
+        $level  = $this->get_sorting_link('contribution_level_desc',   'Level');
+        $type   = $this->get_sorting_link('contribution_type_desc',    'Type');
 
         if ($print_simulations) {
-            $sims = get_sorting_link('sim_name', 'Simulations');
+            $sims = $this->get_sorting_link('sim_name', 'Simulations');
         }
         else {
             $sims = '';
         }
 
-        $date = get_sorting_link('contribution_date_updated', 'Updated');
+        $date = $this->get_sorting_link('contribution_date_updated', 'Updated');
 
         //$contributions = consolidate_identical_adjacent_titles($contributions);
 
-        if (count($contributions) == 0) {
+        $num_contributions = count($contributions);
+        if ($num_contributions == 0) {
             if ($GLOBALS['g_content_only']) {
                 print "<p>There are no contributions for this simulation.</p>";
             }
@@ -295,7 +291,8 @@ EOT;
 
         $html .= <<<EOT
             <div id="browseresults" class="compact">
-                <table>
+            <p>There are {$num_contributions} contributions listed.</p>
+            <table>
                     <thead>
                         <tr>
 
@@ -335,60 +332,16 @@ EOT;
     }
 
     function print_content_with_header() {
-        global $order, $sort_by, $referrer;
-
-        global $Simulations, $Types, $Levels;
-
-        $sim_list   = build_sim_list($Simulations);
-        $type_list  = build_type_list($Types);
-        $level_list = build_level_list($Levels);
+        $sim_list   = $this->build_sim_list($this->Simulations);
+        $type_list  = $this->build_type_list($this->Types);
+        $level_list = $this->build_level_list($this->Levels);
 
         print <<<EOT
-            <h1>Browse</h1>
-
-            <script type="text/javascript">
-                /* <![CDATA[ */
-                    function browse_build_update_query(select_prefix) {
-                        var select_id = select_prefix + '_uid';
-
-                        var select_element = document.getElementById(select_id);
-
-                        var option_nodes = select_element.getElementsByTagName('option');
-
-                        var selected_options = '';
-
-                        for (var i = 0; i < option_nodes.length; i++) {
-                            var option_node = option_nodes[i];
-
-                            if (option_node.selected) {
-                                selected_options += '&' + select_prefix + '[]=';
-
-                                selected_options += encodeURIComponent(option_node.value);
-                            }
-                        }
-
-                        return selected_options;
-                    }
-
-                    function browse_update_browser_for_select_element() {
-                        var sims_query   = browse_build_update_query('Simulations');
-                        var types_query  = browse_build_update_query('Types');
-                        var levels_query = browse_build_update_query('Levels');
-
-                        var url = 'browse.php?content_only=true&order=$order&sort_by=$sort_by' + sims_query + types_query + levels_query;
-
-                        HTTP.updateElementWithGet(url, null, 'browseresults');
-
-                        return false;
-                    }
-                /* ]]> */
-            </script>
-
             <form id="browsefilter" method="post" action="browse.php">
                 <div>
-                    <input type="hidden" name="order"    value="$order"     />
-                    <input type="hidden" name="sort_by"  value="$sort_by"   />
-                    <input type="hidden" name="referrer" value="$referrer"  />
+                    <input type="hidden" name="order"    value="{$this->order}"     />
+                    <input type="hidden" name="sort_by"  value="{$this->sort_by}"   />
+                    <input type="hidden" name="referrer" value="{$this->referrer}"  />
                 </div>
 
                 <table>
@@ -436,7 +389,9 @@ EOT;
             </form>
 EOT;
 
-        print_content_only();
+        browse_print_content_only($this->Simulations, $this->Types, $this->Levels,
+                                    $this->sort_by, $this->order, $this->next_order, true, $this->referrer);
+        //$this->print_content_only();
 
         if (isset($_REQUEST['cat'])) {
             $cat_encoding = $_REQUEST['cat'];
@@ -451,85 +406,117 @@ EOT;
         }
     }
 
-    global $sort_by, $order, $next_order, $Types, $Simulations, $Levels;
-
-    if (isset($_REQUEST['sort_by'])) {
-        $sort_by = $_REQUEST['sort_by'];
-    }
-    else {
-        $sort_by = 'contribution_title';
-    }
-
-    if (isset($_REQUEST['order'])) {
-        $order = strtolower($_REQUEST['order']);
-    }
-    else {
-        $order = 'asc';
-    }
-
-    $next_order = 'asc';
-
-    if ($order == 'asc') {
-        $next_order = 'desc';
-    }
-
-    $Types = array( 'all' );
-
-    if (isset($_REQUEST['Types'])) {
-        $Types = $_REQUEST['Types'];
-    }
-
-    $Simulations = array( 'all' );
-
-    if (isset($_REQUEST['cat'])) {
-        $Simulations = array();
-
-        $cat_encoding = $_REQUEST['cat'];
-
-        $cat_id = sim_get_cat_id_by_cat_encoding($cat_encoding);
-
-        $sims = sim_get_sims_by_cat_id($cat_id);
-
-        foreach($sims as $sim) {
-            $Simulations[] = $sim['sim_name'];
-        }
-    }
-    else {
-        if (isset($_REQUEST['Simulations'])) {
-            $Simulations = $_REQUEST['Simulations'];
+    function update() {
+        if (isset($_REQUEST['sort_by'])) {
+            $this->sort_by = $_REQUEST['sort_by'];
         }
         else {
-            if (isset($GLOBALS['sim_id'])) {
-                $sim_id = $GLOBALS['sim_id'];
-            }
-            else if (isset($_REQUEST['sim_id'])) {
-                $sim_id = $_REQUEST['sim_id'];
-            }
+            $this->sort_by = 'contribution_title';
+        }
 
-            if (isset($sim_id)) {
-                $sim = sim_get_sim_by_id($sim_id);
+        if (isset($_REQUEST['order'])) {
+            $this->order = strtolower($_REQUEST['order']);
+        }
+        else {
+            $this->order = 'asc';
+        }
 
-                $Simulations = array( html_entity_decode($sim['sim_name']) );
+        $this->next_order = 'asc';
+
+        if ($this->order == 'asc') {
+            $this->next_order = 'desc';
+        }
+
+        $this->Types = array( 'all' );
+
+        if (isset($_REQUEST['Types'])) {
+            $this->Types = $_REQUEST['Types'];
+        }
+
+        $this->Simulations = array( 'all' );
+
+        if (isset($_REQUEST['cat'])) {
+            $this->Simulations = array();
+
+            $cat_encoding = $_REQUEST['cat'];
+
+            $cat_id = sim_get_cat_id_by_cat_encoding($cat_encoding);
+
+            $sims = sim_get_sims_by_cat_id($cat_id);
+
+            foreach($sims as $sim) {
+                $this->Simulations[] = $sim['sim_name'];
             }
+        }
+        else {
+            if (isset($_REQUEST['Simulations'])) {
+                $this->Simulations = $_REQUEST['Simulations'];
+            }
+            else {
+                if (isset($GLOBALS['sim_id'])) {
+                    $sim_id = $GLOBALS['sim_id'];
+                }
+                else if (isset($_REQUEST['sim_id'])) {
+                    $sim_id = $_REQUEST['sim_id'];
+                }
+
+                if (isset($sim_id)) {
+                    $sim = sim_get_sim_by_id($sim_id);
+
+                    $this->Simulations = array( html_entity_decode($sim['sim_name']) );
+                }
+            }
+        }
+
+        $this->Levels = array( 'all' );
+
+        if (isset($_REQUEST['Levels'])) {
+            $this->Levels = $_REQUEST['Levels'];
+        }
+
+        /*
+        if (isset($_REQUEST['content_only']) || isset($content_only)) {
+            $GLOBALS['g_content_only'] = true;
+            assert(false);
+            //print_content_only(!isset($sim_id));
+        }
+        else {
+            $GLOBALS['g_content_only']          = false;
+            $GLOBALS['g_cache_current_page'] = true;
+            $this->print_content_with_header();
+            //print_site_page('print_content_with_header', 3);
+        }
+*/
+        return true;
+    }
+
+    function render() {
+        if (isset($_REQUEST['content_only']) || isset($content_only)) {
+            $GLOBALS['g_content_only'] = true;
+            browse_print_content_only($this->Simulations, $this->Types, $this->Levels,
+                                        $this->sort_by, $this->order, $this->next_order, true, $this->referrer);
+        }
+        else {
+            parent::render();
         }
     }
 
-    $Levels = array( 'all' );
-
-    if (isset($_REQUEST['Levels'])) {
-        $Levels = $_REQUEST['Levels'];
+    function render_content() {
+        if (isset($_REQUEST['content_only']) || isset($content_only)) {
+        }
+        else {
+            $GLOBALS['g_content_only']          = false;
+            $GLOBALS['g_cache_current_page'] = true;
+            $this->print_content_with_header();
+            //print_site_page('print_content_with_header', 3);
+        }
     }
+}
 
-    if (isset($_REQUEST['content_only']) || isset($content_only)) {
-        $GLOBALS['g_content_only'] = true;
-
-        print_content_only(!isset($sim_id));
-    }
-    else {
-        $GLOBALS['g_content_only']          = false;
-        $GLOBALS['g_cache_current_page'] = true;
-
-        print_site_page('print_content_with_header', 3);
-    }
+auth_do_validation();
+$page = new BrowseContributions(3, get_referrer(), "Browse Contributions");
+$page->add_javascript_file("../js/browse.js");
+$page->update();
+$page->render();
 
 ?>

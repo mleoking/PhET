@@ -8,7 +8,7 @@
 
             <p>PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.</p>
 
-            <h2 id="top">FAQ's</h2>
+            <h2 id="faq_top">FAQ's</h2>
 
             <div id="faq">
                 <ul id="nav">
@@ -32,19 +32,19 @@
             <h3 id="q1" >How do I get Java?</h3>
 
             <p>To run the Java-based simulations you must have Java version 1.4.2 or higher installed on your computer. You can obtain the free downloads by clicking on the button below:<br />
-            <a href="http://www.java.com/en/index.jsp"><img src="../images/java-jump.gif" /></a></p>
+            <a href="http://www.java.com/en/index.jsp"><img src="../images/java-jump.gif" alt="Java Jump" /></a></p>
 
             <p><strong>Note for Netscape Users</strong></p>
             
             <p> After you have installed Java Web Start, you will need to close and re-open your browser for Java Web Start to work.</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q2" >Why do you use Java Web Start instead of Java?</h3>
 
             <p>We use Java Web Start technology rather than Java Applets. Java Web Start, which is a free mechanism from Sun, is a more robust way of launching Java programs over the Web than applets. If you have had problems running applets in the past, you may well find that Java Web Start works much better. If you should have any problems, we will be happy to help you solve them. If the information on this page doesnít help, just send us email at <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q3" >Are there any problems running the simulations on a Mac?</h3>
 
@@ -52,7 +52,7 @@
 
             <p>Versions of Apple's Safari browser below 2.0 (included with OS X 10.4) do not launch our Java-based applications reliably.</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q4" >How do I check my computer's current version of Java?</h3>
 
@@ -62,7 +62,7 @@
             <p><strong><em>Macintosh users:</em></strong><br />
             From the Apple menu, click on "About this Mac", then on "More Info...". You will find the Java software version under "Software-&gt;Applications".</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q5" >I have Windows 2000 and I can only get the Flash based simulations to work.</h3>
 
@@ -81,7 +81,7 @@
                 <li>Select the program file and then click "Open" to use the "javaws" program to open JNLP files.</li>
             </ol>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q6" >General Java troubleshooting</h3>
 
@@ -108,7 +108,7 @@
                     </tbody>
                 </table>
                 
-                <br/>
+                </li>
 
                 <li><strong>Empty Java Web Start's Cache</strong><br />
                 From Windows' Start menu, select "Java Web Start", then select "Preferences" from the File menu. Click "Advanced", then click the "Clear Folder" button.
@@ -119,7 +119,7 @@
                 </li>
             </ul>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q7" >Troubleshooting tips for networked computers</h3>
 
@@ -138,7 +138,7 @@
             <p><strong>Network Firewalls</strong><br />
             Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate through the firewall.</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
         <?php
     }
 

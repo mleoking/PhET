@@ -10,7 +10,7 @@
 	define("HOURS_TO_CACHE_WEBPAGES", 	1);
 	
 	// Disable all caching when run on developer's machine:
-	$g_disable_all_caching = ($_SERVER['SERVER_NAME'] == 'localhost') ? true : false;
+	$g_disable_all_caching = ((isset($_SERVER['SERVER_NAME'])) && ($_SERVER['SERVER_NAME'] == 'localhost')) ? true : false;
 
 	/**
 	 * Set the group for the file (recursive if file is a directory)

@@ -119,6 +119,7 @@
 
             foreach($simulations as $simulation) {                 
                 eval(get_code_to_create_variables_from_array($simulation));
+                $formatted_sim_name = format_string_for_html($sim_name);
 
                 // Make sure the simulation is valid:
                 if (is_numeric($sim_id)) {
@@ -139,21 +140,21 @@
 
                     $link_to_sim = "<a href=\"$sim_url\">";
 
-					
+
 					$sim_thumbnail_link = sim_get_thumbnail($simulation);
 
                     print <<<EOT
                         <a href="$sim_url">
                             <img src="$sim_thumbnail_link" 
                                  width="130" 
-                                 alt="Screenshot of $sim_name Simulation"
-                                 title="Clear here to view the $sim_name simulation"
+                                 alt="Screenshot of $formatted_sim_name Simulation"
+                                 title="Clear here to view the $formatted_sim_name simulation"
                              />
                         </a>
                     
 EOT;
 
-                    print "<p>$link_to_sim$sim_name</a></p>\n";
+                    print "<p>$link_to_sim$formatted_sim_name</a></p>\n";
 
                     // Close product:
                     print "</div>\n";

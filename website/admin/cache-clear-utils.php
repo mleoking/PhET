@@ -12,7 +12,7 @@
         if ($verbose) {
             print "<p>\n";
 
-            if ($header != "") {
+            if ($print_header != "") {
                 print "  <strong>$print_header</strong><br />\n";
             }
 

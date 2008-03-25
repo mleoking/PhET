@@ -67,24 +67,24 @@
                 
                 foreach(research_get_all_by_category($category) as $research) {
                     print "<li>";
-                    
+
                     $research_id = $research['research_id'];
-                    
+
                     research_print($research_id);
-                    
+
                     if ($can_edit) {
                         print '(<a href="index.php?action=edit&amp;research_id='.$research_id.'#update-edit-form">edit</a>, <a href="index.php?action=delete&amp;research_id='.$research_id.'">delete</a>)';
                     }
-                    
+
                     print "</li>";
                 }
-                
+
                 print "</ul>";
             }
-            
+
             global $action;
-            
-            if ($can_edit) {                
+
+            if ($can_edit) {
                 if (isset($action) && $action == 'edit') {
                     $legend         = "Update Research Item";
                     $op_desc        = 'edit an existing research item or <a href="index.php">add</a> a new item';
