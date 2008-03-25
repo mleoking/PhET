@@ -261,22 +261,27 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         phetRootNode.removeChild( node );
     }
 
-    public void addWorldChild( PNode graphic ) {
-        phetRootNode.addWorldChild( graphic );
+    public void addWorldChild( PNode node ) {
+        phetRootNode.addWorldChild( node );
     }
 
-    public void addWorldChild( int index, PNode graphic ) {
-        phetRootNode.addWorldChild( index, graphic );
+    public void addWorldChild( int index, PNode node ) {
+        phetRootNode.addWorldChild( index, node );
     }
 
     /**
      * This may become deprecated (just use phetRootNode.removeChild)
+     * 
+     * cmalley note: I don't think deprecating this is a good idea.
+     * Nodes that are added via addWorldChild should be removed via
+     * removeWorldChild. This method should be cleaned up, and it 
+     * should fail if we tried to remove a node that doesn't exist.
      *
-     * @param graphic
+     * @param node
      */
-    public void removeWorldChild( PNode graphic ) {
+    public void removeWorldChild( PNode node ) {
         try {
-            phetRootNode.removeWorldChild( graphic );
+            phetRootNode.removeWorldChild( node );
         }
         catch( ArrayIndexOutOfBoundsException e ) {
             // Hack because Piccolo can't be modified
