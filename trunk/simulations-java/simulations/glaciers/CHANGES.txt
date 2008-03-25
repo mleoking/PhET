@@ -72,6 +72,8 @@ CLEANUP:
 
 
 DONE:
+3/24/08 - new mountains image with alignment point, realign (valley floor contour is not correct)
+3/24/08 - add alignment point for debugging alignment of mountains image
 3/24/08 - new mountains image, realign (slightly off)
 3/24/08 - add MountainsAndValleyNode to encapsulate image file
 3/18/08 - first pass at using image for mountains and valley, offset via trial & error
