@@ -117,8 +117,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         return heapFreeSize / ( 1048576L ) + "M";
     }
 
-    protected void updateScale() {
-        super.updateScale();
+    protected void updateWorldScale() {
+        super.updateWorldScale();
         if( rootNode != null ) {
             rootNode.updateScale();
         }

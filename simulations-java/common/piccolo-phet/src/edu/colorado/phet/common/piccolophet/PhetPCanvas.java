@@ -1,13 +1,5 @@
-/* Copyright 2003-2005, University of Colorado */
+/* Copyright 2003-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14676 $
- * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
- */
 package edu.colorado.phet.common.piccolophet;
 
 import java.awt.Color;
@@ -34,40 +26,74 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * Piccolo canvas extension that provides support for maintenance of aspect ratio,
- * and convenience methods for usage.
+ * PhetPCanvas is an extension of Piccolo's canvas that provides 
+ * convenience methods for managing "screen" and "world" nodes.
+ * <p> 
+ * "Screen" nodes are in screen coordinates and have an identity transform.
+ * "World" nodes are intended to be in model coordinates, and can have some
+ * arbitrary transform specified.
+ * There is purposely no support for specifying a transform on screen
+ * nodes; they are expected to have a unity transform, and a 1:1 mapping
+ * to screen coordinates.
  */
-
 public class PhetPCanvas extends PSwingCanvas implements Updatable {
-    private TransformStrategy transformStrategy;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private TransformStrategy worldTransformStrategy;
     private ComponentAdapter resizeAdapter;
     private PhetRootPNode phetRootNode;
     private AffineTransform transform;
     private boolean layoutDirty;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructs a PhetPCanvas that uses an identify transform for world nodes.
+     */
     public PhetPCanvas() {
         this( new ConstantTransformStrategy( new AffineTransform() ) );
     }
 
     /**
-     * Creates a PhetPCanvas with the size that will be used as the reference coordinate frame size
-     * for world graphics.
+     * Constructs a PhetPCanvas with the size that will be used as the 
+     * reference coordinate frame size for world nodes.
+     * When the canvas is resized, world nodes will appear to be scaled
+     * to fit the new canvas size.
+     * 
      * @param renderingSize the reference coordinate frame size
      */
     public PhetPCanvas( Dimension2D renderingSize ) {
-        this( new ConstantTransformStrategy( new AffineTransform() ) );
-        setTransformStrategy( new RenderingSizeStrategy( this, renderingSize ) );
+        this( new ConstantTransformStrategy( new AffineTransform() ) ); //HACK
+        setWorldTransformStrategy( new RenderingSizeStrategy( this, renderingSize ) );
     }
 
+    /**
+     * Constructs a PhetPCanvas with a specified viewport for world nodes.
+     * 
+     * @param modelViewport
+     */
     public PhetPCanvas( Rectangle2D modelViewport ) {
-        this( new ConstantTransformStrategy( new AffineTransform() ) );
-        setTransformStrategy( new ViewportStrategy( this, modelViewport ) );
+        this( new ConstantTransformStrategy( new AffineTransform() ) ); //HACK
+        setWorldTransformStrategy( new ViewportStrategy( this, modelViewport ) );
     }
-
-    public PhetPCanvas( TransformStrategy transformStrategy ) {
-        this.transformStrategy = transformStrategy;
+    
+    /**
+     * Constructs a PhetPCanvas with a specified world transform strategy.
+     * 
+     * @param worldTransformStrategy
+     */
+    public PhetPCanvas( TransformStrategy worldTransformStrategy ) {
+        
+        this.worldTransformStrategy = worldTransformStrategy;
+        
         this.phetRootNode = new PhetRootPNode();
         getLayer().addChild( phetRootNode );
+        
         removeInputEventListener( getZoomEventHandler() );
         removeInputEventListener( getPanEventHandler() );
 
@@ -78,8 +104,10 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
                 requestFocus();
             }
         } );
-        /*By default, a PhETPCanvas is opaque, that is, no components should be visible underneath this panel.
-        This allows for usage of performance improving facilities, such as immediate painting.
+        
+        /*
+         * By default, a PhETPCanvas is opaque, that is, no components should be visible underneath this panel.
+         * This allows for usage of performance improving facilities, such as immediate painting.
          */
         setOpaque( true );
         setBorder( BorderFactory.createLineBorder( Color.black ) );
@@ -125,30 +153,53 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     /**
      * Updates the layout when the canvas is resized.
      * Default implementation does nothing.
+     * Subclasses should override this method.
      */
     protected void updateLayout() {}
     
-    public void setTransformStrategy( TransformStrategy transformStrategy ) {
-        this.transformStrategy = transformStrategy;
-        updateScale();
+    //----------------------------------------------------------------------------
+    // World transform management
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the transform strategy for world nodes.
+     * 
+     * @param transformStrategy
+     */
+    public void setWorldTransformStrategy( TransformStrategy transformStrategy ) {
+        this.worldTransformStrategy = transformStrategy;
+        updateWorldScale();
     }
 
-    protected void updateScale() {
-        phetRootNode.setWorldTransform( transformStrategy.getWorldTransform() );
+    /*
+     * Updates the scale for world nodes.
+     */
+    protected void updateWorldScale() {
+        phetRootNode.setWorldTransform( worldTransformStrategy.getTransform() );
     }
 
+    /**
+     * Sets the scale for world nodes.
+     * @param scale
+     */
     public void setWorldScale( double scale ) {
         phetRootNode.setWorldScale( scale );
     }
 
+    //----------------------------------------------------------------------------
+    // Updatable implementation
+    //----------------------------------------------------------------------------
+    
     public void update() {
         update( phetRootNode );
     }
 
+    /*
+     * PLEASE DOCUMENT ME.
+     */
     private void update( PNode node ) {
         if ( node instanceof Updatable ) {
             Updatable updatable = (Updatable) node;
-
             updatable.update();
         }
 
@@ -157,24 +208,35 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         }
     }
 
+    //----------------------------------------------------------------------------
+    
+    /*
+     * PLEASE DOCUMENT ME.
+     */
     protected class ResizeAdapter extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
-            updateScale();
+            updateWorldScale();
         }
 
         public void componentShown( ComponentEvent e ) {
-            updateScale();
+            updateWorldScale();
         }
     }
 
-    /*
-    Methods for accessing screen/world in default layer.
-    */
-
+    /**
+     * Gets the PhetRootPNode associated with the PCanvas.
+     * 
+     * @return PhetRootPNode
+     */
     public PhetRootPNode getPhetRootNode() {
         return phetRootNode;
     }
 
+    /**
+     * Sets the PhetRootPNode associated with the PCanvas.
+     * 
+     * @param phetRootNode
+     */
     public void setPhetRootNode( PhetRootPNode phetRootNode ) {
         if ( this.phetRootNode != null ) {
             getLayer().removeChild( this.phetRootNode );
@@ -182,17 +244,15 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         this.phetRootNode = phetRootNode;
         getLayer().addChild( this.phetRootNode );
     }
+    
+    //----------------------------------------------------------------------------
+    // Convenience methods for adding and removing nodes
+    //----------------------------------------------------------------------------
 
     public void addScreenChild( PNode node ) {
         phetRootNode.addScreenChild( node );
     }
 
-    /**
-     * Adds the child as a screen child at the specified index.
-     *
-     * @param index
-     * @param node
-     */
     public void addScreenChild( int index, PNode node ) {
         phetRootNode.addScreenChild( index, node );
     }
@@ -224,33 +284,27 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
             // safely check for their presence
         }
     }
-
-    /*
-    Piccolo convenience methods.
-    */
-    public void setDebugRegionManagement( boolean debugRegionManagement ) {
+    
+    //----------------------------------------------------------------------------
+    // Convenience methods for setting Piccolo debug flags
+    //----------------------------------------------------------------------------
+    
+    public static void setDebugRegionManagement( boolean debugRegionManagement ) {
         PDebug.debugRegionManagement = debugRegionManagement;
     }
 
-    public void setDebugFrameRateToConsole( boolean frameRateToConsole ) {
+    public static void setDebugFrameRateToConsole( boolean frameRateToConsole ) {
         PDebug.debugPrintFrameRate = frameRateToConsole;
     }
 
-    public void setDebugFullBounds( boolean debugFullBounds ) {
+    public static void setDebugFullBounds( boolean debugFullBounds ) {
         PDebug.debugFullBounds = debugFullBounds;
     }
 
+    //----------------------------------------------------------------------------
+    
     /**
-     * Gets the transform that was used for the most recent paintComponent call.
-     *
-     * @return AffineTransform, null if paintComponent hasn't been called yet
-     */
-    public AffineTransform getTransform() {
-        return transform;
-    }
-
-    /**
-     * Gets the size of the canvas is screen coordinates.
+     * Gets the size of the canvas in screen coordinates.
      *
      * @return Dimension2D
      */
@@ -270,7 +324,18 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     }
 
     /**
+     * Gets the transform that was used for the most recent paintComponent call.
+     * TODO: WHY WOULD WE NEED THIS?
+     *
+     * @return AffineTransform, null if paintComponent hasn't been called yet
+     */
+    public AffineTransform getTransform() {
+        return transform;
+    }
+    
+    /**
      * Remembers the AffineTransform that was used to paint the canvas.
+     * TODO: BUT WHY?!?!
      *
      * @param g
      */
@@ -279,18 +344,36 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         super.paintComponent( g );
     }
 
+    /**
+     * Adds an activity to the root node.
+     */
     public void addActivity( PActivity activity ) {
         getRoot().addActivity( activity );
     }
 
+    /**
+     * Removes an activity from the root node.
+     * @param activity
+     */
     public void removeActivity( PActivity activity ) {
         getRoot().getActivityScheduler().removeActivity( activity );
     }
+    
+    //----------------------------------------------------------------------------
+    // Transform strategies
+    //----------------------------------------------------------------------------
 
+    /**
+     * TransformStrategy is the interface implemented by all transform strategies.
+     */
     public static interface TransformStrategy {
-        AffineTransform getWorldTransform();
+        AffineTransform getTransform();
     }
 
+    /**
+     * ConstantTransformStrategy implements a constant transform
+     * that doesn't vary with the canvas size.
+     */
     public static class ConstantTransformStrategy implements TransformStrategy {
         private AffineTransform affineTransform;
 
@@ -298,11 +381,21 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
             this.affineTransform = affineTransform;
         }
 
-        public AffineTransform getWorldTransform() {
+        public AffineTransform getTransform() {
             return new AffineTransform( affineTransform );
         }
     }
 
+    /**
+     * RenderingSizeStrategy implements a transform strategy that varies 
+     * with the canvas size.  As the canvas is resized, the transform is
+     * varied based on a reference rendering size.
+     * 
+     * NOTE: This should be implemented as an extension of ViewportStrategy,
+     * with viewport (x,y)=(0,0). It's not implemented that way because 
+     * the current implementation of ViewportStrategy flips the y axis,
+     * and this may break some sims.
+     */
     public static class RenderingSizeStrategy implements TransformStrategy {
         private PhetPCanvas phetPCanvas;
         private Dimension2D renderingSize;
@@ -323,7 +416,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
             this.phetPCanvas = phetPCanvas;
         }
 
-        public AffineTransform getWorldTransform() {
+        public AffineTransform getTransform() {
             if ( renderingSize == null && phetPCanvas.isVisible() ) {
                 setRenderingSize();
             }
@@ -373,6 +466,13 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         }
     }
 
+    /**
+     * ViewportStrategy implements a transform strategy that varies 
+     * with the canvas size.  As the canvas is resized, the transform is
+     * varied based on a reference viewport.
+     * <p>
+     * Note that this implementation flips the y axis.
+     */
     public static class ViewportStrategy implements TransformStrategy {
         private Rectangle2D modelViewport;
         private PhetPCanvas phetPCanvas;
@@ -393,7 +493,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         public void componentShown( ComponentEvent e ) {
         }
 
-        public AffineTransform getWorldTransform() {
+        public AffineTransform getTransform() {
             double sx = getScaleX();
             double sy = getScaleY();
 
