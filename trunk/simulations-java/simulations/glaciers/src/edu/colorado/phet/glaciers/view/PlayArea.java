@@ -208,6 +208,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         mountainsAndValleyNode.setOffset( backgroundOffset.getX(), backgroundOffset.getY() );
         _backgroundLayer.addChild( mountainsAndValleyNode );
         
+        /*
+         * The background image contains an alignment mark at (x,y)=(0,F(0)).
+         * The alignment marker created here should line up with the one in the image file.
+         */
         if ( DEBUG_BACKGROUND_IMAGE_ALIGNMENT ) {
             Shape markerShape = new Ellipse2D.Double( -1, -1, 2, 2 );
             PPath markerNode = new PPath( markerShape );
