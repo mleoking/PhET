@@ -115,23 +115,32 @@ public class AtomicNucleusNode extends PNode {
      */
     private void setLabel(int atomicWeight){
         switch (atomicWeight){
+        case 235:
+            // Set the label for Uranium 235.
+            _isotopeNumberLabel.setText( NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER );
+            _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.URANIUM_LABEL_COLOR );
+            _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER );
+
+            _chemicalSymbolLabel.setText( NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL );
+            _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.URANIUM_LABEL_COLOR );
+            _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL );            
+            
+            break;
+            
         case 211:
-            // Set the label for Polonium 211.  Since our experience showed
-            // that the color used for this is hard to see, we also use
-            // shadows.
+            // Set the label for Polonium 211.
             _isotopeNumberLabel.setText( NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER );
             _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
             _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER );
 
             _chemicalSymbolLabel.setText( NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL );
             _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
-            _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL );
-            
+            _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL );            
             
             break;
             
         case 207:
-            // Set the label for lead 207.
+            // Set the label for Lead 207.
             _isotopeNumberLabel.setText( NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER );
             _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.LEAD_LABEL_COLOR );
             _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER );

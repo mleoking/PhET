@@ -82,6 +82,9 @@ public class NuclearPhysics2Constants {
     // Color for label used for the Lead nucleus.
     public static final Color LEAD_LABEL_COLOR = new Color(0xc0ffff);
     
+    // Color for label used for the Uranium 235 nucleus.
+    public static final Color URANIUM_LABEL_COLOR = Color.GREEN;
+    
     
     //----------------------------------------------------------------------------
     // Images

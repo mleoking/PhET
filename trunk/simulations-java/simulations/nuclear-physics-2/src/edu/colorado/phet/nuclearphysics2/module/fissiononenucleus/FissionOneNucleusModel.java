@@ -77,7 +77,7 @@ public class FissionOneNucleusModel {
      * 
      * @return - Reference to the nucleus model element.
      */
-    public AtomicNucleus getAtom(){
+    public AtomicNucleus getAtomicNucleus(){
         return _atomicNucleus;
     }
     

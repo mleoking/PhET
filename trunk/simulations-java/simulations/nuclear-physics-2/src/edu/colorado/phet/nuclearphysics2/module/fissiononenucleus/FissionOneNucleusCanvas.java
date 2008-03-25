@@ -6,12 +6,20 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
+import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.model.Neutron;
+import edu.colorado.phet.nuclearphysics2.model.Proton;
+import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics2.view.FissionEnergyChart;
+import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronSourceNode;
+import edu.colorado.phet.nuclearphysics2.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -58,8 +66,47 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
         
-        // Add the nucleus node to the canvas.
-        _atomicNucleusNode = new AtomicNucleusNode(fissionOneNucleusModel.getAtom());
+        // Create a parent node where we will display the nucleus.  This is
+        // being done so that a label can be placed over the top of it.
+        PNode nucleusLayer = new PNode();
+        addWorldChild(nucleusLayer);
+        
+        // Get the nucleus from the model and then get the constituents
+        // and create a visible node for each.
+        AtomicNucleus atomicNucleus = fissionOneNucleusModel.getAtomicNucleus();
+        ArrayList nucleusConstituents = atomicNucleus.getConstituents();
+        
+        // Add a node for each particle that comprises the nucleus.
+        for (int i = 0; i < nucleusConstituents.size(); i++){
+            
+            Object constituent = nucleusConstituents.get( i );
+            
+            if (constituent instanceof AlphaParticle){
+                // Add a visible representation of the alpha particle to the canvas.
+                AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
+                nucleusLayer.addChild( alphaNode );
+            }
+            else if (constituent instanceof Proton){
+                // Add a visible representation of the proton to the canvas.
+                ProtonNode protonNode = new ProtonNode((Proton)constituent);
+                nucleusLayer.addChild( protonNode );
+            }
+            else if (constituent instanceof Neutron){
+                // Add a visible representation of the neutron to the canvas.
+                NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
+                nucleusLayer.addChild( neutronNode );
+            }
+            else {
+                // There is some unexpected object in the list of constituents
+                // of the nucleus.  This should never happen and should be
+                // debugged if it does.
+                assert false;
+            }
+        }
+        
+        // Add the nucleus node to the canvas.  Since the constiuents are
+        // handled individually, this just shows the label.
+        _atomicNucleusNode = new AtomicNucleusNode(fissionOneNucleusModel.getAtomicNucleus());
         addWorldChild( _atomicNucleusNode );
         
         // Add the neutron source to the canvas.
