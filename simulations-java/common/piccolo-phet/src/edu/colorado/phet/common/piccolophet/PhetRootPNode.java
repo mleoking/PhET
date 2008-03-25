@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -132,30 +133,37 @@ public class PhetRootPNode extends PNode {
     }
 
     /**
-     * Todo: this appears to have a bug; this code is inadvertently changing the parent of the specified node
-     * This override of indexOfChild gets the index of the child, first directly, then in the world, then in the screen.
+     * Gets the index of a specified node.
+     * If the node was added via addScreenChild or addWorldChild, then
+     * we are looking for the index of its wrapper node.
      *
      * @param child
-     * @return the index.
+     * @return the index, < 0 if not found
      */
     public int indexOfChild( PNode child ) {
+        // find index of nodes that were added via addChild
         int index = super.indexOfChild( child );
-        if ( index >= 0 ) {
-            return index;
+        // if not found...
+        if ( index < 0 ) {
+            // look for children of WrapperNodes
+            List children = getChildrenReference();
+            for ( int i = 0; i < children.size(); i++ ) {
+                PNode n = (PNode) children.get( i );
+                if ( n instanceof WrapperNode ) {
+                    if ( ( (WrapperNode) n ).getWrappedNode() == child ) {
+                        index = i;
+                        break;
+                    }
+                }
+            }
         }
-        index = super.indexOfChild( new WorldNode( child ) );
-        if ( index >= 0 ) {
-            return index;
-        }
-        index = super.indexOfChild( new ScreenNode( child ) );
-        if ( index >= 0 ) {
-            return index;
-        }
-        return -1;
+        return index;
     }
 
     /**
-     * Todo: this appears to have a bug; see indexOfChild
+     * Is the specified node a child of this node?
+     * 
+     * @return true or false
      */
     public boolean hasChild( PNode node ) {
         return indexOfChild( node ) >= 0;
@@ -332,9 +340,9 @@ public class PhetRootPNode extends PNode {
             this.node = node;
             addChild( node );
         }
-
-        public boolean equals( Object obj ) {
-            return obj instanceof WrapperNode && ( (WrapperNode) obj ).node == node;
+        
+        public PNode getWrappedNode() {
+            return node;
         }
     }
 
