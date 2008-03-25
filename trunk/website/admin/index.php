@@ -23,6 +23,13 @@
                 <li><a href="manage-contributors.php">Manage Contributors</a></li>
             </ul>
 
+            <h3>Database</h3>
+            <ul>
+                <li><a href="db-check-integrity.php">Check database integrity</a></li>
+
+                <li><a href="manage-db.php">Manage Database</a></li>
+            </ul>
+
             <h3>Misc</h3>
             <ul>
                 <li><a href="compose-newsletter.php">Compose Newsletter</a></li>
@@ -39,6 +46,7 @@
                 <li><a href="cache-clear-base.php">Clear the base directory cache</a></li>
                 <li><a href="cache-clear-all.php">Clear all the caches</a></li>
             </ul>
+
 EOT;
     }
 

@@ -1,11 +1,11 @@
 <?php
 
     include_once("../admin/site-utils.php");
-    include_once("../admin/sim-utils.php");    
-    
+    include_once("../admin/sim-utils.php");
+
     function print_content() {
         $no_mac = SIM_NO_MAC_IMAGE_HTML;
-        
+
         print <<<EOT
             <h1>Troubleshooting</h1>
 
@@ -15,6 +15,9 @@
                 <li><a href="support-java.php">Java Installation and Troubleshooting</a></li>
 
                 <li><a href="support-flash.php">Flash Installation and Troubleshooting</a></li>
+
+                <li><a href="support-javascript.php">JavaScript Troubleshooting (note: this is for your browser, not the simulations)</a></li>
+
             </ul>
 
             <h2>FAQ's</h2>
@@ -47,7 +50,7 @@
             <h3 id="q1" >Why can I run some of the simulations but not all?</h3>
 
             <p>Some of our simulations are Java Web Start based applications and others use Macromedia's Flash player. Flash comes with most computers while Java Web Start is a free application that can be downloaded from Sun Microsystems. To run the Java-based simulations you must have Java version 1.4.2 or higher installed on your computer.</p>
-            
+
             <p><a href="../tech_support/support-java.php">Learn about Java installation and Troubleshooting here</a>.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
@@ -83,22 +86,22 @@
             1024x768 screen resolution or better<br />
             Sun Java 1.4.2_16 or later<br />
             Macromedia Flash 7 or later<br />
-			Firefox 2 or later<br/></p>
-			            
+            Firefox 2 or later<br/></p>
+
             <p><strong>Support Software</strong></p>
-            
+
             <p>Some of our simulations use Java, and some use Flash. Both of these are available as free downloads, and our downloadable installer includes Java for those who need it.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q4" >I use Internet Explorer and the simulations do not run on my computer.</h3>
-            
+
             <p>We <strong>strongly</strong> recommend you use the latest version of Internet Explorer (IE7).</p>
 
             <p><strong>Internet Explorer Security Settings</strong></p>
-            
+
             <p>Some installations of Internet Explorer, particularly under Windows XP SP2, have default security settings which can impede some aspects of how your locally installed PhET interface functions. For the best user experience while using our simulations installed on your computer, we recommend following the steps below:</p>
-            
+
             <ol>
                 <li>In Internet Explorer on your local workstation, choose Tools > Internet Options.</li>
                 <li>Choose the Advanced tab, then scroll to the Security section.</li>
@@ -111,7 +114,7 @@
             <h3 id="q5" >Why don't Flash simulations run on my computer?</h3>
 
             <p><strong>QuickTime™ and Flash™ compatibility</strong></p>
-            
+
             <p>It has come to our attention that some of our users are unable to use our Flash-based simulations due to a compatibility issue between Apple Computer's QuickTime&trade; and the Flash&trade; player. Some users have reported that uninstalling QuickTime resolves the issue.
             </p>
 
@@ -124,7 +127,7 @@
             <p>PhET simulations work best at a screen resolution of 1024 x 768 pixels. (Some of them are written so that they cannot be resized.) At lower resolution (e.g. 800 x 600), all the controls may not fit on your screen. At higher resolution (e.g. 1280 x 1024), you may not be able to make the simulation fill the whole screen, or if you do, it may slow down performance. To change your screen resolution, follow the directions below:</p>
 
                 <p><strong>Windows</strong></p>
-                
+
                 <ol>
                     <li>From Start menu, click on “Control Panel.” </li>
                     <li>Double click on “Display” icon. </li>
@@ -133,7 +136,7 @@
                 </ol>
 
                 <p><strong>Macintosh</strong></p>
-                
+
                 <ol>
                     <li>Open the System Preferences (either from the Dock or from the Apple menu). </li>
                     <li>Open the Displays Panel and choose the Display tab. </li>
@@ -148,7 +151,7 @@
             <p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our Java-based simulations.</p>
 
             <p><strong>To resolve this situation, please perform the following steps:</strong></p>
-            
+
             <ol>
                 <li>From the desktop or start menu, open "My Computer"</li>
                 <li>Click on the "Folder Options" item in the "Tools" menu</li>
@@ -159,9 +162,9 @@
                 <li>Locate the program "javaws" or "javaws.exe" in your Java installation folder (typically "C:\Program Files\Java\j2re1.xxxx\javaws", where "xxxx" is a series of numbers indicating the software version; choose the latest version)</li>
                 <li>Select the program file and then click "Open" to use the "javaws" program to open JNLP files.</li>
             </ol>
-            
+
             <p>Java-based simulations should now function properly.</p>
-            
+
             <p>Please contact us by email at <a href="mailto:phethelp@colorado.edu?Subject=Windows%202000%20Issues">phethelp@colorado.edu</a> if you have any further difficulties.</p>
 
             <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>

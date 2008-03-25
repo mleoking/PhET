@@ -1,25 +1,28 @@
 <?php
 
-    include_once("../admin/authentication.php");
-    include_once("../admin/site-utils.php");
-    include_once("../admin/contrib-utils.php");
-    
-    do_authentication(false);
-    
-    function print_content() {
-        ?>
-            <h1>Submit an Activity</h1>
+include_once("../admin/global.php");
+include_once("../admin/site-utils.php");
+include_once("../admin/contrib-utils.php");
 
-        <?php
+include_once("../admin/BasePage.php");
 
-		if (!$GLOBALS['contributor_authenticated']) {
-			print "<p><strong>You must have a PhET account and be logged in to proceed.</strong></p>";
-		}
-        
-        contribution_print_full_edit_form(-1, '../teacher_ideas/edit-contribution.php', '../teacher_ideas/edit-contribution.php', 'Submit');
+class ContributePage extends BasePage {
+    function update() {
+        ob_start();
+        if (!auth_user_validated()) {
+            print_login_and_new_account_form("contribute.php", "contribute.php", $this->referrer);
+        }
+
+        contribution_print_full_edit_form(-1, '../teacher_ideas/edit-contribution.php', '../teacher_ideas/edit-contribution.php', 'Submit', $this);
+        $this->add_content(ob_get_clean());
+        return true;
     }
+}
 
-    print_site_page('print_content', 3);
+auth_do_validation();
+$page = new ContributePage(3, get_referrer(), "Submit an Activity");
+$page->update();
+$page->render();
 
 ?>
 

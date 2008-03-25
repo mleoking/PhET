@@ -60,7 +60,7 @@ EOT;
     if (isset($_REQUEST['contributor_email'])) {
         $contributor_email = $_REQUEST['contributor_email'];
 
-        $contributor = contributor_get_contributor_by_email($contributor_email);
+        $contributor = contributor_get_contributor_by_username($contributor_email);
 
         $lookup_by_email = true;
     }

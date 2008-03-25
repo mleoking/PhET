@@ -31,7 +31,8 @@ EOT;
 
     function print_subnavigation_element($prefix, $link, $desc) {
         print <<<EOT
-        <li class="subnav"><a href="$prefix/$link" class="subnav">$desc</a></li>
+                        <li class="subnav"><a href="$prefix/$link" class="subnav">$desc</a></li>
+
 EOT;
     }
 
@@ -48,24 +49,26 @@ EOT;
         }
 
         print <<<EOT
-            <li $selected_status><a href="$prefix/$link" accesskey="$access_key" $selected_status>$desc</a>
+                <li $selected_status>
+                    <a href="$prefix/$link" accesskey="$access_key" $selected_status>$desc</a>
+
 EOT;
 
         if ($this_element_is_selected) {
             if (count($submenus) > 0) {
-                print '<ul class="subnav">';
+                print '                    <ul class="subnav">'."\n";
 
                 foreach($submenus as $key => $value) {
                     print_subnavigation_element($prefix, $key, $value);
                 }
 
-                print "</ul>";
+                print "                    </ul>\n";
             }
         }
 
         $access_key = $access_key + 1;
 
-        print "</li>";
+        print "                </li>\n";
     }
 
     function get_sim_categories_for_navbar($prefix) {
@@ -87,8 +90,9 @@ EOT;
 
     function print_navigation_bar($selected_page = null, $prefix = "..") {
         print <<<EOT
-            <div id="localNav">
-                <ul class="topnav">
+        <div id="localNav">
+            <ul class="topnav">
+
 EOT;
 
         print_navigation_element(
@@ -118,7 +122,9 @@ EOT;
         $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Activities';
         $teacher_ideas_subs['teacher_ideas/user-edit-profile.php']      = 'My Profile';
 
-        if (isset($GLOBALS['contributor_authenticated']) && $GLOBALS['contributor_authenticated'] == true) {
+        // In between authentication schemes
+        if ((auth_complete() && auth_user_validated()) ||
+            (isset($GLOBALS['contributor_authenticated']) && $GLOBALS['contributor_authenticated'] == true)) {
             $teacher_ideas_subs['teacher_ideas/user-logout.php'] = 'Logout';
         }
 
@@ -148,7 +154,9 @@ EOT;
             "Troubleshooting",
             array(
                 'tech_support/support-java.php'     => 'Java',
-                'tech_support/support-flash.php'    => 'Flash'
+                'tech_support/support-flash.php'    => 'Flash',
+                'tech_support/support-javascript.php'    => 'JavaScript'
+            
             )
         );
 
@@ -184,7 +192,15 @@ EOT;
             )
         );
 
-        if (isset($GLOBALS['contributor_is_team_member']) && $GLOBALS['contributor_is_team_member'] == 1) {
+        $contributor_is_team_member = 0;
+        $contributor_authenticated = auth_user_validated();
+        if ($contributor_authenticated) {
+            $contributor = contributor_get_contributor_by_username(auth_get_username());
+            $contributor_is_team_member = $contributor['contributor_is_team_member'];
+        }
+
+        if (($contributor_is_team_member == 1) ||
+            (isset($GLOBALS['contributor_is_team_member']) && $GLOBALS['contributor_is_team_member'] == 1)) {
             print_navigation_element(
                 $prefix,
                 $selected_page,
@@ -204,7 +220,8 @@ EOT;
             );
         }
 
-        if (isset($GLOBALS['contributor_authenticated']) && $GLOBALS['contributor_authenticated'] == 1) {
+        if (($contributor_authenticated == 1) || 
+           (isset($GLOBALS['contributor_authenticated']) && $GLOBALS['contributor_authenticated'] == 1)) {
             print_navigation_element(
                 $prefix,
                 $selected_page,
@@ -215,34 +232,66 @@ EOT;
         }
 
         print <<<EOT
-                </ul>
+            </ul>
 
-                <div id="sponsors">
-                    <h4>Principle Sponsors</h4>
+            <div id="sponsors">
+                <h4>Principle Sponsors</h4>
 
-                    <div class="header">
-                    </div>
-                    <dl>
-                        <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
-
-                        <dd><a href="http://www.hewlett.org/Default.htm">
-                        <img src="$prefix/images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
-
-                        <br />
-                        Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
-
-                        <dt><a href="http://www.nsf.gov/">
-                        <img class="sponsors" src="$prefix/images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
-
-                        <dd><br />
-                        An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
-                        <br />
-                        <a href="../sponsors/index.php">
-                        <img src="$prefix/images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
-                    </dl>
+                <div class="header">
                 </div>
+                <dl>
+                    <dt><a href="http://www.hewlett.org/Default.htm">The William and Flora Hewlett Foundation</a></dt>
+
+                    <dd><a href="http://www.hewlett.org/Default.htm">
+                    <img src="$prefix/images/hewlett-logo.jpg" alt="The Hewlett Logo"/></a><br />
+
+                    <br />
+                    Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time.</dd>
+
+                    <dt><a href="http://www.nsf.gov/">
+                    <img class="sponsors" src="$prefix/images/nsf-logo.gif" alt="The NSF Logo"/>National Science Foundation</a></dt>
+
+                    <dd><br />
+                    An independent federal agency created by Congress in 1950 to promote the progress of science.<br />
+                    <br />
+                    <a href="../sponsors/index.php">
+                    <img src="$prefix/images/other-sponsors.gif" alt="Other Sponsors Logo"/></a></dd>
+                </dl>
             </div>
+        </div>
+
 EOT;
+    }
+
+    function get_sitewide_utility_html2($prefix = "..") {
+        $php_self = $_SERVER['REQUEST_URI'];
+
+        // Don't require authentication, but do it if the cookies are available:
+        $contributor_authenticated = auth_user_validated();
+
+        //global $contributor_authenticated;
+
+        if (!$contributor_authenticated) {
+            $cooked_php_self = htmlspecialchars($php_self);
+            $utility_panel_html = <<<EOT
+                <a href="$prefix/teacher_ideas/login-and-redirect.php?url=$cooked_php_self">Login / Register</a>
+
+EOT;
+        }
+        else {
+            $contributor = contributor_get_from_contributor_email(auth_get_username());
+            $contributor_name = $contributor['contributor_name'];
+//            $contributor_name = $GLOBALS['contributor_name'];
+
+            $formatted_php_self = format_string_for_html($php_self);
+
+            $utility_panel_html = <<<EOT
+                Welcome <a href="$prefix/teacher_ideas/user-edit-profile.php">$contributor_name</a> - <a href="$prefix/teacher_ideas/user-logout.php?url=$formatted_php_self">Logout</a>
+
+EOT;
+        }
+
+        return $utility_panel_html;
     }
 
     function get_sitewide_utility_html($prefix = "..") {
@@ -272,6 +321,14 @@ EOT;
         return $utility_panel_html;
     }
 
+    /**
+     * General routine to print a standard PhET webpage.
+     *
+     * @param $content_printer user_func function to call that will print the content
+     * @param $selected_page string[optional] which page is being rendered, used for navigation
+     * @param $redirection_site string[optional] if specified, page to "meta refresh"
+     * @param $timeout int[optional] if specified, a timeout for the meta refresh
+     */
     function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0) {
         if (isset($GLOBALS['g_cache_current_page'])) {
             cache_auto_start();
@@ -335,6 +392,7 @@ EOT;
                 <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript"></script>
                 <script src="$prefix/js/http.js"                type="text/javascript"></script>
                 <script src="$prefix/js/form-validation.js"     type="text/javascript"></script>
+                <script src="$prefix/js/multi-select.js"        type="text/javascript"></script>
                 <script src="$prefix/js/phet-scripts.js"        type="text/javascript"></script>
                 <script type="text/javascript">
                     //<![CDATA[
@@ -371,7 +429,7 @@ EOT;
 
                             select_current_navbar_category();
 
-                            function setup_input_validation_patterns() {
+                            function setup_input_validation_patterns_inline() {
                                 hits = 0;
 
                                 // Patterns that the input must match
@@ -490,13 +548,37 @@ EOT;
                                 }
                             );
 
+                            function insert_submit_stamp(input) {
+                                if ((input.tagName != 'INPUT') || (input.type != 'submit')) {
+                                    return false;
+                                }
+
+                                new_input = document.createElement('input');
+                                new_input.name = 'submition';
+                                new_input.value = 'x:' + new Date();//'xxy0z';
+                                new_input.type = 'hidden';
+
+                                parent = input.parentNode;
+                                parent.insertBefore(new_input, input);
+
+                                return true;
+                            }
+//alert("pre invalid");
+ms_mark_as_invalid(document.getElementById('ms_1_list_uid'));
+//alert("post invalid");
+
                             // This could be improved, but at the moment it isn't taking enough
                             // time to worry about
                             $('input').each(
                                 function() {
                                     if (this.getAttribute('type') == 'submit') {
                                         this.onclick = function() {
-                                            return validate_entire_form(this.form);
+                                            valid = validate_entire_form(this.form);
+                                            if (!valid) {
+                                                return valid;
+                                            }
+                                            return insert_submit_stamp(this);
+                                            //orig: return validate_entire_form(this.form);
                                         }
                                     }
                                 }

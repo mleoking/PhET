@@ -1,49 +1,44 @@
 <?php
 
-    include_once("../admin/global.php");    
+include_once("../admin/BasePage.php");
 
-    include_once(SITE_ROOT."teacher_ideas/user-login.php");
-    include_once(SITE_ROOT."admin/site-utils.php");
-    include_once(SITE_ROOT."admin/contrib-utils.php");
-    
-    $contribution_id = $_REQUEST['contribution_id'];
-    
-    function print_content() {
-        ?>
-        
-        <h1>Contribution Approved</h1>
-        
+class ApproveContributionPage extends BasePage {
+
+    function update() {
+        $this->approve_success = false;
+        $this->meta_refresh($this->referrer, 2);
+
+        if (isset($_REQUEST['contribution_id'])) {
+            $contribution_id = $_REQUEST['contribution_id'];
+            $contributor = contributor_get_contributor_by_username(auth_get_username());
+
+            if ($contributor['contributor_is_team_member']) {
+                contribution_set_approved($contribution_id, true);
+                $this->approve_success = true;
+            }
+        }
+    }
+
+    function render_content() {
+        if ($this->approve_success) {
+            print <<<EOT
         <p>The contribution has been marked as approved.</p>
-        
-        <?php
-    }
-    
-    function print_content_error() {
-        ?>
-        
-        <h1>Contribution Approval Error</h1>
-        
+
+EOT;
+        }
+        else {
+            print <<<EOT
         <p>The contribution cannot be marked as approved because you do not have permission to do so.</p>
-        
-        <?php
+
+EOT;
+        }
     }
-    
-    if ($contributor_is_team_member) {
-        contribution_set_approved($contribution_id, true);
-        
-        print_site_page('print_content', 3);
-    }
-    else {
-        print_site_page('print_content_error', 3);
-    }
-    
-    if (isset($_REQUEST['referrer'])) {
-        $referrer = $_REQUEST['referrer'];
-    }
-    else {
-        $referrer = SITE_ROOT.'teacher_ideas/manage-contributions.php';
-    }
-    
-    force_redirect($referrer, 4);
+
+}
+
+auth_do_validation();
+$page = new ApproveContributionPage(3, get_referrer("../teacher_ideas/manage-contributions.php"), "Approve Contribtuion");
+$page->update();
+$page->render();
 
 ?>

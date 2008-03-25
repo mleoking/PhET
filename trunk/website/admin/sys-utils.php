@@ -200,7 +200,14 @@
             header("Cache-Control: post-check=0, pre-check=0", false);
         }
         else {
-            header("Cache-Control: no-cache, must-revalidate");
+            if (isset($GLOBALS['IE6_DOWNLOAD_WORKAROUND']) &&
+                $GLOBALS['IE6_DOWNLOAD_WORKAROUND']) {
+                // The "no-cache" causes problems with IE6 auto download
+                header("Cache-Control: must-revalidate");
+            }
+            else {
+                header("Cache-Control: no-cache, must-revalidate");
+            }
             header("Pragma: no-cache");
         }
         

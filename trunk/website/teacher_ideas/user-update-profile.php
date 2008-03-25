@@ -1,20 +1,28 @@
 <?php
 
-    include_once("../admin/global.php");
-    include_once("../admin/contrib-utils.php");
-    include_once("../admin/site-utils.php");
-    include_once("user-login.php");
-    include_once("../admin/web-utils.php");
-    include_once("../admin/db-utils.php");
-    
-    db_update_table('contributor', gather_script_params_into_array('contributor_'), 'contributor_id', $contributor_id);
-    
-    function print_profile_updated_message() {
-        global $contributor_id;
-    
-        print("<p>Your profile has been successfully updated!</p><br/>");
+include_once("../admin/BasePage.php");
+
+class UpdateUserProfile extends BasePage {
+    function update() {
+        $username = auth_get_username();
+        $contributor_id = contributor_get_id_from_contributor_email($username);
+
+        db_update_table('contributor', gather_script_params_into_array('contributor_'), 'contributor_id', $contributor_id);
+
+        $this->meta_refresh("../teacher_ideas/user-edit-profile.php", 3);
     }
-    
-    print_site_page('print_profile_updated_message', 3, "../teacher_ideas/user-edit-profile.php", 1);
+
+    function render_content() {
+        print <<<EOT
+        <p>Your profile has been successfully updated!</p>
+
+EOT;
+    }
+}
+
+auth_do_validation();
+$page = new UpdateUserProfile(3, '', "Update User Profile");
+$page->update();
+$page->render();
 
 ?>

@@ -1,5 +1,7 @@
 <?php
 
+// NOTE: probably not used anywhere
+
     include_once("../admin/site-utils.php");
     
     function print_content() {

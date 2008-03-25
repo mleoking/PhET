@@ -43,7 +43,6 @@
         return $query;
     }
 
-
     /**
      * Execute the SQL query, verify and return the result
      *
@@ -57,6 +56,19 @@
         db_verify_mysql_result($result, $statement);
 
         return $result;
+    }
+
+    function db_describe_table($table_name) {
+        $query = "describe $table_name";
+
+        $result = db_exec_query($query);
+
+        $table_info = array();
+        while ($row = mysql_fetch_assoc($result)) {
+            $table_info[] = $row;
+        }
+
+        return $table_info;
     }
 
     function db_get_all_rows($table_name) {

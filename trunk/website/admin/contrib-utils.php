@@ -173,6 +173,7 @@
 
                 <tr>
                     <td>Science as Inquiry - A</td>
+
 EOT;
 
                     contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
@@ -182,6 +183,7 @@ EOT;
 
                 <tr>
                     <td>Physical Science - B</td>
+
 EOT;
 
                     contribution_print_standards_checkbox($contribution_standards_compliance, 3, $read_only);
@@ -241,6 +243,7 @@ EOT;
             </tbody>
         </table>
         </div>
+
 EOT;
     }
 
@@ -288,6 +291,178 @@ EOT;
         }
     }
 
+    function print_login_and_new_account_form($login_form_action, $new_account_form_action, $referrer, $intro_text = "", $hidden_inputs = "") {
+        $error = "";
+        if (auth_auth_error()) {
+            $error = auth_get_error();
+        }
+
+        print <<<EOT
+        <div id="twofacelogin" class="table_container">
+
+            {$intro_text}
+            <p>{$error}</p>
+
+            <p>Required fields are marked with an asterisk (*).</p>
+
+            <table class="top">
+                <tr>
+                    <td>
+
+EOT;
+        print_login_form_panel($login_form_action, $referrer, $hidden_inputs);
+        print <<<EOT
+                    </td>
+                    <td>
+
+EOT;
+        print_new_account_form_panel($new_account_form_action, $referrer, $hidden_inputs);
+        print <<<EOT
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+
+                        <p class="footnote">Your email address will not be given to anyone, and is used strictly for login purposes (and optionally, for receiving the quaterly PhET newsletter).</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+EOT;
+    }
+
+    function print_login_form_panel($form_action, $referrer, $hidden_inputs = "") {
+        if (isset($GLOBALS['contributor_email'])) {
+            $contributor_email         = $GLOBALS['contributor_email'];
+        }
+        else if (isset($_REQUEST['contributor_email'])) {
+            $contributor_email         = $_REQUEST['contributor_email'];
+        }
+        else {
+            $contributor_email         = '';
+        }
+
+        print <<<EOT
+            <form method="post" action="{$form_action}">
+                <fieldset>
+                    <legend>Login</legend>
+
+                    <div class="horizontal_center">
+                        <table class="form">
+
+                            <tr>
+                                <td>email*</td>
+
+                                <td>
+                                    <input type="text" size="15" name="contributor_email" value="{$contributor_email}" class="always-enabled" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>password*</td>
+
+                                <td>
+                                    <input type="password" size="15" name="contributor_password" class="always-enabled" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2">
+                                    <input type="hidden" name="referrer" value="{$referrer}" class="always-enabled" />
+                                    {$hidden_inputs}
+                                    <input type="submit" name="submit" value="Login" class="always-enabled auto-width" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+            </form>
+
+EOT;
+    }
+
+    function print_new_account_form_panel($form_action, $referrer, $hidden_inputs = "") {
+        if (isset($GLOBALS['contributor_email'])) {
+            $contributor_email         = $GLOBALS['contributor_email'];
+            $contributor_name          = get_global_opt('contributor_name');
+            $contributor_organization  = get_global_opt('contributor_organization');
+            $contributor_desc          = get_global_opt('contributor_desc');
+        }
+        else if (isset($_REQUEST['contributor_email'])) {
+            $contributor_email         = $_REQUEST['contributor_email'];
+            $contributor_name          = get_request_opt('contributor_name');
+            $contributor_organization  = get_request_opt('contributor_organization');
+            $contributor_desc          = get_request_opt('contributor_desc');
+        }
+        else {
+            $contributor_email         = '';
+            $contributor_name          = '';
+            $contributor_organization  = '';
+            $contributor_desc          = DEFAULT_CONTRIBUTOR_DESC;
+        }
+
+        print <<<EOT
+            <form method="post" action="{$form_action}">
+                <fieldset>
+                    <legend>New Account</legend>
+
+                    <table class="form">
+                        <tr>
+                            <td>description*</td>
+
+                            <td>
+
+EOT;
+
+                        contributor_print_desc_list($contributor_desc, false);
+
+                        print <<<EOT
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>email*</td>
+                            <td><input id="contributor_email_uid" type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled"/></td>
+                        </tr>
+
+                        <tr>
+                            <td>password*</td>
+                            <td><input id="contributor_password_uid" type="password" size="15" name="contributor_password1" class="always-enabled"/></td>
+                        </tr>
+
+                        <tr>
+                                <td>retype password*</td>
+
+                                <td>
+                                    <input type="password" size="15" name="contributor_password2" class="always-enabled" />
+                                </td>
+                            </tr>
+
+                        <tr>
+                            <td>name*</td>
+                            <td><input title="First and last name required" id="contributor_name_uid" type="text" size="15" name="contributor_name"  value="$contributor_name" class="always-enabled"/></td>
+                        </tr>
+
+                        <tr>
+                            <td>organization*</td>
+                            <td><input id="contributor_organization_uid" type="text" size="15" name="contributor_organization"  value="$contributor_organization" class="always-enabled"/></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <input type="hidden" name="create_new_account" value="1" class="always-enabled" />
+                                <input type="hidden" name="referrer" value="{$referrer}" class="always-enabled" />
+                                <input type="submit" name="submit" value="New Account" class="always-enabled auto-width"/>
+                            </td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
+
+EOT;
+    }
+
     function print_new_account_form($script, $button_label, $print_password = false, $wide = false, $other_html = '') {
         if (isset($GLOBALS['contributor_email'])) {
             $contributor_email            = $GLOBALS['contributor_email'];
@@ -321,6 +496,7 @@ EOT;
                             <td>description*</td>
 
                             <td>
+
 EOT;
 
                         contributor_print_desc_list($contributor_desc, $wide);
@@ -332,6 +508,7 @@ EOT;
                         <tr>
                             <td>email*</td>        <td><input id="contributor_email_uid" type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled"/></td>
                         </tr>
+
 EOT;
 
                         if ($print_password) {
@@ -339,6 +516,7 @@ EOT;
                                 <tr>
                                     <td>password*</td>        <td><input id="contributor_password_uid" type="password" size="15" name="contributor_password"  value="$contributor_password" class="always-enabled"/></td>
                                 </tr>
+
 EOT;
                         }
 
@@ -364,6 +542,7 @@ EOT;
                     </div>
                 </fieldset>
             </form>
+
 EOT;
     }
 
@@ -429,12 +608,14 @@ EOT;
                     </td>
 
                     <td>
+
 EOT;
 
                     $other_fields = <<<EOT
                     <input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
                     <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
                     <input type="hidden" name="login_required"  value="true"             class="always-enabled"/>
+
 EOT;
 
                     print_new_account_form("$script", "New Account", true, false, $other_fields);
@@ -466,6 +647,7 @@ EOT;
 
                 /*]]>*/
             </script>
+
 EOT;
     }
 
@@ -504,10 +686,40 @@ EOT;
         return $files_to_keep;
     }
 
-    function contribution_print_full_edit_form($contribution_id, $script, $referrer, $button_name = 'Update') {
-        global $contributor_authenticated;
+    function contribution_print_full_edit_form($contribution_id, $script, $referrer, $button_name = 'Update', $page = null) {
+        $contributor_authenticated = auth_user_validated();
+        /*
+        if (!$contributor_authenticated) {
+            print_first_time_login_form();
+        }
+        else {
+            $username = auth_get_username();
+            $contributor = contributor_get_from_contributor_email($username);
+        }
+        */
+
+        $username = auth_get_username();
+        $contributor = contributor_get_from_contributor_email($username);
 
         $contribution = contribution_get_contribution_by_id($contribution_id);
+
+        // Check to see if this contribution is temporary from the submit page
+        // TODO: change this to a real db query (it already exists!)
+        $query = "SELECT sessionid FROM temporary_partial_contribution_track WHERE contribution_id=$contribution_id";
+        $result = db_exec_query($query);
+        $fill_in_data = false;
+        if (mysql_num_rows($result) == 1) {
+            $row = mysql_fetch_array($result);
+            $sess_id = $row[0];
+            if ($sess_id == session_id()) {
+                $fill_in_data = true;
+            }
+        }
+        else if ($contribution_id == -1) {
+            // TODO: refactor so this makes more sense.  Essentially, this variable tells this
+            // form if it should automatically fill in the contribution author, org, etc
+            $fill_in_data = true;
+        }
 
         if (!$contribution) {
             // Allow 'editing' of non-existent contributions:
@@ -517,29 +729,37 @@ EOT;
         $contribution = format_for_html($contribution);
         eval(get_code_to_create_variables_from_array($contribution));
 
-        do_authentication(false);
+//        do_authentication(false);
 
-        if ($contributor_id <= 0 && isset($GLOBALS['contributor_id'])) {
+        /*
+         * No don't do that, that doesn't make sense.
+         * */
+        //if ($contributor_id <= 0 && isset($contributor['contributor_id'])) {
+        if ($fill_in_data &&
+            ($contributor_id <= 0 && isset($contributor['contributor_id']))) {
             // The contribution didn't have any owner; assume the owner is the current editor:
-            $contributor_id = $GLOBALS['contributor_id'];
+            $contributor_id = $contributor['contributor_id'];
         }
 
         $contributor_is_team_member = false;
 
         // Set reasonable defaults:
         if ($contributor_authenticated) {
-            $contributor_is_team_member = $GLOBALS['contributor_is_team_member'];
-
-            if ($contribution_authors_organization == '') {
-                $contribution_authors_organization = $GLOBALS['contributor_organization'];
-            }
-            if ($contribution_contact_email == '') {
-                $contribution_contact_email = $GLOBALS['contributor_email'];
-            }
-            if ($contribution_authors == '') {
-                $contribution_authors = $GLOBALS['contributor_name'];
+            $contributor_is_team_member = $contributor['contributor_is_team_member'];
+            
+            if ($fill_in_data) {
+                if ($contribution_authors_organization == '') {
+                    $contribution_authors_organization = $contributor['contributor_organization'];
+                }
+                if ($contribution_contact_email == '') {
+                    $contribution_contact_email = $contributor['contributor_email'];
+                }
+                if ($contribution_authors == '') {
+                    $contribution_authors = $contributor['contributor_name'];
+                }
             }
         }
+
         if ($contribution_keywords == '' && isset($GLOBALS['sim_id'])) {
             $simulation = sim_get_sim_by_id($GLOBALS['sim_id']);
 
@@ -549,19 +769,10 @@ EOT;
         $all_contribution_types = contribution_get_all_template_type_names();
         $contribution_types     = contribution_get_type_names_for_contribution($contribution_id);
 
-        if (!$contributor_authenticated) {
-            if (!isset($_REQUEST['loginmethod']) || strtolower($_REQUEST['loginmethod']) == 'static') {
-                if ($contribution_id == -1) {
-                    print_contribute_login_form('../teacher_ideas/contribute.php', -1, $referrer);
-                }
-                else {
-                    print_contribute_login_form('../teacher_ideas/edit-contribution.php', $contribution_id, $referrer);
-                }
-                return;
-            }
-        }
-
         print <<<EOT
+            <noscript>
+               <p><strong><em>Please take note: </em></strong><p>Your browser does not support scripting, or it is turned off.  You must have scripting enabled to be able to submit information.</p>
+            </noscript>
             <form id="contributioneditform" method="post" action="$script" enctype="multipart/form-data">
                 <fieldset>
                     <legend>Required Information</legend>
@@ -569,15 +780,17 @@ EOT;
                     <p>Required fields are marked with an asterisk (*).</p>
 
                     <table class="form">
+
 EOT;
 
+            // TODO: this is obselete, test to make sure
         if (!$contributor_authenticated) {
             if (isset($_REQUEST['loginmethod']) && strtolower($_REQUEST['loginmethod']) == 'dynamic') {
                 contributor_print_quick_login();
             }
         }
 
-        if ($contributor_is_team_member) {
+        if (true || $contributor_is_team_member) {
             print <<<EOT
                     <tr>
                         <td>
@@ -585,28 +798,54 @@ EOT;
                         </td>
 
                         <td>
+
 EOT;
 
-                            $contributor_names = array();
+            // Check for contributions that point to invalid contributors
+            $validate_contributor = contributor_get_contributor_by_id($contributor_id);
+            $result = contributor_get_contributor_by_id($validate_contributor["contributor_id"]);
+            if ((!$result) || ($contributor_id <= 0)) {
+                if ($contributor_is_team_member) {
+                    $null_name = "No name specified";
+                    $contributor_names = array(-1 => $null_name);
 
-                            foreach (contributor_get_all_contributors() as $c) {
-                                if (strlen(trim($c['contributor_name'])) > 0) {
-                                    $contributor_names[$c['contributor_id']] = $c['contributor_name'];
-                                }
-                            }
+                    foreach (contributor_get_all_contributors() as $c) {
+                        if (strlen(trim($c['contributor_name'])) > 0) {
+                            $contributor_names[$c['contributor_id']] = $c['contributor_name'];
+                        }
+                    }
+/*
+                    $current_contributor = contributor_get_contributor_by_id($contributor_id);
+                    $current_contributor_name = $current_contributor['contributor_name'];
+*/
 
-                            $current_contributor = contributor_get_contributor_by_id($contributor_id);
-                            $current_contributor_name = $current_contributor['contributor_name'];
+                    if ($contributor_id <= 0) {
+                        print "<p>There is no contributor associated with the contribtuion, please select another:</p>";
+                    }
+                    else {
+                        print "<p>The contributor associated with the contribtuion is invalid, please select another:</p>";
+                    }
 
-                            print_single_selection(
-                                "new_contributor_id",
-                                $contributor_names,
-                                $current_contributor_name
-                            );
+                    print_single_selection(
+                        "new_contributor_id",
+                        $contributor_names,
+                        $null_name
+                    );
+                }
+                else {
+                    print "<p><input type=\"hidden\" name=\"contributor_id\" value=\"{$contributor_id}\" /><strong><em>No contributor has been specified</em></strong></p>\n";
+                }
+            }
+            else {
+                $current_contributor = contributor_get_contributor_by_id($contributor_id);
+                $current_contributor_name = $current_contributor['contributor_name'];
+                print "<p><input type=\"hidden\" name=\"contributor_id\" value=\"{$contributor_id}\" /><strong>$current_contributor_name</strong></p>\n";
+            }
 
             print <<<EOT
                         </td>
                     </tr>
+
 EOT;
         }
 
@@ -660,8 +899,10 @@ EOT;
 
                         <td>
                             <input type="text" name="contribution_keywords" value="$contribution_keywords" size="30" />
+                            <span class="example"><br/>keywords should be separated by commas</span>
                         </td>
                     </tr>
+
 EOT;
 
         print <<<EOT
@@ -670,12 +911,17 @@ EOT;
                         <td>simulation(s)*</td>
 
                         <td>
+
 EOT;
 
                             print_multiple_selection(
                                 'Simulation',
                                 sim_get_all_sim_names(),
-                                contribution_get_associated_simulation_listing_names($contribution_id)
+                                contribution_get_associated_simulation_listing_names($contribution_id),
+                                true,
+                                true,
+                                "ms",
+                                $page
                             );
 
         print <<<EOT
@@ -683,12 +929,20 @@ EOT;
                     </tr>
 
                     <tr>
-                        <td>type(s)</td>
+                        <td>type(s)*</td>
 
                         <td>
 
 EOT;
-                            print_multiple_selection('Type', $all_contribution_types, $contribution_types);
+                            print_multiple_selection(
+                                'Type',
+                                $all_contribution_types,
+                                $contribution_types,
+                                true,
+                                true,
+                                "ms",
+                                $page
+                            );
 
         print <<<EOT
                         </td>
@@ -704,7 +958,11 @@ EOT;
                             print_multiple_selection(
                                 'Level',
                                 contribution_get_all_template_level_names(),
-                                contribution_get_level_names_for_contribution($contribution_id)
+                                contribution_get_level_names_for_contribution($contribution_id),
+                                true,
+                                true,
+                                "ms",
+                                $page
                             );
 
         print <<<EOT
@@ -715,11 +973,13 @@ EOT;
                         <td>existing file(s)</td>
 
                         <td>
+
 EOT;
 
                             print_deletable_list(
                                 'File',
-                                contribution_get_contribution_file_names($contribution_id)
+                                contribution_get_contribution_file_names($contribution_id),
+                                $page
                             );
 
         print <<<EOT
@@ -736,6 +996,7 @@ EOT;
 
                     <tr>
                         <td colspan="2">
+                            <noscript><p style="text-align: right;">JavaScript is OFF, you cannot submit data</p></noscript>
                             <input name="submit" class="button" type="submit" value="$button_name" />
                         </td>
                     </tr>
@@ -770,7 +1031,10 @@ EOT;
                                 'Subject',
                                 contribution_get_all_template_subject_names(),
                                 contribution_get_subject_names_for_contribution($contribution_id),
-                                false
+                                false,
+                                true,
+                                "ms",
+                                $page
                             );
 
         print <<<EOT
@@ -783,6 +1047,7 @@ EOT;
                         </td>
 
                         <td>
+
 EOT;
 
                             print_single_selection(
@@ -807,6 +1072,7 @@ EOT;
                         </td>
 
                         <td>
+
 EOT;
 
                             print_checkbox(
@@ -844,6 +1110,7 @@ EOT;
                         </td>
 
                         <td>
+
 EOT;
 
                 print_checkbox(
@@ -855,6 +1122,7 @@ EOT;
                 print <<<EOT
                         </td>
                     </tr>
+
 EOT;
 
                 print <<<EOT
@@ -864,6 +1132,7 @@ EOT;
                         </td>
 
                         <td>
+
 EOT;
 
                 print_checkbox(
@@ -877,6 +1146,7 @@ EOT;
                     </tr>
                     </tbody>
                     </table>
+
 EOT;
             }
 
@@ -884,6 +1154,7 @@ EOT;
                     <table class="form">
                         <tr>
                             <td colspan="2">
+                                <noscript><p style="text-align: right;">JavaScript is OFF, you cannot submit data</p></noscript>
                                 <input name="submit" class="button" type="submit" value="$button_name" />
                                 <input type="hidden" name="referrer"        value="$referrer" />
                                 <input type="hidden" name="contribution_id" value="$contribution_id" />
@@ -893,6 +1164,7 @@ EOT;
                     </table>
                  </fieldset>
             </form>
+
 EOT;
     }
 
@@ -906,7 +1178,7 @@ EOT;
         $row_style = '';
         if (!$contribution_approved) {
             // TODO: move this into the main.css
-            $row_style = "style=\"background-color: #ffdddd;\"";
+            $row_style = "style=\"background-color: #ffbbbb;\"";
         }
 
         $path_prefix = SITE_ROOT."teacher_ideas/";
@@ -941,7 +1213,14 @@ EOT;
             $contribution_authors = "<em>no authors specified</em>";
         }
         //print "<li><a href=\"$contribution_link\">$contribution_title</a> - $contribution_authors- ($edit$delete$approve)</li>";
-        print "<tr $row_style><td><a href=\"$contribution_link\">$contribution_title</a></td><td>$contribution_authors</td><td>($edit$delete$approve)</td></tr>";
+        print <<<EOT
+            <tr $row_style>
+                <td><a href="$contribution_link">$contribution_title</a></td>
+                <td>$contribution_authors</td>
+                <td>($edit$delete$approve)</td>
+            </tr>
+
+EOT;
     }
 
     /**
@@ -1093,6 +1372,7 @@ EOT;
 
         $title_html = <<<EOT
                 <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
+
 EOT;
 
         if ($contribution_from_phet == 1) {
@@ -1265,12 +1545,24 @@ EOT;
         $name = parse_name($contributor['contributor_name']);
         $last_name = $name['last_name'];
 
+        // TODO: roll this into the DB query?
+        $temp_contribution_ids = array();
+        $temp_contribution_track = db_get_all_rows('temporary_partial_contribution_track');
+        foreach ($temp_contribution_track as $temp_contrib) {
+            $temp_contribution_ids[] = $temp_contrib["contribution_id"];
+        }
+
         // Select all contributions NOT owned by the contributor and where the contributor is NOT a coauthor:
         $result = db_exec_query("SELECT * FROM `contribution` WHERE `contribution_authors` NOT LIKE '%$last_name%' AND `contributor_id`<>'$contributor_id' ORDER BY `contribution_title` ASC");
 
         $contributions = array();
 
         while ($contribution = mysql_fetch_assoc($result)) {
+            // Filter out anything in the temporary_partial_contribution_track table
+            if (in_array($contribution["contribution_id"], $temp_contribution_ids)) {
+                continue;
+            }
+
             $contributions[] = $contribution;
         }
 
@@ -1372,6 +1664,8 @@ EOT;
     }
 
     function contribution_add_new_contribution($contribution_title, $contributor_id, $file_tmp_name = null, $file_user_name = null) {
+        /*
+         * Remove trying to guess what the type of activity is
         if ($file_tmp_name != null) {
             if (preg_match('/.+\\.(doc|txt|rtf|pdf|odt)/i', $file_user_name) == 1) {
                 $contribution_type = "Homework";
@@ -1386,6 +1680,7 @@ EOT;
         else {
             $contribution_type = "Lab";
         }
+        */
 
         $contribution_id = db_insert_row(
             'contribution',
@@ -1402,9 +1697,12 @@ EOT;
             }
         }
 
+        /*
+         * Remove trying to guess what the type of activity is
         contribution_create_multiselect_association($contribution_id,
             'multiselect_contribution_type_id_0', $contribution_type
         );
+        */
 
         return $contribution_id;
     }
@@ -1968,7 +2266,7 @@ EOT;
     }
 
     function contributor_send_password_reminder($username) {
-        $contributor = contributor_get_contributor_by_email($username);
+        $contributor = contributor_get_contributor_by_username($username);
 
         if ($contributor) {
             $contributor_name     = $contributor['contributor_name'];
@@ -2154,6 +2452,7 @@ EOT;
                 <br/>
 
             </div>
+
 EOT;
     }
 
@@ -2211,11 +2510,27 @@ EOT;
     /**
      * Finds contributor data give the email address
      *
-     * @param string $contributor_email email address of the contributor  FIXME: security risk: partial matches on email address
+     * @param string $contributor_username email address of the contributor
      * @return false if not found, contributor info otherwise
      */
-    function contributor_get_contributor_by_email($contributor_email) {
-        $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_email` LIKE '%$contributor_email%' ");
+    function contributor_get_contributor_by_username($contributor_username) {
+        $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_email`='$contributor_username' ");
+
+        if (!$result) {
+            return false;
+        }
+
+        return mysql_fetch_assoc($result);
+    }
+
+    /**
+     * Finds contributor data give the email address
+     *
+     * @param string $contributor_username email address of the contributor  FIXME: security risk: partial matches on email address
+     * @return false if not found, contributor info otherwise
+     */
+    function contributor_get_contributor_by_username_fuzzy($contributor_username) {
+        $result = db_exec_query("SELECT * FROM `contributor` WHERE `contributor_email` LIKE '%$contributor_username%' ");
 
         if (!$result) {
             return false;
@@ -2266,7 +2581,8 @@ EOT;
     function contributor_print_full_edit_form($contributor_id, $script, $optional_message = null,
                                               $standard_message = "<p>You may edit your profile information below.</p>") {
 
-        $editor_is_team_member = $GLOBALS['contributor_is_team_member'];
+        $contributor = contributor_get_contributor_by_id($contributor_id);
+        $editor_is_team_member = $contributor["contributor_is_team_member"];
 
         $contributor = contributor_get_contributor_by_id($contributor_id);
 
@@ -2283,6 +2599,7 @@ EOT;
             <form method="post" action="$script">
                 <fieldset>
                     <legend>Profile for $contributor_name</legend>
+
 EOT;
 
         if ($optional_message !== null) {
@@ -2321,6 +2638,7 @@ EOT;
                             <td>description*</td>
 
                             <td>
+
 EOT;
                                 contributor_print_desc_list($contributor_desc, true);
 
@@ -2375,7 +2693,7 @@ EOT;
 
                             <td>
                                 <input type="text" name="contributor_country"
-                                    value="$contributor_country" id="state" size="15" />
+                                    value="$contributor_country" id="country" size="15" />
                             </td>
                         </tr>
 
@@ -2425,6 +2743,7 @@ EOT;
                                 The PhET newsletter is sent 4 times per year to announce major changes to the simulations. You may unsubscribe at any time.
                             </td>
                         </tr>
+
 EOT;
 
                 if ($editor_is_team_member == 1) {
@@ -2437,6 +2756,7 @@ EOT;
                                 <input type="checkbox" name="contributor_is_team_member" value="1" $contributor_is_team_member_checked />
                             </td>
                         </tr>
+
 EOT;
                 }
 
@@ -2448,6 +2768,7 @@ EOT;
                     <input type="hidden" name="contributor_id" value="$contributor_id" />
                  </fieldset>
             </form>
+
 EOT;
     }
 
