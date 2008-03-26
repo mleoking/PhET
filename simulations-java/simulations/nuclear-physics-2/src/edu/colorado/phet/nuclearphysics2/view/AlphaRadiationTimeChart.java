@@ -13,6 +13,8 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.idealgas.controller.command.AddModelElementCmd;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
@@ -48,6 +50,14 @@ public class AlphaRadiationTimeChart extends PComposite {
     // Total amount of time in milliseconds represented by this chart.
     private static final double TIME_SPAN = 6000;
     
+    // Constants that control the marker character.
+    private static final String MARKER_CHAR = "*";
+    private static final Font MARKER_CHAR_FONT = new PhetDefaultFont( Font.PLAIN, 20 );
+    private static final Color MARKER_COLOR = Color.RED;
+    
+    // Max number of decays that we will keep track of.
+    private static final int MAX_DECAYS = 100;
+    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -78,9 +88,15 @@ public class AlphaRadiationTimeChart extends PComposite {
     Point2D _postDecayTimeLineOrigin;
     double  _postDecayTimeLineLength;  // In milliseconds
     
-    // Tracks whether decay has occurred.
+    // Var that tracks whether decay has occurred.
     boolean _decayHasOccurred = false;
     
+    // List of decay times for each trial and their markers.
+    double _decayTimes[] = new double [MAX_DECAYS];
+    int _numDecays = 0;
+    PText _markers[] = new PText [MAX_DECAYS];
+    int _numMarkers = 0;
+   
     // Factor for converting milliseconds to pixels.
     double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
 
@@ -203,6 +219,13 @@ public class AlphaRadiationTimeChart extends PComposite {
                     (float)(_postDecayTimeLineOrigin.getX() + _postDecayTimeLineLength * _msToPixelsFactor), 
                     (float)_postDecayTimeLineOrigin.getY());            
         }
+        
+        // Reposition the markers.
+        for (int i = 0; i < _numMarkers; i++){
+            double xPos = _usableAreaOriginX + _usableWidth / 20 + _decayTimes[i] * _msToPixelsFactor - _markers[i].getWidth() / 2;
+            double yPos = _usableAreaOriginY + _usableHeight * 0.70 - _markers[i].getHeight() / 2;
+            _markers[i].setOffset(xPos, yPos);
+        }
     }
 
     /**
@@ -272,12 +295,45 @@ public class AlphaRadiationTimeChart extends PComposite {
      * different line from here on.
      */
     private void setDecayOccurred(){
+        
+        // Set our flag that tracks this.
         _decayHasOccurred = true;
+        
+        // Add a marker and record the time when this decay occurred.
+        if (_numDecays < MAX_DECAYS){
+            addDecayMarker( _preDecayTimeLineLength );
+           _decayTimes[_numDecays++] = _preDecayTimeLineLength;
+        }
         
         _postDecayTimeLineOrigin = new Point2D.Double(
                 _preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor,
                 _preDecayTimeLineOrigin.getY());
         _postDecayTimeLineLength = 0;
         _postDecayTimeLine.moveTo( (float)_postDecayTimeLineOrigin.getX(), (float)_postDecayTimeLineOrigin.getY() );
+    }
+    
+    /**
+     * This method adds a marker to the chart to represent a decay event.
+     * 
+     * @param decayTime - Time at which to place the event.
+     */
+    private void addDecayMarker(double decayTime){
+        
+        // Create the marker and set the font attributes.
+        PText marker = new PText(MARKER_CHAR);
+        marker.setFont( MARKER_CHAR_FONT );
+        marker.setTextPaint( MARKER_COLOR );
+        
+        // Position the marker, accounting for the height and width of the
+        // text within it.
+        double xPos = _usableAreaOriginX + _usableWidth / 20 + decayTime * _msToPixelsFactor - marker.getWidth() / 2;
+        double yPos = _usableAreaOriginY + _usableHeight * 0.70 - marker.getHeight() / 2;
+        marker.setOffset(xPos, yPos);
+        
+        // Retain a reference to the marker so we can move it during updates.
+        _markers[_numMarkers++] = marker;
+ 
+        // Add this node as a child.
+        addChild(marker);
     }
 }
