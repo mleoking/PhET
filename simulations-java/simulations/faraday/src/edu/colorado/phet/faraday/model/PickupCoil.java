@@ -45,14 +45,22 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructs a PickupCoil that uses a fixed number of sample points
+     * to measure the magnet's B-field.
+     * 
+     * @param magnetModel
+     * @param distanceExponent
+     */
     public PickupCoil( AbstractMagnet magnetModel, double distanceExponent ) {
         this( magnetModel, distanceExponent, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
     }
     
     /**
-     * Sole constructor.
+     * Constructs a PickupCoil that uses a specified strategy for creating sample points
+     * to measure the magnet's B-field.
      * 
-     * @param magnetModel the magnet that is affecting the coil
+     * @param magnetModel
      * @param distanceExponent
      * @param samplePointsStrategy
      */
