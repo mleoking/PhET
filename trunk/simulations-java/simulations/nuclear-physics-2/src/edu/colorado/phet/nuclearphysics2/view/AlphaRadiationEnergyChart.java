@@ -14,10 +14,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -72,7 +68,8 @@ public class AlphaRadiationEnergyChart extends PComposite {
     private PPath _potentialEnergyWell;
     private DoubleArrowNode _xAxisOfGraph;
     private DoubleArrowNode _yAxisOfGraph;
-    private PText _yAxisLabel;
+    private PText _yAxisLabel1;
+    private PText _yAxisLabel2;
     private PText _xAxisLabel;
     private PPath _legend;
     private PText _legendTitle;
@@ -140,15 +137,18 @@ public class AlphaRadiationEnergyChart extends PComposite {
         _potentialEnergyWell.setStroke( ENERGY_LINE_STROKE );
         addChild( _potentialEnergyWell);
         
-        // Add the text for the Y axis.  It was broken up into two pieces in
-        // the original version of this sim, and the two pieces are still
-        // maintained for backward compatibility with translations.
-        _yAxisLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel1" ) +
-                " " + NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel2" ));
-        _yAxisLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
-        _yAxisLabel.rotate( 1.5 * Math.PI );
-        addChild( _yAxisLabel );
-        
+        // Add the text for the Y axis.
+
+         _yAxisLabel1 = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel1" ) );
+         _yAxisLabel1.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+         _yAxisLabel1.rotate( 1.5 * Math.PI );
+         addChild( _yAxisLabel1 );
+         
+         _yAxisLabel2 = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel2" ) );
+         _yAxisLabel2.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+         _yAxisLabel2.rotate( 1.5 * Math.PI );
+         addChild( _yAxisLabel2 );
+         
         // Add the text for the X axis.
         _xAxisLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.XAxisLabel" ));
         _xAxisLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
@@ -242,8 +242,11 @@ public class AlphaRadiationEnergyChart extends PComposite {
         
         // Position the labels for the axes.
         
-        _yAxisLabel.setOffset( _graphOriginX - (1.5 * _yAxisLabel.getFont().getSize()), 
-                _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel.getWidth())));
+        _yAxisLabel1.setOffset( _graphOriginX - (2.5 * _yAxisLabel1.getFont().getSize()), 
+                _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel1.getWidth())));
+
+        _yAxisLabel2.setOffset( _graphOriginX - (1.5 * _yAxisLabel2.getFont().getSize()), 
+                _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel2.getWidth())));
 
         _xAxisLabel.setOffset( xAxisTipPt.getX() - _xAxisLabel.getWidth() - _xAxisOfGraph.getHeadHeight() - 10,
                 _graphOriginY + 5);

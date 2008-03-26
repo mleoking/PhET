@@ -50,6 +50,10 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     private final double WIDTH_TRANSLATION_FACTOR = 2.0;
     private final double HEIGHT_TRANSLATION_FACTOR = 4.0;
     
+    // Contants that control where the charts are placed.
+    private final double CHART_AREA_FRACTION = 0.5; // Fraction of canvas for charts.
+    private final double ENERGY_CHART_FRACTION = 0.7; // Fraction of chart area for this chart.
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -167,11 +171,6 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         _alphaRadiationEnergyChart = new AlphaRadiationEnergyChart(50);
         addScreenChild( _alphaRadiationEnergyChart );
         
-        // Add the chart that shows the decay time.
-        _alphaRadiationTimeChart = new AlphaRadiationTimeChart(_alphaRadiationModel.getClock(), 
-                _alphaRadiationModel.getAtomNucleus());
-        addScreenChild( _alphaRadiationTimeChart );
-
         // Add the breakout radius to the canvas.
         double radius = AtomicNucleus.TUNNEL_OUT_RADIUS;
         PPath breakoutCircle = new PPath(new Ellipse2D.Double(-radius, -radius, 2*radius, 2*radius));
@@ -198,6 +197,11 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         rightBreakoutLine.setStrokePaint( new Color(0x990099) );
         addWorldChild(rightBreakoutLine);
 
+        // Add the chart that shows the decay time.
+        _alphaRadiationTimeChart = new AlphaRadiationTimeChart(_alphaRadiationModel.getClock(), 
+                _alphaRadiationModel.getAtomNucleus());
+        addScreenChild( _alphaRadiationTimeChart );
+
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             
@@ -207,10 +211,6 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
              * aware of it.
              */
             public void componentResized( ComponentEvent e ) {
-                
-                // Reposition the time chart.
-                _alphaRadiationTimeChart.componentResized( 
-                        new Rectangle2D.Double( 0, getHeight()/2, getWidth(), 0.1 * getHeight() ));
                 
                 // Get the diameter of the atomic nucleus so that it can be
                 // used to set the width of the energy well in the chart.
@@ -227,8 +227,14 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 _alphaRadiationEnergyChart.setEnergyWellWidth(converted2.getHeight());
 
                 // Position the energy chart.
-                Rectangle2D rect = new Rectangle2D.Double(0, getHeight() * 0.6, getWidth(), getHeight() * 0.4);
-                _alphaRadiationEnergyChart.componentResized( rect );
+                Rectangle2D energyChartRect = new Rectangle2D.Double(0, getHeight() * CHART_AREA_FRACTION, getWidth(),
+                        getHeight() * CHART_AREA_FRACTION * ENERGY_CHART_FRACTION);
+                _alphaRadiationEnergyChart.componentResized( energyChartRect );
+
+                // Position the time chart.
+                _alphaRadiationTimeChart.componentResized( 
+                        new Rectangle2D.Double( 0, energyChartRect.getMaxY(), getWidth(),
+                        getHeight() * CHART_AREA_FRACTION * (1 - ENERGY_CHART_FRACTION)));
             }
         } );
     }
