@@ -14,6 +14,7 @@ import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.model.PickupCoil.VariableNumberOfSamplePointsStrategy;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -227,6 +228,12 @@ public class TransformerModule extends FaradayModule {
         _pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
         compassGraphic.getCollisionDetector().add( _electromagnetGraphic );
         compassGraphic.getCollisionDetector().add( _pickupCoilGraphic );
+        
+        //XXX do this after graphics because ElectromagnetGraphic sets height of Electromagnet model element
+        if ( FaradayConstants.USED_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS ) {
+            final double ySpacing = _electromagnetModel.getHeight() / 5;
+            _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
+        }
         
         //----------------------------------------------------------------------------
         // Control
