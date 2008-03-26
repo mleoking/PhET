@@ -9,9 +9,11 @@ TODO:
 [441] pickup coil may need to be recalibrated
 [420] lightbulb should be transparent
 [283] improve collision detection
-[79] rotate coil or magnet
 [437] add "constant voltage source" feature
 [423] change bar magnet colors to green and white
+[442] make faraday into multiple sims
+[443] add Earth image feature
+[79] rotate coil or magnet
 - convert model from Observer to Listener pattern
 
 DONE:
