@@ -187,6 +187,7 @@ public abstract class AbstractMagnet extends FaradayObservable {
      * @throws IllegalArgumentException if width or height is <= 0
      */
     public void setSize( double width, double height ) {
+        System.out.println( getClass().getName() + ".setSize " + width + "x" + height );//XXX
         if ( width <= 0 || height <= 0) {
             throw new IllegalArgumentException( "dimensions must be > 0" );
         }

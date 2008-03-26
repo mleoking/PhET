@@ -14,6 +14,7 @@ import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
 import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.model.PickupCoil.VariableNumberOfSamplePointsStrategy;
 import edu.colorado.phet.faraday.view.*;
 
 
@@ -187,6 +188,12 @@ public class PickupCoilModule extends FaradayModule {
         compassGraphic.getCollisionDetector().add( _pickupCoilGraphic );
         _pickupCoilGraphic.getCollisionDetector().add( _barMagnetGraphic );
         _pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
+        
+        //XXX do this after graphics because BarMagnetGraphic sets height of BarMagnet model element
+        if ( FaradayConstants.USED_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS ) {
+            final double ySpacing = _barMagnetModel.getHeight() / 5;
+            _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
+        }
         
         //----------------------------------------------------------------------------
         // Control

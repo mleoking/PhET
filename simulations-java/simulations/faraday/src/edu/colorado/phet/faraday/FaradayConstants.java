@@ -22,6 +22,9 @@ public class FaradayConstants {
     public static final boolean DEBUG_PICKUP_COIL_EMF = false;
     public static final boolean DEBUG_ENABLE_SCALE_PANEL = false;
     
+    //XXX for testing sample point strategies
+    public static final boolean USED_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS = true;
+    
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------

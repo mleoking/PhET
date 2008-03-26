@@ -46,8 +46,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     //----------------------------------------------------------------------------
     
     public PickupCoil( AbstractMagnet magnetModel, double distanceExponent ) {
-//        this( magnetModel, distanceExponent, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
-        this( magnetModel, distanceExponent, new VariableNumberOfSamplePointsStrategy( 5 /* ySpacing */ ) );
+        this( magnetModel, distanceExponent, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
     }
     
     /**
@@ -148,6 +147,16 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      */
     public void setRadius( double radius ) {
         super.setRadius( radius );
+        updateSamplePoints();
+    }
+    
+    /**
+     * Sets the strategy used to compute sample points.
+     * 
+     * @param samplePointsStrategy
+     */
+    public void setSamplePointsStrategy( SamplePointsStrategy samplePointsStrategy ) {
+        _samplePointsStrategy = samplePointsStrategy;
         updateSamplePoints();
     }
     
