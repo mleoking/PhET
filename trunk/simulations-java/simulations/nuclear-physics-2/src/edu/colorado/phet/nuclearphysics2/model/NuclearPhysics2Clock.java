@@ -5,7 +5,7 @@ package edu.colorado.phet.nuclearphysics2.model;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
- * GlaciersClock is the clock for this simulation.
+ * NuclearPhysics2Clock is the clock for this simulation.
  * The simulation time change (dt) on each clock tick is constant,
  * regardless of when (in wall time) the ticks actually happen.
  *

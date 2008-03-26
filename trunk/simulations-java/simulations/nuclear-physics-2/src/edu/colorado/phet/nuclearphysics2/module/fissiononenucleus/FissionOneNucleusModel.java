@@ -59,7 +59,7 @@ public class FissionOneNucleusModel {
              * increment in time.
              */
             public void clockTicked(ClockEvent clockEvent){
-                _atomicNucleus.clockTicked();
+                _atomicNucleus.clockTicked(clockEvent);
             }
         });
         
