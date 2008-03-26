@@ -6,6 +6,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.nuclearphysics2.defaults.AlphaRadiationDefaults;
+
 public class AtomicNucleus {
     
     //------------------------------------------------------------------------
@@ -19,10 +22,6 @@ public class AtomicNucleus {
     // femtometers, but is larger than the real value so that users can see
     // particles coming and going in this zone.
     public static final double TUNNEL_OUT_RADIUS = 15; 
-    
-    // Parameters that control when tunneling will occur.
-    private static final int MIN_TUNNELING_TICKS = 20;
-    private static final int MAX_TUNNELING_TICKS = 100;
     
     // Initial amount of agitation exhibited by the nucleus.  Range is 0-9.
     private static final int INITIAL_AGITATION_FACTOR = 8;
@@ -40,9 +39,11 @@ public class AtomicNucleus {
     // List of the constituent particles that comprise this nucleus.
     private ArrayList _constituents = new ArrayList();
     
-    // Vars for deciding when particle should tunnel out.
-    private long _tickCount = 0;
-    private long _tunnelOutTicks = MAX_TUNNELING_TICKS;
+    // Original atomic weight, used for resetting this nucleus.
+    private int _originalAtomicWeight;
+    
+    // Variable for deciding when alpha decay should occur.
+    private double _alphaDecayTime = 0;
     
     // Particle that will/is tunneling out of nucleus.
     private AlphaParticle _tunnelingParticle = null;
@@ -59,6 +60,9 @@ public class AtomicNucleus {
     // Amount of agitation exhibited by nucleus, from 0 to 9.
     int _agitationFactor = INITIAL_AGITATION_FACTOR;
     
+    // Used for various random calculations.
+    Random _rand = new Random();
+    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -67,6 +71,9 @@ public class AtomicNucleus {
     {
         // Set the initial position for this nucleus.
         position = new Point2D.Double(xPos, yPos);
+        
+        // Save the original weight so we can reset if need be.
+        _originalAtomicWeight = atomicWeight;
         
         // Figure out the proportions of various particles based on the atomic number.
         _numAlphas    = (atomicWeight / 2) / 4;  // Assume half of all particles are tied up in alphas.
@@ -88,9 +95,15 @@ public class AtomicNucleus {
             _constituents.add( new Proton(0, 0) );
         }
         
-        // Decide when tunneling will occur.
-        Random rand = new Random();
-        _tunnelOutTicks = MIN_TUNNELING_TICKS + rand.nextInt( MAX_TUNNELING_TICKS - MIN_TUNNELING_TICKS );
+        // If we are being created as a Polonium nucleus, then decide when
+        // alpha decay will occur.
+        if (atomicWeight == 211){
+            _alphaDecayTime = calcPolonium211DecayTime();
+        }
+        else{
+            // Setting the decay time to 0 signifies that no decay should occur.
+            _alphaDecayTime = 0;
+        }
     }
     
     //------------------------------------------------------------------------
@@ -122,11 +135,9 @@ public class AtomicNucleus {
      * response, the nucleus generally 'agitates' a bit, and may also perform
      * some sort of decay.
      */
-    public void clockTicked()
+    public void clockTicked(ClockEvent clockEvent)
     {
-        _tickCount++;
-        
-        if (_tickCount == _tunnelOutTicks)
+        if ((_alphaDecayTime != 0) && (clockEvent.getSimulationTime() >= _alphaDecayTime ))
         {
             // Pick an alpha particle to tunnel out and make it happen.
             for (int i = 0; i < _constituents.size(); i++)
@@ -150,6 +161,10 @@ public class AtomicNucleus {
                     break;
                 }
             }
+            
+            // Set the decay time to 0 to indicate that no more tunneling out
+            // should occur.
+            _alphaDecayTime = 0;
         }
         
         // Move the constituent particles to create the visual effect of a
@@ -187,11 +202,13 @@ public class AtomicNucleus {
      */
     public void reset(){
         
-        _tickCount = 0;
-        
-        // Reset the tunnel out counter.
-        Random rand = new Random();
-        _tunnelOutTicks = MIN_TUNNELING_TICKS + rand.nextInt( MAX_TUNNELING_TICKS - MIN_TUNNELING_TICKS );
+        // If we started as Polonium 211, reset the alpha decay timer.
+        if (_originalAtomicWeight == 211){
+            _alphaDecayTime = calcPolonium211DecayTime();
+        }
+        else {
+            _alphaDecayTime = 0;            
+        }
 
         // See if a particle is tunneling or has tunneled.
         if (_tunnelingParticle != null){
@@ -211,6 +228,24 @@ public class AtomicNucleus {
                 ((Listener)_listeners.get( i )).atomicWeightChanged( getAtomicWeight() );
             }
         }
+    }
+    
+    /**
+     * This method generates a value indicating the number of milliseconds for
+     *  a Polonium 211 nucleus to decay.  This calculation is based on the 
+     * exponential decay formula and uses the decay constant for Polonium 211.
+     * 
+     * @return
+     */
+    private double calcPolonium211DecayTime(){
+        double randomValue = _rand.nextDouble();
+        if (randomValue > 0.999){
+            // Limit the maximum time for decay so that the user isn't waiting
+            // around forever.
+            randomValue = 0.999;
+        }
+        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
+        return tunnelOutMilliseconds;
     }
 
     /**
