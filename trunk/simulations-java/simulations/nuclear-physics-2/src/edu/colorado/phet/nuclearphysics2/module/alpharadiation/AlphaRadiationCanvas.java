@@ -163,14 +163,6 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
         
-        // Add the breakout radius to the canvas.
-        double radius = AtomicNucleus.TUNNEL_OUT_RADIUS;
-        PPath breakoutCircle = new PPath(new Ellipse2D.Double(-radius, -radius, 2*radius, 2*radius));
-        breakoutCircle.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-                new float[] {0.75f, 0.75f }, 0) );
-        breakoutCircle.setStrokePaint( new Color(0x990099) );
-        addWorldChild(breakoutCircle);
-        
         // Add the chart that depicts the tunneling energy threshold.
         _alphaRadiationEnergyChart = new AlphaRadiationEnergyChart(50);
         addScreenChild( _alphaRadiationEnergyChart );
@@ -180,9 +172,16 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 _alphaRadiationModel.getAtomNucleus());
         addScreenChild( _alphaRadiationTimeChart );
 
+        // Add the breakout radius to the canvas.
+        double radius = AtomicNucleus.TUNNEL_OUT_RADIUS;
+        PPath breakoutCircle = new PPath(new Ellipse2D.Double(-radius, -radius, 2*radius, 2*radius));
+        breakoutCircle.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+                new float[] {0.75f, 0.75f }, 0) );
+        breakoutCircle.setStrokePaint( new Color(0x990099) );
+        addWorldChild(breakoutCircle);
+        
         // Add the lines that make it clear that the tunneling radius is at
         // the point where the particle energy exceeds the potential energy.
-        
         PPath leftBreakoutLine = new PPath(new Line2D.Double(-radius, 
                 CANVAS_HEIGHT * HEIGHT_TRANSLATION_FACTOR, -radius, 
                 CANVAS_HEIGHT * (1 - HEIGHT_TRANSLATION_FACTOR)));
