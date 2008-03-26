@@ -1,12 +1,12 @@
-package edu.colorado.phet.circuitconstructionkit.phetgraphics;
+package edu.colorado.phet.circuitconstructionkit.model;
 
 import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Connection;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.GraphTraversalVoltage;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.VoltageDifference;
+import edu.colorado.phet.circuitconstructionkit.model.GraphTraversalVoltage;
+import edu.colorado.phet.circuitconstructionkit.model.VoltageDifference;
 
 /**
  * User: Sam Reid

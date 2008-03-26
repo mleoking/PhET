@@ -4,9 +4,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.model.Circuit;
-import edu.colorado.phet.circuitconstructionkit.model.Connection;
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
+import edu.colorado.phet.circuitconstructionkit.model.*;
 
 /**
  * User: Sam Reid
