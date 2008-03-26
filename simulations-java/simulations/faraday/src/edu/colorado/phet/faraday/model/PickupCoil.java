@@ -14,7 +14,7 @@ import edu.colorado.phet.faraday.util.Vector2D;
 
 /**
  * PickupCoil is the model of a pickup coil.
- * It's behavior follows Faraday's Law for electromagnetic induction.
+ * Its behavior follows Faraday's Law for electromagnetic induction.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
