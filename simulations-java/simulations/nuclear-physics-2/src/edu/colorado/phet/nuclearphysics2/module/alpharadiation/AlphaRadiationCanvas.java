@@ -10,6 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,7 +21,8 @@ import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
-import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationChart;
+import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationEnergyChart;
+import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationTimeChart;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics2.view.ProtonNode;
@@ -53,7 +55,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     private AlphaRadiationModel _alphaRadiationModel;
     private AtomicNucleusNode _nucleusNode;
-    private AlphaRadiationChart _alphaRadiationChart;
+    private AlphaRadiationEnergyChart _alphaRadiationEnergyChart;
+    private AlphaRadiationTimeChart _alphaRadiationTimeChart;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
 
     //----------------------------------------------------------------------------
@@ -169,9 +172,13 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         addWorldChild(breakoutCircle);
         
         // Add the chart that depicts the tunneling energy threshold.
-        this.
-        _alphaRadiationChart = new AlphaRadiationChart(50, this);
-        addScreenChild( _alphaRadiationChart );
+        _alphaRadiationEnergyChart = new AlphaRadiationEnergyChart(50);
+        addScreenChild( _alphaRadiationEnergyChart );
+        
+        // Add the chart that shows the decay time.
+        _alphaRadiationTimeChart = new AlphaRadiationTimeChart(_alphaRadiationModel.getClock(), 
+                _alphaRadiationModel.getAtomNucleus());
+        addScreenChild( _alphaRadiationTimeChart );
 
         // Add the lines that make it clear that the tunneling radius is at
         // the point where the particle energy exceeds the potential energy.
@@ -202,6 +209,10 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
              */
             public void componentResized( ComponentEvent e ) {
                 
+                // Reposition the time chart.
+                _alphaRadiationTimeChart.componentResized( 
+                        new Rectangle2D.Double( 0, getHeight()/2, getWidth(), 0.1 * getHeight() ));
+                
                 // Get the diameter of the atomic nucleus so that it can be
                 // used to set the width of the energy well in the chart.
                 double nucleusDiameter = _alphaRadiationModel.getAtomNucleus().getDiameter();
@@ -211,13 +222,14 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 // the right units for setting the width of the energy well in
                 // the chart.
                 Dimension2D converted1 = _nucleusNode.localToGlobal( nucleasDiameterDim );
-                Dimension2D converted2 = _alphaRadiationChart.globalToLocal( converted1 );
+                Dimension2D converted2 = _alphaRadiationEnergyChart.globalToLocal( converted1 );
                 
                 // Set the new desired width of the energy well.
-                _alphaRadiationChart.setEnergyWellWidth(converted2.getHeight());
+                _alphaRadiationEnergyChart.setEnergyWellWidth(converted2.getHeight());
 
-                // Let the chart know that the resizing event occurred.
-                _alphaRadiationChart.componentResized( getWidth(), getHeight() );
+                // Position the energy chart.
+                Rectangle2D rect = new Rectangle2D.Double(0, getHeight() * 0.6, getWidth(), getHeight() * 0.4);
+                _alphaRadiationEnergyChart.componentResized( rect );
             }
         } );
     }

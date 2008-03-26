@@ -32,7 +32,6 @@ public class AlphaRadiationModel {
     
     private AtomicNucleus _atomicNucleus;
     private ConstantDtClock _clock;
-    private int _tickCounter = 0;
     private ArrayList _listeners = new ArrayList();
     
     //------------------------------------------------------------------------
@@ -41,11 +40,7 @@ public class AlphaRadiationModel {
     
     public AlphaRadiationModel(NuclearPhysics2Clock clock)
     {
-        // Since Polonium 211 has a half life of about 1/2 seconds, we need
-        // to set the clock to run such that wall time and sim time are
-        // roughly equivalent.
-        clock.setDelay( 40 ); // This gives us a frame rate of 25 fps.
-        clock.setDt( 40 );    // This makes sim time match wall time.
+        _clock = clock;
         
         // Create a nucleus with an atomic weight of 211, which is Polonium.
         _atomicNucleus = new AtomicNucleus(0, 0, 211);
@@ -58,15 +53,12 @@ public class AlphaRadiationModel {
              */
             public void clockTicked(ClockEvent clockEvent){
                 
-                _tickCounter++;
-                
                 // Let the nucleus know that the clock ticked so that it can 'agitate'.
                 _atomicNucleus.clockTicked(clockEvent);
                 
             }
             
             public void simulationTimeReset(ClockEvent clockEvent){
-                _tickCounter = 0;
                 _atomicNucleus.reset();
             }
         });
@@ -88,6 +80,10 @@ public class AlphaRadiationModel {
     public AtomicNucleus getAtomNucleus()
     {
         return _atomicNucleus;
+    }
+    
+    public ConstantDtClock getClock(){
+        return _clock;
     }
     
     /**

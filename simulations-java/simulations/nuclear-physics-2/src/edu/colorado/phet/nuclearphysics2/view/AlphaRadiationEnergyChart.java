@@ -10,6 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -32,7 +33,7 @@ import edu.umd.cs.piccolox.nodes.PLine;
  *
  * @author John Blanco
  */
-public class AlphaRadiationChart extends PComposite {
+public class AlphaRadiationEnergyChart extends PComposite {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -64,7 +65,6 @@ public class AlphaRadiationChart extends PComposite {
 
     // Variables that control the dynamic attributes of the chart.
     private double _energyWellWidth;  // In screen coordinates.
-    private PhetPCanvas _parentCanvas;
 
     // References to the various components of the chart.
     private PPath _borderNode;
@@ -93,10 +93,14 @@ public class AlphaRadiationChart extends PComposite {
     // Constructor
     //------------------------------------------------------------------------
 
-    public AlphaRadiationChart(double energyWellWidth, PhetPCanvas parentCanvas) {
+    /**
+     * Constructor for this chart, which creates all of the elements of the
+     * chart.  Note that it does not lay them out - it counts on calls to
+     * the updateBounds routine to do that.
+     */
+    public AlphaRadiationEnergyChart(double energyWellWidth) {
         
         _energyWellWidth = energyWellWidth;
-        _parentCanvas = parentCanvas;
 
         // Create the border for this chart.
         
@@ -197,27 +201,23 @@ public class AlphaRadiationChart extends PComposite {
     }
     
     //------------------------------------------------------------------------
-    // Additional Methods
+    // Other Methods
     //------------------------------------------------------------------------
 
     /**
      * This method is called to re-scale the chart, which generally occurs
-     * when the overall size of the simulation is changed.
+     * when the overall size of the simulation canvas is changed.
      * 
-     * @param canvasWidth - The overall width in pixels of the canvas on which
-     * this chart appears.
-     * @param canvasHeight - The overall height in pixels of the canvas on
-     * which this chart appears.  The chart will only consume part of this
-     * height.
+     * @param rect - Rectangle where this chart should appear on the canvas.
      */
-    private void updateBounds( double canvasWidth, double canvasHeight ) {
+    private void updateBounds( Rectangle2D rect ) {
 
         // Recalculate the usable area and origin for the chart.
         
-        _usableAreaOriginX = BORDER_STROKE_WIDTH;
-        _usableAreaOriginY = canvasHeight - ( canvasHeight * SCREEN_FRACTION_Y ) + BORDER_STROKE_WIDTH;
-        _usableWidth       = canvasWidth - ( BORDER_STROKE_WIDTH * 2 );
-        _usableHeight      = canvasHeight * SCREEN_FRACTION_Y - ( BORDER_STROKE_WIDTH * 2);
+        _usableAreaOriginX = rect.getX() + BORDER_STROKE_WIDTH;
+        _usableAreaOriginY = rect.getY() + BORDER_STROKE_WIDTH;
+        _usableWidth       = rect.getWidth() - ( BORDER_STROKE_WIDTH * 2 );
+        _usableHeight      = rect.getHeight() - ( BORDER_STROKE_WIDTH * 2);
         _graphOriginX      = _usableWidth * ORIGIN_PROPORTION_X + _usableAreaOriginX;
         _graphOriginY      = _usableHeight * ORIGIN_PROPORTION_Y + _usableAreaOriginY;
         
@@ -315,10 +315,9 @@ public class AlphaRadiationChart extends PComposite {
      * This method causes the chart to resize itself based on the (presumably
      * different) size of the overall canvas on which it appears.
      * 
-     * @param width - Width, in pixels, of the canvas on which this chart appears.
-     * @param height - Height, in pixels, of the canvas on which this chart appears.
+     * @param rect - Position on the canvas where this chart should appear.
      */
-    public void componentResized( double width, double height ) {
-        updateBounds( width, height );
+    public void componentResized( Rectangle2D rect ) {
+        updateBounds( rect );
     }
 }

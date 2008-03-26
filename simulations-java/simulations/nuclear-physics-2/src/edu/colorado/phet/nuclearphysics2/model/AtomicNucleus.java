@@ -156,7 +156,7 @@ public class AtomicNucleus {
                     // Notify listeners of the change of atomic weight.
                     int newAtomicWeight = getAtomicWeight();
                     for (int j = 0; j < _listeners.size(); j++){
-                        ((Listener)_listeners.get( i )).atomicWeightChanged(newAtomicWeight);
+                        ((Listener)_listeners.get( j )).atomicWeightChanged(newAtomicWeight);
                     }
                     break;
                 }
