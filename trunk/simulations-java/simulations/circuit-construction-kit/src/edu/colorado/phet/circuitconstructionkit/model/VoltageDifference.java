@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
+package edu.colorado.phet.circuitconstructionkit.model;
 
 import java.util.ArrayList;
 
