@@ -21,12 +21,6 @@ import edu.colorado.phet.faraday.util.Vector2D;
 public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObserver {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final int NUMBER_OF_SAMPLE_POINTS = 9; // must be odd!
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -39,6 +33,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private double _emf; // in volts
     private double _biggestEmf; // in volts
     private Point2D _samplePoints[]; // B-field sample points
+    private SamplePointsStrategy _samplePointsStrategy;
     
     // Reusable objects
     private AffineTransform _someTransform;
@@ -50,12 +45,19 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     // Constructors
     //----------------------------------------------------------------------------
     
+    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent ) {
+//        this( magnetModel, distanceExponent, new ConstantNumberOfSamplePointsStrategy( 9 /* numberOfSamplePoints */ ) );
+        this( magnetModel, distanceExponent, new VariableNumberOfSamplePointsStrategy( 5 /* ySpacing */ ) );
+    }
+    
     /**
      * Sole constructor.
      * 
      * @param magnetModel the magnet that is affecting the coil
+     * @param distanceExponent
+     * @param samplePointsStrategy
      */
-    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent ) {
+    public PickupCoil( AbstractMagnet magnetModel, double distanceExponent, SamplePointsStrategy samplePointsStrategy ) {
         super();
         
         assert( magnetModel != null );
@@ -63,6 +65,8 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _magnetModel.addObserver( this );
         
         _distanceExponent = distanceExponent;
+        
+        _samplePointsStrategy = samplePointsStrategy;
         _samplePoints = null;
         
         _flux = 0.0;
@@ -160,31 +164,102 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the sample points used to calculate the emf.
-     * A fixed number of points is evenly distributed along a vertical line 
-     * that goes through the center of the coil.
+     * Updates the sample points for the coil.
+     * The samples points are used to measure the B-field in the calculation of emf.
      */
     private void updateSamplePoints() {
+        _samplePoints = _samplePointsStrategy.createSamplePoints( this );
+    }
+    
+    /**
+     * Interface implemented by all strategies for 
+     * creating B-field sample points for a pickup coil.
+     */
+    public interface SamplePointsStrategy {
+        public Point2D[] createSamplePoints( PickupCoil pickupCoilModel );
+    }
+    
+    /**
+     * A fixed number of points is distributed
+     * along a vertical line that goes through the center of a pickup coil.
+     * The number of sample points must be odd, so that one point is at the center.
+     * The points at the outer edge are guaranteed to be on the coil.
+     */
+    public static class ConstantNumberOfSamplePointsStrategy implements SamplePointsStrategy {
+        
+        private final int _numberOfSamplePoints;
+        
+        public ConstantNumberOfSamplePointsStrategy( final int numberOfSamplePoints ) {
+            if ( numberOfSamplePoints < 1 || numberOfSamplePoints % 2 != 1 ) {
+                throw new IllegalArgumentException( "numberOfSamplePoints must be > 0 and odd" );
+            }
+            _numberOfSamplePoints = numberOfSamplePoints;
+        }
 
-        assert( NUMBER_OF_SAMPLE_POINTS % 2 == 1 ); // must be odd!
+        public Point2D[] createSamplePoints( PickupCoil pickupCoilModel ) {
+            
+            Point2D[] samplePoints = new Point2D[_numberOfSamplePoints];
+            final double numberOfSamplePointsOnRadius = ( _numberOfSamplePoints - 1 ) / 2;
+            final double samplePointsYSpacing = pickupCoilModel.getRadius() / numberOfSamplePointsOnRadius;
 
-        _samplePoints = new Point2D[NUMBER_OF_SAMPLE_POINTS];
-        final double numberOfSamplePointsOnRadius = ( NUMBER_OF_SAMPLE_POINTS - 1 ) / 2;
-        final double samplePointsYSpacing = getRadius() / numberOfSamplePointsOnRadius;
+            // all sample points share the same x offset
+            final double xOffset = 0;
 
-        // all sample points share the same x offset
-        final double xOffset = 0;
+            // Center
+            int index = 0;
+            samplePoints[index++] = new Point2D.Double( xOffset, 0 );
 
-        // Center
-        int index = 0;
-        _samplePoints[index++] = new Point2D.Double( xOffset, 0 );
+            // Offsets below & above the center
+            double y = 0;
+            for ( int i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
+                y += samplePointsYSpacing;
+                samplePoints[index++] = new Point2D.Double( xOffset, y );
+                samplePoints[index++] = new Point2D.Double( xOffset, -y );
+            }
+            
+            return samplePoints;
+        }
+    }
+    
+    /**
+     * A fixed spacing is used to distribute a variable number of points
+     * along a vertical line that goes through the center of a pickup coil.
+     * One point is at the center. Points will be on the edge of the coil
+     * only if the coil's radius is an integer multiple of the spacing.
+     */
+    public static class VariableNumberOfSamplePointsStrategy implements SamplePointsStrategy {
+        
+        private final double _ySpacing;
+        
+        public VariableNumberOfSamplePointsStrategy( final double ySpacing ) {
+            if ( ySpacing <= 0 ) {
+                throw new IllegalArgumentException( "ySpacing must be >= 0" );
+            }
+            _ySpacing = ySpacing;
+        }
+        
+        public Point2D[] createSamplePoints( PickupCoil pickupCoilModel ) {
+            
+            final int numberOfSamplePointsOnRadius = (int)( pickupCoilModel.getRadius() / _ySpacing );
+            
+            Point2D[] samplePoints = new Point2D[ 1 + ( 2 * numberOfSamplePointsOnRadius ) ];
 
-        // Offsets below & above the center
-        double y = 0;
-        for ( int i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
-            y += samplePointsYSpacing;
-            _samplePoints[index++] = new Point2D.Double( xOffset, y );
-            _samplePoints[index++] = new Point2D.Double( xOffset, -y );
+            // all sample points share the same x offset
+            final double xOffset = 0;
+
+            // Center
+            int index = 0;
+            samplePoints[index++] = new Point2D.Double( xOffset, 0 );
+
+            // Offsets below & above the center
+            double y = 0;
+            for ( int i = 0; i < numberOfSamplePointsOnRadius; i++ ) {
+                y += _ySpacing;
+                samplePoints[index++] = new Point2D.Double( xOffset, y );
+                samplePoints[index++] = new Point2D.Double( xOffset, -y );
+            }
+            
+            return samplePoints;
         }
     }
     

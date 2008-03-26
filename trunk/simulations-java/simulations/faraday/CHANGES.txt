@@ -17,6 +17,7 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
+3/26/08 - use strategy pattern for the multiple ways that we have to create pickup coil sample points [248]
 3/25/08 - rename methods related to bar magnet "see inside" feature [351]
 3/25/08 - use Point2D[] instead of double[] for sample points on pickup coil [248]
 3/24/08 - revert to fixed number of sample points on pickup coil [248]
