@@ -9,7 +9,15 @@ Faraday's Electromagnetic Lab, version 1.05.04
 <ul>
 <li>relabel "AC Power Supply" to "AC Current Supply"
 <li>recalibrate bulb rays, voltmeter and electron motion to account for max loop area increase in version 1.05.03
-<li>use fixed sample point spacing (based on magnet height) for pickup coil in "Pickup Coil" and "Transformer" panels
+<li>use fixed sample point spacing (based on magnet height) for pickup coil in "Pickup Coil" and "Transformer" panels,
+reduces sudden bursts of current when magnet is dragged vertically inside pickup coil
 <li>change model shape of Electromagnet from a circle to a square
+</ul>
+<p>
+<b>Known problems:</b>
+<p>
+<ul>
+<li>when dragging magnet through pickup coil, there will be a sudden burst of current when 
+the coil's sample points move from inside the magnet to outside (or visa versa)
 </ul>
 </html>
