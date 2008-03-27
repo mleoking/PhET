@@ -34,7 +34,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
     //----------------------------------------------------------------------------
     
     public static boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = true;
-    public static boolean DEBUG_DISPLAY_FLUX = false;
+    public static boolean DEBUG_DISPLAY_FLUX = true;
     
     //----------------------------------------------------------------------------
     // Instance data

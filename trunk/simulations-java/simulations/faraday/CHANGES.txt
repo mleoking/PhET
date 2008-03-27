@@ -19,6 +19,8 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
+3/27/08 - enable display of flux by default (developer control) [248]
+3/27/08 - convert Developer menu items to a dialog so we can add other types of controls [248]
 3/27/08 - simplify calculation of single-loop flux in PickupCoil.updateEmf [248]
 ********* version 1.05.04 (20411)
 3/27/08 - reduce spacing between sample points on pickup coils [248]

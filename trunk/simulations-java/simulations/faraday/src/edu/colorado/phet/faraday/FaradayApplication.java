@@ -65,7 +65,7 @@ public class FaradayApplication extends PhetApplication {
 
         // Developer menu
         if ( _developControlsEnabled ) {
-            DeveloperMenu developerMenu = new DeveloperMenu();
+            DeveloperMenu developerMenu = new DeveloperMenu( getPhetFrame() );
             getPhetFrame().addMenu( developerMenu );
         }
     }
