@@ -240,7 +240,7 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     {
         double maxDistance = nucleusRadius;
         
-        if (_rand.nextDouble() > 0.99)
+        if (_rand.nextDouble() > 0.94)
         {
             // Every once in a while use the tunnel radius as the max distance
             // to which this particle might tunnel.  This creates the effect of

@@ -9,15 +9,16 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.idealgas.controller.command.AddModelElementCmd;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -46,6 +47,13 @@ public class AlphaRadiationTimeChart extends PComposite {
     private static final Stroke  TIME_LINE_STROKE = new BasicStroke( TIME_LINE_STROKE_WIDTH );
     private static final Color   TIME_LINE_COLOR_PRE_DECAY = NuclearPhysics2Constants.POLONIUM_LABEL_COLOR;
     private static final Color   TIME_LINE_COLOR_POST_DECAY = Color.BLUE;
+    private static final Font    DECAY_TIME_FONT = new PhetDefaultFont( Font.PLAIN, 14 );
+    private static final Color   DECAY_TIME_COLOR = Color.RED;
+    
+    // Constants that control the location of the origin.
+    private static final double X_ORIGIN_PROPORTION = 0.05;
+    private static final double Y_ORIGIN_PROPORTION = 0.65;
+    
     
     // Total amount of time in milliseconds represented by this chart.
     private static final double TIME_SPAN = 6000;
@@ -66,10 +74,13 @@ public class AlphaRadiationTimeChart extends PComposite {
     private PPath _borderNode;
     private PPath _preDecayTimeLine;
     private PPath _postDecayTimeLine;
-    private DoubleArrowNode _xAxisOfGraph;
-    private DoubleArrowNode _yAxisOfGraph;
+    private ArrowNode _xAxisOfGraph;
+    private ArrowNode _yAxisOfGraph;
     private PText _yAxisLabel;
     private PText _xAxisLabel;
+    private PText _timeToDecayLabel;
+    private PText _timeToDecayText;
+    private PText _timeToDecayUnits;
     
     // Variables used for positioning nodes within the graph.
     double _usableAreaOriginX;
@@ -114,7 +125,7 @@ public class AlphaRadiationTimeChart extends PComposite {
              * increment in time.
              */
             public void clockTicked(ClockEvent clockEvent){
-                advanceTimeLine(clockEvent);
+                handleClockTick(clockEvent);
             }
             
             public void simulationTimeReset(ClockEvent clockEvent){
@@ -140,7 +151,23 @@ public class AlphaRadiationTimeChart extends PComposite {
         _borderNode.setStroke( BORDER_STROKE );
         _borderNode.setStrokePaint( BORDER_COLOR );
         _borderNode.setPaint( BACKGROUND_COLOR );
-        addChild( _borderNode );      
+        addChild( _borderNode );
+        
+        // Create the x & y axes of the graph.  The initial position is arbitrary
+        // and the actual positioning will be done by the update functions.
+        _xAxisOfGraph = new ArrowNode(new Point2D.Double(10,10), new Point2D.Double(20,20), 10, 8, 2);
+        _xAxisOfGraph.setPaint( Color.black );
+        _xAxisOfGraph.setStrokePaint( Color.black );
+        addChild(_xAxisOfGraph);
+        _yAxisOfGraph = new ArrowNode(new Point2D.Double(), new Point2D.Double(), 10, 8, 2);
+        _yAxisOfGraph.setPaint( Color.black );
+        _yAxisOfGraph.setStrokePaint( Color.black );
+        addChild(_yAxisOfGraph);
+        
+        // Add the text for the X axis.
+        _xAxisLabel = new PText( "Time" );
+        _xAxisLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        addChild( _xAxisLabel );
         
         // Create the pre-decay time line.
         _preDecayTimeLine = new PPath();
@@ -159,6 +186,19 @@ public class AlphaRadiationTimeChart extends PComposite {
         // Initialize the time line.
         _preDecayTimeLineOrigin = new Point2D.Double();
         _preDecayTimeLine.moveTo( 0, 0 );
+
+        // Add the text that will show the decay time.
+        _timeToDecayLabel = new PText( NuclearPhysics2Strings.DECAY_TIME_LABEL );
+        _timeToDecayLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        addChild( _timeToDecayLabel );
+        _timeToDecayText = new PText( "" );
+        _timeToDecayText.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        _timeToDecayText.setFont( DECAY_TIME_FONT );
+        _timeToDecayText.setTextPaint( DECAY_TIME_COLOR );
+        addChild( _timeToDecayText );
+        _timeToDecayUnits = new PText( NuclearPhysics2Strings.DECAY_TIME_UNITS );
+        _timeToDecayUnits.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        addChild( _timeToDecayUnits );
     }
     
     //------------------------------------------------------------------------
@@ -178,6 +218,10 @@ public class AlphaRadiationTimeChart extends PComposite {
         _usableAreaOriginY = rect.getY() + BORDER_STROKE_WIDTH;
         _usableWidth       = rect.getWidth() - ( BORDER_STROKE_WIDTH * 2 );
         _usableHeight      = rect.getHeight() - ( BORDER_STROKE_WIDTH * 2);
+        
+        // Decide where the origin is located.
+        _graphOriginX = _usableAreaOriginX + (X_ORIGIN_PROPORTION * _usableWidth);
+        _graphOriginY = _usableAreaOriginY + (Y_ORIGIN_PROPORTION * _usableHeight);
 
         // Update the multiplier used for converting from pixels to milliseconds.
         _msToPixelsFactor = 0.9 * _usableWidth / TIME_SPAN;
@@ -200,10 +244,29 @@ public class AlphaRadiationTimeChart extends PComposite {
                 20,
                 20 ) );
         
+        // Position the x and y axes.
+        _xAxisOfGraph.setTipAndTailLocations( 
+              new Point2D.Double( _graphOriginX + _usableWidth * 0.9, _graphOriginY ), 
+              new Point2D.Double( _graphOriginX, _graphOriginY ) );
+        _yAxisOfGraph.setTipAndTailLocations( 
+                new Point2D.Double( _graphOriginX, _graphOriginY -  _usableHeight * .5), 
+                new Point2D.Double( _graphOriginX, _graphOriginY ) );
+        
+        // Position the labels for the axes.
+        
+//        _yAxisLabel1.setOffset( _graphOriginX - (2.5 * _yAxisLabel1.getFont().getSize()), 
+//                _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel1.getWidth())));
+//
+//        _yAxisLabel2.setOffset( _graphOriginX - (1.5 * _yAxisLabel2.getFont().getSize()), 
+//                _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel2.getWidth())));
+
+        _xAxisLabel.setOffset( _graphOriginX + _usableWidth * .02, _graphOriginY + 2);
+
+        
         // Position the pre-decay time line.
         _preDecayTimeLine.reset();
-        _preDecayTimeLineOrigin.setLocation( _usableAreaOriginX + _usableWidth / 20, 
-                _usableAreaOriginY + _usableHeight/2);
+        _preDecayTimeLineOrigin.setLocation( _usableAreaOriginX + _usableWidth * 0.10, 
+                _usableAreaOriginY + _usableHeight * 0.33);
         _preDecayTimeLine.moveTo( (float)_preDecayTimeLineOrigin.getX(), (float)_preDecayTimeLineOrigin.getY() );
         _preDecayTimeLine.lineTo( (float)(_preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor), 
                 (float)_preDecayTimeLineOrigin.getY());
@@ -220,12 +283,21 @@ public class AlphaRadiationTimeChart extends PComposite {
                     (float)_postDecayTimeLineOrigin.getY());            
         }
         
-        // Reposition the markers.
+        // Position the decay markers.
         for (int i = 0; i < _numMarkers; i++){
-            double xPos = _usableAreaOriginX + _usableWidth / 20 + _decayTimes[i] * _msToPixelsFactor - _markers[i].getWidth() / 2;
-            double yPos = _usableAreaOriginY + _usableHeight * 0.70 - _markers[i].getHeight() / 2;
+            double xPos = _usableAreaOriginX + _usableWidth * 0.1 + _decayTimes[i] * _msToPixelsFactor - _markers[i].getWidth() / 2;
+            double yPos = _preDecayTimeLineOrigin.getY();
             _markers[i].setOffset(xPos, yPos);
         }
+        
+        // Position the decay time indicator.
+        _timeToDecayUnits.setOffset(
+                _usableAreaOriginX + _usableWidth - _timeToDecayUnits.getWidth() - BORDER_STROKE_WIDTH,
+                _usableAreaOriginY + 3);
+        _timeToDecayText.setOffset( _timeToDecayUnits.getOffset().getX() - _timeToDecayText.getWidth() - 7, 
+                _usableAreaOriginY + 3);
+        _timeToDecayLabel.setOffset( _timeToDecayText.getOffset().getX() - _timeToDecayLabel.getWidth() - 7,
+                _usableAreaOriginY + 3);
     }
 
     /**
@@ -239,11 +311,12 @@ public class AlphaRadiationTimeChart extends PComposite {
     }
     
     /**
-     * Move the appropriate time line forward on the chart.
+     * Move the appropriate time line forward on the chart and make other
+     * time-driven updates to the chart.
      * 
      * @param clockEvent
      */
-    private void advanceTimeLine(ClockEvent clockEvent){
+    private void handleClockTick(ClockEvent clockEvent){
         
         if (!_decayHasOccurred){
 
@@ -259,6 +332,10 @@ public class AlphaRadiationTimeChart extends PComposite {
                         (float)(_preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor),
                         (float)_preDecayTimeLineOrigin.getY());
             }
+            
+            // Update the decay clock.
+            DecimalFormat formatter = new DecimalFormat( "#0.000" );
+            _timeToDecayText.setText( formatter.format( clockEvent.getSimulationTime() / 1000 ) );
         }
         else{
             
@@ -326,8 +403,8 @@ public class AlphaRadiationTimeChart extends PComposite {
         
         // Position the marker, accounting for the height and width of the
         // text within it.
-        double xPos = _usableAreaOriginX + _usableWidth / 20 + decayTime * _msToPixelsFactor - marker.getWidth() / 2;
-        double yPos = _usableAreaOriginY + _usableHeight * 0.70 - marker.getHeight() / 2;
+        double xPos = _usableAreaOriginX + _usableWidth * 0.1 + decayTime * _msToPixelsFactor - marker.getWidth() / 2;
+        double yPos = _preDecayTimeLineOrigin.getY();//_usableAreaOriginY + _usableHeight * 0.70 - marker.getHeight() / 2;
         marker.setOffset(xPos, yPos);
         
         // Retain a reference to the marker so we can move it during updates.

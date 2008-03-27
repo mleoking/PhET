@@ -24,6 +24,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ArrowNode extends PPath {
 
+    Arrow arrow;
+    
     /**
      * Constructor.
      *
@@ -36,7 +38,7 @@ public class ArrowNode extends PPath {
     public ArrowNode( Point2D tailLocation, Point2D tipLocation,
                       double headHeight, double headWidth, double tailWidth ) {
         super();
-        Arrow arrow = new Arrow( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
+        arrow = new Arrow( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
         setPathTo( arrow.getShape() );
     }
 
@@ -55,7 +57,16 @@ public class ArrowNode extends PPath {
                       double headHeight, double headWidth, double tailWidth,
                       double fractionalHeadHeight, boolean scaleTailToo ) {
         super();
-        Arrow arrow = new Arrow( tailLocation, tipLocation, headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
+        arrow = new Arrow( tailLocation, tipLocation, headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
+        setPathTo( arrow.getShape() );
+    }
+    
+    /**
+     * Sets the new location for both the tail and the tip of the arrow.  This
+     * method can be used to translate or rotate the arrow.
+     */
+    public void setTipAndTailLocations(Point2D newTipLocation, Point2D newTailLocation){
+        arrow.setTipAndTailLocations( newTipLocation, newTailLocation );
         setPathTo( arrow.getShape() );
     }
 }
