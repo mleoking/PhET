@@ -61,7 +61,7 @@ public class GeneratorModule extends FaradayModule {
     // Scaling -- values depend on the distance between pickup coil and turbine!
     private static final double LIGHTBULB_SCALE = 2.5;
     private static final double VOLTMETER_SCALE = 3.3;
-    private static final double ELECTRON_SPEED_SCALE = 3.0;
+    private static final double ELECTRON_SPEED_SCALE = 2.5;
     
     //----------------------------------------------------------------------------
     // Instance data
