@@ -230,7 +230,7 @@ public class TransformerModule extends FaradayModule {
         compassGraphic.getCollisionDetector().add( _pickupCoilGraphic );
         
         //XXX do this after graphics because ElectromagnetGraphic sets height of Electromagnet model element
-        if ( FaradayConstants.USED_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS ) {
+        if ( FaradayConstants.USE_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS ) {
             final double ySpacing = _electromagnetModel.getHeight() / 5;
             _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
         }
