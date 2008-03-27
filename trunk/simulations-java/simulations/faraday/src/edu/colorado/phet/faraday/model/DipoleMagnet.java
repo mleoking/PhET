@@ -70,7 +70,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the shape that defines this model, in this case a rectangle.
+     * Gets the shape that defines this physical boundaries of this magnet.
      * 
      * @return the shape
      */
