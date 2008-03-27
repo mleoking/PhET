@@ -3,7 +3,6 @@ Changes for faraday
 ===============================================================================
 
 [248] fix flux model in PickupCoil
-[248] increase density of sample points
 [248] add developer control for C fudge factor
 
 
