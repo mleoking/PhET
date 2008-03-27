@@ -1,62 +1,62 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2007, University of Colorado */
 
 package edu.colorado.phet.faraday.control.menu;
 
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
 import javax.swing.JMenu;
 
-import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
-import edu.colorado.phet.faraday.view.PickupCoilGraphic;
-
+import edu.colorado.phet.faraday.control.dialog.DeveloperControlsDialog;
 
 /**
- * DeveloperMenu implements the Developer menu that appears in the Faraday menubar.
- * This menu is enabled by setting FaradayConfig.DEBUG_ENABLE_DEVELOPER_MENU, and
- * is intended for use in debugging.
- * <p>
- * Since this is a debugging menu, it is not localized.
+ * DeveloperMenu is the "Developer" menu that appears in the menu bar.
+ * This menu contains global developer-only features for tuning and debugging.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperMenu extends JMenu {
-    
-    public DeveloperMenu() {
-        
+public class DeveloperMenu extends JMenu implements ActionListener {
+
+    private Frame _parentFrame;
+    private JCheckBoxMenuItem _developerControlsItem;
+    private JDialog _developerControlsDialog;
+
+    public DeveloperMenu( Frame parentFrame ) {
         super( "Developer" );
+
+        _parentFrame = parentFrame;
         
-        setMnemonic( 'v' );
-        
-        // Pickup Coil sample points
-        final JCheckBoxMenuItem samplesMenuItem = new JCheckBoxMenuItem( "Show pickup coil sample points" );
-        samplesMenuItem.setSelected( PickupCoilGraphic.DEBUG_DRAW_PICKUP_SAMPLE_POINTS );
-        samplesMenuItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                PickupCoilGraphic.DEBUG_DRAW_PICKUP_SAMPLE_POINTS = samplesMenuItem.isSelected();
+        _developerControlsItem = new JCheckBoxMenuItem( "Developer Controls..." );
+        add( _developerControlsItem );
+        _developerControlsItem.addActionListener( this );
+    }
+
+    public void actionPerformed( ActionEvent event ) {
+        if ( event.getSource() == _developerControlsItem ) {
+            if ( _developerControlsItem.isSelected() ) {
+                _developerControlsDialog = new DeveloperControlsDialog( _parentFrame );
+                _developerControlsDialog.setVisible( true );
+                _developerControlsDialog.addWindowListener( new WindowAdapter() {
+                    public void windowClosed( WindowEvent e ) {
+                        cleanup();
+                    }
+                    public void windowClosing( WindowEvent e ) {
+                        cleanup();
+                    }
+                    private void cleanup() {
+                        _developerControlsItem.setSelected( false );
+                        _developerControlsDialog = null;
+                    }
+                } );
             }
-        } );
-        add( samplesMenuItem );
-        
-        // Pickup Coil flux display
-        final JCheckBoxMenuItem fluxMenuItem = new JCheckBoxMenuItem( "Display pickup coil flux" );
-        fluxMenuItem.setSelected( PickupCoilGraphic.DEBUG_DISPLAY_FLUX );
-        fluxMenuItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                PickupCoilGraphic.DEBUG_DISPLAY_FLUX = fluxMenuItem.isSelected();
+            else {
+                _developerControlsDialog.dispose();
             }
-        } );
-        add( fluxMenuItem );
-        
-        // Electromagnet shape
-        final JCheckBoxMenuItem electromagnetShapeItem = new JCheckBoxMenuItem( "Show electromagnet model shape" );
-        electromagnetShapeItem.setSelected( ElectromagnetGraphic.DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE );
-        electromagnetShapeItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                ElectromagnetGraphic.DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = electromagnetShapeItem.isSelected();
-            }
-        } );
-        add( electromagnetShapeItem ); 
+        }
     }
 }
