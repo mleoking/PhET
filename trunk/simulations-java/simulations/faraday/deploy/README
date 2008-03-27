@@ -1,16 +1,15 @@
 <html>
 <p>
 <big><big><b>
-Faraday's Electromagnetic Lab, version 1.05.03
+Faraday's Electromagnetic Lab, version 1.05.04
 </b></big></big>
 <p>
 <b>What's new:</b>
 <p>
 <ul>
-<li>new-style tabs are used for panel switching [#426]
-<li>loop area has a larger range [#425]
-<li>bar magnet and turbine strength range is changed to 0-100% [#435]
-<li>duplicate dialogs cannot be opened from the Options menu [#427]
-<li>exposed Developer menu for various developer controls
+<li>relabel "AC Power Supply" to "AC Current Supply"
+<li>recalibrate bulb rays, voltmeter and electron motion to account for max loop area increase in version 1.05.03
+<li>use fixed sample point spacing (based on magnet height) for pickup coil in "Pickup Coil" and "Transformer" panels
+<li>change model shape of Electromagnet from a circle to a square
 </ul>
 </html>

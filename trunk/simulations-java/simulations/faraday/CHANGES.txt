@@ -20,6 +20,7 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
+********* version 1.05.04 (?)
 3/27/08 - reduce spacing between sample points on pickup coils [248]
 3/27/08 - change CoilMagnet shape from circle to square to accommodate new pickup coil sample point strategy [248]
 3/27/08 - remove redundant bounds member from DipoleMagnet, use modelShape to determine inside/outside [248]
