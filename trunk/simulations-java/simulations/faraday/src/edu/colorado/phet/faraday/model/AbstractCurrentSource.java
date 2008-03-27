@@ -4,12 +4,12 @@ package edu.colorado.phet.faraday.model;
 
 
 /**
- * AbstractVoltageSource is the abstract base class for all things that are 
- * capable of creating voltage.
+ * AbstractCurrentSource is the abstract base class for all things that are 
+ * capable of acting as a current source.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractVoltageSource extends FaradayObservable {
+public abstract class AbstractCurrentSource extends FaradayObservable {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -31,7 +31,7 @@ public abstract class AbstractVoltageSource extends FaradayObservable {
     /**
      * Sole constructor.
      */
-    public AbstractVoltageSource() {
+    public AbstractCurrentSource() {
         _maxVoltage = DEFAULT_MAX_VOLTAGE;
         _amplitude = 1.0; // full strength
     }

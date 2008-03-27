@@ -20,7 +20,7 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private SourceCoil _sourceCoilModel;
-    private AbstractVoltageSource _voltageSource;
+    private AbstractCurrentSource _currentSource;
     private boolean _isFlipped;
     
     //----------------------------------------------------------------------------
@@ -31,18 +31,18 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
      * Sole constructor.
      * 
      * @param sourceCoilModel the electromagnet's coil
-     * @param voltageSource the electromagnet's voltage source
+     * @param currentSource the electromagnet's current source
      */
-    public Electromagnet( SourceCoil sourceCoilModel, AbstractVoltageSource voltageSource ) {
+    public Electromagnet( SourceCoil sourceCoilModel, AbstractCurrentSource currentSource ) {
         super();
         assert( sourceCoilModel != null );
-        assert( voltageSource != null );
+        assert( currentSource != null );
         
         _sourceCoilModel = sourceCoilModel;
         _sourceCoilModel.addObserver( this );
         
-        _voltageSource = voltageSource;
-        _voltageSource.addObserver( this );
+        _currentSource = currentSource;
+        _currentSource.addObserver( this );
         
         _isFlipped = false;
         
@@ -56,9 +56,9 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
         _sourceCoilModel.removeObserver( this );
         _sourceCoilModel = null;
         
-        if ( _voltageSource != null ) {
-            _voltageSource.removeObserver( this );
-            _voltageSource = null;
+        if ( _currentSource != null ) {
+            _currentSource.removeObserver( this );
+            _currentSource = null;
         }
     }
     
@@ -67,29 +67,29 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the electromagnet's voltage source.
+     * Sets the electromagnet's current source.
      * 
-     * @param voltageSource
+     * @param currentSource
      */
-    public void setVoltageSource( AbstractVoltageSource voltageSource ) {
-        assert( voltageSource != null );
-        if ( voltageSource != _voltageSource ) {
-            if ( _voltageSource != null ) {
-                _voltageSource.removeObserver( this );
+    public void setCurrentSource( AbstractCurrentSource currentSource ) {
+        assert( currentSource != null );
+        if ( currentSource != _currentSource ) {
+            if ( _currentSource != null ) {
+                _currentSource.removeObserver( this );
             }
-            _voltageSource = voltageSource;
-            _voltageSource.addObserver( this );
+            _currentSource = currentSource;
+            _currentSource.addObserver( this );
             update();
         }
     }
     
     /**
-     * Gets the eletromagnet's voltage source.
+     * Gets the eletromagnet's current source.
      * 
-     * @return the voltage source
+     * @return the current source
      */
-    public AbstractVoltageSource getVoltageSource() {
-        return _voltageSource;
+    public AbstractCurrentSource getCurrentSource() {
+        return _currentSource;
     }
     
     //----------------------------------------------------------------------------
@@ -108,11 +108,11 @@ public class Electromagnet extends CoilMagnet implements SimpleObserver {
         double diameter = ( 2 * _sourceCoilModel.getRadius() ) +  ( _sourceCoilModel.getWireWidth() / 2 );
         super.setSize( diameter, diameter );
         
-        // Current amplitude is proportional to voltage amplitude.
-        _sourceCoilModel.setCurrentAmplitude( _voltageSource.getAmplitude() );
+        // Current amplitude is proportional to amplitude of the current source.
+        _sourceCoilModel.setCurrentAmplitude( _currentSource.getAmplitude() );
         
         // Compute the electromagnet's emf amplitude.
-        double amplitude = ( _sourceCoilModel.getNumberOfLoops() / (double) FaradayConstants.ELECTROMAGNET_LOOPS_MAX ) * _voltageSource.getAmplitude();
+        double amplitude = ( _sourceCoilModel.getNumberOfLoops() / (double) FaradayConstants.ELECTROMAGNET_LOOPS_MAX ) * _currentSource.getAmplitude();
         amplitude = MathUtil.clamp( -1, amplitude, 1 );
         
         // Flip the polarity

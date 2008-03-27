@@ -17,6 +17,7 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
+3/26/08 - rename "voltage source" to "current source" throughout source code [437]
 3/26/08 - set size of bar magnet model directly, scale graphic accordingly (instead of visa versa) [248]
 3/26/08 - add a flag for quickly switching between pickup coil sample points strategies [248]
 3/26/08 - set variable sample points strategy for pickup coil based on height of magnet [248]
