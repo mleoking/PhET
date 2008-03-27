@@ -24,7 +24,7 @@ public class AtomicNucleus {
     public static final double TUNNEL_OUT_RADIUS = 15; 
     
     // Initial amount of agitation exhibited by the nucleus.  Range is 0-9.
-    private static final int INITIAL_AGITATION_FACTOR = 8;
+    private static final int INITIAL_AGITATION_FACTOR = 6;
     
     //------------------------------------------------------------------------
     // Instance data

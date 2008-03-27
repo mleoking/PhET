@@ -36,5 +36,9 @@ public class NuclearPhysics2Strings {
     public static final String POLONIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Polonium211Label" );
     public static final String LEAD_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Lead207Label" );
 
-    
+    public static final String DECAY_TIME_CHART_X_AXIS_LABEL = NuclearPhysics2Resources.getString( "DecayTimeChart.XAxisLabel" );
+    public static final String DECAY_TIME_CHART_Y_AXIS_LABEL1 = NuclearPhysics2Resources.getString( "DecayTimeChart.YAxisLabel1" );
+    public static final String DECAY_TIME_CHART_Y_AXIS_LABEL2 = NuclearPhysics2Resources.getString( "DecayTimeChart.YAxisLabel2" );
+    public static final String DECAY_TIME_LABEL = NuclearPhysics2Resources.getString( "DecayTimeChart.DecayTimeLabel" );
+    public static final String DECAY_TIME_UNITS = NuclearPhysics2Resources.getString( "DecayTimeChart.DecayTimeUnits" );
 }
