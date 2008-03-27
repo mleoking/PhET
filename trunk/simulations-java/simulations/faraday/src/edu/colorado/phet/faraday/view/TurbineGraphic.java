@@ -138,8 +138,10 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             _barMagnetGraphic.setLocation( 0, 0 );
             addGraphic( _barMagnetGraphic, BAR_MAGNET_LAYER );
             
-            // Set the model's size to match the bar magnet image.
-            _turbineModel.setSize( _barMagnetGraphic.getWidth(), _barMagnetGraphic.getHeight() );
+            // Scale the magnet image to match the model.
+            final double xScale = _turbineModel.getWidth() / _barMagnetGraphic.getWidth();
+            final double yScale = _turbineModel.getHeight() / _barMagnetGraphic.getHeight();
+            _barMagnetGraphic.scale( xScale, yScale );
         }
         
         // Pivot point

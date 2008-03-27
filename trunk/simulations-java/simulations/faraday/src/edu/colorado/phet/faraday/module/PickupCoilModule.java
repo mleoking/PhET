@@ -3,6 +3,7 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -47,6 +48,7 @@ public class PickupCoilModule extends FaradayModule {
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     // Bar Magnet
+    private static final Dimension BAR_MAGNET_SIZE = FaradayConstants.BAR_MAGNET_SIZE;
     private static final double BAR_MAGNET_STRENGTH = 0.75 * FaradayConstants.BAR_MAGNET_STRENGTH_MAX;
     private static final double BAR_MAGNET_DIRECTION = 0.0; // radians
     
@@ -98,12 +100,12 @@ public class PickupCoilModule extends FaradayModule {
         
         // Bar Magnet
         _barMagnetModel = new BarMagnet();
+        _barMagnetModel.setSize( BAR_MAGNET_SIZE.getWidth(), BAR_MAGNET_SIZE.getHeight() );
         _barMagnetModel.setMaxStrength( FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
         _barMagnetModel.setMinStrength( FaradayConstants.BAR_MAGNET_STRENGTH_MIN );
         _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
         _barMagnetModel.setDirection( BAR_MAGNET_DIRECTION );
-        // Do NOT set the size -- size is set by the associated BarMagnetGraphic.
         
         // Compass
         _compassModel = new Compass( _barMagnetModel );
