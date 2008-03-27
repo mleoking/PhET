@@ -4,8 +4,8 @@ package edu.colorado.phet.faraday.model;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.faraday.util.Vector2D;
 
@@ -26,14 +26,8 @@ public abstract class CoilMagnet extends AbstractMagnet {
     // Class data
     //----------------------------------------------------------------------------
  
-    // Arbitrary positive "fudge factor".
-    private static final double FUDGE_FACTOR = 1.0;
-    
     // Magnetic field strength drops off by this power.
     private static final double DEFAULT_DISTANCE_EXPONENT = 3.0;
-    
-    // Number of pixels per 1 unit of distance.
-    private static final double PIXELS_PER_DISTANCE = 1.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -41,7 +35,7 @@ public abstract class CoilMagnet extends AbstractMagnet {
     
     private AffineTransform _transform;
     private Point2D _normalizedPoint;
-    private Ellipse2D _modelShape;
+    private Rectangle2D _modelShape;
     
     // Debugging 
     private double _maxStrengthOutside;
@@ -54,7 +48,7 @@ public abstract class CoilMagnet extends AbstractMagnet {
         super();
         _transform = new AffineTransform();
         _normalizedPoint = new Point2D.Double();
-        _modelShape = new Ellipse2D.Double();
+        _modelShape = new Rectangle2D.Double();
         _maxStrengthOutside = 0.0;
     }
 
@@ -71,6 +65,16 @@ public abstract class CoilMagnet extends AbstractMagnet {
         return _modelShape;
     }
     
+    /**
+     * Is the specified point inside the magnet?
+     * 
+     * @param p
+     * @return true or false
+     */
+    public boolean isInside( Point2D p ) {
+        return _modelShape.contains( p );
+    }
+    
     //----------------------------------------------------------------------------
     // FaradayObservable overrides
     //----------------------------------------------------------------------------
@@ -80,8 +84,8 @@ public abstract class CoilMagnet extends AbstractMagnet {
      * in this case changes to the magnet's size via super.setSize.
      */
     protected void notifySelf() {
-        double width = PIXELS_PER_DISTANCE * getWidth();
-        double height = PIXELS_PER_DISTANCE * getHeight() ;
+        double width = getWidth();
+        double height = getHeight() ;
         _modelShape.setFrame( -width/2, -height/2, width, height );
     }
     
@@ -161,10 +165,8 @@ public abstract class CoilMagnet extends AbstractMagnet {
         _transform.rotate( -getDirection(), getX(), getY() );
         _transform.transform( p, _normalizedPoint /* output */ );
         
-        // Determine whether we're inside or outside the circle that defines the coil.
-        double radius = getWidth() / 2;
-        double distance = _normalizedPoint.distance( 0, 0 ) / PIXELS_PER_DISTANCE;
-        if ( Math.abs( distance ) <= radius ) {
+        // Determine whether we're inside or outside the shape that defines the coil.
+        if ( isInside( _normalizedPoint ) ) {
             getStrengthInside( _normalizedPoint, fieldVector );
         }
         else {

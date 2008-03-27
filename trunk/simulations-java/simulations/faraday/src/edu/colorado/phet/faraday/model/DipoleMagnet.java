@@ -45,7 +45,6 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     //----------------------------------------------------------------------------
     
     private AffineTransform _transform;
-    private Rectangle _bounds;
     private Point2D _northPoint, _southPoint;
     private Point2D _normalizedPoint;
     private Vector2D _northVector, _southVector;
@@ -58,7 +57,6 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     public DipoleMagnet() {
         super();
         _transform = new AffineTransform();
-        _bounds = new Rectangle();
         _northPoint = new Point2D.Double();
         _southPoint = new Point2D.Double();
         _normalizedPoint = new Point2D.Double();
@@ -80,6 +78,16 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         return _modelShape;
     }
 
+    /**
+     * Is the specified point inside the magnet?
+     * 
+     * @param p
+     * @return true or false
+     */
+    public boolean isInside( Point2D p ) {
+        return _modelShape.contains( p );
+    }
+    
     //----------------------------------------------------------------------------
     // FaradayObservable overrides
     //----------------------------------------------------------------------------
@@ -174,12 +182,9 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         _transform.rotate( -getDirection(), getX(), getY() );
         _transform.transform( p, _normalizedPoint /* output */ );
         
-        // Bounds that define the "inside" of the magnet.
-        _bounds.setRect( -(getWidth()/2), -(getHeight()/2), getWidth(), getHeight() );
-              
         // Choose the appropriate algorithm based on
         // whether the point is inside or outside the magnet.
-        if ( _bounds.contains( _normalizedPoint ) )  {
+        if ( isInside( _normalizedPoint ) )  {
             getStrengthInside( _normalizedPoint, fieldVector /* output */ );
         }
         else {
