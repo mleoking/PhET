@@ -255,13 +255,13 @@ public class ElectromagnetPanel extends FaradayPanel {
                 // Battery (DC) source
                 _batteryModel.setEnabled( true );
                 _acPowerSupplyModel.setEnabled( false );
-                _electromagnetModel.setVoltageSource( _batteryModel );
+                _electromagnetModel.setCurrentSource( _batteryModel );
             }
             else if ( e.getSource() == _acRadioButton ) {
                 // AC source
                 _batteryModel.setEnabled( false );
                 _acPowerSupplyModel.setEnabled( true );
-                _electromagnetModel.setVoltageSource( _acPowerSupplyModel );
+                _electromagnetModel.setCurrentSource( _acPowerSupplyModel );
             }
             else if ( e.getSource() == _gridCheckBox ) {
                 // Grid enable

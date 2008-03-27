@@ -7,7 +7,7 @@ package edu.colorado.phet.faraday.model;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Battery extends AbstractVoltageSource {
+public class Battery extends AbstractCurrentSource {
     
     public Battery() {
         super();

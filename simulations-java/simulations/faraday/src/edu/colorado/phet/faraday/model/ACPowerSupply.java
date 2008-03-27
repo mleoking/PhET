@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ACPowerSupply extends AbstractVoltageSource implements ModelElement {
+public class ACPowerSupply extends AbstractCurrentSource implements ModelElement {
 
     //----------------------------------------------------------------------------
     // Class data

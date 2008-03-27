@@ -111,19 +111,19 @@ public class ElectromagnetModule extends FaradayModule {
         _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
         
         // Electromagnet
-        AbstractVoltageSource voltageSource = null;
+        AbstractCurrentSource currentSource = null;
         if ( _batteryModel.isEnabled() ) {
-            voltageSource = _batteryModel;
+            currentSource = _batteryModel;
         }
         else if ( _acPowerSupplyModel.isEnabled() ) {
-            voltageSource = _acPowerSupplyModel;
+            currentSource = _acPowerSupplyModel;
         }
-        _electromagnetModel = new Electromagnet( _sourceCoilModel, voltageSource );
+        _electromagnetModel = new Electromagnet( _sourceCoilModel, currentSource );
         _electromagnetModel.setMaxStrength( FaradayConstants.ELECTROMAGNET_STRENGTH_MAX );
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
         _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
         // Do NOT set the strength! -- strength will be set based on the source coil model.
-        // Do NOT set the size! -- size will be based on the source coil appearance.
+        // Do NOT set the size! -- size will be based on the source coil model.
         _electromagnetModel.update();
         
         // Compass model
@@ -236,10 +236,10 @@ public class ElectromagnetModule extends FaradayModule {
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
         _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
         if ( _batteryModel.isEnabled() ) {
-            _electromagnetModel.setVoltageSource( _batteryModel );
+            _electromagnetModel.setCurrentSource( _batteryModel );
         }
         else {
-            _electromagnetModel.setVoltageSource( _acPowerSupplyModel );
+            _electromagnetModel.setCurrentSource( _acPowerSupplyModel );
         }
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.
