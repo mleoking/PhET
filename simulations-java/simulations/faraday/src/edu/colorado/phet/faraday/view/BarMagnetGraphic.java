@@ -60,12 +60,9 @@ public class BarMagnetGraphic extends PhetImageGraphic
         _barMagnetModel = barMagnetModel;
         _barMagnetModel.addObserver( this );
         
-        // Set the model's size to match the image.
-        _barMagnetModel.setSize( getWidth(), getHeight() );
-        
         // Registration point is the center of the image.
         centerRegistrationPoint();
-
+        
         // Setup interactivity.
         _mouseHandler = new FaradayMouseHandler( _barMagnetModel, this );
         _collisionDetector = new CollisionDetector( this );
@@ -140,6 +137,11 @@ public class BarMagnetGraphic extends PhetImageGraphic
             
             // Location
             setLocation( (int) _barMagnetModel.getX(), (int) _barMagnetModel.getY() );
+            
+            // Size
+            final double xScale = _barMagnetModel.getWidth() / getWidth();
+            final double yScale = _barMagnetModel.getHeight() / getHeight();
+            scale( xScale, yScale );
             
             repaint();
         }

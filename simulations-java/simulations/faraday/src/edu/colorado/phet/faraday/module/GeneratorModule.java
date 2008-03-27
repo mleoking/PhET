@@ -3,6 +3,7 @@
 package edu.colorado.phet.faraday.module;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -46,6 +47,7 @@ public class GeneratorModule extends FaradayModule {
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
     
     // Turbine
+    private static final Dimension TURBINE_SIZE = FaradayConstants.BAR_MAGNET_SIZE;
     private static final double TURBINE_STRENGTH = 0.75 * FaradayConstants.TURBINE_STRENGTH_MAX;
     private static final double TURBINE_DIRECTION = 0.0; // radians
     private static final double TURBINE_SPEED = 0.0;
@@ -97,13 +99,13 @@ public class GeneratorModule extends FaradayModule {
         
         // Turbine
         _turbineModel = new Turbine();
+        _turbineModel.setSize( TURBINE_SIZE.getWidth(), TURBINE_SIZE.getHeight() );
         _turbineModel.setMaxStrength( FaradayConstants.TURBINE_STRENGTH_MAX );
         _turbineModel.setMinStrength( FaradayConstants.TURBINE_STRENGTH_MIN );
         _turbineModel.setStrength( TURBINE_STRENGTH );
         _turbineModel.setLocation( TURBINE_LOCATION );
         _turbineModel.setDirection( TURBINE_DIRECTION );
         _turbineModel.setSpeed( TURBINE_SPEED );
-        // Do NOT set the size -- size is set by the associated TurbineGraphic.
         model.addModelElement( _turbineModel );
         
         // Compass
