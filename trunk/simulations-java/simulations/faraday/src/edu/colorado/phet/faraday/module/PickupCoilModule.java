@@ -125,6 +125,10 @@ public class PickupCoilModule extends FaradayModule {
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION );
+        if ( FaradayConstants.USE_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS ) {
+            final double ySpacing = _barMagnetModel.getHeight() / 5;
+            _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
+        }
         model.addModelElement( _pickupCoilModel );
        
         // Lightbulb
@@ -190,12 +194,6 @@ public class PickupCoilModule extends FaradayModule {
         compassGraphic.getCollisionDetector().add( _pickupCoilGraphic );
         _pickupCoilGraphic.getCollisionDetector().add( _barMagnetGraphic );
         _pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
-        
-        //XXX do this after graphics because BarMagnetGraphic sets height of BarMagnet model element
-        if ( FaradayConstants.USED_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS ) {
-            final double ySpacing = _barMagnetModel.getHeight() / 5;
-            _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
-        }
         
         //----------------------------------------------------------------------------
         // Control
