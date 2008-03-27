@@ -126,7 +126,7 @@ public class PickupCoilModule extends FaradayModule {
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION );
         if ( FaradayConstants.USE_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS ) {
-            final double ySpacing = _barMagnetModel.getHeight() / 5;
+            final double ySpacing = _barMagnetModel.getHeight() / 10;
             _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
         }
         model.addModelElement( _pickupCoilModel );

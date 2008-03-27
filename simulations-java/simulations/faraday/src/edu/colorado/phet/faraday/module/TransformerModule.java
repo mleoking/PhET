@@ -162,7 +162,7 @@ public class TransformerModule extends FaradayModule {
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
         if ( FaradayConstants.USE_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS ) {
-            final double ySpacing = _electromagnetModel.getHeight() / 10;
+            final double ySpacing = _electromagnetModel.getHeight() / 20;
             _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
         }
         model.addModelElement( _pickupCoilModel );
