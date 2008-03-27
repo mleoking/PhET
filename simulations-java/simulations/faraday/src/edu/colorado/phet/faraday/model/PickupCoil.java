@@ -326,10 +326,9 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         _fieldVector.scale( scale );
         
         // Flux in one loop.
-        double B = _fieldVector.getMagnitude();
-        double A = getLoopArea();
-        double theta = Math.abs( _fieldVector.getAngle() );
-        double loopFlux = B * A * Math.cos( theta ); 
+        double A = getLoopArea(); // scaling factor to account for variable loop area 
+        double Bx = _fieldVector.getX();
+        double loopFlux = A * Bx; 
         
         // Flux in the coil.
         double flux = getNumberOfLoops() * loopFlux;
