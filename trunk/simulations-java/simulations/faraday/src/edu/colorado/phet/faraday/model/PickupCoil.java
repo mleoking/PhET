@@ -346,7 +346,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             _emf = emf;
             
             // Current amplitude is proportional to emf amplitude.
-            double amplitude = MathUtil.clamp( -1,  emf / FaradayConstants.MAX_PICKUP_EMF, +1 );
+            double amplitude = MathUtil.clamp( -1,  emf / FaradayConstants.PICKUP_REFERENCE_EMF, +1 );
             setCurrentAmplitude( amplitude ); // calls notifyObservers
         }
         
