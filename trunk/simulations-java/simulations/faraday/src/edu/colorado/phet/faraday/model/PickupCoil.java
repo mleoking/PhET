@@ -34,12 +34,12 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     private double _biggestEmf; // in volts
     private Point2D _samplePoints[]; // B-field sample points
     private SamplePointsStrategy _samplePointsStrategy;
+    private double _fudgeFactor; // see setFudgeFactor
     
     // Reusable objects
     private AffineTransform _someTransform;
     private Point2D _samplePoint;
     private Vector2D _sampleVector;
-    private Vector2D _fieldVector;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,6 +75,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         
         _samplePointsStrategy = samplePointsStrategy;
         _samplePoints = null;
+        _fudgeFactor = 1.0;
         
         _flux = 0.0;
         _deltaFlux = 0.0;
@@ -84,7 +85,6 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         // Reusable objects
         _someTransform = new AffineTransform();
         _samplePoint = new Point2D.Double();
-        _fieldVector = new Vector2D();
         _sampleVector = new Vector2D();
         
         // loosely packed loops
@@ -166,6 +166,41 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
     public void setSamplePointsStrategy( SamplePointsStrategy samplePointsStrategy ) {
         _samplePointsStrategy = samplePointsStrategy;
         updateSamplePoints();
+    }
+    
+    /**
+     * Sets the fudge factor. This is used to scale the B-field for sample points inside the magnet,
+     * eliminating abrupt transitions at the left and right edges of the magnet. For any sample
+     * point inside the magnet, the B field sample is multiplied by this value.
+     * <p>
+     * To set this value, follow these steps:
+     * <ol>
+     * <li>enable the developer controls for "pickup coil fudge factor" and "display flux"
+     * <li>move the magnet horizontally through the coil until, by moving it one pixel, 
+     *     you see an abrupt change in the displayed flux value.
+     * <li>note the 2 flux values when the abrupt change occurs
+     * <li>move the magnet so that the larger of the 2 flux values is displayed
+     * <li>adjust the fudge factor control until the larger value is reduced
+     *     to approximately the same value as the smaller value.
+     * </ol>
+     * 
+     * @param fudgeFactor 0 < fudgetFactor <= 1
+     */
+    public void setFudgeFactor( double fudgeFactor ) {
+        if ( fudgeFactor <= 0 || fudgeFactor > 1 ) {
+            throw new IllegalArgumentException( "fudgetFactor must be > 0 and <= 1: " + fudgeFactor );
+        }
+        _fudgeFactor = fudgeFactor;
+        // no need to update, wait for new clock tick
+    }
+    
+    /**
+     * Gets the fudget factor. See setFudgeFactor.
+     * 
+     * @return
+     */
+    public double getFudgeFactor() {
+        return _fudgeFactor;
     }
     
     //----------------------------------------------------------------------------
@@ -302,8 +337,10 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
      */
     private void updateEmf( double dt ) {
         
+        final double magnetStrength = _magnetModel.getStrength();
+        
         // Sum the B-field sample points.
-        _fieldVector.setMagnitudeAngle( 0, 0 );
+        double sumBx = 0;
         for ( int i = 0; i < _samplePoints.length; i++ ) {
             
             _samplePoint.setLocation( getX() + _samplePoints[i].getX(), getY() + _samplePoints[i].getY() );
@@ -317,18 +354,26 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
             // Find the B field vector at that point.
             _magnetModel.getStrength( _samplePoint, _sampleVector /* output */, _distanceExponent  );
             
+            /*
+             * If the B-field x component is equal to the magnet strength, then our B-field sample
+             * was inside the magnet. Use the fudge factor to scale the sample so that the transitions
+             * between inside and outside are not abrupt.
+             */ 
+            double Bx = _sampleVector.getX();
+            if ( Bx == magnetStrength ) {
+                Bx *= _fudgeFactor;
+            }
+            
             // Accumulate a sum of the sample points.
-            _fieldVector.add( _sampleVector );
+            sumBx += Bx;
         }
         
         // Average the B-field sample points.
-        double scale = 1.0 / _samplePoints.length;
-        _fieldVector.scale( scale );
+        double averageBx = sumBx / _samplePoints.length;
         
         // Flux in one loop.
         double A = getLoopArea(); // scaling factor to account for variable loop area 
-        double Bx = _fieldVector.getX();
-        double loopFlux = A * Bx; 
+        double loopFlux = A * averageBx; 
         
         // Flux in the coil.
         double flux = getNumberOfLoops() * loopFlux;

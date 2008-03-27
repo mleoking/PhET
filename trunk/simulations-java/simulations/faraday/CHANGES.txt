@@ -2,7 +2,7 @@
 Changes for faraday
 ===============================================================================
 
-[248] add developer control for C fudge factor
+[248] fix how developer controls are enabled for control panels
 
 
 TODO:
@@ -19,6 +19,9 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
+3/27/08 - add developer control for pickup coil B-field fudge factor to PickupCoilPanel [248]
+3/27/08 - use pickup coil fudge factor to scale B-field for sample points inside magnet [248]
+3/27/08 - simplify pickup coil emf calculation by using only B-field x component (Bx) [248]
 3/27/08 - enable display of flux by default (developer control) [248]
 3/27/08 - convert Developer menu items to a dialog so we can add other types of controls [248]
 3/27/08 - simplify calculation of single-loop flux in PickupCoil.updateEmf [248]

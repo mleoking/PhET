@@ -57,6 +57,7 @@ public class GeneratorModule extends FaradayModule {
     private static final double PICKUP_COIL_LOOP_AREA = FaradayConstants.DEFAULT_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
+    private static final double PICKUP_COIL_FUDGE_FACTOR = 1.0;  // see PickupCoil.setFudgeFactor, 1 because magnet is never inside coil
     
     // Scaling -- values depend on the distance between pickup coil and turbine!
     private static final double LIGHTBULB_SCALE = 2.5;
@@ -126,6 +127,7 @@ public class GeneratorModule extends FaradayModule {
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
+        _pickupCoilModel.setFudgeFactor( PICKUP_COIL_FUDGE_FACTOR );
         model.addModelElement( _pickupCoilModel );
        
         // Lightbulb
