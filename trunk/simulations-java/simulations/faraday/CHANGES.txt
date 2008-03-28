@@ -2,6 +2,7 @@
 Changes for faraday
 ===============================================================================
 
+[248] move fudge factor control out of PickupCoilPanel and into DeveloperControlsPanel? [248]
 [248] fix how developer controls are enabled for control panels
 
 
