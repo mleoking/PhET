@@ -150,7 +150,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
         
         // Lightbulb glass glow scale
         if ( lightbulbGraphic != null ) {
-            final LinearValueControl lightbulbGlassGlowScaleControl = new LinearValueControl( 0, 20, "Lightbulb glow scale:", "0.0", "" );
+            final LinearValueControl lightbulbGlassGlowScaleControl = new LinearValueControl( 0.1, 30, "Lightbulb glow scale:", "0.0", "" );
             lightbulbGlassGlowScaleControl.setValue( lightbulbGraphic.getGlassGlowScale() );
             lightbulbGlassGlowScaleControl.setUpDownArrowDelta( 0.1 );
             lightbulbGlassGlowScaleControl.setBorder( BorderFactory.createEtchedBorder() );
