@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -57,7 +57,7 @@ public class LaserControlPanel extends ControlPanel {
         JButton btn = new JButton( "Debug controls" );
         btn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JDialog dlg = new JDialog( NonPiccoloPhetApplication.instance().getPhetFrame(),
+                JDialog dlg = new JDialog( PhetApplication.instance().getPhetFrame(),
                                            "Debug controls", false );
                 dlg.setContentPane( new DebugPanel( module ) );
                 dlg.pack();

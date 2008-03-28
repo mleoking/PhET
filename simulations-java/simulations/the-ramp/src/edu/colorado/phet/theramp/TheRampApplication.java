@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 import javax.swing.*;
 
@@ -17,7 +17,7 @@ import javax.swing.*;
  * Time: 9:57:09 AM
  */
 
-public class TheRampApplication extends PhetApplication {
+public class TheRampApplication extends PiccoloPhetApplication {
     private static final String VERSION = PhetApplicationConfig.getVersion( "the-ramp" ).formatForTitleBar();
     public static final double FORCE_LENGTH_SCALE = 0.1;//1.0;
 

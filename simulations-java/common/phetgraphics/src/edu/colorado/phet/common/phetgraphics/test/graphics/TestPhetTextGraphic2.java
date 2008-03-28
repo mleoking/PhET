@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -53,7 +53,7 @@ public class TestPhetTextGraphic2 {
         boolean useClockControlPanel = false;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
-        NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args,
+        PhetApplication app = new PhetApplication( args,
                                                                        title, description, version, frameSetup );
 
         PhetGraphicsModule module = new TestModule( clock );

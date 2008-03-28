@@ -11,7 +11,7 @@
 package edu.colorado.phet.idealgas.controller.Menus;
 
 import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
@@ -29,11 +29,11 @@ import java.awt.event.ActionListener;
  * @version $Revision$
  */
 public class OptionsMenu extends JMenu {
-    private NonPiccoloPhetApplication application;
+    private PhetApplication application;
     private DiffusionModule diffusionModule;
     private MovableWallsModule movableWallModule;
 
-    public OptionsMenu( NonPiccoloPhetApplication application, SimulationClock simulationClock ) {
+    public OptionsMenu( PhetApplication application, SimulationClock simulationClock ) {
         super( "Options" );
         setMnemonic( 'O' );
         this.application = application;

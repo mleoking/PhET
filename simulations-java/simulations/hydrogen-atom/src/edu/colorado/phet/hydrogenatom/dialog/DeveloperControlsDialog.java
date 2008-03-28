@@ -21,7 +21,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
@@ -466,7 +466,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
 
         closeColorChooser();
         String title = "Color Chooser";
-        Component parent = NonPiccoloPhetApplication.instance().getPhetFrame();
+        Component parent = PhetApplication.instance().getPhetFrame();
         _colorChooserDialog = ColorChooserFactory.createDialog( title, parent, initialColor, this );
         _colorChooserDialog.show();
 

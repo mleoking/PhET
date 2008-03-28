@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 
 
 public class PhetSimLauncher {
@@ -18,7 +18,7 @@ public class PhetSimLauncher {
      */
     public static void launchSim( final String[] args, final Class phetApplication ) {
         
-        if ( !NonPiccoloPhetApplication.class.isAssignableFrom( phetApplication ) ) {
+        if ( !PhetApplication.class.isAssignableFrom( phetApplication ) ) {
             throw new IllegalArgumentException( "The class " + phetApplication.getName() + " should extend NonPiccoloPhetApplication." );
         }
 
@@ -33,7 +33,7 @@ public class PhetSimLauncher {
                     // And all code that might affect or depend on the state of Swing components  
                     // should be executed in the event-dispatching thread.
                     Constructor constructor = phetApplication.getConstructor( new Class[] { stringClass } );
-                    NonPiccoloPhetApplication simulation = (NonPiccoloPhetApplication) constructor.newInstance( new Object[] { args } );
+                    PhetApplication simulation = (PhetApplication) constructor.newInstance( new Object[] { args } );
                     simulation.startApplication();
                 }
                 catch ( Exception e ) {

@@ -4,7 +4,7 @@ package edu.colorado.phet.opticaltweezers.module.physics;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
@@ -89,7 +89,7 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
             addSeparator();
             addControlFullWidth( _miscControlPanel );
             addSeparator();
-            if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
+            if ( PiccoloPhetApplication.instance().isDeveloperControlsEnabled() ) {
                 addControlFullWidth( _developerControlPanel );
                 addSeparator();
             }

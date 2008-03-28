@@ -18,7 +18,7 @@ import java.io.IOException;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
@@ -41,7 +41,7 @@ import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QuantumTunnelingApplication extends NonPiccoloPhetApplication {
+public class QuantumTunnelingApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data

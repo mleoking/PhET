@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -42,7 +42,7 @@ public class TestOffscreenBufferAlpha {
         PhetGraphicsModule module = new TestModule( clock );
 
         // Create and start the application.
-        NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args, "title", "desc", "version" );
+        PhetApplication app = new PhetApplication( args, "title", "desc", "version" );
         app.addModule( module );
         app.startApplication();
     }

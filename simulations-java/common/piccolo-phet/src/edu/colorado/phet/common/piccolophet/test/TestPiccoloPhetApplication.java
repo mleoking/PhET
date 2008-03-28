@@ -14,7 +14,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * TestPiccoloPhetApplication
@@ -31,7 +31,7 @@ public class TestPiccoloPhetApplication {
     public static void main( String[] args ) {
 
         // App with PhetTabbedPanes
-        PhetApplication phetTabbedPaneApp = new PhetApplication( args,
+        PiccoloPhetApplication phetTabbedPaneApp = new PiccoloPhetApplication( args,
                                                                  "Test App",
                                                                  "Test App Description",
                                                                  "0.00.01" );
@@ -39,11 +39,11 @@ public class TestPiccoloPhetApplication {
         phetTabbedPaneApp.startApplication();
 
         // App with JTabbedPanes
-        PhetApplication jtabbedPaneApp = new PhetApplication( args,
+        PiccoloPhetApplication jtabbedPaneApp = new PiccoloPhetApplication( args,
                                                               "Test App",
                                                               "Test App Description",
                                                               "0.00.01",
-                                                              PhetApplication.JTABBED_PANE_TYPE );
+                                                              PiccoloPhetApplication.JTABBED_PANE_TYPE );
         jtabbedPaneApp.setModules( new Module[]{new ModuleA(), new ModuleB()} );
         jtabbedPaneApp.startApplication();
     }

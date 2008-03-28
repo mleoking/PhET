@@ -20,7 +20,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
@@ -64,7 +64,7 @@ public class OptionsMenu extends JMenu {
             public void actionPerformed( ActionEvent e ) {
                 final JDialog dlg = new JDialog( frame, "Random Walk Adjusment", false );
                 dlg.getContentPane().setLayout( new BorderLayout() );
-                final SolubleSaltsModel model = (SolubleSaltsModel) NonPiccoloPhetApplication.instance().getActiveModule().getModel();
+                final SolubleSaltsModel model = (SolubleSaltsModel) PhetApplication.instance().getActiveModule().getModel();
                 final JSlider sldr = new JSlider( 0, 360, (int) model.getRandomWalkAgent().getTheta() );
                 sldr.setMajorTickSpacing( 45 );
                 sldr.setMinorTickSpacing( 15 );

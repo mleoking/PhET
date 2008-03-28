@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -61,7 +61,7 @@ public class HelpPanel extends JPanel {
                 }
                 module.setHelpEnabled( miniHelpShowing );
                 // Synchronize the Help menu item.
-                NonPiccoloPhetApplication.instance().getPhetFrame().getHelpMenu().setHelpSelected( miniHelpShowing );
+                PhetApplication.instance().getPhetFrame().getHelpMenu().setHelpSelected( miniHelpShowing );
             }
         } );
         megaHelpBtn.addActionListener( new ActionListener() {

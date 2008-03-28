@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationAdapter;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationEvent;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationListener;
@@ -394,7 +394,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
                 else {
                     // if the bead is outside the trap, tell the user why this feature can't be turned on
                     _keepTrapForceConstantCheckBox.setSelected( false );
-                    Component parent = PhetApplication.instance().getPhetFrame();
+                    Component parent = PiccoloPhetApplication.instance().getPhetFrame();
                     String message = OTResources.getString( "message.keepTrapForceConstantInfoDialog" );
                     String title = OTResources.getString( "title.keepTrapForceConstantInfoDialog" );
                     DialogUtils.showInformationDialog( parent, message, title );

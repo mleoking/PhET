@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ModelClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -73,7 +73,7 @@ public class PhetUtilities {
      * @return The active module
      */
     public static Module getActiveModule() {
-        return NonPiccoloPhetApplication.instance().getActiveModule();
+        return PhetApplication.instance().getActiveModule();
     }
 
     /**
@@ -82,7 +82,7 @@ public class PhetUtilities {
      * @return The PhetFrame
      */
     public static PhetFrame getPhetFrame() {
-        return NonPiccoloPhetApplication.instance().getPhetFrame();
+        return PhetApplication.instance().getPhetFrame();
     }
 
     /**

@@ -29,12 +29,12 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -82,7 +82,7 @@ public class TestHelpRepaint {
         }
     }
 
-    private static class TestApplication extends PhetApplication {
+    private static class TestApplication extends PiccoloPhetApplication {
 
         public TestApplication( String[] args ) throws InterruptedException {
             super( args, "TestHelpRepaint", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
@@ -236,7 +236,7 @@ public class TestHelpRepaint {
         /* When the help state is changed, immediately repaint everything */
         public void setHelpEnabled( boolean enabled ) {
             super.setHelpEnabled( enabled );
-            PhetFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+            PhetFrame frame = PhetApplication.instance().getPhetFrame();
             paintImmediately( frame );
         }
 

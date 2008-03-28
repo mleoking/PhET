@@ -7,7 +7,7 @@
 package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -18,7 +18,7 @@ import edu.colorado.phet.idealgas.view.IdealGasLandF;
 import javax.swing.*;
 import java.awt.*;
 
-public class DiffusionApplication extends NonPiccoloPhetApplication {
+public class DiffusionApplication extends PhetApplication {
 
     public DiffusionApplication( String[] args ) {
         super( args,

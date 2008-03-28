@@ -11,15 +11,15 @@ package edu.colorado.phet.common.phetcommon.tests;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 public class TestPhetApplication {
-    private final NonPiccoloPhetApplication app;
+    private final PhetApplication app;
 
     public TestPhetApplication() {
-        app = new NonPiccoloPhetApplication( new String[0], "Title", "Description", "1.0" );
+        app = new PhetApplication( new String[0], "Title", "Description", "1.0" );
 
         MyModule module = new MyModule();
 

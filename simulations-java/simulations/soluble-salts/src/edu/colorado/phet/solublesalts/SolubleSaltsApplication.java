@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.module.RealSaltsModule;
@@ -32,7 +32,7 @@ import edu.colorado.phet.solublesalts.view.IonGraphic;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SolubleSaltsApplication extends PhetApplication {
+public class SolubleSaltsApplication extends PiccoloPhetApplication {
     private boolean showOptions = true;
 
     public SolubleSaltsApplication( String[] args ) {
@@ -94,7 +94,7 @@ public class SolubleSaltsApplication extends PhetApplication {
                 UIManager.put( "TabbedPane.background", blueBackground );
                 UIManager.put( "TabbedPane.selected", blueBackground );
 
-                PhetApplication app = new SolubleSaltsApplication( args );
+                PiccoloPhetApplication app = new SolubleSaltsApplication( args );
 
                 app.startApplication();
 

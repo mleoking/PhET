@@ -17,7 +17,7 @@ import java.util.Locale;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -31,7 +31,7 @@ import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PhotoelectricApplication extends NonPiccoloPhetApplication {
+public class PhotoelectricApplication extends PhetApplication {
 
     //----------------------------------------------------------------
     // Class data

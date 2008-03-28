@@ -18,7 +18,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.fourier.FourierConstants;
@@ -77,7 +77,7 @@ public abstract class FourierAbstractControlPanel extends ControlPanel {
      * @param enabled true or false
      */
     public void setWaitCursorEnabled( boolean enabled ) {
-        PhetFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+        PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if ( enabled ) {
             frame.setCursor( FourierConstants.WAIT_CURSOR );
         }

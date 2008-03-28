@@ -33,7 +33,7 @@ import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
 import edu.colorado.phet.boundstates.view.*;
 import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
@@ -995,7 +995,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      * @return JFrame
      */
     public JFrame getFrame() {
-        return NonPiccoloPhetApplication.instance().getPhetFrame();
+        return PhetApplication.instance().getPhetFrame();
     }
 
     /**

@@ -15,7 +15,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 
@@ -60,7 +60,7 @@ public class PiccoloModule extends Module {
     public PiccoloModule( String name, IClock clock, boolean startsPaused ) {
         super( name, clock, startsPaused );
         if ( hasHelp() ) {
-            helpPane = new HelpPane( NonPiccoloPhetApplication.instance().getPhetFrame() );
+            helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
         }
     }
 
@@ -186,7 +186,7 @@ public class PiccoloModule extends Module {
      * @return Component
      */
     private Component getGlassPane() {
-        return NonPiccoloPhetApplication.instance().getPhetFrame().getGlassPane();
+        return PhetApplication.instance().getPhetFrame().getGlassPane();
     }
 
     /*
@@ -196,7 +196,7 @@ public class PiccoloModule extends Module {
     private void setGlassPane( Component component ) {
         if ( component != null ) {
             restoreGlassPane = getGlassPane();
-            NonPiccoloPhetApplication.instance().getPhetFrame().setGlassPane( component );
+            PhetApplication.instance().getPhetFrame().setGlassPane( component );
         }
     }
 

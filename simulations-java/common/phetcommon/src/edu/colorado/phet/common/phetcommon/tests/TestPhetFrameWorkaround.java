@@ -9,7 +9,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -35,7 +35,7 @@ public class TestPhetFrameWorkaround {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                final NonPiccoloPhetApplication phetApplication = new NonPiccoloPhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), PhetResources.forProject( "phetcommon" ) ) ) {
+                final PhetApplication phetApplication = new PhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), PhetResources.forProject( "phetcommon" ) ) ) {
                     protected PhetFrame createPhetFrame() {
                         if ( USE_WORKAROUND ) {
                             return new PhetFrameWorkaround( this );

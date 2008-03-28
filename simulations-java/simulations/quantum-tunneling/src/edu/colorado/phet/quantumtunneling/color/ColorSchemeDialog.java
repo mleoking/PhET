@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.quantumtunneling.QTResources;
@@ -75,11 +75,11 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
      * @param app the application
      */
     public ColorSchemeDialog( QTModule module, QTColorScheme scheme ) {
-        super( NonPiccoloPhetApplication.instance().getPhetFrame() );
+        super( PhetApplication.instance().getPhetFrame() );
         super.setTitle( QTResources.getString( "title.colorScheme" ) );
         super.setModal( false );
         super.setResizable( false );
-        _parent = NonPiccoloPhetApplication.instance().getPhetFrame();
+        _parent = PhetApplication.instance().getPhetFrame();
         _module = module;
         _scheme = scheme;
         _restoreScheme = new QTColorScheme( scheme );

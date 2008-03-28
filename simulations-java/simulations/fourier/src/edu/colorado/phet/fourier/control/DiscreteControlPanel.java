@@ -19,7 +19,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
@@ -408,7 +408,7 @@ public class DiscreteControlPanel extends FourierAbstractControlPanel implements
         addControlFullWidth( audioControlsPanel );
 
         // Dialogs
-        Frame parentFrame = NonPiccoloPhetApplication.instance().getPhetFrame();
+        Frame parentFrame = PhetApplication.instance().getPhetFrame();
         _expandSumDialog = new ExpandSumDialog( parentFrame, _fourierSeries );
 
         // Set the state of the controls.

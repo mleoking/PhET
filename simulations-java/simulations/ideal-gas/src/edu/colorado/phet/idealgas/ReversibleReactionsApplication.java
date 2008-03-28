@@ -9,7 +9,7 @@ package edu.colorado.phet.idealgas;
 //import edu.colorado.phet.common.application.ApplicationModel;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -20,7 +20,7 @@ import edu.colorado.phet.idealgas.view.IdealGasLandF;
 import javax.swing.*;
 import java.awt.*;
 
-public class ReversibleReactionsApplication extends NonPiccoloPhetApplication {
+public class ReversibleReactionsApplication extends PhetApplication {
     private MovableWallsModule wallsModule;
 
 

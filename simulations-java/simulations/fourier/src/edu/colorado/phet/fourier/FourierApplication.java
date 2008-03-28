@@ -19,7 +19,7 @@ import java.io.IOException;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
@@ -38,7 +38,7 @@ import edu.colorado.phet.fourier.view.HarmonicColors;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FourierApplication extends NonPiccoloPhetApplication {
+public class FourierApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data

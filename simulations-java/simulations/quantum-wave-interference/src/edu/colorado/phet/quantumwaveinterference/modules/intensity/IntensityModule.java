@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.modules.intensity;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
@@ -36,7 +36,7 @@ public class IntensityModule extends QWIModule {
         this( QWIStrings.getString( "module.high-intensity" ), app, clock );
     }
 
-    protected IntensityModule( String name, NonPiccoloPhetApplication app, IClock clock ) {
+    protected IntensityModule( String name, PhetApplication app, IClock clock ) {
         super( name, app, clock );
         splitModel = new SplitModel();
         setQWIModel( splitModel );

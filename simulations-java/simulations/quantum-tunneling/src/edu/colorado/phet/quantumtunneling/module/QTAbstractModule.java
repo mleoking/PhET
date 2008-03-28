@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.module;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -52,7 +52,7 @@ public abstract class QTAbstractModule extends PiccoloModule {
      * @return JFrame
      */
     public JFrame getFrame() {
-        return NonPiccoloPhetApplication.instance().getPhetFrame();
+        return PhetApplication.instance().getPhetFrame();
     }
 
     /**

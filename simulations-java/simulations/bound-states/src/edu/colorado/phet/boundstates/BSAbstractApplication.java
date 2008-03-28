@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManage
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 
 /**
@@ -31,7 +31,7 @@ import edu.colorado.phet.common.piccolophet.PhetApplication;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class BSAbstractApplication extends PhetApplication {
+public abstract class BSAbstractApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Class data

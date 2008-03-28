@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -16,7 +16,7 @@ import javax.swing.*;
  * Time: 11:20:53 PM
  */
 
-public class TravoltageApplication extends NonPiccoloPhetApplication {
+public class TravoltageApplication extends PhetApplication {
     //    private static final String VERSION = "1.04";
     private static final String VERSION = PhetApplicationConfig.getVersion( "travoltage" ).formatForTitleBar();
     private JDialog dialog;

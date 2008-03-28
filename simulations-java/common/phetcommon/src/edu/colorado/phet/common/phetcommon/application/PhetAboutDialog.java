@@ -54,11 +54,11 @@ public class PhetAboutDialog extends JDialog {
      * @param phetApplication
      * @throws HeadlessException
      */
-    public PhetAboutDialog( NonPiccoloPhetApplication phetApplication ) {
+    public PhetAboutDialog( PhetApplication phetApplication ) {
         this( phetApplication.getPhetFrame(), getDialogConfig( phetApplication ) );
     }
 
-    private static DialogConfig getDialogConfig( NonPiccoloPhetApplication phetApplication ) {
+    private static DialogConfig getDialogConfig( PhetApplication phetApplication ) {
         if ( phetApplication.getApplicationConfig() != null ) {
             return new PhetApplicationConfigDialogConfig( phetApplication.getApplicationConfig() );
         }

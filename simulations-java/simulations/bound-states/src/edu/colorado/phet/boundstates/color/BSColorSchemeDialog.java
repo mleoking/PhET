@@ -24,7 +24,7 @@ import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.boundstates.BSAbstractApplication;
 import edu.colorado.phet.boundstates.BSResources;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -84,11 +84,11 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
      * @param app the application
      */
     public BSColorSchemeDialog( BSAbstractApplication app, BSColorScheme scheme ) {
-        super( NonPiccoloPhetApplication.instance().getPhetFrame() );
+        super( PhetApplication.instance().getPhetFrame() );
         super.setTitle( BSResources.getString( "title.colorScheme" ) );
         super.setModal( false );
         super.setResizable( false );
-        _parent = NonPiccoloPhetApplication.instance().getPhetFrame();
+        _parent = PhetApplication.instance().getPhetFrame();
         _app = app;
         _scheme = scheme;
         _restoreScheme = new BSColorScheme( scheme );

@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearSlider;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PCanvas;
@@ -280,7 +280,7 @@ public class PlatformNode2 extends PNode {
     }
 
     public static void main( String[] args ) {
-        PhetApplication phetApplication = new PhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), PhetResources.forProject( "rotation" ) ) );
+        PiccoloPhetApplication phetApplication = new PiccoloPhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), PhetResources.forProject( "rotation" ) ) );
         phetApplication.addModule( new TestModule( "test", new ConstantDtClock( 30, 1 ) ) );
         phetApplication.startApplication();
     }

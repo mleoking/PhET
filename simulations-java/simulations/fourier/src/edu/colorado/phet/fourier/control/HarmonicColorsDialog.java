@@ -21,7 +21,7 @@ import java.text.MessageFormat;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.FourierResources;
@@ -50,7 +50,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NonPiccoloPhetApplication _app;
+    private PhetApplication _app;
     private JButton _okButton, _cancelButton;
     private Color[] _restoreColors;
     private JLabel[] _colorBars;
@@ -61,7 +61,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
      *
      * @param app the application
      */
-    public HarmonicColorsDialog( NonPiccoloPhetApplication app ) {
+    public HarmonicColorsDialog( PhetApplication app ) {
         super( app.getPhetFrame() );
         _app = app;
         super.setTitle( FourierResources.getString( "HarmonicColorsDialog.title" ) );

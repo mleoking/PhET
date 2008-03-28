@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumwaveinterference.tests.ui;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -49,7 +49,7 @@ import java.awt.event.ComponentEvent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestAppStartup extends NonPiccoloPhetApplication {
+public class TestAppStartup extends PhetApplication {
 
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 0.1; // model time: dt per clock tick
@@ -130,7 +130,7 @@ public class TestAppStartup extends NonPiccoloPhetApplication {
                 parentNode.addChild( _pButton );
                 jButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        Frame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+                        Frame frame = PhetApplication.instance().getPhetFrame();
                         JOptionPane.showMessageDialog( frame, "Press OK" );
                     }
                 } );
@@ -184,7 +184,7 @@ public class TestAppStartup extends NonPiccoloPhetApplication {
                 resetButton.addActionListener( new ActionListener() {
                     // reset after confirming
                     public void actionPerformed( ActionEvent e ) {
-                        Frame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+                        Frame frame = PhetApplication.instance().getPhetFrame();
                         int rval = JOptionPane.showConfirmDialog( frame, "Reset all settings?", "Confirm", JOptionPane.YES_NO_OPTION );
                         if( rval == JOptionPane.YES_OPTION ) {
                             // TODO reset controls here...

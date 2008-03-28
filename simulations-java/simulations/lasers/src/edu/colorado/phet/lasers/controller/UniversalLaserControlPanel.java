@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.LampGraphic;
@@ -105,7 +105,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         JButton resetBtn = new JButton( SimStrings.getInstance().getString( "LaserControlPanel.Reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                int choice = JOptionPane.showConfirmDialog( NonPiccoloPhetApplication.instance().getPhetFrame(),
+                int choice = JOptionPane.showConfirmDialog( PhetApplication.instance().getPhetFrame(),
                                                             SimStrings.getInstance().getString( "ResetAll.confirmationMessage" ) );
                 if( choice == JOptionPane.OK_OPTION ) {
                     module.reset();

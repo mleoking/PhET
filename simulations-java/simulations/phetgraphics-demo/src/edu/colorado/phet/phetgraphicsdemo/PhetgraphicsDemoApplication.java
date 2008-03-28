@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.phetgraphicsdemo;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhetgraphicsDemoApplication extends NonPiccoloPhetApplication {
+public class PhetgraphicsDemoApplication extends PhetApplication {
 
     public PhetgraphicsDemoApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) throws IOException {
         super( args, title, description, version, frameSetup );
@@ -29,7 +29,7 @@ public class PhetgraphicsDemoApplication extends NonPiccoloPhetApplication {
         String version = "0.00.01";
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
-        NonPiccoloPhetApplication app = new PhetgraphicsDemoApplication( args, title, description, version, frameSetup );
+        PhetApplication app = new PhetgraphicsDemoApplication( args, title, description, version, frameSetup );
         app.startApplication();
     }
 }

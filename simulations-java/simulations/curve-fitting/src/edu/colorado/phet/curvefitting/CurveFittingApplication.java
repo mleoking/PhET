@@ -3,9 +3,9 @@ package edu.colorado.phet.curvefitting;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
-public class CurveFittingApplication extends PhetApplication {
+public class CurveFittingApplication extends PiccoloPhetApplication {
     public CurveFittingApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new CurveFittingModule() );

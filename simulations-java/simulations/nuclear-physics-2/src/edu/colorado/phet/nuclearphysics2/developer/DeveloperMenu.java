@@ -12,7 +12,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JMenu;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Application;
 
 /**
@@ -40,7 +40,7 @@ public class DeveloperMenu extends JMenu implements ActionListener {
     public void actionPerformed( ActionEvent event ) {
         if ( event.getSource() == _developerControlsItem ) {
             if ( _developerControlsItem.isSelected() ) {
-                Frame owner = NonPiccoloPhetApplication.instance().getPhetFrame();
+                Frame owner = PhetApplication.instance().getPhetFrame();
                 _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
                 _developerControlsDialog.show();
                 _developerControlsDialog.addWindowListener( new WindowAdapter() {

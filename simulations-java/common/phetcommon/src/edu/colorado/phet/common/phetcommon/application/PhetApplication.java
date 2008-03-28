@@ -27,7 +27,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * </code>
  * <p/>
  */
-public class NonPiccoloPhetApplication {
+public class PhetApplication {
 
     //----------------------------------------------------------------
     // Class data
@@ -40,7 +40,7 @@ public class NonPiccoloPhetApplication {
      * Mechanism for determining which graphics subsystem we're using
      */
     private static final String DEBUG_MENU_COMMAND_LINE_ARG = "-d";
-    private static NonPiccoloPhetApplication latestInstance = null;
+    private static PhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
     
     //----------------------------------------------------------------
@@ -64,13 +64,13 @@ public class NonPiccoloPhetApplication {
     // Constructors
     //----------------------------------------------------------------
     
-    protected NonPiccoloPhetApplication( PhetApplicationConfig config ) {
+    protected PhetApplication( PhetApplicationConfig config ) {
         this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup() );
 
         this.applicationConfig = config;
     }
 
-    protected NonPiccoloPhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
+    protected PhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
         this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup(), tabbedPaneType );
 
         this.applicationConfig = config;
@@ -85,7 +85,7 @@ public class NonPiccoloPhetApplication {
      * @param version     Appears in the About dialog
      * @deprecated
      */
-    public NonPiccoloPhetApplication( String[] args, String title, String description, String version
+    public PhetApplication( String[] args, String title, String description, String version
     ) {
         this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 150 ) );
     }
@@ -100,14 +100,14 @@ public class NonPiccoloPhetApplication {
      * @param frameSetup  Defines the size and location of the frame
      * @deprecated
      */
-    public NonPiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
+    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         this( args, title, description, version, frameSetup, JTABBED_PANE_TYPE );
     }
 
     /**
      * @deprecated
      */
-    public NonPiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
+    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
         
         this.developerControlsEnabled = CommandLineUtils.contains( args, DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
                 
@@ -151,7 +151,7 @@ public class NonPiccoloPhetApplication {
      *
      * @return last created PhetApplication.
      */
-    public static NonPiccoloPhetApplication instance() {
+    public static PhetApplication instance() {
         return latestInstance;
     }
 
@@ -160,8 +160,8 @@ public class NonPiccoloPhetApplication {
      *
      * @return all created PhetApplications.
      */
-    public static NonPiccoloPhetApplication[] instances() {
-        return (NonPiccoloPhetApplication[]) phetApplications.toArray( new NonPiccoloPhetApplication[0] );
+    public static PhetApplication[] instances() {
+        return (PhetApplication[]) phetApplications.toArray( new PhetApplication[0] );
     }
     
     /**

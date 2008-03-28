@@ -4,7 +4,7 @@ package edu.colorado.phet.waveinterference.test;
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.waveinterference.*;
 
 /**
@@ -13,7 +13,7 @@ import edu.colorado.phet.waveinterference.*;
  * Time: 10:52:38 PM
  */
 
-public class TestWIAUI extends NonPiccoloPhetApplication {
+public class TestWIAUI extends PhetApplication {
     private static String VERSION = "0.07";
 
     public TestWIAUI( String[] args ) {
