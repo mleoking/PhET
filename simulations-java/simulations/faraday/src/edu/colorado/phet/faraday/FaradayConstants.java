@@ -47,7 +47,9 @@ public class FaradayConstants {
     public static final String ELECTRON_BACKGROUND_IMAGE = "electron_background.png";
     public static final String FAUCET_IMAGE = "faucet.png";
     public static final String FIELD_METER_IMAGE = "fieldMeter.png";
-    public static final String LIGHTBULB_IMAGE = "lightbulb.png";
+    public static final String LIGHTBULB_BASE_IMAGE = "lightbulb-base.png";
+    public static final String LIGHTBULB_CAP_IMAGE = "lightbulb-cap.png";
+    public static final String LIGHTBULB_GLASS_IMAGE = "lightbulb-glass.png";
     public static final String LIGHTBULB_ICON = "lightbulb_icon.png";
     public static final String LIGHTBULB_ICON_SELECTED = "lightbulb_icon_selected.png";
     public static final String RESISTOR_IMAGE = "resistor.png";

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.model.Lightbulb;
+import edu.colorado.phet.faraday.util.VariableAlphaImageGraphic;
 
 
 /**
@@ -30,8 +31,13 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     private static final double BULB_LAYER = 1;
     private static final double RAYS_LAYER = 2;
     
-    // Radius of the lightbulb in the lightbulb graphic.
-    private static final double BULB_RADIUS = 30.0;
+    
+    private static final double BULB_RADIUS = 30.0; // Radius of the glass, must be aligned with image by trial & error.
+    private static final int DISTANCE_BULB_IS_SCREWED_INTO_BASE = 10; // must be aligned with rays via trial & error
+    
+    // Range of alpha modulation for bulb image (alpha range is 0-1)
+    private static final float MIN_ALPA = 0.25f;
+    private static final float MAX_ALPHA = 1.0f;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -39,6 +45,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     
     private Lightbulb _lightbulbModel;
     private double _previousIntensity;
+    private VariableAlphaImageGraphic _glassGraphic;
     private LightRaysGraphic _raysGraphic;
     
     //----------------------------------------------------------------------------
@@ -60,22 +67,38 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
         _lightbulbModel = lightbulbModel;
         _lightbulbModel.addObserver( this );
 
-        // Lightbulb
-        {
-            BufferedImage lightBulbImage = FaradayResources.getImage( FaradayConstants.LIGHTBULB_IMAGE );
-            PhetImageGraphic lightBulbGraphic = new PhetImageGraphic( component, lightBulbImage );
-            addGraphic( lightBulbGraphic, BULB_LAYER );
-            int rx = lightBulbGraphic.getImage().getWidth() / 2;
-            int ry = lightBulbGraphic.getImage().getHeight();
-            lightBulbGraphic.setRegistrationPoint( rx, ry );
-        }
+        // Glass
+        BufferedImage glassImage = FaradayResources.getImage( FaradayConstants.LIGHTBULB_GLASS_IMAGE );
+        _glassGraphic = new VariableAlphaImageGraphic( component, glassImage );
+        addGraphic( _glassGraphic, BULB_LAYER );
+        
+        // Cap
+        BufferedImage capImage = FaradayResources.getImage( FaradayConstants.LIGHTBULB_CAP_IMAGE );
+        PhetImageGraphic capGraphic = new PhetImageGraphic( component, capImage );
+        addGraphic( capGraphic, BULB_LAYER );
+        
+        // Base
+        BufferedImage baseImage = FaradayResources.getImage( FaradayConstants.LIGHTBULB_BASE_IMAGE );
+        PhetImageGraphic baseGraphic = new PhetImageGraphic( component, baseImage );
+        addGraphic( baseGraphic, BULB_LAYER );
+        
+        // Locations
+        int rx = baseGraphic.getImage().getWidth() / 2;
+        int ry = baseGraphic.getImage().getHeight();
+        baseGraphic.setRegistrationPoint( rx, ry );
+        rx = capGraphic.getImage().getWidth() / 2;
+        ry = capGraphic.getImage().getHeight();
+        capGraphic.setRegistrationPoint( rx, ry );
+        capGraphic.setLocation( 0, -( baseGraphic.getImage().getHeight() - DISTANCE_BULB_IS_SCREWED_INTO_BASE ) );
+        rx = _glassGraphic.getImage().getWidth() / 2;
+        ry = _glassGraphic.getImage().getHeight();
+        _glassGraphic.setRegistrationPoint( rx, ry );
+        _glassGraphic.setLocation( 0, -( baseGraphic.getImage().getHeight() + capGraphic.getImage().getHeight() - DISTANCE_BULB_IS_SCREWED_INTO_BASE ) );
         
         // Rays
-        {
-            _raysGraphic = new LightRaysGraphic( component, BULB_RADIUS );
-            addGraphic( _raysGraphic, RAYS_LAYER );
-            _raysGraphic.setRegistrationPoint( 0, 90 );
-        }
+        _raysGraphic = new LightRaysGraphic( component, BULB_RADIUS );
+        addGraphic( _raysGraphic, RAYS_LAYER );
+        _raysGraphic.setRegistrationPoint( 0, 90 );
         
         update();
     }
@@ -107,7 +130,16 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             double intensity = _lightbulbModel.getIntensity();
 
             if ( intensity != _previousIntensity ) {
+                
                 _raysGraphic.setIntensity( intensity );
+                
+                // modulate alpha channel of the glass to make it appear to glow
+                float alpha = MIN_ALPA + ( ( MAX_ALPHA - MIN_ALPA ) * (float)intensity );
+                if ( alpha > MAX_ALPHA ) {
+                    alpha = MAX_ALPHA;
+                }
+                _glassGraphic.setAlpha( alpha );
+                
                 _previousIntensity = intensity;
                 setBoundsDirty();
                 repaint(); 
