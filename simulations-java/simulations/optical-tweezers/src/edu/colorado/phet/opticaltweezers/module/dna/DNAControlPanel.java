@@ -4,7 +4,7 @@ package edu.colorado.phet.opticaltweezers.module.dna;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.opticaltweezers.control.ChartsControlPanel;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.control.MiscControlPanel;
@@ -83,7 +83,7 @@ public class DNAControlPanel extends OTAbstractControlPanel {
             addSeparator();
             addControlFullWidth( _miscControlPanel );
             addSeparator();
-            if ( OpticalTweezersApplication.isDeveloperControlsEnabled() ) {
+            if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
                 addControlFullWidth( _developerControlPanel );
                 addSeparator();
             }

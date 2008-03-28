@@ -10,7 +10,6 @@ import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
@@ -25,12 +24,6 @@ import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class OTAbstractApplication extends PhetApplication {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    private static boolean DEVELOPER_CONTROLS_ENABLED;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -50,7 +43,6 @@ public abstract class OTAbstractApplication extends PhetApplication {
     public OTAbstractApplication( PhetApplicationConfig config )
     {
         super( config );
-        DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), OTConstants.DEVELOPER_ARG );
         initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
@@ -127,10 +119,6 @@ public abstract class OTAbstractApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     // Setters & getters
     //----------------------------------------------------------------------------
-
-    public static boolean isDeveloperControlsEnabled() {
-        return DEVELOPER_CONTROLS_ENABLED;
-    }
 
     public void setSelectedTabColor( Color color ) {
         _tabbedModulePane.setSelectedTabColor( color );

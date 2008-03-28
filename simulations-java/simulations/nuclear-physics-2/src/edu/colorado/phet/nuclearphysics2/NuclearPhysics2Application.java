@@ -4,17 +4,12 @@ package edu.colorado.phet.nuclearphysics2;
 
 import java.awt.Color;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -26,8 +21,6 @@ import edu.colorado.phet.nuclearphysics2.menu.OptionsMenu;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModule;
 import edu.colorado.phet.nuclearphysics2.module.example.ExampleModule;
 import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModule;
-import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
-import edu.colorado.phet.nuclearphysics2.persistence.NuclearPhysics2Config;
 
 /**
  * TemplateApplication is the main application for this simulation.
@@ -36,12 +29,6 @@ import edu.colorado.phet.nuclearphysics2.persistence.NuclearPhysics2Config;
  * 
  */
 public class NuclearPhysics2Application extends PhetApplication {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    private static boolean DEVELOPER_CONTROLS_ENABLED;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -72,7 +59,6 @@ public class NuclearPhysics2Application extends PhetApplication {
     public NuclearPhysics2Application( PhetApplicationConfig config )
     {
         super( config );
-        DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), NuclearPhysics2Constants.DEVELOPER_ARG );
         initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
@@ -143,10 +129,6 @@ public class NuclearPhysics2Application extends PhetApplication {
     //----------------------------------------------------------------------------
     // Setters & getters
     //----------------------------------------------------------------------------
-
-    public static boolean isDeveloperControlsEnabled() {
-        return DEVELOPER_CONTROLS_ENABLED;
-    }
 
     public void setSelectedTabColor( Color color ) {
         if ( _tabbedModulePane != null ) {

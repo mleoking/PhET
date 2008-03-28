@@ -1,33 +1,4 @@
-/*
-* The Physics Education Technology (PhET) project provides
-* a suite of interactive educational simulations.
-* Copyright (C) 2004-2006 University of Colorado.
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-* See the GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License along
-* with this program; if not, write to the Free Software Foundation, Inc.,
-* 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-*
-* For additional licensing options, please contact PhET at phethelp@colorado.edu
-*/
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.application;
 
@@ -36,15 +7,16 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
- * The top-level class for PhET applications.
+ * The base class for PhET applications.
  * <p/>
- * The prefered method of creating and starting a PhetApplication is shown here:
+ * The prefered method of creating and starting an application is shown here:
  * <code>
  * <br>
  * PhetApplication myApp = new PhetApplication( args, "Title", "Description", "Version, frameSetup );<br>
@@ -54,9 +26,6 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * myApp.startApplication();<br>
  * </code>
  * <p/>
- *
- * @author ?
- * @version $Revision$
  */
 public class NonPiccoloPhetApplication {
 
@@ -64,17 +33,37 @@ public class NonPiccoloPhetApplication {
     // Class data
     //----------------------------------------------------------------
 
+    /** Command line argument to enable developer-only features. */
+    public static final String DEVELOPER_CONTROLS_COMMAND_LINE_ARG = "-dev";
+    
     /**
      * Mechanism for determining which graphics subsystem we're using
      */
-    private static final String DEBUG_MENU_ARG = "-d";
+    private static final String DEBUG_MENU_COMMAND_LINE_ARG = "-d";
     private static NonPiccoloPhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
+    
+    //----------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------
+    
     private TabbedPaneType tabbedPaneType;
-
     private volatile PhetApplicationConfig applicationConfig;
+    private final boolean developerControlsEnabled;
 
-
+    private String title;
+    private String description;
+    private String version;
+    private PhetFrame phetFrame;
+    private ModuleManager moduleManager;
+    private AWTSplashWindow splashWindow;
+    private Frame splashWindowOwner;
+    private PhetAboutDialog aboutDialog; // not null only when About dialog is visible
+    
+    //----------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------
+    
     protected NonPiccoloPhetApplication( PhetApplicationConfig config ) {
         this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup() );
 
@@ -86,41 +75,6 @@ public class NonPiccoloPhetApplication {
 
         this.applicationConfig = config;
     }
-
-    public PhetApplicationConfig getApplicationConfig() {
-        return applicationConfig;
-    }
-
-    /**
-     * Get the last created PhetApplication.
-     *
-     * @return last created PhetApplication.
-     */
-    public static NonPiccoloPhetApplication instance() {
-        return latestInstance;
-    }
-
-    /**
-     * Get all created PhetApplications.
-     *
-     * @return all created PhetApplications.
-     */
-    public static NonPiccoloPhetApplication[] instances() {
-        return (NonPiccoloPhetApplication[]) phetApplications.toArray( new NonPiccoloPhetApplication[0] );
-    }
-
-    //----------------------------------------------------------------
-    // Instance data and methods
-    //----------------------------------------------------------------
-
-    private String title;
-    private String description;
-    private String version;
-    private PhetFrame phetFrame;
-    private ModuleManager moduleManager;
-    private AWTSplashWindow splashWindow;
-    private Frame splashWindowOwner;
-    private PhetAboutDialog aboutDialog; // not null only when About dialog is visible
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.
@@ -154,6 +108,9 @@ public class NonPiccoloPhetApplication {
      * @deprecated
      */
     public NonPiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
+        
+        this.developerControlsEnabled = CommandLineUtils.contains( args, DEVELOPER_CONTROLS_COMMAND_LINE_ARG );
+                
         // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( title );
         this.tabbedPaneType = tabbedPaneType;
@@ -172,6 +129,41 @@ public class NonPiccoloPhetApplication {
         parseArgs( args );
     }
 
+    //----------------------------------------------------------------
+    // 
+    //----------------------------------------------------------------
+    
+    /**
+     * Are developer controls enabled?
+     * 
+     * @return true or false
+     */
+    public boolean isDeveloperControlsEnabled() {
+        return developerControlsEnabled;
+    }
+    
+    public PhetApplicationConfig getApplicationConfig() {
+        return applicationConfig;
+    }
+
+    /**
+     * Get the last created PhetApplication.
+     *
+     * @return last created PhetApplication.
+     */
+    public static NonPiccoloPhetApplication instance() {
+        return latestInstance;
+    }
+
+    /**
+     * Get all created PhetApplications.
+     *
+     * @return all created PhetApplications.
+     */
+    public static NonPiccoloPhetApplication[] instances() {
+        return (NonPiccoloPhetApplication[]) phetApplications.toArray( new NonPiccoloPhetApplication[0] );
+    }
+    
     /**
      * Creates the PhetFrame for the application
      * <p/>
@@ -218,7 +210,7 @@ public class NonPiccoloPhetApplication {
     protected void parseArgs( String[] args ) {
         for ( int i = 0; args != null && i < args.length; i++ ) {
             String arg = args[i];
-            if ( arg.equals( DEBUG_MENU_ARG ) ) {
+            if ( arg.equals( DEBUG_MENU_COMMAND_LINE_ARG ) ) {
 //                phetFrame.addDebugMenu();
                 //todo generalize debug menu
             }

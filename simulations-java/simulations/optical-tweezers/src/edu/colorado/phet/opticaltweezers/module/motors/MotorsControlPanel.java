@@ -4,7 +4,7 @@ package edu.colorado.phet.opticaltweezers.module.motors;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
@@ -83,7 +83,7 @@ public class MotorsControlPanel extends OTAbstractControlPanel {
             addSeparator();
             addControlFullWidth( _miscControlPanel );
             addSeparator();
-            if ( OpticalTweezersApplication.isDeveloperControlsEnabled() ) {
+            if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
                 addControlFullWidth( _developerControlPanel );
                 addSeparator();
             }
