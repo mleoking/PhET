@@ -66,9 +66,11 @@ public class TransformerModule extends FaradayModule {
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
     private static final double PICKUP_COIL_FUDGE_FACTOR = 0.56; // see PickupCoil.setFudgeFactor
+    private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.25;
     
     // Scaling
-    private static final double LIGHTBULB_SCALE = 10.0;
+    private static final double LIGHTBULB_GLOW_SCALE = 7.0;
+    private static final double LIGHT_RAYS_SCALE = 10.0;
     private static final double VOLTMETER_SCALE = 12.0;
     private static final double ELECTRON_SPEED_SCALE = VOLTMETER_SCALE;
     
@@ -171,7 +173,7 @@ public class TransformerModule extends FaradayModule {
         // Lightbulb
         _lightbulbModel = new Lightbulb( _pickupCoilModel );
         _lightbulbModel.setEnabled( true );
-        _lightbulbModel.setScale( LIGHTBULB_SCALE );
+        _lightbulbModel.setScale( LIGHT_RAYS_SCALE );
         _lightbulbModel.setOffWhenCurrentChangesDirection( true );
         
         // Volt Meter
@@ -200,6 +202,8 @@ public class TransformerModule extends FaradayModule {
         // Pickup Coil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
                 _pickupCoilModel, _lightbulbModel, _voltmeterModel );
+        _pickupCoilGraphic.getLightbulbGraphic().setGlassMinAlpha( LIGHTBULB_GLASS_MIN_ALPHA );
+        _pickupCoilGraphic.getLightbulbGraphic().setGlassGlowScale( LIGHTBULB_GLOW_SCALE );
         _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
@@ -261,7 +265,9 @@ public class TransformerModule extends FaradayModule {
             if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
-                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _pickupCoilModel, _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, _electromagnetGraphic );
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
+                        _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
+                        _pickupCoilGraphic, _electromagnetGraphic, _pickupCoilGraphic.getLightbulbGraphic() );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
             

@@ -59,8 +59,10 @@ public class GeneratorModule extends FaradayModule {
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
     private static final double PICKUP_COIL_FUDGE_FACTOR = 1.0;  // see PickupCoil.setFudgeFactor, 1 because magnet is never inside coil
+    private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.25;
     
     // Scaling -- values depend on the distance between pickup coil and turbine!
+    private static final double LIGHTBULB_GLOW_SCALE = 2.5;
     private static final double LIGHTBULB_SCALE = 2.5;
     private static final double VOLTMETER_SCALE = 3.3;
     private static final double ELECTRON_SPEED_SCALE = 2.5;
@@ -162,6 +164,8 @@ public class GeneratorModule extends FaradayModule {
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model,
                 _pickupCoilModel, _lightbulbModel, _voltmeterModel );
         _pickupCoilGraphic.setDraggingEnabled( false );
+        _pickupCoilGraphic.getLightbulbGraphic().setGlassMinAlpha( LIGHTBULB_GLASS_MIN_ALPHA );
+        _pickupCoilGraphic.getLightbulbGraphic().setGlassGlowScale( LIGHTBULB_GLOW_SCALE );
         _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
@@ -217,7 +221,9 @@ public class GeneratorModule extends FaradayModule {
             if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
-                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _pickupCoilModel, _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
+                        _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
+                        _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic() );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
             
