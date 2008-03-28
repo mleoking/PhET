@@ -20,6 +20,9 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
+3/27/08 - absorb ScalePanel into DeveloperControlsPanel [248]
+3/27/08 - create DeveloperControlsPanel for all developer controls that appear in ControlPanel [248]
+3/27/08 - make VariableNumberOfSamplePointsStrategy the permanent strategy [248]
 3/27/08 - add developer control for pickup coil B-field fudge factor to PickupCoilPanel [248]
 3/27/08 - use pickup coil fudge factor to scale B-field for sample points inside magnet [248]
 3/27/08 - simplify pickup coil emf calculation by using only B-field x component (Bx) [248]

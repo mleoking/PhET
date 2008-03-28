@@ -16,16 +16,6 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 public class FaradayConstants {
    
     //----------------------------------------------------------------------------
-    // Debugging switches
-    //----------------------------------------------------------------------------
-    
-    public static final boolean DEBUG_PICKUP_COIL_EMF = false;
-    public static final boolean DEBUG_ENABLE_SCALE_PANEL = false;
-    
-    //XXX for testing sample point strategies
-    public static final boolean USE_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS = true;
-    
-    //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
     

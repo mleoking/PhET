@@ -5,13 +5,14 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Point;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
+import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
-import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.CompassGridGraphic;
@@ -195,11 +196,11 @@ public class ElectromagnetModule extends FaradayModule {
             controlPanel.addControlFullWidth( _electromagnetPanel );
             
             // Scaling calibration
-            if ( FaradayConstants.DEBUG_ENABLE_SCALE_PANEL ) {
+            if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
-                ScalePanel scalePanel = new ScalePanel( null, null, null, _electromagnetGraphic );
-                controlPanel.addControlFullWidth( scalePanel );
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( null, null, null, null, _electromagnetGraphic );
+                controlPanel.addControlFullWidth( developerControlsPanel );
             }
             
             // Reset button

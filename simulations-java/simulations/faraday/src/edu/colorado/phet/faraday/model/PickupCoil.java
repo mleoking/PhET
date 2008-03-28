@@ -21,6 +21,12 @@ import edu.colorado.phet.faraday.util.Vector2D;
 public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObserver {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final boolean DEBUG_PICKUP_COIL_EMF = false;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -397,7 +403,7 @@ public class PickupCoil extends AbstractCoil implements ModelElement, SimpleObse
         // Keep track of the biggest emf seen by the pickup coil.
         if ( Math.abs( _emf ) > Math.abs( _biggestEmf ) ) {
             _biggestEmf = _emf;
-            if ( FaradayConstants.DEBUG_PICKUP_COIL_EMF ) {
+            if ( DEBUG_PICKUP_COIL_EMF ) {
                 System.out.println( "PickupCoil.updateEmf: biggestEmf=" + _biggestEmf );
             }
         }
