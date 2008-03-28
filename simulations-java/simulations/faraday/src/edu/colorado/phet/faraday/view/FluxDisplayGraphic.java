@@ -25,8 +25,10 @@ public class FluxDisplayGraphic extends GraphicLayerSet implements SimpleObserve
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final String PHI = "\u03a6";
+    private static final String DELTA = "\u0394";
     private static final Font FONT = new Font( "SansSerif", Font.PLAIN, 15 );
-    private static final DecimalFormat FORMAT = new DefaultDecimalFormat( "###0.00" );
+    private static final DecimalFormat FORMAT = new DefaultDecimalFormat( "0" );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -90,8 +92,8 @@ public class FluxDisplayGraphic extends GraphicLayerSet implements SimpleObserve
             double deltaFlux = _pickupCoilModel.getDeltaFlux();
             double emf = _pickupCoilModel.getEmf();
 
-            _fluxValue.setText( "Flux = " + FORMAT.format( flux ) + " W" );
-            _deltaFluxValue.setText( "Delta Flux = " + FORMAT.format( deltaFlux ) + " W" );
+            _fluxValue.setText( PHI + " = " + FORMAT.format( flux ) + " W" );
+            _deltaFluxValue.setText( DELTA + PHI + " = " + FORMAT.format( deltaFlux ) + " W" );
             _emfValue.setText( "EMF = " + FORMAT.format( emf ) + " V" );
         }
     }
