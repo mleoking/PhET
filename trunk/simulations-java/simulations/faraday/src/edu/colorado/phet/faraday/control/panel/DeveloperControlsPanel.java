@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -63,6 +64,11 @@ public class DeveloperControlsPanel extends FaradayPanel {
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
+        
+        // Message
+        JLabel message = new JLabel( "<html>These controls will NOT be reset<br>when you press the Reset All button." );
+        message.setForeground( Color.RED );
+        layout.addComponent( message, row++, 0 );
 
         // Pickup coil fudge factor
         if ( pickupCoilModel != null ) {
