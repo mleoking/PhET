@@ -1,22 +1,27 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * This class represents the view of an Atomic Nucleus from the model.  Since
- * most of the effort for displaying a nucleus is actually done by the nodes
- * associated with the particles of which it is composed, this class just
- * displays the appropriate label.
+ * This class represents the view of an Atomic Nucleus from the model.  Note
+ * that most of the effort for displaying a nucleus is actually done by the
+ * nodes associated with the individual particles of which it is composed, 
+ * so this class does things associated with the nucleus as a whole, such as
+ * displaying the label and showing the explosion if and when it decays.
  *
  * @author John Blanco
  */
@@ -35,9 +40,15 @@ public class AtomicNucleusNode extends PNode {
     private static final Font CHEMICAL_SYMBOL_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
     
     // Factor by which the font should be scaled.  This allows us to use
-    // standard font sizes and the use the Piccolo scaling capabilites,
+    // standard font sizes and the use the Piccolo scaling capabilities,
     // which tends to look better than using non-standard sizes.
     private static final double LABEL_SCALING_FACTOR = 0.4;
+    
+    // Constants that control the nature of the explosion graphic.
+    private static int   EXPLOSION_COUNTER_RESET_VAL = 20;
+    private static Color EXPLOSION_STROKE_COLOR = new Color(0xffff33);
+    private static Color EXPLOSION_FILL_COLOR = new Color(0xffff33);
+    private static float EXPLOSION_MIN_TRANSPARENCY = 0.4f;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -48,6 +59,10 @@ public class AtomicNucleusNode extends PNode {
     private PText _isotopeNumberLabelShadow;
     private PText _chemicalSymbolLabelShadow;
     private AtomicNucleus _atomicNucleus;
+    private int _currentAtomicWeight;
+    private int _explosionCounter = 0;
+    private PPath _explosion;
+    private Ellipse2D _explosionShape;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -57,8 +72,16 @@ public class AtomicNucleusNode extends PNode {
     {
         _atomicNucleus = atomicNucleus;
         
-        // Create the labels (initially blank) and add them to the world.
+        // Initialize the node that is used to display the explosion.
+        _explosion = new PPath();
+        _explosion.setStrokePaint( EXPLOSION_STROKE_COLOR );
+        _explosion.setPaint( EXPLOSION_FILL_COLOR );
+        addChild( _explosion );
         
+        // Create the shape that will be used to define the explosion.
+        _explosionShape = new Ellipse2D.Double();
+        
+        // Create the labels (initially blank) and add them to the world.        
         _isotopeNumberLabelShadow = new PText("");
         _isotopeNumberLabelShadow.setFont( ISOTOPE_NUMBER_FONT );
         _isotopeNumberLabelShadow.setTextPaint( Color.BLACK );
@@ -84,7 +107,8 @@ public class AtomicNucleusNode extends PNode {
         addChild(_chemicalSymbolLabel);
         
         // Set the label based on the atomic number of the nucleus.
-        setLabel(_atomicNucleus.getAtomicWeight());
+        _currentAtomicWeight = _atomicNucleus.getAtomicWeight();
+        setLabel(_currentAtomicWeight);
         
         // Register as a listener for the model representation.
         _atomicNucleus.addListener(new AtomicNucleus.Listener(){
@@ -92,8 +116,31 @@ public class AtomicNucleusNode extends PNode {
                 update();
             }
             public void atomicWeightChanged(int newAtomicWeight){
+                
+                if (_currentAtomicWeight > newAtomicWeight){
+                    // This was a decay event, so kick off the explosion graphic.
+                    _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
+                }
+                
+                // Update the label to reflect the new element.
                 setLabel(newAtomicWeight);
                 update();
+            }
+        });
+        
+        // Register as a listener to the clock that is driving the model.
+        _atomicNucleus.getClock().addClockListener( new ClockAdapter(){
+            
+            /**
+             * Clock tick handler - causes the model to move forward one
+             * increment in time.
+             */
+            public void clockTicked(ClockEvent clockEvent){
+                handleClockTicked(clockEvent);
+            }
+            
+            public void simulationTimeReset(ClockEvent clockEvent){
+                // Ignore.
             }
         });
         
@@ -201,5 +248,23 @@ public class AtomicNucleusNode extends PNode {
 
         _chemicalSymbolLabelShadow.setOffset( chemicalSymbolLabelOffset.getX() + 0.15,  
                 chemicalSymbolLabelOffset.getY() + 0.15);
+    }
+
+    /**
+     * Handle the ticking of the simulation clock.
+     * 
+     * @param clockEvent
+     */
+    private void handleClockTicked(ClockEvent clockEvent){
+
+        if (_explosionCounter > 0){
+            // Step the explosion graphic.
+            double explosionRadius = (double)(EXPLOSION_COUNTER_RESET_VAL - _explosionCounter + 1) * 4;
+            _explosionShape.setFrameFromCenter( 0, 0, explosionRadius, explosionRadius );
+            _explosion.setPathTo( _explosionShape );
+            _explosion.setTransparency( 
+                    EXPLOSION_MIN_TRANSPARENCY * (float)_explosionCounter / (float)EXPLOSION_COUNTER_RESET_VAL);
+            _explosionCounter--;
+        }
     }
 }
