@@ -4,7 +4,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.torque.*;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
@@ -17,7 +17,7 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
  * Author: Sam Reid
  * May 29, 2007, 12:56:31 AM
  */
-public class TorqueApplication extends PhetApplication {
+public class TorqueApplication extends PiccoloPhetApplication {
     private AbstractTorqueModule torqueModule;
     private TorqueIntroModule introModule;
     private MomentOfInertiaModule momentModule;

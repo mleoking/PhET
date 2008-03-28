@@ -33,7 +33,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.PhotoWindow;
@@ -43,7 +43,7 @@ import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 
-public class LasersApplication extends PhetApplication {
+public class LasersApplication extends PiccoloPhetApplication {
 
     private SingleAtomModule singleAtomModule;
     private MultipleAtomModule multipleAtomModule;

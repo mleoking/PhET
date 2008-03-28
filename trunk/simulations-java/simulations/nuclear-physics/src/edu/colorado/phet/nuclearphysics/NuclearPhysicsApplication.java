@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
@@ -26,7 +26,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NuclearPhysicsApplication extends PhetApplication {
+public class NuclearPhysicsApplication extends PiccoloPhetApplication {
 //public class NuclearPhysicsApplication extends PhetApplication {
 
     // Localization

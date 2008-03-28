@@ -31,7 +31,7 @@
 package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
@@ -44,7 +44,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EnergySkateParkApplication extends NonPiccoloPhetApplication {
+public class EnergySkateParkApplication extends PhetApplication {
     private EnergySkateParkModule module;
     public static double SIMULATION_TIME_DT = 0.03;
     public static final boolean IGNORE_THERMAL_DEFAULT = false;

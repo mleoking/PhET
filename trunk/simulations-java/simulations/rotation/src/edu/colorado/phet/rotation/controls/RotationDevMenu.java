@@ -8,9 +8,9 @@ import java.lang.reflect.Method;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.colorado.phet.rotation.RotationApplication;
 import edu.umd.cs.piccolo.PCanvas;
@@ -22,10 +22,10 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * Jul 15, 2007, 3:56:14 PM
  */
 public class RotationDevMenu extends JMenu {
-    private NonPiccoloPhetApplication rotationApplication;
+    private PhetApplication rotationApplication;
     private AbstractRotationModule rotationModule;
 
-    public RotationDevMenu( final PhetApplication rotationApplication, final AbstractRotationModule rotationModule ) {
+    public RotationDevMenu( final PiccoloPhetApplication rotationApplication, final AbstractRotationModule rotationModule ) {
         super( "Options" );
         this.rotationApplication = rotationApplication;
         this.rotationModule = rotationModule;

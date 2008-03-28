@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -130,7 +130,7 @@ public class TestPaintPriorityWorkaround {
         app.startApplication();
     }
 
-    private static class TestApplication extends PhetApplication {
+    private static class TestApplication extends PiccoloPhetApplication {
 
         public TestApplication( String[] args ) throws InterruptedException {
             super( args, "TestHelpRepaint2", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );

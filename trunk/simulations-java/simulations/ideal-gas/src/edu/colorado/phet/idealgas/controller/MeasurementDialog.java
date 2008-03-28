@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
@@ -131,7 +131,7 @@ public class MeasurementDialog extends JDialog {
         public StopwatchControl() {
             final JCheckBox stopwatchCB = new JCheckBox( IdealGasResources.getString( "MeasurementControlPanel.Stopwatch" ), false );
             stopwatchCB.addActionListener( new ActionListener() {
-                PhetFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+                PhetFrame frame = PhetApplication.instance().getPhetFrame();
 
                 public void actionPerformed( ActionEvent e ) {
                     module.setStopwatchEnabled( stopwatchCB.isSelected() );

@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
@@ -31,7 +31,7 @@ import java.io.IOException;
  * Time: 6:48:21 PM
  */
 
-public class QuantumWaveInterferenceApplication extends PhetApplication {
+public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
     //    public static String VERSION = "1.05";
     private IntensityModule intensityModule;
     public SingleParticleModule singleParticleModule;

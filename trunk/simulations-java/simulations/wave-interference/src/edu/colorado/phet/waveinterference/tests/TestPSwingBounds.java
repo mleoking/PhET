@@ -6,7 +6,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -53,7 +53,7 @@ public class TestPSwingBounds extends Module {
         phetLookAndFeel.setFont( new PhetDefaultFont( Font.BOLD, 13 ) );
         phetLookAndFeel.apply();
 //        ModuleApplication moduleApplication = new ModuleApplication();
-        NonPiccoloPhetApplication phetApplication = new NonPiccoloPhetApplication( args, "", "", "" );
+        PhetApplication phetApplication = new PhetApplication( args, "", "", "" );
         phetApplication.addModule( module );
 
         SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );

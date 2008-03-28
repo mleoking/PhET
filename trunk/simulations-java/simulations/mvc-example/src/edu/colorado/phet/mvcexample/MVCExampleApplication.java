@@ -10,14 +10,14 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * MVCApplication is the main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MVCExampleApplication extends PhetApplication {
+public class MVCExampleApplication extends PiccoloPhetApplication {
 
     public static final PhetResources RESOURCE_LOADER = PhetResources.forProject( "mvc-example" );
     

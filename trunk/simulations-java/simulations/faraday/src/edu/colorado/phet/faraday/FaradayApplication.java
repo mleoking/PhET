@@ -6,10 +6,10 @@ import java.io.IOException;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.*;
@@ -19,7 +19,7 @@ import edu.colorado.phet.faraday.module.*;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FaradayApplication extends PhetApplication {
+public class FaradayApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -88,7 +88,7 @@ public class FaradayApplication extends PhetApplication {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, FaradayConstants.FRAME_SETUP, FaradayResources.getResourceLoader() );
 
                 // Create the application.
-                NonPiccoloPhetApplication app = new FaradayApplication( config );
+                PhetApplication app = new FaradayApplication( config );
 
                 // Start the application.
                 app.startApplication();

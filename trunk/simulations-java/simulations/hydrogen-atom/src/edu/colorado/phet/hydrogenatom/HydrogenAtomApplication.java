@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.hydrogenatom.dialog.TransitionsDialog;
 import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
 import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
@@ -39,7 +39,7 @@ import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HydrogenAtomApplication extends PhetApplication {
+public class HydrogenAtomApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data

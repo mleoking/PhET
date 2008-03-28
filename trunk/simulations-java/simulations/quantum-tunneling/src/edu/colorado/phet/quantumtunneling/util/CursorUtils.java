@@ -13,7 +13,7 @@ package edu.colorado.phet.quantumtunneling.util;
 
 import java.awt.Cursor;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 
@@ -37,7 +37,7 @@ public class CursorUtils {
      * @param enabled true or false
      */
     public static void setWaitCursorEnabled( boolean enabled ) {
-        PhetFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+        PhetFrame frame = PhetApplication.instance().getPhetFrame();
         if ( enabled ) {
             frame.setCursor( WAIT_CURSOR );
         }

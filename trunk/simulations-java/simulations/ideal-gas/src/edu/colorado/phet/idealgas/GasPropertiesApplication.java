@@ -7,7 +7,7 @@
 package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
@@ -21,7 +21,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-public class GasPropertiesApplication extends NonPiccoloPhetApplication {
+public class GasPropertiesApplication extends PhetApplication {
 
     public GasPropertiesApplication( String[] args ) {
         super( args,

@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
@@ -30,7 +30,7 @@ import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersApplication extends PhetApplication {
+public class GlaciersApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data

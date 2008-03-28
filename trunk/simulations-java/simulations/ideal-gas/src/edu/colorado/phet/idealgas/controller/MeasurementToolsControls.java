@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
@@ -106,7 +106,7 @@ public class MeasurementToolsControls {
         StopwatchControl( final IdealGasModule module ) {
             super( IdealGasResources.getString( "MeasurementControlPanel.Stopwatch" ), false );
             addActionListener( new ActionListener() {
-                PhetFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+                PhetFrame frame = PhetApplication.instance().getPhetFrame();
 
                 public void actionPerformed( ActionEvent e ) {
                     module.setStopwatchEnabled( isSelected() );

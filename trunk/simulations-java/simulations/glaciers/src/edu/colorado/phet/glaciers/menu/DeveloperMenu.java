@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.dialog.DeveloperControlsDialog;
 import edu.colorado.phet.glaciers.test.TestViewport;
@@ -67,7 +67,7 @@ public class DeveloperMenu extends JMenu {
 
     private void handleDeveloperControls() {
         if ( _developerControlsItem.isSelected() ) {
-            Frame owner = NonPiccoloPhetApplication.instance().getPhetFrame();
+            Frame owner = PhetApplication.instance().getPhetFrame();
             _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
             _developerControlsDialog.show();
             _developerControlsDialog.addWindowListener( new WindowAdapter() {

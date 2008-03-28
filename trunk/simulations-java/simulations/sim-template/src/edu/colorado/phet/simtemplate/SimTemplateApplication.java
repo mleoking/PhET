@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
 import edu.colorado.phet.simtemplate.menu.OptionsMenu;
@@ -31,7 +31,7 @@ import edu.colorado.phet.simtemplate.persistence.SimTemplateConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
  */
-public class SimTemplateApplication extends PhetApplication {
+public class SimTemplateApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data

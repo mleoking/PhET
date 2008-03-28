@@ -46,7 +46,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -75,7 +75,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
+public class TestGlassPaneCanvas extends PhetApplication {
 
     // Clock parameters
     private static final int CLOCK_RATE = 25; // wall time: frames per second
@@ -235,7 +235,7 @@ public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
 
             // Help (glass pane)  -----------------------------------
 
-            JFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+            JFrame frame = PhetApplication.instance().getPhetFrame();
             JComponent glassPane = new MyGlassPane( frame );
             setHelpPane( glassPane );
         }
@@ -344,7 +344,7 @@ public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
         }
 
         private void showMessage( String message ) {
-            JOptionPane.showMessageDialog( NonPiccoloPhetApplication.instance().getPhetFrame(), message );
+            JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), message );
         }
     }
 }

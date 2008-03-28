@@ -9,7 +9,7 @@ import javax.swing.*;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.ColorDialog;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 
 /**
  * User: Sam Reid
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication
  */
 
 public class BackgroundColorMenuItem extends JMenuItem {
-    public BackgroundColorMenuItem( final NonPiccoloPhetApplication application, final ICCKModule cck ) {
+    public BackgroundColorMenuItem( final PhetApplication application, final ICCKModule cck ) {
         super( CCKResources.getString( "OptionsMenu.BackgroundColorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

@@ -24,7 +24,7 @@ import java.util.Set;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
@@ -69,7 +69,7 @@ public class PhetJComponent extends PhetGraphic {
 
     private static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
         if ( !inited ) {
-            init( NonPiccoloPhetApplication.instance().getPhetFrame() );
+            init( PhetApplication.instance().getPhetFrame() );
         }
 
         if ( topLevel ) {

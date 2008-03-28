@@ -19,7 +19,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.opticalquantumcontrol.help.ExplanationDialog;
@@ -32,7 +32,7 @@ import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class OpticalQuantumControlApplication extends NonPiccoloPhetApplication {
+public class OpticalQuantumControlApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data

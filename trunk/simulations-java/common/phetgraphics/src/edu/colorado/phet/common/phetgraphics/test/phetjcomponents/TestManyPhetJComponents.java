@@ -14,7 +14,7 @@ import java.util.Random;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -54,7 +54,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
     public static void main( String[] args ) {
         QuickProfiler main = new QuickProfiler( "main" );
         SwingClock clock = new SwingClock( 30, 1.0 );
-        NonPiccoloPhetApplication phetApplication = new NonPiccoloPhetApplication( args, "title", "desc", "version", new FrameSetup.CenteredWithSize( 600, 600 ) );
+        PhetApplication phetApplication = new PhetApplication( args, "title", "desc", "version", new FrameSetup.CenteredWithSize( 600, 600 ) );
         TestManyPhetJComponents module = new TestManyPhetJComponents( "name", clock );
         phetApplication.setModules( new PhetGraphicsModule[]{module} );
         phetApplication.startApplication();

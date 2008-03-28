@@ -19,7 +19,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -33,7 +33,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class PhetFrame extends JFrame {
     private HelpMenu helpMenu;
     private JMenu defaultFileMenu;
-    private NonPiccoloPhetApplication application;
+    private PhetApplication application;
     private Container contentPanel;
     private Module lastAdded;
 
@@ -44,7 +44,7 @@ public class PhetFrame extends JFrame {
      *
      * @param application the application that own the PhetFrame
      */
-    public PhetFrame( final NonPiccoloPhetApplication application ) throws HeadlessException {
+    public PhetFrame( final PhetApplication application ) throws HeadlessException {
         super( application.getTitle() + " (" + application.getVersion() + ")" );
         this.application = application;
 
@@ -170,7 +170,7 @@ public class PhetFrame extends JFrame {
      *
      * @return the PhetApplication associated with this PhetFrame.
      */
-    public NonPiccoloPhetApplication getApplication() {
+    public PhetApplication getApplication() {
         return application;
     }
 

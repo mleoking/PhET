@@ -27,7 +27,7 @@ import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSAbstractPotential;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 
@@ -81,7 +81,7 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         _potential = potential;
         _potential.addObserver( this );
 
-        _clock = NonPiccoloPhetApplication.instance().getActiveModule().getClock();
+        _clock = PhetApplication.instance().getActiveModule().getClock();
         _clockWasRunning = false;
         _isSliderDragging = false;
     }

@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.quantumwaveinterference.QWIOptionsMenu;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
@@ -34,7 +34,7 @@ public class DGModule extends IntensityModule {
     /**
      * @param schrodingerApplication
      */
-    public DGModule( NonPiccoloPhetApplication schrodingerApplication, IClock clock ) {
+    public DGModule( PhetApplication schrodingerApplication, IClock clock ) {
         super( QWIStrings.getString( "davisson-germer.name" ), schrodingerApplication, clock );
         dgPlotFrame = new DGPlotFrame( getPhetFrame(), this );
         dgModel.addListener( new DGModel.Listener() {

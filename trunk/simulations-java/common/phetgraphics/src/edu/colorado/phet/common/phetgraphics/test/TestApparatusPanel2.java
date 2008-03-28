@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -100,7 +100,7 @@ public class TestApparatusPanel2 {
     }
 
     public static void main( String[] args ) {
-        NonPiccoloPhetApplication testApp = new NonPiccoloPhetApplication( args, "title", "description", "version" );
+        PhetApplication testApp = new PhetApplication( args, "title", "description", "version" );
         TestModule module = new TestModule( new SwingClock( 30, 1 ) );
         testApp.addModule( module );
         testApp.setModules( new Module[]{module} );

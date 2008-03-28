@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.photoelectric.module;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -207,7 +207,7 @@ public class PhotoelectricModule extends BaseLaserModule {
             final JCheckBoxMenuItem currentDisplayMI = new JCheckBoxMenuItem( "Show meters" );
             optionsMenu.add( currentDisplayMI );
 
-            final JDialog meterDlg = new JDialog( NonPiccoloPhetApplication.instance().getPhetFrame(), false );
+            final JDialog meterDlg = new JDialog( PhetApplication.instance().getPhetFrame(), false );
 
             final AmmeterView ammeterView = new AmmeterView( getPhotoelectricModel().getAmmeter() );
             final IntensityView intensityView = new IntensityView( getPhotoelectricModel().getBeamIntensityMeter() );

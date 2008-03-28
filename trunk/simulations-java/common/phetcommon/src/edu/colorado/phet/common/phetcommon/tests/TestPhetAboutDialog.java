@@ -13,7 +13,7 @@ package edu.colorado.phet.common.phetcommon.tests;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -24,14 +24,14 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * Test to automatically display a PhetAboutDialog
  */
 public class TestPhetAboutDialog {
-    private NonPiccoloPhetApplication phetApplication;
+    private PhetApplication phetApplication;
     private PhetAboutDialog phetAboutDialog;
 
     public TestPhetAboutDialog( String[] args ) {
         String title = "Test PhetAboutDialog";
         String description = "<html>This is the simulation description, which can be (optionally)<br>specified using HTML. It is typically a couple of lines long.</html>";
         String version = "0.01";
-        phetApplication = new NonPiccoloPhetApplication( args, title, description, version, new FrameSetup.CenteredWithSize( 400, 400 ) );
+        phetApplication = new PhetApplication( args, title, description, version, new FrameSetup.CenteredWithSize( 400, 400 ) );
         Module module = new TestModule( "example module", new SwingClock( 30, 1 ) );
         module.setModel( new BaseModel() );
         phetApplication.addModule( module );

@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -57,7 +57,7 @@ public class DeveloperControlsDialog extends JDialog {
 
     private JPanel createInputPanel() {
 
-        Frame parentFrame = NonPiccoloPhetApplication.instance().getPhetFrame();
+        Frame parentFrame = PhetApplication.instance().getPhetFrame();
 
         Color controlPanelBackground = _app.getControlPanelBackground();
         final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );

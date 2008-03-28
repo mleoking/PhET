@@ -8,7 +8,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.view.RotationFrameSetup;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
@@ -21,7 +21,7 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
  * test comment
  */
 
-public class RotationApplication extends PhetApplication {
+public class RotationApplication extends PiccoloPhetApplication {
     private RotationModule rotationModule;
 
     public RotationApplication( String[] args ) {

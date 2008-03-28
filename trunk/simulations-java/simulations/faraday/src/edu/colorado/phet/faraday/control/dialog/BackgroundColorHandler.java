@@ -8,7 +8,7 @@ import java.awt.Component;
 import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
@@ -26,7 +26,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NonPiccoloPhetApplication _app;
+    private PhetApplication _app;
     private JDialog _dialog;
 
     //----------------------------------------------------------------------------
@@ -38,7 +38,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
      *
      * @param app the application
      */
-    public BackgroundColorHandler( NonPiccoloPhetApplication app ) {
+    public BackgroundColorHandler( PhetApplication app ) {
         super();
         _app = app;
         String title = FaradayStrings.TITLE_BACKGROUND_COLOR;

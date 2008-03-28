@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManage
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.nuclearphysics2.developer.DeveloperMenu;
 import edu.colorado.phet.nuclearphysics2.menu.OptionsMenu;
@@ -28,7 +28,7 @@ import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucl
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
  */
-public class NuclearPhysics2Application extends PhetApplication {
+public class NuclearPhysics2Application extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data

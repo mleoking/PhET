@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * User: Sam Reid
@@ -26,7 +26,7 @@ import edu.colorado.phet.common.piccolophet.PhetApplication;
  * Time: 9:17:52 AM
  */
 
-public class CircuitConstructionKitDCApplication extends PhetApplication {
+public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication {
     public static final String localizedStringsPath = "circuitconstructionkit/localization/cck-strings";
     private CCKPiccoloModule cckPiccoloModule;
     public static final String AC_OPTION = "-dynamics";

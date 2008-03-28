@@ -20,7 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
@@ -316,7 +316,7 @@ public class GameManager extends MouseInputAdapter implements SimpleObserver {
             }
 
             // Tell the user they won.
-            JFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+            JFrame frame = PhetApplication.instance().getPhetFrame();
             String title = FourierResources.getString( "WinDialog.title" );
             String message = FourierResources.getString( "WinDialog.message" );
             JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );

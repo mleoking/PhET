@@ -21,7 +21,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
@@ -405,7 +405,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _isAdjusting = true;
 
         // Tell the user they won.
-        JFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+        JFrame frame = PhetApplication.instance().getPhetFrame();
         String message = OQCResources.WIN_DIALOG_MESSAGE;
         String title = OQCResources.WIN_DIALOG_TITLE;
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );

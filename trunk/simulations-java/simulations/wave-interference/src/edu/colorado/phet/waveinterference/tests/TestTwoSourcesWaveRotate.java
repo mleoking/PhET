@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 
 /**
@@ -26,7 +26,7 @@ public class TestTwoSourcesWaveRotate extends TestWaveRotateModule {
     }
 
     public static void main( String[] args ) {
-        NonPiccoloPhetApplication a = new NonPiccoloPhetApplication( args, "Test 2 Sources", "", "" );
+        PhetApplication a = new PhetApplication( args, "Test 2 Sources", "", "" );
         a.addModule( new TestTwoSourcesWaveRotate() );
         a.startApplication();
     }

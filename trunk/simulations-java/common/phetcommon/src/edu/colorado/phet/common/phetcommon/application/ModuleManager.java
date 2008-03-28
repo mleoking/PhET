@@ -29,7 +29,7 @@ class ModuleManager {
 
     private ArrayList modules = new ArrayList();
     private Module activeModule;
-    private NonPiccoloPhetApplication phetApplication;
+    private PhetApplication phetApplication;
     private ArrayList moduleObservers = new ArrayList();
 
     /**
@@ -37,7 +37,7 @@ class ModuleManager {
      *
      * @param phetApplication
      */
-    ModuleManager( NonPiccoloPhetApplication phetApplication ) {
+    ModuleManager( PhetApplication phetApplication ) {
         this.phetApplication = phetApplication;
     }
 
@@ -238,7 +238,7 @@ class ModuleManager {
         moduleObservers.add( observer );
     }
 
-    private NonPiccoloPhetApplication getPhetApplication() {
+    private PhetApplication getPhetApplication() {
         return phetApplication;
     }
 

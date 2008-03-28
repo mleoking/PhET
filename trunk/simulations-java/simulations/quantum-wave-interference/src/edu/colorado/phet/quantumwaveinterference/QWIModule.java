@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -35,7 +35,7 @@ import java.util.Random;
 public class QWIModule extends PiccoloModule {
     private QWIPanel QWIPanel;
     private QWIModel qwiModel;
-    private NonPiccoloPhetApplication schrodingerApplication;
+    private PhetApplication schrodingerApplication;
     private QWIOptionsMenu optionsMenu;
     private ParticleUnits particleUnits;
     private ArrayList listeners = new ArrayList();
@@ -43,7 +43,7 @@ public class QWIModule extends PiccoloModule {
 
     private static final Random random = new Random( 0 );
 
-    public QWIModule( String name, NonPiccoloPhetApplication schrodingerApplication, final IClock clock ) {
+    public QWIModule( String name, PhetApplication schrodingerApplication, final IClock clock ) {
         super( name, clock );
         this.schrodingerApplication = schrodingerApplication;
         this.resolution = getResolutionSetups()[0];

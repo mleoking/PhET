@@ -14,7 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -56,7 +56,7 @@ public class MiscControlPanel extends JPanel {
         _resetAllButton = new JButton( GlaciersStrings.BUTTON_RESET_ALL );
         _resetAllButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Frame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+                Frame frame = PhetApplication.instance().getPhetFrame();
                 String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
                 int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {

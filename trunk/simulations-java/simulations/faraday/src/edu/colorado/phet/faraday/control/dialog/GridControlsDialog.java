@@ -12,7 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayStrings;
@@ -33,7 +33,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NonPiccoloPhetApplication _app;
+    private PhetApplication _app;
     private JSlider _spacingSlider, _needleSizeSlider;
     private JLabel _gridSpacingValue, _needleSizeValue;
     private JButton _okButton, _cancelButton;
@@ -49,7 +49,7 @@ public class GridControlsDialog extends JDialog implements ActionListener, Chang
      *
      * @param app the application
      */
-    public GridControlsDialog( NonPiccoloPhetApplication app ) {
+    public GridControlsDialog( PhetApplication app ) {
         super( app.getPhetFrame() );
         _app = app;
 

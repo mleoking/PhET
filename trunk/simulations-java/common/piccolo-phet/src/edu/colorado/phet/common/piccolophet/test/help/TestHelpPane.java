@@ -19,7 +19,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -45,7 +45,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestHelpPane extends NonPiccoloPhetApplication {
+public class TestHelpPane extends PhetApplication {
 
     // Clock parameters
     private static final int CLOCK_RATE = 25; // wall time: frames per second

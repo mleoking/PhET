@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 
 /**
  * An on-screen container for the modules in an application.  It is only used for applications
@@ -28,12 +28,12 @@ import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication
  */
 public class JTabbedModulePane extends JTabbedPane implements ITabbedModulePane {
     private Module current;
-    private NonPiccoloPhetApplication application;
+    private PhetApplication application;
 
     public JTabbedModulePane() {
     }
 
-    public void init( final NonPiccoloPhetApplication application, final Module[] modules ) {
+    public void init( final PhetApplication application, final Module[] modules ) {
         this.application = application;
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

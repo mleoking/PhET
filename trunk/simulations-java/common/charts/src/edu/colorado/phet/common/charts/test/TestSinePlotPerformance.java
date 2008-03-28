@@ -30,7 +30,7 @@ import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.charts.SinePlot;
 import edu.colorado.phet.common.charts.StringLabelTable;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -109,7 +109,7 @@ public class TestSinePlotPerformance {
         boolean useClockControlPanel = false;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
-        NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args,
+        PhetApplication app = new PhetApplication( args,
                                                                        title, "", "", frameSetup );
 
         Module module = new TestModule( clock );
@@ -139,7 +139,7 @@ public class TestSinePlotPerformance {
             _zoomLevel = 0;
             _colorEnabled = false;
 
-            _phetFrame = NonPiccoloPhetApplication.instance().getPhetFrame();
+            _phetFrame = PhetApplication.instance().getPhetFrame();
             _saveCursor = _phetFrame.getCursor();
 
             // Model

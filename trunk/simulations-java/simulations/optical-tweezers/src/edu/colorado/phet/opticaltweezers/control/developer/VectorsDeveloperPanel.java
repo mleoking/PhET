@@ -12,7 +12,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
@@ -52,7 +52,7 @@ public class VectorsDeveloperPanel extends JPanel {
         border.setTitleFont( titleFont );
         this.setBorder( border );
 
-        Frame parentFrame = NonPiccoloPhetApplication.instance().getPhetFrame();
+        Frame parentFrame = PhetApplication.instance().getPhetFrame();
 
         Paint trapForcePaint = _trapForceNode.getArrowFillPaint();
         Color trapForceColor = ( trapForcePaint instanceof Color ) ? ( (Color)trapForcePaint ) : Color.BLACK;

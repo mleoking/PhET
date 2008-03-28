@@ -11,12 +11,12 @@
 package edu.colorado.phet.mri;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.mri.controller.HeadModule;
 import edu.colorado.phet.mri.controller.NmrModule;
 import edu.colorado.phet.mri.controller.OptionMenu;
@@ -30,7 +30,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MriApplication extends PhetApplication {
+public class MriApplication extends PiccoloPhetApplication {
 
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
@@ -94,7 +94,7 @@ public class MriApplication extends PhetApplication {
                 lookAndFeel.setBackgroundColor( background );
                 lookAndFeel.apply();
 
-                NonPiccoloPhetApplication app = new MriApplication( args );
+                PhetApplication app = new MriApplication( args );
                 app.startApplication();
             }
         } );

@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -56,7 +56,7 @@ public class PumpHandleGraphic extends CompositePhetGraphic {
             lastYPumped = yNew;
 
             // If the simulation is paused, unpause it
-            IClock clock = NonPiccoloPhetApplication.instance().getActiveModule().getClock();
+            IClock clock = PhetApplication.instance().getActiveModule().getClock();
             if( clock.isPaused() == true ) {
                 clock.pause();
             }

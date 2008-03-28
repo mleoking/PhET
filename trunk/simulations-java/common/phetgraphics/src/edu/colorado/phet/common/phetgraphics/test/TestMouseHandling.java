@@ -17,7 +17,7 @@ import java.io.IOException;
 
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -58,7 +58,7 @@ public class TestMouseHandling {
 //                new ApplicationModel( title, description, version, frameSetup, module, clock );
 
         // Create and start the application.
-        NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args, "title", "description", "version" );
+        PhetApplication app = new PhetApplication( args, "title", "description", "version" );
         app.startApplication();
     }
 

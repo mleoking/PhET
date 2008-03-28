@@ -4,7 +4,7 @@ package edu.colorado.phet.opticaltweezers.module.motors;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -329,7 +329,7 @@ public class MotorsModule extends OTAbstractModule {
 
         // Module
         if ( config.isActive() ) {
-            NonPiccoloPhetApplication.instance().setActiveModule( this );
+            PhetApplication.instance().setActiveModule( this );
         }
 
         // Model

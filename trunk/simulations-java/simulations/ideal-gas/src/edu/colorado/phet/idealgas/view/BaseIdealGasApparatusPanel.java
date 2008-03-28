@@ -7,7 +7,7 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
@@ -96,7 +96,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
      * @return
      */
     protected GasPropertiesApplication getIdealGasApplication() {
-        return (GasPropertiesApplication)NonPiccoloPhetApplication.instance();
+        return (GasPropertiesApplication)PhetApplication.instance();
     }
 
     /**

@@ -22,7 +22,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.collision_idealgas.VerticalBarrier;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -255,7 +255,7 @@ abstract public class AdvancedModule extends IdealGasModule {
     }
 
 
-    public void activate( NonPiccoloPhetApplication app ) {
+    public void activate( PhetApplication app ) {
         super.activate( app );
         // Set the colors of the particle graphics
         // No longer needed because the original color is now the one we want here, too
@@ -265,7 +265,7 @@ abstract public class AdvancedModule extends IdealGasModule {
         HeavySpeciesGraphic.setColor( COLOR_A );
     }
 
-    public void deactivate( NonPiccoloPhetApplication app ) {
+    public void deactivate( PhetApplication app ) {
         super.deactivate( app );
 //        LightSpeciesGraphic.setColor( orgLightColor );
         HeavySpeciesGraphic.setColor( orgHeavyColor );

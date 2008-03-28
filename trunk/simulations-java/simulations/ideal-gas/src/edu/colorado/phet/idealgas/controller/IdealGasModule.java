@@ -12,7 +12,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision_idealgas.SphereBoxExpert;
 import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
@@ -334,7 +334,7 @@ public class IdealGasModule extends PhetGraphicsModule {
         addHelpItem( helpItem3 );
     }
 
-    public void activate( NonPiccoloPhetApplication app ) {
+    public void activate( PhetApplication app ) {
         super.activate();
 //        super.activate( app );
         for( int i = 0; i < visibleInstruments.size(); i++ ) {
@@ -347,7 +347,7 @@ public class IdealGasModule extends PhetGraphicsModule {
 //        tem.setVisible( true );
     }
 
-    public void deactivate( NonPiccoloPhetApplication app ) {
+    public void deactivate( PhetApplication app ) {
         super.deactivate();
 //        super.deactivate( app );
         for( int i = 0; i < visibleInstruments.size(); i++ ) {
@@ -377,8 +377,8 @@ public class IdealGasModule extends PhetGraphicsModule {
 
     public JDialog setMeasurementDlgVisible( boolean isVisible ) {
         if( measurementDlg == null ) {
-            measurementDlg = new MeasurementDialog( NonPiccoloPhetApplication.instance().getPhetFrame(), this );
-            JFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+            measurementDlg = new MeasurementDialog( PhetApplication.instance().getPhetFrame(), this );
+            JFrame frame = PhetApplication.instance().getPhetFrame();
             measurementDlg.setLocationRelativeTo( frame );
             measurementDlg.setLocation( (int)( frame.getLocation().getX() + frame.getWidth() * 3 / 5 ),
                                         (int)frame.getLocation().getY() + 20 );
@@ -395,7 +395,7 @@ public class IdealGasModule extends PhetGraphicsModule {
 
     public JDialog setSpeciesMonitorDlgEnabled( boolean isEnabled ) {
         if( speciesMonitorDlg == null ) {
-            speciesMonitorDlg = new SpeciesMonitorDialog( NonPiccoloPhetApplication.instance().getPhetFrame(),
+            speciesMonitorDlg = new SpeciesMonitorDialog( PhetApplication.instance().getPhetFrame(),
                                                           idealGasModel );
         }
         speciesMonitorDlg.setVisible( isEnabled );
@@ -640,7 +640,7 @@ public class IdealGasModule extends PhetGraphicsModule {
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
         if( histogramDlgEnabled ) {
             visibleInstruments.add( histogramDlg );
-            histogramDlg = new EnergyHistogramDialog( NonPiccoloPhetApplication.instance().getPhetFrame(),
+            histogramDlg = new EnergyHistogramDialog( PhetApplication.instance().getPhetFrame(),
                                                       (IdealGasModel)getModel() );
             histogramDlg.setVisible( true );
         }

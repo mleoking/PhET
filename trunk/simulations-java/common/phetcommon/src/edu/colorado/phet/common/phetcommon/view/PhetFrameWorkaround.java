@@ -13,7 +13,7 @@ package edu.colorado.phet.common.phetcommon.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 
 /**
  * PhetFrameWorkaround contains a workaround for Sun bug report 4473503
@@ -76,7 +76,7 @@ import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication
  */
 public class PhetFrameWorkaround extends PhetFrame {
 
-    public PhetFrameWorkaround( NonPiccoloPhetApplication application ) throws HeadlessException {
+    public PhetFrameWorkaround( PhetApplication application ) throws HeadlessException {
         super( application );
     }
 

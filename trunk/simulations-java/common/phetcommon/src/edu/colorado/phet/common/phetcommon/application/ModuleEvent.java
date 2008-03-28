@@ -17,7 +17,7 @@ package edu.colorado.phet.common.phetcommon.application;
  * @version $Revision$
  */
 public class ModuleEvent {
-    private NonPiccoloPhetApplication phetApplication;
+    private PhetApplication phetApplication;
     private Module module;
 
     /**
@@ -26,7 +26,7 @@ public class ModuleEvent {
      * @param phetApplication
      * @param module
      */
-    public ModuleEvent( NonPiccoloPhetApplication phetApplication, Module module ) {
+    public ModuleEvent( PhetApplication phetApplication, Module module ) {
         this.phetApplication = phetApplication;
         this.module = module;
     }
@@ -45,7 +45,7 @@ public class ModuleEvent {
      *
      * @return the PhetApplication associated with this ModuleEvent.
      */
-    public NonPiccoloPhetApplication getPhetApplication() {
+    public PhetApplication getPhetApplication() {
         return phetApplication;
     }
 }

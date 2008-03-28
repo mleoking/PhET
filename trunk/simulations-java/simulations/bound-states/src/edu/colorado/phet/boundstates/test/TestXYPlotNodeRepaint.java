@@ -32,7 +32,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -59,7 +59,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestXYPlotNodeRepaint extends NonPiccoloPhetApplication {
+public class TestXYPlotNodeRepaint extends PhetApplication {
 
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick

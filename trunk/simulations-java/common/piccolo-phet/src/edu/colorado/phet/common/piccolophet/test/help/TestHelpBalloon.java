@@ -35,7 +35,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -59,7 +59,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestHelpBalloon extends NonPiccoloPhetApplication {
+public class TestHelpBalloon extends PhetApplication {
 
     private static final String VERSION = "0.00.01";
     private static final String TITLE = "TestHelpBalloon";
@@ -429,7 +429,7 @@ public class TestHelpBalloon extends NonPiccoloPhetApplication {
         }
 
         public JFrame getFrame() {
-            return NonPiccoloPhetApplication.instance().getPhetFrame();
+            return PhetApplication.instance().getPhetFrame();
         }
     }
 
