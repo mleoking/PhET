@@ -21,6 +21,7 @@ import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
+import edu.colorado.phet.faraday.view.LightbulbGraphic;
 import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
 
@@ -53,7 +54,8 @@ public class DeveloperControlsPanel extends FaradayPanel {
             final Lightbulb lightbulbModel,
             final Voltmeter voltmeterModel,
             final PickupCoilGraphic pickupCoilGraphic,
-            final ElectromagnetGraphic electromagnetGraphic ) {
+            final ElectromagnetGraphic electromagnetGraphic,
+            final LightbulbGraphic lightbulbGraphic ) {
 
         super();
         
@@ -73,7 +75,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
         message.setForeground( Color.RED );
         layout.addComponent( message, row++, 0 );
         
-        // Elecrtromagnet shape
+        // Electromagnet shape
         if ( electromagnetGraphic != null ) {
             final JCheckBox showElectromagnetShapeCheckBox = new JCheckBox( "Show magnet model shape" );
             showElectromagnetShapeCheckBox.setSelected( electromagnetGraphic.isModelShapeVisible() );
@@ -129,9 +131,41 @@ public class DeveloperControlsPanel extends FaradayPanel {
             layout.addFilledComponent( pickupFudgeFactorControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
         
-     // Lightbulb
+        // Lightbulb glass minimum alpha
+        if ( lightbulbGraphic != null ) {
+            final LinearValueControl lightbulbGlassMinAlphaControl = new LinearValueControl( 0, 1, "Lightbulb min alpha:", "0.00", "" );
+            lightbulbGlassMinAlphaControl.setValue( lightbulbGraphic.getGlassMinAlpha() );
+            lightbulbGlassMinAlphaControl.setTextFieldEditable( true );
+            lightbulbGlassMinAlphaControl.setTextFieldColumns( 3 );
+            lightbulbGlassMinAlphaControl.setUpDownArrowDelta( 0.01 );
+            lightbulbGlassMinAlphaControl.setBorder( BorderFactory.createEtchedBorder() );
+            lightbulbGlassMinAlphaControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    double value = lightbulbGlassMinAlphaControl.getValue();
+                    lightbulbGraphic.setGlassMinAlpha( value );
+                }
+            } );
+            layout.addFilledComponent( lightbulbGlassMinAlphaControl, row++, 0, GridBagConstraints.HORIZONTAL );
+        }
+        
+        // Lightbulb glass glow scale
+        if ( lightbulbGraphic != null ) {
+            final LinearValueControl lightbulbGlassGlowScaleControl = new LinearValueControl( 0, 20, "Lightbulb glow scale:", "0.0", "" );
+            lightbulbGlassGlowScaleControl.setValue( lightbulbGraphic.getGlassGlowScale() );
+            lightbulbGlassGlowScaleControl.setUpDownArrowDelta( 0.1 );
+            lightbulbGlassGlowScaleControl.setBorder( BorderFactory.createEtchedBorder() );
+            lightbulbGlassGlowScaleControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    double value = lightbulbGlassGlowScaleControl.getValue();
+                    lightbulbGraphic.setGlassGlowScale( value );
+                }
+            } );
+            layout.addFilledComponent( lightbulbGlassGlowScaleControl, row++, 0, GridBagConstraints.HORIZONTAL );
+        }
+        
+        // Light rays scale
         if ( lightbulbModel != null ) {
-            final LinearValueControl lightbulbControl = new LinearValueControl( MIN_SCALE, MAX_SCALE, "Lightbulb scale:", "0.0", "" );
+            final LinearValueControl lightbulbControl = new LinearValueControl( MIN_SCALE, MAX_SCALE, "Light rays scale:", "0.0", "" );
             lightbulbControl.setValue( lightbulbModel.getScale() );
             lightbulbControl.setTextFieldEditable( true );
             lightbulbControl.setTextFieldColumns( 3 );
@@ -146,7 +180,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
             layout.addFilledComponent( lightbulbControl, row++, 0, GridBagConstraints.HORIZONTAL );
         }
 
-        // Voltmeter
+        // Voltmeter scale
         if ( voltmeterModel != null ) {
             final LinearValueControl voltmeterControl = new LinearValueControl( MIN_SCALE, MAX_SCALE, "Voltmeter scale:", "0.0", "" );
             voltmeterControl.setValue( voltmeterModel.getScale() );

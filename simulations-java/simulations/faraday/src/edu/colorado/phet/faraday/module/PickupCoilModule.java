@@ -59,9 +59,11 @@ public class PickupCoilModule extends FaradayModule {
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_DISTANCE_EXPONENT = 3.0;
     private static final double PICKUP_COIL_FUDGE_FACTOR = 0.77; // see PickupCoil.setFudgeFactor
+    private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.25;
     
     // Scaling
-    private static final double LIGHTBULB_SCALE = 4.0;
+    private static final double LIGHTBULB_GLOW_SCALE = 4.0;
+    private static final double LIGHT_RAYS_SCALE = 4.0;
     private static final double VOLTMETER_SCALE = 4.0;
     private static final double ELECTRON_SPEED_SCALE = 20.0;
     
@@ -135,7 +137,7 @@ public class PickupCoilModule extends FaradayModule {
         // Lightbulb
         _lightbulbModel = new Lightbulb( _pickupCoilModel );
         _lightbulbModel.setEnabled( true );
-        _lightbulbModel.setScale( LIGHTBULB_SCALE );
+        _lightbulbModel.setScale( LIGHT_RAYS_SCALE );
         
         // Volt Meter
         _voltmeterModel = new Voltmeter( _pickupCoilModel );
@@ -161,6 +163,8 @@ public class PickupCoilModule extends FaradayModule {
         // Pickup Coil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, 
                 _pickupCoilModel, _lightbulbModel, _voltmeterModel );
+        _pickupCoilGraphic.getLightbulbGraphic().setGlassMinAlpha( LIGHTBULB_GLASS_MIN_ALPHA );
+        _pickupCoilGraphic.getLightbulbGraphic().setGlassGlowScale( LIGHTBULB_GLOW_SCALE );
         _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
         apparatusPanel.addChangeListener( _pickupCoilGraphic );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
@@ -226,7 +230,9 @@ public class PickupCoilModule extends FaradayModule {
             if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
-                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _pickupCoilModel, _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( 
+                        _pickupCoilModel, _lightbulbModel, _voltmeterModel, 
+                        _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic() );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
             

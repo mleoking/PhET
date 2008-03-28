@@ -36,8 +36,7 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     private static final int DISTANCE_BULB_IS_SCREWED_INTO_BASE = 10; // must be aligned with rays via trial & error
     
     // Range of alpha modulation for bulb image (alpha range is 0-1)
-    private static final float MIN_ALPA = 0.25f;
-    private static final float MAX_ALPHA = 1.0f;
+    private static final float GLASS_MIN_ALPA = 0.25f;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -47,6 +46,8 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     private double _previousIntensity;
     private VariableAlphaImageGraphic _glassGraphic;
     private LightRaysGraphic _raysGraphic;
+    private double _glassMinAlpha;
+    private double _glassGlowScale;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -100,6 +101,9 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
         addGraphic( _raysGraphic, RAYS_LAYER );
         _raysGraphic.setRegistrationPoint( 0, 90 );
         
+        _glassMinAlpha = GLASS_MIN_ALPA;
+        _glassGlowScale = 1.0;
+        
         update();
     }
     
@@ -112,9 +116,70 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
     }
     
     //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Sets the minimum alpha compositing value for the glass.
+     * This is the value used when the lightbulb's intensity is zero.
+     * 
+     * @param minAlpha
+     */
+    public void setGlassMinAlpha( double minAlpha ) {
+        if ( minAlpha < 0 || minAlpha > 1 ) {
+            throw new IllegalArgumentException( "0 <= a <= 1 required: " + minAlpha );
+        }
+        if ( minAlpha != _glassMinAlpha ) {
+            _glassMinAlpha = minAlpha;
+            forceUpdate();
+        }
+    }
+
+    /**
+     * Gets the minimum alpha compositing value for the glass.
+     * This is the value used when the lightbulb's intensity is zero.
+     * 
+     * @return
+     */
+    public double getGlassMinAlpha() {
+        return _glassMinAlpha;
+    }
+    
+    /**
+     * Sets the scaling factor that determines how much the bulb glows.
+     * Larger values will cause the bulb to reach it's maximum glow sooner.
+     * 
+     * @param scale
+     */
+    public void setGlassGlowScale( double scale ) {
+        if ( scale < 0 ) {
+            throw new IllegalArgumentException( "scale must be >= 0: " + scale );
+        }
+        if ( scale != _glassGlowScale ) {
+            _glassGlowScale = scale;
+            forceUpdate();
+        }
+    }
+    
+    /**
+     * Gets the scaling factor that determines how much the bulb glows.
+     * Larger values will cause the bulb to reach it's maximum glow sooner.
+     * 
+     * @return
+     */
+    public double getGlassGlowScale() {
+        return _glassGlowScale;
+    }
+    
+    //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
 
+    private void forceUpdate() {
+        _previousIntensity = -1;
+        update();
+    }
+    
     /**
      * Synchronize the view with the model.
      * 
@@ -134,9 +199,9 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
                 _raysGraphic.setIntensity( intensity );
                 
                 // modulate alpha channel of the glass to make it appear to glow
-                float alpha = MIN_ALPA + ( ( MAX_ALPHA - MIN_ALPA ) * (float)intensity );
-                if ( alpha > MAX_ALPHA ) {
-                    alpha = MAX_ALPHA;
+                float alpha = (float)( _glassMinAlpha + ( _glassGlowScale * ( 1f - _glassMinAlpha ) * (float)intensity ) );
+                if ( alpha > 1f ) {
+                    alpha = 1f;
                 }
                 _glassGraphic.setAlpha( alpha );
                 
@@ -146,5 +211,5 @@ public class LightbulbGraphic extends CompositePhetGraphic implements SimpleObse
             }
         }
         
-    } // update
+    }
 }

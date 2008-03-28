@@ -156,6 +156,14 @@ public class PickupCoilGraphic extends GraphicLayerSet
     }
     
     /**
+     * Gets the lightbulb graphic.
+     * This is intended for use in debugging.
+     */
+    public LightbulbGraphic getLightbulbGraphic() {
+        return _lightbulbGraphic;
+    }
+    
+    /**
      * Enables and disables dragging of the coil.
      * 
      * @param enabled true or false
