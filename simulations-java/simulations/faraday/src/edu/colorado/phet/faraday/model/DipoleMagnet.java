@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.faraday.model;
 
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;

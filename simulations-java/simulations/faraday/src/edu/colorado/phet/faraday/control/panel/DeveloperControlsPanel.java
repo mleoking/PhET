@@ -20,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
-import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
 import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
