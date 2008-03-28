@@ -52,7 +52,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     
     // Contants that control where the charts are placed.
     private final double CHART_AREA_FRACTION = 0.5; // Fraction of canvas for charts.
-    private final double ENERGY_CHART_FRACTION = 0.7; // Fraction of chart area for this chart.
+    private final double ENERGY_CHART_FRACTION = 0.6; // Fraction of chart area for this chart.
     
     //----------------------------------------------------------------------------
     // Instance data

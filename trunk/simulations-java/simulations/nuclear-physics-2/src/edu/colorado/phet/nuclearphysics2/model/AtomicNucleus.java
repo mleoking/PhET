@@ -245,6 +245,7 @@ public class AtomicNucleus {
             randomValue = 0.999;
         }
         double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
+        System.out.println("randomValue = " + randomValue + ", tunnelOutMilliseconds = " + tunnelOutMilliseconds);
         return tunnelOutMilliseconds;
     }
 
