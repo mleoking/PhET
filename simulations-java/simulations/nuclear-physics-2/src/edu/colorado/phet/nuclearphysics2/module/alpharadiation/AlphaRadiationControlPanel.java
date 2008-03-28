@@ -18,7 +18,6 @@ public class AlphaRadiationControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private AlphaRadiationLegendPanel _legendPanel;
-    private AlphaRadiationTimerPanel  _timerPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -39,16 +38,12 @@ public class AlphaRadiationControlPanel extends ControlPanel {
         
         // Create sub-panels
         _legendPanel = new AlphaRadiationLegendPanel();
-        _timerPanel = new AlphaRadiationTimerPanel();
         
-        // Add the sub-panels
-        {
-            addControlFullWidth( _legendPanel );
-            addControlFullWidth( _timerPanel );
-        }
+        // Add the legend panel.
+        addControlFullWidth( _legendPanel );
         
-        // Add the Reset All button
-        addSeparator();
+        // Add the Reset All button.
+        addVerticalSpace( 10 );
         addResetAllButton( alphaRadiationModule );
 
     }
