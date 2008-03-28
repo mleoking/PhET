@@ -43,25 +43,7 @@ public class AlphaRadiationModel {
         _clock = clock;
         
         // Create a nucleus with an atomic weight of 211, which is Polonium.
-        _atomicNucleus = new AtomicNucleus(0, 0, 211);
-        
-        clock.addClockListener( new ClockAdapter(){
-            
-            /**
-             * Clock tick handler - causes the model to move forward one
-             * increment in time.
-             */
-            public void clockTicked(ClockEvent clockEvent){
-                
-                // Let the nucleus know that the clock ticked so that it can 'agitate'.
-                _atomicNucleus.clockTicked(clockEvent);
-                
-            }
-            
-            public void simulationTimeReset(ClockEvent clockEvent){
-                _atomicNucleus.reset();
-            }
-        });
+        _atomicNucleus = new AtomicNucleus(clock, 0, 0, 211);
         
         // Start the clock.
         clock.start();

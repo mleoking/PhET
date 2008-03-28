@@ -2,12 +2,16 @@
 
 package edu.colorado.phet.nuclearphysics2.model;
 
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.defaults.AlphaRadiationDefaults;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 public class AtomicNucleus {
     
@@ -30,6 +34,9 @@ public class AtomicNucleus {
     // Instance data
     //------------------------------------------------------------------------
 
+    // The clock that drives the time-based behavior.
+    ConstantDtClock _clock;
+    
     // List of registered listeners.
     private ArrayList _listeners = new ArrayList();
     
@@ -67,8 +74,26 @@ public class AtomicNucleus {
     // Constructor
     //------------------------------------------------------------------------
     
-    public AtomicNucleus(double xPos, double yPos, int atomicWeight)
+    public AtomicNucleus(NuclearPhysics2Clock clock, double xPos, double yPos, int atomicWeight)
     {
+        _clock = clock;
+
+        clock.addClockListener( new ClockAdapter(){
+            
+            /**
+             * Clock tick handler - causes the model to move forward one
+             * increment in time.
+             */
+            public void clockTicked(ClockEvent clockEvent){
+                handleClockTicked(clockEvent);
+            }
+            
+            public void simulationTimeReset(ClockEvent clockEvent){
+                reset();
+            }
+        });
+        
+        
         // Set the initial position for this nucleus.
         position = new Point2D.Double(xPos, yPos);
         
@@ -126,6 +151,10 @@ public class AtomicNucleus {
         return 2 * CORE_RADIUS;
     }
     
+    public ConstantDtClock getClock(){
+        return _clock;
+    }
+    
     //------------------------------------------------------------------------
     // Other methods
     //------------------------------------------------------------------------
@@ -135,7 +164,7 @@ public class AtomicNucleus {
      * response, the nucleus generally 'agitates' a bit, and may also perform
      * some sort of decay.
      */
-    public void clockTicked(ClockEvent clockEvent)
+    public void handleClockTicked(ClockEvent clockEvent)
     {
         if ((_alphaDecayTime != 0) && (clockEvent.getSimulationTime() >= _alphaDecayTime ))
         {

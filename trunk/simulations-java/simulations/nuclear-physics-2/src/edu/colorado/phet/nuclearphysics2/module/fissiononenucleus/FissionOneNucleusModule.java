@@ -36,7 +36,8 @@ public class FissionOneNucleusModule extends PiccoloModule {
                new NuclearPhysics2Clock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ));
  
         // Model
-        _model = new FissionOneNucleusModel();
+        NuclearPhysics2Clock clock = (NuclearPhysics2Clock) getClock();
+        _model = new FissionOneNucleusModel(clock);
 
         // Canvas
         _canvas = new FissionOneNucleusCanvas( _model );

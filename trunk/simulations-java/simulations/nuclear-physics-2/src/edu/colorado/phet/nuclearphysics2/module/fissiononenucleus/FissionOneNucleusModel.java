@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
+import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel.Listener;
 
 /**
@@ -40,10 +41,10 @@ public class FissionOneNucleusModel {
     // Constructor
     //------------------------------------------------------------------------
     
-    public FissionOneNucleusModel()
+    public FissionOneNucleusModel(NuclearPhysics2Clock clock)
     {
         // Add the atomic nucleus to the center of this model.
-        _atomicNucleus = new AtomicNucleus(0, 0, 235);
+        _atomicNucleus = new AtomicNucleus(clock, 0, 0, 235);
         
         // Add the neutron source to the side of the model.
         _neutronSource = new NeutronSource(-50, 0);
@@ -51,18 +52,6 @@ public class FissionOneNucleusModel {
         // Create the clock that will drive this model.
         _clock = new ConstantDtClock(30, 1.0);
 
-        // Add ourself as a clock tick listener and define our response.
-        _clock.addClockListener( new ClockAdapter(){
-            
-            /**
-             * Clock tick handler - causes the model to move forward one
-             * increment in time.
-             */
-            public void clockTicked(ClockEvent clockEvent){
-                _atomicNucleus.clockTicked(clockEvent);
-            }
-        });
-        
         // Start the clock.
         _clock.start();
     }
