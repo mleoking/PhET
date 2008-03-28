@@ -58,7 +58,7 @@ public class FaradayConstants {
     public static final String VOLTMETER_ICON = "voltmeter_icon.png";
     public static final String VOLTMETER_ICON_SELECTED = "voltmeter_icon_selected.png";
     public static final String VOLTMETER_PROBE_BLACK_IMAGE = "voltmeterProbeBlack.png";
-    public static final String VOLTMETER_PROBE_RED_IMAGE = "voltmeterProbeRed.png";
+    public static final String VOLTMETER_PROBE_WHITE_IMAGE = "voltmeterProbeWhite.png";
     public static final String WATER_WHEEL_IMAGE = "waterWheel.png";
 
     //----------------------------------------------------------------------------
