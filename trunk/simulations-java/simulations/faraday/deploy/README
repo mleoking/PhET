@@ -8,7 +8,7 @@ Faraday's Electromagnetic Lab, version 1.05.06
 <p>
 <ul>
 <li>change red probe on voltmeter to white
-<li>make lightbulb glow based on intensity
+<li>make lightbulb dim when no current is flowing, glow based on intensity
 <li>add developer control for how dim the lightbulb is when off ("Lightbulb min alpha"), default is 0.25
 <li>add developer control for how quickly lightbulb glows to maximum brightness ("Lightbulb glow scale"), set some reasonable default values for each panel
 </ul>
