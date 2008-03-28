@@ -76,7 +76,7 @@ public class DeveloperControlsPanel extends FaradayPanel {
         
         // Elecrtromagnet shape
         if ( electromagnetGraphic != null ) {
-            final JCheckBox showElectromagnetShapeCheckBox = new JCheckBox( "Show electromagnet model shape" );
+            final JCheckBox showElectromagnetShapeCheckBox = new JCheckBox( "Show magnet model shape" );
             showElectromagnetShapeCheckBox.setSelected( electromagnetGraphic.isModelShapeVisible() );
             showElectromagnetShapeCheckBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
