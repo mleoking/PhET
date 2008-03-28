@@ -48,7 +48,6 @@ public class PickupCoilPanel extends FaradayPanel {
     private JRadioButton _voltmeterRadioButton;
     private JRadioButton _lightbulbRadioButton;
     private JCheckBox _electronsCheckBox;
-    private LinearValueControl _fudgeFactorDeveloperControl;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -163,17 +162,6 @@ public class PickupCoilPanel extends FaradayPanel {
         // Electrons on/off
         _electronsCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
         
-        // Fudge factor for B-field transitions at left & right edges of magnet
-        {
-            double min = 0.1;
-            double max = 1;
-            _fudgeFactorDeveloperControl = new LinearValueControl( min, max, "fudge factor C", "0.00", "" );
-            _fudgeFactorDeveloperControl.setTextFieldEditable( true );
-            _fudgeFactorDeveloperControl.setTextFieldColumns( 3 );
-            _fudgeFactorDeveloperControl.setUpDownArrowDelta( 0.01 );
-            _fudgeFactorDeveloperControl.setBorder( BorderFactory.createEtchedBorder( Color.RED, Color.RED ) );
-        }
-
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -182,9 +170,6 @@ public class PickupCoilPanel extends FaradayPanel {
         layout.addComponent( loopsPanel, row++, 0 );
         layout.addFilledComponent( _areaControl, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( _electronsCheckBox, row++, 0 );
-        if ( true ) { //XXX if developer controls enabled
-            layout.addFilledComponent( _fudgeFactorDeveloperControl, row++, 0, GridBagConstraints.HORIZONTAL );
-        }
 
         // Wire up event handling
         EventListener listener = new EventListener();
@@ -193,7 +178,6 @@ public class PickupCoilPanel extends FaradayPanel {
         _lightbulbRadioButton.addActionListener( listener );
         _voltmeterRadioButton.addActionListener( listener );
         _electronsCheckBox.addActionListener( listener );
-        _fudgeFactorDeveloperControl.addChangeListener( listener );
 
         // Set the state of the controls.
         update();
@@ -208,7 +192,6 @@ public class PickupCoilPanel extends FaradayPanel {
         _lightbulbRadioButton.setSelected( _lightbulbModel.isEnabled() );
         _voltmeterRadioButton.setSelected( _voltmeterModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
-        _fudgeFactorDeveloperControl.setValue( _pickupCoilModel.getFudgeFactor() );
     }
     
     //----------------------------------------------------------------------------
@@ -272,10 +255,6 @@ public class PickupCoilPanel extends FaradayPanel {
                 int numberOfLoops = ( (Integer) _loopsSpinner.getValue() ).intValue();
                 // Update the model.
                 _pickupCoilModel.setNumberOfLoops( numberOfLoops );
-            }
-            else if ( e.getSource() == _fudgeFactorDeveloperControl ) {
-                double fudgetFactorC = _fudgeFactorDeveloperControl.getValue();
-                _pickupCoilModel.setFudgeFactor( fudgetFactorC );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );

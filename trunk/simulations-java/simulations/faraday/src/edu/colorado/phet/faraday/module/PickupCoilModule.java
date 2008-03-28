@@ -6,14 +6,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
+import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
-import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.model.PickupCoil.VariableNumberOfSamplePointsStrategy;
 import edu.colorado.phet.faraday.view.*;
@@ -127,10 +128,8 @@ public class PickupCoilModule extends FaradayModule {
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
         _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION );
         _pickupCoilModel.setFudgeFactor( PICKUP_COIL_FUDGE_FACTOR );
-        if ( FaradayConstants.USE_VARIABLE_NUMBER_OF_PICKUP_COIL_SAMPLE_POINTS ) {
-            final double ySpacing = _barMagnetModel.getHeight() / 10;
-            _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
-        }
+        final double ySpacing = _barMagnetModel.getHeight() / 10;
+        _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
         model.addModelElement( _pickupCoilModel );
        
         // Lightbulb
@@ -224,11 +223,11 @@ public class PickupCoilModule extends FaradayModule {
             controlPanel.addControlFullWidth( _pickupCoilPanel );
             
             // Scaling calibration
-            if ( FaradayConstants.DEBUG_ENABLE_SCALE_PANEL ) {
+            if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
-                ScalePanel scalePanel = new ScalePanel( _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
-                controlPanel.addControlFullWidth( scalePanel );
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _pickupCoilModel, _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
+                controlPanel.addControlFullWidth( developerControlsPanel );
             }
             
             // Reset button

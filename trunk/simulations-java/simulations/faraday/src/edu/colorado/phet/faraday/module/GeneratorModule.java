@@ -6,13 +6,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
+import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
-import edu.colorado.phet.faraday.control.panel.ScalePanel;
 import edu.colorado.phet.faraday.control.panel.TurbinePanel;
 import edu.colorado.phet.faraday.model.*;
 import edu.colorado.phet.faraday.view.*;
@@ -213,11 +214,11 @@ public class GeneratorModule extends FaradayModule {
             controlPanel.addControlFullWidth( _pickupCoilPanel );
             
             // Scaling calibration
-            if ( FaradayConstants.DEBUG_ENABLE_SCALE_PANEL ) {
+            if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
-                ScalePanel scalePanel = new ScalePanel( _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
-                controlPanel.addControlFullWidth( scalePanel );
+                DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _pickupCoilModel, _lightbulbModel, _voltmeterModel, _pickupCoilGraphic, null );
+                controlPanel.addControlFullWidth( developerControlsPanel );
             }
             
             // Reset button
