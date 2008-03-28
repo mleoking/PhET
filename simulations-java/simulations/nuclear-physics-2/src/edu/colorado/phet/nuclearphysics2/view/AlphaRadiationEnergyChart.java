@@ -111,13 +111,13 @@ public class AlphaRadiationEnergyChart extends PComposite {
         // real sizes and positions will be set when the bounds are updated.
 
         _xAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
-                15, 10, AXES_LINE_WIDTH);
+                10, 8, AXES_LINE_WIDTH);
         _xAxisOfGraph.setPaint( Color.black );
         _xAxisOfGraph.setStrokePaint( Color.black );
         addChild( _xAxisOfGraph);
         
         _yAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
-                15, 10, AXES_LINE_WIDTH);
+                10, 8, AXES_LINE_WIDTH);
         _yAxisOfGraph.setPaint( Color.black );
         _yAxisOfGraph.setStrokePaint( Color.black );
         addChild( _yAxisOfGraph);
