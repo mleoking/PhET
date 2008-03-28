@@ -238,4 +238,11 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
             }
         } );
     }
+    
+    /**
+     * Sets the view back to the original state when sim was first started.
+     */
+    public void reset(){
+        _alphaRadiationTimeChart.reset();
+    }
 }

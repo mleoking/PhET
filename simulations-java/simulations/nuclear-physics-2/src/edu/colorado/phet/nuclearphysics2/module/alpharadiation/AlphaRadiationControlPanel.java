@@ -46,6 +46,11 @@ public class AlphaRadiationControlPanel extends ControlPanel {
             addControlFullWidth( _legendPanel );
             addControlFullWidth( _timerPanel );
         }
+        
+        // Add the Reset All button
+        addSeparator();
+        addResetAllButton( alphaRadiationModule );
+
     }
     
     //----------------------------------------------------------------------------
