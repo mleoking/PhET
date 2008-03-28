@@ -28,12 +28,6 @@ public class ElectromagnetGraphic extends GraphicLayerSet
 implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    public static boolean DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE = true;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -91,7 +85,8 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         // Graphic that represents the magnet's bounds.
         {
             _modelShapeGraphic = new PhetShapeGraphic( component );
-            _modelShapeGraphic.setVisible( DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE );
+            _modelShapeGraphic.setShape( _electromagnetModel.getShape() );
+            _modelShapeGraphic.setVisible( false );
             _modelShapeGraphic.setBorderColor( Color.YELLOW );
             _modelShapeGraphic.setStroke( new BasicStroke( 1f ) );
             _foreground.addGraphic( _modelShapeGraphic );
@@ -156,6 +151,14 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
         return _coilGraphic;
     }
  
+    public void setModelShapeVisible( boolean visible ) {
+        _modelShapeGraphic.setVisible( visible );
+    }
+    
+    public boolean isModelShapeVisible() {
+        return _modelShapeGraphic.isVisible();
+    }
+    
     //----------------------------------------------------------------------------
     // GraphicLayerSet overrides
     //----------------------------------------------------------------------------
@@ -207,12 +210,6 @@ implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     
     public void update() {
         if ( isVisible() ) {
-            
-            // Configure the graphic that represents the magnet's shape.
-            _modelShapeGraphic.setVisible( DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE );
-            if ( DEBUG_DRAW_ELECTROMAGNET_MODEL_SHAPE ) {
-                _modelShapeGraphic.setShape( _electromagnetModel.getShape() );
-            }
             
             // Location
             _foreground.setLocation( (int) _electromagnetModel.getX(), (int) _electromagnetModel.getY() );

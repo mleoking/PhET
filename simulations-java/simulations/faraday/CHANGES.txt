@@ -20,8 +20,10 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
-3/27/08 - add message to DeveloperControlsPanel indicating these controls will not be reset by Reset All [248]
-3/27/08 - absorb ScalePanel into DeveloperControlsPanel [248]
+3/27/08 - absorb controls from DeveloperControlsDialog into DeveloperControlsPanel
+3/27/08 - clean up pickup coil flux display 
+3/27/08 - add message to DeveloperControlsPanel indicating these controls will not be reset by Reset All
+3/27/08 - absorb ScalePanel into DeveloperControlsPanel
 3/27/08 - create DeveloperControlsPanel for all developer controls that appear in ControlPanel [248]
 3/27/08 - make VariableNumberOfSamplePointsStrategy the permanent strategy [248]
 3/27/08 - add developer control for pickup coil B-field fudge factor to PickupCoilPanel [248]

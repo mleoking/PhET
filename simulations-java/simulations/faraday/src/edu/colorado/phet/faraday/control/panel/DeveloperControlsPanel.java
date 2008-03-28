@@ -4,8 +4,11 @@ package edu.colorado.phet.faraday.control.panel;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -17,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.Voltmeter;
+import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
 import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
@@ -69,6 +73,43 @@ public class DeveloperControlsPanel extends FaradayPanel {
         JLabel message = new JLabel( "<html>These controls will NOT be reset<br>when you press the Reset All button." );
         message.setForeground( Color.RED );
         layout.addComponent( message, row++, 0 );
+        
+        // Elecrtromagnet shape
+        if ( electromagnetGraphic != null ) {
+            final JCheckBox showElectromagnetShapeCheckBox = new JCheckBox( "Show electromagnet model shape" );
+            showElectromagnetShapeCheckBox.setSelected( electromagnetGraphic.isModelShapeVisible() );
+            showElectromagnetShapeCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    boolean visible = showElectromagnetShapeCheckBox.isSelected();
+                    electromagnetGraphic.setModelShapeVisible( visible );
+                }
+            } );
+            layout.addComponent( showElectromagnetShapeCheckBox, row++, 0 );
+        }
+        
+        // Pickup Coil sample points
+        if ( pickupCoilGraphic != null ) {
+            final JCheckBox showSamplePointsCheckBox = new JCheckBox( "Show pickup sample points" );
+            showSamplePointsCheckBox.setSelected( pickupCoilGraphic.isSamplePointsVisible() );
+            showSamplePointsCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    pickupCoilGraphic.setSamplePointsVisible( showSamplePointsCheckBox.isSelected() );
+                }
+            } );
+            layout.addComponent( showSamplePointsCheckBox, row++, 0 );
+        }
+        
+        // Pickup Coil flux display
+        if ( pickupCoilGraphic != null ) {
+            final JCheckBox displayFluxCheckBox = new JCheckBox( "Display pickup flux" );
+            displayFluxCheckBox.setSelected( pickupCoilGraphic.isFluxDisplayVisible() );
+            displayFluxCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    pickupCoilGraphic.setFluxDisplayVisible( displayFluxCheckBox.isSelected() );
+                }
+            } );
+            layout.addComponent(  displayFluxCheckBox, row++, 0 );
+        }
 
         // Pickup coil fudge factor
         if ( pickupCoilModel != null ) {
