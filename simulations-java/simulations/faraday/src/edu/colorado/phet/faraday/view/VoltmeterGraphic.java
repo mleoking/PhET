@@ -273,7 +273,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
                 int xOffset = 53;
                 int yOffset = body.getHeight() - 52;
                 
-                BufferedImage leftProbeImage = FaradayResources.getImage( FaradayConstants.VOLTMETER_PROBE_RED_IMAGE );
+                BufferedImage leftProbeImage = FaradayResources.getImage( FaradayConstants.VOLTMETER_PROBE_WHITE_IMAGE );
                 PhetImageGraphic leftProbe = new PhetImageGraphic( component, leftProbeImage );
                 leftProbe.setLocation( xOffset, yOffset );
                 graphicLayerSet.addGraphic( leftProbe, PROBE_LAYER );

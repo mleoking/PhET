@@ -3,18 +3,18 @@ Changes for faraday
 ===============================================================================
 
 TODO:
-[351] make B-field inside the magnet appear to move with the magnet
-[424] B-field markers should disappear before they flip when bar magnet passes over them
-[420] lightbulb should be transparent
-[283] improve collision detection
-[437] add "constant voltage source" feature
-[423] change red voltmeter probe to white
-[442] make faraday into multiple sims
-[443] add Earth image feature
-[79] rotate coil or magnet
+- make B-field inside the magnet appear to move with the magnet [351]
+- B-field markers should disappear before they flip when bar magnet passes over them [424] 
+- lightbulb should be transparent [420]
+- improve collision detection [283]
+- add "constant voltage source" feature [437]
+- make faraday into multiple sims [442]
+- add Earth image feature [443]
+- rotate coil or magnet [79]
 - convert model from Observer to Listener pattern
 
 DONE:
+3/28/08 - change red voltmeter probe to white [423] 
 ********* version 1.05.05 (20430)
 3/27/08 - absorb controls from DeveloperControlsDialog into DeveloperControlsPanel
 3/27/08 - clean up pickup coil flux display 
