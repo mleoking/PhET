@@ -30,13 +30,6 @@ public class PickupCoilGraphic extends GraphicLayerSet
     implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    public static boolean DEBUG_DRAW_PICKUP_SAMPLE_POINTS = true;
-    public static boolean DEBUG_DISPLAY_FLUX = true;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -111,10 +104,12 @@ public class PickupCoilGraphic extends GraphicLayerSet
         
         // Points on the coil where the magnetic field is sampled to compute flux.
         _samplePointsGraphic = new PickupCoilSamplePointsGraphic( component, pickupCoilModel );
+        _samplePointsGraphic.setVisible( false );
         _foreground.addGraphic( _samplePointsGraphic );
         
         // Area & flux display
         _fluxDisplayGraphic = new FluxDisplayGraphic( component, pickupCoilModel );
+        _fluxDisplayGraphic.setVisible( false );
         _fluxDisplayGraphic.setLocation( 50, 0 );
         _foreground.addGraphic( _fluxDisplayGraphic );
         
@@ -185,6 +180,22 @@ public class PickupCoilGraphic extends GraphicLayerSet
         }
     }
     
+    public void setSamplePointsVisible( boolean visible ) {
+        _samplePointsGraphic.setVisible( visible );
+    }
+    
+    public boolean isSamplePointsVisible() {
+        return _samplePointsGraphic.isVisible();
+    }
+    
+    public void setFluxDisplayVisible( boolean visible ) {
+        _fluxDisplayGraphic.setVisible( visible );
+    }
+    
+    public boolean isFluxDisplayVisible() {
+        return _fluxDisplayGraphic.isVisible();
+    }
+    
     //----------------------------------------------------------------------------
     // GraphicLayerSet overrides
     //----------------------------------------------------------------------------
@@ -233,12 +244,6 @@ public class PickupCoilGraphic extends GraphicLayerSet
             // Direction (do this *after* positioning lightbulb and voltmeter!)
             _foreground.rotate( _pickupCoilModel.getDirection() );
             _background.rotate( _pickupCoilModel.getDirection() );
-
-            // Sample points
-            _samplePointsGraphic.setVisible( DEBUG_DRAW_PICKUP_SAMPLE_POINTS );
-            
-            // Flux display
-            _fluxDisplayGraphic.setVisible( DEBUG_DISPLAY_FLUX );
             
             _foreground.repaint();
             _background.repaint();

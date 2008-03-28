@@ -8,9 +8,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.*;
 
@@ -51,16 +49,9 @@ public class FaradayApplication extends PiccoloPhetApplication {
      * Initializes the menubar.
      */
     private void initMenubar() {
-
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu( this );
         getPhetFrame().addMenu( optionsMenu );
-
-        // Developer menu
-        if ( isDeveloperControlsEnabled() ) {
-            DeveloperMenu developerMenu = new DeveloperMenu( getPhetFrame() );
-            getPhetFrame().addMenu( developerMenu );
-        }
     }
     
     //----------------------------------------------------------------------------
