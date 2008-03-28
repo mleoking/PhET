@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics2.module.alpharadiation;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Application;
@@ -79,26 +80,11 @@ public class AlphaRadiationModule extends PiccoloModule {
      */
     public void reset() {
 
-        // Clock
-        /* TODO: JPB TBD - Need to implement reset functionality.
-        NuclearPhysics2Clock clock = _model.getClock();
-        clock.setDt( ExampleDefaults.CLOCK_DT );
-        setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
-        */
-
-        // ExampleNode
-        /*
-        ExampleNode exampleNode = _canvas.getExampleNode();
-        exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
-        exampleNode.setPosition( exampleModelElement.getPosition() );
-        exampleNode.setOrientation( exampleModelElement.getOrientation() );
-        */
-
-        // Control panel settings
-        /*
-        ExampleSubPanel subPanel = _controlPanel.getExampleSubPanel();
-        subPanel.setPosition( exampleModelElement.getPositionReference() );
-        subPanel.setOrientation( exampleModelElement.getOrientation() );
-        */
+        // Reset the clock, which ultimately resets the model too.
+        _model.getClock().resetSimulationTime();
+        setClockRunningWhenActive( AlphaRadiationDefaults.CLOCK_RUNNING );
+        
+        // Reset the canvas and its sub-nodes.
+        _canvas.reset();
     }
 }
