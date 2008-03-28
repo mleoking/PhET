@@ -13,7 +13,7 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
-********* version 1.05.06 (?)
+********* version 1.05.06 (20441)
 3/28/08 - add developer control for setting scaling factor to calibrate how much the lightbulb glows [420]
 3/28/08 - add developer control for setting the min value for the lightbulb's alpha channel [420]
 3/28/08 - make lightbulb glow by modulating alpha channel of lightbulb glass to correspond to intensity [420]
