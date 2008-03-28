@@ -15,7 +15,7 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
-********* version 1.05.05 (?)
+********* version 1.05.05 (20430)
 3/27/08 - absorb controls from DeveloperControlsDialog into DeveloperControlsPanel
 3/27/08 - clean up pickup coil flux display 
 3/27/08 - add message to DeveloperControlsPanel indicating these controls will not be reset by Reset All
