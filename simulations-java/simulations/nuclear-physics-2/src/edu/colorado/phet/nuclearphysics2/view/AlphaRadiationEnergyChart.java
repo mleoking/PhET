@@ -6,7 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
@@ -52,8 +51,8 @@ public class AlphaRadiationEnergyChart extends PComposite {
     private static final float   LEGEND_BORDER_STROKE_WIDTH = 4f;
     private static final Stroke  LEGEND_BORDER_STROKE = new BasicStroke( LEGEND_BORDER_STROKE_WIDTH );
     private static final Color   LEGEND_BACKGROUND_COLOR = new Color(0xffffe0);
-    private static final double  LEGEND_SIZE_X = 190.0d;
-    private static final double  LEGEND_SIZE_Y = 100.0d;
+    private static final double  LEGEND_WIDTH = 190.0d;
+    private static final double  LEGEND_HEIGHT = 80.0d;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -290,28 +289,30 @@ public class AlphaRadiationEnergyChart extends PComposite {
         
         // Lay out the legend.
         
-        double legendOriginX = _usableAreaOriginX + _usableWidth - LEGEND_SIZE_X - (2 * BORDER_STROKE_WIDTH);
-        double legendOriginY = _usableAreaOriginY + _usableHeight - LEGEND_SIZE_Y - (2 * BORDER_STROKE_WIDTH);
+        double legendOriginX = _usableAreaOriginX + _usableWidth - LEGEND_WIDTH - (2 * LEGEND_BORDER_STROKE_WIDTH);
+        double legendOriginY = _usableAreaOriginY + _usableHeight - LEGEND_HEIGHT - (2 * LEGEND_BORDER_STROKE_WIDTH);
+        double legendUsableHeight = LEGEND_HEIGHT - (2 * LEGEND_BORDER_STROKE_WIDTH);
         _legend.setPathTo( new RoundRectangle2D.Double( 
                 legendOriginX,
                 legendOriginY,
-                LEGEND_SIZE_X,
-                LEGEND_SIZE_Y,
+                LEGEND_WIDTH,
+                LEGEND_HEIGHT,
                 10,
                 10 ) );
         
         _legendTitle.setOffset(legendOriginX + LEGEND_BORDER_STROKE_WIDTH, legendOriginY + LEGEND_BORDER_STROKE_WIDTH);
         
         _totalEnergyLegendLine.removeAllPoints();        
-        _totalEnergyLegendLine.addPoint( 0, legendOriginX + 15, legendOriginY + 75 );
-        _totalEnergyLegendLine.addPoint( 1, legendOriginX + 40, legendOriginY + 75 );
-        _totalEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + 65);
+        _totalEnergyLegendLine.addPoint( 0, legendOriginX + 15, legendOriginY + legendUsableHeight * 0.55 );
+        _totalEnergyLegendLine.addPoint( 1, legendOriginX + 40, legendOriginY + legendUsableHeight * 0.55 );
+        
+        _totalEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + legendUsableHeight * 0.4);
         
         _potentialEnergyLegendLine.removeAllPoints();        
-        _potentialEnergyLegendLine.addPoint( 0, legendOriginX + 15, legendOriginY + 50 );
-        _potentialEnergyLegendLine.addPoint( 1, legendOriginX + 40, legendOriginY + 50 );
-        _potentialEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + 40);
+        _potentialEnergyLegendLine.addPoint( 0, legendOriginX + 15, legendOriginY + legendUsableHeight * 0.8 );
+        _potentialEnergyLegendLine.addPoint( 1, legendOriginX + 40, legendOriginY + legendUsableHeight * 0.8 );
         
+        _potentialEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + legendUsableHeight * 0.7);
     }
 
     /**
