@@ -44,13 +44,6 @@ import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
 public class QuantumTunnelingApplication extends NonPiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    // Provide this program argument to enable developer-only features.
-    private static final String DEVELOPER_ARG = "-dev";
-
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -139,7 +132,7 @@ public class QuantumTunnelingApplication extends NonPiccoloPhetApplication {
         }
 
         // Developer menu
-        if ( CommandLineUtils.contains( args, DEVELOPER_ARG ) ) {
+        if ( isDeveloperControlsEnabled() ) {
             QTDeveloperMenu developerMenu = new QTDeveloperMenu( _module );
             getPhetFrame().addMenu( developerMenu );
         }

@@ -80,7 +80,7 @@ public class ToolboxNode extends PNode {
             _iconNodes.add( new TracerFlagIconNode( toolProducer, mvt ) );
             _iconNodes.add( new IceThicknessToolIconNode( toolProducer, mvt ) );
             _iconNodes.add( new BoreholeDrillIconNode( toolProducer, mvt ) );
-            if ( GlaciersApplication.isDeveloperControlsEnabled() ) {
+            if ( GlaciersApplication.instance().isDeveloperControlsEnabled() ) {
                 _iconNodes.add( new GPSReceiverIconNode( toolProducer, mvt ) );
             }
             _iconNodes.add( new TrashCanNode() );

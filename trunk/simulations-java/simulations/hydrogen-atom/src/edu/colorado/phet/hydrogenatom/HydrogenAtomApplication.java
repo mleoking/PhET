@@ -91,7 +91,7 @@ public class HydrogenAtomApplication extends PhetApplication {
         }
 
         // Developer menu
-        if ( CommandLineUtils.contains( args, HAConstants.DEVELOPER_ARG ) ) {
+        if ( isDeveloperControlsEnabled() ) {
             DeveloperMenu developerMenu = new DeveloperMenu( _module );
             getPhetFrame().addMenu( developerMenu );
         }

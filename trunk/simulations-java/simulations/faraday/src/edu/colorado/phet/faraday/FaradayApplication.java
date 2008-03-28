@@ -22,12 +22,6 @@ import edu.colorado.phet.faraday.module.*;
 public class FaradayApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private final boolean _developControlsEnabled;
-    
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
@@ -36,7 +30,6 @@ public class FaradayApplication extends PhetApplication {
      */
     public FaradayApplication( PhetApplicationConfig config ) {
         super( config );
-        _developControlsEnabled = CommandLineUtils.contains( config.getCommandLineArgs(), "-dev" );
         initModules();
         initMenubar();
     }
@@ -64,7 +57,7 @@ public class FaradayApplication extends PhetApplication {
         getPhetFrame().addMenu( optionsMenu );
 
         // Developer menu
-        if ( _developControlsEnabled ) {
+        if ( isDeveloperControlsEnabled() ) {
             DeveloperMenu developerMenu = new DeveloperMenu( getPhetFrame() );
             getPhetFrame().addMenu( developerMenu );
         }

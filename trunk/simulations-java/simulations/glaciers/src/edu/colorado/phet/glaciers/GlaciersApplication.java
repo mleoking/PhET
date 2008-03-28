@@ -11,7 +11,6 @@ import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
@@ -32,12 +31,6 @@ import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GlaciersApplication extends PhetApplication {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    private static boolean DEVELOPER_CONTROLS_ENABLED;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -63,7 +56,6 @@ public class GlaciersApplication extends PhetApplication {
     public GlaciersApplication( PhetApplicationConfig config )
     {
         super( config );
-        DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), GlaciersConstants.DEVELOPER_ARG );
         initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
@@ -148,14 +140,6 @@ public class GlaciersApplication extends PhetApplication {
         if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
             frame.addMenu( developerMenu );
         }
-    }
-
-    //----------------------------------------------------------------------------
-    // Setters & getters
-    //----------------------------------------------------------------------------
-
-    public static boolean isDeveloperControlsEnabled() {
-        return DEVELOPER_CONTROLS_ENABLED;
     }
 
     //----------------------------------------------------------------------------

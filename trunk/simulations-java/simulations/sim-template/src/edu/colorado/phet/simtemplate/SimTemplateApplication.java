@@ -13,16 +13,12 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
-import edu.colorado.phet.simtemplate.SimTemplateConstants;
-import edu.colorado.phet.simtemplate.SimTemplateResources;
 import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
 import edu.colorado.phet.simtemplate.menu.OptionsMenu;
 import edu.colorado.phet.simtemplate.module.example.ExampleModule;
@@ -36,12 +32,6 @@ import edu.colorado.phet.simtemplate.persistence.SimTemplateConfig;
  * 
  */
 public class SimTemplateApplication extends PhetApplication {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    private static boolean DEVELOPER_CONTROLS_ENABLED;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -66,7 +56,6 @@ public class SimTemplateApplication extends PhetApplication {
     public SimTemplateApplication( PhetApplicationConfig config )
     {
         super( config );
-        DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), SimTemplateConstants.DEVELOPER_ARG );
         initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
@@ -153,10 +142,6 @@ public class SimTemplateApplication extends PhetApplication {
     //----------------------------------------------------------------------------
     // Setters & getters
     //----------------------------------------------------------------------------
-
-    public static boolean isDeveloperControlsEnabled() {
-        return DEVELOPER_CONTROLS_ENABLED;
-    }
 
     public void setSelectedTabColor( Color color ) {
         if ( _tabbedModulePane != null ) {
