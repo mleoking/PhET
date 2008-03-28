@@ -5,7 +5,6 @@ Changes for faraday
 TODO:
 - make B-field inside the magnet appear to move with the magnet [351]
 - B-field markers should disappear before they flip when bar magnet passes over them [424] 
-- lightbulb should be transparent [420]
 - improve collision detection [283]
 - add "constant voltage source" feature [437]
 - make faraday into multiple sims [442]
@@ -14,6 +13,8 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
+3/28/08 - make lightbulb glow by modulating alpha channel of lightbulb glass to correspond to intensity [420]
+3/28/08 - separate lightbulb image into glass, cap and base components [420]
 3/28/08 - change red voltmeter probe to white [423] 
 ********* version 1.05.05 (20430)
 3/27/08 - absorb controls from DeveloperControlsDialog into DeveloperControlsPanel
