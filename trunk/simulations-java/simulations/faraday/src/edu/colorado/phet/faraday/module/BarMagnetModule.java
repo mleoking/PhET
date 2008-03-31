@@ -69,9 +69,9 @@ public class BarMagnetModule extends FaradayModule {
     //----------------------------------------------------------------------------
     
     /**
-     * Sole constructor.
+     * Constructor.
      */
-    public BarMagnetModule() {
+    public BarMagnetModule( boolean wiggleMeEnabled ) {
         
         super( FaradayStrings.TITLE_BAR_MAGNET_MODULE );
         
@@ -170,9 +170,11 @@ public class BarMagnetModule extends FaradayModule {
         //----------------------------------------------------------------------------
         
         // Wiggle Me
-        ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _barMagnetModel, _compassModel );
-        wiggleMe.setLocation( WIGGLE_ME_LOCATION );
-        apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+        if ( wiggleMeEnabled ) {
+            ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, model, _barMagnetModel, _compassModel );
+            wiggleMe.setLocation( WIGGLE_ME_LOCATION );
+            apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
+        }
     }
     
     //----------------------------------------------------------------------------

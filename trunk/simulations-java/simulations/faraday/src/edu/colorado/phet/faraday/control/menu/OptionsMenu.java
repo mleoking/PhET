@@ -11,7 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.faraday.FaradayApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.dialog.BackgroundColorHandler;
 import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
@@ -33,7 +33,7 @@ public class OptionsMenu extends JMenu {
      * 
      * @param application
      */
-    public OptionsMenu( final FaradayApplication application ) {
+    public OptionsMenu( final PhetApplication application ) {
         
         super( FaradayStrings.MENU_OPTIONS );
         
