@@ -61,6 +61,7 @@ public class BarMagnetModule extends FaradayModule {
     private Compass _compassModel;
     private FieldMeter _fieldMeterModel;
     private BarMagnetGraphic _barMagnetGraphic;
+    private EarthGraphic _earthGraphic;
     private CompassGridGraphic _gridGraphic;
     private BarMagnetPanel _barMagnetPanel;
     
@@ -117,6 +118,10 @@ public class BarMagnetModule extends FaradayModule {
         apparatusPanel.addChangeListener( _barMagnetGraphic );
         apparatusPanel.addGraphic( _barMagnetGraphic, BAR_MAGNET_LAYER );
         
+        // Earth
+        _earthGraphic = new EarthGraphic( apparatusPanel, _barMagnetModel );
+        apparatusPanel.addGraphic( _earthGraphic, BAR_MAGNET_LAYER );
+        
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
         _gridGraphic.setRescalingEnabled( true );
@@ -156,7 +161,7 @@ public class BarMagnetModule extends FaradayModule {
             // Bar Magnet controls
             _barMagnetPanel = new BarMagnetPanel( 
                     _barMagnetModel, _compassModel, _fieldMeterModel,
-                    _barMagnetGraphic, _gridGraphic );
+                    _barMagnetGraphic, _gridGraphic, _earthGraphic );
             controlPanel.addControlFullWidth( _barMagnetPanel );
             
             // Reset button
@@ -198,6 +203,9 @@ public class BarMagnetModule extends FaradayModule {
         // Bar Magnet view
         _barMagnetGraphic.setSeeInsideEnabled( false );
         
+        // Earth view
+        _earthGraphic.setVisible( false );
+        
         // Compass Grid view
         _gridGraphic.setVisible( true );
         
@@ -207,6 +215,14 @@ public class BarMagnetModule extends FaradayModule {
         
         // Control panel
         _barMagnetPanel.update();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Accessors
+    //----------------------------------------------------------------------------
+    
+    public void setShowEarthVisible( boolean visible ) {
+        _barMagnetPanel.setShowEarthVisible( visible );
     }
     
     //----------------------------------------------------------------------------

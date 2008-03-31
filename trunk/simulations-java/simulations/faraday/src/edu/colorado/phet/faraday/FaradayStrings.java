@@ -24,6 +24,7 @@ public class FaradayStrings {
     
     public static final String CHECK_BOX_SEE_INSIDE = FaradayResources.getString( "BarMagnetPanel.seeInside" );
     public static final String CHECK_BOX_SHOW_COMPASS = FaradayResources.getString( "BarMagnetPanel.showCompass" );
+    public static final String CHECK_BOX_SHOW_EARTH = FaradayResources.getString( "BarMagnetPanel.showEarth" );
     public static final String CHECK_BOX_SHOW_ELECTRONS = FaradayResources.getString( "ElectromagnetPanel.showElectrons" );
     public static final String CHECK_BOX_SHOW_FIELD_METER = FaradayResources.getString( "BarMagnetPanel.showFieldMeter" );
     public static final String CHECK_BOX_SHOW_GRID = FaradayResources.getString( "BarMagnetPanel.showGrid" );

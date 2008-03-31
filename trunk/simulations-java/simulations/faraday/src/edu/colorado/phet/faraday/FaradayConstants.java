@@ -49,6 +49,7 @@ public class FaradayConstants {
     public static final String BATTERY_ICON = "battery_icon.png";
     public static final String BATTERY_ICON_SELECTED = "battery_icon_selected.png";
     public static final String COMPASS_IMAGE = "compass.png";
+    public static final String EARTH_IMAGE = "earth.png";
     public static final String ELECTRON_FOREGROUND_IMAGE = "electron_foreground.png";
     public static final String ELECTRON_BACKGROUND_IMAGE = "electron_background.png";
     public static final String FAUCET_IMAGE = "faucet.png";
