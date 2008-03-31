@@ -1,21 +1,22 @@
 <html>
 <p>
 <big><big><b>
-Faraday's Electromagnetic Lab, version 1.05.06
+Faraday's Electromagnetic Lab, version 1.05.07
 </b></big></big>
 <p>
 <b>What's new:</b>
 <p>
 <ul>
-<li>change red probe on voltmeter to white
-<li>make lightbulb dim when no current is flowing, glow based on intensity
-<li>add developer control for how dim the lightbulb is when off ("Lightbulb min alpha"), default is 0.25
-<li>add developer control for how quickly lightbulb glows to maximum brightness ("Lightbulb glow scale"), set some reasonable default values for each panel
+<li>add "Magnet and Compass" sim
+<li>add "Magnets and Electromagnets" sim
+<li>add "Generator" sim
+<li>add "show Earth" feature to "Magnet and Compass" and "Magnets and Electromagnets" sims
 </ul>
 <p>
 <b>Known problems:</b>
 <p>
 <ul>
+<li>image licensing for "show Earth" feature has not been approved, DO NOT MAKE THIS VERSION PUBLIC!
 <li>bugs as reported in Unfuddle
 </ul>
 </html>
