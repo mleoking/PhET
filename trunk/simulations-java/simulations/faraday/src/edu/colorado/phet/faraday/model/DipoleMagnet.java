@@ -121,6 +121,9 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     
     /**
      * Gets the B-field vector at a specified point slightly outside the 2D plane of the magnet.
+     * This is used solely by the B-field grid (as implemented by CompassGridGraphic), so that
+     * we don't see the compass needles suddenly flip at the top and bottom edges of the magnet
+     * when dragging the magnet vertically.  See Unfuddle ticket #424.
      */
     public Vector2D getStrengthOutsidePlane( final Point2D p, Vector2D outputVector, double distanceExponent ) {
         return getStrength( p, outputVector, distanceExponent, false /* inPlaneOfMagnet */ );
