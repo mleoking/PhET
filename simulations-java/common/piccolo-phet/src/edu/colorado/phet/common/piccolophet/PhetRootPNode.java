@@ -79,8 +79,8 @@ public class PhetRootPNode extends PNode {
      * @param index
      * @param node
      */
-    public void addWorldChild( int index, PNode graphic ) {
-        WorldNode worldChild = new WorldNode( graphic );
+    public void addWorldChild( int index, PNode node ) {
+        WorldNode worldChild = new WorldNode( node );
         worldChild.setTransform( worldNode.getTransform() );
         addChild( index, worldChild );
     }
@@ -160,15 +160,6 @@ public class PhetRootPNode extends PNode {
         return index;
     }
 
-    /**
-     * Is the specified node a child of this node?
-     * 
-     * @return true or false
-     */
-    public boolean hasChild( PNode node ) {
-        return indexOfChild( node ) >= 0;
-    }
-    
     /*
      * Gets all child nodes of a specified type.
      * 
