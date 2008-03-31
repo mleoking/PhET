@@ -199,8 +199,8 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         _transform.rotate( -getDirection(), getX(), getY() );
         _transform.transform( p, _normalizedPoint /* output */ );
         
-        // Choose the appropriate algorithm based on
-        // whether the point is inside or outside the magnet.
+        // Choose the appropriate algorithm based on whether the point is 
+        // inside or outside the magnet, and whether we are in the 2D plane of the magnet.
         if ( inPlaneOfMagnet && isInside( _normalizedPoint ) )  {
             getStrengthInside( _normalizedPoint, fieldVector /* output */ );
         }
