@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.faraday.view;
 
 import java.awt.AlphaComposite;
