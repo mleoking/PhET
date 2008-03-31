@@ -402,7 +402,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
 
                 // Get the magnetic field information at the needle's location.
                 _point.setLocation( needleDescriptor.x, needleDescriptor.y );
-                _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
+                _magnetModel.getStrengthOutsidePlane( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
                 double angle = _fieldVector.getAngle();
                 double magnitude = _fieldVector.getMagnitude();
                 

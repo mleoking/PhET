@@ -136,7 +136,8 @@ public abstract class AbstractMagnet extends FaradayObservable {
     }
     
     /**
-     * Gets the strength vector of the magnetic field at a point in 2D space.
+     * Gets the strength vector of the magnetic field at a point in 2D space,
+     * in the same 2D plane as the magnet.
      * 
      * @param p the point
      * @param outputVector strength is written here if provided, may be null
@@ -146,6 +147,7 @@ public abstract class AbstractMagnet extends FaradayObservable {
     
     /**
      * Gets the strength vector of the magnetic field at a point in 2D space,
+     * in the same 2D plane as the magnet,
      * using a specified exponent for computing how the field strength decreases
      * with the distance.
      * 
@@ -157,7 +159,8 @@ public abstract class AbstractMagnet extends FaradayObservable {
     public abstract Vector2D getStrength( final Point2D p, Vector2D outputVector, double distanceExponent );
     
     /**
-     * Gets the strength vector of the magnetic field at a point in 2D space.
+     * Gets the strength vector of the magnetic field at a point in 2D space,
+     * in the same 2D plane as the magnet.
      * 
      * @param p the point
      * @return the strength vector
@@ -168,6 +171,7 @@ public abstract class AbstractMagnet extends FaradayObservable {
     
     /**
      * Gets the strength vector of the magnetic field at a point in 2D space,
+     * in the same 2D plane as the magnet,
      * using a specified exponent for computing how the field strength decreases
      * with the distance.
      * 
@@ -178,6 +182,19 @@ public abstract class AbstractMagnet extends FaradayObservable {
     public Vector2D getStrength( final Point2D p, double distanceExponent ) {
         return getStrength( p, null, distanceExponent );
     }
+    
+    /**
+     * Gets the strength vector of the magnetic field at a point in 2D space,
+     * slightly outside the 2D plane of the magnet,
+     * using a specified exponent for computing how the field strength decreases
+     * with the distance.
+     * 
+     * @param p the point
+     * @param outputVector strength is written here if provided, may be null
+     * @param distanceExponent the distance exponent
+     * @return the strength vector, strengthDst if it was provided
+     */
+    public abstract Vector2D getStrengthOutsidePlane( final Point2D p, Vector2D outputVector, double distanceExponent );
     
     /**
      * Sets the physical size of the magnet.

@@ -93,15 +93,15 @@ public abstract class CoilMagnet extends AbstractMagnet {
     // AbstractMagnet implementation
     //----------------------------------------------------------------------------
 
-    /*
-     * Gets the B-field vector at a specified point.
+    /**
+     * Gets the B-field vector at a specified point in the 2D plane of the magnet.
      */
     public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */ ) {
         return getStrength( p, outputVector, DEFAULT_DISTANCE_EXPONENT );
     }  
 
-    /*
-     * Gets the B-field vector at a specified point.
+    /**
+     * Gets the B-field vector at a specified point in the 2D plane of the magnet.
      * The caller may specify an exponent that determines how the field strength 
      * decreases with distance from the magnet.
      * <p>
@@ -187,6 +187,14 @@ public abstract class CoilMagnet extends AbstractMagnet {
         return fieldVector;
     }
 
+    /**
+     * Gets the B-field vector at a specified point slightly outside the 2D plane of the magnet.
+     * For a coil magnet, this is identical to the B-field in the 2D plane.
+     */
+    public Vector2D getStrengthOutsidePlane( final Point2D p, Vector2D outputVector, double distanceExponent ) {
+        return getStrength( p, outputVector, distanceExponent );
+    }
+    
     /*
      * Gets the B-field vector for points inside the coil.
      * 
