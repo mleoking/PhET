@@ -26,7 +26,7 @@ public class EarthGraphic extends PhetImageGraphic implements SimpleObserver {
         AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.65f /* alpha */ );
     
     private static final double IMAGE_ROTATION = -( Math.PI / 2 );  // Earth image was created with north up, bar magnet has north to the right
-    private static final double IMAGE_SCALE = 0.75; // scales the Earth image
+    private static final double IMAGE_SCALE = 0.60; // scales the Earth image
     
     private BarMagnet _barMagnetModel;
     
