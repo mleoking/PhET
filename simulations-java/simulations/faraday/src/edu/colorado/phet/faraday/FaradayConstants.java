@@ -19,6 +19,12 @@ public class FaradayConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    public static final String PROJECT_NAME = "faraday";
+    public static final String FLAVOR_FARADAY = "faraday";
+    public static final String FLAVOR_MAGNET_AND_COMPASS = "magnet-and-compass";
+    public static final String FLAVOR_MAGNETS_AND_ELECTROMAGNETS = "magnets-and-electromagnets";
+    public static final String FLAVOR_GENERATOR = "generator";
+    
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------

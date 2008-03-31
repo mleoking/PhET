@@ -10,15 +10,15 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
-import edu.colorado.phet.faraday.module.*;
+import edu.colorado.phet.faraday.module.BarMagnetModule;
 
 /**
- * FaradayApplication is the main application for the 
- * "Faraday's Electromagnetic Lab" simulation.
+ * MagnetsAndCompassApplication is the main application
+ * for the "Magnet and Compass" simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FaradayApplication extends PiccoloPhetApplication {
+public class MagnetAndCompassApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -27,28 +27,15 @@ public class FaradayApplication extends PiccoloPhetApplication {
     /**
      * Sole constructor.
      */
-    public FaradayApplication( PhetApplicationConfig config ) {
+    public MagnetAndCompassApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar();
     }
 
     private void initModules() {
-        
         BarMagnetModule barMagnetModule = new BarMagnetModule( true /* wiggleMeEnabled */ );
         addModule( barMagnetModule );
-        
-        PickupCoilModule pickupCoilModule = new PickupCoilModule();
-        addModule( pickupCoilModule );
-        
-        ElectromagnetModule electromagnetModule = new ElectromagnetModule();
-        addModule( electromagnetModule );
-        
-        TransformerModule transformerModule = new TransformerModule();
-        addModule( transformerModule );
-        
-        GeneratorModule generatorModule = new GeneratorModule();
-        addModule( generatorModule );
     }
 
     /**
@@ -83,10 +70,10 @@ public class FaradayApplication extends PiccoloPhetApplication {
 
             public void run() {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, FaradayConstants.FRAME_SETUP, 
-                        FaradayResources.getResourceLoader(), FaradayConstants.FLAVOR_FARADAY );
+                        FaradayResources.getResourceLoader(), FaradayConstants.FLAVOR_MAGNET_AND_COMPASS );
 
                 // Create the application.
-                PhetApplication app = new FaradayApplication( config );
+                PhetApplication app = new MagnetAndCompassApplication( config );
 
                 // Start the application.
                 app.startApplication();

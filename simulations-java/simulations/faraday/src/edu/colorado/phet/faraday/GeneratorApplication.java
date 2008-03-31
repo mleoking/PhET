@@ -13,12 +13,12 @@ import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.*;
 
 /**
- * FaradayApplication is the main application for the 
- * "Faraday's Electromagnetic Lab" simulation.
+ * GeneratorApplication is the main application for the 
+ * "Generator" simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FaradayApplication extends PiccoloPhetApplication {
+public class GeneratorApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -27,7 +27,7 @@ public class FaradayApplication extends PiccoloPhetApplication {
     /**
      * Sole constructor.
      */
-    public FaradayApplication( PhetApplicationConfig config ) {
+    public GeneratorApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar();
@@ -35,7 +35,7 @@ public class FaradayApplication extends PiccoloPhetApplication {
 
     private void initModules() {
         
-        BarMagnetModule barMagnetModule = new BarMagnetModule( true /* wiggleMeEnabled */ );
+        BarMagnetModule barMagnetModule = new BarMagnetModule( false /* wiggleMeEnabled */ );
         addModule( barMagnetModule );
         
         PickupCoilModule pickupCoilModule = new PickupCoilModule();
@@ -49,6 +49,8 @@ public class FaradayApplication extends PiccoloPhetApplication {
         
         GeneratorModule generatorModule = new GeneratorModule();
         addModule( generatorModule );
+        
+        setStartModule( generatorModule );
     }
 
     /**
@@ -83,10 +85,10 @@ public class FaradayApplication extends PiccoloPhetApplication {
 
             public void run() {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, FaradayConstants.FRAME_SETUP, 
-                        FaradayResources.getResourceLoader(), FaradayConstants.FLAVOR_FARADAY );
+                        FaradayResources.getResourceLoader(), FaradayConstants.FLAVOR_GENERATOR );
 
                 // Create the application.
-                PhetApplication app = new FaradayApplication( config );
+                PhetApplication app = new GeneratorApplication( config );
 
                 // Start the application.
                 app.startApplication();
