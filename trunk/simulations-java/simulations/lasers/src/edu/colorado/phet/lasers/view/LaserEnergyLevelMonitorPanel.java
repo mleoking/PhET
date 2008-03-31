@@ -188,11 +188,14 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             if( i > 0 ) {
                 // Set the minimum lifetime to be two clock ticks, so we will always see an energy halo.
                 int minLifetime = (int)clock.getSimulationTimeChange() * 2;
-                EnergyLifetimeSlider slider = new EnergyLifetimeSlider( state,
+                final EnergyLifetimeSlider slider = new EnergyLifetimeSlider( state,
                                                                         elg,
                                                                         LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
                                                                         minLifetime,
                                                                         this );
+
+//                displayDebugInfoIntermittently( i, slider );
+                
                 lifetimeSliders[i] = slider;
                 this.add( slider );
                 slider.setValue( (int)Math.max( minLifetime, state.getMeanLifeTime() ) );
@@ -218,6 +221,23 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             levelGraphics[i].setLevelIcon( new edu.colorado.phet.lasers.view.LevelIcon( this, atom ) );
         }
         adjustPanel();
+    }
+
+    private void displayDebugInfoIntermittently( int i, final EnergyLifetimeSlider slider ) {
+        final int i1 = i;
+        new Thread( new Runnable() {
+            public void run() {
+                while(true){
+                    System.out.println( "i="+ i1 +", slider.getMin="+slider.getMinimum()+", max="+slider.getMaximum() );
+                    try {
+                        Thread.sleep(1000);
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 
     /**
