@@ -36,6 +36,7 @@ public class GeneratorApplication extends PiccoloPhetApplication {
     private void initModules() {
         
         BarMagnetModule barMagnetModule = new BarMagnetModule( false /* wiggleMeEnabled */ );
+        barMagnetModule.setShowEarthVisible( false );
         addModule( barMagnetModule );
         
         PickupCoilModule pickupCoilModule = new PickupCoilModule();

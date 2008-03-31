@@ -36,6 +36,7 @@ public class FaradayApplication extends PiccoloPhetApplication {
     private void initModules() {
         
         BarMagnetModule barMagnetModule = new BarMagnetModule( true /* wiggleMeEnabled */ );
+        barMagnetModule.setShowEarthVisible( false );
         addModule( barMagnetModule );
         
         PickupCoilModule pickupCoilModule = new PickupCoilModule();

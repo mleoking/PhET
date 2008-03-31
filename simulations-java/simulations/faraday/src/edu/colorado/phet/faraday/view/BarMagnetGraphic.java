@@ -130,6 +130,11 @@ public class BarMagnetGraphic extends PhetImageGraphic
             
             clearTransform();
 
+            // Size
+            final double xScale = _barMagnetModel.getWidth() / getWidth();
+            final double yScale = _barMagnetModel.getHeight() / getHeight();
+            scale( xScale, yScale );
+            
             // Rotation
             if ( _barMagnetModel.getDirection() != 0 ) {
                 rotate( _barMagnetModel.getDirection() );
@@ -137,11 +142,6 @@ public class BarMagnetGraphic extends PhetImageGraphic
             
             // Location
             setLocation( (int) _barMagnetModel.getX(), (int) _barMagnetModel.getY() );
-            
-            // Size
-            final double xScale = _barMagnetModel.getWidth() / getWidth();
-            final double yScale = _barMagnetModel.getHeight() / getHeight();
-            scale( xScale, yScale );
             
             repaint();
         }

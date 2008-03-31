@@ -3,8 +3,7 @@ Changes for faraday
 ===============================================================================
 
 TODO:
-- add Earth image feature [443]
-- make faraday into multiple sims [442]
+- get approval for licensing of earth.png [443]
 - make B-field inside the magnet appear to move with the magnet [351]
 - B-field markers should disappear before they flip when bar magnet passes over them [424] 
 - improve collision detection [283]
@@ -13,6 +12,8 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
+3/31/08 - add "Show Earth" feature to magnet-and-compass and magnets-and-electromagnets flavors [443]
+3/31/08 - make faraday into multiple flavors: faraday, magnets-and-compass, magnets-and-electromagnets, generator [442]
 ********* version 1.05.06 (20441)
 3/28/08 - add developer control for setting scaling factor to calibrate how much the lightbulb glows [420]
 3/28/08 - add developer control for setting the min value for the lightbulb's alpha channel [420]

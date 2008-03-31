@@ -214,7 +214,7 @@ public class PickupCoilModule extends FaradayModule {
             
             // Bar Magnet controls
             _barMagnetPanel = new BarMagnetPanel(
-                    _barMagnetModel, _compassModel, _fieldMeterModel, _barMagnetGraphic, _gridGraphic );
+                    _barMagnetModel, _compassModel, _fieldMeterModel, _barMagnetGraphic, _gridGraphic, null );
             _barMagnetPanel.setSeeInsideVisible( false );
             controlPanel.addControlFullWidth( _barMagnetPanel );
             
