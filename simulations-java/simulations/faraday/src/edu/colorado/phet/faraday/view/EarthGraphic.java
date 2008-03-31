@@ -13,17 +13,18 @@ import edu.colorado.phet.faraday.model.BarMagnet;
 
 /**
  * EarthGraphic draws a representation of planet earth.
- * At zero degrees of rotation, the south pole points to the right.
+ * The south pole of the Earth is aligned with the north pole of the magnet, and visa versa. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class EarthGraphic extends PhetImageGraphic implements SimpleObserver {
 
+    // the image is opaque, this operator is used to make it transparent
     private static final Composite COMPOSITE = 
-        AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.65f );
+        AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.65f /* alpha */ );
     
-    private static final double IMAGE_ROTATION = -( Math.PI / 2 );
-    private static final double IMAGE_SCALE = 0.75;
+    private static final double IMAGE_ROTATION = -( Math.PI / 2 );  // Earth image was created with north up, bar magnet has north to the right
+    private static final double IMAGE_SCALE = 0.75; // scales the Earth image
     
     private BarMagnet _barMagnetModel;
     
@@ -36,7 +37,7 @@ public class EarthGraphic extends PhetImageGraphic implements SimpleObserver {
     public EarthGraphic( Component component, BarMagnet barMagnetModel ) {
         super( component, FaradayResources.getImage( FaradayConstants.EARTH_IMAGE ) );
         
-        setIgnoreMouse( true );
+        setIgnoreMouse( true ); // not draggable
         
         // Save a reference to the model.
         _barMagnetModel = barMagnetModel;
@@ -87,7 +88,7 @@ public class EarthGraphic extends PhetImageGraphic implements SimpleObserver {
     }
     
     /**
-     * Draws earth with transparency.  
+     * Draws Earth with transparency.  
      * 
      * @param g2 the graphics context
      */
