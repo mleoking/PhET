@@ -105,15 +105,30 @@ public abstract class DipoleMagnet extends AbstractMagnet {
     // AbstractMagnet implementation
     //----------------------------------------------------------------------------
     
-    /*
-     * Gets the B-field vector at a specified point.
+    /**
+     * Gets the B-field vector at a specified point in the 2D plane of the magnet.
      */
     public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */ ) {
         return getStrength( p, outputVector, DEFAULT_DISTANCE_EXPONENT );
     }   
     
+    /**
+     * Gets the B-field vector at a specified point in the 2D plane of the magnet.
+     */
+    public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */, double distanceExponent ) {
+        return getStrength( p, outputVector, distanceExponent, true /* inPlaneOfMagnet */ );
+    }
+    
+    /**
+     * Gets the B-field vector at a specified point slightly outside the 2D plane of the magnet.
+     */
+    public Vector2D getStrengthOutsidePlane( final Point2D p, Vector2D outputVector, double distanceExponent ) {
+        return getStrength( p, outputVector, distanceExponent, false /* inPlaneOfMagnet */ );
+    }
+    
     /*
      * Gets the B-field vector at a specified point.
+     * The point may be either in the 2D plane of the magnet, or slightly outside the 2D plane.
      * The caller may specify an exponent that determines how the field strength 
      * decreases with distance from the magnet.
      * <p>
@@ -160,7 +175,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
      * <li>B = BN + BS
      * </ul>
      */
-    public Vector2D getStrength( Point2D p, Vector2D outputVector /* output */, double distanceExponent ) {
+    private Vector2D getStrength( Point2D p, Vector2D outputVector /* output */, double distanceExponent, boolean inPlaneOfMagnet ) {
 
         assert( p != null );
         assert( getWidth() > getHeight() );
@@ -183,7 +198,7 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         
         // Choose the appropriate algorithm based on
         // whether the point is inside or outside the magnet.
-        if ( isInside( _normalizedPoint ) )  {
+        if ( inPlaneOfMagnet && isInside( _normalizedPoint ) )  {
             getStrengthInside( _normalizedPoint, fieldVector /* output */ );
         }
         else {
