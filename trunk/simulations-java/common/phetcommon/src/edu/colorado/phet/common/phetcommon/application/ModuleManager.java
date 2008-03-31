@@ -1,13 +1,5 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.ArrayList;
@@ -23,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
  * PhetApplication.
  *
  * @author Ron LeMaster & Sam Reid
- * @version $Revision$
  */
 class ModuleManager {
 
@@ -31,6 +22,7 @@ class ModuleManager {
     private Module activeModule;
     private PhetApplication phetApplication;
     private ArrayList moduleObservers = new ArrayList();
+    private Module startModule; // module to be activated when the app starts, default to first module added
 
     /**
      * Constructs a ModuleManager for a PhetApplication.
@@ -39,6 +31,7 @@ class ModuleManager {
      */
     ModuleManager( PhetApplication phetApplication ) {
         this.phetApplication = phetApplication;
+        startModule = null;
     }
 
     /**
@@ -75,6 +68,10 @@ class ModuleManager {
      * @param module
      */
     void addModule( Module module ) {
+        // first module added is the default start module
+        if ( modules.size() == 0 ) {
+            startModule = module;
+        }
         modules.add( module );
         notifyModuleAdded( new ModuleEvent( getPhetApplication(), module ) );
     }
@@ -86,10 +83,20 @@ class ModuleManager {
      */
     void removeModule( Module module ) {
         modules.remove( module );
+        
+        // If the module we're removing is the start module, set another start module.
+        if ( module == startModule ) {
+            startModule = null;
+            if ( modules.size() > 0 ) {
+                startModule = moduleAt( 0 );
+            }
+        }
+        
         // If the module we are removing is the active module, we need to set another one active
         if ( getActiveModule() == module ) {
             setActiveModule( modules.size() == 0 ? null : (Module) modules.get( 0 ) );
         }
+        
         // Notifiy listeners
         notifyModuleRemoved( new ModuleEvent( getPhetApplication(), module ) );
     }
@@ -98,7 +105,7 @@ class ModuleManager {
      * Gets the index of the specified Module.
      *
      * @param m
-     * @return the index of the specified Module.
+     * @return the index of the specified Module, -1 if not found
      */
     int indexOf( Module m ) {
         return modules.indexOf( m );
@@ -275,5 +282,29 @@ class ModuleManager {
             ModuleObserver moduleObserver = (ModuleObserver) moduleObservers.get( i );
             moduleObserver.moduleRemoved( event );
         }
+    }
+    
+    /**
+     * Gets the module that will be activated on startup.
+     * By default, this is the first module added.
+     * To change the default, call setStartupModule.
+     * 
+     * @return Module
+     */
+    public Module getStartModule() {
+        return startModule;
+    }
+    
+    /**
+     * Sets the module that will be activated on startup.
+     * If this method is not called, the first module added is the default.
+     * 
+     * @param module
+     */
+    public void setStartModule( Module module ) {
+        if ( !modules.contains( module ) ) {
+            throw new IllegalArgumentException( "start module has not been added" );
+        }
+        startModule = module;
     }
 }

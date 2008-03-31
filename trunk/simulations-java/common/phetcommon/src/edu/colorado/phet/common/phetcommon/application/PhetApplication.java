@@ -239,7 +239,7 @@ public class PhetApplication {
             }
         } );
 
-        moduleManager.setActiveModule( moduleManager.moduleAt( 0 ) );
+        moduleManager.setActiveModule( getStartModule() );
         phetFrame.setVisible( true );
 
 
@@ -356,6 +356,26 @@ public class PhetApplication {
      */
     public void setActiveModule( int i ) {
         moduleManager.setActiveModule( i );
+    }
+    
+    /**
+     * Gets the module that will be activated on startup.
+     * By default, this is the first module added.
+     * To change the default, call setStartupModule.
+     * 
+     * @return Module
+     */
+    public Module getStartModule() {
+        return moduleManager.getStartModule();
+    }
+    
+    /**
+     * Sets the module that will be activated on startup.
+     * 
+     * @param module
+     */
+    public void setStartModule( Module module ) {
+        moduleManager.setStartModule( module );
     }
 
     /**
