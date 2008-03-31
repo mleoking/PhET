@@ -11,6 +11,8 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
+********* version 1.05.08 (?)
+3/31/08 - make Earth image smaller to match Kathy's mockup [443]
 3/31/08 - for bar magnet, make compass grid use B-field slightly outside magnet's 2D plan to prevent needles from flipping [424] 
 ********* version 1.05.07 (20456)
 3/31/08 - add "Show Earth" feature to magnet-and-compass and magnets-and-electromagnets flavors [443]
