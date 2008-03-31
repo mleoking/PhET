@@ -12,7 +12,7 @@ TODO:
 - convert model from Observer to Listener pattern
 
 DONE:
-********* version 1.05.07 (?)
+********* version 1.05.07 (20456)
 3/31/08 - add "Show Earth" feature to magnet-and-compass and magnets-and-electromagnets flavors [443]
 3/31/08 - make faraday into multiple flavors: faraday, magnets-and-compass, magnets-and-electromagnets, generator [442]
 ********* version 1.05.06 (20441)
