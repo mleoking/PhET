@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Faraday's Electromagnetic Lab, version 1.05.07
+Faraday's Electromagnetic Lab, version 1.05.08
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -15,16 +15,14 @@ Faraday's Electromagnetic Lab, version 1.05.07
 <b>What's new:</b>
 <p>
 <ul>
-<li>added "Magnet and Compass" sim
-<li>added "Magnets and Electromagnets" sim
-<li>added "Generator" sim
-<li>added "show Earth" feature to "Magnet and Compass" and "Magnets and Electromagnets" sims
+<li>fixed B-field so that needles don't abruptly flip at top & bottom edges of bar magnet [423]
+<li>scaled the Earth image so that it's size relative to the bar magnet more closely matches Kathy's mockup [443]
 </ul>
 <p>
 <b>Known problems:</b>
 <p>
 <ul>
 <li>image licensing for "show Earth" feature has not been approved, DO NOT MAKE THIS VERSION PUBLIC!
-<li>bugs as reported in Unfuddle
+<li>"See inside" feature has not been changed
 </ul>
 </html>
