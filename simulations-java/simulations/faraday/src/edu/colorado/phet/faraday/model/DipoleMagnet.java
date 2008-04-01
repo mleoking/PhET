@@ -274,7 +274,13 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         
         // Distances.
         double rN = _northPoint.distance( p ) / PIXELS_PER_DISTANCE; // north dipole to point
+        if ( rN == 0 ) {
+            rN = 0.001; // must be non-zero or later calculations will have divide-by-zero problem
+        }
         double rS = _southPoint.distance( p ) / PIXELS_PER_DISTANCE; // south dipole to point
+        if ( rS == 0 ) {
+            rS = 0.001; // must be non-zero or later calculations will have divide-by-zero problem
+        }
         double L = _southPoint.distance( _northPoint ); // dipole to dipole
         
         // Fudge factor
@@ -291,6 +297,13 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         double xS = cS * ( p.getX() + ( L / 2 ) ); // X component
         double yS = cS * p.getY(); // Y component
         _southVector.setXY( xS, yS ); // south dipole vector
+        
+        //XXX
+        if ( Double.isNaN( xN ) || Double.isNaN( yN ) || Double.isNaN( xS ) || Double.isNaN( yS ) ) {
+            System.out.println( "p=" + p + " L=" + L );//XXX
+            System.out.println( "n=" + _northVector + " rN=" + rN + " cN=" + cN );
+            System.out.println( "s=" + _southVector + " rS=" + rS + " cS=" + cS );
+        }
         
         // Total field strength is the vector sum.
         _northVector.add( _southVector );
