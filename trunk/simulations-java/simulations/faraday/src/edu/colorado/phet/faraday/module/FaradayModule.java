@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.view.BFieldGraphic;
+import edu.colorado.phet.faraday.view.BFieldOutsideGraphic;
 import edu.colorado.phet.faraday.view.DebuggerGraphic;
 
 
@@ -33,7 +33,7 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BFieldGraphic _bFieldGraphic;
+    private BFieldOutsideGraphic _bFieldOutsideGraphic;
     private DebuggerGraphic _debuggerGraphic;
     
     //----------------------------------------------------------------------------
@@ -55,22 +55,14 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the B-field graphic that fills this module's play area.
+     * Sets the graphic that depicts the B-field graphic outside the magnet,
+     * and that fills this module's play area.
      * 
      * @param bFieldGraphic
      */
-    public void setBFieldGraphic( BFieldGraphic bFieldGraphic ) {
+    public void setBFieldOutsideGraphic( BFieldOutsideGraphic bFieldGraphic ) {
         assert( bFieldGraphic != null );
-        _bFieldGraphic = bFieldGraphic;
-    }
-    
-    /**
-     * Gets the B-field graphic that fills this module's play area.
-     * 
-     * @return the B-field graphic
-     */
-    public BFieldGraphic getBFieldGraphic() {
-        return _bFieldGraphic;
+        _bFieldOutsideGraphic = bFieldGraphic;
     }
     
     //----------------------------------------------------------------------------
@@ -104,8 +96,8 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      * @param ySpacing space between needles in the vertical dimension, in pixels
      */
     public void setGridSpacing( int xSpacing, int ySpacing ) {
-        if ( _bFieldGraphic != null ) {
-            _bFieldGraphic.setSpacing( xSpacing, ySpacing );
+        if ( _bFieldOutsideGraphic != null ) {
+            _bFieldOutsideGraphic.setSpacing( xSpacing, ySpacing );
         }
     }
 
@@ -116,8 +108,8 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      */
     public int getGridXSpacing() {
         int xSpacing = 0;
-        if ( _bFieldGraphic != null ) {
-            xSpacing = _bFieldGraphic.getXSpacing();
+        if ( _bFieldOutsideGraphic != null ) {
+            xSpacing = _bFieldOutsideGraphic.getXSpacing();
         }
         return xSpacing;
     }
@@ -129,8 +121,8 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      */
     public int getGridYSpacing() {
         int ySpacing = 0;
-        if ( _bFieldGraphic != null ) {
-            ySpacing = _bFieldGraphic.getYSpacing();
+        if ( _bFieldOutsideGraphic != null ) {
+            ySpacing = _bFieldOutsideGraphic.getYSpacing();
         }
         return ySpacing;
     }  
@@ -141,8 +133,8 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      * @param size the size, in pixels
      */
     public void setGridNeedleSize( Dimension size ) {
-        if ( _bFieldGraphic != null ) {
-            _bFieldGraphic.setNeedleSize( size );
+        if ( _bFieldOutsideGraphic != null ) {
+            _bFieldOutsideGraphic.setNeedleSize( size );
         }
     }
 
@@ -153,8 +145,8 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      */
     public Dimension getGridNeedleSize() {
         Dimension size = null;
-        if ( _bFieldGraphic != null ) {
-            size = _bFieldGraphic.getNeedleSize();
+        if ( _bFieldOutsideGraphic != null ) {
+            size = _bFieldOutsideGraphic.getNeedleSize();
         }
         return size;
     }
@@ -165,8 +157,8 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      * @param color
      */
     public void setGridBackground( Color color ) {
-        if ( _bFieldGraphic != null ) {
-            _bFieldGraphic.setGridBackground( color );
+        if ( _bFieldOutsideGraphic != null ) {
+            _bFieldOutsideGraphic.setGridBackground( color );
         }
     }
 }

@@ -78,7 +78,7 @@ public class GeneratorModule extends FaradayModule {
     private Lightbulb _lightbulbModel;
     private Voltmeter _voltmeterModel;
     private PickupCoilGraphic _pickupCoilGraphic;
-    private BFieldGraphic _bFieldGraphic;
+    private BFieldOutsideGraphic _bFieldOutsideGraphic;
     private PickupCoilPanel _pickupCoilPanel;
     private TurbinePanel _turbinePanel;
     
@@ -171,15 +171,15 @@ public class GeneratorModule extends FaradayModule {
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
-        // B-field
-        _bFieldGraphic = new BFieldGraphic( apparatusPanel, _turbineModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
-        _bFieldGraphic.setRescalingEnabled( true );
-        _bFieldGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
-        _bFieldGraphic.setGridBackground( APPARATUS_BACKGROUND );
-        _bFieldGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( _bFieldGraphic );
-        apparatusPanel.addGraphic( _bFieldGraphic, B_FIELD_LAYER );
-        super.setBFieldGraphic( _bFieldGraphic );
+        // B-field outside the magnet
+        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _turbineModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
+        _bFieldOutsideGraphic.setRescalingEnabled( true );
+        _bFieldOutsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
+        _bFieldOutsideGraphic.setGridBackground( APPARATUS_BACKGROUND );
+        _bFieldOutsideGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( _bFieldOutsideGraphic );
+        apparatusPanel.addGraphic( _bFieldOutsideGraphic, B_FIELD_LAYER );
+        super.setBFieldOutsideGraphic( _bFieldOutsideGraphic );
         
         // CompassGraphic
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
@@ -206,7 +206,7 @@ public class GeneratorModule extends FaradayModule {
             setControlPanel( controlPanel );
             
             // Turbine controls
-            _turbinePanel = new TurbinePanel( _turbineModel, _compassModel, _fieldMeterModel, _bFieldGraphic );
+            _turbinePanel = new TurbinePanel( _turbineModel, _compassModel, _fieldMeterModel, _bFieldOutsideGraphic );
             controlPanel.addControlFullWidth( _turbinePanel );
             
             // Spacer
@@ -266,8 +266,8 @@ public class GeneratorModule extends FaradayModule {
         // Pickup Coil view
         _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
         
-        // B-field view
-        _bFieldGraphic.setVisible( true );
+        // B-field view outside the magnet
+        _bFieldOutsideGraphic.setVisible( true );
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );

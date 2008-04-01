@@ -89,7 +89,7 @@ public class TransformerModule extends FaradayModule {
     private Voltmeter _voltmeterModel;
     private ElectromagnetGraphic _electromagnetGraphic;
     private PickupCoilGraphic _pickupCoilGraphic;
-    private BFieldGraphic _bFieldGraphic;
+    private BFieldOutsideGraphic _bFieldOutsideGraphic;
     private ElectromagnetPanel _electromagnetPanel;
     private PickupCoilPanel _pickupCoilPanel;
     
@@ -209,16 +209,16 @@ public class TransformerModule extends FaradayModule {
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
-        // B-field
-        _bFieldGraphic = new BFieldGraphic( apparatusPanel, 
+        // B-field outside the magnet
+        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, 
                 _electromagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
-        _bFieldGraphic.setRescalingEnabled( true );
-        _bFieldGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
-        _bFieldGraphic.setGridBackground( APPARATUS_BACKGROUND );
-        _bFieldGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( _bFieldGraphic );
-        apparatusPanel.addGraphic( _bFieldGraphic, B_FIELD_LAYER );
-        super.setBFieldGraphic( _bFieldGraphic );
+        _bFieldOutsideGraphic.setRescalingEnabled( true );
+        _bFieldOutsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
+        _bFieldOutsideGraphic.setGridBackground( APPARATUS_BACKGROUND );
+        _bFieldOutsideGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( _bFieldOutsideGraphic );
+        apparatusPanel.addGraphic( _bFieldOutsideGraphic, B_FIELD_LAYER );
+        super.setBFieldOutsideGraphic( _bFieldOutsideGraphic );
         
         // Compass
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
@@ -250,7 +250,7 @@ public class TransformerModule extends FaradayModule {
             // Electromagnet controls
             _electromagnetPanel = new ElectromagnetPanel( _electromagnetModel,
                     _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel, _fieldMeterModel,
-                    _electromagnetGraphic, _bFieldGraphic );
+                    _electromagnetGraphic, _bFieldOutsideGraphic );
             controlPanel.addControlFullWidth( _electromagnetPanel );
             
             // Spacer
@@ -334,8 +334,8 @@ public class TransformerModule extends FaradayModule {
         // Pickup Coil view
         _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
         
-        // B-field view
-        _bFieldGraphic.setVisible( true );
+        // B-field view outside the magnet
+        _bFieldOutsideGraphic.setVisible( true );
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
