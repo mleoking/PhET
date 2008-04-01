@@ -298,13 +298,6 @@ public abstract class DipoleMagnet extends AbstractMagnet {
         double yS = cS * p.getY(); // Y component
         _southVector.setXY( xS, yS ); // south dipole vector
         
-        //XXX
-        if ( Double.isNaN( xN ) || Double.isNaN( yN ) || Double.isNaN( xS ) || Double.isNaN( yS ) ) {
-            System.out.println( "p=" + p + " L=" + L );//XXX
-            System.out.println( "n=" + _northVector + " rN=" + rN + " cN=" + cN );
-            System.out.println( "s=" + _southVector + " rS=" + rS + " cS=" + cS );
-        }
-        
         // Total field strength is the vector sum.
         _northVector.add( _southVector );
         
