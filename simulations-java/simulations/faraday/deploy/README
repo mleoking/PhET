@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Faraday's Electromagnetic Lab, version 1.05.08
+Faraday's Electromagnetic Lab, version 1.05.09
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -15,14 +15,17 @@ Faraday's Electromagnetic Lab, version 1.05.08
 <b>What's new:</b>
 <p>
 <ul>
-<li>fixed B-field so that needles don't abruptly flip at top & bottom edges of bar magnet [423]
-<li>scaled the Earth image so that it's size relative to the bar magnet more closely matches Kathy's mockup [443]
+<li>change Earth transparency from 0.65 to 0.75 [443]
+<li>put Earth in top-most layer, in front of everything else [443]
+<li>Earth image licensing has been approved [443]
+<li>set "light glow scale"=15 in all panels [488]
+<li>set "lightbulb min alpha"=0.35 in all panels [488]
+<li>add screenshots for new sims [442]
 </ul>
 <p>
 <b>Known problems:</b>
 <p>
 <ul>
-<li>image licensing for "show Earth" feature has not been approved, DO NOT MAKE THIS VERSION PUBLIC!
-<li>"See inside" feature has not been changed
+<li>"See inside" feature has not been changed [351]
 </ul>
 </html>
