@@ -38,6 +38,7 @@ public class BarMagnetModule extends FaradayModule {
     private static final double BAR_MAGNET_LAYER = 2;
     private static final double COMPASS_LAYER = 3;
     private static final double FIELD_METER_LAYER = 4;
+    private static final double EARTH_LAYER = 5;
 
     // Locations
     private static final Point BAR_MAGNET_LOCATION = new Point( 450, 300 );
@@ -120,7 +121,7 @@ public class BarMagnetModule extends FaradayModule {
         
         // Earth
         _earthGraphic = new EarthGraphic( apparatusPanel, _barMagnetModel );
-        apparatusPanel.addGraphic( _earthGraphic, BAR_MAGNET_LAYER );
+        apparatusPanel.addGraphic( _earthGraphic, EARTH_LAYER );
         
         // Grid
         _gridGraphic = new CompassGridGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
