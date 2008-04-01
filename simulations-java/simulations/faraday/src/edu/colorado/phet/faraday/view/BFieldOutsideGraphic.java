@@ -10,11 +10,11 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
 
 /**
- * BFieldGraphic is the B-field that fills the apparatus panel.
+ * BFieldOutsideGraphic is the B-field outside the magnet, which fills the apparatus panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BFieldGraphic extends CompassGridGraphic implements ApparatusPanel2.ChangeListener{
+public class BFieldOutsideGraphic extends CompassGridGraphic implements ApparatusPanel2.ChangeListener{
 
     /**
      * Constructor.
@@ -24,7 +24,7 @@ public class BFieldGraphic extends CompassGridGraphic implements ApparatusPanel2
      * @param xSpacing
      * @param ySpacing
      */
-    public BFieldGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing) {
+    public BFieldOutsideGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing) {
         super( component, magnetModel, xSpacing, ySpacing );
     }
     
