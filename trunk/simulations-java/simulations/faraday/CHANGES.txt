@@ -3,7 +3,7 @@ Changes for faraday
 ===============================================================================
 
 TODO:
-- make B-field inside the magnet appear to move with the magnet [351]
+- revise "see inside" feature, give bar magnet its own B-field grid that moves with the magnet [351]
 
 DONE:
 4/1/08 - visually inspect all AbstractMagnet.getStrength calls to make sure that having zero magnet strength won't cause problems [435]
