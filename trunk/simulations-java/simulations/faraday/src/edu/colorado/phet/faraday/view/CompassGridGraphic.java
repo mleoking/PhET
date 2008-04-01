@@ -275,29 +275,6 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         repaint();
     }
     
-    /**
-     * Sets the strength threshold.
-     * Needles with a strength below this value will not be drawn.
-     * 
-     * @param strengthThreshold the strength threshold, in Gauss
-     */
-    public void setStrengthThreshold( double strengthThreshold ) {
-        if ( strengthThreshold != _strengthThreshold ) {
-            _strengthThreshold = strengthThreshold;
-            repaint();
-        }
-    }
-    
-    /**
-     * Gets the strength threshold.
-     * Needles with a strength below this value will not be drawn.
-     * 
-     * @return the strength threshold, in Gauss
-     */
-    public double getStrengthThreshold() {
-        return _strengthThreshold;
-    }
-    
     //----------------------------------------------------------------------------
     // Override inherited methods
     //----------------------------------------------------------------------------
