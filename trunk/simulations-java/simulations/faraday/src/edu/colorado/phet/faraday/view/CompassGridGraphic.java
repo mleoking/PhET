@@ -6,7 +6,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
@@ -20,7 +19,7 @@ import edu.colorado.phet.faraday.util.Vector2D;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
+public abstract class CompassGridGraphic extends PhetGraphic {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -45,7 +44,6 @@ public abstract class CompassGridGraphic extends PhetGraphic implements SimpleOb
     // Instance data
     //----------------------------------------------------------------------------
     
-    // The magnet model element that the grid is observing.
     private AbstractMagnet _magnetModel;
     
     // Controls rescaling of field strength.
@@ -79,7 +77,7 @@ public abstract class CompassGridGraphic extends PhetGraphic implements SimpleOb
     private Vector2D _fieldVector;
     
     // Lightweight data structure for holding a needle description.
-    private class NeedleDescriptor {
+    protected class NeedleDescriptor {
         public double x, y;
         public double direction;
         public double strength;
@@ -93,23 +91,19 @@ public abstract class CompassGridGraphic extends PhetGraphic implements SimpleOb
      * Sole constructor.
      * 
      * @param component the parent Component
-     * @param magnetModel the magnet model
+     * @param magnetModel
      * @param xSpacing space between grid points in the X direction
      * @param ySpacing space between grid points in the Y direction
      */
     public CompassGridGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing) {
         super( component );
         assert( component != null );
-        assert( magnetModel != null );
         
         setIgnoreMouse( true );
         
         _magnetModel = magnetModel;
-        _magnetModel.addObserver( this );
         
         _rescalingEnabled = false;
-        
-        _needleDescriptors = new ArrayList();
         
         _strengthStrategy = ALPHA_STRATEGY;  // works on any background color
         _strengthThreshold = FaradayConstants.GRID_BFIELD_THRESHOLD;
@@ -127,16 +121,18 @@ public abstract class CompassGridGraphic extends PhetGraphic implements SimpleOb
         
         setSpacing( xSpacing, ySpacing );
         
-        update();
+        updateNeedleDescriptors();
     }
     
-    /**
-     * Call this method prior to releasing all references to an object of this type.
+    //----------------------------------------------------------------------------
+    // Abstract
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Creates the description of the needles (grid points) in the grid.
+     * This method must be implemented by all subclasses.
      */
-    public void cleanup() {
-        _magnetModel.removeObserver( this );
-        _magnetModel = null;
-    }
+    protected abstract ArrayList createNeedleDescriptors();
     
     //----------------------------------------------------------------------------
     // Accessors
@@ -150,7 +146,7 @@ public abstract class CompassGridGraphic extends PhetGraphic implements SimpleOb
     public void setRescalingEnabled( boolean rescalingEnabled ) {
         if ( rescalingEnabled != _rescalingEnabled ) {
             _rescalingEnabled = rescalingEnabled;
-            update();
+            updateNeedleDescriptors();
         }
     }
     
@@ -175,24 +171,10 @@ public abstract class CompassGridGraphic extends PhetGraphic implements SimpleOb
         _xSpacing = xSpacing;
         _ySpacing = ySpacing;
         
-        // Clear existing needles.
-        _needleDescriptors.clear();
+        // Update descriptions of needles (grid points).
+        _needleDescriptors = createNeedleDescriptors();
         
-        // Determine how many needles are needed to fill the parent component.
-        int xCount = (int) ( _gridBounds.width / xSpacing ) + 1;
-        int yCount = (int) ( _gridBounds.height / ySpacing ) + 1;
-        
-        // Create the needles.
-        for ( int i = 0; i < xCount; i++ ) {
-            for ( int j = 0; j < yCount; j++ ) {
-                NeedleDescriptor needleDescriptor = new NeedleDescriptor();
-                needleDescriptor.x = _gridBounds.getX() + ( i * xSpacing );
-                needleDescriptor.y = _gridBounds.getY() + ( j * ySpacing );
-                _needleDescriptors.add( needleDescriptor );
-            }
-        }
-        
-        update();
+        updateNeedleDescriptors();
     }
     
     /**
@@ -230,7 +212,7 @@ public abstract class CompassGridGraphic extends PhetGraphic implements SimpleOb
         assert( needleSize != null );
         _needleCache.setNeedleSize( needleSize );
         _needleCache.populate();
-        update();
+        updateNeedleDescriptors();
     }
     
     /**
@@ -313,7 +295,7 @@ public abstract class CompassGridGraphic extends PhetGraphic implements SimpleOb
      */
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        update();
+        updateNeedleDescriptors();
     }
     
     /**
@@ -375,13 +357,13 @@ public abstract class CompassGridGraphic extends PhetGraphic implements SimpleOb
     }
     
     //----------------------------------------------------------------------------
-    // SimpleObserver implementation
+    // Updaters
     //----------------------------------------------------------------------------
 
-    /**
-     * Updates the view to match the model.
+    /*
+     * Updates the strength and direction of each needle descriptor to match the magnet.
      */
-    public void update() {
+    protected void updateNeedleDescriptors() {
         
         if ( isVisible() ) {
             

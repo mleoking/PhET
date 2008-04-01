@@ -4,7 +4,10 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
@@ -14,8 +17,10 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BFieldOutsideGraphic extends CompassGridGraphic implements ApparatusPanel2.ChangeListener{
+public class BFieldOutsideGraphic extends CompassGridGraphic implements SimpleObserver, ApparatusPanel2.ChangeListener{
 
+    private AbstractMagnet _magnetModel;
+    
     /**
      * Constructor.
      * 
@@ -26,6 +31,58 @@ public class BFieldOutsideGraphic extends CompassGridGraphic implements Apparatu
      */
     public BFieldOutsideGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing) {
         super( component, magnetModel, xSpacing, ySpacing );
+        
+        _magnetModel = magnetModel;
+        _magnetModel.addObserver( this );
+    }
+    
+    /**
+     * Call this method prior to releasing all references to an object of this type.
+     */
+    public void cleanup() {
+        _magnetModel.removeObserver( this );
+        _magnetModel = null;
+    }
+    
+    /*
+     * Creates the description of the needles (grid points) in the grid.
+     * In this case, we fill the apparatus panel with grid points, based on
+     * the bounds of the apparatus panel and the spacing of the points.
+     */
+    protected ArrayList createNeedleDescriptors() {
+        
+        ArrayList needleDescriptors = new ArrayList();
+        
+        Rectangle bounds = getGridBoundsReference();
+        final int xSpacing = getXSpacing();
+        final int ySpacing = getYSpacing();
+        
+        // Determine how many needles are needed to fill the apparatus panel.
+        int xCount = (int) ( bounds.width / xSpacing ) + 1;
+        int yCount = (int) ( bounds.height / ySpacing ) + 1;
+        
+        // Create the needles.
+        for ( int i = 0; i < xCount; i++ ) {
+            for ( int j = 0; j < yCount; j++ ) {
+                NeedleDescriptor needleDescriptor = new NeedleDescriptor();
+                needleDescriptor.x = bounds.getX() + ( i * xSpacing );
+                needleDescriptor.y = bounds.getY() + ( j * ySpacing );
+                needleDescriptors.add( needleDescriptor );
+            }
+        }
+        
+        return needleDescriptors;
+    }
+    
+    //----------------------------------------------------------------------------
+    // SimpleObserver implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * When the magnet changes, update the needle dscriptors.
+     */
+    public void update() {
+        updateNeedleDescriptors();
     }
     
     //----------------------------------------------------------------------------
