@@ -95,7 +95,7 @@ public class FaradayConstants {
     public static final double TURBINE_STRENGTH_MIN = 0; // Gauss;
     
     //----------------------------------------------------------------------------
-    // Compass Grid parameters
+    // B-field (grid of compass needles) parameters
     //----------------------------------------------------------------------------
     
     public static final int GRID_SPACING_MAX = 100;
@@ -158,7 +158,7 @@ public class FaradayConstants {
     // Thresholds
     //----------------------------------------------------------------------------
     
-    /* Compass grid needles with B-field magnitude below this value are not drawn. */
+    /* B-field needles with magnitude below this value are not drawn. */
     public static final double GRID_BFIELD_THRESHOLD = 0.02; // Gauss
     /* Absolute current amplitude below this value is treated as zero. */
     public static final double CURRENT_AMPLITUDE_THRESHOLD = 0.001;

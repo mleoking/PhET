@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
@@ -18,11 +16,11 @@ import edu.colorado.phet.faraday.util.Vector2D;
 /**
  * CompassGridGraphic is the graphical representation of a "compass grid".
  * As an alternative to a field diagram, the grid shows the strength
- * and orientation of a magnetic field at a grid of points in 2D space.
+ * and orientation of a magnetic field (B-field) at a grid of points in 2D space.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, ApparatusPanel2.ChangeListener {
+public abstract class CompassGridGraphic extends PhetGraphic implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -69,7 +67,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     private double _strengthThreshold;
     
     // The grid's bounds.
-    private Rectangle _bounds;
+    private Rectangle _gridBounds;
     
     // Rendering hints.
     private final RenderingHints _renderingHints;
@@ -121,7 +119,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _needleCache.setAlphaEnabled( _strengthStrategy == ALPHA_STRATEGY );
         _needleCache.populate();
         
-        _bounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
+        _gridBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
         _point = new Point();
         _fieldVector = new Vector2D();
         
@@ -181,15 +179,15 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         _needleDescriptors.clear();
         
         // Determine how many needles are needed to fill the parent component.
-        int xCount = (int) ( _bounds.width / xSpacing ) + 1;
-        int yCount = (int) ( _bounds.height / ySpacing ) + 1;
+        int xCount = (int) ( _gridBounds.width / xSpacing ) + 1;
+        int yCount = (int) ( _gridBounds.height / ySpacing ) + 1;
         
         // Create the needles.
         for ( int i = 0; i < xCount; i++ ) {
             for ( int j = 0; j < yCount; j++ ) {
                 NeedleDescriptor needleDescriptor = new NeedleDescriptor();
-                needleDescriptor.x = i * xSpacing;
-                needleDescriptor.y = j * ySpacing;
+                needleDescriptor.x = _gridBounds.getX() + ( i * xSpacing );
+                needleDescriptor.y = _gridBounds.getY() + ( j * ySpacing );
                 _needleDescriptors.add( needleDescriptor );
             }
         }
@@ -275,6 +273,21 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
         repaint();
     }
     
+    /*
+     * Sets the bounds for the grid.
+     */
+    protected void setGridBounds( int x, int y, int width, int height ) {
+        _gridBounds.setBounds( x, y, width, height );
+    }
+    
+    /*
+     * Gets a reference to the bounds for the grid.
+     * Do not modify the bounds returned; use setBounds to modify.
+     */
+    protected Rectangle getGridBoundsReference() {
+        return _gridBounds;
+    }
+    
     //----------------------------------------------------------------------------
     // Override inherited methods
     //----------------------------------------------------------------------------
@@ -358,7 +371,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
      * @return the bounds of the grid
      */
     protected Rectangle determineBounds() {
-        return _bounds;
+        return _gridBounds;
     }
     
     //----------------------------------------------------------------------------
@@ -431,19 +444,5 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
             newStrength = Math.pow( scale / RESCALE_THRESHOLD, RESCALE_EXPONENT );
         }
         return newStrength;
-    }
-    
-    //----------------------------------------------------------------------------
-    // ApparatusPanel2.ChangeListener implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Resets the grid bounds whenever the apparatus panel's canvas size changes.
-     */
-    public void canvasSizeChanged( ChangeEvent event ) {
-        Dimension parentSize = event.getCanvasSize();
-        _bounds.setBounds( 0, 0, parentSize.width, parentSize.height );
-        super.setBoundsDirty();
-        resetSpacing(); 
     }
 }

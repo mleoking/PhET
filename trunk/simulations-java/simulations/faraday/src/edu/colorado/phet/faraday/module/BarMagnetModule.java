@@ -34,7 +34,7 @@ public class BarMagnetModule extends FaradayModule {
     //----------------------------------------------------------------------------
 
     // Rendering layers
-    private static final double COMPASS_GRID_LAYER = 1;
+    private static final double B_FIELD_LAYER = 1;
     private static final double BAR_MAGNET_LAYER = 2;
     private static final double COMPASS_LAYER = 3;
     private static final double FIELD_METER_LAYER = 4;
@@ -63,7 +63,7 @@ public class BarMagnetModule extends FaradayModule {
     private FieldMeter _fieldMeterModel;
     private BarMagnetGraphic _barMagnetGraphic;
     private EarthGraphic _earthGraphic;
-    private CompassGridGraphic _gridGraphic;
+    private BFieldGraphic _bFieldGraphic;
     private BarMagnetPanel _barMagnetPanel;
     
     //----------------------------------------------------------------------------
@@ -123,14 +123,14 @@ public class BarMagnetModule extends FaradayModule {
         _earthGraphic = new EarthGraphic( apparatusPanel, _barMagnetModel );
         apparatusPanel.addGraphic( _earthGraphic, EARTH_LAYER );
         
-        // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
-        _gridGraphic.setRescalingEnabled( true );
-        _gridGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
-        _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
-        apparatusPanel.addChangeListener( _gridGraphic );
-        apparatusPanel.addGraphic( _gridGraphic, COMPASS_GRID_LAYER );
-        super.setCompassGridGraphic( _gridGraphic );
+        // B-field
+        _bFieldGraphic = new BFieldGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
+        _bFieldGraphic.setRescalingEnabled( true );
+        _bFieldGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
+        _bFieldGraphic.setGridBackground( APPARATUS_BACKGROUND );
+        apparatusPanel.addChangeListener( _bFieldGraphic );
+        apparatusPanel.addGraphic( _bFieldGraphic, B_FIELD_LAYER );
+        super.setBFieldGraphic( _bFieldGraphic );
         
         // CompassGraphic
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
@@ -162,7 +162,7 @@ public class BarMagnetModule extends FaradayModule {
             // Bar Magnet controls
             _barMagnetPanel = new BarMagnetPanel( 
                     _barMagnetModel, _compassModel, _fieldMeterModel,
-                    _barMagnetGraphic, _gridGraphic, _earthGraphic );
+                    _barMagnetGraphic, _bFieldGraphic, _earthGraphic );
             controlPanel.addControlFullWidth( _barMagnetPanel );
             
             // Reset button
@@ -207,8 +207,8 @@ public class BarMagnetModule extends FaradayModule {
         // Earth view
         _earthGraphic.setVisible( false );
         
-        // Compass Grid view
-        _gridGraphic.setVisible( true );
+        // B-field view
+        _bFieldGraphic.setVisible( true );
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );

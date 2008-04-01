@@ -14,8 +14,8 @@ import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.view.BFieldGraphic;
 import edu.colorado.phet.faraday.view.CompassGraphic;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
 import edu.colorado.phet.faraday.view.FieldMeterGraphic;
 
@@ -33,7 +33,7 @@ public class ElectromagnetModule extends FaradayModule {
 
     // Rendering layers
     private static final double ELECTROMAGNET_BACK_LAYER = 1;
-    private static final double COMPASS_GRID_LAYER = 2;
+    private static final double B_FIELD_LAYER = 2;
     private static final double COMPASS_LAYER = 3;
     private static final double ELECTROMAGNET_FRONT_LAYER = 4;
     private static final double FIELD_METER_LAYER = 5;
@@ -69,7 +69,7 @@ public class ElectromagnetModule extends FaradayModule {
     private Compass _compassModel;
     private FieldMeter _fieldMeterModel;
     private ElectromagnetGraphic _electromagnetGraphic;
-    private CompassGridGraphic _gridGraphic;
+    private BFieldGraphic _bFieldGraphic;
     private ElectromagnetPanel _electromagnetPanel;
     
     //----------------------------------------------------------------------------
@@ -154,15 +154,15 @@ public class ElectromagnetModule extends FaradayModule {
         apparatusPanel.addGraphic( _electromagnetGraphic.getForeground(), ELECTROMAGNET_FRONT_LAYER );
         apparatusPanel.addGraphic( _electromagnetGraphic.getBackground(), ELECTROMAGNET_BACK_LAYER );
         
-        // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, 
+        // B-field
+        _bFieldGraphic = new BFieldGraphic( apparatusPanel, 
                 _electromagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
-        _gridGraphic.setRescalingEnabled( true );
-        _gridGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
-        _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
-        apparatusPanel.addChangeListener( _gridGraphic );
-        apparatusPanel.addGraphic( _gridGraphic, COMPASS_GRID_LAYER );
-        super.setCompassGridGraphic( _gridGraphic );
+        _bFieldGraphic.setRescalingEnabled( true );
+        _bFieldGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
+        _bFieldGraphic.setGridBackground( APPARATUS_BACKGROUND );
+        apparatusPanel.addChangeListener( _bFieldGraphic );
+        apparatusPanel.addGraphic( _bFieldGraphic, B_FIELD_LAYER );
+        super.setBFieldGraphic( _bFieldGraphic );
         
         // Compass
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
@@ -192,7 +192,7 @@ public class ElectromagnetModule extends FaradayModule {
             // Electromagnet controls
             _electromagnetPanel = new ElectromagnetPanel( _electromagnetModel,
                     _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel, _fieldMeterModel,
-                    _electromagnetGraphic, _gridGraphic );
+                    _electromagnetGraphic, _bFieldGraphic );
             controlPanel.addControlFullWidth( _electromagnetPanel );
             
             // Scaling calibration
@@ -253,8 +253,8 @@ public class ElectromagnetModule extends FaradayModule {
         // Electromagnet view
         _electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
         
-        // Compass Grid view
-        _gridGraphic.setVisible( true );
+        // B-field view
+        _bFieldGraphic.setVisible( true );
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
