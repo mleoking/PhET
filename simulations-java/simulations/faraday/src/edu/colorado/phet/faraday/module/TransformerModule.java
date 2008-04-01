@@ -66,10 +66,10 @@ public class TransformerModule extends FaradayModule {
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_DISTANCE_EXPONENT = 2.0;
     private static final double PICKUP_COIL_FUDGE_FACTOR = 0.56; // see PickupCoil.setFudgeFactor
-    private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.25;
+    private static final double LIGHTBULB_GLASS_MIN_ALPHA = 0.35;
     
     // Scaling
-    private static final double LIGHTBULB_GLOW_SCALE = 7.0;
+    private static final double LIGHTBULB_GLOW_SCALE = 15.0;
     private static final double LIGHT_RAYS_SCALE = 10.0;
     private static final double VOLTMETER_SCALE = 12.0;
     private static final double ELECTRON_SPEED_SCALE = VOLTMETER_SCALE;
