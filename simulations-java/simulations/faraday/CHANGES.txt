@@ -6,6 +6,7 @@ TODO:
 - make B-field inside the magnet appear to move with the magnet [351]
 
 DONE:
+4/1/08 - visually inspect all AbstractMagnet.getStrength calls to make sure that having zero magnet strength won't cause problems [435]
 4/1/08 - fix divide-by-zero problem in Dipole.getStrengthOutside that occurs when one of the poles is on the point of interest [492]
 ********* version 1.05.09 (20482)
 4/1/08 - change screenshot for magnet-and-compass, turn off field meter [442]
@@ -63,8 +64,8 @@ DONE:
 3/21/08 - pull flux display graphics out of PickupCoilGraphic and into FluxDisplayGraphic [248]
 3/21/08 - change "AC Power Supply" to "AC Current Supply" [80]
 ********* version 1.05.03 (20342)
-3/20/08 - change turbine range to 0-100%, adjust major ticks on slider [435]
-3/20/08 - change bar magnet range to 0-100%, adjust major ticks on slider [435]
+3/20/08 - change turbine strength range to 0-100%, adjust major ticks on slider [435]
+3/20/08 - change bar magnet strength range to 0-100%, adjust major ticks on slider [435]
 3/20/08 - add developer control to show electromagnet model shape
 3/20/08 - add developer control to turn on/off display of pickup coil sample points
 3/20/08 - simplify setting of DEBUG_DISPLAY_FLUX from Developer menu
