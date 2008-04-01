@@ -23,7 +23,7 @@ public class EarthGraphic extends PhetImageGraphic implements SimpleObserver {
 
     // the image is opaque, this operator is used to make it transparent
     private static final Composite COMPOSITE = 
-        AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.65f /* alpha */ );
+        AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.75f /* alpha */ );
     
     private static final double IMAGE_ROTATION = -( Math.PI / 2 );  // Earth image was created with north up, bar magnet has north to the right
     private static final double IMAGE_SCALE = 0.60; // scales the Earth image
