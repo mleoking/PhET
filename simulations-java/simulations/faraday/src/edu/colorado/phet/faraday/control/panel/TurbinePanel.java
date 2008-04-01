@@ -102,7 +102,7 @@ public class TurbinePanel extends FaradayPanel {
         }
 
         // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_GRID );
+        _gridCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
         
         // Field Meter on/off
         _fieldMeterCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );

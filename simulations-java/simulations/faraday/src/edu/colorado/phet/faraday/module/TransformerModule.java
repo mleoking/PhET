@@ -33,7 +33,7 @@ public class TransformerModule extends FaradayModule {
     // Rendering layers
     private static final double ELECTROMAGNET_BACK_LAYER = 1;
     private static final double PICKUP_COIL_BACK_LAYER = 2;
-    private static final double COMPASS_GRID_LAYER = 3;
+    private static final double B_FIELD_LAYER = 3;
     private static final double COMPASS_LAYER = 4;
     private static final double ELECTROMAGNET_FRONT_LAYER = 5;
     private static final double PICKUP_COIL_FRONT_LAYER = 6;
@@ -89,7 +89,7 @@ public class TransformerModule extends FaradayModule {
     private Voltmeter _voltmeterModel;
     private ElectromagnetGraphic _electromagnetGraphic;
     private PickupCoilGraphic _pickupCoilGraphic;
-    private CompassGridGraphic _gridGraphic;
+    private BFieldGraphic _bFieldGraphic;
     private ElectromagnetPanel _electromagnetPanel;
     private PickupCoilPanel _pickupCoilPanel;
     
@@ -209,16 +209,16 @@ public class TransformerModule extends FaradayModule {
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
-        // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, 
+        // B-field
+        _bFieldGraphic = new BFieldGraphic( apparatusPanel, 
                 _electromagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
-        _gridGraphic.setRescalingEnabled( true );
-        _gridGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
-        _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
-        _gridGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( _gridGraphic );
-        apparatusPanel.addGraphic( _gridGraphic, COMPASS_GRID_LAYER );
-        super.setCompassGridGraphic( _gridGraphic );
+        _bFieldGraphic.setRescalingEnabled( true );
+        _bFieldGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
+        _bFieldGraphic.setGridBackground( APPARATUS_BACKGROUND );
+        _bFieldGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( _bFieldGraphic );
+        apparatusPanel.addGraphic( _bFieldGraphic, B_FIELD_LAYER );
+        super.setBFieldGraphic( _bFieldGraphic );
         
         // Compass
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
@@ -250,7 +250,7 @@ public class TransformerModule extends FaradayModule {
             // Electromagnet controls
             _electromagnetPanel = new ElectromagnetPanel( _electromagnetModel,
                     _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel, _fieldMeterModel,
-                    _electromagnetGraphic, _gridGraphic );
+                    _electromagnetGraphic, _bFieldGraphic );
             controlPanel.addControlFullWidth( _electromagnetPanel );
             
             // Spacer
@@ -334,8 +334,8 @@ public class TransformerModule extends FaradayModule {
         // Pickup Coil view
         _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
         
-        // Compass Grid view
-        _gridGraphic.setVisible( true );
+        // B-field view
+        _bFieldGraphic.setVisible( true );
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );

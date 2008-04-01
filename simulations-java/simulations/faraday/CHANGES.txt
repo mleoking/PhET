@@ -6,6 +6,8 @@ TODO:
 - revise "see inside" feature, give bar magnet its own B-field grid that moves with the magnet [351]
 
 DONE:
+4/1/08 - create BFieldGraphic, a specialization of CompassGridGraphic that fills the play area [351]
+4/1/08 - generalize CompassGridGraphic so that it can be used for the bar magnet's internal B-field display [351]
 4/1/08 - visually inspect all AbstractMagnet.getStrength calls to make sure that having zero magnet strength won't cause problems [435]
 4/1/08 - fix divide-by-zero problem in Dipole.getStrengthOutside that occurs when one of the poles is on the point of interest [492]
 ********* version 1.05.09 (20482)

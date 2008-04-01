@@ -32,7 +32,7 @@ public class GeneratorModule extends FaradayModule {
 
     // Rendering layers
     private static final double PICKUP_COIL_BACK_LAYER = 1;
-    private static final double COMPASS_GRID_LAYER = 2;
+    private static final double B_FIELD_LAYER = 2;
     private static final double TURBINE_LAYER = 3;
     private static final double COMPASS_LAYER = 4;
     private static final double PICKUP_COIL_FRONT_LAYER = 5;
@@ -78,7 +78,7 @@ public class GeneratorModule extends FaradayModule {
     private Lightbulb _lightbulbModel;
     private Voltmeter _voltmeterModel;
     private PickupCoilGraphic _pickupCoilGraphic;
-    private CompassGridGraphic _gridGraphic;
+    private BFieldGraphic _bFieldGraphic;
     private PickupCoilPanel _pickupCoilPanel;
     private TurbinePanel _turbinePanel;
     
@@ -171,15 +171,15 @@ public class GeneratorModule extends FaradayModule {
         apparatusPanel.addGraphic( _pickupCoilGraphic.getForeground(), PICKUP_COIL_FRONT_LAYER );
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
         
-        // Grid
-        _gridGraphic = new CompassGridGraphic( apparatusPanel, _turbineModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
-        _gridGraphic.setRescalingEnabled( true );
-        _gridGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
-        _gridGraphic.setGridBackground( APPARATUS_BACKGROUND );
-        _gridGraphic.setVisible( false );
-        apparatusPanel.addChangeListener( _gridGraphic );
-        apparatusPanel.addGraphic( _gridGraphic, COMPASS_GRID_LAYER );
-        super.setCompassGridGraphic( _gridGraphic );
+        // B-field
+        _bFieldGraphic = new BFieldGraphic( apparatusPanel, _turbineModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
+        _bFieldGraphic.setRescalingEnabled( true );
+        _bFieldGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
+        _bFieldGraphic.setGridBackground( APPARATUS_BACKGROUND );
+        _bFieldGraphic.setVisible( false );
+        apparatusPanel.addChangeListener( _bFieldGraphic );
+        apparatusPanel.addGraphic( _bFieldGraphic, B_FIELD_LAYER );
+        super.setBFieldGraphic( _bFieldGraphic );
         
         // CompassGraphic
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
@@ -206,7 +206,7 @@ public class GeneratorModule extends FaradayModule {
             setControlPanel( controlPanel );
             
             // Turbine controls
-            _turbinePanel = new TurbinePanel( _turbineModel, _compassModel, _fieldMeterModel, _gridGraphic );
+            _turbinePanel = new TurbinePanel( _turbineModel, _compassModel, _fieldMeterModel, _bFieldGraphic );
             controlPanel.addControlFullWidth( _turbinePanel );
             
             // Spacer
@@ -266,8 +266,8 @@ public class GeneratorModule extends FaradayModule {
         // Pickup Coil view
         _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
         
-        // Compass Grid view
-        _gridGraphic.setVisible( true );
+        // B-field view
+        _bFieldGraphic.setVisible( true );
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
