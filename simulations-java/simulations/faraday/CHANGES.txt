@@ -4,13 +4,9 @@ Changes for faraday
 
 TODO:
 - make B-field inside the magnet appear to move with the magnet [351]
-- get approval for licensing of earth.png [443]
-- add "constant voltage source" feature [437]
-- rotate coil or magnet [79]
-- improve collision detection [283]
-- convert model from Observer to Listener pattern
 
 DONE:
+4/1/08 - create screenshots for new faraday sims [442]
 4/1/08 - change Earth transparency from 0.65 to 0.75 [443]
 4/1/08 - put Earth in top-most layer, in front of magnet, compass and field meter [443]
 4/1/08 - change lightbulb min alpha=0.35 and light glow scale=15 throughout [488]
