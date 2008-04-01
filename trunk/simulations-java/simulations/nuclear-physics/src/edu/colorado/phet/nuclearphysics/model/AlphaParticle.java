@@ -78,7 +78,7 @@ public class AlphaParticle extends Nucleus {
     }
 
     /**
-     * Puts the alpha partical in a randomly selected position if it hasn't escaped from the nucleus.
+     * Puts the alpha particle in a randomly selected position if it hasn't escaped from the nucleus.
      *
      * @param dt
      */

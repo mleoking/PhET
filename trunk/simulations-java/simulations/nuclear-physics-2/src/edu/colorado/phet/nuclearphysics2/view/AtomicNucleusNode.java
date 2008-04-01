@@ -31,10 +31,6 @@ public class AtomicNucleusNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    // Diameter of the nucleus.
-    // TODO: JPB TBD - this should probably be obtained from somewhere else eventually.
-    private static final double  NUCLEUS_DIAMETER = 11.6;
-
     // Fonts for displaying the label on the nucleus.
     private static final Font ISOTOPE_NUMBER_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 6 );
     private static final Font CHEMICAL_SYMBOL_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
@@ -232,8 +228,8 @@ public class AtomicNucleusNode extends PNode {
      */
     private void update(){
 
-        _isotopeNumberLabel.setOffset( _atomicNucleus.getPosition().getX() - NUCLEUS_DIAMETER/2,  
-                _atomicNucleus.getPosition().getY() - NUCLEUS_DIAMETER/2);
+        _isotopeNumberLabel.setOffset( _atomicNucleus.getPosition().getX() - _atomicNucleus.getDiameter()/2,  
+                _atomicNucleus.getPosition().getY() - _atomicNucleus.getDiameter()/2);
         
         Point2D isotopeLabelOffset = _isotopeNumberLabel.getOffset();
 
