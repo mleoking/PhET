@@ -66,12 +66,10 @@ public class NeutronSourceNode extends PNode{
         _fireButtonUp.setOffset( BUTTON_OFFSET );
         _fireButtonUp.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                System.out.println("Mouse Pressed.");
-                // TODO: JPB TBD - Tell model to fire a neutron.
+                _neutronSource.generateNeutron();
                 _fireButtonUp.setVisible( false );
             }
             public void mouseReleased( PInputEvent event ) {
-                System.out.println("Mouse Released.");
                 _fireButtonUp.setVisible( true );
             }
         } );
@@ -84,7 +82,7 @@ public class NeutronSourceNode extends PNode{
                 // expect this model component to ever move.
                 assert false;
             }
-            public void neutronCreated(Neutron neutron){
+            public void neutronGenerated(Neutron neutron){
                 // TODO: JPB TBD.
             }
         });

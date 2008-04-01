@@ -20,14 +20,8 @@ public class ProtonNode extends PNode {
         _nucleon = nucleon;
         Random rand = new Random();
         
-        // Randomly choose an image for this particle with a slight
-        // bias towards neutrons, since there are more in heavy nuclei.
-        if (rand.nextDouble() > 0.45){
-           _displayImage = NuclearPhysics2Resources.getImageNode("Neutron.png");
-        }
-        else {
-            _displayImage = NuclearPhysics2Resources.getImageNode("Proton.png");            
-        }
+        // Set up the image for this particle.
+        _displayImage = NuclearPhysics2Resources.getImageNode("Proton.png");
         
         _displayImage.scale( PARTICLE_DIAMETER/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
         addChild(_displayImage);

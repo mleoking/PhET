@@ -101,15 +101,15 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
                 nucleusLayer.addChild( alphaNode );
             }
-            else if (constituent instanceof Proton){
-                // Add a visible representation of the proton to the canvas.
-                ProtonNode protonNode = new ProtonNode((Proton)constituent);
-                nucleusLayer.addChild( protonNode );
-            }
             else if (constituent instanceof Neutron){
                 // Add a visible representation of the neutron to the canvas.
                 NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
                 nucleusLayer.addChild( neutronNode );
+            }
+            else if (constituent instanceof Proton){
+                // Add a visible representation of the proton to the canvas.
+                ProtonNode protonNode = new ProtonNode((Proton)constituent);
+                nucleusLayer.addChild( protonNode );
             }
             else {
                 // There is some unexpected object in the list of constituents

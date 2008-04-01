@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.nuclearphysics2.model;
 
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,8 +9,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.nuclearphysics2.defaults.AlphaRadiationDefaults;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 public class AtomicNucleus {
     
@@ -102,21 +99,23 @@ public class AtomicNucleus {
         _numProtons   = (atomicWeight / 4);
         _numNeutrons  = atomicWeight - _numProtons - (_numAlphas * 4);
 
-        // Add the alpha particles.
-        for (int i = 0; i < _numAlphas; i++){
-            _constituents.add( new AlphaParticle(0, 0) );
-        }
-        
-        // Add the neutrons.
-        for (int i = 0; i < _numNeutrons; i++){
-            _constituents.add( new Neutron(0, 0) );
+        // Add the particles.  We do this in such a way that the particles
+        // are interspersed in the list, since this works out better for the
+        // view.
+        int maxParticles = Math.max( _numProtons, _numNeutrons );
+        maxParticles = Math.max( maxParticles, _numAlphas);
+        for (int i = 0; i < maxParticles; i++){
+            if (i < _numNeutrons){
+                _constituents.add( new Neutron(0, 0, true) );
+            }
+            if (i < _numProtons){
+                _constituents.add( new Proton(0, 0, true) );
+            }
+            if (i < _numAlphas){
+                _constituents.add( new AlphaParticle(0, 0) );
+            }
         }
 
-        // Add the protons.
-        for (int i = 0; i < _numProtons; i++){
-            _constituents.add( new Proton(0, 0) );
-        }
-        
         // If we are being created as a Polonium nucleus, then decide when
         // alpha decay will occur.
         if (atomicWeight == 211){
