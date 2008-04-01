@@ -19,9 +19,6 @@ public class AtomicNucleus {
     // Class data
     //------------------------------------------------------------------------
     
-    // Radius of the core of the nucleus, in femtometers.
-    public static final double CORE_RADIUS = 5.5; // In femtometers
-    
     // Radius at which an alpha particle could tunnel out.  This is in
     // femtometers, but is larger than the real value so that users can see
     // particles coming and going in this zone.
@@ -148,7 +145,9 @@ public class AtomicNucleus {
     }
     
     public double getDiameter(){
-        return 2 * CORE_RADIUS;
+        // This calculation is based on an empirically derived function that
+        // seems to give pretty reasonable values.
+        return (1.6 * Math.pow( (double)getAtomicWeight(), 0.362));
     }
     
     public ConstantDtClock getClock(){
@@ -214,7 +213,7 @@ public class AtomicNucleus {
             for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
             {
                 AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
-                constituent.tunnel( 0, CORE_RADIUS, TUNNEL_OUT_RADIUS );
+                constituent.tunnel( 0, getDiameter()/2, TUNNEL_OUT_RADIUS );
             }
             _agitationCount = (_agitationCount + 1) % agitationIncrement;
         }
