@@ -392,6 +392,7 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
      * Updates the view to match the model.
      */
     public void update() {
+        
         if ( isVisible() ) {
             
             // For each needle in the grid...
@@ -438,19 +439,19 @@ public class CompassGridGraphic extends PhetGraphic implements SimpleObserver, A
     }
     
     /**
-     * Rescales a "field strength" value.
+     * Rescales a "field strength" scale value.
      * Since the field strength drops off with the cube of the distance,
      * the grid disappears very quickly around the magnet. 
      * Rescaling makes the grid more visually appealing, but less physically accurate.
      * 
-     * @param strength a field strength value, in the range 0...1
-     * @return the rescaled field strength, in the range 0...1
+     * @param scale a scale value, in the range 0...1
+     * @return the modified scale, in the range 0...1
      */
-    private double rescale( double strength ) {
-        assert( strength >=0 && strength <= 1 );
+    private double rescale( double scale ) {
+        assert( scale >=0 && scale <= 1 );
         double newStrength = 1.0;
-        if ( strength != 0 && strength <= RESCALE_THRESHOLD ) {
-            newStrength = Math.pow( strength / RESCALE_THRESHOLD, RESCALE_EXPONENT );
+        if ( scale != 0 && scale <= RESCALE_THRESHOLD ) {
+            newStrength = Math.pow( scale / RESCALE_THRESHOLD, RESCALE_EXPONENT );
         }
         return newStrength;
     }
