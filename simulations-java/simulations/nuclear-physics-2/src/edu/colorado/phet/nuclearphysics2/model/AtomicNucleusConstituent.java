@@ -21,7 +21,6 @@ public interface AtomicNucleusConstituent {
      */
     public Point2D getPosition();
     
-    
     /**
      * This method tells the constituent to simulate quantum tunneling
      * behavior, meaning that it will randomly jump to a new position

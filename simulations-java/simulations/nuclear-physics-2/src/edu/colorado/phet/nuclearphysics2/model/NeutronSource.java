@@ -15,6 +15,11 @@ import edu.colorado.phet.nuclearphysics2.model.AlphaParticle.Listener;
  */
 public class NeutronSource {
     //------------------------------------------------------------------------
+    // Class data
+    //------------------------------------------------------------------------
+    private static final double NEUTRON_VELOCITY = 0.1; // In femtometers/tick.
+
+    //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
     private ArrayList _listeners = new ArrayList();
@@ -56,6 +61,22 @@ public class NeutronSource {
     
     public static interface Listener {
         void positionChanged();
-        void neutronCreated(Neutron newNeutron);
+        void neutronGenerated(Neutron newNeutron);
+    }
+
+    //------------------------------------------------------------------------
+    // Other methods
+    //------------------------------------------------------------------------
+
+    /**
+     * Commands the neutron source to generate a new neutron.
+     */
+    public void generateNeutron(){
+        Neutron newNeutron = new Neutron(_position.x, _position.y, 1, 0, false);
+        
+        for (int i = 0; i < _listeners.size(); i++){
+            // Notify listeners of new particle.
+            ((NeutronSource.Listener)_listeners.get( i )).neutronGenerated( newNeutron );
+        }
     }
 }

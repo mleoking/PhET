@@ -10,9 +10,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel.Listener;
+import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -34,6 +37,7 @@ public class FissionOneNucleusModel {
     
     private AtomicNucleus _atomicNucleus;
     private NeutronSource _neutronSource;
+    private ArrayList _freeNucleons = new ArrayList();
     private ArrayList _listeners = new ArrayList();
     private ConstantDtClock _clock;
     
@@ -49,8 +53,35 @@ public class FissionOneNucleusModel {
         // Add the neutron source to the side of the model.
         _neutronSource = new NeutronSource(-30, 0);
         
+        // Register as a listener to the neutron source so that we know when
+        // new neutrons are generated.
+        _neutronSource.addListener( new NeutronSource.Listener (){
+            public void neutronGenerated(Neutron neutron){
+                // Add this new neutron to the list of free particles.
+                _freeNucleons.add( neutron );
+            }
+            public void positionChanged(){
+                // Ignore this, since we don't really care about it.
+            }
+        });
+        
         // Create the clock that will drive this model.
         _clock = new ConstantDtClock(30, 1.0);
+        
+        clock.addClockListener( new ClockAdapter(){
+            
+            /**
+             * Clock tick handler - causes the model to move forward one
+             * increment in time.
+             */
+            public void clockTicked(ClockEvent clockEvent){
+                handleClockTicked(clockEvent);
+            }
+            
+            public void simulationTimeReset(ClockEvent clockEvent){
+                // TODO: JPB TBD
+            }
+        });
 
         // Start the clock.
         _clock.start();
@@ -91,6 +122,19 @@ public class FissionOneNucleusModel {
         assert !_listeners.contains( listener );
         
         _listeners.add( listener );
+    }
+    
+    /**
+     * Handle a clock tick event.
+     * 
+     * @param ce - The clock event representing the sim clock at this point int time.
+     */
+    private void handleClockTicked(ClockEvent ce){
+        // Move any free particles that exist.
+        for (int i = 0; i < _freeNucleons.size(); i++){
+            assert _freeNucleons.get( i ) instanceof Nucleon;
+            ((Nucleon)_freeNucleons.get( i )).translate();
+        }
     }
 
     //------------------------------------------------------------------------

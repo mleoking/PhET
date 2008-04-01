@@ -16,6 +16,7 @@ import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
+import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
@@ -48,6 +49,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private AtomicNucleusNode _atomicNucleusNode; 
     private NeutronSourceNode _neutronSourceNode; 
     private FissionEnergyChart _fissionEnergyChart;
+    private ArrayList _freeParticles = new ArrayList();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -63,8 +65,6 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
                 return AffineTransform.getTranslateInstance( getWidth()/2, getHeight()/4 );
             }
         });
-        
-        // TODO: JPB TBD - Register with the model for events.
         
         // Set the background color.
         setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
@@ -115,6 +115,19 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         // Add the neutron source to the canvas.
         _neutronSourceNode = new NeutronSourceNode(fissionOneNucleusModel.getNeutronSource());
         addWorldChild( _neutronSourceNode );
+        
+        // Register as a listener with the neutron source so that we will know
+        // when new neutrons have been produced.
+        fissionOneNucleusModel.getNeutronSource().addListener( new NeutronSource.Listener (){
+            public void neutronGenerated(Neutron neutron){
+                // Add this new neutron to the canvas.
+                NeutronNode neutronNode = new NeutronNode(neutron);
+                addWorldChild( neutronNode );
+            }
+            public void positionChanged(){
+                // Ignore this, since we don't really care about it.
+            }
+        });
         
         // JPB TPB - add a line to show where the 0 y axis is.
         PPath yAxisLine = new PPath(new Line2D.Double(-100, 0, 100, 0)); 
