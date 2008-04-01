@@ -4,16 +4,12 @@ package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.geom.Point2D;
 
-import javax.swing.JButton;
-
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
-import edu.colorado.phet.nuclearphysics2.util.FireButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class acts as the visual representation of a neutron source.
@@ -27,7 +23,7 @@ public class NeutronSourceNode extends PNode{
     //------------------------------------------------------------------------
 
     private final static double GRAPHIC_SIZE =   20.0;  // In world coordinates.
-    private final static Point2D BUTTON_OFFSET = new Point2D.Double(25, 10);
+    private final static Point2D BUTTON_OFFSET = new Point2D.Double(29, 10);
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -42,6 +38,10 @@ public class NeutronSourceNode extends PNode{
     // Constructor
     //------------------------------------------------------------------------
 
+    /**
+     * Construct the graphical node that will represent the neutron source on
+     * the canvas.
+     */
     public NeutronSourceNode(NeutronSource neutronSource)
     {
         _neutronSource = neutronSource;
@@ -98,10 +98,14 @@ public class NeutronSourceNode extends PNode{
     //------------------------------------------------------------------------
 
     /**
-     * Method to update the position of this node on the canvas.
+     * Position the Neutron Source Node on the canvas.
      */
     private void update(){
-        _displayImage.setOffset( _neutronSource.getPosition().getX(),  
-                _neutronSource.getPosition().getY());
+        
+        // Position the image so that the tip of the gun is where the neutrons
+        // will appear.
+        
+        _displayImage.setOffset( _neutronSource.getPosition().getX() - _displayImage.getWidth() * _displayImage.getScale(),  
+                _neutronSource.getPosition().getY() - 3.5);
     }
 }

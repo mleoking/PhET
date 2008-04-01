@@ -2,10 +2,13 @@
 
 package edu.colorado.phet.nuclearphysics2.module.fissiononenucleus;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -113,6 +116,13 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         _neutronSourceNode = new NeutronSourceNode(fissionOneNucleusModel.getNeutronSource());
         addWorldChild( _neutronSourceNode );
         
+        // JPB TPB - add a line to show where the 0 y axis is.
+        PPath yAxisLine = new PPath(new Line2D.Double(-100, 0, 100, 0)); 
+        yAxisLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+                new float[] {2, 2 }, 0) );
+        yAxisLine.setStrokePaint( new Color(0x990099) );
+        addWorldChild(yAxisLine);
+
         // Add to the canvas the chart that will depict the energy of the nucleus.
         _fissionEnergyChart = new FissionEnergyChart();
         addScreenChild( _fissionEnergyChart );

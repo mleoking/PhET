@@ -47,7 +47,7 @@ public class FissionOneNucleusModel {
         _atomicNucleus = new AtomicNucleus(clock, 0, 0, 235);
         
         // Add the neutron source to the side of the model.
-        _neutronSource = new NeutronSource(-50, 0);
+        _neutronSource = new NeutronSource(-30, 0);
         
         // Create the clock that will drive this model.
         _clock = new ConstantDtClock(30, 1.0);
