@@ -6,7 +6,7 @@ TODO:
 - make B-field inside the magnet appear to move with the magnet [351]
 
 DONE:
-********* version 1.05.09 (?)
+********* version 1.05.09 (20482)
 4/1/08 - change screenshot for magnet-and-compass, turn off field meter [442]
 4/1/08 - create screenshots for new faraday sims [442]
 4/1/08 - change Earth transparency from 0.65 to 0.75 [443]
