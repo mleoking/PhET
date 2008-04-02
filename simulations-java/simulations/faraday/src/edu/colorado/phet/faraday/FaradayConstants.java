@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.faraday;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -107,6 +108,9 @@ public class FaradayConstants {
     private static final int GRID_NEEDLE_WIDTH = 25;
     private static final int GRID_NEEDLE_HEIGHT = (int) ( GRID_NEEDLE_WIDTH / GRID_NEEDLE_ASPECT_RATIO );
     public static final Dimension GRID_NEEDLE_SIZE = new Dimension( GRID_NEEDLE_WIDTH, GRID_NEEDLE_HEIGHT );
+    
+    public static final Color NORTH_COLOR = Color.RED;
+    public static final Color SOUTH_COLOR = Color.WHITE;
     
     //----------------------------------------------------------------------------
     // Pickup Coil parameters

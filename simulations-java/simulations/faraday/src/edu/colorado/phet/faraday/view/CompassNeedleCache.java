@@ -8,6 +8,8 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
+import edu.colorado.phet.faraday.view.NeedleColorStrategy.AlphaColorStrategy;
+
 
 /**
  * CompassNeedleCache is a cache of the graphics components needed to draw a needle.
@@ -27,6 +29,9 @@ class CompassNeedleCache {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static Dimension DEFAULT_NEEDLE_SIZE = new Dimension( 20, 20 );
+    private static NeedleColorStrategy DEFAULT_NEEDLE_COLOR_STRATEGY = new AlphaColorStrategy();
+    
     private static int NUMBER_OF_SHAPES = 360; // one for each degree of rotation (0-359)
     private static int NUMBER_OF_COLORS = 256; // one for each possible color component value (0-255)
     
@@ -37,8 +42,8 @@ class CompassNeedleCache {
     // The size of all needles in the cache.
     private Dimension _needleSize;
     
-    // Determines whether strength is displayed using alpha or color saturation.
-    private boolean _alphaEnabled;
+    // Strategy for creating a needle color that represents strength.
+    private NeedleColorStrategy _needleColorStrategy;
     
     // Cache of Shapes, indexed by rotation angle in degrees (0-359)
     private Shape[] _shapeTable;
@@ -55,28 +60,36 @@ class CompassNeedleCache {
     //----------------------------------------------------------------------------
     
     /**
-     * Creates a cache with 20x20 needles, alpha enabled.
+     * Creates a cache with default needles size and color strategy.
      */
     public CompassNeedleCache() {
-        this( new Dimension( 20, 20 ), true );
+        this( DEFAULT_NEEDLE_SIZE );
     }
     
     /**
-     * Creates a cache with the specified needle size and alpha setting.
+     * Creates a cache with the specified needle size and default color strategy.
      * 
      * @param needleSize
-     * @param alphaEnabled
      */
-    public CompassNeedleCache( Dimension needleSize, boolean alphaEnabled ) {
-        _needleSize = new Dimension();
+    public CompassNeedleCache( Dimension needleSize ) {
+        this( needleSize, DEFAULT_NEEDLE_COLOR_STRATEGY );
+    }
+    
+    /**
+     * Creates a cache with the specified needle size and color strategy.
+     * 
+     * @param needleSize
+     * @param needleColorStrategy
+     */
+    public CompassNeedleCache( Dimension needleSize, NeedleColorStrategy needleColorStrategy ) {
+        _needleSize = new Dimension( needleSize.width, needleSize.height );
+        _needleColorStrategy = needleColorStrategy;
         _shapeTable = new Shape[NUMBER_OF_SHAPES];
         _northColorTable = new Color[NUMBER_OF_COLORS];
         _southColorTable = new Color[NUMBER_OF_COLORS];
         _shapeCount = _northColorCount = _southColorCount = 0;
         _somePath = new GeneralPath();
         _someTransform = new AffineTransform();
-        setNeedleSize( needleSize );
-        setAlphaEnabled( alphaEnabled );
     }
     
     //----------------------------------------------------------------------------
@@ -90,24 +103,24 @@ class CompassNeedleCache {
      * @param size
      */
     public void setNeedleSize( Dimension size ) {
-        setNeedleSize( size.width, size.height );
-    }
-    
-    /**
-     * Sets the size of the needles.
-     * <p>
-     * Calling this method clears the Shape portion of the cache.
-     * 
-     * @param width
-     * @param height
-     */
-    public void setNeedleSize( int width, int height ) {
-        assert( width > 0 && height > 0 );
-        if ( _needleSize.width != width && _needleSize.height != height ) {
-            _needleSize.setSize( width, height );
+        if ( _needleSize.width != size.width && _needleSize.height != size.height ) {
+            _needleSize.setSize( size.width, size.height );
             clearShapes();
         }
     }
+    
+//    /**
+//     * Sets the size of the needles.
+//     * <p>
+//     * Calling this method clears the Shape portion of the cache.
+//     * 
+//     * @param width
+//     * @param height
+//     */
+//    public void setNeedleSize( int width, int height ) {
+//        assert( width > 0 && height > 0 );
+//
+//    }
     
     /**
      * Gets the size of the needles.
@@ -119,33 +132,14 @@ class CompassNeedleCache {
     }
     
     /**
-     * Enables or disables alpha.
-     * When alpha is enabled, the alpha component is used to indicate strength.
-     * When alpha is disabled, color component saturation is used to indicate strength.
-     * <p>
-     * Alpha will work on any background color, but has a performance penalty.
-     * Color saturation works on black backgrounds only, and is more efficient.
-     * <p>
-     * Calling this method clears the Color portion of the cache.
+     * Sets the strategy used to map strength to a needle color.
+     * Clears the color portion of the cache.
      * 
-     * @param alphaEnabled true or false
+     * @param needleColorStrategy
      */
-    public void setAlphaEnabled( boolean alphaEnabled ) {
-        assert( _northColorTable.length == _southColorTable.length );
-        if ( alphaEnabled != _alphaEnabled ) {
-            _alphaEnabled = alphaEnabled;
-            clearColors();
-        }
-    }
-    
-    /**
-     * Gets the current alpha state.
-     * See setAlphaEnabled.
-     * 
-     * @return true or false
-     */
-    public boolean isAlphaEnabled() {
-        return _alphaEnabled;
+    public void setNeedleColorStrategy( NeedleColorStrategy needleColorStrategy ) {
+        _needleColorStrategy = needleColorStrategy;
+        clearColors();
     }
     
     //----------------------------------------------------------------------------
@@ -250,18 +244,10 @@ class CompassNeedleCache {
         int index = (int) ( 255 * strength );
         Color color = _northColorTable[ index ];
         if ( color == null ) {
-            if ( _alphaEnabled ) {
-                // Alpha works on any background, but you pay a performance price.
-                color = new Color( 255, 0, 0, index );
-            }
-            else {
-                // Color saturation assumes a black background.
-                color = new Color( index, 0, 0 );
-            }
-            _northColorTable[ index ] = color;
-            
+            color = _needleColorStrategy.getNorthColor( strength );
+            _northColorTable[index] = color;
             _northColorCount++;
-            assert( _northColorCount <= NUMBER_OF_COLORS );
+            assert ( _northColorCount <= NUMBER_OF_COLORS );
         }
         return color;
     }
@@ -278,16 +264,8 @@ class CompassNeedleCache {
         int index = (int) ( 255 * strength );
         Color color = _southColorTable[ index ];
         if ( color == null ) {
-            if ( _alphaEnabled ) {
-                // Alpha works on any background, but you pay a performance price.
-                color = new Color( 255, 255, 255, index );
-            }
-            else {
-                // Color saturation assumes a black background.
-                color = new Color( index, index, index );
-            }
+            color = _needleColorStrategy.getSouthColor( strength );
             _southColorTable[ index ] = color;
-            
             _southColorCount++;
             assert( _southColorCount <= NUMBER_OF_COLORS );
         }

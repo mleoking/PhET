@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.faraday.model.BarMagnet;
+import edu.colorado.phet.faraday.view.NeedleColorStrategy.AlphaColorStrategy;
 
 /**
  * 
@@ -37,6 +38,8 @@ public class BFieldInsideGraphic extends CompassGridGraphic implements SimpleObs
      */
     public BFieldInsideGraphic( Component component, BarMagnet barMagnetModel ) {
         super( component, barMagnetModel, X_SPACING, Y_SPACING, true /* inMagnetPlane */ );
+        
+        setNeedleColorStrategy( new AlphaColorStrategy() ); // need to use alpha because we're drawing this on top of the magnet
         
         _barMagnetModel = barMagnetModel;
         _barMagnetModel.addObserver( this );
