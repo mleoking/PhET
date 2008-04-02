@@ -259,6 +259,11 @@ public class AtomicNucleus {
         }
     }
     
+    public void setVelocity( double xVel, double yVel){
+        _xVelocity = xVel;
+        _yVelocity = yVel;
+    }
+    
     /**
      * Resets the nucleus to its original state, before any fission has
      * occurred.
