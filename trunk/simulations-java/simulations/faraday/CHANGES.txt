@@ -7,6 +7,8 @@ TODO:
 - B-field graphics could use some cleanup and redesign [351]
 
 DONE:
+4/2/08 - remove AbstractBFieldGraphic.setRescalingEnabled and getRescalingEnabled, not useful, we always rescale
+4/2/08 - rename CompassGridGraphic to AbstractBFieldGraphic
 4/2/08 - change terminology in CompassGridGraphic, use "grid points" instead of "needle descriptors"
 4/2/08 - convert CompassNeedleCache to use strategy pattern for colors
 4/1/08 - create BFieldInsideGraphic, field grid inside the magnet that moves with the magnet [351]
