@@ -10,7 +10,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
-import edu.colorado.phet.faraday.module.*;
+import edu.colorado.phet.faraday.module.BarMagnetModule;
+import edu.colorado.phet.faraday.module.ElectromagnetModule;
 
 /**
  * MagnetsAndElectromagnetsApplication is the main application 
