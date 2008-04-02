@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Faraday's Electromagnetic Lab, version 1.05.09
+Faraday's Electromagnetic Lab, version 1.05.10
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -15,17 +15,15 @@ Faraday's Electromagnetic Lab, version 1.05.09
 <b>What's new:</b>
 <p>
 <ul>
-<li>change Earth transparency from 0.65 to 0.75 [443]
-<li>put Earth in top-most layer, in front of everything else [443]
-<li>Earth image licensing has been approved [443]
-<li>set "light glow scale"=15 in all panels [488]
-<li>set "lightbulb min alpha"=0.35 in all panels [488]
-<li>add screenshots for new sims [442]
+<li>changed "see inside magnet" feature [351]. Bar magnet is no longer transparent. 
+Instead, a separate B-field is displayed that moves with the magnet.
+As requested, the Options>FieldControls feature does not change the layout of this B-field.
+<li>fixed divide-by-zero problem that occurs when the distance is zero between one of the bar magnet's poles and a point in the B-field grid [492]
 </ul>
 <p>
 <b>Known problems:</b>
 <p>
 <ul>
-<li>"See inside" feature has not been changed [351]
+<li>Options>BackgroundColor dialog can be closed such that menu item is still disabled [
 </ul>
 </html>
