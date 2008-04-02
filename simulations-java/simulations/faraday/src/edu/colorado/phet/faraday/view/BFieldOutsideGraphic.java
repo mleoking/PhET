@@ -50,29 +50,28 @@ public class BFieldOutsideGraphic extends CompassGridGraphic implements SimpleOb
      * In this case, we fill the apparatus panel with grid points, based on
      * the bounds of the apparatus panel and the spacing of the points.
      */
-    protected ArrayList createNeedleDescriptors() {
+    protected ArrayList createGridPoints() {
         
-        ArrayList needleDescriptors = new ArrayList();
+        ArrayList gridPoints = new ArrayList();
         
         Rectangle bounds = getGridBoundsReference();
         final int xSpacing = getXSpacing();
         final int ySpacing = getYSpacing();
         
-        // Determine how many needles are needed to fill the apparatus panel.
-        int xCount = (int) ( bounds.width / xSpacing ) + 1;
-        int yCount = (int) ( bounds.height / ySpacing ) + 1;
+        // Determine how many points are needed to fill the apparatus panel.
+        final int xCount = (int) ( bounds.width / xSpacing ) + 1;
+        final int yCount = (int) ( bounds.height / ySpacing ) + 1;
         
-        // Create the needles.
+        // Create the grid points.
         for ( int i = 0; i < xCount; i++ ) {
             for ( int j = 0; j < yCount; j++ ) {
-                NeedleDescriptor needleDescriptor = new NeedleDescriptor();
-                needleDescriptor.x = bounds.getX() + ( i * xSpacing );
-                needleDescriptor.y = bounds.getY() + ( j * ySpacing );
-                needleDescriptors.add( needleDescriptor );
+                double x = bounds.getX() + ( i * xSpacing );
+                double y = bounds.getY() + ( j * ySpacing );
+                gridPoints.add( new GridPoint( x, y ) );
             }
         }
         
-        return needleDescriptors;
+        return gridPoints;
     }
     
     //----------------------------------------------------------------------------

@@ -23,8 +23,8 @@ import edu.colorado.phet.faraday.view.NeedleColorStrategy.AlphaColorStrategy;
  */
 public class BFieldInsideGraphic extends CompassGridGraphic implements SimpleObserver {
 
-    private static final int X_SPACING = 20;
-    private static final int Y_SPACING = 8;
+    private static final int X_SPACING = 34;
+    private static final int Y_SPACING = 20;
     private static final int COLUMNS = 7; // this must be an odd number!
     
     private BarMagnet _barMagnetModel;
@@ -68,19 +68,18 @@ public class BFieldInsideGraphic extends CompassGridGraphic implements SimpleObs
     }
     
     /*
-     * Creates the description of the needles (grid points) in the grid.
+     * Creates the points in the grid.
+     * There are 2 rows and COLUMNS columns of points, with one column centered.
      */
-    protected ArrayList createNeedleDescriptors() {
+    protected ArrayList createGridPoints() {
         
         assert( COLUMNS % 2 == 1 ); // must be odd!
         
         _barMagnetModel.getLocation( _barMagnetLocation );
         
-        ArrayList needleDescriptors = new ArrayList();
+        ArrayList gridPoints = new ArrayList();
         
-        NeedleDescriptor needleDescriptor;
-        final double needleWidth = getNeedleSize().getWidth();
-        final double needleHeight = getNeedleSize().getHeight();
+        GridPoint gridPoint;
         final double xSpacing = getXSpacing();
         final double ySpacing = getYSpacing();
         double x, y;
@@ -88,37 +87,29 @@ public class BFieldInsideGraphic extends CompassGridGraphic implements SimpleObs
         for ( int i = 0; i <= ( COLUMNS / 2 ); i++ ) {
             
             // above center
-            y = _barMagnetLocation.getY() - ( ySpacing + ( needleHeight / 2 ) );
+            y = _barMagnetLocation.getY() - ( ySpacing  / 2 );
             
-            x = _barMagnetLocation.getX() + ( i * ( xSpacing + ( needleWidth / 2 ) ) );
-            needleDescriptor = new NeedleDescriptor();
-            needleDescriptor.x = x;
-            needleDescriptor.y = y;
-            needleDescriptors.add( needleDescriptor );
+            x = _barMagnetLocation.getX() + ( i * xSpacing );
+            gridPoint = new GridPoint( x, y );
+            gridPoints.add( gridPoint );
             
-            x = _barMagnetLocation.getX() - ( i * ( xSpacing + ( needleWidth / 2 ) ) );
-            needleDescriptor = new NeedleDescriptor();
-            needleDescriptor.x = x;
-            needleDescriptor.y = y;
-            needleDescriptors.add( needleDescriptor );
+            x = _barMagnetLocation.getX() - ( i * xSpacing );
+            gridPoint = new GridPoint( x, y );
+            gridPoints.add( gridPoint );
 
             // below center
-            y = _barMagnetLocation.getY() + ( ySpacing + ( needleHeight / 2 ) );
+            y = _barMagnetLocation.getY() + ( ySpacing / 2 );
             
-            x = _barMagnetLocation.getX() + ( i * ( xSpacing + ( needleWidth / 2 ) ) );
-            needleDescriptor = new NeedleDescriptor();
-            needleDescriptor.x = x;
-            needleDescriptor.y = y;
-            needleDescriptors.add( needleDescriptor );
+            x = _barMagnetLocation.getX() + ( i * xSpacing );
+            gridPoint = new GridPoint( x, y );
+            gridPoints.add( gridPoint );
             
-            x = _barMagnetLocation.getX() - ( i * ( xSpacing + ( needleWidth / 2 ) ) );
-            needleDescriptor = new NeedleDescriptor();
-            needleDescriptor.x = x;
-            needleDescriptor.y = y;
-            needleDescriptors.add( needleDescriptor );
+            x = _barMagnetLocation.getX() - ( i * xSpacing );
+            gridPoint = new GridPoint( x, y );
+            gridPoints.add( gridPoint );
         }
         
-        return needleDescriptors;
+        return gridPoints;
     }
     
     //----------------------------------------------------------------------------
@@ -131,7 +122,7 @@ public class BFieldInsideGraphic extends CompassGridGraphic implements SimpleObs
     public void update() {
         if ( isVisible() ) {
             updateGridBounds();
-            updateNeedleDescriptors();
+            updateGridPoints();
         }
     }
    

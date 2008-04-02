@@ -16,6 +16,8 @@ import edu.colorado.phet.faraday.util.Vector2D;
  * CompassGridGraphic is the graphical representation of a "compass grid".
  * As an alternative to a field diagram, the grid shows the strength
  * and orientation of a magnetic field (B-field) at a grid of points in 2D space.
+ * <p>
+ * See paint for important assumptions about the implementation of this class.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -48,8 +50,8 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     // The spacing between compass needles, in pixels.
     private int _xSpacing, _ySpacing;
     
-    // Descriptions of the needles that are in the grid (array of NeedleDescriptor).
-    private ArrayList _needleDescriptors;
+    // Points in the grid, array of GridPoint
+    private ArrayList _gridPoints;
     
     // Cache of needle Shapes and Colors
     private CompassNeedleCache _needleCache;
@@ -72,11 +74,54 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     // Is the grid in the 2D plane of the magnet, or slightly outside the 2D plane?
     private final boolean _inMagnetPlane;
     
-    // Lightweight data structure for holding a needle description.
-    protected class NeedleDescriptor {
-        public double x, y;
-        public double direction;
-        public double strength;
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    // Lightweight data structure for describing a grid point.
+    protected class GridPoint {
+
+        public final double _x, _y; // immutable
+        public double _direction;
+        public double _strength;
+
+        public GridPoint( double x, double y ) {
+            this( x, y, 0, 0 );
+        }
+
+        public GridPoint( double x, double y, double direction, double strength ) {
+            _x = x;
+            _y = y;
+            _direction = direction;
+            _strength = strength;
+        }
+        
+        public double getX() {
+            return _x;
+        }
+        
+        public double getY() {
+            return _y;
+        }
+
+        public void setDirection( double direction ) {
+            _direction = direction;
+        }
+
+        public double getDirection() {
+            return _direction;
+        }
+
+        public void setStrength( double strength ) {
+            if ( !( strength >= 0 && strength <= 1 ) ) {
+                throw new IllegalArgumentException( "strength out of bounds: " + strength );
+            }
+            _strength = strength;
+        }
+
+        public double getStrength() {
+            return _strength;
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -90,7 +135,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
      * @param magnetModel
      * @param xSpacing space between grid points in the X direction
      * @param ySpacing space between grid points in the Y direction
-     * @param inMagnetPlane
+     * @param inMagnetPlane are we showing the field in the 2D plane of the magnet?
      */
     public CompassGridGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing, boolean inMagnetPlane ) {
         super( component );
@@ -111,7 +156,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
         _needleCache.setNeedleSize( DEFAULT_NEEDLE_SIZE );
         _needleCache.populate();
         
-        _gridBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
+        _gridBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() ); // default to parent size
         _point = new Point();
         _fieldVector = new Vector2D();
         
@@ -123,10 +168,10 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
     
     /*
-     * Creates the description of the needles (grid points) in the grid.
+     * Creates the points in the grid.
      * This method must be implemented by all subclasses.
      */
-    protected abstract ArrayList createNeedleDescriptors();
+    protected abstract ArrayList createGridPoints();
     
     //----------------------------------------------------------------------------
     // Accessors
@@ -140,7 +185,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     public void setRescalingEnabled( boolean rescalingEnabled ) {
         if ( rescalingEnabled != _rescalingEnabled ) {
             _rescalingEnabled = rescalingEnabled;
-            updateNeedleDescriptors();
+            updateGridPoints();
         }
     }
     
@@ -162,7 +207,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     public void setSpacing( int xSpacing, int ySpacing ) {
         _xSpacing = xSpacing;
         _ySpacing = ySpacing;
-        updateNeedleDescriptors();
+        updateGridPoints();
     }
     
     /**
@@ -192,7 +237,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
         assert( needleSize != null );
         _needleCache.setNeedleSize( needleSize );
         _needleCache.populate();
-        updateNeedleDescriptors();
+        updateGridPoints();
     }
     
     /**
@@ -228,7 +273,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
      */
     protected void setGridBounds( int x, int y, int width, int height ) {
         _gridBounds.setBounds( x, y, width, height );
-        updateNeedleDescriptors();
+        updateGridPoints();
     }
     
     /*
@@ -251,7 +296,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( visible ) {
-            updateNeedleDescriptors();
+            updateGridPoints();
         }
     }
     
@@ -268,7 +313,9 @@ public abstract class CompassGridGraphic extends PhetGraphic {
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
+        
         if ( isVisible() ) { 
+            
             Color northColor, southColor;
             Shape northShape, southShape;
             
@@ -278,24 +325,24 @@ public abstract class CompassGridGraphic extends PhetGraphic {
             // Draw the needles.
             double previousX, previousY;
             previousX = previousY = 0;
-            for ( int i = 0; i < _needleDescriptors.size(); i++ ) {
-                NeedleDescriptor needleDescriptor = (NeedleDescriptor)_needleDescriptors.get(i);
+            for ( int i = 0; i < _gridPoints.size(); i++ ) {
+                GridPoint gridPoint = (GridPoint)_gridPoints.get(i);
                 
-                northColor = _needleCache.getNorthColor( needleDescriptor.strength );
-                southColor = _needleCache.getSouthColor( needleDescriptor.strength );
-                northShape = _needleCache.getNorthShape( needleDescriptor.direction );
-                southShape = _needleCache.getSouthShape( needleDescriptor.direction );
+                northColor = _needleCache.getNorthColor( gridPoint.getStrength() );
+                southColor = _needleCache.getSouthColor( gridPoint.getStrength() );
+                northShape = _needleCache.getNorthShape( gridPoint.getDirection() );
+                southShape = _needleCache.getSouthShape( gridPoint.getDirection() );
                 
-                if ( needleDescriptor.strength >= _strengthThreshold ) {
+                if ( gridPoint.getStrength() >= _strengthThreshold ) {
                     
-                    g2.translate( needleDescriptor.x - previousX, needleDescriptor.y - previousY );
+                    g2.translate( gridPoint.getX() - previousX, gridPoint.getY() - previousY );
                     g2.setPaint( northColor );
                     g2.fill( northShape );
                     g2.setPaint( southColor );
                     g2.fill( southShape );
                     
-                    previousX = needleDescriptor.x;
-                    previousY = needleDescriptor.y;
+                    previousX = gridPoint.getX();
+                    previousY = gridPoint.getY();
                 }
             }
             
@@ -318,38 +365,35 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
 
     /*
-     * Updates all aspects of the needles.
+     * Updates all aspects of the grid points.
      */
-    protected void updateNeedleDescriptors() {
+    protected void updateGridPoints() {
         updatePositions();
         updateStrengthAndOrientation();
         repaint();
     }
     
     /*
-     * Updates the position of needle descriptors to match the current bounds and spacing.
+     * Updates the grid points' positions to match the current bounds and spacing.
      */
     protected void updatePositions() {
-        _needleDescriptors = createNeedleDescriptors();
+        _gridPoints = createGridPoints();
     }
     
     /*
-     * Updates the strength and direction of needle descriptors to match the magnet.
-     * 
-     * @param inPlane true=in 2D plane of magnet, false=outside 2D plane of magnet
+     * Updates the grid points' strength and direction to match the magnet.
      */
     protected void updateStrengthAndOrientation() {
         
         if ( isVisible() ) {
             
-            // For each needle in the grid...
-            for ( int i = 0; i < _needleDescriptors.size(); i++ ) {
+            // For each grid point...
+            for ( int i = 0; i < _gridPoints.size(); i++ ) {
 
-                // Next needle...
-                NeedleDescriptor needleDescriptor = (NeedleDescriptor)_needleDescriptors.get(i);
+                GridPoint gridPoint = (GridPoint)_gridPoints.get(i);
 
                 // Get the magnetic field information at the needle's location.
-                _point.setLocation( needleDescriptor.x, needleDescriptor.y );
+                _point.setLocation( gridPoint.getX(), gridPoint.getY() );
                 if ( _inMagnetPlane ) {
                     _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
                 }
@@ -359,10 +403,10 @@ public abstract class CompassGridGraphic extends PhetGraphic {
                 double angle = _fieldVector.getAngle();
                 double magnitude = _fieldVector.getMagnitude();
                 
-                // Set the needle's direction.
-                needleDescriptor.direction = angle;
+                // Set the direction.
+                gridPoint.setDirection( angle );
                 
-                // Set the needle's strength.
+                // Set the strength.
                 {
                     // Convert the field strength to a value in the range 0...+1.
                     double magnetStrength = _magnetModel.getStrength();
@@ -382,8 +426,8 @@ public abstract class CompassGridGraphic extends PhetGraphic {
                         scale = scale * ( magnetStrength / _magnetModel.getMaxStrength() );
                     }
                     
-                    // Set the needle strength.
-                    needleDescriptor.strength = scale;
+                    // Set the strength.
+                    gridPoint.setStrength( scale );
                 }
             }
         }
