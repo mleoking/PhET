@@ -89,7 +89,7 @@ public class CompassGraphic extends CompositePhetGraphic
         // Needle
         {
             // Cache
-            _needleCache = new CompassNeedleCache( NEEDLE_SIZE, false );
+            _needleCache = new CompassNeedleCache( NEEDLE_SIZE );
             
             // North tip
             Color northColor = _needleCache.getNorthColor( 1.0 ); // opaque

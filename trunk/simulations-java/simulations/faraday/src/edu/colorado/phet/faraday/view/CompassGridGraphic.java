@@ -28,17 +28,13 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     // Determines how the magnetic field decreases with the distance from the magnet.
     private static final double DISTANCE_EXPONENT = 3.0;
     
-    // Strategy that uses alpha to indicated field strength.
-    private static final int ALPHA_STRATEGY = 0;
-    
-    // Strategy that uses color saturation to indicated field strength.
-    private static final int SATURATION_STRATEGY = 1;
-    
     // Threshold for applying rescaling of field strength. 
     private static final double RESCALE_THRESHOLD = 0.8;  // 0 ... 1
     
     // Exponent used for rescaling field strength.
     private static final double RESCALE_EXPONENT = 0.4;   // 0.3 ... 0.8
+    
+    private static final Dimension DEFAULT_NEEDLE_SIZE = new Dimension( 20, 40 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -112,8 +108,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
         _strengthThreshold = FaradayConstants.GRID_BFIELD_THRESHOLD;
         
         _needleCache = new CompassNeedleCache();
-        _needleCache.setNeedleSize( 40, 20 );
-        _needleCache.setAlphaEnabled( false ); // use color saturation
+        _needleCache.setNeedleSize( DEFAULT_NEEDLE_SIZE );
         _needleCache.populate();
         
         _gridBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
@@ -210,25 +205,22 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     }
    
     /**
-     * Convenience method for setting whether alpha is enabled.
-     * If the color is black, then color saturation is used, giving us better performance.
-     * See setAlphaEnabled.
+     * Convenience method for setting the needle color strategy for a specific background color.
      * 
      * @param color
      */
     public void setGridBackground( Color color ) {
-        setAlphaEnabled( !color.equals( Color.BLACK ) );
+        NeedleColorStrategy strategy = NeedleColorStrategy.createStrategy( color );
+        setNeedleColorStrategy( strategy );
     }
     
-    /**
-     * Enables alpha channel for indicating strength.
-     * If this is false, color saturation is used instead.
-     * See CompassNeedleGrid.setAlphaEnabled.
+    /*
+     * Sets the strategy used to map strength to a needle color.
      * 
-     * @param alphaEnabled
+     * @param needleColorStrategy
      */
-    public void setAlphaEnabled( boolean alphaEnabled ) {
-        _needleCache.setAlphaEnabled( alphaEnabled );
+    protected void setNeedleColorStrategy( NeedleColorStrategy needleColorStrategy ) {
+        _needleCache.setNeedleColorStrategy( needleColorStrategy );
     }
     
     /*
