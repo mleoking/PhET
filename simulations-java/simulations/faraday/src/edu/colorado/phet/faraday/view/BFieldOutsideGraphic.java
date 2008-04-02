@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
-import edu.colorado.phet.faraday.view.AbstractBFieldGraphic.GridPoint;
 
 /**
  * BFieldOutsideGraphic is the B-field outside the magnet, which fills the apparatus panel.
