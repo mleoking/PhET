@@ -3,7 +3,7 @@ Changes for faraday
 ===============================================================================
 
 DONE:
-********* version 1.05.10 (?)
+********* version 1.05.10 (20509)
 4/2/08 - organize imports
 4/2/08 - fix bounds problem in AbstractBFieldGraphic, needed to call setBoundsDirty when grid bounds change [351]
 4/2/08 - remove AbstractBFieldGraphic.setRescalingEnabled and getRescalingEnabled, not useful, we always rescale
