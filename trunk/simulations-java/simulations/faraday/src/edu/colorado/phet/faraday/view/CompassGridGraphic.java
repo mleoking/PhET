@@ -304,8 +304,8 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     }
     
     /**
-     * Determines the bounds of the grid.
-     * The bounds are based on the apparatus panel's canvas size, as set in canvasSizeChanged.
+     * Determines the bounds of this graphic.
+     * The graphic's bounds are equivalent to the grid bounds.
      * 
      * @return the bounds of the grid
      */
