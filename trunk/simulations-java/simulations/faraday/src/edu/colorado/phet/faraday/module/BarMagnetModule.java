@@ -126,13 +126,11 @@ public class BarMagnetModule extends FaradayModule {
         
         // B-field inside the magnet
         _bFieldInsideGraphic = new BFieldInsideGraphic( apparatusPanel, _barMagnetModel );
-        _bFieldInsideGraphic.setRescalingEnabled( true );
         _bFieldInsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         apparatusPanel.addGraphic( _bFieldInsideGraphic, BAR_MAGNET_LAYER );
         
         // B-field outside the magnet
         _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING, false /* inMagnetPlane */ );
-        _bFieldOutsideGraphic.setRescalingEnabled( true );
         _bFieldOutsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         _bFieldOutsideGraphic.setGridBackground( APPARATUS_BACKGROUND );
         apparatusPanel.addChangeListener( _bFieldOutsideGraphic );
