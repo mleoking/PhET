@@ -26,8 +26,10 @@ public interface AtomicNucleusConstituent {
      * behavior, meaning that it will randomly jump to a new position
      * within the specified range.
      * 
-     * @param minDistance - Minimum distance from origin where particle can end up.
-     * @param maxDistance - Maximum distance from origin where particle can end up.
+     * @param center - The center point around which tunneling should occur.
+     * @param minDistance - Minimum distance from center where particle can end up.
+     * @param nucleusRadius - Radius of the nucleus, which is where particles will mostly tunnel.
+     * @param tunnelRadius - Radius where particles will occasionally tunnel out to.
      */
-    public void tunnel(double minDistance, double nucleusRadius, double tunnelRadius);
+    public void tunnel(Point2D center, double minDistance, double nucleusRadius, double tunnelRadius);
 }

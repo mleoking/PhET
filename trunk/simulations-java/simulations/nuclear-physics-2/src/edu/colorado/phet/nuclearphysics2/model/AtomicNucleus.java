@@ -43,6 +43,10 @@ public class AtomicNucleus {
     // Location in space of the center of this nucleus.
     private Point2D _position;
     
+    // Velocity of this nucleus.
+    private double _xVelocity = 0;
+    private double _yVelocity = 0;
+    
     // List of the constituent particles that comprise this nucleus.
     private ArrayList _constituents = new ArrayList();
     
@@ -179,11 +183,22 @@ public class AtomicNucleus {
     
     /**
      * This method lets this model element know that the clock has ticked.  In
-     * response, the nucleus generally 'agitates' a bit, and may also perform
-     * some sort of decay.
+     * response, the nucleus generally 'agitates' a bit, may also perform some
+     * sort of decay, and may move.
      */
     public void handleClockTicked(ClockEvent clockEvent)
     {
+        // Move if our velocity is non-zero.
+        if (!((_xVelocity == 0) && (_yVelocity == 0))){
+            _position.setLocation( _position.getX() + _xVelocity, _position.getY() + _yVelocity);
+            
+            // Notify listeners of the position change.
+            for (int i = 0; i < _listeners.size(); i++){
+                ((Listener)_listeners.get( i )).positionChanged();
+            }
+        }
+        
+        // See if alpha decay should occur.
         if ((_alphaDecayTime != 0) && (clockEvent.getSimulationTime() >= _alphaDecayTime ))
         {
             // Pick an alpha particle to tunnel out and make it happen.
@@ -233,7 +248,7 @@ public class AtomicNucleus {
             for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
             {
                 AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
-                constituent.tunnel( 0, getDiameter()/2, TUNNEL_OUT_RADIUS );
+                constituent.tunnel( _position, 0, getDiameter()/2, TUNNEL_OUT_RADIUS );
             }
             _agitationCount = (_agitationCount + 1) % agitationIncrement;
         }
