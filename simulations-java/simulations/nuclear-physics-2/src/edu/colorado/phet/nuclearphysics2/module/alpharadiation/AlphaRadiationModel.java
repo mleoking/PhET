@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics2.module.alpharadiation;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -42,8 +43,8 @@ public class AlphaRadiationModel {
     {
         _clock = clock;
         
-        // Create a nucleus with an atomic weight of 211, which is Polonium.
-        _atomicNucleus = new AtomicNucleus(clock, 0, 0, 211);
+        // Create a nucleus of Polonium 211.
+        _atomicNucleus = new AtomicNucleus(clock, new Point2D.Double(0, 0), 84, 127);
         
         // Start the clock.
         clock.start();

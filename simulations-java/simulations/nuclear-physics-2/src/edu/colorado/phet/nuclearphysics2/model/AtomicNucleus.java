@@ -35,13 +35,14 @@ public class AtomicNucleus {
     private ArrayList _listeners = new ArrayList();
     
     // Location in space of the center of this nucleus.
-    private Point2D.Double position;
+    private Point2D _position;
     
     // List of the constituent particles that comprise this nucleus.
     private ArrayList _constituents = new ArrayList();
     
-    // Original atomic weight, used for resetting this nucleus.
-    private int _originalAtomicWeight;
+    // Original settings, used for resetting this nucleus.
+    private int _originalnumProtons;
+    private int _originalnumNeutrons;
     
     // Variable for deciding when alpha decay should occur.
     private double _alphaDecayTime = 0;
@@ -68,7 +69,7 @@ public class AtomicNucleus {
     // Constructor
     //------------------------------------------------------------------------
     
-    public AtomicNucleus(NuclearPhysics2Clock clock, double xPos, double yPos, int atomicWeight)
+    public AtomicNucleus(NuclearPhysics2Clock clock, Point2D position, int numProtons, int numNeutrons)
     {
         _clock = clock;
 
@@ -89,40 +90,42 @@ public class AtomicNucleus {
         
         
         // Set the initial position for this nucleus.
-        position = new Point2D.Double(xPos, yPos);
+        _position = position;
         
-        // Save the original weight so we can reset if need be.
-        _originalAtomicWeight = atomicWeight;
+        // Save the original params so we can reset if need be.
+        _originalnumProtons = numProtons;
+        _originalnumNeutrons = numNeutrons;
         
-        // Figure out the proportions of various particles based on the atomic number.
-        _numAlphas    = (atomicWeight / 2) / 4;  // Assume half of all particles are tied up in alphas.
-        _numProtons   = (atomicWeight / 4);
-        _numNeutrons  = atomicWeight - _numProtons - (_numAlphas * 4);
+        // Figure out the proportions of various particles.
+        _numAlphas    = ((numProtons + numNeutrons) / 2) / 4;  // Assume half of all particles are tied up in alphas.
+        _numProtons   = numProtons - (_numAlphas * 2);
+        _numNeutrons  = numNeutrons - (_numAlphas * 2);
 
         // Add the particles.  We do this in such a way that the particles
-        // are interspersed in the list, since this works out better for the
-        // view.
+        // are interspersed in the list, particularly towards the end of the
+        // list, since this works out better for the view.
         int maxParticles = Math.max( _numProtons, _numNeutrons );
         maxParticles = Math.max( maxParticles, _numAlphas);
-        for (int i = 0; i < maxParticles; i++){
-            if (i < _numNeutrons){
-                _constituents.add( new Neutron(0, 0, true) );
+        for (int i = (maxParticles - 1); i >= 0; i--){
+            if (i < _numAlphas){
+                _constituents.add( new AlphaParticle(0, 0) );
             }
             if (i < _numProtons){
                 _constituents.add( new Proton(0, 0, true) );
             }
-            if (i < _numAlphas){
-                _constituents.add( new AlphaParticle(0, 0) );
+            if (i < _numNeutrons){
+                _constituents.add( new Neutron(0, 0, true) );
             }
         }
 
-        // If we are being created as a Polonium nucleus, then decide when
+        // If we are being created as a Polonium 211 nucleus, then decide when
         // alpha decay will occur.
-        if (atomicWeight == 211){
+        if ((numProtons == 84) && (numNeutrons == 127)){
             _alphaDecayTime = calcPolonium211DecayTime();
         }
         else{
-            // Setting the decay time to 0 signifies that no decay should occur.
+            // Setting the decay time to 0 signifies that no alpha decay
+            // should occur.
             _alphaDecayTime = 0;
         }
     }
@@ -132,7 +135,7 @@ public class AtomicNucleus {
     //------------------------------------------------------------------------
 
     public Point2D getPosition(){
-        return new Point2D.Double(position.getX(), position.getY());
+        return _position;
     }
     
     public ArrayList getConstituents(){
@@ -230,7 +233,7 @@ public class AtomicNucleus {
     public void reset(){
         
         // If we started as Polonium 211, reset the alpha decay timer.
-        if (_originalAtomicWeight == 211){
+        if ((_originalnumProtons == 84) && (_originalnumNeutrons == 127)){
             _alphaDecayTime = calcPolonium211DecayTime();
         }
         else {
@@ -274,6 +277,18 @@ public class AtomicNucleus {
         double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / 1.343)) * 1000;
         System.out.println("randomValue = " + randomValue + ", tunnelOutMilliseconds = " + tunnelOutMilliseconds);
         return tunnelOutMilliseconds;
+    }
+    
+    /**
+     * Capture a free particle if the nucleus is able to.
+     * 
+     * @param freeParticle - A particle that is currently free, i.e. not a 
+     * part of another nucleus.
+     */
+    public void captureNeutron(Nucleon freeParticle){
+        freeParticle.setTunnelingEnabled( true );
+        freeParticle.setVelocity( 0, 0 );
+        _constituents.add( freeParticle );
     }
 
     /**
