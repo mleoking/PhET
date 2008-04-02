@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics2.module.fissiononenucleus;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -47,8 +48,8 @@ public class FissionOneNucleusModel {
     
     public FissionOneNucleusModel(NuclearPhysics2Clock clock)
     {
-        // Add the atomic nucleus to the center of this model.
-        _atomicNucleus = new AtomicNucleus(clock, 0, 0, 235);
+        // Add a nucleus of Uranium 235 to the model.
+        _atomicNucleus = new AtomicNucleus(clock, new Point2D.Double( 0, 0 ), 92, 143);
         
         // Add the neutron source to the side of the model.
         _neutronSource = new NeutronSource(-30, 0);
@@ -130,10 +131,21 @@ public class FissionOneNucleusModel {
      * @param ce - The clock event representing the sim clock at this point int time.
      */
     private void handleClockTicked(ClockEvent ce){
+        
         // Move any free particles that exist.
         for (int i = 0; i < _freeNucleons.size(); i++){
-            assert _freeNucleons.get( i ) instanceof Nucleon;
-            ((Nucleon)_freeNucleons.get( i )).translate();
+            Nucleon freeNucleon = (Nucleon)_freeNucleons.get( i );
+            assert freeNucleon instanceof Nucleon;
+            freeNucleon.translate();
+
+            // Check if any of the free particles have collided with the nucleus
+            // and, if so, transfer the particle into the nucleus.
+            if (Point2D.distance(freeNucleon.getPosition().getX(), freeNucleon.getPosition().getY(), 0, 0) <
+                _atomicNucleus.getDiameter() / 2){
+                
+                _atomicNucleus.captureNeutron( freeNucleon );
+                _freeNucleons.remove( i );
+            }
         }
     }
 

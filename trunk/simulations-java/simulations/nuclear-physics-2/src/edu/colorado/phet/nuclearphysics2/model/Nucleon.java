@@ -80,6 +80,19 @@ public class Nucleon implements AtomicNucleusConstituent {
         return new Point2D.Double(_position.getX(), _position.getY());
     }
     
+    public void setTunnelingEnabled(boolean tunnelingEnabled){
+        _tunnelingEnabled = tunnelingEnabled;
+    }
+    
+    public boolean getTunnelingEnabled(){
+        return _tunnelingEnabled;
+    }
+    
+    public void setVelocity(double xVel, double yVel){
+        _xVelocity = xVel;
+        _yVelocity = yVel;
+    }
+    
     //------------------------------------------------------------------------
     // Behavior methods
     //------------------------------------------------------------------------
