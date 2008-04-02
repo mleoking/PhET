@@ -248,6 +248,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
      */
     protected void setGridBounds( int x, int y, int width, int height ) {
         _gridBounds.setBounds( x, y, width, height );
+        setBoundsDirty(); // the graphic's bounds are now dirty
         updateGridPoints();
     }
     

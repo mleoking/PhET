@@ -118,24 +118,14 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
     //----------------------------------------------------------------------------
     
     /**
-     * When the magnet changes, update the needle descriptors and this graphic's bounds.
+     * When the magnet changes, update the grid.
      */
     public void update() {
         if ( isVisible() ) {
-            updateGridBounds();
-            updateGridPoints();
+            // Update the grid bounds. This causes the entire grid to be rebuilt.
+            final int x = (int) ( _barMagnetModel.getX() - ( _barMagnetModel.getWidth() / 2 ) );
+            final int y = (int) ( _barMagnetModel.getY() - ( _barMagnetModel.getHeight() / 2 ) );
+            setGridBounds( x, y, (int) _barMagnetModel.getWidth(), (int) _barMagnetModel.getHeight() );
         }
-    }
-   
-    /*
-     * Updates the grid bounds to match the bounds of the bar magnet model.
-     */
-    private void updateGridBounds() {
-        System.out.println( "BFieldInsideGraphic.updateGridBounds" );//XXX
-        setGridBounds( 
-                (int)( _barMagnetModel.getX() - ( _barMagnetModel.getWidth() / 2 ) ), 
-                (int)( _barMagnetModel.getY() - ( _barMagnetModel.getHeight() / 2 ) ), 
-                (int) _barMagnetModel.getWidth(),
-                (int) _barMagnetModel.getHeight() );
     }
 }
