@@ -102,24 +102,25 @@ public class AtomicNucleusNode extends PNode {
         _chemicalSymbolLabel.setScale(LABEL_SCALING_FACTOR);
         addChild(_chemicalSymbolLabel);
         
-        // Set the label based on the atomic number of the nucleus.
+        // Set the label based on the configuration of the nucleus.
         _currentAtomicWeight = _atomicNucleus.getAtomicWeight();
-        setLabel(_currentAtomicWeight);
+        setLabel(_atomicNucleus.getNumProtons(), _atomicNucleus.getNumNeutrons());
         
         // Register as a listener for the model representation.
         _atomicNucleus.addListener(new AtomicNucleus.Listener(){
             public void positionChanged(){
                 update();
             }
-            public void atomicWeightChanged(int newAtomicWeight){
+            public void atomicWeightChanged(int numProtons, int numNeutrons){
                 
-                if (_currentAtomicWeight > newAtomicWeight){
+                int newAtomicWeight = numProtons + numNeutrons;
+                if (newAtomicWeight < _currentAtomicWeight){
                     // This was a decay event, so kick off the explosion graphic.
                     _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
                 }
                 
                 // Update the label to reflect the new element.
-                setLabel(newAtomicWeight);
+                setLabel(numProtons, numNeutrons);
                 update();
             }
         });
@@ -146,51 +147,66 @@ public class AtomicNucleusNode extends PNode {
     }
     
     /**
-     * Set the label for the nucleus based on the atomic weight.  Note that
-     * this method makes assumptions about the element associated with a given
-     * weight because of the nature of the overall simulation.  Strictly
-     * speaking, if it wanted to be technically correct, this should look at
-     * the number of protons and neutrons to determine the element and the
-     * isotope.  This doesn't matter for this sim, but would be important if
-     * this class or method was ever reused in another sim.
+     * Set the label for the nucleus based on the number of protons and
+     * neutrons
      * 
-     * @param atomicWeight
+     * @param numProtons - The total number of protons in the nucleus.
+     * @param numNeutrons - The total number of neutrons in the nucleus.
      */
-    private void setLabel(int atomicWeight){
-        switch (atomicWeight){
-        case 235:
-            // Set the label for Uranium 235.
-            _isotopeNumberLabel.setText( NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER );
-            _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.URANIUM_LABEL_COLOR );
-            _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER );
-
-            _chemicalSymbolLabel.setText( NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL );
-            _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.URANIUM_LABEL_COLOR );
-            _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL );            
+    private void setLabel(int numProtons, int numNeutrons){
+        switch (numProtons){
+        case 92:
+            // Uranium
+            if (numNeutrons == 143){
+                // Uranium 235
+                _isotopeNumberLabel.setText( NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER );
+                _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.URANIUM_LABEL_COLOR );
+                _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER );
+    
+                _chemicalSymbolLabel.setText( NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL );
+                _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.URANIUM_LABEL_COLOR );
+                _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL );
+            }
+            else if (numNeutrons == 144){
+                // Uranium 236
+                // TODO: JPB TBD - Make these into strings if we decide to keep it.
+                _isotopeNumberLabel.setText( "236" );
+                _isotopeNumberLabel.setTextPaint( Color.ORANGE );
+                _isotopeNumberLabelShadow.setText( "236" );
+    
+                _chemicalSymbolLabel.setText( NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL );
+                _chemicalSymbolLabel.setTextPaint( Color.ORANGE );
+                _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL );
+            }
             
             break;
             
-        case 211:
-            // Set the label for Polonium 211.
-            _isotopeNumberLabel.setText( NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER );
-            _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
-            _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER );
-
-            _chemicalSymbolLabel.setText( NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL );
-            _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
-            _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL );            
+        case 84:
+            // Polonium
+            if (numNeutrons == 127){
+            // Polonium 211
+                _isotopeNumberLabel.setText( NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER );
+                _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
+                _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER );
+    
+                _chemicalSymbolLabel.setText( NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL );
+                _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
+                _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL );
+            }
             
             break;
             
-        case 207:
-            // Set the label for Lead 207.
-            _isotopeNumberLabel.setText( NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER );
-            _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.LEAD_LABEL_COLOR );
-            _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER );
-
-            _chemicalSymbolLabel.setText( NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL );
-            _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.LEAD_LABEL_COLOR );
-            _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL );
+        case 82:
+            // Lead
+            if (numNeutrons == 125){
+                _isotopeNumberLabel.setText( NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER );
+                _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.LEAD_LABEL_COLOR );
+                _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER );
+    
+                _chemicalSymbolLabel.setText( NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL );
+                _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.LEAD_LABEL_COLOR );
+                _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL );
+            }
             
             break;
             
@@ -209,7 +225,7 @@ public class AtomicNucleusNode extends PNode {
         default:
             // Issue a warning and set the label to nothing.
 
-            System.err.println( "Unable to set label for nucleus with atomic weight " + atomicWeight );
+            System.err.println( "Unable to set label for nucleus with proton number " + numProtons );
 
             _isotopeNumberLabel.setText( "" );
             _isotopeNumberLabelShadow.setText( "" );
