@@ -123,6 +123,9 @@ class CompassNeedleCache {
      * When alpha is enabled, the alpha component is used to indicate strength.
      * When alpha is disabled, color component saturation is used to indicate strength.
      * <p>
+     * Alpha will work on any background color, but has a performance penalty.
+     * Color saturation works on black backgrounds only, and is more efficient.
+     * <p>
      * Calling this method clears the Color portion of the cache.
      * 
      * @param alphaEnabled true or false
