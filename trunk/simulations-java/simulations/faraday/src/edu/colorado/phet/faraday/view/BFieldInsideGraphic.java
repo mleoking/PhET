@@ -71,7 +71,7 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
      * Creates the points in the grid.
      * There are 2 rows and COLUMNS columns of points, with one column centered.
      */
-    protected ArrayList createGridPoints() {
+    protected GridPoint[] createGridPoints() {
         
         assert( COLUMNS % 2 == 1 ); // must be odd!
         
@@ -109,7 +109,8 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
             gridPoints.add( gridPoint );
         }
         
-        return gridPoints;
+        // convert to array
+        return (GridPoint[]) gridPoints.toArray( new GridPoint[gridPoints.size()] );
     }
     
     //----------------------------------------------------------------------------

@@ -3,7 +3,6 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -41,17 +40,19 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     
     private static final Dimension DEFAULT_NEEDLE_SIZE = new Dimension( 20, 40 );
     
+    private static final RenderingHints RENDERING_HINTS = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnetModel;
     
-    // The spacing between compass needles, in pixels.
+    // The spacing between grid points, in pixels.
     private int _xSpacing, _ySpacing;
     
-    // Points in the grid, array of GridPoint
-    private ArrayList _gridPoints;
+    // Points in the grid.
+    private GridPoint[] _gridPoints;
     
     // Cache of needle Shapes and Colors
     private CompassNeedleCache _needleCache;
@@ -61,9 +62,6 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     
     // The grid's bounds.
     private Rectangle _gridBounds;
-    
-    // Rendering hints.
-    private final RenderingHints _renderingHints;
     
     // A reusable point
     private Point _point;
@@ -78,7 +76,9 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     // Inner classes
     //----------------------------------------------------------------------------
     
-    // Lightweight data structure for describing a grid point.
+    /*
+     * GridPoint describes a point on the grid.
+     */
     protected class GridPoint {
 
         public final double _x, _y; // immutable
@@ -129,7 +129,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
 
     /**
-     * Sole constructor.
+     * Constructor.
      * 
      * @param component the parent Component
      * @param magnetModel
@@ -157,8 +157,6 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
         _gridBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() ); // default to parent size
         _point = new Point();
         _fieldVector = new Vector2D();
-        
-        _renderingHints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
     }
     
     //----------------------------------------------------------------------------
@@ -169,7 +167,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
      * Creates the points in the grid.
      * This method must be implemented by all subclasses.
      */
-    protected abstract ArrayList createGridPoints();
+    protected abstract GridPoint[] createGridPoints();
     
     //----------------------------------------------------------------------------
     // Accessors
@@ -297,13 +295,14 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
             Shape northShape, southShape;
             
             super.saveGraphicsState( g2 );
-            g2.setRenderingHints( _renderingHints );
+            g2.setRenderingHints( RENDERING_HINTS );
             
             // Draw the needles.
             double previousX, previousY;
             previousX = previousY = 0;
-            for ( int i = 0; i < _gridPoints.size(); i++ ) {
-                GridPoint gridPoint = (GridPoint)_gridPoints.get(i);
+            for ( int i = 0; i < _gridPoints.length; i++ ) {
+                
+                GridPoint gridPoint = _gridPoints[i];
                 
                 northColor = _needleCache.getNorthColor( gridPoint.getStrength() );
                 southColor = _needleCache.getSouthColor( gridPoint.getStrength() );
@@ -365,9 +364,9 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
         if ( isVisible() ) {
             
             // For each grid point...
-            for ( int i = 0; i < _gridPoints.size(); i++ ) {
+            for ( int i = 0; i < _gridPoints.length; i++ ) {
 
-                GridPoint gridPoint = (GridPoint)_gridPoints.get(i);
+                GridPoint gridPoint = _gridPoints[i];
 
                 // Get the magnetic field information at the needle's location.
                 _point.setLocation( gridPoint.getX(), gridPoint.getY() );
