@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
+import edu.colorado.phet.faraday.view.AbstractBFieldGraphic.GridPoint;
 
 /**
  * BFieldOutsideGraphic is the B-field outside the magnet, which fills the apparatus panel.
@@ -50,7 +51,7 @@ public class BFieldOutsideGraphic extends AbstractBFieldGraphic implements Simpl
      * In this case, we fill the apparatus panel with grid points, based on
      * the bounds of the apparatus panel and the spacing of the points.
      */
-    protected ArrayList createGridPoints() {
+    protected GridPoint[] createGridPoints() {
         
         ArrayList gridPoints = new ArrayList();
         
@@ -71,7 +72,8 @@ public class BFieldOutsideGraphic extends AbstractBFieldGraphic implements Simpl
             }
         }
         
-        return gridPoints;
+        // convert to array
+        return (GridPoint[]) gridPoints.toArray( new GridPoint[gridPoints.size()] );
     }
     
     //----------------------------------------------------------------------------
