@@ -2,6 +2,9 @@
 Changes for faraday
 ===============================================================================
 
+TODO
+- Options>BackgroundColor menu item remains grayed out after associated dialog is closed [427]
+
 DONE:
 ********* version 1.05.10 (20509)
 4/2/08 - organize imports
