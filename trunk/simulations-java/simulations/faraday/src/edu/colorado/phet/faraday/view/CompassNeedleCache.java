@@ -10,7 +10,6 @@ import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.faraday.view.NeedleColorStrategy.AlphaColorStrategy;
 
-
 /**
  * CompassNeedleCache is a cache of the graphics components needed to draw a needle.
  * It contains Shapes for various "directions", and Colors for various "strengths".
@@ -19,7 +18,7 @@ import edu.colorado.phet.faraday.view.NeedleColorStrategy.AlphaColorStrategy;
  * <p>
  * Changing the needle size clears the Shape cache.
  * <p>
- * Changing the alpha setting clears the Color cache.
+ * Changing the needle color strategy setting clears the Color cache.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -60,14 +59,14 @@ class CompassNeedleCache {
     //----------------------------------------------------------------------------
     
     /**
-     * Creates a cache with default needles size and color strategy.
+     * Creates a cache with default needle size and color strategy.
      */
     public CompassNeedleCache() {
         this( DEFAULT_NEEDLE_SIZE );
     }
     
     /**
-     * Creates a cache with the specified needle size and default color strategy.
+     * Creates a cache with specified needle size and default color strategy.
      * 
      * @param needleSize
      */
@@ -76,7 +75,7 @@ class CompassNeedleCache {
     }
     
     /**
-     * Creates a cache with the specified needle size and color strategy.
+     * Creates a cache with specified needle size and color strategy.
      * 
      * @param needleSize
      * @param needleColorStrategy
@@ -108,19 +107,6 @@ class CompassNeedleCache {
             clearShapes();
         }
     }
-    
-//    /**
-//     * Sets the size of the needles.
-//     * <p>
-//     * Calling this method clears the Shape portion of the cache.
-//     * 
-//     * @param width
-//     * @param height
-//     */
-//    public void setNeedleSize( int width, int height ) {
-//        assert( width > 0 && height > 0 );
-//
-//    }
     
     /**
      * Gets the size of the needles.
