@@ -17,7 +17,7 @@ import edu.colorado.phet.faraday.model.AbstractMagnet;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BFieldOutsideGraphic extends CompassGridGraphic implements SimpleObserver, ApparatusPanel2.ChangeListener{
+public class BFieldOutsideGraphic extends AbstractBFieldGraphic implements SimpleObserver, ApparatusPanel2.ChangeListener{
 
     private AbstractMagnet _magnetModel;
     

@@ -13,15 +13,15 @@ import edu.colorado.phet.faraday.util.Vector2D;
 
 
 /**
- * CompassGridGraphic is the graphical representation of a "compass grid".
- * As an alternative to a field diagram, the grid shows the strength
- * and orientation of a magnetic field (B-field) at a grid of points in 2D space.
+ * AbstractBFieldGraphic is the base class for our visualization of a B-Field.
+ * As an alternative to a field diagram, the grid shows the strength and orientation 
+ * of a magnetic field (B-field) at a 2D grid of compass needles.
  * <p>
  * See paint for important assumptions about the implementation of this class.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class CompassGridGraphic extends PhetGraphic {
+public abstract class AbstractBFieldGraphic extends PhetGraphic {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -29,6 +29,9 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     
     // Determines how the magnetic field decreases with the distance from the magnet.
     private static final double DISTANCE_EXPONENT = 3.0;
+    
+    // Is rescaling of the field enabled?
+    private static final boolean RESCALE_ENABLED = true;
     
     // Threshold for applying rescaling of field strength. 
     private static final double RESCALE_THRESHOLD = 0.8;  // 0 ... 1
@@ -43,9 +46,6 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
     
     private AbstractMagnet _magnetModel;
-    
-    // Controls rescaling of field strength.
-    private boolean _rescalingEnabled;
     
     // The spacing between compass needles, in pixels.
     private int _xSpacing, _ySpacing;
@@ -137,7 +137,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
      * @param ySpacing space between grid points in the Y direction
      * @param inMagnetPlane are we showing the field in the 2D plane of the magnet?
      */
-    public CompassGridGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing, boolean inMagnetPlane ) {
+    public AbstractBFieldGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing, boolean inMagnetPlane ) {
         super( component );
         assert( component != null );
         
@@ -147,8 +147,6 @@ public abstract class CompassGridGraphic extends PhetGraphic {
         _xSpacing = xSpacing;
         _ySpacing = ySpacing;
         _inMagnetPlane = inMagnetPlane;
-        
-        _rescalingEnabled = false;
         
         _strengthThreshold = FaradayConstants.GRID_BFIELD_THRESHOLD;
         
@@ -176,27 +174,6 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Enables and disables rescaling, used to make values look better when displayed.
-     * 
-     * @param rescalingEnabled true or false
-     */
-    public void setRescalingEnabled( boolean rescalingEnabled ) {
-        if ( rescalingEnabled != _rescalingEnabled ) {
-            _rescalingEnabled = rescalingEnabled;
-            updateGridPoints();
-        }
-    }
-    
-    /**
-     * Determines whether rescaling is enabled.
-     * 
-     * @return true or false
-     */
-    public boolean isRescalingEnabled() {
-        return _rescalingEnabled;
-    }
     
     /**
      * Sets the spacing between points on the grid.
@@ -418,7 +395,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
                         scale = MathUtil.clamp( 0, scale, 1 );
                         
                         // Adjust the scale to improve the visual effect.
-                        if ( _rescalingEnabled ) {
+                        if ( RESCALE_ENABLED ) {
                             scale = rescale( scale );
                         }
                         

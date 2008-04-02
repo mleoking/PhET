@@ -21,7 +21,7 @@ import edu.colorado.phet.faraday.view.NeedleColorStrategy.AlphaColorStrategy;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BFieldInsideGraphic extends CompassGridGraphic implements SimpleObserver {
+public class BFieldInsideGraphic extends AbstractBFieldGraphic implements SimpleObserver {
 
     private static final int X_SPACING = 34;
     private static final int Y_SPACING = 20;
