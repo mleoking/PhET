@@ -21,8 +21,14 @@ public class AtomicNucleus {
     // particles coming and going in this zone.
     public static final double TUNNEL_OUT_RADIUS = 15; 
     
-    // Initial amount of agitation exhibited by the nucleus.  Range is 0-9.
-    private static final int INITIAL_AGITATION_FACTOR = 8;
+    // The "agitation factor" for the various types of nucleus.  The amount of
+    // agitation controls how dynamic the nucleus looks on the canvas.  Values
+    // must be in the range 0-9.
+    private static final int POLONIUM_211_AGITATION_FACTOR = 8;
+    private static final int URANIUM_235_AGITATION_FACTOR = 6;
+    private static final int URANIUM_236_AGITATION_FACTOR = 9;
+    private static final int LEAD_207_AGITATION_FACTOR = 3;
+    private static final int DEFAULT_AGITATION_FACTOR = 5;
     
     //------------------------------------------------------------------------
     // Instance data
@@ -60,7 +66,7 @@ public class AtomicNucleus {
     int _agitationCount = 0;
     
     // Amount of agitation exhibited by nucleus, from 0 to 9.
-    int _agitationFactor = INITIAL_AGITATION_FACTOR;
+    int _agitationFactor = DEFAULT_AGITATION_FACTOR;
     
     // Used for various random calculations.
     Random _rand = new Random();
@@ -117,7 +123,7 @@ public class AtomicNucleus {
                 _constituents.add( new Neutron(0, 0, true) );
             }
         }
-
+        
         // If we are being created as a Polonium 211 nucleus, then decide when
         // alpha decay will occur.
         if ((numProtons == 84) && (numNeutrons == 127)){
@@ -128,6 +134,9 @@ public class AtomicNucleus {
             // should occur.
             _alphaDecayTime = 0;
         }
+        
+        // Set the initial agitation factor.
+        updateAgitationFactor();
     }
     
     //------------------------------------------------------------------------
@@ -146,6 +155,14 @@ public class AtomicNucleus {
         return _numNeutrons + _numProtons + (_numAlphas * 4);
     }
     
+    public int getNumProtons(){
+        return _numProtons + (_numAlphas * 2);
+    }
+    
+    public int getNumNeutrons(){
+        return _numNeutrons + (_numAlphas * 2);
+    }
+    
     public double getDiameter(){
         // This calculation is based on an empirically derived function that
         // seems to give pretty reasonable values.
@@ -157,7 +174,7 @@ public class AtomicNucleus {
     }
     
     //------------------------------------------------------------------------
-    // Other methods
+    // Other public methods
     //------------------------------------------------------------------------
     
     /**
@@ -180,13 +197,14 @@ public class AtomicNucleus {
                     _numAlphas--;
                     _tunnelingParticle.tunnelOut( TUNNEL_OUT_RADIUS + 1.0 );
                     
-                    // Reduce our agitation factor.
-                    _agitationFactor = _agitationFactor / 2;
+                    // Update our agitation factor.
+                    updateAgitationFactor();
                     
                     // Notify listeners of the change of atomic weight.
-                    int newAtomicWeight = getAtomicWeight();
+                    int totalNumProtons = _numProtons + _numAlphas * 2;
+                    int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
                     for (int j = 0; j < _listeners.size(); j++){
-                        ((Listener)_listeners.get( j )).atomicWeightChanged(newAtomicWeight);
+                        ((Listener)_listeners.get( j )).atomicWeightChanged( totalNumProtons, totalNumNeutrons );
                     }
                     break;
                 }
@@ -250,15 +268,59 @@ public class AtomicNucleus {
             _tunnelingParticle = null;
             _numAlphas++;
             
-            // Become more agitated, since we are now less stable.
-            _agitationFactor = _agitationFactor * 2;
+            // Update our agitation level.
+            updateAgitationFactor();
             
             // Let the listeners know that the atomic weight has changed.
+            int totalNumProtons = _numProtons + _numAlphas * 2;
+            int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
             for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).atomicWeightChanged( getAtomicWeight() );
+                ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons );
             }
         }
     }
+    
+    /**
+     * Capture a free particle if the nucleus is able to.
+     * 
+     * @param freeParticle - A particle that is currently free, i.e. not a 
+     * part of another nucleus.
+     */
+    public void captureNeutron(Nucleon freeParticle){
+        
+        freeParticle.setTunnelingEnabled( true );
+        freeParticle.setVelocity( 0, 0 );
+        _constituents.add( freeParticle );
+        _numNeutrons++;
+        updateAgitationFactor();
+
+        // Let the listeners know that the atomic weight has changed.
+        int totalNumProtons = _numProtons + _numAlphas * 2;
+        int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons );
+        }
+    }
+
+    /**
+     * Method to add listeners.
+     * 
+     * @param listener
+     */
+    public void addListener(Listener listener)
+    {
+        if (_listeners.contains( listener ))
+        {
+            // Don't bother re-adding.
+            return;
+        }
+        
+        _listeners.add( listener );
+    }
+    
+    //------------------------------------------------------------------------
+    // Private methods
+    //------------------------------------------------------------------------
     
     /**
      * This method generates a value indicating the number of milliseconds for
@@ -280,35 +342,58 @@ public class AtomicNucleus {
     }
     
     /**
-     * Capture a free particle if the nucleus is able to.
-     * 
-     * @param freeParticle - A particle that is currently free, i.e. not a 
-     * part of another nucleus.
+     * Updates the "agitation factor", which controls how agitated and dynamic
+     * the nucleus will appear to be.  This is generally called at construction
+     * or when something changes about the nucleus, such as a decay event.
      */
-    public void captureNeutron(Nucleon freeParticle){
-        freeParticle.setTunnelingEnabled( true );
-        freeParticle.setVelocity( 0, 0 );
-        _constituents.add( freeParticle );
-    }
-
-    /**
-     * Method to add listeners.
-     * 
-     * @param listener
-     */
-    public void addListener(Listener listener)
-    {
-        if (_listeners.contains( listener ))
-        {
-            // Don't bother re-adding.
-            return;
-        }
+    private void updateAgitationFactor(){
         
-        _listeners.add( listener );
+        // Determine the amount of agitation that should be exhibited by this
+        // particular nucleus.  This obviously doesn't handle every possible
+        // nucleus, so add more if and when they are needed.
+        
+        int _totalNumProtons = _numProtons + (_numAlphas * 2);
+        int _totalNumNeutrons = _numNeutrons + (_numAlphas * 2);
+        
+        switch (_totalNumProtons){
+        
+        case 84:
+            // Polonium.
+            if (_totalNumNeutrons == 127){
+                // Polonium 211.
+                _agitationFactor = POLONIUM_211_AGITATION_FACTOR;
+            }
+            break;
+            
+        case 92:
+            // Uranium
+            if (_totalNumNeutrons == 143){
+                // Uranium 235
+                _agitationFactor = URANIUM_235_AGITATION_FACTOR;
+            }
+            else if (_totalNumNeutrons == 144){
+                // Uranium 236
+                _agitationFactor = URANIUM_236_AGITATION_FACTOR;                
+            }
+            break;
+
+        case 82:
+            // Lead
+            if (_totalNumNeutrons == 125){
+                // Lead 207
+                _agitationFactor = LEAD_207_AGITATION_FACTOR;
+            }
+            break;
+
+        }
     }
+    
+    //------------------------------------------------------------------------
+    // Inner interfaces
+    //------------------------------------------------------------------------
     
     public static interface Listener {
         void positionChanged();
-        void atomicWeightChanged(int newAtomicWeight);
+        void atomicWeightChanged(int numProtons, int numNeutrons);
     }
 }
