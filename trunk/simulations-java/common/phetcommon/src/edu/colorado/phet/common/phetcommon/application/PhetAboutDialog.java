@@ -192,6 +192,10 @@ public class PhetAboutDialog extends JDialog {
         // Java runtime version
         String javaVersionString = getLocalizedString( "Common.About.JavaVersion" ) + " " + System.getProperty( "java.version" );
         JLabel javaVersionLabel = new JLabel( javaVersionString );
+        
+        // OS version
+        String osVersion = getLocalizedString( "Common.About.OSVersion" ) + " " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" );
+        JLabel osVersionLabel = new JLabel( osVersion );
 
         int xMargin = 10;
         int ySpacing = 10;
@@ -203,6 +207,7 @@ public class PhetAboutDialog extends JDialog {
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
         infoPanel.add( versionLabel );
         infoPanel.add( javaVersionLabel );
+        infoPanel.add( osVersionLabel );
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
 
         return infoPanel;
