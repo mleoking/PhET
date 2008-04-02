@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Rectangle;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -24,18 +25,10 @@ public class BarMagnetGraphic extends PhetImageGraphic
     implements SimpleObserver, ICollidable, ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final Composite COMPOSITE = 
-        AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.9f );
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     private BarMagnet _barMagnetModel;
-    private boolean _seeInsideEnabled;
     private CollisionDetector _collisionDetector;
     private Rectangle[] _collisionBounds;
     private FaradayMouseHandler _mouseHandler;
@@ -70,9 +63,6 @@ public class BarMagnetGraphic extends PhetImageGraphic
         super.setCursorHand();
         super.addMouseInputListener( _mouseHandler );
         
-        // "See Inside" feature is off by default.
-        setSeeInsideEnabled( false );
-        
         // Synchronize view with model.
         update();
     }
@@ -96,25 +86,6 @@ public class BarMagnetGraphic extends PhetImageGraphic
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         update();
-    }
-    
-    /** 
-     * Enables and disables the "see inside" feature.
-     * 
-     * @param enabled true or false
-     */
-    public void setSeeInsideEnabled( boolean enabled ) {
-        _seeInsideEnabled = enabled;
-        repaint();
-    }
-    
-    /**
-     * Is the "see inside" feature enabled?
-     * 
-     * @return true or false
-     */
-    public boolean isSeeInsideEnabled() {
-        return _seeInsideEnabled;
     }
     
     //----------------------------------------------------------------------------
@@ -145,31 +116,6 @@ public class BarMagnetGraphic extends PhetImageGraphic
             
             repaint();
         }
-    }
-    
-    //----------------------------------------------------------------------------
-    // PhetImageGraphic overrides
-    //----------------------------------------------------------------------------
-
-    /**
-     * Draws the magnet.  
-     * If transparency is enabled, use alpha compositing
-     * to make the magnet slightly transparent.
-     * 
-     * @param g2 the graphics context
-     */
-    public void paint( Graphics2D g2 ) {
-        if ( isVisible() ) {
-            if ( _seeInsideEnabled ) {
-                Composite oldComposite = g2.getComposite(); // save
-                g2.setComposite( COMPOSITE );
-                super.paint( g2 );
-                g2.setComposite( oldComposite ); // restore
-            }
-            else {
-                super.paint( g2 );
-            }
-        }   
     }
     
     //----------------------------------------------------------------------------

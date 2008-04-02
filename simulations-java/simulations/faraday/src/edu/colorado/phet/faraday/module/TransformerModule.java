@@ -211,7 +211,7 @@ public class TransformerModule extends FaradayModule {
         
         // B-field outside the magnet
         _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, 
-                _electromagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
+                _electromagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING, true /* inMagnetPlane */ );
         _bFieldOutsideGraphic.setRescalingEnabled( true );
         _bFieldOutsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         _bFieldOutsideGraphic.setGridBackground( APPARATUS_BACKGROUND );

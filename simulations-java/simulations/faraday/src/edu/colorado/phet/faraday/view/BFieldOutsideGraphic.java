@@ -28,9 +28,10 @@ public class BFieldOutsideGraphic extends CompassGridGraphic implements SimpleOb
      * @param magnetModel
      * @param xSpacing
      * @param ySpacing
+     * @param inMagnetPlane true=show field in magnet's 2D plane, false=show field slightly outside magnet's 2D plane
      */
-    public BFieldOutsideGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing) {
-        super( component, magnetModel, xSpacing, ySpacing );
+    public BFieldOutsideGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing, boolean inMagnetPlane ) {
+        super( component, magnetModel, xSpacing, ySpacing, inMagnetPlane );
         
         _magnetModel = magnetModel;
         _magnetModel.addObserver( this );
@@ -79,10 +80,11 @@ public class BFieldOutsideGraphic extends CompassGridGraphic implements SimpleOb
     //----------------------------------------------------------------------------
     
     /**
-     * When the magnet changes, update the needle dscriptors.
+     * When the magnet changes, update the needle descriptors.
      */
     public void update() {
-        updateNeedleDescriptors();
+        updateStrengthAndOrientation();
+        repaint();
     }
     
     //----------------------------------------------------------------------------
@@ -96,6 +98,5 @@ public class BFieldOutsideGraphic extends CompassGridGraphic implements SimpleOb
         Dimension parentSize = event.getCanvasSize();
         setGridBounds( 0, 0, parentSize.width, parentSize.height );
         super.setBoundsDirty();
-        resetSpacing(); 
     }
 }

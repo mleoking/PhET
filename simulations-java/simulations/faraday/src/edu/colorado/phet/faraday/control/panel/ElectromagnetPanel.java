@@ -18,8 +18,8 @@ import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.view.BFieldOutsideGraphic;
 import edu.colorado.phet.faraday.view.CoilGraphic;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
 
 
@@ -42,12 +42,12 @@ public class ElectromagnetPanel extends FaradayPanel {
     private Compass _compassModel;
     private FieldMeter _fieldMeterModel;
     private CoilGraphic _coilGraphic;
-    private CompassGridGraphic _gridGraphic;
+    private BFieldOutsideGraphic _bFieldOutsideGraphic;
 
     // UI components
     private JRadioButton _batteryRadioButton;
     private JRadioButton _acRadioButton;
-    private JCheckBox _gridCheckBox;
+    private JCheckBox _bFieldCheckBox;
     private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox; 
     private JSpinner _loopsSpinner;
@@ -67,7 +67,7 @@ public class ElectromagnetPanel extends FaradayPanel {
      * @param compassModel
      * @param fieldMeterModel
      * @param electromagnetGraphic
-     * @param gridGraphic
+     * @param bFieldOutsideGraphic
      */
     public ElectromagnetPanel(
             Electromagnet electromagnetModel,
@@ -77,7 +77,7 @@ public class ElectromagnetPanel extends FaradayPanel {
             Compass compassModel,
             FieldMeter fieldMeterModel,
             ElectromagnetGraphic electromagnetGraphic,
-            CompassGridGraphic gridGraphic ) {
+            BFieldOutsideGraphic bFieldOutsideGraphic ) {
         
         assert ( electromagnetModel != null );
         assert ( sourceCoilModel != null );
@@ -86,7 +86,7 @@ public class ElectromagnetPanel extends FaradayPanel {
         assert ( compassModel != null );
         assert ( fieldMeterModel != null );
         assert ( electromagnetGraphic != null );
-        assert ( gridGraphic != null );
+        assert ( bFieldOutsideGraphic != null );
 
         // Things we'll be controlling.
         _electromagnetModel = electromagnetModel;
@@ -96,7 +96,7 @@ public class ElectromagnetPanel extends FaradayPanel {
         _compassModel = compassModel;
         _fieldMeterModel = fieldMeterModel;
         _coilGraphic = electromagnetGraphic.getCoilGraphic();
-        _gridGraphic = gridGraphic;
+        _bFieldOutsideGraphic = bFieldOutsideGraphic;
         
         // Title
         Border border = BorderFactory.createLineBorder( Color.BLACK, 2 );
@@ -104,8 +104,8 @@ public class ElectromagnetPanel extends FaradayPanel {
         titledBorder.setTitleFont( getTitleFont() );
         setBorder( titledBorder );
         
-        // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
+        // B-field on/off
+        _bFieldCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
         
         // Field Meter on/off
         _fieldMeterCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
@@ -183,7 +183,7 @@ public class ElectromagnetPanel extends FaradayPanel {
         int row = 0;
         layout.addFilledComponent( sourcePanel, row++, 0, GridBagConstraints.HORIZONTAL );
         layout.addComponent( loopsPanel, row++, 0 );
-        layout.addComponent( _gridCheckBox, row++, 0 );
+        layout.addComponent( _bFieldCheckBox, row++, 0 );
         layout.addComponent( _compassCheckBox, row++, 0 );
         layout.addComponent( _fieldMeterCheckBox, row++, 0 );
         layout.addComponent( _electronsCheckBox, row++, 0 );
@@ -192,7 +192,7 @@ public class ElectromagnetPanel extends FaradayPanel {
         EventListener listener = new EventListener();
         _batteryRadioButton.addActionListener( listener );
         _acRadioButton.addActionListener( listener );
-        _gridCheckBox.addActionListener( listener );
+        _bFieldCheckBox.addActionListener( listener );
         _fieldMeterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
         _electronsCheckBox.addActionListener( listener );
@@ -208,7 +208,7 @@ public class ElectromagnetPanel extends FaradayPanel {
     public void update() {
         _batteryRadioButton.setSelected( _batteryModel.isEnabled() );
         _acRadioButton.setSelected( _acPowerSupplyModel.isEnabled() );
-        _gridCheckBox.setSelected( _gridGraphic.isVisible() );
+        _bFieldCheckBox.setSelected( _bFieldOutsideGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
@@ -263,10 +263,9 @@ public class ElectromagnetPanel extends FaradayPanel {
                 _acPowerSupplyModel.setEnabled( true );
                 _electromagnetModel.setCurrentSource( _acPowerSupplyModel );
             }
-            else if ( e.getSource() == _gridCheckBox ) {
-                // Grid enable
-                _gridGraphic.resetSpacing();
-                _gridGraphic.setVisible( _gridCheckBox.isSelected() );
+            else if ( e.getSource() == _bFieldCheckBox ) {
+                // B-field enable
+                _bFieldOutsideGraphic.setVisible( _bFieldCheckBox.isSelected() );
             }
             else if ( e.getSource() == _fieldMeterCheckBox ) {
                 // Meter enable

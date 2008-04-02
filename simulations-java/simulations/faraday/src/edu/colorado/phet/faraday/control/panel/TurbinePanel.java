@@ -21,7 +21,7 @@ import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
 import edu.colorado.phet.faraday.model.Turbine;
-import edu.colorado.phet.faraday.view.CompassGridGraphic;
+import edu.colorado.phet.faraday.view.BFieldOutsideGraphic;
 
 
 /**
@@ -39,11 +39,11 @@ public class TurbinePanel extends FaradayPanel {
     private Turbine _turbineModel;
     private Compass _compassModel;
     private FieldMeter _fieldMeterModel;
-    private CompassGridGraphic _gridGraphic;
+    private BFieldOutsideGraphic _bFieldOutsideGraphic;
 
     // UI components
     private LinearValueControl _strengthControl;
-    private JCheckBox _gridCheckBox;
+    private JCheckBox _bFieldCheckBox;
     private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox;
     
@@ -57,26 +57,26 @@ public class TurbinePanel extends FaradayPanel {
      * @param turbineModel
      * @param compassModel
      * @param fieldMeterModel
-     * @param gridGraphic
+     * @param bFieldOutsideGraphic
      */
     public TurbinePanel( 
             Turbine turbineModel, 
             Compass compassModel, 
             FieldMeter fieldMeterModel,
-            CompassGridGraphic gridGraphic )
+            BFieldOutsideGraphic bFieldOutsideGraphic )
     {
         super();
         
         assert ( turbineModel != null );
         assert ( compassModel != null );
         assert ( fieldMeterModel != null );
-        assert ( gridGraphic != null );
+        assert ( bFieldOutsideGraphic != null );
 
         // Things we'll be controlling.
         _turbineModel = turbineModel;
         _compassModel = compassModel;
         _fieldMeterModel = fieldMeterModel;
-        _gridGraphic = gridGraphic;
+        _bFieldOutsideGraphic = bFieldOutsideGraphic;
         
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
@@ -101,8 +101,8 @@ public class TurbinePanel extends FaradayPanel {
             _strengthControl.setBorder( BorderFactory.createEtchedBorder() );
         }
 
-        // Compass Grid on/off
-        _gridCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
+        // B-field on/off
+        _bFieldCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
         
         // Field Meter on/off
         _fieldMeterCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
@@ -115,14 +115,14 @@ public class TurbinePanel extends FaradayPanel {
         setLayout( layout );
         int row = 0;
         layout.addFilledComponent( _strengthControl, row++, 0, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( _gridCheckBox, row++, 0 );
+        layout.addComponent( _bFieldCheckBox, row++, 0 );
         layout.addComponent( _compassCheckBox, row++, 0 );
         layout.addComponent( _fieldMeterCheckBox, row++, 0 );
         
         // Wire up event handling.
         EventListener listener = new EventListener();
         _strengthControl.addChangeListener( listener );
-        _gridCheckBox.addActionListener( listener );
+        _bFieldCheckBox.addActionListener( listener );
         _fieldMeterCheckBox.addActionListener( listener );
         _compassCheckBox.addActionListener( listener );
 
@@ -135,7 +135,7 @@ public class TurbinePanel extends FaradayPanel {
      */
     public void update() {
         _strengthControl.setValue( (int) ( 100.0 * _turbineModel.getStrength() / _turbineModel.getMaxStrength() ) );
-        _gridCheckBox.setSelected( _gridGraphic.isVisible() );
+        _bFieldCheckBox.setSelected( _bFieldOutsideGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
     }
@@ -167,10 +167,9 @@ public class TurbinePanel extends FaradayPanel {
          * @throws IllegalArgumentException if the event is unexpected
          */
         public void actionPerformed( ActionEvent e ) {
-            if ( e.getSource() == _gridCheckBox ) {
-                // Grid enable
-                _gridGraphic.resetSpacing();
-                _gridGraphic.setVisible( _gridCheckBox.isSelected() );
+            if ( e.getSource() == _bFieldCheckBox ) {
+                // B-field enable
+                _bFieldOutsideGraphic.setVisible( _bFieldCheckBox.isSelected() );
             }
             else if ( e.getSource() == _fieldMeterCheckBox ) {
                 // Meter enable
