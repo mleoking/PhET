@@ -3,9 +3,11 @@ Changes for faraday
 ===============================================================================
 
 TODO:
-- revise "see inside" feature, give bar magnet its own B-field grid that moves with the magnet [351]
+- fix bounds problem with BFieldInsideGraphic, does not behave correctly when "see inside" checkbox is toggled [351]
+- B-field graphics could use some cleanup and redesign [351]
 
 DONE:
+4/1/08 - create BFieldInsideGraphic, field grid inside the magnet that moves with the magnet [351]
 4/1/08 - create BFieldOutsideGraphic, a specialization of CompassGridGraphic that fills the play area [351]
 4/1/08 - generalize CompassGridGraphic so that it can be used for the bar magnet's internal B-field display [351]
 4/1/08 - visually inspect all AbstractMagnet.getStrength calls to make sure that having zero magnet strength won't cause problems [435]
