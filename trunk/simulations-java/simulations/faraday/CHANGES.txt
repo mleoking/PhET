@@ -7,6 +7,7 @@ TODO:
 - B-field graphics could use some cleanup and redesign [351]
 
 DONE:
+4/1/08 - convert CompassNeedleCache to use strategy pattern for colors
 4/1/08 - create BFieldInsideGraphic, field grid inside the magnet that moves with the magnet [351]
 4/1/08 - create BFieldOutsideGraphic, a specialization of CompassGridGraphic that fills the play area [351]
 4/1/08 - generalize CompassGridGraphic so that it can be used for the bar magnet's internal B-field display [351]

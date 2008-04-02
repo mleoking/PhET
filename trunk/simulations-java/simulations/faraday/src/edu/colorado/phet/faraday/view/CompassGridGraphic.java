@@ -58,9 +58,6 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     // Cache of needle Shapes and Colors
     private CompassNeedleCache _needleCache;
     
-    // Strategy used to indicate field strength;
-    private int _strengthStrategy;
-    
     // Needles with a strength below this value are not drawn.
     private double _strengthThreshold;
     
@@ -112,12 +109,11 @@ public abstract class CompassGridGraphic extends PhetGraphic {
         
         _rescalingEnabled = false;
         
-        _strengthStrategy = ALPHA_STRATEGY;  // works on any background color
         _strengthThreshold = FaradayConstants.GRID_BFIELD_THRESHOLD;
         
         _needleCache = new CompassNeedleCache();
         _needleCache.setNeedleSize( 40, 20 );
-        _needleCache.setAlphaEnabled( _strengthStrategy == ALPHA_STRATEGY );
+        _needleCache.setAlphaEnabled( false ); // use color saturation
         _needleCache.populate();
         
         _gridBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() );
@@ -214,33 +210,25 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     }
    
     /**
-     * Convenience method for setting the strategy used to represent field strength.
-     * If the color is black, then color saturation is used.
-     * See setStrengthStrategy.
+     * Convenience method for setting whether alpha is enabled.
+     * If the color is black, then color saturation is used, giving us better performance.
+     * See setAlphaEnabled.
      * 
      * @param color
      */
     public void setGridBackground( Color color ) {
-        if ( color.equals( Color.BLACK ) ) {
-            setStrengthStrategy( SATURATION_STRATEGY );
-        }
-        else {
-            setStrengthStrategy( ALPHA_STRATEGY );
-        }
+        setAlphaEnabled( !color.equals( Color.BLACK ) );
     }
     
-    /*
-     * Sets the strategy used to represent field strength when rendering needles.
-     * <p>
-     * ALPHA_STRATEGY uses the alpha component and will work on any background color.
-     * SATURATION_STRATEGY uses color saturation and will work only on a black background.
+    /**
+     * Enables alpha channel for indicating strength.
+     * If this is false, color saturation is used instead.
+     * See CompassNeedleGrid.setAlphaEnabled.
      * 
-     * @param strengthStrategy ALPHA_STRATEGY or SATURATION_STRATEGY
+     * @param alphaEnabled
      */
-    private void setStrengthStrategy( int strengthStrategy ) {
-        assert( strengthStrategy == ALPHA_STRATEGY || strengthStrategy == SATURATION_STRATEGY );
-        _needleCache.setAlphaEnabled( strengthStrategy == ALPHA_STRATEGY );
-        repaint();
+    public void setAlphaEnabled( boolean alphaEnabled ) {
+        _needleCache.setAlphaEnabled( alphaEnabled );
     }
     
     /*
