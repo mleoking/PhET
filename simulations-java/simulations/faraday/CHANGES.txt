@@ -2,11 +2,8 @@
 Changes for faraday
 ===============================================================================
 
-TODO:
-- fix bounds problem with BFieldInsideGraphic, does not behave correctly when "see inside" checkbox is toggled [351]
-- B-field graphics could use some cleanup and redesign [351]
-
 DONE:
+4/2/08 - fix bounds problem in AbstractBFieldGraphic, needed to call setBoundsDirty when grid bounds change [351]
 4/2/08 - remove AbstractBFieldGraphic.setRescalingEnabled and getRescalingEnabled, not useful, we always rescale
 4/2/08 - rename CompassGridGraphic to AbstractBFieldGraphic
 4/2/08 - change terminology in CompassGridGraphic, use "grid points" instead of "needle descriptors"
