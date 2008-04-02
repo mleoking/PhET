@@ -22,8 +22,8 @@ import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
+import edu.colorado.phet.faraday.view.BFieldInsideGraphic;
 import edu.colorado.phet.faraday.view.BFieldOutsideGraphic;
-import edu.colorado.phet.faraday.view.BarMagnetGraphic;
 import edu.colorado.phet.faraday.view.EarthGraphic;
 
 
@@ -43,7 +43,7 @@ public class BarMagnetPanel extends FaradayPanel {
     private BarMagnet _barMagnetModel;
     private Compass _compassModel;
     private FieldMeter _fieldMeterModel;
-    private BarMagnetGraphic _barMagnetGraphic;
+    private BFieldInsideGraphic _bFieldInsideGraphic;
     private BFieldOutsideGraphic _bFieldOutsideGraphic;
     private EarthGraphic _earthGraphic;
 
@@ -74,7 +74,7 @@ public class BarMagnetPanel extends FaradayPanel {
             BarMagnet barMagnetModel, 
             Compass compassModel,
             FieldMeter fieldMeterModel,
-            BarMagnetGraphic barMagnetGraphic, 
+            BFieldInsideGraphic bFieldInsideGraphic,
             BFieldOutsideGraphic bFieldOutsideGraphic,
             EarthGraphic earthGraphic )
     {
@@ -83,14 +83,13 @@ public class BarMagnetPanel extends FaradayPanel {
         assert ( barMagnetModel != null );
         assert ( compassModel != null );
         assert ( fieldMeterModel != null );
-        assert ( barMagnetGraphic != null );
         assert ( bFieldOutsideGraphic != null );
 
         // Things we'll be controlling.
         _barMagnetModel = barMagnetModel;
         _compassModel = compassModel;
         _fieldMeterModel = fieldMeterModel;
-        _barMagnetGraphic = barMagnetGraphic;
+        _bFieldInsideGraphic = bFieldInsideGraphic;
         _bFieldOutsideGraphic = bFieldOutsideGraphic;
         _earthGraphic = earthGraphic;
         
@@ -168,7 +167,9 @@ public class BarMagnetPanel extends FaradayPanel {
      */
     public void update() {
         _strengthControl.setValue( (int) ( 100.0 * _barMagnetModel.getStrength() / FaradayConstants.BAR_MAGNET_STRENGTH_MAX ) );
-        _seeInsideCheckBox.setSelected( _barMagnetGraphic.isSeeInsideEnabled() );
+        if ( _bFieldInsideGraphic != null ) {
+            _seeInsideCheckBox.setSelected( _bFieldInsideGraphic.isVisible() );
+        }
         _bFieldCheckBox.setSelected( _bFieldOutsideGraphic.isVisible() );
         _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
@@ -251,12 +252,10 @@ public class BarMagnetPanel extends FaradayPanel {
             }
             else if ( e.getSource() == _bFieldCheckBox ) {
                 // B-field enable
-                _bFieldOutsideGraphic.resetSpacing();
                 _bFieldOutsideGraphic.setVisible( _bFieldCheckBox.isSelected() );
             }
             else if ( e.getSource() == _seeInsideCheckBox ) {
-                // Magnet transparency enable
-                _barMagnetGraphic.setSeeInsideEnabled( _seeInsideCheckBox.isSelected() );
+                _bFieldInsideGraphic.setVisible( _seeInsideCheckBox.isSelected() );
             }
             else if ( e.getSource() == _fieldMeterCheckBox ) {
                 // Meter enable

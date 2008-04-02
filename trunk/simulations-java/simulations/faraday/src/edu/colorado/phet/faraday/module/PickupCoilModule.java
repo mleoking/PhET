@@ -171,7 +171,7 @@ public class PickupCoilModule extends FaradayModule {
         apparatusPanel.addGraphic( _pickupCoilGraphic.getBackground(), PICKUP_COIL_BACK_LAYER );
 
         // B-field outside the magnet
-        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
+        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING, false /* inMagnetPlane */ );
         _bFieldOutsideGraphic.setRescalingEnabled( true );
         _bFieldOutsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         _bFieldOutsideGraphic.setGridBackground( APPARATUS_BACKGROUND );
@@ -214,7 +214,7 @@ public class PickupCoilModule extends FaradayModule {
             
             // Bar Magnet controls
             _barMagnetPanel = new BarMagnetPanel(
-                    _barMagnetModel, _compassModel, _fieldMeterModel, _barMagnetGraphic, _bFieldOutsideGraphic, null );
+                    _barMagnetModel, _compassModel, _fieldMeterModel, null, _bFieldOutsideGraphic, null );
             _barMagnetPanel.setSeeInsideVisible( false );
             controlPanel.addControlFullWidth( _barMagnetPanel );
             
@@ -272,9 +272,6 @@ public class PickupCoilModule extends FaradayModule {
         
         // Volt Meter
         _voltmeterModel.setEnabled( false );
-        
-        // Bar Magnet view
-        _barMagnetGraphic.setSeeInsideEnabled( false );
         
         // Pickup Coil view
         _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );

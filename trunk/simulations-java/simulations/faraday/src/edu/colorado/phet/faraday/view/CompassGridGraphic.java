@@ -76,6 +76,9 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     // A reusable vector
     private Vector2D _fieldVector;
     
+    // Is the grid in the 2D plane of the magnet, or slightly outside the 2D plane?
+    private final boolean _inMagnetPlane;
+    
     // Lightweight data structure for holding a needle description.
     protected class NeedleDescriptor {
         public double x, y;
@@ -94,14 +97,18 @@ public abstract class CompassGridGraphic extends PhetGraphic {
      * @param magnetModel
      * @param xSpacing space between grid points in the X direction
      * @param ySpacing space between grid points in the Y direction
+     * @param inMagnetPlane
      */
-    public CompassGridGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing) {
+    public CompassGridGraphic( Component component, AbstractMagnet magnetModel, int xSpacing, int ySpacing, boolean inMagnetPlane ) {
         super( component );
         assert( component != null );
         
         setIgnoreMouse( true );
         
         _magnetModel = magnetModel;
+        _xSpacing = xSpacing;
+        _ySpacing = ySpacing;
+        _inMagnetPlane = inMagnetPlane;
         
         _rescalingEnabled = false;
         
@@ -118,10 +125,6 @@ public abstract class CompassGridGraphic extends PhetGraphic {
         _fieldVector = new Vector2D();
         
         _renderingHints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        
-        setSpacing( xSpacing, ySpacing );
-        
-        updateNeedleDescriptors();
     }
     
     //----------------------------------------------------------------------------
@@ -166,23 +169,9 @@ public abstract class CompassGridGraphic extends PhetGraphic {
      * @param ySpacing space between grid points in the Y direction
      */
     public void setSpacing( int xSpacing, int ySpacing ) {
-
-        // Save the spacing, for use by getters and restore.
         _xSpacing = xSpacing;
         _ySpacing = ySpacing;
-        
-        // Update descriptions of needles (grid points).
-        _needleDescriptors = createNeedleDescriptors();
-        
         updateNeedleDescriptors();
-    }
-    
-    /**
-     * Resets the grid spacing.
-     * This should be called when the parent container is resized.
-     */
-    public void resetSpacing() {
-        setSpacing( _xSpacing, _ySpacing );
     }
     
     /**
@@ -224,7 +213,6 @@ public abstract class CompassGridGraphic extends PhetGraphic {
         return new Dimension( _needleCache.getNeedleSize() );
     }
    
-    
     /**
      * Convenience method for setting the strategy used to represent field strength.
      * If the color is black, then color saturation is used.
@@ -260,6 +248,7 @@ public abstract class CompassGridGraphic extends PhetGraphic {
      */
     protected void setGridBounds( int x, int y, int width, int height ) {
         _gridBounds.setBounds( x, y, width, height );
+        updateNeedleDescriptors();
     }
     
     /*
@@ -275,27 +264,15 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
     
     /**
-     * Since this graphic does not handle location, override it to throw an exception.
-     */
-    public void setLocation( int x, int y ) {
-        throw new UnsupportedOperationException();
-    }
-    
-    /**
-     * Since this graphic does not handle location, override it to throw an exception.
-     */
-    public void setLocation( Point p ) {
-        setLocation( p.x, p.y );
-    }
-    
-    /**
      * Updates when we become visible.
      * 
      * @param visible true for visible, false for invisible
      */
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        updateNeedleDescriptors();
+        if ( visible ) {
+            updateNeedleDescriptors();
+        }
     }
     
     /**
@@ -361,9 +338,27 @@ public abstract class CompassGridGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
 
     /*
-     * Updates the strength and direction of each needle descriptor to match the magnet.
+     * Updates all aspects of the needles.
      */
     protected void updateNeedleDescriptors() {
+        updatePositions();
+        updateStrengthAndOrientation();
+        repaint();
+    }
+    
+    /*
+     * Updates the position of needle descriptors to match the current bounds and spacing.
+     */
+    protected void updatePositions() {
+        _needleDescriptors = createNeedleDescriptors();
+    }
+    
+    /*
+     * Updates the strength and direction of needle descriptors to match the magnet.
+     * 
+     * @param inPlane true=in 2D plane of magnet, false=outside 2D plane of magnet
+     */
+    protected void updateStrengthAndOrientation() {
         
         if ( isVisible() ) {
             
@@ -375,7 +370,12 @@ public abstract class CompassGridGraphic extends PhetGraphic {
 
                 // Get the magnetic field information at the needle's location.
                 _point.setLocation( needleDescriptor.x, needleDescriptor.y );
-                _magnetModel.getStrengthOutsidePlane( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
+                if ( _inMagnetPlane ) {
+                    _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
+                }
+                else {
+                    _magnetModel.getStrengthOutsidePlane( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
+                }
                 double angle = _fieldVector.getAngle();
                 double magnitude = _fieldVector.getMagnitude();
                 
@@ -406,7 +406,6 @@ public abstract class CompassGridGraphic extends PhetGraphic {
                     needleDescriptor.strength = scale;
                 }
             }
-            repaint();
         }
     }
     

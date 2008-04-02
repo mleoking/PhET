@@ -64,6 +64,7 @@ public class BarMagnetModule extends FaradayModule {
     private BarMagnetGraphic _barMagnetGraphic;
     private EarthGraphic _earthGraphic;
     private BFieldOutsideGraphic _bFieldOutsideGraphic;
+    private BFieldInsideGraphic _bFieldInsideGraphic;
     private BarMagnetPanel _barMagnetPanel;
     
     //----------------------------------------------------------------------------
@@ -123,8 +124,15 @@ public class BarMagnetModule extends FaradayModule {
         _earthGraphic = new EarthGraphic( apparatusPanel, _barMagnetModel );
         apparatusPanel.addGraphic( _earthGraphic, EARTH_LAYER );
         
+        // B-field inside the magnet
+        _bFieldInsideGraphic = new BFieldInsideGraphic( apparatusPanel, _barMagnetModel );
+        _bFieldInsideGraphic.setRescalingEnabled( true );
+        _bFieldInsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
+        _bFieldInsideGraphic.setGridBackground( Color.GRAY ); // hack to set the proper strategy
+        apparatusPanel.addGraphic( _bFieldInsideGraphic, BAR_MAGNET_LAYER );
+        
         // B-field outside the magnet
-        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
+        _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _barMagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING, false /* inMagnetPlane */ );
         _bFieldOutsideGraphic.setRescalingEnabled( true );
         _bFieldOutsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
         _bFieldOutsideGraphic.setGridBackground( APPARATUS_BACKGROUND );
@@ -162,7 +170,7 @@ public class BarMagnetModule extends FaradayModule {
             // Bar Magnet controls
             _barMagnetPanel = new BarMagnetPanel( 
                     _barMagnetModel, _compassModel, _fieldMeterModel,
-                    _barMagnetGraphic, _bFieldOutsideGraphic, _earthGraphic );
+                    _bFieldInsideGraphic, _bFieldOutsideGraphic, _earthGraphic );
             controlPanel.addControlFullWidth( _barMagnetPanel );
             
             // Reset button
@@ -201,8 +209,8 @@ public class BarMagnetModule extends FaradayModule {
         _compassModel.setLocation( COMPASS_LOCATION );
         _compassModel.setEnabled( true );
         
-        // Bar Magnet view
-        _barMagnetGraphic.setSeeInsideEnabled( false );
+        // B-field inside magnet
+        _bFieldInsideGraphic.setVisible( false );
         
         // Earth view
         _earthGraphic.setVisible( false );
