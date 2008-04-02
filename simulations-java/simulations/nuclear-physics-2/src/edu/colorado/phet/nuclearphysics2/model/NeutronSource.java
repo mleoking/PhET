@@ -5,8 +5,6 @@ package edu.colorado.phet.nuclearphysics2.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.nuclearphysics2.model.AlphaParticle.Listener;
-
 /**
  * This class models the behavior of a neutron source, i.e. some sort of
  * device that can generate neutrons.
@@ -17,7 +15,6 @@ public class NeutronSource {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    private static final double NEUTRON_VELOCITY = 0.1; // In femtometers/tick.
 
     //------------------------------------------------------------------------
     // Instance data

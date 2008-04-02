@@ -6,8 +6,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.umd.cs.piccolo.util.PDimension;
-
 /**
  * Class the implements the behavior of nucleon (i.e. proton and neutron)
  * model elements.
@@ -107,7 +105,7 @@ public class Nucleon implements AtomicNucleusConstituent {
      * @param nucleusRadius - Radius of the nucleus where this particle resides.
      * @param tunnelRadius - Radius at which this particle could tunnel out of nucleus.
      */
-    public void tunnel(double minDistance, double nucleusRadius, double tunnelRadius)
+    public void tunnel(Point2D center, double minDistance, double nucleusRadius, double tunnelRadius)
     {
         if (_tunnelingEnabled){
             
@@ -133,7 +131,7 @@ public class Nucleon implements AtomicNucleusConstituent {
             double yPos = Math.sin( newAngle ) * newRadius;
             
             // Save the new position.
-            _position.setLocation( xPos, yPos );
+            _position.setLocation( xPos + center.getX(), yPos + center.getY());
     
             // Notify all listeners of the position change.
             for (int i = 0; i < _listeners.size(); i++)
