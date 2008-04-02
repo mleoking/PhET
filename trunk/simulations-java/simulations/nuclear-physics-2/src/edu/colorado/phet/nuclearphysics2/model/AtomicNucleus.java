@@ -48,7 +48,7 @@ public class AtomicNucleus {
     private double _yVelocity = 0;
     
     // List of the constituent particles that comprise this nucleus.
-    private ArrayList _constituents = new ArrayList();
+    private ArrayList _constituents;
     
     // Original settings, used for resetting this nucleus.
     private int _originalnumProtons;
@@ -79,25 +79,16 @@ public class AtomicNucleus {
     // Constructor
     //------------------------------------------------------------------------
     
+    /**
+     * This constructor creates the constituent particles, i.e. the protons,
+     * neutrons, and alpha particles that will comprise the nucleus.  It is
+     * generally used when create a nucleus "from scratch".
+     */
     public AtomicNucleus(NuclearPhysics2Clock clock, Point2D position, int numProtons, int numNeutrons)
     {
         _clock = clock;
 
-        clock.addClockListener( new ClockAdapter(){
-            
-            /**
-             * Clock tick handler - causes the model to move forward one
-             * increment in time.
-             */
-            public void clockTicked(ClockEvent clockEvent){
-                handleClockTicked(clockEvent);
-            }
-            
-            public void simulationTimeReset(ClockEvent clockEvent){
-                reset();
-            }
-        });
-        
+        addClockListener( clock );
         
         // Set the initial position for this nucleus.
         _position = position;
@@ -114,6 +105,7 @@ public class AtomicNucleus {
         // Add the particles.  We do this in such a way that the particles
         // are interspersed in the list, particularly towards the end of the
         // list, since this works out better for the view.
+        _constituents = new ArrayList();
         int maxParticles = Math.max( _numProtons, _numNeutrons );
         maxParticles = Math.max( maxParticles, _numAlphas);
         for (int i = (maxParticles - 1); i >= 0; i--){
@@ -131,6 +123,65 @@ public class AtomicNucleus {
         // If we are being created as a Polonium 211 nucleus, then decide when
         // alpha decay will occur.
         if ((numProtons == 84) && (numNeutrons == 127)){
+            _alphaDecayTime = calcPolonium211DecayTime();
+        }
+        else{
+            // Setting the decay time to 0 signifies that no alpha decay
+            // should occur.
+            _alphaDecayTime = 0;
+        }
+        
+        // Set the initial agitation factor.
+        updateAgitationFactor();
+    }
+    
+    
+    /**
+     * This constructor is used to create a nucleus when the constituents of
+     * the nucleus (i.e. protons, neutrons, and alpha particles) alredy exist.
+     * This is generally used to create a "daughter nucleus" when an existing
+     * nucleus splits.
+     */
+    public AtomicNucleus(NuclearPhysics2Clock clock, Point2D position, ArrayList constituents)
+    {
+        _clock = clock;
+        
+        addClockListener( clock );
+
+        // Set the initial position for this nucleus.
+        _position = position;
+        
+        // Figure out the makeup of the constituents.
+        _numAlphas = 0;
+        _numNeutrons = 0;
+        _numProtons = 0;
+        for (int i = 0; i < constituents.size(); i++){
+            if (constituents.get( i ) instanceof AlphaParticle){
+                _numAlphas++;
+            }
+            else if (constituents.get( i ) instanceof Neutron){
+                _numNeutrons++;
+            }
+            else if (constituents.get( i ) instanceof Proton){
+                _numProtons++;
+            }
+            else{
+                // Should never happen, debug if it does.
+                assert false;
+                System.err.println("Error: Unexpected nucleus constituent type.");
+            }
+        }
+        
+        // Save the original params so we can reset if need be.
+        _originalnumProtons = _numProtons;
+        _originalnumNeutrons = _numNeutrons;
+        
+        // Keep the array of constituents.
+        _constituents = constituents;
+        
+        // If we are being created as a Polonium 211 nucleus, then decide when
+        // alpha decay will occur.
+        if ((_numProtons == 84) && (_numNeutrons == 127)){
             _alphaDecayTime = calcPolonium211DecayTime();
         }
         else{
@@ -341,7 +392,27 @@ public class AtomicNucleus {
     //------------------------------------------------------------------------
     // Private methods
     //------------------------------------------------------------------------
-    
+
+    /**
+     * Set ourself up to listen to the simulation clock.
+     */
+    private void addClockListener( NuclearPhysics2Clock clock){
+        clock.addClockListener( new ClockAdapter(){
+            
+            /**
+             * Clock tick handler - causes the model to move forward one
+             * increment in time.
+             */
+            public void clockTicked(ClockEvent clockEvent){
+                handleClockTicked(clockEvent);
+            }
+            
+            public void simulationTimeReset(ClockEvent clockEvent){
+                reset();
+            }
+        });
+    }
+
     /**
      * This method generates a value indicating the number of milliseconds for
      *  a Polonium 211 nucleus to decay.  This calculation is based on the 
