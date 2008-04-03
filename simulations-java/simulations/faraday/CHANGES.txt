@@ -3,8 +3,7 @@ Changes for faraday
 ===============================================================================
 
 TODO
-- Options>BackgroundColor menu item remains grayed out after associated dialog is closed [427]
-- make rescaling of B-field visualization consistent
+- make rescaling of B-field visualization consistent [490]
 
 DONE:
 4/2/08 - change faraday.description
