@@ -61,6 +61,8 @@
 	<classpathentry kind="src" path="simulations/energy-skate-park/data"/>
 	<classpathentry kind="src" path="simulations/faraday/src"/>
 	<classpathentry kind="src" path="simulations/faraday/data"/>
+	<classpathentry kind="src" path="simulations/fitness/src"/>
+	<classpathentry kind="src" path="simulations/fitness/data"/>
 	<classpathentry kind="src" path="simulations/forces-1d/src"/>
 	<classpathentry kind="src" path="simulations/forces-1d/data"/>
 	<classpathentry kind="src" path="simulations/fourier/src"/>
