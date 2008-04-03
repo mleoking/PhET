@@ -3,7 +3,7 @@
 package edu.colorado.phet.fitness.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.fitness.persistence.ExampleConfig;
+import edu.colorado.phet.fitness.persistence.FitnessConfig;
 
 /**
  * TemplateConfig describes a configuration of this simulation.
@@ -25,7 +25,7 @@ public class SimTemplateConfig implements IProguardKeepClass {
     private String _versionRevision;
     
     // Modules
-    private ExampleConfig _exampleConfig;
+    private FitnessConfig _exampleConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -35,7 +35,7 @@ public class SimTemplateConfig implements IProguardKeepClass {
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
     public SimTemplateConfig() {
-        _exampleConfig = new ExampleConfig();
+        _exampleConfig = new FitnessConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -86,11 +86,11 @@ public class SimTemplateConfig implements IProguardKeepClass {
     // Accessors for module configurations
     //----------------------------------------------------------------------------
     
-    public void setExampleConfig( ExampleConfig exampleConfig ) {
+    public void setExampleConfig( FitnessConfig exampleConfig ) {
         _exampleConfig = exampleConfig;
     }
     
-    public ExampleConfig getExampleConfig() {
+    public FitnessConfig getExampleConfig() {
         return _exampleConfig;
     }
 }

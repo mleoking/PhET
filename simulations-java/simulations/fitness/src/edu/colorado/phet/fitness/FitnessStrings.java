@@ -11,7 +11,8 @@ import edu.colorado.phet.fitness.FitnessResources;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FitnessStrings {
-    
+    public static String TITLE_FITNESS_MODULE=FitnessResources.getString( "fitness.module.title" );
+
     /* not intended for instantiation */
     private FitnessStrings() {}
     

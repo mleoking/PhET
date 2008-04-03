@@ -1,54 +1,58 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.fitness.module.example;
+package edu.colorado.phet.fitness.module.fitness;
 
 import java.awt.Frame;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.fitness.FitnessApplication;
 import edu.colorado.phet.fitness.FitnessStrings;
-import edu.colorado.phet.fitness.defaults.ExampleDefaults;
-import edu.colorado.phet.fitness.model.ExampleModelElement;
-import edu.colorado.phet.fitness.model.SimTemplateClock;
+import edu.colorado.phet.fitness.FitnessConstants;
+import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.persistence.FitnessConfig;
-import edu.colorado.phet.fitness.view.ExampleNode;
+import edu.colorado.phet.fitness.defaults.ExampleDefaults;
+import edu.colorado.phet.fitness.model.SimTemplateClock;
+import edu.colorado.phet.fitness.model.Human;
 
 /**
- * ExampleModule is the "Example" module.
+ * FitnessModule is the "Fitness" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleModule extends PiccoloModule {
+public class FitnessModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ExampleModel _model;
-    private ExampleCanvas _canvas;
-    private ExampleControlPanel _controlPanel;
+    private FitnessModel _model;
+    private FitnessCanvas _canvas;
+    private FitnessControlPanel _controlPanel;
     private ClockControlPanelWithTimeDisplay _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public ExampleModule( Frame parentFrame ) {
-        super( FitnessStrings.TITLE_EXAMPLE_MODULE, ExampleDefaults.CLOCK );
+    public FitnessModule( Frame parentFrame ) {
+        super( FitnessStrings.TITLE_FITNESS_MODULE, ExampleDefaults.CLOCK );
 
         // Model
         SimTemplateClock clock = (SimTemplateClock) getClock();
-        _model = new ExampleModel( clock );
+        _model = new FitnessModel( clock );
 
         // Canvas
-        _canvas = new ExampleCanvas( _model );
+        _canvas = new FitnessCanvas( _model );
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new ExampleControlPanel( this, parentFrame );
+        _controlPanel = new FitnessControlPanel( this, parentFrame );
         setControlPanel( _controlPanel );
-        
+
         // Clock controls
         _clockControlPanel = new ClockControlPanelWithTimeDisplay( (SimTemplateClock) getClock() );
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
@@ -56,8 +60,8 @@ public class ExampleModule extends PiccoloModule {
         setClockControlPanel( _clockControlPanel );
 
         // Controller
-        ExampleController controller = new ExampleController( _model, _canvas, _controlPanel );
-        
+//        FitnessController controller = new FitnessController( _model, _canvas, _controlPanel );
+
         // Help
         if ( hasHelp() ) {
             //XXX add help items
@@ -82,18 +86,8 @@ public class ExampleModule extends PiccoloModule {
         clock.setDt( ExampleDefaults.CLOCK_DT );
         setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
 
-        // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
-        exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
-        
-        // ExampleNode
-        ExampleNode exampleNode = _canvas.getExampleNode();
-        exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
-        exampleNode.setPosition( exampleModelElement.getPosition() );
-        exampleNode.setOrientation( exampleModelElement.getOrientation() );
     }
-    
+
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
@@ -110,14 +104,14 @@ public class ExampleModule extends PiccoloModule {
         config.setClockDt( clock.getDt() );
         config.setClockRunning( getClockRunningWhenActive() );
 
-        // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
-        config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
+        // FitnessModelElement
+        Human fitnessModelElement = _model.getFitnessModelElement();
+//        config.setFitnessModelElementPosition( fitnessModelElement.getPositionReference() );
+//        config.setFitnessModelElementOrientation( fitnessModelElement.getOrientation() );
 
         // Control panel settings that are specific to the view
         //XXX
-        
+
         return config;
     }
 
@@ -133,12 +127,32 @@ public class ExampleModule extends PiccoloModule {
         clock.setDt( config.getClockDt() );
         setClockRunningWhenActive( config.isClockRunning() );
 
-        // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        exampleModelElement.setPosition( config.getExampleModelElementPosition() );
-        exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
+        // FitnessModelElement
+//        FitnessModelElement fitnessModelElement = _model.getFitnessModelElement();
+//        fitnessModelElement.setPosition( config.getFitnessModelElementPosition() );
+//        fitnessModelElement.setOrientation( config.getFitnessModelElementOrientation() );
 
         // Control panel settings that are specific to the view
         //XXX
+    }
+
+    public Human getHuman() {
+        return _model.getFitnessModelElement();
+    }
+
+        public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+
+            public void run() {
+
+                PhetApplicationConfig config = new PhetApplicationConfig( args, FitnessConstants.FRAME_SETUP, FitnessResources.getResourceLoader() );
+
+                // Create the application.
+                FitnessApplication app = new FitnessApplication( config );
+
+                // Start the application.
+                app.startApplication();
+            }
+        } );
     }
 }

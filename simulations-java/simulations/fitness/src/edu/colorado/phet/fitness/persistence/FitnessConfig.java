@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleConfig implements IProguardKeepClass {
+public class FitnessConfig implements IProguardKeepClass {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -36,7 +36,7 @@ public class ExampleConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance.
      */
-    public ExampleConfig() {}
+    public FitnessConfig() {}
     
     //----------------------------------------------------------------------------
     // Accessors
