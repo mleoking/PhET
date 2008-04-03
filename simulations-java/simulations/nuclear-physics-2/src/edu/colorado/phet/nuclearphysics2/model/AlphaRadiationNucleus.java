@@ -134,7 +134,6 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
         }
     }
     
-    @Override
     protected void updateAgitationFactor() {
         // Determine the amount of agitation that should be exhibited by this
         // particular nucleus.  This obviously doesn't handle every possible

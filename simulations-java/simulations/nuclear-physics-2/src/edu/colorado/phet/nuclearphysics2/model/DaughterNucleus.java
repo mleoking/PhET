@@ -34,7 +34,6 @@ public class DaughterNucleus extends AtomicNucleus {
     // Private and Protected Methods
     //------------------------------------------------------------------------
 
-    @Override
     protected void updateAgitationFactor() {
         
         // Determine the amount of agitation that should be exhibited by this

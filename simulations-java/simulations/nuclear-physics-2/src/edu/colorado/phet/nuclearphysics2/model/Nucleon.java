@@ -78,6 +78,17 @@ public class Nucleon implements AtomicNucleusConstituent {
         return new Point2D.Double(_position.getX(), _position.getY());
     }
     
+    public void setPosition(Point2D newPosition)
+    {
+        _position.setLocation( newPosition );
+
+        // Notify all listeners of the position change.
+        for (int i = 0; i < _listeners.size(); i++)
+        {
+            ((Listener)_listeners.get( i )).positionChanged(); 
+        }        
+    }
+    
     public void setTunnelingEnabled(boolean tunnelingEnabled){
         _tunnelingEnabled = tunnelingEnabled;
     }

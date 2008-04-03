@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.nuclearphysics2.model.Nucleon.Listener;
 
 /**
  * This class is used to model the atomic nucleus in the "Fission: One
@@ -82,6 +83,7 @@ public class FissionOneNucleus extends AtomicNucleus{
                     Object newlyFreedNeutron = _constituents.get( i );
                     byProducts.add( newlyFreedNeutron );
                     neutronByProductCount++;
+                    _numNeutrons--;
                 }
             }
             
@@ -169,6 +171,7 @@ public class FissionOneNucleus extends AtomicNucleus{
 
             // Let the listeners know that the atomic weight has changed.
             int totalNumProtons = _numProtons + _numAlphas * 2;
+            totalNumNeutrons = _numNeutrons + (_numAlphas * 2);
             for (int i = 0; i < _listeners.size(); i++){
                 ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons, null );
             }
@@ -191,22 +194,62 @@ public class FissionOneNucleus extends AtomicNucleus{
      */
     public void reset(ArrayList freeNeutrons, AtomicNucleus daughterNucleus){
         
-        // Reset the fission time to 0, indicating that is shouldn't occur
+        // Reset the fission time to 0, indicating that it shouldn't occur
         // until something changes.
         _fissionTime = 0;
 
+        // Set velocity and position back to 0.
+        setPosition( new Point2D.Double(0, 0) );
+        setVelocity( 0, 0 );
+        
+        // Add back all except one of the free neutrons, since one was captured
+        // just prior to the fission event.
         if (freeNeutrons != null){
-            _constituents.addAll( 0, freeNeutrons );
+            for (int i = 0; i < freeNeutrons.size() - 1; i++){
+                ((Nucleon)freeNeutrons.get( i )).setVelocity( 0, 0 );
+                ((Nucleon)freeNeutrons.get( i )).setPosition( _position );
+                _constituents.add(freeNeutrons.get(i));
+                _numNeutrons++;
+            }
         }
         
         if (daughterNucleus != null){
-            _constituents.addAll( daughterNucleus.getConstituents() );
+            
+            ArrayList daughterConstituents = daughterNucleus.getConstituents();
+            
+            for (int i = 0; i < daughterConstituents.size(); i++){
+                
+                Object constituent = daughterConstituents.get( i );
+                
+                if (constituent instanceof AlphaParticle){
+                    _numAlphas++;
+                }
+                else if (constituent instanceof Neutron){
+                    _numNeutrons++;
+                }
+                else if (constituent instanceof Proton){
+                    _numProtons++;
+                }
+                else{
+                    // This should never happen, and needs to be debugged if
+                    // it does.
+                    assert false;
+                }
+                    
+                _constituents.add(constituent);
+            }
         }
         
         // Update our agitation level.
         updateAgitationFactor();
         
-        // Let the listeners know that the atomic weight has changed.
+        // Notify all listeners of the position change.
+        for (int i = 0; i < _listeners.size(); i++)
+        {
+            ((Listener)_listeners.get( i )).positionChanged(); 
+        }        
+        
+        // Notify all listeners of the change to our atomic weight.
         int totalNumProtons = _numProtons + _numAlphas * 2;
         int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
         for (int i = 0; i < _listeners.size(); i++){
@@ -214,7 +257,6 @@ public class FissionOneNucleus extends AtomicNucleus{
         }
     }
     
-    @Override
     protected void updateAgitationFactor() {
         
         // Determine the amount of agitation that should be exhibited by this
