@@ -6,6 +6,7 @@ TODO
 - Options>BackgroundColor menu item remains grayed out after associated dialog is closed [427]
 
 DONE:
+4/2/08 - change faraday.description
 ********* version 1.05.10 (20509)
 4/2/08 - organize imports
 4/2/08 - fix bounds problem in AbstractBFieldGraphic, needed to call setBoundsDirty when grid bounds change [351]
