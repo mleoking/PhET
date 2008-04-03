@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -63,6 +64,18 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
     public void setBFieldOutsideGraphic( BFieldOutsideGraphic bFieldGraphic ) {
         assert( bFieldGraphic != null );
         _bFieldOutsideGraphic = bFieldGraphic;
+    }
+    
+    /**
+     * Sets visibility of the clock control panel.
+     * 
+     * @param visible
+     */
+    public void setClockControlPanelVisible( boolean visible ) {
+        ClockControlPanel panel = getClockControlPanel();
+        if ( panel != null ) {
+            panel.setVisible( visible );
+        }
     }
     
     //----------------------------------------------------------------------------

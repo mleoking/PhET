@@ -4,6 +4,7 @@ Changes for faraday
 
 
 DONE:
+4/3/08 - hide clock control panel for all modules in magnet-and-compass and magnets-and-electromagnets
 ********* version 1.05.11 (20528)
 4/3/08 - change method of rescaling the B-field visualization [490]
 4/2/08 - change faraday.description

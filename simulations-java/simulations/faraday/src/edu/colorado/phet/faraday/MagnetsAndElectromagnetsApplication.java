@@ -37,9 +37,11 @@ public class MagnetsAndElectromagnetsApplication extends PiccoloPhetApplication 
     private void initModules() {
         
         BarMagnetModule barMagnetModule = new BarMagnetModule( true /* wiggleMeEnabled */);
+        barMagnetModule.setClockControlPanelVisible( false );
         addModule( barMagnetModule );
         
         ElectromagnetModule electromagnetModule = new ElectromagnetModule();
+        electromagnetModule.setClockControlPanelVisible( false );
         addModule( electromagnetModule );
     }
 

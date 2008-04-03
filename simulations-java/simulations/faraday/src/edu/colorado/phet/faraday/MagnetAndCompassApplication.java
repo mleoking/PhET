@@ -35,6 +35,7 @@ public class MagnetAndCompassApplication extends PiccoloPhetApplication {
 
     private void initModules() {
         BarMagnetModule barMagnetModule = new BarMagnetModule( true /* wiggleMeEnabled */ );
+        barMagnetModule.setClockControlPanelVisible( false );
         addModule( barMagnetModule );
     }
 
