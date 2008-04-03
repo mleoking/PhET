@@ -12,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.model.DaughterNucleus;
+import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
@@ -37,7 +39,7 @@ public class FissionOneNucleusModel {
     // Instance data
     //------------------------------------------------------------------------
     
-    private AtomicNucleus _atomicNucleus;
+    private FissionOneNucleus _atomicNucleus;
     private AtomicNucleus _daughterNucleus;
     private NeutronSource _neutronSource;
     private ArrayList _freeNucleons = new ArrayList();
@@ -53,7 +55,7 @@ public class FissionOneNucleusModel {
     public FissionOneNucleusModel(NuclearPhysics2Clock clock)
     {
         // Add a nucleus of Uranium 235 to the model.
-        _atomicNucleus = new AtomicNucleus(clock, new Point2D.Double( 0, 0 ), 92, 143);
+        _atomicNucleus = new FissionOneNucleus( clock, new Point2D.Double( 0, 0 ) );
         
         // Register as a listener to the nucleus so that we can see if any new
         // particles come out of it that need to be managed.
@@ -86,7 +88,7 @@ public class FissionOneNucleusModel {
                             for (int j = 0; j < _listeners.size(); j++){
                                 ((Listener)_listeners.get( j )).daughterNucleusCreated( _daughterNucleus );
                             }
-                            // Set a random but opposite direction for the
+                            // Set random but opposite directions for the
                             // nuclei.
                             double angle = _rand.nextDouble() * 2 * Math.PI;
                             double xVel = Math.cos( angle ) * MOVING_NUCLEUS_VELOCITY;
@@ -187,7 +189,7 @@ public class FissionOneNucleusModel {
      * 
      * @param ce - The clock event representing the sim clock at this point int time.
      */
-    private void handleClockTicked(ClockEvent ce){
+    protected void handleClockTicked(ClockEvent ce){
         
         // Move any free particles that exist.
         for (int i = 0; i < _freeNucleons.size(); i++){
@@ -200,8 +202,9 @@ public class FissionOneNucleusModel {
             if (Point2D.distance(freeNucleon.getPosition().getX(), freeNucleon.getPosition().getY(), _atomicNucleus.getPosition().getX(), _atomicNucleus.getPosition().getY()) <
                 _atomicNucleus.getDiameter() / 2){
                 
-                _atomicNucleus.captureNeutron( freeNucleon );
-                _freeNucleons.remove( i );
+                if (_atomicNucleus.captureNeutron( freeNucleon )){
+                    _freeNucleons.remove( i );                    
+                }
             }
         }
     }

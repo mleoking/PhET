@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics2.model.AlphaRadiationNucleus;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
@@ -34,7 +35,7 @@ public class AlphaRadiationModel {
     // Instance data
     //------------------------------------------------------------------------
     
-    private AtomicNucleus _atomicNucleus;
+    private AlphaRadiationNucleus _atomicNucleus;
     private AlphaParticle _tunneledAlpha;
     private ConstantDtClock _clock;
     private ArrayList _listeners = new ArrayList();
@@ -61,13 +62,13 @@ public class AlphaRadiationModel {
             public void simulationTimeReset(ClockEvent clockEvent){
                 // Reset the nucleus, including passing the alpha particle
                 // back to it.
-                _atomicNucleus.resetPolonium211( _tunneledAlpha );
+                _atomicNucleus.reset( _tunneledAlpha );
                 _tunneledAlpha = null;
             }
         });
 
-        // Create a nucleus of Polonium 211.
-        _atomicNucleus = new AtomicNucleus(clock, new Point2D.Double(0, 0), 84, 127);
+        // Create the nucleus that will demonstrate alpha radiation.
+        _atomicNucleus = new AlphaRadiationNucleus(clock, new Point2D.Double(0, 0));
         
         // Register as a listener for the nucleus so we can handle the
         // particles thrown off by alpha decay.
