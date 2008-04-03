@@ -25,6 +25,7 @@ public class ClockControlPanel extends TimeControlPanel {
 
     private IClock clock;
     private ClockAdapter clockListener;
+    private static final boolean USE_ANIMATED_CLOCK_CONTROL = true;
 
     /**
      * Constructs a ClockControlPanel
@@ -65,6 +66,10 @@ public class ClockControlPanel extends TimeControlPanel {
         };
         clock.addClockListener( clockListener );
         updateStateFromClock();
+
+        if ( USE_ANIMATED_CLOCK_CONTROL ) {
+            addControlToLeft( new AnimatedClockJComponent( clock ) );
+        }
     }
 
     /**
