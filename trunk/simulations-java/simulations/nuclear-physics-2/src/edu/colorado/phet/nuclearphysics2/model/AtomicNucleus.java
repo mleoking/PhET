@@ -35,7 +35,7 @@ public class AtomicNucleus {
     //------------------------------------------------------------------------
 
     // The clock that drives the time-based behavior.
-    ConstantDtClock _clock;
+    NuclearPhysics2Clock _clock;
     
     // List of registered listeners.
     private ArrayList _listeners = new ArrayList();
@@ -51,14 +51,11 @@ public class AtomicNucleus {
     private ArrayList _constituents;
     
     // Original settings, used for resetting this nucleus.
-    private int _originalnumProtons;
-    private int _originalnumNeutrons;
+    private int _originalNumProtons;
+    private int _originalNumNeutrons;
     
     // Variable for deciding when alpha decay should occur.
     private double _alphaDecayTime = 0;
-    
-    // Particle that will/is tunneling out of nucleus.
-    private AlphaParticle _tunnelingParticle = null;
     
     // Numbers of various particles.
     int _numAlphas;
@@ -94,8 +91,8 @@ public class AtomicNucleus {
         _position = position;
         
         // Save the original params so we can reset if need be.
-        _originalnumProtons = numProtons;
-        _originalnumNeutrons = numNeutrons;
+        _originalNumProtons = numProtons;
+        _originalNumNeutrons = numNeutrons;
         
         // Figure out the proportions of various particles.
         _numAlphas    = ((numProtons + numNeutrons) / 2) / 4;  // Assume half of all particles are tied up in alphas.
@@ -173,8 +170,8 @@ public class AtomicNucleus {
         }
         
         // Save the original params so we can reset if need be.
-        _originalnumProtons = _numProtons;
-        _originalnumNeutrons = _numNeutrons;
+        _originalNumProtons = _numProtons;
+        _originalNumNeutrons = _numNeutrons;
         
         // Keep the array of constituents.
         _constituents = constituents;
@@ -241,7 +238,9 @@ public class AtomicNucleus {
     {
         // Move if our velocity is non-zero.
         if (!((_xVelocity == 0) && (_yVelocity == 0))){
-            _position.setLocation( _position.getX() + _xVelocity, _position.getY() + _yVelocity);
+            double newPosX = _position.getX() + _xVelocity;
+            double newPosY = _position.getY() + _yVelocity;
+            _position.setLocation( newPosX, newPosY);
             
             // Notify listeners of the position change.
             for (int i = 0; i < _listeners.size(); i++){
@@ -258,10 +257,10 @@ public class AtomicNucleus {
                 if (_constituents.get( i ) instanceof AlphaParticle){
                     
                     // This one will do.  Make it tunnel.
-                    _tunnelingParticle = (AlphaParticle)_constituents.get( i );
+                    AlphaParticle tunnelingParticle = (AlphaParticle)_constituents.get( i );
                     _constituents.remove( i );
                     _numAlphas--;
-                    _tunnelingParticle.tunnelOut( TUNNEL_OUT_RADIUS + 1.0 );
+                    tunnelingParticle.tunnelOut( _position, TUNNEL_OUT_RADIUS + 1.0 );
                     
                     // Update our agitation factor.
                     updateAgitationFactor();
@@ -269,8 +268,11 @@ public class AtomicNucleus {
                     // Notify listeners of the change of atomic weight.
                     int totalNumProtons = _numProtons + _numAlphas * 2;
                     int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
+                    ArrayList byProducts = new ArrayList(1);
+                    byProducts.add( tunnelingParticle );
                     for (int j = 0; j < _listeners.size(); j++){
-                        ((Listener)_listeners.get( j )).atomicWeightChanged( totalNumProtons, totalNumNeutrons );
+                        ((Listener)_listeners.get( j )).atomicWeightChanged( totalNumProtons, totalNumNeutrons, 
+                                byProducts );
                     }
                     break;
                 }
@@ -279,6 +281,75 @@ public class AtomicNucleus {
             // Set the decay time to 0 to indicate that no more tunneling out
             // should occur.
             _alphaDecayTime = 0;
+        }
+        
+        // See if fission should occur.
+        // TODO: JPB TBD - Will be based on a timer or something.
+        if (getAtomicWeight() == 236){
+            
+            // Fission the nucleus.  First pull out three neutrons as by 
+            // products of this decay event.
+            ArrayList byProducts = new ArrayList();
+            int neutronByProductCount = 0;
+            for (int i = 0; i < _constituents.size() && neutronByProductCount < 3; i++){
+                if (_constituents.get( i ) instanceof Neutron){
+                    Object newlyFreedNeutron = _constituents.get( i );
+                    byProducts.add( newlyFreedNeutron );
+                    neutronByProductCount++;
+                }
+            }
+            
+            _constituents.removeAll( byProducts );
+            
+            // Now pull out the needed number of protons, neutrons, and alphas
+            // to create the appropriate daughter nucleus.  The daughter
+            // nucleus created in Krypton-92, so the number of particles
+            // needed is calculated from this.
+            int numAlphasNeeded = 12;
+            int numProtonsNeeded = 12;
+            int numNeutronsNeeded = 32;
+                
+            ArrayList daughterNucleusConstituents = new ArrayList(numAlphasNeeded + numProtonsNeeded + numNeutronsNeeded);
+            
+            for (int i = 0; i < _constituents.size(); i++){
+                Object constituent = _constituents.get( i );
+                
+                if ((numNeutronsNeeded > 0) && (constituent instanceof Neutron)){
+                    daughterNucleusConstituents.add( constituent );
+                    numNeutronsNeeded--;
+                    _numNeutrons--;
+                }
+                else if ((numProtonsNeeded > 0) && (constituent instanceof Proton)){
+                    daughterNucleusConstituents.add( constituent );
+                    numProtonsNeeded--;
+                    _numProtons--;
+                }
+                if ((numAlphasNeeded > 0) && (constituent instanceof AlphaParticle)){
+                    daughterNucleusConstituents.add( constituent );
+                    numAlphasNeeded--;
+                    _numAlphas--;
+                }
+                
+                if ((numNeutronsNeeded == 0) && (numProtonsNeeded == 0) && (numAlphasNeeded == 0)){
+                    // We've got all that we need.
+                    break;
+                }
+            }
+            
+            _constituents.removeAll( daughterNucleusConstituents );
+            
+            Point2D location = new Point2D.Double();
+            location.setLocation( _position );
+            AtomicNucleus daughterNucleus = new AtomicNucleus(_clock, location, daughterNucleusConstituents);
+            
+            byProducts.add( daughterNucleus );
+            
+            // Send out the decay event to all listeners.
+            int totalNumProtons = _numProtons + _numAlphas * 2;
+            int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
+            for (int i = 0; i < _listeners.size(); i++){
+                ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  byProducts);
+            }
         }
         
         // Move the constituent particles to create the visual effect of a
@@ -303,11 +374,6 @@ public class AtomicNucleus {
             }
             _agitationCount = (_agitationCount + 1) % agitationIncrement;
         }
-        
-        // If we have a tunneling particle, move it.
-        if (_tunnelingParticle != null){
-            _tunnelingParticle.moveOut();
-        }
     }
     
     public void setVelocity( double xVel, double yVel){
@@ -316,29 +382,25 @@ public class AtomicNucleus {
     }
     
     /**
-     * Resets the nucleus to its original state, before any fission has
+     * Resets the nucleus to its original state, before any alpha decay has
      * occurred.
      */
-    public void reset(){
+    public void resetPolonium211(AlphaParticle alpha){
         
-        // If we started as Polonium 211, reset the alpha decay timer.
-        if ((_originalnumProtons == 84) && (_originalnumNeutrons == 127)){
+        // Reset the decay time, but only if we really started as Polonium-211.
+        if ((_originalNumProtons == 84) && (_originalNumNeutrons == 127)){
             _alphaDecayTime = calcPolonium211DecayTime();
         }
         else {
             _alphaDecayTime = 0;            
         }
-
-        // See if a particle is tunneling or has tunneled.
-        if (_tunnelingParticle != null){
-            // Reset the tunneling, i.e. return the particle to the nucleus.
-            _tunnelingParticle.resetTunneling();
-            
-            // Add this particle back to our list of constituents.
-            _constituents.add( _tunnelingParticle );
-            _tunnelingParticle = null;
+        
+        if (alpha != null){
+            // Add the tunneled particle back to our list.
+            _constituents.add( 0, alpha );
             _numAlphas++;
-            
+            alpha.resetTunneling();
+
             // Update our agitation level.
             updateAgitationFactor();
             
@@ -346,11 +408,39 @@ public class AtomicNucleus {
             int totalNumProtons = _numProtons + _numAlphas * 2;
             int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
             for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons );
+                ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  null);
             }
         }
     }
-    
+
+    /**
+     * Resets the nucleus to its original state, before any fission has
+     * occurred.
+     */
+    public void resetUranium235(ArrayList freeNeutrons, AtomicNucleus daughterNucleus){
+        
+        // Reset the decay time.
+        // TODO: JPB TBD
+
+        if (freeNeutrons != null){
+            _constituents.addAll( 0, freeNeutrons );
+        }
+        
+        if (daughterNucleus != null){
+            _constituents.addAll( daughterNucleus.getConstituents() );
+        }
+        
+        // Update our agitation level.
+        updateAgitationFactor();
+        
+        // Let the listeners know that the atomic weight has changed.
+        int totalNumProtons = _numProtons + _numAlphas * 2;
+        int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  null);
+        }
+    }
+
     /**
      * Capture a free particle if the nucleus is able to.
      * 
@@ -369,8 +459,10 @@ public class AtomicNucleus {
         int totalNumProtons = _numProtons + _numAlphas * 2;
         int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons );
+            ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons, null );
         }
+        
+        // TODO: JPB TBD - Start a timer to kick off fission.
     }
 
     /**
@@ -408,7 +500,7 @@ public class AtomicNucleus {
             }
             
             public void simulationTimeReset(ClockEvent clockEvent){
-                reset();
+                // Ignore this reset and count on the main model to reset us.
             }
         });
     }
@@ -484,7 +576,22 @@ public class AtomicNucleus {
     //------------------------------------------------------------------------
     
     public static interface Listener {
+        
+        /**
+         * Inform listeners that the position of the nucleus has changed.
+         */
         void positionChanged();
-        void atomicWeightChanged(int numProtons, int numNeutrons);
+        
+        /**
+         * Inform listeners that the atomic weight (i.e. the total number of
+         * protons and neutrons that comprise this nucleus) has changed.
+         * 
+         * @param numProtons - New number of protons in the nucleus.
+         * @param numNeutrons - New number of neutrons in the nucleus.
+         * @param byProducts - By products of the change, which may include
+         * protons, neutrons, alpha particles, or daughter nuclei.  May be
+         * null if no byproducts were produced.
+         */
+        void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts);
     }
 }
