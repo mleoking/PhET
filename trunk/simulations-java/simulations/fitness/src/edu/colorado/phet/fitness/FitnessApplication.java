@@ -22,7 +22,8 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.fitness.developer.DeveloperMenu;
 import edu.colorado.phet.fitness.menu.OptionsMenu;
 import edu.colorado.phet.fitness.module.example.ExampleModule;
-import edu.colorado.phet.fitness.persistence.ExampleConfig;
+import edu.colorado.phet.fitness.module.fitness.FitnessModule;
+import edu.colorado.phet.fitness.persistence.FitnessConfig;
 import edu.colorado.phet.fitness.persistence.SimTemplateConfig;
 
 /**
@@ -37,7 +38,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ExampleModule _exampleModule;
+    private FitnessModule _exampleModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -48,11 +49,6 @@ public class FitnessApplication extends PiccoloPhetApplication {
     // Constructors
     //----------------------------------------------------------------------------
 
-    /**
-     * Sole constructor.
-     *
-     * @param args command line arguments
-     */
     public FitnessApplication( PhetApplicationConfig config )
     {
         super( config );
@@ -88,7 +84,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        _exampleModule = new ExampleModule( parentFrame );
+        _exampleModule = new FitnessModule( parentFrame );
         addModule( _exampleModule );
     }
 
@@ -187,7 +183,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
         appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
         
-        ExampleConfig exampleConfig = _exampleModule.save();
+        FitnessConfig exampleConfig = _exampleModule.save();
         appConfig.setExampleConfig( exampleConfig );
         
         _persistenceManager.save( appConfig );
@@ -204,7 +200,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
             if ( object instanceof SimTemplateConfig ) {
                 SimTemplateConfig appConfig = (SimTemplateConfig) object;
                 
-                ExampleConfig exampleConfig = appConfig.getExampleConfig();
+                FitnessConfig exampleConfig = appConfig.getExampleConfig();
                 _exampleModule.load( exampleConfig );
             }
             else {
