@@ -39,7 +39,7 @@ public class FissionOneNucleusModel {
     // Instance data
     //------------------------------------------------------------------------
     
-    private FissionOneNucleus _atomicNucleus;
+    private FissionOneNucleus _primaryNucleus;
     private AtomicNucleus _daughterNucleus;
     private NeutronSource _neutronSource;
     private ArrayList _freeNucleons = new ArrayList();
@@ -55,12 +55,12 @@ public class FissionOneNucleusModel {
     public FissionOneNucleusModel(NuclearPhysics2Clock clock)
     {
         // Add a nucleus of Uranium 235 to the model.
-        _atomicNucleus = new FissionOneNucleus( clock, new Point2D.Double( 0, 0 ) );
+        _primaryNucleus = new FissionOneNucleus( clock, new Point2D.Double( 0, 0 ) );
         
         // Register as a listener to the nucleus so that we can see if any new
         // particles come out of it that need to be managed.
 
-        _atomicNucleus.addListener( new AtomicNucleus.Listener(){
+        _primaryNucleus.addListener( new AtomicNucleus.Listener(){
             
             public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
                 if (byProducts != null){
@@ -70,9 +70,12 @@ public class FissionOneNucleusModel {
                         Object byProduct = byProducts.get( i );
                         if ((byProduct instanceof Neutron) || (byProduct instanceof Proton)){
                             // Set a direction and velocity for this neutron.
-                            double angle = _rand.nextDouble() * 2 * Math.PI;
-                            double xVel = Math.cos( angle ) * MOVING_NUCLEUS_VELOCITY;
-                            double yVel = Math.sin( angle ) * MOVING_NUCLEUS_VELOCITY;
+                            double angle = (_rand.nextDouble() * Math.PI / 3);
+                            if (_rand.nextBoolean()){
+                                angle += Math.PI;
+                            }
+                            double xVel = Math.sin( angle ) * MOVING_NUCLEUS_VELOCITY;
+                            double yVel = Math.cos( angle ) * MOVING_NUCLEUS_VELOCITY;
                             ((Nucleon)byProduct).setVelocity( xVel, yVel );
                             
                             // Add this new particle to our list.
@@ -89,11 +92,15 @@ public class FissionOneNucleusModel {
                                 ((Listener)_listeners.get( j )).daughterNucleusCreated( _daughterNucleus );
                             }
                             // Set random but opposite directions for the
-                            // nuclei.
-                            double angle = _rand.nextDouble() * 2 * Math.PI;
-                            double xVel = Math.cos( angle ) * MOVING_NUCLEUS_VELOCITY;
-                            double yVel = Math.sin( angle ) * MOVING_NUCLEUS_VELOCITY;
-                            _atomicNucleus.setVelocity( xVel, yVel );
+                            // nuclei.  Limit them to be roughly horizontal so
+                            // that they will be easier to see.
+                            double angle = (_rand.nextDouble() * Math.PI / 3) + (Math.PI / 3);
+                            if (_rand.nextBoolean()){
+                                angle += Math.PI;
+                            }
+                            double xVel = Math.sin( angle ) * MOVING_NUCLEUS_VELOCITY;
+                            double yVel = Math.cos( angle ) * MOVING_NUCLEUS_VELOCITY;
+                            _primaryNucleus.setVelocity( xVel, yVel );
                             _daughterNucleus.setVelocity( -xVel, -yVel );
                         }
                         else {
@@ -139,7 +146,7 @@ public class FissionOneNucleusModel {
             }
             
             public void simulationTimeReset(ClockEvent clockEvent){
-                // TODO: JPB TBD
+                reset();
             }
         });
 
@@ -158,7 +165,7 @@ public class FissionOneNucleusModel {
      * @return - Reference to the nucleus model element.
      */
     public AtomicNucleus getAtomicNucleus(){
-        return _atomicNucleus;
+        return _primaryNucleus;
     }
     
     /**
@@ -199,13 +206,26 @@ public class FissionOneNucleusModel {
 
             // Check if any of the free particles have collided with the nucleus
             // and, if so, transfer the particle into the nucleus.
-            if (Point2D.distance(freeNucleon.getPosition().getX(), freeNucleon.getPosition().getY(), _atomicNucleus.getPosition().getX(), _atomicNucleus.getPosition().getY()) <
-                _atomicNucleus.getDiameter() / 2){
+            if (Point2D.distance(freeNucleon.getPosition().getX(), freeNucleon.getPosition().getY(), _primaryNucleus.getPosition().getX(), _primaryNucleus.getPosition().getY()) <
+                _primaryNucleus.getDiameter() / 2){
                 
-                if (_atomicNucleus.captureNeutron( freeNucleon )){
+                if (_primaryNucleus.captureNeutron( freeNucleon )){
                     _freeNucleons.remove( i );                    
                 }
             }
+        }
+    }
+    
+    /**
+     * Reset the model.
+     */
+    private void reset(){
+        if (_daughterNucleus != null){
+            // Fission has occurred.  Add the free neutrons and the daughter 
+            // back to the primary nucleus.
+            _primaryNucleus.reset(_freeNucleons, _daughterNucleus);
+            _daughterNucleus = null;
+            _freeNucleons.removeAll( _freeNucleons );
         }
     }
 

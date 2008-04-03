@@ -155,6 +155,10 @@ public abstract class AtomicNucleus {
         return _position;
     }
     
+    public void setPosition(Point2D newPosition){
+        _position.setLocation( newPosition );
+    }
+    
     public ArrayList getConstituents(){
         return _constituents;
     }
