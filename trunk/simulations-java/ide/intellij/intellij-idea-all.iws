@@ -36,20 +36,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/HumanControlPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/example/ExampleModule.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/example/ExampleModule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModule.java" />
-      <change type="MOVED" beforePath="C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\persistence\ExampleConfig.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/persistence/FitnessConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/persistence/SimTemplateConfig.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/persistence/SimTemplateConfig.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessControlPanel.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/AnimatedClockJComponent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanel.java" afterPath="$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" afterPath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessStrings.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessStrings.java" />
     </list>
     <list name="rotation-render" comment="" />
     <list name="build-12-7-2007" comment="" />
@@ -233,61 +223,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="FitnessControlPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessControlPanel.java">
+      <file leaf-file-name="ClockControlPanel.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="62" column="0" selection-start="2081" selection-end="2081" vertical-scroll-proportion="1.2608696">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExampleModule.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/example/ExampleModule.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="13" selection-start="771" selection-end="771" vertical-scroll-proportion="0.29037267">
+            <state line="64" column="13" selection-start="2077" selection-end="2077" vertical-scroll-proportion="0.3431677">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FitnessModule.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModule.java">
+      <file leaf-file-name="DeferredInitializationModule.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../common/phetgraphics/src/edu/colorado/phet/common/phetgraphics/application/DeferredInitializationModule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="150" column="53" selection-start="5195" selection-end="5195" vertical-scroll-proportion="1.1319555">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HumanControlPanel.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/HumanControlPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="26" selection-start="1380" selection-end="1380" vertical-scroll-proportion="0.24324325">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractValueControl.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/controls/valuecontrol/AbstractValueControl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="296" column="38" selection-start="10146" selection-end="10146" vertical-scroll-proportion="0.4944356">
+            <state line="48" column="34" selection-start="1617" selection-end="1617" vertical-scroll-proportion="0.54813665">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Human.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java">
+      <file leaf-file-name="Module.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/application/Module.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="34" selection-start="3428" selection-end="3428" vertical-scroll-proportion="0.8913044">
+            <state line="71" column="47" selection-start="2292" selection-end="2292" vertical-scroll-proportion="0.06677019">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DeferredInitializationModule.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../common/piccolo-phet/src/edu/colorado/phet/common/piccolophet/DeferredInitializationModule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="59" column="34" selection-start="1853" selection-end="1853" vertical-scroll-proportion="0.54813665">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TimeControlPanel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/TimeControlPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="69" column="0" selection-start="2874" selection-end="2874" vertical-scroll-proportion="0.3043478">
               <folding />
             </state>
           </provider>
@@ -296,7 +271,16 @@
       <file leaf-file-name="FitnessApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="47" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.11605723">
+            <state line="34" column="13" selection-start="1372" selection-end="1372" vertical-scroll-proportion="0.3167702">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AnimatedClockJComponent.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/AnimatedClockJComponent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="115" column="0" selection-start="4090" selection-end="4090" vertical-scroll-proportion="0.8378378">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -304,28 +288,28 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FitnessConfig.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/persistence/FitnessConfig.java">
+      <file leaf-file-name="PhotoelectricApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/photoelectric/src/edu/colorado/phet/photoelectric/PhotoelectricApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="19" selection-start="347" selection-end="347" vertical-scroll-proportion="0.3043478">
+            <state line="33" column="13" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.29037267">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FitnessStrings.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessStrings.java">
+      <file leaf-file-name="FaradayApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/faraday/src/edu/colorado/phet/faraday/FaradayApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="95" selection-start="502" selection-end="502" vertical-scroll-proportion="0.3431677">
+            <state line="14" column="12" selection-start="476" selection-end="476" vertical-scroll-proportion="0.1583851">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FitnessModel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModel.java">
+      <file leaf-file-name="PiccoloPhetApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../common/piccolo-phet/src/edu/colorado/phet/common/piccolophet/PiccoloPhetApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="39" selection-start="141" selection-end="141" vertical-scroll-proportion="0.10559006">
+            <state line="65" column="37" selection-start="2338" selection-end="2338" vertical-scroll-proportion="1.4324324">
               <folding />
             </state>
           </provider>
@@ -419,7 +403,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\common" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -437,241 +421,11 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\common" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\sim-template" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\persistence" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\module" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\module" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\module\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\module" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\module\example" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\control" />
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\common\phetcommon" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -755,11 +509,11 @@
       <recent name="edu.colorado.phet.circuitconstructionkit.model.CCKDefaults" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="edu.colorado.phet.common.phetcommon.view" />
       <recent name="edu.colorado.phet.unfuddle" />
       <recent name="edu.colorado.phet.reids.admin" />
       <recent name="edu.colorado.phet.waveinterference.view" />
       <recent name="edu.colorado.phet.waveinterference" />
-      <recent name="edu.colorado.phet.common.phetcommon.view.util" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="edu.colorado.phet.common.phetgraphics.test" />
@@ -872,9 +626,9 @@
       </UpdatedFiles>
     </UpdateInfo>
   </component>
-  <component name="RunManager" selected="Application.FitnessApplication">
-    <tempConfiguration default="false" name="FitnessApplication" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.fitness.FitnessApplication" />
+  <component name="RunManager" selected="Application.FaradayApplication">
+    <tempConfiguration default="false" name="FaradayApplication" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.faraday.FaradayApplication" />
       <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
@@ -885,14 +639,11 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="intellij-idea-all" />
       <envs />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="61215" />
-        <option name="TRANSPORT" value="0" />
-        <option name="LOCAL" value="true" />
-      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
     </tempConfiguration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
@@ -1123,13 +874,14 @@
       <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
     </configuration>
-    <list size="6">
+    <list size="7">
       <item index="0" class="java.lang.String" itemvalue="Application.GreenhouseApplication" />
       <item index="1" class="java.lang.String" itemvalue="Application.JMEQuake3Renderer" />
       <item index="2" class="java.lang.String" itemvalue="Application.BSPLoaderTest" />
       <item index="3" class="java.lang.String" itemvalue="Application.ImportAndAddBatch" />
       <item index="4" class="java.lang.String" itemvalue="Application.NuclearPhysics2Application" />
       <item index="5" class="java.lang.String" itemvalue="Application.SimTemplateApplication" />
+      <item index="6" class="java.lang.String" itemvalue="Application.FaradayApplication" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -1234,7 +986,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26851255" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26722473" order="0" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6018054" order="11" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10882164" order="2" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39919758" order="6" />
@@ -1360,125 +1112,117 @@
     <option name="myLastEditedConfigurable" value="find-deprecated" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/example/ExampleCanvas.java">
+    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanelWithTimeDisplay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="568" selection-end="568" vertical-scroll-proportion="0.19725738">
+        <state line="68" column="8" selection-start="2487" selection-end="2487" vertical-scroll-proportion="0.3043478">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/example/ExampleController.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/quantum-wave-interference/src/edu/colorado/phet/quantumwaveinterference/modules/single/SingleParticleClockControlPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="13" selection-start="1208" selection-end="1208" vertical-scroll-proportion="0.25105485">
+        <state line="18" column="8" selection-start="573" selection-end="573" vertical-scroll-proportion="0.3167702">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/example/ExampleModel.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/glaciers/src/edu/colorado/phet/glaciers/control/GlaciersClockControlPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="399" selection-end="399" vertical-scroll-proportion="0.29037267">
+        <state line="81" column="40" selection-start="3226" selection-end="3226" vertical-scroll-proportion="0.44875777">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/example/ExampleControlPanel.java">
+    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ModulePanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="13" selection-start="496" selection-end="496" vertical-scroll-proportion="0.29037267">
+        <state line="170" column="13" selection-start="5575" selection-end="5592" vertical-scroll-proportion="0.36394557">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/hydrogen-atom/src/edu/colorado/phet/hydrogenatom/control/HAClockControlPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="50" selection-start="1333" selection-end="1333" vertical-scroll-proportion="0.36956522">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/energy-skate-park/src/edu/colorado/phet/energyskatepark/model/physics/TestPhysics1D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="88" column="37" selection-start="4060" selection-end="4060" vertical-scroll-proportion="0.3036566">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../common/piccolo-phet/src/edu/colorado/phet/common/piccolophet/DeferredInitializationModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="34" selection-start="1853" selection-end="1853" vertical-scroll-proportion="0.54813665">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../common/phetgraphics/src/edu/colorado/phet/common/phetgraphics/application/DeferredInitializationModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="34" selection-start="1617" selection-end="1617" vertical-scroll-proportion="0.54813665">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/application/Module.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="22" selection-start="1394" selection-end="1394" vertical-scroll-proportion="0.3043478">
+        <state line="71" column="47" selection-start="2292" selection-end="2292" vertical-scroll-proportion="0.06677019">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java">
+    <entry file="file://$PROJECT_DIR$/../../common/piccolo-phet/src/edu/colorado/phet/common/piccolophet/PiccoloPhetApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="11" selection-start="1179" selection-end="1179" vertical-scroll-proportion="0.78571427">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessStrings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="95" selection-start="502" selection-end="502" vertical-scroll-proportion="0.3431677">
+        <state line="65" column="37" selection-start="2338" selection-end="2338" vertical-scroll-proportion="1.4324324">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/persistence/FitnessConfig.java">
+    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/TimeControlPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="19" selection-start="347" selection-end="347" vertical-scroll-proportion="0.3043478">
+        <state line="69" column="0" selection-start="2874" selection-end="2874" vertical-scroll-proportion="0.3043478">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="39" selection-start="141" selection-end="141" vertical-scroll-proportion="0.10559006">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="0" selection-start="2081" selection-end="2081" vertical-scroll-proportion="1.2608696">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="47" selection-start="1848" selection-end="1848" vertical-scroll-proportion="0.11605723">
+        <state line="34" column="13" selection-start="1372" selection-end="1372" vertical-scroll-proportion="0.3167702">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/photoelectric/src/edu/colorado/phet/photoelectric/PhotoelectricApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="13" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.29037267">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/faraday/src/edu/colorado/phet/faraday/FaradayApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="12" selection-start="476" selection-end="476" vertical-scroll-proportion="0.1583851">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/AnimatedClockJComponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="115" column="0" selection-start="4090" selection-end="4090" vertical-scroll-proportion="0.8378378">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/example/ExampleModule.java">
+    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="13" selection-start="771" selection-end="771" vertical-scroll-proportion="0.29037267">
+        <state line="64" column="13" selection-start="2077" selection-end="2077" vertical-scroll-proportion="0.3431677">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="141" column="34" selection-start="3428" selection-end="3428" vertical-scroll-proportion="0.8913044">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="53" selection-start="5195" selection-end="5195" vertical-scroll-proportion="1.1319555">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/controls/valuecontrol/AbstractValueControl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="296" column="38" selection-start="10146" selection-end="10146" vertical-scroll-proportion="0.4944356">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/HumanControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="26" selection-start="1380" selection-end="1380" vertical-scroll-proportion="0.24324325">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
