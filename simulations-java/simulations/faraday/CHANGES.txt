@@ -2,10 +2,9 @@
 Changes for faraday
 ===============================================================================
 
-TODO
-- make rescaling of B-field visualization consistent [490]
 
 DONE:
+4/3/08 - change method of rescaling the B-field visualization [490]
 4/2/08 - change faraday.description
 ********* version 1.05.10 (20509)
 4/2/08 - organize imports

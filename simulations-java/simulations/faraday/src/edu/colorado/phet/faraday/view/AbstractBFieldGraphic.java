@@ -4,7 +4,6 @@ package edu.colorado.phet.faraday.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.model.AbstractMagnet;
@@ -33,7 +32,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     private static final boolean RESCALE_ENABLED = true;
     
     // Threshold for applying rescaling of field strength. 
-    private static final double RESCALE_THRESHOLD = 0.8;  // 0 ... 1
+    private static final double RESCALE_THRESHOLD = 1.0;  // 0 ... 1
     
     // Exponent used for rescaling field strength.
     private static final double RESCALE_EXPONENT = 0.4;   // 0.3 ... 0.8
@@ -368,43 +367,35 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
             for ( int i = 0; i < _gridPoints.length; i++ ) {
 
                 GridPoint gridPoint = _gridPoints[i];
-
-                // Get the magnetic field information at the needle's location.
-                _point.setLocation( gridPoint.getX(), gridPoint.getY() );
-                if ( _inMagnetPlane ) {
-                    _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
+                
+                if ( _magnetModel.getStrength() == 0 ) {
+                    gridPoint.setStrength( 0 );
                 }
                 else {
-                    _magnetModel.getStrengthOutsidePlane( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
-                }
-                double angle = _fieldVector.getAngle();
-                double magnitude = _fieldVector.getMagnitude();
-                
-                // Set the direction.
-                gridPoint.setDirection( angle );
-                
-                // Set the strength.
-                {
-                    // Convert the field strength to a value in the range 0...+1.
-                    double magnetStrength = _magnetModel.getStrength();
-                    double scale = 0;
-                    if ( magnetStrength != 0 ) {
-                        
-                        // Start with a scale relative to the current strength of the magnet.
-                        scale = ( magnitude / magnetStrength );
-                        scale = MathUtil.clamp( 0, scale, 1 );
-                        
-                        // Adjust the scale to improve the visual effect.
-                        if ( RESCALE_ENABLED ) {
-                            scale = rescale( scale );
-                        }
-                        
-                        // Adjust the scale to the maximum magnet strength.
-                        scale = scale * ( magnetStrength / _magnetModel.getMaxStrength() );
+
+                    // Get the magnetic field information at the needle's location.
+                    _point.setLocation( gridPoint.getX(), gridPoint.getY() );
+                    if ( _inMagnetPlane ) {
+                        _magnetModel.getStrength( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
                     }
-                    
-                    // Set the strength.
+                    else {
+                        _magnetModel.getStrengthOutsidePlane( _point, _fieldVector /* output */, DISTANCE_EXPONENT );
+                    }
+                    double angle = _fieldVector.getAngle();
+                    double magnitude = _fieldVector.getMagnitude();
+
+                    // Scale the magnitude relative to magnet's maximum strength
+                    double scale = ( magnitude / _magnetModel.getMaxStrength() );
+                    assert( scale >= 0 && scale <= 1 );
+
+                    // Adjust the scale to improve the visual effect.
+                    if ( RESCALE_ENABLED ) {
+                        scale = rescale( scale );
+                    }
+
+                    // Update the grid point.
                     gridPoint.setStrength( scale );
+                    gridPoint.setDirection( angle );
                 }
             }
         }
@@ -422,7 +413,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     private double rescale( double scale ) {
         assert( scale >=0 && scale <= 1 );
         double newStrength = 1.0;
-        if ( scale != 0 && scale <= RESCALE_THRESHOLD ) {
+        if ( scale <= RESCALE_THRESHOLD ) {
             newStrength = Math.pow( scale / RESCALE_THRESHOLD, RESCALE_EXPONENT );
         }
         return newStrength;
