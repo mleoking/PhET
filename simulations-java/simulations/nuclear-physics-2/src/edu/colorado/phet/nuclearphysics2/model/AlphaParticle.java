@@ -141,9 +141,10 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     /**
      * This method forces the particle to tunnel out of the nucleus.
      * 
+     * @param center - Center point from which tunnel out should occur.
      * @param radius - Radius at which it should tunnel out too.
      */
-    public void tunnelOut(double radius){
+    public void tunnelOut(Point2D center, double radius){
         
         // Make sure we are in the expected state.
         assert (_tunnelingState == IN_NUCLEUS);
@@ -167,7 +168,7 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         double yPos = Math.cos( newAngle ) * radius;
         
         // Save the new position.
-        _position.setLocation( xPos, yPos );
+        _position.setLocation( xPos + center.getX(), yPos + center.getY() );
 
         // Notify all listeners of the position change.
         for (int i = 0; i < _listeners.size(); i++)

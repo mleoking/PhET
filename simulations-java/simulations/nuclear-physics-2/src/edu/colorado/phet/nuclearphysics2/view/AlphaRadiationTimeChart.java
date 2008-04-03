@@ -166,10 +166,11 @@ public class AlphaRadiationTimeChart extends PComposite {
             public void positionChanged(){
                 // Do nothing, since we don't care about this.
             }
-            public void atomicWeightChanged(int numProtons, int numNeutrons){
-                // It is safe to assume that this means that the decay event
-                // has occurred.
-                setDecayOccurred();
+            public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
+                if (byProducts != null){
+                    // This is a decay event.
+                    setDecayOccurred();
+                }
             }
         });
 

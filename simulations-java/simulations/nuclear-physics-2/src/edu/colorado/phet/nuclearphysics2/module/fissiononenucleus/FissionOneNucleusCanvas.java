@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
@@ -47,9 +46,9 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
     private AtomicNucleusNode _atomicNucleusNode; 
+    private AtomicNucleusNode _daughterNucleusNode; 
     private NeutronSourceNode _neutronSourceNode; 
     private FissionEnergyChart _fissionEnergyChart;
-    private ArrayList _freeParticles = new ArrayList();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -68,6 +67,16 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         
         // Set the background color.
         setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
+        
+        // Register as a listener to the model.
+        fissionOneNucleusModel.addListener( new FissionOneNucleusModel.Listener(){
+            public void daughterNucleusCreated(AtomicNucleus daughterNucleus){
+                // Create a new node for this nucleus.  Since it is a daughter,
+                // it is assumed that the constituent particles are already on
+                // the canvas, and are not added here.
+                _daughterNucleusNode = new AtomicNucleusNode(daughterNucleus);
+            }
+        });
         
         // Create a parent node where we will display the nucleus.  This is
         // being done so that a label can be placed over the top of it.
@@ -107,7 +116,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
             }
         }
         
-        // Add the nucleus node to the canvas.  Since the constiuents are
+        // Add the nucleus node to the canvas.  Since the constituents are
         // handled individually, this just shows the label.
         _atomicNucleusNode = new AtomicNucleusNode(fissionOneNucleusModel.getAtomicNucleus());
         addWorldChild( _atomicNucleusNode );

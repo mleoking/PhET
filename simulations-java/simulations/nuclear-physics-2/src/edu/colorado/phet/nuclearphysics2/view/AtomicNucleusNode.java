@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -111,7 +112,7 @@ public class AtomicNucleusNode extends PNode {
             public void positionChanged(){
                 update();
             }
-            public void atomicWeightChanged(int numProtons, int numNeutrons){
+            public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
                 
                 int newAtomicWeight = numProtons + numNeutrons;
                 if (newAtomicWeight < _currentAtomicWeight){
