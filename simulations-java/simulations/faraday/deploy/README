@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Faraday's Electromagnetic Lab, version 1.05.10
+Faraday's Electromagnetic Lab, version 1.05.11
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -15,15 +15,11 @@ Faraday's Electromagnetic Lab, version 1.05.10
 <b>What's new:</b>
 <p>
 <ul>
-<li>changed "see inside magnet" feature [351]. Bar magnet is no longer transparent. 
-Instead, a separate B-field is displayed that moves with the magnet.
-As requested, the Options>FieldControls feature does not change the layout of this B-field.
-<li>fixed divide-by-zero problem that occurs when the distance is zero between one of the bar magnet's poles and a point in the B-field grid [492]
-</ul>
+<li>change the method of rescaling the B-field visualization [490]</ul>
 <p>
 <b>Known problems:</b>
 <p>
 <ul>
-<li>Options>BackgroundColor dialog can be closed such that menu item is still disabled [
+<li>none
 </ul>
 </html>
