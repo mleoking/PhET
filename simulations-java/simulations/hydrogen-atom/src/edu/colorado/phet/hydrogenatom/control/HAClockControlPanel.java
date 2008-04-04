@@ -1,31 +1,16 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2008, University of Colorado */
 
 package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
@@ -38,7 +23,6 @@ import edu.colorado.phet.hydrogenatom.model.HAClock;
  * It has control buttons (Play, Pause, Step) and a time speed slider.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class HAClockControlPanel extends ClockControlPanel {
     
@@ -66,10 +50,6 @@ public class HAClockControlPanel extends ClockControlPanel {
         _clock = clock;
         _clock.setDt( dt );
         
-        // Clock icon
-//        Icon clockIcon = new ImageIcon( HAResources.getCommonImage( PhetCommonResources.IMAGE_CLOCK ) );
-//        JLabel clockLabel = new JLabel( clockIcon );
-
         // Speed slider
         {
             _clockIndexSlider = new JSlider();
@@ -97,7 +77,6 @@ public class HAClockControlPanel extends ClockControlPanel {
         
         // Layout
         addControlToLeft( _clockIndexSlider );
-//        addControlToLeft( clockLabel );
         
         // Interactivity
         _clockIndexSlider.addChangeListener( new ChangeListener() { 
