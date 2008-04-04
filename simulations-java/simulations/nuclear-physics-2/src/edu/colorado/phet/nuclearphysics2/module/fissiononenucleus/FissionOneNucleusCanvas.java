@@ -2,13 +2,11 @@
 
 package edu.colorado.phet.nuclearphysics2.module.fissiononenucleus;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
@@ -16,6 +14,7 @@ import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
+import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
@@ -24,7 +23,6 @@ import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronSourceNode;
 import edu.colorado.phet.nuclearphysics2.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -51,6 +49,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private AtomicNucleusNode _daughterNucleusNode; 
     private NeutronSourceNode _neutronSourceNode; 
     private FissionEnergyChart _fissionEnergyChart;
+    private Hashtable _particleToNodeMap;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -79,6 +78,26 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
                 _daughterNucleusNode = new AtomicNucleusNode(daughterNucleus);
                 _nucleusLabelsLayerNode.addChild(_daughterNucleusNode);
             }
+            public void daughterNucleusRemoved(AtomicNucleus daughterNucleus){
+                // Remove the daughter from the canvas and from our records.
+                if (_nucleusLabelsLayerNode.removeChild( _daughterNucleusNode ) == null){
+                    System.err.println("Warning: Unable to locate and remove daughter nucleus.");
+                }
+                _daughterNucleusNode = null;
+            }
+            public void nucleonRemoved(Nucleon nucleon){
+                // Remove the nucleon from the canvas and from our records.
+                PNode nucleonNode = (PNode)_particleToNodeMap.get( nucleon );
+                if (nucleonNode != null){
+                   if ( _nucleusParticlesLayerNode.removeChild( nucleonNode ) == null){
+                       System.err.println("Error: Unable to locate node for given nucleon.");
+                   }
+                   _particleToNodeMap.remove( nucleon );
+                }
+                else{
+                    System.err.println("Error: Unable to locate particle in particle-to-node map.");                    
+                }
+            }
         });
         
         // Create a parent node where we will display the nucleus particles.  
@@ -88,7 +107,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         _nucleusParticlesLayerNode = new PNode();
         addWorldChild(_nucleusParticlesLayerNode);
         
-        // Create a parent node where the nodes that create the lables will
+        // Create a parent node where the nodes that create the labels will
         // appear.  Again, this is done to retain the desired "layering"
         // effect.
         _nucleusLabelsLayerNode = new PNode();
@@ -100,6 +119,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         ArrayList nucleusConstituents = atomicNucleus.getConstituents();
         
         // Add a node for each particle that comprises the nucleus.
+        _particleToNodeMap = new Hashtable(nucleusConstituents.size());
         for (int i = 0; i < nucleusConstituents.size(); i++){
             
             Object constituent = nucleusConstituents.get( i );
@@ -108,16 +128,19 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
                 // Add a visible representation of the alpha particle to the canvas.
                 AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
                 _nucleusParticlesLayerNode.addChild( alphaNode );
+                _particleToNodeMap.put( constituent, alphaNode );
             }
             else if (constituent instanceof Proton){
                 // Add a visible representation of the proton to the canvas.
                 ProtonNode protonNode = new ProtonNode((Proton)constituent);
                 _nucleusParticlesLayerNode.addChild( protonNode );
+                _particleToNodeMap.put( constituent, protonNode );
             }
             else if (constituent instanceof Neutron){
                 // Add a visible representation of the neutron to the canvas.
                 NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
                 _nucleusParticlesLayerNode.addChild( neutronNode );
+                _particleToNodeMap.put( constituent, neutronNode );
             }
             else {
                 // There is some unexpected object in the list of constituents
@@ -143,6 +166,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
                 // Add this new neutron to the canvas.
                 NeutronNode neutronNode = new NeutronNode(neutron);
                 _nucleusParticlesLayerNode.addChild( neutronNode );
+                _particleToNodeMap.put( neutron, neutronNode );
             }
             public void positionChanged(){
                 // Ignore this, since we don't really care about it.

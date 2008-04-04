@@ -44,6 +44,12 @@ public class FissionOneNucleus extends AtomicNucleus{
     
     public FissionOneNucleus(NuclearPhysics2Clock clock, Point2D position){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+        
+        // Set the tunneling region to be more confined than in some of the
+        // other panels, since having a bunch of alpha particles flying around
+        // the nucleus will like be distracting.
+        setTunnelingRegionRadius( (getDiameter() / 2) * 1.1 );
+        
     }
     
     //------------------------------------------------------------------------
@@ -106,14 +112,23 @@ public class FissionOneNucleus extends AtomicNucleus{
         setPosition( new Point2D.Double(0, 0) );
         setVelocity( 0, 0 );
         
-        // Add back all except one of the free neutrons, since one was captured
-        // just prior to the fission event.
+        // Add back two of the free neutrons, since these were released in
+        // the fission event.
         if (freeNeutrons != null){
-            for (int i = 0; i < freeNeutrons.size() - 1; i++){
-                ((Nucleon)freeNeutrons.get( i )).setVelocity( 0, 0 );
-                ((Nucleon)freeNeutrons.get( i )).setPosition( _position );
-                _constituents.add(freeNeutrons.get(i));
-                _numNeutrons++;
+            for (int i = 0; i < 2; i++){
+                if ( freeNeutrons.size() >= 2 ){
+                    Neutron neutron = (Neutron)freeNeutrons.get( freeNeutrons.size() - 1 );
+                    neutron.setVelocity( 0, 0 );
+                    neutron.setPosition( _position );
+                    _constituents.add(neutron);
+                    _numNeutrons++;
+                    freeNeutrons.remove( neutron );
+                }
+                else{
+                    // This should never occur, debug it if it does.
+                    System.out.println("Error: Unexpected number of free neutrons on reset.");
+                    assert false;
+                }
             }
         }
         

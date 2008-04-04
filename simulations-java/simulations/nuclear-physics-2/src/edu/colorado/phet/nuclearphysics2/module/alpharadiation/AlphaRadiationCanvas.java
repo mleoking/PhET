@@ -172,7 +172,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         addScreenChild( _alphaRadiationEnergyChart );
         
         // Add the breakout radius to the canvas.
-        double radius = AtomicNucleus.TUNNEL_OUT_RADIUS;
+        double radius = _alphaRadiationModel.getAtomNucleus().getTunnelingRegionRadius();
         PPath breakoutCircle = new PPath(new Ellipse2D.Double(-radius, -radius, 2*radius, 2*radius));
         breakoutCircle.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {0.75f, 0.75f }, 0) );

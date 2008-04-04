@@ -3,6 +3,8 @@ package edu.colorado.phet.nuclearphysics2.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus.Listener;
+
 
 public class DaughterNucleus extends AtomicNucleus {
 
@@ -19,15 +21,17 @@ public class DaughterNucleus extends AtomicNucleus {
     // Instance data
     //------------------------------------------------------------------------
 
-    // Variable for deciding when alpha decay should occur.
-    private double _fissionTime = 0;
-    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
     
     public DaughterNucleus(NuclearPhysics2Clock clock, Point2D position, ArrayList constituents){
         super(clock, position, constituents);
+        
+        // Set the tunneling region to be more confined than in some of the
+        // other panels, since having a bunch of alpha particles flying around
+        // the nucleus will like be distracting.
+        setTunnelingRegionRadius( (getDiameter() / 2) * 1.1 );
     }
     
     //------------------------------------------------------------------------
@@ -39,7 +43,16 @@ public class DaughterNucleus extends AtomicNucleus {
      * constituent particles.
      */
     public void reset(){
+
         _constituents.removeAll( _constituents );
+        _numAlphas = 0;
+        _numNeutrons = 0;
+        _numProtons = 0;
+        
+        for (int i = 0; i < _listeners.size(); i++){
+            // Let the listeners know about the change.
+            ((Listener)_listeners.get( i )).atomicWeightChanged( 0, 0, null );
+        }
     }
     
     //------------------------------------------------------------------------

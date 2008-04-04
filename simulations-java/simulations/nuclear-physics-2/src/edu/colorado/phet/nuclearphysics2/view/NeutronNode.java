@@ -9,7 +9,7 @@ import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.umd.cs.piccolo.PNode;
 
 
-public class NeutronNode extends PNode{
+public class NeutronNode extends PNode implements NucleonNode {
     
     private final static double PARTICLE_DIAMETER = 1.6;  // Femto meters.
     
@@ -37,6 +37,10 @@ public class NeutronNode extends PNode{
         // Call update at the end of construction to assure that the view is
         // synchronized with the model.
         update();
+    }
+    
+    public Nucleon getNucleon(){
+        return _nucleon;
     }
     
     private void update(){
