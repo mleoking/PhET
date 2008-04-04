@@ -36,15 +36,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModel.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/HumanControlPanel.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/HumanControlPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModule.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" afterPath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/HumanNode.java" />
     </list>
     <list name="rotation-render" comment="" />
     <list name="build-12-7-2007" comment="" />
@@ -237,13 +231,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FitnessCanvas.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="FitnessCanvas.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="55" selection-start="2756" selection-end="2756" vertical-scroll-proportion="0.5135135">
+            <state line="71" column="38" selection-start="2757" selection-end="2757" vertical-scroll-proportion="0.5405405">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FitnessModule.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="54" column="10" selection-start="2162" selection-end="2162" vertical-scroll-proportion="0.41335455">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -252,15 +255,6 @@
         <entry file="file://$PROJECT_DIR$/../../common/piccolo-phet/src/edu/colorado/phet/common/piccolophet/nodes/RulerNode.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="360" column="81" selection-start="12921" selection-end="12921" vertical-scroll-proportion="0.6836248">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NuclearPhysics2Application.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/NuclearPhysics2Application.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="13" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.5675676">
               <folding />
             </state>
           </provider>
@@ -463,40 +457,6 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij-idea-all" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\view" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -1188,7 +1148,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21120413" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2491951" order="0" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6018054" order="11" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10882164" order="2" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39919758" order="6" />
@@ -1220,7 +1180,7 @@
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix: replaced usage of static default with usage of instance data" />
+    <option name="LAST_COMMIT_MESSAGE" value="+improved default values&#10;+improved max/min values&#10;+added ruler node&#10;+added placeholder graphic for character" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -1231,7 +1191,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="added timesheet file" />
     <MESSAGE value="`" />
     <MESSAGE value="attempted fix for reported bug on Linux" />
     <MESSAGE value="update iws file" />
@@ -1256,6 +1215,7 @@
     <MESSAGE value="checkin before deploy" />
     <MESSAGE value="+moved animated clock graphic from middle to far left on time controls&#10;+removed static clock.png graphic from far left on time controls&#10;&#10;Please double check that sim dependencies work properly.&#10;&#10;Also, OTClockControlPanel and HAClockControlPanel should be merged with ClockControlPanelWithTimeDisplay (lots of duplicate code)" />
     <MESSAGE value="bugfix: replaced usage of static default with usage of instance data" />
+    <MESSAGE value="+improved default values&#10;+improved max/min values&#10;+added ruler node&#10;+added placeholder graphic for character" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1314,15 +1274,6 @@
     <option name="myLastEditedConfigurable" value="find-deprecated" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockTimePanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="0" selection-start="2275" selection-end="2275" vertical-scroll-proportion="0.45652175">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/resources/PhetCommonResources.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="31" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.33695653">
@@ -1425,10 +1376,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="55" selection-start="2756" selection-end="2756" vertical-scroll-proportion="0.5135135">
+        <state line="71" column="38" selection-start="2757" selection-end="2757" vertical-scroll-proportion="0.5405405">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="10" selection-start="2162" selection-end="2162" vertical-scroll-proportion="0.41335455">
+          <folding />
         </state>
       </provider>
     </entry>
