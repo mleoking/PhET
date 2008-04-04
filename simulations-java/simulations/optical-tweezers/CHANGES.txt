@@ -3,6 +3,7 @@ Change history for optical-tweezers
 ================================================================================
 
 DONE:
+4/4/08 - remove clock icon from OTClockControlPanel, animated icon was added to phetcommon
 1/4/08 - delete OTLauncher, obsolete
 ********* version 2.00.00 (18753)
 11/14/07 - organize imports
