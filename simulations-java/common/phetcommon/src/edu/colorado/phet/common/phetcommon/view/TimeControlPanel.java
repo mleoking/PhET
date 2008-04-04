@@ -18,16 +18,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @version $Revision: 15573 $
  */
 public class TimeControlPanel extends JPanel {
-    // Image resource names
-    public static final String IMAGE_PAUSE = PhetCommonResources.IMAGE_PAUSE;
-    public static final String IMAGE_PLAY = PhetCommonResources.IMAGE_PLAY;
-    public static final String IMAGE_STEP = PhetCommonResources.IMAGE_STEP_FORWARD;
-    public static final String IMAGE_REWIND = PhetCommonResources.IMAGE_REWIND;
-    public static final String IMAGE_FAST_FORWARD = PhetCommonResources.IMAGE_FAST_FORWARD;
-    public static final String IMAGE_STOP = PhetCommonResources.IMAGE_STOP;
-    public static final String PROPERTY_PLAY = "Common.ClockControlPanel.Play";
-    public static final String PROPERTY_PAUSE = "Common.ClockControlPanel.Pause";
-    public static final String PROPERTY_STEP = "Common.ClockControlPanel.Step";
 
     private JButton playPause;
     private JButton step;
@@ -44,14 +34,14 @@ public class TimeControlPanel extends JPanel {
     public TimeControlPanel() {
 
         // Button labels
-        playString = PhetCommonResources.getInstance().getLocalizedString( PROPERTY_PLAY );
-        pauseString = PhetCommonResources.getInstance().getLocalizedString( PROPERTY_PAUSE );
-        String stepString = PhetCommonResources.getInstance().getLocalizedString( PROPERTY_STEP );
+        playString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PLAY );
+        pauseString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PAUSE );
+        String stepString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_STEP );
 
         // Button icons
-        BufferedImage playImage = PhetCommonResources.getInstance().getImage( IMAGE_PLAY );
-        BufferedImage pauseImage = PhetCommonResources.getInstance().getImage( IMAGE_PAUSE );
-        BufferedImage stepImage = PhetCommonResources.getInstance().getImage( IMAGE_STEP );
+        BufferedImage playImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PLAY );
+        BufferedImage pauseImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PAUSE );
+        BufferedImage stepImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STEP_FORWARD );
         playIcon = new ImageIcon( playImage );
         pauseIcon = new ImageIcon( pauseImage );
         ImageIcon stepIcon = new ImageIcon( stepImage );
