@@ -363,7 +363,7 @@ public class RulerNode extends PhetPNode {
                         unitsNode.setScale( fontScale );
                         parentNode.addChild( unitsNode );
                         // To the right of the major tick label, baselines aligned
-                        double xOffset = majorTickLabelNode.getOffset().getX() + majorTickLabelNode.getFullBounds().getWidth() + UNITS_SPACING;
+                        double xOffset = majorTickLabelNode.getOffset().getX() + majorTickLabelNode.getFullBounds().getWidth() + unitsSpacing;
                         double yOffset = majorTickLabelNode.getOffset().getY() + ( majorTickLabelNode.getFullBounds().getHeight() - unitsNode.getFullBounds().getHeight() );
                         unitsNode.setOffset( xOffset, yOffset );
                     }
