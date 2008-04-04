@@ -3,6 +3,7 @@ Change history for hydrogen-atom
 ===============================================================================
 
 DONE:
+4/4/08 - remove clock icon from HAClockControlPanel, animated icon was added to phetcommon
 1/7/08 - replace "Lucida Sans" with PhetDefaultFont in test code
 ***** 1.06.00 (18580)
 11/16/07 - Experiment atom was getting stuck in (2,0,0), needed to attached a MetastableHander to it (similar to Schrodinger)
