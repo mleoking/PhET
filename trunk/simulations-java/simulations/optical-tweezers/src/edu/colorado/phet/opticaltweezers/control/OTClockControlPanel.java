@@ -7,7 +7,9 @@ import java.awt.Font;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -15,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.opticaltweezers.OTResources;
 
@@ -34,7 +35,7 @@ public class OTClockControlPanel extends ClockControlPanelWithTimeDisplay {
     private OTClockTimePanel _timePanel;
 
     //----------------------------------------------------------------------------
-    // Constuctors
+    // Constructors
     //----------------------------------------------------------------------------
     
     public OTClockControlPanel( ConstantDtClock clock ) {
@@ -146,8 +147,6 @@ public class OTClockControlPanel extends ClockControlPanelWithTimeDisplay {
                 }
             } );
 
-//            Icon clockIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) );
-//            JLabel clockLabel = new JLabel( clockIcon );
             _timeTextField = new JTextField();
             _timeTextField.setColumns( DEFAULT_TIME_COLUMNS );
             _timeTextField.setEditable( false );
@@ -157,7 +156,6 @@ public class OTClockControlPanel extends ClockControlPanelWithTimeDisplay {
 
             // Layout
             setLayout( new FlowLayout( FlowLayout.CENTER ) );
-//            add( clockLabel );
             add( _timeTextField );
             add( _unitsLabel );
 
