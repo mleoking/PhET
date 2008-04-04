@@ -68,7 +68,7 @@ public class ClockControlPanel extends TimeControlPanel {
         updateStateFromClock();
 
         if ( USE_ANIMATED_CLOCK_CONTROL ) {
-            addControlToLeft( new AnimatedClockJComponent( clock ) );
+            addControlFarLeft( new AnimatedClockJComponent( clock ) );
         }
     }
 

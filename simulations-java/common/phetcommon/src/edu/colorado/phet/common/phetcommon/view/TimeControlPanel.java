@@ -65,11 +65,12 @@ public class TimeControlPanel extends JPanel {
         SwingUtils.fixButtonOpacity( playPause );
         SwingUtils.fixButtonOpacity( step );
 
-        setLayout( new BorderLayout() );
+//        setLayout( new BorderLayout() );
+        setLayout( new FlowLayout(FlowLayout.CENTER) );
         buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         buttonPanel.add( playPause );
         buttonPanel.add( step );
-        this.add( buttonPanel, BorderLayout.CENTER );
+        this.add( buttonPanel);
 
         //Adapter methods for event dispatch
         playPause.addActionListener( new ActionListener() {
@@ -150,6 +151,11 @@ public class TimeControlPanel extends JPanel {
      */
     public void addControl( JComponent control ) {
         buttonPanel.add( control );
+    }
+
+    //todo: remove this temporary workaround which is here only to support the animated clock graphic
+    public void addControlFarLeft( JComponent control ) {
+        add( control, 0 );
     }
 
     /**

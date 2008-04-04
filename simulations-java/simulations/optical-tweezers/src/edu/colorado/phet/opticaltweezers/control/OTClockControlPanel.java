@@ -146,8 +146,8 @@ public class OTClockControlPanel extends ClockControlPanelWithTimeDisplay {
                 }
             } );
 
-            Icon clockIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) );
-            JLabel clockLabel = new JLabel( clockIcon );
+//            Icon clockIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) );
+//            JLabel clockLabel = new JLabel( clockIcon );
             _timeTextField = new JTextField();
             _timeTextField.setColumns( DEFAULT_TIME_COLUMNS );
             _timeTextField.setEditable( false );
@@ -157,7 +157,7 @@ public class OTClockControlPanel extends ClockControlPanelWithTimeDisplay {
 
             // Layout
             setLayout( new FlowLayout( FlowLayout.CENTER ) );
-            add( clockLabel );
+//            add( clockLabel );
             add( _timeTextField );
             add( _unitsLabel );
 
