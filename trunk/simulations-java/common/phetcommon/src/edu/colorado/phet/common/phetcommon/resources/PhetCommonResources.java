@@ -10,6 +10,11 @@ import java.util.Properties;
  */
 public class PhetCommonResources {
 
+    // Symbolic names for localized string keys
+    public static final String STRING_CLOCK_PLAY = "Common.ClockControlPanel.Play";
+    public static final String STRING_CLOCK_PAUSE = "Common.ClockControlPanel.Pause";
+    public static final String STRING_CLOCK_STEP = "Common.ClockControlPanel.Step";
+    
     // Symbolic names for image resources
     public static final String IMAGE_CLOSE_BUTTON = "buttons/closeButton.png";
     public static final String IMAGE_MINIMIZE_BUTTON = "buttons/minimizeButton.png";

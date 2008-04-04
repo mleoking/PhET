@@ -243,7 +243,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
             } );
 
 //                Image image = ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND );
-            Image image = PhetCommonResources.getInstance().getImage( ClockControlPanel.IMAGE_REWIND );
+            Image image = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_REWIND );
             Icon icon = new ImageIcon( image );
             rewindToDecayBtn = new JButton( SimStrings.getInstance().getString( "AlphaDecayControlPanel.Rewind" ), icon );
             rewindToDecayBtn.addActionListener( new ActionListener() {
