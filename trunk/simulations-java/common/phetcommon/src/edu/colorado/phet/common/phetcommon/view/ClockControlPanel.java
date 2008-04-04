@@ -16,7 +16,6 @@ public class ClockControlPanel extends TimeControlPanel {
 
     private IClock clock;
     private ClockAdapter clockListener;
-    private static final boolean USE_ANIMATED_CLOCK_CONTROL = true;
 
     /**
      * Constructs a ClockControlPanel
@@ -29,7 +28,7 @@ public class ClockControlPanel extends TimeControlPanel {
         }
         this.clock = clock;
 
-        // Attach listeners to send messages to the clock.
+        // Update the clock in response to control panel events
         addTimeControlListener( new TimeControlAdapter() {
             public void stepPressed() {
                 clock.stepClockWhilePaused();
@@ -48,27 +47,31 @@ public class ClockControlPanel extends TimeControlPanel {
             }
         } );
 
-        // Add ability to update view based on clock state changes
-        clockListener = new ClockAdapter() {//use inner anonymous instead of outer so we can extend adapter
+        // Update the control panel when the clock changes
+        clockListener = new ClockAdapter() {
 
             public void clockStarted( ClockEvent clockEvent ) {
-                update();
+                setPaused( clock.isPaused() );
             }
 
             public void clockPaused( ClockEvent clockEvent ) {
-                update();
+                setPaused( clock.isPaused() );
             }
             
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                update();
+                setTimeDisplay( clock.getSimulationTime() );
+                advanceAnimatedClockIcon();
+            }
+            
+            public void simulationTimeReset( ClockEvent clockEvent ) {
+                resetAnimatedClockIcon();
             }
         };
         clock.addClockListener( clockListener );
-        update();
 
-        if ( USE_ANIMATED_CLOCK_CONTROL ) {
-            addToLeft( new AnimatedClockJComponent( clock ) );
-        }
+        // initial state
+        setPaused( clock.isPaused() );
+        setTimeDisplay( clock.getSimulationTime() );
     }
 
     /**
@@ -86,13 +89,5 @@ public class ClockControlPanel extends TimeControlPanel {
      */
     protected IClock getClock() {
         return clock;
-    }
-
-    /*
-     * Updates the control panel correspond to the clock state.
-     */
-    protected void update() {
-        setPaused( clock.isPaused() );
-        setTimeDisplay( clock.getSimulationTime() );
     }
 }
