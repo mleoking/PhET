@@ -159,6 +159,11 @@ public abstract class AtomicNucleus {
         _position.setLocation( newPosition );
     }
     
+    public void setVelocity( double xVel, double yVel){
+        _xVelocity = xVel;
+        _yVelocity = yVel;
+    }
+    
     public ArrayList getConstituents(){
         return _constituents;
     }
@@ -232,11 +237,6 @@ public abstract class AtomicNucleus {
         }
     }
     
-    public void setVelocity( double xVel, double yVel){
-        _xVelocity = xVel;
-        _yVelocity = yVel;
-    }
-    
     /**
      * Method to add listeners.
      * 
@@ -251,6 +251,13 @@ public abstract class AtomicNucleus {
         }
         
         _listeners.add( listener );
+    }
+    
+    /**
+     * Reset the nucleus to its original state.
+     */
+    public void reset(){
+        // Stubbed in abstract class.
     }
     
     //------------------------------------------------------------------------

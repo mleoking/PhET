@@ -224,6 +224,7 @@ public class FissionOneNucleusModel {
             // Fission has occurred.  Add the free neutrons and the daughter 
             // back to the primary nucleus.
             _primaryNucleus.reset(_freeNucleons, _daughterNucleus);
+            _daughterNucleus.reset();
             _daughterNucleus = null;
             _freeNucleons.removeAll( _freeNucleons );
         }

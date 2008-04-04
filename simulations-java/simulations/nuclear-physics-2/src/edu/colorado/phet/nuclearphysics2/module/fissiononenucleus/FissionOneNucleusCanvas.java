@@ -75,6 +75,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
                 // it is assumed that the constituent particles are already on
                 // the canvas, and are not added here.
                 _daughterNucleusNode = new AtomicNucleusNode(daughterNucleus);
+                addWorldChild(_daughterNucleusNode);
             }
         });
         
@@ -138,13 +139,6 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
             }
         });
         
-        // JPB TPB - add a line to show where the 0 y axis is.
-        PPath yAxisLine = new PPath(new Line2D.Double(-100, 0, 100, 0)); 
-        yAxisLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-                new float[] {2, 2 }, 0) );
-        yAxisLine.setStrokePaint( new Color(0x990099) );
-        addWorldChild(yAxisLine);
-
         // Add to the canvas the chart that will depict the energy of the nucleus.
         _fissionEnergyChart = new FissionEnergyChart();
         addScreenChild( _fissionEnergyChart );

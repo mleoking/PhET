@@ -197,6 +197,36 @@ public class AtomicNucleusNode extends PNode {
             
             break;
             
+        case 36:
+            // Krypton
+            if (numNeutrons == 56){
+            // Krypton 92
+                _isotopeNumberLabel.setText( NuclearPhysics2Strings.KRYPTON_92_ISOTOPE_NUMBER );
+                _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.KRYPTON_LABEL_COLOR );
+                _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.KRYPTON_92_ISOTOPE_NUMBER );
+    
+                _chemicalSymbolLabel.setText( NuclearPhysics2Strings.KRYPTON_92_CHEMICAL_SYMBOL );
+                _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.KRYPTON_LABEL_COLOR );
+                _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.KRYPTON_92_CHEMICAL_SYMBOL );
+            }
+            
+            break;
+            
+        case 56:
+            // Barium
+            if (numNeutrons == 85){
+            // Barium 141
+                _isotopeNumberLabel.setText( NuclearPhysics2Strings.BARIUM_141_ISOTOPE_NUMBER );
+                _isotopeNumberLabel.setTextPaint( NuclearPhysics2Constants.BARIUM_LABEL_COLOR );
+                _isotopeNumberLabelShadow.setText( NuclearPhysics2Strings.BARIUM_141_ISOTOPE_NUMBER );
+    
+                _chemicalSymbolLabel.setText( NuclearPhysics2Strings.BARIUM_141_CHEMICAL_SYMBOL );
+                _chemicalSymbolLabel.setTextPaint( NuclearPhysics2Constants.BARIUM_LABEL_COLOR );
+                _chemicalSymbolLabelShadow.setText( NuclearPhysics2Strings.BARIUM_141_CHEMICAL_SYMBOL );
+            }
+            
+            break;
+            
         case 82:
             // Lead
             if (numNeutrons == 125){

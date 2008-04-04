@@ -49,8 +49,7 @@ public class FissionOneNucleusModule extends PiccoloModule {
         
         // Clock controls
         _clockControlPanel = new ClockControlPanelWithTimeDisplay( (NuclearPhysics2Clock) getClock() );
-        _clockControlPanel.setUnits( NuclearPhysics2Strings.UNITS_TIME );
-        _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel.setTimeVisible( false );
         setClockControlPanel( _clockControlPanel );
         
         // Help

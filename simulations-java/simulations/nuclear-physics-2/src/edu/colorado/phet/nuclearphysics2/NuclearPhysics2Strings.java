@@ -29,12 +29,19 @@ public class NuclearPhysics2Strings {
 
     public static final String POLONIUM_211_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Polonium211Graphic.Symbol" );
     public static final String POLONIUM_211_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Polonium211Graphic.Number" );
+    public static final String POLONIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Polonium211Label" );
 
     public static final String LEAD_207_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Lead207Graphic.Symbol" );
     public static final String LEAD_207_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Lead207Graphic.Number" );
-    
-    public static final String POLONIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Polonium211Label" );
     public static final String LEAD_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Lead207Label" );
+
+    public static final String KRYPTON_92_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Krypton92Graphic.Symbol" );
+    public static final String KRYPTON_92_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Krypton92Graphic.Number" );
+    public static final String KRYPTON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Krypton92Label" );
+
+    public static final String BARIUM_141_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Barium141Graphic.Symbol" );
+    public static final String BARIUM_141_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Barium141Graphic.Number" );
+    public static final String BARIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Barium141Label" );
 
     public static final String DECAY_TIME_CHART_X_AXIS_LABEL = NuclearPhysics2Resources.getString( "DecayTimeChart.XAxisLabel" );
     public static final String DECAY_TIME_CHART_Y_AXIS_LABEL1 = NuclearPhysics2Resources.getString( "DecayTimeChart.YAxisLabel1" );
