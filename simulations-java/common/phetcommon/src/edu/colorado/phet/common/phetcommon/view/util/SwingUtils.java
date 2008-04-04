@@ -204,9 +204,13 @@ public class SwingUtils {
      * @param icon1   icon for 1st mode
      * @param string2 text for 2nd mode
      * @param icon2   icon for 2nd mode
-     * @return the smallest Dimension that contains both modes for the button.
+     * @return the Dimension that contains both modes for the button.
      */
     public static Dimension getMaxDimension( JButton button, String string1, ImageIcon icon1, String string2, ImageIcon icon2 ) {
+        
+        String originalText = button.getText();
+        Icon originalIcon = button.getIcon();
+        
         // Get dimensions for "Play" state
         button.setText( string1 );
         button.setIcon( icon1 );
@@ -216,8 +220,12 @@ public class SwingUtils {
         button.setText( string2 );
         button.setIcon( icon2 );
         Dimension pauseSize = button.getUI().getPreferredSize( button );
+        
+        // Restore original text and icon
+        button.setText( originalText );
+        button.setIcon( originalIcon );
 
-        // Set max dimensions
+        // Return max dimensions
         int maxWidth = (int) Math.max( playSize.getWidth(), pauseSize.getWidth() );
         int maxHeight = (int) Math.max( playSize.getHeight(), pauseSize.getHeight() );
         return new Dimension( maxWidth, maxHeight );
