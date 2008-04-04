@@ -24,8 +24,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class TimeControlPanel extends JPanel {
 
-    private static final boolean USE_ANIMATED_CLOCK_CONTROL = true;
-
     public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
     public static final int DEFAULT_TIME_COLUMNS = 8;
     
