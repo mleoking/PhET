@@ -25,7 +25,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( age );
 
         double minHeight = 1;
-        double maxHeight = 4;
+        double maxHeight = 2.72;
         final LinearValueControl heightControl = new LinearValueControl( minHeight, maxHeight, human.getHeight(), "Height", "0.00", "meters" );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

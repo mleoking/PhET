@@ -105,7 +105,7 @@ public class FitnessModule extends PiccoloModule {
         config.setClockRunning( getClockRunningWhenActive() );
 
         // FitnessModelElement
-        Human fitnessModelElement = _model.getFitnessModelElement();
+        Human fitnessModelElement = _model.getHuman();
 //        config.setFitnessModelElementPosition( fitnessModelElement.getPositionReference() );
 //        config.setFitnessModelElementOrientation( fitnessModelElement.getOrientation() );
 
@@ -137,7 +137,7 @@ public class FitnessModule extends PiccoloModule {
     }
 
     public Human getHuman() {
-        return _model.getFitnessModelElement();
+        return _model.getHuman();
     }
 
         public static void main( final String[] args ) {
