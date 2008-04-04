@@ -58,8 +58,8 @@ public class ClockTimePanel extends JPanel {
 
         this.timeFormat = timeFormat;
 
-        Icon clockIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) );
-        JLabel clockLabel = new JLabel( clockIcon );
+//        Icon clockIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) );
+//        JLabel clockLabel = new JLabel( clockIcon );
         timeTextField = new JTextField();
         timeTextField.setColumns( timeColumns );
         timeTextField.setEditable( false );
@@ -69,7 +69,7 @@ public class ClockTimePanel extends JPanel {
 
         // Layout
         setLayout( new FlowLayout( FlowLayout.CENTER ) );
-        add( clockLabel );
+//        add( clockLabel );
         add( timeTextField );
         add( unitsLabel );
 

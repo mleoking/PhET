@@ -67,8 +67,8 @@ public class HAClockControlPanel extends ClockControlPanel {
         _clock.setDt( dt );
         
         // Clock icon
-        Icon clockIcon = new ImageIcon( HAResources.getCommonImage( PhetCommonResources.IMAGE_CLOCK ) );
-        JLabel clockLabel = new JLabel( clockIcon );
+//        Icon clockIcon = new ImageIcon( HAResources.getCommonImage( PhetCommonResources.IMAGE_CLOCK ) );
+//        JLabel clockLabel = new JLabel( clockIcon );
 
         // Speed slider
         {
@@ -97,7 +97,7 @@ public class HAClockControlPanel extends ClockControlPanel {
         
         // Layout
         addControlToLeft( _clockIndexSlider );
-        addControlToLeft( clockLabel );
+//        addControlToLeft( clockLabel );
         
         // Interactivity
         _clockIndexSlider.addChangeListener( new ChangeListener() { 
