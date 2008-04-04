@@ -18,11 +18,6 @@ import edu.colorado.phet.fitness.defaults.ExampleDefaults;
 import edu.colorado.phet.fitness.model.SimTemplateClock;
 import edu.colorado.phet.fitness.model.Human;
 
-/**
- * FitnessModule is the "Fitness" module.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- */
 public class FitnessModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
@@ -54,7 +49,7 @@ public class FitnessModule extends PiccoloModule {
         setControlPanel( _controlPanel );
 
         // Clock controls
-        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (SimTemplateClock) getClock() );
+        _clockControlPanel = new ClockControlPanelWithTimeDisplay( getClock() );
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
