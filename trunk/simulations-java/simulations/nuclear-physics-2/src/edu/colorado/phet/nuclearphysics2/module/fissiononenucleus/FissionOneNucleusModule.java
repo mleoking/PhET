@@ -4,7 +4,7 @@ package edu.colorado.phet.nuclearphysics2.module.fissiononenucleus;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
@@ -25,7 +25,7 @@ public class FissionOneNucleusModule extends PiccoloModule {
     private FissionOneNucleusModel _model;
     private FissionOneNucleusCanvas _canvas;
     private FissionOneNucleusControlPanel _controlPanel;
-    private ClockControlPanelWithTimeDisplay _clockControlPanel;
+    private ClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -48,8 +48,7 @@ public class FissionOneNucleusModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (NuclearPhysics2Clock) getClock() );
-        _clockControlPanel.setTimeVisible( false );
+        _clockControlPanel = new ClockControlPanel( (NuclearPhysics2Clock) getClock() );
         setClockControlPanel( _clockControlPanel );
         
         // Help

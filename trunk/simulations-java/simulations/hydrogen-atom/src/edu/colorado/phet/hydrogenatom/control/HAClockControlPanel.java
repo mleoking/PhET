@@ -76,7 +76,7 @@ public class HAClockControlPanel extends ClockControlPanel {
         }
         
         // Layout
-        addControlToLeft( _clockIndexSlider );
+        addBetweenTimeDisplayAndButtons( _clockIndexSlider );
         
         // Interactivity
         _clockIndexSlider.addChangeListener( new ChangeListener() { 

@@ -24,6 +24,6 @@ public class SingleParticleClockControlPanel extends ClockControlPanel {
                 singleParticleModule.setRapid( rapid.isSelected() );
             }
         } );
-        addControl( rapid );
+        add( rapid );
     }
 }

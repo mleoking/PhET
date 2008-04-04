@@ -1,13 +1,5 @@
-/*Copyrig/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.view;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -15,11 +7,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
- * ClockControlPanel implements a Swing component for play/pause and step in PhET simulations
+ * ClockControlPanel implements a Swing component for controlling the clock in PhET simulations
  * that is specific for controlling and observing state for an IClock.
  *
  * @author Chris Malley, Sam Reid
- * @version $Revision$
  */
 public class ClockControlPanel extends TimeControlPanel {
 
@@ -38,7 +29,7 @@ public class ClockControlPanel extends TimeControlPanel {
         }
         this.clock = clock;
 
-        //Attach listeners to send messages to the clock.
+        // Attach listeners to send messages to the clock.
         addTimeControlListener( new TimeControlAdapter() {
             public void stepPressed() {
                 clock.stepClockWhilePaused();
@@ -51,24 +42,32 @@ public class ClockControlPanel extends TimeControlPanel {
             public void pausePressed() {
                 clock.pause();
             }
+            
+            public void restartPressed() {
+                clock.resetSimulationTime();
+            }
         } );
 
-        //Add ability to update view based on clock state changes
+        // Add ability to update view based on clock state changes
         clockListener = new ClockAdapter() {//use inner anonymous instead of outer so we can extend adapter
 
             public void clockStarted( ClockEvent clockEvent ) {
-                updateStateFromClock();
+                update();
             }
 
             public void clockPaused( ClockEvent clockEvent ) {
-                updateStateFromClock();
+                update();
+            }
+            
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                update();
             }
         };
         clock.addClockListener( clockListener );
-        updateStateFromClock();
+        update();
 
         if ( USE_ANIMATED_CLOCK_CONTROL ) {
-            addControlFarLeft( new AnimatedClockJComponent( clock ) );
+            addToLeft( new AnimatedClockJComponent( clock ) );
         }
     }
 
@@ -90,12 +89,10 @@ public class ClockControlPanel extends TimeControlPanel {
     }
 
     /*
-     * Updates the state of the buttons to correspond to
-     * the state of the clock and the control panel.
+     * Updates the control panel correspond to the clock state.
      */
-
-    protected void updateStateFromClock() {
+    protected void update() {
         setPaused( clock.isPaused() );
+        setTimeDisplay( clock.getSimulationTime() );
     }
-
 }

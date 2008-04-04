@@ -4,16 +4,11 @@ package edu.colorado.phet.glaciers.control;
 
 import java.awt.FlowLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,15 +18,11 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockListener;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
-import edu.colorado.phet.common.phetcommon.view.ClockTimePanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
@@ -42,7 +33,7 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersClockControlPanel extends JPanel {
+public class GlaciersClockControlPanel extends ClockControlPanel {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -51,10 +42,7 @@ public class GlaciersClockControlPanel extends JPanel {
     private GlaciersClock _clock;
     private ConstantDtClockListener _clockListener;
     
-    private ClockControlPanel _clockControlPanel;
-    private ClockTimePanel _timePanel;
     private LinearValueControl _frameRateControl;
-    private JButton _restartButton;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -66,7 +54,7 @@ public class GlaciersClockControlPanel extends JPanel {
      * @param clock
      */
     public GlaciersClockControlPanel( GlaciersClock clock, IntegerRange frameRateRange, NumberFormat displayFormat, int displayColumns ) {
-        super();
+        super( clock );
         
         // Clock
         _clock = clock;
@@ -79,18 +67,12 @@ public class GlaciersClockControlPanel extends JPanel {
         _clock.addConstantDtClockListener( _clockListener );
         
         // common clock controls
-        _clockControlPanel = new ClockControlPanel( clock );
-        
-        // Restart button
-        {
-            String restartLabel = GlaciersResources.getCommonString( ClockControlPanelWithTimeDisplay.PROPERTY_RESTART );
-            Icon restartIcon = new ImageIcon( GlaciersResources.getCommonImage( PhetCommonResources.IMAGE_REWIND ) );
-            _restartButton = new JButton( restartLabel, restartIcon );
-            _clockControlPanel.addControlToLeft( _restartButton );
-        }
+        setRestartButtonVisible( true );
+        setTimeDisplayVisible( true );
+        setUnits( GlaciersStrings.UNITS_TIME );
+        setTimeFormat( displayFormat );
+        setTimeColumns( displayColumns );
 
-        // Time display
-        _timePanel = new ClockTimePanel( clock, GlaciersStrings.UNITS_TIME, displayFormat, displayColumns );
         
         // Frame Rate control
         {
@@ -121,32 +103,12 @@ public class GlaciersClockControlPanel extends JPanel {
             // Slider width
             _frameRateControl.setSliderWidth( 125 );
         }
-        
-        // Layout
-        {
-            JPanel innerPanel = new JPanel();
-            EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
-            innerPanel.setLayout( layout );
-            layout.setInsets( new Insets( 0, 0, 0, 0 ) );
-            int column = 0;
-            layout.addComponent( _timePanel, 0, column++ );
-            layout.addComponent( _frameRateControl, 0, column++ );
-            layout.addComponent( _clockControlPanel, 0, column++ );
-
-            FlowLayout flowLayout = new FlowLayout( FlowLayout.LEFT, 0, 0 );
-            setLayout( flowLayout );
-            add( innerPanel );
-        }
+        addBetweenTimeDisplayAndButtons( _frameRateControl );
         
         // Interactivity
         _frameRateControl.addChangeListener( new ChangeListener() { 
             public void stateChanged( ChangeEvent event ) {
                 _clock.setFrameRate( (int)_frameRateControl.getValue() );
-            }
-        } );
-        _restartButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                _clock.resetSimulationTime();
             }
         } );
     }
@@ -155,7 +117,7 @@ public class GlaciersClockControlPanel extends JPanel {
      * Call this method before releasing all references to this object.
      */
     public void cleanup() {
-        _clockControlPanel.cleanup();
+        cleanup();
         _clock.removeConstantDtClockListener( _clockListener );
         _clock = null;
     }
