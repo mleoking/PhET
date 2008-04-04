@@ -8,10 +8,6 @@ import java.awt.geom.Line2D;
 
 import javax.swing.JComponent;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-
 /**
  * Animated clock icon, hands move when the clock ticks.
  * 
@@ -40,7 +36,7 @@ public class AnimatedClockJComponent extends JComponent {
     private final Face face;
     private final Hand fastHand, slowHand;
     
-    public AnimatedClockJComponent( final IClock clock ) {
+    public AnimatedClockJComponent() {
         
         // size the component to fit the clock face, account for stroke width
         int componentSize = (int)( ( 2 * FACE_RADIUS ) + ( FACE_STROKE_WIDTH ) ) + 1; // +1 to compensate for cast to int
@@ -49,22 +45,18 @@ public class AnimatedClockJComponent extends JComponent {
         face = new Face( FACE_RADIUS );
         fastHand = new Hand( FAST_HAND_LENGTH, FAST_HAND_START_ANGLE, FAST_HAND_DELTA_ANGLE );
         slowHand = new Hand( SLOW_HAND_LENGTH, SLOW_HAND_START_ANGLE, SLOW_HAND_DELTA_ANGLE );
-
-        clock.addClockListener( new ClockAdapter() {
-            /* When the clock ticks, update the hands */
-            public void clockTicked( ClockEvent clockEvent ) {
-                fastHand.update();
-                slowHand.update();
-                repaint( 0, 0, getWidth(), getHeight() );
-            }
-
-            /* When the clock is reset, move the hands to midnight */
-            public void simulationTimeReset( ClockEvent clockEvent ) {
-                fastHand.setAngle( FAST_HAND_START_ANGLE );
-                slowHand.setAngle( SLOW_HAND_START_ANGLE );
-                repaint( 0, 0, getWidth(), getHeight() );
-            }
-        } );
+    }
+    
+    public void advance() {
+        fastHand.update();
+        slowHand.update();
+        repaint( 0, 0, getWidth(), getHeight() );
+    }
+    
+    public void reset() {
+        fastHand.setAngle( FAST_HAND_START_ANGLE );
+        slowHand.setAngle( SLOW_HAND_START_ANGLE );
+        repaint( 0, 0, getWidth(), getHeight() ); 
     }
 
     protected void paintComponent( Graphics g ) {

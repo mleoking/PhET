@@ -24,6 +24,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class TimeControlPanel extends JPanel {
 
+    private static final boolean USE_ANIMATED_CLOCK_CONTROL = true;
+
     public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
     public static final int DEFAULT_TIME_COLUMNS = 8;
     
@@ -38,6 +40,7 @@ public class TimeControlPanel extends JPanel {
     private JLabel unitsLabel;
     private JPanel buttonPanel;
     private JPanel timeDisplayPanel;
+    private AnimatedClockJComponent animatedClockIcon;
     
     private NumberFormat timeFormat;
     private double time;
@@ -91,6 +94,9 @@ public class TimeControlPanel extends JPanel {
         timeDisplayPanel.add( timeTextField );
         timeDisplayPanel.add( unitsLabel );
         
+        // Animated clock icon
+        animatedClockIcon = new AnimatedClockJComponent();
+        
         // User panel, for stuff between the time display and buttons
         userPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         
@@ -105,6 +111,7 @@ public class TimeControlPanel extends JPanel {
 
         // Layout the button panel
         setLayout( new FlowLayout(FlowLayout.CENTER) );
+        add( animatedClockIcon );
         add( timeDisplayPanel );
         add( userPanel );
         add( buttonPanel );
@@ -136,6 +143,20 @@ public class TimeControlPanel extends JPanel {
         updateButtons();
     }
 
+    /**
+     * Advances the animated clock icon by one step.
+     */
+    public void advanceAnimatedClockIcon() {
+        animatedClockIcon.advance();
+    }
+    
+    /**
+     * Resets the animated clock icon to its initial state.
+     */
+    public void resetAnimatedClockIcon() {
+        animatedClockIcon.reset();
+    }
+    
     /**
      * Sets the visibility of the Restart button.
      * This button is invisible by default for backward compatibility with existing sims.
