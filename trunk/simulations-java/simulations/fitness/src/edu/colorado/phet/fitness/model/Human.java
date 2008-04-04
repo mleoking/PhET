@@ -8,8 +8,8 @@ import java.util.ArrayList;
  */
 public class Human {
     private double age = 20 * 525600.0 * 60;//seconds
-    private double height = 2.5;//meters
-    private double weight = 100;//kg
+    private double height = 1.5;//meters
+    private double weight = 75;//kg
     private Gender gender = Gender.MALE;
     private String name = "Larry";
     private ArrayList listeners = new ArrayList();

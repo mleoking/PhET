@@ -39,7 +39,7 @@ public class FitnessModel {
         return _clock;
     }
 
-    public Human getFitnessModelElement() {
+    public Human getHuman() {
         return human;
     }
 }

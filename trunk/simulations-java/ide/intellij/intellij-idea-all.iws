@@ -36,13 +36,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/TimeControlPanel.java" afterPath="$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/TimeControlPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockTimePanel.java" afterPath="$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockTimePanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModel.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/hydrogen-atom/src/edu/colorado/phet/hydrogenatom/control/HAClockControlPanel.java" afterPath="$PROJECT_DIR$/../../simulations/hydrogen-atom/src/edu/colorado/phet/hydrogenatom/control/HAClockControlPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanel.java" afterPath="$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/control/OTClockControlPanel.java" afterPath="$PROJECT_DIR$/../../simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/control/OTClockControlPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/HumanControlPanel.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/HumanControlPanel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModule.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModule.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" afterPath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/HumanNode.java" />
     </list>
     <list name="rotation-render" comment="" />
     <list name="build-12-7-2007" comment="" />
@@ -226,82 +228,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TimeControlPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/TimeControlPanel.java">
+      <file leaf-file-name="FitnessApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="136" column="18" selection-start="4796" selection-end="4796" vertical-scroll-proportion="0.12082671">
+            <state line="49" column="51" selection-start="2003" selection-end="2003" vertical-scroll-proportion="-0.92050874">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClockControlPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanel.java">
+      <file leaf-file-name="FitnessCanvas.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="30" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.06677019">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GlaciersApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/glaciers/src/edu/colorado/phet/glaciers/GlaciersApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="13" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.2972973">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClockControlPanelWithTimeDisplay.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanelWithTimeDisplay.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="13" selection-start="604" selection-end="604" vertical-scroll-proportion="-0.9602544">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PhetCommonResources.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/resources/PhetCommonResources.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="31" selection-start="1036" selection-end="1036" vertical-scroll-proportion="0.33695653">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OpticalTweezersApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/OpticalTweezersApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="13" selection-start="881" selection-end="881" vertical-scroll-proportion="0.2972973">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HAClockControlPanel.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../simulations/hydrogen-atom/src/edu/colorado/phet/hydrogenatom/control/HAClockControlPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="19" selection-start="3470" selection-end="3470" vertical-scroll-proportion="0.17391305">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HydrogenAtomApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/hydrogen-atom/src/edu/colorado/phet/hydrogenatom/HydrogenAtomApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="13" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.2718601">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClockTimePanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockTimePanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="71" column="0" selection-start="2275" selection-end="2275" vertical-scroll-proportion="0.4674086">
+            <state line="70" column="55" selection-start="2756" selection-end="2756" vertical-scroll-proportion="0.5135135">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -309,10 +248,75 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OTClockControlPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/control/OTClockControlPanel.java">
+      <file leaf-file-name="RulerNode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../common/piccolo-phet/src/edu/colorado/phet/common/piccolophet/nodes/RulerNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="160" column="17" selection-start="6056" selection-end="6056" vertical-scroll-proportion="0.35930046">
+            <state line="360" column="81" selection-start="12921" selection-end="12921" vertical-scroll-proportion="0.6836248">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NuclearPhysics2Application.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/NuclearPhysics2Application.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="13" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.5675676">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AlphaRadiationModule.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/alpharadiation/AlphaRadiationModule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="13" selection-start="1562" selection-end="1562" vertical-scroll-proportion="0.5015528">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AlphaRadiationCanvas.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/alpharadiation/AlphaRadiationCanvas.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="4" selection-start="1936" selection-end="2109" vertical-scroll-proportion="0.44875777">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PhetPCanvas.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../common/piccolo-phet/src/edu/colorado/phet/common/piccolophet/PhetPCanvas.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="81" column="39" selection-start="3071" selection-end="3071" vertical-scroll-proportion="0.3863275">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HumanNode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/HumanNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="60" column="44" selection-start="1808" selection-end="1808" vertical-scroll-proportion="0.6040373">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Human.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="30" selection-start="273" selection-end="273" vertical-scroll-proportion="0.29037267">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HumanControlPanel.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/HumanControlPanel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="64" selection-start="722" selection-end="722" vertical-scroll-proportion="0.2400636">
               <folding />
             </state>
           </provider>
@@ -389,6 +393,182 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\view" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\module" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\module" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations\fitness\src\edu\colorado\phet\fitness\module\fitness" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -629,25 +809,7 @@
       </UpdatedFiles>
     </UpdateInfo>
   </component>
-  <component name="RunManager" selected="Application.HydrogenAtomApplication">
-    <tempConfiguration default="false" name="HydrogenAtomApplication" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.hydrogenatom.HydrogenAtomApplication" />
-      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="intellij-idea-all" />
-      <envs />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </tempConfiguration>
+  <component name="RunManager" selected="Application.FitnessApplication">
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -895,6 +1057,24 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
+    <configuration default="false" name="HydrogenAtomApplication" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.hydrogenatom.HydrogenAtomApplication" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
     <list size="8">
       <item index="0" class="java.lang.String" itemvalue="Application.GreenhouseApplication" />
       <item index="1" class="java.lang.String" itemvalue="Application.JMEQuake3Renderer" />
@@ -996,7 +1176,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998997" order="12" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12749517" order="1" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.06954282" order="1" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3540622" order="1" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3099298" order="4" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="15" />
@@ -1008,7 +1188,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="5" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26722473" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21120413" order="0" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6018054" order="11" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10882164" order="2" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39919758" order="6" />
@@ -1040,7 +1220,7 @@
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="+moved animated clock graphic from middle to far left on time controls&#10;+removed static clock.png graphic from far left on time controls&#10;&#10;Please double check that sim dependencies work properly.&#10;&#10;Also, OTClockControlPanel and HAClockControlPanel should be merged with ClockControlPanelWithTimeDisplay (lots of duplicate code)" />
+    <option name="LAST_COMMIT_MESSAGE" value="bugfix: replaced usage of static default with usage of instance data" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -1051,7 +1231,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="added build file" />
     <MESSAGE value="added timesheet file" />
     <MESSAGE value="`" />
     <MESSAGE value="attempted fix for reported bug on Linux" />
@@ -1076,6 +1255,7 @@
     <MESSAGE value="added animated clock control, on by default" />
     <MESSAGE value="checkin before deploy" />
     <MESSAGE value="+moved animated clock graphic from middle to far left on time controls&#10;+removed static clock.png graphic from far left on time controls&#10;&#10;Please double check that sim dependencies work properly.&#10;&#10;Also, OTClockControlPanel and HAClockControlPanel should be merged with ClockControlPanelWithTimeDisplay (lots of duplicate code)" />
+    <MESSAGE value="bugfix: replaced usage of static default with usage of instance data" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1134,79 +1314,9 @@
     <option name="myLastEditedConfigurable" value="find-deprecated" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/alpharadiation/AlphaRadiationModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="12" selection-start="1657" selection-end="1657" vertical-scroll-proportion="0.29658386">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/example/ExampleModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="12" selection-start="1275" selection-end="1275" vertical-scroll-proportion="0.3043478">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/sim-template/src/edu/colorado/phet/simtemplate/module/example/ExampleModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="12" selection-start="1165" selection-end="1165" vertical-scroll-proportion="0.3043478">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/quantum-tunneling/src/edu/colorado/phet/quantumtunneling/module/QTModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="12" selection-start="5215" selection-end="5215" vertical-scroll-proportion="0.3036566">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/fissiononenucleus/FissionOneNucleusModule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="12" selection-start="1058" selection-end="1058" vertical-scroll-proportion="0.5543478">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/photoelectric/src/edu/colorado/phet/photoelectric/PhotoelectricApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="13" selection-start="1056" selection-end="1056" vertical-scroll-proportion="0.2972973">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/glaciers/src/edu/colorado/phet/glaciers/GlaciersApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="13" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.2972973">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="30" selection-start="1566" selection-end="1566" vertical-scroll-proportion="0.06677019">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockControlPanelWithTimeDisplay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="13" selection-start="604" selection-end="604" vertical-scroll-proportion="-0.9602544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/TimeControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="18" selection-start="4796" selection-end="4796" vertical-scroll-proportion="0.12082671">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/ClockTimePanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="0" selection-start="2275" selection-end="2275" vertical-scroll-proportion="0.4674086">
+        <state line="71" column="0" selection-start="2275" selection-end="2275" vertical-scroll-proportion="0.45652175">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1222,7 +1332,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/optical-tweezers/src/edu/colorado/phet/opticaltweezers/control/OTClockControlPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="17" selection-start="6056" selection-end="6056" vertical-scroll-proportion="0.35930046">
+        <state line="160" column="17" selection-start="6056" selection-end="6056" vertical-scroll-proportion="0.35093167">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/hydrogen-atom/src/edu/colorado/phet/hydrogenatom/HydrogenAtomApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="13" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.26552796">
           <folding />
         </state>
       </provider>
@@ -1234,17 +1351,84 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/hydrogen-atom/src/edu/colorado/phet/hydrogenatom/HydrogenAtomApplication.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/hydrogen-atom/src/edu/colorado/phet/hydrogenatom/control/HAClockControlPanel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="13" selection-start="1344" selection-end="1344" vertical-scroll-proportion="0.2718601">
+        <state line="101" column="30" selection-start="3750" selection-end="3750" vertical-scroll-proportion="1.9270186">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/hydrogen-atom/src/edu/colorado/phet/hydrogenatom/control/HAClockControlPanel.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/NuclearPhysics2Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="19" selection-start="3470" selection-end="3470" vertical-scroll-proportion="0.17391305">
+        <state line="39" column="13" selection-start="1665" selection-end="1665" vertical-scroll-proportion="0.5675676">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/alpharadiation/AlphaRadiationModule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="13" selection-start="1562" selection-end="1562" vertical-scroll-proportion="0.5015528">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/nuclear-physics-2/src/edu/colorado/phet/nuclearphysics2/module/alpharadiation/AlphaRadiationCanvas.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="48" column="4" selection-start="1936" selection-end="2109" vertical-scroll-proportion="0.44875777">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../common/piccolo-phet/src/edu/colorado/phet/common/piccolophet/nodes/RulerNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="360" column="81" selection-start="12921" selection-end="12921" vertical-scroll-proportion="0.6836248">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/HumanControlPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="64" selection-start="722" selection-end="722" vertical-scroll-proportion="0.2400636">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../common/piccolo-phet/src/edu/colorado/phet/common/piccolophet/PhetPCanvas.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="39" selection-start="3071" selection-end="3071" vertical-scroll-proportion="0.3863275">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="30" selection-start="273" selection-end="273" vertical-scroll-proportion="0.29037267">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="49" column="51" selection-start="2003" selection-end="2003" vertical-scroll-proportion="-0.92050874">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/HumanNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="44" selection-start="1808" selection-end="1808" vertical-scroll-proportion="0.6040373">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessCanvas.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="70" column="55" selection-start="2756" selection-end="2756" vertical-scroll-proportion="0.5135135">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

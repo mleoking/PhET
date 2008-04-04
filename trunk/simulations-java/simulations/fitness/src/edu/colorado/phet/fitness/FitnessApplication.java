@@ -163,7 +163,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
     }
 
     public Color getControlPanelBackground() {
-        return ( (Module) getModule( 0 ) ).getControlPanel().getBackground();
+        return getModule( 0 ).getControlPanel().getBackground();
     }
 
     //----------------------------------------------------------------------------
