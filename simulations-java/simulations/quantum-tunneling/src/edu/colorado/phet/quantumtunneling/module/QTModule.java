@@ -27,7 +27,7 @@ import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
@@ -40,7 +40,6 @@ import edu.colorado.phet.quantumtunneling.enums.IRView;
 import edu.colorado.phet.quantumtunneling.enums.PotentialType;
 import edu.colorado.phet.quantumtunneling.enums.WaveType;
 import edu.colorado.phet.quantumtunneling.model.*;
-import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTModuleConfig;
 import edu.colorado.phet.quantumtunneling.view.*;
 import edu.colorado.phet.quantumtunneling.view.AbstractProbabilityNode.ReflectionProbabilityNode;
@@ -123,7 +122,7 @@ public class QTModule extends QTAbstractModule implements Observer {
     private PotentialEnergyControls _potentialEnergyControls;
     private PSwing _waveFunctionZoomControl;
     private PSwing _probabilityDensityZoomControl;
-    private ClockControlPanelWithTimeDisplay _clockControls;
+    private ClockControlPanel _clockControls;
     private JDialog _richardsonDialog;
     
     // Colors 
@@ -282,7 +281,9 @@ public class QTModule extends QTAbstractModule implements Observer {
         
         // Clock Controls
         {
-            _clockControls = new ClockControlPanelWithTimeDisplay( getClock() );
+            _clockControls = new ClockControlPanel( getClock() );
+            _clockControls.setRestartButtonVisible( true );
+            _clockControls.setTimeDisplayVisible( true );
             _clockControls.setTimeFormat( QTConstants.TIME_FORMAT_PATTERN );
             _clockControls.setTimeColumns( QTConstants.TIME_COLUMNS );
             _clockControls.setUnits( QTResources.getString( "units.time" ) );

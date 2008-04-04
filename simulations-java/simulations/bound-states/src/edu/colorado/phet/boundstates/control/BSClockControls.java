@@ -1,35 +1,21 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2008, University of Colorado */
 
 package edu.colorado.phet.boundstates.control;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.model.BSClock;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.common.phetcommon.view.ClockTimePanel;
 
 
 /**
@@ -37,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.view.ClockTimePanel;
  * It has control buttons (Restart, Play, Pause, Step) and a time display.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BSClockControls extends ClockControlPanel {
     
@@ -46,10 +31,7 @@ public class BSClockControls extends ClockControlPanel {
     //----------------------------------------------------------------------------
     
     private BSClock _clock;
-    
-    private ClockTimePanel _timePanel;
     private JSlider _clockIndexSlider;
-    private JButton _restartButton;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,17 +50,14 @@ public class BSClockControls extends ClockControlPanel {
         _clock.setDt( BSConstants.DEFAULT_CLOCK_STEP );
         
         // Restart button
-        String restartLabel = BSResources.getString( "button.restart" );
-        Icon restartIcon = new ImageIcon( BSResources.getCommonImage( PhetCommonResources.IMAGE_REWIND ) );
-        _restartButton = new JButton( restartLabel, restartIcon );
+        setRestartButtonVisible( true  );
 
         // Time display
-        String units = BSResources.getString( "units.time" );
-        DecimalFormat format = BSConstants.DEFAULT_CLOCK_FORMAT;
-        int columns = 6;
-        _timePanel = new ClockTimePanel( clock, units, format, columns );
-        _timePanel.setTimeFont( BSConstants.TIME_DISPLAY_FONT );
-        _timePanel.setUnitsFont( BSConstants.TIME_UNITS_FONT );
+        setUnits( BSResources.getString( "units.time" ) );
+        setTimeFormat( BSConstants.DEFAULT_CLOCK_FORMAT );
+        setTimeColumns( 6 );
+        setTimeFont( BSConstants.TIME_DISPLAY_FONT );
+        setUnitsFont( BSConstants.TIME_UNITS_FONT );
         
         // Speed slider
         {
@@ -107,19 +86,12 @@ public class BSClockControls extends ClockControlPanel {
         
         // Layout
         setLayout(  new FlowLayout( FlowLayout.CENTER ) );
-        addControlToLeft( _restartButton );
-        addControlToLeft( _clockIndexSlider );
-        addControlToLeft( _timePanel );
+        addBetweenTimeDisplayAndButtons( _clockIndexSlider );
         
         // Interactivity
         _clockIndexSlider.addChangeListener( new ChangeListener() { 
             public void stateChanged( ChangeEvent event ) {
                 handleClockIndexChange();
-            }
-        } );
-        _restartButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleRestart();
             }
         } );
     }
@@ -135,15 +107,6 @@ public class BSClockControls extends ClockControlPanel {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the "Restart" component, used for attaching help items.
-     * 
-     * @return JComponent
-     */
-    public JComponent getRestartComponent() {
-        return _restartButton;
-    }
     
     /**
      * Gets the clock index (speed) component, used for attaching help items.
@@ -179,12 +142,8 @@ public class BSClockControls extends ClockControlPanel {
     
     private void handleClockIndexChange() {
         int index = _clockIndexSlider.getValue();
-        _timePanel.setTimeFormat( BSConstants.CLOCK_FORMATS[index] );
+        setTimeFormat( BSConstants.CLOCK_FORMATS[index] );
         _clock.setDt( BSConstants.CLOCK_STEPS[index] );
         _clock.resetSimulationTime(); // so the clock display doesn't overflow
-    }
-    
-    private void handleRestart() {
-        _clock.resetSimulationTime();
     }
 }

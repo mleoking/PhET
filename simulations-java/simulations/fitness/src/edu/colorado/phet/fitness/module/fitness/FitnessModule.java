@@ -4,19 +4,19 @@ package edu.colorado.phet.fitness.module.fitness;
 
 import java.awt.Frame;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.fitness.FitnessApplication;
-import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.FitnessConstants;
 import edu.colorado.phet.fitness.FitnessResources;
-import edu.colorado.phet.fitness.persistence.FitnessConfig;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.defaults.ExampleDefaults;
-import edu.colorado.phet.fitness.model.SimTemplateClock;
 import edu.colorado.phet.fitness.model.Human;
+import edu.colorado.phet.fitness.model.SimTemplateClock;
+import edu.colorado.phet.fitness.persistence.FitnessConfig;
 
 public class FitnessModule extends PiccoloModule {
 
@@ -27,7 +27,7 @@ public class FitnessModule extends PiccoloModule {
     private FitnessModel _model;
     private FitnessCanvas _canvas;
     private FitnessControlPanel _controlPanel;
-    private ClockControlPanelWithTimeDisplay _clockControlPanel;
+    private ClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -49,7 +49,9 @@ public class FitnessModule extends PiccoloModule {
         setControlPanel( _controlPanel );
 
         // Clock controls
-        _clockControlPanel = new ClockControlPanelWithTimeDisplay( getClock() );
+        _clockControlPanel = new ClockControlPanel( getClock() );
+        _clockControlPanel.setRestartButtonVisible( true );
+        _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );

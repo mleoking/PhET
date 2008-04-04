@@ -4,7 +4,7 @@ package edu.colorado.phet.nuclearphysics2.module.example;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Application;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
@@ -29,7 +29,7 @@ public class ExampleModule extends PiccoloModule {
     private ExampleModel _model;
     private ExampleCanvas _canvas;
     private ExampleControlPanel _controlPanel;
-    private ClockControlPanelWithTimeDisplay _clockControlPanel;
+    private ClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,7 +51,9 @@ public class ExampleModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (NuclearPhysics2Clock) getClock() );
+        _clockControlPanel = new ClockControlPanel( (NuclearPhysics2Clock) getClock() );
+        _clockControlPanel.setRestartButtonVisible( true );
+        _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( NuclearPhysics2Strings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );

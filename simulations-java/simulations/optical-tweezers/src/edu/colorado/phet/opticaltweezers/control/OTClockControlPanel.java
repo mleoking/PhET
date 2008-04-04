@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.opticaltweezers.OTResources;
 
 /**
@@ -26,7 +26,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OTClockControlPanel extends ClockControlPanelWithTimeDisplay {
+public class OTClockControlPanel extends ClockControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -41,11 +41,13 @@ public class OTClockControlPanel extends ClockControlPanelWithTimeDisplay {
     public OTClockControlPanel( ConstantDtClock clock ) {
         super( clock );
 
+        setRestartButtonVisible( true );
+        
         // Use our own time display
-        setTimeVisible( false );
+        setTimeDisplayVisible( false );
         String units = OTResources.getString( "units.time" );
         _timePanel = new OTClockTimePanel( clock, units );
-        addControlToLeft( _timePanel );
+        addBetweenTimeDisplayAndButtons( _timePanel );
     }
     
     //----------------------------------------------------------------------------

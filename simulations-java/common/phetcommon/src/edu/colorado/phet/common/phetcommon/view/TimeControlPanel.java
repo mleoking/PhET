@@ -1,9 +1,15 @@
+/* Copyright 2004-2008, University of Colorado */
+
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -12,58 +18,99 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * TimeControlPanel implements a Swing component for play/pause and step in PhET simulations.
+ * TimeControlPanel implements a Swing component for controlling the clock in PhET simulations.
  *
  * @author Chris Malley, Sam Reid
- * @version $Revision: 15573 $
  */
 public class TimeControlPanel extends JPanel {
 
-    private JButton playPause;
-    private JButton step;
-    private JPanel buttonPanel;//todo: why is there an embedded sub-panel in this panel?
+    public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
+    public static final int DEFAULT_TIME_COLUMNS = 8;
+    
+    private JButton playPauseButton;
+    private JButton stepButton;
+    private JButton restartButton;
     private ImageIcon playIcon;
     private ImageIcon pauseIcon;
     private String playString;
     private String pauseString;
-
-    private boolean paused = false;
+    private JTextField timeTextField;
+    private JLabel unitsLabel;
+    private JPanel buttonPanel;
+    private JPanel timeDisplayPanel;
+    
+    private NumberFormat timeFormat;
+    private double time;
+    private boolean paused;
+    private JPanel userPanel;
 
     private ArrayList listeners = new ArrayList();
 
     public TimeControlPanel() {
 
-        // Button labels
+        time = 0;
+        paused = false;
+        timeFormat = DEFAULT_TIME_FORMAT;
+        
+        // Play/Pause
         playString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PLAY );
         pauseString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_PAUSE );
-        String stepString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_STEP );
-
-        // Button icons
         BufferedImage playImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PLAY );
         BufferedImage pauseImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_PAUSE );
-        BufferedImage stepImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STEP_FORWARD );
         playIcon = new ImageIcon( playImage );
         pauseIcon = new ImageIcon( pauseImage );
+        playPauseButton = new JButton();
+        Dimension maxSize = SwingUtils.getMaxDimension( playPauseButton, playString, playIcon, pauseString, pauseIcon );
+        playPauseButton.setPreferredSize( maxSize );
+        
+        // Step
+        String stepString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_STEP );
+        BufferedImage stepImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STEP_FORWARD );
         ImageIcon stepIcon = new ImageIcon( stepImage );
-
-        playPause = new JButton();
-        updatePlayPauseButtonDimension();
-
-        // Step button
-        step = new JButton( stepString, stepIcon );
-
-        SwingUtils.fixButtonOpacity( playPause );
-        SwingUtils.fixButtonOpacity( step );
-
-//        setLayout( new BorderLayout() );
-        setLayout( new FlowLayout(FlowLayout.CENTER) );
+        stepButton = new JButton( stepString, stepIcon );
+        
+        // Restart
+        String restartString = PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_CLOCK_RESTART );
+        BufferedImage restartImage = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_RESTART );
+        ImageIcon restartIcon = new ImageIcon( restartImage );
+        restartButton = new JButton( restartString, restartIcon );
+        
+        // Put all the buttons in a button panel
         buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
-        buttonPanel.add( playPause );
-        buttonPanel.add( step );
-        this.add( buttonPanel);
+        buttonPanel.add( restartButton );
+        buttonPanel.add( playPauseButton );
+        buttonPanel.add( stepButton );
+        
+        // Time display, time value & units
+        timeTextField = new JTextField();
+        timeTextField.setColumns( DEFAULT_TIME_COLUMNS );
+        timeTextField.setEditable( false );
+        timeTextField.setHorizontalAlignment( JTextField.RIGHT );
+        unitsLabel = new JLabel();
+        timeDisplayPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        timeDisplayPanel.add( timeTextField );
+        timeDisplayPanel.add( unitsLabel );
+        
+        // User panel, for stuff between the time display and buttons
+        userPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        
+        // for backward compatibility with existing sims
+        restartButton.setVisible( false ); 
+        timeTextField.setVisible( false );
+        unitsLabel.setVisible( false );
+        
+        // Workaround for Macintosh
+        SwingUtils.fixButtonOpacity( playPauseButton );
+        SwingUtils.fixButtonOpacity( stepButton );
 
-        //Adapter methods for event dispatch
-        playPause.addActionListener( new ActionListener() {
+        // Layout the button panel
+        setLayout( new FlowLayout(FlowLayout.CENTER) );
+        add( timeDisplayPanel );
+        add( userPanel );
+        add( buttonPanel );
+        
+        // Adapter methods for event dispatch
+        playPauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 paused = !paused;
                 updateButtons();
@@ -75,9 +122,14 @@ public class TimeControlPanel extends JPanel {
                 }
             }
         } );
-        step.addActionListener( new ActionListener() {
+        stepButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyStepPressed();
+            }
+        } );
+        restartButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyRestartPressed();
             }
         } );
 
@@ -85,76 +137,49 @@ public class TimeControlPanel extends JPanel {
     }
 
     /**
-     * Sets whether the play/pause button is enabled
-     *
-     * @param enabled true if the play/pause button is enabled
+     * Sets the visibility of the Restart button.
+     * This button is invisible by default for backward compatibility with existing sims.
+     * 
+     * @param visible
      */
-    protected void setPlayPauseButtonEnabled( boolean enabled ) {
-        playPause.setEnabled( enabled );
+    public void setRestartButtonVisible( boolean visible ) {
+        restartButton.setVisible( visible );
+    }
+    
+    /**
+     * Sets the visibility of the time display.
+     * This display is invisible by default for backward compatibility with existing sims.
+     * 
+     * @param visible
+     */
+    public void setTimeDisplayVisible( boolean visible ) {
+        timeTextField.setVisible( visible );
+        unitsLabel.setVisible( visible );
+        if ( visible ) {
+            updateTimeDisplay();
+        }
+    }
+    
+    /**
+     * Convenience method for adding a component to the left of this panel.
+     * 
+     * @param component
+     */
+    public void addToLeft( JComponent component ) {
+        add( component, 0 );
     }
 
     /**
-     * Sets the text of the Play mode on the Play/Pause button.
-     *
-     * @param playString the new text for the Play mode
+     * Adds component between the time display and the buttons.
+     * 
+     * TODO: This is a hack, currently used by some sims to add a clock speed control.
+     * We should figure out a better way to add components to the layout, or 
+     * add a standard clock speed control to this control panel.
+     * 
+     * @param component
      */
-    public void setPlayString( String playString ) {
-        this.playString = playString;
-        updatePlayPauseButtonDimension();
-        updateButtons();
-    }
-
-    /**
-     * Sets the text of the Pause mode on the Play/Pause button.
-     *
-     * @param pauseString the new text for the pause mode
-     */
-    public void setPauseString( String pauseString ) {
-        this.pauseString = pauseString;
-        updatePlayPauseButtonDimension();
-        updateButtons();
-    }
-
-    /**
-     * Sets the text of the Step button
-     *
-     * @param stepString the new text for the Step button
-     */
-    public void setStepString( String stepString ) {
-        step.setText( stepString );
-        updateButtons();
-    }
-
-    /**
-     * Play/Pause button
-     * Set this button to its maximum size so that the contents of
-     * the control panel don't horizontally shift as the button state changes.
-     */
-    protected void updatePlayPauseButtonDimension() {
-        playPause.setPreferredSize( SwingUtils.getMaxDimension( playPause, playString, playIcon, pauseString, pauseIcon ) );
-    }
-
-    /**
-     * Adds a component to the sub-panel which contains the main content for this control panel.
-     *
-     * @param control
-     */
-    public void addControl( JComponent control ) {
-        buttonPanel.add( control );
-    }
-
-    //todo: remove this temporary workaround which is here only to support the animated clock graphic
-    public void addControlFarLeft( JComponent control ) {
-        add( control, 0 );
-    }
-
-    /**
-     * Adds a component to the left of the sub-panel which contains the main content for this control panel.
-     *
-     * @param control
-     */
-    public void addControlToLeft( JComponent control ) {
-        buttonPanel.add( control, 0 );
+    public void addBetweenTimeDisplayAndButtons( JComponent component ) {
+        userPanel.add( component );
     }
 
     /**
@@ -178,15 +203,101 @@ public class TimeControlPanel extends JPanel {
         super.setEnabled( enabled );
         updateButtons();
     }
+    
+    /**
+     * Gets the "Restart" component, used for attaching help items.
+     *
+     * @return
+     */
+    public JComponent getRestartComponent() {
+        return restartButton;
+    }
+    
+    /**
+     * Sets the format of the time display.
+     * See DecimalFormat for specification of pattern syntax.
+     *
+     * @param formatPattern
+     */
+    public void setTimeFormat( String formatPattern ) {
+        setTimeFormat( new DecimalFormat( formatPattern ) );
+    }
 
     /**
+     * Sets the format of the time display.
+     *
+     * @param format
+     */
+    public void setTimeFormat( NumberFormat format ) {
+        timeFormat = format;
+        updateTimeDisplay();
+    }
+
+    /**
+     * Sets the font used to display the time.
+     *
+     * @param font
+     */
+    public void setTimeFont( Font font ) {
+        timeTextField.setFont( font );
+    }
+
+    /**
+     * Sets the number of columns used to display the time.
+     *
+     * @param columns
+     */
+    public void setTimeColumns( int columns ) {
+        timeTextField.setColumns( columns );
+    }
+
+    /**
+     * Sets the time units.
+     *
+     * @param units
+     */
+    public void setUnits( String units ) {
+        unitsLabel.setText( units );
+    }
+
+    /**
+     * Sets the font for the time units.
+     *
+     * @param font
+     */
+    public void setUnitsFont( Font font ) {
+        unitsLabel.setFont( font );
+    }
+
+   /**
+    * Sets the time displayed.
+    */
+    public void setTimeDisplay( double time ) {
+        if ( time != this.time ) {
+            this.time = time;
+            updateTimeDisplay();
+        }
+    }
+    
+    /*
+     * Updates the time display.
+     */
+    private void updateTimeDisplay() {
+        if ( timeTextField.isVisible() ) {
+            String sValue = timeFormat.format( time );
+            timeTextField.setText( sValue );
+        }
+    }
+
+    /*
      * Updates the state of the play/pause and step buttons to reflect whether the control is paused and/or enabled.
      */
-    public void updateButtons() {
-        playPause.setText( paused ? playString : pauseString );
-        playPause.setIcon( paused ? playIcon : pauseIcon );
-        playPause.setEnabled( isEnabled() );
-        step.setEnabled( isEnabled() && paused );
+    private void updateButtons() {
+        playPauseButton.setText( paused ? playString : pauseString );
+        playPauseButton.setIcon( paused ? playIcon : pauseIcon );
+        playPauseButton.setEnabled( isEnabled() );
+        stepButton.setEnabled( isEnabled() && paused );
+        restartButton.setEnabled( isEnabled() );
     }
 
     /**
@@ -199,6 +310,8 @@ public class TimeControlPanel extends JPanel {
         void playPressed();
 
         void pausePressed();
+        
+        void restartPressed();
     }
 
     /**
@@ -212,6 +325,9 @@ public class TimeControlPanel extends JPanel {
         }
 
         public void pausePressed() {
+        }
+        
+        public void restartPressed() {
         }
     }
 
@@ -240,10 +356,17 @@ public class TimeControlPanel extends JPanel {
             ( (TimeControlListener) listeners.get( i ) ).pausePressed();
         }
     }
+    
+    private void notifyRestartPressed() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (TimeControlListener) listeners.get( i ) ).restartPressed();
+        }
+    }
 
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         TimeControlPanel pane = new TimeControlPanel();
+        pane.setRestartButtonVisible( true );
         pane.addTimeControlListener( new TimeControlListener() {
             public void stepPressed() {
                 System.out.println( "TimeControlPanel.stepPressed" );
@@ -256,12 +379,15 @@ public class TimeControlPanel extends JPanel {
             public void pausePressed() {
                 System.out.println( "TimeControlPanel.pausePressed" );
             }
+            
+            public void restartPressed() {
+                System.out.println( "TimeControlPanel.restartPressed" );
+            }
         } );
         frame.setContentPane( pane );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width / 2 - frame.getWidth() / 2,
-                           Toolkit.getDefaultToolkit().getScreenSize().height / 2 - frame.getHeight() / 2 );
-        frame.show();
+        SwingUtils.centerWindowOnScreen( frame );
+        frame.setVisible( true );
     }
 }
