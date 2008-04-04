@@ -31,6 +31,18 @@ public class DaughterNucleus extends AtomicNucleus {
     }
     
     //------------------------------------------------------------------------
+    // Public Methods
+    //------------------------------------------------------------------------
+    
+    /**
+     * Reset the daughter nucleus, which means it should surrender all its
+     * constituent particles.
+     */
+    public void reset(){
+        _constituents.removeAll( _constituents );
+    }
+    
+    //------------------------------------------------------------------------
     // Private and Protected Methods
     //------------------------------------------------------------------------
 

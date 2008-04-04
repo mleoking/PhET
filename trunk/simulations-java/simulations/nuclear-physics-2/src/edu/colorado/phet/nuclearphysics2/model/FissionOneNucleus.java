@@ -51,102 +51,6 @@ public class FissionOneNucleus extends AtomicNucleus{
     //------------------------------------------------------------------------
     
     /**
-     * Resets the nucleus to its original state, before any fission has
-     * occurred.
-     */
-    public void reset(){
-        // TODO: JPB TBD
-    }
-    
-    //------------------------------------------------------------------------
-    // Private and Protected Methods
-    //------------------------------------------------------------------------
-    
-    /**
-     * This method lets this model element know that the clock has ticked.  In
-     * response, the nucleus generally 'agitates' a bit, may also perform some
-     * sort of decay, and may move.
-     */
-    protected void handleClockTicked(ClockEvent clockEvent)
-    {
-        super.handleClockTicked( clockEvent );
-        
-        // See if fission should occur.
-        if ((_fissionTime != 0) && (clockEvent.getSimulationTime() >= _fissionTime ))
-        {
-            // Fission the nucleus.  First pull out three neutrons as 
-            // byproducts of this decay event.
-            ArrayList byProducts = new ArrayList();
-            int neutronByProductCount = 0;
-            for (int i = 0; i < _constituents.size() && neutronByProductCount < 3; i++){
-                if (_constituents.get( i ) instanceof Neutron){
-                    Object newlyFreedNeutron = _constituents.get( i );
-                    byProducts.add( newlyFreedNeutron );
-                    neutronByProductCount++;
-                    _numNeutrons--;
-                }
-            }
-            
-            _constituents.removeAll( byProducts );
-            
-            // Now pull out the needed number of protons, neutrons, and alphas
-            // to create the appropriate daughter nucleus.  The daughter
-            // nucleus created is Krypton-92, so the number of particles
-            // needed is calculated for this particular isotope.
-            int numAlphasNeeded = 12;
-            int numProtonsNeeded = 12;
-            int numNeutronsNeeded = 32;
-                
-            ArrayList daughterNucleusConstituents = new ArrayList(numAlphasNeeded + numProtonsNeeded + numNeutronsNeeded);
-            
-            for (int i = 0; i < _constituents.size(); i++){
-                Object constituent = _constituents.get( i );
-                
-                if ((numNeutronsNeeded > 0) && (constituent instanceof Neutron)){
-                    daughterNucleusConstituents.add( constituent );
-                    numNeutronsNeeded--;
-                    _numNeutrons--;
-                }
-                else if ((numProtonsNeeded > 0) && (constituent instanceof Proton)){
-                    daughterNucleusConstituents.add( constituent );
-                    numProtonsNeeded--;
-                    _numProtons--;
-                }
-                if ((numAlphasNeeded > 0) && (constituent instanceof AlphaParticle)){
-                    daughterNucleusConstituents.add( constituent );
-                    numAlphasNeeded--;
-                    _numAlphas--;
-                }
-                
-                if ((numNeutronsNeeded == 0) && (numProtonsNeeded == 0) && (numAlphasNeeded == 0)){
-                    // We've got all that we need.
-                    break;
-                }
-            }
-            
-            _constituents.removeAll( daughterNucleusConstituents );
-            
-            Point2D location = new Point2D.Double();
-            location.setLocation( _position );
-            DaughterNucleus daughterNucleus = new DaughterNucleus(_clock, location, daughterNucleusConstituents);
-            
-            // Consolidate all of the byproducts.
-            byProducts.add( daughterNucleus );
-            
-            // Send out the decay event to all listeners.
-            int totalNumProtons = _numProtons + _numAlphas * 2;
-            int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
-            for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  byProducts);
-            }
-            
-            // Set the fission time to 0 to indicate that no more fissioning
-            // should occur.
-            _fissionTime = 0;
-        }
-    }
-    
-    /**
      * Capture a free particle if the nucleus is able to.
      * 
      * @param freeParticle - A particle that is currently free, i.e. not a 
@@ -254,6 +158,94 @@ public class FissionOneNucleus extends AtomicNucleus{
         int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  null);
+        }
+    }
+    
+    //------------------------------------------------------------------------
+    // Private and Protected Methods
+    //------------------------------------------------------------------------
+    
+    /**
+     * This method lets this model element know that the clock has ticked.  In
+     * response, the nucleus generally 'agitates' a bit, may also perform some
+     * sort of decay, and may move.
+     */
+    protected void handleClockTicked(ClockEvent clockEvent)
+    {
+        super.handleClockTicked( clockEvent );
+        
+        // See if fission should occur.
+        if ((_fissionTime != 0) && (clockEvent.getSimulationTime() >= _fissionTime ))
+        {
+            // Fission the nucleus.  First pull out three neutrons as 
+            // byproducts of this decay event.
+            ArrayList byProducts = new ArrayList();
+            int neutronByProductCount = 0;
+            for (int i = 0; i < _constituents.size() && neutronByProductCount < 3; i++){
+                if (_constituents.get( i ) instanceof Neutron){
+                    Object newlyFreedNeutron = _constituents.get( i );
+                    byProducts.add( newlyFreedNeutron );
+                    neutronByProductCount++;
+                    _numNeutrons--;
+                }
+            }
+            
+            _constituents.removeAll( byProducts );
+            
+            // Now pull out the needed number of protons, neutrons, and alphas
+            // to create the appropriate daughter nucleus.  The daughter
+            // nucleus created is Krypton-92, so the number of particles
+            // needed is calculated for this particular isotope.
+            int numAlphasNeeded = 12;
+            int numProtonsNeeded = 12;
+            int numNeutronsNeeded = 32;
+                
+            ArrayList daughterNucleusConstituents = new ArrayList(numAlphasNeeded + numProtonsNeeded + numNeutronsNeeded);
+            
+            for (int i = 0; i < _constituents.size(); i++){
+                Object constituent = _constituents.get( i );
+                
+                if ((numNeutronsNeeded > 0) && (constituent instanceof Neutron)){
+                    daughterNucleusConstituents.add( constituent );
+                    numNeutronsNeeded--;
+                    _numNeutrons--;
+                }
+                else if ((numProtonsNeeded > 0) && (constituent instanceof Proton)){
+                    daughterNucleusConstituents.add( constituent );
+                    numProtonsNeeded--;
+                    _numProtons--;
+                }
+                if ((numAlphasNeeded > 0) && (constituent instanceof AlphaParticle)){
+                    daughterNucleusConstituents.add( constituent );
+                    numAlphasNeeded--;
+                    _numAlphas--;
+                }
+                
+                if ((numNeutronsNeeded == 0) && (numProtonsNeeded == 0) && (numAlphasNeeded == 0)){
+                    // We've got all that we need.
+                    break;
+                }
+            }
+            
+            _constituents.removeAll( daughterNucleusConstituents );
+            
+            Point2D location = new Point2D.Double();
+            location.setLocation( _position );
+            DaughterNucleus daughterNucleus = new DaughterNucleus(_clock, location, daughterNucleusConstituents);
+            
+            // Consolidate all of the byproducts.
+            byProducts.add( daughterNucleus );
+            
+            // Send out the decay event to all listeners.
+            int totalNumProtons = _numProtons + _numAlphas * 2;
+            int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
+            for (int i = 0; i < _listeners.size(); i++){
+                ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  byProducts);
+            }
+            
+            // Set the fission time to 0 to indicate that no more fissioning
+            // should occur.
+            _fissionTime = 0;
         }
     }
     
