@@ -115,10 +115,13 @@ public class AtomicNucleusNode extends PNode {
             public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
                 
                 int newAtomicWeight = numProtons + numNeutrons;
-                if (newAtomicWeight < _currentAtomicWeight){
+                if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0)){
                     // This was a decay event, so kick off the explosion graphic.
                     _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
                 }
+                
+                // Save the new weight.
+                _currentAtomicWeight = newAtomicWeight;
                 
                 // Update the label to reflect the new element.
                 setLabel(numProtons, numNeutrons);

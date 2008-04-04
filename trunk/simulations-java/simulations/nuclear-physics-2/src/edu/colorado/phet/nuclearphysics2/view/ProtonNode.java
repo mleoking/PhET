@@ -9,8 +9,22 @@ import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.umd.cs.piccolo.PNode;
 
 
-public class ProtonNode extends PNode {
+/**
+ * This class is used to visually represent a Proton.
+ *
+ * @author John Blanco
+ */
+public class ProtonNode extends PNode implements NucleonNode{
+
+    //------------------------------------------------------------------------
+    // Class data
+    //------------------------------------------------------------------------
+
     private final static double PARTICLE_DIAMETER = 1.6;  // Femto meters.
+    
+    //------------------------------------------------------------------------
+    // Instance data
+    //------------------------------------------------------------------------
     
     private PNode _displayImage;
     private Nucleon _nucleon;
@@ -36,6 +50,10 @@ public class ProtonNode extends PNode {
         // Call update at the end of construction to assure that the view is
         // synchronized with the model.
         update();
+    }
+    
+    public Nucleon getNucleon(){
+        return _nucleon;
     }
     
     private void update(){

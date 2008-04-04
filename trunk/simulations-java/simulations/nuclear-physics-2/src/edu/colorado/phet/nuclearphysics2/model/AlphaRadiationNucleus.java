@@ -110,7 +110,7 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
                     AlphaParticle tunnelingParticle = (AlphaParticle)_constituents.get( i );
                     _constituents.remove( i );
                     _numAlphas--;
-                    tunnelingParticle.tunnelOut( _position, TUNNEL_OUT_RADIUS + 1.0 );
+                    tunnelingParticle.tunnelOut( _position, _tunnelingRegionRadius + 1.0 );
                     
                     // Update our agitation factor.
                     updateAgitationFactor();

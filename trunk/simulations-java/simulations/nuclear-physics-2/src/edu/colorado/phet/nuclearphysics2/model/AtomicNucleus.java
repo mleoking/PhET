@@ -18,7 +18,7 @@ public abstract class AtomicNucleus {
     
     // Radius at which the repulsive electrical force overwhelms the strong
     // force.
-    public static final double TUNNEL_OUT_RADIUS = 15; 
+    public static final double DEFAULT_TUNNELING_REGION_RADIUS = 15; 
     
     // Default value for agitation.
     protected static final int DEFAULT_AGITATION_FACTOR = 5;
@@ -57,6 +57,10 @@ public abstract class AtomicNucleus {
     
     // Used for various random calculations.
     protected Random _rand = new Random();
+    
+    // Used for deciding where particles tunnel to and how far they need
+    // to go to tunnel out.
+    protected double _tunnelingRegionRadius = DEFAULT_TUNNELING_REGION_RADIUS;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -190,6 +194,14 @@ public abstract class AtomicNucleus {
         return _clock;
     }
     
+    public void setTunnelingRegionRadius(double tunnelingRegionRadius){
+        _tunnelingRegionRadius = tunnelingRegionRadius;
+    }
+    
+    public double getTunnelingRegionRadius(){
+        return _tunnelingRegionRadius;
+    }
+    
     //------------------------------------------------------------------------
     // Other public methods
     //------------------------------------------------------------------------
@@ -231,7 +243,7 @@ public abstract class AtomicNucleus {
             for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
             {
                 AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
-                constituent.tunnel( _position, 0, getDiameter()/2, TUNNEL_OUT_RADIUS );
+                constituent.tunnel( _position, 0, getDiameter()/2, _tunnelingRegionRadius );
             }
             _agitationCount = (_agitationCount + 1) % agitationIncrement;
         }

@@ -29,8 +29,6 @@ public class AlphaRadiationModel {
     // Class data
     //------------------------------------------------------------------------
     
-    public static final double BREAKOUT_RADIUS = 11.0; // In femtometers, but not a realistic value.
-    
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
