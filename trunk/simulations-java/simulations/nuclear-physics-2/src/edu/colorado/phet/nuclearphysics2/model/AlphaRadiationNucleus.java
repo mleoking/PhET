@@ -48,7 +48,15 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
     }
     
     //------------------------------------------------------------------------
-    // Public Methods
+    // Accessor Methods
+    //------------------------------------------------------------------------
+    
+    public double getDecayTime(){
+        return _alphaDecayTime;
+    }
+    
+    //------------------------------------------------------------------------
+    // Other Public Methods
     //------------------------------------------------------------------------
     
     /**
@@ -172,9 +180,6 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
      */
     private double calcPolonium211DecayTime(){
         double randomValue = _rand.nextDouble();
-        if (randomValue > 0.5){
-            randomValue = 0.999;
-        }
         if (randomValue > 0.999){
             // Limit the maximum time for decay so that the user isn't waiting
             // around forever.
