@@ -19,7 +19,7 @@ import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
-import edu.colorado.phet.nuclearphysics2.util.CanvasButtonNode;
+import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics2.view.FissionEnergyChart;
@@ -55,7 +55,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private NeutronSourceNode _neutronSourceNode;
     private FissionEnergyChart _fissionEnergyChart;
     private Hashtable _particleToNodeMap;
-    private CanvasButtonNode _resetButtonNode;
+    private PhetButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -181,12 +181,8 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         });
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new CanvasButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS);
+        _resetButtonNode = new PhetButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS);
         addScreenChild(_resetButtonNode);
-        
-        // Add to the canvas the chart that will depict the energy of the nucleus.
-        _fissionEnergyChart = new FissionEnergyChart();
-        addScreenChild( _fissionEnergyChart );
         
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener(){
@@ -195,6 +191,10 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
             }
         });
 
+        // Add to the canvas the chart that will depict the energy of the nucleus.
+        _fissionEnergyChart = new FissionEnergyChart();
+        addScreenChild( _fissionEnergyChart );
+        
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

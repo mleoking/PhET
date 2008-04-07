@@ -6,6 +6,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -21,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -62,7 +65,7 @@ public class AlphaRadiationTimeChart extends PComposite {
     private static final Stroke  HALF_LIFE_LINE_STROKE = new BasicStroke(HALF_LIFE_LINE_STROKE_WIDTH, 
             BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3.0f, 3.0f }, 0);
     private static final Color   HALF_LIFE_LINE_COLOR = new Color (0xff9900);
-    private static final Font    DECAY_TIME_FONT = new PhetDefaultFont( Font.PLAIN, 14 );
+    private static final Font    DECAY_TIME_FONT = new PhetDefaultFont( Font.PLAIN, 16 );
     private static final Color   DECAY_TIME_COLOR = Color.RED;
     
     // Constants that control the location of the origin.
@@ -137,6 +140,9 @@ public class AlphaRadiationTimeChart extends PComposite {
 
     // Clock that we listen to for moving the time line and performing resets.
     ConstantDtClock _clock;
+    
+    // Button for resetting this chart.
+    PhetButtonNode _resetButtonNode;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -301,6 +307,19 @@ public class AlphaRadiationTimeChart extends PComposite {
         _timeToDecayUnits = new PText( NuclearPhysics2Strings.DECAY_TIME_UNITS );
         _timeToDecayUnits.setFont( LABEL_FONT );
         addChild( _timeToDecayUnits );
+        
+        // Add the button for resetting the chart.
+        _resetButtonNode = new PhetButtonNode(NuclearPhysics2Strings.DECAY_TIME_RESET_CHART);
+        _resetButtonNode.setPickable( true );
+        addChild(_resetButtonNode);
+        
+        // Register to receive button pushes.
+        _resetButtonNode.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                // TODO: JPB TBD.
+                System.out.println("Got the reset event.");
+            }
+        });
     }
     
     //------------------------------------------------------------------------
@@ -452,6 +471,12 @@ public class AlphaRadiationTimeChart extends PComposite {
                 _usableAreaOriginY + 3);
         _timeToDecayLabel.setOffset( _timeToDecayText.getOffset().getX() - _timeToDecayLabel.getWidth() - 7,
                 _usableAreaOriginY + 3);
+        
+        // Position the reset button.  Center it below the decay time text.
+        double xPosButton = _usableWidth - ((_timeToDecayUnits.getXOffset() + _timeToDecayUnits.getWidth() -
+                _timeToDecayLabel.getXOffset()) / 2) - _resetButtonNode.getWidth() / 2;
+//        double xPosButton = _usableWidth - _resetButtonNode.yugga;
+        _resetButtonNode.setOffset( xPosButton, _usableAreaOriginY + _timeToDecayLabel.getHeight() * 1.3);
     }
 
     /**
