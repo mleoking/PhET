@@ -13,9 +13,9 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.nodes.PLine;
 
 
@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PLine;
  *
  * @author John Blanco
  */
-public class FissionEnergyChart extends PNode {
+public class FissionEnergyChart extends PComposite {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -79,6 +79,8 @@ public class FissionEnergyChart extends PNode {
     //------------------------------------------------------------------------
 
     public FissionEnergyChart() {
+        
+        setPickable( false );
 
         // Create the border for this chart.
         

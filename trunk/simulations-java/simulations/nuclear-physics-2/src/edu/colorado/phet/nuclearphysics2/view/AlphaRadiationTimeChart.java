@@ -27,6 +27,7 @@ import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 /**
@@ -112,6 +113,10 @@ public class AlphaRadiationTimeChart extends PNode {
     private PText _timeToDecayUnits;
     private PText _halfLifeLabel;
     
+    // Parent node that will be non-pickable and will contain all of the
+    // non-interactive portions of the chart.
+    private PComposite _nonPickableChartNode;
+    
     // Variables used for positioning nodes within the graph.
     double _usableAreaOriginX;
     double _usableAreaOriginY;
@@ -180,12 +185,19 @@ public class AlphaRadiationTimeChart extends PNode {
             }
         });
 
+        // Set up the parent node that will contain the non-interactive
+        // portions of the chart.
+        _nonPickableChartNode = new PComposite();
+        _nonPickableChartNode.setPickable( false );
+        _nonPickableChartNode.setChildrenPickable( false );
+        addChild(_nonPickableChartNode);
+        
         // Create the border for this chart.
         _borderNode = new PPath();
         _borderNode.setStroke( BORDER_STROKE );
         _borderNode.setStrokePaint( BORDER_COLOR );
         _borderNode.setPaint( BACKGROUND_COLOR );
-        addChild( _borderNode );
+        _nonPickableChartNode.addChild( _borderNode );
         
         // Create the x & y axes of the graph.  The initial position is arbitrary
         // and the actual positioning will be done by the update functions.
@@ -193,12 +205,12 @@ public class AlphaRadiationTimeChart extends PNode {
         _xAxisOfGraph.setPaint( Color.black );
         _xAxisOfGraph.setStroke( AXES_STROKE );
         _xAxisOfGraph.setStrokePaint( Color.black );
-        addChild(_xAxisOfGraph);
+        _nonPickableChartNode.addChild(_xAxisOfGraph);
         _yAxisOfGraph = new ArrowNode(new Point2D.Double(), new Point2D.Double(), 10, 8, 2);
         _yAxisOfGraph.setPaint( Color.black );
         _yAxisOfGraph.setStroke( AXES_STROKE );
         _yAxisOfGraph.setStrokePaint( Color.black );
-        addChild(_yAxisOfGraph);
+        _nonPickableChartNode.addChild(_yAxisOfGraph);
         
         // Add the tick marks and their labels to the X axis.
         int numTicksOnX = (int)Math.round(TIME_SPAN / 1000);
@@ -210,13 +222,13 @@ public class AlphaRadiationTimeChart extends PNode {
             PPath tickMark = new PPath();
             tickMark.setStroke( TICK_MARK_STROKE );
             _xAxisTickMarks.add( tickMark );
-            addChild( tickMark );
+            _nonPickableChartNode.addChild( tickMark );
             
             // Create the label for the tick mark.
             PText tickMarkLabel = new PText(formatter.format( i ));
             tickMarkLabel.setFont( TICK_MARK_LABEL_FONT );
             _xAxisTickMarkLabels.add(  tickMarkLabel );
-            addChild( tickMarkLabel );
+            _nonPickableChartNode.addChild( tickMarkLabel );
         }
         
         // Add the tick marks and their labels to the Y axis.  There are only
@@ -227,52 +239,52 @@ public class AlphaRadiationTimeChart extends PNode {
         PPath yTickMark1 = new PPath();
         yTickMark1.setStroke( TICK_MARK_STROKE );
         _yAxisTickMarks.add( yTickMark1 );
-        addChild( yTickMark1 );
+        _nonPickableChartNode.addChild( yTickMark1 );
         
         PPath yTickMark2 = new PPath();
         yTickMark2.setStroke( TICK_MARK_STROKE );
         _yAxisTickMarks.add( yTickMark2 );
-        addChild( yTickMark2 );
+        _nonPickableChartNode.addChild( yTickMark2 );
         
         _yAxisTickMarkLabels = new ArrayList(2);
         
         PText yTickMarkLabel1 = new PText(NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER);
         yTickMarkLabel1.setFont( TICK_MARK_LABEL_FONT );
         _yAxisTickMarkLabels.add(  yTickMarkLabel1 );
-        addChild( yTickMarkLabel1 );
+        _nonPickableChartNode.addChild( yTickMarkLabel1 );
         
         PText yTickMarkLabel2 = new PText(NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER);
         yTickMarkLabel2.setFont( TICK_MARK_LABEL_FONT );
         _yAxisTickMarkLabels.add(  yTickMarkLabel2 );
-        addChild( yTickMarkLabel2 );
+        _nonPickableChartNode.addChild( yTickMarkLabel2 );
 
         // Add the text for the X & Y axes.
         _xAxisLabel = new PText( NuclearPhysics2Strings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" +
                 NuclearPhysics2Strings.DECAY_TIME_UNITS + ")");
         _xAxisLabel.setFont( LABEL_FONT );
-        addChild( _xAxisLabel );
+        _nonPickableChartNode.addChild( _xAxisLabel );
         _yAxisLabel1 = new PText( NuclearPhysics2Strings.DECAY_TIME_CHART_Y_AXIS_LABEL1 );
         _yAxisLabel1.setFont( LABEL_FONT );
         _yAxisLabel1.rotate( 1.5 * Math.PI );
-        addChild( _yAxisLabel1 );
+        _nonPickableChartNode.addChild( _yAxisLabel1 );
         _yAxisLabel2 = new PText( NuclearPhysics2Strings.DECAY_TIME_CHART_Y_AXIS_LABEL2 );
         _yAxisLabel2.setFont( LABEL_FONT );
         _yAxisLabel2.rotate( 1.5 * Math.PI );
-        addChild( _yAxisLabel2 );
+        _nonPickableChartNode.addChild( _yAxisLabel2 );
         
         // Create the pre-decay time line.
         _preDecayTimeLine = new PPath();
         _preDecayTimeLine.setStroke( TIME_LINE_STROKE );
         _preDecayTimeLine.setStrokePaint( TIME_LINE_COLOR_PRE_DECAY );
         _preDecayTimeLine.setPaint( BACKGROUND_COLOR );
-        addChild( _preDecayTimeLine );   
+        _nonPickableChartNode.addChild( _preDecayTimeLine );   
         
         // Create the post-decay time line.
         _postDecayTimeLine = new PPath();
         _postDecayTimeLine.setStroke( TIME_LINE_STROKE );
         _postDecayTimeLine.setStrokePaint( TIME_LINE_COLOR_POST_DECAY );
         _postDecayTimeLine.setPaint( BACKGROUND_COLOR );
-        addChild( _postDecayTimeLine );   
+        _nonPickableChartNode.addChild( _postDecayTimeLine );   
         
         // Initialize the time line.
         _preDecayTimeLineOrigin = new Point2D.Double();
@@ -283,7 +295,7 @@ public class AlphaRadiationTimeChart extends PNode {
         _halfLifeMarkerLine.setStroke( HALF_LIFE_LINE_STROKE );
         _halfLifeMarkerLine.setStrokePaint( HALF_LIFE_LINE_COLOR );
         _halfLifeMarkerLine.setPaint( BACKGROUND_COLOR );
-        addChild( _halfLifeMarkerLine );
+        _nonPickableChartNode.addChild( _halfLifeMarkerLine );
 
         // Initialize the half life line.
         _preDecayTimeLineOrigin = new Point2D.Double();
@@ -293,20 +305,20 @@ public class AlphaRadiationTimeChart extends PNode {
         _halfLifeLabel = new PText( " " + NuclearPhysics2Strings.DECAY_TIME_CHART_HALF_LIFE + " ");
         _halfLifeLabel.setFont( LABEL_FONT );
         _halfLifeLabel.setPaint( HALF_LIFE_LINE_COLOR );
-        addChild( _halfLifeLabel );
+        _nonPickableChartNode.addChild( _halfLifeLabel );
 
         // Add the text that will show the decay time.
         _timeToDecayLabel = new PText( NuclearPhysics2Strings.DECAY_TIME_LABEL );
         _timeToDecayLabel.setFont( LABEL_FONT );
-        addChild( _timeToDecayLabel );
+        _nonPickableChartNode.addChild( _timeToDecayLabel );
         _timeToDecayText = new PText( "0.000" );
         _timeToDecayText.setFont( LABEL_FONT );
         _timeToDecayText.setFont( DECAY_TIME_FONT );
         _timeToDecayText.setTextPaint( DECAY_TIME_COLOR );
-        addChild( _timeToDecayText );
+        _nonPickableChartNode.addChild( _timeToDecayText );
         _timeToDecayUnits = new PText( NuclearPhysics2Strings.DECAY_TIME_UNITS );
         _timeToDecayUnits.setFont( LABEL_FONT );
-        addChild( _timeToDecayUnits );
+        _nonPickableChartNode.addChild( _timeToDecayUnits );
         
         // Add the button for resetting the chart.
         _resetButtonNode = new PhetButtonNode(NuclearPhysics2Strings.DECAY_TIME_RESET_CHART);
@@ -316,8 +328,7 @@ public class AlphaRadiationTimeChart extends PNode {
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                // TODO: JPB TBD.
-                System.out.println("Got the reset event.");
+                reset();
             }
         });
     }
