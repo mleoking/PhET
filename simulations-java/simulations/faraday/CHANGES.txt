@@ -4,6 +4,8 @@ Changes for faraday
 
 
 DONE:
+********* version 1.05.14 (?)
+4/7/08 - add clock control panels to all modules of magnets-and-electromagnets
 ********* version 1.05.13 (20568)
 4/7/08 - hide the slow hand on the clock animation as suggested by Kathy, for purposes of demonstration
 ********* version 1.05.12 (20556)
