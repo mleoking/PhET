@@ -7,22 +7,25 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.nodes.PLine;
 
 
-
-public class FissionEnergyChart extends PComposite {
+/**
+ * This class displays a chart that depicts the energy curve for a nuclear
+ * fission of a single nucleus.
+ *
+ * @author John Blanco
+ */
+public class FissionEnergyChart extends PNode {
 
     //------------------------------------------------------------------------
     // Class Data

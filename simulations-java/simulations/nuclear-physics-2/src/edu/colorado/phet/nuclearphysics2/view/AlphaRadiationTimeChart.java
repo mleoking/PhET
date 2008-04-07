@@ -24,9 +24,9 @@ import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 /**
@@ -36,7 +36,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author John Blanco
  */
-public class AlphaRadiationTimeChart extends PComposite {
+public class AlphaRadiationTimeChart extends PNode {
     
     //------------------------------------------------------------------------
     // Class Data
