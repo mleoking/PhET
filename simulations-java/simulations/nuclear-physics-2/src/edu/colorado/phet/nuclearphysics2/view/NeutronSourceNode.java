@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
@@ -56,6 +57,7 @@ public class NeutronSourceNode extends PNode{
         // Add the node that will be visible when the fire button is down,
         // i.e. pressed.
         _fireButtonDown = NuclearPhysics2Resources.getImageNode("fire-button-down.png");
+        _fireButtonDown.addInputEventListener( new CursorHandler() );
         _displayImage.addChild( _fireButtonDown );
         _fireButtonDown.setOffset( BUTTON_OFFSET );
         
@@ -64,6 +66,7 @@ public class NeutronSourceNode extends PNode{
         _fireButtonUp = NuclearPhysics2Resources.getImageNode("fire-button.png");
         _displayImage.addChild( _fireButtonUp );
         _fireButtonUp.setOffset( BUTTON_OFFSET );
+        _fireButtonUp.addInputEventListener( new CursorHandler() );
         _fireButtonUp.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 _neutronSource.generateNeutron();

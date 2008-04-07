@@ -129,6 +129,6 @@ public class ExampleModelElement extends ClockAdapter {
         double dy = PolarCartesianConverter.getY( distance, _orientation );
         Point2D p = getPositionReference();
         Point2D pNew = new Point2D.Double( p.getX() + dx, p.getY() + dy );
-        setPosition( pNew );
+//        setPosition( pNew );
     }
 }
