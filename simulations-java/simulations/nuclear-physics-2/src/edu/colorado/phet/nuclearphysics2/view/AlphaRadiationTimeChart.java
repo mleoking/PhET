@@ -44,7 +44,7 @@ public class AlphaRadiationTimeChart extends PNode {
     //------------------------------------------------------------------------
 
     // Total amount of time in milliseconds represented by this chart.
-    private static final double TIME_SPAN = 6000;
+    private static final double TIME_SPAN = 3100;
     
     // Constants for controlling the appearance of the chart.
     private static final Color   BORDER_COLOR = Color.DARK_GRAY;
@@ -217,7 +217,7 @@ public class AlphaRadiationTimeChart extends PNode {
         _nonPickableChartNode.addChild(_yAxisOfGraph);
         
         // Add the tick marks and their labels to the X axis.
-        int numTicksOnX = (int)Math.round(TIME_SPAN / 1000);
+        int numTicksOnX = (int)Math.round((TIME_SPAN / 1000) + 1);
         _xAxisTickMarks = new ArrayList(numTicksOnX);
         _xAxisTickMarkLabels = new ArrayList(numTicksOnX);
         DecimalFormat formatter = new DecimalFormat("0.0");
@@ -455,7 +455,7 @@ public class AlphaRadiationTimeChart extends PNode {
         }
         
         // If decay has already occurred, position the post-decay time line too.
-        if (_decayHasOccurred){
+        if ((_decayHasOccurred) && (_preDecayTimeLineLength < TIME_SPAN)){
             _postDecayTimeLine.reset();
             
             _postDecayTimeLineOrigin.setLocation( 
@@ -598,19 +598,21 @@ public class AlphaRadiationTimeChart extends PNode {
             // Set our flag that tracks this.
             _decayHasOccurred = true;
             
-            // Add a marker and record the time when this decay occurred.
-            if (_numDecays < MAX_DECAYS){
-                addDecayMarker( _preDecayTimeLineLength );
-               _decayTimes[_numDecays++] = _preDecayTimeLineLength;
+            if (_clock.getSimulationTime() < TIME_SPAN){
+                // Add a marker and record the time when this decay occurred.
+                if (_numDecays < MAX_DECAYS){
+                    addDecayMarker( _preDecayTimeLineLength );
+                   _decayTimes[_numDecays++] = _preDecayTimeLineLength;
+                }
+                
+                // Start drawing the post-decay line.
+                _postDecayTimeLineOrigin = new Point2D.Double(
+                        _preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor + 1,
+                        _usableAreaOriginY + (_usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION));
+                _preDecayTimeLine.lineTo( (float)_postDecayTimeLineOrigin.getX(), (float)_postDecayTimeLineOrigin.getY() );
+                _postDecayTimeLineLength = 0;
+                _postDecayTimeLine.moveTo( (float)_postDecayTimeLineOrigin.getX(), (float)_postDecayTimeLineOrigin.getY() );
             }
-            
-            // Start drawing the post-decay line.
-            _postDecayTimeLineOrigin = new Point2D.Double(
-                    _preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor + 1,
-                    _usableAreaOriginY + (_usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION));
-            _preDecayTimeLine.lineTo( (float)_postDecayTimeLineOrigin.getX(), (float)_postDecayTimeLineOrigin.getY() );
-            _postDecayTimeLineLength = 0;
-            _postDecayTimeLine.moveTo( (float)_postDecayTimeLineOrigin.getX(), (float)_postDecayTimeLineOrigin.getY() );
         }
     }
     
