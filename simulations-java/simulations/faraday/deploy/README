@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Faraday's Electromagnetic Lab, version 1.05.13
+Faraday's Electromagnetic Lab, version 1.05.14
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -15,7 +15,7 @@ Faraday's Electromagnetic Lab, version 1.05.13
 <b>What's new:</b>
 <p>
 <ul>
-<li>same as 1.05.12, except that the animated clock only has one hand
+<li>add clock controls to all panels of "Magnets and Electromagnets" sim
 </ul>
 <p>
 <b>Known problems:</b>
