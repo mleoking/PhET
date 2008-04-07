@@ -10,8 +10,12 @@ import javax.swing.JComponent;
 
 /**
  * Animated clock icon, hands move when the clock ticks.
+ * <p>
+ * The implementation includes two hands for the clock.
+ * But we are hiding one of the hands so that users don't try to use the animation
+ * to determine when an hour (for example) has gone by.
  * 
- * @author Sam Reid
+ * @author Sam Reid, Chris Malley
  */
 public class AnimatedClockJComponent extends JComponent {
 
@@ -31,7 +35,8 @@ public class AnimatedClockJComponent extends JComponent {
     private static final double SLOW_HAND_START_ANGLE = FAST_HAND_START_ANGLE; // starting angle of the slow hand (radians)
     private static final double FAST_HAND_DELTA_ANGLE = 0.09; // change in angle per clock tick (radians), needs to be fast enough that tick results in a visible move
     private static final double SLOW_HAND_DELTA_ANGLE = FAST_HAND_DELTA_ANGLE / 12; // change in angle per clock tick (radians)
-
+    private static final boolean SLOW_HAND_VISIBLE = false; // hide the slow hand, so users won't ascribe meaning to the animation
+    
     // Parts of a clock instance
     private final Face face;
     private final Hand fastHand, slowHand;
@@ -79,7 +84,9 @@ public class AnimatedClockJComponent extends JComponent {
         // draw the parts of the clock
         face.draw( g2 );
         fastHand.draw( g2 );
-        slowHand.draw( g2 );
+        if ( SLOW_HAND_VISIBLE ) {
+            slowHand.draw( g2 );
+        }
 
         // restore graphics state
         g2.translate( -tx, -ty );
