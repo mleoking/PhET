@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Faraday's Electromagnetic Lab, version 1.05.12
+Faraday's Electromagnetic Lab, version 1.05.13
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -15,11 +15,7 @@ Faraday's Electromagnetic Lab, version 1.05.12
 <b>What's new:</b>
 <p>
 <ul>
-<li>add animated clock icon (part of new phetcommon clock control panel)
-<li>hide clock control panel in "Magnet and Compass" and "Magnets and Electromagnets" sims, 
-because time is irrelevant in all of their panels
-<li>keep clock control panel in for "Bar Magnet" and "Electromagnet" panels in "faraday" and "Generator" sims, 
-even though their buttons are disabled, so that play area doesn't resize when switching panels
+<li>same as 1.05.12, except that the animated clock only has one hand
 </ul>
 <p>
 <b>Known problems:</b>
