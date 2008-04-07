@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics2.model.AlphaRadiationNucleus;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -94,6 +95,9 @@ public class AlphaRadiationTimeChart extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
+    // Reference to the nucleus whose decay is being charted.
+    AlphaRadiationNucleus _nucleus;
+    
     // References to the various components of the chart.
     private PPath _borderNode;
     private PPath _preDecayTimeLine;
@@ -156,10 +160,12 @@ public class AlphaRadiationTimeChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public AlphaRadiationTimeChart(ConstantDtClock clock, AtomicNucleus nucleus) {
+    public AlphaRadiationTimeChart(ConstantDtClock clock, AlphaRadiationNucleus nucleus) {
         
-        // Save the clock and register as a listener.
         _clock = clock;
+        _nucleus = nucleus;
+        
+        // Register as a clock listener.
         _clock.addClockListener( new ClockAdapter(){
             /**
              * Clock tick handler - causes the model to move forward one
@@ -177,7 +183,7 @@ public class AlphaRadiationTimeChart extends PNode {
         
         // Register as a listener for the nucleus so that we can be informed
         // when it decays.
-        nucleus.addListener(new AtomicNucleus.Listener(){
+        _nucleus.addListener(new AtomicNucleus.Listener(){
             public void positionChanged(){
                 // Do nothing, since we don't care about this.
             }
@@ -488,7 +494,6 @@ public class AlphaRadiationTimeChart extends PNode {
         // Position the reset button.  Center it below the decay time text.
         double xPosButton = _usableWidth - ((_timeToDecayUnits.getXOffset() + _timeToDecayUnits.getWidth() -
                 _timeToDecayLabel.getXOffset()) / 2) - _resetButtonNode.getWidth() / 2;
-//        double xPosButton = _usableWidth - _resetButtonNode.yugga;
         _resetButtonNode.setOffset( xPosButton, _usableAreaOriginY + _timeToDecayLabel.getHeight() * 1.3);
     }
 
@@ -595,15 +600,24 @@ public class AlphaRadiationTimeChart extends PNode {
     private void setDecayOccurred(){
         
         if (!_chartCleared){
-            // Set our flag that tracks this.
+            
+            // Set our flag that tracks whether decay has occurred.
             _decayHasOccurred = true;
             
             if (_clock.getSimulationTime() < TIME_SPAN){
+                // Get an accurate value for the decay time, i.e. more
+                // accurate than the resolution of the simulation clock.
+                double decayTime = _nucleus.getDecayTime();
+                
                 // Add a marker and record the time when this decay occurred.
                 if (_numDecays < MAX_DECAYS){
-                    addDecayMarker( _preDecayTimeLineLength );
-                   _decayTimes[_numDecays++] = _preDecayTimeLineLength;
+                    addDecayMarker( decayTime );
+                   _decayTimes[_numDecays++] = decayTime;
                 }
+                
+                // Show the decay time on the chart.
+                DecimalFormat formatter = new DecimalFormat( "#0.000" );
+                _timeToDecayText.setText( formatter.format( decayTime / 1000 ) );
                 
                 // Start drawing the post-decay line.
                 _postDecayTimeLineOrigin = new Point2D.Double(

@@ -111,7 +111,7 @@ public class AlphaRadiationModel {
      * 
      * @return - Reference to the nucleus model element.
      */
-    public AtomicNucleus getAtomNucleus()
+    public AlphaRadiationNucleus getAtomNucleus()
     {
         return _atomicNucleus;
     }
