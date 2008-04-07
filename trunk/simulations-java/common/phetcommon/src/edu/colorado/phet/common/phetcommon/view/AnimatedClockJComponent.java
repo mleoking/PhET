@@ -79,7 +79,7 @@ public class AnimatedClockJComponent extends JComponent {
         // draw the parts of the clock
         face.draw( g2 );
         fastHand.draw( g2 );
-//        slowHand.draw( g2 ); //XXX temporarily hide the slow hand
+        slowHand.draw( g2 );
 
         // restore graphics state
         g2.translate( -tx, -ty );
