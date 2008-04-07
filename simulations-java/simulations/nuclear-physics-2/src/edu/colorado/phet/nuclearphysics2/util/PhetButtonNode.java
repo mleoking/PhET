@@ -28,22 +28,30 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author John Blanco
  */
-public class CanvasButtonNode extends PhetPNode {
+public class PhetButtonNode extends PhetPNode {
 
-    private JButton _resetButton;
+    private JButton _button;
 
-    public CanvasButtonNode(String text) {
-        _resetButton = new JButton(text);
-        PSwing buttonWrapper = new PSwing( _resetButton );
+    public PhetButtonNode(String text) {
+        _button = new JButton(text);
+        PSwing buttonWrapper = new PSwing( _button );
         buttonWrapper.addInputEventListener( new CursorHandler() );
         addChild( buttonWrapper );
     }
 
     public void addActionListener( ActionListener listener ) {
-        _resetButton.addActionListener( listener );
+        _button.addActionListener( listener );
     }
 
     public void removeActionListener( ActionListener listener ) {
-        _resetButton.removeActionListener( listener );
+        _button.removeActionListener( listener );
+    }
+    
+    public double getWidth(){
+        return _button.getWidth();
+    }
+
+    public double getHeight(){
+        return _button.getHeight();
     }
 }

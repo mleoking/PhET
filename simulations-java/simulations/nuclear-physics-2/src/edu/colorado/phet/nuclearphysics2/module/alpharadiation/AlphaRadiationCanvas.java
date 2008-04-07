@@ -23,7 +23,7 @@ import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
-import edu.colorado.phet.nuclearphysics2.util.CanvasButtonNode;
+import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationEnergyChart;
 import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationTimeChart;
@@ -66,7 +66,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     private AlphaRadiationEnergyChart _alphaRadiationEnergyChart;
     private AlphaRadiationTimeChart _alphaRadiationTimeChart;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
-    private CanvasButtonNode _resetButtonNode;
+    private PhetButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -203,14 +203,13 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         addWorldChild(rightBreakoutLine);
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new CanvasButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS);
+        _resetButtonNode = new PhetButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS);
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 _alphaRadiationModel.getClock().resetSimulationTime();
-                System.out.println("Got something.");
             }
         });
 
@@ -255,6 +254,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 
                 // Position the reset button.
                 _resetButtonNode.setOffset( 0.75 * getWidth(), 0.15 * getHeight() );
+                
+                System.out.println("JPB TBD - Button width is :" + _resetButtonNode.getHeight());
             }
         } );
     }
