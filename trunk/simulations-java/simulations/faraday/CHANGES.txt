@@ -4,7 +4,7 @@ Changes for faraday
 
 
 DONE:
-********* version 1.05.13 (?)
+********* version 1.05.13 (20568)
 4/7/08 - hide the slow hand on the clock animation as suggested by Kathy, for purposes of demonstration
 ********* version 1.05.12 (20556)
 4/7/08 - hide clock control panel for all modules in magnet-and-compass and magnets-and-electromagnets
