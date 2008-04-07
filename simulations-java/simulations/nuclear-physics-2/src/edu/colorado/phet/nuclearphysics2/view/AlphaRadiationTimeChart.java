@@ -399,17 +399,10 @@ public class AlphaRadiationTimeChart extends PNode {
             tickMark.setPathTo( new Line2D.Double(tickMarkPosX, _graphOriginY, tickMarkPosX, 
                     _graphOriginY - TICK_MARK_LENGTH) );
             
-            // Position the label for the tick mark.  Don't put it in if it
-            // overlaps with the label for this axis. 
+            // Position the label for the tick mark.
             PText tickMarkLabel = (PText)_xAxisTickMarkLabels.get( i );
             double tickMarkLabelPosX = tickMarkPosX - (tickMarkLabel.getWidth() / 2);
-            if (tickMarkLabelPosX > _xAxisLabel.getOffset().getX() + _xAxisLabel.getWidth()){
-                tickMarkLabel.setVisible( true );
-                tickMarkLabel.setOffset( tickMarkLabelPosX, _graphOriginY );                
-            }
-            else{
-                tickMarkLabel.setVisible( false );
-            }
+            tickMarkLabel.setOffset( tickMarkLabelPosX, _graphOriginY );                
         }
         
         // Position the tick marks and their labels on the Y axis.
@@ -426,15 +419,15 @@ public class AlphaRadiationTimeChart extends PNode {
                 _usableAreaOriginY + (_usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION)));
         
         PText yAxisLowerTickMarkLabel = (PText)_yAxisTickMarkLabels.get( 0 );
-        yAxisLowerTickMarkLabel.setOffset(_graphOriginX - (1.1 * yAxisLowerTickMarkLabel.getWidth()), 
+        yAxisLowerTickMarkLabel.setOffset(_graphOriginX - (1.15 * yAxisLowerTickMarkLabel.getWidth()), 
                 yAxisLowerTickMark.getY() - (0.5 * yAxisLowerTickMarkLabel.getHeight()));                
 
         PText yAxisUpperTickMarkLabel = (PText)_yAxisTickMarkLabels.get( 1 );
-        yAxisUpperTickMarkLabel.setOffset(_graphOriginX - (1.1 * yAxisUpperTickMarkLabel.getWidth()), 
+        yAxisUpperTickMarkLabel.setOffset(_graphOriginX - (1.15 * yAxisUpperTickMarkLabel.getWidth()), 
                 yAxisUpperTickMark.getY() - (0.5 * yAxisUpperTickMarkLabel.getHeight()));                
 
         // Position the labels for the axes.
-        _xAxisLabel.setOffset( _graphOriginX, _graphOriginY + 2);
+        _xAxisLabel.setOffset( _graphOriginX, _graphOriginY + ((PText)_xAxisTickMarkLabels.get( 0 )).getHeight());
         _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - (2.0 * _yAxisLabel1.getFont().getSize()), 
                 _graphOriginY );
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - (1.1 * _yAxisLabel2.getFont().getSize()), 
