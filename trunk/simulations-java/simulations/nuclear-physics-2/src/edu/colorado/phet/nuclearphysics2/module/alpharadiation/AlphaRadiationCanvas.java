@@ -4,6 +4,8 @@ package edu.colorado.phet.nuclearphysics2.module.alpharadiation;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -16,10 +18,12 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
+import edu.colorado.phet.nuclearphysics2.util.CanvasButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationEnergyChart;
 import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationTimeChart;
@@ -50,7 +54,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     private final double WIDTH_TRANSLATION_FACTOR = 2.0;
     private final double HEIGHT_TRANSLATION_FACTOR = 4.0;
     
-    // Contants that control where the charts are placed.
+    // Constants that control where the charts are placed.
     private final double CHART_AREA_FRACTION = 0.5; // Fraction of canvas for charts.
     private final double ENERGY_CHART_FRACTION = 0.6; // Fraction of chart area for this chart.
     
@@ -62,6 +66,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     private AlphaRadiationEnergyChart _alphaRadiationEnergyChart;
     private AlphaRadiationTimeChart _alphaRadiationTimeChart;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
+    private CanvasButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -196,6 +201,18 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 new float[] {2, 2 }, 0) );
         rightBreakoutLine.setStrokePaint( new Color(0x990099) );
         addWorldChild(rightBreakoutLine);
+        
+        // Add the button for resetting the nucleus to the canvas.
+        _resetButtonNode = new CanvasButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS);
+        addScreenChild(_resetButtonNode);
+        
+        // Register to receive button pushes.
+        _resetButtonNode.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                _alphaRadiationModel.getClock().resetSimulationTime();
+                System.out.println("Got something.");
+            }
+        });
 
         // Add the chart that shows the decay time.
         _alphaRadiationTimeChart = new AlphaRadiationTimeChart(_alphaRadiationModel.getClock(), 
@@ -235,6 +252,9 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 _alphaRadiationTimeChart.componentResized( 
                         new Rectangle2D.Double( 0, energyChartRect.getMaxY(), getWidth(),
                         getHeight() * CHART_AREA_FRACTION * (1 - ENERGY_CHART_FRACTION)));
+                
+                // Position the reset button.
+                _resetButtonNode.setOffset( 0.75 * getWidth(), 0.15 * getHeight() );
             }
         } );
     }

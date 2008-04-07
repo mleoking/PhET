@@ -59,9 +59,6 @@ public class FissionOneNucleus extends AtomicNucleus{
     /**
      * Capture a free particle if the nucleus is able to.
      * 
-     * @param freeParticle - A particle that is currently free, i.e. not a 
-     * part of another nucleus.
-     * 
      * @param freeParticle - The free particle that could potentially be
      * captured.
      * @return true if the particle is captured, false if not.
