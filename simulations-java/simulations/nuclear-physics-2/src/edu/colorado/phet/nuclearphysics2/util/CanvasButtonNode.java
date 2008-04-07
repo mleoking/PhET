@@ -24,29 +24,26 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * This class places a "Fire!" button on the parent node.
+ * This class places a button on the parent node.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
+ * @author John Blanco
  */
-public class FireButtonNode extends PhetPNode {
+public class CanvasButtonNode extends PhetPNode {
 
-    private JButton _fireButton;
+    private JButton _resetButton;
 
-    public FireButtonNode() {
-        ImageIcon fireButtonImage = new ImageIcon(NuclearPhysics2Resources.getImage("fire-button.png"));
-        _fireButton = new JButton(fireButtonImage);
-        _fireButton.setPressedIcon( new ImageIcon (NuclearPhysics2Resources.getImage("fire-button-down.png") ));
-        PSwing closeButtonWrapper = new PSwing( _fireButton );
-        closeButtonWrapper.addInputEventListener( new CursorHandler() );
-        addChild( closeButtonWrapper );
+    public CanvasButtonNode(String text) {
+        _resetButton = new JButton(text);
+        PSwing buttonWrapper = new PSwing( _resetButton );
+        buttonWrapper.addInputEventListener( new CursorHandler() );
+        addChild( buttonWrapper );
     }
 
     public void addActionListener( ActionListener listener ) {
-        _fireButton.addActionListener( listener );
+        _resetButton.addActionListener( listener );
     }
 
     public void removeActionListener( ActionListener listener ) {
-        _fireButton.removeActionListener( listener );
+        _resetButton.removeActionListener( listener );
     }
 }

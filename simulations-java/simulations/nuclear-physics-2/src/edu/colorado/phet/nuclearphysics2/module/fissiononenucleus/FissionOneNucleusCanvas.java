@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.nuclearphysics2.module.fissiononenucleus;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -10,12 +12,14 @@ import java.util.Hashtable;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
+import edu.colorado.phet.nuclearphysics2.util.CanvasButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics2.view.FissionEnergyChart;
@@ -45,11 +49,13 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     private PNode _nucleusParticlesLayerNode;
     private PNode _nucleusLabelsLayerNode;
-    private AtomicNucleusNode _atomicNucleusNode; 
-    private AtomicNucleusNode _daughterNucleusNode; 
-    private NeutronSourceNode _neutronSourceNode; 
+    private FissionOneNucleusModel _fissionOneNucleusModel;
+    private AtomicNucleusNode _atomicNucleusNode;
+    private AtomicNucleusNode _daughterNucleusNode;
+    private NeutronSourceNode _neutronSourceNode;
     private FissionEnergyChart _fissionEnergyChart;
     private Hashtable _particleToNodeMap;
+    private CanvasButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -70,7 +76,8 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
         
         // Register as a listener to the model.
-        fissionOneNucleusModel.addListener( new FissionOneNucleusModel.Listener(){
+        _fissionOneNucleusModel = fissionOneNucleusModel;
+        _fissionOneNucleusModel.addListener( new FissionOneNucleusModel.Listener(){
             public void daughterNucleusCreated(AtomicNucleus daughterNucleus){
                 // Create a new node for this nucleus.  Since it is a daughter,
                 // it is assumed that the constituent particles are already on
@@ -115,7 +122,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         
         // Get the nucleus from the model and then get the constituents
         // and create a visible node for each.
-        AtomicNucleus atomicNucleus = fissionOneNucleusModel.getAtomicNucleus();
+        AtomicNucleus atomicNucleus = _fissionOneNucleusModel.getAtomicNucleus();
         ArrayList nucleusConstituents = atomicNucleus.getConstituents();
         
         // Add a node for each particle that comprises the nucleus.
@@ -173,14 +180,26 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
             }
         });
         
+        // Add the button for resetting the nucleus to the canvas.
+        _resetButtonNode = new CanvasButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS);
+        addScreenChild(_resetButtonNode);
+        
         // Add to the canvas the chart that will depict the energy of the nucleus.
         _fissionEnergyChart = new FissionEnergyChart();
         addScreenChild( _fissionEnergyChart );
+        
+        // Register to receive button pushes.
+        _resetButtonNode.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                _fissionOneNucleusModel.getClock().resetSimulationTime();
+            }
+        });
 
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 _fissionEnergyChart.componentResized( getWidth(), getHeight() );
+                _resetButtonNode.setOffset( getWidth() * 0.75, getHeight() * 0.15);
             }
         } );
     }

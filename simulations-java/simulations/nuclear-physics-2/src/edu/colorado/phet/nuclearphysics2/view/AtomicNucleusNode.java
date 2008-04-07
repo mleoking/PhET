@@ -118,6 +118,7 @@ public class AtomicNucleusNode extends PNode {
                 if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0)){
                     // This was a decay event, so kick off the explosion graphic.
                     _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
+                    _explosion.setVisible( true );
                 }
                 
                 // Save the new weight.
@@ -311,6 +312,9 @@ public class AtomicNucleusNode extends PNode {
             _explosion.setTransparency( 
                     EXPLOSION_MIN_TRANSPARENCY * (float)_explosionCounter / (float)EXPLOSION_COUNTER_RESET_VAL);
             _explosionCounter--;
+        }
+        else{
+            _explosion.setVisible( false );
         }
     }
 }

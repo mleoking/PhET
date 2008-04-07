@@ -50,4 +50,6 @@ public class NuclearPhysics2Strings {
     public static final String DECAY_TIME_UNITS = NuclearPhysics2Resources.getString( "DecayTimeChart.DecayTimeUnits" );
 
     public static final String DECAY_TIME_CHART_HALF_LIFE = NuclearPhysics2Resources.getString( "DecayTimeChart.HalfLife" );
+
+    public static final String RESET_NUCLEUS = NuclearPhysics2Resources.getString( "SharedLabels.ResetNucleus" );
 }

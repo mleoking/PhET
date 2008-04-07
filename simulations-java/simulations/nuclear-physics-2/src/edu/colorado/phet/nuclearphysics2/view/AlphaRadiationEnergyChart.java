@@ -39,7 +39,6 @@ public class AlphaRadiationEnergyChart extends PComposite {
     private static final float   BORDER_STROKE_WIDTH = 6f;
     private static final Stroke  BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final Color   BACKGROUND_COLOR = Color.WHITE;
-    private static final double  SCREEN_FRACTION_Y = 0.5d;
     private static final double  AXES_LINE_WIDTH = 2f;
     private static final double  ORIGIN_PROPORTION_X = 0.1d;
     private static final double  ORIGIN_PROPORTION_Y = 0.33d;

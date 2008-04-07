@@ -104,13 +104,10 @@ public class FissionOneNucleusModel {
                 reset();
             }
         });
-
-        // Start the clock.
-        // JPB TBD _clock.start();
     }
     
     //------------------------------------------------------------------------
-    // Methods
+    // Accessor Methods
     //------------------------------------------------------------------------
 
     /**
@@ -134,6 +131,19 @@ public class FissionOneNucleusModel {
     }
     
     /**
+     * Get a reference to the clock that is driving this model.
+     * 
+     * @return - Reference to the simulation clock.
+     */
+    public ConstantDtClock getClock(){
+        return _clock;
+    }
+    
+    //------------------------------------------------------------------------
+    // Other Public Methods
+    //------------------------------------------------------------------------
+
+    /**
      * This method allows the caller to register for changes in the overall
      * model, as opposed to changes in the individual model elements.
      * 
@@ -146,12 +156,16 @@ public class FissionOneNucleusModel {
         _listeners.add( listener );
     }
     
+    //------------------------------------------------------------------------
+    // Private and Protected Methods
+    //------------------------------------------------------------------------
+
     /**
      * Handle a clock tick event.
      * 
      * @param ce - The clock event representing the sim clock at this point int time.
      */
-    protected void handleClockTicked(ClockEvent ce){
+    private void handleClockTicked(ClockEvent ce){
         
         // Move any free particles that exist.
         for (int i = 0; i < _freeNucleons.size(); i++){
@@ -199,7 +213,7 @@ public class FissionOneNucleusModel {
      * Handle a change in atomic weight of the primary nucleus, which
      * generally indicates a fission event.
      */
-    public void handleAtomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
+    private void handleAtomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
         
         if (byProducts != null){
             // There are some byproducts of this event that need to be
