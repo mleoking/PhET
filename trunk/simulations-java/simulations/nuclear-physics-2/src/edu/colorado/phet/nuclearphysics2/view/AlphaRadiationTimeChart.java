@@ -146,6 +146,9 @@ public class AlphaRadiationTimeChart extends PNode {
     // Clock that we listen to for moving the time line and performing resets.
     ConstantDtClock _clock;
     
+    // Flag for tracking if chart is cleared.
+    boolean _chartCleared = false;
+    
     // Button for resetting this chart.
     PhetButtonNode _resetButtonNode;
     
@@ -167,6 +170,7 @@ public class AlphaRadiationTimeChart extends PNode {
             }
             
             public void simulationTimeReset(ClockEvent clockEvent){
+                _chartCleared = false;
                 resetTimeLine();
             }
         });
@@ -297,10 +301,6 @@ public class AlphaRadiationTimeChart extends PNode {
         _halfLifeMarkerLine.setPaint( BACKGROUND_COLOR );
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
 
-        // Initialize the half life line.
-        _preDecayTimeLineOrigin = new Point2D.Double();
-        _preDecayTimeLine.moveTo( 0, 0 );
-
         // Create the label for the half life line.
         _halfLifeLabel = new PText( " " + NuclearPhysics2Strings.DECAY_TIME_CHART_HALF_LIFE + " ");
         _halfLifeLabel.setFont( LABEL_FONT );
@@ -328,7 +328,7 @@ public class AlphaRadiationTimeChart extends PNode {
         // Register to receive button pushes.
         _resetButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                reset();
+                handleResetChartButtonPressed();
             }
         });
     }
@@ -449,8 +449,10 @@ public class AlphaRadiationTimeChart extends PNode {
         _preDecayTimeLineOrigin.setLocation( _graphOriginX + TIMELINE_START_OFFEST, 
               _usableAreaOriginY + _usableHeight * 0.33);
         _preDecayTimeLine.moveTo( (float)_preDecayTimeLineOrigin.getX(), (float)_preDecayTimeLineOrigin.getY() );
-        _preDecayTimeLine.lineTo( (float)(_preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor), 
-                (float)_preDecayTimeLineOrigin.getY());
+        if (_preDecayTimeLineLength > 0){
+            _preDecayTimeLine.lineTo( (float)(_preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor), 
+                    (float)_preDecayTimeLineOrigin.getY());
+        }
         
         // If decay has already occurred, position the post-decay time line too.
         if (_decayHasOccurred){
@@ -508,38 +510,41 @@ public class AlphaRadiationTimeChart extends PNode {
      */
     private void handleClockTick(ClockEvent clockEvent){
         
-        if (!_decayHasOccurred){
-
-            // Extend the pre-decay time line, but not if we are
-            // heading off the chart.
-            if (_preDecayTimeLineLength < TIME_SPAN){
+        if (!_chartCleared){
+            
+            if (!_decayHasOccurred){
+    
+                // Extend the pre-decay time line, but not if we are
+                // heading off the chart.
+                if ((_preDecayTimeLineLength < TIME_SPAN) && (!_chartCleared)){
+                    
+                    // Update the length of the time line.
+                    _preDecayTimeLineLength += clockEvent.getSimulationTimeChange();
+    
+                    // Extend the line itself.
+                    _preDecayTimeLine.lineTo( 
+                            (float)(_preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor),
+                            (float)_preDecayTimeLineOrigin.getY());
+                }
                 
-                // Update the length of the time line.
-                _preDecayTimeLineLength += clockEvent.getSimulationTimeChange();
-
-                // Extend the line itself.
-                _preDecayTimeLine.lineTo( 
-                        (float)(_preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor),
-                        (float)_preDecayTimeLineOrigin.getY());
+                // Update the decay clock.
+                DecimalFormat formatter = new DecimalFormat( "#0.000" );
+                _timeToDecayText.setText( formatter.format( clockEvent.getSimulationTime() / 1000 ) );
             }
-            
-            // Update the decay clock.
-            DecimalFormat formatter = new DecimalFormat( "#0.000" );
-            _timeToDecayText.setText( formatter.format( clockEvent.getSimulationTime() / 1000 ) );
-        }
-        else{
-            
-            // Extend the post-decay time line, but not if we are
-            // heading off the chart.
-            if (_postDecayTimeLineLength + _preDecayTimeLineLength < TIME_SPAN){
+            else{
                 
-                // Update the length of the time line.
-                _postDecayTimeLineLength += clockEvent.getSimulationTimeChange();
-
-                // Extend the line itself.
-                _postDecayTimeLine.lineTo( 
-                        (float)(_postDecayTimeLineOrigin.getX() + _postDecayTimeLineLength * _msToPixelsFactor),
-                        (float)_postDecayTimeLineOrigin.getY());
+                // Extend the post-decay time line, but not if we are
+                // heading off the chart.
+                if (_postDecayTimeLineLength + _preDecayTimeLineLength < TIME_SPAN){
+                    
+                    // Update the length of the time line.
+                    _postDecayTimeLineLength += clockEvent.getSimulationTimeChange();
+    
+                    // Extend the line itself.
+                    _postDecayTimeLine.lineTo( 
+                            (float)(_postDecayTimeLineOrigin.getX() + _postDecayTimeLineLength * _msToPixelsFactor),
+                            (float)_postDecayTimeLineOrigin.getY());
+                }
             }
         }
     }
@@ -552,6 +557,7 @@ public class AlphaRadiationTimeChart extends PNode {
         
         _decayHasOccurred = false;
         _preDecayTimeLineLength = 0;
+        _preDecayTimeLine.reset();
         _postDecayTimeLineLength = 0;
         _postDecayTimeLine.reset();
         update();
@@ -562,18 +568,24 @@ public class AlphaRadiationTimeChart extends PNode {
      */
     public void reset(){
         
-        // Clear out the markers.
-        for (int i=0; i<_numDecays; i++){
-            removeChild( _markers[i] );
-        }
-        _numDecays = 0;
-        _numMarkers = 0;
+        // Clear out the decay markers.
+        resetDecayMarkers();
         
         // Clear out the time line.
         resetTimeLine();
         
+        // Clear the flag that holds off updates after the chart is cleared.
+        _chartCleared = false;
+
         // Redraw the chart.
         update();
+    }
+    
+    private void handleResetChartButtonPressed(){
+        resetDecayMarkers();
+        resetTimeLine();
+        _chartCleared = true;
+        _timeToDecayText.setText( "0.000" );
     }
     
     /**
@@ -582,22 +594,24 @@ public class AlphaRadiationTimeChart extends PNode {
      */
     private void setDecayOccurred(){
         
-        // Set our flag that tracks this.
-        _decayHasOccurred = true;
-        
-        // Add a marker and record the time when this decay occurred.
-        if (_numDecays < MAX_DECAYS){
-            addDecayMarker( _preDecayTimeLineLength );
-           _decayTimes[_numDecays++] = _preDecayTimeLineLength;
+        if (!_chartCleared){
+            // Set our flag that tracks this.
+            _decayHasOccurred = true;
+            
+            // Add a marker and record the time when this decay occurred.
+            if (_numDecays < MAX_DECAYS){
+                addDecayMarker( _preDecayTimeLineLength );
+               _decayTimes[_numDecays++] = _preDecayTimeLineLength;
+            }
+            
+            // Start drawing the post-decay line.
+            _postDecayTimeLineOrigin = new Point2D.Double(
+                    _preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor + 1,
+                    _usableAreaOriginY + (_usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION));
+            _preDecayTimeLine.lineTo( (float)_postDecayTimeLineOrigin.getX(), (float)_postDecayTimeLineOrigin.getY() );
+            _postDecayTimeLineLength = 0;
+            _postDecayTimeLine.moveTo( (float)_postDecayTimeLineOrigin.getX(), (float)_postDecayTimeLineOrigin.getY() );
         }
-        
-        // Start drawing the post-decay line.
-        _postDecayTimeLineOrigin = new Point2D.Double(
-                _preDecayTimeLineOrigin.getX() + _preDecayTimeLineLength * _msToPixelsFactor + 1,
-                _usableAreaOriginY + (_usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION));
-        _preDecayTimeLine.lineTo( (float)_postDecayTimeLineOrigin.getX(), (float)_postDecayTimeLineOrigin.getY() );
-        _postDecayTimeLineLength = 0;
-        _postDecayTimeLine.moveTo( (float)_postDecayTimeLineOrigin.getX(), (float)_postDecayTimeLineOrigin.getY() );
     }
     
     /**
@@ -623,5 +637,18 @@ public class AlphaRadiationTimeChart extends PNode {
  
         // Add this node as a child.
         addChild(marker);
+    }
+    
+    /**
+     * Remove the decay markers from the chart.
+     */
+    private void resetDecayMarkers(){
+        // Clear out the markers.
+        for (int i=0; i<_numDecays; i++){
+            removeChild( _markers[i] );
+            _markers[i] = null;
+        }
+        _numDecays = 0;
+        _numMarkers = 0;        
     }
 }
