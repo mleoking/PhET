@@ -2,9 +2,9 @@
 Changes for faraday
 ===============================================================================
 
-- field meter doesn't update properly when dragging magnet strength slider [504]
 
 DONE:
+4/8/09 - strength slider for bar magnet and turbine both need to be constrained to integer values [504]
 4/7/08 - no water is shown when turbine is spinning at 1 or 2 rpm [503]
 ********* version 1.05.14 (20577)
 4/7/08 - add clock control panels to all modules of magnets-and-electromagnets

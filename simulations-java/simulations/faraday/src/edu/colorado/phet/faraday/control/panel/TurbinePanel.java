@@ -46,6 +46,7 @@ public class TurbinePanel extends FaradayPanel {
     private JCheckBox _bFieldCheckBox;
     private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox;
+    private EventListener _listener;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -120,11 +121,11 @@ public class TurbinePanel extends FaradayPanel {
         layout.addComponent( _fieldMeterCheckBox, row++, 0 );
         
         // Wire up event handling.
-        EventListener listener = new EventListener();
-        _strengthControl.addChangeListener( listener );
-        _bFieldCheckBox.addActionListener( listener );
-        _fieldMeterCheckBox.addActionListener( listener );
-        _compassCheckBox.addActionListener( listener );
+        _listener = new EventListener();
+        _strengthControl.addChangeListener( _listener );
+        _bFieldCheckBox.addActionListener( _listener );
+        _fieldMeterCheckBox.addActionListener( _listener );
+        _compassCheckBox.addActionListener( _listener );
 
         // Set the state of the controls.
         update(); 
@@ -197,10 +198,18 @@ public class TurbinePanel extends FaradayPanel {
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _strengthControl ) {
                 // Read the value.
-                int percent = (int)_strengthControl.getValue();
+                double percent = Math.floor( _strengthControl.getValue() );
                 // Update the model.
-                double strength = (  percent / 100.0 ) * FaradayConstants.BAR_MAGNET_STRENGTH_MAX ;
+                double strength = ( percent / 100.0 ) * FaradayConstants.BAR_MAGNET_STRENGTH_MAX ;
                 _turbineModel.setStrength( strength );
+                /*
+                 * We're displaying strength in integer precision, but the slider is in double precision.
+                 * This hack ensures that the slider is always on integer values.
+                 * See Unfuddle #504.
+                 */
+                _strengthControl.removeChangeListener( _listener );
+                _strengthControl.setValue( percent );
+                _strengthControl.addChangeListener( _listener );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
