@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import javax.swing.event.ChangeListener;
@@ -58,7 +59,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     private Rectangle _parentBounds;
     private Turbine _turbineModel;
     private PhetShapeGraphic _waterGraphic;
-    private Rectangle _waterShape;
+    private Rectangle2D _waterShape;
     private PhetImageGraphic _barMagnetGraphic;
     private PhetImageGraphic _waterWheelGraphic;
     private PhetTextGraphic _rpmValue;
@@ -101,7 +102,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
             addGraphic( _waterGraphic, WATER_LAYER );
             _waterGraphic.setPaint( WATER_COLOR );
             
-            _waterShape = new Rectangle( 0, 0, 0, 0 );
+            _waterShape = new Rectangle2D.Double( 0, 0, 0, 0 );
             _waterGraphic.setShape( _waterShape );
             
             _waterGraphic.setLocation( -112, -245 );
@@ -225,15 +226,8 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
                 }
 
                 // Update the water flow.
-                {
-                    if ( speed == 0 ) {
-                        _waterGraphic.setShape( null );
-                    }
-                    else {
-                        updateWater( speed );
-                    }
-                }
-                
+                updateWater( speed );
+
                 // Position the faucet slider.
                 if ( -speed * 100 != _flowSlider.getValue() ) {
                     _flowSlider.setValue( (int)( -speed * 100 ) );
@@ -249,10 +243,18 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
      * @param speed
      */
     private void updateWater( final double speed ) {
-        int waterWidth = (int) Math.abs( speed * MAX_WATER_WIDTH );
-        _waterShape.setBounds( -( waterWidth / 2 ), 0, waterWidth, _parentBounds.height );
-        _waterGraphic.setShape( _waterShape );
-        setBoundsDirty();
+        if ( speed == 0 ) {
+            _waterGraphic.setShape( null );
+        }
+        else {
+            double waterWidth = Math.abs( speed * MAX_WATER_WIDTH );
+            if ( waterWidth < 1 ) {
+                waterWidth = 1; // must be at least 1 pixel wide
+            }
+            _waterShape.setRect( -( waterWidth / 2.0 ), 0, waterWidth, _parentBounds.height );
+            _waterGraphic.setShape( _waterShape );
+            setBoundsDirty();
+        }
     }
     
     //----------------------------------------------------------------------------
