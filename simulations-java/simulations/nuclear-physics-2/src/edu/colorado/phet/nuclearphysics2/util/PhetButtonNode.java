@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.nuclearphysics2.util;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
@@ -34,6 +36,7 @@ public class PhetButtonNode extends PhetPNode {
 
     public PhetButtonNode(String text) {
         _button = new JButton(text);
+        _button.setFont( new Font("Comic Sans MS", Font.BOLD, 14 ));
         PSwing buttonWrapper = new PSwing( _button );
         buttonWrapper.addInputEventListener( new CursorHandler() );
         addChild( buttonWrapper );
