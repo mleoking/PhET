@@ -1,38 +1,54 @@
 <?php
 
-    include_once("../admin/global.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
+include_once(SITE_ROOT."admin/ordering-util.php");
 
-    include_once(SITE_ROOT."admin/password-protection.php");
-    include_once(SITE_ROOT."admin/db.inc");
-    include_once(SITE_ROOT."admin/sim-utils.php");
-    include_once(SITE_ROOT."admin/web-utils.php");
-    include_once(SITE_ROOT."admin/db-utils.php");
-    include_once(SITE_ROOT."admin/site-utils.php");
-    include_once(SITE_ROOT."admin/ordering-util.php");
+class OrganizeSimulationsPage extends SitePage {
 
-    function print_sims() {
+    function handle_action($action, $simulation_listing_id, $cat_id) {
+        $condition = array( 'cat_id' => $cat_id );
+
+        if ($action == 'move_up') {
+            order_move_higher('simulation_listing', $simulation_listing_id, $condition);
+        }
+        else if ($action == 'move_down') {
+            order_move_lower('simulation_listing', $simulation_listing_id, $condition);
+        }
+    }
+
+    function update() {
+        $result = parent::update();
+        if (!$result) {
+            return $result;
+        }
+
+        if (isset($_REQUEST['action']) && isset($_REQUEST['simulation_listing_id']) && isset($_REQUEST['cat_id'])) {
+            $this->handle_action($_REQUEST['action'], $_REQUEST['simulation_listing_id'], $_REQUEST['cat_id']);
+        }
+
         if (isset($_REQUEST['cat_id'])) {
             $cat_id = $_REQUEST['cat_id'];
 
-            print <<<EOT
-                <script type="text/javascript">
-                    /*<![CDATA[*/
-                    $(document).ready(
-                        function() {
-                            location.href = location.href + '#$cat_id';
-                        }
-                    );
-                    /*]]>*/
-                </script>
-EOT;
+            $this->add_javascript_header_script("location.href = location.href + '#{$cat_id}'");
+        }
+    }
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
         }
 
         print <<<EOT
-
-            <h1>Organize Simulations</h1>
-
             <p>On this page, you may choose the order in which simulations appear for every category.
             Note that simulations appear in this order only in the thumbnail view.</p>
+
+            <p>If the simulations ordering is wonky (can be seen by several sims sharing the same
+            "order id" number, <a href="organize-sims.php?auto_order=1">clicking here</a> will reorder them as they appear
+            on the screen right now.  This should resolves most sorting problems.<br />
+            You may also need to <a href="cache-clear-all.php">clear the cache</a>.</p>
+
 EOT;
 
         foreach(sim_get_categories() as $category) {
@@ -50,6 +66,7 @@ EOT;
                     </thead>
 
                     <tbody>
+
 EOT;
 
             $auto_order = 1;
@@ -78,6 +95,7 @@ EOT;
                             $simulation_listing_order
                         </td>
                     </tr>
+
 EOT;
                 $auto_order++;
             }
@@ -85,25 +103,14 @@ EOT;
             print <<<EOT
                     </tbody>
                 </table>
+
 EOT;
         }
     }
+}
 
-    function handle_action($action, $simulation_listing_id, $cat_id) {
-        $condition = array( 'cat_id' => $cat_id );
-
-        if ($action == 'move_up') {
-            order_move_higher('simulation_listing', $simulation_listing_id, $condition);
-        }
-        else if ($action == 'move_down') {
-            order_move_lower('simulation_listing', $simulation_listing_id, $condition);
-        }
-    }
-
-    if (isset($_REQUEST['action']) && isset($_REQUEST['simulation_listing_id']) && isset($_REQUEST['cat_id'])) {
-        handle_action($_REQUEST['action'], $_REQUEST['simulation_listing_id'], $_REQUEST['cat_id']);
-    }
-
-    print_site_page('print_sims', 9);
+$page = new OrganizeSimulationsPage("Organize Simulations", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page->update();
+$page->render();
 
 ?>

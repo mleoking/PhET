@@ -1,11 +1,14 @@
 <?php
-    if (!defined('SITE_ROOT')) {
-        define("SITE_ROOT", "./");
-    }
 
+    $original_dir = getcwd();
+    chdir("./admin");
+
+    include_once("../admin/global.php");
     include_once(SITE_ROOT."admin/sim-utils.php");
     include_once(SITE_ROOT."admin/sys-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");
+
+    chdir($original_dir);
 
     $thumbnails = sim_get_animated_previews();
 
@@ -25,4 +28,5 @@
     else {
         print "There are no animated previews.";
     }
+
 ?>

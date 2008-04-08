@@ -1,11 +1,11 @@
 <?php
 
-    include_once("../admin/global.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
+include_once(SITE_ROOT."admin/research-utils.php");
 
-    include_once(SITE_ROOT."admin/authentication.php");    
-    include_once(SITE_ROOT."admin/site-utils.php");
-    include_once(SITE_ROOT."admin/research-utils.php");
-    
+class ResearchPage extends SitePage {
+
     function handle_action($action) {
         if ($action == 'new') {
             research_add_from_script_params();
@@ -17,14 +17,32 @@
             research_delete($_REQUEST['research_id']);
         }
     }
-    
-    function print_content() {
-        ?>
-            <h1>Research</h1>
 
+    function update() {
+        $result = parent::update();
+        if (!$result) {
+            return $result;
+        }
+
+        if (isset($_REQUEST['action'])) {
+            //sdo_authentication(true);
+
+            $this->action = $_REQUEST['action'];
+
+            $this->handle_action($this->action);
+        }
+    }
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        print <<<EOT
             <p>We direct our research at assessing the effectiveness of our interactive simulations in a variety of educational environments, particularly physics courses, and as stand-alone, informal educational tools.</p>
 
-			<p>In addition, we are focusing our efforts to better understand how students learn from the simulations, and what implications this may have for designing effective in-class activities, homework and labs.</p>
+            <p>In addition, we are focusing our efforts to better understand how students learn from the simulations, and what implications this may have for designing effective in-class activities, homework and labs.</p>
 
             <h2>Our immediate interests are:</h2><br />
 
@@ -49,22 +67,20 @@
             </ul>
 
             <h2>Publications and Presentations</h2>
-            
-            <?php
-            
+
+EOT;
+
             $can_edit = false;
-            
-            if (isset($GLOBALS['contributor_authenticated']) && $GLOBALS['contributor_authenticated'] == true) {
-                if ($GLOBALS['contributor_is_team_member']) {
-                    $can_edit = true;
-                }
+
+            if ($this->authentication_level >= SP_AUTHLEVEL_TEAM) {
+                $can_edit = true;
             }
-            
+
             foreach(research_get_all_categories() as $category) {
                 print "<h3>$category</h3>";
-                
+
                 print "<ul class=\"content-points\">";
-                
+
                 foreach(research_get_all_by_category($category) as $research) {
                     print "<li>";
 
@@ -82,14 +98,12 @@
                 print "</ul>";
             }
 
-            global $action;
-
             if ($can_edit) {
-                if (isset($action) && $action == 'edit') {
+                if (isset($this->action) && $this->action == 'edit') {
                     $legend         = "Update Research Item";
                     $op_desc        = 'edit an existing research item or <a href="index.php">add</a> a new item';
                     $research_id    = $_REQUEST['research_id'];
-                    $button_caption = "Update";                    
+                    $button_caption = "Update";
                     $action_html    = '<input type="hidden" name="action" value="update" />';
                 }
                 else {
@@ -99,34 +113,32 @@
                     $button_caption = "Add";
                     $action_html    = '<input type="hidden" name="action" value="new" />';
                 }
-                
+
                 print <<<EOT
                     <form id="update-edit-form" method="post" action="index.php">
                         <fieldset>
                             <legend>$legend</legend>
-                            
+
                             <p>As a PhET team member, you may use this form to $op_desc.</p>
+
 EOT;
 
                 research_print_edit($research_id);
 
                 print <<<EOT
                             $action_html
-                        
+
                             <input type="submit" name="submit" value="$button_caption" />
                         </fieldset>
-                    </form>                        
+                    </form>
+
 EOT;
             }
     }
+}
 
-    if (isset($_REQUEST['action'])) {
-        do_authentication(true);
-        
-        $action = $_REQUEST['action'];
-        
-        handle_action($action);
-    }
-    
-    print_site_page('print_content', 7);
+$page = new ResearchPage("Research", NAV_RESEARCH, null);
+$page->update();
+$page->render();
+
 ?>

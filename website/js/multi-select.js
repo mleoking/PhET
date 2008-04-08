@@ -31,6 +31,10 @@ function ms_mark_as_valid(node) {
 }
 
 function ms_mark_as_invalid(node) {
+    if (node === null) {
+        return;
+    }
+
     var label_td = ms_get_first_td(node);
 
     if (label_td) {

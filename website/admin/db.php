@@ -2,29 +2,29 @@
     /*
     This file requires that you create a login-info.php with the following
     constants defined:
-    
+
         DB_HOSTNAME     Hostname of the MySQL server.
         DB_NAME         Name of the database.
         DB_USERNAME     Username for the database account.
         DB_PASSWORD     Password for the database account.
-        
+
     If this file does not exist, or these constants are not defined, this
     file will not successfully load.
-        
+
     */
     include_once("login-info.php");
-    
+
     // connect to the server, select db
     function connect_to_db() {
         global $connection;
-        
+
         assert('defined("DB_HOSTNAME")');
         assert('defined("DB_NAME")');
         assert('defined("DB_USERNAME")');
         assert('defined("DB_PASSWORD")');
-        
+
         $connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
-        
+
         if (!$connection) {
             print("Database error: Could not connect to database.");
         }

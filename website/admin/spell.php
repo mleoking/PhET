@@ -2,7 +2,7 @@
 
     include_once("../admin/global.php");
 
-    include_once(SITE_ROOT.'admin/spell/tree.php');
+    include_once(SITE_ROOT.'admin/spell/tree.php.bigarray');
     include_once(SITE_ROOT.'admin/spell/SpellCheck.class.php');
     
     $GLOBALS['tree'] = $tree;

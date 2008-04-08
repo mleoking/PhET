@@ -1,35 +1,41 @@
 <?php
 
-    include_once("../admin/site-utils.php");
-    
-    function print_content() {
-		$win = urlencode('../../phet-dist/PhET-1.0-windows-installer.exe');
-		$mac = urlencode('../../phet-dist/PhET-1.0-osx-installer.zip');
-		$lin = urlencode('../../phet-dist/PhET-1.0-linux-installer.bin');
-		$cd  = urlencode('../../phet-dist/PhET-1.0-CD-ROM.zip');
-		
-		print <<<EOT
-            <h1>Full Install</h1>
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-			<p>
-				The full PhET installation package installs a copy of the PhET website onto your computer. Once installed, you do not need to be connected to the Internet
-				to view or run any of the simulations.
-			</p>
+class FullInstallPage extends SitePage {
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        $win = urlencode('../../phet-dist/PhET-1.0-windows-installer.exe');
+        $mac = urlencode('../../phet-dist/PhET-1.0-osx-installer.zip');
+        $lin = urlencode('../../phet-dist/PhET-1.0-linux-installer.bin');
+        $cd  = urlencode('../../phet-dist/PhET-1.0-CD-ROM.zip');
+
+        print <<<EOT
             <p>
-            	These installers of the PhET Simulations are updated weekly. We suggest uninstalling your earlier versions of PhET before installing.
+                The full PhET installation package installs a copy of the PhET website onto your computer. Once installed, you do not need to be connected to the Internet
+                to view or run any of the simulations.
+            </p>
+            <p>
+                These installers of the PhET Simulations are updated weekly. We suggest uninstalling your earlier versions of PhET before installing.
             </p>
 
-			<ul>
-				<li><a href="../admin/get-member-file.php?file=$win">Download installer for Windows</a> - 55 MB</li>
-				
-				<li><a href="../admin/get-member-file.php?file=$mac">Download installer for Mac OS X</a> - 39 MB</li>
-				
-				<li><a href="../admin/get-member-file.php?file=$lin">Download installer for Linux</a> - 39 MB</li>
-			</ul>
-            
+            <ul>
+                <li><a href="../admin/get-member-file.php?file=$win">Download installer for Windows</a> - 55 MB</li>
+
+                <li><a href="../admin/get-member-file.php?file=$mac">Download installer for Mac OS X</a> - 39 MB</li>
+
+                <li><a href="../admin/get-member-file.php?file=$lin">Download installer for Linux</a> - 39 MB</li>
+            </ul>
+
             <hr/>
 
-            <p>If you have an Internet connection that is too slow, we can send you a CD with the full installation package. Click <a href="../about/contact.php"><u>here to contact us</u></a>.</p>
+            <p>If you have an Internet connection that is too slow, we can send you a CD with the full installation package. Click <em><a href="../about/contact.php">here to contact us</a></em>.</p>
 
             <h2>Help &amp; Troubleshooting</h2>
 
@@ -54,9 +60,13 @@
 
                 <li>Please remember to periodically check for updated versions of the PhET simulations.</li>
             </ul>
+
 EOT;
     }
+}
 
-    print_site_page('print_content', 4);
+$page = new FullInstallPage("Full Install", NAV_GET_PHET, null);
+$page->update();
+$page->render();
 
 ?>

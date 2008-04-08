@@ -2,13 +2,13 @@
 
     if (!function_exists('file_put_contents') && !defined('FILE_APPEND')) {
         define('FILE_APPEND', 1);
-        
+
         function file_put_contents($n, $d, $flag = false) {
             $mode = ($flag == FILE_APPEND || strtoupper($flag) == 'FILE_APPEND') ? 'a' : 'w';
             $f = @fopen($n, $mode);
             if ($f === false) {
                 return 0;
-            } 
+            }
             else {
                 if (is_array($d)) $d = implode($d);
                 $bytes_written = fwrite($f, $d);
@@ -17,29 +17,29 @@
             }
         }
     }
-    
+
     if (!function_exists('get_headers')) {
         function get_headers($url,$format=0, $user='', $pass='', $referer='') {
             if (!empty($user)) {
                 $authentification = base64_encode($user.':'.$pass);
                 $authline = "Authorization: Basic $authentification\r\n";
             }
-			else {
-				$authline = '';
-			}
+            else {
+                $authline = '';
+            }
 
             if (!empty($referer)) {
                 $refererline = "Referer: $referer\r\n";
             }
-			else {
-				$refererline = '';
-			}
+            else {
+                $refererline = '';
+            }
 
             $url_info=parse_url($url);
 
-			if (!$url_info) return false;
-			
-			if (!isset($url_info['host'])) return false;
+            if (!$url_info) return false;
+
+            if (!isset($url_info['host'])) return false;
 
             $port = isset($url_info['port']) ? $url_info['port'] : 80;
             $fp=fsockopen($url_info['host'], $port, $errno, $errstr, 30);
@@ -56,11 +56,11 @@
                 $head .= $authline;
                 $head .= "\r\n";
 
-                fputs($fp, $head);   
+                fputs($fp, $head);
 
-				$eoheader = false;
-				$headers  = array();
-    
+                $eoheader = false;
+                $headers  = array();
+
                 while(!feof($fp) or ($eoheader==true)) {
                     if($header=fgets($fp, 1024)) {
                         if ($header == "\r\n") {
@@ -81,7 +81,7 @@
                         } else {
                             $headers[] = $header;
                         }
-                    } 
+                    }
                 }
                 return $headers;
 
@@ -90,27 +90,27 @@
             }
         }
     }
-    
+
     function mkdirs($dirName, $rights=0777){
         $dirs = explode('/', $dirName);
         $dir  = '';
-        
+
         foreach ($dirs as $part) {
             $dir .= $part;
-            
-            if (!is_dir($dir) && strlen($dir) > 0) {                
+
+            if (!is_dir($dir) && strlen($dir) > 0) {
                 mkdir($dir);
             }
-            
+
             $dir .= '/';
         }
     }
-    
-    function urlsize($url) {
-		$parsed_url = parse_url($url);
 
-		$sch = $parsed_url['scheme'];
-		
+    function urlsize($url) {
+        $parsed_url = parse_url($url);
+
+        $sch = $parsed_url['scheme'];
+
         if (($sch != "http") && ($sch != "https") && ($sch != "ftp") && ($sch != "ftps")) {
             return false;
         }
@@ -146,7 +146,7 @@
             return $ftpsize;
         }
     }
-    
+
     function url_or_file_size($name) {
         if (file_exists($name)) {
             return filesize($name);
@@ -157,9 +157,9 @@
     }
 
     /**
-     * This rather complicated function is designed to retrieve the mime-type 
+     * This rather complicated function is designed to retrieve the mime-type
      * of the specified file. The file may be local or a URL to a network-
-     * accessible file or a byte array containing the file contents. The 
+     * accessible file or a byte array containing the file contents. The
      * function operates by running the Linux command 'file' on the file
      * contents, to extract the mime-type.
      *
@@ -169,24 +169,24 @@
         $tmpfname = tempnam("/tmp", "mime_type_file");
 
         $handle = fopen($tmpfname, "w");
-        
+
         if (!$file_is_contents) {
             fwrite($handle, file_get_contents($file));
         }
         else {
             fwrite($handle, $file);
-        }        
-        
+        }
+
         fflush($handle);
         fclose($handle);
-        
+
         $mime_type = exec("file -i -b $tmpfname");
-        
+
         unlink($tmpfname);
-        
+
         return $mime_type;
     }
-    
+
     function expire_page_immediately() {
         if (isset($_SERVER["HTTPS"])) {
             /**
@@ -210,83 +210,83 @@
             }
             header("Pragma: no-cache");
         }
-        
+
     }
-    
+
     function send_file_to_browser($file_path, $file_contents = null, $opt_mime_type = null, $send_mode = "inline") {
         ini_set("zlib.output_compression", "Off");
 
-		$print_incrementally = $file_contents == null && file_exists($file_path);
+        $print_incrementally = $file_contents == null && file_exists($file_path);
 
         if (!$print_incrementally) {
-			if ($file_contents == null) {
-            	$file_contents = file_get_contents($file_path);
-			}
-			
+            if ($file_contents == null) {
+                $file_contents = file_get_contents($file_path);
+            }
+
             $file_size = strlen($file_contents);
 
-			if (!$file_contents) {
-				print ("The file contents of file $file_path could not be retrieved");
-				
-				return false;
-			}
-        }
-		else {
-			$file_size = filesize($file_path);
-		}
+            if (!$file_contents) {
+                print ("The file contents of file $file_path could not be retrieved");
 
-		$mime_type = $opt_mime_type;
+                return false;
+            }
+        }
+        else {
+            $file_size = filesize($file_path);
+        }
+
+        $mime_type = $opt_mime_type;
 
         if ($opt_mime_type == null) {
 
-			$matches = array();
-			
-			if (preg_match('/^.+\.([^.]+)$/', $file_path, $matches)) {	
-				$ext = strtolower($matches[1]);
-						
-	            // Hand-coding for some file types:
-	            if ($ext == 'jnlp') {
-	                $mime_type = "application/x-java-jnlp-file";
-	            }
-	            else if ($ext == 'gif') {
-	                $mime_type = "image/gif";
-	            }
-				else if ($ext == 'jar') {
-					$mime_type = "application/java-archive";
-				}
-				else if ($ext == 'png') {
-					$mime_type = "image/png";
-				}
-				else if ($ext == 'jpg' || $ext == 'jpeg') {
-					$mime_type = "image/jpeg";
-				}
-				else if ($ext == 'zip') {
-					$mime_type = "application/zip";
-				}
-	        }
-	
-	 		if ($mime_type == null){
-				if ($file_contents == null) $file_contents = file_get_contents($file_path);
-				
+            $matches = array();
+
+            if (preg_match('/^.+\.([^.]+)$/', $file_path, $matches)) {
+                $ext = strtolower($matches[1]);
+
+                // Hand-coding for some file types:
+                if ($ext == 'jnlp') {
+                    $mime_type = "application/x-java-jnlp-file";
+                }
+                else if ($ext == 'gif') {
+                    $mime_type = "image/gif";
+                }
+                else if ($ext == 'jar') {
+                    $mime_type = "application/java-archive";
+                }
+                else if ($ext == 'png') {
+                    $mime_type = "image/png";
+                }
+                else if ($ext == 'jpg' || $ext == 'jpeg') {
+                    $mime_type = "image/jpeg";
+                }
+                else if ($ext == 'zip') {
+                    $mime_type = "application/zip";
+                }
+            }
+
+             if ($mime_type == null){
+                if ($file_contents == null) $file_contents = file_get_contents($file_path);
+
                 // Auto-detection of mime-type from file contents
                 $mime_type = auto_detect_mime_type($file_contents, true);
-                
+
                 // Add another check, the auto detect can't tell the difference
                 // between powerpoint and word files, so if it thinks it is a word
                 // file, and the extension is "ppt", change the mimetype.
                 // Why not just key off the extension?
-                // Paranoa.  This is just a little safer, in case someone 
-                // uploaded some other very different format, like on "EXE", 
+                // Paranoa.  This is just a little safer, in case someone
+                // uploaded some other very different format, like on "EXE",
                 // and calls it a 'PPT'.
                 if (!(false === strpos($mime_type, "application/msword"))) {
-		            $path_info = pathinfo($file_path);
-		            if (0 == strcmp($path_info["extension"], "ppt")) {
-		            	$mime_type = "application/vnd.ms-powerpoint";
-		            }
-	            }
-	 		}    
+                    $path_info = pathinfo($file_path);
+                    if (0 == strcmp($path_info["extension"], "ppt")) {
+                        $mime_type = "application/vnd.ms-powerpoint";
+                    }
+                }
+             }
         }
-        
+
         if (strpos($file_path, '/')) {
             $name = basename($file_path);
         }
@@ -295,30 +295,34 @@
         }
 
         expire_page_immediately();
-        
+
         header("Content-Type: $mime_type");
         header("Content-Disposition: $send_mode; filename=\"".trim(htmlentities($name))."\"");
         header("Content-Description: ".trim(htmlentities($name)));
         header("Content-Length: $file_size");
         header("Content-Transfer-Encoding: binary");
         header("Connection: close");
-        
-		if ($print_incrementally) {
-			$handle = fopen($file_path, "rb");
-			
-			while (!feof($handle)) {
-			  print fread($handle, 8192);
-			}
-			
-			fclose($handle);
-		}
-		else {
-        	print($file_contents);			
-		}
-		
+
+        if ($print_incrementally) {
+            // Speed enhancement
+            readfile($file_path);
+            /*
+            $handle = fopen($file_path, "rb");
+
+            while (!feof($handle)) {
+              print fread($handle, 8192);
+            }
+
+            fclose($handle);
+            */
+        }
+        else {
+            print($file_contents);
+        }
+
         flush();
     }
-    
+
     function get_file_extension($thefile) {
         if (strpos($thefile, '.') === false) {
             return '';
@@ -327,7 +331,7 @@
             return strtolower(substr($thefile, strrpos($thefile, '.') + 1));
         }
     }
-    
+
     function remove_file_extension($thefile) {
         if (strpos($thefile, '.') === false) {
             return $thefile;
@@ -337,46 +341,46 @@
         }
     }
 
-	function flock_get_contents($filename){
-	    $return = false;
+    function flock_get_contents($filename){
+        $return = false;
 
-	    if (is_string($filename) && !empty($filename)) {
-	        if (is_readable($filename)) {
-	            if ($handle = @fopen($filename, 'rt')) {
-	                while (!$return){
-	                    if (flock($handle, LOCK_SH)) {
-	                        if ($return = file_get_contents($filename)) {
-								flock($handle, LOCK_UN);
-							}
-	                    }
-	                }
-	
-	                fclose($handle);
-	            }
-	        }
-	    }
+        if (is_string($filename) && !empty($filename)) {
+            if (is_readable($filename)) {
+                if ($handle = @fopen($filename, 'rt')) {
+                    while (!$return){
+                        if (flock($handle, LOCK_SH)) {
+                            if ($return = file_get_contents($filename)) {
+                                flock($handle, LOCK_UN);
+                            }
+                        }
+                    }
 
-	    return $return;
-	}
-	
-	function flock_put_contents($filename, $contents) {
-	    $return = false;
+                    fclose($handle);
+                }
+            }
+        }
 
-	    if (is_string($filename) && !empty($filename)) {
+        return $return;
+    }
+
+    function flock_put_contents($filename, $contents) {
+        $return = false;
+
+        if (is_string($filename) && !empty($filename)) {
             if ($handle = @fopen($filename, 'w+t')) {
                 while (!$return) {
                     if (flock($handle, LOCK_EX)) {
                         if ($return = file_put_contents($filename, $contents)) {
-							flock($handle, LOCK_UN);
-						}
+                            flock($handle, LOCK_UN);
+                        }
                     }
                 }
 
                 fclose($handle);
             }
-	    }
+        }
 
-	    return $return;
-	}
+        return $return;
+    }
 
 ?>

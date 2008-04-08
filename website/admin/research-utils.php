@@ -2,7 +2,7 @@
 
     include_once("../admin/global.php");
     
-    include_once(SITE_ROOT."admin/db.inc");
+    include_once(SITE_ROOT."admin/db.php");
     include_once(SITE_ROOT."admin/db-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");    
     

@@ -1,11 +1,17 @@
 <?php
 
-    include_once("../admin/site-utils.php");
-    
-    function print_content() {
-        ?>
-            <h1>Three Ways to Run Our Free Simulations</h1>
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
+class GetPhetPage extends SitePage {
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        print <<<EOT
             <div id="get_phet">
                 <table>
                     
@@ -106,9 +112,13 @@
                     </tr>
                 </table>
             </div>
-        <?php
-    }
 
-    print_site_page('print_content', 4);
+EOT;
+    }
+}
+
+$page = new GetPhetPage("Three Ways to Run Our Free Simulations", NAV_GET_PHET, null);
+$page->update();
+$page->render();
 
 ?>

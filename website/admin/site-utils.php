@@ -1,9 +1,7 @@
 <?php
-    if (!defined('SITE_ROOT')) {
-        include_once("../admin/global.php");
-    }
 
-    include_once(SITE_ROOT."admin/db.inc");
+    include_once("../admin/global.php");
+    include_once(SITE_ROOT."admin/db.php");
     include_once(SITE_ROOT."admin/referring-page-tracker.php");
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/sim-utils.php");
@@ -12,7 +10,44 @@
     include_once(SITE_ROOT."admin/authentication.php");
     include_once(SITE_ROOT."admin/cache-utils.php");
 
+    // TODO: move this into admin
     include_once(SITE_ROOT."teacher_ideas/referrer.php");
+
+    // Navigation enumerations for the selected page
+    // Initial conversation from numbers to something more meaningful
+    // TODO: I suspect that these just indext an array wherever the navigation bar
+    // is stored.  It should be changed to accept these values, and use them in a
+    // sensical fashion.  Additionally, I suspect that there is a JavaScript component
+    // that must manually be kept in sync with the PHP code.  Would be best if they kept
+    // in sync automatically.
+    define("NAV_NOT_SPECIFIED",  -1);
+    define("NAV_INVALID0",  0);
+    define("NAV_INVALID1",  1);
+    define("NAV_SIMUALTIONS",  2);
+    define("NAV_TEACHER_IDEAS",  3);
+    define("NAV_GET_PHET",  4);
+    define("NAV_TECH_SUPPORT",  5);
+    define("NAV_CONTRIBUTE",  6);
+    define("NAV_RESEARCH",  7);
+    define("NAV_ABOUT_PHET",  8);
+    define("NAV_ADMIN",  9);
+    define("NAV_COUNT",  10);
+
+    /**
+     * For debugging, make sure the selected nav page is valid
+     *
+     * @param $selected_page emun/int - enumeration of the page that should be active on the navbar
+     * @return bool TRUE if the page is valid
+     */
+    function selected_page_is_valid($selected_page) {
+        if ($selected_page < 0) {
+            return ($selected_page == NAV_NOT_SPECIFIED);
+        }
+
+        return (($selected_page < NAV_COUNT) &&
+            ($selected_page != NAV_INVALID0) &&
+            ($selected_page != NAV_INVALID1));
+    }
 
     function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {
         $this_element_is_selected = "$access_key" == "$selected_page";
@@ -37,6 +72,8 @@ EOT;
     }
 
     function print_navigation_element($prefix, $selected_page, $link, $desc, $submenus = array()) {
+        assert(selected_page_is_valid($selected_page));
+
         static $access_key = 1;
 
         $this_element_is_selected = "$access_key" == "$selected_page";
@@ -89,6 +126,8 @@ EOT;
     }
 
     function print_navigation_bar($selected_page = null, $prefix = "..") {
+        assert(selected_page_is_valid($selected_page));
+
         print <<<EOT
         <div id="localNav">
             <ul class="topnav">
@@ -263,7 +302,7 @@ EOT;
 EOT;
     }
 
-    function get_sitewide_utility_html2($prefix = "..") {
+    function get_sitewide_utility_html($prefix = "..") {
         $php_self = $_SERVER['REQUEST_URI'];
 
         // Don't require authentication, but do it if the cookies are available:
@@ -274,7 +313,7 @@ EOT;
         if (!$contributor_authenticated) {
             $cooked_php_self = htmlspecialchars($php_self);
             $utility_panel_html = <<<EOT
-                <a href="$prefix/teacher_ideas/login-and-redirect.php?url=$cooked_php_self">Login / Register</a>
+            <a href="$prefix/teacher_ideas/login-and-redirect.php?url=$cooked_php_self">Login / Register</a>
 
 EOT;
         }
@@ -286,7 +325,8 @@ EOT;
             $formatted_php_self = format_string_for_html($php_self);
 
             $utility_panel_html = <<<EOT
-                Welcome <a href="$prefix/teacher_ideas/user-edit-profile.php">$contributor_name</a> - <a href="$prefix/teacher_ideas/user-logout.php?url=$formatted_php_self">Logout</a>
+        <!-- .. -->\n
+            Welcome <a href="$prefix/teacher_ideas/user-edit-profile.php">$contributor_name</a> - <a href="$prefix/teacher_ideas/user-logout.php?url=$formatted_php_self">Logout</a>
 
 EOT;
         }
@@ -294,366 +334,6 @@ EOT;
         return $utility_panel_html;
     }
 
-    function get_sitewide_utility_html($prefix = "..") {
-        $php_self = $_SERVER['REQUEST_URI'];
-
-        // Don't require authentication, but do it if the cookies are available:
-        do_authentication(false);
-
-        global $contributor_authenticated;
-
-        if (!$contributor_authenticated) {
-            $cooked_php_self = htmlspecialchars($php_self);
-            $utility_panel_html = <<<EOT
-                <a href="$prefix/teacher_ideas/login-and-redirect.php?url=$cooked_php_self">Login / Register</a>
-EOT;
-        }
-        else {
-            $contributor_name = $GLOBALS['contributor_name'];
-
-            $formatted_php_self = format_string_for_html($php_self);
-
-            $utility_panel_html = <<<EOT
-                Welcome <a href="$prefix/teacher_ideas/user-edit-profile.php">$contributor_name</a> - <a href="$prefix/teacher_ideas/user-logout.php?url=$formatted_php_self">Logout</a>
-EOT;
-        }
-
-        return $utility_panel_html;
-    }
-
-    /**
-     * General routine to print a standard PhET webpage.
-     *
-     * @param $content_printer user_func function to call that will print the content
-     * @param $selected_page string[optional] which page is being rendered, used for navigation
-     * @param $redirection_site string[optional] if specified, page to "meta refresh"
-     * @param $timeout int[optional] if specified, a timeout for the meta refresh
-     */
-    function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0) {
-        if (isset($GLOBALS['g_cache_current_page'])) {
-            cache_auto_start();
-        }
-
-        do_authentication(false);
-
-        $request_uri = $_SERVER['REQUEST_URI'];
-
-        $php_self = $_SERVER['PHP_SELF'];
-
-        global $referrer;
-
-        $prefix = "..";
-
-        //expire_page_immediately();
-
-        if ($redirection_site != null) {
-            $meta_redirect = "<meta http-equiv=\"Refresh\" content=\"$timeout;url=$redirection_site\" />";
-        }
-        else {
-            $meta_redirect = '';
-        }
-
-        $utility_panel_html = get_sitewide_utility_html($prefix);
-
-        //ob_start('ob_gzhandler');
-
-/*
-
-    TODO:
-
-        Reinsert <?xml version="1.0" encoding="UTF-8"?>
-            after IE6 is dead
-
-                <meta http-equiv="Expires"      content="-1" />
-                <meta http-equiv="Pragma"       content="no-cache" />
-*/
-        print <<<EOT
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-            <head>
-                <title>PhET :: Physics Education Technology at CU Boulder</title>
-
-                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                $meta_redirect
-
-                <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
-
-                <style type="text/css">
-                    /*<![CDATA[*/
-                        @import url($prefix/css/main.css);
-                    /*]]>*/
-                </style>
-
-                <!-- compliance patch for microsoft browsers -->
-                <!--[if lt IE 7]><script src="$prefix/js/ie7/ie7-standard-p.js" type="text/javascript"></script><![endif]-->
-                <script src="$prefix/js/jquery.pack.js"         type="text/javascript"></script>
-                <script src="$prefix/js/jquery.MultiFile.js"    type="text/javascript"></script>
-                <script src="$prefix/js/jquery_std.js"          type="text/javascript"></script>
-                <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript"></script>
-                <script src="$prefix/js/http.js"                type="text/javascript"></script>
-                <script src="$prefix/js/form-validation.js"     type="text/javascript"></script>
-                <script src="$prefix/js/multi-select.js"        type="text/javascript"></script>
-                <script src="$prefix/js/phet-scripts.js"        type="text/javascript"></script>
-                <script type="text/javascript">
-                    //<![CDATA[
-
-                    function select_current_navbar_category() {
-                        $("li.subnav a").each(function(i) {
-                            var re = /^.+(\.com|\.edu|\.net|\.org|(localhost:\d+))(\/.+)$/i;
-
-                            var result = re.exec(this.href);
-
-                            var relative_url = this.href;
-
-                            if (result) {
-                                relative_url = result[3];
-                            }
-
-                            if (string_starts_with('$request_uri', relative_url)) {
-                                this.className            = 'subnav-selected';
-                                this.parentNode.className = 'subnav-selected';
-                            }
-                        });
-                    }
-
-                    $(document).ready(
-                        function() {
-
-                            // $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php',
-                            //     {
-                            //         onItemSelect: function(li, v) {
-                            //             on_name_change(v);
-                            //         }
-                            //     }
-                            // );
-
-                            select_current_navbar_category();
-
-                            function setup_input_validation_patterns_inline() {
-                                hits = 0;
-
-                                // Patterns that the input must match
-                                email_pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
-                                name_pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
-                                title_pattern = /^\S+\s+\S+.*$/;
-                                organization_pattern = /^\S{2,}.*$/;
-                                password_pattern = /\S+/;
-                                keywords_pattern = /\S{3,}.*/;
-
-                                // Go through all the document forms
-                                for (var i = 0; i < document.forms.length; ++i) {
-                                    // Go through all the elements on the form
-                                    for (var j = 0; j < document.forms[i].length; ++j) {
-                                        // Get the form element
-                                        thing = document.forms[i][j];
-
-                                        // Process if the element is an input (probably a faster way to do this?)
-                                        if (thing.nodeName == "INPUT") {
-                                            switch (thing.name) {
-                                                case "contributor_email":
-                                                case "contribution_contact_email":
-                                                    //alert("new: " + thing.name);
-                                                    ++hits;
-                                                    thing.pattern = email_pattern;
-                                                    break;
-
-                                                case "contributor_name":
-                                                case "contribution_authors":
-                                                    ++hits;
-                                                    thing.pattern = name_pattern;
-                                                    break;
-
-                                                case "contribution_title":
-                                                    ++hits;
-                                                    thing.pattern = title_pattern;
-                                                    break;
-
-                                                case "contributor_organization":
-                                                case "contribution_authors_organization":
-                                                    ++hits;
-                                                    thing.pattern = organization_pattern;
-                                                    break;
-
-                                                case "contributor_password":
-                                                    ++hits;
-                                                    thing.pattern = password_pattern;
-                                                    break;
-
-                                                case "contribution_keywords":
-                                                    ++hits;
-                                                    thing.pattern = keywords_pattern;
-                                                    break;
-
-                                                default:
-                                                   //alert("no match");
-                                                   break;
-                                            }
-                                        }
-                                    }
-                                }
-                                return hits;
-                            }
-
-                            // Old method used a lot of $() to find inputs and place a regex
-                            // validation pattern in it, which really bogged down on big pages.
-                            // Replaced with a method to just look for inputs and moved it to
-                            // form-validation.js to clean up a little.
-                            // On my computer, improvement on big pages is from ~5s to 0.005s,
-                            // small pages from about 0.200s to 0.0s (time too small to measure)
-                            setup_input_validation_patterns();
-
-                            // This could be improved, but at the moment it isn't taking enough
-                            // time to worry about.
-                            $('input, button, textarea, select').each(
-                                function() {
-                                    if (this.pattern) {
-                                        // Perform immediate validation:
-                                        validate_form_element(this, this.pattern);
-
-                                        // Validate on key up:
-                                        this.onkeyup = function() {
-                                            validate_form_element(this, this.pattern);
-
-                                            return true;
-                                        }
-
-                                        // Validate on change (for autofill & such):
-                                        this.onchange = function() {
-                                            validate_form_element(this, this.pattern);
-
-                                            return true;
-                                        }
-
-                                        // Validate on blur (for Firefox autofill):
-                                        this.onblur = function() {
-                                            validate_form_element(this, this.pattern);
-
-                                            return true;
-                                        }
-
-                                        // Validate on click (for Firefox autofill):
-                                        this.onclick = function() {
-                                            validate_form_element(this, this.pattern);
-
-                                            return true;
-                                        }
-
-                                        // IE6 workaround (it doesn't fire onchange for autofill):
-                                        this.onpropertychange = function() {
-                                            validate_form_element(this, this.pattern);
-
-                                            return true;
-                                        }
-                                    }
-                                }
-                            );
-
-                            function insert_submit_stamp(input) {
-                                if ((input.tagName != 'INPUT') || (input.type != 'submit')) {
-                                    return false;
-                                }
-
-                                new_input = document.createElement('input');
-                                new_input.name = 'submition';
-                                new_input.value = 'x:' + new Date();//'xxy0z';
-                                new_input.type = 'hidden';
-
-                                parent = input.parentNode;
-                                parent.insertBefore(new_input, input);
-
-                                return true;
-                            }
-//alert("pre invalid");
-ms_mark_as_invalid(document.getElementById('ms_1_list_uid'));
-//alert("post invalid");
-
-                            // This could be improved, but at the moment it isn't taking enough
-                            // time to worry about
-                            $('input').each(
-                                function() {
-                                    if (this.getAttribute('type') == 'submit') {
-                                        this.onclick = function() {
-                                            valid = validate_entire_form(this.form);
-                                            if (!valid) {
-                                                return valid;
-                                            }
-                                            return insert_submit_stamp(this);
-                                            //orig: return validate_entire_form(this.form);
-                                        }
-                                    }
-                                }
-                            );
-                        }
-                    );
-                    //]]>
-                </script>
-            </head>
-
-
-            <body id="top">
-                <div id="skipNav">
-                    <a href="#content" accesskey="0">Skip to Main Content</a>
-                </div>
-
-                <div id="header">
-                    <div id="headerContainer">
-                        <div class="images">
-                            <div class="logo">
-                                <a href="../index.php"><img src="$prefix/images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
-                            </div>
-
-                            <div class="title">
-                                <img src="$prefix/images/logo-title.jpg" alt="Physics Education Technology - University of Colorado, Boulder" title="Physics Education Technology - University of Colorado, Boulder" />
-
-                                <div id="quicksearch">
-                                    <form method="post" action="../simulations/search.php">
-                                        <fieldset>
-                                            <span>Search</span>
-                                            <input type="text" size="15" name="search_for" title="Enter the text to search for" class="always-enabled" />
-                                            <input type="submit" value="Go" title="Click here to search the PhET website" class="always-enabled" />
-                                            <input type="hidden" name="referrer" value="$referrer"  class="always-enabled" />
-                                        </fieldset>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="clear"></div>
-                    </div>
-                </div>
-
-                <div id="container">
-EOT;
-
-        print_navigation_bar($selected_page, $prefix);
-
-        print <<<EOT
-                    <div id="content">
-                        <div class="main">
-
-EOT;
-
-        call_user_func($content_printer);
-
-        print <<<EOT
-                        </div>
-
-                        <div id="footer">
-                            <p>&copy; 2007 University of Colorado. All rights reserved.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="utility-panel">
-                    $utility_panel_html
-                </div>
-            </body>
-            </html>
-EOT;
-        if (isset($GLOBALS['g_cache_current_page'])) {
-            cache_auto_end();
-        }
-    }
 
     function print_blank_site_page($content_printer, $prefix = "..") {
         // Don't require authentication, but do it if the cookies are available:

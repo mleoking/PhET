@@ -1,11 +1,9 @@
 <?php
 
-    include_once("../admin/global.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-    include_once(SITE_ROOT."admin/db.inc");
-    include_once(SITE_ROOT."admin/password-protection.php");
-    include_once(SITE_ROOT."admin/contrib-utils.php");
-    include_once(SITE_ROOT."admin/web-utils.php");
+class ManageContributors extends SitePage {
 
     function do_update() {
         $contributor_id = $_REQUEST['contributor_id'];
@@ -19,7 +17,7 @@
         $_REQUEST['contributor_id']       = "$contributor_id";
         $_REQUEST['contributor_password'] = web_create_random_password();
 
-        do_update();
+        $this->do_update();
     }
 
     function do_delete() {
@@ -33,13 +31,13 @@
 
         if (isset($action)) {
             if ($action == "update") {
-                do_update();
+                $this->do_update();
             }
             else if ($action == "new") {
-                do_new();
+                $this->do_new();
             }
             else if ($action == "delete") {
-                do_delete();
+                $this->do_delete();
             }
         }
     }
@@ -50,8 +48,6 @@
         $contributors = contributor_get_all_contributors();
 
         print <<<EOT
-        <h1>Manage Contributors</h1>
-
         <p>With this form, you can add, delete, and update the status of PhET contributors, including
         PhET team members.</p>
 
@@ -120,8 +116,27 @@ EOT;
 EOT2;
     }
 
-    handle_action();
+    function update() {
+        $result = parent::update();
+        if (!$result) {
+            return $result;
+        }
 
-    print_site_page('print_contributors', 9);
+        $this->handle_action();
+    }
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        $this->print_contributors();
+    }
+}
+
+$page = new ManageContributors("Manage Contributions", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page->update();
+$page->render();
 
 ?>

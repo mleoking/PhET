@@ -11,11 +11,13 @@
         if ($contributor = contributor_get_contributor_by_username($contributor_email)) {
             print <<<EOT
                 <span class="validation-success" title="This is a valid, existing PhET account.">existing account</span>
+
 EOT;
         }
         else {
             print <<<EOT
                 <span class="validation-success" title="This email is not recognized. A new PhET account will be created.">new account</span>
+
 EOT;
         }
     }

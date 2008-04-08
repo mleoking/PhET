@@ -1,8 +1,9 @@
 <?php
 
-include_once("../admin/BasePage.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class UnapproveContributionPage extends BasePage {
+class UnapproveContributionPage extends SitePage {
 
     function update() {
         $this->unapprove_success = false;
@@ -36,8 +37,7 @@ EOT;
 
 }
 
-auth_do_validation();
-$page = new UnapproveContributionPage(3, get_referrer("../teacher_ideas/manage-contributions.php"), "Unapprove Contribtuion");
+$page = new UnapproveContributionPage("Unapprove Contribtuion", NAV_TEACHER_IDEAS, get_referrer("../teacher_ideas/manage-contributions.php"), SP_AUTHLEVEL_TEAM);
 $page->update();
 $page->render();
 

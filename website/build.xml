@@ -10,7 +10,7 @@ build-related libraries from the simulations-java project.
 
     <!-- Deployment properties -->
     <property name="deploy.live_server.name" value="tigercat.colorado.edu" />
-    <property name="deploy.test_server.name" value="192.168.42.103" />
+    <property name="deploy.test_server.name" value="192.168.42.102" />
 
     <!-- Properties for deploy output-->
     <property name="deploy.live_server.path" value="/web/htdocs/phet/new" />
@@ -52,8 +52,7 @@ build-related libraries from the simulations-java project.
 
                 <!-- If the username and password are not set, get them now: -->
                 <antform title="Deployment Host Login" width="550" height="300">
-                    <label>Please enter your username and password that you use to login to the deployment host machine
-                        ${deploy.server.name}.
+                    <label>Please enter your username and password that you use to login to the deployment host machine.
                     </label>
 
                     <textProperty label="Username:" property="deploy.username" required="true" focus="true" />
@@ -71,6 +70,12 @@ build-related libraries from the simulations-java project.
             <!-- Put all files to the remote directory: -->
             <sftp action="put" remotedir="${deploy.live_server.path}" verbose="true">
                 <fileset dir="${dir.website}">
+                    <!-- These are to hide the Eclipse files -->
+                    <exclude name=".cache/**" />
+                    <exclude name=".metadata/**" />
+                    <exclude name=".project" />
+                    <exclude name=".settings/**" />
+
                     <exclude name=".svn" />
                     <exclude name="**/cached-*/*" />
                     <exclude name="admin/login-info.php" />
@@ -90,6 +95,12 @@ build-related libraries from the simulations-java project.
             <!-- Put all files to the remote directory: -->
             <sftp action="put" remotedir="${deploy.test_server.path}" verbose="true">
                 <fileset dir="${dir.website}">
+                    <!-- These are to hide the Eclipse files -->
+                    <exclude name=".cache/**" />
+                    <exclude name=".metadata/**" />
+                    <exclude name=".project" />
+                    <exclude name=".settings/**" />
+
                     <exclude name=".svn" />
                     <exclude name="**/cached-*/*" />
                     <exclude name="admin/login-info.php" />

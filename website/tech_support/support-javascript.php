@@ -1,11 +1,17 @@
 <?php
 
-    include_once("../admin/site-utils.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-    function print_content() {
-?>
-            <h1>Java Script</h1>
+class JavaScriptTroubleshootingPage extends SitePage {
 
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        print <<<EOT
             <p>JavaScript is a programming language that is mostly used in web pages, usually to add features
             that make the web page more interactive.  JavaScript is required to submit information to PhET.</p>
 
@@ -101,9 +107,12 @@
             <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
 -->
 
-<?php
+EOT;
     }
+}
 
-    print_site_page('print_content', 5);
+$page = new JavaScriptTroubleshootingPage("Troubleshooting JavaScript", NAV_TECH_SUPPORT, null);
+$page->update();
+$page->render();
 
 ?>

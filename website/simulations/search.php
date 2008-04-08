@@ -1,69 +1,101 @@
 <?php
-    include_once("../admin/global.php");
 
-    include_once(SITE_ROOT."admin/db.inc");
-    include_once(SITE_ROOT."admin/web-utils.php");
-    include_once(SITE_ROOT."admin/sim-utils.php");
-    include_once(SITE_ROOT."admin/site-utils.php");
-    include_once(SITE_ROOT."admin/contrib-utils.php");
-    include_once(SITE_ROOT."admin/research-utils.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
+include_once(SITE_ROOT."admin/research-utils.php");
 
-    include_once("../teacher_ideas/referrer.php");
+class SearchPage extends SitePage {
 
-    function print_content() {
-        global $sims, $contribs, $researches, $referrer;
+    function update() {
+        $result = parent::update();
+        if (!$result) {
+            return $result;
+        }
 
+        $this->search_for = "";
+        $this->sims = array();
+        $this->contribs = array();
+        $this->researches = array();
+
+        if (isset($_REQUEST['search_for'])) {
+            $this->search_for = trim($_REQUEST['search_for']);
+            if (strlen($this->search_for) == 0) {
+                return;
+            }
+
+            $this->sims       = sim_search_for_sims($this->search_for);
+            $this->contribs   = contribution_search_for_contributions($this->search_for);
+            $this->researches = research_search_for($this->search_for);
+        }
+    }
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        $number_results = count($this->sims) + count($this->contribs) + count($this->researches);
+        if (!strcmp("", $this->search_for)) {
+            print "<p>No search term specified</p>\n";
+            return;
+        }
+        else {
+            print "<p>{$number_results} search results matching <strong>{$this->search_for}</strong></p>\n";
+        }
         print "<div id=\"searchresults\">";
-        print "<h1>Simulations</h1>";
+        print "<h2>Simulations</h2>";
 
-        if (count($sims) == 0) {
+        if ((!isset($this->sims)) || (count($this->sims) == 0)) {
             print "<p>No simulations were found meeting the specified criteria.</p>";
         }
         else {
             print "<ul>";
 
-            foreach($sims as $sim) {
+            foreach($this->sims as $sim) {
                 $sim_id = $sim['sim_id'];
                 $sim_name = format_string_for_html($sim['sim_name']);
 
                 $sim_url = sim_get_url_to_sim_page($sim_id);
 
                 print <<<EOT
-                    <li><a href="$sim_url">$sim_name</a></li>
+                    <li><a href="$sim_url">$sim_name</a></li
+
 EOT;
             }
 
             print "</ul>";
         }
 
-        print "<h1>Contributions</h1>";
+        print "<h2>Contributions</h2>";
 
-        if (count($contribs) == 0) {
+        if ((!isset($this->contribs) || count($this->contribs) == 0)) {
             print "<p>No contributions were found meeting the specified criteria.</p>";
         }
         else {
             print "<ul>";
 
-            foreach($contribs as $contrib) {
+            foreach($this->contribs as $contrib) {
                 $contribution_id = $contrib['contribution_id'];
                 $contribution_title = format_string_for_html($contrib['contribution_title']);
                 print <<<EOT
-                    <li><a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a></li>
+                    <li><a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer={$this->referrer}">$contribution_title</a></li>
+
 EOT;
             }
 
             print "</ul>";
         }
 
-        print "<h1>Research</h1>";
+        print "<h2>Research</h2>";
 
-        if (count($researches) == 0) {
+        if ((!isset($this->researches)) || (count($this->researches) == 0)) {
             print "<p>No research items were found meeting the specified criteria.</p>";
         }
         else {
             print "<ul>";
 
-            foreach($researches as $research) {
+            foreach($this->researches as $research) {
                 print "<li>";
 
                 research_print($research['research_id']);
@@ -77,21 +109,15 @@ EOT;
         print <<<EOT
             </div>
 
-            <p><a href="$referrer">back</a></p>
+            <p><a href="{$this->referrer}">back</a></p>
+
 EOT;
     }
 
-    if (isset($_REQUEST['search_for'])) {
-        $search_for = $_REQUEST['search_for'];
+}
 
-        $sims       = sim_search_for_sims($search_for);
-        $contribs   = contribution_search_for_contributions($search_for);
-        $researches = research_search_for($search_for);
-
-        print_site_page('print_content', -1);
-    }
-    else {
-        force_redirect($referrer, 0);
-    }
+$page = new SearchPage("Search results", NAV_NOT_SPECIFIED, get_referrer());
+$page->update();
+$page->render();
 
 ?>

@@ -210,8 +210,8 @@ color: gray;
 position: absolute;
 top: 84px;
 right: 0;
-/* TODO: Create a CSS file for IE and add this to it */
-left: expression(parentNode.offsetWidth - this.offsetWidth + 0 + 'px');
+/* TODO: Create a CSS file for IE and add this to it (does it even work?) */
+/*left: expression(parentNode.offsetWidth - this.offsetWidth + 0 + 'px');*/
 }
 #quicksearch fieldset {
 margin: 0;
@@ -1278,9 +1278,12 @@ border-collapse: collapse;
 #referring-statistics thead td {
 background-color: gray;
 }
+/* TODO: Create a CSS file for IE and add this to it (does it even work?) */
+/*
 #referring-statistics tbody tr:nth-child(even) {
 background-color: rgb(210, 210, 210);
 }
+*/
 
 #simrunoptions table {
 width: 300px;

@@ -1,15 +1,11 @@
 <?php
-/*
-    include_once("../admin/site-utils.php");
-*/
 
-include_once("../admin/BasePage.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class TeacherIdeasMain extends BasePage {
+class TeacherIdeasMain extends SitePage {
     function render_content() {
         print <<<EOT
-            <h1>Teacher Ideas &amp; Activities</h1>
-
             <p>
                 Welcome to the Teacher Ideas &amp; Activities page. This page is your gateway to teacher-submitted contributions, designed to be used in conjunction with the <a href="../simulations/index.php">PhET simulations</a>.
             </p>
@@ -36,8 +32,7 @@ EOT;
     }
 }
 
-auth_do_validation();
-$page = new TeacherIdeasMain(3, get_referrer(), "Teacher Ideas");
+$page = new TeacherIdeasMain("Teacher Ideas & Activities", NAV_TEACHER_IDEAS, get_referrer());
 $page->update();
 $page->render();
 

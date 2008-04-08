@@ -1,9 +1,9 @@
 <?
-	include_once("../admin/global.php");
-	
-    include_once(SITE_ROOT."admin/password-protection.php");
-    include_once(SITE_ROOT."admin/db.inc");	
-	include_once(SITE_ROOT."admin/site-utils.php");
+
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
+
+class DeleteSimPage extends SitePage {
 
     function deletesim() {
         $sim_id      = $_REQUEST['sim_id'];
@@ -18,29 +18,42 @@
         print "<p>Successfully deleted the simulation from the database. <a href=\"list-sims.php\">Click here to go back.</a></p>";
     }
 
-	function print_page() {
-		print "<h1>Delete Simulation</h1>";
-		
-	    $sim_id = $_REQUEST['sim_id'];
-	    $delete = isset($_REQUEST['delete']) ? $_REQUEST['delete'] : 0;
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
 
-	    if ($delete == '1') { 
-	        deletesim();
-	    }
-		else {
-		    // first select what SIMULATION to delete
-		    $sql        = "SELECT * FROM `simulation` WHERE `sim_id`='$sim_id' ";
-		    $sql_result = mysql_query($sql);
+        if (!isset($_REQUEST['sim_id'])) {
+            print "<strong><em>No simulation specified</em></strong>\n";
+            return;
+        }
 
-		    while ($row = mysql_fetch_assoc($sql_result)) {       
-		        $sim_name = $row['sim_name'];
+        $sim_id = $_REQUEST['sim_id'];
+        $delete = isset($_REQUEST['delete']) ? $_REQUEST['delete'] : 0;
 
-		        print "<p><b>Are you sure you want to delete the simulation \"$sim_name\"?</b></p>";
-        
-		        print "<p><a href=delete-sim.php?sim_id=$sim_id&delete=1>Yes</a> | <a href=list-sims.php>NO</a></p>";
-		    }
-		}
-	}
-	
-	print_site_page('print_page', 9);
+        if ($delete == '1') {
+            $this->deletesim();
+        }
+        else {
+            // first select what SIMULATION to delete
+            $sql        = "SELECT * FROM `simulation` WHERE `sim_id`='$sim_id' ";
+            $sql_result = mysql_query($sql);
+
+            while ($row = mysql_fetch_assoc($sql_result)) {
+                $sim_name = $row['sim_name'];
+
+                print "<p><b>Are you sure you want to delete the simulation \"$sim_name\"?</b></p>";
+
+                print "<p><a href=delete-sim.php?sim_id=$sim_id&delete=1>Yes</a> | <a href=list-sims.php>NO</a></p>";
+            }
+        }
+    }
+
+}
+
+$page = new DeleteSimPage("Delete Simulation", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page->update();
+$page->render();
+
 ?>

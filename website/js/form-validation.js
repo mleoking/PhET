@@ -290,3 +290,11 @@ function setup_submit_form_validation() {
         }
     );
 }
+
+// This code will disable everything on the page, except the login stuff
+function disable_not_always_enabled_form_elements() {
+    $('input').not('.always-enabled').disable();
+    $('select').not('.always-enabled').disable();
+    $('textarea').not('.always-enabled').disable();
+    $('input.button').enable();
+}
