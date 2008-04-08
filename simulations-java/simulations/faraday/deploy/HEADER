@@ -2,7 +2,7 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-Faraday's Electromagnetic Lab, version 1.05.14
+Faraday's Electromagnetic Lab, version 1.05.15
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -16,7 +16,8 @@ Faraday's Electromagnetic Lab, version 1.05.14
 <b>What's new:</b>
 <p>
 <ul>
-<li>add clock controls to all panels of "Magnets and Electromagnets" sim
+<li>fix [503], no water is shown when turbine is spinning at 1 or 2 rpm
+<li>fix [504], field meter doesn't update consistently when changing strength slider
 </ul>
 <p>
 <b>Known problems:</b>
