@@ -55,6 +55,7 @@ public class BarMagnetPanel extends FaradayPanel {
     private JCheckBox _fieldMeterCheckBox;
     private JCheckBox _compassCheckBox;
     private JCheckBox _earthCheckBox;
+    private EventListener _listener;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -106,7 +107,7 @@ public class BarMagnetPanel extends FaradayPanel {
             int min = (int) ( 100.0 * FaradayConstants.BAR_MAGNET_STRENGTH_MIN / FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
 
             // Slider
-            _strengthControl = new LinearValueControl( min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
+            _strengthControl = new LinearValueControl( min, max, FaradayStrings.LABEL_STRENGTH, "0.0", "%" );
             _strengthControl.setValue( min );
             _strengthControl.setMajorTickSpacing( 50 );
             _strengthControl.setMinorTickSpacing( 10 );
@@ -149,14 +150,14 @@ public class BarMagnetPanel extends FaradayPanel {
         }
         
         // Wire up event handling.
-        EventListener listener = new EventListener();
-        _flipPolarityButton.addActionListener( listener );
-        _strengthControl.addChangeListener( listener );
-        _bFieldCheckBox.addActionListener( listener );
-        _seeInsideCheckBox.addActionListener( listener );
-        _fieldMeterCheckBox.addActionListener( listener );
-        _compassCheckBox.addActionListener( listener );
-        _earthCheckBox.addActionListener( listener );
+        _listener = new EventListener();
+        _flipPolarityButton.addActionListener( _listener );
+        _strengthControl.addChangeListener( _listener );
+        _bFieldCheckBox.addActionListener( _listener );
+        _seeInsideCheckBox.addActionListener( _listener );
+        _fieldMeterCheckBox.addActionListener( _listener );
+        _compassCheckBox.addActionListener( _listener );
+        _earthCheckBox.addActionListener( _listener );
 
         // Set the state of the controls.
         update();
@@ -292,10 +293,18 @@ public class BarMagnetPanel extends FaradayPanel {
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _strengthControl ) {
                 // Read the value.
-                int percent = (int)_strengthControl.getValue();
+                double percent = Math.floor( _strengthControl.getValue() );
                 // Update the model.
-                double strength = (  percent / 100.0 ) * FaradayConstants.BAR_MAGNET_STRENGTH_MAX ;
+                double strength = ( percent / 100.0 ) * FaradayConstants.BAR_MAGNET_STRENGTH_MAX;
                 _barMagnetModel.setStrength( strength );
+                /*
+                 * We're displaying strength in integer precision, but the slider is in double precision.
+                 * This hack ensures that the slider is always on integer values.
+                 * See Unfuddle #504.
+                 */
+                _strengthControl.removeChangeListener( _listener );
+                _strengthControl.setValue( percent );
+                _strengthControl.addChangeListener( _listener );
             }
             else {
                 throw new IllegalArgumentException( "unexpected event: " + e );
