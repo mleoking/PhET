@@ -2,16 +2,10 @@
 
 package edu.colorado.phet.nuclearphysics2.module.alpharadiation;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,6 +18,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics2.view.LabeledNucleusNode;
+import edu.umd.cs.piccolo.PNode;
 
 
 /**
@@ -38,7 +34,6 @@ public class AlphaRadiationLegendPanel extends JPanel {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
-    private static final float SHADOW_OFFSET = 4.0f;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -66,93 +61,29 @@ public class AlphaRadiationLegendPanel extends JPanel {
         addLegendItem( "Proton.png", "NuclearPhysicsControlPanel.ProtonLabel", 12 );
         addLegendItem( "Alpha Particle 001.png", "NuclearPhysicsControlPanel.AlphaParticleLabel", 20 );
         
-        // Now we need to add the legend entries for the Polonium and Lead
-        // nuclei.  This is a bit tricky because we need to put the label on
-        // to the graphic and then display it.
-
-        // Get the image for the nucleus.
-        BufferedImage im = NuclearPhysics2Resources.getImage( "Polonium Nucleus Small.png" );
+        // Add the Polonium nucleus to the legend.
         
-        // Get a Graphics2D and set up the strings and fonts that we will need.
-        Graphics2D g2 = im.createGraphics();
-        String isotopeNumber = NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER;
-        String chemicalSymbol = NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL;
-        Font superscriptFont = new PhetDefaultFont( Font.PLAIN, 64);
-        Font symbolFont = new PhetDefaultFont( Font.PLAIN, 95);
+        PNode labeledPoloniumNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
+                NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER, 
+                NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
         
-        g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-
-        // Draw the shadow for the superscript.  We use shadows to enhance
-        // the readability.
-        g2.setFont(superscriptFont);
-        g2.setPaint( Color.BLACK );
-        TextLayout superscriptTextLayout = 
-            new TextLayout(isotopeNumber, superscriptFont, g2.getFontRenderContext());
-        superscriptTextLayout.draw( g2, SHADOW_OFFSET, superscriptTextLayout.getAscent()+SHADOW_OFFSET);
-        
-        // Draw the main text of the superscript.
-        g2.setPaint( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
-        superscriptTextLayout.draw( g2, 0, superscriptTextLayout.getAscent());
-        
-        // Draw the shadow for the chemical symbol.
-        g2.setPaint( Color.BLACK );
-        TextLayout symbolTextLayout = 
-            new TextLayout(chemicalSymbol, symbolFont, g2.getFontRenderContext());
-        symbolTextLayout.draw( g2, (float)superscriptTextLayout.getBounds().getWidth()+SHADOW_OFFSET,
-                symbolTextLayout.getAscent()+SHADOW_OFFSET);
-        
-        // Draw the main text of the chemical symbol.
-        g2.setPaint( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
-        symbolTextLayout.draw( g2, (float)superscriptTextLayout.getBounds().getWidth(), symbolTextLayout.getAscent());
-
-        g2.dispose();
-
-        // Add the new image and the associated label to the legend.
-        ImageIcon icon = new ImageIcon(im.getScaledInstance( 50, -1, Image.SCALE_SMOOTH ));
+        Image poloniumImage = labeledPoloniumNucleus.toImage();
+        ImageIcon icon = new ImageIcon(poloniumImage);
         add(new JLabel(icon));
         add(new JLabel( NuclearPhysics2Strings.POLONIUM_LEGEND_LABEL ) );
         
-        // Now add the graphic and label for the lead nucleus.
+        // Add the Lead nucleus to the legend.
         
-        // Get the image for the nucleus.
-        im = NuclearPhysics2Resources.getImage( "Lead Nucleus Small.png" );
+        PNode labeledLeadNucleus = new LabeledNucleusNode("Lead Nucleus Small.png",
+                NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER, 
+                NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL, 
+                NuclearPhysics2Constants.LEAD_LABEL_COLOR );
         
-        // Get a Graphics2D and set up the strings and fonts that we will need.
-        g2 = im.createGraphics();
-        isotopeNumber = NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER;
-        chemicalSymbol = NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL;
-        superscriptFont = new PhetDefaultFont( Font.PLAIN, 64);
-        symbolFont = new PhetDefaultFont( Font.PLAIN, 95);
-        
-        // Draw the shadow for the superscript.  Again, We use shadows to
-        // enhance the readability.
-        g2.setFont(superscriptFont);
-        g2.setPaint( Color.BLACK );
-        superscriptTextLayout = 
-            new TextLayout(isotopeNumber, superscriptFont, g2.getFontRenderContext());
-        superscriptTextLayout.draw( g2, SHADOW_OFFSET, superscriptTextLayout.getAscent()+SHADOW_OFFSET);
-        
-        // Draw the main text of the superscript.
-        g2.setPaint( NuclearPhysics2Constants.LEAD_LABEL_COLOR );
-        superscriptTextLayout.draw( g2, 0, superscriptTextLayout.getAscent());
-        
-        // Draw the shadow for the chemical symbol.
-        g2.setPaint( Color.BLACK );
-        symbolTextLayout = new TextLayout(chemicalSymbol, symbolFont, g2.getFontRenderContext());
-        symbolTextLayout.draw( g2, (float)superscriptTextLayout.getBounds().getWidth()+SHADOW_OFFSET, 
-                symbolTextLayout.getAscent()+SHADOW_OFFSET);
-        
-        // Draw the main text of the chemical symbol.
-        g2.setPaint( NuclearPhysics2Constants.LEAD_LABEL_COLOR );
-        symbolTextLayout.draw( g2, (float)superscriptTextLayout.getBounds().getWidth(), symbolTextLayout.getAscent());
-
-        g2.dispose();
-
-        // Add the new image and the associated label to the legend.
-        icon = new ImageIcon(im.getScaledInstance( 50, -1, Image.SCALE_SMOOTH ));
+        Image leadImage = labeledLeadNucleus.toImage();
+        icon = new ImageIcon(leadImage);
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.LEAD_LEGEND_LABEL ));
+        add(new JLabel( NuclearPhysics2Strings.LEAD_LEGEND_LABEL ) );
     }
     
     /**
