@@ -13,6 +13,8 @@ public class FissionOneNucleusControlPanel extends ControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private FissionOneNucleusLegendPanel _legendPanel;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -20,10 +22,10 @@ public class FissionOneNucleusControlPanel extends ControlPanel {
     /**
      * Constructor.
      * 
-     * @param alphaRadiationModule
+     * @param fissionOneNucleusModule
      * @param parentFrame parent frame, for creating dialogs
      */
-    public FissionOneNucleusControlPanel( FissionOneNucleusModule alphaRadiationModule, Frame parentFrame ) {
+    public FissionOneNucleusControlPanel( FissionOneNucleusModule fissionOneNucleusModule, Frame parentFrame ) {
         super();
         
         // Set the control panel's minimum width.
@@ -31,8 +33,10 @@ public class FissionOneNucleusControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Create sub-panels
-        // TODO: Add the pannels.
+        _legendPanel = new FissionOneNucleusLegendPanel();
         
+        // Add the legend panel.
+        addControlFullWidth( _legendPanel );
     }
     
     //----------------------------------------------------------------------------
