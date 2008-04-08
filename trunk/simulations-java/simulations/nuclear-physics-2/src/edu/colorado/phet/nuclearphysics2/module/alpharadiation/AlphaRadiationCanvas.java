@@ -254,8 +254,6 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                 
                 // Position the reset button.
                 _resetButtonNode.setOffset( 0.75 * getWidth(), 0.15 * getHeight() );
-                
-                System.out.println("JPB TBD - Button width is :" + _resetButtonNode.getHeight());
             }
         } );
     }

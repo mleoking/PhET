@@ -26,6 +26,7 @@ public class NuclearPhysics2Strings {
 
     public static final String URANIUM_235_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Uranium235Graphic.Symbol" );
     public static final String URANIUM_235_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Uranium235Graphic.Number" );
+    public static final String URANIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Uranium235Label" );
 
     public static final String POLONIUM_211_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Polonium211Graphic.Symbol" );
     public static final String POLONIUM_211_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Polonium211Graphic.Number" );
