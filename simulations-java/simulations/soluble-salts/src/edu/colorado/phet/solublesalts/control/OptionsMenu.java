@@ -42,7 +42,7 @@ public class OptionsMenu extends JMenu {
             }
         } );
 
-        final JCheckBoxMenuItem randomWalkMI = new JCheckBoxMenuItem( "Random walk" );
+        final JCheckBoxMenuItem randomWalkMI = new JCheckBoxMenuItem( "Random walk", SolubleSaltsConfig.RANDOM_WALK );
         optionsMenu.add( randomWalkMI );
         randomWalkMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
