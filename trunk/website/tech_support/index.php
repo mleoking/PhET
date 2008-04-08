@@ -1,14 +1,23 @@
 <?php
 
-    include_once("../admin/site-utils.php");
-    include_once("../admin/sim-utils.php");
+    include_once("../admin/global.php");
+    include_once(SITE_ROOT."admin/site-utils.php");
+    include_once(SITE_ROOT."admin/sim-utils.php");
 
-    function print_content() {
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
+
+class TroubleshootingPage extends SitePage {
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
         $no_mac = SIM_NO_MAC_IMAGE_HTML;
 
         print <<<EOT
-            <h1>Troubleshooting</h1>
-
             <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu?Subject=Help"><span class="red">phethelp@colorado.edu</span></a>.</p>
 
             <ul class="content-points">
@@ -186,9 +195,13 @@
             <h3 id="q10" >I would like to translate PhET Simulations into another Language. Can this be easily done?</h3>
 
             <p>The PhET simulations have been written so that they are easily translated to languages other than English. Please <a href="../contribute/index.php">click here</a> for more information.</p>
+
 EOT;
     }
+}
 
-    print_site_page('print_content', 5);
+$page = new TroubleshootingPage("Troubleshooting", NAV_TECH_SUPPORT, null);
+$page->update();
+$page->render();
 
 ?>

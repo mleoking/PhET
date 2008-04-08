@@ -1,11 +1,9 @@
 <?php
-    include_once("../admin/global.php");
 
-    include_once(SITE_ROOT."admin/password-protection.php");
-    include_once(SITE_ROOT."admin/db.inc");
-    include_once(SITE_ROOT."admin/web-utils.php");
-    include_once(SITE_ROOT."admin/sim-utils.php");
-    include_once(SITE_ROOT."admin/site-utils.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
+
+class EditSimPage extends SitePage {
 
     function print_category_checkbox($cat_id, $cat_name, $cat_is_visible) {
         $sim_id = $_REQUEST['sim_id'];
@@ -36,7 +34,7 @@
             $cat_name       = $category_row['cat_name'];
             $cat_is_visible = $category_row['cat_is_visible'];
 
-            print_category_checkbox($cat_id, $cat_name, $cat_is_visible);
+            $this->print_category_checkbox($cat_id, $cat_name, $cat_is_visible);
         }
     }
 
@@ -58,23 +56,29 @@
         print "<input name=\"sim_type\" type=\"radio\" value=\"$type\" $check_status /> $image_html";
     }
 
-    function print_site_content() {
-        $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
 
-        if (!$simulation) {
-            print "<h1>No Simulation Found</h1><p>There is no simulation with the specified id.</p>";
+        if (isset($_REQUEST['sim_id'])) {
+            $simulation = sim_get_sim_by_id($_REQUEST['sim_id']);
+        }
+
+        if (!isset($simulation) || !$simulation) {
+            print "<h2>No Simulation Found</h2><p>There is no simulation with the specified id.</p>";
             return;
         }
 
         eval(get_code_to_create_variables_from_array($simulation));
 
         print <<<EOT
-            <h1>Edit Simulation Parameters</h1>
-
             <form enctype="multipart/form-data" action="update-sim.php" method="post">
                 <p>
                     <input type="hidden" name="sim_id" value="$sim_id" />
                 </p>
+
 EOT;
 
         print_captioned_editable_area("Specify the name of the simulation", "sim_name", $sim_name, "1");
@@ -89,11 +93,12 @@ EOT;
         print <<<EOT
     <div>Please select a rating for this simulation</div>
                 <p>
+
 EOT;
 
-        print_rating_checkbox(SIM_RATING_ALPHA,         $sim_rating);
-        print_rating_checkbox(SIM_RATING_BETA,          $sim_rating);
-        print_rating_checkbox(SIM_RATING_CHECK,         $sim_rating);
+        $this->print_rating_checkbox(SIM_RATING_ALPHA,         $sim_rating);
+        $this->print_rating_checkbox(SIM_RATING_BETA,          $sim_rating);
+        $this->print_rating_checkbox(SIM_RATING_CHECK,         $sim_rating);
 
 print <<<EOT
                 </p>
@@ -101,10 +106,11 @@ print <<<EOT
     <div>Please select the type of the simulation</div>
 
         <p>
+
 EOT;
 
-        print_type_checkbox(SIM_TYPE_JAVA,  $sim_type);
-        print_type_checkbox(SIM_TYPE_FLASH, $sim_type);
+        $this->print_type_checkbox(SIM_TYPE_JAVA,  $sim_type);
+        $this->print_type_checkbox(SIM_TYPE_FLASH, $sim_type);
 
         print "</p>";
 
@@ -134,7 +140,7 @@ EOT;
 
         print("<div>Please select the categories you would like the Simulation to appear under:</div>");
         print "<p>\n";
-        print_category_checkboxes();
+        $this->print_category_checkboxes();
 
         print <<<EOT
             </p>
@@ -148,6 +154,10 @@ EOT;
             <div>*Separated by commas or asterisks. Asterisk separation has precedence over comma separation.</div>
 EOT;
     }
+}
 
-    print_site_page('print_site_content', 9);
+$page = new EditSimPage("Edit Simulation Parameters", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page->update();
+$page->render();
+
 ?>

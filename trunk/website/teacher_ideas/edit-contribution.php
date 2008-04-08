@@ -1,20 +1,15 @@
 <?php
 
 include_once("../admin/global.php");
-include_once(SITE_ROOT."admin/authentication.php");
-//    include_once(SITE_ROOT."admin/contrib-utils.php");
-//    include_once(SITE_ROOT."admin/site-utils.php");
-//    include_once(SITE_ROOT."admin/web-utils.php");
 include_once(SITE_ROOT."teacher_ideas/referrer.php");
-//    include_once(SITE_ROOT."admin/cache-utils.php");
 
-include_once("../admin/BasePage.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class EditContributionPage extends BasePage {
+class EditContributionPage extends SitePage {
 
     function print_javascript_error() {
         print <<<EOT
-            <h1>Error in submission</h1>
+            <h2>Error in submission</h2>
 
             <p>Sorry, there was as error with your submission..</p>
 
@@ -25,13 +20,6 @@ EOT;
     }
 
     function update_contribution($contribution) {
-        /*
-        if (!isset($contribution['contributor_id']) || $contribution['contributor_id'] == -1) {
-            // The contribution is unowned; transfer ownership to the present user:
-            $contribution['contributor_id'] = $GLOBALS['contributor_id'];
-        }
-        */
-
         $username = auth_get_username();
         $contributor = contributor_get_contributor_by_username($username);
 
@@ -102,7 +90,7 @@ EOT;
             // is enabled.  If JavaScript is not enabled, this special hidden input will
             // not be created.  Of course, this is circumventable, but this eliminates
             // most of the non-malicious people.
-            if (!isset($_REQUEST['submition']) || ($_REQUEST['submition'][0] != 'x')) {
+            if (!$this->javascript_submit_is_valid()) {
                 $this->print_javascript_error();
                 return false;
             }
@@ -122,7 +110,7 @@ EOT;
 
     function print_success() {
         print <<<EOT
-            <h1>Update Success</h1>
+            <h2>Update Success</h2>
 
             <p><strong>Thank you! The contribution has been successfully updated.</strong></p>
 
@@ -132,22 +120,14 @@ EOT;
     }
 
     function update() {
+        $result = parent::update();
+        if (!$result) {
+
+        }
+
         ob_start();
 
-        if (!auth_user_validated()) {
-            $intro_text = "<p>You must be logged in to edit an activity</p>";
-            $hidden_inputs = "";
-            $contribution_id_text = "contribution_id=";
-            $referrer_text = "referrer=".$this->referrer;
-            if (isset($_REQUEST['contribution_id'])) {
-                //$hidden_inputs = "<input type=\"hidden\" name=\"contribution_id\" value=\"{$_REQUEST['contribution_id']}\" class=\"always-enabled\"/>";
-                $contribution_id_text .= $_REQUEST['contribution_id'];
-            }
-
-            $extra_url = format_string_for_html("?".join("&", array($contribution_id_text, $referrer_text)));
-            print_login_and_new_account_form("edit-contribution.php{$extra_url}", "edit-contribution.php{$extra_url}", $this->referrer, $intro_text, $hidden_inputs);
-        }
-        else if (!isset($_REQUEST['contribution_id'])) {
+        if (!isset($_REQUEST['contribution_id'])) {
             print <<<EOT
             <p>You must specify a contribution to edit.  Try going to the <a href="manage-contributions.php">Manage Contributions</a> page, and select a activity to edit.</p>
 
@@ -161,6 +141,10 @@ EOT;
 EOT;
         }
         else {
+            if ($this->authentication_level < SP_AUTHLEVEL_USER) {
+                $this->add_javascript_header_script("disable_not_always_enabled_form_elements();");
+            }
+
             $contribution_id = $_REQUEST['contribution_id'];
             $username = auth_get_username();
             $contributor = contributor_get_contributor_by_username($username);
@@ -175,11 +159,11 @@ EOT;
                         $this->print_success();
                     }
                     else {
-                        contribution_print_full_edit_form($contribution_id, "edit-contribution.php", $this->referrer, "Update", $this);
+                        contribution_print_full_edit_form($contribution_id, "../teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
                     }
                 }
                 else {
-                    contribution_print_full_edit_form($contribution_id, "edit-contribution.php", $this->referrer, "Update", $this);
+                    contribution_print_full_edit_form($contribution_id, "../teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
                 }
             }
             else {
@@ -194,10 +178,16 @@ EOT;
         $this->add_content(ob_get_clean());
         return true;
     }
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return BasePage::render_content();//$result;
+        }
+    }
 }
 
-auth_do_validation();
-$page = new EditContributionPage(3, get_referrer(), "Edit an Activity");
+$page = new EditContributionPage("Edit an Activity", NAV_TEACHER_IDEAS, get_referrer("../teacher_ideas/edit-contribution.php"), SP_AUTHLEVEL_USER);
 $page->update();
 $page->render();
 

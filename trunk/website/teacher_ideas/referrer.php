@@ -1,8 +1,6 @@
 <?php
-    if (!defined('SITE_ROOT')) {
-        include_once('../admin/global.php');
-    }
 
+    include_once("../admin/global.php");
     include_once(SITE_ROOT."admin/web-utils.php");
 
     /**
@@ -21,7 +19,7 @@
             $referrer = $_REQUEST['referrer'];
             //$GLOBALS['referrer'] = $_REQUEST['referrer'];
         }
-        else if (is_null($referrer_if_no_request)) {
+        else if (!is_null($referrer_if_no_request)) {
             $referrer = $referrer_if_no_request;
         }
         else {
@@ -29,6 +27,7 @@
             //$GLOBALS['referrer'] = $_SERVER['REQUEST_URI'];
         }
 
+        // TODO: check if this is only for browse.php and find a better solution
         $referrer = remove_script_param_from_url('content_only', $referrer);
         //$GLOBALS['referrer'] = format_for_html(remove_script_param_from_url('content_only', $GLOBALS['referrer']));
 

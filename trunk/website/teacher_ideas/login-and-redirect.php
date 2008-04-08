@@ -1,22 +1,37 @@
 <?php
 
-include_once("../admin/BasePage.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class LoginAndRedirectPage extends BasePage {
+class LoginAndRedirectPage extends SitePage {
+
+    function update() {
+        if ($this->authentication_level >= SP_AUTHLEVEL_USER) {
+            $this->meta_refresh($_REQUEST['url'], 0);
+        }
+    }
 
     function render_content() {
-        print_first_time_login_form();
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        print_login_and_new_account_form($this->referrer, $this->referrer, $this->referrer);
     }
+
 }
 
-$result = auth_do_validation();
-if ($result) {
-    force_redirect($_REQUEST['url'], 0);
+
+if (isset($_REQUEST["url"]) && (strlen($_REQUEST["url"]) > 0)) {
+    $redirect_url = $_REQUEST["url"];
 }
 else {
-    $page = new LoginAndRedirectPage(-1, $_REQUEST['url'], "Login And Redirect");
-    $page->update();
-    $page->render();
+    $redirect_url = "../index.php";
 }
+
+$page = new LoginAndRedirectPage("Login", NAV_NOT_SPECIFIED, $redirect_url);
+$page->update();
+$page->render();
 
 ?>

@@ -1,10 +1,10 @@
 <?php
 
-include_once("../admin/BasePage.php");
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class ManageContributions extends BasePage {
+class ManageContributions extends SitePage {
     function print_contributions($contributions, $heading) {
-        //global $contributor_id, $contributor_is_team_member;
         $username = auth_get_username();
         $contributor = contributor_get_contributor_by_username($username);
         $contributor_id = $contributor["contributor_id"];
@@ -30,14 +30,13 @@ EOT;
     }
 
     function print_manage_contributions() {
-        //global $contributor_id, $contributor_is_team_member;
         $username = auth_get_username();
         $contributor = contributor_get_contributor_by_username($username);
         $contributor_id = $contributor["contributor_id"];
         $contributor_is_team_member = $contributor["contributor_is_team_member"];
 
         if ($contributor_is_team_member) {
-        print <<<EOT
+            print <<<EOT
             <table>
                 <tr style="background-color: #ffbbbb">
                     <td>
@@ -49,30 +48,38 @@ EOT;
 EOT;
         }
 
+        $num_contributions = 0;
+
         $contributions = contribution_get_contributions_for_contributor_id($contributor_id);
+        $num_contributions += count($contributions);
         $this->print_contributions($contributions, "My Contributions");
 
         $contributions = contribution_get_coauthored_contributions_for_contributor_id($contributor_id);
+        $num_contributions += count($contributions);
         $this->print_contributions($contributions, "Coauthored Contributions");
 
         $contributions = contribution_get_other_manageable_contributions_for_contributor_id($contributor_id);
+        $num_contributions += count($contributions);
         $this->print_contributions($contributions, "Other Contributions");
+
+        if ($num_contributions == 0) {
+            print "<p><strong><em>You don't have any contributions to manage.</em></strong></p>\n";
+        }
     }
 
     function render_content() {
-        if (!auth_user_validated()) {
-            $intro_text = "<p>You must be logged in to manage the contributions</p>";
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
 
-            print_login_and_new_account_form("manage-contributions.php", "manage-contributions.php", $this->referrer, $intro_text);
-        }
-        else {
-            $this->print_manage_contributions();
-        }
+        $this->print_manage_contributions();
+
+        return true;
     }
 }
 
-auth_do_validation();
-$page = new ManageContributions(3, get_referrer(), "Manage Contributions");
+$page = new ManageContributions("Manage Contributions", NAV_TEACHER_IDEAS, get_referrer(), SP_AUTHLEVEL_USER);
 $page->update();
 $page->render();
 

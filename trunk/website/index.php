@@ -1,17 +1,24 @@
 <?php
-    if (!defined('SITE_ROOT')) {
-        define("SITE_ROOT", "./");
-    }
 
-    session_start();
+// HACK: get around PHP's weird behavior of looking for all include
+// files relative to this file, rather than the included file, which
+// really makes include file chaining a mess
+    $original_dir = getcwd();
+    chdir("./admin");
 
-    include_once("admin/cache-utils.php");
+    define("SITE_ROOT", "../");
 
+    include_once(SITE_ROOT."admin/cache-utils.php");
+    include_once(SITE_ROOT."admin/authentication.php");
+
+    auth_do_validation();
     cache_auto_start();
 
-    include_once("admin/sim-utils.php");
-    include_once("admin/web-utils.php");
-    include_once("admin/site-utils.php");
+    include_once(SITE_ROOT."./admin/sim-utils.php");
+    include_once(SITE_ROOT."./admin/web-utils.php");
+    include_once(SITE_ROOT."./admin/site-utils.php");
+
+    chdir($original_dir);
 
     $referrer           = $_SERVER['PHP_SELF'];
     $utility_panel_html = get_sitewide_utility_html('.');
@@ -233,7 +240,7 @@ EOT;
         </div>
 
         <div id="footer">
-            <p>&copy; 2007 University of Colorado. All rights reserved.</p>
+            <p>&copy; 2008 University of Colorado. All rights reserved.</p>
         </div>
 
         <div id="utility-panel">

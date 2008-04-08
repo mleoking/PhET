@@ -1,9 +1,7 @@
 <?php
-    if (!defined('SITE_ROOT')) {
-        include_once("../admin/global.php");
-    }
 
-    include_once(SITE_ROOT."admin/db.inc");
+    include_once("../admin/global.php");
+    include_once(SITE_ROOT."admin/db.php");
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/db-utils.php");
     include_once(SITE_ROOT."admin/xml_parser.php");
@@ -656,11 +654,19 @@
     function sim_get_cat_by_cat_encoding($cat_encoding) {
         $categories = sim_get_categories();
 
+        if (!isset($categories[$cat_encoding])) {
+            return null;
+        }
+
         return $categories[$cat_encoding];
     }
 
     function sim_get_cat_id_by_cat_encoding($cat_encoding) {
         $category = sim_get_cat_by_cat_encoding($cat_encoding);
+
+        if (!isset($category['cat_id'])) {
+            return null;
+        }
 
         return $category['cat_id'];
     }
@@ -699,7 +705,10 @@
             $size = 0;
 
             // Java jnlp file; have to compute file size by examining jnlp
-            $xml = file_get_contents($sim_launch_url);
+            @$xml = file_get_contents($sim_launch_url);
+            if ($xml == false) {
+                return false;
+            }
 
             $xml_encoding = mb_detect_encoding($xml);
 
@@ -918,7 +927,10 @@
 
         if (!$file) {
             // Load image -- assume image is in png format (for now):
-            $img = imagecreatefrompng($sim_image_url);
+            @$img = imagecreatefrompng($sim_image_url);
+            if ($img == false) {
+                return;
+            }
 
             $existing_width  = imagesx($img);
             $existing_height = imagesy($img);

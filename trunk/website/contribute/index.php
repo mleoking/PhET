@@ -1,18 +1,24 @@
 <?php
 
-    include_once("../admin/site-utils.php");
-    
-    function print_content() {
-        ?>
-            <h1>Contribute</h1>
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
+class ContributePage extends SitePage {
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        print <<<EOT
             <h2>Academic Contributions</h2>
 
             <p>If you have developed concept questions, problem sets, lesson plans, and other educational activities based on PhET simulations that may be of use to others, we encourage you to share your work with other educators by <a href="../teacher_ideas/contribute.php">contributing it to PhET</a>.</p>
 
-			<h3>Suggest a Simulation</h3>
+            <h3>Suggest a Simulation</h3>
 
-			<p>If you have an idea for a PhET simulation, please <a href="mailto:phethelp@colorado.edu?Subject=Simulation%20Suggestion&Body=I%20would%20like%20to%20suggest%20the%20following%20simulation:">let us know</a>.</p>
+            <p>If you have an idea for a PhET simulation, please <a href="mailto:phethelp@colorado.edu?Subject=Simulation%20Suggestion&amp;Body=I%20would%20like%20to%20suggest%20the%20following%20simulation:">let us know</a>.</p>
 
             <h2>Financial Contributions</h2>
 
@@ -25,9 +31,13 @@
             <p>The PhET simulations have been written so that they are easily translated to languages other than English. The process uses a simple tool called the <a href="../contribute/translate.php">PhET Translation Utility</a>, and requires no programming skills.</p>
 
             <p>Translating the PhET simulations into other languages greatly expands our target audience, and helps us accomplish the <a href="../about/index.php">PhET mission</a>.</p>
-        <?php
-    }
 
-    print_site_page('print_content', 6);
+EOT;
+    }
+}
+
+$page = new ContributePage("Contribute", NAV_CONTRIBUTE, null);
+$page->update();
+$page->render();
 
 ?>

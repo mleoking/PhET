@@ -1,14 +1,15 @@
 <?
-    include_once("../admin/global.php");
 
-    include_once(SITE_ROOT."admin/password-protection.php");
-	include_once(SITE_ROOT."admin/db.inc");
-	include_once(SITE_ROOT."admin/web-utils.php");
-	include_once(SITE_ROOT."admin/sim-utils.php");
-	include_once(SITE_ROOT."admin/site-utils.php");	
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-    function print_sims_list() {
-        print "<h1>Simulation Listing</h1>";
+class SimualtionListing extends SitePage {
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
 
         print "<table class=\"compact\">";
 
@@ -40,6 +41,10 @@
         
         print "</table>";
     }
-    
-    print_site_page('print_sims_list', 9);
+}
+
+$page = new SimualtionListing("Simualtion Listing", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page->update();
+$page->render();
+
 ?>

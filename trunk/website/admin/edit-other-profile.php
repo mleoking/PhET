@@ -1,19 +1,43 @@
 <?php
-	include_once("../admin/global.php");
-	
-	include_once(SITE_ROOT."admin/password-protection.php");
-	include_once(SITE_ROOT."admin/contrib-utils.php");
-	include_once(SITE_ROOT."admin/site-utils.php");
 
-	function print_edit_profile_form() {
-	    global $edit_contributor_id;
-    
-	    print "<h1>Edit Profile</h1>";
-    
-	    contributor_print_full_edit_form($edit_contributor_id, "../admin/update-other-profile.php", null, "<p>You may edit the profile of the user here.</p>");
-	}
-	
-	$edit_contributor_id = $_REQUEST['edit_contributor_id'];
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-	print_site_page('print_edit_profile_form', 9);
+class EditOtherProfile extends SitePage {
+    function update() {
+        $user_authenticated = parent::update();
+        if (!$user_authenticated) {
+            return;
+        }
+
+        if (!isset($_REQUEST['edit_contributor_id'])) {
+            return;
+        }
+
+        $this->contributor_to_edit = $_REQUEST['edit_contributor_id'];
+    }
+
+    function render_content() {
+        $user_authenticated = parent::render_content();
+        if (!$user_authenticated) {
+            return;
+        }
+
+        if (!isset($this->contributor_to_edit)) {
+            print <<<EOT
+            <h2>No profile specified</h2>
+
+EOT;
+            return;
+        }
+
+        $editor_contributor_id = contributor_get_id_from_contributor_username(auth_get_username());
+        contributor_print_full_edit_form($editor_contributor_id, $this->contributor_to_edit, "../admin/update-other-profile.php", null, "<p>You may edit the profile of the user here.</p>");
+    }
+}
+
+$page = new EditOtherProfile("Edit Other Profile", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page->update();
+$page->render();
+
 ?>

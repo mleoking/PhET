@@ -1,133 +1,131 @@
 <?php
 
-	$g_cache_current_page = true;
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-	include_once("../admin/global.php");
+class ListTranslationsPage extends SitePage {
 
-	include_once(SITE_ROOT."admin/db.inc");
-	include_once(SITE_ROOT."admin/web-utils.php");
-	include_once(SITE_ROOT."admin/sim-utils.php");
-	include_once(SITE_ROOT."admin/site-utils.php");
-	include_once(SITE_ROOT."admin/contrib-utils.php");
-	
-	function print_translations() {
-//		print "<h1>Translated Sims</h1>";
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
 
-//		flush();
+        $sim_to_translations = sim_get_all_translated_language_names();
 
-		$sim_to_translations = sim_get_all_translated_language_names();
+         $languages = array();
 
- 		$languages = array();
+         foreach ($sim_to_translations as $sim_name => $map) {
+             foreach ($map as $language_name => $launch_url) {
+                 $languages["$language_name"] = "$language_name";
+             }
+         }
 
- 		foreach ($sim_to_translations as $sim_name => $map) {
- 			foreach ($map as $language_name => $launch_url) {
- 				$languages["$language_name"] = "$language_name";
- 			}
- 		}
+        $columns = count($languages) + 1;
 
-		$columns = count($languages) + 1;
-
-//		print <<<EOT
-//			<div id="translated-versions">
-//			<table>
-//				<thead>
-//					<tr>
-//						<td class="even"></td>
+//        print <<<EOT
+//            <div id="translated-versions">
+//            <table>
+//                <thead>
+//                    <tr>
+//                        <td class="even"></td>
 //EOT;
-		
 
-//		flush();
 
-		$col_count = 1;
+//        flush();
 
-		$row_count = 0;
+        $col_count = 1;
 
-		foreach (sim_get_all_sim_names() as $sim_name) {
-			if (!isset($sim_to_translations[$sim_name])) {
-				$map = array();
-			}
-			else {
-				$map = $sim_to_translations[$sim_name];
-			}
+        $row_count = 0;
 
-			$row_is_even = ($row_count % 2) == 0;
+        foreach (sim_get_all_sim_names() as $sim_name) {
+            if (!isset($sim_to_translations[$sim_name])) {
+                $map = array();
+            }
+            else {
+                $map = $sim_to_translations[$sim_name];
+            }
 
-			$row_class = $row_is_even ? "even" : "odd";
+            $row_is_even = ($row_count % 2) == 0;
 
-//			print "<tr class=\"$row_class\">";
+            $row_class = $row_is_even ? "even" : "odd";
 
-//			flush();
+//            print "<tr class=\"$row_class\">";
 
-			$sim_page_link = sim_get_url_to_sim_page_by_sim_name($sim_name);
+//            flush();
 
-//			print "<td class=\"even\"><a href=\"$sim_page_link#versions\">$sim_name</a></td>";
+            $sim_page_link = sim_get_url_to_sim_page_by_sim_name($sim_name);
 
-			flush();
+//            print "<td class=\"even\"><a href=\"$sim_page_link#versions\">$sim_name</a></td>";
 
-			$col_count = 1;
-			
-			foreach ($languages as $language_name) {
-				$col_is_even = ($col_count % 2) == 0;
+            flush();
 
-				$col_class = $col_is_even ? "even" : "odd";
+            $col_count = 1;
 
-//				print "<td title=\"$language_name\" class=\"$col_class\">";
+            foreach ($languages as $language_name) {
+                $col_is_even = ($col_count % 2) == 0;
 
-				if (isset($map[$language_name])) {
-					$launch_url = $map[$language_name];
-					print "$launch_url";
-					print "";
-					print "</br>";
-//					print <<<EOT
-//						<a href="$launch_url"/>
+                $col_class = $col_is_even ? "even" : "odd";
+
+//                print "<td title=\"$language_name\" class=\"$col_class\">";
+
+                if (isset($map[$language_name])) {
+                    $launch_url = $map[$language_name];
+                    print "$launch_url";
+                    print "";
+                    print "<br />";
+//                    print <<<EOT
+//                        <a href="$launch_url"/>
 //EOT;
-//					print "<br/>";
+//                    print "<br/>";
 
-//					flush();
-				}
-				else {
-					print "";
-				}
-				
-//				print "</td>";
-				
-				$col_count++;
-				
-				flush();
-			}
+//                    flush();
+                }
+                else {
+                    print "";
+                }
 
-//			print "</tr>";
+//                print "</td>";
 
-			flush();
-			
-			$row_count++;
-		}
+                $col_count++;
 
-//		print "</tbody>";		
-//		print "</table>";
-//		print "</div>";
-		foreach ($languages as $language) {
-			$url = sim_get_language_icon_url_from_language_name($language);
+                flush();
+            }
 
-//			print "<h1 id=\"$language\"><img src=\"$url\" alt=\"\" title=\"$language\"/></h1>";
+//            print "</tr>";
 
-//			print "<ul>";
+            flush();
 
-			foreach ($sim_to_translations as $sim_name => $translation) {
-				foreach ($translation as $cur_language => $launch_url) {
-					if ($cur_language == $language) {
-//						print "<li><a href=\"$launch_url\">$sim_name</a></li>";
-					}
-				}
-			}
-			
-			//print "</ul>";
-		}
-		
-		flush();
-	}
-	
-	//print_site_page('print_translations', 2);
-	print_translations();
+            $row_count++;
+        }
+
+//        print "</tbody>";
+//        print "</table>";
+//        print "</div>";
+        foreach ($languages as $language) {
+            $url = sim_get_language_icon_url_from_language_name($language);
+
+//            print "<h1 id=\"$language\"><img src=\"$url\" alt=\"\" title=\"$language\"/></h1>";
+
+//            print "<ul>";
+
+            foreach ($sim_to_translations as $sim_name => $translation) {
+                foreach ($translation as $cur_language => $launch_url) {
+                    if ($cur_language == $language) {
+//                        print "<li><a href=\"$launch_url\">$sim_name</a></li>";
+                    }
+                }
+            }
+
+            //print "</ul>";
+        }
+
+        flush();
+    }
+}
+
+$page = new ListTranslationsPage("List Translations", NAV_SIMUALTIONS, null);
+$page->update();
+$page->render();
 
 ?>

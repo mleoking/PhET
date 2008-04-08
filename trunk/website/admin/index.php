@@ -1,10 +1,17 @@
 <?php
-    include_once("../admin/password-protection.php");
 
-    function print_control_panel() {
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
+
+class AdminControlPanelPage extends SitePage {
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
         print <<<EOT
-            <h1>PhET Administration Control Panel</h1>
-
             <h3>Simulations</h3>
             <ul>
                 <li><a href="new-sim.php">Add Simulation</a></li>
@@ -35,8 +42,6 @@
                 <li><a href="compose-newsletter.php">Compose Newsletter</a></li>
 
                 <li><a href="view-statistics.php">View Statistics</a></li>
-
-                <li><a href="manage-db.php">Manage Database</a></li>
             </ul>
 
             <h3>Web page caching</h3>
@@ -50,5 +55,10 @@
 EOT;
     }
 
-    print_site_page('print_control_panel', 9);
+}
+
+$page = new AdminControlPanelPage("PhET Administration Control Panel", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page->update();
+$page->render();
+
 ?>

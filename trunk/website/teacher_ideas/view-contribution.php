@@ -2,17 +2,32 @@
 
 include_once("../admin/global.php");
 
-include_once("../admin/BasePage.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class ViewContribution extends BasePage {
-    function print_content() {
+class ViewContribution extends SitePage {
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        if (!isset($_REQUEST['contribution_id'])) {
+            print "<p>No contribution id specified.</p>\n";
+            return;
+        }
+
         $contribution_id = $_REQUEST['contribution_id'];
+
+        $contribution = contribution_get_contribution_by_id($contribution_id);
+        if (!$contribution) {
+            print "<p>Invalid contribution id specified.</p>\n";
+            return;
+        }
 
         $level_names   = contribution_get_level_names_for_contribution($contribution_id);
         $subject_names = contribution_get_subject_names_for_contribution($contribution_id);
         $type_names    = contribution_get_type_names_for_contribution($contribution_id);
-
-        $contribution = contribution_get_contribution_by_id($contribution_id);
 
         $contribution = format_for_html($contribution);
         eval(get_code_to_create_variables_from_array($contribution));
@@ -61,8 +76,18 @@ class ViewContribution extends BasePage {
 
         $gold_star_html = contribution_get_gold_star_html_for_contribution($contribution);
 
+        if (count(contribution_get_contribution_file_infos($contribution_id)) > 0) {
+            $download_zip_html = <<<EOT
+        <p>Or you may <a href="$download_script">download</a> all files as a compressed archive (<a href="http://en.wikipedia.org/wiki/ZIP_(file_format)">ZIP</a>).</p>
+
+EOT;
+        }
+        else {
+            $download_zip_html = "";
+        }
+
         print <<<EOT
-        <h1>$contribution_title</h1>
+        <h2>$contribution_title</h2>
 
         $gold_star_html
 
@@ -71,7 +96,7 @@ class ViewContribution extends BasePage {
 
             $files_html
 
-            <p>Or you may <a href="$download_script">download</a> all files as a compressed archive (<a href="http://en.wikipedia.org/wiki/ZIP_(file_format)">ZIP</a>).</p>
+            $download_zip_html
 
             <h3>Submission Information</h3>
 
@@ -165,7 +190,7 @@ class ViewContribution extends BasePage {
                 <span class="label">standards compliance</span>
             </div>
 
-            <div style="field">
+            <div class="field">
 
 EOT;
 
@@ -185,8 +210,8 @@ EOT;
 
             <div class="field">
                 <span class="label_content">
-                    <a href="javascript:void;" onclick="$(this).parent().parent().next().toggle(300); return false;">$comment_count comments</a>
-                    (<a href="javascript:void;" onclick="$(this).parent().parent().next().next().next().toggle(300);">add</a>)
+                    <a href="#" onclick="$(this).parent().parent().next().toggle(300); return false;">$comment_count comments</a>
+                    (<a href="#" onclick="$(this).parent().parent().next().next().next().toggle(300);return false;">add</a>)
                 </span>
 
                 <span class="label">
@@ -201,19 +226,12 @@ EOT;
             <hr/>
 
             <div style="display: none">
-                <form method="post" action="add-comment.php" onsubmit="javascript:return false;">
+                <form method="get" action="add-comment.php" onsubmit="javascript:return false;">
                     <p>
                         <input type="hidden" name="contribution_id" value="{$contribution_id}" />
                         <input type="hidden" name="referrer"        value="{$php_self}?contribution_id={$contribution_id}&amp;referrer={$this->referrer}" />
                     </p>
 
-                    <div class="field">
-                        <span class="label_content">
-                            <input type="text" size="25" name="contributor_name" id="contributor_name_uid" onchange="javascript:on_email_entered();" value="$contributor_name"/>
-                        </span>
-
-                        <span class="label">your name</span>
-                    </div>
 
                     <div id="required_login_info_uid">
 
@@ -245,7 +263,7 @@ EOT;
             <p><a href="javascript:void;" onclick="$(this).parent().next().toggle(300); return false;">Nominate this contribution as a Gold Star Activity</a></p>
 
             <div id="nominate-contribution" style="display: none;">
-                <form method="post" action="../teacher_ideas/nominate-contribution.php">
+                <form method="get" action="../teacher_ideas/nominate-contribution.php">
                     <div>
                         <input type="hidden" name="contribution_id" value="$contribution_id" />
                     </div>
@@ -270,14 +288,9 @@ EOT;
 
 EOT;
     }
-
-    function render_content() {
-        $this->print_content();
-    }
 }
 
-auth_do_validation();
-$page = new ViewContribution(3, get_referrer("teacher_ideas/manage-contributions.php"), "View Contributions");
+$page = new ViewContribution("View Contributions", NAV_TEACHER_IDEAS, get_referrer("teacher_ideas/manage-contributions.php"), SP_AUTHLEVEL_NONE);
 $page->update();
 $page->render();
 

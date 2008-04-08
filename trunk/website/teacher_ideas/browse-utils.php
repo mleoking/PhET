@@ -1,9 +1,53 @@
 <?php
 
+    include_once("../admin/global.php");
+
     define("UP_ARROW",       SITE_ROOT."images/sorting-uarrow.gif");
     define("DOWN_ARROW",     SITE_ROOT."images/sorting-darrow.gif");
 
     function browse_sort_contributions($contributions, $sort_by, $order) {
+        $keyed_contributions = array();
+        $id_to_contribution  = array();
+
+        foreach($contributions as $contribution_id => $all_contrib_info) {
+//            $contribution_id = $contribution['contribution_id'];
+
+            $id_to_contribution[$contribution_id] = $all_contrib_info;
+
+            $key = "ZZZZZZZZZ";
+
+            if (isset($all_contrib_info["contribution"]["$sort_by"])) {
+                $key = $all_contrib_info["contribution"]["$sort_by"];
+
+                if ($sort_by == 'contribution_authors') {
+                    $names = explode(',', $key);
+
+                    $parsed_name = parse_name($names[0]);
+
+                    $key = $parsed_name['last_name'];
+                }
+            }
+
+            $keyed_contributions[serialize($all_contrib_info)] = strtolower("$key");
+        }
+
+        if ($order == 'asc') {
+            asort($keyed_contributions);
+        }
+        else {
+            arsort($keyed_contributions);
+        }
+
+        $sorted_contributions = array();
+
+        foreach($keyed_contributions as $serialized => $key) {
+            $sorted_contributions[] = unserialize($serialized);
+        }
+
+        return $sorted_contributions;
+    }
+
+    function orig_browse_sort_contributions($contributions, $sort_by, $order) {
         $keyed_contributions = array();
         $id_to_contribution  = array();
 
@@ -23,6 +67,7 @@
                     $parsed_name = parse_name($names[0]);
 
                     $key = $parsed_name['last_name'];
+                    
                 }
             }
 
@@ -46,9 +91,9 @@
     }
 
     function browse_get_contributions($Simulations, $Types, $Levels, $sort_by, $order) {
-        $contributions = contribution_get_specific_contributions($Simulations, $Types, $Levels);
+        $contributions = newer_contribution_get_specific_contributions($Simulations, $Types, $Levels);
 
-        $contributions = browse_sort_contributions($contributions, $sort_by, $order);
+        $contributions = /*orig_*/browse_sort_contributions($contributions, $sort_by, $order);
 
         return $contributions;
     }
@@ -135,7 +180,7 @@ EOT;
         if ($cached_browse) {
             print $cached_browse;
 
-            return;
+            return true;
         }
 
         $contributions = browse_get_contributions($Simulations, $Types, $Levels, $sort_by, $order);
@@ -158,14 +203,7 @@ EOT;
 
         $num_contributions = count($contributions);
         if ($num_contributions == 0) {
-            if ($GLOBALS['g_content_only']) {
-                print "<p>There are no contributions for this simulation.</p>";
-            }
-            else {
-                print "<p>There are no contributions meeting the specified criteria.</p>";
-            }
-
-            return;
+            return false;
         }
 
         $html = '';
@@ -193,10 +231,11 @@ EOT;
                     </thead>
 
                     <tbody>
+
 EOT;
 
         foreach($contributions as $contribution) {
-            $html .= contribution_get_contribution_summary_as_html($contribution, $print_simulations, true);
+            $html .= /*orig_*/contribution_get_contribution_summary_as_html($contribution, $print_simulations, true);
         }
 
         $html .= <<<EOT
@@ -205,11 +244,14 @@ EOT;
 
                 </table>
             </div>
+
 EOT;
 
         cache_put(BROWSE_CACHE, $browse_resource, preg_replace('/\s\s+/', ' ', trim($html)));
 
         print $html;
+
+        return true;
     }
 
 ?>

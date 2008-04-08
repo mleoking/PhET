@@ -1,11 +1,18 @@
 <?php
 
     include_once("../admin/site-utils.php");
-    
-    function print_content() {
-        ?>
-            <h1>Java</h1>
+include_once("../admin/global.php");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
+class JavaSupportPage extends SitePage {
+
+    function render_content() {
+        $result = parent::render_content();
+        if (!$result) {
+            return $result;
+        }
+
+        print <<<EOT
             <p>PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.</p>
 
             <h2 id="faq_top">FAQ's</h2>
@@ -35,7 +42,7 @@
             <a href="http://www.java.com/en/index.jsp"><img src="../images/java-jump.gif" alt="Java Jump" /></a></p>
 
             <p><strong>Note for Netscape Users</strong></p>
-            
+
             <p> After you have installed Java Web Start, you will need to close and re-open your browser for Java Web Start to work.</p>
 
             <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
@@ -139,9 +146,13 @@
             Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate through the firewall.</p>
 
             <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
-        <?php
-    }
 
-    print_site_page('print_content', 5);
+EOT;
+    }
+}
+
+$page = new JavaSupportPage("Troubleshooting Java", NAV_TECH_SUPPORT, null);
+$page->update();
+$page->render();
 
 ?>

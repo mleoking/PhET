@@ -1,10 +1,7 @@
 <?php
 
-    if (!defined('SITE_ROOT')) {
-        include_once('../admin/global.php');
-    }
-
-    include_once(SITE_ROOT."admin/db.inc");
+    include_once("../admin/global.php");
+    include_once(SITE_ROOT."admin/db.php");
     include_once(SITE_ROOT."admin/authentication.php");
     include_once(SITE_ROOT."admin/db-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");
@@ -329,6 +326,7 @@ EOT;
                 </tr>
             </table>
         </div>
+
 EOT;
     }
 
@@ -463,194 +461,6 @@ EOT;
 EOT;
     }
 
-    function print_new_account_form($script, $button_label, $print_password = false, $wide = false, $other_html = '') {
-        if (isset($GLOBALS['contributor_email'])) {
-            $contributor_email            = $GLOBALS['contributor_email'];
-            $contributor_name             = get_global_opt('contributor_name');
-            $contributor_organization  = get_global_opt('contributor_organization');
-            $contributor_desc          = get_global_opt('contributor_desc');
-            $contributor_password      = get_global_opt('contributor_password');
-        }
-        else if (isset($_REQUEST['contributor_email'])) {
-            $contributor_email            = $_REQUEST['contributor_email'];
-            $contributor_name             = get_request_opt('contributor_name');
-            $contributor_organization  = get_request_opt('contributor_organization');
-            $contributor_desc          = get_request_opt('contributor_desc');
-            $contributor_password      = get_request_opt('contributor_password');
-        }
-        else {
-            $contributor_email            = '';
-            $contributor_name             = '';
-            $contributor_organization  = '';
-            $contributor_desc          = DEFAULT_CONTRIBUTOR_DESC;
-            $contributor_password      = '';
-        }
-
-        print <<<EOT
-            <form method="post" action="$script">
-                <fieldset>
-                    <legend>$button_label</legend>
-
-                    <table class="form">
-                        <tr>
-                            <td>description*</td>
-
-                            <td>
-
-EOT;
-
-                        contributor_print_desc_list($contributor_desc, $wide);
-
-                        print <<<EOT
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>email*</td>        <td><input id="contributor_email_uid" type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled"/></td>
-                        </tr>
-
-EOT;
-
-                        if ($print_password) {
-                            print <<<EOT
-                                <tr>
-                                    <td>password*</td>        <td><input id="contributor_password_uid" type="password" size="15" name="contributor_password"  value="$contributor_password" class="always-enabled"/></td>
-                                </tr>
-
-EOT;
-                        }
-
-                        print <<<EOT
-
-                        <tr>
-                            <td>name*</td>        <td><input title="First and last name required" id="contributor_name_uid" type="text" size="15" name="contributor_name"  value="$contributor_name" class="always-enabled"/></td>
-                        </tr>
-
-                        <tr>
-                            <td>organization*</td> <td><input id="contributor_organization_uid" type="text" size="15" name="contributor_organization"  value="$contributor_organization" class="always-enabled"/></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="2"><input type="submit" name="submit" value="$button_label" class="always-enabled auto-width"/></td>
-                        </tr>
-                    </table>
-
-                    <div>
-                        <input type="hidden" name="create_new_account" value="1" class="always-enabled" />
-
-                        $other_html
-                    </div>
-                </fieldset>
-            </form>
-
-EOT;
-    }
-
-    function print_contribute_login_form($script, $contribution_id, $referrer, $other_html = '') {
-        if (isset($GLOBALS['contributor_email'])) {
-            $contributor_email            = $GLOBALS['contributor_email'];
-            $contributor_password      = $GLOBALS['contributor_password'];
-        }
-        else if (isset($_REQUEST['contributor_email'])) {
-            $contributor_email            = $_REQUEST['contributor_email'];
-            $contributor_password      = $_REQUEST['contributor_password'];
-        }
-        else {
-            $contributor_email            = '';
-            $contributor_password      = '';
-        }
-
-        print <<<EOT
-            <div id="twofacelogin" class="table_container">
-            $other_html
-
-            <p>Required fields are marked with an asterisk (*).</p>
-
-            <table class="top">
-                <tr>
-                    <td>
-                        <form method="post" action="$script">
-                            <fieldset>
-                                <legend>Login</legend>
-
-                                <div class="horizontal_center">
-                                    <table class="form">
-
-                                        <tr>
-                                            <td>email*</td>
-
-                                            <td>
-                                                <input type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled" />
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>password*</td>
-
-                                            <td>
-                                                <input type="password" size="15" name="contributor_password" value="$contributor_password"  class="always-enabled" />
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td colspan="2">
-                                                <input type="submit" name="submit" value="Login" class="always-enabled auto-width"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                <input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
-                                <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
-                                <input type="hidden" name="login_required"  value="true"             class="always-enabled"/>
-                            </fieldset>
-                        </form>
-                    </td>
-
-                    <td>
-
-EOT;
-
-                    $other_fields = <<<EOT
-                    <input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
-                    <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
-                    <input type="hidden" name="login_required"  value="true"             class="always-enabled"/>
-
-EOT;
-
-                    print_new_account_form("$script", "New Account", true, false, $other_fields);
-
-                    print <<<EOT
-                    </td>
-                </tr>
-
-                <tr>
-                    <td colspan="2">
-                        <p class="footnote">Your email address will not be given to anyone, and is used strictly for login purposes (and optionally, for receiving the quaterly PhET newsletter).</p>
-                    </td>
-                </tr>
-            </table>
-            </div>
-
-            <script type="text/javascript">
-                 /*<![CDATA[*/
-
-                // This code will disable everything on the page, except the login stuff
-                $(document).ready(
-                    function() {
-                        $('input').not('.always-enabled').disable();
-                        $('select').not('.always-enabled').disable();
-                        $('textarea').not('.always-enabled').disable();
-                        $('input.button').enable();
-                    }
-                );
-
-                /*]]>*/
-            </script>
-
-EOT;
-    }
-
     /**
      * Looks through all the $REQUST key => value pairs and does one of 3 things:
      * 1. if the key is a multiselect control, make an association with the proper table (I assume this means levels etc)
@@ -688,15 +498,6 @@ EOT;
 
     function contribution_print_full_edit_form($contribution_id, $script, $referrer, $button_name = 'Update', $page = null) {
         $contributor_authenticated = auth_user_validated();
-        /*
-        if (!$contributor_authenticated) {
-            print_first_time_login_form();
-        }
-        else {
-            $username = auth_get_username();
-            $contributor = contributor_get_from_contributor_email($username);
-        }
-        */
 
         $username = auth_get_username();
         $contributor = contributor_get_from_contributor_email($username);
@@ -728,8 +529,6 @@ EOT;
 
         $contribution = format_for_html($contribution);
         eval(get_code_to_create_variables_from_array($contribution));
-
-//        do_authentication(false);
 
         /*
          * No don't do that, that doesn't make sense.
@@ -771,7 +570,7 @@ EOT;
 
         print <<<EOT
             <noscript>
-               <p><strong><em>Please take note: </em></strong><p>Your browser does not support scripting, or it is turned off.  You must have scripting enabled to be able to submit information.</p>
+               <p><strong><em>Please take note: </em></strong></p><p>Your browser does not support scripting, or it is turned off.  You must have scripting enabled to be able to submit information.</p>
             </noscript>
             <form id="contributioneditform" method="post" action="$script" enctype="multipart/form-data">
                 <fieldset>
@@ -1298,7 +1097,124 @@ EOT;
      * @param boolean $print_sims TRUE means print the "Simulations" column
      * @return string HTML table row
      */
-    function contribution_get_contribution_summary_as_html($contribution, $print_sims = true) {
+    function contribution_get_contribution_summary_as_html($all_contribution_info, $print_sims = true) {
+        global $referrer;
+
+        $contribution = $all_contribution_info["contribution"];
+
+        $html = '';
+        //$sim_name = format_string_for_html($contribution["sim_name"]);
+        $contribution_authors = format_string_for_html($contribution["contribution_authors"]);
+        $contribution_date_updated = format_string_for_html($contribution["contribution_date_updated"]);
+        $contribution_title = format_string_for_html($contribution["contribution_title"]);
+        $contribution_id = format_string_for_html($contribution["contribution_id"]);
+        $contribution_from_phet = format_string_for_html($contribution["contribution_from_phet"]);
+
+        $gold_star_html = contribution_get_gold_star_html_for_contribution($contribution, 10);
+
+        $sim_list = "";
+
+        // Do sims
+        $sims = array();
+        foreach ($all_contribution_info["simulations"] as $sim) {
+            $sims[] = sim_get_link_to_sim_page_by_name(format_string_for_html($sim["sim_name"]));
+        }
+
+        if (count($sims) > 0) {
+            // Having problems changing the indent on lists, just do line breaks
+            // Not as pretty but it works OK
+            $sim_list = join("<br />", $sims);
+            //$sim_list = "<ul class=\"simlist\"><li>".join("</li><li>", $sims)."</li></ul>";
+        }
+        else {
+            $sim_list = "None";
+        }
+
+        $levels = array();
+        foreach ($all_contribution_info["levels"] as $level) {
+            $levels[] = contribution_generate_association_abbr(
+                $level, 'contribution_level'
+            );
+        }
+        if (count($levels)) {
+            // Having problems changing the indent on lists, just do line breaks
+            // Not as pretty but it works OK
+            $level_list = join("<br />", $levels);
+            //$level_list = "<ul class=\"levellist\"><li>".join("</li><li>", $levels)."</li></ul>";
+        }
+        else {
+            $level_list = "None";
+        }
+
+        $types = array();
+        foreach ($all_contribution_info["types"] as $type) {
+            $types[] = contribution_generate_association_abbr(
+                $type, 'contribution_type'
+            );
+        }
+        if (count($types)) {
+            // Having problems changing the indent on lists, just do line breaks
+            // Not as pretty but it works OK
+            $type_list = join("<br />", $types);
+            //$type_list = "<ul class=\"typelist\"><li>".join("</li><li>", $types)."</li></ul>";
+        }
+        else {
+            $type_list = "None";
+        }
+
+        $contribution_authors = explode(',', $contribution_authors);
+
+        $contribution_author = $contribution_authors[0];
+
+        $parsed_name = parse_name($contribution_author);
+
+        $contribution_author  = $parsed_name['full_name'];
+        $author_first_initial = $parsed_name['first_initial'];
+        $author_last_name     = $parsed_name['last_name'];
+
+        $time = strtotime($contribution_date_updated);
+
+        $contribution_date_updated = date('n/y', $time);
+
+        if ($author_first_initial == '') {
+            $author_abbr = "$author_last_name";
+        }
+        else {
+            $author_abbr = "$author_first_initial. $author_last_name";
+        }
+
+        $author_html = "<abbr title=\"$contribution_author\">$author_abbr</abbr>";
+
+        $title_html = <<<EOT
+                <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
+
+EOT;
+
+        if ($contribution_from_phet == 1) {
+        $title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
+        }
+
+        $title_html .= $gold_star_html;
+
+        $html .= "<tr><td>$title_html</td><td>$author_html</td><td>$level_list</td><td>$type_list</td>";
+
+        if ($print_sims) {
+            $html .= "<td>$sim_list</td>";
+        }
+
+        $html .= "<td>$contribution_date_updated</td></tr>";
+
+        return $html;
+    }
+
+    /**
+     * Generate a HTML table row with info about the contribution
+     *
+     * @param array $contribution Information about a contribution
+     * @param boolean $print_sims TRUE means print the "Simulations" column
+     * @return string HTML table row
+     */
+    function orig_contribution_get_contribution_summary_as_html($contribution, $print_sims = true) {
         // TODO: rename this function, since getting everything in HTML at this point is undesirable
         global $referrer;
 
@@ -2101,7 +2017,99 @@ EOT;
         return $final;
     }
 
-    function contribution_get_specific_contributions($sim_names, $type_descs, $level_descs) {
+
+    function newer_contribution_get_specific_contributions($sim_names, $type_descs, $level_descs) {
+        $contributions = array();
+
+        $sim_names   = array_remove($sim_names,   'all');
+        $type_descs  = array_remove($type_descs,  'all');
+        $level_descs = array_remove($level_descs, 'all');
+
+        $query = "CREATE TEMPORARY TABLE t1 SELECT DISTINCT `contribution`.* FROM `contribution`";
+
+        $where = '';
+
+        $query .= " LEFT JOIN `simulation_contribution` ON `contribution`.`contribution_id`=`simulation_contribution`.`contribution_id`";
+        $query .= " LEFT JOIN `simulation` ON `simulation_contribution`.`sim_id`=`simulation`.`sim_id`";
+
+        if (count($sim_names) > 0) {
+            $where .= ' WHERE';
+
+            $where .= db_form_alternation_where_clause('simulation', 'sim_name', $sim_names);
+        }
+
+        $query .= " LEFT JOIN `contribution_type` ON `contribution`.`contribution_id`=`contribution_type`.`contribution_id`";
+
+        if (count($type_descs) > 0) {
+            if (strlen($where) > 0) $where .= " AND";
+            else $where .= ' WHERE';
+
+            $where .= db_form_alternation_where_clause('contribution_type', 'contribution_type_desc', $type_descs);
+        }
+
+        $query .= " LEFT JOIN `contribution_level` ON `contribution`.`contribution_id`=`contribution_level`.`contribution_id`";
+
+        if (count($level_descs) > 0) {
+            if (strlen($where) > 0) $where .= " AND";
+            else $where .= ' WHERE';
+
+            $where .= db_form_alternation_where_clause('contribution_level', 'contribution_level_desc', $level_descs);
+        }
+
+        // Remove the unapproved ones
+        if (strlen($where) > 0) $where .= " AND";
+        else $where .= ' WHERE';
+        $where .= db_form_alternation_where_clause('contribution', 'contribution_approved', array("1"));
+
+        $query .= "$where ORDER BY `contribution`.`contribution_title` ASC";
+
+        $contribution_rows = db_exec_query($query);
+
+        // Now get the contributions
+        $con_rows = db_exec_query("SELECT * FROM t1");
+        $master = array();
+        while ($con_row = mysql_fetch_assoc($con_rows)) {
+            $contribution_id = $con_row["contribution_id"];
+            $master[$contribution_id]["contribution"] = $con_row;
+            $master[$contribution_id]["types"] = array();
+            $master[$contribution_id]["levels"] = array();
+            $master[$contribution_id]["simulations"] = array();
+        }
+
+        // Now the types
+        $type_rows = db_exec_query("SELECT * FROM `contribution_type` WHERE `contribution_id` IN (SELECT `contribution_id` FROM t1)");
+        while ($type_row = mysql_fetch_assoc($type_rows)) {
+            $contribution_id = $type_row["contribution_id"];
+            $master[$contribution_id]["types"][] = $type_row;
+        }
+
+        // Now the levels
+        $level_rows = db_exec_query("SELECT * FROM `contribution_level` WHERE `contribution_id` IN (SELECT `contribution_id` FROM t1)");
+        while ($level_row = mysql_fetch_assoc($level_rows)) {
+            $contribution_id = $level_row["contribution_id"];
+            $master[$contribution_id]["levels"][] = $level_row;
+        }
+
+        // Now the sims
+        $sql = <<<EOT
+            SELECT sc.contribution_id, s.sim_name
+              FROM simulation AS s, simulation_contribution AS sc
+              WHERE sc.sim_id=s.sim_id
+                AND sc.contribution_id 
+                  IN (SELECT contribution_id FROM t1) ORDER BY sc.contribution_id;
+
+EOT;
+
+        $sim_rows = db_exec_query($sql);
+
+        while ($sim_row = mysql_fetch_assoc($sim_rows)) {
+            $contribution_id = $sim_row["contribution_id"];
+            $master[$contribution_id]["simulations"][] = $sim_row;
+        }
+        return $master;
+    }
+
+    function orig_contribution_get_specific_contributions($sim_names, $type_descs, $level_descs) {
         $contributions = array();
 
         $sim_names   = array_remove($sim_names,   'all');
@@ -2148,6 +2156,23 @@ EOT;
 
         $contribution_rows = db_exec_query($query);
 
+        print "mysql_num_rows:".mysql_num_rows($contribution_rows);
+        while ($contribution = mysql_fetch_assoc($contribution_rows)) {
+            $contribution_id = $contribution['contribution_id'];
+
+            $contributions["$contribution_id"] = $contribution;
+        }
+
+        print "count contributions:".count($contributions);
+
+        return $contributions;
+    }
+
+    function contribution_get_all_contributions() {
+        $contributions = array();
+
+        $contribution_rows = db_exec_query("SELECT * FROM `contribution` ORDER BY `contribution_title` ASC");
+
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
             $contribution_id = $contribution['contribution_id'];
 
@@ -2157,10 +2182,10 @@ EOT;
         return $contributions;
     }
 
-    function contribution_get_all_contributions() {
+    function contribution_get_all_approved_contributions() {
         $contributions = array();
 
-        $contribution_rows = db_exec_query("SELECT * FROM `contribution` ORDER BY `contribution_title` ASC");
+        $contribution_rows = db_exec_query("SELECT * FROM `contribution` WHERE `contribution_approved`=1 ORDER BY `contribution_title` ASC");
 
         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
             $contribution_id = $contribution['contribution_id'];
@@ -2266,6 +2291,7 @@ EOT;
     }
 
     function contributor_send_password_reminder($username) {
+        return;
         $contributor = contributor_get_contributor_by_username($username);
 
         if ($contributor) {
@@ -2336,7 +2362,7 @@ EOT;
      * @param string $username FIXME: this is an email address of the contributor to find
      * @return id if email found in database, else false
      */
-    function contributor_get_id_from_contributor_email($username) {
+    function contributor_get_id_from_contributor_username($username) {
         $contributor = contributor_get_from_contributor_email($username);
         if ($contributor === false) {
             return false;
@@ -2372,7 +2398,7 @@ EOT;
      * @param string $password password associated with the email (will convert to lower case)
      * @return id if match, false otherwise
      */
-    function contributor_get_id_from_contributor_email_and_password($username, $password) {
+    function contributor_get_id_from_contributor_username_and_password($username, $password) {
         $contributor = contributor_get_from_contributor_email($username);
         if ($contributor === false) {
             return false;
@@ -2392,13 +2418,13 @@ EOT;
      * @param string $password password associated with the email (will convert to lower case)
      * @return id if match, false otherwise
      */
-    function contributor_get_id_from_contributor_email_and_password_hash($username, $password_hash) {
+    function contributor_get_id_from_contributor_username_and_encrypted_password($username, $encrypted_password) {
         $contributor = contributor_get_from_contributor_email($username);
         if ($contributor === false) {
             return false;
         }
 
-        if (md5($contributor['contributor_password']) == $password_hash) {
+        if ($contributor['contributor_password'] == $encrypted_password) {
             return $contributor['contributor_id'];
         }
 
@@ -2413,7 +2439,7 @@ EOT;
      * @return bool true if a match is found, false otherwise
      */
     function contributor_is_valid_login($username, $password_hash) {
-        return (contributor_get_id_from_contributor_email_and_password_hash($username, $password_hash) !== false);
+        return (contributor_get_id_from_contributor_username_and_encrypted_password($username, $password_hash) !== false);
     }
 
 
@@ -2578,11 +2604,12 @@ EOT;
         );
     }
 
-    function contributor_print_full_edit_form($contributor_id, $script, $optional_message = null,
+    function contributor_print_full_edit_form($editor_contributor_id, $contributor_id, $script, $optional_message = null,
                                               $standard_message = "<p>You may edit your profile information below.</p>") {
 
-        $contributor = contributor_get_contributor_by_id($contributor_id);
-        $editor_is_team_member = $contributor["contributor_is_team_member"];
+        $editor_contributor = contributor_get_contributor_by_id($editor_contributor_id);
+
+        $editor_is_team_member = $editor_contributor["contributor_is_team_member"];
 
         $contributor = contributor_get_contributor_by_id($contributor_id);
 
@@ -2611,10 +2638,18 @@ EOT;
 
                     <table class="form">
                         <tr>
-                            <td>password*</td>
+                            <td>password (optional, enter here and below if you want to change it)</td>
 
                             <td>
-                                <input type="password" name="contributor_password" value="$contributor_password" size="25"/>
+                                <input type="password" name="new_contributor_password" size="25"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>retype password</td>
+
+                            <td>
+                                <input type="password" name="new_contributor_password2" size="25"/>
                             </td>
                         </tr>
 
