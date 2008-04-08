@@ -23,6 +23,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley, Sam Reid
  */
 public class TimeControlPanel extends JPanel {
+    
+    public static final boolean ANIMATED_CLOCK_ICON_VISIBLE = true;
 
     public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
     public static final int DEFAULT_TIME_COLUMNS = 8;
@@ -109,7 +111,9 @@ public class TimeControlPanel extends JPanel {
 
         // Layout the button panel
         setLayout( new FlowLayout(FlowLayout.CENTER) );
-        add( animatedClockIcon );
+        if ( ANIMATED_CLOCK_ICON_VISIBLE ) {
+            add( animatedClockIcon );
+        }
         add( timeDisplayPanel );
         add( userPanel );
         add( buttonPanel );
