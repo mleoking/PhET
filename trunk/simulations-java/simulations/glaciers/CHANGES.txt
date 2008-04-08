@@ -11,6 +11,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- add scaling of mountains image to match scaling of other stuff in the view
 - implement fix for negative glacier length in ice thickness model (see Archie's 3/7 email)
 - optimize ice flow vectors, use same 1D grid as ice thickness
 - developer controls for ice velocity "look"?
