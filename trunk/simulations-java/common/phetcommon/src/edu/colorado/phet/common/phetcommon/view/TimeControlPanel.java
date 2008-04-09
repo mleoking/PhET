@@ -23,8 +23,9 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley, Sam Reid
  */
 public class TimeControlPanel extends JPanel {
-    
-    public static final boolean ANIMATED_CLOCK_ICON_VISIBLE = true;
+
+    //Use this to hide animated clock icon in public releases, until we work out all the issues.
+    public static boolean ANIMATED_CLOCK_ICON_VISIBLE = true;
 
     public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
     public static final int DEFAULT_TIME_COLUMNS = 8;
