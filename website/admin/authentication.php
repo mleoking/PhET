@@ -179,6 +179,7 @@
 
             $valid = contributor_is_valid_login($email, $encrypted_password);
             if ($valid === false) {
+                $authentication_error = "Login faild, email and/or password is incorrect";
                 $authentication_complete = true;
                 $authentication_result = false;
                 return $authentication_result;
