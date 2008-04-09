@@ -60,7 +60,7 @@
 		
 	<!-- builds and deploys to the development server, updating dev and SVN revision numbers -->
     <target name="build-and-deploy-dev"
-            depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _inc-sim-dev-version-number, _generate-svn-revision-number, _define-sim-version">
+            depends="_init, _prompt-for-sim-name, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _inc-sim-dev-version-number, _generate-svn-revision-number, _define-sim-version">
         <antcall target="_build-and-deploy">
             <param name="deploy.to.dev" value="true"/>
             <param name="sim.server.url" value="${dev.server.url}"/>
@@ -73,7 +73,7 @@
 
 	<!-- builds and deploys to the development and production server, updating minor, dev, and SVN revision numbers. -->
     <target name="build-and-deploy-prod"
-            depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _prompt-for-prod-login, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
+            depends="_init, _prompt-for-sim-name, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _prompt-for-prod-login, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
 
         <!--note: the implementation currently posts PROD then DEV, since deploy.to.dev is currently unsettable, and used for JNLP construction-->
 
@@ -93,7 +93,7 @@
 	
 	<!-- builds and deploys to the production server, updating SVN revision number but nothing else -->
     <target name="build-and-deploy-prod-no-change"
-            depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-prod-login, _build-and-deploy-only-prod"/>
+            depends="_init, _prompt-for-sim-name, _fail-if-working-copy-is-not-synchronized, _prompt-for-prod-login, _build-and-deploy-only-prod"/>
 	
     <!-- builds JAR and JNLP files for all PhET simulations -->
     <target name="build-all" depends="_init,_clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
