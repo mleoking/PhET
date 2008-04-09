@@ -23,6 +23,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class PenguinNode extends PImage {
     
+    private static final double X_UNDEFINED = -1;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -30,12 +32,29 @@ public class PenguinNode extends PImage {
     private Viewport _birdsEyeViewport;
     private Viewport _zoomedViewport;
     private ModelViewTransform _mvt;
+    private double _maxX;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor that allows the penguin to be dragged across the full width
+     * of the birds-eye viewport.
+     */
     public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt ) {
+        this( birdsEyeViewport, zoomedViewport, mvt, X_UNDEFINED );
+    }
+    
+    /**
+     * Constructor that constrains the penguin to be dragged up to some maximum x.
+     * 
+     * @param birdsEyeViewport
+     * @param zoomedViewport
+     * @param mvt
+     * @param maxX
+     */
+    public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt, double maxX ) {
         super( GlaciersImages.PENGUIN );
         
         _birdsEyeViewport = birdsEyeViewport;
@@ -54,6 +73,7 @@ public class PenguinNode extends PImage {
         });
         
         _mvt = mvt;
+        _maxX = maxX;
         
         addInputEventListener( new CursorHandler() );
         
@@ -80,10 +100,29 @@ public class PenguinNode extends PImage {
                 rModel = _mvt.viewToModel( rView );
                 Rectangle2D bb = _birdsEyeViewport.getBoundsReference();
                 if ( rModel.getX() < bb.getX() ) {
+                    /*
+                     * Prevent dragging past left edge.
+                     * The left edge is always the left edge of the of birds-eye viewport.
+                     */
                     rModel.setRect( bb.getX(), rModel.getY(), rModel.getWidth(), rModel.getHeight() );
                 }
-                else if ( rModel.getMaxX() > bb.getMaxX() ) {
-                    rModel.setRect( bb.getMaxX() - rModel.getWidth(), rModel.getY(), rModel.getWidth(), rModel.getHeight() );
+                else {
+                    /* 
+                     * Prevent dragging past the right edge.
+                     * the right edge may be either the right edge of the birds-eye viewport,
+                     * or some arbitary right edge that we specified.
+                     */
+                    double rightX = bb.getMaxX();
+                    if ( _maxX != X_UNDEFINED ) {
+                        // we have an additional constraint on the right edge
+                        rightX = Math.min( _maxX, rightX );
+                    }
+                    if ( rightX < rModel.getWidth() ) {
+                        rModel.setRect( bb.getX(), rModel.getY(), rModel.getWidth(), rModel.getHeight() );
+                    }
+                    else if ( rModel.getMaxX() > rightX ) {
+                        rModel.setRect( rightX - rModel.getWidth(), rModel.getY(), rModel.getWidth(), rModel.getHeight() );
+                    }
                 }
                 _zoomedViewport.setBounds( rModel );
             }
