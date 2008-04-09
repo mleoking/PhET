@@ -35,10 +35,7 @@
     <option name="USER" value="" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" afterPath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" />
-    </list>
+    <list default="true" name="Default" comment="" />
     <list name="rotation-render" comment="" />
     <list name="build-12-7-2007" comment="" />
     <list name="bsp" comment="">
@@ -1016,7 +1013,7 @@
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="disable animated clock for tigercat post of soluble salts" />
+    <option name="LAST_COMMIT_MESSAGE" value="prepare to deploy" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -1027,7 +1024,6 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="added timesheet launch shortcut" />
     <MESSAGE value="rotation-render" />
     <MESSAGE value="cleanup cck model for usage in java me" />
     <MESSAGE value="continued cleanup cck model for usage in java me" />
@@ -1052,6 +1048,7 @@
     <MESSAGE value="made" />
     <MESSAGE value="made ANIMATED_CLOCK_ICON_VISIBLE flag non-final so that it can be changed on a per-sim basis" />
     <MESSAGE value="disable animated clock for tigercat post of soluble salts" />
+    <MESSAGE value="prepare to deploy" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
