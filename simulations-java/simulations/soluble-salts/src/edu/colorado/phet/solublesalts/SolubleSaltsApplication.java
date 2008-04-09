@@ -60,7 +60,6 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        TimeControlPanel.ANIMATED_CLOCK_ICON_VISIBLE= false;
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 for ( int i = 0; i < args.length; i++ ) {
