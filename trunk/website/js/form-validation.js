@@ -160,8 +160,11 @@ function setup_input_validation_patterns() {
     hits = 0;
 
     // Patterns that the input must match
-    email_pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
-    //alt_email_pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/;
+    // Keeping the original email pattern for reference.  It causes
+    // significant slowdowns (to the point of making the browser
+    // unresponsive).  Use a lighter version instead.
+    //email_pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
+    email_pattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     name_pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
     title_pattern = /^\s*\S+.*$/;
     organization_pattern = /^\S{2,}.*$/;
