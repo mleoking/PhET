@@ -12,7 +12,7 @@ DESIGN ISSUES (user interface):
 
 HIGH PRIORITY:
 - add scaling of mountains image to match scaling of other stuff in the view
-- implement fix for negative glacier length in ice thickness model (see Archie's 3/7 email)
+- implement fix for negative glacier length in ice thickness model in Glaciers.computeIceThicknessSamples (see Archie's 3/7 email)
 - optimize ice flow vectors, use same 1D grid as ice thickness
 - developer controls for ice velocity "look"?
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
@@ -22,7 +22,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - delete ValleyNode if it is no longer used
-- create a node that encapulates the background image of mountains + valley
 - confirm that titles and axes on graphs are as desired
 - add view of valley floor with rivers
 - add moving debris
@@ -31,8 +30,7 @@ MEDIUM PRIORITY:
 - morph ice textures to show downvalley motion
 - show ice velocity vectors in zoomed view only? they clutter the birds-eye view
 - model borehole as a set of moving points, connected via line segments
-- repeat mountains and valley at x > 80km
-- create convincing mountains, either with an image or with Java2D
+- make mountains image big enough so that all we see is sky when the birds-eye view is made very wide
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
 - fix layout problems with main control panel
 - add pseudo-3D perspective
@@ -73,6 +71,7 @@ CLEANUP:
 
 
 DONE:
+4/9/08 - prevent zoomed viewport from being dragged any farther right than 80km
 3/25/08 - yet-another mountains image that doesn't line up (Archie is building scaling into the image!)
 3/25/08 - new mountains image with alignment point, realign (valley floor contour is not correct)
 3/25/08 - add alignment point for debugging alignment of mountains image

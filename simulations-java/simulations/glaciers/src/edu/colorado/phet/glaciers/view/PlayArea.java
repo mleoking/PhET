@@ -160,7 +160,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             birdsEyeWrapperPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
             birdsEyeWrapperPanel.setBorder( CANVAS_BORDER );
 
-            // add a vertical spacer below the birds-eye cANVAS
+            // add a vertical spacer below the birds-eye canvas
             JPanel topPanel = new JPanel( new BorderLayout() );
             topPanel.setBackground( BACKGROUND_COLOR );
             topPanel.add( birdsEyeWrapperPanel, BorderLayout.CENTER );
@@ -246,7 +246,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _toolboxLayer.addChild( _toolboxNode );
         
         // Penguin is the control for moving the zoomed viewport
-        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt );
+        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, valleyMaxX );
         _viewportLayer.addChild( _penguinNode );
     }
     
