@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -23,9 +24,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley, Sam Reid
  */
 public class TimeControlPanel extends JPanel {
-
-    //Use this to hide animated clock icon in public releases, until we work out all the issues.
-    public static boolean ANIMATED_CLOCK_ICON_VISIBLE = true;
 
     public static final NumberFormat DEFAULT_TIME_FORMAT = new DecimalFormat( "0" );
     public static final int DEFAULT_TIME_COLUMNS = 8;
@@ -112,7 +110,7 @@ public class TimeControlPanel extends JPanel {
 
         // Layout the button panel
         setLayout( new FlowLayout(FlowLayout.CENTER) );
-        if ( ANIMATED_CLOCK_ICON_VISIBLE ) {
+        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) { //TODO: only in dev versions until we finish this feature
             add( animatedClockIcon );
         }
         add( timeDisplayPanel );
