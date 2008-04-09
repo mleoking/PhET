@@ -39,6 +39,14 @@ class BasePage {
     protected $meta_refresh_location;
     protected $meta_refresh_timeout;
 
+    // Name of the main container for the content
+    // This is a workaround for an IE6 bug and translations.php
+    // rendering incorrectly.  Would be better to fix with different
+    // css files for each browser, but his solution is the easiest
+    // at this point.  See the css file for a more detailed
+    // description.
+    private $css_container_name;
+    
     /**
      * BasePage constructor
      *
@@ -113,6 +121,8 @@ class BasePage {
 
         // Should the login be required?
         $this->login_required = $login_required;
+
+        $this->css_container_name = "container";
     }
 
     /**
@@ -145,6 +155,15 @@ class BasePage {
      */
     function set_prefix($prefix = "..") {
         $this->prefix = $prefix;
+    }
+
+    /**
+     * Set the css id name of the div container containing all the page 
+     *
+     * @param $new_container_name string name of the new container
+     */
+    function set_css_container_name($new_container_name) {
+        $this->css_container_name = $new_container_name;
     }
 
     /**
@@ -428,7 +447,7 @@ EOT;
         </div>
     </div>
 
-    <div id="container">
+    <div id="{$this->css_container_name}">
 
 EOT;
 
