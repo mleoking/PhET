@@ -123,8 +123,8 @@ class BrowseContributions extends SitePage {
         print <<<EOT
             <form id="browsefilter" method="post" action="browse.php">
                 <div>
-                    <input type="hidden" name="order"    value="{$this->order}"     />
-                    <input type="hidden" name="sort_by"  value="{$this->sort_by}"   />
+                    <input type="hidden" id="browse_order" name="order"    value="{$this->order}"     />
+                    <input type="hidden" id="browse_sort_by" name="sort_by"  value="{$this->sort_by}"   />
                     <input type="hidden" name="referrer" value="{$this->referrer}"  />
                 </div>
 
@@ -292,7 +292,17 @@ EOT;
     }
 }
 
-$page = new BrowseContributions("Browse Contributions", NAV_TEACHER_IDEAS, get_referrer());
+// Do some processing on the referrer first
+$referrer = get_referrer();
+
+// Strip off anything after the query string '?'
+// because ajax requests to filter the list get confused with sorting.
+$mark = strpos($referrer, "?");
+if ($mark !== false) {
+    $referrer = substr($referrer, 0, $mark);
+}
+
+$page = new BrowseContributions("Browse Contributions", NAV_TEACHER_IDEAS, $referrer);
 $page->add_javascript_file("js/browse.js");
 $page->update();
 $page->render();
