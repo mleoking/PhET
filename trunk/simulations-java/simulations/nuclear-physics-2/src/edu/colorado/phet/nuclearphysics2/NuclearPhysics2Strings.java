@@ -49,7 +49,7 @@ public class NuclearPhysics2Strings {
     public static final String DECAY_TIME_CHART_Y_AXIS_LABEL2 = NuclearPhysics2Resources.getString( "DecayTimeChart.YAxisLabel2" );
     public static final String DECAY_TIME_LABEL = NuclearPhysics2Resources.getString( "DecayTimeChart.DecayTimeLabel" );
     public static final String DECAY_TIME_UNITS = NuclearPhysics2Resources.getString( "DecayTimeChart.DecayTimeUnits" );
-    public static final String DECAY_TIME_RESET_CHART = NuclearPhysics2Resources.getString( "DecayTimeChart.ResetChart" );
+    public static final String DECAY_TIME_CLEAR_CHART = NuclearPhysics2Resources.getString( "DecayTimeChart.ClearChart" );
 
     public static final String DECAY_TIME_CHART_HALF_LIFE = NuclearPhysics2Resources.getString( "DecayTimeChart.HalfLife" );
 

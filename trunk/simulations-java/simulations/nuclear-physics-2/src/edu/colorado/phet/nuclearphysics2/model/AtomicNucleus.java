@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -39,6 +40,10 @@ public abstract class AtomicNucleus {
     // Velocity of this nucleus.
     private double _xVelocity = 0;
     private double _yVelocity = 0;
+    
+    // Acceleration of this nucleus.
+    private double _xAcceleration = 0;
+    private double _yAcceleration = 0;
     
     // List of the constituent particles that comprise this nucleus.
     protected ArrayList _constituents;
@@ -168,6 +173,20 @@ public abstract class AtomicNucleus {
         _yVelocity = yVel;
     }
     
+    public void setAcceleration( double xAcc, double yAcc ){
+        _xAcceleration = xAcc;
+        _yAcceleration = yAcc;
+    }
+    
+    public void setAcceleration( Vector2D accelerationVector ){
+        _xAcceleration = accelerationVector.getX();
+        _yAcceleration = accelerationVector.getY();
+    }
+
+    public Vector2D.Double getAcceleration(){
+        return new Vector2D.Double(_xAcceleration, _yAcceleration);
+    }
+    
     public ArrayList getConstituents(){
         return _constituents;
     }
@@ -214,6 +233,8 @@ public abstract class AtomicNucleus {
     protected void handleClockTicked(ClockEvent clockEvent)
     {
         // Move if our velocity is non-zero.
+        _xVelocity += _xAcceleration;
+        _yVelocity += _yAcceleration;
         if (!((_xVelocity == 0) && (_yVelocity == 0))){
             double newPosX = _position.getX() + _xVelocity;
             double newPosY = _position.getY() + _yVelocity;

@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -33,7 +34,9 @@ public class FissionOneNucleusModel {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    private static final double MOVING_NUCLEUS_VELOCITY = 1.0;  // Femtometer per tick.
+    private static final double MOVING_NUCLEUS_VELOCITY = 0.0;  // Femtometer per tick.
+    private static final double MOVING_NUCLEON_VELOCITY = 1.0;  // Femtometer per tick.
+    private static final double MOVING_NUCLEUS_ACCELERATION = 0.1;  // Femtometer per tick per tick.
     
     //------------------------------------------------------------------------
     // Instance data
@@ -167,6 +170,9 @@ public class FissionOneNucleusModel {
      */
     private void handleClockTicked(ClockEvent ce){
         
+        // Update the behavior of the daughter nuclei (if they exist).
+        updateNucleiBehavior();
+        
         // Move any free particles that exist.
         for (int i = 0; i < _freeNucleons.size(); i++){
             Nucleon freeNucleon = (Nucleon)_freeNucleons.get( i );
@@ -226,8 +232,8 @@ public class FissionOneNucleusModel {
                     if (_rand.nextBoolean()){
                         angle += Math.PI;
                     }
-                    double xVel = Math.sin( angle ) * MOVING_NUCLEUS_VELOCITY;
-                    double yVel = Math.cos( angle ) * MOVING_NUCLEUS_VELOCITY;
+                    double xVel = Math.sin( angle ) * MOVING_NUCLEON_VELOCITY;
+                    double yVel = Math.cos( angle ) * MOVING_NUCLEON_VELOCITY;
                     ((Nucleon)byProduct).setVelocity( xVel, yVel );
                     
                     // Add this new particle to our list.
@@ -252,8 +258,12 @@ public class FissionOneNucleusModel {
                     }
                     double xVel = Math.sin( angle ) * MOVING_NUCLEUS_VELOCITY;
                     double yVel = Math.cos( angle ) * MOVING_NUCLEUS_VELOCITY;
+                    double xAcc = Math.sin( angle ) * MOVING_NUCLEUS_ACCELERATION;
+                    double yAcc = Math.cos( angle ) * MOVING_NUCLEUS_ACCELERATION;
                     _primaryNucleus.setVelocity( xVel, yVel );
+                    _primaryNucleus.setAcceleration( xAcc, yAcc );
                     _daughterNucleus.setVelocity( -xVel, -yVel );
+                    _daughterNucleus.setAcceleration( -xAcc, -yAcc );
                 }
                 else {
                     // We should never get here, debug it if it does.
@@ -261,6 +271,15 @@ public class FissionOneNucleusModel {
                     assert false;
                 }
             }
+        }
+    }
+    
+    private void updateNucleiBehavior(){
+        if (_daughterNucleus != null){
+            Vector2D.Double acceleration = _daughterNucleus.getAcceleration();
+            _daughterNucleus.setAcceleration( acceleration.scale( 0.99 ) );
+            acceleration = _primaryNucleus.getAcceleration();
+            _primaryNucleus.setAcceleration( acceleration.scale( 0.99 ) );            
         }
     }
     
