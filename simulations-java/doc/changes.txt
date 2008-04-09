@@ -1,3 +1,4 @@
+4-8-2008: Soluble Salts (1.03) - Bugfix for Linux platforms
 2-28-2008: Wave Interference (1.04) - added walls and mirrors
 2-28-2008: Ladybug Revolution (1.04) - user interface improvements
 12-4-2007: Molecular Motors (2.00) - new simulation (flavor of optical-tweezers)
