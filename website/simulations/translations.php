@@ -5,6 +5,13 @@ include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class TranslationsPage extends SitePage {
 
+    function update() {
+        // Workaround for an IE6 bug rendering this page.
+        // See the css file and BasePage.php for more
+        // explaination.
+        $this->set_css_container_name("container-wide");
+    }
+
     function render_content() {
         $result = parent::render_content();
         if (!$result) {

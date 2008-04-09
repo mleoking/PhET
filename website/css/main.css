@@ -164,6 +164,27 @@ margin: 0 auto;
 padding: 0;
 width: 900px;
 }
+/******** =container-wide ********/
+/*
+This specialty container is to work around a problem with IE6 and
+the translations.php page.  The transltions table goes beyond the
+container and it the whole thing gets bumped down beneath the
+navbar.  This needs to be bigger than the table, the exact numbers
+depend on the table, which may grow in the future.  Also, setting
+the width will force the width to be that size, leaving blank space
+on the right edge, which is also undesirable.  Find some intermediate
+point that will allow for expansion without being obnoxious.
+
+TODO: Right now this is 1 solution for all browsers, isolate this problem for just IE6 if ever we do specalized css files for the different browsers.
+
+There is a very good page talking about his problem with IE6:
+   http://www.positioniseverything.net/explorer/expandingboxbug.html
+*/
+#container-wide {
+margin: 0 auto;
+padding: 0;
+width: 1250px;
+}
 /******** =header ********/
 #header {
 background: url(../images/header_BG.gif) left top repeat-x;
@@ -533,6 +554,7 @@ float: left;
 padding: 0;
 margin: 0;
 }
+
 #content div.full-width {
 width: 578px;
 clear: both;
@@ -1488,4 +1510,9 @@ text-decoration: underline;
 	display: block;
 	width:  25px;
 	height: 25px;
+}
+
+.error_text {
+    font-weight: bold;
+    color: red;
 }
