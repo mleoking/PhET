@@ -173,7 +173,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
         
         // Add the chart that depicts the tunneling energy threshold.
-        _alphaRadiationEnergyChart = new AlphaRadiationEnergyChart(50);
+        _alphaRadiationEnergyChart = new AlphaRadiationEnergyChart(alphaRadiationModel, this);
         addScreenChild( _alphaRadiationEnergyChart );
         
         // Add the breakout radius to the canvas.
@@ -228,20 +228,6 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
              */
             public void componentResized( ComponentEvent e ) {
                 
-                // Get the diameter of the atomic nucleus so that it can be
-                // used to set the width of the energy well in the chart.
-                double nucleusDiameter = _alphaRadiationModel.getAtomNucleus().getDiameter();
-                Dimension2D nucleasDiameterDim = new PDimension(nucleusDiameter, nucleusDiameter);
-                
-                // Convert the diameter to screen coordinates so that we have
-                // the right units for setting the width of the energy well in
-                // the chart.
-                Dimension2D converted1 = _nucleusNode.localToGlobal( nucleasDiameterDim );
-                Dimension2D converted2 = _alphaRadiationEnergyChart.globalToLocal( converted1 );
-                
-                // Set the new desired width of the energy well.
-                _alphaRadiationEnergyChart.setEnergyWellWidth(converted2.getHeight());
-
                 // Position the energy chart.
                 Rectangle2D energyChartRect = new Rectangle2D.Double(0, getHeight() * CHART_AREA_FRACTION, getWidth(),
                         getHeight() * CHART_AREA_FRACTION * ENERGY_CHART_FRACTION);
