@@ -291,7 +291,7 @@ EOT;
     function print_login_and_new_account_form($login_form_action, $new_account_form_action, $referrer, $intro_text = "", $hidden_inputs = "") {
         $error = "";
         if (auth_auth_error()) {
-            $error = auth_get_error();
+            $error = '<p class="error_text">'.auth_get_error()."</p>";
         }
 
         print <<<EOT

@@ -7,7 +7,7 @@ class LoginAndRedirectPage extends SitePage {
 
     function update() {
         if ($this->authentication_level >= SP_AUTHLEVEL_USER) {
-            $this->meta_refresh($_REQUEST['url'], 0);
+            $this->header_redirect($_REQUEST['url']);
         }
     }
 
@@ -17,7 +17,7 @@ class LoginAndRedirectPage extends SitePage {
             return $result;
         }
 
-        print_login_and_new_account_form($this->referrer, $this->referrer, $this->referrer);
+        print_login_and_new_account_form($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_URI'], $this->referrer);
     }
 
 }
