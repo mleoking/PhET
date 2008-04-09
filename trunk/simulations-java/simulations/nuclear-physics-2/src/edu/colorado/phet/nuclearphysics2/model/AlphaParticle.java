@@ -241,8 +241,8 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     // Listener support
     //------------------------------------------------------------------------
 
-    public void addListener(Listener listener)
-    {
+    public void addListener(Listener listener){
+
         if (_listeners.contains( listener ))
         {
             // Don't bother re-adding.
@@ -250,6 +250,10 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         }
         
         _listeners.add( listener );
+    }
+    
+    public void removeListener(Listener listener){
+        _listeners.remove( listener );
     }
     
     public static interface Listener {

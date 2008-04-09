@@ -6,17 +6,26 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
+import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationCanvas;
+import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.nodes.PLine;
 
@@ -28,7 +37,7 @@ import edu.umd.cs.piccolox.nodes.PLine;
  *
  * @author John Blanco
  */
-public class AlphaRadiationEnergyChart extends PComposite {
+public class AlphaRadiationEnergyChart extends PComposite implements AlphaParticle.Listener {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -52,13 +61,24 @@ public class AlphaRadiationEnergyChart extends PComposite {
     private static final Color   LEGEND_BACKGROUND_COLOR = new Color(0xffffe0);
     private static final double  LEGEND_WIDTH = 190.0d;
     private static final double  LEGEND_HEIGHT = 80.0d;
+    private static final double  ALPHA_PARTICLE_SCALE_FACTOR = 0.075;
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
-    // Variables that control the dynamic attributes of the chart.
-    private double _energyWellWidth;  // In screen coordinates.
+    // Reference to the model that this chart monitors in order to present its
+    // information.
+    private AlphaRadiationModel _model;
+    
+    // Reference to the canvas on which everything is being displayed.
+    private PhetPCanvas _canvas;
+    
+    // Reference to the alpha particles that are monitored & displayed.
+    private AlphaParticle _tunneledAlpha;
+    
+    // Width of the energy well in the chart in screen coordinates.
+    private double _energyWellWidth;
 
     // References to the various components of the chart.
     private PPath _borderNode;
@@ -75,6 +95,7 @@ public class AlphaRadiationEnergyChart extends PComposite {
     private PText _totalEnergyLabel;
     private PLine _potentialEnergyLegendLine;
     private PLine _totalEnergyLegendLine;
+    private PImage _tunneledAlphaParticleImage;
     
     // Variables used for positioning nodes within the graph.
     double _usableAreaOriginX;
@@ -93,11 +114,24 @@ public class AlphaRadiationEnergyChart extends PComposite {
      * chart.  Note that it does not lay them out - it counts on calls to
      * the updateBounds routine to do that.
      */
-    public AlphaRadiationEnergyChart(double energyWellWidth) {
+    public AlphaRadiationEnergyChart(AlphaRadiationModel model, PhetPCanvas canvas) {
         
-        _energyWellWidth = energyWellWidth;
         setPickable( false );
-
+        _model = model;
+        _canvas = canvas;
+        
+        // Register as a listener with the model so that we can see when decay occurs.
+        _model.getAtomNucleus().addListener( new AtomicNucleus.Listener(){
+            public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
+                if (byProducts != null){
+                    handleDecayEvent(byProducts);
+                }
+            }
+            public void positionChanged(){
+                // Do nothing, since we don't care about this.
+            }
+        });
+        
         // Create the border for this chart.
         
         _borderNode = new PPath();
@@ -183,24 +217,30 @@ public class AlphaRadiationEnergyChart extends PComposite {
         _totalEnergyLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.TotalEnergy") );
         _totalEnergyLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
         _legend.addChild( _totalEnergyLabel );
+        
+        // Add the image that depicts the tunneling alpha particle.
+        _tunneledAlphaParticleImage = NuclearPhysics2Resources.getImageNode("Alpha Particle 001.png");
+        _tunneledAlphaParticleImage.setVisible( false );
+        _tunneledAlphaParticleImage.setScale( ALPHA_PARTICLE_SCALE_FACTOR );
+        addChild( _tunneledAlphaParticleImage );
     }
 
     //------------------------------------------------------------------------
-    // Accessor Methods
+    // Public Methods
     //------------------------------------------------------------------------
-    
+
     /**
-     * Set the desired width of the energy well.
+     * This method causes the chart to resize itself based on the (presumably
+     * different) size of the overall canvas on which it appears.
      * 
-     * @param newEnergyWellWidth - Desired width of the energy well in screen
-     * coordinates.
+     * @param rect - Position on the canvas where this chart should appear.
      */
-    public void setEnergyWellWidth( double newEnergyWellWidth){
-        _energyWellWidth = newEnergyWellWidth;
+    public void componentResized( Rectangle2D rect ) {
+        updateBounds( rect );
     }
     
     //------------------------------------------------------------------------
-    // Other Methods
+    // Private Methods
     //------------------------------------------------------------------------
 
     /**
@@ -219,6 +259,20 @@ public class AlphaRadiationEnergyChart extends PComposite {
         _usableHeight      = rect.getHeight() - ( BORDER_STROKE_WIDTH * 2);
         _graphOriginX      = _usableWidth * ORIGIN_PROPORTION_X + _usableAreaOriginX;
         _graphOriginY      = _usableHeight * ORIGIN_PROPORTION_Y + _usableAreaOriginY;
+        
+        // Recalculate energy well width.
+        // Get the diameter of the atomic nucleus so that it can be
+        // used to set the width of the energy well in the chart.
+        double nucleusDiameter = _model.getAtomNucleus().getDiameter();
+        PDimension nucleusDiameterDim = new PDimension(nucleusDiameter, nucleusDiameter);
+        
+        // Convert the diameter to screen coordinates so that we have
+        // the right units for setting the width of the energy well in
+        // the chart.
+        _canvas.getPhetRootNode().worldToScreen( nucleusDiameterDim );
+        _energyWellWidth = nucleusDiameterDim.getWidth();
+        
+
         
         // Set up the border for the graph.
         
@@ -314,14 +368,70 @@ public class AlphaRadiationEnergyChart extends PComposite {
         
         _potentialEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + legendUsableHeight * 0.7);
     }
+    
+    /**
+     * Handle notification of a decay event from the nucleus.  If everything
+     * is correct, register with the alpha particle that was generated as a
+     * result of the decay event so we can portray it moving away from the
+     * nucleus.
+     * 
+     * @param decayProducts
+     */
+    private void handleDecayEvent(ArrayList decayProducts){
+        
+        if (decayProducts != null){
+            
+            // First make sure that this decay event is what is expected.
+            if ((decayProducts.size() == 1) && (decayProducts.get( 0 ) instanceof AlphaParticle)){
+                
+                // This is the expected event.  Register with the alpha
+                // particle so that we can display it.
+                _tunneledAlpha = (AlphaParticle)decayProducts.get( 0 );
+                _tunneledAlpha.addListener( this );
+                _tunneledAlphaParticleImage.setVisible(true);
+            }
+            else{
+                System.err.println("Error: Unexpected decay event received.");
+                assert false;
+            }
+            
+        }
+    }
 
     /**
-     * This method causes the chart to resize itself based on the (presumably
-     * different) size of the overall canvas on which it appears.
-     * 
-     * @param rect - Position on the canvas where this chart should appear.
+     * Handle a change in the tunneled alpha particle's position, which we do
+     * by moving the corresponding image on the chart by the appropriate amount.
      */
-    public void componentResized( Rectangle2D rect ) {
-        updateBounds( rect );
+    public void positionChanged(){
+        if (_tunneledAlpha != null){
+            
+            // Convert the current position into a distance from the center of
+            // the nucleus and then into screen coordinates.
+            
+            Point2D tunneledAlphaPosition = _tunneledAlpha.getPosition();
+            double distanceFromNucleus = tunneledAlphaPosition.distance( 0, 0 );
+            PDimension distanceDim = new PDimension(distanceFromNucleus, distanceFromNucleus);
+            _canvas.getPhetRootNode().worldToScreen( distanceDim );
+            double distance;
+            if (tunneledAlphaPosition.getX() < 0){
+                distance = -(distanceDim.getWidth());
+            }
+            else{
+                distance = distanceDim.getWidth();                
+            }
+            
+            // Figure out where to place the image of the particle.
+            
+            if (Math.abs( distance ) > _usableWidth/2){
+                // This guy is off the chart, so forget about him.
+                _tunneledAlphaParticleImage.setVisible( false );
+                _tunneledAlpha.removeListener( this );
+                _tunneledAlpha = null;
+            }
+            else{
+                _tunneledAlphaParticleImage.setOffset( distance + _usableAreaOriginX  + (_usableWidth / 2), 
+                        _usableAreaOriginY + 5);
+            }
+        }
     }
 }
