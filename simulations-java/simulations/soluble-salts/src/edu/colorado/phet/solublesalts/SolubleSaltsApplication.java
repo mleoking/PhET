@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.TimeControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
@@ -59,6 +60,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
+        TimeControlPanel.ANIMATED_CLOCK_ICON_VISIBLE= false;
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 for ( int i = 0; i < args.length; i++ ) {
