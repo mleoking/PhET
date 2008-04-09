@@ -25,7 +25,25 @@ function browse_update_browser_for_select_element() {
     var types_query  = browse_build_update_query('Types');
     var levels_query = browse_build_update_query('Levels');
 
-    var url = 'browse.php?content_only=true&order={$this->order}&sort_by={$this->sort_by}' + sims_query + types_query + levels_query;
+    // Get the current browse order (asc/desc)
+    var order_obj = document.getElementById("browse_order");
+    if (order_obj === null) {
+        order = 'contribution_title';
+    }
+    else {
+        order = order_obj.value;
+    }
+
+    // Get the current brose sort by column
+    var sort_by_obj = document.getElementById("browse_sort_by");
+    if (sort_by_obj === null) {
+        sort_by = 'contribution_title';
+    }
+    else {
+        sort_by = sort_by_obj.value;
+    }
+
+    var url = 'browse.php?content_only=true&order=' + order + '&sort_by=' + sort_by + '' + sims_query + types_query + levels_query;
 
     HTTP.updateElementWithGet(url, null, 'browseresults');
 
