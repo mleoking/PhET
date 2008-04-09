@@ -105,9 +105,10 @@ public class FissionOneNucleus extends AtomicNucleus{
         // until something changes.
         _fissionTime = 0;
 
-        // Set velocity and position back to 0.
+        // Set acceleration, velocity, and position back to 0.
         setPosition( new Point2D.Double(0, 0) );
         setVelocity( 0, 0 );
+        setAcceleration( 0, 0 );
         
         // Add back two of the free neutrons, since these were released in
         // the fission event.

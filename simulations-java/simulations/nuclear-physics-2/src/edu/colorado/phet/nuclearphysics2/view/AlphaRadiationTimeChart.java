@@ -327,7 +327,7 @@ public class AlphaRadiationTimeChart extends PNode {
         _nonPickableChartNode.addChild( _timeToDecayUnits );
         
         // Add the button for resetting the chart.
-        _resetButtonNode = new PhetButtonNode(NuclearPhysics2Strings.DECAY_TIME_RESET_CHART);
+        _resetButtonNode = new PhetButtonNode(NuclearPhysics2Strings.DECAY_TIME_CLEAR_CHART);
         _resetButtonNode.setPickable( true );
         addChild(_resetButtonNode);
         

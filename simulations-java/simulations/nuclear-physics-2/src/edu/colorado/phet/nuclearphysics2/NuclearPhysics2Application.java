@@ -99,7 +99,6 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
 
         _exampleModule = new ExampleModule( parentFrame );
         addModule( _exampleModule );
-        
     }
 
     /**
