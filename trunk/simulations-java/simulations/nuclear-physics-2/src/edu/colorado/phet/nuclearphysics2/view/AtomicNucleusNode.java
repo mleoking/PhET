@@ -171,28 +171,6 @@ public class AtomicNucleusNode extends PNode {
             
             break;
             
-        case 36:
-            // Krypton
-            if (numNeutrons == 56){
-            // Krypton 92
-                label = "<html><sup><font size=-2>" + NuclearPhysics2Strings.KRYPTON_92_ISOTOPE_NUMBER +
-                " </font></sup>" + NuclearPhysics2Strings.KRYPTON_92_CHEMICAL_SYMBOL + "</html>";
-                _isotopeLabel.setColor( NuclearPhysics2Constants.KRYPTON_LABEL_COLOR );
-            }
-            
-            break;
-            
-        case 56:
-            // Barium
-            if (numNeutrons == 85){
-            // Barium 141
-                label = "<html><sup><font size=-2>" + NuclearPhysics2Strings.BARIUM_141_ISOTOPE_NUMBER +
-                " </font></sup>" + NuclearPhysics2Strings.BARIUM_141_CHEMICAL_SYMBOL + "</html>";
-                _isotopeLabel.setColor( NuclearPhysics2Constants.BARIUM_LABEL_COLOR );
-            }
-            
-            break;
-            
         case 82:
             // Lead
             if (numNeutrons == 125){

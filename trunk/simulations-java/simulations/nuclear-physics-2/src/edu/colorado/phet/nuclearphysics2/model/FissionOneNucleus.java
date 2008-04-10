@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.nuclearphysics2.model.Nucleon.Listener;
 
 /**
  * This class is used to model the atomic nucleus in the "Fission: One
@@ -29,7 +28,7 @@ public class FissionOneNucleus extends AtomicNucleus{
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
     // must be in the range 0-9.
     private static final int URANIUM_235_AGITATION_FACTOR = 6;
-    private static final int URANIUM_236_AGITATION_FACTOR = 8;
+    private static final int URANIUM_236_AGITATION_FACTOR = 9;
     
     //------------------------------------------------------------------------
     // Instance data
