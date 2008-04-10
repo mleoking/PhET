@@ -41,7 +41,7 @@ public class AlphaParticleNode extends PNode {
         _displayImage.scale( PARTICLE_DIAMETER/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
         addChild(_displayImage);
         alphaParticle.addListener(new AlphaParticle.Listener(){
-            public void positionChanged()
+            public void positionChanged(AlphaParticle alpha)
             {
                 update();
             }
