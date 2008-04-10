@@ -55,6 +55,7 @@ public class NuclearPhysics2Strings {
     public static final String DECAY_TIME_LABEL = NuclearPhysics2Resources.getString( "DecayTimeChart.DecayTimeLabel" );
     public static final String DECAY_TIME_UNITS = NuclearPhysics2Resources.getString( "DecayTimeChart.DecayTimeUnits" );
     public static final String DECAY_TIME_CLEAR_CHART = NuclearPhysics2Resources.getString( "DecayTimeChart.ClearChart" );
+    public static final String DECAY_EVENT = NuclearPhysics2Resources.getString( "DecayTimeChart.DecayEvent" );
 
     public static final String DECAY_TIME_CHART_HALF_LIFE = NuclearPhysics2Resources.getString( "DecayTimeChart.HalfLife" );
 

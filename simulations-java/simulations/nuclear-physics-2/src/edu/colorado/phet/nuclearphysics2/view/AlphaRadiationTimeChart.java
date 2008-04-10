@@ -116,6 +116,8 @@ public class AlphaRadiationTimeChart extends PNode {
     private PText _timeToDecayText;
     private PText _timeToDecayUnits;
     private PText _halfLifeLabel;
+    private PText _markerInLegend;
+    private PText _markerLegendLabel;
     
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -312,7 +314,17 @@ public class AlphaRadiationTimeChart extends PNode {
         _halfLifeLabel.setFont( LABEL_FONT );
         _halfLifeLabel.setPaint( HALF_LIFE_LINE_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
+        
+        // Create the legend for the decay time markers.
+        _markerInLegend = new PText( MARKER_CHAR );
+        _markerInLegend.setFont( MARKER_CHAR_FONT );
+        _markerInLegend.setTextPaint( MARKER_COLOR );
 
+        _nonPickableChartNode.addChild( _markerInLegend );
+        _markerLegendLabel = new PText( " = " + NuclearPhysics2Strings.DECAY_EVENT);
+        _markerLegendLabel.setFont( LABEL_FONT );
+        _nonPickableChartNode.addChild( _markerLegendLabel );
+        
         // Add the text that will show the decay time.
         _timeToDecayLabel = new PText( NuclearPhysics2Strings.DECAY_TIME_LABEL );
         _timeToDecayLabel.setFont( LABEL_FONT );
@@ -432,6 +444,11 @@ public class AlphaRadiationTimeChart extends PNode {
                 _graphOriginY );
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - (1.1 * _yAxisLabel2.getFont().getSize()), 
                 _graphOriginY );
+        
+        // Position the marker legend.
+        _markerInLegend.setOffset( _usableWidth * 0.75, _graphOriginY + ((PText)_xAxisTickMarkLabels.get( 0 )).getHeight() );
+        _markerLegendLabel.setOffset( _markerInLegend.getXOffset() + _markerInLegend.getFullBounds().getWidth(),
+                _markerInLegend.getYOffset() );
         
         // Position the marker for the half life.
         _halfLifeMarkerLine.reset();
