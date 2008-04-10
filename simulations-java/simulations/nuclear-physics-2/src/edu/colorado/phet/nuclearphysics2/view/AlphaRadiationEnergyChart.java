@@ -64,6 +64,13 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private static final double  ALPHA_PARTICLE_SCALE_FACTOR = 0.075;
     private static final int     MAX_ALPHA_PARTICLES_DISPLAYED = 6;
     
+    // TODO: JPB TBD - Need to revisit these values and see if they make
+    // sense as they are, or should be converted to units, and/or should be
+    // dynamically calculated as a property of the nucleus.
+    private static final double TOTAL_ENERGY = 10.0;
+    private static final double ALPHA_PARTICLE_PRE_DECAY_ENERGY = TOTAL_ENERGY;
+    private static final double ALPHA_PARTICLE_POST_DECAY_ENERGY = -10;
+    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -102,16 +109,16 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private PImage [] _alphaParticleImages = new PImage [MAX_ALPHA_PARTICLES_DISPLAYED];
     
     // Variables used for positioning nodes within the graph.
-    double _usableAreaOriginX;
-    double _usableAreaOriginY;
-    double _usableWidth;
-    double _usableHeight;
-    double _graphOriginX;
-    double _graphOriginY;
+    private double _usableAreaOriginX;
+    private double _usableAreaOriginY;
+    private double _usableWidth;
+    private double _usableHeight;
+    private double _graphOriginX;
+    private double _graphOriginY;
     
-    // JPB TBD
-    boolean _decayOccurred = false;
-
+    // Tracks whether the alpha decay of the nucleus has occurred.
+    private boolean _decayOccurred = false;
+    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -353,8 +360,10 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         // Position the line that represents the total energy.
         
         _totalEnergyLine.removeAllPoints();
-        _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, _graphOriginY - _usableHeight * 0.1 );
-        _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, _graphOriginY - _usableHeight * 0.1 );
+        _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, 
+                _graphOriginY - convertEnergyToScreenUnits(TOTAL_ENERGY) );
+        _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, 
+                _graphOriginY - convertEnergyToScreenUnits(TOTAL_ENERGY) );
             
 
         // Position the curve that represents the potential energy.
@@ -513,19 +522,24 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
      * @param alpha
      */
     private void setAlphaImageOffset(PImage image, AlphaParticle alpha){
+        
+        // Make sure the function is being used correctly.
         assert image != null;
         if (image == null){
             return;
         }
         
+        // Calculate the Y axis position based on the particle's energy.
         double yPos;
         if ((!_decayOccurred) || (alpha == _tunneledAlpha)){
-            yPos = _graphOriginY - _usableHeight * 0.1 - 9;
+            yPos = _graphOriginY - convertEnergyToScreenUnits( ALPHA_PARTICLE_PRE_DECAY_ENERGY );
         }
         else{
-            yPos = _graphOriginY + 8;            
+            yPos = _graphOriginY - convertEnergyToScreenUnits( ALPHA_PARTICLE_POST_DECAY_ENERGY );
         }
+        yPos -= image.getFullBounds().height / 2; // Center the image on the desired Y position.
         
+        // Convert from model units
         Point2D alphaPosition = alpha.getPosition();
         double distanceFromNucleus = alphaPosition.distance( 0, 0 );
         PDimension distanceDim = new PDimension(distanceFromNucleus, distanceFromNucleus);
@@ -538,5 +552,20 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
             xPos = _usableWidth / 2 + distanceDim.getWidth();                
         }
         image.setOffset( xPos, yPos );
+    }
+    
+    /**
+     * Convert an energy value, in MeV, into screen units.
+     * 
+     * @param energy
+     * @return
+     */
+    private double convertEnergyToScreenUnits( double energy ){
+        // TODO: jblanco 4/8/2008 - This function just does a simple scaling
+        // function based on the size of the chart and not really on the MeV
+        // units.  This may be cleaned up when the Y axis values are more
+        // clearly understood.  For now, we assume that the visible area of
+        // the chart represents 100 units.
+        return energy * (_usableHeight / 100);
     }
 }
