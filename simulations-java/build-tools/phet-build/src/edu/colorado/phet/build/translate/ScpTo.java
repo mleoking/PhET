@@ -8,8 +8,8 @@ import com.jcraft.jsch.*;
 
 public class ScpTo {
     public static void main( String[] arg ) throws JSchException, IOException {
-        if ( arg.length != 2 ) {
-            System.err.println( "usage: java ScpTo file1 user@remotehost:file2" );
+        if ( arg.length != 3 ) {
+            System.err.println( "usage: java ScpTo file1 user@remotehost:file2 password" );
             System.exit( -1 );
         }
 
@@ -18,8 +18,9 @@ public class ScpTo {
         arg[1] = arg[1].substring( arg[1].indexOf( '@' ) + 1 );
         String host = arg[1].substring( 0, arg[1].indexOf( ':' ) );
         String rfile = arg[1].substring( arg[1].indexOf( ':' ) + 1 );
+        String password = arg[2];
 
-        uploadFile( new File( lfile ), user, host, rfile, null );
+        uploadFile( new File( lfile ), user, host, rfile, password );
     }
 
     public static void uploadFile( File localFile, String user, String host, String remoteFilePath, String password ) throws JSchException, IOException {
@@ -50,9 +51,14 @@ public class ScpTo {
                 System.exit( 0 );
             }
 
-            // send "C0644 filesize filename", where filename should not include '/'
+            /*
+             * NOTE: The "C0664" specifies the UNIX file permissions; see chmod.
+             * This code originally used "C0644", but that causes permissions problems
+             * when different developers attempted to deploy the same sim.
+             */
+            // send "C0664 filesize filename", where filename should not include '/'
             long filesize = ( localFile ).length();
-            command = "C0644 " + filesize + " ";
+            command = "C0664 " + filesize + " ";
             if ( localFile.getAbsolutePath().lastIndexOf( '/' ) > 0 ) {
                 command += localFile.getAbsolutePath().substring( localFile.getAbsolutePath().lastIndexOf( '/' ) + 1 );
             }
