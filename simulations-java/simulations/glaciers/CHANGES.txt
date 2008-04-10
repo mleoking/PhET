@@ -71,6 +71,8 @@ CLEANUP:
 
 
 DONE:
+4/9/08 - rename Glaciers.getX0 to Glaciers.getMinX, add Glaciers.getMaxX
+4/9/08 - move 0-80km range details into Glacier class
 4/9/08 - prevent *center* of zoomed viewport from being dragged any farther right than 80km
 4/9/08 - prevent zoomed viewport from being dragged any farther right than 80km
 3/25/08 - yet-another mountains image that doesn't line up (Archie is building scaling into the image!)

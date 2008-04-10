@@ -29,10 +29,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     public static final DecimalFormat CLOCK_DISPLAY_FORMAT = new DecimalFormat( "0" );
     public static final int CLOCK_DISPLAY_COLUMNS = 10;
     
-    // Valley
-    public static final double VALLEY_X_MIN = 0; // meters
-    public static final double VALLEY_X_MAX = 80000; // meters
-    
     // Climate
     public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 13, 20, 19 );  // temperature at sea level (degrees C)
     public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 2, 1 ); // snow accumulation (meters/year)

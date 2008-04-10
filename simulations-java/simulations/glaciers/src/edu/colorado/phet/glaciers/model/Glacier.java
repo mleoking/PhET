@@ -26,8 +26,10 @@ public class Glacier extends ClockAdapter {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double X0 = 0; // x coordinate where the glacier starts (meters) DO NOT CHANGE!!
+    private static final double MIN_X = 0; // x coordinate where the glacier starts (meters) CHANGING THIS IS UNTESTED!!
     private static final double DX = 80; // distance between x-axis sample points (meters)
+    private static final double MAX_LENGTH = 80000; // maximum glacier length (meters)
+    
     private static final double ELA_EQUALITY_THRESHOLD = 1; // ELAs are considered equal if they are at least this close (meters)
     private static final double U_SLIDE = 20; // downvalley ice speed (meters/year)
     private static final double U_DEFORM = 20; // contribution of vertical deformation to ice speed (meters/year)
@@ -114,12 +116,24 @@ public class Glacier extends ClockAdapter {
     }
     
     /**
-     * Gets the x coordinate for the first x-axis sample point.
+     * Gets the minimum x coordinate, used for the first x-axis sample point.
      * 
      * @return meters
      */
-    public static double getX0() {
-        return X0;
+    public static double getMinX() {
+        return MIN_X;
+    }
+    
+    /**
+     * Gets the maximum x coordinate.
+     * Depending on how the model is parameterized, we may exceed this value.
+     * This value is used mainly to tell the view how much of the Valley we need 
+     * to be able to look at.
+     * 
+     * @return
+     */
+    public static double getMaxX() {
+        return MIN_X + MAX_LENGTH;
     }
     
     /**
@@ -172,7 +186,7 @@ public class Glacier extends ClockAdapter {
      * @return meters
      */
     public double getTerminusX() {
-        return X0 + getLength();
+        return MIN_X + getLength();
     }
     
     //----------------------------------------------------------------------------
@@ -202,13 +216,13 @@ public class Glacier extends ClockAdapter {
     public double getIceThickness( final double x ) {
         double iceThickness = 0;
         final double xTerminus = getTerminusX();
-        if ( x >= X0 && x <= xTerminus ) {
+        if ( x >= MIN_X && x <= xTerminus ) {
             if ( x == xTerminus ) {
                 iceThickness = _iceThicknessSamples[_iceThicknessSamples.length - 1];
             }
             else {
-                int index = (int) ( ( x - X0 ) / DX );
-                double x1 = X0 + ( index * DX );
+                int index = (int) ( ( x - MIN_X ) / DX );
+                double x1 = MIN_X + ( index * DX );
                 double t1 = _iceThicknessSamples[index];
                 double t2 = _iceThicknessSamples[index + 1];
                 iceThickness = t1 + ( ( ( x - x1 ) / DX ) * ( t2 - t1 ) ); // linear interpolation
@@ -241,11 +255,11 @@ public class Glacier extends ClockAdapter {
         
         final double maxThickness = 400. - Math.pow( ( .0104 * ela ) - 23, 2 );
         final double glacierLength = Math.max( 0, 170500. - ( 41.8 * ela ) ); //XXX max ELA is 4500, temporary fix for negative glacier length
-        final double xPeak = X0 + ( 0.5 * glacierLength );
+        final double xPeak = MIN_X + ( 0.5 * glacierLength );
         final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
 
         double[] samples = new double[numberOfSamples];
-        double x = X0;
+        double x = MIN_X;
         final double p = 42 - ( 0.01 * ela );
         final double r = 1.5 * xPeak;
         final double xPeakPow = Math.pow( xPeak, p );

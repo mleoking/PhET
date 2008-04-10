@@ -96,7 +96,7 @@ public class IceFlowNode extends PComposite {
         else {
             _parentNode.removeAllChildren();
             final double xTerminus = _glacier.getTerminusX();
-            double x = Glacier.getX0();
+            double x = Glacier.getMinX();
             while ( x <= xTerminus ) {
                 double valleyFloorElevation = _glacier.getValley().getElevation( x );
                 double iceSurfaceElevation = valleyFloorElevation + _glacier.getIceThickness( x );

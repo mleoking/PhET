@@ -24,6 +24,7 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
+import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Viewport;
 import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
@@ -105,7 +106,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PlayArea( AbstractModel model, ModelViewTransform mvt, double valleyMinX, double valleyMaxX ) {
+    public PlayArea( AbstractModel model, ModelViewTransform mvt ) {
         super();
         
         assert( ZOOMED_CAMERA_VIEW_SCALE >= BIRDS_EYE_CAMERA_VIEW_SCALE );
@@ -117,12 +118,16 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         _mvt = mvt;
         
+        // range of x values that we're interested in
+        final double minX = Glacier.getMinX();
+        final double maxX = Glacier.getMaxX();
+        
         // elevation left edge of valley
-        double elevationAtMinX = _model.getValley().getElevation( valleyMinX );
+        double elevationAtMinX = _model.getValley().getElevation( minX );
         
         // birds-eye viewport
         _birdsEyeViewport = new Viewport( "birds-eye" ); // bounds will be set when play area is resized
-        _birdsEyeViewport.setPosition( valleyMinX + BIRDS_EYE_VIEWPORT_OFFSET.getX(), elevationAtMinX + BIRDS_EYE_VIEWPORT_OFFSET.getY() );
+        _birdsEyeViewport.setPosition( minX + BIRDS_EYE_VIEWPORT_OFFSET.getX(), elevationAtMinX + BIRDS_EYE_VIEWPORT_OFFSET.getY() );
         _birdsEyeViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleBirdsEyeViewportChanged();
@@ -246,7 +251,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _toolboxLayer.addChild( _toolboxNode );
         
         // Penguin is the control for moving the zoomed viewport
-        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, valleyMaxX );
+        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, maxX );
         _viewportLayer.addChild( _penguinNode );
     }
     

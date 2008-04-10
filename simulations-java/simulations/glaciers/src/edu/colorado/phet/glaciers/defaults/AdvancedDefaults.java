@@ -27,10 +27,6 @@ public class AdvancedDefaults {
     public static final int CLOCK_DISPLAY_COLUMNS = GlobalDefaults.CLOCK_DISPLAY_COLUMNS;
     public static final GlaciersClock CLOCK = new GlaciersClock( CLOCK_FRAME_RATE_RANGE.getDefault(), CLOCK_DT );
     
-    // Valley 
-    public static final double VALLEY_X_MIN = GlobalDefaults.VALLEY_X_MIN;
-    public static final double VALLEY_X_MAX = GlobalDefaults.VALLEY_X_MAX;
-    
     // Climate
     public static final DoubleRange SNOWFALL_RANGE = GlobalDefaults.SNOWFALL_RANGE; 
     public static final DoubleRange SNOWFALL_REFERENCE_ELEVATION_RANGE = GlobalDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE;

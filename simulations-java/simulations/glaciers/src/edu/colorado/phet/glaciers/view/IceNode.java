@@ -71,7 +71,7 @@ public class IceNode extends PComposite {
     
     private void updateIceThickness() {
         
-        final double x0 = Glacier.getX0();
+        final double x0 = Glacier.getMinX();
         final double dx = Glacier.getDx();
         Valley valley = _glacier.getValley();
         
