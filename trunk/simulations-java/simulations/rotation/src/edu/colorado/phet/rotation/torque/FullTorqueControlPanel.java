@@ -14,6 +14,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.controls.ResetButton;

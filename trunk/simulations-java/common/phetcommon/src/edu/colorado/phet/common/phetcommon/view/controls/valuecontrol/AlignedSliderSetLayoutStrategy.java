@@ -1,15 +1,18 @@
-package edu.colorado.phet.rotation.torque;
+package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
 import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
-
 /**
- * Author: Sam Reid
- * Aug 21, 2007, 9:35:11 AM
+ * This class aligns a set of AbstractValueControls so that their text boxes, sliders and titles line up.
+ * <p/>
+ * Sample usage
+ * 
+ * LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, muscle, fat};
+ * new AlignedSliderSetLayoutStrategy( hs ).doLayout();
+ *
+ * @author Sam Reid
  */
 public class AlignedSliderSetLayoutStrategy implements ILayoutStrategy {
     private AbstractValueControl[] sliders;
