@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
+import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
@@ -105,10 +106,10 @@ public class CaloriePanel extends PNode {
 
         GraphSuiteSet graphSuiteSet = new GraphSuiteSet();
         TimeSeriesModel tsm = new MotionTimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) );
-        ControlGraph controlGraph = new ControlGraph( phetPCanvas, new DefaultTemporalVariable(), "Weight", 0, 100, tsm );
+        ControlGraph controlGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Weight", Color.blue, "weight", "lbs", "human", new DefaultTemporalVariable() ), "Weight", 0, 100, tsm );
         controlGraph.setEditable( false );
         MinimizableControlGraph a = new MinimizableControlGraph( "Weight", controlGraph );
-        ControlGraph controlGraph1 = new ControlGraph( phetPCanvas, new DefaultTemporalVariable(), "Calories", 0, 100, tsm );
+        ControlGraph controlGraph1 = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Calories", Color.blue, "Cal", "Cal", "human", new DefaultTemporalVariable() ), "Calories", 0, 100, tsm );
         controlGraph1.setEditable( false );
         MinimizableControlGraph b = new MinimizableControlGraph( "Calories", controlGraph1 );
         a.setAvailableBounds( 600, 125 );
@@ -118,7 +119,7 @@ public class CaloriePanel extends PNode {
         b.setAlignedLayout( graphs );
         graphSuiteSet.addGraphSuite( graphs );
         a.setOffset( 0, exerciseStrip.getFullBounds().getMaxY() );
-        b.setOffset( 0,a.getFullBounds().getMaxY() );
+        b.setOffset( 0, a.getFullBounds().getMaxY() );
         addChild( a );
 
         addChild( b );
