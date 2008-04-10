@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.StringTokenizer;
 
 import javax.mail.MessagingException;
 import javax.swing.*;
@@ -26,8 +27,9 @@ public class ProcessRecentChanges {
 
     public ProcessRecentChanges( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         this.args = args;
-        unfuddleAccount = new UnfuddleAccount( new File( SVN_TRUNK + "\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );
+        unfuddleAccount = new UnfuddleAccount( new File( args[7] ) );
         unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
+        final boolean sendMail = Boolean.parseBoolean( args[8] );
 
         running = new JFrame( "Process Unfuddle Changes" );
         running.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -52,7 +54,7 @@ public class ProcessRecentChanges {
         updateNow.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                processRecentChanges( ProcessRecentChanges.this );
-                processChangesDisplayExceptions();
+                processChangesDisplayExceptions( sendMail );
             }
         } );
         running.setContentPane( contentPanel );
@@ -61,7 +63,7 @@ public class ProcessRecentChanges {
         timer = new Timer( getTimerDelay(), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( jCheckBox.isSelected() ) {
-                    processChangesDisplayExceptions();
+                    processChangesDisplayExceptions( sendMail );
 //                    processRecentChanges( ProcessRecentChanges.this );
                 }
             }
@@ -83,9 +85,9 @@ public class ProcessRecentChanges {
         running.setVisible( true );
     }
 
-    private void processChangesDisplayExceptions() {
+    private void processChangesDisplayExceptions( boolean sendMail ) {
         try {
-            processChanges();
+            processChanges( sendMail );
         }
         catch( IOException e1 ) {
             e1.printStackTrace();
@@ -98,7 +100,7 @@ public class ProcessRecentChanges {
         }
     }
 
-    private void processChanges() throws IOException, SAXException, ParserConfigurationException {
+    private void processChanges( boolean sendMail ) throws IOException, SAXException, ParserConfigurationException {
         final int limit = 20;
         final String[] recent = new String[]{null};
         Thread t = new Thread( new Runnable() {
@@ -137,7 +139,8 @@ public class ProcessRecentChanges {
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args[2], args[3], args[4], args[5], new ReadEmailList( unfuddleAccount, unfuddleCurl ), true ) );
+//        h.addMessageHandler( new EmailHandler( args[2], args[3], args[4], args[5], new ReadEmailList( unfuddleAccount, unfuddleCurl ), true ) );
+        h.addMessageHandler( new EmailHandler( args[2], args[3], args[4], args[5], new ReadEmailList( unfuddleAccount, unfuddleCurl ), sendMail ) );
         MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( SVN_TRUNK + "\\util\\unfuddle\\data\\handled.txt" ) );
 //        MessageHandler mh = h;
         int handled = 0;
@@ -195,10 +198,18 @@ public class ProcessRecentChanges {
 
 
     // args example:
-    // @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:\phet\svn
+    // @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:\phet\svn C:\phet\unfuddled.xml true
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        if ( args.length == 0 ) {
-            args = new String[7];
+        if ( args.length == 1 && new File( args[0] ).exists() ) {
+            String text = FileUtils.loadFileAsString( new File( args[0] ) );
+            StringTokenizer st = new StringTokenizer( text, " " );
+            args = new String[9];
+            for ( int i = 0; i < args.length; i++ ) {
+                args[i] = st.nextToken();
+            }
+        }
+        else if ( args.length == 0 ) {
+            args = new String[9];
             args[0] = JOptionPane.showInputDialog( "Unfuddle ID" );
             args[1] = JOptionPane.showInputDialog( "Unfuddle Password" );
             args[2] = "phetmail@comcast.net";
@@ -206,6 +217,8 @@ public class ProcessRecentChanges {
             args[4] = "phetmail";
             args[5] = JOptionPane.showInputDialog( "Phetmail password" );
             args[6] = JOptionPane.showInputDialog( "SVN-trunk dir, e.g. C:/phet/svn/trunk" );
+            args[7] = JOptionPane.showInputDialog( "Path to phet-unfuddled.xml, e.g. C:/phet-unfuddled.xml" );
+            args[8] = JOptionPane.showInputDialog( "Send mail? true=yes false=test only", "true" );
         }
         final String[] out = args;
         SwingUtilities.invokeLater( new Runnable() {
