@@ -89,9 +89,6 @@
     <content url="file://$MODULE_DIR$/../../../translation-utility">
       <sourceFolder url="file://$MODULE_DIR$/../../../translation-utility/src" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../../../util/unfuddle">
-      <sourceFolder url="file://$MODULE_DIR$/../../../util/unfuddle/src" isTestSource="false" />
-    </content>
     <content url="file://$MODULE_DIR$/../../../../../../svn-working-copy/trunk/projects/phet" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
