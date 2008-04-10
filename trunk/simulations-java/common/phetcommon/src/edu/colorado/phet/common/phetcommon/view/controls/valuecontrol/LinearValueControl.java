@@ -22,19 +22,6 @@ public class LinearValueControl extends AbstractValueControl {
         this( min, max, label, textFieldPattern, units, new DefaultLayoutStrategy() );
     }
 
-    /**
-     * Constructor that provides a default layout for the control as well as the default slider value
-     *
-     * @param min
-     * @param max
-     * @param label
-     * @param textFieldPattern
-     * @param units
-     */
-    public LinearValueControl( double min, double max, double value, String label, String textFieldPattern, String units ) {
-        this( min, max, label, textFieldPattern, units, new DefaultLayoutStrategy() );
-        setValue( value );
-    }
 
     /**
      * Constructor that allows you to specify a layout for the control.
@@ -50,4 +37,30 @@ public class LinearValueControl extends AbstractValueControl {
         super( new LinearSlider( min, max ), label, textFieldPattern, units, layoutStrategy );
     }
 
+        /**
+     * Constructor that provides a default layout for the control as well as the default slider value
+     *
+     * @param min
+     * @param max
+     * @param label
+     * @param textFieldPattern
+     * @param units
+     */
+    public LinearValueControl( double min, double max, double value, String label, String textFieldPattern, String units ) {
+        this( min, max, value,label, textFieldPattern, units, new DefaultLayoutStrategy() );
+    }
+
+    /**
+     * Constructor that accepts a layout for the control as well as the default slider value
+     *
+     * @param min
+     * @param max
+     * @param label
+     * @param textFieldPattern
+     * @param units
+     */
+    public LinearValueControl( double min, double max, double value, String label, String textFieldPattern, String units,ILayoutStrategy layoutStrategy ) {
+        this( min, max, label, textFieldPattern, units, layoutStrategy );
+        setValue( value );
+    }
 }
