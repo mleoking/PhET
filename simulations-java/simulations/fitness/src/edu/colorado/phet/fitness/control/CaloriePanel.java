@@ -66,7 +66,9 @@ public class CaloriePanel extends PNode {
         burnSlider.setOffset( 0, calorieSlider.getFullBounds().getMaxY() + 5 );
 
         BarChartNode foodCompositionBarChart = new BarChartNode( "Food Composition", 200, Color.white, 200 );
-        foodCompositionBarChart.setVariables( new BarChartNode.Variable[]{
+        foodCompositionBarChart.setVerticalAxisLabel( "amount (grams)", Color.blue );
+        foodCompositionBarChart.setVerticalAxisLabelShadowVisible( false );
+        foodCompositionBarChart.init( new BarChartNode.Variable[]{
                 new BarChartNode.Variable( "Carbs", 0.7, Color.green ),
                 new BarChartNode.Variable( "Proteins", 0.3, Color.red ),
                 new BarChartNode.Variable( "Lipids", 0.5, Color.blue ),
@@ -76,7 +78,9 @@ public class CaloriePanel extends PNode {
 
 
         BarChartNode exerciseChart = new BarChartNode( "Exercise", 200 / 24, Color.white, 200 );//hours
-        exerciseChart.setVariables( new BarChartNode.Variable[]{
+        exerciseChart.setVerticalAxisLabel( "activity (hours)", Color.blue );
+        exerciseChart.setVerticalAxisLabelShadowVisible( false );
+        exerciseChart.init( new BarChartNode.Variable[]{
                 new BarChartNode.Variable( "Activity", 10, Color.red ),
                 new BarChartNode.Variable( "Relaxing", 12, Color.blue ),
                 new BarChartNode.Variable( "Sleep", 8, Color.green ),
