@@ -8,8 +8,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * This class is used by Energy Skate Park (and possibly other sims). 
+ * This class depicts a single bar in a BarChartNode.
  * It is still under development and subject to change.
+ *
  * @author Sam Reid
  */
 
@@ -24,7 +25,7 @@ public class BarNode extends PNode {
     private double labelWidth;
 
     public BarNode( String text, double scale,
-                         double value, int x, int width, int y, Color color, Font barFont ) {
+                    double value, int x, int width, int y, Color color, Font barFont ) {
         this.scale = scale;
         this.value = value;
         this.x = x;

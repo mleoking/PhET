@@ -24,8 +24,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * This class is used by Energy Skate Park (and possibly other sims). 
+ * This class is used by Energy Skate Park (and possibly other sims).  See the main() below for a runnable example.
  * It is still under development and subject to change.
+ *
  * @author Sam Reid
  */
 public class BarChartNode extends PNode {
@@ -52,7 +53,7 @@ public class BarChartNode extends PNode {
     public BarChartNode( String title, double scale, Paint backgroundColor, double barChartHeight ) {
         this.scale = scale;
         topY = 0;
-        this.barChartHeight=barChartHeight;
+        this.barChartHeight = barChartHeight;
         barWidth = 20;
         dw = 7;
         sep = barWidth + dw;
@@ -130,8 +131,8 @@ public class BarChartNode extends PNode {
             final Variable variable = variables[i];
             int x = (int) ( i * sep + dw );
             final BarNode barGraphic = new BarNode( variable.getName(), scale,
-                                                              variable.getValue(), x, (int) barWidth,
-                                                              (int) barChartHeight, variable.getColor(), new PhetDefaultFont( Font.BOLD, 14 ) );
+                                                    variable.getValue(), x, (int) barWidth,
+                                                    (int) barChartHeight, variable.getColor(), new PhetDefaultFont( Font.BOLD, 14 ) );
             addBarGraphic( barGraphic );
         }
         frontLayer.addChild( titleNode );
