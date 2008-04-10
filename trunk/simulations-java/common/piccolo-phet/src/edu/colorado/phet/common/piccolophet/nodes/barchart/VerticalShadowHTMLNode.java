@@ -7,7 +7,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * This class is used to draw the vertical axis label of a BarChartNode.
+ * This class is used to draw the vertical axis label of a single Bar in a BarChartNode.
  * It is still under development and subject to change.
  *
  * @author Sam Reid
