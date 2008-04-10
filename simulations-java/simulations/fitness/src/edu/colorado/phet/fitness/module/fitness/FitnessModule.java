@@ -7,7 +7,6 @@ import java.util.Hashtable;
 
 import javax.swing.*;
 
-import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -80,12 +79,13 @@ public class FitnessModule extends PiccoloModule {
     private JComponent createTimeSpeedSlider() {
         JSlider _clockIndexSlider = new JSlider();
         _clockIndexSlider.setMinimum( 0 );
-        _clockIndexSlider.setMaximum( BSConstants.CLOCK_STEPS.length - 1 );
+        int[] steps = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        _clockIndexSlider.setMaximum( steps.length - 1 );
         _clockIndexSlider.setMajorTickSpacing( 1 );
         _clockIndexSlider.setPaintTicks( true );
         _clockIndexSlider.setPaintLabels( true );
         _clockIndexSlider.setSnapToTicks( true );
-        _clockIndexSlider.setValue( BSConstants.DEFAULT_CLOCK_INDEX );
+        _clockIndexSlider.setValue( 0 );
 
         // Label the min "normal", the max "fast".
         String normalString = "normal";
