@@ -62,7 +62,8 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private static final double  LEGEND_WIDTH = 190.0d;
     private static final double  LEGEND_HEIGHT = 80.0d;
     private static final double  ALPHA_PARTICLE_SCALE_FACTOR = 0.075;
-
+    private static final int     MAX_ALPHA_PARTICLES_DISPLAYED = 6;
+    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -76,6 +77,8 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     
     // Reference to the alpha particles that are monitored & displayed.
     private AlphaParticle _tunneledAlpha;
+    private ArrayList     _alphaParticles = new ArrayList();
+    private ArrayList     _currentlyTrackedAlphas = new ArrayList(MAX_ALPHA_PARTICLES_DISPLAYED);
     
     // Width of the energy well in the chart in screen coordinates.
     private double _energyWellWidth;
@@ -96,6 +99,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private PLine _potentialEnergyLegendLine;
     private PLine _totalEnergyLegendLine;
     private PImage _tunneledAlphaParticleImage;
+    private PImage [] _alphaParticleImages = new PImage [MAX_ALPHA_PARTICLES_DISPLAYED];
     
     // Variables used for positioning nodes within the graph.
     double _usableAreaOriginX;
@@ -104,6 +108,9 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     double _usableHeight;
     double _graphOriginX;
     double _graphOriginY;
+    
+    // JPB TBD
+    boolean _decayOccurred = false;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -126,11 +133,35 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
                 if (byProducts != null){
                     handleDecayEvent(byProducts);
                 }
+                else{
+                    // Must have been a reset of the nucleus.
+                    _decayOccurred = false;
+                }
             }
             public void positionChanged(){
                 // Do nothing, since we don't care about this.
             }
         });
+        
+        // Register as a listener with the alpha particles so that we can
+        // monitor them and display some number of them moving around within
+        // the well.
+        ArrayList nucleusConstituents = _model.getAtomNucleus().getConstituents();
+        for (int i = 0; i < nucleusConstituents.size(); i++){
+            if (nucleusConstituents.get( i ) instanceof AlphaParticle){
+                // Add this to our overall list of watched particles.
+                _alphaParticles.add( nucleusConstituents.get( i ) );
+                
+                // If we don't have enough yet, add this to our list of
+                // particles that we are tracking and possibly displaying.
+                if (_currentlyTrackedAlphas.size() < MAX_ALPHA_PARTICLES_DISPLAYED){
+                    _currentlyTrackedAlphas.add( nucleusConstituents.get( i ) );
+                }
+                
+                // Register as a listener to this particle.
+                ((AlphaParticle)nucleusConstituents.get( i )).addListener( this );
+            }
+        }
         
         // Create the border for this chart.
         
@@ -217,6 +248,20 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _totalEnergyLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.TotalEnergy") );
         _totalEnergyLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
         _legend.addChild( _totalEnergyLabel );
+        
+        // Add the images that will depict alpha particles moving around
+        // within the nucleus.
+        for (int i = 0; i < MAX_ALPHA_PARTICLES_DISPLAYED; i++){
+            if ((i % 2) == 0){
+               _alphaParticleImages[i] = NuclearPhysics2Resources.getImageNode("Alpha Particle 001.png");
+            }
+            else{
+                _alphaParticleImages[i] = NuclearPhysics2Resources.getImageNode("Alpha Particle 002.png");                
+            }
+            _alphaParticleImages[i].setVisible( true );
+            _alphaParticleImages[i].setScale( ALPHA_PARTICLE_SCALE_FACTOR );
+            addChild( _alphaParticleImages[i] );
+        }
         
         // Add the image that depicts the tunneling alpha particle.
         _tunneledAlphaParticleImage = NuclearPhysics2Resources.getImageNode("Alpha Particle 001.png");
@@ -310,6 +355,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _totalEnergyLine.removeAllPoints();
         _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, _graphOriginY - _usableHeight * 0.1 );
         _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, _graphOriginY - _usableHeight * 0.1 );
+            
 
         // Position the curve that represents the potential energy.
 
@@ -384,11 +430,12 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
             // First make sure that this decay event is what is expected.
             if ((decayProducts.size() == 1) && (decayProducts.get( 0 ) instanceof AlphaParticle)){
                 
-                // This is the expected event.  Register with the alpha
-                // particle so that we can display it.
+                // This is the expected event.  Track this particle and make
+                // its representation visible.
                 _tunneledAlpha = (AlphaParticle)decayProducts.get( 0 );
-                _tunneledAlpha.addListener( this );
                 _tunneledAlphaParticleImage.setVisible(true);
+                setAlphaImageOffset(_tunneledAlphaParticleImage, _tunneledAlpha);
+                _decayOccurred = true;
             }
             else{
                 System.err.println("Error: Unexpected decay event received.");
@@ -399,11 +446,12 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     }
 
     /**
-     * Handle a change in the tunneled alpha particle's position, which we do
-     * by moving the corresponding image on the chart by the appropriate amount.
+     * Handle a change in the position of an alpha particle, and update the
+     * displayed graphics accordingly.
      */
-    public void positionChanged(){
-        if (_tunneledAlpha != null){
+    public void positionChanged(AlphaParticle alpha){
+        
+        if ((_tunneledAlpha != null) && (_tunneledAlpha == alpha)){
             
             // Convert the current position into a distance from the center of
             // the nucleus and then into screen coordinates.
@@ -425,13 +473,70 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
             if (Math.abs( distance ) > _usableWidth/2){
                 // This guy is off the chart, so forget about him.
                 _tunneledAlphaParticleImage.setVisible( false );
-                _tunneledAlpha.removeListener( this );
                 _tunneledAlpha = null;
             }
             else{
-                _tunneledAlphaParticleImage.setOffset( distance + _usableAreaOriginX  + (_usableWidth / 2), 
-                        _usableAreaOriginY + 5);
+                setAlphaImageOffset( _tunneledAlphaParticleImage, _tunneledAlpha );
             }
         }
+        else if ((alpha.getPosition().distance( 0, 0 ) > _model.getAtomNucleus().getDiameter()) &&
+                 (alpha.getPosition().distance( 0, 0 ) < _model.getAtomNucleus().getTunnelingRegionRadius())){
+            // This particle is in the region outside of the nucleus but not
+            // fully tunneled away from it.  We want to display this, so we
+            // swap it for one of the currently non-tunneled particles.
+            if (!(_currentlyTrackedAlphas.contains( alpha ))){
+                for (int i = 0; i < _currentlyTrackedAlphas.size(); i++){
+                    AlphaParticle trackedAlpha = (AlphaParticle)_currentlyTrackedAlphas.get( i );
+                    if (trackedAlpha.getPosition().distance( 0, 0 ) <= _model.getAtomNucleus().getDiameter()/2){
+                        // We will drop this one from the tracked list and replace
+                        // it with the new one.
+                        _currentlyTrackedAlphas.set( i, alpha );
+                        setAlphaImageOffset( _alphaParticleImages[i], alpha);
+                        break;
+                    }
+                }
+            }
+        }
+        else if (_currentlyTrackedAlphas.contains( alpha )){
+            // This is a particle that we're tracking, so we should update its
+            // position.
+            int index = _currentlyTrackedAlphas.indexOf( alpha );
+            setAlphaImageOffset(_alphaParticleImages[index], alpha);
+        }
+    }
+    
+    /**
+     * Set the position on the chart of one of the alpha particle graphics
+     * based on the setting of the given alpha particle.
+     * 
+     * @param index
+     * @param alpha
+     */
+    private void setAlphaImageOffset(PImage image, AlphaParticle alpha){
+        assert image != null;
+        if (image == null){
+            return;
+        }
+        
+        double yPos;
+        if ((!_decayOccurred) || (alpha == _tunneledAlpha)){
+            yPos = _graphOriginY - _usableHeight * 0.1 - 9;
+        }
+        else{
+            yPos = _graphOriginY + 8;            
+        }
+        
+        Point2D alphaPosition = alpha.getPosition();
+        double distanceFromNucleus = alphaPosition.distance( 0, 0 );
+        PDimension distanceDim = new PDimension(distanceFromNucleus, distanceFromNucleus);
+        _canvas.getPhetRootNode().worldToScreen( distanceDim );
+        double xPos;
+        if (alphaPosition.getX() < 0){
+            xPos = _usableWidth / 2 - distanceDim.getWidth();
+        }
+        else{
+            xPos = _usableWidth / 2 + distanceDim.getWidth();                
+        }
+        image.setOffset( xPos, yPos );
     }
 }

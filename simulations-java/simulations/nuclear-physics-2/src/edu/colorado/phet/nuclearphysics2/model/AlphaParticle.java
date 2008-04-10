@@ -86,7 +86,7 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         // Notify all listeners of the position change.
         for (int i = 0; i < _listeners.size(); i++)
         {
-            ((Listener)_listeners.get( i )).positionChanged(); 
+            ((Listener)_listeners.get( i )).positionChanged(this); 
         }
     }
     
@@ -134,7 +134,7 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         // Notify all listeners of the position change.
         for (int i = 0; i < _listeners.size(); i++)
         {
-            ((Listener)_listeners.get( i )).positionChanged(); 
+            ((Listener)_listeners.get( i )).positionChanged(this); 
         }        
     }
     
@@ -173,7 +173,7 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         // Notify all listeners of the position change.
         for (int i = 0; i < _listeners.size(); i++)
         {
-            ((Listener)_listeners.get( i )).positionChanged(); 
+            ((Listener)_listeners.get( i )).positionChanged(this); 
         }
         
         // Set our initial values for translating out of the nucleus.
@@ -209,7 +209,7 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         
         // Notify all listeners of the position change.
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).positionChanged(); 
+            ((Listener)_listeners.get( i )).positionChanged(this); 
         }
         
         // Accelerate.
@@ -257,6 +257,6 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     }
     
     public static interface Listener {
-        void positionChanged();
+        void positionChanged(AlphaParticle alpha);
     }
 }
