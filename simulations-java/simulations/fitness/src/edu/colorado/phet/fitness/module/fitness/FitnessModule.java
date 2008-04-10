@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.fitness.module.fitness;
 
-import java.awt.Frame;
+import java.awt.*;
+import java.util.Hashtable;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
+import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -26,7 +28,7 @@ public class FitnessModule extends PiccoloModule {
 
     private FitnessModel _model;
     private FitnessCanvas _canvas;
-//    private FitnessControlPanel _controlPanel;
+    //    private FitnessControlPanel _controlPanel;
     private ClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
@@ -55,6 +57,10 @@ public class FitnessModule extends PiccoloModule {
         _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
+
+        JComponent timeSpeedSlider = createTimeSpeedSlider();
+
+        _clockControlPanel.addBetweenTimeDisplayAndButtons( timeSpeedSlider );
         setClockControlPanel( _clockControlPanel );
 
         // Controller
@@ -67,6 +73,34 @@ public class FitnessModule extends PiccoloModule {
 
         // Set initial state
         reset();
+    }
+
+
+    //todo, move to phetcommon and consolidate with BSClockControls and HAClockControls
+    private JComponent createTimeSpeedSlider() {
+        JSlider _clockIndexSlider = new JSlider();
+        _clockIndexSlider.setMinimum( 0 );
+        _clockIndexSlider.setMaximum( BSConstants.CLOCK_STEPS.length - 1 );
+        _clockIndexSlider.setMajorTickSpacing( 1 );
+        _clockIndexSlider.setPaintTicks( true );
+        _clockIndexSlider.setPaintLabels( true );
+        _clockIndexSlider.setSnapToTicks( true );
+        _clockIndexSlider.setValue( BSConstants.DEFAULT_CLOCK_INDEX );
+
+        // Label the min "normal", the max "fast".
+        String normalString = "normal";
+        String fastString = "fast";
+        Hashtable labelTable = new Hashtable();
+        labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
+        labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );
+        _clockIndexSlider.setLabelTable( labelTable );
+
+        // Set the slider's physical width
+        Dimension preferredSize = _clockIndexSlider.getPreferredSize();
+        Dimension size = new Dimension( 150, (int) preferredSize.getHeight() );
+        _clockIndexSlider.setPreferredSize( size );
+
+        return _clockIndexSlider;
     }
 
     //----------------------------------------------------------------------------
@@ -138,7 +172,7 @@ public class FitnessModule extends PiccoloModule {
         return _model.getHuman();
     }
 
-        public static void main( final String[] args ) {
+    public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
