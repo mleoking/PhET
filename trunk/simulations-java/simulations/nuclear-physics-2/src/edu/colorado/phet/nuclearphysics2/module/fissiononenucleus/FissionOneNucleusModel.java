@@ -34,9 +34,9 @@ public class FissionOneNucleusModel {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    private static final double MOVING_NUCLEUS_VELOCITY = 0.0;  // Femtometer per tick.
+    private static final double MOVING_NUCLEUS_VELOCITY = 0.1;  // Femtometer per tick.
     private static final double MOVING_NUCLEON_VELOCITY = 1.0;  // Femtometer per tick.
-    private static final double MOVING_NUCLEUS_ACCELERATION = 0.1;  // Femtometer per tick per tick.
+    private static final double MOVING_NUCLEUS_ACCELERATION = 0.075;  // Femtometer per tick per tick.
     
     //------------------------------------------------------------------------
     // Instance data
