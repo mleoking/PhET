@@ -1,5 +1,5 @@
 /* Copyright 2008, University of Colorado */
-package edu.colorado.phet.common.piccolophet.nodes.bargraph;
+package edu.colorado.phet.common.piccolophet.nodes.barchart;
 
 import java.awt.*;
 
@@ -9,14 +9,14 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * This package is used by Energy Skate Park (and possibly other sims). It is still under development and subject to
  * change.
- * Sam Reid
+ * @author Sam Reid
  */
 
-public class VerticalTextGraphic extends PNode {
+public class VerticalTextNode extends PNode {
     private Font font;
     private String text;
 
-    public VerticalTextGraphic( Font font, String text, Color color, Color outline ) {
+    public VerticalTextNode( Font font, String text, Color color, Color outline ) {
         this.font = font;
         this.text = text;
         ShadowHTMLNode phetTextNode = new ShadowHTMLNode( text );//, font, color, 1, 1, outline );

@@ -1,5 +1,5 @@
 /* Copyright 2008, University of Colorado */
-package edu.colorado.phet.common.piccolophet.nodes.bargraph;
+package edu.colorado.phet.common.piccolophet.nodes.barchart;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -10,20 +10,20 @@ import edu.umd.cs.piccolo.nodes.PPath;
 /**
  * This package is used by Energy Skate Park (and possibly other sims). It is still under development and subject to
  * change.
- * Sam Reid
+ * @author Sam Reid
  */
 
-public class BarGraphic2D extends PNode {
+public class BarNode extends PNode {
     private double scale;
     private double value;
     private int x;
     private int width;
     private int y;
-    private VerticalTextGraphic label;
+    private VerticalTextNode label;
     private PPath rectanglePath;
     private double labelWidth;
 
-    public BarGraphic2D( String text, double scale,
+    public BarNode( String text, double scale,
                          double value, int x, int width, int y, Color color, Font barFont ) {
         this.scale = scale;
         this.value = value;
@@ -36,7 +36,7 @@ public class BarGraphic2D extends PNode {
         rectanglePath.setStroke( new BasicStroke( 1 ) );
         rectanglePath.setStrokePaint( Color.black );
 
-        label = new VerticalTextGraphic( barFont, text, color, Color.black );
+        label = new VerticalTextNode( barFont, text, color, Color.black );
         addChild( rectanglePath );
 
         addChild( label );
