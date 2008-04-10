@@ -11,16 +11,19 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.fitness.FitnessConstants;
+import edu.colorado.phet.fitness.control.CaloriePanel;
+import edu.colorado.phet.fitness.control.HumanControlPanel;
 import edu.colorado.phet.fitness.view.HumanNode;
+import edu.colorado.phet.fitness.view.ScaleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * FitnessCanvas is the canvas for FitnessModule.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FitnessCanvas extends PhetPCanvas {
 
@@ -38,8 +41,8 @@ public class FitnessCanvas extends PhetPCanvas {
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * ( 3.0d / 4.0d );
 
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 2.0;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.01;
+    private RulerNode rulerNode;
+    private PSwing humanControlPanelPSwing;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -54,8 +57,8 @@ public class FitnessCanvas extends PhetPCanvas {
         setWorldTransformStrategy( new RenderingSizeStrategy( this,
                                                               new PDimension( CANVAS_WIDTH, CANVAS_HEIGHT ) ) {
             protected AffineTransform getPreprocessedTransform() {
-                return AffineTransform.getTranslateInstance( getWidth() / WIDTH_TRANSLATION_FACTOR,
-                                                             getHeight() / HEIGHT_TRANSLATION_FACTOR );
+                return AffineTransform.getTranslateInstance( getWidth() * 0.15,
+                                                             getHeight() * 0.6 );
             }
         } );
         _model = model;
@@ -67,11 +70,29 @@ public class FitnessCanvas extends PhetPCanvas {
         addWorldChild( _rootNode );
 
         _rootNode.addChild( new HumanNode( model.getHuman() ) );
+        _rootNode.addChild( new ScaleNode( model.getHuman() ) );
         setZoomEventHandler( new PZoomEventHandler() );
 //        setPanEventHandler( new PPanEventHandler() );
 
+        rulerNode = createRulerNode();
+        addWorldChild( rulerNode );
+
+        HumanControlPanel humanControlPanel = new HumanControlPanel( model.getHuman() );
+        humanControlPanelPSwing = new PSwing( humanControlPanel );
+        addScreenChild( humanControlPanelPSwing );
+
+        CaloriePanel caloriePanel = new CaloriePanel();
+        caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
+        addScreenChild( caloriePanel );
+
+        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING  );
+        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING  );
+        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING  );
+    }
+
+    private RulerNode createRulerNode() {
         final RulerNode rulerNode = new RulerNode( 1, 0.1, 0.2, new String[]{"0.0", "0.25", "0.5", "0.75", "1.0"}, new PhetDefaultFont(), "m", new PhetDefaultFont(), 4, 0.04, 0.02 );
-        rulerNode.rotate( Math.PI *3/2 );
+        rulerNode.rotate( Math.PI * 3 / 2 );
         rulerNode.addInputEventListener( new PDragEventHandler() );
         rulerNode.addInputEventListener( new CursorHandler() );
         rulerNode.setBackgroundStroke( new BasicStroke( 0.01f ) );
@@ -79,7 +100,7 @@ public class FitnessCanvas extends PhetPCanvas {
         rulerNode.setUnitsSpacing( 0.001 );
         rulerNode.setTickStroke( new BasicStroke( 0.01f ) );
         rulerNode.setOffset( 0.7, -1 );
-        addWorldChild( rulerNode );
+        return rulerNode;
     }
 
     //----------------------------------------------------------------------------
@@ -100,6 +121,8 @@ public class FitnessCanvas extends PhetPCanvas {
         else if ( FitnessConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "PhysicsCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
+
+        humanControlPanelPSwing.setOffset( 0, getHeight() - humanControlPanelPSwing.getFullBounds().getHeight() );
 
         //XXX lay out nodes
     }

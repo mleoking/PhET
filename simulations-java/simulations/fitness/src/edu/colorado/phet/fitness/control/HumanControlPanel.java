@@ -1,12 +1,13 @@
 package edu.colorado.phet.fitness.control;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.fitness.model.Human;
+import edu.colorado.phet.glaciers.control.HorizontalLayoutStrategy;
 
 /**
  * Created by: Sam
@@ -20,13 +21,14 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         JTextField name = new JTextField( human.getName() );
         add( name );
 
-        LinearValueControl age = new LinearValueControl( 0, 100 * 525600.0 * 60, human.getAge(), "Age", "0.00", "seconds" );
+        LinearValueControl age = new LinearValueControl( 0, 100 * 525600.0 * 60, human.getAge(), "Age", "0.00", "seconds", new HorizontalLayoutStrategy() );
+
         age.getTextField().setColumns( 10 );
         add( age );
 
         double minHeight = 1;
         double maxHeight = 2.72;
-        final LinearValueControl heightControl = new LinearValueControl( minHeight, maxHeight, human.getHeight(), "Height", "0.00", "meters" );
+        final LinearValueControl heightControl = new LinearValueControl( minHeight, maxHeight, human.getHeight(), "Height", "0.00", "meters", new HorizontalLayoutStrategy() );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setHeight( heightControl.getValue() );
@@ -36,7 +38,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         double minWeight = 1;
         double maxWeight = 100;
-        final LinearValueControl weightControl = new LinearValueControl( minWeight, maxWeight, human.getWeight(), "Weight", "0.00", "kg" );
+        final LinearValueControl weightControl = new LinearValueControl( minWeight, maxWeight, human.getWeight(), "Weight", "0.00", "kg", new HorizontalLayoutStrategy() );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setWeight( weightControl.getValue() );
@@ -46,11 +48,11 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         Human maxBMIHuman = new Human( 0, minHeight, maxWeight, Human.Gender.MALE, "max" );
         Human minBMIHuman = new Human( 0, maxHeight, minWeight, Human.Gender.MALE, "minnie" );
-        final LinearValueControl bmi = new LinearValueControl( minBMIHuman.getBMI(), maxBMIHuman.getBMI(), human.getBMI(), "BMI", "0.00", "kg/m^2" );
+        final LinearValueControl bmi = new LinearValueControl( minBMIHuman.getBMI(), maxBMIHuman.getBMI(), human.getBMI(), "BMI", "0.00", "kg/m^2", new HorizontalLayoutStrategy() );
 //        bmi.setEnabled( false );
         bmi.getTextField().setEditable( false );
         bmi.getSlider().setEnabled( false );
-        add( bmi );
+//        add( bmi );
 
         human.addListener( new Human.Adapter() {
             public void bmiChanged() {

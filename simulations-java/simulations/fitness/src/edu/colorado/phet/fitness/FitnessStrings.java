@@ -8,7 +8,6 @@ import edu.colorado.phet.fitness.FitnessResources;
  * TemplateStrings is the collection of localized strings used by this simulations.
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FitnessStrings {
     public static String TITLE_FITNESS_MODULE=FitnessResources.getString( "fitness.module.title" );
