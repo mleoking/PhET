@@ -4,6 +4,8 @@ package edu.colorado.phet.energyskatepark.plots.bargraphs;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
+import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
+import edu.colorado.phet.common.piccolophet.nodes.bargraph.BarGraph;
 
 /**
  * User: Sam Reid
@@ -28,7 +30,7 @@ public class EnergySkateParkBarGraph extends BarGraph {
 
     public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel energySkateParkSimulationPanel,
                                     EnergySkateParkModel energySkateParkModel, String title, double scale ) {
-        super( title, scale );
+        super( title, scale, EnergyLookAndFeel.getLegendBackground() );
         this.model = energySkateParkModel;
 
         energySkateParkSimulationPanel.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {

@@ -1,19 +1,6 @@
-package edu.colorado.phet.energyskatepark.plots.bargraphs;
+/* Copyright 2008, University of Colorado */
+package edu.colorado.phet.common.piccolophet.nodes.bargraph;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearSlider;
-import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
-import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -22,9 +9,24 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearSlider;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+
 /**
- * Author: Sam Reid
- * May 22, 2007, 4:23:59 AM
+ * This package is used by Energy Skate Park (and possibly other sims). It is still under development and subject to
+ * change.
+ * Sam Reid
  */
 public class BarGraph extends PNode {
     private ShadowHTMLNode titleNode;
@@ -43,7 +45,7 @@ public class BarGraph extends PNode {
     private double scale = 1.0;
     private PNode backLayer = new PNode();
 
-    public BarGraph( String title, double scale ) {
+    public BarGraph( String title, double scale, Paint backgroundColor ) {
         this.scale = scale;
         topY = 0;
         barChartHeight = 400;
@@ -54,7 +56,7 @@ public class BarGraph extends PNode {
         titleNode.setColor( Color.black );
         titleNode.setShadowColor( Color.blue );
         titleNode.setFont( getTitleFont() );
-        PhetPPath titleBackground = new PhetPPath( titleNode.getFullBounds(), EnergyLookAndFeel.getLegendBackground() );
+        PhetPPath titleBackground = new PhetPPath( titleNode.getFullBounds(), backgroundColor );
         frontLayer.addChild( titleBackground );
 
         addChild( backLayer );
@@ -96,8 +98,8 @@ public class BarGraph extends PNode {
 
     public void setBarScale( double scale ) {
         this.scale = scale;
-        for( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
-            BarGraphic2D barGraphic2D = (BarGraphic2D)barLayer.getChild( i );
+        for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
+            BarGraphic2D barGraphic2D = (BarGraphic2D) barLayer.getChild( i );
             barGraphic2D.setBarScale( scale );
         }
         update();
@@ -120,12 +122,12 @@ public class BarGraph extends PNode {
 
         yAxis = new YAxis();
         frontLayer.addChild( yAxis );
-        for( int i = 0; i < variables.length; i++ ) {
+        for ( int i = 0; i < variables.length; i++ ) {
             final Variable variable = variables[i];
-            int x = (int)( i * sep + dw );
+            int x = (int) ( i * sep + dw );
             final BarGraphic2D barGraphic = new BarGraphic2D( variable.getName(), scale,
-                                                              variable.getValue(), x, (int)barWidth,
-                                                              (int)barChartHeight, variable.getColor(), new PhetDefaultFont( Font.BOLD, 14 ) );
+                                                              variable.getValue(), x, (int) barWidth,
+                                                              (int) barChartHeight, variable.getColor(), new PhetDefaultFont( Font.BOLD, 14 ) );
             addBarGraphic( barGraphic );
         }
         frontLayer.addChild( titleNode );
@@ -138,9 +140,9 @@ public class BarGraph extends PNode {
     }
 
     protected void update() {
-        if( getVisible() ) {
-            for( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
-                BarGraphic2D barGraphic2D = (BarGraphic2D)barLayer.getChild( i );
+        if ( getVisible() ) {
+            for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
+                BarGraphic2D barGraphic2D = (BarGraphic2D) barLayer.getChild( i );
                 barGraphic2D.setValue( variables[i].getValue() );
             }
         }
@@ -197,7 +199,7 @@ public class BarGraph extends PNode {
         JPanel contentPanel = new JPanel( new BorderLayout() );
         JPanel controlPanel = new VerticalLayoutPanel();
         PhetPCanvas phetPCanvas = new PhetPCanvas();
-        final BarGraph barGraph = new BarGraph( "bar graph", 400 );
+        final BarGraph barGraph = new BarGraph( "bar graph", 400, Color.white );
         final Variable variable = new Variable( "var 2", 0.5, Color.green );
         barGraph.setVariables( new Variable[]{
                 new Variable( "var 1", 0, Color.blue ),
