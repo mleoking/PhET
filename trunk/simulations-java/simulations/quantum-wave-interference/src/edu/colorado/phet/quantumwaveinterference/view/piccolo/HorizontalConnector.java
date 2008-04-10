@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.view.piccolo;
 
-import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ConnectorNode;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Point2D;
@@ -13,7 +13,7 @@ import java.awt.geom.Rectangle2D;
  * Time: 9:56:53 AM
  */
 
-public class HorizontalConnector extends ConnectorGraphic {
+public class HorizontalConnector extends ConnectorNode {
     public HorizontalConnector( PNode src, PNode dst ) {
         super( src, dst );
     }

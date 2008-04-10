@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.BoundNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -171,7 +171,7 @@ public class Protractor extends PhetPNode {
                     Protractor.this.translate( deltaRelativeTo.getWidth(), deltaRelativeTo.getHeight() );
                 }
             } );
-            BoundGraphic boundGraphic = new BoundGraphic( text, 3, 3 );
+            BoundNode boundGraphic = new BoundNode( text, 3, 3 );
             boundGraphic.setPaint( new Color( Color.yellow.getRed(), Color.yellow.getGreen(), Color.yellow.getBlue(), 200 ) );
             addChild( boundGraphic );
 

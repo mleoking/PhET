@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ConnectorNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
  * Time: 9:56:53 AM
  */
 
-public class VerticalConnector extends ConnectorGraphic {
+public class VerticalConnector extends ConnectorNode {
     int width = 20;
 
     public VerticalConnector( PNode src, PNode dst ) {

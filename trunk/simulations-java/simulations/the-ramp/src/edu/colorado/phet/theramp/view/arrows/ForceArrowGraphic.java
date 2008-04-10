@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.BoundNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
@@ -84,7 +84,7 @@ public class ForceArrowGraphic extends PNode {
 
         addChild( shapeGraphic );
 
-        BoundGraphic boundGraphic = new BoundGraphic( textGraphic, boundGraphicInsetX, boundGraphicInsetY );
+        BoundNode boundGraphic = new BoundNode( textGraphic, boundGraphicInsetX, boundGraphicInsetY );
         boundGraphic.setPaint( Color.white );
         addChild( boundGraphic );
         addChild( textGraphic );
