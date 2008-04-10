@@ -109,7 +109,12 @@ public class NewTicketMessage implements Message {
     }
 
     public String getTicketURL() {
-        return "https://phet.unfuddle.com/p/unfuddled/tickets/show/" + getTicketNumber() + "/cycle";
+        //Unfuddle link structure changed sometime around 4-10-2008
+        //please see the forum at:http://unfuddle.com/community/forums/6/topics/223
+        //if it is still located there
+
+//        return "https://phet.unfuddle.com/p/unfuddled/tickets/show/" + getTicketNumber() + "/cycle";
+        return "https://phet.unfuddle.com/projects/9404/tickets/by_number/"+getTicketNumber();
     }
 
     protected String getAssignee() {
