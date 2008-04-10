@@ -77,29 +77,6 @@ public class ProcessRecentChanges {
         return (int) ( 60 * 1000 * v );
     }
 
-    public static void main( final String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                try {
-                    runMain( args );
-                }
-                catch( IOException e ) {
-                    e.printStackTrace();
-                }
-                catch( SAXException e ) {
-                    e.printStackTrace();
-                }
-                catch( ParserConfigurationException e ) {
-                    e.printStackTrace();
-                }
-            }
-        } );
-    }
-
-    private static void runMain( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        SVN_TRUNK = args[6];
-        new ProcessRecentChanges( args ).start();
-    }
 
     private void start() {
         timer.start();
@@ -216,4 +193,41 @@ public class ProcessRecentChanges {
         System.out.println( "Finished update, number of messages handled=" + handled );
     }
 
+
+    // args example:
+    // @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:\phet\svn
+    public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
+        if ( args.length == 0 ) {
+            args = new String[7];
+            args[0] = JOptionPane.showInputDialog( "Unfuddle ID" );
+            args[1] = JOptionPane.showInputDialog( "Unfuddle Password" );
+            args[2] = "phetmail@comcast.net";
+            args[3] = "smtp.comcast.net";
+            args[4] = "phetmail";
+            args[5] = JOptionPane.showInputDialog( "Phetmail password" );
+            args[6] = JOptionPane.showInputDialog( "SVN-trunk dir, e.g. C:/phet/svn/trunk" );
+        }
+        final String[] out = args;
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                try {
+                    runMain( out );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                catch( SAXException e ) {
+                    e.printStackTrace();
+                }
+                catch( ParserConfigurationException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
+    }
+
+    private static void runMain( String[] args ) throws IOException, SAXException, ParserConfigurationException {
+        SVN_TRUNK = args[6];
+        new ProcessRecentChanges( args ).start();
+    }
 }

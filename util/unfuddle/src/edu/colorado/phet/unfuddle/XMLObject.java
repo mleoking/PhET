@@ -55,6 +55,13 @@ public class XMLObject {
     }
 
     public String getTextContent( String child ) {
+        //this might be the correct 1.4 implementation
+//                if ( getNode( child ) == null || getNode( child ).node == null || getNode( child ).node.getFirstChild() == null ) {
+//            return "";
+//        }
+//        else {
+//            return getNode( child ).node.getFirstChild().getNodeValue();
+//        }
         return getNode( child ).node.getTextContent();
     }
 
