@@ -15,7 +15,7 @@ public class DaughterNucleus extends AtomicNucleus {
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
     // must be in the range 0-9.
-    private static final int KRYPTON_92_AGITATION_FACTOR = 7;
+    private static final int KRYPTON_92_AGITATION_FACTOR = 8;
     
     //------------------------------------------------------------------------
     // Instance data
