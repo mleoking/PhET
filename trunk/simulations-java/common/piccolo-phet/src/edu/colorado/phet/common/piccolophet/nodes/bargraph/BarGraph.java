@@ -46,9 +46,13 @@ public class BarGraph extends PNode {
     private PNode backLayer = new PNode();
 
     public BarGraph( String title, double scale, Paint backgroundColor ) {
+        this( title, scale, backgroundColor, 400 );
+    }
+
+    public BarGraph( String title, double scale, Paint backgroundColor, double barChartHeight ) {
         this.scale = scale;
         topY = 0;
-        barChartHeight = 400;
+        this.barChartHeight=barChartHeight;
         barWidth = 20;
         dw = 7;
         sep = barWidth + dw;
@@ -139,6 +143,11 @@ public class BarGraph extends PNode {
         update();
     }
 
+    public void setBarChartHeight( double barChartHeight ) {
+        this.barChartHeight = barChartHeight;
+        yAxis.updateBarChartHeight();
+    }
+
     protected void update() {
         if ( getVisible() ) {
             for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
@@ -189,7 +198,7 @@ public class BarGraph extends PNode {
             }
         }
 
-        public void setBarChartHeight() {
+        public void updateBarChartHeight() {
             path.setPathTo( createShape() );
         }
     }
