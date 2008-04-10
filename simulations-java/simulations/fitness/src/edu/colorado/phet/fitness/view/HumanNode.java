@@ -6,6 +6,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.Human;
 import edu.umd.cs.piccolo.PNode;
@@ -117,7 +118,7 @@ public class HumanNode extends PNode {
         }
 
         private void updateSmile() {
-            GeneralPath smile = new GeneralPath();
+            DoubleGeneralPath smile = new DoubleGeneralPath();
             double smileInsetScaleX = 0.3;
             double smileYFrac = 0.6;
             double happiness = ( human.getMusclePercent() / 100.0 - 0.5 ) * 2;//between 0 and 1
@@ -128,7 +129,7 @@ public class HumanNode extends PNode {
                            heart.getFullBounds().getWidth() * ( 1 - smileInsetScaleX ), heart.getFullBounds().getHeight() * smileYFrac
             );
             smilePath.setOffset( 0, happiness<0?Math.abs(happiness)*20 :0);
-            smilePath.setPathTo( smile );
+            smilePath.setPathTo( smile.getGeneralPath() );
         }
     }
 }
