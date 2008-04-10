@@ -3,6 +3,10 @@
 package edu.colorado.phet.fitness.module.fitness;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 
@@ -48,7 +52,7 @@ public class FitnessCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessCanvas( FitnessModel model ) {
+    public FitnessCanvas( final FitnessModel model ) {
 //        super( new Rectangle2D.Double( -10,-10,20,20) );
         super( new PDimension( 10, 10 ) );
 
@@ -81,13 +85,29 @@ public class FitnessCanvas extends PhetPCanvas {
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
-        CaloriePanel caloriePanel = new CaloriePanel(this );
+        CaloriePanel caloriePanel = new CaloriePanel( this );
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         addScreenChild( caloriePanel );
 
-        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING  );
-        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING  );
-        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING  );
+        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+
+        addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                requestFocus();
+            }
+        } );
+        addKeyListener( new KeyAdapter() {
+            public void keyPressed( KeyEvent e ) {
+                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+                    model.getHuman().setMusclePercent( model.getHuman().getMusclePercent() + 10 );
+                }
+                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                    model.getHuman().setMusclePercent( model.getHuman().getMusclePercent() - 10 );
+                }
+            }
+        } );
     }
 
     private RulerNode createRulerNode() {
