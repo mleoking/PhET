@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.bargraph.BarGraph;
+import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessResources;
@@ -64,21 +64,21 @@ public class CaloriePanel extends PNode {
         calorieSlider.setOffset( 0, 175 );
         burnSlider.setOffset( 0, calorieSlider.getFullBounds().getMaxY() + 5 );
 
-        BarGraph foodCompositionBarChart = new BarGraph( "Food Composition", 200, Color.white, 200 );
-        foodCompositionBarChart.setVariables( new BarGraph.Variable[]{
-                new BarGraph.Variable( "Carbs", 0.7, Color.green ),
-                new BarGraph.Variable( "Proteins", 0.3, Color.red ),
-                new BarGraph.Variable( "Lipids", 0.5, Color.blue ),
+        BarChartNode foodCompositionBarChart = new BarChartNode( "Food Composition", 200, Color.white, 200 );
+        foodCompositionBarChart.setVariables( new BarChartNode.Variable[]{
+                new BarChartNode.Variable( "Carbs", 0.7, Color.green ),
+                new BarChartNode.Variable( "Proteins", 0.3, Color.red ),
+                new BarChartNode.Variable( "Lipids", 0.5, Color.blue ),
         } );
         foodCompositionBarChart.setOffset( calorieSlider.getFullBounds().getMaxX() + 30, foodStrip.getFullBounds().getMaxY() + 5 );
         addChild( foodCompositionBarChart );
 
 
-        BarGraph exerciseChart = new BarGraph( "Exercise", 200 / 24, Color.white, 200 );//hours
-        exerciseChart.setVariables( new BarGraph.Variable[]{
-                new BarGraph.Variable( "Activity", 10, Color.red ),
-                new BarGraph.Variable( "Relaxing", 12, Color.blue ),
-                new BarGraph.Variable( "Sleep", 8, Color.green ),
+        BarChartNode exerciseChart = new BarChartNode( "Exercise", 200 / 24, Color.white, 200 );//hours
+        exerciseChart.setVariables( new BarChartNode.Variable[]{
+                new BarChartNode.Variable( "Activity", 10, Color.red ),
+                new BarChartNode.Variable( "Relaxing", 12, Color.blue ),
+                new BarChartNode.Variable( "Sleep", 8, Color.green ),
         } );
 //        exerciseChart.setOffset( foodCompositionBarChart.getFullBounds().getX(), burnSlider.getFullBounds().getY() );
         exerciseChart.setOffset( foodCompositionBarChart.getFullBounds().getMaxX() + 50, foodCompositionBarChart.getFullBounds().getY() );

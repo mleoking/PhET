@@ -5,7 +5,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.colorado.phet.energyskatepark.view.EnergyLookAndFeel;
-import edu.colorado.phet.common.piccolophet.nodes.bargraph.BarGraph;
+import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode;
 
 /**
  * User: Sam Reid
@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.bargraph.BarGraph;
  * Time: 8:16:45 PM
  */
 
-public class EnergySkateParkBarGraph extends BarGraph {
+public class EnergySkateParkBarGraph extends BarChartNode {
     private EnergySkateParkModel model;
 
     public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel canvas, final EnergySkateParkModel energySkateParkModel, double scale ) {
