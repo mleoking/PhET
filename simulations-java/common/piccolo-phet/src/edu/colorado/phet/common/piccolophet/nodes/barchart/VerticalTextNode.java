@@ -7,8 +7,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * This package is used by Energy Skate Park (and possibly other sims). It is still under development and subject to
- * change.
+ * This class is used by Energy Skate Park (and possibly other sims). 
+ * It is still under development and subject to change.
  * @author Sam Reid
  */
 
