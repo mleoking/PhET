@@ -26,12 +26,6 @@ import edu.colorado.phet.fitness.module.fitness.FitnessModule;
 import edu.colorado.phet.fitness.persistence.FitnessConfig;
 import edu.colorado.phet.fitness.persistence.SimTemplateConfig;
 
-/**
- * TemplateApplication is the main application for this simulation.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- * 
- */
 public class FitnessApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------

@@ -26,7 +26,7 @@ public class FitnessModule extends PiccoloModule {
 
     private FitnessModel _model;
     private FitnessCanvas _canvas;
-    private FitnessControlPanel _controlPanel;
+//    private FitnessControlPanel _controlPanel;
     private ClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
@@ -45,8 +45,9 @@ public class FitnessModule extends PiccoloModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new FitnessControlPanel( this, parentFrame );
-        setControlPanel( _controlPanel );
+//        _controlPanel = new FitnessControlPanel( this, parentFrame );
+        setControlPanel( null );
+        setLogoPanelVisible( false );
 
         // Clock controls
         _clockControlPanel = new ClockControlPanel( getClock() );

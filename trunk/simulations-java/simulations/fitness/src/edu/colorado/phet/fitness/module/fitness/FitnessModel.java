@@ -8,7 +8,6 @@ import edu.colorado.phet.fitness.model.Human;
 /**
  * FitnessModel is the model for FitnessModule.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FitnessModel {
 

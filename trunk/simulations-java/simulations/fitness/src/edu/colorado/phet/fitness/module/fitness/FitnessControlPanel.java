@@ -12,7 +12,6 @@ import edu.colorado.phet.fitness.control.HumanControlPanel;
 /**
  * FitnessControlPanel is the control panel for FitnessModule.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FitnessControlPanel extends ControlPanel {
 
@@ -43,9 +42,9 @@ public class FitnessControlPanel extends ControlPanel {
 
         // Layout
         {
-            addControlFullWidth(new HumanControlPanel( module.getHuman()) );
-            addSeparator();
-            addResetAllButton( module );
+//            addControlFullWidth(new HumanControlPanel( module.getHuman()) );
+//            addSeparator();
+//            addResetAllButton( module );
         }
     }
 
