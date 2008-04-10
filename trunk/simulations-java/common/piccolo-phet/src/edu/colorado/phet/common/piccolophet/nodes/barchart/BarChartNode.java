@@ -24,8 +24,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * This package is used by Energy Skate Park (and possibly other sims). It is still under development and subject to
- * change.
+ * This class is used by Energy Skate Park (and possibly other sims). 
+ * It is still under development and subject to change.
  * @author Sam Reid
  */
 public class BarChartNode extends PNode {
