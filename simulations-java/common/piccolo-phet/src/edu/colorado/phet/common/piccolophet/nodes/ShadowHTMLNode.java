@@ -82,4 +82,7 @@ public class ShadowHTMLNode extends PNode {
         shadow.setOffset( dx, dy );
     }
 
+    public void setShadowVisible( boolean shadowVisible ) {
+        shadow.setVisible( shadowVisible );
+    }
 }
