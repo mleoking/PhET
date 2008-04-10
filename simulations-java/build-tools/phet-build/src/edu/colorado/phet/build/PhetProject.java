@@ -399,7 +399,7 @@ public class PhetProject {
                     Properties englishProperties = new Properties();
                     englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
                     title = englishProperties.getProperty( titleKey );
-                    new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() + ", using english" ).printStackTrace();
+                    System.out.println( "PhetProject.getFlavor: missing title for simulation: key=" + titleKey + ", locale=" + locale + ", using English" );
                     if ( title == null ) {
                         title = flavorName;
                     }
@@ -410,22 +410,22 @@ public class PhetProject {
                     Properties englishProperties = new Properties();
                     englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
                     description = englishProperties.getProperty( descriptionKey );
-                    new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() + ", using english" ).printStackTrace();
+                    System.out.println( "PhetProject.getFlavor: missing description for simulation: key=" + descriptionKey + ", locale=" + locale + ", using English" );
                     if ( description == null ) {
                         description = descriptionKey;
                     }
                 }
             }
             else {
-                System.out.println( "Localization file doesn't exist: " + localizationFile.getAbsolutePath() );
+                System.out.println( "PhetProject.getFlavor: localization file doesn't exist: " + localizationFile.getAbsolutePath() );
                 title = properties.getProperty( "project.name" );
                 description = properties.getProperty( "project.description" );
                 if ( title == null ) {
-                    System.out.println( "Project.name not found, using: " + name );
+                    System.out.println( "PhetProject.getFlavor: project.name not found, using: " + name );
                     title = name;
                 }
                 if ( description == null ) {
-                    System.out.println( "Project.description not found; using empty string" );
+                    System.out.println( "PhetProject.getFlavor: project.description not found, using empty string" );
                     description = "";
                 }
             }
@@ -450,10 +450,9 @@ public class PhetProject {
             String filename = child.getName();
             String prefix = getName() + "-strings_";
             String suffix = ".properties";
-//            System.out.println( "filename = " + filename );
+//            System.out.println( "PhetProject.getLocales: filename = " + filename );
             if ( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
                 String languageCode = filename.substring( prefix.length(), filename.length() - suffix.length() );
-//                System.out.println( "middle = " + middle );
                 locales.add( new Locale( languageCode ) );
             }
         }
