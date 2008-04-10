@@ -2,10 +2,7 @@ package edu.colorado.phet.reids.admin;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -182,7 +179,7 @@ public class TimesheetApp extends JFrame {
 
     private void loadPreferences() throws IOException {
         Properties p = new Properties();
-        p.load( new FileReader( PREFERENCES_FILE ) );
+        p.load( new FileInputStream( PREFERENCES_FILE ) );
         Rectangle r = new Rectangle();
         r.x = Integer.parseInt( p.getProperty( WINDOW_X ) );
         r.y = Integer.parseInt( p.getProperty( WINDOW_Y ) );
@@ -256,7 +253,7 @@ public class TimesheetApp extends JFrame {
         properties.put( RECENT_FILES, getRecentFileListString() );
         properties.put( CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath() );
 
-        properties.store( new FileWriter( PREFERENCES_FILE ), "auto-generated on " + new Date() );
+        properties.store( new FileOutputStream( PREFERENCES_FILE ), "auto-generated on " + new Date() );
         System.out.println( "Stored prefs: " + properties );
     }
 

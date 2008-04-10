@@ -5,6 +5,7 @@ import java.awt.geom.GeneralPath;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fitness.model.Human;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -26,22 +27,22 @@ public class ScaleNode extends PNode {
 
     public ScaleNode( Human human ) {
         this.human = human;
-        GeneralPath topPath = new GeneralPath();
+        DoubleGeneralPath topPath = new DoubleGeneralPath();
 
         topPath.moveTo( -faceWidth / 2, faceY );
         topPath.lineTo( -faceWidth / 2 + depthDX, faceY - depthDY );
         topPath.lineTo( faceWidth / 2 - depthDX, faceY - depthDY );
         topPath.lineTo( faceWidth / 2, faceY );
         topPath.lineTo( -faceWidth / 2, faceY );
-        addChild( new PhetPPath( topPath, new BasicStroke( strokeWidth ), Color.black ) );
+        addChild( new PhetPPath( topPath.getGeneralPath(), new BasicStroke( strokeWidth ), Color.black ) );
 
-        GeneralPath facePath = new GeneralPath();
+        DoubleGeneralPath facePath = new DoubleGeneralPath();
         facePath.moveTo( -faceWidth / 2, faceY );
         facePath.lineTo( -faceWidth / 2, faceY + faceHeight );
         facePath.lineTo( faceWidth / 2, faceY + faceHeight );
         facePath.lineTo( faceWidth / 2, faceY );
         facePath.lineTo( -faceWidth / 2, faceY );
-        addChild( new PhetPPath( facePath, new BasicStroke( strokeWidth ), Color.black ) );
+        addChild( new PhetPPath( facePath.getGeneralPath(), new BasicStroke( strokeWidth ), Color.black ) );
         human.addListener( new Human.Adapter() {
             public void bmiChanged() {
                 updateBMIReadout();
