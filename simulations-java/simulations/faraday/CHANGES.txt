@@ -4,6 +4,7 @@ Changes for faraday
 
 
 DONE:
+********* version 2.00.00 (?)
 ********* version 1.05.15 (20599)
 4/8/09 - strength slider for bar magnet and turbine both need to be constrained to integer values [504]
 4/7/08 - no water is shown when turbine is spinning at 1 or 2 rpm [503]
