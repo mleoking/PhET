@@ -25,7 +25,7 @@ public class EnergySkateParkBarGraph extends BarChartNode {
                 new ValueAccessor.TotalEnergy( canvas.getEnergySkateParkModule().getEnergyLookAndFeel() )
         };
         Variable[] v = toVariableArray( energyAccess, energySkateParkModel );
-        setVariables( v );
+        init( v );
     }
 
     public EnergySkateParkBarGraph( EnergySkateParkSimulationPanel energySkateParkSimulationPanel,
