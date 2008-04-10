@@ -11,8 +11,8 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
 import edu.colorado.phet.fitness.model.Human;
-import edu.colorado.phet.rotation.torque.AlignedSliderSetLayoutStrategy;
 
 /**
  * Created by: Sam
