@@ -1,14 +1,18 @@
 package edu.colorado.phet.fitness.view;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fitness.model.Human;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Created by: Sam
@@ -24,6 +28,7 @@ public class ScaleNode extends PNode {
     double depthDY = 0.1;
     private float strokeWidth = 0.02f;
     private PText bmiReadout;
+    private PSwing unitsPSwing;
 
     public ScaleNode( Human human ) {
         this.human = human;
@@ -62,6 +67,17 @@ public class ScaleNode extends PNode {
         addChild( bmiReadout );
         updateWeightReadout();
         updateBMIReadout();
+
+        JPanel units = new VerticalLayoutPanel();
+        units.add( new JRadioButton( "Lbs", true ) );
+        units.add( new JRadioButton( "Kg", false ) );
+        units.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
+
+        unitsPSwing = new PSwing( units );
+        unitsPSwing.setOffset( faceWidth / 2+strokeWidth/2, 0 );
+        unitsPSwing.scale( TEXT_SCALE * 0.75 );
+        addChild( unitsPSwing );
+
     }
 
     private void updateBMIReadout() {
