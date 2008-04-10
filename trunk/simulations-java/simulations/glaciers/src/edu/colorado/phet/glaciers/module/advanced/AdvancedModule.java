@@ -47,7 +47,7 @@ public class AdvancedModule extends PiccoloModule {
 
         // Play Area
         ModelViewTransform mvt = new ModelViewTransform(); //XXX identity
-        PlayArea playArea = new PlayArea( _model, mvt, AdvancedDefaults.VALLEY_X_MIN, AdvancedDefaults.VALLEY_X_MAX );
+        PlayArea playArea = new PlayArea( _model, mvt );
         setSimulationPanel( playArea );
 
         // Bottom panel goes when clock controls normally go
