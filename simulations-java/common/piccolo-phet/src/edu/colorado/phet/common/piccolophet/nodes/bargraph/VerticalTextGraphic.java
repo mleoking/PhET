@@ -1,15 +1,15 @@
-/* Copyright 2007, University of Colorado */
-package edu.colorado.phet.energyskatepark.plots.bargraphs;
+/* Copyright 2008, University of Colorado */
+package edu.colorado.phet.common.piccolophet.nodes.bargraph;
+
+import java.awt.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
-import java.awt.*;
-
 /**
- * User: Sam Reid
- * Date: Feb 12, 2005
- * Time: 9:47:54 AM
+ * This package is used by Energy Skate Park (and possibly other sims). It is still under development and subject to
+ * change.
+ * Sam Reid
  */
 
 public class VerticalTextGraphic extends PNode {

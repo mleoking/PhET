@@ -1,16 +1,16 @@
-/* Copyright 2007, University of Colorado */
-package edu.colorado.phet.energyskatepark.plots.bargraphs;
-
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
+/* Copyright 2008, University of Colorado */
+package edu.colorado.phet.common.piccolophet.nodes.bargraph;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+
 /**
- * User: Sam Reid
- * Date: Feb 12, 2005
- * Time: 9:32:14 AM
+ * This package is used by Energy Skate Park (and possibly other sims). It is still under development and subject to
+ * change.
+ * Sam Reid
  */
 
 public class BarGraphic2D extends PNode {
@@ -47,19 +47,19 @@ public class BarGraphic2D extends PNode {
     private void updateBar() {
         double height = computeHeight();
         Rectangle2D.Double rect = new Rectangle2D.Double( x, y - height, width, height );
-        label.setOffset( rect.x + 2 - labelWidth, (int)( y + label.getFullBounds().getHeight() + 14 ) );
+        label.setOffset( rect.x + 2 - labelWidth, (int) ( y + label.getFullBounds().getHeight() + 14 ) );
         rectanglePath.setPathTo( rect );
     }
 
     public void setValue( double value ) {
-        if( value != this.value ) {
+        if ( value != this.value ) {
             this.value = value;
             update();
         }
     }
 
     private void update() {
-        if( value < 0 ) {
+        if ( value < 0 ) {
             rectanglePath.setOffset( 0, -computeHeight() );//a big hack to make negative values work.
         }
         else {
@@ -74,12 +74,12 @@ public class BarGraphic2D extends PNode {
     }
 
     public void setBarHeight( double baselineY ) {
-        this.y = (int)baselineY;
+        this.y = (int) baselineY;
         updateBar();
     }
 
     public void setBarScale( double scale ) {
-        if( this.scale != scale ) {
+        if ( this.scale != scale ) {
             this.scale = scale;
             update();
         }
