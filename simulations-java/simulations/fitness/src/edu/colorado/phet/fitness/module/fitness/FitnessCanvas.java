@@ -81,7 +81,7 @@ public class FitnessCanvas extends PhetPCanvas {
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
-        CaloriePanel caloriePanel = new CaloriePanel();
+        CaloriePanel caloriePanel = new CaloriePanel(this );
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         addScreenChild( caloriePanel );
 

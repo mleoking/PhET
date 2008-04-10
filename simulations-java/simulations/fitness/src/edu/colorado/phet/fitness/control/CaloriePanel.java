@@ -5,10 +5,19 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.motion.graphs.ControlGraph;
+import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
+import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
+import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
+import edu.colorado.phet.common.motion.model.MotionTimeSeriesModel;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.bargraph.BarGraph;
+import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -26,7 +35,7 @@ public class CaloriePanel extends PNode {
     private CalorieSlider calorieSlider;
     private CalorieSlider burnSlider;
 
-    public CaloriePanel() {
+    public CaloriePanel( PhetPCanvas phetPCanvas ) {
         PNode foodStrip = new IconStrip( new IconStrip.IconItem[]{
                 new IconStrip.IconItem( "burger.png" ),
                 new IconStrip.IconItem( "strawberry.png" ),
@@ -60,7 +69,7 @@ public class CaloriePanel extends PNode {
                 new BarGraph.Variable( "Proteins", 0.3, Color.red ),
                 new BarGraph.Variable( "Lipids", 0.5, Color.blue ),
         } );
-        foodCompositionBarChart.setOffset( calorieSlider.getFullBounds().getMaxX() + 10, foodStrip.getFullBounds().getMaxY() + 5 );
+        foodCompositionBarChart.setOffset( calorieSlider.getFullBounds().getMaxX() + 30, foodStrip.getFullBounds().getMaxY() + 5 );
         addChild( foodCompositionBarChart );
 
 
@@ -94,6 +103,25 @@ public class CaloriePanel extends PNode {
         exerciseStrip.setOffset( 0, activityAcceptorNode.getFullBounds().getMaxY() + 10 );
         addChild( exerciseStrip );
 
+        GraphSuiteSet graphSuiteSet = new GraphSuiteSet();
+        TimeSeriesModel tsm = new MotionTimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) );
+        ControlGraph controlGraph = new ControlGraph( phetPCanvas, new DefaultTemporalVariable(), "Weight", 0, 100, tsm );
+        controlGraph.setEditable( false );
+        MinimizableControlGraph a = new MinimizableControlGraph( "Weight", controlGraph );
+        ControlGraph controlGraph1 = new ControlGraph( phetPCanvas, new DefaultTemporalVariable(), "Calories", 0, 100, tsm );
+        controlGraph1.setEditable( false );
+        MinimizableControlGraph b = new MinimizableControlGraph( "Calories", controlGraph1 );
+        a.setAvailableBounds( 600, 125 );
+        b.setAvailableBounds( 600, 125 );
+        MinimizableControlGraph[] graphs = {a, b};
+        a.setAlignedLayout( graphs );
+        b.setAlignedLayout( graphs );
+        graphSuiteSet.addGraphSuite( graphs );
+        a.setOffset( 0, exerciseStrip.getFullBounds().getMaxY() );
+        b.setOffset( 0,a.getFullBounds().getMaxY() );
+        addChild( a );
+
+        addChild( b );
     }
 
     private static class CalorieSlider extends PNode {
