@@ -53,6 +53,10 @@ public class Glacier extends ClockAdapter {
     private double[] _iceThicknessSamples; // ice thickness at t=now
     private double _averageIceThicknessSquares; // average of the squares of the ice thickness samples
     private boolean _steadyState; // is the glacier in the steady state?
+    
+    private final double _yMax; // max_F in documentation
+    private final double _lengthAlterX; // x_term_alter_x in documentation
+    private final double _lengthDiff; // x_term_diff in documentation
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,6 +85,10 @@ public class Glacier extends ClockAdapter {
         _climate.addClimateListener( _climateListener );
         
         _clock = clock;
+        
+        _yMax = valley.getElevation( MIN_X );
+        _lengthAlterX = _yMax - ( 0.15 * Valley.getHeadwallLength() );
+        _lengthDiff = -computeLengthBulk( _yMax ) / Math.pow( _yMax - _lengthAlterX, 2 );
         
         _listeners = new ArrayList();
 
@@ -251,10 +259,26 @@ public class Glacier extends ClockAdapter {
      * @param ela
      * @return double[] ice thickness samples, meters
      */
-    private static double[] computeIceThicknessSamples( final double ela ) {
+    private double[] computeIceThicknessSamples( final double ela ) {
         
-        final double maxThickness = 400. - Math.pow( ( .0104 * ela ) - 23, 2 );
-        final double glacierLength = Math.max( 0, 170500. - ( 41.8 * ela ) ); //XXX max ELA is 4500, temporary fix for negative glacier length
+        double glacierLength = computeLength( ela ); // x_terminus in documentation, but this is really length
+        if ( glacierLength < 0 ) {
+            System.out.println( "ERROR - Glacier.computeIceThicknessSamples: glacierLength=" + glacierLength + " ela=" + ela + 
+                    " yMax=" + _yMax + " lengthAlterX=" + _lengthAlterX + " lengthDiff=" + _lengthDiff );//XXX
+            glacierLength = 0; //XXX workaround, algorithm is busted, should not be zero!
+        }
+        assert( glacierLength >= 0 );
+        
+        double maxThickness = 0; // H_max in documentation
+        if ( glacierLength != 0 ) {
+            maxThickness = 400. - Math.pow( ( 1.04E-2 * ela ) - 23, 2 );
+            if ( maxThickness < 0 ) {
+                System.out.println( "ERROR - Glacier.computeIceThicknessSamples: maxThickness=" + maxThickness + " ela=" + ela );//XXX
+                maxThickness = 0; //XXX workaround, algorithm is busted, should not be zero!
+            }
+        }
+        assert( maxThickness >= 0 );
+        
         final double xPeak = MIN_X + ( 0.5 * glacierLength );
         final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
 
@@ -275,6 +299,30 @@ public class Glacier extends ClockAdapter {
         }
 
         return samples;
+    }
+    
+    /*
+     * Mysterious method used in computation of ice thickness samples.
+     * x_terminous_bulk(x) in documentation.
+     */
+    private static double computeLengthBulk( double ela ) {
+        return 170.5E3 - ( 41.8 *  ela );
+    }
+    
+    /*
+     * Mysterious method used in computation of ice thickness samples.
+     * In documentation, this is an unnamed method that computes x_terminus.
+     * But what we're really computing is glacier length (the same as x_terminus only if MIN_X=0).
+     */
+    private double computeLength( double ela ) {
+        double length = 0;
+        if ( ela <= _yMax ) {
+            length = computeLengthBulk( ela );
+            if ( ela > _lengthAlterX ) {
+                length += _lengthDiff * Math.pow( ela - _lengthAlterX, 2 );
+            }
+        }
+        return length;
     }
     
     //----------------------------------------------------------------------------
