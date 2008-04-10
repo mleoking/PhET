@@ -26,8 +26,8 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
     // must be in the range 0-9.
-    private static final int POLONIUM_211_AGITATION_FACTOR = 8;
-    private static final int LEAD_207_AGITATION_FACTOR = 3;
+    private static final int POLONIUM_211_AGITATION_FACTOR = 6;
+    private static final int LEAD_207_AGITATION_FACTOR = 1;
 
     //------------------------------------------------------------------------
     // Instance data

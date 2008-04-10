@@ -226,6 +226,33 @@ public abstract class AtomicNucleus {
     //------------------------------------------------------------------------
     
     /**
+     * Method to add listeners.
+     * 
+     * @param listener
+     */
+    public void addListener(Listener listener)
+    {
+        if (_listeners.contains( listener ))
+        {
+            // Don't bother re-adding.
+            return;
+        }
+        
+        _listeners.add( listener );
+    }
+    
+    /**
+     * Reset the nucleus to its original state.
+     */
+    public void reset(){
+        // Stubbed in abstract class.
+    }
+    
+    //------------------------------------------------------------------------
+    // Private and Protected Methods
+    //------------------------------------------------------------------------
+
+    /**
      * This method lets this model element know that the clock has ticked.  In
      * response, the nucleus generally 'agitates' a bit, may also perform some
      * sort of decay, and may move.
@@ -254,7 +281,7 @@ public abstract class AtomicNucleus {
             // Calculate the increment to be used for creating the agitation
             // effect.
             
-            int agitationIncrement = 10 - _agitationFactor;
+            int agitationIncrement = 20 - (2 * _agitationFactor);
             assert agitationIncrement > 0;
             
             if (agitationIncrement <= 0){
@@ -270,33 +297,6 @@ public abstract class AtomicNucleus {
         }
     }
     
-    /**
-     * Method to add listeners.
-     * 
-     * @param listener
-     */
-    public void addListener(Listener listener)
-    {
-        if (_listeners.contains( listener ))
-        {
-            // Don't bother re-adding.
-            return;
-        }
-        
-        _listeners.add( listener );
-    }
-    
-    /**
-     * Reset the nucleus to its original state.
-     */
-    public void reset(){
-        // Stubbed in abstract class.
-    }
-    
-    //------------------------------------------------------------------------
-    // Private methods
-    //------------------------------------------------------------------------
-
     /**
      * Set ourself up to listen to the simulation clock.
      */
