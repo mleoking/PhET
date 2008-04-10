@@ -32,29 +32,30 @@ public class PenguinNode extends PImage {
     private Viewport _birdsEyeViewport;
     private Viewport _zoomedViewport;
     private ModelViewTransform _mvt;
-    private double _maxX;
+    private double _zoomedViewportMaxCenterX;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     /**
-     * Constructor that allows the penguin to be dragged across the full width
-     * of the birds-eye viewport.
+     * Constructor that allows the zoomed viewport to be dragged 
+     * across the full width of the birds-eye viewport.
      */
     public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt ) {
         this( birdsEyeViewport, zoomedViewport, mvt, X_UNDEFINED );
     }
     
     /**
-     * Constructor that constrains the penguin to be dragged up to some maximum x.
+     * Constructor that constrains the center of the zoomed viewport
+     * to be dragged up to some maximum x.
      * 
      * @param birdsEyeViewport
      * @param zoomedViewport
      * @param mvt
-     * @param maxX
+     * @param zoomedViewportMaxCenterX
      */
-    public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt, double maxX ) {
+    public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt, double zoomedViewportMaxCenterX ) {
         super( GlaciersImages.PENGUIN );
         
         _birdsEyeViewport = birdsEyeViewport;
@@ -73,7 +74,7 @@ public class PenguinNode extends PImage {
         });
         
         _mvt = mvt;
-        _maxX = maxX;
+        _zoomedViewportMaxCenterX = zoomedViewportMaxCenterX;
         
         addInputEventListener( new CursorHandler() );
         
@@ -110,12 +111,12 @@ public class PenguinNode extends PImage {
                     /* 
                      * Prevent dragging past the right edge.
                      * the right edge may be either the right edge of the birds-eye viewport,
-                     * or some arbitary right edge that we specified.
+                     * or some arbitary maximum position for the center of the zoomed viewport.
                      */
                     double rightX = bb.getMaxX();
-                    if ( _maxX != X_UNDEFINED ) {
+                    if ( _zoomedViewportMaxCenterX != X_UNDEFINED ) {
                         // we have an additional constraint on the right edge
-                        rightX = Math.min( _maxX, rightX );
+                        rightX = Math.min( _zoomedViewportMaxCenterX + ( rModel.getWidth() / 2 ), rightX );
                     }
                     if ( rightX < rModel.getWidth() ) {
                         rModel.setRect( bb.getX(), rModel.getY(), rModel.getWidth(), rModel.getHeight() );
