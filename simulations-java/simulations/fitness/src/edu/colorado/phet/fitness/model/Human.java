@@ -13,6 +13,7 @@ public class Human {
     private Gender gender = Gender.MALE;
     private String name = "Larry";
     private ArrayList listeners = new ArrayList();
+    private double musclePercent = 60;
 
     public Human() {
     }
@@ -57,6 +58,40 @@ public class Human {
 
     public void setName( String name ) {
         this.name = name;
+    }
+
+    public double getMusclePercent() {
+        return musclePercent;
+    }
+
+    public double getFatPercent() {
+        return 100 - musclePercent;
+    }
+
+    public void setMusclePercent( double value ) {
+        this.musclePercent = value;
+        notifyMusclePercentChanged();
+        notifyFatPercentChanged();
+    }
+
+    private void notifyFatPercentChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.fatPercentChanged();
+        }
+    }
+
+    private void notifyMusclePercentChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.musclePercentChanged();
+        }
+    }
+
+    public void setFatPercent( double value ) {
+        this.musclePercent = 100 - value;
+        notifyFatPercentChanged();
+        notifyMusclePercentChanged();
     }
 
     public static class Gender {
@@ -127,7 +162,16 @@ public class Human {
     }
 
     public void setGender( Gender gender ) {
-        this.gender = gender;
+        if ( this.gender != gender ) {
+            this.gender = gender;
+            notifyGenderChanged();
+        }
+    }
+
+    private void notifyGenderChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).genderChanged();
+        }
     }
 
     public static interface Listener {
@@ -136,8 +180,16 @@ public class Human {
         void heightChanged();
 
         void weightChanged();
+
+        void genderChanged();
+
+        void musclePercentChanged();
+
+        void fatPercentChanged();
+
     }
-    public static class Adapter implements Listener{
+
+    public static class Adapter implements Listener {
 
         public void bmiChanged() {
         }
@@ -146,6 +198,15 @@ public class Human {
         }
 
         public void weightChanged() {
+        }
+
+        public void genderChanged() {
+        }
+
+        public void musclePercentChanged() {
+        }
+
+        public void fatPercentChanged() {
         }
     }
 
