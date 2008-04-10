@@ -19,7 +19,7 @@ public class BarNode extends PNode {
     private int x;
     private int width;
     private int y;
-    private VerticalTextNode label;
+    private VerticalShadowHTMLNode label;
     private PPath rectanglePath;
     private double labelWidth;
 
@@ -36,7 +36,7 @@ public class BarNode extends PNode {
         rectanglePath.setStroke( new BasicStroke( 1 ) );
         rectanglePath.setStrokePaint( Color.black );
 
-        label = new VerticalTextNode( barFont, text, color, Color.black );
+        label = new VerticalShadowHTMLNode( barFont, text, color, Color.black );
         addChild( rectanglePath );
 
         addChild( label );
