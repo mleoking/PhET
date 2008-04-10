@@ -82,7 +82,6 @@ public class QTConstants {
     public static final String IMAGE_ARROW_L2R_SELECTED = "arrowL2RSelected.png";
     public static final String IMAGE_ARROW_R2L = "arrowR2L.png";
     public static final String IMAGE_ARROW_R2L_SELECTED = "arrowR2LSelected.png";
-    public static final String IMAGE_CLOCK = "clock.png";
     public static final String IMAGE_ZOOM_IN = "zoomIn.gif";
     public static final String IMAGE_ZOOM_OUT = "zoomOut.gif";
     
