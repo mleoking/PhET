@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.PNode;
  * Shows the connection between two nodes as an arrow.
  */
 
-public class ArrowConnectorGraphic extends ConnectorGraphic {
+public class ArrowConnectorNode extends ConnectorNode {
     private double headHeight;
     private double headWidth;
     private double tailWidth;
@@ -31,11 +31,11 @@ public class ArrowConnectorGraphic extends ConnectorGraphic {
     private int distFromTarget = 50;
     private int minLength = 100;
 
-    public ArrowConnectorGraphic( PNode src, PNode dst ) {
+    public ArrowConnectorNode( PNode src, PNode dst ) {
         this( src, dst, 30, 30, 5, 1.0, true );
     }
 
-    public ArrowConnectorGraphic( PNode src, PNode dst, double headHeight, double headWidth, double tailWidth, double fractionalHeadHeight, boolean scaleTailToo ) {
+    public ArrowConnectorNode( PNode src, PNode dst, double headHeight, double headWidth, double tailWidth, double fractionalHeadHeight, boolean scaleTailToo ) {
         super( src, dst );
         this.headHeight = headHeight;
         this.headWidth = headWidth;

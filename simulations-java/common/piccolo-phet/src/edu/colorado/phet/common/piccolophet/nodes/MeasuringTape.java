@@ -217,7 +217,7 @@ public class MeasuringTape extends PhetPNode {
             phetShadowTextGraphic.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
             phetShadowTextGraphic.setTextPaint( Color.black );
 
-            BoundGraphic boundGraphic = new BoundGraphic( phetShadowTextGraphic, 2, 2 );
+            BoundNode boundGraphic = new BoundNode( phetShadowTextGraphic, 2, 2 );
             boundGraphic.setStroke( new BasicStroke() );
             boundGraphic.setStrokePaint( Color.black );
             boundGraphic.setPaint( Color.green );

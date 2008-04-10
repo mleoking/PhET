@@ -25,13 +25,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * Shows a Line connection between two PNodes.
  */
 
-public class ConnectorGraphic extends PPath {
+public class ConnectorNode extends PPath {
 
     private PNode source;
     private PNode destination;
     private BufferedImage txtr;
 
-    public ConnectorGraphic( PNode src, PNode dst ) {
+    public ConnectorNode( PNode src, PNode dst ) {
         this.source = src;
         this.destination = dst;
         PropertyChangeListener changeHandler = new PropertyChangeListener() {

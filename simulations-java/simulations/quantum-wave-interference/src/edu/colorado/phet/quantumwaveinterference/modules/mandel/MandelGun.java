@@ -4,7 +4,7 @@ package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.ConnectorNode;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.quantumwaveinterference.controls.IntensitySlider;
 import edu.colorado.phet.quantumwaveinterference.controls.SRRWavelengthSlider;
@@ -69,7 +69,7 @@ public class MandelGun extends PhetPNode {
                 fireIntensityChanged();
             }
         } );
-        ConnectorGraphic connectorGraphic = new HorizontalWireConnector( pimage, gunControlPanel.getPSwing() );
+        ConnectorNode connectorGraphic = new HorizontalWireConnector( pimage, gunControlPanel.getPSwing() );
         addChild( 0, connectorGraphic );
 
         onOffCheckBox = new OnOffCheckBox( new OnOffItem() {

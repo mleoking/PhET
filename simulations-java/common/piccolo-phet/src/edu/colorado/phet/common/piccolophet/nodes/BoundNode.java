@@ -23,16 +23,16 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * Draws a boundary around the specified PNode.
  */
 
-public class BoundGraphic extends PPath {
+public class BoundNode extends PPath {
     private PNode src;
     private double insetX;
     private double insetY;
 
-    public BoundGraphic( PNode src ) {
+    public BoundNode( PNode src ) {
         this( src, 0, 0 );
     }
 
-    public BoundGraphic( PNode src, double insetX, double insetY ) {
+    public BoundNode( PNode src, double insetX, double insetY ) {
         this.src = src;
         this.insetX = insetX;
         this.insetY = insetY;

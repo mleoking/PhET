@@ -3,8 +3,8 @@ package edu.colorado.phet.quantumwaveinterference.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
-import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.BoundNode;
+import edu.colorado.phet.common.piccolophet.nodes.ConnectorNode;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
 import edu.colorado.phet.quantumwaveinterference.controls.ResolutionControl;
@@ -487,7 +487,7 @@ resolution, and a quarter as many times for high resolution.*/
         shadowPText.setTextPaint( Color.blue );
 
         shadowPText.setOffset( 0, child.getFullBounds().getHeight() + 10 );
-        BoundGraphic boundGraphic = new BoundGraphic( shadowPText, 4, 4 );
+        BoundNode boundGraphic = new BoundNode( shadowPText, 4, 4 );
 
         boundGraphic.setPaint( TEXT_BACKGROUND );
         child.addChild( boundGraphic );
@@ -551,7 +551,7 @@ resolution, and a quarter as many times for high resolution.*/
         PText shadowPText = new PText( speedupText );
         shadowPText.setTextPaint( Color.blue );
 
-        BoundGraphic boundGraphic = new BoundGraphic( shadowPText, 4, 4 );
+        BoundNode boundGraphic = new BoundNode( shadowPText, 4, 4 );
 
         boundGraphic.setPaint( TEXT_BACKGROUND );
         child.addChild( boundGraphic );
@@ -591,7 +591,7 @@ resolution, and a quarter as many times for high resolution.*/
         PText shadowPText = new PText( slowdownText );
         shadowPText.setTextPaint( Color.blue );
 
-        BoundGraphic boundGraphic = new BoundGraphic( shadowPText, 4, 4 );
+        BoundNode boundGraphic = new BoundNode( shadowPText, 4, 4 );
         boundGraphic.setPaint( TEXT_BACKGROUND );
         child.addChild( boundGraphic );
         child.addChild( shadowPText );
@@ -635,7 +635,7 @@ resolution, and a quarter as many times for high resolution.*/
             this.gunControlPanelPSwing = gunControlPanel.getPSwing();
             relayout();
 
-            ConnectorGraphic connectorGraphic = new HorizontalWireConnector( gunControlPanelPSwing, abstractGunNode );
+            ConnectorNode connectorGraphic = new HorizontalWireConnector( gunControlPanelPSwing, abstractGunNode );
             addChild( gunIndex, connectorGraphic );
         }
     }

@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.BoundNode;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -185,7 +185,7 @@ public class MeasuringTape extends PNode {
             phetShadowTextGraphic.setFont( new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 14 ) );
             phetShadowTextGraphic.setTextPaint( Color.black );
 
-            BoundGraphic boundGraphic = new BoundGraphic( phetShadowTextGraphic, 2, 2 );
+            BoundNode boundGraphic = new BoundNode( phetShadowTextGraphic, 2, 2 );
             boundGraphic.setStroke( new BasicStroke() );
             boundGraphic.setStrokePaint( Color.black );
             boundGraphic.setPaint( Color.green );
