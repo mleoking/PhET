@@ -38,8 +38,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class FissionOneNucleusLegendPanel extends JPanel {
     
-    private static final float SHADOW_OFFSET = 4.0f;
-
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -62,8 +60,8 @@ public class FissionOneNucleusLegendPanel extends JPanel {
 
         // Add the images and labels for the simple portion of the legend.
         
-        addLegendItem( "Neutron.png", "NuclearPhysicsControlPanel.NeutronLabel", 12 );
-        addLegendItem( "Proton.png", "NuclearPhysicsControlPanel.ProtonLabel", 12 );
+        addLegendItem( "Neutron.png", NuclearPhysics2Strings.NEUTRON_LEGEND_LABEL, 12 );
+        addLegendItem( "Proton.png", NuclearPhysics2Strings.PROTON_LEGEND_LABEL, 12 );
         
         // Add the Uranium nucleus to the legend.
         
@@ -77,30 +75,11 @@ public class FissionOneNucleusLegendPanel extends JPanel {
         add(new JLabel(icon));
         add(new JLabel( NuclearPhysics2Strings.URANIUM_LEGEND_LABEL ) );
         
-        // Add the Barium nucleus to the legend.
+        // Add the daughter nuclei to the legend.  These are not specifically
+        // labeled with chemical symbols because the products from a fission
+        // of U-235 can vary.
         
-        PNode labeledBariumNucleus = new LabeledNucleusNode("Barium Nucleus Small.png",
-                NuclearPhysics2Strings.BARIUM_141_ISOTOPE_NUMBER, 
-                NuclearPhysics2Strings.BARIUM_141_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.BARIUM_LABEL_COLOR );
-        
-        Image bariumImage = labeledBariumNucleus.toImage();
-        icon = new ImageIcon(bariumImage);
-        add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.BARIUM_LEGEND_LABEL ) );
-        
-        // Add the Krypton nucleus to the legend.
-        
-        PNode labeledKryptonNucleus = new LabeledNucleusNode("Krypton Nucleus Small.png",
-                NuclearPhysics2Strings.KRYPTON_92_ISOTOPE_NUMBER, 
-                NuclearPhysics2Strings.KRYPTON_92_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.KRYPTON_LABEL_COLOR );
-        
-        Image kryptonImage = labeledKryptonNucleus.toImage();
-        icon = new ImageIcon(kryptonImage);
-        add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.KRYPTON_LEGEND_LABEL ) );
-        
+        addLegendItem( "Daughter Nuclei Small.png", NuclearPhysics2Strings.DAUGHTER_NUCLEI_LABEL, 75 );
     }
     
     /**
@@ -111,10 +90,10 @@ public class FissionOneNucleusLegendPanel extends JPanel {
      * @param labelName
      * @param width
      */
-    private void addLegendItem( String imageName, String labelName, int width ) {
+    private void addLegendItem( String imageName, String label, int width ) {
         Image im = NuclearPhysics2Resources.getImage( imageName );
         ImageIcon icon = new ImageIcon(im.getScaledInstance( width, -1, Image.SCALE_SMOOTH ));
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Resources.getString( labelName ) ));
+        add(new JLabel( label ));
     }
 }

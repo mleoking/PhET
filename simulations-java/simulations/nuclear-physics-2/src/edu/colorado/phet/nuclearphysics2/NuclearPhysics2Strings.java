@@ -21,6 +21,9 @@ public class NuclearPhysics2Strings {
     public static final String TITLE_ALPHA_RADIATION_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.AlphaDecayModule" );
     public static final String TITLE_FISSION_ONE_NUCLEUS_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.SingleNucleusFissionModule" );
 
+    public static final String NEUTRON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.NeutronLabel" );
+    public static final String PROTON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
+
     public static final String UNITS_ORIENTATION = NuclearPhysics2Resources.getString( "units.orientation");
     public static final String UNITS_TIME = NuclearPhysics2Resources.getString( "units.time" );
 
@@ -43,6 +46,8 @@ public class NuclearPhysics2Strings {
     public static final String BARIUM_141_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Barium141Graphic.Symbol" );
     public static final String BARIUM_141_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Barium141Graphic.Number" );
     public static final String BARIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Barium141Label" );
+
+    public static final String DAUGHTER_NUCLEI_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.DaughterNucleiLabel" );
 
     public static final String DECAY_TIME_CHART_X_AXIS_LABEL = NuclearPhysics2Resources.getString( "DecayTimeChart.XAxisLabel" );
     public static final String DECAY_TIME_CHART_Y_AXIS_LABEL1 = NuclearPhysics2Resources.getString( "DecayTimeChart.YAxisLabel1" );
