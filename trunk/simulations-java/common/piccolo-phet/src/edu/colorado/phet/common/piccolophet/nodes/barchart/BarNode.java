@@ -13,7 +13,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Sam Reid
  */
-
 public class BarNode extends PNode {
     private double scale;
     private double value;
@@ -24,8 +23,7 @@ public class BarNode extends PNode {
     private PPath rectanglePath;
     private double labelWidth;
 
-    public BarNode( String text, double scale,
-                    double value, int x, int width, int y, Color color, Font barFont ) {
+    public BarNode( String text, double scale, double value, int x, int width, int y, Color color, Font barFont ) {
         this.scale = scale;
         this.value = value;
         this.x = x;

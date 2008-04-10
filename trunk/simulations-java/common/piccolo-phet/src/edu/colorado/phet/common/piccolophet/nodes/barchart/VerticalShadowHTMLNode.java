@@ -14,22 +14,29 @@ import edu.umd.cs.piccolo.PNode;
  */
 
 public class VerticalShadowHTMLNode extends PNode {
-    private String text;
+    private ShadowHTMLNode shadowHTMLNode;
 
-    public VerticalShadowHTMLNode( Font font, String text, Color color, Color outline ) {
-        this.text = text;
-        ShadowHTMLNode phetTextNode = new ShadowHTMLNode( text );//, font, color, 1, 1, outline );
-        phetTextNode.setColor( color );
-        phetTextNode.setShadowColor( outline );
-        phetTextNode.setFont( font );
+    public VerticalShadowHTMLNode( Font font, String text, Color color, Color shadowColor ) {
+        shadowHTMLNode = new ShadowHTMLNode( text );
+        shadowHTMLNode.setColor( color );
+        shadowHTMLNode.setShadowColor( shadowColor );
+        shadowHTMLNode.setFont( font );
 
-        phetTextNode.translate( -3, -10 );
-        phetTextNode.rotate( -Math.PI / 2 );
+        shadowHTMLNode.translate( -3, -10 );//todo: remove the need for these magic numbers
+        shadowHTMLNode.rotate( -Math.PI / 2 );
 
-        addChild( phetTextNode );
+        addChild( shadowHTMLNode );
     }
 
-    public String getText() {
-        return text;
+    public void setText( String text ) {
+        this.shadowHTMLNode.setHtml( text );
+    }
+
+    public void setShadowVisible( boolean shadowVisible ) {
+        this.shadowHTMLNode.setShadowVisible( shadowVisible );
+    }
+
+    public void setForeground( Color color ) {
+        this.shadowHTMLNode.setColor( color );
     }
 }

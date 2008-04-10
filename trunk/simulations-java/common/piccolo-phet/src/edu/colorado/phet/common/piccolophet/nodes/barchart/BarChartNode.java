@@ -45,6 +45,7 @@ public class BarChartNode extends PNode {
     private Variable[] variables;
     private double scale = 1.0;
     private PNode backLayer = new PNode();
+    private VerticalShadowHTMLNode verticalLabelNode;
 
     public BarChartNode( String title, double scale, Paint backgroundColor ) {
         this( title, scale, backgroundColor, 400 );
@@ -63,6 +64,9 @@ public class BarChartNode extends PNode {
         titleNode.setFont( getTitleFont() );
         PhetPPath titleBackground = new PhetPPath( titleNode.getFullBounds(), backgroundColor );
         frontLayer.addChild( titleBackground );
+        verticalLabelNode = new VerticalShadowHTMLNode( new PhetDefaultFont(), "", Color.red, Color.black );
+        verticalLabelNode.setOffset( -20,150);
+        frontLayer.addChild( verticalLabelNode );
 
         addChild( backLayer );
         addChild( barLayer );
@@ -71,6 +75,10 @@ public class BarChartNode extends PNode {
 
     protected Font getTitleFont() {
         return new PhetDefaultFont( Font.BOLD, 18 );
+    }
+
+    public void setVerticalAxisLabelShadowVisible( boolean b ) {
+        verticalLabelNode.setShadowVisible( b );
     }
 
     public static class Variable {
@@ -114,7 +122,12 @@ public class BarChartNode extends PNode {
         barLayer.addChild( barGraphic );
     }
 
-    public void setVariables( Variable[] variables ) {
+    /**
+     * This part of the BarChartNode needs refactoring; should be able to create the chart, then add variables incrementally.
+     *
+     * @param variables
+     */
+    public void init( Variable[] variables ) {
         this.variables = variables;
         double w = variables.length * ( sep + dw ) - sep;
         background = new PPath( new Rectangle2D.Double( 0, topY, 2 + w, 1000 ) );
@@ -204,6 +217,11 @@ public class BarChartNode extends PNode {
         }
     }
 
+    public void setVerticalAxisLabel( String text, Color color ) {
+        verticalLabelNode.setText( text );
+        verticalLabelNode.setForeground( color );
+    }
+
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test bar graph" );
         JPanel contentPanel = new JPanel( new BorderLayout() );
@@ -211,11 +229,12 @@ public class BarChartNode extends PNode {
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         final BarChartNode barGraph = new BarChartNode( "bar graph", 400, Color.white );
         final Variable variable = new Variable( "var 2", 0.5, Color.green );
-        barGraph.setVariables( new Variable[]{
+        barGraph.init( new Variable[]{
                 new Variable( "var 1", 0, Color.blue ),
                 variable,
                 new Variable( "var 3", 0.9, Color.red )
         } );
+        barGraph.setVerticalAxisLabel( "Vertical Axis", Color.blue);
         phetPCanvas.addScreenChild( barGraph );
         frame.setContentPane( contentPanel );
         contentPanel.add( phetPCanvas, BorderLayout.CENTER );
@@ -244,4 +263,5 @@ public class BarChartNode extends PNode {
         frame.setVisible( true );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
+
 }
