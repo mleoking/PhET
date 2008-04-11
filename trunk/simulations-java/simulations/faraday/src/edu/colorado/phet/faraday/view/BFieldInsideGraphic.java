@@ -3,8 +3,12 @@
 package edu.colorado.phet.faraday.view;
 
 import java.awt.Component;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.faraday.model.BarMagnet;
@@ -30,6 +34,10 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
     private BarMagnet _barMagnetModel;
     private Point2D _barMagnetLocation;
     
+    private AffineTransform _transform; // reusable transform
+    private Point2D _point2D; // reusable point
+    private Rectangle _rect; // reusable rectangle
+    
     /**
      * Constructor.
      * 
@@ -45,6 +53,9 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
         _barMagnetModel.addObserver( this );
         
         _barMagnetLocation = new Point2D.Double();
+        _transform = new AffineTransform();
+        _point2D = new Point2D.Double();
+        _rect = new Rectangle();
         
         update();
     }
@@ -82,31 +93,50 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
         GridPoint gridPoint;
         final double xSpacing = getXSpacing();
         final double ySpacing = getYSpacing();
+        final double bx = _barMagnetLocation.getX();
+        final double by = _barMagnetLocation.getY();
         double x, y;
         
+        // Create grid point for magnet with zero rotation.
         for ( int i = 0; i <= ( COLUMNS / 2 ); i++ ) {
             
             // above center
-            y = _barMagnetLocation.getY() - ( ySpacing  / 2 );
+            y = by - ( ySpacing  / 2 );
             
-            x = _barMagnetLocation.getX() + ( i * xSpacing );
+            x = bx + ( i * xSpacing );
             gridPoint = new GridPoint( x, y );
             gridPoints.add( gridPoint );
             
-            x = _barMagnetLocation.getX() - ( i * xSpacing );
+            x = bx - ( i * xSpacing );
             gridPoint = new GridPoint( x, y );
             gridPoints.add( gridPoint );
 
             // below center
-            y = _barMagnetLocation.getY() + ( ySpacing / 2 );
+            y = by + ( ySpacing / 2 );
             
-            x = _barMagnetLocation.getX() + ( i * xSpacing );
+            x = bx + ( i * xSpacing );
             gridPoint = new GridPoint( x, y );
             gridPoints.add( gridPoint );
             
-            x = _barMagnetLocation.getX() - ( i * xSpacing );
+            x = bx - ( i * xSpacing );
             gridPoint = new GridPoint( x, y );
             gridPoints.add( gridPoint );
+        }
+        
+        // Transform all grid points by the magnet's rotation angle.
+        final double direction = _barMagnetModel.getDirection();
+        if ( direction != 0 ) {
+            Iterator i = gridPoints.iterator();
+            while ( i.hasNext() ) {
+                gridPoint = (GridPoint) i.next();
+                _point2D.setLocation( gridPoint.getX(), gridPoint.getY() );
+                _transform.setToIdentity();
+                _transform.translate( bx, by );
+                _transform.rotate( direction );
+                _transform.translate( -bx, -by );
+                _transform.transform( _point2D, _point2D );
+                gridPoint.setLocation( _point2D.getX(), _point2D.getY() );
+            }
         }
         
         // convert to array
@@ -118,14 +148,33 @@ public class BFieldInsideGraphic extends AbstractBFieldGraphic implements Simple
     //----------------------------------------------------------------------------
     
     /**
-     * When the magnet changes, update the grid.
+     * When the magnet changes, update the grid bounds, which causes the grid to be rebuilt.
      */
     public void update() {
         if ( isVisible() ) {
-            // Update the grid bounds. This causes the entire grid to be rebuilt.
-            final int x = (int) ( _barMagnetModel.getX() - ( _barMagnetModel.getWidth() / 2 ) );
-            final int y = (int) ( _barMagnetModel.getY() - ( _barMagnetModel.getHeight() / 2 ) );
-            setGridBounds( x, y, (int) _barMagnetModel.getWidth(), (int) _barMagnetModel.getHeight() );
+            
+            final double bx = _barMagnetModel.getX();
+            final double by = _barMagnetModel.getY();
+            
+            // bounds of the magnet with zero rotation
+            final int x = (int) ( bx - ( _barMagnetModel.getWidth() / 2 ) );
+            final int y = (int) ( by - ( _barMagnetModel.getHeight() / 2 ) );
+            _rect.setRect( x, y, (int) _barMagnetModel.getWidth(), (int) _barMagnetModel.getHeight() );
+            
+            // transform to match magnet's orientation
+            Rectangle gridBounds = _rect;
+            final double direction = _barMagnetModel.getDirection();
+            if ( direction != 0 ) {
+                _transform.setToIdentity();
+                _transform.translate( bx, by );
+                _transform.rotate( direction );
+                _transform.translate( -bx, -by );
+                Shape txShape = _transform.createTransformedShape( _rect );
+                gridBounds = txShape.getBounds();
+            }
+            
+            // set the grid bounds
+            setGridBounds( gridBounds.x, gridBounds.y, gridBounds.width, gridBounds.height );
         }
     }
 }

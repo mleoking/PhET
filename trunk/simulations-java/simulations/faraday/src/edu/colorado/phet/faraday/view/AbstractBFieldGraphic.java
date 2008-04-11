@@ -80,7 +80,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
      */
     protected class GridPoint {
 
-        public final double _x, _y; // immutable
+        public double _x, _y;
         public double _direction;
         public double _strength;
 
@@ -95,12 +95,25 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
             _strength = strength;
         }
         
+        public void setX( double x ) {
+            _x = x;
+        }
+        
         public double getX() {
             return _x;
         }
         
+        public void setY( double y ) {
+            _y = y;
+        }
+        
         public double getY() {
             return _y;
+        }
+        
+        public void setLocation( double x, double y ) {
+            _x = x;
+            _y = y;
         }
 
         public void setDirection( double direction ) {
