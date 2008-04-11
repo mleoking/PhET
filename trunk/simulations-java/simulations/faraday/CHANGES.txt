@@ -4,7 +4,7 @@ Changes for faraday
 
 
 DONE:
-********* version 2.00.00 (?)
+********* version 2.00.00 (20682)
 4/10/08 - fix "see inside" feature to handle magnet rotation that occurs with "show Earth"
 ********* version 1.05.15 (20599)
 4/8/09 - strength slider for bar magnet and turbine both need to be constrained to integer values [504]
