@@ -94,6 +94,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         // Create a parent node where we will display the nucleus.  This is
         // being done so that a label can be placed over the top of it.
         PNode nucleusLayer = new PNode();
+        nucleusLayer.setPickable( false );
+        nucleusLayer.setChildrenPickable( false );
         addWorldChild(nucleusLayer);
         
         // Add a node for each particle that comprises the nucleus.

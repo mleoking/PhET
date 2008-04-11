@@ -29,10 +29,13 @@ public class ProtonNode extends PNode implements NucleonNode{
     private PNode _displayImage;
     private Nucleon _nucleon;
     
+    //------------------------------------------------------------------------
+    // Constructor
+    //------------------------------------------------------------------------
+
     public ProtonNode(Nucleon nucleon)
     {
         _nucleon = nucleon;
-        Random rand = new Random();
         
         // Set up the image for this particle.
         _displayImage = NuclearPhysics2Resources.getImageNode("Proton.png");
@@ -52,10 +55,18 @@ public class ProtonNode extends PNode implements NucleonNode{
         update();
     }
     
+    //------------------------------------------------------------------------
+    // Accessor Methods
+    //------------------------------------------------------------------------
+
     public Nucleon getNucleon(){
         return _nucleon;
     }
     
+    //------------------------------------------------------------------------
+    // Private Methods
+    //------------------------------------------------------------------------
+
     private void update(){
         _displayImage.setOffset( _nucleon.getPosition().getX() - PARTICLE_DIAMETER/2,  
                 _nucleon.getPosition().getY() - PARTICLE_DIAMETER/2);
