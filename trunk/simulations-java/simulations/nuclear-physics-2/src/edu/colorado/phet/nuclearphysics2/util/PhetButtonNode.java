@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.view.controls.StandardIconButton.CloseButton;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
@@ -36,7 +37,7 @@ public class PhetButtonNode extends PhetPNode {
 
     public PhetButtonNode(String text) {
         _button = new JButton(text);
-        _button.setFont( new Font("Comic Sans MS", Font.BOLD, 14 ));
+        _button.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
         PSwing buttonWrapper = new PSwing( _button );
         buttonWrapper.addInputEventListener( new CursorHandler() );
         addChild( buttonWrapper );
