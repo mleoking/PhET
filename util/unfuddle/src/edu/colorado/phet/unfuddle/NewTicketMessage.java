@@ -93,19 +93,13 @@ public class NewTicketMessage implements Message {
                "\n" +
                "-----------------------\n" +
                "You received this message because you are signed up on the list located at:\n" +
-               "https://phet.unfuddle.com/p/unfuddled/notebooks/show/7161";
+               "http://phet.unfuddle.com/projects/9404/notebooks/7161";
     }
 
     public static String getHeader( String ticketURL ) {
         return "Ticket URL: " + ticketURL + "\n" +
                "-----------------------\n" +
                "\n";
-    }
-
-    public String getSuffix() {
-        return "-----------------------\n" +
-               "You received this message because you are signed up on the list located at:\n" +
-               "http://phet.unfuddle.com/projects/9404/notebooks/7161";
     }
 
     public String getTicketURL() {
