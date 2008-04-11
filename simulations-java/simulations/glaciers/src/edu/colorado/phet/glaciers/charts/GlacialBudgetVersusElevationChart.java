@@ -36,12 +36,14 @@ import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
  */
 public class GlacialBudgetVersusElevationChart extends JDialog {
     
-    private static final Range METERS_PER_YEAR_RANGE = new Range( -20, 20 ); // meters
+    private static final boolean SHOW_NEGATIVE_ABLATION = true;
+    
+    private static final Range METERS_PER_YEAR_RANGE = new Range( -20, ( SHOW_NEGATIVE_ABLATION ? 5 : 20 ) ); // meters
     private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
-    private static final Paint GLACIAL_BUDGET_PAINT = Color.BLACK;
-    private static final Paint ACCUMULATION_PAINT = Color.GREEN;
-    private static final Paint ABLATION_PAINT = Color.RED;
+    private static final Paint GLACIAL_BUDGET_PAINT = Color.RED;
+    private static final Paint ACCUMULATION_PAINT = Color.BLUE;
+    private static final Paint ABLATION_PAINT = Color.GREEN;
     private static final Stroke GLACIAL_BUDGET_STROKE = new BasicStroke( 2f );
     private static final Stroke ACCUMULATION_STROKE = new BasicStroke( 1f );
     private static final Stroke ABLATION_STROKE = new BasicStroke( 1f );
@@ -72,7 +74,11 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         
         // series and dataset
         _accumulationSeries = new XYSeries( GlaciersStrings.LABEL_ACCUMULATION, false /* autoSort */ );
-        _ablationSeries = new XYSeries( GlaciersStrings.LABEL_ABLATION, false /* autoSort */ );
+        String ablationLabel = GlaciersStrings.LABEL_ABLATION;
+        if ( SHOW_NEGATIVE_ABLATION ) {
+            ablationLabel = "-" + ablationLabel;
+        }
+        _ablationSeries = new XYSeries( ablationLabel, false /* autoSort */ );
         _glacialBudgetSeries = new XYSeries( GlaciersStrings.LABEL_GLACIAL_BUDGET, false /* autoSort */ );
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _accumulationSeries );
@@ -153,7 +159,7 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
             
             _glacialBudgetSeries.add( glacialBudget, elevation );
             _accumulationSeries.add( accumulation, elevation );
-            _ablationSeries.add( ablation, elevation );
+            _ablationSeries.add( -ablation, elevation );//XXX add negative ablation
 
             elevation += DELTA_ELEVATION;
         }

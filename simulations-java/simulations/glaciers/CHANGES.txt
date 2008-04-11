@@ -73,6 +73,8 @@ CLEANUP:
 
 
 DONE:
+4/11/08 - add flag for showing negative ablation in Glacial Budget chart
+4/11/08 - change colors in Glacial Budget chart to match Archie's plots
 4/11/08 - increase precision of snowfall textfield
 4/11/08 - implement fix for negative glacier length in ice thickness model
 4/9/08 - rename Glaciers.getX0 to Glaciers.getMinX, add Glaciers.getMaxX
