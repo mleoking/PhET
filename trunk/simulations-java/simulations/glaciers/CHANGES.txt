@@ -74,6 +74,7 @@ CLEANUP:
 
 
 DONE:
+4/11/08 - fix Climate.getAblation, always add offset so that ablation is never zero 
 4/11/08 - add flag for showing negative ablation in Glacial Budget chart
 4/11/08 - change colors in Glacial Budget chart to match Archie's plots
 4/11/08 - increase precision of snowfall textfield
