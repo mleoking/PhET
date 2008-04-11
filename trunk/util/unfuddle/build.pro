@@ -5,6 +5,7 @@
 
 -dontshrink
 -dontoptimize
+-dontobfuscate
 
 -dontskipnonpubliclibraryclasses
 

@@ -105,7 +105,7 @@ public class NewTicketMessage implements Message {
     public String getSuffix() {
         return "-----------------------\n" +
                "You received this message because you are signed up on the list located at:\n" +
-               "https://phet.unfuddle.com/p/unfuddled/notebooks/show/7161";
+               "http://phet.unfuddle.com/projects/9404/notebooks/7161";
     }
 
     public String getTicketURL() {

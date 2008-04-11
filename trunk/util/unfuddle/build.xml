@@ -13,8 +13,7 @@
 
     <target name="compile" depends="init"
             description="compile the source ">
-        <javac srcdir="${src}" classpath="contrib/ant/ant.jar:contrib/jaf/activation.jar:contrib/javamail/dsn.jar:contrib/javamail/imap.jar:
-        contrib/javamail/mailapi.jar:contrib/javamail/pop3.jar:contrib/javamail/smtp.jar" destdir="${classes}" />
+        <javac srcdir="${src}" classpath="contrib/ant/ant.jar:contrib/jaf/activation.jar:contrib/javamail/dsn.jar:contrib/javamail/imap.jar:contrib/javamail/mailapi.jar:contrib/javamail/pop3.jar:contrib/javamail/smtp.jar" destdir="${classes}" />
     </target>
 
     <target name="dist" depends="compile"
