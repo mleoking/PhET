@@ -2,7 +2,7 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-faraday, version 1.05.15
+faraday, version 2.00.00
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -16,8 +16,8 @@ faraday, version 1.05.15
 <b>What's new:</b>
 <p>
 <ul>
-<li>fix [503], no water is shown when turbine is spinning at 1 or 2 rpm
-<li>fix [504], field meter doesn't update consistently when changing strength slider
+<li>this version was published to the PhET website
+<li>fix "see inside" feature to handle magnet rotation that occurs with "show Earth"
 </ul>
 <p>
 <b>Known problems:</b>
