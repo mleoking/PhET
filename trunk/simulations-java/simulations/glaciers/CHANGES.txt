@@ -11,7 +11,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- fix kink in ablation curve when temp=19, snowfall=0, snowfall ref elevation=4000
+- why don't my ELA values match those in Archie's 4/11 plots?
 - fix for negative values in Glaciers.getMaxThickness (see comment)
 - add scaling of mountains image to match scaling of other stuff in the view
 - implement fix for negative glacier length in ice thickness model in Glaciers.computeIceThicknessSamples (see Archie's 3/7 email)
