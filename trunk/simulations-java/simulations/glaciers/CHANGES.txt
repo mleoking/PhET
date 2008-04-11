@@ -11,6 +11,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- fix for negative values in Glaciers.getMaxThickness (see comment)
 - add scaling of mountains image to match scaling of other stuff in the view
 - implement fix for negative glacier length in ice thickness model in Glaciers.computeIceThicknessSamples (see Archie's 3/7 email)
 - optimize ice flow vectors, use same 1D grid as ice thickness
@@ -71,6 +72,7 @@ CLEANUP:
 
 
 DONE:
+4/11/08 - implement fix for negative glacier length in ice thickness model
 4/9/08 - rename Glaciers.getX0 to Glaciers.getMinX, add Glaciers.getMaxX
 4/9/08 - move 0-80km range details into Glacier class
 4/9/08 - prevent *center* of zoomed viewport from being dragged any farther right than 80km
