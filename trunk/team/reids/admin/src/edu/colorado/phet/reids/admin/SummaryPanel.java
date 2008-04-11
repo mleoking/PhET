@@ -179,6 +179,6 @@ public class SummaryPanel extends JPanel {
     }
 
     private void updateTimeEntry() {
-        summary.setText( TimesheetApp.toString( data.getTotalElapsedTimeMillis() ) );
+        summary.setText( TimesheetApp.toString( data.getTotalTimeMillis() ) );
     }
 }

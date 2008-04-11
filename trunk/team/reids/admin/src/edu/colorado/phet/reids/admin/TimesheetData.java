@@ -1,6 +1,10 @@
 package edu.colorado.phet.reids.admin;
 
 import java.util.*;
+import java.io.File;
+import java.io.IOException;
+
+import edu.colorado.phet.build.FileUtils;
 
 /**
  * Created by: Sam
@@ -13,10 +17,18 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
     public TimesheetData() {
     }
 
+    public TimesheetData(File file) throws IOException {
+        loadCSV( file );
+    }
+
     public TimesheetData( TimesheetDataEntry[] entries ) {
         for ( int i = 0; i < entries.length; i++ ) {
             addEntry( entries[i] );
         }
+    }
+
+    public TimesheetData( TimesheetData timesheetData ) {
+        addAll( timesheetData );
     }
 
     public void addEntry( TimesheetDataEntry entry ) {
@@ -52,14 +64,6 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         return entries.size();
     }
 
-    public long getTotalElapsedTimeMillis() {
-        long sum = 0;
-        for ( int i = 0; i < entries.size(); i++ ) {
-            TimesheetDataEntry entry = (TimesheetDataEntry) entries.get( i );
-            sum += entry.getElapsedTimeMillis();
-        }
-        return sum;
-    }
 
     public void timeChanged() {
         setChanged( true );
@@ -113,7 +117,9 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         addEntry( e );
         e.setRunning( true );
     }
-
+    public void loadCSV( File file) throws IOException {
+        loadCSV( FileUtils.loadFileAsString( file ) );
+    }
     public void loadCSV( String str ) {
         clear();
         StringTokenizer stringTokenizer = new StringTokenizer( str, "\n" );
@@ -169,8 +175,8 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
     public long getTotalTimeMillis() {
         long sum = 0;
         for ( int i = 0; i < entries.size(); i++ ) {
-            TimesheetDataEntry timesheetDataEntry = (TimesheetDataEntry) entries.get( i );
-            sum += timesheetDataEntry.getElapsedTimeMillis();
+            TimesheetDataEntry entry = (TimesheetDataEntry) entries.get( i );
+            sum += entry.getElapsedTimeMillis();
         }
         return sum;
     }

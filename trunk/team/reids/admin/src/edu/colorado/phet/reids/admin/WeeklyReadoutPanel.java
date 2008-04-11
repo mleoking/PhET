@@ -44,7 +44,7 @@ public class WeeklyReadoutPanel extends JPanel {
         return data;
     }
 
-    private Calendar getMostRecentMondayMorning() {
+    public static Calendar getMostRecentMondayMorning() {
         Calendar now = new GregorianCalendar();
         int dayOfWeek = now.get( Calendar.DAY_OF_WEEK );
         //monday=2
