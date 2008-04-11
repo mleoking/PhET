@@ -6,7 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
@@ -19,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationCanvas;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -69,7 +67,9 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     // dynamically calculated as a property of the nucleus.
     private static final double TOTAL_ENERGY = 10.0;
     private static final double ALPHA_PARTICLE_PRE_DECAY_ENERGY = TOTAL_ENERGY;
-    private static final double ALPHA_PARTICLE_POST_DECAY_ENERGY = -10;
+    private static final double ALPHA_PARTICLE_POST_DECAY_ENERGY = -10.0;
+    private static final double PRE_DECAY_WELL_ENERGY = -40.0;
+    private static final double POST_DECAY_WELL_ENERGY = -55.0;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -143,6 +143,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
                 else{
                     // Must have been a reset of the nucleus.
                     _decayOccurred = false;
+                    update();
                 }
             }
             public void positionChanged(){
@@ -324,7 +325,13 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _canvas.getPhetRootNode().worldToScreen( nucleusDiameterDim );
         _energyWellWidth = nucleusDiameterDim.getWidth();
         
-
+        update();
+    }
+    
+    /**
+     * Redraw the graph.
+     */
+    private void update(){
         
         // Set up the border for the graph.
         
@@ -373,12 +380,13 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         Point2D leftPeakOfEnergyWell = 
             new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) - (_energyWellWidth/2), 
                     _graphOriginY - (0.20 * _usableHeight));
+        double bottomOfEnergyWell = _decayOccurred ? POST_DECAY_WELL_ENERGY : PRE_DECAY_WELL_ENERGY;
         Point2D leftBottomOfEnergyWell = 
             new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) - (_energyWellWidth/2),
-                _graphOriginY + (0.50 * _usableHeight));
+                _graphOriginY - convertEnergyToScreenUnits( bottomOfEnergyWell ));
         Point2D rightBottomOfEnergyWell = 
             new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) + (_energyWellWidth/2),
-                _graphOriginY + (0.50 * _usableHeight));
+                _graphOriginY - convertEnergyToScreenUnits( bottomOfEnergyWell ));
         Point2D rightPeakOfEnergyWell = 
             new Point2D.Double((_usableAreaOriginX + (_usableWidth/2)) + (_energyWellWidth/2),
                 _graphOriginY - (0.20 * _usableHeight));
@@ -422,6 +430,9 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _potentialEnergyLegendLine.addPoint( 1, legendOriginX + 40, legendOriginY + legendUsableHeight * 0.8 );
         
         _potentialEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + legendUsableHeight * 0.7);
+        
+        // Refresh the positions of the alpha particles.
+        refreshAlphaImages();
     }
     
     /**
@@ -445,12 +456,14 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
                 _tunneledAlphaParticleImage.setVisible(true);
                 setAlphaImageOffset(_tunneledAlphaParticleImage, _tunneledAlpha);
                 _decayOccurred = true;
+                
+                // Redraw the graph to handle any changes.
+                update();
             }
             else{
                 System.err.println("Error: Unexpected decay event received.");
                 assert false;
             }
-            
         }
     }
 
@@ -488,7 +501,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
                 setAlphaImageOffset( _tunneledAlphaParticleImage, _tunneledAlpha );
             }
         }
-        else if ((alpha.getPosition().distance( 0, 0 ) > _model.getAtomNucleus().getDiameter()) &&
+        else if ((alpha.getPosition().distance( 0, 0 ) > _model.getAtomNucleus().getDiameter()/2) &&
                  (alpha.getPosition().distance( 0, 0 ) < _model.getAtomNucleus().getTunnelingRegionRadius())){
             // This particle is in the region outside of the nucleus but not
             // fully tunneled away from it.  We want to display this, so we
@@ -505,12 +518,27 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
                     }
                 }
             }
+            else{
+                int index = _currentlyTrackedAlphas.indexOf( alpha );
+                setAlphaImageOffset(_alphaParticleImages[index], alpha);
+            }
         }
         else if (_currentlyTrackedAlphas.contains( alpha )){
             // This is a particle that we're tracking, so we should update its
             // position.
             int index = _currentlyTrackedAlphas.indexOf( alpha );
             setAlphaImageOffset(_alphaParticleImages[index], alpha);
+        }
+    }
+    
+    /**
+     * Force the images representing alpha particles to be redrawn.  This is
+     * generally done when something changes, such as when the screen has been
+     * resized.
+     */
+    private void refreshAlphaImages(){
+        for (int i = 0; i < _currentlyTrackedAlphas.size(); i++){
+            positionChanged( (AlphaParticle)_currentlyTrackedAlphas.get( i ) );
         }
     }
     
@@ -562,10 +590,10 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
      */
     private double convertEnergyToScreenUnits( double energy ){
         // TODO: jblanco 4/8/2008 - This function just does a simple scaling
-        // function based on the size of the chart and not really on the MeV
+        // operation based on the size of the chart and not really on the MeV
         // units.  This may be cleaned up when the Y axis values are more
         // clearly understood.  For now, we assume that the visible area of
         // the chart represents 100 units.
-        return energy * (_usableHeight / 100);
+        return energy * (_usableHeight / 100.0);
     }
 }
