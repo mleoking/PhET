@@ -65,7 +65,7 @@ public class AlphaRadiationTimeChart extends PNode {
     private static final Color TIME_LINE_COLOR_POST_DECAY = Color.BLUE;
     private static final float HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
-    private static final Color HALF_LIFE_LINE_COLOR = new Color( 0xee0044 ); //new Color (0xff9900);
+    private static final Color HALF_LIFE_LINE_COLOR = new Color( 0xff5544 );
     private static final Font DECAY_TIME_FONT = new PhetDefaultFont( Font.PLAIN, 16 );
     private static final Color DECAY_TIME_COLOR = Color.RED;
 

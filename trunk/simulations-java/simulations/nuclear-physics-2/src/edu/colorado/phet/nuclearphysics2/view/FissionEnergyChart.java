@@ -15,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModel;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -53,6 +54,12 @@ public class FissionEnergyChart extends PComposite {
     private static final Color   LEGEND_BACKGROUND_COLOR = new Color(0xffffe0);
     private static final double  LEGEND_SIZE_X = 190.0;
     private static final double  LEGEND_SIZE_Y = 65.0;
+    private static final double  NUCLEI_SCALING_FACTOR = 0.15;
+    
+    // Possible state values for tracking the relevant state of the model.
+    private static final int STATE_IDLE = 0;
+    private static final int STATE_FISSIONING = 1;
+    private static final int STATE_FISSIONED = 2;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -72,6 +79,9 @@ public class FissionEnergyChart extends PComposite {
     private PText _totalEnergyLabel;
     private PLine _potentialEnergyLegendLine;
     private PLine _totalEnergyLegendLine;
+    private PNode _unfissionedNucleusImage;
+    private PNode _largerDaughterNucleusImage;
+    private PNode _smallerDaughterNucleusImage;
     
     // Variable used for positioning nodes within the chart.
     double _usableAreaOriginX;
@@ -83,8 +93,11 @@ public class FissionEnergyChart extends PComposite {
     double _energyWellWidth;
     
     // References to the model and the canvas.
-    FissionOneNucleusModel _model;
-    PhetPCanvas _canvas;
+    private FissionOneNucleusModel _model;
+    private PhetPCanvas _canvas;
+    
+    // State variable for compact tracking of model state.
+    private int _fissionState = STATE_IDLE;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -174,6 +187,22 @@ public class FissionEnergyChart extends PComposite {
         _totalEnergyLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.TotalEnergy") );
         _totalEnergyLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
         _legend.addChild( _totalEnergyLabel );
+        
+        // Add the images for the nuclei.  Not all are initially visible.
+        
+        _unfissionedNucleusImage = NuclearPhysics2Resources.getImageNode("Uranium Nucleus Small.png");
+        _unfissionedNucleusImage.setScale( NUCLEI_SCALING_FACTOR );
+        addChild(_unfissionedNucleusImage);
+        
+        _largerDaughterNucleusImage = NuclearPhysics2Resources.getImageNode("Larger Daughter Nucleus.png");
+        _largerDaughterNucleusImage.setScale(  NUCLEI_SCALING_FACTOR );
+        _largerDaughterNucleusImage.setVisible( false );
+        addChild(_largerDaughterNucleusImage);
+        
+        _smallerDaughterNucleusImage = NuclearPhysics2Resources.getImageNode("Smaller Daughter Nucleus.png");
+        _smallerDaughterNucleusImage.setScale(  NUCLEI_SCALING_FACTOR );
+        _smallerDaughterNucleusImage.setVisible( false );
+        addChild(_smallerDaughterNucleusImage);
     }
 
     //------------------------------------------------------------------------
@@ -268,6 +297,9 @@ public class FissionEnergyChart extends PComposite {
         _totalEnergyLegendLine.addPoint( 0, legendOriginX + 15, legendOriginY + 45 );
         _totalEnergyLegendLine.addPoint( 1, legendOriginX + 40, legendOriginY + 45 );
         _totalEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + 35);
+        
+        // Update the positions of the nuclei.
+        updateNucleiPositions();
         
     }
 
@@ -375,5 +407,29 @@ public class FissionEnergyChart extends PComposite {
         
         _potentialEnergyWell.append( rightmostCurve, true );
         
+    }
+    
+    /**
+     * Move the nuclei to the appropriate position(s) on the chart.
+     */
+    private void updateNucleiPositions(){
+        
+        switch (_fissionState){
+        case STATE_IDLE:
+            // Position the unfissioned nucleus image at the bottom of the
+            // energy well.
+            _unfissionedNucleusImage.setVisible( true );
+            double xPos = _usableAreaOriginX/2 + _usableWidth/2 - _unfissionedNucleusImage.getFullBounds().width / 2;
+            double yPos = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight) - 
+                _unfissionedNucleusImage.getFullBounds().height / 2;
+            _unfissionedNucleusImage.setOffset( xPos, yPos );
+            break;
+        
+        case STATE_FISSIONING:
+            break;
+        
+        case STATE_FISSIONED:
+            break;
+        }
     }
 }

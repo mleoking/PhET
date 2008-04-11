@@ -170,7 +170,7 @@ public class FissionOneNucleusModel {
      */
     private void handleClockTicked(ClockEvent ce){
         
-        // Update the behavior of the daughter nuclei (if they exist).
+        // Update the velocity and acceleration of the daughter nuclei (if they exist).
         updateNucleiBehavior();
         
         // Move any free particles that exist.
