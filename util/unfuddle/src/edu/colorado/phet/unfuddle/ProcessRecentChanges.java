@@ -198,7 +198,7 @@ public class ProcessRecentChanges {
 
 
     // args example:
-    // @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:\phet\svn C:\phet\unfuddled.xml true
+    // @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:/phet/svn C:/phet/unfuddled.xml true
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         if ( args.length == 1 && new File( args[0] ).exists() ) {
             String text = FileUtils.loadFileAsString( new File( args[0] ) );

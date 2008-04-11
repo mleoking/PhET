@@ -50,6 +50,9 @@ public class EmailHandler implements MessageHandler {
         if ( sendMail ) {
             if ( to.length == 0 ) {
                 System.out.println( "Had a message for delivery, but nobody signed up for notification of " + m.getComponent() );
+                if (m.getComponent()==null){
+                    System.out.println( "Perhaps this indicates that phet.unfuddled.xml needs to be updated." );
+                }
             }
             else {
                 EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject(),username,password );
