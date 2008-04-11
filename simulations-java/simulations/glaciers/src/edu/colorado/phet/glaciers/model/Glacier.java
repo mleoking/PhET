@@ -48,16 +48,14 @@ public class Glacier extends ClockAdapter {
     private final ArrayList _listeners; // list of GlacierListener
     
     private double _climateChangedTime; // the time when the climate was last changed
-    private double _previousELA; // the ELA the last time the climate was changed
-    private double _currentELA; // current ELA at t=now
-    private double[] _iceThicknessSamples; // ice thickness at t=now
+    private double _previousELA; // the ELA the last time the climate was changed (meters)
+    private double _currentELA; // current ELA at t=now (meters)
+    private double[] _iceThicknessSamples; // ice thickness at t=now (meters)
     private double _averageIceThicknessSquares; // average of the squares of the ice thickness samples
     private boolean _steadyState; // is the glacier in the steady state?
     
-    private final double _yMax; // max_F in documentation
-    private final double _lengthAlterX; // x_term_alter_x in documentation
-    private final double _lengthDiff; // x_term_diff in documentation
-
+    private final double _maxElevation; // the highest elevation on the glacier, at MIN_X (meters)
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -86,11 +84,9 @@ public class Glacier extends ClockAdapter {
         
         _clock = clock;
         
-        _yMax = valley.getElevation( MIN_X );
-        _lengthAlterX = _yMax - ( 0.15 * Valley.getHeadwallLength() );
-        _lengthDiff = -computeLengthBulk( _yMax ) / Math.pow( _yMax - _lengthAlterX, 2 );
-        
         _listeners = new ArrayList();
+        
+        _maxElevation = _valley.getElevation( MIN_X );
 
         _climateChangedTime = _clock.getSimulationTime();
         _previousELA = _currentELA = _climate.getEquilibriumLineAltitude();
@@ -262,22 +258,7 @@ public class Glacier extends ClockAdapter {
     private double[] computeIceThicknessSamples( final double ela ) {
         
         double glacierLength = computeLength( ela ); // x_terminus in documentation, but this is really length
-        if ( glacierLength < 0 ) {
-            System.out.println( "ERROR - Glacier.computeIceThicknessSamples: glacierLength=" + glacierLength + " ela=" + ela + 
-                    " yMax=" + _yMax + " lengthAlterX=" + _lengthAlterX + " lengthDiff=" + _lengthDiff );//XXX
-            glacierLength = 0; //XXX workaround, algorithm is busted, should not be zero!
-        }
-        assert( glacierLength >= 0 );
-        
-        double maxThickness = 0; // H_max in documentation
-        if ( glacierLength != 0 ) {
-            maxThickness = 400. - Math.pow( ( 1.04E-2 * ela ) - 23, 2 );
-            if ( maxThickness < 0 ) {
-                System.out.println( "ERROR - Glacier.computeIceThicknessSamples: maxThickness=" + maxThickness + " ela=" + ela );//XXX
-                maxThickness = 0; //XXX workaround, algorithm is busted, should not be zero!
-            }
-        }
-        assert( maxThickness >= 0 );
+        double maxThickness = computeMaxThickness( ela ); // H_max in documentation
         
         final double xPeak = MIN_X + ( 0.5 * glacierLength );
         final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
@@ -302,27 +283,62 @@ public class Glacier extends ClockAdapter {
     }
     
     /*
-     * Mysterious method used in computation of ice thickness samples.
-     * x_terminous_bulk(x) in documentation.
-     */
-    private static double computeLengthBulk( double ela ) {
-        return 170.5E3 - ( 41.8 *  ela );
-    }
-    
-    /*
-     * Mysterious method used in computation of ice thickness samples.
-     * In documentation, this is an unnamed method that computes x_terminus.
-     * But what we're really computing is glacier length (the same as x_terminus only if MIN_X=0).
+     * Computes the length of the glacier.
+     * 
+     * The length is used in the computation of ice thickness samples.
+     * This is a "Hollywood" model, where were our algorithm was tweaked to fit a curve
+     * that corresponded to published data.  This algorithm work only with one specific
+     * Valley profile, so if you make any changes to the Valley model, this is sure 
+     * to break.
      */
     private double computeLength( double ela ) {
+        
+        final double elaThreshold = 4000; // meters
+        assert( elaThreshold < _maxElevation );
+        
         double length = 0;
-        if ( ela <= _yMax ) {
-            length = computeLengthBulk( ela );
-            if ( ela > _lengthAlterX ) {
-                length += _lengthDiff * Math.pow( ela - _lengthAlterX, 2 );
-            }
+        if ( ela > _maxElevation ) {
+            // above the top of the headwall, length is zero
+            length = 0;
         }
+        else if ( ela > elaThreshold ) {
+            // above this threshold, use a different curve
+            final double term0 = computeLength( elaThreshold );
+            final double term1 = term0 / ( _maxElevation - elaThreshold );
+            length = term0 - ( ( ela - elaThreshold ) * term1 );
+        }
+        else {
+            // at all other elevations, the data fits this curve
+            length = 170.5E3 - ( 41.8 *  ela );
+        }
+        
+        assert( length >= 0 );
         return length;
+    }
+    
+    /* 
+     * Computes the maximum thickness of the glacier.
+     * 
+     * The maximum thickness is used in the computation of ice thickness samples.
+     * This is a "Hollywood" model, where were our algorithm was tweaked to fit a curve
+     * that corresponded to published data.  This algorithm work only with one specific
+     * Valley profile, so if you make any changes to the Valley model, this is sure 
+     * to break.
+     */
+    private double computeMaxThickness( double ela ) {
+        double maxThickness = 0;
+        if ( ela > _maxElevation ) {
+            maxThickness = 0;
+        }
+        else {
+            maxThickness = 400. - Math.pow( ( 1.04E-2 * ela ) - 23, 2 );
+        }
+        //XXX workaround, this must be fixed! get new model from Archie
+        if ( maxThickness < 0 ) {
+            maxThickness = 0;
+        }
+        assert( maxThickness >= 0 );
+        return maxThickness;
     }
     
     //----------------------------------------------------------------------------
