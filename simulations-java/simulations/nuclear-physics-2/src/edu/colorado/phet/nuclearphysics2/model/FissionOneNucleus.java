@@ -55,6 +55,10 @@ public class FissionOneNucleus extends AtomicNucleus{
     // Public Methods
     //------------------------------------------------------------------------
     
+    public double getFissionTime(){
+        return _fissionTime;
+    }
+    
     /**
      * Capture a free particle if the nucleus is able to.
      * 
