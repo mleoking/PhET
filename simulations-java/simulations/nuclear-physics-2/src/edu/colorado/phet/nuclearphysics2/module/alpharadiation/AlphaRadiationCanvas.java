@@ -23,7 +23,7 @@ import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
-import edu.colorado.phet.nuclearphysics2.util.GradientButton;
+import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaRadiationEnergyChart;
@@ -67,7 +67,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     private AlphaRadiationEnergyChart _alphaRadiationEnergyChart;
     private AlphaRadiationTimeChart _alphaRadiationTimeChart;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
-    private GradientButton _resetButtonNode;
+    private GraphicButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -205,7 +205,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         addWorldChild(rightBreakoutLine);
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GradientButton("Mesh Gradient Button Unpushed.png", "Mesh Gradient Button Pushed.png",
+        _resetButtonNode = new GraphicButtonNode("Mesh Gradient Button Unpushed.png", "Mesh Gradient Button Pushed.png",
                 NuclearPhysics2Strings.RESET_NUCLEUS, 0.8, 0.6);
         addScreenChild(_resetButtonNode);
         

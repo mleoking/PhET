@@ -19,6 +19,7 @@ import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
+import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
@@ -55,7 +56,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private NeutronSourceNode _neutronSourceNode;
     private FissionEnergyChart _fissionEnergyChart;
     private Hashtable _particleToNodeMap;
-    private PhetButtonNode _resetButtonNode;
+    private GraphicButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -181,7 +182,8 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         });
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new PhetButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS);
+        _resetButtonNode = new GraphicButtonNode("Mesh Gradient Button Unpushed.png", "Mesh Gradient Button Pushed.png",
+                NuclearPhysics2Strings.RESET_NUCLEUS, 0.8, 0.6);
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.
