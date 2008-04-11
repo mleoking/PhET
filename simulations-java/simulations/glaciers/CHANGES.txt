@@ -11,6 +11,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- fix kink in ablation curve when temp=19, snowfall=0, snowfall ref elevation=4000
 - fix for negative values in Glaciers.getMaxThickness (see comment)
 - add scaling of mountains image to match scaling of other stuff in the view
 - implement fix for negative glacier length in ice thickness model in Glaciers.computeIceThicknessSamples (see Archie's 3/7 email)
@@ -72,6 +73,7 @@ CLEANUP:
 
 
 DONE:
+4/11/08 - increase precision of snowfall textfield
 4/11/08 - implement fix for negative glacier length in ice thickness model
 4/9/08 - rename Glaciers.getX0 to Glaciers.getMinX, add Glaciers.getMaxX
 4/9/08 - move 0-80km range details into Glacier class

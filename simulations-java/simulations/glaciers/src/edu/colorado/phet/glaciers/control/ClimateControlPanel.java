@@ -102,11 +102,11 @@ public class ClimateControlPanel extends AbstractSubPanel {
             double min = snowfallRange.getMin();
             double max = snowfallRange.getMax();
             String label = "";
-            String textfieldPattern = "#0.0";
+            String textfieldPattern = "#0.00";
             String units = GlaciersStrings.UNITS_ACCUMULATION;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
-            _snowfallControl.setUpDownArrowDelta( 0.1 );
+            _snowfallControl.setUpDownArrowDelta( 0.01 );
             _snowfallControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallControl.isAdjusting() ) {
