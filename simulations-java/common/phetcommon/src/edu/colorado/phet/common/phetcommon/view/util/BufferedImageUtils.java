@@ -255,7 +255,7 @@ public class BufferedImageUtils {
     }
 
     /**
-     * Convenience method for getScaledInstance with typical default see below
+     * Convenience method for getScaledInstance with typical default; see below
      */
     public static BufferedImage multiScale( BufferedImage img, double scale ) {
         int w = (int) ( img.getWidth() * scale );
