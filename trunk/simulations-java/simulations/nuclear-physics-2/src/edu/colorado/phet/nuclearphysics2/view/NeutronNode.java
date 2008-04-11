@@ -2,24 +2,37 @@
 
 package edu.colorado.phet.nuclearphysics2.view;
 
-import java.util.Random;
-
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * This class displays a visual representation of the nucleus on the canvas.
+ *
+ * @author John Blanco
+ */
 public class NeutronNode extends PNode implements NucleonNode {
     
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+    
     private final static double PARTICLE_DIAMETER = 1.6;  // Femto meters.
+    
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
     
     private PNode _displayImage;
     private Nucleon _nucleon;
     
+    //------------------------------------------------------------------------
+    // Constructor
+    //------------------------------------------------------------------------
+
     public NeutronNode(Nucleon nucleon)
     {
         _nucleon = nucleon;
-        Random rand = new Random();
         
         // Set up the image for this particle.
         _displayImage = NuclearPhysics2Resources.getImageNode("Neutron.png");
@@ -39,13 +52,20 @@ public class NeutronNode extends PNode implements NucleonNode {
         update();
     }
     
+    //------------------------------------------------------------------------
+    // Accessor Methods
+    //------------------------------------------------------------------------
+    
     public Nucleon getNucleon(){
         return _nucleon;
     }
     
+    //------------------------------------------------------------------------
+    // Private Methods
+    //------------------------------------------------------------------------
+
     private void update(){
         _displayImage.setOffset( _nucleon.getPosition().getX() - PARTICLE_DIAMETER/2,  
                 _nucleon.getPosition().getY() - PARTICLE_DIAMETER/2);
     }
-
 }

@@ -190,10 +190,7 @@ public class AtomicNucleusNode extends PNode {
             break;
             
         default:
-            // Issue a warning and set the label to nothing.
-
-            System.err.println( "Unable to set label for nucleus with proton number " + numProtons );
-
+            // Add no label.
             label = "";
             
             break;
