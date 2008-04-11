@@ -11,10 +11,13 @@ import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
+import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModel;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.nodes.PLine;
 
@@ -51,6 +54,10 @@ public class FissionEnergyChart extends PComposite {
     private static final double  LEGEND_SIZE_X = 190.0;
     private static final double  LEGEND_SIZE_Y = 65.0;
 
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+
     // References to the various components of the chart.
     private PPath _borderNode;
     private PLine _totalEnergyLine;
@@ -66,20 +73,27 @@ public class FissionEnergyChart extends PComposite {
     private PLine _potentialEnergyLegendLine;
     private PLine _totalEnergyLegendLine;
     
-    // Variable used for positioning nodes within the graph.
+    // Variable used for positioning nodes within the chart.
     double _usableAreaOriginX;
     double _usableAreaOriginY;
     double _usableWidth;
     double _usableHeight;
     double _graphOriginX;
     double _graphOriginY;
+    double _energyWellWidth;
+    
+    // References to the model and the canvas.
+    FissionOneNucleusModel _model;
+    PhetPCanvas _canvas;
 
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
-    public FissionEnergyChart() {
+    public FissionEnergyChart(FissionOneNucleusModel model, PhetPCanvas canvas) {
         
+        _model = model;
+        _canvas = canvas;
         setPickable( false );
 
         // Create the border for this chart.
@@ -187,6 +201,13 @@ public class FissionEnergyChart extends PComposite {
         _graphOriginX      = _usableWidth * ORIGIN_PROPORTION_X + _usableAreaOriginX;
         _graphOriginY      = _usableHeight * ORIGIN_PROPORTION_Y + _usableAreaOriginY;
         
+        // Recalculate the width of the energy well.
+        
+        double nucleusDiameter = _model.getAtomicNucleus().getDiameter();
+        PDimension nucleusDiameterDim = new PDimension(nucleusDiameter, nucleusDiameter);
+        _canvas.getPhetRootNode().worldToScreen( nucleusDiameterDim );
+        _energyWellWidth = nucleusDiameterDim.getWidth();
+        
         // Set up the border for the graph.
         
         _borderNode.setPathTo( new RoundRectangle2D.Double( 
@@ -238,7 +259,7 @@ public class FissionEnergyChart extends PComposite {
                 10,
                 10 ) );
         
-        _potentialEnergyLegendLine.removeAllPoints();        
+        _potentialEnergyLegendLine.removeAllPoints();
         _potentialEnergyLegendLine.addPoint( 0, legendOriginX + 15, legendOriginY + 25 );
         _potentialEnergyLegendLine.addPoint( 1, legendOriginX + 40, legendOriginY + 25 );
         _potentialEnergyLabel.setOffset(legendOriginX + 50, legendOriginY + 15);
@@ -273,11 +294,6 @@ public class FissionEnergyChart extends PComposite {
     // Overall height of the curve.
     public static final double CURVE_HEIGHT_FACTOR = 0.9;
     
-    // Width of the energy well as a proportion of the usable width of the
-    // chart.  Note that, at least for now, this must be manually coordinated
-    // with the width of the nucleus on the canvas.
-    public static final double ENERGY_WELL_WIDTH_FACTOR = 0.08;
-    
     // Depth of the energy well as a function of usable height of the chart.
     public static final double ENERGY_WELL_DEPTH_FACTOR = 0.45;
     
@@ -295,15 +311,16 @@ public class FissionEnergyChart extends PComposite {
                 
         double x1, y1, ctrlx1, ctrly1, x2, y2, ctrlx2, ctrly2;
         
-        // Figure out the positioning of the first curve.
+        // Calculate the positioning of the first curve, which is the one that
+        // goes from the leftmost point up to the left peak of the energy well.
         
         x1 = _usableAreaOriginX + ((1.0 - CURVE_WIDTH_FACTOR) * _usableWidth);
         y1 = _graphOriginY;
-        ctrlx1 = x1 + (0.2 * _usableWidth);
+        ctrlx1 = x1 + (0.3 * _usableWidth);
         ctrly1 = y1;
-        x2 = _usableWidth/2 - (ENERGY_WELL_WIDTH_FACTOR * _usableWidth);
+        x2 = _usableAreaOriginX/2 + _usableWidth/2 - _energyWellWidth/2;
         y2 = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
-        ctrlx2 = x2 - (0.05 * _usableWidth);
+        ctrlx2 = x2 - (0.035 * _usableWidth);
         ctrly2 = y2;
         
         CubicCurve2D leftmostCurve = new CubicCurve2D.Double(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);
@@ -315,9 +332,9 @@ public class FissionEnergyChart extends PComposite {
         
         x1 = x2;
         y1 = y2;
-        ctrlx1 = x1 + (0.03 * _usableWidth);
+        ctrlx1 = x1 + (0.02 * _usableWidth);
         ctrly1 = y1;
-        x2 = _usableWidth/2;
+        x2 = _usableAreaOriginX/2 + _usableWidth/2;
         y2 = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight);
         ctrlx2 = x2 - (0.03 * _usableWidth);
         ctrly2 = y2;
@@ -333,9 +350,9 @@ public class FissionEnergyChart extends PComposite {
         y1 = y2;
         ctrlx1 = x1 + (0.03 * _usableWidth);
         ctrly1 = y1;
-        x2 = _usableWidth/2 + (ENERGY_WELL_WIDTH_FACTOR * _usableWidth);
+        x2 = _usableAreaOriginX/2 + _usableWidth/2 + _energyWellWidth/2;
         y2 = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
-        ctrlx2 = x2 - (0.03 * _usableWidth);
+        ctrlx2 = x2 - (0.02 * _usableWidth);
         ctrly2 = y2;
 
         CubicCurve2D rightCenterCurve = new CubicCurve2D.Double(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);
@@ -347,11 +364,11 @@ public class FissionEnergyChart extends PComposite {
 
         x1 = x2;
         y1 = y2;
-        ctrlx1 = x1 + (0.05 * _usableWidth);
+        ctrlx1 = x1 + (0.035 * _usableWidth);
         ctrly1 = y1;
-        x2 = _usableAreaOriginX + (CURVE_WIDTH_FACTOR * _usableWidth);
+        x2 = _usableAreaOriginX/2 + (CURVE_WIDTH_FACTOR * _usableWidth);
         y2 = _graphOriginY;
-        ctrlx2 = x2 - (0.20 * _usableWidth);
+        ctrlx2 = x2 - (0.30 * _usableWidth);
         ctrly2 = y2;
 
         CubicCurve2D rightmostCurve = new CubicCurve2D.Double(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);

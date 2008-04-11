@@ -192,7 +192,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         });
 
         // Add to the canvas the chart that will depict the energy of the nucleus.
-        _fissionEnergyChart = new FissionEnergyChart();
+        _fissionEnergyChart = new FissionEnergyChart(_fissionOneNucleusModel, this);
         addScreenChild( _fissionEnergyChart );
         
         // Add a listener for when the canvas is resized.
