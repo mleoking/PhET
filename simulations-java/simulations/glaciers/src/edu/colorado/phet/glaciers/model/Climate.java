@@ -193,16 +193,22 @@ public class Climate {
      */
     public double getAblation( double elevation ) {
         assert( elevation >= 0 );
-        double temperatureOffset = _temperature - MODERN_TEMPERATURE;
-        double ablationThresholdElevation = ( temperatureOffset * ABLATION_TEMPERATURE_SCALE_FACTOR ) + ABLATION_Z1;
+        
         double ablation = 0;
+        double temperatureOffset = _temperature - MODERN_TEMPERATURE;
+        
+        // ablation remains zero above a threshold
+        double ablationThresholdElevation = ( temperatureOffset * ABLATION_TEMPERATURE_SCALE_FACTOR ) + ABLATION_Z1;
         if ( elevation <= ablationThresholdElevation ) {
             double term1 = ( elevation - ABLATION_Z0 - ( temperatureOffset * ABLATION_TEMPERATURE_SCALE_FACTOR ) );
             double term2 = ( ABLATION_Z1 - ABLATION_Z0 ) * 2 / Math.PI;
-            double tmp = ABLATION_SCALE_FACTOR * ( 1. - Math.sin( term1 / term2 ) );  
-            double offset = ( Math.atan( temperatureOffset / 2.5 ) / 3 ) + 0.5;
-            ablation = tmp + offset;
+            ablation = ABLATION_SCALE_FACTOR * ( 1. - Math.sin( term1 / term2 ) );  
         }
+        
+        // add an offset so that ablation is never zero
+        double offset = ( Math.atan( temperatureOffset / 2.5 ) / 3 ) + 0.5;
+        ablation += offset;
+        
         assert( ablation >= 0 );
         return ablation;
     }
