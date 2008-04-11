@@ -114,9 +114,10 @@ public class FissionOneNucleus extends AtomicNucleus{
         if (freeNeutrons != null){
             for (int i = 0; i < 2; i++){
                 if ( freeNeutrons.size() >= 2 ){
-                    Neutron neutron = (Neutron)freeNeutrons.get( freeNeutrons.size() - 1 );
+                    Neutron neutron = (Neutron)freeNeutrons.get( freeNeutrons.size() - 1 - i );
                     neutron.setVelocity( 0, 0 );
                     neutron.setPosition( _position );
+                    neutron.setTunnelingEnabled( true );
                     _constituents.add(neutron);
                     _numNeutrons++;
                     freeNeutrons.remove( neutron );
