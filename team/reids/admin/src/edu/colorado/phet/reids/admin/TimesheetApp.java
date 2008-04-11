@@ -2,7 +2,10 @@ package edu.colorado.phet.reids.admin;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,6 +37,7 @@ public class TimesheetApp extends JFrame {
 
     public TimesheetApp() throws IOException {
         super( "Timesheet" );
+        System.out.println( "TimesheetApp started, pref file=" + PREFERENCES_FILE.getAbsolutePath() );
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor( new KeyEventPostProcessor() {
             public boolean postProcessKeyEvent( KeyEvent e ) {
                 if ( e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S ) {
@@ -62,17 +66,6 @@ public class TimesheetApp extends JFrame {
                 }
             }
         } );
-//        timesheetData.addEntry( new TimesheetDataEntry( new Date(), new Date(), "cck", "hello" ) );
-////        for ( int i = 0; i < 10 * 7 * 4 * 12; i++ ) {
-//        for ( int i = 0; i < 20; i++ ) {
-//            timesheetData.addEntry( new TimesheetDataEntry( new Date( System.currentTimeMillis() - 1000 ), new Date(), "cck", "hello2" ) );
-//        }
-//        for ( int i = 0; i < 20; i++ ) {
-//            timesheetData.addEntry( new TimesheetDataEntry( new Date( System.currentTimeMillis() - 1000 ), new Date(), "moving man", "hello2" ) );
-//        }
-//        final TimesheetDataEntry dataEntry = new TimesheetDataEntry( new Date(), new Date(), "cck", "hello 3" );
-//        dataEntry.setRunning( true );
-//        timesheetData.addEntry( dataEntry );
 
         final JMenuItem newItem = new JMenuItem( "Clear" );
         newItem.addActionListener( new ActionListener() {
@@ -177,6 +170,10 @@ public class TimesheetApp extends JFrame {
         setIconImage( ImageIO.read( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\admin\\contrib\\tango\\" + ( timesheetData.isRunning() ? "x-office-running.png" : "x-office-calendar.png" ) ) ) );
     }
 
+    public File[] getRecentFiles() {
+        return (File[]) recentFiles.toArray( new File[0] );
+    }
+
     private void loadPreferences() throws IOException {
         Properties p = new Properties();
         p.load( new FileInputStream( PREFERENCES_FILE ) );
@@ -206,25 +203,34 @@ public class TimesheetApp extends JFrame {
         }
     }
 
+    public File getFile() {
+        return currentFile;
+    }
+
     public class RecentFileMenuItem extends JMenuItem {
         public RecentFileMenuItem( final String text ) {
             super( text );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( new File( text ).exists() ) {
-                        try {
-                            if ( ifChangedAskToSaveOrCancel() ) {
-                            }
-                            else {
-                                load( new File( text ) );
-                            }
-                        }
-                        catch( IOException e1 ) {
-                            e1.printStackTrace();
-                        }
+                        loadFileWithModifiedCheckBeforeClose( new File( text ) );
                     }
                 }
             } );
+        }
+
+    }
+
+    public void loadFileWithModifiedCheckBeforeClose( File file ) {
+        try {
+            if ( ifChangedAskToSaveOrCancel() ) {
+            }
+            else {
+                load( file );
+            }
+        }
+        catch( IOException e1 ) {
+            e1.printStackTrace();
         }
     }
 
@@ -351,8 +357,7 @@ public class TimesheetApp extends JFrame {
 
     private void load( File selectedFile ) throws IOException {
         currentFile = selectedFile;
-        String str = FileUtils.loadFileAsString( currentFile );
-        timesheetData.loadCSV( str );
+        timesheetData.loadCSV( currentFile );
         addCurrentToRecent();
         setTitle( "Timesheet: " + selectedFile.getName() + " [" + selectedFile.getAbsolutePath() + "]" );
         timesheetData.clearChanges();

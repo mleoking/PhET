@@ -26,6 +26,7 @@ public class ContentPane extends JPanel {
         } );
         add( scrollPane, BorderLayout.CENTER );
         add( new SummaryPanel( data, app ), BorderLayout.SOUTH );
+        add( new ControlPanel( data, app ), BorderLayout.WEST );
         scrollToBottom();
     }
 
