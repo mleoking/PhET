@@ -15,15 +15,20 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
-
-public class GradientButton extends PhetPNode {
+/**
+ * This class represents a button that is a PNode and that is composed of the
+ * supplied graphics images and text string.
+ *
+ * @author John Blanco
+ */
+public class GraphicButtonNode extends PhetPNode {
 
     private PNode _unpushedButtonImage;
     private PNode _pushedButtonImage;
     private PText _buttonLabel;
     private ArrayList _listeners = new ArrayList();
 
-    public GradientButton(String upImageFileName, String downImageFileName, String labelText, 
+    public GraphicButtonNode(String upImageFileName, String downImageFileName, String labelText, 
             double labelOffsetFactorX, double labelOffsetFactorY) {
 
         // Add image for pushed button.
