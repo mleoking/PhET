@@ -46,6 +46,7 @@ MEDIUM PRIORITY:
 - add left and right arrows to zoom view, secondary viewport control
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
+- should Glacial Budget vs Elevation chart show negative ablation?
 
 LOW PRIORITY:
 - offset the temperature range and default, then add the offset back in the model
