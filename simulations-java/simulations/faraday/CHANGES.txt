@@ -4,7 +4,8 @@ Changes for faraday
 
 
 DONE:
-********* version 2.00.03 (?)
+4/14/08 - restore "Show Field" and "Show Electrons" features that were hidden for 2.00.01, 2.00.02 and 2.00.03
+********* version 2.00.03 (20727)
 4/14/08 - hide "Show Field" and "Show Electrons" features (for Archie's studies)
 ********* version 2.00.02 (20725)
 4/14/08 - show "Show Field" feature, hide "Show Electrons" feature (for Archie's studies)

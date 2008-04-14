@@ -168,11 +168,11 @@ public class FaradayConstants {
     public static final double CURRENT_AMPLITUDE_THRESHOLD = 0.001;
     
     //----------------------------------------------------------------------------
-    // Flags used to create special tests versions of this sim
+    // Flags used to create special "study" versions of this sim
     //----------------------------------------------------------------------------
     
-    public static final boolean HIDE_BFIELD_FEATURE = true;
-    public static final boolean HIDE_ELECTRONS_FEATURE = true;
+    public static final boolean HIDE_BFIELD_FEATURE = false; // hides the "Show Field" feature
+    public static final boolean HIDE_ELECTRONS_FEATURE = false; // hides the "Show Electrons" feature
     
     //----------------------------------------------------------------------------
     // Constructors
