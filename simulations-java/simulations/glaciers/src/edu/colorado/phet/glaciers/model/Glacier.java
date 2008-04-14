@@ -341,6 +341,27 @@ public class Glacier extends ClockAdapter {
         return maxThickness;
     }
     
+    /*
+     * Gets the average of the square of the ice thickness over the complete length of the glaciers.
+     * Only non-zero thickness value are included in the average.
+     * (symbol: u0ave)
+     * 
+     * @return meters^2
+     */
+    private static double computeAverageIceThicknessSquares( double[] iceThicknessSamples ) {
+        double sum = 0;
+        double samples = 0;
+        double h = 0;
+        for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
+            h = iceThicknessSamples[i];
+            if ( h > 0 ) {
+                sum += ( h * h );
+                samples++;
+            }
+        }
+        return ( sum / samples );
+    }
+    
     //----------------------------------------------------------------------------
     // Ice Velocity model
     //----------------------------------------------------------------------------
@@ -401,27 +422,6 @@ public class Glacier extends ClockAdapter {
      */
     private static double computeVerticallyAveragedDeformationIceSpeed( final double iceThickness, final double averageIceThicknessSquares ) {
         return ( ( iceThickness * iceThickness ) * U_DEFORM / averageIceThicknessSquares );
-    }
-    
-    /*
-     * Gets the average of the square of the ice thickness over the complete length of the glaciers.
-     * Only non-zero thickness value are included in the average.
-     * (symbol: u0ave)
-     * 
-     * @return meters^2
-     */
-    private static double computeAverageIceThicknessSquares( double[] iceThicknessSamples ) {
-        double sum = 0;
-        double samples = 0;
-        double h = 0;
-        for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
-            h = iceThicknessSamples[i];
-            if ( h > 0 ) {
-                sum += ( h * h );
-                samples++;
-            }
-        }
-        return ( sum / samples );
     }
     
     //----------------------------------------------------------------------------
