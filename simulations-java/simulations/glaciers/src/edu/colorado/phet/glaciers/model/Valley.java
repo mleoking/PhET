@@ -76,6 +76,7 @@ public class Valley {
     
     /**
      * Gets the direction (angle) between two points on the valley floor.
+     * Zero degrees point horizontally to the right.
      * 
      * @param x1 meters
      * @param x2 meters
