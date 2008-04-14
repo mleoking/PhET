@@ -11,10 +11,8 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- why don't my ELA values match those in Archie's 4/11 plots?
 - fix for negative values in Glaciers.getMaxThickness (see comment)
 - add scaling of mountains image to match scaling of other stuff in the view
-- implement fix for negative glacier length in ice thickness model in Glaciers.computeIceThicknessSamples (see Archie's 3/7 email)
 - optimize ice flow vectors, use same 1D grid as ice thickness
 - developer controls for ice velocity "look"?
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
@@ -394,6 +392,7 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+4/14/08 - my ELA values don't match those in Archie's python plots because he's using a grid, which is less accurate
 2/28/08 - what happens when we hit "ice sheet" condition? (we'll set ranges so this can't happen)
 2/27/08 - "Mass Balance" climate controls were dropped
 2/27/08 - "age of ice" feature was dropped
