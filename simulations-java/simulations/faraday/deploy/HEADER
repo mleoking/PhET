@@ -2,7 +2,7 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-faraday, version 2.00.00
+faraday, version 2.00.01
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -16,8 +16,7 @@ faraday, version 2.00.00
 <b>What's new:</b>
 <p>
 <ul>
-<li>this version was published to the PhET website
-<li>fix "see inside" feature to handle magnet rotation that occurs with "show Earth"
+<li>this is a special version that has the "Show Field" feature hidden (for Archie Paulson's studies)
 </ul>
 <p>
 <b>Known problems:</b>
