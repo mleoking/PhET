@@ -80,8 +80,8 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
             updateAgitationFactor();
             
             // Let the listeners know that the atomic weight has changed.
-            int totalNumProtons = _numProtons + _numAlphas * 2;
-            int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
+            int totalNumProtons = _numFreeProtons + _numAlphas * 2;
+            int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
             for (int i = 0; i < _listeners.size(); i++){
                 ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  null);
             }
@@ -124,8 +124,8 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
                     updateAgitationFactor();
                     
                     // Notify listeners of the change of atomic weight.
-                    int totalNumProtons = _numProtons + _numAlphas * 2;
-                    int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
+                    int totalNumProtons = _numFreeProtons + _numAlphas * 2;
+                    int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
                     ArrayList byProducts = new ArrayList(1);
                     byProducts.add( tunnelingParticle );
                     for (int j = 0; j < _listeners.size(); j++){
@@ -147,8 +147,8 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
         // particular nucleus.  This obviously doesn't handle every possible
         // nucleus, so add more if and when they are needed.
         
-        int _totalNumProtons = _numProtons + (_numAlphas * 2);
-        int _totalNumNeutrons = _numNeutrons + (_numAlphas * 2);
+        int _totalNumProtons = _numFreeProtons + (_numAlphas * 2);
+        int _totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
         
         switch (_totalNumProtons){
         

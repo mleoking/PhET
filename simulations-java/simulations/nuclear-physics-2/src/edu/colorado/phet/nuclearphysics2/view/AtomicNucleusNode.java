@@ -94,7 +94,7 @@ public class AtomicNucleusNode extends PNode {
             public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
                 
                 int newAtomicWeight = numProtons + numNeutrons;
-                if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0)){
+                if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
                     // This was a decay event, so kick off the explosion graphic.
                     _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
                     _explosion.setVisible( true );

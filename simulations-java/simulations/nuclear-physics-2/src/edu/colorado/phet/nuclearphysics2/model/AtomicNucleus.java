@@ -48,10 +48,11 @@ public abstract class AtomicNucleus {
     // List of the constituent particles that comprise this nucleus.
     protected ArrayList _constituents;
     
-    // Numbers of various particles.
+    // Numbers of various particles.  The "free" neutrons and protons are not
+    // bound up in an alpha particle.
     protected int _numAlphas;
-    protected int _numProtons;
-    protected int _numNeutrons;
+    protected int _numFreeProtons;
+    protected int _numFreeNeutrons;
     
     // Used to implement the 'agitation' behavior, i.e. to make the nucleus
     // appear to be in constant dynamic motion.
@@ -87,23 +88,23 @@ public abstract class AtomicNucleus {
         
         // Figure out the proportions of various particles.
         _numAlphas    = ((numProtons + numNeutrons) / 2) / 4;  // Assume half of all particles are tied up in alphas.
-        _numProtons   = numProtons - (_numAlphas * 2);
-        _numNeutrons  = numNeutrons - (_numAlphas * 2);
+        _numFreeProtons   = numProtons - (_numAlphas * 2);
+        _numFreeNeutrons  = numNeutrons - (_numAlphas * 2);
 
         // Add the particles.  We do this in such a way that the particles
         // are interspersed in the list, particularly towards the end of the
         // list, since this works out better for the view.
         _constituents = new ArrayList();
-        int maxParticles = Math.max( _numProtons, _numNeutrons );
+        int maxParticles = Math.max( _numFreeProtons, _numFreeNeutrons );
         maxParticles = Math.max( maxParticles, _numAlphas);
         for (int i = (maxParticles - 1); i >= 0; i--){
             if (i < _numAlphas){
                 _constituents.add( new AlphaParticle(0, 0) );
             }
-            if (i < _numProtons){
+            if (i < _numFreeProtons){
                 _constituents.add( new Proton(0, 0, true) );
             }
-            if (i < _numNeutrons){
+            if (i < _numFreeNeutrons){
                 _constituents.add( new Neutron(0, 0, true) );
             }
         }
@@ -130,17 +131,17 @@ public abstract class AtomicNucleus {
         
         // Figure out the makeup of the constituents.
         _numAlphas = 0;
-        _numNeutrons = 0;
-        _numProtons = 0;
+        _numFreeNeutrons = 0;
+        _numFreeProtons = 0;
         for (int i = 0; i < constituents.size(); i++){
             if (constituents.get( i ) instanceof AlphaParticle){
                 _numAlphas++;
             }
             else if (constituents.get( i ) instanceof Neutron){
-                _numNeutrons++;
+                _numFreeNeutrons++;
             }
             else if (constituents.get( i ) instanceof Proton){
-                _numProtons++;
+                _numFreeProtons++;
             }
             else{
                 // Should never happen, debug if it does.
@@ -192,15 +193,15 @@ public abstract class AtomicNucleus {
     }
     
     public int getAtomicWeight(){
-        return _numNeutrons + _numProtons + (_numAlphas * 4);
+        return _numFreeNeutrons + _numFreeProtons + (_numAlphas * 4);
     }
     
     public int getNumProtons(){
-        return _numProtons + (_numAlphas * 2);
+        return _numFreeProtons + (_numAlphas * 2);
     }
     
     public int getNumNeutrons(){
-        return _numNeutrons + (_numAlphas * 2);
+        return _numFreeNeutrons + (_numAlphas * 2);
     }
     
     public double getDiameter(){

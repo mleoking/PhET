@@ -46,8 +46,8 @@ public class DaughterNucleus extends AtomicNucleus {
 
         _constituents.removeAll( _constituents );
         _numAlphas = 0;
-        _numNeutrons = 0;
-        _numProtons = 0;
+        _numFreeNeutrons = 0;
+        _numFreeProtons = 0;
         
         for (int i = 0; i < _listeners.size(); i++){
             // Let the listeners know about the change.
@@ -65,8 +65,8 @@ public class DaughterNucleus extends AtomicNucleus {
         // particular nucleus.  This obviously doesn't handle every possible
         // nucleus, so add more if and when they are needed.
         
-        int _totalNumProtons = _numProtons + (_numAlphas * 2);
-        int _totalNumNeutrons = _numNeutrons + (_numAlphas * 2);
+        int _totalNumProtons = _numFreeProtons + (_numAlphas * 2);
+        int _totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
         
         switch (_totalNumProtons){
         
