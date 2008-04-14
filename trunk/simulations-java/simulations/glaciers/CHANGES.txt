@@ -28,7 +28,6 @@ MEDIUM PRIORITY:
 - form terminus from debris
 - ice textures for above/below EQL, and in/on ice
 - morph ice textures to show downvalley motion
-- show ice velocity vectors in zoomed view only? they clutter the birds-eye view
 - model borehole as a set of moving points, connected via line segments
 - make mountains image big enough so that all we see is sky when the birds-eye view is made very wide
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
@@ -72,6 +71,7 @@ CLEANUP:
 
 
 DONE:
+4/14/08 - show ice velocity vectors in zoomed view only, they clutter the birds-eye view
 4/11/08 - fix Climate.getAblation, always add offset so that ablation is never zero 
 4/11/08 - add flag for showing negative ablation in Glacial Budget chart
 4/11/08 - change colors in Glacial Budget chart to match Archie's plots
