@@ -97,6 +97,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         PNode nucleusLayer = new PNode();
         nucleusLayer.setPickable( false );
         nucleusLayer.setChildrenPickable( false );
+        nucleusLayer.setVisible( true );
         addWorldChild(nucleusLayer);
         
         // Add a node for each particle that comprises the nucleus.
@@ -107,16 +108,19 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
             if (constituent instanceof AlphaParticle){
                 // Add a visible representation of the alpha particle to the canvas.
                 AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
+                alphaNode.setVisible( true );
                 nucleusLayer.addChild( alphaNode );
             }
             else if (constituent instanceof Neutron){
                 // Add a visible representation of the neutron to the canvas.
                 NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
+                neutronNode.setVisible( true );
                 nucleusLayer.addChild( neutronNode );
             }
             else if (constituent instanceof Proton){
                 // Add a visible representation of the proton to the canvas.
                 ProtonNode protonNode = new ProtonNode((Proton)constituent);
+                protonNode.setVisible( true );
                 nucleusLayer.addChild( protonNode );
             }
             else {
