@@ -9,10 +9,17 @@ import java.awt.Stroke;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
+import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
+import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.model.DaughterNucleus;
+import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
 import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModel;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
 import edu.umd.cs.piccolo.PNode;
@@ -98,6 +105,17 @@ public class FissionEnergyChart extends PComposite {
     
     // State variable for compact tracking of model state.
     private int _fissionState = STATE_IDLE;
+    
+    // Original number of neutrons in nucleus, which is used for determining
+    // what happened when we receive notification of an atomic weight change.
+    private int _origNumNeturons;
+    
+    // Random number generator, used to create the appearance of 'jitter' in
+    // the motion of the nucleus.
+    Random _rand = new Random();
+    
+    // Reference to the daughter nucleus that exists after fission occurs.
+    DaughterNucleus _daughterNucleus;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -107,7 +125,70 @@ public class FissionEnergyChart extends PComposite {
         
         _model = model;
         _canvas = canvas;
+        _origNumNeturons = _model.getAtomicNucleus().getNumNeutrons();
         setPickable( false );
+        
+        // Register as a clock listener, since we need to be clocked in order
+        // to do the nucleus animation during the fissioning process.
+        _model.getClock().addClockListener( new ClockAdapter(){
+            
+            /**
+             * Clock tick handler - causes the model to move forward one
+             * increment in time.
+             */
+            public void clockTicked(ClockEvent clockEvent){
+                handleClockTicked(clockEvent);
+            }
+            
+            public void simulationTimeReset(ClockEvent clockEvent){
+                // Ignore this reset and count on the main model to reset us.
+            }
+        });
+        
+        // Register as a listener to the nucleus so that we can see when it
+        // decays and when it is reset.
+        _model.getAtomicNucleus().addListener( new AtomicNucleus.Listener(){
+            public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
+                if (byProducts != null){
+                    for (int i = 0; i < byProducts.size(); i++){
+                        if (byProducts.get( i ) instanceof DaughterNucleus){
+                            _daughterNucleus = (DaughterNucleus)byProducts.get(i);
+                        }
+                    }
+                    assert _daughterNucleus != null;
+                    _fissionState = STATE_FISSIONED;
+                    _unfissionedNucleusImage.setVisible( false );
+                    _largerDaughterNucleusImage.setVisible( true );
+                    _smallerDaughterNucleusImage.setVisible( true );
+                    updateNucleiPositions();
+                }
+                else if (numNeutrons > _origNumNeturons){
+                    // This event signifies the capture of a neutron and thus
+                    // the start of the fissioning process.
+                    _fissionState = STATE_FISSIONING;
+                    updateNucleiPositions();
+                }
+                else if (numNeutrons == _origNumNeturons){
+                    // This event signifies the nucleus being reset to its
+                    // original configuration.
+                    _fissionState = STATE_IDLE;
+                    _daughterNucleus = null;
+                    _unfissionedNucleusImage.setVisible( true );
+                    _largerDaughterNucleusImage.setVisible( false );
+                    _smallerDaughterNucleusImage.setVisible( false );
+                    updateNucleiPositions();
+                }
+                else {
+                    // This should never happen, debug it if it does.
+                    System.err.println("Error: Unable to interpret decay event.");
+                    assert false;
+                }
+            }
+            
+            public void positionChanged(){
+                // Ignore this - it doesn't matter to us.
+            }
+        });
 
         // Create the border for this chart.
         
@@ -413,23 +494,98 @@ public class FissionEnergyChart extends PComposite {
      * Move the nuclei to the appropriate position(s) on the chart.
      */
     private void updateNucleiPositions(){
+
+        double xPos, yPos;
         
         switch (_fissionState){
         case STATE_IDLE:
             // Position the unfissioned nucleus image at the bottom of the
             // energy well.
             _unfissionedNucleusImage.setVisible( true );
-            double xPos = _usableAreaOriginX/2 + _usableWidth/2 - _unfissionedNucleusImage.getFullBounds().width / 2;
-            double yPos = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight) - 
+            xPos = _usableAreaOriginX/2 + _usableWidth/2 - _unfissionedNucleusImage.getFullBounds().width / 2;
+            yPos = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight) - 
                 _unfissionedNucleusImage.getFullBounds().height / 2;
             _unfissionedNucleusImage.setOffset( xPos, yPos );
             break;
         
         case STATE_FISSIONING:
+            // Move the unfissioned nucleus up toward the top of the energy
+            // well.  Jitter it to create the impression of instability.
+
+            xPos = _usableAreaOriginX/2 + _usableWidth/2 - _unfissionedNucleusImage.getFullBounds().width / 2;
+            double nucleusBasePosY = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight);
+            double nucleusTopPosY = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
+            double proportionOfTimeRemaining = 1.0;
+            if (_model.getAtomicNucleus().getFissionTime() - _model.getClock().getSimulationTime() > 0){
+                proportionOfTimeRemaining = (_model.getAtomicNucleus().getFissionTime() - _model.getClock().getSimulationTime()) / FissionOneNucleus.FISSION_INTERVAL;
+            }
+            yPos = (nucleusBasePosY * proportionOfTimeRemaining) + (nucleusTopPosY * (1 - proportionOfTimeRemaining)) -
+                _unfissionedNucleusImage.getFullBounds().height / 2;
+            xPos += xPos * (_rand.nextDouble() - 0.5) * 0.02;
+            _unfissionedNucleusImage.setOffset( xPos, yPos );
+            
+            // Move the total energy line up with the nucleus.
+            _totalEnergyLine.removeAllPoints();
+            _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3 * BORDER_STROKE_WIDTH, yPos + 
+                    _unfissionedNucleusImage.getFullBounds().height / 2 );
+            _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3 * BORDER_STROKE_WIDTH, 
+                    yPos + _unfissionedNucleusImage.getFullBounds().height / 2);
+
             break;
         
         case STATE_FISSIONED:
+            // Move the daughter nuclei based on their current distance from
+            // the origin in the model.
+            
+            // Y position is the same for both nuclei - at the top of the energy well.
+            yPos = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
+            
+            // Figure out X position of the larger daughter nucleus.
+            Point2D nucleusPosition = _model.getAtomicNucleus().getPosition();
+            PDimension nucleusDistanceDim = new PDimension(nucleusPosition.getX(), nucleusPosition.getX());
+            _canvas.getPhetRootNode().worldToScreen( nucleusDistanceDim );
+            xPos = _usableAreaOriginX/2 + _usableWidth/2 + nucleusDistanceDim.getWidth();
+            if ((xPos < _usableAreaOriginX + _usableWidth) && (xPos > _usableAreaOriginX)){
+                // Set the position for this image.
+                _largerDaughterNucleusImage.setOffset( xPos - _largerDaughterNucleusImage.getFullBounds().width / 2, 
+                        yPos - _largerDaughterNucleusImage.getFullBounds().height / 2 );
+            }
+            else{
+                // Don't bother showing and updating the nucleus if it is off the chart.
+                _largerDaughterNucleusImage.setVisible( false );
+            }
+            
+            // Figure out X position of the smaller daughter nucleus.
+            if (_daughterNucleus != null){
+                nucleusPosition = _daughterNucleus.getPosition();
+                nucleusDistanceDim = new PDimension(nucleusPosition.getX(), nucleusPosition.getX());
+                _canvas.getPhetRootNode().worldToScreen( nucleusDistanceDim );
+                xPos = _usableAreaOriginX/2 + _usableWidth/2 + nucleusDistanceDim.getWidth();
+                if ((xPos < _usableAreaOriginX + _usableWidth) && (xPos > _usableAreaOriginX)){
+                    // Set the position for this image.
+                    _smallerDaughterNucleusImage.setOffset( xPos - _largerDaughterNucleusImage.getFullBounds().width / 2, 
+                            yPos - _largerDaughterNucleusImage.getFullBounds().height / 2  );
+                }
+                else {
+                    // Don't bother showing and updating the nucleus if it is off the chart.
+                    _smallerDaughterNucleusImage.setVisible( false );
+                }
+            }
+            
             break;
+        }
+    }
+    
+    /**
+     * Handle a tick of the simulation clock, which for this class will
+     * sometimes mean the the graphical representations of the atomic nuclei
+     * will need to be updated.
+     * 
+     * @param ce
+     */
+    private void handleClockTicked(ClockEvent ce){
+        if (_fissionState == STATE_FISSIONING || _fissionState == STATE_FISSIONED){
+            updateNucleiPositions();
         }
     }
 }

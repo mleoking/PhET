@@ -30,6 +30,10 @@ public class FissionOneNucleus extends AtomicNucleus{
     private static final int URANIUM_235_AGITATION_FACTOR = 6;
     private static final int URANIUM_236_AGITATION_FACTOR = 9;
     
+    // Time, in sim milliseconds, from the capture of a neutron until fission
+    // occurs.
+    public static final double FISSION_INTERVAL = 3000;
+    
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
@@ -70,26 +74,24 @@ public class FissionOneNucleus extends AtomicNucleus{
 
         boolean retval = false;
         
-        int totalNumNeutrons = _numNeutrons + (_numAlphas * 2);
+        int totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
         if (totalNumNeutrons == ORIGINAL_NUM_NEUTRONS){
             // We can capture this neutron.
             freeParticle.setTunnelingEnabled( true );
             freeParticle.setVelocity( 0, 0 );
             _constituents.add( freeParticle );
-            _numNeutrons++;
+            _numFreeNeutrons++;
             updateAgitationFactor();
 
             // Let the listeners know that the atomic weight has changed.
-            int totalNumProtons = _numProtons + _numAlphas * 2;
-            totalNumNeutrons = _numNeutrons + (_numAlphas * 2);
+            int totalNumProtons = _numFreeProtons + _numAlphas * 2;
+            totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
             for (int i = 0; i < _listeners.size(); i++){
                 ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons, null );
             }
             
             // Start a timer to kick off fission.
-            // TODO: JPB TBD - This is currently a fixed time.  Is that okay?
-            // If so, the incremental value should be made into a constant.
-            _fissionTime = _clock.getSimulationTime() + 20;
+            _fissionTime = _clock.getSimulationTime() + FISSION_INTERVAL;
             
             // Indicate that the nucleus was captured.
             retval = true;
@@ -113,66 +115,83 @@ public class FissionOneNucleus extends AtomicNucleus{
         setVelocity( 0, 0 );
         setAcceleration( 0, 0 );
         
-        // Add back two of the free neutrons, since these were released in
-        // the fission event.
-        if (freeNeutrons != null){
-            for (int i = 0; i < 2; i++){
-                if ( freeNeutrons.size() >= 2 ){
-                    Neutron neutron = (Neutron)freeNeutrons.get( freeNeutrons.size() - 1 - i );
-                    neutron.setVelocity( 0, 0 );
-                    neutron.setPosition( _position );
-                    neutron.setTunnelingEnabled( true );
-                    _constituents.add(neutron);
-                    _numNeutrons++;
-                    freeNeutrons.remove( neutron );
+        int totalNumNeutrons = _numFreeNeutrons + _numAlphas * 2;
+        
+        if (totalNumNeutrons < ORIGINAL_NUM_NEUTRONS){
+            // Fission has occurred, so we need to reabsorb the daughter
+            // nucleus and two of the free neutrons.
+            if (freeNeutrons != null){
+                for (int i = 0; i < 2; i++){
+                    if ( freeNeutrons.size() >= 2 ){
+                        Neutron neutron = (Neutron)freeNeutrons.get( freeNeutrons.size() - 1 - i );
+                        neutron.setVelocity( 0, 0 );
+                        neutron.setPosition( _position );
+                        neutron.setTunnelingEnabled( true );
+                        _constituents.add(neutron);
+                        _numFreeNeutrons++;
+                        freeNeutrons.remove( neutron );
+                    }
+                    else{
+                        // This should never occur, debug it if it does.
+                        System.out.println("Error: Unexpected number of free neutrons on reset.");
+                        assert false;
+                    }
                 }
-                else{
-                    // This should never occur, debug it if it does.
-                    System.out.println("Error: Unexpected number of free neutrons on reset.");
-                    assert false;
+            }
+            
+            if (daughterNucleus != null){
+                
+                ArrayList daughterConstituents = daughterNucleus.getConstituents();
+                
+                for (int i = 0; i < daughterConstituents.size(); i++){
+                    
+                    Object constituent = daughterConstituents.get( i );
+                    
+                    if (constituent instanceof AlphaParticle){
+                        _numAlphas++;
+                    }
+                    else if (constituent instanceof Neutron){
+                        _numFreeNeutrons++;
+                    }
+                    else if (constituent instanceof Proton){
+                        _numFreeProtons++;
+                    }
+                    else{
+                        // This should never happen, and needs to be debugged if
+                        // it does.
+                        assert false;
+                    }
+                        
+                    _constituents.add(constituent);
                 }
             }
         }
-        
-        if (daughterNucleus != null){
-            
-            ArrayList daughterConstituents = daughterNucleus.getConstituents();
-            
-            for (int i = 0; i < daughterConstituents.size(); i++){
-                
-                Object constituent = daughterConstituents.get( i );
-                
-                if (constituent instanceof AlphaParticle){
-                    _numAlphas++;
+        else if (totalNumNeutrons == ORIGINAL_NUM_NEUTRONS + 1){
+            // We have been reset after having absorbed a neutron but before
+            // fissioning.  Free a neutron to get back to our original state.
+            for (int i = 0; i < _constituents.size(); i++){
+                if (_constituents.get( i ) instanceof Neutron){
+                    // This one will do.
+                    freeNeutrons.add( _constituents.get(i) );
+                    _constituents.remove(i);
+                    _numFreeNeutrons--;
+                    break;
                 }
-                else if (constituent instanceof Neutron){
-                    _numNeutrons++;
-                }
-                else if (constituent instanceof Proton){
-                    _numProtons++;
-                }
-                else{
-                    // This should never happen, and needs to be debugged if
-                    // it does.
-                    assert false;
-                }
-                    
-                _constituents.add(constituent);
             }
         }
         
         // Update our agitation level.
         updateAgitationFactor();
         
-        // Notify all listeners of the position change.
+        // Notify all listeners of the potential position change.
         for (int i = 0; i < _listeners.size(); i++)
         {
             ((Listener)_listeners.get( i )).positionChanged(); 
         }        
         
         // Notify all listeners of the change to our atomic weight.
-        int totalNumProtons = _numProtons + _numAlphas * 2;
-        int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
+        totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
+        int totalNumProtons = _numFreeProtons + _numAlphas * 2;
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  null);
         }
@@ -203,7 +222,7 @@ public class FissionOneNucleus extends AtomicNucleus{
                     Object newlyFreedNeutron = _constituents.get( i );
                     byProducts.add( newlyFreedNeutron );
                     neutronByProductCount++;
-                    _numNeutrons--;
+                    _numFreeNeutrons--;
                 }
             }
             
@@ -225,12 +244,12 @@ public class FissionOneNucleus extends AtomicNucleus{
                 if ((numNeutronsNeeded > 0) && (constituent instanceof Neutron)){
                     daughterNucleusConstituents.add( constituent );
                     numNeutronsNeeded--;
-                    _numNeutrons--;
+                    _numFreeNeutrons--;
                 }
                 else if ((numProtonsNeeded > 0) && (constituent instanceof Proton)){
                     daughterNucleusConstituents.add( constituent );
                     numProtonsNeeded--;
-                    _numProtons--;
+                    _numFreeProtons--;
                 }
                 if ((numAlphasNeeded > 0) && (constituent instanceof AlphaParticle)){
                     daughterNucleusConstituents.add( constituent );
@@ -254,8 +273,8 @@ public class FissionOneNucleus extends AtomicNucleus{
             byProducts.add( daughterNucleus );
             
             // Send out the decay event to all listeners.
-            int totalNumProtons = _numProtons + _numAlphas * 2;
-            int totalNumNeutrons= _numNeutrons + _numAlphas * 2;
+            int totalNumProtons = _numFreeProtons + _numAlphas * 2;
+            int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
             for (int i = 0; i < _listeners.size(); i++){
                 ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  byProducts);
             }
@@ -272,8 +291,8 @@ public class FissionOneNucleus extends AtomicNucleus{
         // particular nucleus.  This obviously doesn't handle every possible
         // nucleus, so add more if and when they are needed.
         
-        int _totalNumProtons = _numProtons + (_numAlphas * 2);
-        int _totalNumNeutrons = _numNeutrons + (_numAlphas * 2);
+        int _totalNumProtons = _numFreeProtons + (_numAlphas * 2);
+        int _totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
         
         switch (_totalNumProtons){
         
