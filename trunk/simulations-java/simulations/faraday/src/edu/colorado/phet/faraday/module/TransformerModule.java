@@ -328,13 +328,31 @@ public class TransformerModule extends FaradayModule {
         _voltmeterModel.setEnabled( false );
         
         // Electromagnet view
-        _electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        if ( FaradayConstants.HIDE_ELECTRONS_FEATURE ) {
+            _electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( false );
+            _electromagnetPanel.setElectronsControlVisible( false );
+        }
+        else {
+            _electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        }
         
         // Pickup Coil view
-        _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        if ( FaradayConstants.HIDE_ELECTRONS_FEATURE ) {
+            _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( false );
+            _pickupCoilPanel.setElectronsControlVisible( false );
+        }
+        else {
+            _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        }
         
         // B-field view outside the magnet
-        _bFieldOutsideGraphic.setVisible( true );
+        if ( FaradayConstants.HIDE_BFIELD_FEATURE ) {
+            _bFieldOutsideGraphic.setVisible( false );
+            _electromagnetPanel.setBFieldControlVisible( false );
+        }
+        else {
+            _bFieldOutsideGraphic.setVisible( true );
+        }
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );

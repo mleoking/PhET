@@ -250,10 +250,22 @@ public class ElectromagnetModule extends FaradayModule {
         _compassModel.setEnabled( true );
         
         // Electromagnet view
-        _electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        if ( FaradayConstants.HIDE_ELECTRONS_FEATURE ) {
+            _electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( false );
+            _electromagnetPanel.setElectronsControlVisible( false );
+        }
+        else {
+            _electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        }
         
         // B-field view outside the magnet
-        _bFieldOutsideGraphic.setVisible( true );
+        if ( FaradayConstants.HIDE_BFIELD_FEATURE ) {
+            _bFieldOutsideGraphic.setVisible( false );
+            _electromagnetPanel.setBFieldControlVisible( false );
+        }
+        else {
+            _bFieldOutsideGraphic.setVisible( true );
+        }
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );

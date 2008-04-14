@@ -207,13 +207,25 @@ public class BarMagnetModule extends FaradayModule {
         _compassModel.setEnabled( true );
         
         // B-field inside magnet
-        _bFieldInsideGraphic.setVisible( false );
-        
+        if ( FaradayConstants.HIDE_BFIELD_FEATURE ) {
+            _bFieldInsideGraphic.setVisible( false );
+            _barMagnetPanel.setSeeInsideControlVisible( false );
+        }
+        else {
+            _bFieldInsideGraphic.setVisible( false );
+        }
+
         // Earth view
         _earthGraphic.setVisible( false );
         
         // B-field view outside the magnet
-        _bFieldOutsideGraphic.setVisible( true );
+        if ( FaradayConstants.HIDE_BFIELD_FEATURE ) {
+            _bFieldOutsideGraphic.setVisible( false );
+            _barMagnetPanel.setBFieldControlVisible( false );
+        }
+        else {
+            _bFieldOutsideGraphic.setVisible( true );
+        }
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
@@ -228,7 +240,7 @@ public class BarMagnetModule extends FaradayModule {
     //----------------------------------------------------------------------------
     
     public void setShowEarthVisible( boolean visible ) {
-        _barMagnetPanel.setShowEarthVisible( visible );
+        _barMagnetPanel.setShowEarthControlVisible( visible );
     }
     
     //----------------------------------------------------------------------------

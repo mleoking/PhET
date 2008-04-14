@@ -188,7 +188,7 @@ public class BarMagnetPanel extends FaradayPanel {
      * 
      * @param visible true of false
      */
-    public void setFlipPolarityVisible( boolean visible ) {
+    public void setFlipPolarityControlVisible( boolean visible ) {
         _flipPolarityButton.setVisible( visible );
     }
     
@@ -197,7 +197,7 @@ public class BarMagnetPanel extends FaradayPanel {
      * 
      * @param visible true of false
      */
-    public void setSeeInsideVisible( boolean visible ) {
+    public void setSeeInsideControlVisible( boolean visible ) {
         _seeInsideCheckBox.setVisible( visible );
     }
     
@@ -206,7 +206,7 @@ public class BarMagnetPanel extends FaradayPanel {
      * 
      * @param visible true or false
      */
-    public void setFieldMeterVisible( boolean visible ) {
+    public void setFieldMeterControlVisible( boolean visible ) {
         _fieldMeterCheckBox.setVisible( visible );
     }
     
@@ -215,8 +215,18 @@ public class BarMagnetPanel extends FaradayPanel {
      * 
      * @param visible true or false
      */
-    public void setShowEarthVisible( boolean visible ) {
+    public void setShowEarthControlVisible( boolean visible ) {
         _earthCheckBox.setVisible( visible );
+    }
+    
+    /**
+     * Access to the "Show B-Field" control.
+     * 
+     * @param visible true or false
+     * @return
+     */
+    public void setBFieldControlVisible( boolean visible ) {
+        _bFieldCheckBox.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
