@@ -142,6 +142,20 @@ public class TurbinePanel extends FaradayPanel {
     }
     
     //----------------------------------------------------------------------------
+    // Feature controls
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Access to the "Show B-Field" control.
+     * 
+     * @param visible true or false
+     * @return
+     */
+    public void setBFieldControlVisible( boolean visible ) {
+        _bFieldCheckBox.setVisible( visible );
+    }
+    
+    //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
 

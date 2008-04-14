@@ -195,6 +195,20 @@ public class PickupCoilPanel extends FaradayPanel {
     }
     
     //----------------------------------------------------------------------------
+    // Feature controls
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Access to the "Show Electrons" control.
+     * 
+     * @param visible true or false
+     * @return
+     */
+    public void setElectronsControlVisible( boolean visible ) {
+        _electronsCheckBox.setVisible( visible );
+    }
+    
+    //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
 

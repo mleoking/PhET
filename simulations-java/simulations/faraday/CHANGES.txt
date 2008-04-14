@@ -4,6 +4,9 @@ Changes for faraday
 
 
 DONE:
+4/14/08 - add compile-time flags to hide "show B-field" and "show Electrons" features (for Archie's studies)
+4/14/08 - set B-field to "off" by default in GeneratorModule.reset
+4/14/08 - add missing call to reset() at end of constructor for GeneratorModule
 ********* version 2.00.00 (20682)
 4/10/08 - fix "see inside" feature to handle magnet rotation that occurs with "show Earth"
 ********* version 1.05.15 (20599)

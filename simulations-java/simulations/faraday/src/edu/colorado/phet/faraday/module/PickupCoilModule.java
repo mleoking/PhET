@@ -214,7 +214,7 @@ public class PickupCoilModule extends FaradayModule {
             // Bar Magnet controls
             _barMagnetPanel = new BarMagnetPanel(
                     _barMagnetModel, _compassModel, _fieldMeterModel, null, _bFieldOutsideGraphic, null );
-            _barMagnetPanel.setSeeInsideVisible( false );
+            _barMagnetPanel.setSeeInsideControlVisible( false );
             controlPanel.addControlFullWidth( _barMagnetPanel );
             
             // Spacer
@@ -273,10 +273,22 @@ public class PickupCoilModule extends FaradayModule {
         _voltmeterModel.setEnabled( false );
         
         // Pickup Coil view
-        _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        if ( FaradayConstants.HIDE_ELECTRONS_FEATURE ) {
+            _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( false );
+            _pickupCoilPanel.setElectronsControlVisible( false );
+        }
+        else {
+            _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        }
         
         // B-field view outside the magnet
-        _bFieldOutsideGraphic.setVisible( true );
+        if ( FaradayConstants.HIDE_BFIELD_FEATURE ) {
+            _bFieldOutsideGraphic.setVisible( false );
+            _barMagnetPanel.setBFieldControlVisible( false );
+        }
+        else {
+            _bFieldOutsideGraphic.setVisible( true );
+        }
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );

@@ -229,6 +229,8 @@ public class GeneratorModule extends FaradayModule {
             // Reset button
             controlPanel.addResetAllButton( this );
         }
+        
+        reset();
     }
     
     //----------------------------------------------------------------------------
@@ -263,10 +265,22 @@ public class GeneratorModule extends FaradayModule {
         _voltmeterModel.setEnabled( false );
         
         // Pickup Coil view
-        _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        if ( FaradayConstants.HIDE_ELECTRONS_FEATURE ) {
+            _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( false );
+            _pickupCoilPanel.setElectronsControlVisible( false );
+        }
+        else {
+            _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
+        }
         
         // B-field view outside the magnet
-        _bFieldOutsideGraphic.setVisible( true );
+        if ( FaradayConstants.HIDE_BFIELD_FEATURE ) {
+            _bFieldOutsideGraphic.setVisible( false );
+            _turbinePanel.setBFieldControlVisible( false );
+        }
+        else {
+            _bFieldOutsideGraphic.setVisible( false );
+        }
         
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
