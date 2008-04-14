@@ -48,15 +48,6 @@ public class Valley {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the headwall length.
-     * 
-     * @return
-     */
-    public static final double getHeadwallLength() {
-        return HEADWALL_LENGTH;
-    }
-    
-    /**
      * Gets the elevation at a position along the valley floor.
      * Slope starts off steep, then levels out as we go downvalley.
      * 
@@ -93,6 +84,15 @@ public class Valley {
     public double getDirection( final double x1, final double x2 ) {
         final double m = getSlope( x1, x2 );
         return Math.atan( m );
+    }
+    
+    /**
+     * Gets the headwall length.
+     * 
+     * @return
+     */
+    public static final double getHeadwallLength() {
+        return HEADWALL_LENGTH;
     }
     
     /*
