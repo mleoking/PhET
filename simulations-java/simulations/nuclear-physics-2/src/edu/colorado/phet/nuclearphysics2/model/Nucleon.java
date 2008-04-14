@@ -17,6 +17,9 @@ public class Nucleon implements AtomicNucleusConstituent {
     // Class data
     //------------------------------------------------------------------------
 
+    // Random number generator, used for creating some random behavior.
+    private static Random _rand = new Random();
+
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
@@ -32,9 +35,6 @@ public class Nucleon implements AtomicNucleusConstituent {
     // Boolean that controls whether this particle should exhibit quantum
     // tunneling behavior.
     private boolean _tunnelingEnabled;
-    
-    // Random number generator, used for creating some random behavior.
-    Random _rand = new Random();
     
     //------------------------------------------------------------------------
     // Constructors
