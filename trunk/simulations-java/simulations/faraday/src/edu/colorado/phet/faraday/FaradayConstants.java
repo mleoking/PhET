@@ -171,8 +171,8 @@ public class FaradayConstants {
     // Flags used to create special tests versions of this sim
     //----------------------------------------------------------------------------
     
-    public static final boolean HIDE_BFIELD_FEATURE = true;
-    public static final boolean HIDE_ELECTRONS_FEATURE = false;
+    public static final boolean HIDE_BFIELD_FEATURE = false;
+    public static final boolean HIDE_ELECTRONS_FEATURE = true;
     
     //----------------------------------------------------------------------------
     // Constructors
