@@ -4,8 +4,10 @@ Changes for faraday
 
 
 DONE:
-********* version 2.00.01 (?)
-4/14/08 - hide "Show Field" feature
+********* version 2.00.02 (?)
+4/14/08 - show "Show Field" feature, hide "Show Electrons" feature (for Archie's studies)
+********* version 2.00.01 (20722)
+4/14/08 - hide "Show Field" feature (for Archie's studies)
 4/14/08 - add compile-time flags to hide "Show Field" and "show Electrons" features (for Archie's studies)
 4/14/08 - set B-field to "off" by default in GeneratorModule.reset
 4/14/08 - add missing call to reset() at end of constructor for GeneratorModule
