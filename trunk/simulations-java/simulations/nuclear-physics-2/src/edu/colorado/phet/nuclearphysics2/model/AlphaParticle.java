@@ -27,6 +27,9 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     // Distance at which we consider the particle done tunneling, in fm.
     private static final double MAX_TUNNELING_DISTANCE = 1000;
     
+    // Random number generator, used for creating some random behavior.
+    private static Random _rand = new Random();
+    
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
@@ -40,9 +43,6 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     private double _yVelocity;
     private double _xAcceleration;
     private double _yAcceleration;
-    
-    // Random number generator, used for creating some random behavior.
-    Random _rand = new Random();
     
     // State of this particle with respect to tunneling out.
     private int _tunnelingState = IN_NUCLEUS;
