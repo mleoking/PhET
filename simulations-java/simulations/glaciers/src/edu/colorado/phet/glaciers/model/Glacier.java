@@ -79,6 +79,15 @@ public class Glacier extends ClockAdapter {
             public void snowfallReferenceElevationChanged() {
                 handleClimateChange();
             }
+            
+            private void handleClimateChange() {
+                _climateChangedTime = _clock.getSimulationTime();
+                _previousELA = _currentELA;
+                if ( _steadyState ) {
+                    _steadyState = false;
+                    notifySteadyStateChanged();
+                }
+            }
         };
         _climate.addClimateListener( _climateListener );
         
@@ -209,7 +218,10 @@ public class Glacier extends ClockAdapter {
     }
     
     /**
-     * Gets the approximate ice thickness at an x coordinate.
+     * Gets the ice thickness at an x coordinate.
+     * <p>
+     * This method provides an approximate result, whose accuracy is
+     * dependency on DX, the spacing between sample points.
      * The x value specified will fall between 2 ice thickness samples.
      * Locate the 2 samples, and do a linear interpolation between them 
      * to determine the approximate ice thickness.
@@ -234,19 +246,6 @@ public class Glacier extends ClockAdapter {
         }
         assert ( iceThickness >= 0 );
         return iceThickness;
-    }
-    
-    /*
-     * When the climate changes, note the time,
-     * and update the ELA values used to compute ice thickness.
-     */
-    private void handleClimateChange() {
-        _climateChangedTime = _clock.getSimulationTime();
-        _previousELA = _currentELA;
-        if ( _steadyState ) {
-            _steadyState = false;
-            notifySteadyStateChanged();
-        }
     }
     
     /*
