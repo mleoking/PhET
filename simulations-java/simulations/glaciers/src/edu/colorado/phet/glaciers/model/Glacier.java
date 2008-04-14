@@ -51,7 +51,7 @@ public class Glacier extends ClockAdapter {
     private double _previousELA; // the ELA the last time the climate was changed (meters)
     private double _currentELA; // current ELA at t=now (meters)
     private double[] _iceThicknessSamples; // ice thickness at t=now (meters)
-    private double _averageIceThicknessSquares; // average of the squares of the ice thickness samples
+    private double _averageIceThicknessSquares; // average of the squares of the non-zero ice thickness samples
     private boolean _steadyState; // is the glacier in the steady state?
     
     private final double _maxElevation; // the highest elevation on the glacier, at MIN_X (meters)
@@ -176,10 +176,8 @@ public class Glacier extends ClockAdapter {
         if ( !_steadyState ) {
             final double steadyStateELA = _climate.getEquilibriumLineAltitude();
             _previousELA = _currentELA = steadyStateELA;
-            _iceThicknessSamples = computeIceThicknessSamples( steadyStateELA );
-            _averageIceThicknessSquares = computeAverageIceThicknessSquares( _iceThicknessSamples );
+            updateIceThicknessSamples();
             _steadyState = true;
-            notifyIceThicknessChanged();
             notifySteadyStateChanged();
         }
     }
@@ -208,7 +206,7 @@ public class Glacier extends ClockAdapter {
     
     /**
      * Gets the ice thickness samples.
-     * Samples were made from X0 to terminusX, at intervals of DX.
+     * Samples were made from X0 to the terminus, at intervals of DX.
      * Use getX0, getTerminusX, and getDX to interpret these samples.
      * 
      * @return
@@ -220,8 +218,8 @@ public class Glacier extends ClockAdapter {
     /**
      * Gets the ice thickness at an x coordinate.
      * <p>
-     * This method provides an approximate result, whose accuracy is
-     * dependency on DX, the spacing between sample points.
+     * This method provides an approximate result, the accuracy of
+     * which is dependent on DX, the spacing between sample points.
      * The x value specified will fall between 2 ice thickness samples.
      * Locate the 2 samples, and do a linear interpolation between them 
      * to determine the approximate ice thickness.
@@ -249,36 +247,55 @@ public class Glacier extends ClockAdapter {
     }
     
     /*
-     * Computes the ice thickness samples for a give ELA.
+     * Updates the ice thickness samples for the current ELA.
      * 
      * @param ela
      * @return double[] ice thickness samples, meters
      */
-    private double[] computeIceThicknessSamples( final double ela ) {
+    private void updateIceThicknessSamples() {
         
-        double glacierLength = computeLength( ela ); // x_terminus in documentation, but this is really length
-        double maxThickness = computeMaxThickness( ela ); // H_max in documentation
-        
-        final double xPeak = MIN_X + ( 0.5 * glacierLength );
+        // compute constants used herein
+        final double ela = _currentELA;
+        final double glacierLength = computeLength( ela, _maxElevation ); // x_terminus in documentation, but this is really length
+        final double maxThickness = computeMaxThickness( ela, _maxElevation ); // H_max in documentation
         final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
-
-        double[] samples = new double[numberOfSamples];
-        double x = MIN_X;
+        final double xPeak = MIN_X + ( 0.5 * glacierLength ); // midpoint of the ice
         final double p = 42 - ( 0.01 * ela );
         final double r = 1.5 * xPeak;
         final double xPeakPow = Math.pow( xPeak, p );
+        
+        // initialize variables
+        double x = MIN_X;
+        double thickness = 0;
+        double sumOfNonZeroSquares = 0;
+        double countOfNonZeroSquares = 0;
+        
+        _iceThicknessSamples = new double[numberOfSamples];
         for ( int i = 0; i < numberOfSamples; i++ ) {
+            
+            // compute thickness at sample point
             if ( x < xPeak ) {
-                samples[i] = Math.sqrt( ( r * r ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / r );
-                samples[i] *= ( xPeakPow - Math.pow( Math.abs( x - xPeak ), p ) ) / xPeakPow;
+                thickness = Math.sqrt( ( r * r ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / r );
+                thickness *= ( xPeakPow - Math.pow( Math.abs( x - xPeak ), p ) ) / xPeakPow;
             }
             else {
-                samples[i] = Math.sqrt( ( xPeak * xPeak ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / xPeak );
+                thickness = Math.sqrt( ( xPeak * xPeak ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / xPeak );
             }
+            
+            // accumulate squares
+            if ( thickness > 0 ) {
+                sumOfNonZeroSquares += ( thickness * thickness );
+                countOfNonZeroSquares++;
+            }
+            
+            _iceThicknessSamples[i] = thickness;
             x += DX;
         }
-
-        return samples;
+        
+        // compute average
+        _averageIceThicknessSquares = sumOfNonZeroSquares / countOfNonZeroSquares;
+        
+        notifyIceThicknessChanged();
     }
     
     /*
@@ -290,20 +307,20 @@ public class Glacier extends ClockAdapter {
      * Valley profile, so if you make any changes to the Valley model, this is sure 
      * to break.
      */
-    private double computeLength( double ela ) {
+    private static double computeLength( final double ela, final double maxElevation ) {
         
         final double elaThreshold = 4000; // meters
-        assert( elaThreshold < _maxElevation );
+        assert( elaThreshold < maxElevation );
         
         double length = 0;
-        if ( ela > _maxElevation ) {
+        if ( ela > maxElevation ) {
             // above the top of the headwall, length is zero
             length = 0;
         }
         else if ( ela > elaThreshold ) {
             // above this threshold, use a different curve
-            final double term0 = computeLength( elaThreshold );
-            final double term1 = term0 / ( _maxElevation - elaThreshold );
+            final double term0 = computeLength( elaThreshold, maxElevation ); // recursive call
+            final double term1 = term0 / ( maxElevation - elaThreshold );
             length = term0 - ( ( ela - elaThreshold ) * term1 );
         }
         else {
@@ -324,9 +341,9 @@ public class Glacier extends ClockAdapter {
      * Valley profile, so if you make any changes to the Valley model, this is sure 
      * to break.
      */
-    private double computeMaxThickness( double ela ) {
+    private static double computeMaxThickness( double ela, final double maxElevation ) {
         double maxThickness = 0;
-        if ( ela > _maxElevation ) {
+        if ( ela > maxElevation ) {
             maxThickness = 0;
         }
         else {
@@ -338,27 +355,6 @@ public class Glacier extends ClockAdapter {
         }
         assert( maxThickness >= 0 );
         return maxThickness;
-    }
-    
-    /*
-     * Gets the average of the square of the ice thickness over the complete length of the glaciers.
-     * Only non-zero thickness value are included in the average.
-     * (symbol: u0ave)
-     * 
-     * @return meters^2
-     */
-    private static double computeAverageIceThicknessSquares( double[] iceThicknessSamples ) {
-        double sum = 0;
-        double samples = 0;
-        double h = 0;
-        for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
-            h = iceThicknessSamples[i];
-            if ( h > 0 ) {
-                sum += ( h * h );
-                samples++;
-            }
-        }
-        return ( sum / samples );
     }
     
     //----------------------------------------------------------------------------
@@ -465,9 +461,7 @@ public class Glacier extends ClockAdapter {
             }
             else {
                 // compute the ice thickness for the new ELA
-                _iceThicknessSamples = computeIceThicknessSamples( _currentELA );
-                _averageIceThicknessSquares = computeAverageIceThicknessSquares( _iceThicknessSamples );
-                notifyIceThicknessChanged();
+                updateIceThicknessSamples();
             }
         }
     }

@@ -71,6 +71,7 @@ CLEANUP:
 
 
 DONE:
+4/14/08 - reorganize the ice thickness model, improve efficiency and readability
 4/14/08 - show ice velocity vectors in zoomed view only, they clutter the birds-eye view
 4/11/08 - fix Climate.getAblation, always add offset so that ablation is never zero 
 4/11/08 - add flag for showing negative ablation in Glacial Budget chart
