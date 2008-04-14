@@ -2,7 +2,7 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-faraday, version 2.00.02
+faraday, version 2.00.03
 </b></big></big>
 <p>
 <b>Run a simulation (English):</b>
@@ -16,7 +16,7 @@ faraday, version 2.00.02
 <b>What's new:</b>
 <p>
 <ul>
-<li>this is a special version that has the "Show Electrons" feature hidden (for Archie Paulson's studies)
+<li>this is a special version that has the "Show Field" and "Show Electrons" features hidden (for Archie Paulson's studies)
 </ul>
 <p>
 <b>Known problems:</b>
