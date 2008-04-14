@@ -92,7 +92,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     // View
     private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private PLayer _backgroundLayer, _iceLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
+    private PLayer _backgroundLayer, _iceLayer, _velocityLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private IceFlowNode _iceFlowNode;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
@@ -192,11 +192,13 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _backgroundLayer = new PLayer();
         _iceLayer = new PLayer();
         _coordinatesLayer = new PLayer();
+        _velocityLayer = new PLayer();
         _toolboxLayer = new PLayer();
         _toolsLayer = new PLayer();
         _viewportLayer = new PLayer();
         addToBothViews( _backgroundLayer );
         addToBothViews( _iceLayer );
+        addToZoomedView( _velocityLayer );
         addToZoomedView( _coordinatesLayer );
         addToZoomedView( _toolboxLayer );
         addToBothViews( _toolsLayer );
@@ -231,7 +233,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         IceNode iceNode = new IceNode( _model.getGlacier(), _mvt );
         _iceLayer.addChild( iceNode );
         _iceFlowNode = new IceFlowNode( _model.getGlacier(), _mvt );
-        _iceLayer.addChild( _iceFlowNode );
+        _velocityLayer.addChild( _iceFlowNode );
         
         // Axes
         _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false );
