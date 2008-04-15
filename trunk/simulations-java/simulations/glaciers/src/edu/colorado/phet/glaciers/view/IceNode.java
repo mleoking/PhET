@@ -83,7 +83,7 @@ public class IceNode extends PComposite {
         _icePath.reset();
 
         double[] iceThicknessSamples = _glacier.getIceThicknessSamples();
-        if ( iceThicknessSamples != null & iceThicknessSamples.length > 0 ) {
+        if ( iceThicknessSamples != null && iceThicknessSamples.length > 0 ) {
 
             // move downvalley, draw ice-air boundary
             for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
