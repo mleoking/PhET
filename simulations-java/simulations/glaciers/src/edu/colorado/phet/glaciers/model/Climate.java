@@ -117,23 +117,13 @@ public class Climate {
         return _snowfall;
     }
     
-    /**
-     * Sets the maximum snowfall.
-     * As elevation approaches infinity, accumulation will approach this value.
-     * 
-     * @return meters
-     */
-    public void setMaximumSnowfall( double maxSnowfall ) {
-        setSnowfall( maxSnowfall / MAX_SNOWFALL_MUTILPIER );
-    }
-    
-    /**
+    /*
      * Gets the maximum snowfall.
      * As elevation approaches infinity, accumulation will approach this value.
      * 
      * @return meters
      */
-    public double getMaximumSnowfall() {
+    private double getMaximumSnowfall() {
         return MAX_SNOWFALL_MUTILPIER * _snowfall;
     }
     

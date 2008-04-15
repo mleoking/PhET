@@ -73,6 +73,7 @@ CLEANUP:
 
 
 DONE:
+4/14/08 - remove obsolete Climate.setMaxSnowfall, make getMaxSnowfall private
 4/14/08 - rename EquilibriumLineAltitude to ELA throughout Climate model
 4/14/08 - fix for negative values in Glaciers.getMaxThickness
 4/14/08 - fix resetAll in Basic module
