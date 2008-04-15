@@ -256,47 +256,67 @@ public class Glacier extends ClockAdapter {
      */
     private void updateIceThicknessSamples() {
         
-        // compute constants used herein
         final double ela = _currentELA;
         final double glacierLength = computeLength( ela, _maxElevation ); // x_terminus in documentation, but this is really length
-        final double maxThickness = computeMaxThickness( ela, _maxElevation ); // H_max in documentation
-        final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
-        final double xPeak = MIN_X + ( 0.5 * glacierLength ); // midpoint of the ice
-        final double p = 42 - ( 0.01 * ela );
-        final double r = 1.5 * xPeak;
-        final double xPeakPow = Math.pow( xPeak, p );
         
-        // initialize variables
-        double x = MIN_X;
-        double thickness = 0;
-        double sumOfNonZeroSquares = 0;
-        double countOfNonZeroSquares = 0;
-        
-        _iceThicknessSamples = new double[numberOfSamples];
-        for ( int i = 0; i < numberOfSamples; i++ ) {
-            
-            // compute thickness at sample point
-            if ( x < xPeak ) {
-                thickness = Math.sqrt( ( r * r ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / r );
-                thickness *= ( xPeakPow - Math.pow( Math.abs( x - xPeak ), p ) ) / xPeakPow;
-            }
-            else {
-                thickness = Math.sqrt( ( xPeak * xPeak ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / xPeak );
-            }
-            
-            // accumulate squares
-            if ( thickness > 0 ) {
-                sumOfNonZeroSquares += ( thickness * thickness );
-                countOfNonZeroSquares++;
-            }
-            
-            _iceThicknessSamples[i] = thickness;
-            x += DX;
+        if ( glacierLength == 0 ) {
+            _iceThicknessSamples = null;
+            _averageIceThicknessSquares = 0;
         }
-        
-        // compute average
-        _averageIceThicknessSquares = sumOfNonZeroSquares / countOfNonZeroSquares;
-        
+        else {
+            
+            // compute constants used herein
+            final double maxThickness = computeMaxThickness( ela, _maxElevation ); // H_max in documentation
+            final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
+            final double xPeak = MIN_X + ( 0.5 * glacierLength ); // midpoint of the ice
+            final double p = 42 - ( 0.01 * ela );
+            final double r = 1.5 * xPeak;
+            final double xPeakPow = Math.pow( xPeak, p );
+
+            // initialize variables
+            double x = MIN_X;
+            double thickness = 0;
+            double sumOfNonZeroSquares = 0;
+            double countOfNonZeroSquares = 0;
+
+            _iceThicknessSamples = new double[numberOfSamples];
+            for ( int i = 0; i < numberOfSamples; i++ ) {
+
+                // compute thickness at sample point
+                if ( x < xPeak ) {
+                    thickness = Math.sqrt( ( r * r ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / r );
+                    thickness *= ( xPeakPow - Math.pow( Math.abs( x - xPeak ), p ) ) / xPeakPow;
+                }
+                else {
+                    thickness = Math.sqrt( ( xPeak * xPeak ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / xPeak );
+                }
+                
+//                //XXX debug output for problem with negative & NaN thickness values
+//                if ( !( thickness >= 0 ) ) {
+//                    System.out.println( "Glacier.updateIceThicknessSamples" );
+//                    System.out.println( " thickness=" + thickness );
+//                    System.out.println( " ela=" + ela );
+//                    System.out.println( " glacierLength=" + glacierLength );
+//                    System.out.println( " maxThickness=" + maxThickness );
+//                    System.out.println( " x=" + x );
+//                }
+                
+//                assert ( thickness >= 0 );
+
+                // accumulate squares
+                if ( thickness > 0 ) {
+                    sumOfNonZeroSquares += ( thickness * thickness );
+                    countOfNonZeroSquares++;
+                }
+
+                _iceThicknessSamples[i] = thickness;
+                x += DX;
+            }
+
+            // compute average
+            _averageIceThicknessSquares = sumOfNonZeroSquares / countOfNonZeroSquares;
+        }
+
         notifyIceThicknessChanged();
     }
     

@@ -10,8 +10,9 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- new Glacier.maxThickness model results in weird ice thickness behavior near headwall
+- new Glacier.maxThickness model results in negative ice thickness values for ELA > 4200 or so
 - in Climate.updateEquilibriumLineAltitude, elevation goes way above range of interest (40500 meters)
+- Climate model is very sensitive at "warm" end of scale, huge ELA jumps
 - add scaling of mountains image to match scaling of other stuff in the view
 - optimize ice flow vectors, use same 1D grid as ice thickness
 - developer controls for ice velocity "look"?
@@ -73,6 +74,8 @@ CLEANUP:
 
 
 DONE:
+4/14/08 - add debug code for model problem that results in negative ice thickness 
+4/14/08 - fix computation of ice thickness samples when glacier length == 0
 4/14/08 - add ELA value display for debugging range of Climate parameters
 4/14/08 - increase precision of temperature textfield
 4/14/08 - remove obsolete Climate.setMaxSnowfall, make getMaxSnowfall private
