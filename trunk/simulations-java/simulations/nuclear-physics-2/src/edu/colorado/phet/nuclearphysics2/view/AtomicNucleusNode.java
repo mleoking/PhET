@@ -149,7 +149,7 @@ public class AtomicNucleusNode extends PNode {
                 // Uranium 235
                 labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER +
                 " </font></sup>" + NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL + "</html>";
-                labelColor = NuclearPhysics2Constants.URANIUM_LABEL_COLOR;
+                labelColor = NuclearPhysics2Constants.URANIUM_235_LABEL_COLOR;
             }
             else if (numNeutrons == 144){
                 // Uranium 236

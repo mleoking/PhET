@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.nuclearphysics2.developer.DeveloperMenu;
 import edu.colorado.phet.nuclearphysics2.menu.OptionsMenu;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModule;
+import edu.colorado.phet.nuclearphysics2.module.chainreaction.ChainReactionModule;
 import edu.colorado.phet.nuclearphysics2.module.example.ExampleModule;
 import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModule;
 
@@ -41,6 +42,9 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
     
     // Module for the tab that displays fission of a single atomic nucleus.
     private FissionOneNucleusModule _fissionOneNucleusModule;
+    
+    // Module for the tab that displays a chain reaction of multiple nuclei.
+    private ChainReactionModule _chainReactionModule;
     
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -96,6 +100,9 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
 
         _fissionOneNucleusModule = new FissionOneNucleusModule( parentFrame );
         addModule( _fissionOneNucleusModule );
+
+        _chainReactionModule = new ChainReactionModule( parentFrame );
+        addModule( _chainReactionModule );
 
         _exampleModule = new ExampleModule( parentFrame );
         addModule( _exampleModule );

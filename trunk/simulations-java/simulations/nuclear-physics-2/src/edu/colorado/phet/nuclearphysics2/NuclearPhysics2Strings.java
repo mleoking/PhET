@@ -20,6 +20,7 @@ public class NuclearPhysics2Strings {
     
     public static final String TITLE_ALPHA_RADIATION_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.AlphaDecayModule" );
     public static final String TITLE_FISSION_ONE_NUCLEUS_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.SingleNucleusFissionModule" );
+    public static final String TITLE_CHAIN_REACTION_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.MultipleNucleusFissionModule" );
 
     public static final String NEUTRON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.NeutronLabel" );
     public static final String PROTON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
@@ -29,7 +30,15 @@ public class NuclearPhysics2Strings {
 
     public static final String URANIUM_235_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Uranium235Graphic.Symbol" );
     public static final String URANIUM_235_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Uranium235Graphic.Number" );
-    public static final String URANIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Uranium235Label" );
+    public static final String URANIUM_235_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Uranium235Label" );
+
+    public static final String URANIUM_238_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Uranium238Graphic.Symbol" );
+    public static final String URANIUM_238_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Uranium238Graphic.Number" );
+    public static final String URANIUM_238_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Uranium238Label" );
+
+    public static final String URANIUM_239_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Uranium239Graphic.Symbol" );
+    public static final String URANIUM_239_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Uranium239Graphic.Number" );
+    public static final String URANIUM_239_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Uranium239Label" );
 
     public static final String POLONIUM_211_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Polonium211Graphic.Symbol" );
     public static final String POLONIUM_211_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Polonium211Graphic.Number" );
@@ -38,14 +47,6 @@ public class NuclearPhysics2Strings {
     public static final String LEAD_207_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Lead207Graphic.Symbol" );
     public static final String LEAD_207_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Lead207Graphic.Number" );
     public static final String LEAD_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Lead207Label" );
-
-    public static final String KRYPTON_92_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Krypton92Graphic.Symbol" );
-    public static final String KRYPTON_92_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Krypton92Graphic.Number" );
-    public static final String KRYPTON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Krypton92Label" );
-
-    public static final String BARIUM_141_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Barium141Graphic.Symbol" );
-    public static final String BARIUM_141_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Barium141Graphic.Number" );
-    public static final String BARIUM_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Barium141Label" );
 
     public static final String DAUGHTER_NUCLEI_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.DaughterNucleiLabel" );
 
