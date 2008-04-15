@@ -51,7 +51,7 @@ public class FissionOneNucleusLegendPanel extends JPanel {
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetDefaultFont( Font.BOLD, 14 ),
-                Color.BLUE );
+                Color.GRAY );
         
         setBorder( titledBorder );
         

@@ -46,17 +46,18 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private static final float   BORDER_STROKE_WIDTH = 6f;
     private static final Stroke  BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final Color   BACKGROUND_COLOR = Color.WHITE;
-    private static final double  AXES_LINE_WIDTH = 2f;
+    private static final double  AXES_LINE_WIDTH = 0.5f;
+    private static final Color   AXES_LINE_COLOR = Color.GRAY;
     private static final double  ORIGIN_PROPORTION_X = 0.1d;
     private static final double  ORIGIN_PROPORTION_Y = 0.33d;
     private static final float   ENERGY_LINE_STROKE_WIDTH = 2f;
     private static final Stroke  ENERGY_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH );
-    private static final Color   TOTAL_ENERGY_LINE_COLOR = Color.GREEN;
-    private static final Color   POTENTIAL_ENERGY_LINE_COLOR = new Color(0x990099);
+    private static final Color   TOTAL_ENERGY_LINE_COLOR = Color.ORANGE;
+    private static final Color   POTENTIAL_ENERGY_LINE_COLOR = Color.BLUE;
     private static final Color   LEGEND_BORDER_COLOR = Color.GRAY;
-    private static final float   LEGEND_BORDER_STROKE_WIDTH = 4f;
+    private static final float   LEGEND_BORDER_STROKE_WIDTH = 2f;
     private static final Stroke  LEGEND_BORDER_STROKE = new BasicStroke( LEGEND_BORDER_STROKE_WIDTH );
-    private static final Color   LEGEND_BACKGROUND_COLOR = new Color(0xffffe0);
+    private static final Color   LEGEND_BACKGROUND_COLOR = BACKGROUND_COLOR;
     private static final double  LEGEND_WIDTH = 190.0d;
     private static final double  LEGEND_HEIGHT = 80.0d;
     private static final double  ALPHA_PARTICLE_SCALE_FACTOR = 0.075;
@@ -185,14 +186,14 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
 
         _xAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
                 10, 8, AXES_LINE_WIDTH);
-        _xAxisOfGraph.setPaint( Color.black );
-        _xAxisOfGraph.setStrokePaint( Color.black );
+        _xAxisOfGraph.setPaint( AXES_LINE_COLOR );
+        _xAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         addChild( _xAxisOfGraph);
         
         _yAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
                 10, 8, AXES_LINE_WIDTH);
-        _yAxisOfGraph.setPaint( Color.black );
-        _yAxisOfGraph.setStrokePaint( Color.black );
+        _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
+        _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         addChild( _yAxisOfGraph);
                 
         // Initialize attributes of the line that shows the total energy level.
@@ -214,7 +215,9 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
          _yAxisLabel1 = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel1" ) );
          _yAxisLabel1.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
          _yAxisLabel1.rotate( 1.5 * Math.PI );
-         addChild( _yAxisLabel1 );
+         // TODO: JPB TBD - Leave this label off for now - Kathy and Wendy are trying to decide if we
+         // want it.
+         // addChild( _yAxisLabel1 );
          
          _yAxisLabel2 = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel2" ) );
          _yAxisLabel2.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
@@ -417,7 +420,8 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
                 10,
                 10 ) );
         
-        _legendTitle.setOffset(legendOriginX + LEGEND_BORDER_STROKE_WIDTH, legendOriginY + LEGEND_BORDER_STROKE_WIDTH);
+        _legendTitle.setOffset(legendOriginX + 2 * LEGEND_BORDER_STROKE_WIDTH, 
+                legendOriginY + 2 * LEGEND_BORDER_STROKE_WIDTH);
         
         _totalEnergyLegendLine.removeAllPoints();        
         _totalEnergyLegendLine.addPoint( 0, legendOriginX + 15, legendOriginY + legendUsableHeight * 0.55 );

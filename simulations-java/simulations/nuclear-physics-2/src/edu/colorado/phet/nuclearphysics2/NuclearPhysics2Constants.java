@@ -77,7 +77,7 @@ public class NuclearPhysics2Constants {
     public static final Color POLONIUM_LABEL_COLOR = Color.MAGENTA;
     
     // Color for label used for the Lead nucleus.
-    public static final Color LEAD_LABEL_COLOR = new Color(0xc0ffff);
+    public static final Color LEAD_LABEL_COLOR = Color.BLACK;
     
     // Color for label used for the Uranium 235 nucleus.
     public static final Color URANIUM_LABEL_COLOR = Color.GREEN;

@@ -52,20 +52,24 @@ public class AlphaRadiationTimeChart extends PNode {
     private static final float BORDER_STROKE_WIDTH = 6f;
     private static final Stroke BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final Color BACKGROUND_COLOR = Color.WHITE;
-    private static final float AXES_LINE_WIDTH = 1.0f;
+    private static final float AXES_LINE_WIDTH = 0.5f;
     private static final Stroke AXES_STROKE = new BasicStroke( AXES_LINE_WIDTH );
+    private static final Color AXES_LINE_COLOR = Color.GRAY;
     private static final double TICK_MARK_LENGTH = 3;
     private static final float TICK_MARK_WIDTH = 2;
     private static final Stroke TICK_MARK_STROKE = new BasicStroke( TICK_MARK_WIDTH );
     private static final Font TICK_MARK_LABEL_FONT = new PhetDefaultFont( Font.PLAIN, 12 );
+    private static final Color TICK_MARK_COLOR = AXES_LINE_COLOR;
     private static final Font LABEL_FONT = new PhetDefaultFont( Font.PLAIN, 14 );
     private static final float TIME_LINE_STROKE_WIDTH = 2f;
     private static final Stroke TIME_LINE_STROKE = new BasicStroke( TIME_LINE_STROKE_WIDTH );
     private static final Color TIME_LINE_COLOR_PRE_DECAY = NuclearPhysics2Constants.POLONIUM_LABEL_COLOR;
-    private static final Color TIME_LINE_COLOR_POST_DECAY = Color.BLUE;
+    private static final Color TIME_LINE_COLOR_POST_DECAY = NuclearPhysics2Constants.LEAD_LABEL_COLOR;
     private static final float HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
-    private static final Color HALF_LIFE_LINE_COLOR = new Color( 0xff5544 );
+    private static final Color HALF_LIFE_LINE_COLOR = new Color (0x990000);
+    private static final Color HALF_LIFE_TEXT_COLOR = Color.WHITE;
+    private static final Font HALF_LIFE_FONT = new PhetDefaultFont( Font.BOLD, 14 );
     private static final Font DECAY_TIME_FONT = new PhetDefaultFont( Font.PLAIN, 16 );
     private static final Color DECAY_TIME_COLOR = Color.RED;
 
@@ -215,15 +219,15 @@ public class AlphaRadiationTimeChart extends PNode {
 
         // Create the x & y axes of the graph.  The initial position is arbitrary
         // and the actual positioning will be done by the update functions.
-        _xAxisOfGraph = new ArrowNode( new Point2D.Double( 10, 10 ), new Point2D.Double( 20, 20 ), 10, 8, 2 );
-        _xAxisOfGraph.setPaint( Color.black );
+        _xAxisOfGraph = new ArrowNode( new Point2D.Double( 10, 10 ), new Point2D.Double( 20, 20 ), 9, 7, 1 );
         _xAxisOfGraph.setStroke( AXES_STROKE );
-        _xAxisOfGraph.setStrokePaint( Color.black );
+        _xAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
+        _xAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _nonPickableChartNode.addChild( _xAxisOfGraph );
-        _yAxisOfGraph = new ArrowNode( new Point2D.Double(), new Point2D.Double(), 10, 8, 2 );
-        _yAxisOfGraph.setPaint( Color.black );
+        _yAxisOfGraph = new ArrowNode( new Point2D.Double(), new Point2D.Double(), 9, 7, 1 );
         _yAxisOfGraph.setStroke( AXES_STROKE );
-        _yAxisOfGraph.setStrokePaint( Color.black );
+        _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
+        _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _nonPickableChartNode.addChild( _yAxisOfGraph );
 
         // Add the tick marks and their labels to the X axis.
@@ -235,6 +239,7 @@ public class AlphaRadiationTimeChart extends PNode {
             // Create the tick mark.  It will be positioned later.
             PPath tickMark = new PPath();
             tickMark.setStroke( TICK_MARK_STROKE );
+            tickMark.setStrokePaint( TICK_MARK_COLOR );
             _xAxisTickMarks.add( tickMark );
             _nonPickableChartNode.addChild( tickMark );
 
@@ -252,11 +257,13 @@ public class AlphaRadiationTimeChart extends PNode {
 
         PPath yTickMark1 = new PPath();
         yTickMark1.setStroke( TICK_MARK_STROKE );
+        yTickMark1.setStrokePaint( TICK_MARK_COLOR );
         _yAxisTickMarks.add( yTickMark1 );
         _nonPickableChartNode.addChild( yTickMark1 );
 
         PPath yTickMark2 = new PPath();
         yTickMark2.setStroke( TICK_MARK_STROKE );
+        yTickMark2.setStrokePaint( TICK_MARK_COLOR );
         _yAxisTickMarks.add( yTickMark2 );
         _nonPickableChartNode.addChild( yTickMark2 );
 
@@ -312,8 +319,9 @@ public class AlphaRadiationTimeChart extends PNode {
 
         // Create the label for the half life line.
         _halfLifeLabel = new PText( " " + NuclearPhysics2Strings.DECAY_TIME_CHART_HALF_LIFE + " " );
-        _halfLifeLabel.setFont( LABEL_FONT );
+        _halfLifeLabel.setFont( HALF_LIFE_FONT );
         _halfLifeLabel.setPaint( HALF_LIFE_LINE_COLOR );
+        _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
         _nonPickableChartNode.addChild( _halfLifeLabel );
 
         // Create the legend for the decay time markers.

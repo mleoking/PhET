@@ -58,6 +58,7 @@ public class LabeledNucleusNode extends PNode {
             " </font></sup>" + chemicalSymbol + "</html>";
         ShadowHTMLNode label = new ShadowHTMLNode(labelText);
         label.setColor( labelColor );
+        label.setShadowColor( labelColor == Color.BLACK ? Color.WHITE : Color.BLACK );
         label.setScale(FONT_SCALING_FACTOR);
         label.setShadowOffset( 0.5, 0.5 );
         if (nucleus.getWidth() < label.getWidth()){

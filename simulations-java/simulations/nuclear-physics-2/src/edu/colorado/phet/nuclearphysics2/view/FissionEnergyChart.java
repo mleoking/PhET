@@ -48,13 +48,14 @@ public class FissionEnergyChart extends PComposite {
     private static final Stroke  BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final Color   BACKGROUND_COLOR = Color.WHITE;
     private static final double  SCREEN_FRACTION_Y = 0.5d;
-    private static final double  AXES_LINE_WIDTH = 2f;
+    private static final double  AXES_LINE_WIDTH = 1f;
+    private static final Color   AXES_LINE_COLOR = Color.GRAY;
     private static final double  ORIGIN_PROPORTION_X = 0.1d;
     private static final double  ORIGIN_PROPORTION_Y = 0.85d;
     private static final float   ENERGY_LINE_STROKE_WIDTH = 2f;
     private static final Stroke  ENERGY_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH );
-    private static final Color   TOTAL_ENERGY_LINE_COLOR = Color.GREEN;
-    private static final Color   POTENTIAL_ENERGY_LINE_COLOR = new Color(0x990099);
+    private static final Color   TOTAL_ENERGY_LINE_COLOR = Color.ORANGE;
+    private static final Color   POTENTIAL_ENERGY_LINE_COLOR = Color.BLUE;
     private static final Color   LEGEND_BORDER_COLOR = Color.GRAY;
     private static final float   LEGEND_BORDER_STROKE_WIDTH = 4f;
     private static final Stroke  LEGEND_BORDER_STROKE = new BasicStroke( LEGEND_BORDER_STROKE_WIDTH );
@@ -203,15 +204,15 @@ public class FissionEnergyChart extends PComposite {
         // real sizes and positions will be set when the bounds are updated.
 
         _xAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
-                15, 10, AXES_LINE_WIDTH);
-        _xAxisOfGraph.setPaint( Color.black );
-        _xAxisOfGraph.setStrokePaint( Color.black );
+                9, 7, AXES_LINE_WIDTH);
+        _xAxisOfGraph.setPaint( AXES_LINE_COLOR );
+        _xAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         addChild( _xAxisOfGraph);
         
         _yAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
-                15, 10, AXES_LINE_WIDTH);
-        _yAxisOfGraph.setPaint( Color.black );
-        _yAxisOfGraph.setStrokePaint( Color.black );
+                9, 7, AXES_LINE_WIDTH);
+        _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
+        _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         addChild( _yAxisOfGraph);
                 
         // Initialize attributes of the line that shows the total energy level.

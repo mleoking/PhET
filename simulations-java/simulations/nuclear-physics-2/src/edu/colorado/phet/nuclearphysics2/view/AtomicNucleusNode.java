@@ -139,23 +139,24 @@ public class AtomicNucleusNode extends PNode {
      */
     private void setLabel(int numProtons, int numNeutrons){
         
-        String label = "";
+        String labelText = "";
+        Color labelColor = Color.GRAY;
         
         switch (numProtons){
         case 92:
             // Uranium
             if (numNeutrons == 143){
                 // Uranium 235
-                label = "<html><sup><font size=-2>" + NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER +
+                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER +
                 " </font></sup>" + NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL + "</html>";
-                _isotopeLabel.setColor( NuclearPhysics2Constants.URANIUM_LABEL_COLOR );
+                labelColor = NuclearPhysics2Constants.URANIUM_LABEL_COLOR;
             }
             else if (numNeutrons == 144){
                 // Uranium 236
                 // TODO: JPB TBD - Make these into strings if we decide to keep it.
-                label = "<html><sup><font size=-2>" + "236" +
+                labelText = "<html><sup><font size=-2>" + "236" +
                 " </font></sup>" + NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL + "</html>";
-                _isotopeLabel.setColor( Color.ORANGE );
+                labelColor = Color.ORANGE;
             }
             
             break;
@@ -164,9 +165,9 @@ public class AtomicNucleusNode extends PNode {
             // Polonium
             if (numNeutrons == 127){
             // Polonium 211
-                label = "<html><sup><font size=-2>" + NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER +
+                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER +
                 " </font></sup>" + NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL + "</html>";
-                _isotopeLabel.setColor( NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
+                labelColor = NuclearPhysics2Constants.POLONIUM_LABEL_COLOR;
             }
             
             break;
@@ -174,9 +175,9 @@ public class AtomicNucleusNode extends PNode {
         case 82:
             // Lead
             if (numNeutrons == 125){
-                label = "<html><sup><font size=-2>" + NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER +
+                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER +
                 " </font></sup>" + NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL + "</html>";
-                _isotopeLabel.setColor( NuclearPhysics2Constants.LEAD_LABEL_COLOR );
+                labelColor = NuclearPhysics2Constants.LEAD_LABEL_COLOR;
             }
             
             break;
@@ -185,18 +186,26 @@ public class AtomicNucleusNode extends PNode {
             // This is a special case that is used to signal that the nucleus
             // should have no label.
             
-            label = "";
+            labelText = "";
             
             break;
             
         default:
             // Add no label.
-            label = "";
+            labelText = "";
             
             break;
         }
+
+        _isotopeLabel.setColor( labelColor );
+        if (labelColor == Color.BLACK){
+            _isotopeLabel.setShadowColor( Color.WHITE );
+        }
+        else{
+            _isotopeLabel.setShadowColor( Color.BLACK );            
+        }
         
-        _isotopeLabel.setHtml( label );
+        _isotopeLabel.setHtml( labelText );
     }
     
     /**
