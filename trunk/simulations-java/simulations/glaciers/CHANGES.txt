@@ -73,6 +73,7 @@ CLEANUP:
 
 
 DONE:
+4/14/08 - add ELA value display for debugging range of Climate parameters
 4/14/08 - increase precision of temperature textfield
 4/14/08 - remove obsolete Climate.setMaxSnowfall, make getMaxSnowfall private
 4/14/08 - rename EquilibriumLineAltitude to ELA throughout Climate model
