@@ -269,7 +269,7 @@ public class Glacier extends ClockAdapter {
             final double maxThickness = computeMaxThickness( ela, _maxElevation ); // H_max in documentation
             final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
             final double xPeak = MIN_X + ( 0.5 * glacierLength ); // midpoint of the ice
-            final double p = 42 - ( 0.01 * ela );
+            final double p = Math.max( 1.5, 42 - ( 0.01 * ela ) );
             final double r = 1.5 * xPeak;
             final double xPeakPow = Math.pow( xPeak, p );
 
@@ -290,18 +290,7 @@ public class Glacier extends ClockAdapter {
                 else {
                     thickness = Math.sqrt( ( xPeak * xPeak ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / xPeak );
                 }
-                
-//                //XXX debug output for problem with negative & NaN thickness values
-//                if ( !( thickness >= 0 ) ) {
-//                    System.out.println( "Glacier.updateIceThicknessSamples" );
-//                    System.out.println( " thickness=" + thickness );
-//                    System.out.println( " ela=" + ela );
-//                    System.out.println( " glacierLength=" + glacierLength );
-//                    System.out.println( " maxThickness=" + maxThickness );
-//                    System.out.println( " x=" + x );
-//                }
-                
-//                assert ( thickness >= 0 );
+                assert ( thickness >= 0 );
 
                 // accumulate squares
                 if ( thickness > 0 ) {
