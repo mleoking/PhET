@@ -9,7 +9,9 @@ import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
+import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel;
+import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
@@ -45,6 +47,7 @@ public class BasicModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private BasicModel _model;
+    private PlayArea _playArea;
     private BasicControlPanel _controlPanel;
     private BasicController _controller;
 
@@ -72,8 +75,8 @@ public class BasicModule extends PiccoloModule {
 
         // Play Area
         ModelViewTransform mvt = new ModelViewTransform( MVT_X_SCALE, MVT_Y_SCALE, MVT_X_OFFSET, MVT_Y_OFFSET, MVT_FLIP_SIGN_X, MVT_FLIP_SIGN_Y );
-        PlayArea playArea = new PlayArea( _model, mvt );
-        setSimulationPanel( playArea );
+        _playArea = new PlayArea( _model, mvt );
+        setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
         _controlPanel = new BasicControlPanel( clock );
@@ -89,7 +92,7 @@ public class BasicModule extends PiccoloModule {
         });
         
         // Controller
-        _controller = new BasicController( _model, playArea, _controlPanel );
+        _controller = new BasicController( _model, _playArea, _controlPanel );
 
         // Help
         if ( hasHelp() ) {
@@ -101,7 +104,7 @@ public class BasicModule extends PiccoloModule {
         }
         
         // Set initial state
-        reset();
+        resetAll();
     }
 
     //----------------------------------------------------------------------------
@@ -129,47 +132,61 @@ public class BasicModule extends PiccoloModule {
     }
     
     /**
-     * Resets the module.
+     * Resets everything in the module.
      */
     public void resetAll() {
         
+        super.reset();
+        
         System.out.println( "BasicModule.resetAll" );//XXX
 
-        // Model
-        {
-            // Clock
-            GlaciersClock clock = _model.getClock();
-            clock.setFrameRate( BasicDefaults.CLOCK_FRAME_RATE_RANGE.getDefault() );
-            clock.resetSimulationTime();
-            setClockRunningWhenActive( BasicDefaults.CLOCK_RUNNING );
-            
-            // Climate
-            Climate climate = _model.getClimate();
-            climate.setTemperature( BasicDefaults.TEMPERATURE_RANGE.getDefault() );
-            climate.setSnowfall( BasicDefaults.SNOWFALL_RANGE.getDefault() );
-            climate.setSnowfallReferenceElevation( BasicDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE.getDefault() );
-            
-            // Glacier
-            Glacier glacier = _model.getGlacier();
-            glacier.setSteadyState();
-            
-            // Tools
-            _model.removeAllTools();
-        }
+        // Model ---------------------------------------------
+        
+        // Clock
+        GlaciersClock clock = _model.getClock();
+        clock.setFrameRate( BasicDefaults.CLOCK_FRAME_RATE_RANGE.getDefault() );
+        clock.resetSimulationTime();
+        setClockRunningWhenActive( BasicDefaults.CLOCK_RUNNING );
 
-        // Control panel settings that are view-related
-        {
-            ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
-            viewControlPanel.setEquilibriumLineSelected( false );
-            viewControlPanel.setIceFlowSelected( false );
-            viewControlPanel.setCoordinatesSelected( false );
-            
-            GraphsControlPanel graphsControlPanel = _controlPanel.getGraphsControlPanel();
-            graphsControlPanel.setGlacierLengthVerusTimeSelected( false );
-            graphsControlPanel.setEquilibriumLineAltitudeVersusTimeSelected( false );
-            graphsControlPanel.setGlacialBudgetVersusElevationSelected( false );
-            graphsControlPanel.setTemperatureVersusElevationSelected( false );
-        }
+        // Climate
+        Climate climate = _model.getClimate();
+        climate.setTemperature( BasicDefaults.TEMPERATURE_RANGE.getDefault() );
+        climate.setSnowfall( BasicDefaults.SNOWFALL_RANGE.getDefault() );
+        climate.setSnowfallReferenceElevation( BasicDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE.getDefault() );
+
+        // Glacier
+        Glacier glacier = _model.getGlacier();
+        glacier.setSteadyState();
+
+        // Tools
+        _model.removeAllTools();
+        
+        // Controls ---------------------------------------------
+
+        ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
+        viewControlPanel.setEquilibriumLineSelected( true );//XXX for testing, default should be false
+        viewControlPanel.setIceFlowSelected( false );
+        viewControlPanel.setCoordinatesSelected( false );
+        
+        ClimateControlPanel climateControlPanel = _controlPanel.getClimateControlPanel();
+        climateControlPanel.setSnowfall( climate.getSnowfall() );
+        climateControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
+        climateControlPanel.setTemperature( climate.getTemperature() );
+        
+        GraphsControlPanel graphsControlPanel = _controlPanel.getGraphsControlPanel();
+        graphsControlPanel.setGlacierLengthVerusTimeSelected( false );
+        graphsControlPanel.setEquilibriumLineAltitudeVersusTimeSelected( false );
+        graphsControlPanel.setGlacialBudgetVersusElevationSelected( false );
+        graphsControlPanel.setTemperatureVersusElevationSelected( false );
+        
+        MiscControlPanel miscControlPanel = _controlPanel.getMiscControlPanel();
+        miscControlPanel.setEquilibriumButtonEnabled( !glacier.isSteadyState() );
+
+        // View ---------------------------------------------
+        
+        _playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
+        _playArea.setIceFlowVisible( viewControlPanel.isIceFlowSelected() );
+        _playArea.setAxesVisible( viewControlPanel.isCoordinatesSelected() );
     }
     
     //----------------------------------------------------------------------------

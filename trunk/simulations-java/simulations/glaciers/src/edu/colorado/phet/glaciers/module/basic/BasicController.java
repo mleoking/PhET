@@ -198,12 +198,12 @@ public class BasicController {
         });
         
         // Initialization
-        playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
-        playArea.setIceFlowVisible( viewControlPanel.isIceFlowSelected() );
-        playArea.setAxesVisible( viewControlPanel.isCoordinatesSelected() );
-        climateControlPanel.setSnowfall( climate.getSnowfall() );
-        climateControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
-        climateControlPanel.setTemperature( climate.getTemperature() );
-        miscControlPanel.setEquilibriumButtonEnabled( !glacier.isSteadyState() );
+//        playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
+//        playArea.setIceFlowVisible( viewControlPanel.isIceFlowSelected() );
+//        playArea.setAxesVisible( viewControlPanel.isCoordinatesSelected() );
+//        climateControlPanel.setSnowfall( climate.getSnowfall() );
+//        climateControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
+//        climateControlPanel.setTemperature( climate.getTemperature() );
+//        miscControlPanel.setEquilibriumButtonEnabled( !glacier.isSteadyState() );
     }
 }

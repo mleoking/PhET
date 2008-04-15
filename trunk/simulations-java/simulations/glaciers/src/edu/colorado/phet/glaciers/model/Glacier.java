@@ -36,6 +36,8 @@ public class Glacier extends ClockAdapter {
     private static final double MIN_TIMESCALE = 20; // min value for climate change timescale
     private static final double MAX_TIMESCALE = 50; // max value for climate change timescale
     
+    private static final double ELA_THRESHOLD = 4000; // x_term_alter_x in documentation (meters)
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -309,19 +311,18 @@ public class Glacier extends ClockAdapter {
      */
     private static double computeLength( final double ela, final double maxElevation ) {
         
-        final double elaThreshold = 4000; // meters
-        assert( elaThreshold < maxElevation );
+        assert( ELA_THRESHOLD < maxElevation );
         
         double length = 0;
         if ( ela > maxElevation ) {
             // above the top of the headwall, length is zero
             length = 0;
         }
-        else if ( ela > elaThreshold ) {
-            // above this threshold, use a different curve
-            final double term0 = computeLength( elaThreshold, maxElevation ); // recursive call
-            final double term1 = term0 / ( maxElevation - elaThreshold );
-            length = term0 - ( ( ela - elaThreshold ) * term1 );
+        else if ( ela > ELA_THRESHOLD ) {
+            // above this threshold, the data fits this curve
+            final double term0 = computeLength( ELA_THRESHOLD, maxElevation ); // recursive!
+            final double term1 = term0 / ( maxElevation - ELA_THRESHOLD );
+            length = term0 - ( ( ela - ELA_THRESHOLD ) * term1 );
         }
         else {
             // at all other elevations, the data fits this curve
@@ -342,15 +343,27 @@ public class Glacier extends ClockAdapter {
      * to break.
      */
     private static double computeMaxThickness( double ela, final double maxElevation ) {
+        
+        assert( ELA_THRESHOLD < maxElevation );
+        
         double maxThickness = 0;
         if ( ela > maxElevation ) {
+            // above the top of the headwall, max thickness is zero
             maxThickness = 0;
         }
+        else if ( ela > ELA_THRESHOLD ) {
+            // above this threshold, the data fits this curve
+            final double term0 = computeMaxThickness( ELA_THRESHOLD, maxElevation ); // recursive!
+            final double term1 = term0 / ( maxElevation - ELA_THRESHOLD );
+            maxThickness = term0 - ( ( ela - ELA_THRESHOLD ) * term1 );
+        }
         else {
+            // at all other elevations, the data fits this curve
             maxThickness = 400. - Math.pow( ( 1.04E-2 * ela ) - 23, 2 );
         }
-        //XXX workaround, this must be fixed! get new model from Archie
+//        //XXX workaround, this must be fixed! get new model from Archie
         if ( maxThickness < 0 ) {
+            System.out.println( "ERROR - Glacier.computeMaxThickness maxThickness=" + maxThickness );//XXX
             maxThickness = 0;
         }
         assert( maxThickness >= 0 );

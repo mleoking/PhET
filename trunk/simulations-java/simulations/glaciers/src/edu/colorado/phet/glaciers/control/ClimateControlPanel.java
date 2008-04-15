@@ -187,13 +187,21 @@ public class ClimateControlPanel extends AbstractSubPanel {
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    public void setSnowfall( double snowfall ) {
+        if ( snowfall != getSnowfall() ) {
+        _snowfallControl.setValue( snowfall );
+            notifySnowfallChanged();
+        }
+    }
+    
     public double getSnowfall() {
         return _snowfallControl.getValue();
     }
     
-    public void setSnowfall( double snowfall ) {
-        if ( snowfall != getSnowfall() ) {
-            _snowfallControl.setValue( snowfall );
+    public void setSnowfallReferenceElevation( double snowfallReferenceElevation ) {
+        if ( snowfallReferenceElevation != getSnowfallReferenceElevation() ) {
+            _snowfallReferenceElevationControl.setValue( snowfallReferenceElevation );
+            notifySnowfallReferenceElevationChanged();
         }
     }
     
@@ -201,20 +209,15 @@ public class ClimateControlPanel extends AbstractSubPanel {
         return _snowfallReferenceElevationControl.getValue();
     }
     
-    public void setSnowfallReferenceElevation( double snowfallReferenceElevation ) {
-        if ( snowfallReferenceElevation != getSnowfallReferenceElevation() ) {
-            _snowfallReferenceElevationControl.setValue( snowfallReferenceElevation );
+    public void setTemperature( double temperature ) {
+        if ( temperature != getTemperature() ) {
+            _temperatureControl.setValue( temperature );
+            notifyTemperatureChanged();
         }
     }
     
     public double getTemperature() {
         return _temperatureControl.getValue();
-    }
-    
-    public void setTemperature( double temperature ) {
-        if ( temperature != getTemperature() ) {
-            _temperatureControl.setValue( temperature );
-        }
     }
     
     //----------------------------------------------------------------------------
