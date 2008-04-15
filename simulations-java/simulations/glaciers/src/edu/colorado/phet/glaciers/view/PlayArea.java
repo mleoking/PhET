@@ -19,6 +19,7 @@ import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
@@ -97,6 +98,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
     private EquilibriumLineNode _equilibriumLineNode;
+    private ELAValueNode _elaValueNode;
     private ElevationAxisNode _leftElevationAxisNode, _rightElevationAxisNode;
     private DistanceAxisNode _distanceAxisNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
@@ -251,6 +253,11 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _toolsMap = new HashMap();
         _toolboxNode = new ToolboxNode( _model, _mvt );
         _toolboxLayer.addChild( _toolboxNode );
+        
+        // ELA value display
+        _elaValueNode = new ELAValueNode( _model.getClimate() );
+        _elaValueNode.setVisible( PhetApplication.instance().isDeveloperControlsEnabled() );
+        _toolboxLayer.addChild( _elaValueNode );
         
         // Penguin is the control for moving the zoomed viewport
         _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, maxX );
@@ -412,6 +419,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // move the toolbox
         updateToolboxPosition();
         
+        // move the ELA value display
+        updateELAValuePosition();
+        
         // move the vertical (elevation) axis
         updateElevationAxis();
     }
@@ -425,6 +435,17 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         double xOffset = rView.getX() + 5;
         double yOffset = rView.getY() + rView.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5;
         _toolboxNode.setOffset( xOffset, yOffset );
+    }
+    
+    /*
+     * Moves the ELA value display to the lower-right corner of the zoomed viewport
+     */
+    private void updateELAValuePosition() {
+        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
+        Rectangle2D rView = _mvt.modelToView( rModel );
+        double xOffset = _toolboxNode.getFullBoundsReference().getMaxX() + 5;
+        double yOffset = rView.getMaxY() - _elaValueNode.getFullBoundsReference().getHeight() - 5;
+        _elaValueNode.setOffset( xOffset, yOffset );
     }
     
     /*
