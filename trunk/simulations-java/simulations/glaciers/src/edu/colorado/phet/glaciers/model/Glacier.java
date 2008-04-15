@@ -100,7 +100,7 @@ public class Glacier extends ClockAdapter {
         _maxElevation = _valley.getElevation( MIN_X );
 
         _climateChangedTime = _clock.getSimulationTime();
-        _previousELA = _currentELA = _climate.getEquilibriumLineAltitude();
+        _previousELA = _currentELA = _climate.getELA();
         setSteadyState();
     }
     
@@ -176,7 +176,7 @@ public class Glacier extends ClockAdapter {
      */
     public void setSteadyState() {
         if ( !_steadyState ) {
-            final double steadyStateELA = _climate.getEquilibriumLineAltitude();
+            final double steadyStateELA = _climate.getELA();
             _previousELA = _currentELA = steadyStateELA;
             updateIceThicknessSamples();
             _steadyState = true;
@@ -361,11 +361,7 @@ public class Glacier extends ClockAdapter {
             // at all other elevations, the data fits this curve
             maxThickness = 400. - Math.pow( ( 1.04E-2 * ela ) - 23, 2 );
         }
-//        //XXX workaround, this must be fixed! get new model from Archie
-        if ( maxThickness < 0 ) {
-            System.out.println( "ERROR - Glacier.computeMaxThickness maxThickness=" + maxThickness );//XXX
-            maxThickness = 0;
-        }
+        
         assert( maxThickness >= 0 );
         return maxThickness;
     }
@@ -461,7 +457,7 @@ public class Glacier extends ClockAdapter {
         
         if ( !isSteadyState() ) {
             
-            final double steadyStateELA = _climate.getEquilibriumLineAltitude();
+            final double steadyStateELA = _climate.getELA();
             
             // evolve the ELA
             final double tElapsed = event.getSimulationTime() - _climateChangedTime;

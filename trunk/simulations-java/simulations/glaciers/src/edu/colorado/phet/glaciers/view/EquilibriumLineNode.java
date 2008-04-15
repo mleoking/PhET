@@ -119,7 +119,7 @@ public class EquilibriumLineNode extends PhetPNode {
     
     private void update() {
         
-        double ela = _climate.getEquilibriumLineAltitude();
+        double ela = _climate.getELA();
         _pModel.setLocation( 0, ela );
         _mvt.modelToView( _pModel, _pView );
         
