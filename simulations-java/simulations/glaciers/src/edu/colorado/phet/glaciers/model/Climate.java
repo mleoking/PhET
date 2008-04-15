@@ -39,7 +39,7 @@ public class Climate {
     private double _temperature; // temperature at sea level (degrees C)
     private double _snowfall; // snow accumulation (meters/year)
     private double _snowfallReferenceElevation; // reference elevation for snowfall (meters)
-    private double _equilibriumLineAlitutude; // elevation where glacial budget is zero (meters)
+    private double _ela; // equilibrium line altitude, elevation where glacial budget is zero (meters)
     private ArrayList _listeners; // list of ClimateListener
     
     //----------------------------------------------------------------------------
@@ -58,7 +58,7 @@ public class Climate {
         _snowfall = snowfall;
         _snowfallReferenceElevation = snowfallReferenceElevation;
         _listeners = new ArrayList();
-        updateEquilibriumLineAltitude();
+        updateELA();
     }
     
     /**
@@ -78,7 +78,7 @@ public class Climate {
     public void setTemperature( double temperature ) {
         if ( temperature != _temperature ) {
             _temperature = temperature;
-            updateEquilibriumLineAltitude();
+            updateELA();
             notifyTemperatureChanged();
         }
     }
@@ -102,7 +102,7 @@ public class Climate {
         assert( snowfall >= 0 );
         if ( snowfall != _snowfall ) {
             _snowfall = snowfall;
-            updateEquilibriumLineAltitude();
+            updateELA();
             notifySnowfallChanged();
         }
     }
@@ -146,7 +146,7 @@ public class Climate {
         assert( snowfallReferenceElevation >= 0 );
         if ( snowfallReferenceElevation != _snowfallReferenceElevation ) {
             _snowfallReferenceElevation = snowfallReferenceElevation;
-            updateEquilibriumLineAltitude();
+            updateELA();
             notifySnowfallReferenceElevationChanged();
         }
     }
@@ -228,8 +228,8 @@ public class Climate {
         return getAccumulation( elevation ) - getAblation( elevation );
     }
     
-    public double getEquilibriumLineAltitude() {
-        return _equilibriumLineAlitutude;
+    public double getELA() {
+        return _ela;
     }
     
     /*
@@ -237,7 +237,7 @@ public class Climate {
      * This uses a "divide and conquer" algorithm, gradually decreasing the sign and magnitude of dz until
      * we find a glacial budget that is close enough to 0, or until dz gets sufficiently small.
      */
-    private void updateEquilibriumLineAltitude() {
+    private void updateELA() {
 
         double elevation = ELA_SEARCH_STARTING_ELEVATION;
         double deltaElevation = ELA_SEARCH_STARTING_DELTA;
@@ -252,7 +252,7 @@ public class Climate {
                 elevation = 0;
             }
             else if ( elevation > 10 * MODERN_SNOWFALL_REFERENCE_ELEVATION ) {
-                System.err.println( "Climate.updateEquilibriumLineAltitude, elevation is outside our range of interest, elevation=: " + elevation );
+                System.err.println( "Climate.updateELA, elevation is outside our range of interest, elevation=: " + elevation );
                 break;
             }
             
@@ -267,7 +267,7 @@ public class Climate {
             glacialBudget = newGlacialBudget;
         }
         
-        _equilibriumLineAlitutude = elevation;
+        _ela = elevation;
     }
     
     //----------------------------------------------------------------------------
