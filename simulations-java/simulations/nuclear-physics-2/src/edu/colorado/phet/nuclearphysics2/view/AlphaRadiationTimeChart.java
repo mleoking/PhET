@@ -70,7 +70,7 @@ public class AlphaRadiationTimeChart extends PNode {
     private static final Color HALF_LIFE_LINE_COLOR = new Color (0x990000);
     private static final Color HALF_LIFE_TEXT_COLOR = Color.WHITE;
     private static final Font HALF_LIFE_FONT = new PhetDefaultFont( Font.BOLD, 14 );
-    private static final Font DECAY_TIME_FONT = new PhetDefaultFont( Font.PLAIN, 16 );
+    private static final Font DECAY_TIME_FONT = new PhetDefaultFont( Font.PLAIN, 14 );
     private static final Color DECAY_TIME_COLOR = Color.RED;
 
     // Constants that control the location of the origin.
@@ -121,6 +121,7 @@ public class AlphaRadiationTimeChart extends PNode {
     private PText _halfLifeLabel;
     private PText _markerInLegend;
     private PText _markerLegendLabel;
+    private PNode _decayMarkerParentNode;
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -336,16 +337,21 @@ public class AlphaRadiationTimeChart extends PNode {
 
         // Add the text that will show the decay time.
         _timeToDecayLabel = new PText( NuclearPhysics2Strings.DECAY_TIME_LABEL );
-        _timeToDecayLabel.setFont( LABEL_FONT );
+        _timeToDecayLabel.setFont( DECAY_TIME_FONT );
         _nonPickableChartNode.addChild( _timeToDecayLabel );
         _timeToDecayText = new PText( "0.000" );
-        _timeToDecayText.setFont( LABEL_FONT );
         _timeToDecayText.setFont( DECAY_TIME_FONT );
         _timeToDecayText.setTextPaint( DECAY_TIME_COLOR );
         _nonPickableChartNode.addChild( _timeToDecayText );
         _timeToDecayUnits = new PText( NuclearPhysics2Strings.DECAY_TIME_UNITS );
-        _timeToDecayUnits.setFont( LABEL_FONT );
+        _timeToDecayUnits.setFont( DECAY_TIME_FONT );
         _nonPickableChartNode.addChild( _timeToDecayUnits );
+        
+        // Add the node that will be the parent node of the decay markers.
+        // This is done so that they end up under the button if the decay
+        // occurs when the line is there.
+        _decayMarkerParentNode = new PNode();
+        addChild(_decayMarkerParentNode);
 
         // Add the button for resetting the chart.
         _resetButtonNode = new PhetButtonNode( NuclearPhysics2Strings.DECAY_TIME_CLEAR_CHART );
@@ -473,12 +479,12 @@ public class AlphaRadiationTimeChart extends PNode {
         }
 
         // Position the decay time indicator.
-        _timeToDecayUnits.setOffset( _usableAreaOriginX + _usableWidth - _timeToDecayUnits.getWidth() - BORDER_STROKE_WIDTH, _usableAreaOriginY + 3 );
-        _timeToDecayText.setOffset( _timeToDecayUnits.getOffset().getX() - _timeToDecayText.getWidth() - 7, _usableAreaOriginY + 3 );
+        _timeToDecayUnits.setOffset( _usableAreaOriginX + _usableWidth - _timeToDecayUnits.getWidth() - _usableWidth * 0.05, _usableAreaOriginY + 3 );
+        _timeToDecayText.setOffset( _timeToDecayUnits.getOffset().getX() - _timeToDecayText.getWidth() - 2, _usableAreaOriginY + 3 );
         _timeToDecayLabel.setOffset( _timeToDecayText.getOffset().getX() - _timeToDecayLabel.getWidth() - 7, _usableAreaOriginY + 3 );
 
-        // Position the reset button.  Center it below the decay time text.
-        double xPosButton = _usableWidth - ( ( _timeToDecayUnits.getXOffset() + _timeToDecayUnits.getWidth() - _timeToDecayLabel.getXOffset() ) / 2 ) - _resetButtonNode.getWidth() / 2;
+        // Position the reset button.  Align it to the left side of the decay time label.
+        double xPosButton = _timeToDecayLabel.getXOffset();
         _resetButtonNode.setOffset( xPosButton, _usableAreaOriginY + _timeToDecayLabel.getHeight() * 1.3 );
     }
 
@@ -631,7 +637,7 @@ public class AlphaRadiationTimeChart extends PNode {
         _markers[_numMarkers++] = marker;
 
         // Add this node as a child.
-        addChild( marker );
+        _decayMarkerParentNode.addChild( marker );
     }
 
     /**
@@ -640,7 +646,7 @@ public class AlphaRadiationTimeChart extends PNode {
     private void resetDecayMarkers() {
         // Clear out the markers.
         for ( int i = 0; i < _numDecays; i++ ) {
-            removeChild( _markers[i] );
+            _decayMarkerParentNode.removeChild( _markers[i] );
             _markers[i] = null;
         }
         _numDecays = 0;
