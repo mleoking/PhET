@@ -1,4 +1,3 @@
-================================================================================
 Change history for glaciers
 ================================================================================
 
@@ -46,6 +45,8 @@ MEDIUM PRIORITY:
 - should Glacial Budget vs Elevation chart show negative ablation?
 
 LOW PRIORITY:
+- implement Save/Load feature
+- close & reopen graph windows when switching modules
 - offset the temperature range and default, then add the offset back in the model
 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
 - add Help menu option to show pictures of real glaciers
@@ -71,6 +72,8 @@ CLEANUP:
 
 
 DONE:
+4/14/08 - fix resetAll in Basic module
+4/14/08 - fix control panel setters, no op if value is not different
 4/14/08 - reorganize the ice thickness model, improve efficiency and readability
 4/14/08 - show ice velocity vectors in zoomed view only, they clutter the birds-eye view
 4/11/08 - fix Climate.getAblation, always add offset so that ablation is never zero 

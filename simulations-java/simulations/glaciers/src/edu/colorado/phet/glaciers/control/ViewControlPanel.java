@@ -97,9 +97,9 @@ public class ViewControlPanel extends AbstractSubPanel {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setEquilibriumLineSelected( boolean b ) {
-        if ( b != isEquilibriumLineSelected() ) {
-            _equilibriumLineCheckBox.setSelected( b );
+    public void setEquilibriumLineSelected( boolean selected ) {
+        if ( selected != isEquilibriumLineSelected() ) {
+            _equilibriumLineCheckBox.setSelected( selected );
             notifyEquilibriumLineChanged();
         }
     }
@@ -108,9 +108,9 @@ public class ViewControlPanel extends AbstractSubPanel {
         return _equilibriumLineCheckBox.isSelected();
     }
     
-    public void setIceFlowSelected( boolean b ) {
-        if ( b != isIceFlowSelected() ) {
-            _iceFlowCheckBox.setSelected( b );
+    public void setIceFlowSelected( boolean selected ) {
+        if ( selected != isIceFlowSelected() ) {
+            _iceFlowCheckBox.setSelected( selected );
             notifyIceFlowChanged();
         }
     }
@@ -119,9 +119,9 @@ public class ViewControlPanel extends AbstractSubPanel {
         return _iceFlowCheckBox.isSelected();
     }
     
-    public void setCoordinatesSelected( boolean b ) {
-        if ( b != isCoordinatesSelected() ) {
-            _coordinatesCheckBox.setSelected( b );
+    public void setCoordinatesSelected( boolean selected ) {
+        if ( selected != isCoordinatesSelected() ) {
+            _coordinatesCheckBox.setSelected( selected );
             notifyCoordinatesChanged();
         }
     }
