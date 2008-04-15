@@ -68,11 +68,11 @@ public class ClimateControlPanel extends AbstractSubPanel {
             double min = temperatureRange.getMin();
             double max = temperatureRange.getMax();
             String label = "";
-            String textfieldPattern = "#0.0";
+            String textfieldPattern = "#0.00";
             String units = GlaciersStrings.UNITS_CELSIUS;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _temperatureControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
-            _temperatureControl.setUpDownArrowDelta( 0.1 );
+            _temperatureControl.setUpDownArrowDelta( 0.01 );
             _temperatureControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_temperatureControl.isAdjusting() ) {
