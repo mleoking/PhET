@@ -564,7 +564,7 @@
 		<!-- commit the updated project properties file -->
 		<echo message="Committing ${file.project.properties}" />
 		<exec executable="svn">
-			<arg line="commit --username ${svn.username} --password ${svn.password} --message &quot;${sim.name}: deployed version ${sim.version}&quot; ${file.project.properties}" />
+			<arg line="commit --username ${svn.username} --password ${svn.password} --message &quot;${sim.name}: deployed version ${sim.version}&quot; &quot;${file.project.properties}&quot;" />
 		</exec>
 		
 		<!-- TODO: verify that SVN repository revision number now matches what we wrote to the project properties file -->
