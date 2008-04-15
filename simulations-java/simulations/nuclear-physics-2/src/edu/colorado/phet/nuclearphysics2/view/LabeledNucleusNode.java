@@ -28,7 +28,7 @@ public class LabeledNucleusNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
 
-    private static final double IMAGE_SCALING_FACTOR = 0.22;
+    private static final double IMAGE_SCALING_FACTOR = 0.20;
     private static final double FONT_SCALING_FACTOR = IMAGE_SCALING_FACTOR * 9;
 
     //------------------------------------------------------------------------
@@ -76,7 +76,7 @@ public class LabeledNucleusNode extends PNode {
     public static void main(String [] args){
         LabeledNucleusNode testNode = new LabeledNucleusNode("Uranium Nucleus Small.png",
                 NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER, NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.URANIUM_LABEL_COLOR );
+                NuclearPhysics2Constants.URANIUM_235_LABEL_COLOR );
         
         JFrame frame = new JFrame();
         PhetPCanvas canvas = new PhetPCanvas();

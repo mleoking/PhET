@@ -5,14 +5,14 @@ package edu.colorado.phet.nuclearphysics2.defaults;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 
 /**
- * This class contains the default settings for the Alpha Radiation Module.
+ * This class contains the default settings for the Chain Reaction module.
  *
  * @author John Blanco
  */
-public class AlphaRadiationDefaults {
-
+public class ChainReactionDefaults {
+    
     /* Not intended for instantiation */
-    private AlphaRadiationDefaults() {}
+    private ChainReactionDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
