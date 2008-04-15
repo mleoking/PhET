@@ -252,7 +252,7 @@ public class Climate {
                 elevation = 0;
             }
             else if ( elevation > 10 * MODERN_SNOWFALL_REFERENCE_ELEVATION ) {
-                System.err.println( "EquilibriumLine.updateEquilibriumLineAltitude, elevation is outside our range of interest, elevation=: " + elevation );
+                System.err.println( "Climate.updateEquilibriumLineAltitude, elevation is outside our range of interest, elevation=: " + elevation );
                 break;
             }
             
