@@ -33,7 +33,8 @@ public class ControlPanel extends JPanel {
             }
         } );
         add( refresh, constraints );
-        Timer timer = new Timer( 1000 * 10, new ActionListener() {
+        //update once per minute, since fine-grained sub-sheets aren't yet available
+        Timer timer = new Timer( 1000 * 60, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 refreshAll();
             }
@@ -74,10 +75,11 @@ public class ControlPanel extends JPanel {
         private LabeledTextField totalTimeField;
         private LabeledTextField weekTimeField;
         private LabeledTextField avgWeekTime;
+        private LabeledTextField dayTime;
 
         public ControlPanelEntry( final File file, final TimesheetApp app ) {
             setLayout( new GridBagLayout() );
-            GridBagConstraints constraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 1, 0, 1, 0 ), 0, 0 );
+            GridBagConstraints constraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 1, 0, 0, 0 ), 0, 0 );
             JLabel entry = new JLabel( file.getName().toLowerCase().endsWith( ".csv" ) ? file.getName().substring( 0, file.getName().length() - ".csv".length() ) : file.getName() );
             add( entry, constraints );
             JButton openButton = new JButton( "Open" );
@@ -98,6 +100,9 @@ public class ControlPanel extends JPanel {
 
                 avgWeekTime = new LabeledTextField( "Avg Weekly", TimesheetApp.toString( getAverageWeekly( timesheetData ) ) );
                 add( avgWeekTime, constraints );
+
+                dayTime = new LabeledTextField( "Today", TimesheetApp.toString( getTimeToday( timesheetData ) ) );
+                add( dayTime, constraints );
 
                 add( new JSeparator(), constraints );
             }
@@ -121,22 +126,34 @@ public class ControlPanel extends JPanel {
         }
 
         private long getAverageWeekly( TimesheetData timesheetData ) {
-            GregorianCalendar gregorianCalendar = new GregorianCalendar( 2008, 0, 0 );
-            double timeWorked = timesheetData.getEntriesAfter( gregorianCalendar.getTime() ).getTotalTimeMillis();
-            double totalTime = ( System.currentTimeMillis() - gregorianCalendar.getTimeInMillis() );
-            double numWeeks = totalTime / ( 7 * 24 * 60 * 60 * 1000 );
-            return (long) ( timeWorked / numWeeks );
+            if ( timesheetData.getNumEntries() == 0 ) {
+                return 0;
+            }
+            else {
+                long startTime = timesheetData.getMinTime().getTime() - 1;//subtract 1 so that "after" call will catch this event as well
+
+                double timeWorked = timesheetData.getEntriesAfter( new Date( startTime ) ).getTotalTimeMillis();
+                double totalTime = ( System.currentTimeMillis() - startTime );
+                double numWeeks = totalTime / ( 7 * 24 * 60 * 60 * 1000 );
+                return (long) ( timeWorked / numWeeks );
+            }
         }
 
         public void refresh() {
             refresh( timesheetData );
         }
 
+        private long getTimeToday( TimesheetData timesheetData ) {
+            GregorianCalendar cal = new GregorianCalendar();
+            cal.set( GregorianCalendar.HOUR_OF_DAY, 0 );
+            return timesheetData.getEntriesAfter( cal.getTime() ).getTotalTimeMillis();
+        }
+
         public void refresh( TimesheetData timesheetData ) {
             totalTimeField.setText( TimesheetApp.toString( timesheetData.getTotalTimeMillis() ) );
             weekTimeField.setText( TimesheetApp.toString( getWeekTime( timesheetData ) ) );
             avgWeekTime.setText( TimesheetApp.toString( getAverageWeekly( timesheetData ) ) );
-
+            dayTime.setText( TimesheetApp.toString( getTimeToday( timesheetData ) ) );
         }
     }
 }
