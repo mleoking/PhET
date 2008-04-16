@@ -388,14 +388,28 @@ public class Glacier extends ClockAdapter {
      * 
      * @param x meters
      * @param elevation meters
+     * @param outputVector
      * @return Vector2D, components in meters/year
      */
-    public Vector2D getIceVelocity( final double x, final double elevation ) {
+    public Vector2D getIceVelocity( final double x, final double elevation, final Vector2D outputVector ) {
         final double magnitude = getIceSpeed( x, elevation );
         final double direction = _valley.getDirection( x, x + DX );
         final double xComponent = PolarCartesianConverter.getX( magnitude, direction );
         final double yComponent = PolarCartesianConverter.getY( magnitude, direction );
-        return new Vector2D.Double( xComponent, yComponent );
+        outputVector.setComponents( xComponent, yComponent );
+        return outputVector;
+    }
+    
+    /**
+     * Gets the ice velocity at a point in the ice.
+     * See getIceVelocity.
+     * 
+     * @param x
+     * @param elevation
+     * @return
+     */
+    public Vector2D getIceVelocity( final double x, final double elevation ) { 
+        return getIceVelocity( x, elevation, new Vector2D.Double() /* outputVector */ );
     }
     
     /*
