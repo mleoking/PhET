@@ -51,7 +51,7 @@ public class ImportAndAddBatch {
         String results = "<html>Results:<br><br>";
         for ( int i = 0; i < returnValues.length; i++ ) {
             AddTranslationReturnValue returnValue = returnValues[i];
-            results += returnValue.getSimulation() + " " + returnValue.getLanguage() + " " + ( returnValue.isSuccess() ? "ok" : "*** FAILED ***" );
+            results += returnValue.getSimulation() + " (" + returnValue.getLanguage() + ") " + ( returnValue.isSuccess() ? "OK" : "*** FAILED ***" );
             results += "<br>";
         }
         results += "</html>";
