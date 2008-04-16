@@ -227,6 +227,9 @@ public class Climate {
      * Updates the equilibrium line altitude (ELA) by searching for the elevation where glacial budget = 0.
      * This uses a "divide and conquer" algorithm, gradually decreasing the sign and magnitude of dz until
      * we find a glacial budget that is close enough to 0, or until dz gets sufficiently small.
+     * 
+     * Note that, for "warm" climates, small variations in the climate parameters will result in
+     * large ELA changes.  This behavior may appear strange, but it is accurate according to Archie Paulson.
      */
     private void updateELA() {
 
