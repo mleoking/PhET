@@ -27,6 +27,7 @@ public class Climate {
     private static final double ABLATION_Z0 = 1300; // min elevation used to scale ablation (meters)
     private static final double ABLATION_Z1 = 4200; // max elevation used to scale ablation (meters)
 
+    private static final double ELA_MAX = 8000; // meters, this should be above the top of the birds-eye view
     private static final double ELA_SEARCH_STARTING_ELEVATION = MODERN_SNOWFALL_REFERENCE_ELEVATION; // where to start searching for ELA (meters)
     private static final double ELA_SEARCH_STARTING_DELTA = -1000; // initial elevation delta when searching for ELA (meters)
     private static final double ELA_SEARCH_MIN_DELTA = 1; // smallest elevation delta when searching for ELA (meters)
@@ -241,8 +242,13 @@ public class Climate {
             if ( elevation < 0 ) {
                 elevation = 0;
             }
-            else if ( elevation > 10 * MODERN_SNOWFALL_REFERENCE_ELEVATION ) {
-                System.err.println( "Climate.updateELA, elevation is outside our range of interest, elevation=: " + elevation );
+            else if ( elevation > ELA_MAX ) {
+                /*
+                 * Limit the ELA to an artificial maximum, which should be off the top of the birds-eye view.
+                 * We're doing this so that we don't have to wait a long time for the glacier to "grow"
+                 * when we start with no glacier and change to a cooler climate.
+                 */
+                elevation = ELA_MAX;
                 break;
             }
             
