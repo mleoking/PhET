@@ -49,26 +49,35 @@ public class ImportTranslations {
     private void importTranslation( File file ) throws IOException {
         String simname = getSimName( file );
         System.out.println( "simname = " + simname );
-        try {
-            PhetProject phetProject = new PhetProject( new File( basedir + "/simulations", simname ) );
-            System.out.println( "phetProject = " + phetProject );
-            File localizationDir = phetProject.getLocalizationDir();
-            final File dst = new File( localizationDir, file.getName() );
-            FileUtils.copyTo( file, dst );
-            if ( prefix != null ) {
-                FileUtils.addPrefix( dst, prefix );
-            }
-            if ( addSVN ) {
-                Runtime.getRuntime().exec( "svn add " + dst.getAbsolutePath() );
-            }
+        if ( simname == null ) {
+            System.out.println( "ignoring non-localization file: " + simname );
         }
-        catch( FileNotFoundException e ) {
-            System.out.println( "skipping: " + file.getAbsolutePath() );
+        else {
+            try {
+                PhetProject phetProject = new PhetProject( new File( basedir + "/simulations", simname ) );
+                System.out.println( "phetProject = " + phetProject );
+                File localizationDir = phetProject.getLocalizationDir();
+                final File dst = new File( localizationDir, file.getName() );
+                FileUtils.copyTo( file, dst );
+                if ( prefix != null ) {
+                    FileUtils.addPrefix( dst, prefix );
+                }
+                if ( addSVN ) {
+                    Runtime.getRuntime().exec( "svn add " + dst.getAbsolutePath() );
+                }
+            }
+            catch ( FileNotFoundException e ) {
+                System.out.println( "skipping: " + file.getAbsolutePath() );
+            }
         }
     }
 
     private String getSimName( File file ) {
-        String simname = file.getName().substring( 0, file.getName().indexOf( "-strings_" ) );
+        String simname = null;
+        final int index = file.getName().indexOf( "-strings_" );
+        if ( index != -1 ) {
+            simname = file.getName().substring( 0, index );
+        }
         return simname;
     }
 
