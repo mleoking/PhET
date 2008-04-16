@@ -18,7 +18,6 @@ HIGH PRIORITY:
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
-- delete ValleyNode if it is no longer used
 - confirm that titles and axes on graphs are as desired
 - add moving debris
 - form terminus from debris
@@ -42,9 +41,9 @@ MEDIUM PRIORITY:
 - should Glacial Budget vs Elevation chart show negative ablation?
 
 LOW PRIORITY:
+- improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - implement Save/Load feature
 - close & reopen graph windows when switching modules
-- offset the temperature range and default, then add the offset back in the model
 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
 - add Help menu option to show pictures of real glaciers
 - ticks & labels on sliders should be white, code to set their color is not working (Mac only?)
@@ -69,6 +68,8 @@ CLEANUP:
 
 
 DONE:
+4/15/08 - delete ValleyNode, move path creation utility to model
+4/15/08 - reduce stroke width of coordinate axes
 4/15/08 - limit ELA to 8000 meters (above top of birds-eye view), so that we don't have a long wait to see glacier start growing
 4/15/08 - scale and translate new mountains image that contains multiple marker points
 4/15/08 - add more debugging marker points, for alignment with markers in mountains image file

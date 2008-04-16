@@ -32,7 +32,7 @@ public class ElevationAxisNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private static final Color AXIS_COLOR = Color.BLACK;
-    private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
+    private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
     private static final Color TICK_COLOR = AXIS_COLOR;
     private static final Stroke TICK_STROKE = AXIS_STROKE;
     private static final double TICK_LENGTH = 100; // meters

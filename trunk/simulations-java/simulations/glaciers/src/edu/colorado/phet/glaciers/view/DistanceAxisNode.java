@@ -35,8 +35,9 @@ public class DistanceAxisNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final double DX = 100; // meters
     private static final Color AXIS_COLOR = Color.BLACK;
-    private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
+    private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
     private static final Color TICK_COLOR = AXIS_COLOR;
     private static final Stroke TICK_STROKE = AXIS_STROKE;
     private static final double TICK_LENGTH = 100; // meters
@@ -120,7 +121,7 @@ public class DistanceAxisNode extends PComposite {
             _parentNode.removeAllChildren();
 
             // axis
-            PNode axisNode = createAxis( _valley, _mvt, minX, maxX );
+            PNode axisNode = createAxis( _valley, _mvt, minX, maxX, DX );
             _parentNode.addChild( axisNode );
 
             // ticks & labels
@@ -143,10 +144,10 @@ public class DistanceAxisNode extends PComposite {
     /*
      * Create a line that follows the valley contour.
      */
-    private static PNode createAxis( Valley valley, ModelViewTransform mvt, double minX, double maxX ) {
+    private static PNode createAxis( Valley valley, ModelViewTransform mvt, double minX, double maxX, double dx ) {
 
         // path
-        GeneralPath axisPath = ValleyNode.createValleyFloorPath( valley, mvt, minX, maxX );
+        GeneralPath axisPath = valley.createValleyFloorPath( mvt, minX, maxX, dx );
         
         // node
         PPath axisNode = new PPath( axisPath );

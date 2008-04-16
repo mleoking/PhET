@@ -2,6 +2,11 @@
 
 package edu.colorado.phet.glaciers.model;
 
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.glaciers.view.ModelViewTransform;
+
 
 /**
  * Valley is the model of the valley where the glacier forms.
@@ -110,5 +115,39 @@ public class Valley {
         final double elevation1 = getElevation( x1 );
         final double elevation2 = getElevation( x2 );
         return ( elevation1 - elevation2 ) / ( x1 - x2 );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Creates a path (in view coordinates) that approximates the valley floor, from left to right.
+     * 
+     * @param mvt
+     * @param minX
+     * @param maxX
+     * @param dx
+     * @return GeneralPath
+     */
+    public GeneralPath createValleyFloorPath( ModelViewTransform mvt, double minX, double maxX, double dx ) {
+        GeneralPath path = new GeneralPath();
+        double elevation = 0;
+        Point2D pModel = new Point2D.Double();
+        Point2D pView = new Point2D.Double();
+        double x = minX;
+        while ( x <= maxX ) {
+            elevation = getElevation( x );
+            pModel.setLocation( x, elevation );
+            pView = mvt.modelToView( pModel, pView );
+            if ( x == minX ) {
+                path.moveTo( (float) pView.getX(), (float) pView.getY() );
+            }
+            else {
+                path.lineTo( (float) pView.getX(), (float) pView.getY() );
+            }
+            x += dx;
+        }
+        return path;
     }
 }
