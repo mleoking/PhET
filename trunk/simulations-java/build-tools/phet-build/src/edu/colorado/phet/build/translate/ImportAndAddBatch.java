@@ -27,7 +27,9 @@ public class ImportAndAddBatch {
         System.out.println( "Finished Importing." );
 
         System.out.println( "Adding to tigercat" );
-        new AddTranslationBatch( baseDir, new File( dir ), AddTranslation.prompt( "username" ), AddTranslation.prompt( "password" ) ).runBatch( true );
+        String username = AddTranslation.prompt( "Production Server username:" );
+        String password = AddTranslation.prompt( "Production Server password:" );
+        new AddTranslationBatch( baseDir, new File( dir ), username, password ).runBatch( true );
         System.out.println( "Finished Adding" );
     }
 }
