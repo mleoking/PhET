@@ -22,6 +22,7 @@ public class ChainReactionControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private ChainReactionLegendPanel _legendPanel;
+    private ChainReactionControlsSubPanel _controlsPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,11 +41,13 @@ public class ChainReactionControlPanel extends ControlPanel {
         int minimumWidth = NuclearPhysics2Resources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
-        // Create sub-panels
+        // Add the legend.
         _legendPanel = new ChainReactionLegendPanel();
-        
-        // Add the legend panel.
         addControlFullWidth( _legendPanel );
+
+        // Add the controls
+        _controlsPanel = new ChainReactionControlsSubPanel();
+        addControlFullWidth( _controlsPanel );
         
         // Add the Reset All button.
         addVerticalSpace( 10 );

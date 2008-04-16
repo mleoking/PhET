@@ -93,7 +93,10 @@ public class ChainReactionLegendPanel extends JPanel {
         Image u239Image = labeledU239Nucleus.toImage();
         icon = new ImageIcon(u239Image);
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.URANIUM_239_LEGEND_LABEL ) );        
+        add(new JLabel( NuclearPhysics2Strings.URANIUM_239_LEGEND_LABEL ) );
+        
+        // Add the daughter nuclei to the legend.
+        addLegendItem( "Daughter Nuclei Small.png", NuclearPhysics2Strings.DAUGHTER_NUCLEI_LABEL, 75 );
     }
     
     /**
