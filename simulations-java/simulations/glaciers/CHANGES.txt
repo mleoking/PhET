@@ -12,7 +12,7 @@ DESIGN ISSUES (user interface):
 HIGH PRIORITY:
 - optimize ice flow vectors, use same 1D grid as ice thickness
 - developer controls for ice velocity "look"?
-- always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
+- always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - marker flags as first test of motion
 - visual representation of snowfall
@@ -41,6 +41,7 @@ MEDIUM PRIORITY:
 - should Glacial Budget vs Elevation chart show negative ablation?
 
 LOW PRIORITY:
+- is changing frame rate the right way to change clock speed for this sim?
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - implement Save/Load feature
 - close & reopen graph windows when switching modules
