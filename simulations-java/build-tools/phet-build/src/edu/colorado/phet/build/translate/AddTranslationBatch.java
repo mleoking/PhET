@@ -1,8 +1,10 @@
 package edu.colorado.phet.build.translate;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
+
+import edu.colorado.phet.build.translate.AddTranslation.AddTranslationReturnValue;
 
 /**
  * Created by: Sam
@@ -22,12 +24,12 @@ public class AddTranslationBatch {
     }
 
     public static void main( String[] args ) throws Exception {
-        boolean deploy = true;
-        new AddTranslationBatch( new File( args[0] ), new File( args[1] ), args[2], args[3] ).runBatch( deploy );
+        new AddTranslationBatch( new File( args[0] ), new File( args[1] ), args[2], args[3] ).runBatch();
     }
 
     //assume we have a directory full of translation files
-    public void runBatch( boolean deploy ) throws Exception {
+    public AddTranslationReturnValue[] runBatch() throws Exception {
+        ArrayList returnValues = new ArrayList();
         System.out.println( "basedir.getAbsolutePath() = " + basedir.getAbsolutePath() );
         System.out.println( "simDir.getAbsolutePath() = " + simDir.getAbsolutePath() );
         File[] translationFiles = simDir.listFiles( new FilenameFilter() {
@@ -41,15 +43,11 @@ public class AddTranslationBatch {
             String simWithSuffix = name.substring( 0, name.indexOf( "_" ) );
             String sim = simWithSuffix.substring( 0, simWithSuffix.lastIndexOf( "-" ) );
             String lang = name.substring( name.indexOf( "_" ) + 1, name.indexOf( "." ) );
-            AddTranslation addTranslation = new AddTranslation( basedir, deploy );
+            AddTranslation addTranslation = new AddTranslation( basedir );
             System.out.println( "addtranslation, sim=" + sim + ", lang=" + lang + ", user=" + user );
-            try {
-                addTranslation.addTranslation( sim, lang, user, password );
-            }
-            catch( FileNotFoundException f ) {
-                System.out.println( "Received FileNotFoundException, perhaps there was a sim name change?  Skipping sim=" + sim + ", lang=" + lang );
-                f.printStackTrace();
-            }
+            AddTranslationReturnValue returnValue = addTranslation.addTranslation( sim, lang, user, password );
+            returnValues.add( returnValue );
         }
+        return (AddTranslationReturnValue[]) returnValues.toArray( new AddTranslationReturnValue[returnValues.size()] );
     }
 }

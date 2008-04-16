@@ -20,7 +20,6 @@ public class AddTranslationTask extends AbstractPhetTask {
     private String languageCode;
     private String username;
     private String password;
-    private boolean deployEnabled = true;
 
     public void execute() throws BuildException {
         super.execute();
@@ -31,7 +30,7 @@ public class AddTranslationTask extends AbstractPhetTask {
             final String password = promptIfNecessary( "Production Server password:", this.password );
             StringTokenizer st = new StringTokenizer( simulationList, " " );
             while ( st.hasMoreTokens() ) {
-                new AddTranslation( getBaseDir(), deployEnabled ).addTranslation( st.nextToken(),
+                new AddTranslation( getBaseDir() ).addTranslation( st.nextToken(),
                                                                                   languageCode,
                                                                                   username,
                                                                                   password );
@@ -53,10 +52,6 @@ public class AddTranslationTask extends AbstractPhetTask {
         return returnValue;
     }
 
-    public void setDeployEnabled( boolean deployEnabled ) {
-        this.deployEnabled = deployEnabled;
-    }
-    
     //todo: handle simulation list more elegantly
     public void setSimulation( String simulationList ) {
         this.simulationList = simulationList;
