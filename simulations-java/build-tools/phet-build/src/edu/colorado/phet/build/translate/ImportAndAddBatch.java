@@ -14,6 +14,10 @@ public class ImportAndAddBatch {
     }
 
     public static void main( String[] args ) throws Exception {
+        if ( args.length != 1 ) {
+            System.out.println( "usage: ImportAndAddBatch path-to-simulations-java-in-your-workspace" );
+            System.exit( 1 );
+        }
         new ImportAndAddBatch( new File( args[0] ) ).importAndAddBatch( AddTranslation.prompt( "Which Directory to import and batch add?" ) );
     }
 
