@@ -93,7 +93,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     // View
     private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private PLayer _backgroundLayer, _iceLayer, _velocityLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
+    private PLayer _backgroundLayer, _iceLayer, _velocityLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
     private IceFlowNode _iceFlowNode;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
@@ -198,6 +198,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _toolboxLayer = new PLayer();
         _toolsLayer = new PLayer();
         _viewportLayer = new PLayer();
+        _debugLayer = new PLayer();
         addToBothViews( _backgroundLayer );
         addToBothViews( _iceLayer );
         addToZoomedView( _velocityLayer );
@@ -205,6 +206,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         addToZoomedView( _toolboxLayer );
         addToBothViews( _toolsLayer );
         addToBirdsEyeView( _viewportLayer );
+        addToBothViews( _debugLayer );
         
         // viewport in the birds-eye view indicates what is shown in zoomed view
         float strokeWidth = VIEWPORT_STROKE_WIDTH / (float)BIRDS_EYE_CAMERA_VIEW_SCALE;
@@ -216,17 +218,26 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _backgroundLayer.addChild( mountainsAndValleyNode );
         
         /*
-         * The background image contains an alignment mark at (x,y)=(0,F(0)).
-         * The alignment marker created here should line up with the one in the image file.
+         * The background image contains a alignment markers at a few (x,F(x)) locations.
+         * The alignment markers created here should line up with the ones in the image file.
+         * If they don't line up, then adjust scaling and translation in MountainsAndValleyNode.
          */
         if ( DEBUG_BACKGROUND_IMAGE_ALIGNMENT ) {
-            Shape markerShape = new Ellipse2D.Double( -1, -1, 2, 2 );
-            PPath markerNode = new PPath( markerShape );
-            markerNode.setStroke( null );
-            markerNode.setPaint( Color.BLUE );
-            Point2D offset = _mvt.modelToView( 0, _model.getValley().getElevation( 0 ) );
-            markerNode.setOffset( offset );
-            _backgroundLayer.addChild( markerNode );
+            
+            double x = 0;
+            PNode markerNode1 = new MarkerNode();
+            markerNode1.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
+            _debugLayer.addChild( markerNode1 );
+            
+            x = 10000;
+            PNode markerNode2 = new MarkerNode();
+            markerNode2.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
+            _debugLayer.addChild( markerNode2 );
+            
+            x = 70000;
+            PNode markerNode3 = new MarkerNode();
+            markerNode3.setOffset( _mvt.modelToView( x, _model.getValley().getElevation( x ) ) );
+            _debugLayer.addChild( markerNode3 );
         }
         
         // Glacier
