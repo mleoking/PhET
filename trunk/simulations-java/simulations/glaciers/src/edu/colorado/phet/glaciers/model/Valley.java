@@ -23,7 +23,7 @@ package edu.colorado.phet.glaciers.model;
  * If you change anything in this class, you will likely break this simulation.
  * The Glacier model is a Hollywood model that was created to work for a single
  * Valley profile. And the image used to draw the valley floor and mountains 
- * was drawn for a specific Valley profile.
+ * (see MountainsAndValleyNode) was drawn for a specific Valley profile.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
