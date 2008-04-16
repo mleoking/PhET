@@ -3,7 +3,6 @@ Change history for glaciers
 
 DESIGN ISSUES (model):
 - need a model for movement of points in ice
-- why does ablation curve back towards zero when elevation < 1000m ?
 
 DESIGN ISSUES (user interface):
 - do we want to show values or relative ranges (cold-to-hot) for climate controls?
@@ -16,31 +15,31 @@ HIGH PRIORITY:
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - marker flags as first test of motion
 - visual representation of snowfall
+- extrude the ice
+- divide ice into separate shapes for above and below the ELA
 
 MEDIUM PRIORITY:
-- confirm that titles and axes on graphs are as desired
 - add moving debris
 - form terminus from debris
-- ice textures for above/below EQL, and in/on ice
-- morph ice textures to show downvalley motion
+- ice textures for above/below ELA, and in/on ice
+- morph or move ice textures to show downvalley motion
 - model borehole as a set of moving points, connected via line segments
 - make mountains image big enough so that all we see is sky when the birds-eye view is made very wide
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
-- fix layout problems with main control panel
-- add pseudo-3D perspective
 - adjust magnification of zoomed view?
 - adjust aspect ratio?
 - remove tools by dragging them back to the trash can (or toolbox?)
-- refactor common module functionality into a base class
-- redesign advanced climate controls
-- constrain tools to dragging in birds-eye bounds
-- fancy animation when a tool is dropped in the trash
 - add left and right arrows to zoom view, secondary viewport control
-- PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 - should Glacial Budget vs Elevation chart show negative ablation?
+- make ice thickness tool adjust its caliper to fit the ice thickness
 
 LOW PRIORITY:
+- confirm that titles and axes on graphs are as desired
+- fancy animation when a tool is dropped in the trash
+- constrain tools to dragging in birds-eye bounds
+- refactor common module functionality into a base class
+- fix layout problems with main control panel
 - is changing frame rate the right way to change clock speed for this sim?
 - improve smoothness of DistanceAxisNode (x-axis for coordinates feature)
 - implement Save/Load feature
@@ -55,6 +54,8 @@ LOW PRIORITY:
 - main control panel should be the same height in all modules
 - why doesn't image created by GPSReceiverNode.createImage show coordinate values? Is it because PSwing component isn't realized?
 - rotate some of the tool icons to reduce height of toolbox?
+- PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
+
 
 MIGRATE TO PHETCOMMON:
 - DoubleSpinner
@@ -406,10 +407,12 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+4/15/08 - why does ablation curve back towards zero when elevation < 1000m? (problem went away)
 4/15/08 - Climate model is very sensitive at "warm" end of scale, huge ELA jumps (Archie says this is accurate)
 4/15/08 - add view of valley floor with rivers (this is part of the mountains.svg image file)
 4/14/08 - my ELA values don't match those in Archie's python plots because he's using a grid, which is less accurate
 2/28/08 - what happens when we hit "ice sheet" condition? (we'll set ranges so this can't happen)
+2/27/08 - redesign advanced climate controls (feature was dropped)
 2/27/08 - "Mass Balance" climate controls were dropped
 2/27/08 - "age of ice" feature was dropped
 
