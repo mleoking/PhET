@@ -16,6 +16,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -41,12 +42,15 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
     //------------------------------------------------------------------------
     private LinearValueControl _u235AmountControl;
     private LinearValueControl _u238AmountControl;
+    private ChainReactionModel _model;
 
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
     
-    public ChainReactionControlsSubPanel() {
+    public ChainReactionControlsSubPanel(ChainReactionModel model) {
+        
+        _model = model;
         
         // Add the border around the sub panel.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
@@ -60,8 +64,8 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         setBorder( titledBorder );
         
         // Add the slider that controls the number of U-235 nuclei that appear.
-        _u235AmountControl = new LinearValueControl( 0, 100, "U-235", "", "" );
-        _u235AmountControl.setValue( 1.0 );
+        _u235AmountControl = new LinearValueControl( 0, 100, "U-235", "###", "Nuclei" );
+        _u235AmountControl.setValue( 0.0 );
         _u235AmountControl.setUpDownArrowDelta( 1 );
         _u235AmountControl.setTextFieldEditable( true );
         _u235AmountControl.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
@@ -71,14 +75,15 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u235AmountControl.setBorder( BorderFactory.createEtchedBorder() );
         _u235AmountControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                // TODO: JPB TBD.
+                int num = _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
+                _u235AmountControl.setValue( (double )num );
             }
         } );        
         add(_u235AmountControl);
         
         // Add the slider that controls the number of U-238 nuclei that appear.
-        _u238AmountControl = new LinearValueControl( 0, 100, "U-238", "", "" );
-        _u238AmountControl.setValue( 1.0 );
+        _u238AmountControl = new LinearValueControl( 0, 100, "U-238", "###", "Nuclei" );
+        _u238AmountControl.setValue( 0.0 );
         _u238AmountControl.setUpDownArrowDelta( 1 );
         _u238AmountControl.setTextFieldEditable( true );
         _u238AmountControl.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );

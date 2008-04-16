@@ -79,4 +79,11 @@ public class ChainReactionModule extends PiccoloModule {
         // Reset the canvas and its sub-nodes.
         _canvas.reset();
     }
+    
+    /**
+     * Gets the specific model for this module.
+     */
+    public ChainReactionModel getChainReactionModel(){
+        return _model;
+    }
 }
