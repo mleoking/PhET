@@ -71,7 +71,6 @@
 	<property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
 	<property name="build-intellij-idea-file-classname"          value="edu.colorado.phet.build.GenerateIntelliJProjectFile" />
 	<property name="check-translations-classname"          value="edu.colorado.phet.build.translate.CheckTranslationsTask" />
-	<property name="add-translation-classname"          value="edu.colorado.phet.build.translate.AddTranslationTask" />
     <property name="deploy-latest-classname"          value="edu.colorado.phet.build.DeployLatest" />
 
     <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
@@ -328,10 +327,6 @@
 		<taskdef name="check-translations"
                  classname="${check-translations-classname}"
                  classpath="${phetbuild-classpath}"/>
-
-		<taskdef name="add-translation"
-            classname="${add-translation-classname}"
-            classpath="${phetbuild-classpath}"/>
 
         <taskdef name="deploy-latest"
                  classname="${deploy-latest-classname}"
