@@ -94,6 +94,9 @@ public class IceFlowNode extends PComposite {
             _isDirty = true;
         }
         else {
+            Vector2D outputVector = new Vector2D.Double();
+            Point2D outputPoint = new Point2D.Double();
+            
             _parentNode.removeAllChildren();
             final double xTerminus = _glacier.getTerminusX();
             double x = Glacier.getMinX();
@@ -102,11 +105,11 @@ public class IceFlowNode extends PComposite {
                 double iceSurfaceElevation = valleyFloorElevation + _glacier.getIceThickness( x );
                 double z = valleyFloorElevation + ICE_ROCK_MARGIN;
                 while ( z <= iceSurfaceElevation - ICE_AIR_MARGIN ) {
-                    Vector2D vModel = _glacier.getIceVelocity( x, z );
-                    Point2D vView = _mvt.modelToView( vModel.getX(), vModel.getY() );
+                    Vector2D vModel = _glacier.getIceVelocity( x, z, outputVector );
+                    Point2D vView = _mvt.modelToView( vModel.getX(), vModel.getY(), outputPoint );
                     PNode velocityNode = new VelocityVectorNode( vView.getX(), vView.getY(), VELOCITY_VECTOR_SCALE );
                     _parentNode.addChild( velocityNode );
-                    velocityNode.setOffset( _mvt.modelToView( x, z ) );
+                    velocityNode.setOffset( _mvt.modelToView( x, z, outputPoint ) );
                     z += DZ;
                 }
                 x += DX;
