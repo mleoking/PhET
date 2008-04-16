@@ -4,6 +4,7 @@ version 4.1
 
 author: Archie Paulson
 creation date: March 1 2008
+last modified: Mon Apr 14 15:36:10 MDT 2008
 
 This is a "Hollywood" model, based on the finite element code (v3.3).
 
@@ -12,7 +13,7 @@ This is a "Hollywood" model, based on the finite element code (v3.3).
 from pylab import *
 from lib import derivative
 
-################################################################################
+###############################################################################
 # constants
 
 yts = 365*24*60*60. # year to seconds conversion
@@ -28,7 +29,7 @@ AA = 6.8e-24 * yts  # units: 1/(Pa^3.yr)
 Uc = 20.      # reference ice velocity, m/yr
 tau_c = 1e5   # reference gravitational stress, Pa
 
-################################################################################
+###############################################################################
 
 class Mountain:
     """
@@ -81,7 +82,7 @@ class Mountain:
         self.madeplot = True
         grid(True)
 
-################################################################################
+###############################################################################
 
 class Glacier:
 
@@ -97,32 +98,59 @@ class Glacier:
         self.plot = self.plot_profile
         # prep
         self.max_F = max(m.F)  # maximum elevation of valley floor
-        self.x_term_alter_x = self.max_F - 0.15*m.config['headwall_length']
-        self.x_term_diff = -self.x_terminus_bulk(self.max_F) /\
-                           ( self.max_F - self.x_term_alter_x )**2
+        #self.x_term_alter_x = self.max_F - 0.15*m.config['headwall_length']
+        #self.x_term_diff = -self.x_terminus_bulk(self.max_F) /\
+        #                   ( self.max_F - self.x_term_alter_x )**2
+        self.x_term_alter_x = 4e3
+        self.x_term_0 = self.x_terminus_bulk(self.x_term_alter_x)
+        self.x_term_1 = self.x_term_0 / ( self.max_F - self.x_term_alter_x )
+        self.h_max_0  = self.h_max_bulk(self.x_term_alter_x)
+        self.h_max_1  = self.h_max_0 / ( self.max_F - self.x_term_alter_x )
         # set inital climate and find ela:
         self.set_new_climate(init_ela) # no args => don't change temp or precip
 
+    def h_max_bulk(self,ela):
+        """
+        This is the H_max (max glacier height) as a function of ELA for all
+        cases except when the ELA is near the top of the valley (ie, when the
+        glacier is almost gone).
+        """
+        return 400.-(1.04e-2*ela-23)**2   # old v4.0 function
+
     def x_terminus_bulk(self,ela):
+        """
+        This is the x-terminus as a function of ELA for all cases except when
+        the ELA is near the top of the valley (ie, when the glacier is almost
+        gone).
+        """
         return 170.5e3-41.8*ela          # old v4.0 function
 
     def get_geometry(self,ela):
+        """
+        This calculates x_terminus and H_max, applying a correction if the ELA
+        is very high. The correction makes sure both values go to zero right
+        when the ELA hits the maximum height of the valley.
+        """
         if ela > self.max_F: return 0.,0.
         x_terminus = self.x_terminus_bulk(ela)
+        H_max = self.h_max_bulk(ela)
         if ela > self.x_term_alter_x:
-            x_terminus += self.x_term_diff*( ela - self.x_term_alter_x )**2
-        H_max = max(0.0, 400.-(1.04e-2*ela-23)**2 )
+            x_terminus = self.x_term_0- (ela-self.x_term_alter_x)*self.x_term_1
+            H_max      = self.h_max_0 - (ela-self.x_term_alter_x)*self.h_max_1
         return x_terminus,H_max
 
     def set_new_climate(self,ela):
+        """
+        Set new glacier profile according to ELA.
+        """
         self.ela = ela
         x_terminus,H_max = self.get_geometry(ela)
         x_peak = 0.5 * x_terminus
         for i,x in enumerate(self.x):
             if x < x_peak: 
-                p = 42-0.01*ela
+                p = max(42-0.01*ela,1.5)
                 f = 1.5
-                r =f*x_peak
+                r = f*x_peak
                 self.H[i] = sqrt(r**2 - (x-x_peak)**2) * H_max/r
                 self.H[i] *= ( x_peak**p - (abs(x-x_peak)**p))/ x_peak**p
             elif x < x_terminus:
@@ -155,20 +183,21 @@ class Glacier:
 
     def __repr__(self):
         "return string representation of object"
-        s  = "length: ".rjust(20) + '%0.2f km'%(self.x_terminus/1e3)+'\n'
+        s  = "Glacier object:\n"
+        s += "length: ".rjust(20) + '%0.2f km'%(self.x_terminus/1e3)+'\n'
         s += "peak height: ".rjust(20) + '%0.2f m'%(self.H_max)+'\n'
         return s
 
-    def plot_profile(self,fignum=2,addF=False,label=None):
+    def plot_profile(self,fignum=2,label=None):
         figure(fignum)
         if self.m.madeplot: 
             yy = (self.m.F+self.H)/1e3
             y_label = 'glacier/valley profile (km)'
             ylim(3.5,4.7)
         else:               
-            yy = self.H
+            yy = array(self.H)
             y_label = 'glacier profile (m)'
-        plot( self.m.x/1e3, yy, label='ela=%0.1f'%(self.ela/1e3) )
+        plot( self.m.x/1e3, yy, label='ela=%0.2f'%(self.ela/1e3) )
         #xlim(0,1.2*self.m.x[self.terminus_index]/1e3)
         if 0: #self.m.madeplot: 
             ylim(self.m.F[int(self.terminus_index*1.3)]/1e3,4.7)
@@ -197,7 +226,7 @@ class Glacier:
         legend()
         grid(True)
 
-################################################################################
+###############################################################################
 
 class Climate:
     """
@@ -292,8 +321,7 @@ class Climate:
         xlim(ymax=1.5*self.pmax)
         legend(loc='upper left')
 
-################################################################################
-################################################################################
+###############################################################################
 # test code:
 
 climate_config = {
@@ -308,8 +336,7 @@ climate_config = {
                   }
 mountain_config = {
                     'headwater_width':0.0, 
-                    #'headwall_length':800., 
-                    'headwall_length':1e3,  # Chris uses this one
+                    'headwall_length':800., 
                     'headwall_steepness':5e3,
                     'bump':False, 
                     'bump_attenuation':30., 
@@ -326,110 +353,62 @@ if 1:    # if 1:
     c = Climate( m, climate_config )
     g = Glacier( m, c.ela )
 
+
+# save a few mass balance curves
 if 0:
     climates = [
-                {'t0':19.,   'p0':4e3   },
-                {'t0':18.5,  'p0':3.5e3 },
-                {'t0':18.,   'p0':3e3   },
-                {'t0':15.,   'p0':2e3   },
+                {'t0':19.,  'p0':4e3,   'pmax':2.0 },
+                {'t0':18.5, 'p0':3.5e3, 'pmax':2.0 },
+                {'t0':18.,  'p0':3e3,   'pmax':2.0 },
+                {'t0':15.,  'p0':2e3,   'pmax':2.0 },
                ]
-    m.plot()
-    for climate in climates:
-        c.set_new_climate( t0=climate['t0'], p0=climate['p0'] )
-        g.set_new_climate(c.ela)
+    for i,climate in enumerate(climates):
+        c.set_new_climate( t0=climate['t0'], p0=climate['p0'],
+                           pmax=climate['pmax'] )
+        #c.plot(fignum=i)
+        g.set_new_climate( c.ela )
         g.plot()
+        title('t0=%0.1f  p0=%0.1f  pmax=%0.1f'%(
+             climate['t0'],climate['p0'], climate['pmax']))
+        #savefig('glacial_budget_%d.png'%i)
 
-if 1:   # working out climate parameter ranges
-    ela_min,ela_max = 2168.,4.7e3
-    term_max = 80e3
-    t0_min,t0_max = 13., 20.
-    p0_min,p0_max = 2.2e3, 6e3
-    pmax_min,pmax_max = 0.0, 4.0
-    pmax = 2.0
-    if 0: 
-        plot_type = 'ELA (km)'
-        loc='upper left'
-    else: 
-        plot_type = 'terminus (km)'
-        loc='upper right'
 
-if 0:   # if 1:
-    # look at temperature-ELA relationship
-    figure(5)
-    t0_range = arange( t0_min, t0_max+.1, 1.0)
-    p0_range = arange( p0_min, p0_max+.1, 1e3 )
-    clf()
-    for p0 in p0_range:
-        dat = []
-        for t0 in t0_range:
-            c.set_new_climate( t0, p0, pmax )
-            if plot_type=='terminus (km)':
-                g.set_new_climate( c.ela )
-                dat.append( g.x_terminus )
-            else:
-                dat.append( c.ela )
-        if 1:    # plot it
-            label = 'snow level %0.1fkm'%(p0/1e3)
-            plot( t0_range, array(dat)/1e3, label=label )
-    if plot_type=='terminus (km)':
-        hlines( term_max/1e3, t0_min, t0_max, label='limit' )
+# make mountain plot of aspect ratio 1.0
+if 0:  # if 1:
+    fignum = 34
+    fig = figure(fignum)
+    ax = fig.add_subplot(111, aspect='equal')
+    if 1:
+        g.m.plot(fignum)
+        grid(False)
+        xlim(0,5)
+        ylim(1,6)
+        savefig('mountain0_aspect1.svg')
     else:
-        hlines( ela_min/1e3, t0_min, t0_max, label='limit' )
-    grid()
-    xlabel('reference temperature')
-    ylabel(plot_type)
-    legend(loc=loc)
-    title('pmax = %0.1f'%pmax)
-    ylim(0.0)
+        plot( g.x[0:875]/1e3, g.m.F[0:875]/1e3 )  # 70km
+        grid(False)
+        xlim(0,5)
+        ylim(1,6)
+        savefig('mountain1_aspect1.svg')
 
 
+# look at x_terminus and H_max as a function of ELA 
 if 0:   # if 1:
-    # look at snowfall-ELA relationship
-    figure(6)
-    clf()
-    t0_range = arange( t0_min, t0_max+.1, 2.0)
-    p0_range = arange( p0_min, p0_max+.1, 0.2e3 )
-    for t0 in t0_range:
-        dat = []
-        for p0 in p0_range:
-            c.set_new_climate( t0, p0, pmax )
-            if plot_type=='terminus (km)':
-                g.set_new_climate( c.ela )
-                dat.append( g.x_terminus )
-            else:
-                dat.append( c.ela )
-        if 1:    # plot it
-            label = 'temp %0.1f'%(t0)
-            plot( p0_range/1e3, array(dat)/1e3, label=label )
-    if plot_type=='terminus (km)':
-        hlines( term_max/1e3, p0_min/1e3, p0_max/1e3, label='limit')
-    else:
-        hlines( ela_min/1e3, p0_min/1e3, p0_max/1e3, label='limit' )
-    title('pmax = %0.1f'%pmax)
-    grid()
-    xlabel('snow level (km)')
-    ylabel(plot_type)
-    legend(loc=loc)
-    ylim(0.0)
-
-
-def f(x,F,a=75.,b=105.): return a + F + x/b
-def F_chris(x,steepness=5e3,length=1e3): return 4e3 - ( x / 30. ) + exp(-(x-steepness)/length )
-
-if 1:   # if 1:
-    # testing x_terminus function (should depend on valley floor, F)
-    import cPickle
+    # want x_terminus -> 0 right when ELA -> F(0); same for H_max
     ela_ = array(m.F)   # ela proxy
-    (ela_data,term_data) = cPickle.load(file('foo.dat'))
-    figure(44)
-    scatter( ela_data, term_data, label='data terminus')
-    term = [ g.get_geometry(ee)[0] for ee in ela_ ]
-    #(term,Hmax) = g.get_geometry(ela_)
-    plot( ela_, term, label='hollywood terminus' )
-    plot( f(m.x,m.F), m.x, label='floor function' )
-    #plot( , m.x, label='diff' )
+    figure(14)
+    dat = array([ g.get_geometry(ee) for ee in ela_ ]) # term,hmax
+    if 0:  # xterm
+        old_term = [ g.x_terminus_bulk(ee) for ee in ela_ ]
+        plot( ela_, dat[:,0], label='model terminus' )
+        plot( ela_, old_term, label='old model terminus' )
+        ylabel('x_terminus')
+    else:  # hmax
+        old_hmax = [ g.h_max_bulk(ee) for ee in ela_ ]
+        plot( ela_, dat[:,1], label='model H_max' )
+        plot( ela_, old_hmax, label='old H_max' )
+        ylabel('H_max')
     xlabel('ELA')
-    ylabel('x')
     grid()
     legend()
 
