@@ -54,6 +54,11 @@ public abstract class AtomicNucleus {
     protected int _numFreeProtons;
     protected int _numFreeNeutrons;
     
+    // Boolean value that controls whether the nucleus is dynamic, meaning
+    // that it moves the constituent particles around ("agitates") or is
+    // static and does not move the particles around.
+    boolean _dynamic = true;
+    
     // Used to implement the 'agitation' behavior, i.e. to make the nucleus
     // appear to be in constant dynamic motion.
     private int _agitationCount = 0;
@@ -204,6 +209,11 @@ public abstract class AtomicNucleus {
         return _numFreeNeutrons + (_numAlphas * 2);
     }
     
+    /**
+     * Return the diameter of the nucleus in femtometers.
+     * 
+     * @return
+     */
     public double getDiameter(){
         // This calculation is based on an empirically derived function that
         // seems to give pretty reasonable values.
@@ -220,6 +230,34 @@ public abstract class AtomicNucleus {
     
     public double getTunnelingRegionRadius(){
         return _tunnelingRegionRadius;
+    }
+    
+    public void setDynamic(boolean dynamic){
+        if ((_dynamic == true)  && (dynamic == false)){
+            // Randomize the locations of the constituent particles so that 
+            // they are not all in once place, which would look lame.
+            double nucleusRadius = getDiameter() / 2;
+            for (int i = 0; i < _constituents.size(); i++){
+                double angle = (_rand.nextDouble() * Math.PI * 2);
+                double multiplier = _rand.nextDouble();
+                if (multiplier > 0.8){
+                    // Cause the distribution to tail off in the outer regions
+                    // of the nucleus.  This makes the center of the nucleus
+                    // look more concentrated.
+                    multiplier = _rand.nextDouble() * _rand.nextDouble();
+                }
+                double radius = nucleusRadius * multiplier;
+                double xPos = Math.sin( angle ) * radius + _position.getX();
+                double yPos = Math.cos( angle ) * radius + _position.getY();
+                AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
+                constituent.setPosition( new Point2D.Double(xPos, yPos) );
+            }
+        }
+        _dynamic = dynamic;
+    }
+    
+    public boolean getDynamic(){
+        return _dynamic;
     }
     
     //------------------------------------------------------------------------
@@ -272,12 +310,19 @@ public abstract class AtomicNucleus {
             for (int i = 0; i < _listeners.size(); i++){
                 ((Listener)_listeners.get( i )).positionChanged();
             }
+            
+            // Move the constituent particles by the velocity amount.
+            for (int i = 0; i < _constituents.size(); i++){
+                newPosX = ((AtomicNucleusConstituent)_constituents.get(i)).getPosition().getX() + _xVelocity; 
+                newPosY = ((AtomicNucleusConstituent)_constituents.get(i)).getPosition().getY() + _yVelocity;
+                ((AtomicNucleusConstituent)_constituents.get(i)).setPosition( new Point2D.Double(newPosX, newPosY) );
+            }
         }
         
         // Move the constituent particles to create the visual effect of a
         // very dynamic nucleus.  In order to allow different levels of
         // agitation, we don't necessarily move all particles every time.
-        if (_agitationFactor > 0){
+        if ((_agitationFactor > 0) && (_dynamic)){
             
             // Calculate the increment to be used for creating the agitation
             // effect.

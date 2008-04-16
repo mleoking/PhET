@@ -63,6 +63,17 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     // Accessor methods
     //------------------------------------------------------------------------
     
+    public void setPosition( Point2D position ){
+        
+        _position.setLocation( position );
+        // Notify all listeners of the position change.
+
+        for (int i = 0; i < _listeners.size(); i++)
+        {
+            ((Listener)_listeners.get( i )).positionChanged(this); 
+        }        
+    }
+    
     public Point2D getPosition(){
         return new Point2D.Double(_position.getX(), _position.getY());
     }

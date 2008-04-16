@@ -46,7 +46,7 @@ public class ChainReactionControlPanel extends ControlPanel {
         addControlFullWidth( _legendPanel );
 
         // Add the controls
-        _controlsPanel = new ChainReactionControlsSubPanel();
+        _controlsPanel = new ChainReactionControlsSubPanel(chainReactionModule.getChainReactionModel());
         addControlFullWidth( _controlsPanel );
         
         // Add the Reset All button.
