@@ -4,6 +4,8 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
+import edu.colorado.phet.build.translate.AddTranslation.AddTranslationReturnValue;
+
 /**
  * Created by: Sam
  * Feb 28, 2008 at 11:55:38 PM
@@ -29,9 +31,9 @@ public class ImportAndAddBatch {
     }
 
     private void importAndAddBatch( String dir ) throws Exception {
-        System.out.println( "Importing..." );
+        
+        // import the translations into the IDE workspace
         new ImportTranslations( baseDir ).importTranslations( new File( dir ) );
-        System.out.println( "Finished Importing." );
         JOptionPane.showMessageDialog( null, 
                 "<html>Localization files have been imported into your IDE workspace.<br>" +
         		"Please refresh your workspace, examine the files,<br>" +
@@ -39,10 +41,20 @@ public class ImportAndAddBatch {
         		"Press OK when you are ready to integrate the files into<br>" +
         		"the PHET production server." );
 
-        System.out.println( "Adding to tigercat" );
+        // deploy the translations to the PhET productions server
         String username = AddTranslation.prompt( "Production Server username:" );
         String password = AddTranslation.prompt( "Production Server password:" );
-        new AddTranslationBatch( baseDir, new File( dir ), username, password ).runBatch( true );
-        System.out.println( "Finished Adding" );
+        AddTranslationBatch addTranslationBatch = new AddTranslationBatch( baseDir, new File( dir ), username, password );
+        AddTranslationReturnValue[] returnValues = addTranslationBatch.runBatch();
+        System.out.println( "Finished deploying" );
+        
+        String results = "<html>Results:<br><br>";
+        for ( int i = 0; i < returnValues.length; i++ ) {
+            AddTranslationReturnValue returnValue = returnValues[i];
+            results += returnValue.getSimulation() + " " + returnValue.getLanguage() + " " + ( returnValue.isSuccess() ? "ok" : "*** FAILED ***" );
+            results += "<br>";
+        }
+        results += "</html>";
+        JOptionPane.showMessageDialog( null, results );
     }
 }

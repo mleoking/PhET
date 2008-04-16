@@ -11,20 +11,16 @@ import edu.colorado.phet.build.PhetProject;
 /**
  * Still under development.
  * <p/>
- * Utility to take many translations from a single directory and move them into the repository.
+ * Utility to take many translations from a single directory and move them into the IDE workspace.
  */
 public class ImportTranslations {
-    private File basedir;
-    private boolean addSVN = true;
-    private String prefix;
+    
+    private static final boolean DO_SVN_ADD = true;
+    
+    private final File basedir;
 
     public ImportTranslations( File basedir ) {
-        this( basedir, null );
-    }
-
-    public ImportTranslations( File basedir, String prefix ) {
         this.basedir = basedir;
-        this.prefix = prefix;
     }
 
     public static void main( String[] args ) throws IOException {
@@ -59,15 +55,26 @@ public class ImportTranslations {
                 File localizationDir = phetProject.getLocalizationDir();
                 final File dst = new File( localizationDir, file.getName() );
                 FileUtils.copyTo( file, dst );
-                if ( prefix != null ) {
-                    FileUtils.addPrefix( dst, prefix );
-                }
-                if ( addSVN ) {
-                    Runtime.getRuntime().exec( "svn add " + dst.getAbsolutePath() );
+                if ( DO_SVN_ADD ) {
+                    /* 
+                     * This adds the file to the SVN repository if it didn't already exist.
+                     * It does not commit files that already exist, so that we have the 
+                     * opportunity to manually review them.
+                     */
+                    String cmd = "svn add " + dst.getAbsolutePath();
+                    System.out.println( cmd );
+                    Process process = Runtime.getRuntime().exec( cmd );
+                    int rval = process.waitFor();
+                    if ( rval < 0 ) {
+                        System.err.println( cmd + " failed, rval=" + rval );
+                    }
                 }
             }
             catch ( FileNotFoundException e ) {
                 System.out.println( "skipping: " + file.getAbsolutePath() );
+            }
+            catch ( InterruptedException ie ) {
+                ie.printStackTrace();
             }
         }
     }
@@ -79,9 +86,5 @@ public class ImportTranslations {
             simname = file.getName().substring( 0, index );
         }
         return simname;
-    }
-
-    public void setPrefix( String prefix ) {
-        this.prefix = prefix;
     }
 }

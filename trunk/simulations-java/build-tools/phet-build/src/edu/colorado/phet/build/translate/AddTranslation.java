@@ -18,22 +18,40 @@ import com.jcraft.jsch.JSchException;
  * Jan 11, 2008 at 11:36:47 AM
  */
 public class AddTranslation {
-    private File basedir;
-    private boolean deployEnabled = true;
-
+    
+    private static final boolean DEPLOY_ENABLED = true; // can be turned off for local debugging
+    
     public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
+    
+    private File basedir;
+    
+    public static class AddTranslationReturnValue {
+        
+        private final String simulation;
+        private final String language;
+        private final boolean success;
+        
+        public AddTranslationReturnValue( String simulation, String language, boolean success ) {
+            this.simulation = simulation;
+            this.language = language;
+            this.success = success;
+        }
+        
+        public String getSimulation() {
+            return simulation;
+        }
+        
+        public String getLanguage() {
+            return language;
+        }
+        
+        public boolean isSuccess() {
+            return success;
+        }
+    }
 
     public AddTranslation( File basedir ) {
-        this( basedir, true );
-    }
-
-    public AddTranslation( File basedir, boolean deployEnabled ) {
         this.basedir = basedir;
-        this.deployEnabled = deployEnabled;
-    }
-
-    public void setDeployEnabled( boolean deployEnabled ) {
-        this.deployEnabled = deployEnabled;
     }
 
     /**
@@ -45,58 +63,75 @@ public class AddTranslation {
      * @param language
      * @throws IOException
      */
-    public void addTranslation( String simulation, String language, String user, String password ) throws Exception {
-        PhetProject phetProject = new PhetProject( new File( basedir, "simulations" ), simulation );
+    public AddTranslationReturnValue addTranslation( String simulation, String language, String user, String password ) {
+        
+        boolean success = true;
+        
+        try {
+            PhetProject phetProject = new PhetProject( new File( basedir, "simulations" ), simulation );
 
-        //Clear the temp directory for this simulation
-        FileUtils.delete( getTempProjectDir( phetProject ), true );
+            //Clear the temp directory for this simulation
+            FileUtils.delete( getTempProjectDir( phetProject ), true );
 
-        //check for existence of localization file for project, throw exception if doesn't exist
-        if ( !phetProject.getLocalizationFile( language ).exists() ) {
-            throw new RuntimeException( "localization file doesn't exist for sim: " + phetProject.getName() + ", lang=" + language );
-        }
-
-        // Get flavors once, reuse in each iteration
-        PhetProjectFlavor[] flavors = phetProject.getFlavors();
-
-        System.out.println( "Downloading all jars" );
-        //Download all flavor JAR files for this project
-        for ( int i = 0; i < flavors.length; i++ ) {
-            downloadJAR( phetProject, flavors[i].getFlavorName() );
-        }
-        downloadJAR( phetProject, phetProject.getName() );//also download the webstart JAR
-        System.out.println( "Finished downloading all jars" );
-
-        System.out.println( "Updating all jars." );
-        //Update all flavor JAR files
-        for ( int i = 0; i < flavors.length; i++ ) {
-            updateJAR( phetProject, flavors[i].getFlavorName(), language );
-        }
-        updateJAR( phetProject, phetProject.getName(), language );//also update the webstart JAR
-        System.out.println( "Finished updating all jars" );
-
-        //create a JNLP file for each flavor
-        System.out.println( "Building JNLP" );
-        PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
-        checkMainClasses( phetProject, language );
-        System.out.println( "Finished building JNLP" );
-
-        if ( deployEnabled ) {//Can disable for local testing
-            System.out.println( "Starting deploy" );
-            //Deploy updated flavor JAR files
-            for ( int i = 0; i < flavors.length; i++ ) {
-                deployJAR( phetProject, flavors[i].getFlavorName(), user, password );
-                deployJNLPFile( phetProject, flavors[i], language, user, password );
+            //check for existence of localization file for project, throw exception if doesn't exist
+            if ( !phetProject.getLocalizationFile( language ).exists() ) {
+                throw new RuntimeException( "localization file doesn't exist for sim: " + phetProject.getName() + ", lang=" + language );
             }
-            deployJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
 
-            //poke the website to make sure it regenerates pages with the new info
-            FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear-all.php", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
+            // Get flavors once, reuse in each iteration
+            PhetProjectFlavor[] flavors = phetProject.getFlavors();
 
-            System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
-            System.out.println( "Finished deploy" );
+            System.out.println( "Downloading all jars" );
+            //Download all flavor JAR files for this project
+            for ( int i = 0; i < flavors.length; i++ ) {
+                downloadJAR( phetProject, flavors[i].getFlavorName() );
+            }
+            downloadJAR( phetProject, phetProject.getName() );//also download the webstart JAR
+            System.out.println( "Finished downloading all jars" );
+
+            System.out.println( "Updating all jars." );
+            //Update all flavor JAR files
+            for ( int i = 0; i < flavors.length; i++ ) {
+                updateJAR( phetProject, flavors[i].getFlavorName(), language );
+            }
+            updateJAR( phetProject, phetProject.getName(), language );//also update the webstart JAR
+            System.out.println( "Finished updating all jars" );
+
+            //create a JNLP file for each flavor
+            System.out.println( "Building JNLP" );
+            PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
+            checkMainClasses( phetProject, language );
+            System.out.println( "Finished building JNLP" );
+
+
+            if ( success && DEPLOY_ENABLED ) {//Can disable for local testing
+                System.out.println( "Starting deploy" );
+                //Deploy updated flavor JAR files
+                for ( int i = 0; i < flavors.length; i++ ) {
+                    deployJAR( phetProject, flavors[i].getFlavorName(), user, password );
+                    deployJNLPFile( phetProject, flavors[i], language, user, password );
+                }
+                deployJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
+
+                //poke the website to make sure it regenerates pages with the new info
+                try {
+                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear-all.php", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
+                    System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
+                    System.out.println( "Finished deploy" );
+                }
+                catch ( FileNotFoundException e ) {
+                    e.printStackTrace();
+                    success = false;
+                }
+            }
+
         }
-
+        catch ( Exception e ) {
+            e.printStackTrace();
+            success = false;
+        }
+            
+        return new AddTranslationReturnValue( simulation, language, success );
     }
 
     private void checkMainClasses( PhetProject project, String language ) throws IOException {
@@ -197,31 +232,17 @@ public class AddTranslation {
      * Uploads the new JAR file to tigercat.
      *
      * @param phetProject
+     * @throws IOException 
+     * @throws JSchException 
      */
-    private void deployJAR( PhetProject phetProject, String jarBaseName, String user, String password ) {
+    private void deployJAR( PhetProject phetProject, String jarBaseName, String user, String password ) throws JSchException, IOException {
         final String filename = getRemoteDirectory( phetProject ) + jarBaseName + ".jar";
-        try {
-            ScpTo.uploadFile( getJARTempFile( phetProject, jarBaseName ), user, "tigercat.colorado.edu", filename, password );
-        }
-        catch( JSchException e ) {
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        ScpTo.uploadFile( getJARTempFile( phetProject, jarBaseName ), user, "tigercat.colorado.edu", filename, password );
     }
 
-    private void deployJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String locale, String user, String password ) {
+    private void deployJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String locale, String user, String password ) throws JSchException, IOException {
         String filename = getRemoteDirectory( phetProject ) + phetProjectFlavor.getFlavorName() + "_" + locale + ".jnlp";
-        try {
-            ScpTo.uploadFile( getJNLPFile( phetProject, phetProjectFlavor, locale ), user, "tigercat.colorado.edu", filename, password );
-        }
-        catch( JSchException e ) {
-            e.printStackTrace();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+        ScpTo.uploadFile( getJNLPFile( phetProject, phetProjectFlavor, locale ), user, "tigercat.colorado.edu", filename, password );
     }
 
     private File getJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String locale ) {
