@@ -71,6 +71,7 @@ CLEANUP:
 
 
 DONE:
+4/15/08 - limit ELA to 8000 meters (above top of birds-eye view), so that we don't have a long wait to see glacier start growing
 4/15/08 - scale and translate new mountains image that contains multiple marker points
 4/15/08 - add more debugging marker points, for alignment with markers in mountains image file
 4/15/08 - fix model to prevent negative ice thickness values caused by new H_max model
