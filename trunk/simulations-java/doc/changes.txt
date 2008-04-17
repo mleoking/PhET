@@ -1,3 +1,7 @@
+4-10-2008: Faraday's Electromagnetic Lab (2.00) - many enhancements and bug fixes, see faraday changelog
+4-10-2008: Generator (2.00) - new simulation (flavor of faraday)
+4-10-2008: Magnets and Electromagnets (2.00) - new simulation (flavor of faraday)
+4-10-2008: Magnet and Compass (2.00) - new simulation (flavor of faraday)
 4-8-2008: Soluble Salts (1.03) - Bugfix for Linux platforms
 2-28-2008: Wave Interference (1.04) - added walls and mirrors
 2-28-2008: Ladybug Revolution (1.04) - user interface improvements
