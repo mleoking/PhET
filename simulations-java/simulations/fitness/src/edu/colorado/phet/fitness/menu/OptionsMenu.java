@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.fitness.menu;
 
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.fitness.FitnessResources;
 
@@ -12,7 +12,7 @@ import edu.colorado.phet.fitness.FitnessResources;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class OptionsMenu extends JMenu {
-    
+
     public OptionsMenu() {
         super( FitnessResources.getString( "menu.options" ) );
         setMnemonic( FitnessResources.getChar( "menu.options.mnemonic", 'O' ) );

@@ -16,21 +16,21 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ExampleModelElement extends ClockAdapter {
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private final double _width, _height; // immutable
     private Point2D _position;
     private double _orientation;
-    
+
     private ArrayList _listeners;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public ExampleModelElement( double width, double height, Point2D position, double orientation ) {
         super();
         _width = width;
@@ -47,37 +47,37 @@ public class ExampleModelElement extends ClockAdapter {
     public double getWidth() {
         return _width;
     }
-    
+
     public double getHeight() {
         return _height;
     }
-    
+
     public Point2D getPosition() {
         return new Point2D.Double( _position.getX(), _position.getY() );
     }
-    
+
     public Point2D getPositionReference() {
         return _position;
     }
-    
+
     public void setPosition( Point2D position ) {
         if ( !position.equals( _position ) ) {
             _position.setLocation( position );
             notifyPositionChanged();
         }
     }
-    
+
     public double getOrientation() {
         return _orientation;
     }
-    
+
     public void setOrientation( double orientation ) {
-        if ( orientation != _orientation) {
+        if ( orientation != _orientation ) {
             _orientation = orientation;
             notifyOrientationChanged();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Notification
     //----------------------------------------------------------------------------
@@ -88,26 +88,30 @@ public class ExampleModelElement extends ClockAdapter {
             ( (ExampleModelElementListener) i.next() ).positionChanged();
         }
     }
-    
+
     private void notifyOrientationChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ExampleModelElementListener) i.next() ).orientationChanged();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Listener
     //----------------------------------------------------------------------------
-    
+
     public interface ExampleModelElementListener {
         public void positionChanged();
+
         public void orientationChanged();
     }
 
     public static class ExampleModelElementAdapter implements ExampleModelElementListener {
-        public void positionChanged() {}
-        public void orientationChanged() {}
+        public void positionChanged() {
+        }
+
+        public void orientationChanged() {
+        }
     }
 
     public void addExampleModelElementListener( ExampleModelElementListener listener ) {
@@ -117,11 +121,11 @@ public class ExampleModelElement extends ClockAdapter {
     public void removeExampleModelElementListener( ExampleModelElementListener listener ) {
         _listeners.remove( listener );
     }
-    
+
     //----------------------------------------------------------------------------
     // ClockAdapter overrides
     //----------------------------------------------------------------------------
-    
+
     public void simulationTimeChanged( ClockEvent event ) {
         // move 1 unit of distance in the direction that we're pointing
         double distance = 1;

@@ -16,18 +16,18 @@ public class SimTemplateClock extends ConstantDtClock {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public SimTemplateClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
-    
+
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * Reset the clock when dt is changed.
-     * 
+     *
      * @param dt
      */
     public void setDt( double dt ) {

@@ -2,12 +2,12 @@
 
 package edu.colorado.phet.fitness.module.fitness;
 
-import edu.colorado.phet.fitness.model.SimTemplateClock;
+import edu.colorado.phet.fitness.control.FoodItem;
 import edu.colorado.phet.fitness.model.Human;
+import edu.colorado.phet.fitness.model.SimTemplateClock;
 
 /**
  * FitnessModel is the model for FitnessModule.
- *
  */
 public class FitnessModel {
 
@@ -16,8 +16,13 @@ public class FitnessModel {
     //----------------------------------------------------------------------------
 
     private final SimTemplateClock _clock;
-    private final Human human=new Human( );
-
+    private final Human human = new Human();
+    private FoodItem[] foodItem = new FoodItem[]{
+            new FoodItem( "burger.png", 279 ),
+            new FoodItem( "strawberry.png", 28 ),//per cup
+            new FoodItem( "bananasplit.png", 510 ),
+            new FoodItem( "grapefruit.png", 74 ),//per cup
+    };
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -36,6 +41,10 @@ public class FitnessModel {
 
     public SimTemplateClock getClock() {
         return _clock;
+    }
+
+    public FoodItem[] getFoodItems() {
+        return foodItem;
     }
 
     public Human getHuman() {

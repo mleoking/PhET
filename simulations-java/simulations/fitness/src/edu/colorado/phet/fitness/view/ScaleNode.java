@@ -74,7 +74,7 @@ public class ScaleNode extends PNode {
         units.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
 
         unitsPSwing = new PSwing( units );
-        unitsPSwing.setOffset( faceWidth / 2+strokeWidth/2, 0 );
+        unitsPSwing.setOffset( faceWidth / 2 + strokeWidth / 2, 0 );
         unitsPSwing.scale( TEXT_SCALE * 0.75 );
         addChild( unitsPSwing );
 
