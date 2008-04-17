@@ -35,15 +35,18 @@ public abstract class AtomicNucleus {
     protected ArrayList _listeners = new ArrayList();
     
     // Location in space of the center of this nucleus.
-    protected Point2D _position;
+    protected Point2D _position = new Point2D.Double();
+    
+    // Original position location.
+    protected Point2D _origPosition = new Point2D.Double();
     
     // Velocity of this nucleus.
-    private double _xVelocity = 0;
-    private double _yVelocity = 0;
+    protected double _xVelocity = 0;
+    protected double _yVelocity = 0;
     
     // Acceleration of this nucleus.
-    private double _xAcceleration = 0;
-    private double _yAcceleration = 0;
+    protected double _xAcceleration = 0;
+    protected double _yAcceleration = 0;
     
     // List of the constituent particles that comprise this nucleus.
     protected ArrayList _constituents;
@@ -89,7 +92,8 @@ public abstract class AtomicNucleus {
         addClockListener( clock );
         
         // Set the initial position for this nucleus.
-        _position = position;
+        _origPosition.setLocation( position );
+        _position.setLocation( position );
         
         // Figure out the proportions of various particles.
         _numAlphas    = ((numProtons + numNeutrons) / 2) / 4;  // Assume half of all particles are tied up in alphas.
@@ -284,8 +288,19 @@ public abstract class AtomicNucleus {
      * Reset the nucleus to its original state.
      */
     public void reset(){
-        // Stubbed in abstract class.
+        // Stubbed in base class.
     }
+    
+    /**
+     * Give the nucleus a chance to capture a (presumably) free particle.
+     * 
+     * @param particle - The particle that could potentially be captured.
+     * @return true if particle captured, false if not.
+     */
+    boolean captureParticle(Nucleon particle){
+        // Does nothing in base class.
+        return false;
+    };
     
     //------------------------------------------------------------------------
     // Private and Protected Methods

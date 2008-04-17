@@ -70,7 +70,7 @@ public class FissionOneNucleus extends AtomicNucleus{
      * captured.
      * @return true if the particle is captured, false if not.
      */
-    public boolean captureNeutron(Nucleon freeParticle){
+    public boolean captureParticle(Nucleon freeParticle){
 
         boolean retval = false;
         
