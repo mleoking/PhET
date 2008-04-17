@@ -98,6 +98,10 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         } );
         
         add(_u238AmountControl);
+        
+        // Set the value on the U235 control to 1.  We wait until here so that
+        // the message will be sent to the model.
+        _u235AmountControl.setValue( 1 );
 
     }
 }

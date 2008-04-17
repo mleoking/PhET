@@ -23,7 +23,6 @@ public class NeutronSourceNode extends PNode{
     // Class Data
     //------------------------------------------------------------------------
 
-    private final static double GRAPHIC_SIZE =   20.0;  // In world coordinates.
     private final static Point2D BUTTON_OFFSET = new Point2D.Double(29, 10);
     
     //------------------------------------------------------------------------
@@ -42,8 +41,11 @@ public class NeutronSourceNode extends PNode{
     /**
      * Construct the graphical node that will represent the neutron source on
      * the canvas.
+     * 
+     * @param neutronSource - The model element that creates the neutrons.
+     * @param graphicWidth - Width, in world coordinates, of the graphic.
      */
-    public NeutronSourceNode(NeutronSource neutronSource)
+    public NeutronSourceNode(NeutronSource neutronSource, double graphicWidth)
     {
         _neutronSource = neutronSource;
 
@@ -51,7 +53,7 @@ public class NeutronSourceNode extends PNode{
         _displayImage = NuclearPhysics2Resources.getImageNode("neutron-gun.png");
         
         // Scale the graphic and add it.
-        _displayImage.scale( GRAPHIC_SIZE/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
+        _displayImage.scale( graphicWidth/_displayImage.getWidth());
         addChild(_displayImage);
         
         // Add the node that will be visible when the fire button is down,

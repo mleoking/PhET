@@ -59,8 +59,8 @@ public class ChainReactionLegendPanel extends JPanel {
         setLayout( new GridLayout(0, 2) );
 
         // Add the images and labels for the simple portion of the legend.
-        addLegendItem( "Neutron.png", "NuclearPhysicsControlPanel.NeutronLabel", 12 );
-        addLegendItem( "Proton.png", "NuclearPhysicsControlPanel.ProtonLabel", 12 );
+        addLegendItem( "Neutron.png", NuclearPhysics2Strings.NEUTRON_LEGEND_LABEL, 12 );
+        addLegendItem( "Proton.png", NuclearPhysics2Strings.PROTON_LEGEND_LABEL, 12 );
         
         // Add the Uranium 235 nucleus to the legend.
         PNode labeledU235Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
@@ -107,10 +107,10 @@ public class ChainReactionLegendPanel extends JPanel {
      * @param labelName
      * @param width
      */
-    private void addLegendItem( String imageName, String labelName, int width ) {
+    private void addLegendItem( String imageName, String label, int width ) {
         Image im = NuclearPhysics2Resources.getImage( imageName );
         ImageIcon icon = new ImageIcon(im.getScaledInstance( width, -1, Image.SCALE_SMOOTH ));
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Resources.getString( labelName ) ));
+        add(new JLabel( label ));
     }
 }

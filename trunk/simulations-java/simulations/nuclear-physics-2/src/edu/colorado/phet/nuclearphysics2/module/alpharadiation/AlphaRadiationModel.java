@@ -95,10 +95,6 @@ public class AlphaRadiationModel {
                 // Ignore this event here.
             }
         });
-
-        
-        // Start the clock.
-        clock.start();
     }
     
     //------------------------------------------------------------------------

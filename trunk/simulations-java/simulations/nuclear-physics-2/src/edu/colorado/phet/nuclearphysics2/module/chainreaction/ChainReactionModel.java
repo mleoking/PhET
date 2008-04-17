@@ -14,6 +14,8 @@ import edu.colorado.phet.nuclearphysics2.model.AlphaRadiationNucleus;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleusConstituent;
 import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
+import edu.colorado.phet.nuclearphysics2.model.Neutron;
+import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel.Listener;
 
@@ -28,7 +30,7 @@ public class ChainReactionModel {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    private static final double MODEL_WORLD_WIDTH = 200;
+    private static final double MODEL_WORLD_WIDTH = 300;
     private static final double MODEL_WORLD_HEIGHT = MODEL_WORLD_WIDTH * 0.75;
     private static final double NUCLEUS_PROXIMITY_LIMIT = 15.0;
     
@@ -40,6 +42,8 @@ public class ChainReactionModel {
     private ArrayList _listeners = new ArrayList();
     private ArrayList _u235Nuclei = new ArrayList();
     private Random _rand = new Random();
+    private NeutronSource _neutronSource;
+    private ArrayList _freeNeutrons;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -66,6 +70,23 @@ public class ChainReactionModel {
                 // TODO: JPB TBD.
             }
         });
+        
+        // Add the neutron source to the side of the model.
+        _neutronSource = new NeutronSource(-45, 0);
+        
+        // Register as a listener to the neutron source so that we know when
+        // new neutrons are generated.
+        _neutronSource.addListener( new NeutronSource.Listener (){
+            public void neutronGenerated(Neutron neutron){
+                // Add this new neutron to the list of free particles.  It
+                // should already be represented in the view and thus does
+                // not need to be added to it.
+                _freeNeutrons.add( neutron );
+            }
+            public void positionChanged(){
+                // Ignore this, since we don't really care about it.
+            }
+        });
     }
     
     //------------------------------------------------------------------------
@@ -74,6 +95,16 @@ public class ChainReactionModel {
 
     public ConstantDtClock getClock(){
         return _clock;
+    }
+    
+    /**
+     * Get a reference to the neutron source, of which there is only one
+     * in this model.
+     * 
+     * @return - Reference to the neutron generator model element.
+     */
+    public NeutronSource getNeutronSource(){
+        return _neutronSource;
     }
     
     //------------------------------------------------------------------------

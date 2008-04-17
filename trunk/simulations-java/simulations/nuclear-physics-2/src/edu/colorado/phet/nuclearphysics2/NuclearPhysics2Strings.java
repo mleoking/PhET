@@ -24,6 +24,7 @@ public class NuclearPhysics2Strings {
 
     public static final String NEUTRON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.NeutronLabel" );
     public static final String PROTON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
+    public static final String ALPHA_PARTICLE_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.AlphaParticleLabel" );
 
     public static final String UNITS_ORIENTATION = NuclearPhysics2Resources.getString( "units.orientation");
     public static final String UNITS_TIME = NuclearPhysics2Resources.getString( "units.time" );

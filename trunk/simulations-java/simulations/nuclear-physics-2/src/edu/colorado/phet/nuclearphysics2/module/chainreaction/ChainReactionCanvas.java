@@ -17,11 +17,13 @@ import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleusConstituent;
 import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
+import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
 import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
+import edu.colorado.phet.nuclearphysics2.view.NeutronSourceNode;
 import edu.colorado.phet.nuclearphysics2.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -55,6 +57,7 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
     private GraphicButtonNode _containmentVesselButtonNode;
     private HashMap _modelElementToNodeMap = new HashMap();
     private PNode _nucleusLayer;
+    private NeutronSourceNode _neutronSourceNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -84,7 +87,7 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
         addWorldChild( _nucleusLayer );
         
         // Add the button for enabling the containment vessel to the canvas.
-        // TODO: JPB TBD - Need to make this a string and a two-lined button.
+        // TODO: JPB TBD - Need to make this a string and possibly a two-lined button.
         _containmentVesselButtonNode = new GraphicButtonNode("Mesh Gradient Button Unpushed.png", 
                 "Mesh Gradient Button Pushed.png",
                 "Containment Vessel", 0.8, 0.6);
@@ -110,7 +113,29 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
                 // Position the containment vessel button.
                 _containmentVesselButtonNode.setOffset( 0.75 * getWidth(), 0.15 * getHeight() );
             }
-        } );
+        });
+        
+        // Add the neutron source to the canvas.
+        _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 50);
+        addWorldChild( _neutronSourceNode );
+        
+        // Register as a listener with the neutron source so that we will know
+        // when new neutrons have been produced.
+        // TODO: JPB TBD - I think that this may be redundant, since
+        // I added the ability to get notification for every new particle
+        // directly from the model.  If so, remove this, and I should probably
+        // refactor the fission tab to behave similarly.
+        _chainReactionModel.getNeutronSource().addListener( new NeutronSource.Listener (){
+            public void neutronGenerated(Neutron neutron){
+                // Add this new neutron to the canvas.
+                NeutronNode neutronNode = new NeutronNode(neutron);
+                addWorldChild( neutronNode );
+                _modelElementToNodeMap.put( neutron, neutronNode );
+            }
+            public void positionChanged(){
+                // Ignore this, since we don't really care about it.
+            }
+        });
     }
 
     //----------------------------------------------------------------------------
