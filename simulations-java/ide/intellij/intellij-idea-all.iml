@@ -84,6 +84,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/wave-interference/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../../team/reids">
+      <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/admin/parser" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../../team/reids/admin/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../../translation-utility">
