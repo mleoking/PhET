@@ -93,7 +93,8 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u238AmountControl.setBorder( BorderFactory.createEtchedBorder() );
         _u238AmountControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                // TODO: JPB TBD.
+                int num = _model.setNumU238Nuclei( (int)Math.round(_u238AmountControl.getValue()) );
+                _u238AmountControl.setValue( (double )num );
             }
         } );
         
