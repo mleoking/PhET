@@ -297,7 +297,7 @@ public abstract class AtomicNucleus {
      * @param particle - The particle that could potentially be captured.
      * @return true if particle captured, false if not.
      */
-    boolean captureParticle(Nucleon particle){
+    public boolean captureParticle(Nucleon particle){
         // Does nothing in base class.
         return false;
     };

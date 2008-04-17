@@ -18,6 +18,7 @@ import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.colorado.phet.nuclearphysics2.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel.Listener;
 
@@ -53,9 +54,9 @@ public class ChainReactionModel {
     private ArrayList _listeners = new ArrayList();
     private ArrayList _u235Nuclei = new ArrayList();
     private ArrayList _u238Nuclei = new ArrayList();
+    private ArrayList _freeNeutrons = new ArrayList();
     private Random _rand = new Random();
     private NeutronSource _neutronSource;
-    private ArrayList _freeNeutrons;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -90,10 +91,10 @@ public class ChainReactionModel {
         // new neutrons are generated.
         _neutronSource.addListener( new NeutronSource.Listener (){
             public void neutronGenerated(Neutron neutron){
-                // Add this new neutron to the list of free particles.  It
-                // should already be represented in the view and thus does
-                // not need to be added to it.
+                // Add this new neutron to the list of free particles and let
+                // any listeners know that it has come into existence.
                 _freeNeutrons.add( neutron );
+                sendAddedNotifications( neutron );
             }
             public void positionChanged(){
                 // Ignore this, since we don't really care about it.
@@ -238,7 +239,43 @@ public class ChainReactionModel {
     //------------------------------------------------------------------------
     
     private void handleClockTicked(ClockEvent clockEvent){
-        // TODO: JPB TBD
+
+        // Move any free particles that exist.
+        for (int i = 0; i < _freeNeutrons.size(); i++){
+            Nucleon freeNucleon = (Nucleon)_freeNeutrons.get( i );
+            assert freeNucleon instanceof Nucleon;
+            freeNucleon.translate();
+
+            // Check if any of the free particles have collided with a nucleus
+            // and, if so, give the nucleus the opportunity to absorb the
+            // neutron (and possibly fission as a result).
+            boolean particleAbsorbed = false;
+            int j;
+            for (j = 0; (j < _u235Nuclei.size()) && (particleAbsorbed == false); j++){
+                AtomicNucleus nucleus = (AtomicNucleus)_u235Nuclei.get( j );
+                if (freeNucleon.getPosition().distance( nucleus.getPosition() ) <=
+                    nucleus.getDiameter() / 2)
+                {
+                    // The particle is within capture range - see if the nucleus can capture it.
+                    particleAbsorbed = nucleus.captureParticle( freeNucleon );
+                }
+            }
+            for (j = 0; (j < _u238Nuclei.size()) && (particleAbsorbed == false); j++){
+                AtomicNucleus nucleus = (AtomicNucleus)_u238Nuclei.get( j );
+                if (freeNucleon.getPosition().distance( nucleus.getPosition() ) <=
+                    nucleus.getDiameter() / 2)
+                {
+                    // The particle is within capture range - see if the nucleus can capture it.
+                    particleAbsorbed = nucleus.captureParticle( freeNucleon );
+                }
+            }
+            
+            if (particleAbsorbed){
+                // The particle has become part of a larger nucleus, so we
+                // need to take it off the list of free particles.
+                _freeNeutrons.remove( i );
+            }
+        }
     }
     
     /**

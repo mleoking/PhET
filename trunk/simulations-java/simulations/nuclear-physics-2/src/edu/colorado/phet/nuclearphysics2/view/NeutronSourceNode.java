@@ -86,19 +86,6 @@ public class NeutronSourceNode extends PNode{
             }
         } );
         
-        // Register as a listener for events from the model component.
-        _neutronSource.addListener(new NeutronSource.Listener(){
-            public void positionChanged()
-            {
-                // Do nothing for now (other than assert), since we don't
-                // expect this model component to ever move.
-                assert false;
-            }
-            public void neutronGenerated(Neutron neutron){
-                // TODO: JPB TBD.
-            }
-        });
-        
         // Set our initial position.
         update();
     }
