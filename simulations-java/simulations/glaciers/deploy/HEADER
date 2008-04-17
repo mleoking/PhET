@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Glaciers, version 0.00.12
+Glaciers, version 0.00.13
 </b></big></big>
 <p>
 English: <a href="glaciers.jnlp">Glaciers</a>
@@ -13,17 +13,28 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
-<li>first pass at "ice flow vectors" feature
-<li>increase steepness of valley headwall
-<li>use custom paints and strokes for curves in "glacial budget vs. elevation" graph
-<li>change "v." to "vs." in all graphs
+<li>model fix for negative glacier length
+<li>model fix for negative max ice thickness
+<li>model fix for negative ice thickness
+<li>align and scale image of mountains and valley
+<li>prevent center of zoomed viewport from being dragged any farther right than 80km
+<li>increase precision of temperature and snowfall text fields
+<li>change colors in Glacial Budget chart (to match Archie's plots)
+<li>show ablation as -ablation in charts (to match Archie's plots)
+<li>fix ablation model so that it never goes to zero
+<li>show ice velocity vectors in zoomed view only, they clutter the birds-eye view
+<li>add development-only display of ELA value (to right of toolbox)
+<li>limit ELA to max of 8000 meters
+<li>reduce stroke width of coordinate axes
+<li>reuse some objects in model & view of ice velocity to improve performance
+<li>reorganize ice model for improved readability and maintainability
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
+<li>when ice velocity vectors are visible, sim runs slower
 <li>equilibrium line should be shown only where it intersects the ice
 <li>tools can be lost by dragging them outside the birds-eye view
-<li>view of mountains is a proxy image, to be replaced with a better representation
 </ul>
 <p>
 <b>Not implemented:</b>
@@ -32,12 +43,11 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <li>borehole drill doesn't work
 <li>tools cannot be dragged to the trash
 <li>3D perspective is not implemented; both views show a 2D cross-section
-<li>snowfall is not visible.
+<li>snowfall is not visible
 <li>There are no left/right arrows in the zoomed view for moving the viewport.
 <li>Advanced panel is hidden; what you see is the Basic panel.
 <li>ice measurement tool doesn't resize its calipers
 <li>time-based graphs are not implemented
-<li>nothing is drawn to the right of x=80km
 <li>zoomed viewport doesn't automatically scroll to follow terminus
 <li>no Help menu option to show pictures of real glaciers
 <li>no textures or debris moving in the ice
