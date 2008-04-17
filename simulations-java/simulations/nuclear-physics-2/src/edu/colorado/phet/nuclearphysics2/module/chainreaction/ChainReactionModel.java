@@ -51,6 +51,7 @@ public class ChainReactionModel {
     private NuclearPhysics2Clock _clock;
     private ArrayList _listeners = new ArrayList();
     private ArrayList _u235Nuclei = new ArrayList();
+    private ArrayList _u238Nuclei = new ArrayList();
     private Random _rand = new Random();
     private NeutronSource _neutronSource;
     private ArrayList _freeNeutrons;
@@ -187,6 +188,51 @@ public class ChainReactionModel {
         return _u235Nuclei.size();
     }
 
+    /**
+     * Set the number of U238 nuclei that are present in the model.  Note that
+     * this can only be done before the chain reaction has been started.
+     * 
+     * @param numU238Nuclei
+     * @return Number of this type of nuclei now present in model.
+     */
+    public int setNumU238Nuclei(int numU238Nuclei){
+        if ( numU238Nuclei == _u238Nuclei.size() ){
+            // Nothing to do - we've got what we need.
+        }
+        else if ( numU238Nuclei > _u238Nuclei.size() ){
+            
+            // We need to add some new nuclei.
+            
+            // We need to add some new nuclei.
+            for (int i = 0; i < numU238Nuclei - _u238Nuclei.size(); i++){
+                // TODO: JPB TBD - Need to either create a different nucleus or refactor FissionOneNucleus.
+                Point2D position = getOpenNucleusLocation();
+                if (position == null){
+                    // We were unable to find a spot for this nucleus.
+                    continue;
+                }
+                AtomicNucleus nucleus = new FissionOneNucleus(_clock, position);
+                nucleus.setDynamic( false );
+                _u238Nuclei.add(nucleus);
+                sendAddedNotifications( nucleus );
+            }
+        }
+        else{
+            // We need to remove some nuclei.  Take them from the back of the
+            // list, since this leaves the nucleus at the origin for last.
+            int numNucleiToRemove = _u238Nuclei.size() - numU238Nuclei;
+            for (int i = 0; i < numNucleiToRemove; i++){
+                if (_u238Nuclei.size() > 0){
+                    Object nucleus = _u238Nuclei.get( _u238Nuclei.size() - 1 );
+                    _u238Nuclei.remove( nucleus );
+                    sendRemovalNotifications( nucleus );
+                }
+            }
+        }
+        
+        return _u238Nuclei.size();
+    }
+
     //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
@@ -215,6 +261,12 @@ public class ChainReactionModel {
             }
             for (int j = 0; (j < _u235Nuclei.size()) && (pointTaken == false); j++){
                 if (position.distance( ((AtomicNucleus)_u235Nuclei.get(j)).getPosition()) < NUCLEUS_PROXIMITY_LIMIT){
+                    // This point is taken.
+                    pointTaken = true;
+                }
+            }
+            for (int j = 0; (j < _u238Nuclei.size()) && (pointTaken == false); j++){
+                if (position.distance( ((AtomicNucleus)_u238Nuclei.get(j)).getPosition()) < NUCLEUS_PROXIMITY_LIMIT){
                     // This point is taken.
                     pointTaken = true;
                 }

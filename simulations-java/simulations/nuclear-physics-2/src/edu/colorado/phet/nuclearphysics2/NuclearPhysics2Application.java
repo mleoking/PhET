@@ -95,14 +95,14 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        _chainReactionModule = new ChainReactionModule( parentFrame );
-        addModule( _chainReactionModule );
-
         _alphaRadiationModule = new AlphaRadiationModule( parentFrame );
         addModule( _alphaRadiationModule );
 
         _fissionOneNucleusModule = new FissionOneNucleusModule( parentFrame );
         addModule( _fissionOneNucleusModule );
+
+        _chainReactionModule = new ChainReactionModule( parentFrame );
+        addModule( _chainReactionModule );
 
         _exampleModule = new ExampleModule( parentFrame );
         addModule( _exampleModule );
