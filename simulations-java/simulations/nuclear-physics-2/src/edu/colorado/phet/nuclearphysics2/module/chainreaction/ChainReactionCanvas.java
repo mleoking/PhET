@@ -115,24 +115,6 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
         // Add the neutron source to the canvas.
         _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 50);
         addWorldChild( _neutronSourceNode );
-        
-        // Register as a listener with the neutron source so that we will know
-        // when new neutrons have been produced.
-        // TODO: JPB TBD - I think that this may be redundant, since
-        // I added the ability to get notification for every new particle
-        // directly from the model.  If so, remove this, and I should probably
-        // refactor the fission tab to behave similarly.
-        _chainReactionModel.getNeutronSource().addListener( new NeutronSource.Listener (){
-            public void neutronGenerated(Neutron neutron){
-                // Add this new neutron to the canvas.
-                NeutronNode neutronNode = new NeutronNode(neutron);
-                addWorldChild( neutronNode );
-                _modelElementToNodeMap.put( neutron, neutronNode );
-            }
-            public void positionChanged(){
-                // Ignore this, since we don't really care about it.
-            }
-        });
     }
 
     //----------------------------------------------------------------------------
@@ -191,6 +173,12 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
             _nucleusLayer.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
         }
+        else if (modelElement instanceof Neutron){
+            // Add a corresponding neutron node for this guy.
+            PNode neutronNode = new NeutronNode((Neutron)modelElement);
+            _nucleusLayer.addChild( neutronNode );
+            _modelElementToNodeMap.put( modelElement, neutronNode );            
+        }
         else{
             System.err.println("Error: Unable to find appropriate node for model element.");
         }
@@ -222,6 +210,12 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
                 }
 
                 // Remove the nucleus node itself.
+                _nucleusLayer.removeChild( (PNode )nucleusNode );
+                _modelElementToNodeMap.remove( modelElement );
+            }
+            else {
+                // This is not a composite model element, so just remove the
+                // corresponding PNode.
                 _nucleusLayer.removeChild( (PNode )nucleusNode );
                 _modelElementToNodeMap.remove( modelElement );
             }
