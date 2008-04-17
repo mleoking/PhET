@@ -1,6 +1,10 @@
 package edu.colorado.phet.fitness.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+
+import edu.colorado.phet.fitness.control.FoodItem;
 
 /**
  * Created by: Sam
@@ -14,6 +18,8 @@ public class Human {
     private String name = "Larry";
     private ArrayList listeners = new ArrayList();
     private double musclePercent = 60;
+
+    public HashSet foods = new HashSet();
 
     public Human() {
     }
@@ -92,6 +98,15 @@ public class Human {
         this.musclePercent = 100 - value;
         notifyFatPercentChanged();
         notifyMusclePercentChanged();
+    }
+
+    public double getDailyCaloricIntake() {
+        double sum = 0;
+        for ( Iterator iterator = foods.iterator(); iterator.hasNext(); ) {
+            FoodItem foodItem = (FoodItem) iterator.next();
+            sum += foodItem.getCalories();
+        }
+        return sum;
     }
 
     public static class Gender {
@@ -187,6 +202,7 @@ public class Human {
 
         void fatPercentChanged();
 
+        void foodItemsChanged();
     }
 
     public static class Adapter implements Listener {
@@ -208,11 +224,41 @@ public class Human {
 
         public void fatPercentChanged() {
         }
+
+        public void foodItemsChanged() {
+        }
     }
 
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+    }
+
+
+    public void addFoodItem( FoodItem foodItem ) {
+
+        HashSet orig = new HashSet( foods );
+        foods.add( foodItem );
+        if ( !orig.equals( foods ) ) {
+            System.out.println( "added foodItem = " + foodItem );
+            notifyFoodItemsChanged();
+        }
+    }
+
+    private void notifyFoodItemsChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.foodItemsChanged();
+        }
+    }
+
+    public void removeFoodItem( FoodItem foodItem ) {
+
+        HashSet orig = new HashSet( foods );
+        foods.remove( foodItem );
+        if ( !orig.equals( foods ) ) {System.out.println( "removed foodItem = " + foodItem );
+            notifyFoodItemsChanged();
+        }
     }
 
 }
