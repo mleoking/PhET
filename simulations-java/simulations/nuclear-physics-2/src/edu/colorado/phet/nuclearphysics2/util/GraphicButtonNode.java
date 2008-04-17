@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -28,21 +30,23 @@ public class GraphicButtonNode extends PhetPNode {
     private PText _buttonLabel;
     private ArrayList _listeners = new ArrayList();
 
-    public GraphicButtonNode(String unarmedImageFileName, String armedImageFileName, String labelText, 
+    public GraphicButtonNode(String unarmedImageFileName, String armedImageFileName, String labelText,
             double labelOffsetFactorX, double labelOffsetFactorY) {
 
         // Add image for "armed" button.
         _armedImage = NuclearPhysics2Resources.getImageNode(armedImageFileName);
+        _armedImage.addInputEventListener( new CursorHandler() );
         _armedImage.setPickable( true );
         addChild( _armedImage );
 
         // Add image for "unarmed" button.
         _unarmedImage = NuclearPhysics2Resources.getImageNode(unarmedImageFileName);
+        _unarmedImage.addInputEventListener( new CursorHandler() );
         addChild( _unarmedImage );
         
         // Add label for button.
         _buttonLabel = new PText(labelText);
-        _buttonLabel.setFont( new Font("Comic Sans MS", Font.PLAIN, 16 ));
+        _buttonLabel.setFont( new PhetDefaultFont(Font.PLAIN, 16 ));
         _buttonLabel.setPickable( false );
         addChild( _buttonLabel );
         

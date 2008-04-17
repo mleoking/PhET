@@ -78,8 +78,8 @@ public class NeutronSourceNode extends PNode{
         _fireButtonUp.addInputEventListener( new CursorHandler() );
         _fireButtonUp.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                _neutronSource.generateNeutron();
                 _fireButtonUp.setVisible( false );
+                _neutronSource.generateNeutron();
             }
             public void mouseReleased( PInputEvent event ) {
                 _fireButtonUp.setVisible( true );
