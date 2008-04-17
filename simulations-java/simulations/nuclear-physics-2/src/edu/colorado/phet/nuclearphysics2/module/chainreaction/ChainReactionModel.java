@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,6 +34,15 @@ public class ChainReactionModel {
     private static final double MODEL_WORLD_WIDTH = 300;
     private static final double MODEL_WORLD_HEIGHT = MODEL_WORLD_WIDTH * 0.75;
     private static final double NUCLEUS_PROXIMITY_LIMIT = 15.0;
+    
+    // Controls position of the neutron source.
+    private static final double NEUTRON_SOURCE_POS_X = -45;
+    private static final double NEUTRON_SOURCE_POS_Y = 0;
+    
+    // A rectangle that is used to keep neulei from being placed too close
+    // to the neutron source.  Tweak it to meet the needs of the sim.
+    private static final Rectangle2D NEUTRON_SOURCE_RECT = new Rectangle2D.Double(NEUTRON_SOURCE_POS_X - 30, 
+            NEUTRON_SOURCE_POS_Y - 20, 50, 50);
     
     //------------------------------------------------------------------------
     // Instance data
@@ -72,7 +82,7 @@ public class ChainReactionModel {
         });
         
         // Add the neutron source to the side of the model.
-        _neutronSource = new NeutronSource(-45, 0);
+        _neutronSource = new NeutronSource(NEUTRON_SOURCE_POS_X, NEUTRON_SOURCE_POS_Y);
         
         // Register as a listener to the neutron source so that we know when
         // new neutrons are generated.
@@ -199,11 +209,14 @@ public class ChainReactionModel {
             
             // Check if this point is taken.
             boolean pointTaken = false;
-            for (int j = 0; j < _u235Nuclei.size(); j++){
+            if (NEUTRON_SOURCE_RECT.contains( position )){
+                // Too close to the neutron source.
+                pointTaken = true;
+            }
+            for (int j = 0; (j < _u235Nuclei.size()) && (pointTaken == false); j++){
                 if (position.distance( ((AtomicNucleus)_u235Nuclei.get(j)).getPosition()) < NUCLEUS_PROXIMITY_LIMIT){
                     // This point is taken.
                     pointTaken = true;
-                    break;
                 }
             }
             
