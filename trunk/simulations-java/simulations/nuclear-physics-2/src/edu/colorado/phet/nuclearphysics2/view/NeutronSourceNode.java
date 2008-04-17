@@ -25,6 +25,13 @@ public class NeutronSourceNode extends PNode{
 
     private final static Point2D BUTTON_OFFSET = new Point2D.Double(29, 10);
     
+    // This factor accounts for the fact that the tip of the gun graphic is
+    // not exactly in the center or at the top or bottom of the gun.  It is
+    // the ratio of the distance from the top of the graphic to the gun tip
+    // relative to the overall height of the gun image.
+    private final static double GUN_TIP_FRACTION_Y = 0.27; 
+    
+    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -109,6 +116,6 @@ public class NeutronSourceNode extends PNode{
         // will appear.
         
         _displayImage.setOffset( _neutronSource.getPosition().getX() - _displayImage.getWidth() * _displayImage.getScale(),  
-                _neutronSource.getPosition().getY() - 3.5);
+                _neutronSource.getPosition().getY() - (_displayImage.getHeight() * _displayImage.getScale() * GUN_TIP_FRACTION_Y));
     }
 }
