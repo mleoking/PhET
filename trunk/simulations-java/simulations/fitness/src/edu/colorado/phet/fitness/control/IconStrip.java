@@ -25,43 +25,43 @@ public class IconStrip extends PNode {
             im[i] = createNode( iconItem, i, im );
             final int i1 = i;
             im[i].addInputEventListener( new PDragEventHandler() {
-                CaloriePanel.BoxedImage createdNode = null;
+                CaloriePanel.BoxedImage lastCreatedNode = null;
 
                 protected void startDrag( PInputEvent event ) {
                     super.startDrag( event );
-                    createdNode = createNode( iconItem, i1, im );
-                    createdNode.addInputEventListener( new PDragEventHandler() {
+                    lastCreatedNode = createNode( iconItem, i1, im );
+                    lastCreatedNode.addInputEventListener( new PDragEventHandler() {
                         protected void startDrag( PInputEvent event ) {
-                            super.startDrag( event );
-                            createdNode.moveToFront();
+                            lastCreatedNode.moveToFront();
                         }
                     } );
-                    createdNode.setDrawBorder( false );
-                    IconStrip.this.addChild( createdNode );
-                    createdNode.moveToFront();
+                    lastCreatedNode.setDrawBorder( false );
+                    IconStrip.this.addChild( lastCreatedNode );
+                    lastCreatedNode.moveToFront();
                 }
 
                 protected void drag( PInputEvent event ) {
                     PDimension d = event.getDeltaRelativeTo( im[i1] );
-                    createdNode.localToParent( d );
-                    createdNode.offset( d.getWidth(), d.getHeight() );
+                    lastCreatedNode.localToParent( d );
+                    lastCreatedNode.offset( d.getWidth(), d.getHeight() );
                 }
             } );
         }
     }
 
-    protected CaloriePanel.BoxedImage createNode( IconItem foodItem, int index, CaloriePanel.BoxedImage[] others ) {
-        BufferedImage image = FitnessResources.getImage( foodItem.getImageName() );
+    protected CaloriePanel.BoxedImage createNode( IconItem iconItem, int index, CaloriePanel.BoxedImage[] others ) {
+        System.out.println( "IconStrip.createNode" );
+
+        BufferedImage image = FitnessResources.getImage( iconItem.getImageName() );
         double sy = height / image.getHeight();
         int width = (int) ( sy * image.getWidth() );
         CaloriePanel.BoxedImage imx = new CaloriePanel.BoxedImage( BufferedImageUtils.getScaledInstance( image, width, (int) height, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true ) );
-
-//            imx.scale( height / imx.getFullBounds().getHeight() );
         addChild( imx );
         imx.addInputEventListener( new CursorHandler() );
         if ( index > 0 ) {
             imx.setOffset( others[index - 1].getFullBounds().getMaxX(), others[index - 1].getFullBounds().getY() );
         }
+        iconItem.decorateNode( imx );
 
         return imx;
     }
@@ -75,6 +75,10 @@ public class IconStrip extends PNode {
 
         public String getImageName() {
             return image;
+        }
+
+        //add any additional code required to decorate a created PNode here
+        public void decorateNode( PNode node ) {
         }
     }
 }

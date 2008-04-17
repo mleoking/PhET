@@ -17,7 +17,7 @@ public class FitnessModel {
 
     private final SimTemplateClock _clock;
     private final Human human = new Human();
-    private FoodItem[] foodItem = new FoodItem[]{
+    private FoodItem[] availableFoods = new FoodItem[]{
             new FoodItem( "burger.png", 279 ),
             new FoodItem( "strawberry.png", 28 ),//per cup
             new FoodItem( "bananasplit.png", 510 ),
@@ -44,10 +44,11 @@ public class FitnessModel {
     }
 
     public FoodItem[] getFoodItems() {
-        return foodItem;
+        return availableFoods;
     }
 
     public Human getHuman() {
         return human;
     }
+
 }

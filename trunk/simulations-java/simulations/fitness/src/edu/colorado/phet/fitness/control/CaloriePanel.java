@@ -1,9 +1,10 @@
 package edu.colorado.phet.fitness.control;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
@@ -12,21 +13,19 @@ import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionTimeSeriesModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
@@ -36,22 +35,56 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 public class CaloriePanel extends PNode {
     private CalorieSlider calorieSlider;
     private CalorieSlider burnSlider;
+    private PImage plateNode;
 
-    public CaloriePanel( FitnessModel model, PhetPCanvas phetPCanvas ) {
+    public CaloriePanel( final FitnessModel model, PhetPCanvas phetPCanvas ) {
+        plateNode = new PImage( FitnessResources.getImage( "plate.png" ) );
+        plateNode.setOffset( 0, 70 );
+
         IconStrip.IconItem[] iconItem = new IconStrip.IconItem[model.getFoodItems().length];
         for ( int i = 0; i < iconItem.length; i++ ) {
-            iconItem[i] = new IconStrip.IconItem( model.getFoodItems()[i].getImage() );
+            final int i1 = i;
+            iconItem[i] = new IconStrip.IconItem( model.getFoodItems()[i].getImage() ) {
+                //add any additional code required to decorate a created PNode here
+                FoodItem foodItem;
+
+                public void decorateNode( final PNode node ) {
+                    super.decorateNode( node );
+                    node.addInputEventListener( new PDragEventHandler() {
+                        protected void startDrag( PInputEvent event ) {
+                            if ( foodItem == null ) {
+                                foodItem = model.getFoodItems()[i1].copy();
+                                System.out.println( "created: "+foodItem );
+                            }
+                        }
+                    } );
+                    node.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+                        public void propertyChange( PropertyChangeEvent evt ) {
+                            if ( foodItem != null && node.getFullBounds().intersects( plateNode.getFullBounds() ) ) {
+                                model.getHuman().addFoodItem( foodItem );
+                            }
+                            else {
+                                model.getHuman().removeFoodItem( foodItem );
+                            }
+                        }
+                    } );
+                }
+            };
         }
         PNode foodStrip = new IconStrip( iconItem );
         calorieSlider = new CalorieSlider( "Daily Caloric Intake", Color.green, true );
+        model.getHuman().addListener( new Human.Adapter() {
+            public void foodItemsChanged() {
+                calorieSlider.setArrowLocation( model.getHuman().getDailyCaloricIntake() / 20 );//todo: fix slider scaling
+            }
+        } );
         addChild( calorieSlider );
 
         burnSlider = new CalorieSlider( "Daily Caloric Burn", Color.red, false );
         burnSlider.addRegion( 0, 50, new Color( 225, 138, 138 ) );
         addChild( burnSlider );
 
-        PImage plateNode = new PImage( FitnessResources.getImage( "plate.png" ) );
-        plateNode.setOffset( 0, 70 );
+
         addChild( plateNode );
 
         addChild( foodStrip );
@@ -121,58 +154,6 @@ public class CaloriePanel extends PNode {
         addChild( a );
 
         addChild( b );
-    }
-
-    private static class CalorieSlider extends PNode {
-        public static double WIDTH = 200;
-        public static double HEIGHT = 30;
-        private PhetPPath arrowNode;
-        private PText titleNode;
-        private PhetPPath borderNode;
-
-        public CalorieSlider( String title, Color color, boolean arrowDown ) {
-            titleNode = new PText( title );
-            addChild( titleNode );
-            borderNode = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT ), new BasicStroke( 1.5f ), Color.black );
-            addChild( borderNode );
-            arrowNode = new PhetPPath( new Arrow( new Point2D.Double( 0, arrowDown ? 0 : HEIGHT ), new Point2D.Double( 0, arrowDown ? HEIGHT : 0 ), 12, 12, 7 ).getShape(), color );
-
-            arrowNode.addInputEventListener( new CursorHandler() );
-            arrowNode.addInputEventListener( new PDragEventHandler() {
-                protected void drag( PInputEvent event ) {
-//                    super.drag( event );
-                    PDimension d = event.getDeltaRelativeTo( getDraggedNode() );
-                    getDraggedNode().localToParent( d );
-                    getDraggedNode().offset( d.getWidth(), 0 );
-                    if ( getDraggedNode().getOffset().getX() < 0 ) {
-                        getDraggedNode().setOffset( 0, getDraggedNode().getOffset().getY() );
-                    }
-                    else if ( getDraggedNode().getOffset().getX() > WIDTH ) {
-                        getDraggedNode().setOffset( WIDTH, getDraggedNode().getOffset().getY() );
-                    }
-                }
-            } );
-//            titleNode.setOffset( 0, -titleNode.getHeight() );
-            borderNode.setOffset( 0, titleNode.getHeight() );
-            arrowNode.setOffset( 0, titleNode.getHeight() );
-
-            PText low = new PText( "None" );
-            addChild( low );
-            low.setOffset( -low.getFullBounds().getWidth(), borderNode.getFullBounds().getCenterY() - low.getFullBounds().getHeight() / 2 );
-            PText lots = new PText( "Lots" );
-            addChild( lots );
-            lots.setOffset( borderNode.getFullBounds().getWidth(), borderNode.getFullBounds().getCenterY() - low.getFullBounds().getHeight() / 2 );
-
-            addChild( arrowNode );
-        }
-
-        public void addRegion( int x0, int x1, Color color ) {
-            PhetPPath path = new PhetPPath( new Rectangle2D.Double( x0, 0, x1, HEIGHT ), color );
-            path.setOffset( 0, titleNode.getHeight() );
-            addChild( path );
-            borderNode.moveToFront();
-            arrowNode.moveToFront();
-        }
     }
 
     static class BoxedImage extends PImage {
