@@ -11,19 +11,14 @@
 
 package edu.colorado.phet.nuclearphysics2.util;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import edu.colorado.phet.common.phetcommon.view.controls.StandardIconButton.CloseButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
