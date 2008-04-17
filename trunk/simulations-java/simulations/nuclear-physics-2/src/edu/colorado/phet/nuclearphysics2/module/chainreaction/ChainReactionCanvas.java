@@ -7,15 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics2.model.AtomicNucleusConstituent;
-import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
+import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
@@ -26,7 +24,6 @@ import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronSourceNode;
 import edu.colorado.phet.nuclearphysics2.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -155,10 +152,10 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
      */
     public void modelElementAdded(Object modelElement){
         
-        if (modelElement instanceof FissionOneNucleus){
+        if ((modelElement instanceof AtomicNucleus)){
 
             // Add a node for each of the constituents of this nucleus.
-            ArrayList nucleusConstituents = ((FissionOneNucleus)modelElement).getConstituents();
+            ArrayList nucleusConstituents = ((AtomicNucleus)modelElement).getConstituents();
             for (int i = 0; i < nucleusConstituents.size(); i++){
                 
                 Object constituent = nucleusConstituents.get( i );
@@ -190,7 +187,7 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
             }
             
             // Add an atom node for this guy.
-            PNode atomNode = new AtomicNucleusNode((FissionOneNucleus)modelElement);
+            PNode atomNode = new AtomicNucleusNode((AtomicNucleus)modelElement);
             _nucleusLayer.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
         }
@@ -208,9 +205,9 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
         Object nucleusNode = _modelElementToNodeMap.get( modelElement );
         if ((nucleusNode != null) || (nucleusNode instanceof PNode)){
             
-            if (modelElement instanceof FissionOneNucleus){
+            if (modelElement instanceof AtomicNucleus){
                 // First remove the nodes for all the constituent particles.
-                ArrayList nucleusConstituents = ((FissionOneNucleus)modelElement).getConstituents();
+                ArrayList nucleusConstituents = ((AtomicNucleus)modelElement).getConstituents();
                 for (int i = 0; i < nucleusConstituents.size(); i++){
                     
                     Object constituent = nucleusConstituents.get( i );

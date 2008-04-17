@@ -158,6 +158,18 @@ public class AtomicNucleusNode extends PNode {
                 " </font></sup>" + NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL + "</html>";
                 labelColor = Color.ORANGE;
             }
+            else if (numNeutrons == 146){
+                // Uranium 238
+                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.URANIUM_238_ISOTOPE_NUMBER +
+                " </font></sup>" + NuclearPhysics2Strings.URANIUM_238_CHEMICAL_SYMBOL + "</html>";
+                labelColor = NuclearPhysics2Constants.URANIUM_238_LABEL_COLOR;
+            }
+            else if (numNeutrons == 147){
+                // Uranium 239
+                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.URANIUM_239_ISOTOPE_NUMBER +
+                " </font></sup>" + NuclearPhysics2Strings.URANIUM_239_CHEMICAL_SYMBOL + "</html>";
+                labelColor = NuclearPhysics2Constants.URANIUM_239_LABEL_COLOR;
+            }
             
             break;
             

@@ -18,6 +18,7 @@ import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics2.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel.Listener;
 
 /**
@@ -205,13 +206,12 @@ public class ChainReactionModel {
             
             // We need to add some new nuclei.
             for (int i = 0; i < numU238Nuclei - _u238Nuclei.size(); i++){
-                // TODO: JPB TBD - Need to either create a different nucleus or refactor FissionOneNucleus.
                 Point2D position = getOpenNucleusLocation();
                 if (position == null){
                     // We were unable to find a spot for this nucleus.
                     continue;
                 }
-                AtomicNucleus nucleus = new FissionOneNucleus(_clock, position);
+                AtomicNucleus nucleus = new Uranium238Nucleus(_clock, position);
                 nucleus.setDynamic( false );
                 _u238Nuclei.add(nucleus);
                 sendAddedNotifications( nucleus );

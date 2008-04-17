@@ -184,7 +184,7 @@ public class FissionOneNucleusModel {
             if (Point2D.distance(freeNucleon.getPosition().getX(), freeNucleon.getPosition().getY(), _primaryNucleus.getPosition().getX(), _primaryNucleus.getPosition().getY()) <
                 _primaryNucleus.getDiameter() / 2){
                 
-                if (_primaryNucleus.captureNeutron( freeNucleon )){
+                if (_primaryNucleus.captureParticle( freeNucleon )){
                     _freeNucleons.remove( i );                    
                 }
             }
