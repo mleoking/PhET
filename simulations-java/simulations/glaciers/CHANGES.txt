@@ -70,7 +70,7 @@ CLEANUP:
 
 
 DONE:
-******** 0.00.13 (?)
+******** 0.00.13 (20775)
 4/16/08 - reuse some objects in model & view of ice velocity to improve performance
 4/15/08 - delete ValleyNode, move path creation utility to model
 4/15/08 - reduce stroke width of coordinate axes
