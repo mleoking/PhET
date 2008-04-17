@@ -23,22 +23,22 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class GraphicButtonNode extends PhetPNode {
 
-    private PNode _unpushedButtonImage;
-    private PNode _pushedButtonImage;
+    private PNode _unarmedImage;
+    private PNode _armedImage;
     private PText _buttonLabel;
     private ArrayList _listeners = new ArrayList();
 
-    public GraphicButtonNode(String upImageFileName, String downImageFileName, String labelText, 
+    public GraphicButtonNode(String unarmedImageFileName, String armedImageFileName, String labelText, 
             double labelOffsetFactorX, double labelOffsetFactorY) {
 
-        // Add image for pushed button.
-        _pushedButtonImage = NuclearPhysics2Resources.getImageNode(downImageFileName);
-        _pushedButtonImage.setPickable( true );
-        addChild( _pushedButtonImage );
+        // Add image for "armed" button.
+        _armedImage = NuclearPhysics2Resources.getImageNode(armedImageFileName);
+        _armedImage.setPickable( true );
+        addChild( _armedImage );
 
-        // Add image for unpushed button.
-        _unpushedButtonImage = NuclearPhysics2Resources.getImageNode(upImageFileName);
-        addChild( _unpushedButtonImage );
+        // Add image for "unarmed" button.
+        _unarmedImage = NuclearPhysics2Resources.getImageNode(unarmedImageFileName);
+        addChild( _unarmedImage );
         
         // Add label for button.
         _buttonLabel = new PText(labelText);
@@ -48,29 +48,54 @@ public class GraphicButtonNode extends PhetPNode {
         
         // Scale the buttons to match the size of the label, assuming some
         // amount of padding.
-        double scale = _buttonLabel.getFullBounds().width * 1.3 / _unpushedButtonImage.getFullBounds().width;
-        _unpushedButtonImage.setScale( scale );
-        _pushedButtonImage.setScale( scale );
+        double scale = _buttonLabel.getFullBounds().width * 1.3 / _unarmedImage.getFullBounds().width;
+        _unarmedImage.setScale( scale );
+        _armedImage.setScale( scale );
         
         // Position the label to be centered on the button.  This is offset a
         // bit in order to account for button shadow.
         double labelXPos = 
-            ((_unpushedButtonImage.getFullBounds().width - _buttonLabel.getFullBounds().width) / 2) * labelOffsetFactorX; 
+            ((_unarmedImage.getFullBounds().width - _buttonLabel.getFullBounds().width) / 2) * labelOffsetFactorX; 
         double labelYPos = 
-            ((_unpushedButtonImage.getFullBounds().height - _buttonLabel.getFullBounds().height) / 2) * labelOffsetFactorY;
+            ((_unarmedImage.getFullBounds().height - _buttonLabel.getFullBounds().height) / 2) * labelOffsetFactorY;
         _buttonLabel.setOffset( labelXPos, labelYPos );
 
         // Register to catch the button press event.
-        _unpushedButtonImage.addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                _unpushedButtonImage.setVisible( false );
-                ActionEvent actionEvent = new ActionEvent(this, 0, "button pressed");
-                for (int i =0; i < _listeners.size(); i++){
-                    ((ActionListener)_listeners.get(i)).actionPerformed( actionEvent );
+        _unarmedImage.addInputEventListener( new PBasicInputEventHandler() {
+            boolean _mousePressed = false;
+            boolean _mouseInside = false;
+            
+            public void mouseEntered( PInputEvent event ) {
+                _mouseInside = true;
+                if ( _mousePressed ) {
+                    _unarmedImage.setVisible( false );
                 }
             }
+            
+            public void mouseExited( PInputEvent event ) {
+                _mouseInside = false;
+                if ( _mousePressed ) {
+                    _unarmedImage.setVisible( true );
+                }
+            }
+            
+            public void mousePressed( PInputEvent event ) {
+                _mousePressed = true;
+                _unarmedImage.setVisible( false );
+            }
+            
             public void mouseReleased( PInputEvent event ) {
-                _unpushedButtonImage.setVisible( true );
+                _mousePressed = false;
+                _unarmedImage.setVisible( true );
+                if ( _mouseInside ) {
+                    fireEvent( new ActionEvent(this, 0, "button released") );
+                }
+            }
+            
+            private void fireEvent( ActionEvent event ) {
+                for (int i =0; i < _listeners.size(); i++){
+                    ((ActionListener)_listeners.get(i)).actionPerformed( event );
+                }
             }
         } );
 
