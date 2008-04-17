@@ -3,7 +3,6 @@
 package edu.colorado.phet.fitness.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.fitness.persistence.FitnessConfig;
 
 /**
  * TemplateConfig describes a configuration of this simulation.
@@ -16,21 +15,21 @@ public class SimTemplateConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     // Global config
     private String _versionString;
     private String _versionMajor;
     private String _versionMinor;
     private String _versionDev;
     private String _versionRevision;
-    
+
     // Modules
     private FitnessConfig _exampleConfig;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
@@ -41,19 +40,19 @@ public class SimTemplateConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     // Accessors for global information
     //----------------------------------------------------------------------------
-    
+
     public String getVersionString() {
         return _versionString;
     }
-    
+
     public void setVersionString( String versionString ) {
         _versionString = versionString;
     }
-    
+
     public String getVersionMajor() {
         return _versionMajor;
     }
-    
+
     public void setVersionMajor( String versionMajor ) {
         _versionMajor = versionMajor;
     }
@@ -61,11 +60,11 @@ public class SimTemplateConfig implements IProguardKeepClass {
     public String getVersionMinor() {
         return _versionMinor;
     }
-    
+
     public void setVersionMinor( String versionMinor ) {
         _versionMinor = versionMinor;
     }
-    
+
     public String getVersionDev() {
         return _versionDev;
     }
@@ -73,23 +72,23 @@ public class SimTemplateConfig implements IProguardKeepClass {
     public void setVersionDev( String versionDev ) {
         _versionDev = versionDev;
     }
-    
+
     public String getVersionRevision() {
         return _versionRevision;
     }
-    
+
     public void setVersionRevision( String versionRevision ) {
         _versionRevision = versionRevision;
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors for module configurations
     //----------------------------------------------------------------------------
-    
+
     public void setExampleConfig( FitnessConfig exampleConfig ) {
         _exampleConfig = exampleConfig;
     }
-    
+
     public FitnessConfig getExampleConfig() {
         return _exampleConfig;
     }

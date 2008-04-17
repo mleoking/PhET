@@ -2,12 +2,9 @@
 
 package edu.colorado.phet.fitness.developer;
 
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Insets;
+import java.awt.*;
 
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

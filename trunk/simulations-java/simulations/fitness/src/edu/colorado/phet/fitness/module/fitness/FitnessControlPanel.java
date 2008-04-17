@@ -2,23 +2,19 @@
 
 package edu.colorado.phet.fitness.module.fitness;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.fitness.module.fitness.FitnessModule;
 import edu.colorado.phet.fitness.FitnessResources;
-import edu.colorado.phet.fitness.control.HumanControlPanel;
 
 /**
  * FitnessControlPanel is the control panel for FitnessModule.
- *
  */
 public class FitnessControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-
 
     //----------------------------------------------------------------------------
     // Constructors

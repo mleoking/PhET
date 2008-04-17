@@ -22,7 +22,6 @@ import edu.colorado.phet.fitness.view.ScaleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -86,7 +85,7 @@ public class FitnessCanvas extends PhetPCanvas {
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
-        CaloriePanel caloriePanel = new CaloriePanel( this );
+        CaloriePanel caloriePanel = new CaloriePanel( model, this );
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         addScreenChild( caloriePanel );
 
@@ -114,14 +113,14 @@ public class FitnessCanvas extends PhetPCanvas {
     private RulerNode createRulerNode() {
         final RulerNode rulerNode = new RulerNode( 1, 0.1, 0.1, new String[]{"0.0", "0.25", "0.5", "0.75", "1.0"}, new PhetDefaultFont(), "m", new PhetDefaultFont(), 4, 0.03, 0.01 );
         rulerNode.rotate( Math.PI * 3 / 2 );
-        rulerNode.addInputEventListener( new PDragEventHandler());
+        rulerNode.addInputEventListener( new PDragEventHandler() );
 
         rulerNode.addInputEventListener( new CursorHandler() );
         rulerNode.setBackgroundStroke( new BasicStroke( 0.005f ) );
         rulerNode.setFontScale( 0.005 );
         rulerNode.setUnitsSpacing( 0.001 );
         rulerNode.setTickStroke( new BasicStroke( 0.005f ) );
-        rulerNode.setOffset( -0.6653250773993821, 0.1145510835913312);
+        rulerNode.setOffset( -0.6653250773993821, 0.1145510835913312 );
         return rulerNode;
     }
 

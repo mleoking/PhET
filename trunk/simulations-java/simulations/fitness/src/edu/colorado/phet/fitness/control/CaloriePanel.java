@@ -13,7 +13,6 @@ import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionTimeSeriesModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -21,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -37,30 +37,23 @@ public class CaloriePanel extends PNode {
     private CalorieSlider calorieSlider;
     private CalorieSlider burnSlider;
 
-    public CaloriePanel( PhetPCanvas phetPCanvas ) {
-        PNode foodStrip = new IconStrip( new IconStrip.IconItem[]{
-                new IconStrip.IconItem( "burger.png" ),
-                new IconStrip.IconItem( "strawberry.png" ),
-                new IconStrip.IconItem( "bananasplit.png" ),
-                new IconStrip.IconItem( "grapefruit.png" ),
-                new IconStrip.IconItem( "burger.png" ),
-                new IconStrip.IconItem( "strawberry.png" ),
-                new IconStrip.IconItem( "bananasplit.png" ),
-                new IconStrip.IconItem( "grapefruit.png" ),
-        } );
-        calorieSlider = new CalorieSlider( "Caloric Intake", Color.green, true );
+    public CaloriePanel( FitnessModel model, PhetPCanvas phetPCanvas ) {
+        IconStrip.IconItem[] iconItem = new IconStrip.IconItem[model.getFoodItems().length];
+        for ( int i = 0; i < iconItem.length; i++ ) {
+            iconItem[i] = new IconStrip.IconItem( model.getFoodItems()[i].getImage() );
+        }
+        PNode foodStrip = new IconStrip( iconItem );
+        calorieSlider = new CalorieSlider( "Daily Caloric Intake", Color.green, true );
         addChild( calorieSlider );
 
-        burnSlider = new CalorieSlider( "Caloric Burn", Color.red, false );
+        burnSlider = new CalorieSlider( "Daily Caloric Burn", Color.red, false );
         burnSlider.addRegion( 0, 50, new Color( 225, 138, 138 ) );
         addChild( burnSlider );
 
         PImage plateNode = new PImage( FitnessResources.getImage( "plate.png" ) );
-//            im = new PImage( ImageLoader.loadBufferedIm
-// age( "fitness/images/plate.png" ) );
-
         plateNode.setOffset( 0, 70 );
         addChild( plateNode );
+
         addChild( foodStrip );
         calorieSlider.setOffset( 0, 175 );
         burnSlider.setOffset( 0, calorieSlider.getFullBounds().getMaxY() + 5 );
@@ -205,71 +198,6 @@ public class CaloriePanel extends PNode {
                 g2.draw( getBoundsReference() );
             }
             super.paint( paintContext );
-        }
-    }
-
-    private static class IconStrip extends PNode {
-        double height = 30;
-
-
-        private IconStrip( IconItem[] iconItems ) {
-            final BoxedImage[] im = new BoxedImage[iconItems.length];
-            for ( int i = 0; i < iconItems.length; i++ ) {
-                final IconItem foodItem = iconItems[i];
-                im[i] = createNode( foodItem, i, im );
-                final int i1 = i;
-                im[i].addInputEventListener( new PDragEventHandler() {
-                    BoxedImage createdNode = null;
-
-                    protected void startDrag( PInputEvent event ) {
-                        super.startDrag( event );
-                        createdNode = createNode( foodItem, i1, im );
-                        createdNode.addInputEventListener( new PDragEventHandler() {
-                            protected void startDrag( PInputEvent event ) {
-                                super.startDrag( event );
-                                createdNode.moveToFront();
-                            }
-                        } );
-                        createdNode.setDrawBorder( false );
-                        IconStrip.this.addChild( createdNode );
-                        createdNode.moveToFront();
-                    }
-
-                    protected void drag( PInputEvent event ) {
-                        PDimension d = event.getDeltaRelativeTo( im[i1] );
-                        createdNode.localToParent( d );
-                        createdNode.offset( d.getWidth(), d.getHeight() );
-                    }
-                } );
-            }
-        }
-
-        private BoxedImage createNode( IconItem foodItem, int index, BoxedImage[] others ) {
-            BufferedImage image = FitnessResources.getImage( foodItem.getImageName() );
-            double sy = height / image.getHeight();
-            int width = (int) ( sy * image.getWidth() );
-            BoxedImage imx = new BoxedImage( BufferedImageUtils.getScaledInstance( image, width, (int) height, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true ) );
-
-//            imx.scale( height / imx.getFullBounds().getHeight() );
-            addChild( imx );
-            imx.addInputEventListener( new CursorHandler() );
-            if ( index > 0 ) {
-                imx.setOffset( others[index - 1].getFullBounds().getMaxX(), others[index - 1].getFullBounds().getY() );
-            }
-
-            return imx;
-        }
-
-        private static class IconItem {
-            private String image;
-
-            public IconItem( String image ) {
-                this.image = image;
-            }
-
-            public String getImageName() {
-                return image;
-            }
         }
     }
 

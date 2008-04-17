@@ -2,14 +2,12 @@
 
 package edu.colorado.phet.fitness;
 
-import java.awt.Color;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -21,7 +19,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.fitness.developer.DeveloperMenu;
 import edu.colorado.phet.fitness.menu.OptionsMenu;
-import edu.colorado.phet.fitness.module.example.ExampleModule;
 import edu.colorado.phet.fitness.module.fitness.FitnessModule;
 import edu.colorado.phet.fitness.persistence.FitnessConfig;
 import edu.colorado.phet.fitness.persistence.SimTemplateConfig;
@@ -43,8 +40,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessApplication( PhetApplicationConfig config )
-    {
+    public FitnessApplication( PhetApplicationConfig config ) {
         super( config );
         initTabbedPane();
         initModules();
@@ -58,10 +54,11 @@ public class FitnessApplication extends PiccoloPhetApplication {
     /*
      * Initializes the tabbed pane.
      */
+
     private void initTabbedPane() {
 
         // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
+        TabbedPaneType tabbedPaneType = new TabbedPaneType() {
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
                 _tabbedModulePane.setSelectedTabColor( FitnessConstants.SELECTED_TAB_COLOR );
@@ -70,12 +67,12 @@ public class FitnessApplication extends PiccoloPhetApplication {
         };
         setTabbedPaneType( tabbedPaneType );
     }
-    
+
     /*
-     * Initializes the modules.
-     */
+    * Initializes the modules.
+    */
     private void initModules() {
-        
+
         Frame parentFrame = getPhetFrame();
 
         _exampleModule = new FitnessModule( parentFrame );
@@ -140,7 +137,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
     }
 
     public Color getSelectedTabColor() {
-        Color color = Color.WHITE; 
+        Color color = Color.WHITE;
         if ( _tabbedModulePane != null ) {
             color = _tabbedModulePane.getSelectedTabColor();
         }
@@ -167,19 +164,20 @@ public class FitnessApplication extends PiccoloPhetApplication {
     /*
      * Saves the simulation's configuration.
      */
+
     private void save() {
-        
+
         SimTemplateConfig appConfig = new SimTemplateConfig();
-        
+
         appConfig.setVersionString( getApplicationConfig().getVersion().toString() );
         appConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
         appConfig.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
         appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
-        
+
         FitnessConfig exampleConfig = _exampleModule.save();
         appConfig.setExampleConfig( exampleConfig );
-        
+
         _persistenceManager.save( appConfig );
     }
 
@@ -187,13 +185,13 @@ public class FitnessApplication extends PiccoloPhetApplication {
      * Loads the simulation's configuration.
      */
     private void load() {
-        
+
         Object object = _persistenceManager.load();
         if ( object != null ) {
-            
+
             if ( object instanceof SimTemplateConfig ) {
                 SimTemplateConfig appConfig = (SimTemplateConfig) object;
-                
+
                 FitnessConfig exampleConfig = appConfig.getExampleConfig();
                 _exampleModule.load( exampleConfig );
             }
