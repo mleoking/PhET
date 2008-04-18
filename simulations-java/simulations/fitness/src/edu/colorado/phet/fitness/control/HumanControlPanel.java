@@ -61,7 +61,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( heightControl );
 
         double minWeight = 1;
-        double maxWeight = 100;
+        double maxWeight = 560;//world record
         final LinearValueControl weightControl = new HumanSlider( minWeight, maxWeight, human.getMass(), "Weight", "0.00", "kg" );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

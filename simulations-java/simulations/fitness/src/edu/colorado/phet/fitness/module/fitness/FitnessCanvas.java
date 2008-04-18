@@ -20,6 +20,7 @@ import edu.colorado.phet.fitness.control.HumanControlPanel;
 import edu.colorado.phet.fitness.control.NewCaloriePanel;
 import edu.colorado.phet.fitness.view.HumanNode;
 import edu.colorado.phet.fitness.view.ScaleNode;
+import edu.colorado.phet.fitness.view.HumanAreaNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
@@ -68,7 +69,8 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
 
-        _rootNode.addChild( new HumanNode( model.getHuman() ) );
+//        _rootNode.addChild( new HumanNode( model.getHuman() ) );
+        _rootNode.addChild( new HumanAreaNode( model.getHuman() ) );
         _rootNode.addChild( new ScaleNode( model.getHuman() ) );
         setZoomEventHandler( new PZoomEventHandler() );
 //        setPanEventHandler( new PPanEventHandler() );

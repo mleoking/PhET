@@ -26,13 +26,13 @@ import edu.umd.cs.piccolo.util.PDimension;
  * Created by: Sam
  * Apr 3, 2008 at 8:43:08 PM
  */
-public class HumanNodeArea extends PNode {
+public class HumanAreaNode extends PNode {
     private Human human;
     private PhetPPath head;
     private PImage heart;
-    private PhetPPath areaNode = new PhetPPath( new BasicStroke( 0.02f ), Color.black );
+    private PhetPPath areaNode = new PhetPPath( new BasicStroke( 0.02f,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND), Color.black );
 
-    public HumanNodeArea( Human human ) {
+    public HumanAreaNode( Human human ) {
         this.human = human;
         head = new PhetPPath( Color.white, new BasicStroke( 0.02f ), Color.black );
         addChild( areaNode );
@@ -105,7 +105,7 @@ public class HumanNodeArea extends PNode {
         frame.setContentPane( contentPane );
 
         final Human human1 = new Human();
-        HumanNodeArea humanNodeArea = new HumanNodeArea( human1 );
+        HumanAreaNode humanNodeArea = new HumanAreaNode( human1 );
         contentPane.addWorldChild( humanNodeArea );
         frame.setVisible( true );
         JFrame controlFrame = new JFrame();
