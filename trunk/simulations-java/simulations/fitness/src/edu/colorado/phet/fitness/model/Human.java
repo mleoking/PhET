@@ -3,6 +3,9 @@ package edu.colorado.phet.fitness.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.fitness.control.Diet;
+import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 
 /**
  * Created by: Sam
@@ -19,16 +22,17 @@ public class Human {
     private DefaultTemporalVariable age = new DefaultTemporalVariable( 20 * 525600.0 * 60 );//sec
     private DefaultTemporalVariable leanMuscleMass = new DefaultTemporalVariable( 60 );//kg
 
-    //values taken from http://www.hpathy.com/healthtools/calories-need.asp
-    private DefaultTemporalVariable lipids = new DefaultTemporalVariable( 870 );
-    private DefaultTemporalVariable carbs = new DefaultTemporalVariable( 1583 );
-    private DefaultTemporalVariable proteins = new DefaultTemporalVariable( 432 );
+
+    private DefaultTemporalVariable lipids = new DefaultTemporalVariable();
+    private DefaultTemporalVariable carbs = new DefaultTemporalVariable();
+    private DefaultTemporalVariable proteins = new DefaultTemporalVariable();
 
     private DefaultTemporalVariable activity = new DefaultTemporalVariable();//initialized to 0.5*BMR
     private DefaultTemporalVariable exercise = new DefaultTemporalVariable();//initialized to make sure weight is constant at startup
     private DefaultTemporalVariable bmr = new DefaultTemporalVariable();//dependent variable
 
     public Human() {
+        setDiet( FitnessModel.BALANCED_DIET );
         addListener( new Adapter() {
             public void heightChanged() {
                 updateBMR();
@@ -50,6 +54,37 @@ public class Human {
         activity.setValue( bmr.getValue() * 0.5 );
         double dCal = getDeltaCaloriesGained();
         exercise.setValue( exercise.getValue() + dCal );
+        lipids.addListener( new IVariable.Listener() {
+            public void valueChanged() {
+                notifyDietChanged();
+            }
+        } );
+        carbs.addListener( new IVariable.Listener() {
+            public void valueChanged() {
+                notifyDietChanged();
+            }
+        } );
+        proteins.addListener( new IVariable.Listener() {
+            public void valueChanged() {
+                notifyDietChanged();
+            }
+        } );
+
+    }
+    public Diet getDiet(){
+        return FitnessModel.getDiet(lipids.getValue(),carbs.getValue(),proteins.getValue());
+    }
+
+    private void notifyDietChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).dietChanged();
+        }
+    }
+
+    private void setDiet( Diet diet ) {
+        lipids.setValue( diet.getFat() );
+        carbs.setValue( diet.getCarb() );
+        proteins.setValue( diet.getProtein() );
     }
 
     private void updateBMR() {
@@ -279,6 +314,8 @@ public class Human {
         void foodItemsChanged();
 
         void ageChanged();
+
+        void dietChanged();
     }
 
     public static class Adapter implements Listener {
@@ -305,6 +342,9 @@ public class Human {
         }
 
         public void ageChanged() {
+        }
+
+        public void dietChanged() {
         }
     }
 

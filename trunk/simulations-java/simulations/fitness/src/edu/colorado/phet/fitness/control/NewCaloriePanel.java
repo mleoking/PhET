@@ -77,7 +77,7 @@ public class NewCaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        dietNode = new DietNode();
+        dietNode = new DietNode(model );
         addChild( dietNode );
 
         exerciseNode = new ExerciseNode();
