@@ -68,9 +68,14 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 human.setWeight( weightControl.getValue() );
             }
         } );
+        human.addListener( new Human.Adapter(){
+            public void weightChanged() {
+                weightControl.setValue( human.getWeight() );
+            }
+        } );
         add( weightControl );
 
-        final LinearValueControl muscle = new HumanSlider( 0, 100, human.getLeanMuscleMass(), "Muscle", "0.0", "kg" );
+        final LinearValueControl muscle = new HumanSlider( 0, 100, human.getLeanMuscleMass(), "Lean Muscle Mass", "0.0", "kg" );
         add( muscle );
 //        final LinearValueControl fat = new HumanSlider( 0, 100, human.getFatPercent(), "Fat", "0.0", "kg" );
 //        add( fat );

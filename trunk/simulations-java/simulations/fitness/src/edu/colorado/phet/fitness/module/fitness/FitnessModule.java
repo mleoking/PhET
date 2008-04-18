@@ -8,6 +8,7 @@ import java.util.Hashtable;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.fitness.FitnessApplication;
@@ -35,11 +36,10 @@ public class FitnessModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public FitnessModule( Frame parentFrame ) {
-        super( FitnessStrings.TITLE_FITNESS_MODULE, ExampleDefaults.CLOCK );
+        super( FitnessStrings.TITLE_FITNESS_MODULE, new ConstantDtClock( 30, FitnessDefaults.CLOCK_DT ) );
 
         // Model
-        SimTemplateClock clock = (SimTemplateClock) getClock();
-        _model = new FitnessModel( clock );
+        _model = new FitnessModel( (ConstantDtClock) getClock() );
 
         // Canvas
         _canvas = new FitnessCanvas( _model );
@@ -57,9 +57,9 @@ public class FitnessModule extends PiccoloModule {
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
 
-        JComponent timeSpeedSlider = createTimeSpeedSlider();
+//        JComponent timeSpeedSlider = createTimeSpeedSlider();
 
-        _clockControlPanel.addBetweenTimeDisplayAndButtons( timeSpeedSlider );
+//        _clockControlPanel.addBetweenTimeDisplayAndButtons( timeSpeedSlider );
         setClockControlPanel( _clockControlPanel );
 
         // Controller
@@ -76,32 +76,32 @@ public class FitnessModule extends PiccoloModule {
 
 
     //todo, move to phetcommon and consolidate with BSClockControls and HAClockControls
-    private JComponent createTimeSpeedSlider() {
-        JSlider _clockIndexSlider = new JSlider();
-        _clockIndexSlider.setMinimum( 0 );
-        int[] steps = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        _clockIndexSlider.setMaximum( steps.length - 1 );
-        _clockIndexSlider.setMajorTickSpacing( 1 );
-        _clockIndexSlider.setPaintTicks( true );
-        _clockIndexSlider.setPaintLabels( true );
-        _clockIndexSlider.setSnapToTicks( true );
-        _clockIndexSlider.setValue( 0 );
-
-        // Label the min "normal", the max "fast".
-        String normalString = "normal";
-        String fastString = "fast";
-        Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
-        labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );
-        _clockIndexSlider.setLabelTable( labelTable );
-
-        // Set the slider's physical width
-        Dimension preferredSize = _clockIndexSlider.getPreferredSize();
-        Dimension size = new Dimension( 150, (int) preferredSize.getHeight() );
-        _clockIndexSlider.setPreferredSize( size );
-
-        return _clockIndexSlider;
-    }
+//    private JComponent createTimeSpeedSlider() {
+//        JSlider _clockIndexSlider = new JSlider();
+//        _clockIndexSlider.setMinimum( 0 );
+//        int[] steps = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+//        _clockIndexSlider.setMaximum( steps.length - 1 );
+//        _clockIndexSlider.setMajorTickSpacing( 1 );
+//        _clockIndexSlider.setPaintTicks( true );
+//        _clockIndexSlider.setPaintLabels( true );
+//        _clockIndexSlider.setSnapToTicks( true );
+//        _clockIndexSlider.setValue( 0 );
+//
+//        // Label the min "normal", the max "fast".
+//        String normalString = "normal";
+//        String fastString = "fast";
+//        Hashtable labelTable = new Hashtable();
+//        labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
+//        labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );
+//        _clockIndexSlider.setLabelTable( labelTable );
+//
+//        // Set the slider's physical width
+//        Dimension preferredSize = _clockIndexSlider.getPreferredSize();
+//        Dimension size = new Dimension( 150, (int) preferredSize.getHeight() );
+//        _clockIndexSlider.setPreferredSize( size );
+//
+//        return _clockIndexSlider;
+//    }
 
     //----------------------------------------------------------------------------
     // Module overrides
@@ -113,9 +113,9 @@ public class FitnessModule extends PiccoloModule {
     public void reset() {
 
         // Clock
-        SimTemplateClock clock = _model.getClock();
+        ConstantDtClock clock = _model.getClock();
         clock.resetSimulationTime();
-        clock.setDt( ExampleDefaults.CLOCK_DT );
+        clock.setDt( FitnessDefaults.CLOCK_DT );
         setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
 
     }
@@ -132,7 +132,7 @@ public class FitnessModule extends PiccoloModule {
         config.setActive( isActive() );
 
         // Clock
-        SimTemplateClock clock = _model.getClock();
+        ConstantDtClock clock = _model.getClock();
         config.setClockDt( clock.getDt() );
         config.setClockRunning( getClockRunningWhenActive() );
 
@@ -155,7 +155,7 @@ public class FitnessModule extends PiccoloModule {
         }
 
         // Clock
-        SimTemplateClock clock = _model.getClock();
+        ConstantDtClock clock = _model.getClock();
         clock.setDt( config.getClockDt() );
         setClockRunningWhenActive( config.isClockRunning() );
 

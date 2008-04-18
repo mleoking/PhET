@@ -4,6 +4,7 @@ package edu.colorado.phet.fitness.module.fitness;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.fitness.control.FoodItem;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.model.SimTemplateClock;
@@ -17,7 +18,7 @@ public class FitnessModel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final SimTemplateClock _clock;
+    private final ConstantDtClock _clock;
     private final Human human = new Human();
     private FoodItem[] availableFoods = new FoodItem[]{
             new FoodItem( "burger.png", 279 ),
@@ -29,7 +30,7 @@ public class FitnessModel {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessModel( SimTemplateClock clock ) {
+    public FitnessModel( ConstantDtClock clock ) {
         super();
 
         _clock = clock;
@@ -45,7 +46,7 @@ public class FitnessModel {
     // Accessors
     //----------------------------------------------------------------------------
 
-    public SimTemplateClock getClock() {
+    public ConstantDtClock getClock() {
         return _clock;
     }
 

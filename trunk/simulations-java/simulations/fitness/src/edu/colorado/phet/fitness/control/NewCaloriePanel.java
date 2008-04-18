@@ -69,7 +69,7 @@ public class NewCaloriePanel extends PNode {
         intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins() ), StackedBarNode.LEFT );
 
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
-        exerciseBars.addElement( new BarChartElementAdapter( "BMR", FitnessColorScheme.BMR, model.getHuman().getBmr() ), StackedBarNode.RIGHT );
+        exerciseBars.addElement( new BarChartElementAdapter( "<html>Basal<br>Metabolic<br>Rate<br>(BMR)</html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ), StackedBarNode.RIGHT );
         exerciseBars.addElement( new BarChartElementAdapter( "Activity", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity() ), StackedBarNode.RIGHT );
         exerciseBars.addElement( new BarChartElementAdapter( "Exercise", FitnessColorScheme.EXERCISE, model.getHuman().getExercise() ), StackedBarNode.RIGHT );
 
