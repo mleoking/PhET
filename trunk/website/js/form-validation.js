@@ -167,7 +167,7 @@ function setup_input_validation_patterns() {
     email_pattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
     name_pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
     title_pattern = /^\s*\S+.*$/;
-    organization_pattern = /^\S{2,}.*$/;
+    organization_pattern = /^\S{1,}.*$/;
     password_pattern = /\S+/;
     keywords_pattern = /\S{3,}.*/;
 
