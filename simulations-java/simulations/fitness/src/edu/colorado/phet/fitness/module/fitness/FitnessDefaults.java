@@ -6,4 +6,5 @@ package edu.colorado.phet.fitness.module.fitness;
  */
 public class FitnessDefaults {
     public static final double CLOCK_DT = 1000.0 * 250;
+    public static final int CLOCK_DELAY = 30;
 }
