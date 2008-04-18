@@ -1,6 +1,9 @@
 package edu.colorado.phet.fitness.control;
 
+import javax.swing.*;
+
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Created by: Sam
@@ -8,6 +11,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ExerciseNode extends PNode {
     public ExerciseNode() {
-
+        JButton addExercise = new JButton( "Add Exercise" );
+        PSwing addExerciseButtonNode = new PSwing( addExercise );
+        addChild( addExerciseButtonNode );
     }
 }
