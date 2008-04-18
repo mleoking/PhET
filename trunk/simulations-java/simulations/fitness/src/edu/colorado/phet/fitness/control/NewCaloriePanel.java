@@ -58,19 +58,21 @@ public class NewCaloriePanel extends PNode {
             }
         } );
 
-        stackedBarChart = new StackedBarChartNode( "Calories/Day",10 );
-        StackedBarNode barNode = new StackedBarNode( 100 );
-        barNode.addElement( new StackedBarNode.BarChartElement( "BMR", FitnessColorScheme.BMR, 100 ) );
-        barNode.addElement( new StackedBarNode.BarChartElement( "Activity", FitnessColorScheme.ACTIVITY, 200 ) );
-        barNode.addElement( new StackedBarNode.BarChartElement( "Exercise", FitnessColorScheme.EXERCISE, 50 ) );
+        stackedBarChart = new StackedBarChartNode( "Calories/Day", 10 );
 
-        StackedBarNode barNode2 = new StackedBarNode( 100 );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Lipids", FitnessColorScheme.FATS, 150 ) );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Carbs", FitnessColorScheme.CARBS, 75 ) );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Proteins", FitnessColorScheme.PROTEIN, 150 ) );
+        StackedBarNode intakeBars = new StackedBarNode( 100 );
+        intakeBars.addElement( new StackedBarNode.BarChartElement( "Lipids", FitnessColorScheme.FATS, 150 ), StackedBarNode.LEFT );
+        intakeBars.addElement( new StackedBarNode.BarChartElement( "Carbs", FitnessColorScheme.CARBS, 75 ), StackedBarNode.LEFT );
+        intakeBars.addElement( new StackedBarNode.BarChartElement( "Proteins", FitnessColorScheme.PROTEIN, 150 ), StackedBarNode.LEFT );
 
-        stackedBarChart.addStackedBarNode( barNode2 );
-        stackedBarChart.addStackedBarNode( barNode );
+        StackedBarNode exerciseBars = new StackedBarNode( 100 );
+        exerciseBars.addElement( new StackedBarNode.BarChartElement( "BMR", FitnessColorScheme.BMR, 100 ), StackedBarNode.RIGHT );
+        exerciseBars.addElement( new StackedBarNode.BarChartElement( "Activity", FitnessColorScheme.ACTIVITY, 200 ), StackedBarNode.RIGHT );
+        exerciseBars.addElement( new StackedBarNode.BarChartElement( "Exercise", FitnessColorScheme.EXERCISE, 50 ), StackedBarNode.RIGHT );
+
+
+        stackedBarChart.addStackedBarNode( intakeBars );
+        stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
         dietNode = new DietNode();
@@ -87,8 +89,8 @@ public class NewCaloriePanel extends PNode {
         calorieChart.setOffset( 0, weightChart.getFullBounds().getMaxY() );
         double width = phetPCanvas.getWidth() - getOffset().getX();
         stackedBarChart.setOffset( width / 2 - stackedBarChart.getFullBounds().getWidth() / 2, weightChart.getFullBounds().getY() );
-        dietNode.setOffset( stackedBarChart.getFullBounds().getX() - dietNode.getFullBounds().getWidth()-2, 100 );
-        exerciseNode.setOffset( width * 3 / 4 - exerciseNode.getFullBounds().getWidth() / 2, 100 );
+        dietNode.setOffset( stackedBarChart.getFullBounds().getX() - dietNode.getFullBounds().getWidth() - 2, 100 );
+        exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 2, 100 );
     }
 
 }
