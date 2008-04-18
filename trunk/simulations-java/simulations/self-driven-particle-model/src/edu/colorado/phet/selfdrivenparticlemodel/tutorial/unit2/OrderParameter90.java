@@ -2,8 +2,8 @@
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.LucidaSansFont;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit1.FullFeatureBaseClass;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -32,7 +32,7 @@ public class OrderParameter90 extends FullFeatureBaseClass {
 //        artificialAdvance();
         orderParamText = new PText();
         orderParamText.setTextPaint( Color.blue );
-        orderParamText.setFont( new LucidaSansFont( 16, true ) );
+        orderParamText.setFont( new PhetDefaultFont( 16, true ) );
         decimalFormat = new DecimalFormat( "0.00" );
         activity = new PActivity( -1 ) {
             protected void activityStep( long elapsedTime ) {
