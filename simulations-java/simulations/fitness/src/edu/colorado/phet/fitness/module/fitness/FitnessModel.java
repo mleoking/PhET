@@ -34,6 +34,15 @@ public class FitnessModel {
             BALANCED_DIET,
             FAST_FOOD_ONLY
     };
+
+    public static final Exercise[] availableExercise = new Exercise[]{
+            //http://www.nutristrategy.com/activitylist.htm
+            new Exercise( "Swimming Laps (1 hour/day)", 590 ),//todo: make a function of weight
+            new Exercise( "Basketball (1 hour/day)", 472 ),
+            new Exercise( "Bowling (1 hour/day)", 177 ),
+            new Exercise( "Dancing (1 hour/day)", 266 ),
+    };
+    private boolean paused = false;
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -45,7 +54,9 @@ public class FitnessModel {
 
         _clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                human.simulationTimeChanged( clockEvent.getSimulationTimeChange() );
+                if ( !paused ) {
+                    human.simulationTimeChanged( clockEvent.getSimulationTimeChange() );
+                }
             }
         } );
     }
@@ -78,5 +89,10 @@ public class FitnessModel {
             }
         }
         return new Diet( "User Specified", lipids, carbs, proteins );
+    }
+
+    //Todo: remove this workaround for performance/graphics problems
+    public void setPaused( boolean paused ) {
+        this.paused = paused;
     }
 }
