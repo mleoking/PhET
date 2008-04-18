@@ -122,7 +122,9 @@ EOT;
 EOT;
 
         $this->print_rating_checkbox(SIM_RATING_ALPHA,         $sim_rating);
-        $this->print_rating_checkbox(SIM_RATING_BETA,          $sim_rating);
+        // Temp change while PhET team decides how to handle ratings; for now just
+        // include under construction & classroom tested:
+        //$this->print_rating_checkbox(SIM_RATING_BETA,          $sim_rating);
         $this->print_rating_checkbox(SIM_RATING_CHECK,         $sim_rating);
 
 print <<<EOT
