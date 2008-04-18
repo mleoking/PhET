@@ -15,11 +15,11 @@ public class StackedBarChartNode extends PNode {
     private int spacing;
     private StackedBarChartAxisNode axisNode;
 
-    public StackedBarChartNode( int spacing ) {
+    public StackedBarChartNode( String title,int spacing ) {
         this.spacing = spacing;
         addChild( barLayer );
 
-        axisNode = new StackedBarChartAxisNode( 10, 100, 300 );
+        axisNode = new StackedBarChartAxisNode( title,10, 100, 300 );
         addChild( axisNode );
     }
 
@@ -63,7 +63,7 @@ public class StackedBarChartNode extends PNode {
         PhetPCanvas contentPane = new BufferedPhetPCanvas();
         frame.setContentPane( contentPane );
 
-        StackedBarChartNode stackedBarChart = new StackedBarChartNode( 10 );
+        StackedBarChartNode stackedBarChart = new StackedBarChartNode("Calories/Day", 10 );
         StackedBarNode barNode = new StackedBarNode( 100 );
         barNode.addElement( new StackedBarNode.BarChartElement( "BMR", FitnessColorScheme.BMR, 100 ) );
         barNode.addElement( new StackedBarNode.BarChartElement( "Activity", FitnessColorScheme.ACTIVITY, 200 ) );
