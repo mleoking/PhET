@@ -33,7 +33,7 @@ class ManageCommentsPage extends SitePage {
         foreach ($raw_comment_data as $row) {
             $comment_info_html = array();
             $comment_info_html["comment"] = format_string_for_html($row["contribution_comment_text"]);
-            $comment_info_html["contribution_title"] = "<a href=\"".SITE_ROOT."teacher_ideas/edit-contribution.php?contribution_id={$row["contribution_id"]}\">".format_string_for_html($row["contribution_title"])."</a>";
+            $comment_info_html["contribution_title"] = "<a href=\"".SITE_ROOT."teacher_ideas/view-contribution.php?contribution_id={$row["contribution_id"]}\">".format_string_for_html($row["contribution_title"])."</a>";
             $comment_info_html["comment_author"] = format_string_for_html($row["contributor_name"]);
             $comment_info_html["comment_updated"] = format_string_for_html($row["contribution_comment_updated"]);
             $comment_info_html["controls"] =
