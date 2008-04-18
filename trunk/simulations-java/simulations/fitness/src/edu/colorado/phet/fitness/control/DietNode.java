@@ -20,17 +20,19 @@ public class DietNode extends PNode {
     private PText dietTextReadout;
     private Human human;
 
-    public DietNode( FitnessModel model ) {
+    public DietNode( final FitnessModel model ) {
         this.human = model.getHuman();
 
         dietTextReadout = new PText( "Balanced Diet" );
         JButton button = new JButton( "Edit Diet" );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                model.setPaused(true);
                 Diet diet= (Diet) JOptionPane.showInputDialog( null, "Select a Diet", "Select a Diet", JOptionPane.QUESTION_MESSAGE, null, FitnessModel.availableDiets, FitnessModel.availableDiets[0] );
                 if (diet!=null){
                     human.setDiet(diet);
                 }
+                model.setPaused(false);
             }
         } );
         PSwing pSwing = new PSwing( button );

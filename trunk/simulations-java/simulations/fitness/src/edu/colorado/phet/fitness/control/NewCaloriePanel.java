@@ -80,7 +80,7 @@ public class NewCaloriePanel extends PNode {
         dietNode = new DietNode(model );
         addChild( dietNode );
 
-        exerciseNode = new ExerciseNode();
+        exerciseNode = new ExerciseNode(model );
         addChild( exerciseNode );
 
         relayout();

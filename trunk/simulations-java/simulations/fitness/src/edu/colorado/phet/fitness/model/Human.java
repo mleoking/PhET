@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.fitness.module.fitness.Exercise;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 
 /**
@@ -29,6 +30,7 @@ public class Human {
     private DefaultTemporalVariable activity = new DefaultTemporalVariable();//initialized to 0.5*BMR
     private DefaultTemporalVariable exercise = new DefaultTemporalVariable();//initialized to make sure weight is constant at startup
     private DefaultTemporalVariable bmr = new DefaultTemporalVariable();//dependent variable
+    private Exercise exerciseObject = null;
 
     public Human() {
         setDiet( FitnessModel.BALANCED_DIET );
@@ -68,7 +70,19 @@ public class Human {
                 notifyDietChanged();
             }
         } );
+        exercise.addListener( new IVariable.Listener() {
+            public void valueChanged() {
+                notifyExerciseChanged();
+            }
+        } );
 
+    }
+
+    private void notifyExerciseChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.exerciseChanged();
+        }
     }
 
     public Diet getDiet() {
@@ -201,6 +215,15 @@ public class Human {
     private double getDailyCaloricIntake() {
         return lipids.getValue() + proteins.getValue() + carbs.getValue();
     }
+
+    public void setExercise( Exercise exercise ) {
+        this.exerciseObject = exercise;//todo: should be a list
+        this.exercise.setValue( exercise.getCalories() );
+    }
+
+    public Exercise getExerciseObject() {
+        return exerciseObject;
+    }
     //    public double getDailyCaloricIntake() {
 //        double sum = 0;
 //        for ( Iterator iterator = foods.iterator(); iterator.hasNext(); ) {
@@ -316,6 +339,8 @@ public class Human {
         void ageChanged();
 
         void dietChanged();
+
+        void exerciseChanged();
     }
 
     public static class Adapter implements Listener {
@@ -345,6 +370,9 @@ public class Human {
         }
 
         public void dietChanged() {
+        }
+
+        public void exerciseChanged() {
         }
     }
 
