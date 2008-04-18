@@ -28,6 +28,28 @@ public class Human {
     private DefaultTemporalVariable exercise = new DefaultTemporalVariable( 50 );
 
     public Human() {
+        addListener( new Adapter() {
+            public void heightChanged() {
+                updateBMR();
+            }
+
+            public void weightChanged() {
+                updateBMR();
+            }
+
+            public void ageChanged() {
+                updateBMR();
+            }
+
+            public void genderChanged() {
+                updateBMR();
+            }
+        } );
+    }
+
+    private void updateBMR() {
+        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getWeight(), getHeight(), getAge(), gender ) );
+        System.out.println( "bmr.getValue() = " + bmr.getValue() );
     }
 
 //    public Human( double age, double height, double weight, Gender gender, String name ) {
@@ -133,21 +155,8 @@ public class Human {
     public void simulationTimeChanged( double simulationTimeChange ) {
         setAge( getAge() + simulationTimeChange );
         double caloriesGained = getDailyCaloricIntake() - getDailyCaloricExpense();
-        double kgGained = caloriesToKG( caloriesGained );
+        double kgGained = FitnessUnits.caloriesToKG( caloriesGained );
         setWeight( getWeight() + kgGained );
-    }
-
-    private double caloriesToKG( double caloriesGained ) {
-        return poundsToKG( caloriesToPounds( caloriesGained ) );
-    }
-
-    private double poundsToKG( double pounds ) {
-        //1 pound = 0.45359237 kilograms
-        return pounds * 0.45359237;
-    }
-
-    private double caloriesToPounds( double calories ) {
-        return calories / 3500;
     }
 
     private double getDailyCaloricExpense() {
