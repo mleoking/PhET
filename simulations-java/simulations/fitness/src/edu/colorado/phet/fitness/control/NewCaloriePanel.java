@@ -9,6 +9,7 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.MotionTimeSeriesModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -61,15 +62,14 @@ public class NewCaloriePanel extends PNode {
         stackedBarChart = new StackedBarChartNode( "Calories/Day", 10 );
 
         StackedBarNode intakeBars = new StackedBarNode( 100 );
-        intakeBars.addElement( new StackedBarNode.BarChartElement( "Lipids", FitnessColorScheme.FATS, 150 ), StackedBarNode.LEFT );
-        intakeBars.addElement( new StackedBarNode.BarChartElement( "Carbs", FitnessColorScheme.CARBS, 75 ), StackedBarNode.LEFT );
-        intakeBars.addElement( new StackedBarNode.BarChartElement( "Proteins", FitnessColorScheme.PROTEIN, 150 ), StackedBarNode.LEFT );
+        intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids() ), StackedBarNode.LEFT );
+        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs() ), StackedBarNode.LEFT );
+        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins() ), StackedBarNode.LEFT );
 
         StackedBarNode exerciseBars = new StackedBarNode( 100 );
-        exerciseBars.addElement( new StackedBarNode.BarChartElement( "BMR", FitnessColorScheme.BMR, 100 ), StackedBarNode.RIGHT );
-        exerciseBars.addElement( new StackedBarNode.BarChartElement( "Activity", FitnessColorScheme.ACTIVITY, 200 ), StackedBarNode.RIGHT );
-        exerciseBars.addElement( new StackedBarNode.BarChartElement( "Exercise", FitnessColorScheme.EXERCISE, 50 ), StackedBarNode.RIGHT );
-
+        exerciseBars.addElement( new BarChartElementAdapter( "BMR", FitnessColorScheme.BMR, model.getHuman().getBmr() ), StackedBarNode.RIGHT );
+        exerciseBars.addElement( new BarChartElementAdapter( "Activity", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity() ), StackedBarNode.RIGHT );
+        exerciseBars.addElement( new BarChartElementAdapter( "Exercise", FitnessColorScheme.EXERCISE, model.getHuman().getExercise() ), StackedBarNode.RIGHT );
 
         stackedBarChart.addStackedBarNode( intakeBars );
         stackedBarChart.addStackedBarNode( exerciseBars );
@@ -82,6 +82,26 @@ public class NewCaloriePanel extends PNode {
         addChild( exerciseNode );
 
         relayout();
+    }
+
+    public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {
+
+        public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable ) {
+            super( name, paint, variable.getValue() );
+            variable.addListener( new IVariable.Listener() {
+                public void valueChanged() {
+                    BarChartElementAdapter.this.setValue( variable.getValue() );
+                }
+            } );
+            addListener( new Listener() {
+                public void valueChanged() {
+                    variable.setValue( BarChartElementAdapter.this.getValue() );
+                }
+
+                public void paintChanged() {
+                }
+            } );
+        }
     }
 
     private void relayout() {

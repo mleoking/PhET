@@ -117,7 +117,7 @@ public class HumanNode extends PNode {
             DoubleGeneralPath smile = new DoubleGeneralPath();
             double smileInsetScaleX = 0.3;
             double smileYFrac = 0.6;
-            double happiness = ( human.getMusclePercent() / 100.0 - 0.5 ) * 2;//between 0 and 1
+            double happiness = ( human.getLeanMuscleMass() / 100.0 - 0.5 ) * 2;//between 0 and 1
             double controlPointDY = 50 * happiness;
             smile.moveTo( heart.getFullBounds().getWidth() * smileInsetScaleX, heart.getFullBounds().getHeight() * smileYFrac );
             smile.curveTo( heart.getFullBounds().getWidth() * 0.4, heart.getFullBounds().getHeight() * smileYFrac + controlPointDY,

@@ -58,26 +58,26 @@ public class CaloriePanel extends PNode {
                             }
                         }
                     } );
-                    node.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
-                        public void propertyChange( PropertyChangeEvent evt ) {
-                            if ( foodItem != null && node.getFullBounds().intersects( plateNode.getFullBounds() ) ) {
-                                model.getHuman().addFoodItem( foodItem );
-                            }
-                            else {
-                                model.getHuman().removeFoodItem( foodItem );
-                            }
-                        }
-                    } );
+//                    node.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+//                        public void propertyChange( PropertyChangeEvent evt ) {
+//                            if ( foodItem != null && node.getFullBounds().intersects( plateNode.getFullBounds() ) ) {
+//                                model.getHuman().addFoodItem( foodItem );
+//                            }
+//                            else {
+//                                model.getHuman().removeFoodItem( foodItem );
+//                            }
+//                        }
+//                    } );
                 }
             };
         }
         PNode foodStrip = new IconStrip( iconItem );
         calorieSlider = new CalorieSlider( "Daily Caloric Intake", Color.green, true );
-        model.getHuman().addListener( new Human.Adapter() {
-            public void foodItemsChanged() {
-                calorieSlider.setArrowLocation( model.getHuman().getDailyCaloricIntake() / 20 );//todo: fix slider scaling
-            }
-        } );
+//        model.getHuman().addListener( new Human.Adapter() {
+//            public void foodItemsChanged() {
+//                calorieSlider.setArrowLocation( model.getHuman().getDailyCaloricIntake() / 20 );//todo: fix slider scaling
+//            }
+//        } );
         addChild( calorieSlider );
 
         burnSlider = new CalorieSlider( "Daily Caloric Burn", Color.red, false );
