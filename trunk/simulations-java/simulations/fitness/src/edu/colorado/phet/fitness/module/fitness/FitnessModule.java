@@ -3,7 +3,6 @@
 package edu.colorado.phet.fitness.module.fitness;
 
 import java.awt.*;
-import java.util.Hashtable;
 
 import javax.swing.*;
 
@@ -17,7 +16,6 @@ import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.defaults.ExampleDefaults;
 import edu.colorado.phet.fitness.model.Human;
-import edu.colorado.phet.fitness.model.SimTemplateClock;
 import edu.colorado.phet.fitness.persistence.FitnessConfig;
 
 public class FitnessModule extends PiccoloModule {
@@ -73,7 +71,6 @@ public class FitnessModule extends PiccoloModule {
         // Set initial state
         reset();
     }
-
 
     //todo, move to phetcommon and consolidate with BSClockControls and HAClockControls
 //    private JComponent createTimeSpeedSlider() {

@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.fitness.control.FoodItem;
 import edu.colorado.phet.fitness.model.Human;
-import edu.colorado.phet.fitness.model.SimTemplateClock;
 
 /**
  * FitnessModel is the model for FitnessModule.

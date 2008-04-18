@@ -15,11 +15,11 @@ public class StackedBarChartNode extends PNode {
     private int spacing;
     private StackedBarChartAxisNode axisNode;
 
-    public StackedBarChartNode( String title,int spacing ) {
+    public StackedBarChartNode( String title, int spacing ) {
         this.spacing = spacing;
         addChild( barLayer );
 
-        axisNode = new StackedBarChartAxisNode( title,10, 100, 300 );
+        axisNode = new StackedBarChartAxisNode( title, 10, 100, 300 );
         addChild( axisNode );
     }
 
@@ -34,10 +34,10 @@ public class StackedBarChartNode extends PNode {
             StackedBarNode node = (StackedBarNode) barLayer.getChild( 0 );
             node.setOffset( 0, 0 );
             double dx = node.getFullBounds().getMaxX() - axisNode.getFullBounds().getX();
-            axisNode.offset( dx+2, 0 );
+            axisNode.offset( dx + 2, 0 );
 //            axisNode.setOffset( node.getFullBounds().getMaxX() + axisNode.getFullBounds().getWidth(), 0 );
 
-            double xOffset = axisNode.getFullBounds().getMaxX()+2;
+            double xOffset = axisNode.getFullBounds().getMaxX() + 2;
             for ( int i = 1; i < barLayer.getChildrenCount(); i++ ) {
                 StackedBarNode ch = (StackedBarNode) barLayer.getChild( i );
                 ch.setOffset( xOffset, 0 );
@@ -63,7 +63,7 @@ public class StackedBarChartNode extends PNode {
         PhetPCanvas contentPane = new BufferedPhetPCanvas();
         frame.setContentPane( contentPane );
 
-        StackedBarChartNode stackedBarChart = new StackedBarChartNode("Calories/Day", 10 );
+        StackedBarChartNode stackedBarChart = new StackedBarChartNode( "Calories/Day", 10 );
         StackedBarNode barNode = new StackedBarNode( 100 );
         barNode.addElement( new StackedBarNode.BarChartElement( "BMR", FitnessColorScheme.BMR, 100 ) );
         barNode.addElement( new StackedBarNode.BarChartElement( "Activity", FitnessColorScheme.ACTIVITY, 200 ) );

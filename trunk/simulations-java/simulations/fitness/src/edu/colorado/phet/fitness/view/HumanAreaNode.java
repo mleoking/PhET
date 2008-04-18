@@ -30,7 +30,7 @@ public class HumanAreaNode extends PNode {
     private Human human;
     private PhetPPath head;
     private PImage heart;
-    private PhetPPath areaNode = new PhetPPath( new BasicStroke( 0.02f,BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND), Color.black );
+    private PhetPPath areaNode = new PhetPPath( new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Color.black );
 
     public HumanAreaNode( Human human ) {
         this.human = human;
@@ -91,8 +91,8 @@ public class HumanAreaNode extends PNode {
 
     private Shape createStomachShape( Shape bodyShape ) {
         Rectangle2D bounds = bodyShape.getBounds2D();
-        double w = Math.max( 0.05 * 2*human.getMass()/75/2-0.05,0 );
-        Ellipse2D.Double stomach = new Ellipse2D.Double( bounds.getX() - w / 2, bounds.getCenterY(), bounds.getWidth() + w, bounds.getHeight()/2 );
+        double w = Math.max( 0.05 * 2 * human.getMass() / 75 / 2 - 0.05, 0 );
+        Ellipse2D.Double stomach = new Ellipse2D.Double( bounds.getX() - w / 2, bounds.getCenterY(), bounds.getWidth() + w, bounds.getHeight() / 2 );
         return stomach;
     }
 

@@ -4,7 +4,7 @@ package edu.colorado.phet.fitness.control;
  * Created by: Sam
  * Apr 17, 2008 at 11:41:43 AM
  */
-public class FoodItem implements Cloneable{
+public class FoodItem implements Cloneable {
     private String image;
     private double calories;
 
@@ -39,9 +39,9 @@ public class FoodItem implements Cloneable{
     }
 
     public static void main( String[] args ) {
-        FoodItem a=new FoodItem( "burger",123);
-        FoodItem b=a.copy();
-        System.out.println( "a="+a );
+        FoodItem a = new FoodItem( "burger", 123 );
+        FoodItem b = a.copy();
+        System.out.println( "a=" + a );
         System.out.println( "b = " + b );
     }
 }

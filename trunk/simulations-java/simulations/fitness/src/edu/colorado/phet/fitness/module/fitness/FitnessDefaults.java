@@ -5,5 +5,5 @@ package edu.colorado.phet.fitness.module.fitness;
  * Apr 18, 2008 at 12:41:19 AM
  */
 public class FitnessDefaults {
-    public static final double CLOCK_DT = 1000.0*250;
+    public static final double CLOCK_DT = 1000.0 * 250;
 }

@@ -61,10 +61,10 @@ public class CalorieSlider extends PNode {
     }
 
     public void setArrowLocation( double x ) {
-        System.out.println( "pre x="+arrowNode.getOffset().getX() );
+        System.out.println( "pre x=" + arrowNode.getOffset().getX() );
 //        arrowNode.setOffset( arrowNode.getOffset().getX()+1, arrowNode.getOffset().getY() );
         arrowNode.setOffset( x, arrowNode.getOffset().getY() );
-        System.out.println( "post x="+arrowNode.getOffset().getX() );
+        System.out.println( "post x=" + arrowNode.getOffset().getX() );
     }
 
     public void addRegion( int x0, int x1, Color color ) {

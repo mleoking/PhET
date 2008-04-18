@@ -43,7 +43,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 human.setAge( age.getValue() );
             }
         } );
-        human.addListener( new Human.Adapter(){
+        human.addListener( new Human.Adapter() {
             public void ageChanged() {
                 age.setValue( human.getAge() );
             }
@@ -68,7 +68,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 human.setMass( weightControl.getValue() );
             }
         } );
-        human.addListener( new Human.Adapter(){
+        human.addListener( new Human.Adapter() {
             public void weightChanged() {
                 weightControl.setValue( human.getMass() );
             }
