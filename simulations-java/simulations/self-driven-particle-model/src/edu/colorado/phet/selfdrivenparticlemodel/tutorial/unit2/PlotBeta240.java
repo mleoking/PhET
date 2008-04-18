@@ -2,9 +2,9 @@
 package edu.colorado.phet.selfdrivenparticlemodel.tutorial.unit2;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.selfdrivenparticlemodel.model.ParticleModel;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.BasicTutorialCanvas;
-import edu.colorado.phet.selfdrivenparticlemodel.tutorial.LucidaSansFont;
 import edu.colorado.phet.selfdrivenparticlemodel.tutorial.TutorialChartFrame;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -107,7 +107,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
         } );
 
         betaText = new PText( "" );
-        betaText.setFont( new LucidaSansFont( 16, true ) );
+        betaText.setFont( new PhetDefaultFont( 16, true ) );
         betaText.setTextPaint( Color.red );
 
         HorizontalLayoutPanel exponentPlotPanel = new HorizontalLayoutPanel();
@@ -118,7 +118,7 @@ public class PlotBeta240 extends PlotOrderParameterVsRandomness {
         exponentPlotPanelGraphic = new PSwing( page, exponentPlotPanel );
     }
 
-    Font errorFont = new LucidaSansFont( 11, true );
+    Font errorFont = new PhetDefaultFont( 11, true );
 
     private void paintErrorMessage( Graphics g ) {
         Point2D sample = null;
