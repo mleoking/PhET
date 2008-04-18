@@ -30,7 +30,6 @@ class UpdateSimulationPage extends SitePage {
             }
         }
 
-        //eval(get_code_to_create_variables_from_array($simulation));
         $this->sim_name = $simulation["sim_name"];
         $sim_id = $simulation["sim_id"];
 

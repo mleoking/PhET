@@ -91,7 +91,9 @@ class OrganizeCategoriesPage extends SitePage {
     function do_add($cat_name) {
         $cat_order = $this->get_next_order_number(end($this->cat_orders));
 
-        db_exec_query("INSERT INTO `category` (`cat_name`, `cat_order`) VALUES ('$cat_name', '$cat_order') ");
+        $safe_cat_name = mysql_real_escape_string($cat_name);
+
+        db_exec_query("INSERT INTO `category` (`cat_name`, `cat_order`) VALUES ('$safe_cat_name', '$cat_order') ");
     }
 
     function do_move_up($cat_id, $cat_order) {
@@ -117,7 +119,9 @@ class OrganizeCategoriesPage extends SitePage {
     }
 
     function do_rename($cat_id, $cat_name) {
-        db_exec_query("UPDATE `category` SET `cat_name`='$cat_name' WHERE `cat_id`='$cat_id' ");
+        $safe_cat_name = mysql_real_escape_string($cat_name);
+        $safe_cat_id = mysql_real_escape_string($cat_id);
+        db_exec_query("UPDATE `category` SET `cat_name`='$safe_cat_name' WHERE `cat_id`='$safe_cat_id' ");
     }
 
     function render_content() {
@@ -171,6 +175,7 @@ EOT;
 
 EOT;
     }
+
 }
 
 $page = new OrganizeCategoriesPage("Organize Categories", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);

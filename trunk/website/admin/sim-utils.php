@@ -577,15 +577,6 @@
         );
     }
 
-    function gather_sim_fields_into_globals($sim_id) {
-        $select_sim_st = "SELECT * FROM `simulation` WHERE `sim_id`= '$sim_id' ";
-        $simulation    = mysql_fetch_assoc(mysql_query($select_sim_st));
-
-        gather_array_into_globals($simulation);
-
-        $GLOBALS["sim_id"] = "$sim_id";
-    }
-
     function sim_compare_by_sorting_name($sim1, $sim2) {
         return strcasecmp($sim1['sim_sorting_name'], $sim2['sim_sorting_name']);
     }

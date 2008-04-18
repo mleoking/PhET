@@ -11,15 +11,9 @@ class UpdateUserProfile extends SitePage {
             return $result;
         }
 
-        if (!auth_user_validated()) {
-            return;
-        }
-
-        $contributor_id = contributor_get_id_from_contributor_username(auth_get_username());
-
         // HACK: check on passwords matching,
         //   encrypt password in the $_REQUEST var, and
-        //   uset it if it is not changing
+        //   use it if it is not changing
         $this->password_failure = false;
         $pass1 = (isset($_REQUEST["new_contributor_password"])) ? trim($_REQUEST["new_contributor_password"]) : "";
         $pass2 = (isset($_REQUEST["new_contributor_password2"])) ? trim($_REQUEST["new_contributor_password2"]) : "";
@@ -52,7 +46,7 @@ class UpdateUserProfile extends SitePage {
             unset($_REQUEST["new_contributor_password2"]);
         }
 
-        $this->success = db_update_table('contributor', gather_script_params_into_array('contributor_'), 'contributor_id', $contributor_id);
+        $this->success = db_update_table('contributor', gather_script_params_into_array('contributor_'), "contributor_id", $this->user["contributor_id"]);
 
         if ((strlen($pass1) > 0) && ($this->success)) {
             // Make sure the cookie password is updated
@@ -89,6 +83,7 @@ EOT;
 EOT;
         }
     }
+
 }
 
 $page = new UpdateUserProfile("Update User Profile", NAV_TEACHER_IDEAS, null, SP_AUTHLEVEL_USER);

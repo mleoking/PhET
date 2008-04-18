@@ -27,8 +27,9 @@ EOT;
         if ($contributor['contributor_is_team_member'] != 1) {
             unset($contribution['contribution_from_phet']);
             unset($contribution['contribution_is_gold_star']);
-            if (isset($_REQUEST['contributor_id']))
-            $contribution['contributor_id'] = $_REQUEST['contributor_id'];
+            if (isset($_REQUEST['contributor_id'])) {
+               $contribution['contributor_id'] = $_REQUEST['contributor_id'];
+            }
         }
         else {
             $contribution['contributor_id'] = $_REQUEST['contributor_id'];
@@ -43,8 +44,6 @@ EOT;
                 $contribution['contribution_title'],
                 $contribution['contributor_id']
             );
-
-            //$GLOBALS['contribution_id'] = $contribution['contribution_id'];
         }
 
         contribution_update_contribution($contribution);

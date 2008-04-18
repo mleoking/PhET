@@ -11,12 +11,7 @@ class EditProfile extends SitePage {
             return $result;
         }
 
-        $username = auth_get_username();
-        $contributor = contributor_get_contributor_by_username($username);
-        $contributor_id = $contributor["contributor_id"];
-
-        $editor_contributor_id = contributor_get_id_from_contributor_username(auth_get_username());
-        contributor_print_full_edit_form($editor_contributor_id, $contributor_id, "user-update-profile.php");
+        contributor_print_full_edit_form($this->user["contributor_id"], $this->user["contributor_id"], "user-update-profile.php");
     }
 
 }

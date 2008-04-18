@@ -30,9 +30,9 @@ class NominateContributionPage extends SitePage {
 
     function print_nomination_success() {
         $contribution = contribution_get_contribution_by_id($this->contribution_id);
-        
-        eval(get_code_to_create_variables_from_array($contribution));
-        
+
+        $contribution_title = format_string_for_html($contribution["contribution_title"]);
+
         print <<<EOT
             <p>Thank you for nominating &quot;{$contribution_title}&quot; for a Gold Star.</p>
 

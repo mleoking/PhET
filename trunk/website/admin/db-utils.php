@@ -3,6 +3,26 @@
     include_once("web-utils.php");
 
     /**
+     * String slashes from an array or string, includes array keys
+     *
+     * @param $value mixed variable to strip slashes from
+     * @return $value mixed variable with stripped slashes
+     */
+    function stripslashes_deep($value) {
+        if (is_array($value)) {
+            if (count($value)>0) {
+                $return = array_combine(array_map('stripslashes_deep', array_keys($value)),array_map('stripslashes_deep', array_values($value)));
+            } else {
+                $return = array_map('stripslashes_deep', $value);
+            }
+            return $return;
+        } else {
+            $return = stripslashes($value);
+            return $return ;
+        }
+    }
+
+    /**
      * Check the result of a mysql query.  die with a message if it is bad
      *
      * @param unknown_type $result - result from a mysql_query
@@ -127,6 +147,8 @@
             }
         }
 
+        stripslashes_deep($row);
+
         return $rows;
     }
 
@@ -137,7 +159,8 @@
 
         $is_first = true;
 
-        foreach(preg_split('/( +)|( *, *)/i', $search_for) as $word) {
+        $safe_search_for = mysql_real_escape_string($search_for);
+        foreach(preg_split('/( +)|( *, *)/i', $safe_search_for) as $word) {
             if ($is_first) {
                 $is_first = false;
             }

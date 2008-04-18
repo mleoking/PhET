@@ -174,18 +174,6 @@
         return $default_value;
     }
 
-    function gather_globals_into_array($prefix = '') {
-        $array = array();
-
-        foreach($GLOBALS as $key => $value) {
-            if ($prefix == '' || strstr("$key", $prefix) == "$key") {
-                $array["$key"] = "$value";
-            }
-        }
-
-        return $array;
-    }
-
     function gather_script_params_into_array($prefix = '') {
         $array = array();
 
@@ -196,33 +184,6 @@
         }
 
         return $array;
-    }
-
-    function gather_array_into_globals($array) {
-        foreach($array as $key => $value) {
-            $GLOBALS["$key"] = format_for_html("$value");
-        }
-    }
-
-    function gather_script_params_into_globals() {
-        gather_array_into_globals($_REQUEST);
-    }
-
-    function get_code_to_create_variables_from_array($array) {
-        $code = '';
-
-        foreach($array as $key => $value) {
-            $value = str_replace('\\', '',     $value);
-            $value = str_replace("'",  "\\'",  $value);
-
-            $code .= "\$$key = '$value'; ";
-        }
-
-        return $code;
-    }
-
-    function get_code_to_create_variables_from_script_params() {
-        return get_code_to_create_variables_from_array($_REQUEST);
     }
 
     function convert_array_to_comma_list($array) {

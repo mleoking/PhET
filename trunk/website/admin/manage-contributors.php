@@ -27,9 +27,8 @@ class ManageContributors extends SitePage {
     }
 
     function handle_action() {
-        eval(get_code_to_create_variables_from_array($_REQUEST));
-
-        if (isset($action)) {
+        if (isset($_REQUEST["action"])) {
+            $action = $_REQUEST["action"];
             if ($action == "update") {
                 $this->do_update();
             }
@@ -43,8 +42,6 @@ class ManageContributors extends SitePage {
     }
 
     function print_contributors() {
-        eval(get_code_to_create_variables_from_array($_REQUEST));
-
         $contributors = contributor_get_all_contributors();
 
         print <<<EOT
@@ -61,6 +58,7 @@ class ManageContributors extends SitePage {
 
                 <tbody>
                     <tr>
+
 EOT;
 
         foreach($contributors as $contributor) {
@@ -92,6 +90,7 @@ EOT;
                                 <a href="edit-other-profile.php?edit_contributor_id=$contributor_id">Edit</a>
                             </td>
                         </tr>
+
 EOT;
         }
 
@@ -113,6 +112,7 @@ EOT;
                 </tbody>
             </table>
         </div>
+
 EOT2;
     }
 
