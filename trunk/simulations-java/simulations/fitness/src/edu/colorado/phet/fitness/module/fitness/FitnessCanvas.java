@@ -67,8 +67,9 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         addWorldChild( _rootNode );
 
 //        _rootNode.addChild( new HumanNode( model.getHuman() ) );
-        _rootNode.addChild( new HumanAreaNode( model.getHuman() ) );
         _rootNode.addChild( new ScaleNode( model.getHuman() ) );
+        _rootNode.addChild( new HumanAreaNode( model.getHuman() ) );
+
         setZoomEventHandler( new PZoomEventHandler() );
 //        setPanEventHandler( new PPanEventHandler() );
 

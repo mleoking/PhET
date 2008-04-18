@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -18,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Apr 17, 2008 at 9:33:00 PM
  */
 public class StackedBarChartAxisNode extends PNode {
+    private Function function;
     private double minorTickSpacing;
     private double majorTickSpacing;
     private double max;
@@ -25,7 +27,8 @@ public class StackedBarChartAxisNode extends PNode {
     private static final double MINOR_TICK_WIDTH = 8;
     private static final double MAJOR_TICK_WIDTH = 10;
 
-    public StackedBarChartAxisNode( String title, double minorTickSpacing, double majorTickSpacing, double max ) {
+    public StackedBarChartAxisNode( String title, Function function, double minorTickSpacing, double majorTickSpacing, double max ) {
+        this.function = function;
         this.minorTickSpacing = minorTickSpacing;
         this.majorTickSpacing = majorTickSpacing;
         this.max = max;
@@ -55,16 +58,20 @@ public class StackedBarChartAxisNode extends PNode {
         titleNode.rotate( -Math.PI / 2 );
     }
 
-    public static class MinorTick extends PNode {
+    public class MinorTick extends PNode {
         public MinorTick( double width, double y ) {
-            PhetPPath path = new PhetPPath( new Line2D.Double( -width / 2, -y, width / 2, -y ), new BasicStroke( 1 ), Color.black );
+            PhetPPath path = new PhetPPath( new Line2D.Double( -width / 2, -modelToView( y ), width / 2, -modelToView( y ) ), new BasicStroke( 1 ), Color.black );
             addChild( path );
         }
     }
 
-    public static class MajorTick extends PNode {
+    private double modelToView( double y ) {
+        return function.evaluate( y );
+    }
+
+    public class MajorTick extends PNode {
         public MajorTick( double width, double y, boolean textOnLeft ) {
-            PhetPPath path = new PhetPPath( new Line2D.Double( -width / 2, -y, width / 2, -y ), new BasicStroke( 2 ), Color.black );
+            PhetPPath path = new PhetPPath( new Line2D.Double( -width / 2, -modelToView( y ), width / 2, -modelToView( y ) ), new BasicStroke( 2 ), Color.black );
             addChild( path );
             PText textLabel = new PText( new DecimalFormat( "0.00" ).format( y ) );
             addChild( textLabel );
@@ -78,6 +85,6 @@ public class StackedBarChartAxisNode extends PNode {
     }
 
     private Shape createArrowShape() {
-        return new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, -max ), 20, 20, 5 ).getShape();
+        return new Arrow( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, -modelToView( max ) ), 20, 20, 5 ).getShape();
     }
 }

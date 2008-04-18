@@ -30,7 +30,7 @@ public class HumanAreaNode extends PNode {
     private Human human;
     private PhetPPath head;
     private PImage heart;
-    private PhetPPath areaNode = new PhetPPath( new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Color.black );
+    private PhetPPath areaNode = new PhetPPath( Color.white, new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Color.black );
 
     public HumanAreaNode( Human human ) {
         this.human = human;

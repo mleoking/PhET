@@ -60,9 +60,9 @@ public class NewCaloriePanel extends PNode {
             }
         } );
 
-        stackedBarChart = new StackedBarChartNode( "Calories/Day", 10 );
-
         Function.LinearFunction transform = new Function.LinearFunction( 0, 2500, 0, 250 );
+        stackedBarChart = new StackedBarChartNode( transform, "Calories/Day", 10, 250, 1000, 4000 );
+
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids() ), StackedBarNode.LEFT );
         intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs() ), StackedBarNode.LEFT );
