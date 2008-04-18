@@ -53,7 +53,7 @@ public class Human {
     }
 
     private void updateBMR() {
-        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getWeight(), getHeight(), getAge(), gender ) );
+        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getMass(), getHeight(), getAge(), gender ) );
     }
 
     /**
@@ -71,7 +71,7 @@ public class Human {
     }
 
     public double getBMI() {
-        return getWeight() / Math.pow( getHeight(), 2 );
+        return getMass() / Math.pow( getHeight(), 2 );
     }
 
     private double getHeightInches() {
@@ -79,7 +79,7 @@ public class Human {
     }
 
     private double getWeightPounds() {
-        return getWeight() * 2.20462262;
+        return getMass() * 2.20462262;
     }
 
     public String getName() {
@@ -152,7 +152,7 @@ public class Human {
         setAge( getAge() + simulationTimeChange );
         double caloriesGainedPerDay = getDeltaCaloriesGained();
         double kgGainedPerDay = FitnessUnits.caloriesToKG( caloriesGainedPerDay );
-        setWeight( getWeight() + kgGainedPerDay * FitnessUnits.secondsToDays( simulationTimeChange ) );
+        setMass( getMass() + kgGainedPerDay * FitnessUnits.secondsToDays( simulationTimeChange ) );
     }
 
     private double getDeltaCaloriesGained() {
@@ -229,11 +229,11 @@ public class Human {
         }
     }
 
-    public double getWeight() {
+    public double getMass() {
         return weight.getValue();
     }
 
-    public void setWeight( double weight ) {
+    public void setMass( double weight ) {
         this.weight.setValue( weight );
         notifyWeightChanged();
         notifyBMIChanged();
