@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.fitness.FitnessConstants;
 import edu.colorado.phet.fitness.control.CaloriePanel;
 import edu.colorado.phet.fitness.control.HumanControlPanel;
+import edu.colorado.phet.fitness.control.NewCaloriePanel;
 import edu.colorado.phet.fitness.view.HumanNode;
 import edu.colorado.phet.fitness.view.ScaleNode;
 import edu.umd.cs.piccolo.PNode;
@@ -85,7 +86,7 @@ public class FitnessCanvas extends PhetPCanvas {
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
-        CaloriePanel caloriePanel = new CaloriePanel( model, this );
+        PNode caloriePanel = new NewCaloriePanel( model, this );
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         addScreenChild( caloriePanel );
 

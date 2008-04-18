@@ -4,8 +4,10 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -23,20 +25,34 @@ public class StackedBarChartAxisNode extends PNode {
     private static final double MINOR_TICK_WIDTH = 8;
     private static final double MAJOR_TICK_WIDTH = 10;
 
-    public StackedBarChartAxisNode( double minorTickSpacing, double majorTickSpacing, double max ) {
+    public StackedBarChartAxisNode( String title, double minorTickSpacing, double majorTickSpacing, double max ) {
         this.minorTickSpacing = minorTickSpacing;
         this.majorTickSpacing = majorTickSpacing;
         this.max = max;
         PPath arrowPath = new PhetPPath( createArrowShape(), Color.black );
         addChild( arrowPath );
+        ArrayList minorTicks = new ArrayList();
         for ( double y = 0; y <= max; y += minorTickSpacing ) {
-            addChild( new MinorTick( MINOR_TICK_WIDTH, y ) );
+            MinorTick minorTick = new MinorTick( MINOR_TICK_WIDTH, y );
+            addChild( minorTick );
+            minorTicks.add( minorTick );
         }
+
+        ArrayList majorTicks = new ArrayList();
         int count = 0;
         for ( double y = 0; y <= max; y += majorTickSpacing ) {
-            addChild( new MajorTick( MAJOR_TICK_WIDTH, y, count % 2 == 0 ) );
+            MajorTick majorTick = new MajorTick( MAJOR_TICK_WIDTH, y, count % 2 == 0 );
+            addChild( majorTick );
+            majorTicks.add( majorTick );
             count++;
         }
+        PText titleNode = new PText( title );
+        titleNode.setFont( new PhetDefaultFont( 18, true ) );
+        addChild( titleNode );
+
+        PNode bottomMajor = (PNode) minorTicks.get( 0 );
+        titleNode.setOffset( arrowPath.getFullBounds().getMinX() - titleNode.getFullBounds().getHeight(), bottomMajor.getFullBounds().getMinY() - titleNode.getFullBounds().getHeight() );
+        titleNode.rotate( -Math.PI / 2 );
     }
 
     public static class MinorTick extends PNode {
