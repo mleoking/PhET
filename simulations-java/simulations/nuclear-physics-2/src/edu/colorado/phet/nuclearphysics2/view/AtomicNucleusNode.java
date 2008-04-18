@@ -87,16 +87,18 @@ public class AtomicNucleusNode extends PNode {
         setLabel(_atomicNucleus.getNumProtons(), _atomicNucleus.getNumNeutrons());
         
         // Register as a listener for the model representation.
-        _atomicNucleus.addListener(new AtomicNucleus.Listener(){
+        _atomicNucleus.addListener(new AtomicNucleus.Adapter(){
             public void positionChanged(){
                 update();
             }
-            public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
+            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                    ArrayList byProducts){
                 
                 int newAtomicWeight = numProtons + numNeutrons;
                 if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
                     // This was a decay event, so kick off the explosion graphic.
                     _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
+                    _explosion.setOffset( _atomicNucleus.getPosition() );
                     _explosion.setVisible( true );
                 }
                 

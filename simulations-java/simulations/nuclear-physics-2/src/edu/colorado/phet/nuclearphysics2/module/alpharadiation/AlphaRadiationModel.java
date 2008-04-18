@@ -71,9 +71,11 @@ public class AlphaRadiationModel {
         // Register as a listener for the nucleus so we can handle the
         // particles thrown off by alpha decay.
         
-        _atomicNucleus.addListener( new AtomicNucleus.Listener(){
+        _atomicNucleus.addListener( new AtomicNucleus.Adapter(){
             
-            public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
+            public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
+                    ArrayList byProducts){
+                
                 if (byProducts != null){
                     // There are some byproducts of this event that need to be
                     // managed by this object.

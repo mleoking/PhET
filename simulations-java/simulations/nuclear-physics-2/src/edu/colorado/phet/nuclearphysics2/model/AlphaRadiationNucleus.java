@@ -83,7 +83,7 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
             int totalNumProtons = _numFreeProtons + _numAlphas * 2;
             int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
             for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  null);
+                ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null);
             }
             
             // If the original numbers don't match the current one, some bug
@@ -129,7 +129,7 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
                     ArrayList byProducts = new ArrayList(1);
                     byProducts.add( tunnelingParticle );
                     for (int j = 0; j < _listeners.size(); j++){
-                        ((Listener)_listeners.get( j )).atomicWeightChanged( totalNumProtons, totalNumNeutrons, 
+                        ((Listener)_listeners.get( j )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, 
                                 byProducts );
                     }
                     break;

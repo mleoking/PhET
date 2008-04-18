@@ -38,6 +38,10 @@ public class FissionOneNucleusModel {
     private static final double MOVING_NUCLEON_VELOCITY = 1.0;  // Femtometer per tick.
     private static final double MOVING_NUCLEUS_ACCELERATION = 0.075;  // Femtometer per tick per tick.
     
+    // Time, in sim milliseconds, from the capture of a neutron until fission
+    // occurs.
+    public static final double FISSION_INTERVAL = 3000;
+    
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
@@ -58,19 +62,16 @@ public class FissionOneNucleusModel {
     public FissionOneNucleusModel(NuclearPhysics2Clock clock)
     {
         // Add a nucleus of Uranium 235 to the model.
-        _primaryNucleus = new FissionOneNucleus( clock, new Point2D.Double( 0, 0 ) );
+        _primaryNucleus = new FissionOneNucleus( clock, new Point2D.Double( 0, 0 ), FISSION_INTERVAL );
         
         // Register as a listener to the nucleus so that we can see if any new
         // particles come out of it that need to be managed.
 
-        _primaryNucleus.addListener( new AtomicNucleus.Listener(){
+        _primaryNucleus.addListener( new AtomicNucleus.Adapter(){
             
-            public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
+            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                    ArrayList byProducts){
                 handleAtomicWeightChanged(numProtons, numNeutrons, byProducts);
-            }
-            
-            public void positionChanged(){
-                // This particular notification doesn't matter here.
             }
         });
         

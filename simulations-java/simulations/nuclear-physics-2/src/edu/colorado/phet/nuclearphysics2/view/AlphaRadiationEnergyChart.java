@@ -137,7 +137,8 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         
         // Register as a listener with the model so that we can see when decay occurs.
         _model.getAtomNucleus().addListener( new AtomicNucleus.Listener(){
-            public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
+            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                    ArrayList byProducts ){
                 if (byProducts != null){
                     handleDecayEvent(byProducts);
                 }

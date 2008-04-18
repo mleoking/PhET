@@ -30,29 +30,29 @@ public class FissionOneNucleus extends AtomicNucleus{
     private static final int URANIUM_235_AGITATION_FACTOR = 6;
     private static final int URANIUM_236_AGITATION_FACTOR = 9;
     
-    // Time, in sim milliseconds, from the capture of a neutron until fission
-    // occurs.
-    public static final double FISSION_INTERVAL = 3000;
-    
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
 
-    // Variable for deciding when alpha decay should occur.
+    // Interval from the time a neutron capture occurs until fission occurs.
+    private double _fissionInterval;
+    
+    // Time at which fission will occur.
     private double _fissionTime = 0;
     
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
     
-    public FissionOneNucleus(NuclearPhysics2Clock clock, Point2D position){
+    public FissionOneNucleus(NuclearPhysics2Clock clock, Point2D position, double fissionInterval){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+        
+        _fissionInterval = fissionInterval;
         
         // Set the tunneling region to be more confined than in some of the
         // other panels, since having a bunch of alpha particles flying around
         // the nucleus will like be distracting.
         setTunnelingRegionRadius( (getDiameter() / 2) * 1.1 );
-        
     }
     
     //------------------------------------------------------------------------
@@ -61,6 +61,10 @@ public class FissionOneNucleus extends AtomicNucleus{
     
     public double getFissionTime(){
         return _fissionTime;
+    }
+    
+    public double getFissionInterval(){
+        return _fissionInterval;
     }
     
     /**
@@ -87,11 +91,11 @@ public class FissionOneNucleus extends AtomicNucleus{
             int totalNumProtons = _numFreeProtons + _numAlphas * 2;
             totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
             for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons, null );
+                ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null );
             }
             
             // Start a timer to kick off fission.
-            _fissionTime = _clock.getSimulationTime() + FISSION_INTERVAL;
+            _fissionTime = _clock.getSimulationTime() + _fissionInterval;
             
             // Indicate that the nucleus was captured.
             retval = true;
@@ -193,7 +197,7 @@ public class FissionOneNucleus extends AtomicNucleus{
         totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
         int totalNumProtons = _numFreeProtons + _numAlphas * 2;
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  null);
+            ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null );
         }
     }
     
@@ -276,7 +280,7 @@ public class FissionOneNucleus extends AtomicNucleus{
             int totalNumProtons = _numFreeProtons + _numAlphas * 2;
             int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
             for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  byProducts);
+                ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, byProducts );
             }
             
             // Set the fission time to 0 to indicate that no more fissioning

@@ -405,7 +405,15 @@ public abstract class AtomicNucleus {
          * @param byProducts - By products of the change, which may include
          * protons, neutrons, alpha particles, or daughter nuclei.  May be
          * null if no byproducts were produced.
+         * @param atomicNucleus TODO
+         * @param newParam TODO
          */
-        void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts);
+        void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, ArrayList byProducts);
+    }
+    
+    public static class Adapter implements Listener {
+        public void positionChanged(){}
+        public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                ArrayList byProducts){}
     }
 }

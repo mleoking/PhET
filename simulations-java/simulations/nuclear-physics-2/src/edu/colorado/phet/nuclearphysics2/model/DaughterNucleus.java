@@ -51,7 +51,7 @@ public class DaughterNucleus extends AtomicNucleus {
         
         for (int i = 0; i < _listeners.size(); i++){
             // Let the listeners know about the change.
-            ((Listener)_listeners.get( i )).atomicWeightChanged( 0, 0, null );
+            ((Listener)_listeners.get( i )).atomicWeightChanged( this, 0, 0, null );
         }
     }
     
