@@ -15,7 +15,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.fitness.FitnessConstants;
-import edu.colorado.phet.fitness.control.CaloriePanel;
 import edu.colorado.phet.fitness.control.HumanControlPanel;
 import edu.colorado.phet.fitness.control.NewCaloriePanel;
 import edu.colorado.phet.fitness.view.HumanNode;
@@ -102,10 +101,10 @@ public class FitnessCanvas extends PhetPCanvas {
         addKeyListener( new KeyAdapter() {
             public void keyPressed( KeyEvent e ) {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
-                    model.getHuman().setMusclePercent( model.getHuman().getMusclePercent() + 10 );
+                    model.getHuman().setLeanMuscleMass( model.getHuman().getLeanMuscleMass() + 10 );
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-                    model.getHuman().setMusclePercent( model.getHuman().getMusclePercent() - 10 );
+                    model.getHuman().setLeanMuscleMass( model.getHuman().getLeanMuscleMass() - 10 );
                 }
             }
         } );

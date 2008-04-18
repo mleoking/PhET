@@ -35,9 +35,14 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-        LinearValueControl age = new HumanSlider( 0, 100 * 525600.0 * 60, human.getAge(), "Age", "0.00", "seconds" );
+        final LinearValueControl age = new HumanSlider( 0, 100 * 525600.0 * 60, human.getAge(), "Age", "0.00", "seconds" );
         age.getTextField().setColumns( 9 );
         add( age );
+        human.addListener( new Human.Adapter(){
+            public void ageChanged() {
+                age.setValue( human.getAge() );
+            }
+        } );
 
         double minHeight = 1;
         double maxHeight = 2.72;
@@ -60,29 +65,29 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( weightControl );
 
-        final LinearValueControl muscle = new HumanSlider( 0, 100, human.getMusclePercent(), "Muscle", "0.0", "%" );
+        final LinearValueControl muscle = new HumanSlider( 0, 100, human.getLeanMuscleMass(), "Muscle", "0.0", "kg" );
         add( muscle );
-        final LinearValueControl fat = new HumanSlider( 0, 100, human.getFatPercent(), "Fat", "0.0", "%" );
-        add( fat );
+//        final LinearValueControl fat = new HumanSlider( 0, 100, human.getFatPercent(), "Fat", "0.0", "kg" );
+//        add( fat );
 
         muscle.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setMusclePercent( muscle.getValue() );
+                human.setLeanMuscleMass( muscle.getValue() );
             }
         } );
-        fat.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                human.setFatPercent( fat.getValue() );
-            }
-        } );
+//        fat.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                human.setFatPercent( fat.getValue() );
+//            }
+//        } );
         human.addListener( new Human.Adapter() {
             public void musclePercentChanged() {
-                muscle.setValue( human.getMusclePercent() );
+                muscle.setValue( human.getLeanMuscleMass() );
             }
 
-            public void fatPercentChanged() {
-                fat.setValue( human.getFatPercent() );
-            }
+//            public void fatPercentChanged() {
+//                fat.setValue( human.getFatPercent() );
+//            }
         } );
 
 //        Human maxBMIHuman = new Human( 0, minHeight, maxWeight, Human.Gender.MALE, "max" );
@@ -93,7 +98,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //        bmi.getSlider().setEnabled( false );
 ////        add( bmi );
 
-        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, muscle, fat};
+//        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, muscle, fat};
+        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, muscle};
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
 //        human.addListener( new Human.Adapter() {
 //            public void bmiChanged() {
