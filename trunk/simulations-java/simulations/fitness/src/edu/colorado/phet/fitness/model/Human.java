@@ -19,13 +19,14 @@ public class Human {
     private DefaultTemporalVariable age = new DefaultTemporalVariable( 20 * 525600.0 * 60 );//sec
     private DefaultTemporalVariable leanMuscleMass = new DefaultTemporalVariable( 60 );//kg
 
-    private DefaultTemporalVariable lipids = new DefaultTemporalVariable( 100 );
-    private DefaultTemporalVariable carbs = new DefaultTemporalVariable( 100 );
-    private DefaultTemporalVariable proteins = new DefaultTemporalVariable( 100 );
+    //values taken from http://www.hpathy.com/healthtools/calories-need.asp
+    private DefaultTemporalVariable lipids = new DefaultTemporalVariable( 870 );
+    private DefaultTemporalVariable carbs = new DefaultTemporalVariable( 1583 );
+    private DefaultTemporalVariable proteins = new DefaultTemporalVariable( 432 );
 
-    private DefaultTemporalVariable bmr = new DefaultTemporalVariable( 200 );
-    private DefaultTemporalVariable activity = new DefaultTemporalVariable( 75 );
-    private DefaultTemporalVariable exercise = new DefaultTemporalVariable( 50 );
+    private DefaultTemporalVariable activity = new DefaultTemporalVariable();//initialized to 0.5*BMR
+    private DefaultTemporalVariable exercise = new DefaultTemporalVariable();//initialized to make sure weight is constant at startup
+    private DefaultTemporalVariable bmr = new DefaultTemporalVariable();//dependent variable
 
     public Human() {
         addListener( new Adapter() {
@@ -45,6 +46,10 @@ public class Human {
                 updateBMR();
             }
         } );
+        updateBMR();
+        activity.setValue( bmr.getValue() * 0.5 );
+        double dCal = getDeltaCaloriesGained();
+        exercise.setValue( exercise.getValue() + dCal );
     }
 
     private void updateBMR() {
@@ -154,9 +159,13 @@ public class Human {
 
     public void simulationTimeChanged( double simulationTimeChange ) {
         setAge( getAge() + simulationTimeChange );
-        double caloriesGained = getDailyCaloricIntake() - getDailyCaloricExpense();
+        double caloriesGained = getDeltaCaloriesGained();
         double kgGained = FitnessUnits.caloriesToKG( caloriesGained );
         setWeight( getWeight() + kgGained );
+    }
+
+    private double getDeltaCaloriesGained() {
+        return getDailyCaloricIntake() - getDailyCaloricExpense();
     }
 
     private double getDailyCaloricExpense() {
