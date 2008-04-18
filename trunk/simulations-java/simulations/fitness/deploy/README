@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+<p><big><big><b>
+PhET Fitness/Calorie Simulation
+</b></big></big></p>
+<p><a href="fitness.jnlp"><img alt="" src="fitness-screenshot.png"
+ style="border: 2px solid ; width: 200px; height: 151px;"></a><br>
+<a href="fitness.jnlp">Launch Application</a>
+</p>
+<p></p>
+<p><b>What's new:</b>
+</p>
+<p></p>
+<ul>
+  <li>editable bar charts to show calorie intake and expense</li>
+  <li><a href="http://en.wikipedia.org/wiki/Basal_metabolic_rate">Benedict
+BMR computation</a></li>
+  <li>expanding human graphic<br>
+  </li>
+</ul>
+<p><span style="font-weight: bold;">To Do:</span><br>
+</p>
+<p></p>
+<ul>
+  <li>graphs not written yet</li>
+  <li>better user interface for choosing exercise/diet<br>
+  </li>
+</ul>
+</body>
+</html>
