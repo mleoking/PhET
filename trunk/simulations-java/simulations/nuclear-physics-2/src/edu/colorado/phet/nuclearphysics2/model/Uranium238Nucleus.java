@@ -70,7 +70,7 @@ public class Uranium238Nucleus extends AtomicNucleus {
                 int totalNumProtons = _numFreeProtons + _numAlphas * 2;
                 totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
                 for (int i = 0; i < _listeners.size(); i++){
-                    ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons, null );
+                    ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null );
                 }
                 
                 // Indicate that the nucleus was captured.
@@ -114,14 +114,14 @@ public class Uranium238Nucleus extends AtomicNucleus {
         // Notify all listeners of the potential position change.
         for (int i = 0; i < _listeners.size(); i++)
         {
-            ((Listener)_listeners.get( i )).positionChanged(); 
+            ((Listener)_listeners.get( i )).positionChanged();
         }        
         
         // Notify all listeners of the change to our atomic weight.
         totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
         int totalNumProtons = _numFreeProtons + _numAlphas * 2;
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).atomicWeightChanged( totalNumProtons, totalNumNeutrons,  null);
+            ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null);
         }
     }
     

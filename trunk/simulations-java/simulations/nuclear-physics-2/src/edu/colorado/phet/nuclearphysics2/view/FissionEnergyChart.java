@@ -148,8 +148,9 @@ public class FissionEnergyChart extends PComposite {
         
         // Register as a listener to the nucleus so that we can see when it
         // decays and when it is reset.
-        _model.getAtomicNucleus().addListener( new AtomicNucleus.Listener(){
-            public void atomicWeightChanged(int numProtons, int numNeutrons, ArrayList byProducts){
+        _model.getAtomicNucleus().addListener( new AtomicNucleus.Adapter(){
+            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                    ArrayList byProducts){
                 if (byProducts != null){
                     for (int i = 0; i < byProducts.size(); i++){
                         if (byProducts.get( i ) instanceof DaughterNucleus){
@@ -184,10 +185,6 @@ public class FissionEnergyChart extends PComposite {
                     System.err.println("Error: Unable to interpret decay event.");
                     assert false;
                 }
-            }
-            
-            public void positionChanged(){
-                // Ignore this - it doesn't matter to us.
             }
         });
 
@@ -518,7 +515,8 @@ public class FissionEnergyChart extends PComposite {
             double nucleusTopPosY = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
             double proportionOfTimeRemaining = 1.0;
             if (_model.getAtomicNucleus().getFissionTime() - _model.getClock().getSimulationTime() > 0){
-                proportionOfTimeRemaining = (_model.getAtomicNucleus().getFissionTime() - _model.getClock().getSimulationTime()) / FissionOneNucleus.FISSION_INTERVAL;
+                proportionOfTimeRemaining = (_model.getAtomicNucleus().getFissionTime() - 
+                        _model.getClock().getSimulationTime()) / _model.getAtomicNucleus().getFissionInterval();
             }
             yPos = (nucleusBasePosY * proportionOfTimeRemaining) + (nucleusTopPosY * (1 - proportionOfTimeRemaining)) -
                 _unfissionedNucleusImage.getFullBounds().height / 2;

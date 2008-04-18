@@ -10,17 +10,14 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics2.model.AlphaRadiationNucleus;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics2.model.AtomicNucleusConstituent;
 import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
+import edu.colorado.phet.nuclearphysics2.model.Proton;
 import edu.colorado.phet.nuclearphysics2.model.Uranium238Nucleus;
-import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel.Listener;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -41,7 +38,12 @@ public class ChainReactionModel {
     private static final double NEUTRON_SOURCE_POS_X = -45;
     private static final double NEUTRON_SOURCE_POS_Y = 0;
     
-    // A rectangle that is used to keep neulei from being placed too close
+    // Constants that control the behavior of fission products.
+    private static final double FREED_NEUTRON_VELOCITY = 3;
+    private static final double INITIAL_DAUGHTER_NUCLEUS_VELOCITY = 0;
+    private static final double DAUGHTER_NUCLEUS_ACCELERATION = 0.2;
+    
+    // A rectangle that is used to keep nuclei from being placed too close
     // to the neutron source.  Tweak it to meet the needs of the sim.
     private static final Rectangle2D NEUTRON_SOURCE_RECT = new Rectangle2D.Double(NEUTRON_SOURCE_POS_X - 30, 
             NEUTRON_SOURCE_POS_Y - 20, 50, 50);
@@ -54,6 +56,7 @@ public class ChainReactionModel {
     private ArrayList _listeners = new ArrayList();
     private ArrayList _u235Nuclei = new ArrayList();
     private ArrayList _u238Nuclei = new ArrayList();
+    private ArrayList _daughterNuclei = new ArrayList();
     private ArrayList _freeNeutrons = new ArrayList();
     private Random _rand = new Random();
     private NeutronSource _neutronSource;
@@ -151,27 +154,31 @@ public class ChainReactionModel {
         else if ( numU235Nuclei > _u235Nuclei.size() ){
             
             // We need to add some new nuclei.
-            
-            if (_u235Nuclei.size() == 0){
-                // This is the first U235 nucleus, so put it at the origin.
-                // TODO: JPB TBD - Need to either create a different nucleus or refactor FissionOneNucleus.
-                AtomicNucleus nucleus = new FissionOneNucleus(_clock, new Point2D.Double(0, 0));
-                nucleus.setDynamic( false );
-                _u235Nuclei.add(nucleus);
-                sendAddedNotifications( nucleus );
-            }
-            // We need to add some new nuclei.
-            for (int i = 0; i < numU235Nuclei - _u235Nuclei.size(); i++){
-                // TODO: JPB TBD - Need to either create a different nucleus or refactor FissionOneNucleus.
-                Point2D position = getOpenNucleusLocation();
+            int initialArraySize = _u235Nuclei.size();
+            for (int i = 0; i < numU235Nuclei - initialArraySize; i++){
+                Point2D position = null;
+                if (_u235Nuclei.size() == 0){
+                    position = new Point2D.Double();
+                }
+                else{
+                    position = getOpenNucleusLocation();
+                }
                 if (position == null){
                     // We were unable to find a spot for this nucleus.
                     continue;
                 }
-                AtomicNucleus nucleus = new FissionOneNucleus(_clock, position);
+                // TODO: JPB TBD - Need to either create a different nucleus or refactor FissionOneNucleus.
+                AtomicNucleus nucleus = new FissionOneNucleus(_clock, position, 0);
                 nucleus.setDynamic( false );
                 _u235Nuclei.add(nucleus);
                 sendAddedNotifications( nucleus );
+                nucleus.addListener( new AtomicNucleus.Adapter(){
+                    public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons,
+                            ArrayList byProducts){
+                        // Handle a potential fission event.
+                        handleU235AtomicWeightChange(nucleus, numProtons, numNeutrons, byProducts);
+                    }
+                });
             }
         }
         else{
@@ -338,6 +345,61 @@ public class ChainReactionModel {
     private void sendAddedNotifications (Object addedElement){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get(i)).modelElementAdded( addedElement );
+        }
+    }
+    
+    /**
+     * Handle a change in atomic weight signaled by a U235 nucleus, which
+     * may indicate that fission has occurred.
+     * 
+     * @param numProtons
+     * @param numNeutrons
+     * @param byProducts
+     */
+    private void handleU235AtomicWeightChange(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
+            ArrayList byProducts){
+        if (byProducts != null){
+            // There are some byproducts of this event that need to be
+            // managed by this object.
+            for (int i = 0; i < byProducts.size(); i++){
+                Object byProduct = byProducts.get( i );
+                if ((byProduct instanceof Neutron) || (byProduct instanceof Proton)){
+                    // Set a direction and velocity for this neutron.
+                    double angle = (_rand.nextDouble() * Math.PI * 2);
+                    double xVel = Math.sin( angle ) * FREED_NEUTRON_VELOCITY;
+                    double yVel = Math.cos( angle ) * FREED_NEUTRON_VELOCITY;
+                    ((Nucleon)byProduct).setVelocity( xVel, yVel );
+                    
+                    // Add this new particle to our list.
+                    _freeNeutrons.add( byProduct );
+                }
+                else if (byProduct instanceof AtomicNucleus){
+                    // Save the new daughter and let any listeners
+                    // know that it exists.
+                    AtomicNucleus daughterNucleus = (AtomicNucleus)byProduct;
+                    sendAddedNotifications( daughterNucleus );
+
+                    // Set random but opposite directions for the produced
+                    // nuclei.
+                    double angle = (_rand.nextDouble() * Math.PI * 2);
+                    double xVel = Math.sin( angle ) * INITIAL_DAUGHTER_NUCLEUS_VELOCITY;
+                    double yVel = Math.cos( angle ) * INITIAL_DAUGHTER_NUCLEUS_VELOCITY;
+                    double xAcc = Math.sin( angle ) * DAUGHTER_NUCLEUS_ACCELERATION;
+                    double yAcc = Math.cos( angle ) * DAUGHTER_NUCLEUS_ACCELERATION;
+                    nucleus.setVelocity( xVel, yVel );
+                    nucleus.setAcceleration( xAcc, yAcc );
+                    daughterNucleus.setVelocity( -xVel, -yVel );
+                    daughterNucleus.setAcceleration( -xAcc, -yAcc );
+                    
+                    // Add the daughter nucleus to our collection.
+                    _daughterNuclei.add( daughterNucleus );
+                }
+                else {
+                    // We should never get here, debug it if it does.
+                    System.err.println("Error: Unexpected byproduct of decay event.");
+                    assert false;
+                }
+            }
         }
     }
     
