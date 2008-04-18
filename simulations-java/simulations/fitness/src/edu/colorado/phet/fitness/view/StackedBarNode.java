@@ -2,14 +2,15 @@ package edu.colorado.phet.fitness.view;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
@@ -29,51 +30,16 @@ import edu.umd.cs.piccolox.nodes.PClip;
  * Apr 17, 2008 at 6:19:17 PM
  */
 public class StackedBarNode extends PNode {
+    private Function transform;
     private int barWidth;
     private PNode barChartElementNodeLayer = new PNode();
 
-    public static abstract class Thumb {
-        private String name;
-
-        public Thumb( String name ) {
-            this.name = name;
-        }
-
-        public abstract Shape getThumbShape( double barWidth );
+    public StackedBarNode( int barWidth ) {
+        this( new Function.IdentityFunction(), barWidth );
     }
 
-    public static final Thumb LEFT = new Thumb( "left" ) {
-
-        public Shape getThumbShape( double barWidth ) {
-            float triangleWidth = 7;
-            float triangleHeight = 7;
-            GeneralPath path = new GeneralPath();
-            path.moveTo( 0, 0 );
-            path.lineTo( -triangleWidth, triangleHeight );
-            path.lineTo( -triangleWidth, -triangleHeight );
-            path.lineTo( 0, 0 );
-            return path;
-        }
-    };
-    public static final Thumb RIGHT = new Thumb( "right" ) {
-        public Shape getThumbShape( double barWidth ) {
-            float triangleWidth = 7;
-            float triangleHeight = 7;
-            GeneralPath path = new GeneralPath();
-            path.moveTo( (float) barWidth, 0 );
-            path.lineTo( (float) ( triangleWidth+barWidth ), triangleHeight );
-            path.lineTo( (float) ( triangleWidth+barWidth ), -triangleHeight );
-            path.lineTo( (float) barWidth, 0 );
-            return path;
-        }
-    };
-    public static final Thumb NONE = new Thumb( "none" ) {
-        public Shape getThumbShape( double barWidth ) {
-            return new Line2D.Double( );
-        }
-    };
-
-    public StackedBarNode( int barWidth ) {
+    public StackedBarNode( Function transform, int barWidth ) {
+        this.transform = transform;
         this.barWidth = barWidth;
         addChild( barChartElementNodeLayer );
     }
@@ -99,16 +65,30 @@ public class StackedBarNode extends PNode {
     }
 
     private void relayout() {
-        double totalHeight = getTotalBarHeight();
+        double viewHeight = modelToView( getTotalModelValue() );
         double offsetY = 0;
         for ( int i = barChartElementNodeLayer.getChildrenCount() - 1; i >= 0; i-- ) {
             BarChartElementNode node = (BarChartElementNode) barChartElementNodeLayer.getChild( i );
-            node.setOffset( 0, offsetY - totalHeight );
-            offsetY += node.getBarChartElement().getValue();
+            node.setOffset( 0, offsetY - viewHeight );
+            offsetY += modelToView( node.getBarChartElement().getValue() );
         }
     }
 
-    private double getTotalBarHeight() {
+    private double modelToView( double model ) {
+        return transform.evaluate( model );
+    }
+
+    private double viewToModel( double view ) {
+        return transform.createInverse().evaluate( view );
+    }
+
+    private double viewToModelDelta( double deltaView ) {//assumes linear
+        double x0 = viewToModel( 0 );
+        double x1 = viewToModel( deltaView );
+        return x1 - x0;
+    }
+
+    private double getTotalModelValue() {
         double sum = 0;
         for ( int i = 0; i < barChartElementNodeLayer.getChildrenCount(); i++ ) {
             sum += ( (BarChartElementNode) barChartElementNodeLayer.getChild( i ) ).getBarChartElement().getValue();
@@ -172,8 +152,8 @@ public class StackedBarNode extends PNode {
             barThumb.addInputEventListener( new CursorHandler() );
             barThumb.addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
-                    double modelDX = event.getCanvasDelta().getHeight();
-                    barChartElement.setValue( Math.max( 0,barChartElement.getValue() - modelDX ));
+                    double modelDX = viewToModelDelta( event.getCanvasDelta().getHeight() );
+                    barChartElement.setValue( Math.max( 0, barChartElement.getValue() - modelDX ) );
                 }
             } );
             updateShape();
@@ -183,11 +163,11 @@ public class StackedBarNode extends PNode {
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
             htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, 0 );
-            barThumb.setPathTo( thumbLocation.getThumbShape(barWidth) );
+            barThumb.setPathTo( thumbLocation.getThumbShape( barWidth ) );
         }
 
         private Rectangle2D.Double createShape() {
-            return new Rectangle2D.Double( 0, 0, barWidth, barChartElement.getValue() );
+            return new Rectangle2D.Double( 0, 0, barWidth, modelToView( barChartElement.getValue() ) );
         }
 
         public BarChartElement getBarChartElement() {
@@ -250,6 +230,60 @@ public class StackedBarNode extends PNode {
         }
     }
 
+    public static class BarChartElementControl extends LinearValueControl {
+        public BarChartElementControl( final BarChartElement elm ) {
+            super( 0, 200, elm.getName(), "0.00", "Calories" );
+            setValue( elm.getValue() );
+            addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    elm.setValue( getValue() );
+                }
+            } );
+        }
+    }
+
+    public static abstract class Thumb {
+        private String name;
+
+        public Thumb( String name ) {
+            this.name = name;
+        }
+
+        public abstract Shape getThumbShape( double barWidth );
+    }
+
+    private static final float DEFAULT_TRIANGLE_WIDTH = 10;
+    public static final Thumb LEFT = new Thumb( "left" ) {
+
+        public Shape getThumbShape( double barWidth ) {
+            float triangleWidth = DEFAULT_TRIANGLE_WIDTH;
+            float triangleHeight = DEFAULT_TRIANGLE_WIDTH;
+            GeneralPath path = new GeneralPath();
+            path.moveTo( 0, 0 );
+            path.lineTo( -triangleWidth, triangleHeight );
+            path.lineTo( -triangleWidth, -triangleHeight );
+            path.lineTo( 0, 0 );
+            return path;
+        }
+    };
+    public static final Thumb RIGHT = new Thumb( "right" ) {
+        public Shape getThumbShape( double barWidth ) {
+            float triangleWidth = DEFAULT_TRIANGLE_WIDTH;
+            float triangleHeight = DEFAULT_TRIANGLE_WIDTH;
+            GeneralPath path = new GeneralPath();
+            path.moveTo( (float) barWidth, 0 );
+            path.lineTo( (float) ( triangleWidth + barWidth ), triangleHeight );
+            path.lineTo( (float) ( triangleWidth + barWidth ), -triangleHeight );
+            path.lineTo( (float) barWidth, 0 );
+            return path;
+        }
+    };
+    public static final Thumb NONE = new Thumb( "none" ) {
+        public Shape getThumbShape( double barWidth ) {
+            return new Line2D.Double();
+        }
+    };
+
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test Frame" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -257,8 +291,8 @@ public class StackedBarNode extends PNode {
         PhetPCanvas contentPane = new BufferedPhetPCanvas();
         frame.setContentPane( contentPane );
 
-
-        StackedBarNode barNode = new StackedBarNode( 100 );
+//        StackedBarNode barNode = new StackedBarNode( new Function.IdentityFunction(), 100 );
+        StackedBarNode barNode = new StackedBarNode( new Function.LinearFunction( 0.5 ), 100 );
         barNode.setOffset( 100, 360 );
         final BarChartElement bmr = new BarChartElement( "BMR", Color.red, 100 );
         barNode.addElement( bmr );
@@ -286,15 +320,4 @@ public class StackedBarNode extends PNode {
         controlPanel.pack();
     }
 
-    public static class BarChartElementControl extends LinearValueControl {
-        public BarChartElementControl( final BarChartElement elm ) {
-            super( 0, 200, elm.getName(), "0.00", "Calories" );
-            setValue( elm.getValue() );
-            addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    elm.setValue( getValue() );
-                }
-            } );
-        }
-    }
 }

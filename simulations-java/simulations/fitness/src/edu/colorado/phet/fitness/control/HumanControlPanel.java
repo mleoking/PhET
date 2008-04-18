@@ -38,6 +38,11 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         final LinearValueControl age = new HumanSlider( 0, 100 * 525600.0 * 60, human.getAge(), "Age", "0.00", "seconds" );
         age.getTextField().setColumns( 9 );
         add( age );
+        age.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                human.setAge( age.getValue() );
+            }
+        } );
         human.addListener( new Human.Adapter(){
             public void ageChanged() {
                 age.setValue( human.getAge() );

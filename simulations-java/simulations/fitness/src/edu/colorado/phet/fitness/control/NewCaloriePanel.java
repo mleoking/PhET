@@ -11,6 +11,7 @@ import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.MotionTimeSeriesModel;
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
@@ -61,12 +62,13 @@ public class NewCaloriePanel extends PNode {
 
         stackedBarChart = new StackedBarChartNode( "Calories/Day", 10 );
 
-        StackedBarNode intakeBars = new StackedBarNode( 100 );
+        Function.LinearFunction transform = new Function.LinearFunction( 0, 1500, 0, 200 );
+        StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids() ), StackedBarNode.LEFT );
         intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs() ), StackedBarNode.LEFT );
         intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins() ), StackedBarNode.LEFT );
 
-        StackedBarNode exerciseBars = new StackedBarNode( 100 );
+        StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
         exerciseBars.addElement( new BarChartElementAdapter( "BMR", FitnessColorScheme.BMR, model.getHuman().getBmr() ), StackedBarNode.RIGHT );
         exerciseBars.addElement( new BarChartElementAdapter( "Activity", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity() ), StackedBarNode.RIGHT );
         exerciseBars.addElement( new BarChartElementAdapter( "Exercise", FitnessColorScheme.EXERCISE, model.getHuman().getExercise() ), StackedBarNode.RIGHT );

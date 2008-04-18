@@ -12,6 +12,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.fitness.FitnessConstants;
@@ -29,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * FitnessCanvas is the canvas for FitnessModule.
  */
-public class FitnessCanvas extends PhetPCanvas {
+public class FitnessCanvas extends BufferedPhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
