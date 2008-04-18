@@ -2,6 +2,7 @@ package edu.colorado.phet.common.piccolophet;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -13,6 +14,13 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
  */
 public class BufferedPhetPCanvas extends PhetPCanvas {
     private BufferedImage bufferedImage;
+
+    public BufferedPhetPCanvas() {
+    }
+
+    public BufferedPhetPCanvas( Dimension2D pDimension ) {
+        super( pDimension );
+    }
 
     public void paintComponent( Graphics g ) {
         if ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
