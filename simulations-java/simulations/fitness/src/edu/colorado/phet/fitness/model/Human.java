@@ -54,16 +54,7 @@ public class Human {
 
     private void updateBMR() {
         bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getWeight(), getHeight(), getAge(), gender ) );
-        System.out.println( "bmr.getValue() = " + bmr.getValue() );
     }
-
-//    public Human( double age, double height, double weight, Gender gender, String name ) {
-//        this.age = new ;
-//        this.height = height;
-//        this.weight = weight;
-//        this.gender = gender;
-//        this.name = name;
-//    }
 
     /**
      * http://usmilitary.about.com/od/airforcejoin/a/afmaxweight.htm
@@ -159,9 +150,9 @@ public class Human {
 
     public void simulationTimeChanged( double simulationTimeChange ) {
         setAge( getAge() + simulationTimeChange );
-        double caloriesGained = getDeltaCaloriesGained();
-        double kgGained = FitnessUnits.caloriesToKG( caloriesGained );
-        setWeight( getWeight() + kgGained );
+        double caloriesGainedPerDay = getDeltaCaloriesGained();
+        double kgGainedPerDay = FitnessUnits.caloriesToKG( caloriesGainedPerDay );
+        setWeight( getWeight() + kgGainedPerDay * FitnessUnits.secondsToDays( simulationTimeChange ) );
     }
 
     private double getDeltaCaloriesGained() {

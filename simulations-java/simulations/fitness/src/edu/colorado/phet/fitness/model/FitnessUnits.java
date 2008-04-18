@@ -6,6 +6,7 @@ package edu.colorado.phet.fitness.model;
  */
 public class FitnessUnits {
     private static double SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
+    private static final double SECONDS_PER_DAY = 24 * 60 * 60;
 
     public static double secondsToYears( double sec ) {
         return sec / SECONDS_PER_YEAR;
@@ -29,6 +30,10 @@ public class FitnessUnits {
     }
 
     public static double yearsToSeconds( double years ) {
-        return years*SECONDS_PER_YEAR;
+        return years * SECONDS_PER_YEAR;
+    }
+
+    public static double secondsToDays( double seconds ) {
+        return seconds / SECONDS_PER_DAY;
     }
 }
