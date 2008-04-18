@@ -27,9 +27,13 @@ public class ShadowHTMLNode extends PNode {
     }
 
     public ShadowHTMLNode( String html ) {
+        this( html, Color.black );
+    }
+
+    public ShadowHTMLNode( String html, Color foreground ) {
         htmlGraphic = new HTMLNode( html );
         shadow = new HTMLNode( html );
-        shadow.setHTMLColor( Color.black );
+        shadow.setHTMLColor( foreground );
 
         addChild( shadow );
         addChild( htmlGraphic );

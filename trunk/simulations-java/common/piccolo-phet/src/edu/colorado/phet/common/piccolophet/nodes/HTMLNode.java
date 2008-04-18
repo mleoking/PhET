@@ -62,6 +62,10 @@ public class HTMLNode extends PNode {
         this( html, DEFAULT_FONT, DEFAULT_HTML_COLOR );
     }
 
+    public HTMLNode( String html, Color htmlColor ) {
+        this( html, DEFAULT_FONT, htmlColor );
+    }
+
     public HTMLNode( String html, Font font, Color htmlColor ) {
         this.html = html;
         this.font = font;
