@@ -209,6 +209,7 @@
         "zu" => "Zulu"
     );
 
+    // Beta has been removed but I'm keeping these here for reference
     define("SIM_RATING_BETA_MINUS",     "0");
     define("SIM_RATING_BETA",           "1");
     define("SIM_RATING_BETA_PLUS",      "2");
@@ -217,6 +218,7 @@
 
     $SIM_RATING_TO_IMAGE =
         array(
+            // Beta has been removed but these must stay to match the database
             SIM_RATING_BETA_MINUS   => 'beta-minus25x25.png',
             SIM_RATING_BETA_PLUS    => 'beta-plus25x25.png',
             SIM_RATING_BETA         => 'beta25x25.png',
@@ -226,6 +228,7 @@
 
     $SIM_RATING_TO_IMAGE_HTML =
         array(
+            // Beta has been removed but these must stay to match the database
             SIM_RATING_BETA_MINUS   => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_MINUS].'" alt="Beta Minus Rating Image"     width="37" title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
             SIM_RATING_BETA_PLUS    => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_PLUS].'"     alt="Beta Plus Rating Image"     width="37" title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
             SIM_RATING_BETA         => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA].'"         alt="Beta Rating Image"         width="37" title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
