@@ -1,7 +1,5 @@
 package edu.colorado.phet.fitness.view;
 
-import java.awt.*;
-
 import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -15,10 +13,14 @@ import edu.umd.cs.piccolo.PNode;
 public class StackedBarChartNode extends PNode {
     private PNode barLayer = new PNode();
     private int spacing;
+    private StackedBarChartAxisNode axisNode;
 
     public StackedBarChartNode( int spacing ) {
         this.spacing = spacing;
         addChild( barLayer );
+
+        axisNode = new StackedBarChartAxisNode( 10, 100, 300 );
+        addChild( axisNode );
     }
 
     public void addStackedBarNode( StackedBarNode node ) {
@@ -26,7 +28,26 @@ public class StackedBarChartNode extends PNode {
         updateLayout();
     }
 
+    //todo: convert to layout strategy pattern
     private void updateLayout() {
+        if ( barLayer.getChildrenCount() >= 1 ) {
+            StackedBarNode node = (StackedBarNode) barLayer.getChild( 0 );
+            node.setOffset( 0, 0 );
+            double dx = node.getFullBounds().getMaxX() - axisNode.getFullBounds().getX();
+            axisNode.offset( dx+2, 0 );
+//            axisNode.setOffset( node.getFullBounds().getMaxX() + axisNode.getFullBounds().getWidth(), 0 );
+
+            double xOffset = axisNode.getFullBounds().getMaxX()+2;
+            for ( int i = 1; i < barLayer.getChildrenCount(); i++ ) {
+                StackedBarNode ch = (StackedBarNode) barLayer.getChild( i );
+                ch.setOffset( xOffset, 0 );
+                xOffset += ch.getBarWidth() + spacing;
+            }
+        }
+
+    }
+
+    private void updateLayoutDefaultStrategy() {
         double xOffset = 0;
         for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
             StackedBarNode node = (StackedBarNode) barLayer.getChild( i );
@@ -53,8 +74,8 @@ public class StackedBarChartNode extends PNode {
         barNode2.addElement( new StackedBarNode.BarChartElement( "Carbs", FitnessColorScheme.CARBS, 75 ) );
         barNode2.addElement( new StackedBarNode.BarChartElement( "Proteins", FitnessColorScheme.PROTEIN, 150 ) );
 
-        stackedBarChart.addStackedBarNode( barNode );
         stackedBarChart.addStackedBarNode( barNode2 );
+        stackedBarChart.addStackedBarNode( barNode );
 
         contentPane.addScreenChild( stackedBarChart );
         stackedBarChart.setOffset( 100, 400 );

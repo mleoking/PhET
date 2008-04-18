@@ -56,7 +56,7 @@ public class StackedBarNode extends PNode {
 
                     public void cancelled( Color originalColor ) {
                     }
-                } );
+                },true );
             }
         } );
         barChartElementNodeLayer.addChild( node );
