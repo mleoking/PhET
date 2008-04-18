@@ -34,7 +34,7 @@ public class FitnessModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public FitnessModule( Frame parentFrame ) {
-        super( FitnessStrings.TITLE_FITNESS_MODULE, new ConstantDtClock( 30, FitnessDefaults.CLOCK_DT ) );
+        super( FitnessStrings.TITLE_FITNESS_MODULE, new ConstantDtClock( FitnessDefaults.CLOCK_DELAY, FitnessDefaults.CLOCK_DT ) );
 
         // Model
         _model = new FitnessModel( (ConstantDtClock) getClock() );
