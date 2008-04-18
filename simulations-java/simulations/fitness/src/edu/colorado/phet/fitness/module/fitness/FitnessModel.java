@@ -5,8 +5,8 @@ package edu.colorado.phet.fitness.module.fitness;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.fitness.control.Diet;
 import edu.colorado.phet.fitness.control.FoodItem;
+import edu.colorado.phet.fitness.model.Diet;
 import edu.colorado.phet.fitness.model.Human;
 
 /**
@@ -29,9 +29,10 @@ public class FitnessModel {
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
     public static final Diet BALANCED_DIET = new Diet( "Balanced Diet", 870, 1583, 432 );
-    private static final Diet[] availableDiets = new Diet[]{
-
-            BALANCED_DIET
+    public static final Diet FAST_FOOD_ONLY = new Diet( "Fast Food Only", 3000, 300, 150 );
+    public static final Diet[] availableDiets = new Diet[]{
+            BALANCED_DIET,
+            FAST_FOOD_ONLY
     };
     //----------------------------------------------------------------------------
     // Constructors

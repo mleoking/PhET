@@ -1,9 +1,9 @@
-package edu.colorado.phet.fitness.control;
+package edu.colorado.phet.fitness.model;
 
 /**
  * Created by: Sam
-* Apr 18, 2008 at 9:07:29 AM
-*/
+ * Apr 18, 2008 at 9:07:29 AM
+ */
 public class Diet {
     private String name;
     private double fat;
@@ -31,5 +31,9 @@ public class Diet {
 
     public double getProtein() {
         return protein;
+    }
+
+    public String toString() {
+        return name+", Fat Calories/Day: "+fat+", Carb Calories/Day: "+carb+", Protein Calories/Day: "+protein;
     }
 }

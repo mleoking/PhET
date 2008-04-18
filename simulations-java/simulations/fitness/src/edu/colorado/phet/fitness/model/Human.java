@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
-import edu.colorado.phet.fitness.control.Diet;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 
 /**
@@ -71,8 +70,9 @@ public class Human {
         } );
 
     }
-    public Diet getDiet(){
-        return FitnessModel.getDiet(lipids.getValue(),carbs.getValue(),proteins.getValue());
+
+    public Diet getDiet() {
+        return FitnessModel.getDiet( lipids.getValue(), carbs.getValue(), proteins.getValue() );
     }
 
     private void notifyDietChanged() {
@@ -81,7 +81,7 @@ public class Human {
         }
     }
 
-    private void setDiet( Diet diet ) {
+    public void setDiet( Diet diet ) {
         lipids.setValue( diet.getFat() );
         carbs.setValue( diet.getCarb() );
         proteins.setValue( diet.getProtein() );

@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.fitness.developer.DeveloperMenu;
@@ -45,6 +46,10 @@ public class FitnessApplication extends PiccoloPhetApplication {
         initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
+    }
+
+    protected PhetFrame createPhetFrame() {
+        return new PhetFrameWorkaround( this );
     }
 
     //----------------------------------------------------------------------------
