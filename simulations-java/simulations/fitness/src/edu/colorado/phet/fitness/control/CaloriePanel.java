@@ -3,8 +3,6 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
@@ -19,7 +17,6 @@ import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessResources;
-import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -54,7 +51,7 @@ public class CaloriePanel extends PNode {
                         protected void startDrag( PInputEvent event ) {
                             if ( foodItem == null ) {
                                 foodItem = model.getFoodItems()[i1].copy();
-                                System.out.println( "created: "+foodItem );
+                                System.out.println( "created: " + foodItem );
                             }
                         }
                     } );

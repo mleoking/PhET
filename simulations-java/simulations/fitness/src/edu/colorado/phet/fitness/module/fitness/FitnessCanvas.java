@@ -7,20 +7,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.fitness.FitnessConstants;
 import edu.colorado.phet.fitness.control.HumanControlPanel;
 import edu.colorado.phet.fitness.control.NewCaloriePanel;
-import edu.colorado.phet.fitness.view.HumanNode;
-import edu.colorado.phet.fitness.view.ScaleNode;
 import edu.colorado.phet.fitness.view.HumanAreaNode;
+import edu.colorado.phet.fitness.view.ScaleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
@@ -60,7 +57,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
-        setWorldTransformStrategy( new FitnessRenderingSizeStrategy(this,CANVAS_WIDTH,CANVAS_HEIGHT) );
+        setWorldTransformStrategy( new FitnessRenderingSizeStrategy( this, CANVAS_WIDTH, CANVAS_HEIGHT ) );
         _model = model;
 
         setBackground( FitnessConstants.CANVAS_BACKGROUND );

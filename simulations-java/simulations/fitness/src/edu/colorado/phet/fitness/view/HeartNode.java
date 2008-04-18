@@ -2,17 +2,17 @@ package edu.colorado.phet.fitness.view;
 
 import java.awt.*;
 
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.colorado.phet.fitness.model.Human;
-import edu.colorado.phet.fitness.FitnessResources;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.model.Human;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Created by: Sam
-* Apr 18, 2008 at 1:10:26 AM
-*/
+ * Apr 18, 2008 at 1:10:26 AM
+ */
 public class HeartNode extends PImage {
     private PImage heart;
     private Human human;
