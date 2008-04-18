@@ -11,7 +11,7 @@ class WhoWeArePage extends SitePage {
             return $result;
         }
 
-        $is_team_member = isset($GLOBALS['contributor_is_team_member']) ? $GLOBALS['contributor_is_team_member'] : 0;
+        $is_team_member = (isset($this->user)) ? $this->user["contributor_is_team_member"] : 0;
 
         print <<<EOT
         <img src="../images/contact-page.jpg" class="imageOne" alt="Image of the PhET Team" width="578"/>
@@ -91,6 +91,7 @@ EOT;
 
 EOT;
     }
+
 }
 
 $page = new WhoWeArePage("Who We Are", NAV_ABOUT_PHET, null);
