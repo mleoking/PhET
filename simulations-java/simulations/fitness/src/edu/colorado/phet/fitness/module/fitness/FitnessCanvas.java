@@ -42,8 +42,8 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     // View
     private PNode _rootNode;
 
-    private final double CANVAS_WIDTH = 4;
-    private final double CANVAS_HEIGHT = CANVAS_WIDTH * ( 3.0d / 4.0d );
+    public static final double CANVAS_WIDTH = 4;
+    public static final double CANVAS_HEIGHT = CANVAS_WIDTH * ( 3.0d / 4.0d );
 
     // Translation factors, used to set origin of canvas area.
     private RulerNode rulerNode;
@@ -59,13 +59,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
-        setWorldTransformStrategy( new RenderingSizeStrategy( this,
-                                                              new PDimension( CANVAS_WIDTH, CANVAS_HEIGHT ) ) {
-            protected AffineTransform getPreprocessedTransform() {
-                return AffineTransform.getTranslateInstance( getWidth() * 0.15,
-                                                             getHeight() * 0.6 );
-            }
-        } );
+        setWorldTransformStrategy( new FitnessRenderingSizeStrategy(this,CANVAS_WIDTH,CANVAS_HEIGHT) );
         _model = model;
 
         setBackground( FitnessConstants.CANVAS_BACKGROUND );

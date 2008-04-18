@@ -86,7 +86,7 @@ public class ScaleNode extends PNode {
     }
 
     private void updateWeightReadout() {
-        weightReadout.setText( "" + new DecimalFormat( "0.0" ).format( human.getWeight() ) + " kg" );
+        weightReadout.setText( "" + new DecimalFormat( "0.0" ).format( human.getMass() ) + " kg" );
         updateTextLayout();
     }
 

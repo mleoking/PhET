@@ -62,15 +62,15 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         double minWeight = 1;
         double maxWeight = 100;
-        final LinearValueControl weightControl = new HumanSlider( minWeight, maxWeight, human.getWeight(), "Weight", "0.00", "kg" );
+        final LinearValueControl weightControl = new HumanSlider( minWeight, maxWeight, human.getMass(), "Weight", "0.00", "kg" );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setWeight( weightControl.getValue() );
+                human.setMass( weightControl.getValue() );
             }
         } );
         human.addListener( new Human.Adapter(){
             public void weightChanged() {
-                weightControl.setValue( human.getWeight() );
+                weightControl.setValue( human.getMass() );
             }
         } );
         add( weightControl );
