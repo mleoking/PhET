@@ -2,6 +2,7 @@ package edu.colorado.phet.fitness.view;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -12,14 +13,16 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class StackedBarChartNode extends PNode {
     private PNode barLayer = new PNode();
+    private Function function;
     private int spacing;
     private StackedBarChartAxisNode axisNode;
 
-    public StackedBarChartNode( String title, int spacing ) {
-        this.spacing = spacing;
+    public StackedBarChartNode( Function function, String title, int horizontalInset, double minorTickSpacing, double majorTickSpacing, double maxYValue ) {
+        this.function = function;
+        this.spacing = horizontalInset;
         addChild( barLayer );
 
-        axisNode = new StackedBarChartAxisNode( title, 10, 100, 300 );
+        axisNode = new StackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
         addChild( axisNode );
     }
 
@@ -63,7 +66,7 @@ public class StackedBarChartNode extends PNode {
         PhetPCanvas contentPane = new BufferedPhetPCanvas();
         frame.setContentPane( contentPane );
 
-        StackedBarChartNode stackedBarChart = new StackedBarChartNode( "Calories/Day", 10 );
+        StackedBarChartNode stackedBarChart = new StackedBarChartNode( new Function.IdentityFunction(), "Calories/Day", 10, 10, 100, 300 );
         StackedBarNode barNode = new StackedBarNode( 100 );
         barNode.addElement( new StackedBarNode.BarChartElement( "BMR", FitnessColorScheme.BMR, 100 ) );
         barNode.addElement( new StackedBarNode.BarChartElement( "Activity", FitnessColorScheme.ACTIVITY, 200 ) );
