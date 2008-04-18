@@ -29,6 +29,8 @@
             $comments[] = $comment;
         }
 
+        stripslashes_deep($comments);
+
         return $comments;
     }
 
@@ -37,6 +39,8 @@
             'contribution_comment',
             array(
                 'contribution_comment_text' => $contribution_comment_text,
+                'contribution_comment_created' => "NOW()",
+                'contribution_comment_updated' => "NOW()",
                 'contribution_id'           => $contribution_id,
                 'contributor_id'            => $contributor_id
             )
@@ -45,8 +49,12 @@
         return $id;
     }
 
+    function contribution_update_comment($comment_id, $contribution_comment_text) {
+        return db_update_table("contribution_comment", array("contribution_comment_text" => $contribution_comment_text), "contribution_comment_id", $comment_id);
+    }
+
     function contribution_delete_comment($contribution_comment_id) {
-        return db_delete_row('contribution_comment_id', array( 'contribution_comment_id' => $contribution_comment_id ) );
+        return db_delete_row('contribution_comment', array( 'contribution_comment_id' => $contribution_comment_id ) );
     }
 
     function contribution_get_files_listing_html($contribution_id) {
@@ -75,19 +83,26 @@
         return $files_html;
     }
 
+    /**
+     * This function is unused
+     *
+     * @param unknown_type $contribution_id
+     * @return unknown
+     */
     function contribution_get_simulations_listing_html($contribution_id) {
         $simulations_html = "<ul>";
 
         $simulation_listings = contribution_get_associated_simulation_listings($contribution_id);
 
         foreach($simulation_listings as $simulation_listing) {
-            eval(get_code_to_create_variables_from_array($simulation_listing));
-
+            //eval(get_code_to_create_variables_from_array($simulation_listing));
+            $sim_id = $simulation_listing["sim_id"];
             $simulation = sim_get_sim_by_id($sim_id);
 
-            eval(get_code_to_create_variables_from_array($simulation));
-
-            $delete = "<input name=\"delete_simulation_contribution_id_${simulation_contribution_id}\" type=\"submit\" value=\"Delete\" />";
+            //eval(get_code_to_create_variables_from_array($simulation));
+            $sim_name = $simulation["sim_name"];
+            $simulation_contribution_id = $simulation["simulation_contribution_id"]; 
+            $delete = "<input name=\"delete_simulation_contribution_id_{$simulation_contribution_id}\" type=\"submit\" value=\"Delete\" />";
 
             $sim_url = sim_get_url_to_sim_page($sim_id);
 
@@ -382,15 +397,16 @@ EOT;
 
     function print_new_account_form_panel($form_action, $referrer, $hidden_inputs = "") {
         if (isset($GLOBALS['contributor_email'])) {
-            $contributor_email         = $GLOBALS['contributor_email'];
-            $contributor_name          = get_global_opt('contributor_name');
-            $contributor_organization  = get_global_opt('contributor_organization');
+            // This should never be the case anymore
+            $contributor_email         = format_string_for_html($GLOBALS['contributor_email']);
+            $contributor_name          = format_string_for_html(get_global_opt('contributor_name'));
+            $contributor_organization  = format_string_for_html(get_global_opt('contributor_organization'));
             $contributor_desc          = get_global_opt('contributor_desc');
         }
         else if (isset($_REQUEST['contributor_email'])) {
-            $contributor_email         = $_REQUEST['contributor_email'];
-            $contributor_name          = get_request_opt('contributor_name');
-            $contributor_organization  = get_request_opt('contributor_organization');
+            $contributor_email         = format_string_for_html($_REQUEST['contributor_email']);
+            $contributor_name          = format_string_for_html(get_request_opt('contributor_name'));
+            $contributor_organization  = format_string_for_html(get_request_opt('contributor_organization'));
             $contributor_desc          = get_request_opt('contributor_desc');
         }
         else {
@@ -528,7 +544,27 @@ EOT;
         }
 
         $contribution = format_for_html($contribution);
-        eval(get_code_to_create_variables_from_array($contribution));
+        // Removing unsafe function 'get_code_to_create_variables_from_array',
+        // just doing the equivalent by hand
+        //eval(get_code_to_create_variables_from_array($contribution));
+        $contribution_id = $contribution["contribution_id"];
+        $contribution_title = $contribution["contribution_title"];
+        $contribution_authors = $contribution["contribution_authors"];
+        $contribution_keywords = $contribution["contribution_keywords"];
+        $contribution_approved = $contribution["contribution_approved"];
+        $contribution_desc = $contribution["contribution_desc"];
+        $contribution_duration = $contribution["contribution_duration"];
+        $contribution_answers_included = $contribution["contribution_answers_included"];
+        $contribution_contact_email = $contribution["contribution_contact_email"];
+        $contribution_authors_organization = $contribution["contribution_authors_organization"];
+        $contribution_date_created = $contribution["contribution_date_created"];
+        $contribution_date_updated = $contribution["contribution_date_updated"];
+        $contribution_nomination_count = $contribution["contribution_nomination_count"];
+        $contribution_flagged_count = $contribution["contribution_flagged_count"];
+        $contribution_standards_compliance = $contribution["contribution_standards_compliance"];
+        $contribution_from_phet = $contribution["contribution_from_phet"];
+        $contribution_is_gold_star = $contribution["contribution_is_gold_star"];
+        $contributor_id = $contribution["contributor_id"];
 
         /*
          * No don't do that, that doesn't make sense.
@@ -572,7 +608,7 @@ EOT;
             <noscript>
                <p><strong><em>Please take note: </em></strong></p><p>Your browser does not support scripting, or it is turned off.  You must have scripting enabled to be able to submit information.</p>
             </noscript>
-            <form id="contributioneditform" method="post" action="$script" enctype="multipart/form-data">
+            <form id="contributioneditform" method="post" action="{$script}" enctype="multipart/form-data">
                 <fieldset>
                     <legend>Required Information</legend>
 
@@ -968,7 +1004,6 @@ EOT;
     }
 
     function contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member, $referrer = '') {
-        // eval(get_code_to_create_variables_from_array($contribution));
         $contribution_id       = $contribution['contribution_id'];
         $contribution_title    = format_string_for_html($contribution['contribution_title']);
         $contribution_authors  = format_string_for_html($contribution['contribution_authors']);
@@ -1969,6 +2004,7 @@ EOT;
         return $new_contribs;
     }
 
+
     function contribution_explode_contributions($contributions) {
         // Index by number:
         $contributions = array_values($contributions);
@@ -2251,6 +2287,7 @@ EOT;
 
         return $contributors;
     }
+
 
     /**
      * Get the contributor information with the given username
@@ -2549,6 +2586,7 @@ EOT;
         return mysql_fetch_assoc($result);
     }
 
+
     /**
      * Finds contributor data give the email address
      *
@@ -2564,6 +2602,7 @@ EOT;
 
         return mysql_fetch_assoc($result);
     }
+
 
     function contributor_print_desc_list($contributor_desc, $wide) {
         if ($wide) {
@@ -2613,7 +2652,29 @@ EOT;
 
         $contributor = contributor_get_contributor_by_id($contributor_id);
 
-        eval(get_code_to_create_variables_from_array($contributor));
+        // Removing unsafe function 'get_code_to_create_variables_from_array',
+        // just doing the equivalent by hand
+        //eval(get_code_to_create_variables_from_array($contributor));
+        $contributor = format_for_html($contributor );
+        $contributor_id = $contributor["contributor_id"];
+        $contributor_email = $contributor["contributor_email"];
+        $contributor_password = $contributor["contributor_password"];
+        $contributor_is_team_member = $contributor["contributor_is_team_member"];
+        $contributor_name = $contributor["contributor_name"];
+        $contributor_organization = $contributor["contributor_organization"];
+        $contributor_address = $contributor["contributor_address"];
+        $contributor_office = $contributor["contributor_office"];
+        $contributor_city = $contributor["contributor_city"];
+        $contributor_state = $contributor["contributor_state"];
+        $contributor_country = $contributor["contributor_country"];
+        $contributor_postal_code = $contributor["contributor_postal_code"];
+        $contributor_primary_phone = $contributor["contributor_primary_phone"];
+        $contributor_secondary_phone = $contributor["contributor_secondary_phone"];
+        $contributor_fax = $contributor["contributor_fax"];
+        $contributor_title = $contributor["contributor_title"];
+        $contributor_receive_email = $contributor["contributor_receive_email"];
+        $contributor_last_known_ip = $contributor["contributor_last_known_ip"];
+        $contributor_desc = $contributor["contributor_desc"];
 
         if ($contributor_desc == '') {
             $contributor_desc = DEFAULT_CONTRIBUTOR_DESC;
@@ -2831,6 +2892,35 @@ EOT;
         foreach($contributor as $key => $value) {
             $GLOBALS["$key"] = "$value";
         }
+    }
+
+    // For lack of a better place right now
+    function comment_id_is_valid($comment_id) {
+        return !(false === db_get_row_by_condition("contribution_comment", array("contribution_comment_id" => $comment_id)));
+    }
+
+    function comment_get_comment_by_id($comment_id) {
+        return db_get_row_by_condition("contribution_comment", array("contribution_comment_id" => $comment_id));
+    }
+
+    function comment_get_all_comments() {
+        // Set up the query by hand
+        $sql = "SELECT * FROM `contribution_comment` ".
+            "LEFT JOIN `contribution` ".
+            "ON `contribution_comment`.`contribution_id`=`contribution`.`contribution_id` ".
+            "LEFT JOIN `contributor` ".
+            "ON `contribution_comment`.`contributor_id`=`contributor`.`contributor_id`";
+        $result = db_exec_query($sql);
+
+        // Parse the results
+        $rows = array();
+        while ($row = mysql_fetch_assoc($result)) {
+            $rows[] = $row;
+        }
+
+        stripslashes_deep($rows);
+
+        return $rows;
     }
 
 ?>

@@ -44,7 +44,7 @@ class IndividualSimulationPage extends SitePage {
         $this->sim_rating_html = $SIM_RATING_TO_IMAGE_HTML["$sim_rating"];
         $this->sim_type_html   = $SIM_TYPE_TO_IMAGE_HTML[$sim_type];
         $this->sim_launch_url  = sim_get_launch_url($this->simulation);
-        $sim_image_url   = sim_get_screenshot($this->simulation);
+        $this->sim_image_url   = sim_get_screenshot($this->simulation);
 
         // Temp change while PhET team decides how to handle ratings; for now just
         // include under construction & classroom tested:
@@ -101,7 +101,33 @@ class IndividualSimulationPage extends SitePage {
 
         $simulation = sim_get_sim_by_id($sim_id);
 */
-        eval(get_code_to_create_variables_from_array($this->simulation));
+        // Removing unsafe function 'get_code_to_create_variables_from_array',
+        // just doing the equivalent by hand
+        //eval(get_code_to_create_variables_from_array($this->simulation));
+        $sim_id = $this->simulation["sim_id"];
+        $sim_name = $this->simulation["sim_name"];
+        $sim_dirname = $this->simulation["sim_dirname"];
+        $sim_flavorname = $this->simulation["sim_flavorname"];
+        $sim_rating = $this->simulation["sim_rating"];
+        $sim_no_mac = $this->simulation["sim_no_mac"];
+        $sim_crutch = $this->simulation["sim_crutch"];
+        $sim_type = $this->simulation["sim_type"];
+        $sim_size = $this->simulation["sim_size"];
+        $sim_launch_url = $this->simulation["sim_launch_url"];
+        $sim_image_url = $this->simulation["sim_image_url"];
+        $sim_desc = $this->simulation["sim_desc"];
+        $sim_keywords = $this->simulation["sim_keywords"];
+        $sim_system_req = $this->simulation["sim_system_req"];
+        $sim_teachers_guide_url = $this->simulation["sim_teachers_guide_url"];
+        $sim_main_topics = $this->simulation["sim_main_topics"];
+        $sim_design_team = $this->simulation["sim_design_team"];
+        $sim_libraries = $this->simulation["sim_libraries"];
+        $sim_thanks_to = $this->simulation["sim_thanks_to"];
+        $sim_sample_goals = $this->simulation["sim_sample_goals"];
+        $sim_sorting_name = $this->simulation["sim_sorting_name"];
+        $sim_animated_image_url = $this->simulation["sim_animated_image_url"];
+        $sim_is_real = $this->simulation["sim_is_real"];
+
         $formatted_sim_name = format_string_for_html($sim_name);
         $formatted_sim_desc = format_string_for_html($sim_desc);
 
@@ -174,7 +200,7 @@ EOT;
 
             <div id="simpreview">
                 <a href="{$this->sim_launch_url}" {$this->on_click_html}>
-                    <img src="{$sim_image_url}" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300" height="225"/>
+                    <img src="{$this->sim_image_url}" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300" height="225"/>
                 </a>
 
                 <div id="simrunoptions">

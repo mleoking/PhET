@@ -1516,3 +1516,30 @@ text-decoration: underline;
     font-weight: bold;
     color: red;
 }
+
+.result_box_success {
+    border: 1px solid green;
+    background-color: #ccffcc;
+    padding: 10px 10px 10px 10px;
+}
+
+.result_box_success p{
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 20px;
+}
+
+.result_box_failure {
+    border: 1px solid red;
+    background-color: #ffcccc;
+    padding: 10px 10px 10px 10px;
+}
+
+.result_box_failure p {
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 20px;
+}
+
+.result_box_heading {
+    font-weight: bold;
+}
+

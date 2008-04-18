@@ -71,7 +71,32 @@ class EditSimPage extends SitePage {
             return;
         }
 
-        eval(get_code_to_create_variables_from_array($simulation));
+        // Removing unsafe function 'get_code_to_create_variables_from_array',
+        // just doing the equivalent by hand
+        //eval(get_code_to_create_variables_from_array($simulation));
+        $sim_id = $simulation["sim_id"];
+        $sim_name = $simulation["sim_name"];
+        $sim_dirname = $simulation["sim_dirname"];
+        $sim_flavorname = $simulation["sim_flavorname"];
+        $sim_rating = $simulation["sim_rating"];
+        $sim_no_mac = $simulation["sim_no_mac"];
+        $sim_crutch = $simulation["sim_crutch"];
+        $sim_type = $simulation["sim_type"];
+        $sim_size = $simulation["sim_size"];
+        $sim_launch_url = $simulation["sim_launch_url"];
+        $sim_image_url = $simulation["sim_image_url"];
+        $sim_desc = $simulation["sim_desc"];
+        $sim_keywords = $simulation["sim_keywords"];
+        $sim_system_req = $simulation["sim_system_req"];
+        $sim_teachers_guide_url = $simulation["sim_teachers_guide_url"];
+        $sim_main_topics = $simulation["sim_main_topics"];
+        $sim_design_team = $simulation["sim_design_team"];
+        $sim_libraries = $simulation["sim_libraries"];
+        $sim_thanks_to = $simulation["sim_thanks_to"];
+        $sim_sample_goals = $simulation["sim_sample_goals"];
+        $sim_sorting_name = $simulation["sim_sorting_name"];
+        $sim_animated_image_url = $simulation["sim_animated_image_url"];
+        $sim_is_real = $simulation["sim_is_real"];
 
         print <<<EOT
             <form enctype="multipart/form-data" action="update-sim.php" method="post">

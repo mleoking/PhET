@@ -28,6 +28,7 @@ class AdminControlPanelPage extends SitePage {
             <h3>Contributions</h3>
             <ul>
                 <li><a href="manage-contributors.php">Manage Contributors</a></li>
+                <li><a href="manage-comments.php">Manage Comments</a></li>
             </ul>
 
             <h3>Database</h3>

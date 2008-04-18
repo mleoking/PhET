@@ -72,7 +72,8 @@ EOT;
             $auto_order = 1;
 
             foreach(sim_get_sim_listings_by_cat_id($cat_id) as $sim_listing) {
-                eval(get_code_to_create_variables_from_array($sim_listing));
+                $simulation_listing_id = $sim_listing["simulation_listing_id"];
+                $simulation_listing_order = $sim_listing["simulation_listing_order"];
 
                 $sim = sim_get_sim_by_id($sim_listing['sim_id']);
 

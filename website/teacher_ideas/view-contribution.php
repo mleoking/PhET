@@ -30,7 +30,27 @@ class ViewContribution extends SitePage {
         $type_names    = contribution_get_type_names_for_contribution($contribution_id);
 
         $contribution = format_for_html($contribution);
-        eval(get_code_to_create_variables_from_array($contribution));
+        // Removing unsafe function 'get_code_to_create_variables_from_array',
+        // just doing the equivalent by hand
+        //eval(get_code_to_create_variables_from_array($contribution));
+        $contribution_id = $contribution["contribution_id"];
+        $contribution_title = $contribution["contribution_title"];
+        $contribution_authors = $contribution["contribution_authors"];
+        $contribution_keywords = $contribution["contribution_keywords"];
+        $contribution_approved = $contribution["contribution_approved"];
+        $contribution_desc = $contribution["contribution_desc"];
+        $contribution_duration = $contribution["contribution_duration"];
+        $contribution_answers_included = $contribution["contribution_answers_included"];
+        $contribution_contact_email = $contribution["contribution_contact_email"];
+        $contribution_authors_organization = $contribution["contribution_authors_organization"];
+        $contribution_date_created = $contribution["contribution_date_created"];
+        $contribution_date_updated = $contribution["contribution_date_updated"];
+        $contribution_nomination_count = $contribution["contribution_nomination_count"];
+        $contribution_flagged_count = $contribution["contribution_flagged_count"];
+        $contribution_standards_compliance = $contribution["contribution_standards_compliance"];
+        $contribution_from_phet = $contribution["contribution_from_phet"];
+        $contribution_is_gold_star = $contribution["contribution_is_gold_star"];
+        $contributor_id = $contribution["contributor_id"];
 
         // Perform cleanup for some fields:
         $contribution_keywords = convert_comma_list_into_linked_keyword_list($contribution_keywords);
@@ -65,11 +85,22 @@ class ViewContribution extends SitePage {
 
         $comments_html = '';
 
-        foreach($comments as $comment) {
-            $comments_html .= '<p class="comment">&quot;<em>';
-            $comments_html .= $comment['contribution_comment_text'];
-            $comments_html .= '</em>&quot; - '.$comment['contributor_name'];
-            $comments_html .= '</p>';
+        if ($comment_count == 0) {
+            $comments_html = "<em>There are no comments for this activity yet</em>";
+        }
+        else {
+            foreach($comments as $comment) {
+                $comments_html .= '<p class="comment">&quot;<em>';
+                $comments_html .= format_string_for_html($comment['contribution_comment_text']);
+                $comments_html .= '</em>&quot; - '.format_string_for_html($comment['contributor_name']);
+                if (($this->user["contributor_id"] == $comment["contributor_id"]) ||
+                    ($this->user["contributor_is_team_member"])) {
+                    $ref = "referrer=../teacher_ideas/view-contribution.php?contribution_id={$contribution["contribution_id"]}";
+                    $comments_html .= " (<a href=\"edit-comment.php?comment_id=".$comment["contribution_comment_id"]."&amp;{$ref}\">edit</a>,";
+                    $comments_html .= " <a href=\"delete-comment.php?comment_id=".$comment["contribution_comment_id"]."&amp;{$ref}\">delete</a>)";
+                }
+                $comments_html .= '</p>';
+            }
         }
 
         $contribution_simulations = contribution_get_simulation_listings_as_list($contribution_id);
@@ -208,25 +239,42 @@ EOT;
         print <<<EOT
             </div>
 
-            <div class="field">
-                <span class="label_content">
-                    <a href="#" onclick="$(this).parent().parent().next().toggle(300); return false;">$comment_count comments</a>
-                    (<a href="#" onclick="$(this).parent().parent().next().next().next().toggle(300);return false;">add</a>)
-                </span>
+            <h3>Nominations</h3>
 
-                <span class="label">
-                    comments
-                </span>
+            <p><em>Contributions that meet the Gold Star criteria may be nominated as Gold Star contributions to direct teachers toward them and to recognize the teachers that created them.</em></p>
+
+            <p><a href="javascript:void;" onclick="$(this).parent().next().toggle(300); return false;">Nominate this contribution as a Gold Star Activity</a></p>
+
+            <div id="nominate-contribution" style="display: none;">
+                <form method="get" action="../teacher_ideas/nominate-contribution.php">
+                    <div>
+                        <input type="hidden" name="contribution_id" value="$contribution_id" />
+                    </div>
+
+                    <table class="form">
+                        <tr>
+                            <td>reason for nomination</td>    <td><textarea name="contribution_nomination_desc" rows="5" cols="50"></textarea></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" name="submit" value="Nominate" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
             </div>
 
-            <div class="comments" style="display: none">
-                $comments_html
-            </div>
+            <div>
+            <h3>Comments</h3>
+            <p>What do you think about this activity?
+                How did you use it or change it for your class?
+                Professionally constructive comments welcome.
+                (<a href="#" onclick="$(this).parent().next().toggle(300);return false;">add comment</a>)
+            </p>
 
-            <hr/>
-
-            <div style="display: none">
-                <form method="get" action="add-comment.php" onsubmit="javascript:return false;">
+            <div id="hidden_comment_box" style="display: none">
+            <form method="get" action="add-comment.php" onsubmit="javascript:return false;">
                     <p>
                         <input type="hidden" name="contribution_id" value="{$contribution_id}" />
                         <input type="hidden" name="referrer"        value="{$php_self}?contribution_id={$contribution_id}&amp;referrer={$this->referrer}" />
@@ -256,30 +304,12 @@ EOT;
                 </form>
             </div>
 
-            <h3>Nominations</h3>
+            <div class="comments">
+                $comments_html
+            </div>  
 
-            <p><em>Contributions that meet the Gold Star criteria may be nominated as Gold Star contributions to direct teachers toward them and to recognize the teachers that created them.</em></p>
+            <hr/>
 
-            <p><a href="javascript:void;" onclick="$(this).parent().next().toggle(300); return false;">Nominate this contribution as a Gold Star Activity</a></p>
-
-            <div id="nominate-contribution" style="display: none;">
-                <form method="get" action="../teacher_ideas/nominate-contribution.php">
-                    <div>
-                        <input type="hidden" name="contribution_id" value="$contribution_id" />
-                    </div>
-
-                    <table class="form">
-                        <tr>
-                            <td>reason for nomination</td>    <td><textarea name="contribution_nomination_desc" rows="5" cols="50"></textarea></td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="2">
-                                <input type="submit" name="submit" value="Nominate" />
-                            </td>
-                        </tr>
-                    </table>
-                </form>
             </div>
 
         </div>
@@ -288,9 +318,10 @@ EOT;
 
 EOT;
     }
+
 }
 
-$page = new ViewContribution("View Contributions", NAV_TEACHER_IDEAS, get_referrer("teacher_ideas/manage-contributions.php"), SP_AUTHLEVEL_NONE);
+$page = new ViewContribution("View Contributions", NAV_TEACHER_IDEAS, get_referrer("../teacher_ideas/manage-contributions.php"), SP_AUTHLEVEL_NONE);
 $page->update();
 $page->render();
 

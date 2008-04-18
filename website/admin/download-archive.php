@@ -19,7 +19,7 @@
         $files = contribution_get_contribution_files($contribution_id);
 
         foreach($files as $file) {
-            //eval(get_code_to_create_variables_from_array($file));
+            // TODO: Test if the file name needs to be unescaped
 
             $decoded_file_contents = base64_decode($file['contribution_file_contents']);
 
