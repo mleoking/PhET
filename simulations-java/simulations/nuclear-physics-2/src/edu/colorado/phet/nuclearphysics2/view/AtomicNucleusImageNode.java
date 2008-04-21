@@ -16,6 +16,8 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
         // Create a graphical image that will represent this nucleus in
         // the view.
         _displayImage = NuclearPhysics2Resources.getImageNode("Uranium Nucleus Small.png");
+//        _displayImage = NucleusImageFactory.generateNucleusImage( atomicNucleus.getNumNeutrons(), 
+//                atomicNucleus.getNumProtons() );
         
         _displayImage.scale( (atomicNucleus.getDiameter()/1.5)/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
         addChild(0, _displayImage);

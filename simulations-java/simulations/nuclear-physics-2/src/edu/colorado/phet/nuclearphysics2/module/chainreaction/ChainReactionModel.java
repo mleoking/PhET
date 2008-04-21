@@ -30,23 +30,27 @@ public class ChainReactionModel {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    public static final double MODEL_WORLD_WIDTH = 300;
-    public static final double MODEL_WORLD_HEIGHT = MODEL_WORLD_WIDTH * 0.75;
-    private static final double NUCLEUS_PROXIMITY_LIMIT = 15.0;
     
-    // Controls position of the neutron source.
-    private static final double NEUTRON_SOURCE_POS_X = -35;
+    // Constants that control the range within the model where nuclei may be
+    // initially located.
+    private static final double MAX_NUCLEUS_RANGE_X = 400;
+    private static final double MAX_NUCLEUS_RANGE_Y = MAX_NUCLEUS_RANGE_X * 0.75;
+    private static final double INTER_NUCLEUS_PROXIMITRY_LIMIT = 12;
+    
+    // Constants that control the position of the neutron source.
+    private static final double NEUTRON_SOURCE_POS_X = -50;
     private static final double NEUTRON_SOURCE_POS_Y = 0;
+    
+    // Constant rect that defines a space around the neutron source where
+    // nuclei cannot initially be located.  This is just tweaked until things
+    // look right.
+    private static final Rectangle2D NEUTRON_SOURCE_OFF_LIMITS_RECT = 
+        new Rectangle2D.Double( NEUTRON_SOURCE_POS_X - 70, NEUTRON_SOURCE_POS_Y - 20, 80, 50 );
     
     // Constants that control the behavior of fission products.
     private static final double FREED_NEUTRON_VELOCITY = 3;
     private static final double INITIAL_DAUGHTER_NUCLEUS_VELOCITY = 0;
     private static final double DAUGHTER_NUCLEUS_ACCELERATION = 0.2;
-    
-    // A rectangle that is used to keep nuclei from being placed too close
-    // to the neutron source.  Tweak it to meet the needs of the sim.
-    private static final Rectangle2D NEUTRON_SOURCE_RECT = new Rectangle2D.Double(NEUTRON_SOURCE_POS_X - 30, 
-            NEUTRON_SOURCE_POS_Y - 20, 50, 50);
     
     //------------------------------------------------------------------------
     // Instance data
@@ -350,24 +354,24 @@ public class ChainReactionModel {
     private Point2D getOpenNucleusLocation(){
         for (int i = 0; i < 100; i++){
             // Randomly select an x & y position
-            double xPos = (MODEL_WORLD_WIDTH / 2) * (_rand.nextDouble() - 0.5); 
-            double yPos = (MODEL_WORLD_HEIGHT / 2) * (_rand.nextDouble() - 0.5);
+            double xPos = (MAX_NUCLEUS_RANGE_X / 2) * (_rand.nextDouble() - 0.5); 
+            double yPos = (MAX_NUCLEUS_RANGE_Y / 2) * (_rand.nextDouble() - 0.5);
             Point2D position = new Point2D.Double(xPos, yPos);
             
             // Check if this point is taken.
             boolean pointTaken = false;
-            if (NEUTRON_SOURCE_RECT.contains( position )){
+            if (NEUTRON_SOURCE_OFF_LIMITS_RECT.contains( position )){
                 // Too close to the neutron source.
                 pointTaken = true;
             }
             for (int j = 0; (j < _u235Nuclei.size()) && (pointTaken == false); j++){
-                if (position.distance( ((AtomicNucleus)_u235Nuclei.get(j)).getPosition()) < NUCLEUS_PROXIMITY_LIMIT){
+                if (position.distance( ((AtomicNucleus)_u235Nuclei.get(j)).getPosition()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
                     // This point is taken.
                     pointTaken = true;
                 }
             }
             for (int j = 0; (j < _u238Nuclei.size()) && (pointTaken == false); j++){
-                if (position.distance( ((AtomicNucleus)_u238Nuclei.get(j)).getPosition()) < NUCLEUS_PROXIMITY_LIMIT){
+                if (position.distance( ((AtomicNucleus)_u238Nuclei.get(j)).getPosition()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
                     // This point is taken.
                     pointTaken = true;
                 }
