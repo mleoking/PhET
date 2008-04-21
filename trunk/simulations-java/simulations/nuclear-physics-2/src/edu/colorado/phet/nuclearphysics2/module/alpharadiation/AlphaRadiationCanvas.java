@@ -193,16 +193,16 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         // Add the lines that make it clear that the tunneling radius is at
         // the point where the particle energy exceeds the potential energy.
         PPath leftBreakoutLine = new PPath(new Line2D.Double(-radius, 
-                CANVAS_HEIGHT * HEIGHT_TRANSLATION_FACTOR, -radius, 
-                CANVAS_HEIGHT * (1 - HEIGHT_TRANSLATION_FACTOR)));
+                -CANVAS_HEIGHT * HEIGHT_TRANSLATION_FACTOR, -radius, 
+                CANVAS_HEIGHT * (1 - 1/HEIGHT_TRANSLATION_FACTOR - (CHART_AREA_FRACTION * (1 - ENERGY_CHART_FRACTION) ))));
         leftBreakoutLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {2, 2 }, 0) );
         leftBreakoutLine.setStrokePaint( new Color(0x990099) );
         addWorldChild(leftBreakoutLine);
 
         PPath rightBreakoutLine = new PPath(new Line2D.Double(radius, 
-                CANVAS_HEIGHT * HEIGHT_TRANSLATION_FACTOR, radius, 
-                CANVAS_HEIGHT * (1 - HEIGHT_TRANSLATION_FACTOR)));
+                -CANVAS_HEIGHT * HEIGHT_TRANSLATION_FACTOR, radius, 
+                CANVAS_HEIGHT * (1 - 1/HEIGHT_TRANSLATION_FACTOR - (CHART_AREA_FRACTION * (1 - ENERGY_CHART_FRACTION) ))));
         rightBreakoutLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
                 new float[] {2, 2 }, 0) );
         rightBreakoutLine.setStrokePaint( new Color(0x990099) );
