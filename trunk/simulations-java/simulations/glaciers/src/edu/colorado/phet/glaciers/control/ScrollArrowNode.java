@@ -48,7 +48,7 @@ public abstract class ScrollArrowNode extends PhetPNode {
     private static final Point2D TAIL_POINT = new Point2D.Double( TIP_POINT.getX() - ( HEAD_HEIGHT + TAIL_LENGTH ), TIP_POINT.getY() );
     private static final Color FILL_COLOR = Color.WHITE;
     private static final Color STROKE_COLOR = Color.BLACK;
-    private static final Stroke STROKE = new BasicStroke( 1f );
+    private static final Stroke STROKE = new BasicStroke( 1.5f );
     
     //----------------------------------------------------------------------------
     // Instance data
