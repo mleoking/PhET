@@ -256,7 +256,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _coordinatesLayer.addChild( _distanceAxisNode );
         
         // Equilibrium line
-        _equilibriumLineNode = new EquilibriumLineNode( _model.getClimate(), _mvt );
+        _equilibriumLineNode = new EquilibriumLineNode( _model.getGlacier(), _mvt );
         _iceLayer.addChild( _equilibriumLineNode );
         
         // Toolbox
@@ -300,6 +300,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     public void setIceFlowVisible( boolean visible ) {
         _iceFlowNode.setVisible( visible );
+    }
+    
+    public static Point2D getBirdsEyeViewportOffset() {
+        return new Point2D.Double( BIRDS_EYE_VIEWPORT_OFFSET.getX(), BIRDS_EYE_VIEWPORT_OFFSET.getY() );
     }
     
     //----------------------------------------------------------------------------

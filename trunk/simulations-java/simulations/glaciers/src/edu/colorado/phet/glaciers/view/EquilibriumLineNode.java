@@ -5,12 +5,13 @@ package edu.colorado.phet.glaciers.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
-import java.awt.geom.Line2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.glaciers.model.Climate;
-import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
+import edu.colorado.phet.glaciers.model.Glacier;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -32,57 +33,48 @@ public class EquilibriumLineNode extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Climate _climate;
-    private ClimateListener _climateListener;
-    private ModelViewTransform _mvt;
-    private Point2D _pModel, _pView; // reusable points
+    private final Glacier _glacier;
+    private final GlacierListener _glacierListener;
+    private final ModelViewTransform _mvt;
+    private final Point2D _pModel, _pView; // reusable points
+    private final PPath _pathNode;
+    private final GeneralPath _path;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public EquilibriumLineNode( Climate climate, ModelViewTransform mvt ) {
+    public EquilibriumLineNode( Glacier glacier, ModelViewTransform mvt ) {
         super();
         
         setPickable( false );
         setChildrenPickable( false );
         
-        _climate = climate;
-        _climateListener = new ClimateListener() {
-
-            public void snowfallChanged() {
-                update();
-            }
-
-            public void snowfallReferenceElevationChanged() {
-                update();
-            }
-
-            public void temperatureChanged() {
+        _glacier = glacier;
+        _glacierListener = new GlacierAdapter() {
+            public void iceThicknessChanged() {
                 update();
             }
         };
-        _climate.addClimateListener( _climateListener );
+        _glacier.addGlacierListener( _glacierListener );
         
         _mvt = mvt;
         _pModel = new Point2D.Double();
         _pView = new Point2D.Double();
         
         // horizontal line
-        _pModel.setLocation( 80E3, 0 );
-        mvt.modelToView( _pModel, _pView );
-        Line2D path = new Line2D.Double( 0, 0, _pView.getX(), 0 );
-        PPath pathNode = new PPath( path );
-        pathNode.setStroke( STROKE );
-        pathNode.setStrokePaint( STROKE_COLOR );
-        addChild( pathNode );
+        _path = new GeneralPath();
+        _pathNode = new PPath();
+        _pathNode.setStroke( STROKE );
+        _pathNode.setStrokePaint( STROKE_COLOR );
+        addChild( _pathNode );
         
         // intialize
         update();
     }
     
     public void cleanup() {
-        _climate.removeClimateListener( _climateListener );
+        _glacier.removeGlacierListener( _glacierListener );
     }
     
     //----------------------------------------------------------------------------
@@ -91,11 +83,31 @@ public class EquilibriumLineNode extends PhetPNode {
     
     private void update() {
         
-        double ela = _climate.getELA();
-        _pModel.setLocation( 0, ela );
-        _mvt.modelToView( _pModel, _pView );
+        _path.reset();
         
-        // update position of this node
-        setOffset( _pView );
+        // start drawing at the left edge of the birds-eye view bounds
+        double ela = _glacier.getClimate().getELA();
+        _pModel.setLocation( PlayArea.getBirdsEyeViewportOffset().getX(), ela );
+        _mvt.modelToView( _pModel, _pView );
+        _path.moveTo( (float)_pView.getX(), (float)_pView.getY() );
+        
+        final double x0 = Glacier.getMinX();
+        final double y0 = _glacier.getValley().getElevation( x0 );
+        if ( ela > y0 ) {
+            // if the ELA is above the top of the headwall, then drawing at the headwall
+            _pModel.setLocation( x0, ela );
+            _mvt.modelToView( _pModel, _pView );
+            _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+        }
+        else {
+            //TODO this should be drawing a line to the ice-air interface as the glacier evolves
+            _pModel.setLocation( Glacier.getMaxX(), ela );
+            _mvt.modelToView( _pModel, _pView );
+            _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+            
+            //TODO then draw a vertical line across the surface of the ice extrusion as the glacier evolves
+        }
+        
+        _pathNode.setPathTo( _path );
     }
 }
