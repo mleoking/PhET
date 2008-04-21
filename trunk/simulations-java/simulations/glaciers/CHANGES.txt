@@ -24,16 +24,16 @@ MEDIUM PRIORITY:
 - ice textures for above/below ELA, and in/on ice
 - morph or move ice textures to show downvalley motion
 - model borehole as a set of moving points, connected via line segments
-- make mountains image big enough so that all we see is sky when the birds-eye view is made very wide
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
+- remove tools by dragging them back to the trash can (or toolbox?)
+- make ice thickness tool adjust its caliper to fit the ice thickness
 - adjust magnification of zoomed view?
 - adjust aspect ratio?
-- remove tools by dragging them back to the trash can (or toolbox?)
-- generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
-- should Glacial Budget vs Elevation chart show negative ablation?
-- make ice thickness tool adjust its caliper to fit the ice thickness
+- add Advanced panel
 
 LOW PRIORITY:
+- make mountains image big enough so that all we see is sky when the birds-eye view is made very wide
+- generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 - confirm that titles and axes on graphs are as desired
 - fancy animation when a tool is dropped in the trash
 - constrain tools to dragging in birds-eye bounds
@@ -47,13 +47,14 @@ LOW PRIORITY:
 - add Help menu option to show pictures of real glaciers
 - ticks & labels on sliders should be white, code to set their color is not working (Mac only?)
 - display distance and/or elevation as km ?
-- add variable caliper size to ice measuring tool
 - make mercury in thermometers move as temperature changes
 - add rounded borders to control sub-panels
 - main control panel should be the same height in all modules
 - why doesn't image created by GPSReceiverNode.createImage show coordinate values? Is it because PSwing component isn't realized?
 - rotate some of the tool icons to reduce height of toolbox?
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
+- should Glacial Budget vs Elevation chart show negative ablation?
+- use same colors in Glacial Budget chart and glacial budget meter
 
 
 MIGRATE TO PHETCOMMON:
