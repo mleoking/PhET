@@ -29,7 +29,6 @@ MEDIUM PRIORITY:
 - adjust magnification of zoomed view?
 - adjust aspect ratio?
 - remove tools by dragging them back to the trash can (or toolbox?)
-- add left and right arrows to zoom view, secondary viewport control
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 - should Glacial Budget vs Elevation chart show negative ablation?
 - make ice thickness tool adjust its caliper to fit the ice thickness
@@ -70,6 +69,7 @@ CLEANUP:
 
 
 DONE:
+4/21/08 - add left and right arrows to zoom view, as a secondary viewport control
 ******** 0.00.13 (20775)
 4/16/08 - reuse some objects in model & view of ice velocity to improve performance
 4/15/08 - delete ValleyNode, move path creation utility to model

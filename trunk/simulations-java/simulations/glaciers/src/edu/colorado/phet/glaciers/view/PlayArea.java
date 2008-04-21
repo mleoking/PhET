@@ -4,10 +4,8 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
@@ -22,7 +20,10 @@ import javax.swing.event.AncestorListener;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
+import edu.colorado.phet.glaciers.control.ScrollArrowNode;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
+import edu.colorado.phet.glaciers.control.ScrollArrowNode.LeftScrollArrowNode;
+import edu.colorado.phet.glaciers.control.ScrollArrowNode.RightScrollArrowNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.Glacier;
@@ -31,7 +32,6 @@ import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * PlayArea is the area of the application that constains the birds-eye and zoomed views
@@ -103,6 +103,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private DistanceAxisNode _distanceAxisNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
+    private ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -271,6 +272,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // Penguin is the control for moving the zoomed viewport
         _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, maxX );
         _viewportLayer.addChild( _penguinNode );
+        
+        // Arrows for moving zoomed viewport
+        _leftScrollArrowNode = new LeftScrollArrowNode( _birdsEyeViewport, _zoomedViewport );
+        _toolboxLayer.addChild( _leftScrollArrowNode );
+        _rightScrollArrowNode = new RightScrollArrowNode( _birdsEyeViewport, _zoomedViewport );
+        _toolboxLayer.addChild( _rightScrollArrowNode );
     }
     
     public void cleanup() {
@@ -433,6 +440,33 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // move the vertical (elevation) axis
         updateElevationAxis();
+        
+        // reposition the left/right scroll arrows
+        updateScrollArrows();
+    }
+    
+    /*
+     * Moves the left/right scroll arrows to the upper left/right corners of the zoomed viewport.
+     */
+    private void updateScrollArrows() {
+        
+        final double margin = 5;
+        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
+        Rectangle2D rView = _mvt.modelToView( rModel );
+        
+        // left
+        double xOffset = rView.getX() + margin;
+        double yOffset = rView.getY() + _leftScrollArrowNode.getFullBoundsReference().getHeight()/2 + margin ;
+        _leftScrollArrowNode.setOffset( xOffset, yOffset );
+        
+        // right
+        xOffset = rView.getMaxX() - margin;
+        yOffset = rView.getY() + _rightScrollArrowNode.getFullBoundsReference().getHeight()/2 + margin ;
+        _rightScrollArrowNode.setOffset( xOffset, yOffset );
+        
+        // visibility of arrows
+        _leftScrollArrowNode.setVisible( _zoomedViewport.getBoundsReference().getX() > _birdsEyeViewport.getBoundsReference().getX() );
+        _rightScrollArrowNode.setVisible( _zoomedViewport.getBoundsReference().getMaxX() < _birdsEyeViewport.getBoundsReference().getMaxX() );
     }
     
     /*
