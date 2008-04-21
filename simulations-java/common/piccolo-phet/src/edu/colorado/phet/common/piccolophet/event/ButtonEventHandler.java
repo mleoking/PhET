@@ -14,6 +14,25 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * over the button) it fires.
  * <p>
  * Listeners can easily determine when the button is "armed" and when it is "fired".
+ * <p>
+ * Sample usage:
+ * <code>
+ * public class MyButtonNode extends PNode {
+ *     public MyButtonNode(...) {
+ *         ButtonEventHandler handler = new ButtonEventHandler();
+ *         myNode.addInputEventHandler( handler );
+ *         handler.addButtonListener( new ButtonEventListener() {
+ *             public void setArmed( boolean armed ) {
+ *                // change the "look" of MyButtonNode
+ *             }
+ *             public void fire() {
+ *                // do whatever "fire" means for this node
+ *             }
+ *         } );
+ *     }
+ *     //...
+ * }
+ * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
