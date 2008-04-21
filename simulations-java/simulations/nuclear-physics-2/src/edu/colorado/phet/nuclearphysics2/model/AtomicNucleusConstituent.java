@@ -19,14 +19,16 @@ public interface AtomicNucleusConstituent {
      * 
      * @return The position.
      */
-    public Point2D getPosition();
+    public Point2D.Double getPosition();
     
     /**
-     * Get the 2D position of the constituent.
+     * Set the 2D position of the constituent.
      * 
      * @return The position.
      */
     public void setPosition(Point2D position);
+    
+    public void setPosition(double xPos, double yPos);
     
     /**
      * This method tells the constituent to simulate quantum tunneling

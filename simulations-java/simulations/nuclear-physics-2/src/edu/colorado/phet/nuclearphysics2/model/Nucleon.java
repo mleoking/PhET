@@ -73,14 +73,25 @@ public class Nucleon implements AtomicNucleusConstituent {
     // Accessor methods
     //------------------------------------------------------------------------
     
-    public Point2D getPosition()
+    public Point2D.Double getPosition()
     {
-        return new Point2D.Double(_position.getX(), _position.getY());
+        return _position;
     }
     
     public void setPosition(Point2D newPosition)
     {
         _position.setLocation( newPosition );
+
+        // Notify all listeners of the position change.
+        for (int i = 0; i < _listeners.size(); i++)
+        {
+            ((Listener)_listeners.get( i )).positionChanged(); 
+        }        
+    }
+    
+    public void setPosition(double xPos, double yPos)
+    {
+        _position.setLocation( xPos, yPos );
 
         // Notify all listeners of the position change.
         for (int i = 0; i < _listeners.size(); i++)

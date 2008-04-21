@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -52,7 +55,7 @@ public class AtomicNucleusNode extends PNode {
     //------------------------------------------------------------------------
     
     private ShadowHTMLNode _isotopeLabel;
-    private AtomicNucleus _atomicNucleus;
+    protected AtomicNucleus _atomicNucleus;
     private int _currentAtomicWeight;
     private int _explosionCounter = 0;
     private PPath _explosion;
@@ -227,10 +230,11 @@ public class AtomicNucleusNode extends PNode {
      * called when something has changed, like when the nucleus decays or
      * when the sim window is resized.
      */
-    private void update(){
+    protected void update(){
 
         _isotopeLabel.setOffset( _atomicNucleus.getPosition().getX() - _atomicNucleus.getDiameter()/2,  
                 _atomicNucleus.getPosition().getY() - _atomicNucleus.getDiameter()/2);
+        
     }
 
     /**

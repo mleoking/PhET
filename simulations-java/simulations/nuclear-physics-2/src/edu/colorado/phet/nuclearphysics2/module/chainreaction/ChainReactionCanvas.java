@@ -12,17 +12,13 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
-import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
-import edu.colorado.phet.nuclearphysics2.model.Proton;
 import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
-import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
-import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronSourceNode;
-import edu.colorado.phet.nuclearphysics2.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -32,16 +28,12 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionModel.Listener {
+public class ChainReactionCanvas extends PhetPCanvas {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
 
-    // Canvas size in femto meters.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 200;
-    private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
-    
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 2.0;
     private final double HEIGHT_TRANSLATION_FACTOR = 2.0;
@@ -63,12 +55,19 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
     public ChainReactionCanvas(ChainReactionModel chainReactionModel) {
 
         _chainReactionModel = chainReactionModel;
-        _chainReactionModel.addListener( this );
+        _chainReactionModel.addListener( new ChainReactionModel.Adapter(){
+            public void modelElementAdded(Object modelElement){
+                handleModelElementAdded(modelElement);
+            }
+            public void modelElementRemoved(Object modelElement){
+                handleModelElementRemoved(modelElement);
+            }
+        });
         
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
         setWorldTransformStrategy( new RenderingSizeStrategy(this, 
-                new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
+                new PDimension(ChainReactionModel.MODEL_WORLD_WIDTH/2, ChainReactionModel.MODEL_WORLD_WIDTH * 0.75/2) ){
             protected AffineTransform getPreprocessedTransform(){
                 return AffineTransform.getTranslateInstance( getWidth()/WIDTH_TRANSLATION_FACTOR, 
                         getHeight()/HEIGHT_TRANSLATION_FACTOR );
@@ -113,8 +112,20 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
         });
         
         // Add the neutron source to the canvas.
-        _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 50);
+        _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 30);
         addWorldChild( _neutronSourceNode );
+        
+        // Add the initial nucleus or nuclei to the canvas.
+        ArrayList nuclei = _chainReactionModel.getNuclei();
+        for (int i = 0; i < nuclei.size(); i++){
+            // IMPORTANT NOTE: This currently only handles adding U235 Nuclei,
+            // since one such nucleus at the center is the generally expected
+            // reset state.  If that ever changes, this code should be extended
+            // to handle whatever is needed.
+            if (nuclei.get( i ) instanceof FissionOneNucleus){
+                handleModelElementAdded(nuclei.get( i ));
+            }
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -122,54 +133,54 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
     //----------------------------------------------------------------------------
 
     /**
-     * Sets the view back to the original state when sim was first started.
-     */
-    public void reset(){
-        // TODO: JPB TBD.
-    }
-    
-    /**
      * Handle the addition of a new model element by adding a corresponding
      * node to the canvas (i.e. the view).
      */
-    public void modelElementAdded(Object modelElement){
+    public void handleModelElementAdded(Object modelElement){
         
         if ((modelElement instanceof AtomicNucleus)){
 
-            // Add a node for each of the constituents of this nucleus.
-            ArrayList nucleusConstituents = ((AtomicNucleus)modelElement).getConstituents();
-            for (int i = 0; i < nucleusConstituents.size(); i++){
-                
-                Object constituent = nucleusConstituents.get( i );
-                
-                if (constituent instanceof AlphaParticle){
-                    // Add a visible representation of the alpha particle to the canvas.
-                    AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
-                    _modelElementToNodeMap.put( constituent, alphaNode );
-                    _nucleusLayer.addChild( alphaNode );
-                }
-                else if (constituent instanceof Neutron){
-                    // Add a visible representation of the neutron to the canvas.
-                    NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
-                    _modelElementToNodeMap.put( constituent, neutronNode );
-                    _nucleusLayer.addChild( neutronNode );
-                }
-                else if (constituent instanceof Proton){
-                    // Add a visible representation of the proton to the canvas.
-                    ProtonNode protonNode = new ProtonNode((Proton)constituent);
-                    _modelElementToNodeMap.put( constituent, protonNode );
-                    _nucleusLayer.addChild( protonNode );
-                }
-                else {
-                    // There is some unexpected object in the list of constituents
-                    // of the nucleus.  This should never happen and should be
-                    // debugged if it does.
-                    assert false;
+            /*
+            if (!(modelElement instanceof DaughterNucleus)){
+                // Add a node for each of the constituents of this nucleus.
+                // Note that we DON'T do this for daughter nuclei since
+                // their constituents came from their parent and were thus
+                // already present on the canvas.
+                ArrayList nucleusConstituents = ((AtomicNucleus)modelElement).getConstituents();
+                for (int i = 0; i < nucleusConstituents.size(); i++){
+                    
+                    Object constituent = nucleusConstituents.get( i );
+                    
+                    if (constituent instanceof AlphaParticle){
+                        // Add a visible representation of the alpha particle to the canvas.
+                        AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
+                        _modelElementToNodeMap.put( constituent, alphaNode );
+                           _nucleusLayer.addChild( alphaNode );
+                    }
+                    else if (constituent instanceof Neutron){
+                        // Add a visible representation of the neutron to the canvas.
+                        NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
+                        _modelElementToNodeMap.put( constituent, neutronNode );
+                        _nucleusLayer.addChild( neutronNode );
+                    }
+                    else if (constituent instanceof Proton){
+                        // Add a visible representation of the proton to the canvas.
+                        ProtonNode protonNode = new ProtonNode((Proton)constituent);
+                        _modelElementToNodeMap.put( constituent, protonNode );
+                        _nucleusLayer.addChild( protonNode );
+                    }
+                    else {
+                        // There is some unexpected object in the list of constituents
+                        // of the nucleus.  This should never happen and should be
+                        // debugged if it does.
+                        assert false;
+                    }
                 }
             }
+            */
             
             // Add an atom node for this guy.
-            PNode atomNode = new AtomicNucleusNode((AtomicNucleus)modelElement);
+            PNode atomNode = new AtomicNucleusImageNode((AtomicNucleus)modelElement);
             _nucleusLayer.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
         }
@@ -188,13 +199,14 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
      * Remove the node or nodes that corresponds with the given model element
      * from the canvas.
      */
-    public void modelElementRemoved(Object modelElement){
+    public void handleModelElementRemoved(Object modelElement){
         
         Object nucleusNode = _modelElementToNodeMap.get( modelElement );
         if ((nucleusNode != null) || (nucleusNode instanceof PNode)){
             
             if (modelElement instanceof AtomicNucleus){
                 // First remove the nodes for all the constituent particles.
+                /*
                 ArrayList nucleusConstituents = ((AtomicNucleus)modelElement).getConstituents();
                 for (int i = 0; i < nucleusConstituents.size(); i++){
                     
@@ -208,6 +220,7 @@ public class ChainReactionCanvas extends PhetPCanvas implements ChainReactionMod
                     
                     _modelElementToNodeMap.remove( constituent );
                 }
+                */
 
                 // Remove the nucleus node itself.
                 _nucleusLayer.removeChild( (PNode )nucleusNode );
