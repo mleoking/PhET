@@ -52,6 +52,15 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         
         _model = model;
         
+        // Register as a listener with the model so that we know when it gets
+        // reset.
+        _model.addListener( new ChainReactionModel.Adapter(){
+            public void resetOccurred(){
+                _u235AmountControl.setValue( _model.getNumU235Nuclei() );
+                _u238AmountControl.setValue( _model.getNumU238Nuclei() );                
+            }
+        });
+        
         // Add the border around the sub panel.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
@@ -65,7 +74,6 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         
         // Add the slider that controls the number of U-235 nuclei that appear.
         _u235AmountControl = new LinearValueControl( 0, 100, "U-235", "###", "Nuclei" );
-        _u235AmountControl.setValue( 0.0 );
         _u235AmountControl.setUpDownArrowDelta( 1 );
         _u235AmountControl.setTextFieldEditable( true );
         _u235AmountControl.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
@@ -73,6 +81,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u235AmountControl.setMajorTickSpacing( 25 );
         _u235AmountControl.setMinorTickSpacing( 12.5 );
         _u235AmountControl.setBorder( BorderFactory.createEtchedBorder() );
+        _u235AmountControl.setValue( _model.getNumU235Nuclei() );
         _u235AmountControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int num = _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
@@ -83,7 +92,6 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         
         // Add the slider that controls the number of U-238 nuclei that appear.
         _u238AmountControl = new LinearValueControl( 0, 100, "U-238", "###", "Nuclei" );
-        _u238AmountControl.setValue( 0.0 );
         _u238AmountControl.setUpDownArrowDelta( 1 );
         _u238AmountControl.setTextFieldEditable( true );
         _u238AmountControl.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
@@ -91,18 +99,13 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u238AmountControl.setMajorTickSpacing( 25 );
         _u238AmountControl.setMinorTickSpacing( 12.5 );
         _u238AmountControl.setBorder( BorderFactory.createEtchedBorder() );
+        _u238AmountControl.setValue( _model.getNumU238Nuclei() );
         _u238AmountControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int num = _model.setNumU238Nuclei( (int)Math.round(_u238AmountControl.getValue()) );
                 _u238AmountControl.setValue( (double )num );
             }
         } );
-        
         add(_u238AmountControl);
-        
-        // Set the value on the U235 control to 1.  We wait until here so that
-        // the message will be sent to the model.
-        _u235AmountControl.setValue( 1 );
-
     }
 }

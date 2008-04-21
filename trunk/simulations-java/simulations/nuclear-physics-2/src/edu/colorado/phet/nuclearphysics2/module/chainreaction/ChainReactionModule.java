@@ -76,8 +76,8 @@ public class ChainReactionModule extends PiccoloModule {
         _model.getClock().resetSimulationTime();
         setClockRunningWhenActive( ChainReactionDefaults.CLOCK_RUNNING );
         
-        // Reset the canvas and its sub-nodes.
-        _canvas.reset();
+        // Reset the model to its original state.
+        _model.reset();
     }
     
     /**
@@ -86,4 +86,5 @@ public class ChainReactionModule extends PiccoloModule {
     public ChainReactionModel getChainReactionModel(){
         return _model;
     }
+    
 }

@@ -89,7 +89,7 @@ public abstract class AtomicNucleus {
     {
         _clock = clock;
 
-        addClockListener( clock );
+        addClockListener();
         
         // Set the initial position for this nucleus.
         _origPosition.setLocation( position );
@@ -133,7 +133,7 @@ public abstract class AtomicNucleus {
     {
         _clock = clock;
         
-        addClockListener( clock );
+        addClockListener();
 
         // Set the initial position for this nucleus.
         _position = position;
@@ -328,8 +328,8 @@ public abstract class AtomicNucleus {
             
             // Move the constituent particles by the velocity amount.
             for (int i = 0; i < _constituents.size(); i++){
-                newPosX = ((AtomicNucleusConstituent)_constituents.get(i)).getPosition().getX() + _xVelocity; 
-                newPosY = ((AtomicNucleusConstituent)_constituents.get(i)).getPosition().getY() + _yVelocity;
+                newPosX = ((AtomicNucleusConstituent)_constituents.get(i)).getPosition().x + _xVelocity; 
+                newPosY = ((AtomicNucleusConstituent)_constituents.get(i)).getPosition().y + _yVelocity;
                 ((AtomicNucleusConstituent)_constituents.get(i)).setPosition( new Point2D.Double(newPosX, newPosY) );
             }
         }
@@ -358,24 +358,30 @@ public abstract class AtomicNucleus {
         }
     }
     
+    ClockAdapter _ca = new ClockAdapter(){
+        
+        /**
+         * Clock tick handler - causes the model to move forward one
+         * increment in time.
+         */
+        public void clockTicked(ClockEvent clockEvent){
+            handleClockTicked(clockEvent);
+        }
+        
+        public void simulationTimeReset(ClockEvent clockEvent){
+            // Ignore this reset and count on the main model to reset us.
+        }
+    };
+    
     /**
      * Set ourself up to listen to the simulation clock.
      */
-    private void addClockListener( NuclearPhysics2Clock clock){
-        clock.addClockListener( new ClockAdapter(){
-            
-            /**
-             * Clock tick handler - causes the model to move forward one
-             * increment in time.
-             */
-            public void clockTicked(ClockEvent clockEvent){
-                handleClockTicked(clockEvent);
-            }
-            
-            public void simulationTimeReset(ClockEvent clockEvent){
-                // Ignore this reset and count on the main model to reset us.
-            }
-        });
+    private void addClockListener(){
+        _clock.addClockListener( _ca );
+    }
+    
+    public void removedFromModel(){
+        _clock.removeClockListener( _ca );
     }
 
     /**

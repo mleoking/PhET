@@ -30,12 +30,12 @@ public class ChainReactionModel {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    private static final double MODEL_WORLD_WIDTH = 300;
-    private static final double MODEL_WORLD_HEIGHT = MODEL_WORLD_WIDTH * 0.75;
+    public static final double MODEL_WORLD_WIDTH = 300;
+    public static final double MODEL_WORLD_HEIGHT = MODEL_WORLD_WIDTH * 0.75;
     private static final double NUCLEUS_PROXIMITY_LIMIT = 15.0;
     
     // Controls position of the neutron source.
-    private static final double NEUTRON_SOURCE_POS_X = -45;
+    private static final double NEUTRON_SOURCE_POS_X = -35;
     private static final double NEUTRON_SOURCE_POS_Y = 0;
     
     // Constants that control the behavior of fission products.
@@ -81,13 +81,12 @@ public class ChainReactionModel {
             }
             
             public void simulationTimeReset(ClockEvent clockEvent){
-                // Reset the nucleus, including passing the alpha particle
-                // back to it.
+                // Reset the model.
                 // TODO: JPB TBD.
             }
         });
         
-        // Add the neutron source to the side of the model.
+        // Add the neutron source to the model.
         _neutronSource = new NeutronSource(NEUTRON_SOURCE_POS_X, NEUTRON_SOURCE_POS_Y);
         
         // Register as a listener to the neutron source so that we know when
@@ -123,6 +122,22 @@ public class ChainReactionModel {
         return _neutronSource;
     }
     
+    public int getNumU235Nuclei(){
+        return _u235Nuclei.size();
+    }
+    
+    public int getNumU238Nuclei(){
+        return _u238Nuclei.size();
+    }
+    
+    public ArrayList getNuclei(){
+        ArrayList nucleiList = new ArrayList(_u235Nuclei.size() + _u238Nuclei.size() + _daughterNuclei.size());
+        nucleiList.addAll( _u235Nuclei );
+        nucleiList.addAll( _u238Nuclei );
+        nucleiList.addAll( _daughterNuclei );
+        return nucleiList;
+    }
+        
     //------------------------------------------------------------------------
     // Other Public Methods
     //------------------------------------------------------------------------
@@ -138,6 +153,47 @@ public class ChainReactionModel {
         assert !_listeners.contains( listener );
         
         _listeners.add( listener );
+    }
+    
+    /**
+     * Resets the model.
+     */
+    public void reset(){
+
+        // Get rid of all the existing model elements.
+        int i;
+        
+        for (i = 0; i < _freeNeutrons.size(); i++){
+            sendRemovalNotifications( _freeNeutrons.get( i ) );
+        }
+        _freeNeutrons.removeAll( _freeNeutrons );
+        
+        for (i = 0; i < _u235Nuclei.size(); i++){
+            sendRemovalNotifications( _u235Nuclei.get( i ) );
+            ((AtomicNucleus)_u235Nuclei.get( i )).removedFromModel();
+        }
+        _u235Nuclei.removeAll( _u235Nuclei );
+        
+        for (i = 0; i < _u238Nuclei.size(); i++){
+            sendRemovalNotifications( _u238Nuclei.get( i ) );
+            ((AtomicNucleus)_u238Nuclei.get( i )).removedFromModel();
+        }
+        _u238Nuclei.removeAll( _u238Nuclei );
+        
+        for (i = 0; i < _daughterNuclei.size(); i++){
+            sendRemovalNotifications( _daughterNuclei.get( i ) );
+            ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
+        }
+        _daughterNuclei.removeAll( _daughterNuclei );
+        
+        // Set ourself back to the original state, which is with a single u235
+        // nucleus in the center.
+        setNumU235Nuclei( 1 );
+        
+        // Let listeners know that a reset has occurred.
+        for (i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).resetOccurred();
+        }
     }
     
     /**
@@ -158,7 +214,8 @@ public class ChainReactionModel {
             for (int i = 0; i < numU235Nuclei - initialArraySize; i++){
                 Point2D position = null;
                 if (_u235Nuclei.size() == 0){
-                    position = new Point2D.Double();
+                    // This is the first nucleus, so put it at the origin.
+                    position = new Point2D.Double(0, 0);
                 }
                 else{
                     position = getOpenNucleusLocation();
@@ -364,6 +421,10 @@ public class ChainReactionModel {
             for (int i = 0; i < byProducts.size(); i++){
                 Object byProduct = byProducts.get( i );
                 if ((byProduct instanceof Neutron) || (byProduct instanceof Proton)){
+                    // Let any listeners know that this element has appeared
+                    // separately in the model.
+                    sendAddedNotifications(byProduct);
+                    
                     // Set a direction and velocity for this neutron.
                     double angle = (_rand.nextDouble() * Math.PI * 2);
                     double xVel = Math.sin( angle ) * FREED_NEUTRON_VELOCITY;
@@ -404,7 +465,7 @@ public class ChainReactionModel {
     }
     
     //------------------------------------------------------------------------
-    // Inner interfaces
+    // Inner Interfaces
     //------------------------------------------------------------------------
     
     /**
@@ -426,5 +487,22 @@ public class ChainReactionModel {
          * @param modelElement - Reference to the model element that was removed.
          */
         public void modelElementRemoved(Object modelElement);
+        
+        /**
+         * This is invoked to signal that the model has been reset.
+         * 
+         */
+        public void resetOccurred();
+    }
+    
+    /**
+     * Adapter for the interface described above.
+     *
+     * @author John Blanco
+     */
+    public static class Adapter implements Listener {
+        public void modelElementAdded(Object modelElement){}
+        public void modelElementRemoved(Object modelElement){}
+        public void resetOccurred(){}
     }
 }
