@@ -97,20 +97,7 @@ public class AtomicNucleusNode extends PNode {
             public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                     ArrayList byProducts){
                 
-                int newAtomicWeight = numProtons + numNeutrons;
-                if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
-                    // This was a decay event, so kick off the explosion graphic.
-                    _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
-                    _explosion.setOffset( _atomicNucleus.getPosition() );
-                    _explosion.setVisible( true );
-                }
-                
-                // Save the new weight.
-                _currentAtomicWeight = newAtomicWeight;
-                
-                // Update the label to reflect the new element.
-                setLabel(numProtons, numNeutrons);
-                update();
+                handleAtomicWeightChanged( atomicNucleus, numProtons, numNeutrons, byProducts );
             }
         });
         
@@ -256,5 +243,33 @@ public class AtomicNucleusNode extends PNode {
         else{
             _explosion.setVisible( false );
         }
+    }
+
+    /**
+     * Handle the notification that says that the atomic nucleus that this
+     * node represents has changed its atomic weight.
+     * 
+     * @param atomicNucleus
+     * @param numProtons
+     * @param numNeutrons
+     * @param byProducts
+     */
+    protected void handleAtomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                    ArrayList byProducts){
+        
+        int newAtomicWeight = numProtons + numNeutrons;
+        if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
+            // This was a decay event, so kick off the explosion graphic.
+            _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
+            _explosion.setOffset( _atomicNucleus.getPosition() );
+            _explosion.setVisible( true );
+        }
+        
+        // Save the new weight.
+        _currentAtomicWeight = newAtomicWeight;
+        
+        // Update the label to reflect the new element.
+        setLabel(numProtons, numNeutrons);
+        update();
     }
 }
