@@ -69,6 +69,8 @@ CLEANUP:
 
 
 DONE:
+4/21/08 - draw equilibrium line in response to glacier ice thickness changes, so we can evolve contour line at leading edge of glacier 
+4/21/08 - when ELA > F(0), draw line from left-edge of birds-eye view to x=0
 4/21/08 - use same colors in Glacial Budget chart and glacial budget meter
 4/21/08 - add elevation display to glacial budget meter
 4/21/08 - add ButtonEventHandler to piccolo-phet
