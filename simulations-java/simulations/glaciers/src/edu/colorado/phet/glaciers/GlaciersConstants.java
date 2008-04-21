@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.glaciers;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -75,6 +72,11 @@ public class GlaciersConstants {
     
     // main control panel color
     public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 219, 255, 224 ); // pale green
+    
+    // colors for climate aspects
+    public static final Color GLACIAL_BUDGET_COLOR = Color.RED;
+    public static final Color ACCUMULATION_COLOR = Color.BLUE;
+    public static final Color ABLATION_COLOR = Color.GREEN.darker();
     
     //----------------------------------------------------------------------------
     // Various components

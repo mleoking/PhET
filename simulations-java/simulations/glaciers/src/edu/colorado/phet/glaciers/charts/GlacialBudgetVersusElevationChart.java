@@ -3,10 +3,8 @@
 package edu.colorado.phet.glaciers.charts;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -24,6 +22,7 @@ import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
@@ -41,9 +40,6 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
     private static final Range METERS_PER_YEAR_RANGE = new Range( -20, ( SHOW_NEGATIVE_ABLATION ? 5 : 20 ) ); // meters
     private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
-    private static final Paint GLACIAL_BUDGET_PAINT = Color.RED;
-    private static final Paint ACCUMULATION_PAINT = Color.BLUE;
-    private static final Paint ABLATION_PAINT = Color.GREEN;
     private static final Stroke GLACIAL_BUDGET_STROKE = new BasicStroke( 2f );
     private static final Stroke ACCUMULATION_STROKE = new BasicStroke( 1f );
     private static final Stroke ABLATION_STROKE = new BasicStroke( 1f );
@@ -101,11 +97,11 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         
         // NOTE! Indicies depend on the order that the series were added to the dataset above.
         XYItemRenderer renderer = plot.getRenderer();
-        renderer.setSeriesPaint( 0, ACCUMULATION_PAINT );
+        renderer.setSeriesPaint( 0, GlaciersConstants.ACCUMULATION_COLOR );
         renderer.setSeriesStroke( 0, ACCUMULATION_STROKE );
-        renderer.setSeriesPaint( 1, ABLATION_PAINT );
+        renderer.setSeriesPaint( 1, GlaciersConstants.ABLATION_COLOR );
         renderer.setSeriesStroke( 1, ABLATION_STROKE );
-        renderer.setSeriesPaint( 2, GLACIAL_BUDGET_PAINT );
+        renderer.setSeriesPaint( 2, GlaciersConstants.GLACIAL_BUDGET_COLOR );
         renderer.setSeriesStroke( 2, GLACIAL_BUDGET_STROKE );
         
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();

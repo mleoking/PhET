@@ -36,6 +36,7 @@ public class GlaciersStrings {
     
     public static final String LABEL_ACCUMULATION = GlaciersResources.getString( "label.accumulation" );
     public static final String LABEL_ABLATION = GlaciersResources.getString( "label.ablation" );
+    public static final String LABEL_ELEVATION = GlaciersResources.getString( "label.elevation" );
     public static final String LABEL_GLACIAL_BUDGET = GlaciersResources.getString( "label.glacialBudget" );
     
     public static final String MENU_FILE_LOAD = GlaciersResources.getString( "menu.file.load" );
