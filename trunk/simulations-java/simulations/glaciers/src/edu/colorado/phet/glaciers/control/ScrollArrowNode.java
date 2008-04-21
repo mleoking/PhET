@@ -11,11 +11,11 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventListener;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.glaciers.model.Viewport;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * ScrollArrowNode is the base class for arrow controls that are
@@ -74,41 +74,13 @@ public abstract class ScrollArrowNode extends PhetPNode {
         
         addInputEventListener( new CursorHandler() );
         
-        // Register to catch the button press event.
-        addInputEventListener( new PBasicInputEventHandler() {
-
-            boolean _armed = false;
-            boolean _mousePressed = false;
-            boolean _mouseInside = false;
-
-            public void mouseEntered( PInputEvent event ) {
-                _mouseInside = true;
-                if ( _mousePressed ) {
-                    setArmed( true );
-                }
-            }
-
-            public void mouseExited( PInputEvent event ) {
-                _mouseInside = false;
-                if ( _mousePressed ) {
-                    setArmed( false );
-                }
-            }
-
-            public void mousePressed( PInputEvent event ) {
-                _mousePressed = true;
-                setArmed( true );
-            }
-
-            public void mouseReleased( PInputEvent event ) {
-                _mousePressed = false;
-                setArmed( false );
-                if ( _mouseInside ) {
-                    fireEvent( new ActionEvent( this, 0, "button released" ) );
-                }
-            }
-
-            private void setArmed( boolean armed ) {
+        ButtonEventHandler buttonHandler = new ButtonEventHandler();
+        addInputEventListener( buttonHandler );
+        buttonHandler.addButtonListener( new ButtonEventListener() {
+            
+            private boolean _armed;
+            
+            public void setArmed( boolean armed ) {
                 if ( armed != _armed ) {
                     _armed = armed;
                     if ( armed ) {
@@ -119,8 +91,9 @@ public abstract class ScrollArrowNode extends PhetPNode {
                     }
                 }
             }
-
-            private void fireEvent( ActionEvent event ) {
+            
+            public void fire() {
+                ActionEvent event = new ActionEvent( ScrollArrowNode.this, 0, "BUTTON_FIRED" );
                 for ( int i = 0; i < _listeners.size(); i++ ) {
                     ( (ActionListener) _listeners.get( i ) ).actionPerformed( event );
                 }
@@ -128,13 +101,13 @@ public abstract class ScrollArrowNode extends PhetPNode {
         } );
     }
     
-    public void addActionListener( ActionListener listener ) {
+    protected void addActionListener( ActionListener listener ) {
         if (!_listeners.contains( listener )){
             _listeners.add( listener );
         }
     }
 
-    public void removeActionListener( ActionListener listener ) {
+    protected void removeActionListener( ActionListener listener ) {
         _listeners.remove( listener );
     }
     
