@@ -18,7 +18,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * IceFlowNode is the visual representation of ice flow in the glacier.
- * Ice flow is represented as a gird of vectors in the ice.
+ * Ice flow is represented as a grid of vectors in the ice.
  * Each vector represents the speed and direction of ice flow at that point.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
