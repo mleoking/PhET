@@ -4,6 +4,7 @@ package edu.colorado.phet.glaciers.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Movable is the model of a movable object, having position and orientation.
@@ -118,14 +119,16 @@ public abstract class Movable {
     //----------------------------------------------------------------------------
     
     private void notifyPositionChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (MovableListener) _listeners.get( i ) ).positionChanged();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (MovableListener) i.next() ).positionChanged();
         }
     }
     
     private void notifyOrientationChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (MovableListener) _listeners.get( i ) ).orientationChanged();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (MovableListener) i.next() ).orientationChanged();
         }
     }
 }

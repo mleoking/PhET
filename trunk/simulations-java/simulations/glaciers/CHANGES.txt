@@ -54,7 +54,6 @@ LOW PRIORITY:
 - rotate some of the tool icons to reduce height of toolbox?
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 - should Glacial Budget vs Elevation chart show negative ablation?
-- use same colors in Glacial Budget chart and glacial budget meter
 
 
 MIGRATE TO PHETCOMMON:
@@ -70,6 +69,8 @@ CLEANUP:
 
 
 DONE:
+4/21/08 - use same colors in Glacial Budget chart and glacial budget meter
+4/21/08 - add elevation display to glacial budget meter
 4/21/08 - add ButtonEventHandler to piccolo-phet
 4/21/08 - add left and right arrows to zoom view, as a secondary viewport control
 ******** 0.00.13 (20775)
