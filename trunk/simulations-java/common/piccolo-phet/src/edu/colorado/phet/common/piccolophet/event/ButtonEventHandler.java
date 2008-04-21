@@ -10,6 +10,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 /**
  * ButtonEventHandler is a Piccolo event handler that maps mouse events to a more 
  * abstract representation that is typical of JButton behavior.
+ * A JButton is either armed or unarmed, and (when the mouse is released 
+ * over the button) it fires.
+ * <p>
  * Listeners can easily determine when the button is "armed" and when it is "fired".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
