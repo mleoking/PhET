@@ -33,6 +33,10 @@ public class ChainReactionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    // Canvas dimensions.
+    private final double CANVAS_WIDTH = 200;
+    private final double CANVAS_HEIGHT = CANVAS_WIDTH * 0.87;
 
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 2.0;
@@ -67,7 +71,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
         setWorldTransformStrategy( new RenderingSizeStrategy(this, 
-                new PDimension(ChainReactionModel.MODEL_WORLD_WIDTH/2, ChainReactionModel.MODEL_WORLD_WIDTH * 0.75/2) ){
+                new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
             protected AffineTransform getPreprocessedTransform(){
                 return AffineTransform.getTranslateInstance( getWidth()/WIDTH_TRANSLATION_FACTOR, 
                         getHeight()/HEIGHT_TRANSLATION_FACTOR );
@@ -112,7 +116,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         });
         
         // Add the neutron source to the canvas.
-        _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 30);
+        _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 55);
         addWorldChild( _neutronSourceNode );
         
         // Add the initial nucleus or nuclei to the canvas.
