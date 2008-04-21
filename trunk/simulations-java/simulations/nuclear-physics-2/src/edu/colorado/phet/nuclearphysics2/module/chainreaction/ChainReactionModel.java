@@ -340,8 +340,10 @@ public class ChainReactionModel {
             
             if (particleAbsorbed){
                 // The particle has become part of a larger nucleus, so we
-                // need to take it off the list of free particles.
+                // need to take it off the list of free particles and let the
+                // view know that it has disappeared as a separate entity.
                 _freeNeutrons.remove( i );
+                sendRemovalNotifications( freeNucleon );
             }
         }
     }
