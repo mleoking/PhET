@@ -72,6 +72,7 @@ CLEANUP:
 
 
 DONE:
+******** 0.00.14 (?)
 4/22/08 - first pass at extruding the ice
 4/22/08 - define 2D perspective height in MountainsAndValleyNode, height between foreground and background of valley boundaries
 4/22/08 - make equilibrium line dynamically follow the contour of the glacier as it evolves
