@@ -11,12 +11,15 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
-import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
-
+/**
+ * TODO: 
+ * It looks like this was copied from phet-build.
+ * Either use the version from phet-build, or reduce this to what's really needed.
+ */
 public class FileUtils {
     private static String DEFAULT_ENCODING = "utf-8";
 
