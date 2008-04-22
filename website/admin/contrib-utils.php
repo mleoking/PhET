@@ -35,18 +35,22 @@
     }
 
     function contribution_add_comment($contribution_id, $contributor_id, $contribution_comment_text) {
-        $id = db_insert_row(
-            'contribution_comment',
-            array(
-                'contribution_comment_text' => $contribution_comment_text,
-                'contribution_comment_created' => "NOW()",
-                'contribution_comment_updated' => "NOW()",
-                'contribution_id'           => $contribution_id,
-                'contributor_id'            => $contributor_id
-            )
-        );
-
-        return $id;
+        // Have to do a homegrown because it doesn't support passing a MYSQL function
+        $sql = "INSERT INTO `contribution_comment` ".
+            "(`contribution_comment_text`, ".
+            "`contribution_comment_created`, ".
+            "`contribution_comment_updated`, ".
+            "`contribution_id`, ".
+            "`contributor_id`) ".
+            "VALUES (".
+            "'".mysql_real_escape_string($contribution_comment_text)."',".
+            "NOW(),".
+            "NOW(),".
+            "{$contribution_id},".
+            "{$contributor_id}".
+            ")";
+        $result = db_exec_query($sql);
+        return mysql_insert_id();
     }
 
     function contribution_update_comment($comment_id, $contribution_comment_text) {
