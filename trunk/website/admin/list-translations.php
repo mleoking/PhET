@@ -124,7 +124,7 @@ class ListTranslationsPage extends SitePage {
     }
 }
 
-$page = new ListTranslationsPage("List Translations", NAV_SIMUALTIONS, null);
+$page = new ListTranslationsPage("List Translations", NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 

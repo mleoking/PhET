@@ -160,7 +160,7 @@ EOT;
     }
 }
 
-$page = new TranslationsPage("Translated Sims", NAV_SIMUALTIONS, null);
+$page = new TranslationsPage("Translated Sims", NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 
