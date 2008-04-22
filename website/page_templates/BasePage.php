@@ -603,7 +603,7 @@ EOT;
     <div class="main">
       <h2>This page is  being redirected.</h2>
       <p>If this does not happen automatically,<br />please select 
-      <a href="'.$this->redirect_location.'">this link</a>.</p>
+      <a href="{$this->meta_refresh_location}">this link</a>.</p>
     </div>
 
 EOT;
@@ -625,6 +625,7 @@ EOT;
 
         $this->render_title();
 
+        // FIXME: this should refactored, merely replacing with $this->meta_refresh_location may break things
         if (is_null($this->redirect_location)) {
             $this->render_content();
         }
