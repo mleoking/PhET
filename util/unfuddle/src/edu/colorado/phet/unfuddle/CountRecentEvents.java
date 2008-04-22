@@ -12,7 +12,10 @@ import org.xml.sax.SAXException;
  */
 public class CountRecentEvents {
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        UnfuddleCurl unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
+        if ( args.length != 2 ) {
+            System.out.println( "usage: CountRecentEvents username password" );
+        }
+        UnfuddleCurl unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID );
         System.out.println( "limit\tevents" );
         for ( int limit = 1; limit < 50; limit++ ) {
             XMLObject events = new XMLObject( unfuddleCurl.readString( "activity.xml?limit=" + limit ) );

@@ -93,7 +93,7 @@ public class NewTicketMessage implements Message {
                "\n" +
                "-----------------------\n" +
                "You received this message because you are signed up on the list located at:\n" +
-               "http://phet.unfuddle.com/projects/9404/notebooks/7161";
+               UnfuddleNotifierConstants.PHET_PROJECT_URL + "/notebooks/7161";
     }
 
     public static String getHeader( String ticketURL ) {
@@ -108,7 +108,7 @@ public class NewTicketMessage implements Message {
         //if it is still located there
 
 //        return "https://phet.unfuddle.com/p/unfuddled/tickets/show/" + getTicketNumber() + "/cycle";
-        return "https://phet.unfuddle.com/projects/9404/tickets/by_number/"+getTicketNumber();
+        return UnfuddleNotifierConstants.PHET_PROJECT_URL + "/tickets/by_number/"+ getTicketNumber();
     }
 
     protected String getAssignee() {
