@@ -6,7 +6,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- evolve leading edge of equilibrium line to follow contour of glacier as it evolves
 - extrude the ice
 - morph or move ice textures to show downvalley motion
 - optimize ice flow vectors, use same 1D grid as ice thickness
@@ -55,6 +54,11 @@ LOW PRIORITY:
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 - should Glacial Budget vs Elevation chart show negative ablation?
 
+PERFORMANCE OPTIMIZATIONS:
+- Valley.getX uses divide-and-conquer
+- Climate.updateELA uses divide-and-conquer
+- Glacier.getIceSpeed(x,z) doesn't reuse speed at x values
+- Glacier.getIceSpeed(x,z) calls getIceThickness which does interpolation
 
 MIGRATE TO PHETCOMMON:
 - DoubleSpinner
