@@ -91,21 +91,37 @@ public class EquilibriumLineNode extends PhetPNode {
         _mvt.modelToView( _pModel, _pView );
         _path.moveTo( (float)_pView.getX(), (float)_pView.getY() );
         
-        final double x0 = Glacier.getMinX();
-        final double y0 = _glacier.getValley().getElevation( x0 );
+        final double x0 = _glacier.getHeadwallReference().getX();
+        final double y0 = _glacier.getHeadwallReference().getY();
         if ( ela > y0 ) {
-            // if the ELA is above the top of the headwall, then drawing at the headwall
+            // if the ELA is above the top of the headwall, then stop drawing at the headwall
             _pModel.setLocation( x0, ela );
             _mvt.modelToView( _pModel, _pView );
             _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
         }
         else {
-            //TODO this should be drawing a line to the ice-air interface as the glacier evolves
-            _pModel.setLocation( Glacier.getMaxX(), ela );
-            _mvt.modelToView( _pModel, _pView );
-            _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+            Point2D steadyStateELAContour = _glacier.getIntersectionWithSteadyStateELA();
+            if ( steadyStateELAContour != null ) {
+                // draw a line to the ice-air interface at the ELA
+                _pModel.setLocation( steadyStateELAContour.getX(), ela );
+                _mvt.modelToView( _pModel, _pView );
+                _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                
+                // draw a vertical line across the surface of the ice
+                final double perspectiveHeight = 300;//XXX
+                _pModel.setLocation( steadyStateELAContour.getX(), ela + perspectiveHeight );
+                _mvt.modelToView( _pModel, _pView );
+                _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+            }
+            else {
+                //TODO draw a line to where the ELA meets the valley floor
+                double x = _glacier.getValley().getX( ela );
+                _pModel.setLocation( x, ela );
+                _mvt.modelToView( _pModel, _pView );
+                _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+            }
             
-            //TODO then draw a vertical line across the surface of the ice extrusion as the glacier evolves
+
         }
         
         _pathNode.setPathTo( _path );
