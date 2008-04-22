@@ -12,23 +12,23 @@ import javax.mail.MessagingException;
  * Created by: Sam
  * Feb 21, 2008 at 8:28:28 AM
  */
-public class IgnoreDuplicatesMessageHandler implements MessageHandler {
-    private MessageHandler target;
+public class IgnoreDuplicatesMessageHandler implements IMessageHandler {
+    private IMessageHandler target;
     private File file;
 
-    public IgnoreDuplicatesMessageHandler( MessageHandler target, File file ) {
+    public IgnoreDuplicatesMessageHandler( IMessageHandler target, File file ) {
         this.target = target;
         this.file = file;
     }
 
-    public void handleMessage( Message m ) throws MessagingException {
+    public void handleMessage( IMessage m ) throws MessagingException {
         if ( !alreadyHandled( m ) ) {
             target.handleMessage( m );
             setHandled( m );
         }
     }
 
-    private void setHandled( Message m ) {
+    private void setHandled( IMessage m ) {
         try {
             String s = FileUtils.loadFileAsString( file );
             s += "\n" + m.getHashID();
@@ -39,7 +39,7 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
         }
     }
 
-    private boolean alreadyHandled( Message m ) {
+    private boolean alreadyHandled( IMessage m ) {
         try {
             ArrayList h = getHandledList();
             return h.contains( m.getHashID() );

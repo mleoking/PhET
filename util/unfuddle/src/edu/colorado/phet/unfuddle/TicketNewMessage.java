@@ -4,7 +4,7 @@ package edu.colorado.phet.unfuddle;
  * Created by: Sam
  * Feb 21, 2008 at 1:12:31 PM
  */
-public class TicketNewMessage implements Message {
+public class TicketNewMessage implements IMessage {
     private XMLObject ticket;
     private IUnfuddleAccount unfuddleAccount;
 
@@ -21,7 +21,7 @@ public class TicketNewMessage implements Message {
         return toString( this );
     }
 
-    public static String toString( Message message ) {
+    public static String toString( IMessage message ) {
         return "subject:\n" + message.getEmailSubject() + "\nbody:\n" + message.getEmailBody();
     }
 
