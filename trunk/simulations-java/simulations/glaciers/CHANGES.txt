@@ -16,6 +16,7 @@ HIGH PRIORITY:
 - divide ice into separate shapes for above and below the ELA
 
 MEDIUM PRIORITY:
+- extruded portion of ice jiggles at headwall while it's evolving
 - remove yaw from mountains image perspective
 - add moving debris
 - form terminus from debris
@@ -72,6 +73,8 @@ CLEANUP:
 
 
 DONE:
+4/22/08 - swap colors for ice surface and cross-section
+4/22/08 - draw equilibrium line across valley floor when terminus is above ela
 ******** 0.00.14 (20849)
 4/22/08 - first pass at extruding the ice
 4/22/08 - define 2D perspective height in MountainsAndValleyNode, height between foreground and background of valley boundaries
