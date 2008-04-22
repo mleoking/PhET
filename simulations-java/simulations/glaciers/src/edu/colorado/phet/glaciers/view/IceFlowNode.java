@@ -98,7 +98,7 @@ public class IceFlowNode extends PComposite {
             Point2D outputPoint = new Point2D.Double();
             
             _parentNode.removeAllChildren();
-            final double xTerminus = _glacier.getTerminusX();
+            final double xTerminus = _glacier.getTerminusReference().getX();
             double x = Glacier.getMinX();
             while ( x <= xTerminus ) {
                 double valleyFloorElevation = _glacier.getValley().getElevation( x );
@@ -119,7 +119,7 @@ public class IceFlowNode extends PComposite {
     }
     
     /*
-     * VelocityVectorNode encapsulates the "look" of a fluid velocity vector.
+     * VelocityVectorNode encapsulates the "look" of an ice velocity vector.
      */
     private class VelocityVectorNode extends Vector2DNode {
         public VelocityVectorNode( double x, double y, double scale ) {

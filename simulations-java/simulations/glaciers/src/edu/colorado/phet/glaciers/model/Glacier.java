@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.glaciers.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -52,11 +53,13 @@ public class Glacier extends ClockAdapter {
     private double _climateChangedTime; // the time when the climate was last changed
     private double _previousELA; // the ELA the last time the climate was changed (meters)
     private double _currentELA; // current ELA at t=now (meters)
-    private double[] _iceThicknessSamples; // ice thickness at t=now (meters)
     private double _averageIceThicknessSquares; // average of the squares of the non-zero ice thickness samples
     private boolean _steadyState; // is the glacier in the steady state?
+    private double[] _iceThicknessSamples; // ice thickness at t=now (meters)
     
-    private final double _maxElevation; // the highest elevation on the glacier, at MIN_X (meters)
+    private final Point2D _headwall; // point at the top of the headwall (upvalley end)
+    private final Point2D _terminus; /// point at the terminus (downvalley end)
+    private Point2D _intersectionWithSteadyStateELA;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -97,7 +100,9 @@ public class Glacier extends ClockAdapter {
         
         _listeners = new ArrayList();
         
-        _maxElevation = _valley.getElevation( MIN_X );
+        _headwall = new Point2D.Double( MIN_X, valley.getElevation( MIN_X ) );
+        _terminus = new Point2D.Double();
+        _intersectionWithSteadyStateELA = new Point2D.Double();
 
         _climateChangedTime = _clock.getSimulationTime();
         _previousELA = _currentELA = _climate.getELA();
@@ -151,6 +156,10 @@ public class Glacier extends ClockAdapter {
         return MIN_X + MAX_LENGTH;
     }
     
+    public static double getMaxLength() {
+        return MAX_LENGTH;
+    }
+    
     /**
      * Gets the spacing used between x-axis sample points.
      * 
@@ -178,7 +187,7 @@ public class Glacier extends ClockAdapter {
         if ( !_steadyState ) {
             final double steadyStateELA = _climate.getELA();
             _previousELA = _currentELA = steadyStateELA;
-            updateIceThicknessSamples();
+            updateIce();
             _steadyState = true;
             notifySteadyStateChanged();
         }
@@ -190,16 +199,35 @@ public class Glacier extends ClockAdapter {
      * @return length in meters
      */
     public double getLength() {
-        return ( _iceThicknessSamples.length - 1 ) * DX;
+        return _terminus.getX() - _headwall.getX();
     }
     
     /**
-     * Gets the x coordinate of the terminus.
+     * Gets a reference to the point at the top of the headwall.
      * 
-     * @return meters
+     * @return
      */
-    public double getTerminusX() {
-        return MIN_X + getLength();
+    public Point2D getHeadwallReference() {
+        return _headwall;
+    }
+    
+    /**
+     * Gets a reference to the point at the terminus.
+     * 
+     * @return
+     */
+    public Point2D getTerminusReference() {
+        return _terminus;
+    }
+    
+    /**
+     * Gets the point where the steady-state ELA intersects the surface of the ice.
+     * This will be null unless ice exists at elevations lower than the steady-state ELA.
+     * 
+     * @return
+     */
+    public Point2D getIntersectionWithSteadyStateELA() {
+        return _intersectionWithSteadyStateELA;
     }
     
     //----------------------------------------------------------------------------
@@ -208,8 +236,8 @@ public class Glacier extends ClockAdapter {
     
     /**
      * Gets the ice thickness samples.
-     * Samples were made from X0 to the terminus, at intervals of DX.
-     * Use getX0, getTerminusX, and getDX to interpret these samples.
+     * Samples were made from MIN_X to the terminus, at intervals of DX.
+     * Use getMinX, getTerminus, and getDX to interpret these samples.
      * 
      * @return
      */
@@ -231,17 +259,19 @@ public class Glacier extends ClockAdapter {
      */
     public double getIceThickness( final double x ) {
         double iceThickness = 0;
-        final double xTerminus = getTerminusX();
-        if ( x >= MIN_X && x <= xTerminus ) {
-            if ( x == xTerminus ) {
-                iceThickness = _iceThicknessSamples[_iceThicknessSamples.length - 1];
-            }
-            else {
-                int index = (int) ( ( x - MIN_X ) / DX );
-                double x1 = MIN_X + ( index * DX );
-                double t1 = _iceThicknessSamples[index];
-                double t2 = _iceThicknessSamples[index + 1];
-                iceThickness = t1 + ( ( ( x - x1 ) / DX ) * ( t2 - t1 ) ); // linear interpolation
+        if ( _iceThicknessSamples != null ) {
+            final double xTerminus = _terminus.getX();
+            if ( x >= MIN_X && x <= xTerminus ) {
+                if ( x == xTerminus ) {
+                    iceThickness = _iceThicknessSamples[_iceThicknessSamples.length - 1];
+                }
+                else {
+                    int index = (int) ( ( x - MIN_X ) / DX );
+                    double x1 = MIN_X + ( index * DX );
+                    double t1 = _iceThicknessSamples[index];
+                    double t2 = _iceThicknessSamples[index + 1];
+                    iceThickness = t1 + ( ( ( x - x1 ) / DX ) * ( t2 - t1 ) ); // linear interpolation
+                }
             }
         }
         assert ( iceThickness >= 0 );
@@ -249,23 +279,28 @@ public class Glacier extends ClockAdapter {
     }
     
     /*
-     * Updates the ice thickness samples for the current ELA.
+     * Updates the ice for the current ELA.
      * 
      * @param ela
      * @return double[] ice thickness samples, meters
      */
-    private void updateIceThicknessSamples() {
+    private void updateIce() {
         
-        final double glacierLength = computeLength( _currentELA, _maxElevation ); // x_terminus in documentation, but this is really length
+        final double steadyStateELA = _climate.getELA();
+        _intersectionWithSteadyStateELA = null;
+        
+        final double maxElevation = _headwall.getY();
+        final double glacierLength = computeLength( _currentELA, maxElevation ); // x_terminus in documentation, but this is really length
         
         if ( glacierLength == 0 ) {
             _iceThicknessSamples = null;
             _averageIceThicknessSquares = 0;
+            _terminus.setLocation( _headwall );
         }
         else {
             
             // compute constants used herein
-            final double maxThickness = computeMaxThickness( _currentELA, _maxElevation ); // H_max in documentation
+            final double maxThickness = computeMaxThickness( _currentELA, maxElevation ); // H_max in documentation
             final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
             final double xPeak = MIN_X + ( 0.5 * glacierLength ); // midpoint of the ice
             final double p = Math.max( 1.5, 42 - ( 0.01 * _currentELA ) );
@@ -273,7 +308,8 @@ public class Glacier extends ClockAdapter {
             final double xPeakPow = Math.pow( xPeak, p );
 
             // initialize variables
-            double x = MIN_X;
+            double x = _headwall.getX();
+            double surfaceElevation = 0;
             double thickness = 0;
             double sumOfNonZeroSquares = 0;
             double countOfNonZeroSquares = 0;
@@ -296,13 +332,27 @@ public class Glacier extends ClockAdapter {
                     sumOfNonZeroSquares += ( thickness * thickness );
                     countOfNonZeroSquares++;
                 }
+                
+                // look for steady state ELA contour
+                if ( _intersectionWithSteadyStateELA == null ) {
+                    surfaceElevation = _valley.getElevation( x ) + thickness;
+                    if ( surfaceElevation < steadyStateELA ) {
+                        _intersectionWithSteadyStateELA = new Point2D.Double( x, surfaceElevation );
+                    }
+                }
 
                 _iceThicknessSamples[i] = thickness;
                 x += DX;
             }
+            x -= DX; // last sample was at this x value
 
             // compute average
             _averageIceThicknessSquares = sumOfNonZeroSquares / countOfNonZeroSquares;
+            
+            // terminus
+            _terminus.setLocation( x, _valley.getElevation( x ) );
+            assert( _terminus.getX() >= _headwall.getX() );
+            assert( _terminus.getY() <= _headwall.getY() );
         }
 
         notifyIceThicknessChanged();
@@ -491,8 +541,7 @@ public class Glacier extends ClockAdapter {
                 setSteadyState();
             }
             else {
-                // compute the ice thickness for the new ELA
-                updateIceThicknessSamples();
+                updateIce();
             }
         }
     }

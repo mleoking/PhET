@@ -42,6 +42,8 @@ public class Valley {
     private static final double HEADWALL_STEEPNESS = 5000;
     private static final double HEADWALL_LENGTH = 800;
     
+    private static final double X_EQUALITY_THREHOLD = 1; // meters
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -65,6 +67,33 @@ public class Valley {
             elevation = 0;
         }
         return elevation;
+    }
+    
+    /**
+     * Gets the x value for a specified elevation.
+     * This uses a divide-and-conquer algorithm and is expensive.
+     * 
+     * @param elevation
+     * @return
+     */
+    public double getX( final double elevation ) {
+        double x = Glacier.getMinX() + ( Glacier.getMaxLength() / 2 ); // midpoint of largest glacier
+        double dx = Glacier.getMaxLength() / 10;
+        boolean found = false;
+        while ( !found ) {
+            double e = getElevation( x );
+            if ( Math.abs( e - elevation ) < X_EQUALITY_THREHOLD ) {
+                found = true;
+            }
+            else {
+                if ( ( e > elevation && dx < 0 ) || ( e < elevation && dx > 0 ) ) {
+                    // reduce dx and change directions
+                    dx = -dx / 2;
+                }
+                x += dx;
+            }
+        }
+        return x;
     }
     
     /**
