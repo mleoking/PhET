@@ -12,7 +12,7 @@ import org.xml.sax.SAXException;
  * Created by: Sam
  * Feb 21, 2008 at 1:58:28 PM
  */
-public class EmailHandler implements MessageHandler {
+public class EmailHandler implements IMessageHandler {
     private String fromAddress;
     private String server;
     private String username;
@@ -33,7 +33,7 @@ public class EmailHandler implements MessageHandler {
         this.sendMail = sendMail;
     }
 
-    public void handleMessage( Message m ) throws MessagingException {
+    public void handleMessage( IMessage m ) throws MessagingException {
         String[] to = new String[0];
         try {
             to = getTo( m.getComponent() );

@@ -141,7 +141,7 @@ public class ProcessRecentChanges {
         h.addMessageHandler( new PrintMessageHandler() );
 //        h.addMessageHandler( new EmailHandler( args[2], args[3], args[4], args[5], new ReadEmailList( unfuddleAccount, unfuddleCurl ), true ) );
         h.addMessageHandler( new EmailHandler( args[2], args[3], args[4], args[5], new ReadEmailList( unfuddleAccount, unfuddleCurl ), sendMail ) );
-        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( SVN_TRUNK + "\\util\\unfuddle\\data\\handled.txt" ) );
+        IMessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( SVN_TRUNK + "\\util\\unfuddle\\data\\handled.txt" ) );
 //        MessageHandler mh = h;
         int handled = 0;
         for ( int i = e - 1; i >= 0; i-- ) {//reverse iterate to post notifications in chronological order

@@ -51,6 +51,7 @@ public class UnfuddleCurl {
 
     //fails for dump (timeout)
     public String readString( String readARG ) throws IOException {
+        //TODO this is Windows specific, users should have curl in their path
         String CURL = ProcessRecentChanges.SVN_TRUNK+"\\util\\unfuddle\\contrib\\curl\\curl.exe";
         String cmdArg = accountID + "/" + readARG;
         String cmd = CURL + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;

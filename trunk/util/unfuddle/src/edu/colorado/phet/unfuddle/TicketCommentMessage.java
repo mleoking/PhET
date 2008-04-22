@@ -10,7 +10,7 @@ import org.xml.sax.SAXException;
  * Created by: Sam
  * Feb 21, 2008 at 1:52:26 PM
  */
-public class TicketCommentMessage implements Message {
+public class TicketCommentMessage implements IMessage {
     private XMLObject comment;
     private IUnfuddleAccount unfuddleAccount;
     private UnfuddleCurl curl;
@@ -64,6 +64,7 @@ public class TicketCommentMessage implements Message {
 //               "\nto read other comments and add a comment.\n\n" + new NewTicketMessage( getTicketXML(), unfuddleAccount ).getSuffix();
 
         String person = unfuddleAccount.getPersonForID( comment.getTextContentAsInt( "author-id" ) );
+        //TODO: this is a hack to use the "new ticket" header; header and footer should be in a base class, used by all ticket types
         final TicketNewMessage message = new TicketNewMessage( getTicketXML(), unfuddleAccount );
         return TicketNewMessage.getHeader( message.getTicketURL() ) +
                person + " said:\n" +
