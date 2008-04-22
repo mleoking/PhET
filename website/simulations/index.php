@@ -62,7 +62,12 @@ class SimulationsPage extends SitePage {
             $view_type = $_REQUEST['view_type'];
         }
         else {
-            $view_type = "thumbs";
+            if ($cat_encoding == "All_Sims") {
+                $view_type = "index";
+            }
+            else {
+                $view_type = "thumbs";
+            }
         }
 
         // This statement selects for all sims in the category, and orders by the sim sorting name:
