@@ -68,8 +68,8 @@ public class GlaciersConstants {
     public static final Color ZOOMED_CANVAS_COLOR = BIRDS_EYE_CANVAS_COLOR;
     
     // color of ice
-    public static final Color ICE_CROSS_SECTION_COLOR = Color.WHITE;
-    public static final Color ICE_SURFACE_COLOR = new Color( 232, 242, 252 );
+    public static final Color ICE_CROSS_SECTION_COLOR = new Color( 232, 242, 252 ); // bluish white
+    public static final Color ICE_SURFACE_COLOR = Color.WHITE;
     
     // main control panel color
     public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 219, 255, 224 ); // pale green

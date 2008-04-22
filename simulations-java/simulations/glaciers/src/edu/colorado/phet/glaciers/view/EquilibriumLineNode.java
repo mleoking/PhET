@@ -118,6 +118,11 @@ public class EquilibriumLineNode extends PhetPNode {
                 _pModel.setLocation( x, ela );
                 _mvt.modelToView( _pModel, _pView );
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                
+                // draw a vertical line across the valley floor
+                _pModel.setLocation( x, ela + MountainsAndValleyNode.getPerspectiveHeight() );
+                _mvt.modelToView( _pModel, _pView );
+                _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
             
 
