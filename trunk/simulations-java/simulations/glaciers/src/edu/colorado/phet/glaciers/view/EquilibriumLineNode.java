@@ -62,7 +62,6 @@ public class EquilibriumLineNode extends PhetPNode {
         _pModel = new Point2D.Double();
         _pView = new Point2D.Double();
         
-        // horizontal line
         _path = new GeneralPath();
         _pathNode = new PPath();
         _pathNode.setStroke( STROKE );
@@ -102,6 +101,8 @@ public class EquilibriumLineNode extends PhetPNode {
         else {
             Point2D steadyStateELAContour = _glacier.getIntersectionWithSteadyStateELA();
             if ( steadyStateELAContour != null ) {
+                // terminus is below the ELA
+                
                 // draw a line to the ice-air interface at the ELA
                 _pModel.setLocation( steadyStateELAContour.getX(), ela );
                 _mvt.modelToView( _pModel, _pView );
@@ -113,6 +114,8 @@ public class EquilibriumLineNode extends PhetPNode {
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
             else {
+                // terminus is above the ELA
+                
                 // draw a line to where the ELA meets the valley floor
                 double x = _glacier.getValley().getX( ela );
                 _pModel.setLocation( x, ela );
@@ -124,8 +127,6 @@ public class EquilibriumLineNode extends PhetPNode {
                 _mvt.modelToView( _pModel, _pView );
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
-            
-
         }
         
         _pathNode.setPathTo( _path );
