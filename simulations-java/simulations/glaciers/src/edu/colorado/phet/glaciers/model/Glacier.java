@@ -256,8 +256,7 @@ public class Glacier extends ClockAdapter {
      */
     private void updateIceThicknessSamples() {
         
-        final double ela = _currentELA;
-        final double glacierLength = computeLength( ela, _maxElevation ); // x_terminus in documentation, but this is really length
+        final double glacierLength = computeLength( _currentELA, _maxElevation ); // x_terminus in documentation, but this is really length
         
         if ( glacierLength == 0 ) {
             _iceThicknessSamples = null;
@@ -266,10 +265,10 @@ public class Glacier extends ClockAdapter {
         else {
             
             // compute constants used herein
-            final double maxThickness = computeMaxThickness( ela, _maxElevation ); // H_max in documentation
+            final double maxThickness = computeMaxThickness( _currentELA, _maxElevation ); // H_max in documentation
             final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
             final double xPeak = MIN_X + ( 0.5 * glacierLength ); // midpoint of the ice
-            final double p = Math.max( 1.5, 42 - ( 0.01 * ela ) );
+            final double p = Math.max( 1.5, 42 - ( 0.01 * _currentELA ) );
             final double r = 1.5 * xPeak;
             final double xPeakPow = Math.pow( xPeak, p );
 
