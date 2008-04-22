@@ -1016,10 +1016,16 @@ position: relative;
 border-bottom: 1px solid #E3E3E3;
 clear: right;
 }
+#people ul li.simple {
+position: relative;
+border-bottom: none;
+clear: right;
+}
 #people ul li.hewlett, 
 #people ul li.nsf, 
 #people ul li.kavli,
 #people ul li.cu {
+font-size: smaller;
 position: relative;
 border-bottom: 1px solid #E3E3E3;
 background: none;

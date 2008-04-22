@@ -13,14 +13,23 @@ class SponsorsPage extends SitePage {
                 <h2>Financial Support</h2>
 
                 <ul>
-                    <li class="hewlett"><a href="http://www.hewlett.org/Default.htm"><img class="sponsors" src="../images/hewlett-logo.jpg" alt="Hewlett Logo" /><strong>The William and Flora Hewlett Foundation</strong></a></li>
+                    <li class="simple">Gold Level Contributors ($100k+)
+                        <ul>
+                            <li class="hewlett"><a href="http://www.hewlett.org/Default.htm"><img class="sponsors" src="../images/hewlett-logo.jpg" alt="Hewlett Logo" /><strong>The William and Flora Hewlett Foundation</strong></a></li>
 
-                    <li class="nsf"><a href="http://www.nsf.gov/"><img class="sponsors" src="../images/nsf-logo.gif" alt="NSF Logo"/><strong>The National Science Foundation</strong></a></li>
+                            <li class="nsf"><a href="http://www.nsf.gov/"><img class="sponsors" src="../images/nsf-logo.gif" alt="NSF Logo"/><strong>The National Science Foundation</strong></a></li>
 
-                    <li class="kavli"><a href="http://www.kavlifoundation.org/"><img class="sponsors" src="../images/kavli-logo.jpg" alt="Kavli Logo" /><strong>The Kavli Operating Institute</strong></a></li>
+                            <li class="kavli"><a href="http://www.kavlifoundation.org/"><img class="sponsors" src="../images/kavli-logo.jpg" alt="Kavli Logo" /><strong>The Kavli Operating Institute</strong></a></li>
 
-                    <li class="cu"><a href="http://www.colorado.edu"><img class="sponsors" src="../images/cu.gif" width="45" alt="CU Logo" /><strong>University of Colorado</strong></a></li>
-                </ul><br />
+                            <li class="cu"><a href="http://www.colorado.edu"><img class="sponsors" src="../images/cu.gif" width="45" alt="CU Logo" /><strong>University of Colorado</strong></a></li>
+                        </ul>
+                    </li>
+                    <li class="simple">Bronze Level Contributors ($0 - $100k)
+                        <ul>
+                            <li>Dr. Andrew McNeil</li>
+                        </ul>
+                    </li>
+                    </ul><br />
 
                 <h2>Technical Support</h2>
 
