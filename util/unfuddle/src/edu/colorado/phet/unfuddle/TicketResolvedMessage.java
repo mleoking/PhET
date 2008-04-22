@@ -4,7 +4,7 @@ package edu.colorado.phet.unfuddle;
  * Created by: Sam
  * Feb 21, 2008 at 1:12:31 PM
  */
-public class TicketResolvedMessage extends NewTicketMessage {
+public class TicketResolvedMessage extends TicketNewMessage {
     private String resolvedBy;
     private int recordID;
 

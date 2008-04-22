@@ -10,7 +10,7 @@ import org.xml.sax.SAXException;
  * Created by: Sam
  * Feb 21, 2008 at 1:52:26 PM
  */
-public class NewCommentMessage implements Message {
+public class TicketCommentMessage implements Message {
     private XMLObject comment;
     private IUnfuddleAccount unfuddleAccount;
     private UnfuddleCurl curl;
@@ -19,7 +19,7 @@ public class NewCommentMessage implements Message {
     private String component;
     private XMLObject ticketXML;
 
-    public NewCommentMessage( XMLObject comment, IUnfuddleAccount unfuddleAccount, UnfuddleCurl curl ) {
+    public TicketCommentMessage( XMLObject comment, IUnfuddleAccount unfuddleAccount, UnfuddleCurl curl ) {
         this.comment = comment;
         this.unfuddleAccount = unfuddleAccount;
         this.curl = curl;
@@ -64,23 +64,23 @@ public class NewCommentMessage implements Message {
 //               "\nto read other comments and add a comment.\n\n" + new NewTicketMessage( getTicketXML(), unfuddleAccount ).getSuffix();
 
         String person = unfuddleAccount.getPersonForID( comment.getTextContentAsInt( "author-id" ) );
-        final NewTicketMessage message = new NewTicketMessage( getTicketXML(), unfuddleAccount );
-        return NewTicketMessage.getHeader( message.getTicketURL() ) +
+        final TicketNewMessage message = new TicketNewMessage( getTicketXML(), unfuddleAccount );
+        return TicketNewMessage.getHeader( message.getTicketURL() ) +
                person + " said:\n" +
                "\n" +
                comment.getTextContent( "body" ) +
-               NewTicketMessage.getFooter();
+               TicketNewMessage.getFooter();
     }
 
     public String getEmailSubject() {
-        final NewTicketMessage message = new NewTicketMessage( getTicketXML(), unfuddleAccount );
+        final TicketNewMessage message = new TicketNewMessage( getTicketXML(), unfuddleAccount );
         int number = message.getTicketNumber();
-        return NewTicketMessage.toEmailSubject( getComponent(), number, message.getSummary(), "comment" );
+        return TicketNewMessage.toEmailSubject( getComponent(), number, message.getSummary(), "comment" );
 //        return new NewTicketMessage( getTicketXML(), unfuddleAccount ).getEmailSubject();
     }
 
     public String toString() {
-        return NewTicketMessage.toString( this );
+        return TicketNewMessage.toString( this );
     }
 
 }

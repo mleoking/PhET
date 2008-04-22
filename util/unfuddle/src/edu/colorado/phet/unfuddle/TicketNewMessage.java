@@ -4,11 +4,11 @@ package edu.colorado.phet.unfuddle;
  * Created by: Sam
  * Feb 21, 2008 at 1:12:31 PM
  */
-public class NewTicketMessage implements Message {
+public class TicketNewMessage implements Message {
     private XMLObject ticket;
     private IUnfuddleAccount unfuddleAccount;
 
-    public NewTicketMessage( XMLObject ticket, IUnfuddleAccount unfuddleAccount ) {
+    public TicketNewMessage( XMLObject ticket, IUnfuddleAccount unfuddleAccount ) {
         this.ticket = ticket;
         this.unfuddleAccount = unfuddleAccount;
     }

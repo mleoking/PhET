@@ -152,7 +152,7 @@ public class ProcessRecentChanges {
             if ( comment != null ) {
                 if ( comment.getTextContent( "parent-type" ).equals( "Ticket" ) ) {
                     try {
-                        mh.handleMessage( new NewCommentMessage( comment, unfuddleAccount, unfuddleCurl ) );
+                        mh.handleMessage( new TicketCommentMessage( comment, unfuddleAccount, unfuddleCurl ) );
                         handled++;
                     }
                     catch( MessagingException e1 ) {
@@ -167,7 +167,7 @@ public class ProcessRecentChanges {
                 XMLObject ticket = record.getNode( "ticket" );
                 if ( ticket != null ) {
                     try {
-                        mh.handleMessage( new NewTicketMessage( ticket, unfuddleAccount ) );
+                        mh.handleMessage( new TicketNewMessage( ticket, unfuddleAccount ) );
                         handled++;
                     }
                     catch( MessagingException e1 ) {
