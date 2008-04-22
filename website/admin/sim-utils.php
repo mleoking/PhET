@@ -821,9 +821,9 @@
         }
         else {
             // Try local first
-            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.swf";
+            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.jnlp";
             if (!file_exists($link)) {
-                $link = "http://phet.colorado.edu/sims/$dirname/$flavorname.jnlp";
+                $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}.jnlp";
             }
         }
 
@@ -856,7 +856,7 @@
         $flavorname = $simulation['sim_flavorname'];
 
         // Try local first
-        $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}-screenshot.png";
+        $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}-screenshot.gif";
         if (!file_exists($link)) {
             $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
         }
