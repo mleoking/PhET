@@ -2,11 +2,13 @@
 
 package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -15,6 +17,7 @@ import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
+import edu.colorado.phet.nuclearphysics2.util.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
@@ -47,7 +50,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private ChainReactionModel _chainReactionModel;
-    private GraphicButtonNode _containmentVesselButtonNode;
+    private GradientButtonNode _containmentVesselButtonNode;
     private HashMap _modelElementToNodeMap = new HashMap();
     private PNode _nucleusLayer;
     private NeutronSourceNode _neutronSourceNode;
@@ -88,9 +91,8 @@ public class ChainReactionCanvas extends PhetPCanvas {
         
         // Add the button for enabling the containment vessel to the canvas.
         // TODO: JPB TBD - Need to make this a string and possibly a two-lined button.
-        _containmentVesselButtonNode = new GraphicButtonNode("Mesh Gradient Button Unpushed.png", 
-                "Mesh Gradient Button Pushed.png",
-                "Containment Vessel", 0.8, 0.6);
+        _containmentVesselButtonNode = new GradientButtonNode("<html><center>Containment<br>Vessel</center></html>", 
+                new Point2D.Double(70, 50), 16, Color.ORANGE);
         addScreenChild(_containmentVesselButtonNode);
         
         // Register to receive button pushes.
