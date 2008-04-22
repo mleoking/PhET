@@ -89,14 +89,6 @@ public class CursorHandler extends PBasicInputEventHandler {
         popCursor( event.getComponent() );
     }
 
-    public void mousePressed( PInputEvent event ) {
-        pushCursor( event.getComponent() );
-    }
-
-    public void mouseReleased( PInputEvent event ) {
-        popCursor( event.getComponent() );
-    }
-
     //----------------------------------------------------------------------------
     // Cursor push/pop
     //----------------------------------------------------------------------------
