@@ -48,8 +48,15 @@ public class SummaryButton extends JButton {
         }
         System.out.println( "summary = " + summary );
 
-        JFrame frame = new JFrame( "Summary of " + d.getMinTime() + " - " + d.getMaxTime() );
-        JTextArea jt = new JTextArea( summary.toString() );
+        String title = "Summary of " + d.getMinTime() + " - " + d.getMaxTime();
+        String body = summary.toString();
+
+        displayText( title, body );
+    }
+
+    public static void displayText( String title, String body ) {
+        JFrame frame = new JFrame( title );
+        JTextArea jt = new JTextArea( body );
         frame.setContentPane( new JScrollPane( jt ) );
         frame.pack();
         frame.setVisible( true );

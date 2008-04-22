@@ -156,6 +156,17 @@ public class SummaryPanel extends JPanel {
                 return data;
             }
         } );
+        JButton dailyHourButton = new JButton( "<html>Daily<br>Hours</html>" );
+        dailyHourButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                showDailyHours();
+            }
+        } );
+        add( dailyHourButton );
+    }
+
+    private void showDailyHours() {
+        new DailyHours( ).show(app.getTimesheetData().getDefaultSelection());
     }
 
     private void updateContinueSelectionButton() {
