@@ -49,10 +49,7 @@ public class DaughterNucleus extends AtomicNucleus {
         _numFreeNeutrons = 0;
         _numFreeProtons = 0;
         
-        for (int i = 0; i < _listeners.size(); i++){
-            // Let the listeners know about the change.
-            ((Listener)_listeners.get( i )).atomicWeightChanged( this, 0, 0, null );
-        }
+        notifyAtomicWeightChanged(null);
     }
     
     //------------------------------------------------------------------------

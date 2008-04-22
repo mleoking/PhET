@@ -67,11 +67,7 @@ public class Uranium238Nucleus extends AtomicNucleus {
                 updateAgitationFactor();
     
                 // Let the listeners know that the atomic weight has changed.
-                int totalNumProtons = _numFreeProtons + _numAlphas * 2;
-                totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
-                for (int i = 0; i < _listeners.size(); i++){
-                    ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null );
-                }
+                notifyAtomicWeightChanged(null);
                 
                 // Indicate that the nucleus was captured.
                 retval = true;
@@ -112,17 +108,10 @@ public class Uranium238Nucleus extends AtomicNucleus {
         updateAgitationFactor();
         
         // Notify all listeners of the potential position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged();
-        }        
+        notifyPositionChanged();        
         
         // Notify all listeners of the change to our atomic weight.
-        totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
-        int totalNumProtons = _numFreeProtons + _numAlphas * 2;
-        for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null);
-        }
+        notifyAtomicWeightChanged(null);
     }
     
     //------------------------------------------------------------------------
