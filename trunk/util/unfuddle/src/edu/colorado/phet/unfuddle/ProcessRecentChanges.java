@@ -28,7 +28,7 @@ public class ProcessRecentChanges {
     public ProcessRecentChanges( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         this.args = args;
         unfuddleAccount = new UnfuddleAccount( new File( args[7] ) );
-        unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
+        unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID );
         final boolean sendMail = Boolean.parseBoolean( args[8] );
 
         running = new JFrame( "Process Unfuddle Changes" );
