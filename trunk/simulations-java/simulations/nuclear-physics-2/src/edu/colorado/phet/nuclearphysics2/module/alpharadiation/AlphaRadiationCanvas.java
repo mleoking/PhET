@@ -12,6 +12,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
+import edu.colorado.phet.nuclearphysics2.util.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
@@ -67,7 +69,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     private AlphaRadiationEnergyChart _alphaRadiationEnergyChart;
     private AlphaRadiationTimeChart _alphaRadiationTimeChart;
     private HashMap _mapAlphaParticlesToNodes = new HashMap();
-    private GraphicButtonNode _resetButtonNode;
+    private GradientButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -209,8 +211,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         addWorldChild(rightBreakoutLine);
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GraphicButtonNode("Mesh Gradient Button Unpushed.png", "Mesh Gradient Button Pushed.png",
-                NuclearPhysics2Strings.RESET_NUCLEUS, 0.8, 0.6);
+        _resetButtonNode = new GradientButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS, new Point2D.Double(0,0), 16, 
+                new Color(0xff9900));
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.
@@ -246,7 +248,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
                         getHeight() * CHART_AREA_FRACTION * (1 - ENERGY_CHART_FRACTION)));
                 
                 // Position the reset button.
-                _resetButtonNode.setOffset( 0.75 * getWidth(), 0.15 * getHeight() );
+                _resetButtonNode.setOffset( 0.80 * getWidth(), 0.10 * getHeight() );
             }
         } );
     }
