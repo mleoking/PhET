@@ -782,10 +782,18 @@
         $flavorname  = $simulation['sim_flavorname'];
 
         if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
-            $link = "http://phet.colorado.edu/sims/$dirname/$flavorname.swf";
+            // Try local first
+            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.swf";
+            if (!file_exists($link)) {
+                $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}.swf";
+            }
         }
         else {
-            $link = "http://phet.colorado.edu/sims/$dirname/$flavorname.jar";
+            // Try local first
+            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.jar";
+            if (!file_exists($link)) {
+                $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}.jar";
+            }
         }
 
         return $link;
@@ -805,10 +813,18 @@
 
     function sim_form_launch_url($dirname, $flavorname, $sim_type = SIM_TYPE_JAVA) {
         if ($sim_type == SIM_TYPE_FLASH) {
-            $link = "http://phet.colorado.edu/sims/$dirname/$flavorname.swf";
+            // Try local first
+            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.swf";
+            if (!file_exists($link)) {
+                $link = "http://phet.colorado.edu/sims/$dirname/$flavorname.swf";
+            }
         }
         else {
-            $link = "http://phet.colorado.edu/sims/$dirname/$flavorname.jnlp";
+            // Try local first
+            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.swf";
+            if (!file_exists($link)) {
+                $link = "http://phet.colorado.edu/sims/$dirname/$flavorname.jnlp";
+            }
         }
 
         return $link;
@@ -826,7 +842,11 @@
         $dirname    = $simulation['sim_dirname'];
         $flavorname = $simulation['sim_flavorname'];
 
-        $link = "http://phet.colorado.edu/sims/$dirname/$flavorname-screenshot.png";
+        // Try local first
+        $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}-screenshot.png";
+        if (!file_exists($link)) {
+            $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}-screenshot.png";
+        }
 
         return $link;
     }
@@ -835,7 +855,11 @@
         $dirname    = $simulation['sim_dirname'];
         $flavorname = $simulation['sim_flavorname'];
 
-        $link = "http://phet.colorado.edu/sims/$dirname/$flavorname-animated-screenshot.gif";
+        // Try local first
+        $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}-screenshot.png";
+        if (!file_exists($link)) {
+            $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
+        }
 
         return $link;
     }
@@ -853,7 +877,7 @@
     }
 
     function sim_get_file_contents($resource) {
-        $new_resource = str_replace('http://phet.colorado.edu/sims/', '../../sims/', $resource);
+        $new_resource = str_replace('http://phet.colorado.edu/sims/', SITE_ROOT.'../sims/', $resource);
 
         if (file_exists($new_resource)) return file_get_contents($new_resource);
 
