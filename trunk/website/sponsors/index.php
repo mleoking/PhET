@@ -6,14 +6,22 @@ include_once(SITE_ROOT."page_templates/SitePage.php");
 class SponsorsPage extends SitePage {
 
     function render_content() {
+        /*
+         * For financial contributions there will eventually be 4 tiers, but we're sticking with 2 until
+         * there are people or organizations to fill out each category.  The tiers are:
+         *   Platinum ($100k+)
+         *   Gold ($10k - $100k)
+         *   Silver ($1k - $10k)
+         *   Bronze ($0 - $1k)
+         */
         print <<<EOT
-            <p>PhET would like to thank the following organizations and companies for their support:</p>
+            <p>PhET would like to thank the following organizations, companies, and individuals for their support:</p>
 
             <div id="people">
                 <h2>Financial Support</h2>
 
                 <ul>
-                    <li class="simple">Gold Level Contributors ($100k+)
+                    <li class="simple"><strong>Gold Level Contributors ($100k+)</strong>
                         <ul>
                             <li class="hewlett"><a href="http://www.hewlett.org/Default.htm"><img class="sponsors" src="../images/hewlett-logo.jpg" alt="Hewlett Logo" /><strong>The William and Flora Hewlett Foundation</strong></a></li>
 
@@ -24,7 +32,7 @@ class SponsorsPage extends SitePage {
                             <li class="cu"><a href="http://www.colorado.edu"><img class="sponsors" src="../images/cu.gif" width="45" alt="CU Logo" /><strong>University of Colorado</strong></a></li>
                         </ul>
                     </li>
-                    <li class="simple">Bronze Level Contributors ($0 - $100k)
+                    <li class="simple"><strong>Bronze Level Contributors ($0 - $100k)</strong>
                         <ul>
                             <li>Dr. Andrew McNeil</li>
                         </ul>
