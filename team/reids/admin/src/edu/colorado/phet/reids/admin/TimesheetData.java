@@ -280,7 +280,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         getEntry( k ).setSelected( true );
     }
 
-    //if one or zero elements is selected, returns all point.  Otherwise returns a new TimesheetData containing the selected points
+    //if one or zero elements is selected, returns all points.  Otherwise returns a new TimesheetData containing the selected points
     public TimesheetData getDefaultSelection() {
         if ( getSelectedEntries().length <= 1 ) {
             return this;
