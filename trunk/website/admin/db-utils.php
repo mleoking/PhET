@@ -326,7 +326,6 @@
 
                 $value = mysql_real_escape_string($value);
 
-                // FIXME: $value unescaped
                 $insert_st .= "'";
                 $insert_st .= "$value";
                 $insert_st .= "'";
