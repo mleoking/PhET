@@ -23,7 +23,7 @@
     define("NAV_NOT_SPECIFIED",  -1);
     define("NAV_INVALID0",  0);
     define("NAV_INVALID1",  1);
-    define("NAV_SIMUALTIONS",  2);
+    define("NAV_SIMULATIONS",  2);
     define("NAV_TEACHER_IDEAS",  3);
     define("NAV_GET_PHET",  4);
     define("NAV_TECH_SUPPORT",  5);
@@ -274,7 +274,7 @@ EOT;
             </ul>
 
             <div id="sponsors">
-                <h4>Principle Sponsors</h4>
+                <h4>Principal Sponsors</h4>
 
                 <div class="header">
                 </div>

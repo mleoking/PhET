@@ -129,7 +129,7 @@ class SimSubmitContribution extends SitePage {
 
 }
 
-$page = new SimSubmitContribution("Submit Contribution from Simualtion Page", NAV_SIMUALTIONS, null);
+$page = new SimSubmitContribution("Submit Contribution from Simulation Page", NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 

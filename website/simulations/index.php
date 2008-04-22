@@ -324,7 +324,7 @@ EOT;
     }
 }
 
-$page = new SimulationsPage("Simualtions", NAV_SIMUALTIONS, null);
+$page = new SimulationsPage("Simulations", NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 

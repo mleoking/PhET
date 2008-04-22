@@ -3,7 +3,7 @@
 include_once("../admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class SimualtionListing extends SitePage {
+class SimulationListing extends SitePage {
 
     function render_content() {
         $result = parent::render_content();
@@ -43,7 +43,7 @@ class SimualtionListing extends SitePage {
     }
 }
 
-$page = new SimualtionListing("Simualtion Listing", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new SimulationListing("Simulation Listing", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
 $page->update();
 $page->render();
 

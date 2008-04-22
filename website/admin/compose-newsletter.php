@@ -92,7 +92,7 @@ EOT;
     }
 }
 
-$page = new ComposeNewsletterPage("Composee Newsletter", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new ComposeNewsletterPage("Compose Newsletter", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
 $page->update();
 $page->render();
 

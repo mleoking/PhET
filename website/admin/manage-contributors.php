@@ -135,7 +135,7 @@ EOT2;
     }
 }
 
-$page = new ManageContributors("Manage Contributions", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new ManageContributors("Manage Contributors", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
 $page->update();
 $page->render();
 
