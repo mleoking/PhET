@@ -61,6 +61,7 @@ public class ChainReactionModel {
     private ArrayList _u235Nuclei = new ArrayList();
     private ArrayList _u238Nuclei = new ArrayList();
     private ArrayList _daughterNuclei = new ArrayList();
+    private ArrayList _inactiveNuclei = new ArrayList();
     private ArrayList _freeNeutrons = new ArrayList();
     private Random _rand = new Random();
     private NeutronSource _neutronSource;
@@ -139,6 +140,7 @@ public class ChainReactionModel {
         nucleiList.addAll( _u235Nuclei );
         nucleiList.addAll( _u238Nuclei );
         nucleiList.addAll( _daughterNuclei );
+        nucleiList.addAll( _inactiveNuclei );
         return nucleiList;
     }
         
@@ -318,8 +320,9 @@ public class ChainReactionModel {
             // and, if so, give the nucleus the opportunity to absorb the
             // neutron (and possibly fission as a result).
             boolean particleAbsorbed = false;
-            int j;
-            for (j = 0; (j < _u235Nuclei.size()) && (particleAbsorbed == false); j++){
+            int j, numNuclei;
+            numNuclei = _u235Nuclei.size();
+            for (j = 0; (j < numNuclei) && (particleAbsorbed == false); j++){
                 AtomicNucleus nucleus = (AtomicNucleus)_u235Nuclei.get( j );
                 if (freeNucleon.getPosition().distance( nucleus.getPosition() ) <=
                     nucleus.getDiameter() / 2)
@@ -328,7 +331,8 @@ public class ChainReactionModel {
                     particleAbsorbed = nucleus.captureParticle( freeNucleon );
                 }
             }
-            for (j = 0; (j < _u238Nuclei.size()) && (particleAbsorbed == false); j++){
+            numNuclei = _u238Nuclei.size();
+            for (j = 0; (j < numNuclei) && (particleAbsorbed == false); j++){
                 AtomicNucleus nucleus = (AtomicNucleus)_u238Nuclei.get( j );
                 if (freeNucleon.getPosition().distance( nucleus.getPosition() ) <=
                     nucleus.getDiameter() / 2)
@@ -460,12 +464,29 @@ public class ChainReactionModel {
                     
                     // Add the daughter nucleus to our collection.
                     _daughterNuclei.add( daughterNucleus );
+                    
+                    // Move the 'parent' nucleus to the list of daughter
+                    // nuclei so that it doesn't continue to be involved in
+                    // the fission detection calculations.
+                    assert (nucleus instanceof FissionOneNucleus);
+                    _u235Nuclei.remove( nucleus );
+                    _daughterNuclei.add( nucleus );
                 }
                 else {
                     // We should never get here, debug it if it does.
                     System.err.println("Error: Unexpected byproduct of decay event.");
                     assert false;
                 }
+            }
+        }
+        else if (nucleus instanceof Uranium238Nucleus){
+            
+            // This event may indicate that a U238 nucleus absorbed a neutron,
+            // which means that we no longer need to check if it wants to
+            // absorb any more.
+            if (nucleus.getNumNeutrons() == Uranium238Nucleus.ORIGINAL_NUM_NEUTRONS + 1){
+                _u238Nuclei.remove( nucleus );
+                _inactiveNuclei.add( nucleus );
             }
         }
     }

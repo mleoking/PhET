@@ -1,17 +1,23 @@
 package edu.colorado.phet.nuclearphysics2.view;
 
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PPanEventHandler;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
-
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * This singleton class generates a nucleus image from the constituent proton
@@ -19,6 +25,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * computationally intensive to do this every time a new nucleus is needed,
  * images are cached and returned after once several have been created for a
  * given atomic weight.
+ * 
+ * This is being done instead of using static images for the following reasons:
  * 
  * 1. To provide images of nuclei that are proportionate in size to their
  *    atomic weight.
@@ -261,14 +269,25 @@ public class NucleusImageFactory {
     
     public static void main( String[] args ) {
         
-        PImage testImage = getInstance().generateNucleusImage(120, 100, 20);
+        PImage image=new PImage(new BufferedImage(50,50,BufferedImage.TYPE_INT_RGB));
+        //image.scale( 0.01 );
         
+        PPath path=new PhetPPath(new Ellipse2D.Double(0,0,1,1),Color.blue);
+        //PImage testImage = getInstance().generateNucleusImage(120, 100, 20);
+        //System.out.println("testimage.w="+testImage.getWidth());
         JFrame frame = new JFrame();
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.addScreenChild( testImage );
-        canvas.setWorldScale( 100 );
+        PhetPCanvas canvas = new PhetPCanvas(new Rectangle2D.Double(0,0,2,2));
+        
+        //canvas.addScreenChild( testImage );
+        canvas.addWorldChild( path );
+        canvas.addScreenChild( image );
+        //canvas.setWorldScale( 2 );
         frame.setContentPane( canvas );
         frame.setSize( 400, 300 );
         frame.setVisible( true );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        
+        canvas.setPanEventHandler( new PPanEventHandler() );
+        canvas.setZoomEventHandler( new PZoomEventHandler() );
     }
 }

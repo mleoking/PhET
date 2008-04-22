@@ -88,11 +88,7 @@ public class FissionOneNucleus extends AtomicNucleus{
             updateAgitationFactor();
 
             // Let the listeners know that the atomic weight has changed.
-            int totalNumProtons = _numFreeProtons + _numAlphas * 2;
-            totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
-            for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null );
-            }
+            notifyAtomicWeightChanged(null);
             
             // Start a timer to kick off fission.
             _fissionTime = _clock.getSimulationTime() + _fissionInterval;
@@ -188,17 +184,10 @@ public class FissionOneNucleus extends AtomicNucleus{
         updateAgitationFactor();
         
         // Notify all listeners of the potential position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged(); 
-        }        
+        notifyPositionChanged();        
         
         // Notify all listeners of the change to our atomic weight.
-        totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
-        int totalNumProtons = _numFreeProtons + _numAlphas * 2;
-        for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null );
-        }
+        notifyAtomicWeightChanged(null);
     }
     
     //------------------------------------------------------------------------
@@ -277,11 +266,7 @@ public class FissionOneNucleus extends AtomicNucleus{
             byProducts.add( daughterNucleus );
             
             // Send out the decay event to all listeners.
-            int totalNumProtons = _numFreeProtons + _numAlphas * 2;
-            int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
-            for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, byProducts );
-            }
+            notifyAtomicWeightChanged(byProducts);
             
             // Set the fission time to 0 to indicate that no more fissioning
             // should occur.

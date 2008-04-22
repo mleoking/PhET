@@ -80,16 +80,7 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
             updateAgitationFactor();
             
             // Let the listeners know that the atomic weight has changed.
-            int totalNumProtons = _numFreeProtons + _numAlphas * 2;
-            int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
-            for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, null);
-            }
-            
-            // If the original numbers don't match the current one, some bug
-            // exists that should be resolved.
-            assert totalNumNeutrons == ORIGINAL_NUM_NEUTRONS;
-            assert totalNumProtons == ORIGINAL_NUM_PROTONS;
+            notifyAtomicWeightChanged(null);
         }
     }
 
@@ -124,14 +115,9 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
                     updateAgitationFactor();
                     
                     // Notify listeners of the change of atomic weight.
-                    int totalNumProtons = _numFreeProtons + _numAlphas * 2;
-                    int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
                     ArrayList byProducts = new ArrayList(1);
                     byProducts.add( tunnelingParticle );
-                    for (int j = 0; j < _listeners.size(); j++){
-                        ((Listener)_listeners.get( j )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, 
-                                byProducts );
-                    }
+                    notifyAtomicWeightChanged(byProducts);
                     break;
                 }
             }

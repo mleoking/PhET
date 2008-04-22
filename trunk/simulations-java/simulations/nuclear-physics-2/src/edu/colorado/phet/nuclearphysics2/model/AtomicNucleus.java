@@ -32,7 +32,7 @@ public abstract class AtomicNucleus {
     protected NuclearPhysics2Clock _clock;
     
     // List of registered listeners.
-    protected ArrayList _listeners = new ArrayList();
+    private ArrayList _listeners = new ArrayList();
     
     // Location in space of the center of this nucleus.
     protected Point2D _position = new Point2D.Double();
@@ -76,6 +76,9 @@ public abstract class AtomicNucleus {
     // to go to tunnel out.
     protected double _tunnelingRegionRadius = DEFAULT_TUNNELING_REGION_RADIUS;
     
+    // Diameter of the atom, calculated at init and when changes occur. 
+    private double _diameter;
+    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -117,6 +120,9 @@ public abstract class AtomicNucleus {
                 _constituents.add( new Neutron(0, 0, true) );
             }
         }
+        
+        // Calculate our diameter.
+        updateDiameter();
         
         // Set the initial agitation factor.
         updateAgitationFactor();
@@ -161,6 +167,9 @@ public abstract class AtomicNucleus {
         
         // Keep the array of constituents.
         _constituents = constituents;
+        
+        // Calculate our diameter.
+        updateDiameter();
         
         // Set the initial agitation factor.
         updateAgitationFactor();
@@ -219,9 +228,13 @@ public abstract class AtomicNucleus {
      * @return
      */
     public double getDiameter(){
+        return _diameter;
+    }
+    
+    private void updateDiameter(){
         // This calculation is based on an empirically derived function that
         // seems to give pretty reasonable values.
-        return (1.6 * Math.pow( (double)getAtomicWeight(), 0.362));
+        _diameter = (1.6 * Math.pow( (double)getAtomicWeight(), 0.362));        
     }
     
     public ConstantDtClock getClock(){
@@ -322,15 +335,16 @@ public abstract class AtomicNucleus {
             _position.setLocation( newPosX, newPosY);
             
             // Notify listeners of the position change.
-            for (int i = 0; i < _listeners.size(); i++){
-                ((Listener)_listeners.get( i )).positionChanged();
-            }
+            notifyPositionChanged();
             
             // Move the constituent particles by the velocity amount.
-            for (int i = 0; i < _constituents.size(); i++){
-                newPosX = ((AtomicNucleusConstituent)_constituents.get(i)).getPosition().x + _xVelocity; 
-                newPosY = ((AtomicNucleusConstituent)_constituents.get(i)).getPosition().y + _yVelocity;
-                ((AtomicNucleusConstituent)_constituents.get(i)).setPosition( new Point2D.Double(newPosX, newPosY) );
+            int numConstituents = _constituents.size();
+            AtomicNucleusConstituent constituent = null;
+            for (int i = 0; i < numConstituents; i++){
+                constituent = (AtomicNucleusConstituent)_constituents.get(i);
+                newPosX = constituent.getPosition().x + _xVelocity; 
+                newPosY = constituent.getPosition().y + _yVelocity;
+                constituent.setPosition( newPosX, newPosY );
             }
         }
         
@@ -390,6 +404,28 @@ public abstract class AtomicNucleus {
      * or when something changes about the nucleus, such as a decay event.
      */
     protected abstract void updateAgitationFactor();
+    
+    /**
+     * Notify all listeners that our atomic weight has changed.
+     */
+    protected void notifyAtomicWeightChanged(ArrayList byProducts){
+        
+        // First recalculate the diameter, since it likely has changed.
+        updateDiameter();
+        
+        // Do the notification.
+        int totalNumProtons = _numFreeProtons + _numAlphas * 2;
+        int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, byProducts);
+        }
+    }
+    
+    protected void notifyPositionChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).positionChanged();
+        }        
+    }
     
     //------------------------------------------------------------------------
     // Inner interfaces
