@@ -108,13 +108,12 @@ public class EquilibriumLineNode extends PhetPNode {
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 
                 // draw a vertical line across the surface of the ice
-                final double perspectiveHeight = 300;//XXX
-                _pModel.setLocation( steadyStateELAContour.getX(), ela + perspectiveHeight );
+                _pModel.setLocation( steadyStateELAContour.getX(), ela + MountainsAndValleyNode.getPerspectiveHeight() );
                 _mvt.modelToView( _pModel, _pView );
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
             else {
-                //TODO draw a line to where the ELA meets the valley floor
+                // draw a line to where the ELA meets the valley floor
                 double x = _glacier.getValley().getX( ela );
                 _pModel.setLocation( x, ela );
                 _mvt.modelToView( _pModel, _pView );
