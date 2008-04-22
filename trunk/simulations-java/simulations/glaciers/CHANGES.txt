@@ -6,7 +6,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- extrude the ice
 - morph or move ice textures to show downvalley motion
 - optimize ice flow vectors, use same 1D grid as ice thickness
 - developer controls for ice velocity "look"?
@@ -73,6 +72,8 @@ CLEANUP:
 
 
 DONE:
+4/22/08 - first pass at extruding the ice
+4/22/08 - define 2D perspective height in MountainsAndValleyNode, height between foreground and background of valley boundaries
 4/22/08 - make equilibrium line dynamically follow the contour of the glacier as it evolves
 4/22/08 - add Valley.getX() to find x given an elevation
 4/21/08 - draw equilibrium line in response to glacier ice thickness changes, so we can evolve contour line at leading edge of glacier 
