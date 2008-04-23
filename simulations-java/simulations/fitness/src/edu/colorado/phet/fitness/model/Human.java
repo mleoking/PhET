@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.fitness.module.fitness.Exercise;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 
 /**
@@ -30,10 +29,13 @@ public class Human {
     private DefaultTemporalVariable activity = new DefaultTemporalVariable();//initialized to 0.5*BMR
     private DefaultTemporalVariable exercise = new DefaultTemporalVariable();//initialized to make sure weight is constant at startup
     private DefaultTemporalVariable bmr = new DefaultTemporalVariable();//dependent variable
-    private Exercise exerciseObject = null;
+    //    private Exercise exerciseObject = null;
     private static final ReferenceHuman REFERENCE_MALE = new ReferenceHuman( true, 22, 5, 8.5, 70, 86 );
     private static final ReferenceHuman REFERENCE_FEMALE = new ReferenceHuman( false, 22, 5, 4.5, 57, 74 );
     private static final ReferenceHuman DEFAULT_VALUE = REFERENCE_FEMALE;
+
+    private CalorieSet exerciseItems = new CalorieSet();
+    private CalorieSet foodItems = new CalorieSet();
 
     static class ReferenceHuman {
         boolean male;
@@ -73,28 +75,6 @@ public class Human {
 
 
     public Human() {
-
-        addListener( new Adapter() {
-            public void heightChanged() {
-                updateBMR();
-            }
-
-            public void weightChanged() {
-                updateBMR();
-            }
-
-            public void ageChanged() {
-                updateBMR();
-            }
-
-            public void genderChanged() {
-                updateBMR();
-            }
-
-            public void fatPercentChanged() {
-                updateBMR();
-            }
-        } );
         updateBMR();
         activity.setValue( bmr.getValue() * 0.5 );
         setDiet( FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() ) );
@@ -118,6 +98,14 @@ public class Human {
                 notifyExerciseChanged();
             }
         } );
+    }
+
+    public CalorieSet getSelectedFoods() {
+        return foodItems;
+    }
+
+    public CalorieSet getSelectedExercise() {
+        return exerciseItems;
     }
 
     private void notifyExerciseChanged() {
@@ -281,14 +269,14 @@ public class Human {
         return lipids.getValue() + proteins.getValue() + carbs.getValue();
     }
 
-    public void setExercise( Exercise exercise ) {
-        this.exerciseObject = exercise;//todo: should be a list
-        this.exercise.setValue( exercise.getCalories() );
-    }
-
-    public Exercise getExerciseObject() {
-        return exerciseObject;
-    }
+//    public void setExercise( Exercise exercise ) {
+//        this.exerciseObject = exercise;//todo: should be a list
+//        this.exercise.setValue( exercise.getCalories() );
+//    }
+//
+//    public Exercise getExerciseObject() {
+//        return exerciseObject;
+//    }
 
     public double getHeartHealth() {
         return 0.5;
@@ -310,6 +298,7 @@ public class Human {
             value = MathUtil.clamp( 4, value, 40 );
         }
         fatMassFraction.setValue( value / 100.0 );
+        updateBMR();
         notifyFatPercentChanged();
     }
     //    public double getDailyCaloricIntake() {
