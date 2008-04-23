@@ -36,6 +36,8 @@ public class CaloriePanel extends PNode {
     private ExerciseNode exerciseNode;
     private ActivityNode activityNode;
     private PSwing newDietNode;
+    private IONode intakeNode;
+    private IONode exerciseNode2;
 
     public CaloriePanel( final FitnessModel model, PhetPCanvas phetPCanvas ) {
         this.phetPCanvas = phetPCanvas;
@@ -81,22 +83,27 @@ public class CaloriePanel extends PNode {
         addChild( stackedBarChart );
 
         dietNode = new DietNode( model );
-        addChild( dietNode );
+//        addChild( dietNode );
 
         newDietNode = new PSwing( new DietControlPanel() );
-        addChild( newDietNode );
+//        addChild( newDietNode );
+
+        intakeNode = new IONode( "Edit Diet", Color.blue );
+        addChild( intakeNode );
 
         exerciseNode = new ExerciseNode( model );
-        addChild( exerciseNode );
+//        addChild( exerciseNode );
+
+        exerciseNode2 = new IONode( "Edit Exercise", Color.red );
+        addChild( exerciseNode2 );
 
         activityNode = new ActivityNode( model, phetPCanvas );
-        addChild( activityNode );
+//        addChild( activityNode );
 
         relayout();
     }
 
     public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {
-
         public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable ) {
             super( name, paint, variable.getValue() );
             variable.addListener( new IVariable.Listener() {
@@ -124,7 +131,9 @@ public class CaloriePanel extends PNode {
         exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 2, 100 );
         activityNode.setOffset( exerciseNode.getOffset().getX(), exerciseNode.getOffset().getY() + 100 );
 
-        newDietNode.setOffset( stackedBarChart.getFullBounds().getX()-newDietNode.getFullBounds().getWidth()-5, 0 );
+        newDietNode.setOffset( stackedBarChart.getFullBounds().getX() - newDietNode.getFullBounds().getWidth() - 5, 0 );
+        intakeNode.setOffset( stackedBarChart.getFullBounds().getX() - intakeNode.getFullBounds().getWidth() - 5, 10 );
+        exerciseNode2.setOffset( stackedBarChart.getFullBounds().getMaxX() + 20, 10 );
     }
 
 }
