@@ -46,15 +46,28 @@ public class GradientButtonNode extends PhetPNode {
     // Defaults for values that might not be specified at construction.
     private static final Color DEFAULT_COLOR = Color.GRAY;
     private static final int DEFAULT_FONT_SIZE = 14;
+    
+    // Constants that control various visual aspects of the button.
+    private static final double COLOR_SCALING_FACTOR = 0.5;
+    private static final double BUTTON_CORNER_ROUNDEDNESS = 8;
+    private static final float SHADOW_TRANSPARENCY = 0.2f;
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
+    
     private PPath _button;
     private HTMLNode _buttonText;
     private ArrayList _actionListeners;
-    private GradientPaint _unpressedGradient;
-    private GradientPaint _pressedGradient;
+    
+    // Gradient for when the mouse is not over the button.
+    private GradientPaint _mouseNotOverGradient;
+    
+    // Gradient for when the mouse is over the button.
+    private GradientPaint _mouseOverGradient;
+    
+    // Gradient for when the button is armed.
+    private GradientPaint _armedGradient;
     
     //------------------------------------------------------------------------
     // Constructors
@@ -80,53 +93,67 @@ public class GradientButtonNode extends PhetPNode {
         _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
         _buttonText.setPickable( false );
 
-        // Create the gradients that will be used to color the buttons.
-        _unpressedGradient = new GradientPaint((float)_buttonText.getFullBounds().width * 0.5f, 0f,
+        // Create the gradients that will be used to color the button.
+        _mouseNotOverGradient = new GradientPaint((float)_buttonText.getFullBounds().width / 2, 0f,
                 getBrighterColor( buttonColor ), 
                 (float)_buttonText.getFullBounds().width * 0.5f, (float)_buttonText.getFullBounds().height, 
                 buttonColor);
-        _pressedGradient = new GradientPaint((float)_buttonText.getFullBounds().width * 0.5f, 0f,
+        _mouseOverGradient = new GradientPaint((float)_buttonText.getFullBounds().width / 2, 0f,
                 getBrighterColor(getBrighterColor( buttonColor )), 
+                (float)_buttonText.getFullBounds().width * 0.5f, (float)_buttonText.getFullBounds().height, 
+                getBrighterColor( buttonColor ));
+        _armedGradient = new GradientPaint((float)_buttonText.getFullBounds().width / 2, 0f,
+                buttonColor, 
                 (float)_buttonText.getFullBounds().width * 0.5f, (float)_buttonText.getFullBounds().height, 
                 getBrighterColor( buttonColor ));
 
         // Create the button node.
-        _button = new PPath(new RoundRectangle2D.Double(0, 0, 
-        _buttonText.getFullBounds().width + 2 * HORIZONTAL_PADDING, 
-        _buttonText.getFullBounds().height + 2 * VERTICAL_PADDING,
-        8, 8));
-        _button.setPaint( _unpressedGradient );
+        RoundRectangle2D buttonShape = new RoundRectangle2D.Double(0, 0, 
+                _buttonText.getFullBounds().width + 2 * HORIZONTAL_PADDING,
+                _buttonText.getFullBounds().height + 2 * VERTICAL_PADDING,
+                BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS);
+                
+        _button = new PPath(buttonShape);
+        _button.setPaint( _mouseNotOverGradient );
         _button.addInputEventListener( new CursorHandler() ); // Does the finger pointer cursor thing.
 
         // Create the shadow node.
-        PNode buttonShadow = new PPath(new RoundRectangle2D.Double(SHADOW_OFFSET,
-                SHADOW_OFFSET, _buttonText.getFullBounds().width + 2 * HORIZONTAL_PADDING,
-                _buttonText.getFullBounds().height + 2 * VERTICAL_PADDING,
-                8, 8));
+        PNode buttonShadow = new PPath(buttonShape);
         buttonShadow.setPaint( Color.BLACK );
         buttonShadow.setPickable( false );
-        buttonShadow.setTransparency( 0.2f );
-
+        buttonShadow.setTransparency( SHADOW_TRANSPARENCY );
+        buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
+        
         // Register the button node for events.
         _button.addInputEventListener( new PBasicInputEventHandler() {
             boolean _mouseInside = false;
+            boolean _mousePressed = false;
 
             public void mouseEntered( PInputEvent event ) {
                 _mouseInside = true;
-                _button.setPaint( _pressedGradient );
+                _button.setPaint( _mouseOverGradient );
             }
             public void mouseExited( PInputEvent event ) {
                 _mouseInside = false;
-                _button.setPaint( _unpressedGradient );
+                _button.setPaint( _mouseNotOverGradient );
+                if (_mousePressed){
+                    _button.setOffset( 0, 0 );
+                    _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);                    
+                }
             }
             public void mousePressed( PInputEvent event ) {
+                _mousePressed = true;
                 _button.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
                 _buttonText.setOffset(HORIZONTAL_PADDING + SHADOW_OFFSET, VERTICAL_PADDING + SHADOW_OFFSET);
+                _button.setPaint( _armedGradient );
             }
             public void mouseReleased( PInputEvent event ) {
-                _button.setOffset( 0, 0 );
-                _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
+                _mousePressed = false;
                 if ( _mouseInside ) {
+                    _button.setOffset( 0, 0 );
+                    _button.setPaint( _mouseOverGradient );
+                    _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
+                    
                     fireEvent(new ActionEvent(this, 0, "button released") );
                 }
             }
@@ -184,9 +211,9 @@ public class GradientButtonNode extends PhetPNode {
     //------------------------------------------------------------------------
     
     private Color getBrighterColor(Color origColor){
-        int red = origColor.getRed() + (int)Math.round( (double)(255 - origColor.getRed()) * 0.5); 
-        int green = origColor.getGreen() + (int)Math.round( (double)(255 - origColor.getGreen()) * 0.5); 
-        int blue = origColor.getBlue() + (int)Math.round( (double)(255 - origColor.getBlue()) * 0.5); 
+        int red = origColor.getRed() + (int)Math.round( (double)(255 - origColor.getRed()) * COLOR_SCALING_FACTOR); 
+        int green = origColor.getGreen() + (int)Math.round( (double)(255 - origColor.getGreen()) * COLOR_SCALING_FACTOR); 
+        int blue = origColor.getBlue() + (int)Math.round( (double)(255 - origColor.getBlue()) * COLOR_SCALING_FACTOR); 
         return new Color ( red, green, blue );
     }
     
