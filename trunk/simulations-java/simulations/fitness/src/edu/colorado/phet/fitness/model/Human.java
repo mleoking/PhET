@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.fitness.module.fitness.Exercise;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 
@@ -13,15 +14,14 @@ import edu.colorado.phet.fitness.module.fitness.FitnessModel;
  */
 public class Human {
 
-    private Gender gender = Gender.MALE;
+    private Gender gender = DEFAULT_VALUE.getGender();
     private String name = "Larry";
     private ArrayList listeners = new ArrayList();
 
-    private DefaultTemporalVariable height = new DefaultTemporalVariable( 1.5 );//meters
-    private DefaultTemporalVariable weight = new DefaultTemporalVariable( 75 );//kg
-    private DefaultTemporalVariable age = new DefaultTemporalVariable( 20 * 525600.0 * 60 );//sec
-    private DefaultTemporalVariable leanMuscleMass = new DefaultTemporalVariable( 60 );//kg
-
+    private DefaultTemporalVariable height = new DefaultTemporalVariable( DEFAULT_VALUE.getHeightMeters() );//meters
+    private DefaultTemporalVariable mass = new DefaultTemporalVariable( DEFAULT_VALUE.getMassKG() );//kg
+    private DefaultTemporalVariable age = new DefaultTemporalVariable( DEFAULT_VALUE.getAgeSeconds() );//sec
+    private DefaultTemporalVariable fatMassFraction = new DefaultTemporalVariable( DEFAULT_VALUE.getFatFreeMassPercent() / 100.0 );//kg
 
     private DefaultTemporalVariable lipids = new DefaultTemporalVariable();
     private DefaultTemporalVariable carbs = new DefaultTemporalVariable();
@@ -31,6 +31,46 @@ public class Human {
     private DefaultTemporalVariable exercise = new DefaultTemporalVariable();//initialized to make sure weight is constant at startup
     private DefaultTemporalVariable bmr = new DefaultTemporalVariable();//dependent variable
     private Exercise exerciseObject = null;
+    private static final ReferenceHuman REFERENCE_MALE = new ReferenceHuman( true, 22, 5, 8.5, 70, 86 );
+    private static final ReferenceHuman REFERENCE_FEMALE = new ReferenceHuman( false, 22, 5, 4.5, 57, 74 );
+    private static final ReferenceHuman DEFAULT_VALUE = REFERENCE_FEMALE;
+
+    static class ReferenceHuman {
+        boolean male;
+        double ageYears;
+        double heightFT;
+        double massKG;
+        double fatFreeMassPercent;
+
+        ReferenceHuman( boolean male, double ageYears, double heightFT, double heightIN, double massKG, double fatFreeMassPercent ) {
+            this.male = male;
+            this.ageYears = ageYears;
+            this.heightFT = heightFT + heightIN / 12;
+            this.massKG = massKG;
+            this.fatFreeMassPercent = fatFreeMassPercent;
+        }
+
+        double getHeightMeters() {
+            return FitnessUnits.feetToMeters( heightFT );
+        }
+
+        double getAgeSeconds() {
+            return FitnessUnits.yearsToSeconds( ageYears );
+        }
+
+        double getMassKG() {
+            return massKG;
+        }
+
+        double getFatFreeMassPercent() {
+            return fatFreeMassPercent;
+        }
+
+        public Gender getGender() {
+            return male ? Gender.MALE : Gender.FEMALE;
+        }
+    }
+
 
     public Human() {
         setDiet( FitnessModel.BALANCED_DIET );
@@ -139,19 +179,19 @@ public class Human {
         this.name = name;
     }
 
-    public double getLeanMuscleMass() {
-        return leanMuscleMass.getValue();
-    }
+//    public double getLeanMuscleMass() {
+//        return leanMuscleMass.getValue();
+//    }
 
 //    public double getFatPercent() {
 //        return 100 - leanMuscleMass.;
 //    }
 
-    public void setLeanMuscleMass( double value ) {
-        this.leanMuscleMass.setValue( value );
-        notifyMusclePercentChanged();
-        notifyFatPercentChanged();
-    }
+//    public void setLeanMuscleMass( double value ) {
+//        this.leanMuscleMass.setValue( value );
+//        notifyMusclePercentChanged();
+//        notifyFatPercentChanged();
+//    }
 
     private void notifyFatPercentChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
@@ -224,6 +264,29 @@ public class Human {
     public Exercise getExerciseObject() {
         return exerciseObject;
     }
+
+    public double getHeartHealth() {
+        return 0.5;
+    }
+
+    public double getFatMassPercent() {
+        return fatMassFraction.getValue() * 100;
+    }
+
+    public double getFatFreeMassPercent() {
+        return 100 - getFatMassPercent();
+    }
+
+    public void setFatMassPercent( double value ) {
+        if ( getGender() == Gender.FEMALE ) {
+            value = MathUtil.clamp( 10, value, 40 );
+        }
+        else if ( getGender() == Gender.MALE ) {
+            value = MathUtil.clamp( 4, value, 40 );
+        }
+        fatMassFraction.setValue( value / 100.0 );
+        notifyFatPercentChanged();
+    }
     //    public double getDailyCaloricIntake() {
 //        double sum = 0;
 //        for ( Iterator iterator = foods.iterator(); iterator.hasNext(); ) {
@@ -288,11 +351,11 @@ public class Human {
     }
 
     public double getMass() {
-        return weight.getValue();
+        return mass.getValue();
     }
 
     public void setMass( double weight ) {
-        this.weight.setValue( weight );
+        this.mass.setValue( weight );
         notifyWeightChanged();
         notifyBMIChanged();
     }

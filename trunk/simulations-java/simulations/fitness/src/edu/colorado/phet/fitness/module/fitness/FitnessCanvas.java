@@ -93,16 +93,16 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
                 requestFocus();
             }
         } );
-        addKeyListener( new KeyAdapter() {
-            public void keyPressed( KeyEvent e ) {
-                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
-                    model.getHuman().setLeanMuscleMass( model.getHuman().getLeanMuscleMass() + 10 );
-                }
-                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-                    model.getHuman().setLeanMuscleMass( model.getHuman().getLeanMuscleMass() - 10 );
-                }
-            }
-        } );
+//        addKeyListener( new KeyAdapter() {
+//            public void keyPressed( KeyEvent e ) {
+//                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+//                    model.getHuman().setLeanMuscleMass( model.getHuman().getLeanMuscleMass() + 10 );
+//                }
+//                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+//                    model.getHuman().setLeanMuscleMass( model.getHuman().getLeanMuscleMass() - 10 );
+//                }
+//            }
+//        } );
     }
 
     private RulerNode createRulerNode() {
