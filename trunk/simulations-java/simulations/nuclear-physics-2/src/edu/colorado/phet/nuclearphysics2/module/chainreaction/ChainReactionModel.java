@@ -11,12 +11,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
+import edu.colorado.phet.nuclearphysics2.model.ContainmentVessel;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
+import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics2.model.Uranium238Nucleus;
 
 /**
@@ -65,6 +66,7 @@ public class ChainReactionModel {
     private ArrayList _freeNeutrons = new ArrayList();
     private Random _rand = new Random();
     private NeutronSource _neutronSource;
+    private ContainmentVessel _containmentVessel;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -107,6 +109,9 @@ public class ChainReactionModel {
                 // Ignore this, since we don't really care about it.
             }
         });
+        
+        // Add the containment vessel to the model.
+        _containmentVessel = new ContainmentVessel((double)MAX_NUCLEUS_RANGE_X / 3);
     }
     
     //------------------------------------------------------------------------
@@ -125,6 +130,16 @@ public class ChainReactionModel {
      */
     public NeutronSource getNeutronSource(){
         return _neutronSource;
+    }
+    
+    /**
+     * Get a reference to the containment vessel, of which there is only one
+     * in this model.
+     * 
+     * @return - Reference to the containment vessel model element.
+     */
+    public ContainmentVessel getContainmentVessel(){
+        return _containmentVessel;
     }
     
     public int getNumU235Nuclei(){
@@ -311,7 +326,8 @@ public class ChainReactionModel {
     private void handleClockTicked(ClockEvent clockEvent){
 
         // Move any free particles that exist.
-        for (int i = 0; i < _freeNeutrons.size(); i++){
+        int numFreeNeutrons = _freeNeutrons.size();
+        for (int i = 0; i < numFreeNeutrons; i++){
             Nucleon freeNucleon = (Nucleon)_freeNeutrons.get( i );
             assert freeNucleon instanceof Nucleon;
             freeNucleon.translate();
@@ -349,7 +365,20 @@ public class ChainReactionModel {
                 _freeNeutrons.remove( i );
                 sendRemovalNotifications( freeNucleon );
             }
+            else if ((_containmentVessel.getIsEnabled() && 
+                    _containmentVessel.isPositionContained( freeNucleon.getPosition() ))){
+                // This particle is contained by the containment vessel, so freeze it where it is.
+                freeNucleon.setVelocity( 0, 0 );
+            }
         }
+        
+        if (_containmentVessel.getIsEnabled()){
+            // The containment vessel is on, so we need to freeze any
+            // particles that are contained by it.
+            int numNuclei = _u235Nuclei.size();
+            for (int i = 0; i < numNuclei; i++){}
+        }
+
     }
     
     /**

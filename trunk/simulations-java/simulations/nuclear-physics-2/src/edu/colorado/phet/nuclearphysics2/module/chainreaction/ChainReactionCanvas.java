@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
-import edu.colorado.phet.nuclearphysics2.util.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
@@ -97,7 +97,8 @@ public class ChainReactionCanvas extends PhetPCanvas {
         // Register to receive button pushes.
         _containmentVesselButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-                // TODO: JPB TBD.
+                boolean currentVesselState = _chainReactionModel.getContainmentVessel().getIsEnabled();
+                _chainReactionModel.getContainmentVessel().setIsEnabled( !currentVesselState );
             }
         });
 

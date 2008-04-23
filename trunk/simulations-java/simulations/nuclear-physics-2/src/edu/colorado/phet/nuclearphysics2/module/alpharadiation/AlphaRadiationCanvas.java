@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
-import edu.colorado.phet.nuclearphysics2.util.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
