@@ -6,7 +6,6 @@ import java.awt.GradientPaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
@@ -46,8 +45,6 @@ public class GradientButtonNode extends PNode {
     //------------------------------------------------------------------------
     PPath _button;
     HTMLNode _buttonText;
-    double _positionX;
-    double _positionY;
     Color _mainButtonColor;
     ArrayList _actionListeners = new ArrayList();
     GradientPaint _unpressedGradient;
@@ -57,15 +54,10 @@ public class GradientButtonNode extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public GradientButtonNode(String label, Point2D position, int fontSize, Color buttonColor){
+    public GradientButtonNode(String label, int fontSize, Color buttonColor){
         
-        _positionX = position.getX();
-        _positionY = position.getY();
         _mainButtonColor = buttonColor;
   
-        // Set the offset for this overall PNode.
-        setOffset(_positionX, _positionY);
-
         // Create the label node first, since its size will be the basis for
         // the other components of this button.
         _buttonText = new HTMLNode(label);        
@@ -140,18 +132,10 @@ public class GradientButtonNode extends PNode {
     }
     
     private Color getBrighterColor(Color origColor){
-        final int COLOR_INCREMENT_FACTOR = 120;
+        final int COLOR_INCREMENT_FACTOR = 100;
         int red = Math.min(origColor.getRed() + COLOR_INCREMENT_FACTOR, 255); 
         int green = Math.min(origColor.getGreen() + COLOR_INCREMENT_FACTOR, 255); 
         int blue = Math.min(origColor.getBlue() + COLOR_INCREMENT_FACTOR, 255); 
-        return new Color ( red, green, blue );
-    }
-    
-    private Color getDarkerColor(Color origColor){
-        final int COLOR_DECREMENT_FACTOR = 60;
-        int red = Math.max(origColor.getRed() - COLOR_DECREMENT_FACTOR, 0); 
-        int green = Math.max(origColor.getGreen() - COLOR_DECREMENT_FACTOR, 0); 
-        int blue = Math.max(origColor.getBlue() - COLOR_DECREMENT_FACTOR, 0); 
         return new Color ( red, green, blue );
     }
     
@@ -168,9 +152,10 @@ public class GradientButtonNode extends PNode {
     
     public static void main( String[] args ) {
         
-        PNode testButton01 = new GradientButtonNode("Test Me", new Point2D.Double(25, 24), 16, Color.GREEN);
-        PNode testButton02 = new GradientButtonNode("<html>Test <br> Me Too</html>", new Point2D.Double(180, 24),
-                14, Color.BLUE);
+        PNode testButton01 = new GradientButtonNode("Test Me", 16, Color.GREEN);
+        PNode testButton02 = new GradientButtonNode("<html>Test <br> Me Too</html>", 14,
+                Color.BLUE);
+        testButton02.setOffset( 100, 100 );
         
         JFrame frame = new JFrame();
         PhetPCanvas canvas = new PhetPCanvas();

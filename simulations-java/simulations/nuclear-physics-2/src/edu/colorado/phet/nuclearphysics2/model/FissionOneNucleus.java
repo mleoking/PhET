@@ -81,7 +81,10 @@ public class FissionOneNucleus extends AtomicNucleus{
         int totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
         if (totalNumNeutrons == ORIGINAL_NUM_NEUTRONS){
             // We can capture this neutron.
-            freeParticle.setTunnelingEnabled( true );
+            if (_dynamic){
+                freeParticle.setTunnelingEnabled( true );
+            }
+            freeParticle.setPosition( getPosition() );
             freeParticle.setVelocity( 0, 0 );
             _constituents.add( freeParticle );
             _numFreeNeutrons++;

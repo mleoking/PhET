@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -92,7 +91,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         // Add the button for enabling the containment vessel to the canvas.
         // TODO: JPB TBD - Need to make this a string and possibly a two-lined button.
         _containmentVesselButtonNode = new GradientButtonNode("<html><center>Containment<br>Vessel</center></html>", 
-                new Point2D.Double(70, 50), 16, Color.ORANGE);
+                16, Color.ORANGE);
         addScreenChild(_containmentVesselButtonNode);
         
         // Register to receive button pushes.
