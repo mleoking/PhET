@@ -30,6 +30,7 @@ public class CalorieNode extends PNode {
                 CalorieSelectionPanel panel = new CalorieSelectionPanel( available, calorieSet );
                 dialog.setContentPane( panel );
                 dialog.pack();
+                dialog.setSize( 800, 600 );
                 dialog.setVisible( true );
                 SwingUtils.centerWindowOnScreen( dialog );
                 panel.paintImmediately( 0, 0, panel.getWidth(), panel.getHeight() );
@@ -55,6 +56,10 @@ public class CalorieNode extends PNode {
 
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
+                updatePlusNodeVisible();
+            }
+
+            public void itemRemoved( CaloricItem item ) {
                 updatePlusNodeVisible();
             }
         } );

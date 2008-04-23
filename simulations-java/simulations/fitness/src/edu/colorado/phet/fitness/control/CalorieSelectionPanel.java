@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -19,6 +21,7 @@ import edu.colorado.phet.fitness.module.fitness.FitnessModel;
  * Apr 23, 2008 at 10:35:43 AM
  */
 public class CalorieSelectionPanel extends VerticalLayoutPanel {
+
     public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected ) {
         JPanel baseDietPanel = new JPanel();
         baseDietPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
@@ -43,19 +46,16 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
             leftPanel.add( ban );
         }
 
-        final JPanel rightPanel = new VerticalLayoutPanel();
+        final JPanel rightPanel = new JPanel();
+        rightPanel.setLayout( new BoxLayout( rightPanel, BoxLayout.Y_AXIS ) );
         for ( int i = 0; i < selected.getItemCount(); i++ ) {
-            rightPanel.add( new SelectedComponent( selected.getItem( i ) ) );
+            rightPanel.add( new SelectedComponent( selected, selected.getItem( i ) ) );
         }
 
-//        JPanel lp = new VerticalLayoutPanel();
-//        lp.add( new JLabel( "Available" ) );
-//        lp.add(new JScrollPane(leftPanel));
-
         JScrollPane jScrollPane = new JScrollPane( leftPanel );
-        jScrollPane.setBorder( BorderFactory.createTitledBorder( "Available Foods" ) );
+        jScrollPane.setBorder( createTitledBorder( "Available Foods" ) );
         JScrollPane jScrollPane1 = new JScrollPane( rightPanel );
-        jScrollPane1.setBorder( BorderFactory.createTitledBorder( "Selected" ) );
+        jScrollPane1.setBorder( createTitledBorder( "Selected Foods" ) );
         final JSplitPane pane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, jScrollPane, jScrollPane1 );
         pane.setDividerLocation( 0.5 );
 
@@ -63,12 +63,40 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
         pane.setPreferredSize( new Dimension( 300, 300 ) );
         selected.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
-                rightPanel.add( new SelectedComponent( item ) );
+                rightPanel.add( Box.createRigidArea( new Dimension( 2, 2 ) ) );
+                rightPanel.add( new SelectedComponent( selected, item ) );
                 pane.setDividerLocation( 0.5 );
                 pane.invalidate();
                 pane.revalidate();
             }
+
+            public void itemRemoved( CaloricItem item ) {
+                for (int i=0;i<rightPanel.getComponentCount();i++){
+                    Component c=rightPanel.getComponent( i );
+                    if (c instanceof SelectedComponent){
+                        SelectedComponent sc= (SelectedComponent) c;
+                        if (sc.item==item){
+                            rightPanel.remove( sc );
+                            i--;
+                            rightPanel.invalidate();
+                            rightPanel.revalidate();
+                            rightPanel.repaint(  );
+                        }
+                    }
+
+                }
+            }
         } );
+    }
+
+    private TitledBorder createTitledBorder( String title ) {
+        return new TitledBorder( new BevelBorder( BevelBorder.LOWERED ), title, TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new PhetDefaultFont( 20, true ) ) {
+            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                super.paintBorder( c, g, x, y, width, height );
+            }
+        };
     }
 
     private Icon createIcon( String s, Color color, PhetDefaultFont font ) {
@@ -99,9 +127,20 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
     }
 
     private class SelectedComponent extends DietComponent {
-        public SelectedComponent( CaloricItem item ) {
+        private CalorieSet set;
+        private CaloricItem item;
+
+        public SelectedComponent( final CalorieSet set, final CaloricItem item ) {
             super( item );
-            add( new JButton( "Remove from Diet" ) );
+            this.set = set;
+            this.item=item;
+            JButton button = new JButton( "Remove from Diet" );
+            button.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    set.removeItem( item );
+                }
+            } );
+            add( button );
 //            DietComponent ban = new DietComponent( selected.getItem( i ) );
 //            rightPanel.add( ban );
         }
