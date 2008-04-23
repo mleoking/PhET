@@ -38,7 +38,7 @@ public class GradientButtonNode extends PNode {
     
     // Constant that controls where the shadow shows up and how far the button
     // translates when pushed.
-    private static final int SHADOW_OFFSET = 3;
+    private static final int SHADOW_OFFSET = 2;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -132,10 +132,10 @@ public class GradientButtonNode extends PNode {
     }
     
     private Color getBrighterColor(Color origColor){
-        final int COLOR_INCREMENT_FACTOR = 100;
-        int red = Math.min(origColor.getRed() + COLOR_INCREMENT_FACTOR, 255); 
-        int green = Math.min(origColor.getGreen() + COLOR_INCREMENT_FACTOR, 255); 
-        int blue = Math.min(origColor.getBlue() + COLOR_INCREMENT_FACTOR, 255); 
+        final double COLOR_SCALING_FACTOR = 2.0;
+        int red = origColor.getRed() + (int)Math.round( (double)(255 - origColor.getRed()) * 0.5); 
+        int green = origColor.getGreen() + (int)Math.round( (double)(255 - origColor.getGreen()) * 0.5); 
+        int blue = origColor.getBlue() + (int)Math.round( (double)(255 - origColor.getBlue()) * 0.5); 
         return new Color ( red, green, blue );
     }
     

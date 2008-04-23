@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics2.module.fissiononenucleus;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -19,6 +20,7 @@ import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
+import edu.colorado.phet.nuclearphysics2.util.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.PhetButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
@@ -56,7 +58,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private NeutronSourceNode _neutronSourceNode;
     private FissionEnergyChart _fissionEnergyChart;
     private Hashtable _particleToNodeMap;
-    private GraphicButtonNode _resetButtonNode;
+    private GradientButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -182,8 +184,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         });
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GraphicButtonNode("Mesh Gradient Button Unpushed.png", "Mesh Gradient Button Pushed.png",
-                NuclearPhysics2Strings.RESET_NUCLEUS, 0.8, 0.6);
+        _resetButtonNode = new GradientButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS, 16, new Color(0xff9900));
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.
@@ -201,7 +202,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 _fissionEnergyChart.componentResized( getWidth(), getHeight() );
-                _resetButtonNode.setOffset( getWidth() * 0.75, getHeight() * 0.15);
+                _resetButtonNode.setOffset( getWidth() * 0.80, getHeight() * 0.10);
             }
         } );
     }
