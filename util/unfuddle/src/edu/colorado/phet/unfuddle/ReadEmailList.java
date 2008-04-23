@@ -53,8 +53,12 @@ public class ReadEmailList {
     }
 
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID );
-        UnfuddleAccount unfuddleAccount = new UnfuddleAccount( new File( ProcessRecentChanges.SVN_TRUNK+"\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );
+        if ( args.length != 3 ) {
+            System.out.println( "usage: ReadEmailList unfuddleUsername unfuddlePassword svnTrunk" );
+            System.exit( 1 );
+        }
+        UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
+        UnfuddleAccount unfuddleAccount = new UnfuddleAccount( new File( args[2]+"\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );//TODO separator is Windows specific
         ReadEmailList readEmailList = new ReadEmailList( unfuddleAccount, curl );
         String[] s = readEmailList.getEmailsForComponent( "charts" );
         System.out.println( "Arrays.asList( = " + Arrays.asList( s ) );
@@ -62,7 +66,7 @@ public class ReadEmailList {
 
     //code to read "email=component..." format
 //        Properties p = new Properties();
-//        p.load( new FileInputStream( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\email.properties" ) ) );
+//        p.load( new FileInputStream( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\email.properties" ) ) );//TODO separator is Windows specific
 //        String c = p.getProperty( component );
 //        c = c == null ? "" : c;
 //        StringTokenizer st = new StringTokenizer( c, ", " );

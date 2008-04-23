@@ -15,10 +15,10 @@ import java.io.IOException;
  */
 public class UnfuddleDump {
     public static void main( String[] args ) throws IOException {
-        if ( args.length != 2 ) {
-            System.out.println( "usage: UnfuddleDump username password" );
+        if ( args.length != 3 ) {
+            System.out.println( "usage: UnfuddleDump unfuddleUsername unfuddlePassword svnTrunk" );
         }
-        UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID );
+        UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[3] );
 //        String dump = curl.readString( "tickets" );
         String dump = curl.readString( "dump" );
         System.out.println( "dump.length = " + dump.length() );

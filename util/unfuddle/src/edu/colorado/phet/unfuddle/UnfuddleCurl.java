@@ -21,8 +21,9 @@ public class UnfuddleCurl {
     private String username;
     private String password;
     private int accountID;
+    private String svnTrunk;
 
-    public UnfuddleCurl( String username, String password, int accountID ) {
+    public UnfuddleCurl( String username, String password, int accountID, String svnTrunk ) {
         this.username = username;
         this.password = password;
         this.accountID = accountID;
@@ -51,10 +52,9 @@ public class UnfuddleCurl {
 
     //fails for dump (timeout)
     public String readString( String readARG ) throws IOException {
-        //TODO this is Windows specific, users should have curl in their path
-        String CURL = ProcessRecentChanges.SVN_TRUNK+"\\util\\unfuddle\\contrib\\curl\\curl.exe";
+        String curl = svnTrunk + "\\util\\unfuddle\\contrib\\curl\\curl.exe"; //TODO this is Windows specific, users should have curl in their path
         String cmdArg = accountID + "/" + readARG;
-        String cmd = CURL + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
+        String cmd = curl + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
         System.out.println( "cmd = " + cmd );
         return execCommand(cmd);
     }
@@ -89,9 +89,10 @@ public class UnfuddleCurl {
         if ( readFromWeb ) {
             String username = args[0];
             String password = args[1];
+            String svnTrunk = args[2];
 
-            String tickets = new UnfuddleCurl( username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID ).readString( "tickets" );
-            String ticketComments = new UnfuddleCurl( username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID ).readString( "tickets/comments" );
+            String tickets = new UnfuddleCurl( username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).readString( "tickets" );
+            String ticketComments = new UnfuddleCurl( username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).readString( "tickets/comments" );
             FileUtils.writeString( ticketFile, tickets );
             FileUtils.writeString( ticketCommentFile, ticketComments );
         }
