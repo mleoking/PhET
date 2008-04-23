@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Color;
@@ -13,10 +15,11 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventListener;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -73,7 +76,7 @@ public class GradientButtonNode extends PhetPNode {
     //------------------------------------------------------------------------
 
     /**
-     * Construct a gadient button node.
+     * Construct a gradient button node.
      * 
      * @param label - Text that will appear on the button.
      * @param fontSize - Size of font for the label text.
@@ -124,40 +127,38 @@ public class GradientButtonNode extends PhetPNode {
         buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
         
         // Register the button node for events.
-        _button.addInputEventListener( new PBasicInputEventHandler() {
-            boolean _mouseInside = false;
-            boolean _mousePressed = false;
-
-            public void mouseEntered( PInputEvent event ) {
-                _mouseInside = true;
-                _button.setPaint( _mouseOverGradient );
-            }
-            public void mouseExited( PInputEvent event ) {
-                _mouseInside = false;
-                _button.setPaint( _mouseNotOverGradient );
-                if (_mousePressed){
-                    _button.setOffset( 0, 0 );
-                    _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);                    
-                }
-            }
-            public void mousePressed( PInputEvent event ) {
-                _mousePressed = true;
-                _button.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
-                _buttonText.setOffset(HORIZONTAL_PADDING + SHADOW_OFFSET, VERTICAL_PADDING + SHADOW_OFFSET);
-                _button.setPaint( _armedGradient );
-            }
-            public void mouseReleased( PInputEvent event ) {
-                _mousePressed = false;
-                if ( _mouseInside ) {
-                    _button.setOffset( 0, 0 );
+        ButtonEventHandler handler = new ButtonEventHandler();
+        _button.addInputEventListener( handler );
+        handler.addButtonEventListener( new ButtonEventListener() {
+            private boolean focus = false;
+            public void setFocus( boolean focus ) {
+                this.focus = focus;
+                if ( focus ) {
                     _button.setPaint( _mouseOverGradient );
-                    _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
-                    
-                    fireEvent(new ActionEvent(this, 0, "button released") );
+                }
+                else {
+                    _button.setPaint( _mouseNotOverGradient );
                 }
             }
-            
-            private void fireEvent( ActionEvent event ) {
+            public void setArmed( boolean armed ) {
+                if ( armed ) {
+                    _button.setPaint( _armedGradient );
+                    _button.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
+                    _buttonText.setOffset(HORIZONTAL_PADDING + SHADOW_OFFSET, VERTICAL_PADDING + SHADOW_OFFSET);
+                }
+                else {
+                    if ( focus ) {
+                        _button.setPaint( _mouseOverGradient );
+                    }
+                    else {
+                        _button.setPaint( _mouseNotOverGradient );       
+                    }
+                    _button.setOffset( 0, 0 );
+                    _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
+                }
+            }
+            public void fire() {
+                ActionEvent event = new ActionEvent(this, 0, "BUTTON_FIRED");
                 for (int i =0; i < _actionListeners.size(); i++){
                     ((ActionListener)_actionListeners.get(i)).actionPerformed( event );
                 }
@@ -223,36 +224,38 @@ public class GradientButtonNode extends PhetPNode {
     
     public static void main( String[] args ) {
         
+        ActionListener listener = new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                System.out.println("actionPerformed event= " + event);
+            }
+        };
+        
         GradientButtonNode testButton01 = new GradientButtonNode("Test Me", 16, Color.GREEN);
         testButton01.setOffset( 5, 5 );
+        testButton01.addActionListener( listener );
         
         GradientButtonNode testButton02 = new GradientButtonNode("<html>Test <br> Me Too</html>", 24, new Color(0x99cccc));
         testButton02.setOffset( 200, 5 );
+        testButton02.addActionListener( listener );
         
         GradientButtonNode testButton03 = new GradientButtonNode("<html><center>Default Color<br>and Font<center></html>");
         testButton03.setOffset( 5, 200 );
+        testButton03.addActionListener( listener );
         
         GradientButtonNode testButton04 = new GradientButtonNode("Default Font Size", new Color(0xcc3366));
         testButton04.setOffset( 200, 200 );
+        testButton04.addActionListener( listener );
         
-        JFrame frame = new JFrame();
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.addScreenChild( testButton01 );
         canvas.addScreenChild( testButton02 );
         canvas.addScreenChild( testButton03 );
         canvas.addScreenChild( testButton04 );
+        
+        JFrame frame = new JFrame();
         frame.setContentPane( canvas );
         frame.setSize( 400, 300 );
-        frame.setVisible( true );
-        
-        // Listen to one button so we can verify that events are being fired.
-        testButton01.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                System.out.println("ActionEvent received, = " + event);
-            }
-        });
-
-        
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE ); 
+        frame.setVisible( true );
     }
 }
