@@ -110,7 +110,7 @@ EOT;
     }
 }
 
-$page = new OrganizeSimulationsPage("Organize Simulations", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new OrganizeSimulationsPage("Organize Simulations", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

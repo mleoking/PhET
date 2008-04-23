@@ -19,7 +19,7 @@ class NewSimulation extends SitePage {
     }
 }
 
-$page = new NewSimulation("New Simulations", NAV_ADMIN, null);
+$page = new NewSimulation("New Simulations", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

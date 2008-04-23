@@ -12,7 +12,7 @@ include_once("../page_templates/SitePage.php");
 class DownloadPage extends SitePage {
     function __construct($nav_selected_page, $referrer, $page_title = "") {
         $this->render = true;
-        parent::__construct($nav_selected_page, $referrer, $page_title);
+        parent::__construct($page_title, $nav_selected_page, $referrer, SP_AUTHLEVEL_NONE, false);
     }
 
     function update() {

@@ -111,7 +111,7 @@ EOT;
     }
 }
 
-$page = new ManageDatabase("Manage Database", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new ManageDatabase("Manage Database", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

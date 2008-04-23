@@ -30,7 +30,12 @@ class SitePage extends BasePage {
     // contributor_array - The user who is logged in (NULL if no user is logged on)
     protected $user;
 
-    function __construct($page_title, $nav_selected_page, $referrer, $authentication_level = SP_AUTHLEVEL_NONE, $base_title = "") {
+    function __construct($page_title,
+                         $nav_selected_page,
+                         $referrer,
+                         $authentication_level = SP_AUTHLEVEL_NONE,
+                         $cache_page = true,
+                         $base_title = "") {
         assert(($authentication_level == SP_AUTHLEVEL_NONE) ||
             ($authentication_level == SP_AUTHLEVEL_USER) ||
             ($authentication_level == SP_AUTHLEVEL_TEAM));
@@ -43,7 +48,7 @@ class SitePage extends BasePage {
         $this->required_authentication_level = $authentication_level;
         $this->authenticate_user();
 
-        parent::__construct($page_title, $nav_selected_page, $referrer, $base_title);
+        parent::__construct($page_title, $nav_selected_page, $referrer, $cache_page, $base_title);
     }
 
     function authenticate_user() {

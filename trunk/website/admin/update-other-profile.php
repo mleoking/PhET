@@ -26,7 +26,7 @@ class UpadteOtherProfilePage extends SitePage {
     }
 }
 
-$page = new UpadteOtherProfilePage("Update Profile", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new UpadteOtherProfilePage("Update Profile", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

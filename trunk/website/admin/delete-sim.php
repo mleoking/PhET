@@ -15,6 +15,8 @@ class DeleteSimPage extends SitePage {
         $sql        = "DELETE FROM `simulation_listing` WHERE `sim_id`='$sim_id' ";
         $sql_result = mysql_query($sql);
 
+        cache_clear_simulations();
+
         print "<p>Successfully deleted the simulation from the database. <a href=\"list-sims.php\">Click here to go back.</a></p>";
     }
 
@@ -52,7 +54,7 @@ class DeleteSimPage extends SitePage {
 
 }
 
-$page = new DeleteSimPage("Delete Simulation", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new DeleteSimPage("Delete Simulation", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 
