@@ -97,11 +97,11 @@ public class ButtonEventHandler extends PBasicInputEventHandler {
         public void fire() {}
     }
     
-    public void addButtonListener( ButtonEventListener listener ) {
+    public void addButtonEventListener( ButtonEventListener listener ) {
         listeners.add( listener );
     }
     
-    public void removeButtonListener( ButtonEventListener listener ) {
+    public void removeButtonEventListener( ButtonEventListener listener ) {
         listeners.remove( listener );
     }
     

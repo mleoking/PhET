@@ -76,7 +76,7 @@ public abstract class ScrollArrowNode extends PhetPNode {
         
         ButtonEventHandler buttonHandler = new ButtonEventHandler();
         addInputEventListener( buttonHandler );
-        buttonHandler.addButtonListener( new ButtonEventListener() {
+        buttonHandler.addButtonEventListener( new ButtonEventListener() {
             
             private boolean _armed;
             
