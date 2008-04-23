@@ -24,7 +24,7 @@ public class CalorieSet {
 
     public void addItem( CaloricItem item ) {
         list.add( item );
-        notifyItemSetChanged();
+        notifyItemAdded(item);
     }
 
     public double getTotal() {
@@ -53,16 +53,16 @@ public class CalorieSet {
     }
 
     public static interface Listener {
-        void itemSetChanged();
+        void itemAdded( CaloricItem item );
     }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
 
-    public void notifyItemSetChanged() {
+    public void notifyItemAdded( CaloricItem item ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).itemSetChanged();
+            ( (Listener) listeners.get( i ) ).itemAdded(item);
         }
     }
 }
