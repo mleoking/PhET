@@ -3,8 +3,6 @@
 package edu.colorado.phet.fitness.module.fitness;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Dimension2D;
@@ -15,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.fitness.FitnessConstants;
 import edu.colorado.phet.fitness.control.HumanControlPanel;
-import edu.colorado.phet.fitness.control.NewCaloriePanel;
+import edu.colorado.phet.fitness.control.CaloriePanel;
 import edu.colorado.phet.fitness.view.HumanAreaNode;
 import edu.colorado.phet.fitness.view.ScaleNode;
 import edu.umd.cs.piccolo.PNode;
@@ -80,7 +78,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
-        PNode caloriePanel = new NewCaloriePanel( model, this );
+        PNode caloriePanel = new CaloriePanel( model, this );
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         addScreenChild( caloriePanel );
 

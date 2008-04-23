@@ -21,7 +21,7 @@ public class Human {
     private DefaultTemporalVariable height = new DefaultTemporalVariable( DEFAULT_VALUE.getHeightMeters() );//meters
     private DefaultTemporalVariable mass = new DefaultTemporalVariable( DEFAULT_VALUE.getMassKG() );//kg
     private DefaultTemporalVariable age = new DefaultTemporalVariable( DEFAULT_VALUE.getAgeSeconds() );//sec
-    private DefaultTemporalVariable fatMassFraction = new DefaultTemporalVariable( DEFAULT_VALUE.getFatFreeMassPercent() / 100.0 );//kg
+    private DefaultTemporalVariable fatMassFraction = new DefaultTemporalVariable( (100-DEFAULT_VALUE.getFatFreeMassPercent()) / 100.0 );
 
     private DefaultTemporalVariable lipids = new DefaultTemporalVariable();
     private DefaultTemporalVariable carbs = new DefaultTemporalVariable();
@@ -90,6 +90,10 @@ public class Human {
             public void genderChanged() {
                 updateBMR();
             }
+
+            public void fatPercentChanged() {
+                updateBMR();
+            }
         } );
         updateBMR();
         activity.setValue( bmr.getValue() * 0.5 );
@@ -115,7 +119,6 @@ public class Human {
                 notifyExerciseChanged();
             }
         } );
-
     }
 
     private void notifyExerciseChanged() {
@@ -142,7 +145,10 @@ public class Human {
     }
 
     private void updateBMR() {
-        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getMass(), getHeight(), getAge(), gender ) );
+//        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getMass(), getHeight(), getAge(), gender ) );
+        double value = 392 + 21.8 * getFatFreeMassPercent();
+        System.out.println( "value = " + value +", FFMP="+getFatFreeMassPercent());
+        bmr.setValue( value );
     }
 
     /**
@@ -355,7 +361,7 @@ public class Human {
     }
 
     public void setMass( double weight ) {
-        this.mass.setValue( weight );
+        this.mass.setValue( Math.max( weight, 0 ) );
         notifyWeightChanged();
         notifyBMIChanged();
     }
