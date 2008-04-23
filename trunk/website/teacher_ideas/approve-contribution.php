@@ -19,6 +19,7 @@ class ApproveContributionPage extends SitePage {
         }
         $contribution_id = $_REQUEST["contribution_id"];
         contribution_set_approved($contribution_id, true);
+        cache_clear(BROWSE_CACHE);
         $this->meta_refresh($this->referrer, 2);
     }
 

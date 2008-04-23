@@ -102,7 +102,6 @@ EOT;
             return true;
         }
         else {
-            // Throw?
             return false;
         }
     }
