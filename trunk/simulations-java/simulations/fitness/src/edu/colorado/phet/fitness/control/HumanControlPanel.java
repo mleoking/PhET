@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 
 /**
@@ -21,16 +22,22 @@ import edu.colorado.phet.fitness.model.Human;
 public class HumanControlPanel extends VerticalLayoutPanel {
     private Human human;
 
+//    public String toString( double sec ) {
+//        int years = (int) FitnessUnits.secondsToYears( sec );
+//        double remainingSec = sec - FitnessUnits.yearsToSeconds( years );
+//        int months=(int) FitnessUnits
+//    }
+
     public HumanControlPanel( final Human human ) {
         this.human = human;
         getGridBagConstraints().insets = new Insets( 4, 4, 4, 4 );
         setFillNone();
 
-//        add (new NamePanel(human));
-
         add( new GenderControl( human ) );
         setFillHorizontal();
 
+        final JLabel ageReadout = new JLabel();
+        add( ageReadout );
         final LinearValueControl age = new HumanSlider( 0, 100 * 525600.0 * 60, human.getAge(), "Age", "0.00", "seconds" );
         age.getTextField().setColumns( 9 );
         add( age );
@@ -107,6 +114,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
             getSlider().setPaintLabels( false );
             getSlider().setPaintTicks( false );
+            setSignifyOutOfBounds( false );
         }
     }
 
