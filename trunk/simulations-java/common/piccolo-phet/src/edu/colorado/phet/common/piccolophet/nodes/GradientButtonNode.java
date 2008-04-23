@@ -126,19 +126,14 @@ public class GradientButtonNode extends PhetPNode {
         buttonShadow.setTransparency( SHADOW_TRANSPARENCY );
         buttonShadow.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
         
-        // Register the button node for events.
+        // Register a handler to watch for button state changes.
         ButtonEventHandler handler = new ButtonEventHandler();
         _button.addInputEventListener( handler );
         handler.addButtonEventListener( new ButtonEventListener() {
-            private boolean focus = false;
+            private boolean focus = false; // true if the button has focus
             public void setFocus( boolean focus ) {
                 this.focus = focus;
-                if ( focus ) {
-                    _button.setPaint( _mouseOverGradient );
-                }
-                else {
-                    _button.setPaint( _mouseNotOverGradient );
-                }
+                _button.setPaint( focus ? _mouseOverGradient : _mouseNotOverGradient);
             }
             public void setArmed( boolean armed ) {
                 if ( armed ) {
@@ -147,12 +142,7 @@ public class GradientButtonNode extends PhetPNode {
                     _buttonText.setOffset(HORIZONTAL_PADDING + SHADOW_OFFSET, VERTICAL_PADDING + SHADOW_OFFSET);
                 }
                 else {
-                    if ( focus ) {
-                        _button.setPaint( _mouseOverGradient );
-                    }
-                    else {
-                        _button.setPaint( _mouseNotOverGradient );       
-                    }
+                    _button.setPaint( focus ? _mouseOverGradient : _mouseNotOverGradient );
                     _button.setOffset( 0, 0 );
                     _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
                 }
