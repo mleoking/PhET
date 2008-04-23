@@ -91,7 +91,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         // Add the button for enabling the containment vessel to the canvas.
         // TODO: JPB TBD - Need to make this a string and possibly a two-lined button.
         _containmentVesselButtonNode = new GradientButtonNode("<html><center>Containment<br>Vessel</center></html>", 
-                16, Color.ORANGE);
+                16, new Color(0x00cc33));
         addScreenChild(_containmentVesselButtonNode);
         
         // Register to receive button pushes.
@@ -112,7 +112,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
             public void componentResized( ComponentEvent e ) {
                 
                 // Position the containment vessel button.
-                _containmentVesselButtonNode.setOffset( 0.75 * getWidth(), 0.15 * getHeight() );
+                _containmentVesselButtonNode.setOffset( 0.80 * getWidth(), 0.10 * getHeight() );
             }
         });
         
