@@ -240,7 +240,7 @@ public class ChainReactionModel {
                     position = new Point2D.Double(0, 0);
                 }
                 else{
-                    position = getOpenNucleusLocation();
+                    position = findOpenNucleusLocation();
                 }
                 if (position == null){
                     // We were unable to find a spot for this nucleus.
@@ -293,7 +293,7 @@ public class ChainReactionModel {
             
             // We need to add some new nuclei.
             for (int i = 0; i < numU238Nuclei - _u238Nuclei.size(); i++){
-                Point2D position = getOpenNucleusLocation();
+                Point2D position = findOpenNucleusLocation();
                 if (position == null){
                     // We were unable to find a spot for this nucleus.
                     continue;
@@ -327,8 +327,7 @@ public class ChainReactionModel {
     private void handleClockTicked(ClockEvent clockEvent){
 
         // Move any free particles that exist.
-        int numFreeNeutrons = _freeNeutrons.size();
-        for (int i = 0; i < numFreeNeutrons; i++){
+        for (int i = 0; i < _freeNeutrons.size(); i++){
             Nucleon freeNucleon = (Nucleon)_freeNeutrons.get( i );
             assert freeNucleon instanceof Nucleon;
             freeNucleon.translate();
@@ -388,33 +387,37 @@ public class ChainReactionModel {
      * 
      * @return
      */
-    private Point2D getOpenNucleusLocation(){
+    private Point2D findOpenNucleusLocation(){
         for (int i = 0; i < 100; i++){
             // Randomly select an x & y position
             double xPos = (MAX_NUCLEUS_RANGE_X / 2) * (_rand.nextDouble() - 0.5); 
             double yPos = (MAX_NUCLEUS_RANGE_Y / 2) * (_rand.nextDouble() - 0.5);
             Point2D position = new Point2D.Double(xPos, yPos);
             
-            // Check if this point is taken.
-            boolean pointTaken = false;
+            // Check if this point is available.
+            boolean pointAvailable = true;
+            if ((_containmentVessel.getIsEnabled() == true) && 
+                    ((Point2D.distance( xPos, yPos, 0, 0 )) > _containmentVessel.getRadius())){
+                pointAvailable = false;
+            }
             if (NEUTRON_SOURCE_OFF_LIMITS_RECT.contains( position )){
                 // Too close to the neutron source.
-                pointTaken = true;
+                pointAvailable = false;
             }
-            for (int j = 0; (j < _u235Nuclei.size()) && (pointTaken == false); j++){
+            for (int j = 0; (j < _u235Nuclei.size()) && (pointAvailable == true); j++){
                 if (position.distance( ((AtomicNucleus)_u235Nuclei.get(j)).getPosition()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
                     // This point is taken.
-                    pointTaken = true;
+                    pointAvailable = false;
                 }
             }
-            for (int j = 0; (j < _u238Nuclei.size()) && (pointTaken == false); j++){
+            for (int j = 0; (j < _u238Nuclei.size()) && (pointAvailable == true); j++){
                 if (position.distance( ((AtomicNucleus)_u238Nuclei.get(j)).getPosition()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
                     // This point is taken.
-                    pointTaken = true;
+                    pointAvailable = false;
                 }
             }
             
-            if (pointTaken == false){
+            if (pointAvailable == true){
                 // We have found a usable location.  Return it.
                 return position;
             }
