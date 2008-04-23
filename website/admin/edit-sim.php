@@ -183,7 +183,7 @@ EOT;
     }
 }
 
-$page = new EditSimPage("Edit Simulation Parameters", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new EditSimPage("Edit Simulation Parameters", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

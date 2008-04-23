@@ -21,7 +21,7 @@
 EOD;
 
         // Clear the simulations caches
-        cache_clear('../simulations', true, 'Simulations cache');
+        cache_clear_explicit('../simulations', true, 'Simulations cache');
 
         // Print a nice XHTML footer
         print <<<EOD

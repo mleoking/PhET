@@ -64,6 +64,9 @@ class UpdateSimulationPage extends SitePage {
         // Cleanup junk, if any:
         db_exec_query('DELETE FROM `simulation` WHERE `sim_name`=\'New Simulation\' ');
 
+        // Clear the sim cache
+        cache_clear_simulations();
+
         // TODO: check for success!
         $this->meta_refresh("edit-sim.php?sim_id=$sim_id", 2);
     }
@@ -81,9 +84,10 @@ class UpdateSimulationPage extends SitePage {
 
 EOT;
     }
+
 }
 
-$page = new UpdateSimulationPage("Update Simulation", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new UpdateSimulationPage("Update Simulation", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

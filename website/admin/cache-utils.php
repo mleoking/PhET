@@ -12,7 +12,7 @@
     function cache_enabled() {
         if ((isset($_SERVER['SERVER_NAME'])) &&
             ($_SERVER['SERVER_NAME'] == 'localhost')) {
-            return false;
+            return true;
         }
         else {
             return true;
@@ -53,6 +53,14 @@
 
     function cache_clear($cache_name) {
         exec('rm -rf '.cache_get_location($cache_name));
+    }
+
+    function cache_clear_simulations() {
+        exec('rm -rf '.SITE_ROOT."/simulations/cached-webpages");
+    }
+
+    function cache_clear_admin() {
+        exec('rm -rf '.SITE_ROOT."/admin/cached-*");
     }
 
     /**

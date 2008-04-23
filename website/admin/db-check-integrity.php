@@ -18,7 +18,7 @@ class CheckContributionItegrity extends SitePage {
         $this->num_invalid_rows = 0;
         $this->num_rows = 0;
 
-        parent::__construct($page_title, $nav_selected_page, null, SP_AUTHLEVEL_TEAM);
+        parent::__construct($page_title, $nav_selected_page, null, SP_AUTHLEVEL_TEAM, false);
     }
 
     function check_contribution_row($row) {

@@ -21,9 +21,10 @@
 EOD;
 
         // Clear all the caches
-        cache_clear('..', true, 'Base website cache');
-        cache_clear('../simulations', true, 'Simulations cache');
-        cache_clear('../teacher_ideas', true, 'Teacher activities cache');
+        cache_clear_explicit('..', true, 'Base website cache');
+        cache_clear_explicit('../simulations', true, 'Simulations cache');
+        cache_clear_explicit('../teacher_ideas', true, 'Teacher activities cache');
+        cache_clear_explicit('../admin', true, 'Administrative cache');
 
         // Print a nice XHTML footer
         print <<<EOD

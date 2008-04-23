@@ -21,7 +21,7 @@
 EOD;
 
         // Clear all the caches
-        cache_clear('../teacher_ideas', true, 'Teacher activities cache');
+        cache_clear_explicit('../teacher_ideas', true, 'Teacher activities cache');
 
         // Print a nice XHTML footer
         print <<<EOD

@@ -178,7 +178,7 @@ EOT;
 
 }
 
-$page = new OrganizeCategoriesPage("Organize Categories", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new OrganizeCategoriesPage("Organize Categories", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

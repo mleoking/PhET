@@ -134,7 +134,7 @@ EOT;
     }
 }
 
-$page = new ViewStatisticsPage("View Statistics", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new ViewStatisticsPage("View Statistics", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

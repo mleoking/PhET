@@ -46,14 +46,21 @@ class BasePage {
     // at this point.  See the css file for a more detailed
     // description.
     private $css_container_name;
-    
+
+    // Default is to cache the page, this allows for an override
+    private $cache_page;
+
     /**
      * BasePage constructor
      *
      * @param $page_title string[optional] specific title of this page
      * @param $base_title string[optional] base tile of the website
      */
-    function __construct($page_title = "", $nav_selected_page, $referrer = null, $login_required = false, $base_title = WEBSITE_BASE_TITLE) {
+    function __construct($page_title = "",
+                         $nav_selected_page,
+                         $referrer = null,
+                         $cache_page = true,
+                         $base_title = WEBSITE_BASE_TITLE) {
         assert(selected_page_is_valid($nav_selected_page));
 
         $this->set_title($page_title, $base_title);
@@ -119,10 +126,9 @@ class BasePage {
         // Prefix to the base directory
         $this->prefix = "..";
 
-        // Should the login be required?
-        $this->login_required = $login_required;
-
         $this->css_container_name = "container";
+
+        $this->cache_page = $cache_page;
     }
 
     /**
@@ -614,7 +620,9 @@ EOT;
      *
      */
     function render() {
-        cache_auto_start();
+        if ($this->cache_page) {
+            cache_auto_start();
+        }
 
         $this->open_xhtml();
 
@@ -639,7 +647,9 @@ EOT;
 
         $this->close_xhtml();
 
-        cache_auto_start();
+        if ($this->cache_page) {
+            cache_auto_end();
+        }
     }
 
 }

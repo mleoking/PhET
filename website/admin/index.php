@@ -50,6 +50,7 @@ class AdminControlPanelPage extends SitePage {
                 <li><a href="cache-clear-sims.php">Clear the simulation cache</a></li>
                 <li><a href="cache-clear-activitiesdb.php">Clear the activities cache</a></li>
                 <li><a href="cache-clear-base.php">Clear the base directory cache</a></li>
+                <li><a href="cache-clear-admin.php">Clear the admin directory cache</a></li>
                 <li><a href="cache-clear-all.php">Clear all the caches</a></li>
             </ul>
 
@@ -58,7 +59,7 @@ EOT;
 
 }
 
-$page = new AdminControlPanelPage("PhET Administration Control Panel", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new AdminControlPanelPage("PhET Administration Control Panel", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

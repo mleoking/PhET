@@ -7,7 +7,7 @@
      * @param bool $verbose true if result should be printed
      * @param string $print_header (optional) human readable header, such as "Simulations"
      */
-    function cache_clear($base_directory, $verbose = true, $print_header = "") {
+    function cache_clear_explicit($base_directory, $verbose = true, $print_header = "") {
         // Print the header, if necessary
         if ($verbose) {
             print "<p>\n";

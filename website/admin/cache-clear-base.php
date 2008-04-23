@@ -21,7 +21,7 @@
 EOD;
 
         // Clear all the caches
-        cache_clear('..', true, 'Base website cache');
+        cache_clear_explicit('..', true, 'Base website cache');
 
         // Print a nice XHTML footer
         print <<<EOD

@@ -3,7 +3,7 @@
 include_once("../admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class EditOtherProfile extends SitePage {
+class EditOtherProfilePage extends SitePage {
     function update() {
         $user_authenticated = parent::update();
         if (!$user_authenticated) {
@@ -36,7 +36,7 @@ EOT;
     }
 }
 
-$page = new EditOtherProfile("Edit Other Profile", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM);
+$page = new EditOtherProfilePage("Edit Other Profile", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 
