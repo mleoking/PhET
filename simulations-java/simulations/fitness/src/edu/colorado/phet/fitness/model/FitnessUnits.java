@@ -36,4 +36,8 @@ public class FitnessUnits {
     public static double secondsToDays( double seconds ) {
         return seconds / SECONDS_PER_DAY;
     }
+
+    public static double feetToMeters( double heightFT ) {
+        return heightFT * 0.3048;
+    }
 }

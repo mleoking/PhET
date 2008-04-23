@@ -71,30 +71,55 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( weightControl );
 
-        final LinearValueControl muscle = new HumanSlider( 0, 100, human.getLeanMuscleMass(), "Lean Muscle Mass", "0.0", "kg" );
-        add( muscle );
-//        final LinearValueControl fat = new HumanSlider( 0, 100, human.getFatPercent(), "Fat", "0.0", "kg" );
-//        add( fat );
-
-        muscle.addChangeListener( new ChangeListener() {
+        final LinearValueControl fatMassPercent = new HumanSlider( 0, 100, human.getFatMassPercent(), "Fat Mass", "0.00", "%" );
+        fatMassPercent.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setLeanMuscleMass( muscle.getValue() );
+                human.setFatMassPercent( fatMassPercent.getValue() );
             }
         } );
-//        fat.addChangeListener( new ChangeListener() {
+        human.addListener( new Human.Adapter() {
+            public void fatPercentChanged() {
+                fatMassPercent.setValue( human.getFatMassPercent() );
+            }
+        } );
+        add( fatMassPercent );
+
+        final LinearValueControl fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Fat Free Mass", "0.00", "%" );
+        fatFreeMassPercent.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                human.setFatMassPercent( 100 - fatFreeMassPercent.getValue() );
+            }
+        } );
+        human.addListener( new Human.Adapter() {
+            public void fatPercentChanged() {
+                fatFreeMassPercent.setValue( human.getFatFreeMassPercent() );
+            }
+        } );
+        add( fatFreeMassPercent );
+//        final LinearValueControl muscle = new HumanSlider( 0, 100, human.getLeanMuscleMass(), "Lean Muscle Mass", "0.0", "kg" );
+//        add( muscle );
+////        final LinearValueControl fat = new HumanSlider( 0, 100, human.getFatPercent(), "Fat", "0.0", "kg" );
+////        add( fat );
+//
+//        muscle.addChangeListener( new ChangeListener() {
 //            public void stateChanged( ChangeEvent e ) {
-//                human.setFatPercent( fat.getValue() );
+//                human.setLeanMuscleMass( muscle.getValue() );
 //            }
 //        } );
-        human.addListener( new Human.Adapter() {
-            public void musclePercentChanged() {
-                muscle.setValue( human.getLeanMuscleMass() );
-            }
-
-//            public void fatPercentChanged() {
-//                fat.setValue( human.getFatPercent() );
+////        fat.addChangeListener( new ChangeListener() {
+////            public void stateChanged( ChangeEvent e ) {
+////                human.setFatPercent( fat.getValue() );
+////            }
+////        } );
+//        human.addListener( new Human.Adapter() {
+//            public void musclePercentChanged() {
+//                muscle.setValue( human.getLeanMuscleMass() );
 //            }
-        } );
+//
+////            public void fatPercentChanged() {
+////                fat.setValue( human.getFatPercent() );
+////            }
+//        } );
 
 //        Human maxBMIHuman = new Human( 0, minHeight, maxWeight, Human.Gender.MALE, "max" );
 //        Human minBMIHuman = new Human( 0, maxHeight, minWeight, Human.Gender.MALE, "minnie" );
@@ -105,7 +130,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 ////        add( bmi );
 
 //        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, muscle, fat};
-        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, muscle};
+        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, fatMassPercent, fatFreeMassPercent};
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
 //        human.addListener( new Human.Adapter() {
 //            public void bmiChanged() {
@@ -116,8 +141,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
     public static final class HumanSlider extends LinearValueControl {
 
-        public HumanSlider( double minWeight, double maxWeight, double weight, String s, String s1, String s2 ) {
-            super( minWeight, maxWeight, weight, s, s1, s2, new DefaultLayoutStrategy() );
+        public HumanSlider( double min, double max, double value, String label, String textFieldPattern, String units ) {
+            super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
             getSlider().setPaintLabels( false );
             getSlider().setPaintTicks( false );
         }
