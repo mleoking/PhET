@@ -24,6 +24,11 @@ public class SummaryNode extends PNode {
         for ( int i = 0; i < calorieSet.size(); i++ ) {
             addItem( calorieSet.getItem( i ) );
         }
+        calorieSet.addListener( new CalorieSet.Listener() {
+            public void itemAdded( CaloricItem item ) {
+                addItem( item );
+            }
+        } );
     }
 
     public static class SummaryItemNode extends PNode {

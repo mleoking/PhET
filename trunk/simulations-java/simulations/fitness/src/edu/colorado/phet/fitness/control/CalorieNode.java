@@ -54,7 +54,7 @@ public class CalorieNode extends PNode {
         summaryNode.setOffset( 0, plusNode.getFullBounds().getMaxY() );
 
         calorieSet.addListener( new CalorieSet.Listener() {
-            public void itemSetChanged() {
+            public void itemAdded( CaloricItem item ) {
                 updatePlusNodeVisible();
             }
         } );
