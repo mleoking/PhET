@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -111,7 +112,7 @@ public class ChainReactionModel {
         });
         
         // Add the containment vessel to the model.
-        _containmentVessel = new ContainmentVessel((double)MAX_NUCLEUS_RANGE_X / 3);
+        _containmentVessel = new ContainmentVessel((double)MAX_NUCLEUS_RANGE_X / 5);
     }
     
     //------------------------------------------------------------------------
@@ -373,12 +374,13 @@ public class ChainReactionModel {
         }
         
         if (_containmentVessel.getIsEnabled()){
+            
             // The containment vessel is on, so we need to freeze any
             // particles that are contained by it.
-            int numNuclei = _u235Nuclei.size();
-            for (int i = 0; i < numNuclei; i++){}
-        }
 
+            checkContainment(_u235Nuclei);
+            checkContainment(_daughterNuclei);
+        }
     }
     
     /**
@@ -421,6 +423,24 @@ public class ChainReactionModel {
         // If we get to this point in the code, it means that we were unable
         // to locate a usable point.  Return null.
         return null;
+    }
+
+    /**
+     * Checks an array of nuclei for coming in contact with the containment
+     * vessel and "freezes" any that have.
+     * 
+     * @param nuclei
+     */
+    private void checkContainment(ArrayList nuclei){
+        AtomicNucleus nuke;
+        int numNuclei = nuclei.size();
+        for (int i = 0; i < numNuclei; i++){
+            nuke = (AtomicNucleus)nuclei.get(i);
+            if (_containmentVessel.isPositionContained( nuke.getPosition() )){
+                nuke.setAcceleration( new Vector2D.Double(0, 0) );
+                nuke.setVelocity( 0, 0 );
+            }
+        }
     }
     
     /**
