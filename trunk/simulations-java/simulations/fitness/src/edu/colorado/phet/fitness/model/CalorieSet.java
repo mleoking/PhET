@@ -16,6 +16,12 @@ public class CalorieSet {
     public CalorieSet() {
     }
 
+    public CalorieSet( CaloricItem[] caloricItems ) {
+        for ( int i = 0; i < caloricItems.length; i++ ) {
+            addItem( caloricItems[i] );
+        }
+    }
+
     public void addItem( CaloricItem item ) {
         list.add( item );
         notifyItemSetChanged();
