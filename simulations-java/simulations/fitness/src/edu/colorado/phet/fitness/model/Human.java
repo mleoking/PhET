@@ -97,8 +97,7 @@ public class Human {
         } );
         updateBMR();
         activity.setValue( bmr.getValue() * 0.5 );
-        setDiet( FitnessModel.BALANCED_DIET.getInstanceOfMagnitude(activity.getValue()+bmr.getValue()+exercise.getValue()) );
-//        exercise.setValue( Math.max( exercise.getValue() + getDeltaCaloriesGained(), 0 ) );
+        setDiet( FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() ) );
         lipids.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 notifyDietChanged();

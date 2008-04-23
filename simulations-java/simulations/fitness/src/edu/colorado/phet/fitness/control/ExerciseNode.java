@@ -23,7 +23,7 @@ public class ExerciseNode extends PNode {
     public ExerciseNode( final FitnessModel model ) {
         this.human = model.getHuman();
 
-        textReadout = new PText("text");
+        textReadout = new PText( "text" );
         JButton button = new JButton( "Edit Exercise" );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

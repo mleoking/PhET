@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.model.Diet;
+import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -27,12 +27,12 @@ public class DietNode extends PNode {
         JButton button = new JButton( "Edit Diet" );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                model.setPaused(true);
-                Diet diet= (Diet) JOptionPane.showInputDialog( null, "Select a Diet", "Select a Diet", JOptionPane.QUESTION_MESSAGE, null, FitnessModel.availableDiets, FitnessModel.availableDiets[0] );
-                if (diet!=null){
-                    human.setDiet(diet);
+                model.setPaused( true );
+                Diet diet = (Diet) JOptionPane.showInputDialog( null, "Select a Diet", "Select a Diet", JOptionPane.QUESTION_MESSAGE, null, FitnessModel.availableDiets, FitnessModel.availableDiets[0] );
+                if ( diet != null ) {
+                    human.setDiet( diet );
                 }
-                model.setPaused(false);
+                model.setPaused( false );
             }
         } );
         PSwing pSwing = new PSwing( button );

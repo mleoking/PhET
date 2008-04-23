@@ -1,7 +1,5 @@
 package edu.colorado.phet.fitness.control;
 
-import java.awt.*;
-
 import javax.swing.*;
 
 import edu.colorado.phet.fitness.model.Human;
