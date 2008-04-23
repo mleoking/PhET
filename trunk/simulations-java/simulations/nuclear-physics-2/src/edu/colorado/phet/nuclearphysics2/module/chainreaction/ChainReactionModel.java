@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
+import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
@@ -231,7 +231,7 @@ public class ChainReactionModel {
                     continue;
                 }
                 // TODO: JPB TBD - Need to either create a different nucleus or refactor FissionOneNucleus.
-                AtomicNucleus nucleus = new FissionOneNucleus(_clock, position, 0);
+                AtomicNucleus nucleus = new Uranium235Nucleus(_clock, position, 0);
                 nucleus.setDynamic( false );
                 _u235Nuclei.add(nucleus);
                 sendAddedNotifications( nucleus );
@@ -468,7 +468,7 @@ public class ChainReactionModel {
                     // Move the 'parent' nucleus to the list of daughter
                     // nuclei so that it doesn't continue to be involved in
                     // the fission detection calculations.
-                    assert (nucleus instanceof FissionOneNucleus);
+                    assert (nucleus instanceof Uranium235Nucleus);
                     _u235Nuclei.remove( nucleus );
                     _daughterNuclei.add( nucleus );
                 }

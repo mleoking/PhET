@@ -14,7 +14,7 @@ import java.util.HashMap;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
+import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.util.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
@@ -127,7 +127,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
             // since one such nucleus at the center is the generally expected
             // reset state.  If that ever changes, this code should be extended
             // to handle whatever is needed.
-            if (nuclei.get( i ) instanceof FissionOneNucleus){
+            if (nuclei.get( i ) instanceof Uranium235Nucleus){
                 handleModelElementAdded(nuclei.get( i ));
             }
         }

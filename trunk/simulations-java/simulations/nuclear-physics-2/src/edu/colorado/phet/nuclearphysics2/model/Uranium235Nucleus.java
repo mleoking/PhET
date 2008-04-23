@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  *
  * @author John Blanco
  */
-public class FissionOneNucleus extends AtomicNucleus{
+public class Uranium235Nucleus extends AtomicNucleus{
 
     //------------------------------------------------------------------------
     // Class data
@@ -44,7 +44,7 @@ public class FissionOneNucleus extends AtomicNucleus{
     // Constructor
     //------------------------------------------------------------------------
     
-    public FissionOneNucleus(NuclearPhysics2Clock clock, Point2D position, double fissionInterval){
+    public Uranium235Nucleus(NuclearPhysics2Clock clock, Point2D position, double fissionInterval){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         _fissionInterval = fissionInterval;

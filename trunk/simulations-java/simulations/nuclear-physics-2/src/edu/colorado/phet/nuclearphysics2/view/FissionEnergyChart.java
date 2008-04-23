@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.DaughterNucleus;
-import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
+import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModel;
 import edu.colorado.phet.nuclearphysics2.util.DoubleArrowNode;
 import edu.umd.cs.piccolo.PNode;
