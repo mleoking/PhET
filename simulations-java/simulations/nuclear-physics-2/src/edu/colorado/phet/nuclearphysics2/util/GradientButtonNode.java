@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
@@ -14,18 +12,23 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
-
-
-public class GradientButtonNode extends PNode {
+/**
+ * This class represents a button that is a PNode and thus can be placed 
+ * within another PNode or on a PCanvas, and that is filled with a color
+ * gradient to make it more "fun" looking (and thus suitable for adding to
+ * the play area of the sims).
+ *
+ * @author John Blanco
+ */
+public class GradientButtonNode extends PhetPNode {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -38,26 +41,38 @@ public class GradientButtonNode extends PNode {
     
     // Constant that controls where the shadow shows up and how far the button
     // translates when pushed.
-    private static final int SHADOW_OFFSET = 2;
+    private static final int SHADOW_OFFSET = 3;
+    
+    // Defaults for values that might not be specified at construction.
+    private static final Color DEFAULT_COLOR = Color.GRAY;
+    private static final int DEFAULT_FONT_SIZE = 14;
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
-    PPath _button;
-    HTMLNode _buttonText;
-    Color _mainButtonColor;
-    ArrayList _actionListeners = new ArrayList();
-    GradientPaint _unpressedGradient;
-    GradientPaint _pressedGradient;
+    private PPath _button;
+    private HTMLNode _buttonText;
+    private ArrayList _actionListeners;
+    private GradientPaint _unpressedGradient;
+    private GradientPaint _pressedGradient;
     
     //------------------------------------------------------------------------
-    // Constructor
+    // Constructors
     //------------------------------------------------------------------------
 
+    /**
+     * Construct a gadient button node.
+     * 
+     * @param label - Text that will appear on the button.
+     * @param fontSize - Size of font for the label text.
+     * @param buttonColor - Overall color of button from which gradient will
+     * be created.
+     */
     public GradientButtonNode(String label, int fontSize, Color buttonColor){
         
-        _mainButtonColor = buttonColor;
-  
+        // Initialize local data.
+        _actionListeners = new ArrayList();
+        
         // Create the label node first, since its size will be the basis for
         // the other components of this button.
         _buttonText = new HTMLNode(label);        
@@ -90,7 +105,7 @@ public class GradientButtonNode extends PNode {
                 8, 8));
         buttonShadow.setPaint( Color.BLACK );
         buttonShadow.setPickable( false );
-        buttonShadow.setTransparency( 0.3f );
+        buttonShadow.setTransparency( 0.2f );
 
         // Register the button node for events.
         _button.addInputEventListener( new PBasicInputEventHandler() {
@@ -123,7 +138,6 @@ public class GradientButtonNode extends PNode {
             }
         } );
 
-
         // Add the children to the node in the appropriate order so that they
         // appear as desired.
         addChild( buttonShadow );
@@ -131,14 +145,30 @@ public class GradientButtonNode extends PNode {
         addChild( _buttonText );
     }
     
-    private Color getBrighterColor(Color origColor){
-        final double COLOR_SCALING_FACTOR = 2.0;
-        int red = origColor.getRed() + (int)Math.round( (double)(255 - origColor.getRed()) * 0.5); 
-        int green = origColor.getGreen() + (int)Math.round( (double)(255 - origColor.getGreen()) * 0.5); 
-        int blue = origColor.getBlue() + (int)Math.round( (double)(255 - origColor.getBlue()) * 0.5); 
-        return new Color ( red, green, blue );
+    /**
+     * Constructor for creating a default gradient button with only the label
+     * specified.
+     * 
+     * @param label - Text that will appear on button.
+     */
+    GradientButtonNode(String label){
+        this(label, DEFAULT_FONT_SIZE, DEFAULT_COLOR);
     }
     
+    /**
+     * Constructor for creating a button assuming the default font size.
+     * 
+     * @param label
+     * @param color
+     */
+    GradientButtonNode(String label, Color color){
+        this(label, DEFAULT_FONT_SIZE, color);
+    }
+    
+    //------------------------------------------------------------------------
+    // Public Methods
+    //------------------------------------------------------------------------
+
     public void addActionListener( ActionListener listener ) {
         if (!_actionListeners.contains( listener )){
             _actionListeners.add( listener );
@@ -148,22 +178,55 @@ public class GradientButtonNode extends PNode {
     public void removeActionListener( ActionListener listener ) {
         _actionListeners.remove( listener );
     }
-
+    
+    //------------------------------------------------------------------------
+    // Private Methods
+    //------------------------------------------------------------------------
+    
+    private Color getBrighterColor(Color origColor){
+        int red = origColor.getRed() + (int)Math.round( (double)(255 - origColor.getRed()) * 0.5); 
+        int green = origColor.getGreen() + (int)Math.round( (double)(255 - origColor.getGreen()) * 0.5); 
+        int blue = origColor.getBlue() + (int)Math.round( (double)(255 - origColor.getBlue()) * 0.5); 
+        return new Color ( red, green, blue );
+    }
+    
+    
+    //------------------------------------------------------------------------
+    // Test Harness
+    //------------------------------------------------------------------------
     
     public static void main( String[] args ) {
         
-        PNode testButton01 = new GradientButtonNode("Test Me", 16, Color.GREEN);
-        PNode testButton02 = new GradientButtonNode("<html>Test <br> Me Too</html>", 14,
-                Color.BLUE);
-        testButton02.setOffset( 100, 100 );
+        GradientButtonNode testButton01 = new GradientButtonNode("Test Me", 16, Color.GREEN);
+        testButton01.setOffset( 5, 5 );
+        
+        GradientButtonNode testButton02 = new GradientButtonNode("<html>Test <br> Me Too</html>", 24, new Color(0x99cccc));
+        testButton02.setOffset( 200, 5 );
+        
+        GradientButtonNode testButton03 = new GradientButtonNode("<html><center>Default Color<br>and Font<center></html>");
+        testButton03.setOffset( 5, 200 );
+        
+        GradientButtonNode testButton04 = new GradientButtonNode("Default Font Size", new Color(0xcc3366));
+        testButton04.setOffset( 200, 200 );
         
         JFrame frame = new JFrame();
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.addScreenChild( testButton01 );
         canvas.addScreenChild( testButton02 );
-        canvas.setWorldScale( 100 );
+        canvas.addScreenChild( testButton03 );
+        canvas.addScreenChild( testButton04 );
         frame.setContentPane( canvas );
         frame.setSize( 400, 300 );
         frame.setVisible( true );
+        
+        // Listen to one button so we can verify that events are being fired.
+        testButton01.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                System.out.println("ActionEvent received, = " + event);
+            }
+        });
+
+        
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE ); 
     }
 }
