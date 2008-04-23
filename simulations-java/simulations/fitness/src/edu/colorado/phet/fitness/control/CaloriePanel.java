@@ -21,6 +21,7 @@ import edu.colorado.phet.fitness.view.FitnessColorScheme;
 import edu.colorado.phet.fitness.view.StackedBarChartNode;
 import edu.colorado.phet.fitness.view.StackedBarNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Created by: Sam
@@ -34,6 +35,7 @@ public class CaloriePanel extends PNode {
     private DietNode dietNode;
     private ExerciseNode exerciseNode;
     private ActivityNode activityNode;
+    private PSwing newDietNode;
 
     public CaloriePanel( final FitnessModel model, PhetPCanvas phetPCanvas ) {
         this.phetPCanvas = phetPCanvas;
@@ -81,6 +83,9 @@ public class CaloriePanel extends PNode {
         dietNode = new DietNode( model );
         addChild( dietNode );
 
+        newDietNode = new PSwing( new DietControlPanel() );
+        addChild( newDietNode );
+
         exerciseNode = new ExerciseNode( model );
         addChild( exerciseNode );
 
@@ -118,6 +123,8 @@ public class CaloriePanel extends PNode {
         dietNode.setOffset( stackedBarChart.getFullBounds().getX() - dietNode.getFullBounds().getWidth() - 2, 100 );
         exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 2, 100 );
         activityNode.setOffset( exerciseNode.getOffset().getX(), exerciseNode.getOffset().getY() + 100 );
+
+        newDietNode.setOffset( 0, 0 );
     }
 
 }
