@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.nuclearphysics2.util.GradientButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -16,8 +17,12 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Created by: Sam
  * Apr 23, 2008 at 11:55:28 AM
  */
-public class IONode extends PNode {
-    public IONode( String editButtonText, Color editButtonColor ) {
+public class CalorieNode extends PNode {
+    private PText plusNode;
+    private CalorieSet calorieSet;
+
+    public CalorieNode( String editButtonText, Color editButtonColor, final CalorieSet calorieSet ) {
+        this.calorieSet=calorieSet;
         GradientButtonNode gradientButtonNode = new GradientButtonNode( editButtonText, 18, editButtonColor );
         gradientButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -36,17 +41,27 @@ public class IONode extends PNode {
         baseDietNode.setFont( new PhetDefaultFont( 20, true ) );
         addChild( baseDietNode );
 
-        PText plusNode = new PText( "Plus:" );
+        plusNode = new PText( "Plus:" );
         plusNode.setFont( new PhetDefaultFont( 15, true ) );
         addChild( plusNode );
 
-        SummaryNode summaryNode = new SummaryNode();
-        summaryNode.addItem( new SummaryNode.Item( "banana split", "bananasplit.png", 100, 1 ) );
-        summaryNode.addItem( new SummaryNode.Item( "burger", "burger.png", 100, 2 ) );
+        SummaryNode summaryNode = new SummaryNode( calorieSet );
+
         addChild( summaryNode );
 
         baseDietNode.setOffset( 0, gradientButtonNode.getFullBounds().getMaxY() );
         plusNode.setOffset( 0, baseDietNode.getFullBounds().getMaxY() );
         summaryNode.setOffset( 0, plusNode.getFullBounds().getMaxY() );
+
+        calorieSet.addListener( new CalorieSet.Listener() {
+            public void itemSetChanged() {
+                updatePlusNodeVisible( );
+            }
+        } );
+        updatePlusNodeVisible(  );
+    }
+
+    private void updatePlusNodeVisible( ) {
+        plusNode.setVisible( calorieSet.getItemCount() != 0 );
     }
 }

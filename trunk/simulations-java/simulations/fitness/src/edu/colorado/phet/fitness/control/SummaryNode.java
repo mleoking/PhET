@@ -5,6 +5,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -15,63 +16,30 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class SummaryNode extends PNode {
     private PNode layer = new PNode();
+    private CalorieSet calorieSet;
 
-    public static class Item {
-        private String name;
-        private String image;
-        private double cal;
-        private int number;
-
-        public Item( String name, String image, double cal ) {
-            this( name, image, cal, 1 );
-        }
-
-        public Item( String name, String image, double cal, int number ) {
-            this.name = name;
-            this.image = image;
-            this.cal = cal;
-            this.number = number;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public double getCaloriesPerItem() {
-            return cal;
-        }
-
-        public int getNumber() {
-            return number;
-        }
-
-        public double getTotalCalories() {
-            return cal * number;
-        }
-    }
-
-    public SummaryNode() {
+    public SummaryNode( CalorieSet calorieSet ) {
+        this.calorieSet = calorieSet;
         addChild( layer );
+        for ( int i = 0; i < calorieSet.size(); i++ ) {
+            addItem( calorieSet.getItem( i ) );
+        }
     }
 
     public static class SummaryItemNode extends PNode {
-        private Item item;
+        private CaloricItem item;
 
-        public SummaryItemNode( Item item ) {
+        public SummaryItemNode( CaloricItem item, int count ) {
             this.item = item;
 //            addChild( new PText( item.getName() ) );
 
             PImage imageNode = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), 30 ) );
             addChild( imageNode );
-            PText textNode = new PText( "=" + item.getTotalCalories() + " kcal/day" );
+            PText textNode = new PText( "=" + item.getCalories() + " kcal/day" );
             addChild( textNode );
             textNode.setOffset( imageNode.getFullBounds().getWidth(), imageNode.getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
-            if ( item.getNumber() != 1 ) {
-                PText countNode = new PText( "" + item.getNumber() + " x" );
+            if ( count != 1 ) {
+                PText countNode = new PText( "" + count + " x" );
                 countNode.setOffset( imageNode.getFullBounds().getX() - countNode.getFullBounds().getWidth(), imageNode.getFullBounds().getCenterY() - countNode.getFullBounds().getHeight() / 2 );
                 addChild( countNode );
             }
@@ -83,10 +51,10 @@ public class SummaryNode extends PNode {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PhetPCanvas contentPane = new PhetPCanvas();
-        SummaryNode node = new SummaryNode();
-        node.addItem( new Item( "banana split", "bananasplit.png", 100 ) );
-        node.addItem( new Item( "burger", "burger.png", 100, 2 ) );
-        node.addItem( new Item( "strawberry", "strawberry.png", 100 ) );
+        SummaryNode node = new SummaryNode( new CalorieSet() );
+        node.addItem( new CaloricItem( "banana split", "bananasplit.png", 100 ) );
+        node.addItem( new CaloricItem( "burger", "burger.png", 100 ) );
+        node.addItem( new CaloricItem( "strawberry", "strawberry.png", 100 ) );
         contentPane.addScreenChild( node );
         node.setOffset( 100, 100 );
         frame.setContentPane( contentPane );
@@ -94,8 +62,8 @@ public class SummaryNode extends PNode {
         frame.setVisible( true );
     }
 
-    public void addItem( Item item ) {
-        SummaryItemNode summaryItemNode = new SummaryItemNode( item );
+    public void addItem( CaloricItem item ) {
+        SummaryItemNode summaryItemNode = new SummaryItemNode( item, 1 );
         layer.addChild( summaryItemNode );
         relayout();
     }

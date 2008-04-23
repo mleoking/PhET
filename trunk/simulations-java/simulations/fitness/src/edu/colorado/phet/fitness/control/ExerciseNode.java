@@ -30,7 +30,7 @@ public class ExerciseNode extends PNode {
                 model.setPaused( true );
                 Exercise exercise = (Exercise) JOptionPane.showInputDialog( null, "Select Exercise", "Select Exercise", JOptionPane.QUESTION_MESSAGE, null, FitnessModel.availableExercise, FitnessModel.availableExercise[0] );
                 if ( exercise != null ) {
-                    human.setExercise( exercise );
+//                    human.setExercise( exercise );
                 }
                 model.setPaused( false );
             }
@@ -48,7 +48,7 @@ public class ExerciseNode extends PNode {
     }
 
     private void updateTextReadout() {
-        textReadout.setText( human.getExerciseObject() == null ? "User Modified" : human.getExerciseObject().getName() );
+//        textReadout.setText( human.getExerciseObject() == null ? "User Modified" : human.getExerciseObject().getName() );
     }
 
 }
