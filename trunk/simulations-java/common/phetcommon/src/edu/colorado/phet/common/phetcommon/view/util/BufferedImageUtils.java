@@ -264,6 +264,13 @@ public class BufferedImageUtils {
     }
 
     /**
+     * Convenience method for getScaledInstance with typical default; see below
+     */
+    public static BufferedImage multiScaleToHeight( BufferedImage img, int height ) {
+        return multiScale( img, (double) height / img.getHeight() );
+    }
+
+    /**
      * This method uses multi-step scaling techniques for downscaling for better image quality.
      * see http://today.java.net/pub/a/today/2007/04/03/perils-of-image-getscaledinstance.html
      * see also SwingLabs GraphicsUtilities
