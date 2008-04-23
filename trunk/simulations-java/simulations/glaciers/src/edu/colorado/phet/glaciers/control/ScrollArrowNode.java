@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventListener;
+import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventAdapter;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.glaciers.model.Viewport;
 
@@ -76,7 +76,7 @@ public abstract class ScrollArrowNode extends PhetPNode {
         
         ButtonEventHandler buttonHandler = new ButtonEventHandler();
         addInputEventListener( buttonHandler );
-        buttonHandler.addButtonEventListener( new ButtonEventListener() {
+        buttonHandler.addButtonEventListener( new ButtonEventAdapter() {
             
             private boolean _armed;
             
