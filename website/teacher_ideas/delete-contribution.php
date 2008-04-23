@@ -22,6 +22,7 @@ class DeleteContributionPage extends SitePage {
             if (contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {
                 contribution_delete_contribution($contribution_id);
                 $this->delete_success = true;
+                cache_clear(BROWSE_CACHE);
             }
         }
     }
