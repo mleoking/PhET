@@ -1,4 +1,4 @@
-package edu.colorado.phet.nuclearphysics2.util;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
