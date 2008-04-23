@@ -33,6 +33,7 @@ public class CaloriePanel extends PNode {
     private StackedBarChartNode stackedBarChart;
     private DietNode dietNode;
     private ExerciseNode exerciseNode;
+    private ActivityNode activityNode;
 
     public CaloriePanel( final FitnessModel model, PhetPCanvas phetPCanvas ) {
         this.phetPCanvas = phetPCanvas;
@@ -77,11 +78,14 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        dietNode = new DietNode(model );
+        dietNode = new DietNode( model );
         addChild( dietNode );
 
-        exerciseNode = new ExerciseNode(model );
+        exerciseNode = new ExerciseNode( model );
         addChild( exerciseNode );
+
+        activityNode = new ActivityNode( model,phetPCanvas );
+        addChild( activityNode );
 
         relayout();
     }
@@ -113,6 +117,7 @@ public class CaloriePanel extends PNode {
         stackedBarChart.setOffset( width / 2 - stackedBarChart.getFullBounds().getWidth() / 2, weightChart.getFullBounds().getY() );
         dietNode.setOffset( stackedBarChart.getFullBounds().getX() - dietNode.getFullBounds().getWidth() - 2, 100 );
         exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 2, 100 );
+        activityNode.setOffset( exerciseNode.getOffset().getX(),exerciseNode.getOffset().getY()+100 );
     }
 
 }

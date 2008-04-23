@@ -21,7 +21,7 @@ public class Human {
     private DefaultTemporalVariable height = new DefaultTemporalVariable( DEFAULT_VALUE.getHeightMeters() );//meters
     private DefaultTemporalVariable mass = new DefaultTemporalVariable( DEFAULT_VALUE.getMassKG() );//kg
     private DefaultTemporalVariable age = new DefaultTemporalVariable( DEFAULT_VALUE.getAgeSeconds() );//sec
-    private DefaultTemporalVariable fatMassFraction = new DefaultTemporalVariable( (100-DEFAULT_VALUE.getFatFreeMassPercent()) / 100.0 );
+    private DefaultTemporalVariable fatMassFraction = new DefaultTemporalVariable( ( 100 - DEFAULT_VALUE.getFatFreeMassPercent() ) / 100.0 );
 
     private DefaultTemporalVariable lipids = new DefaultTemporalVariable();
     private DefaultTemporalVariable carbs = new DefaultTemporalVariable();
@@ -146,9 +146,9 @@ public class Human {
 
     private void updateBMR() {
 //        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getMass(), getHeight(), getAge(), gender ) );
-        double value = 392 + 21.8 * getFatFreeMassPercent();
-        System.out.println( "value = " + value +", FFMP="+getFatFreeMassPercent());
-        bmr.setValue( value );
+//        System.out.println( "value = " + value +", FFMP="+getFatFreeMassPercent());
+        bmr.setValue( 392 + 21.8 * getFatFreeMassPercent() );
+        updateActivity();
     }
 
     /**
@@ -217,7 +217,27 @@ public class Human {
 //        this.leanMuscleMass = 100 - value;
 //        notifyFatPercentChanged();
 //        notifyMusclePercentChanged();
-//    }
+
+    //    }
+
+    double activityLevel = 0.5;
+
+    public void setActivityLevel( double val ) {
+        activityLevel = val;
+        updateActivity();
+//        this.activity.setValue( val );
+    }
+
+    private void updateActivity() {
+        this.activity.setValue( activityLevel * bmr.getValue() );
+        notifyActivityChanged();
+    }
+
+    private void notifyActivityChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).activityChanged();
+        }
+    }
 
     public DefaultTemporalVariable getLipids() {
         return lipids;
@@ -410,6 +430,8 @@ public class Human {
         void dietChanged();
 
         void exerciseChanged();
+
+        void activityChanged();
     }
 
     public static class Adapter implements Listener {
@@ -442,6 +464,9 @@ public class Human {
         }
 
         public void exerciseChanged() {
+        }
+
+        public void activityChanged() {
         }
     }
 
