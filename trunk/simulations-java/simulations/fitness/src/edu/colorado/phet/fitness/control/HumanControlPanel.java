@@ -56,7 +56,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         add( heightControl );
 
-        double minWeight = 1;
+        double minWeight = 0;
         double maxWeight = 560;//world record
         final LinearValueControl weightControl = new HumanSlider( minWeight, maxWeight, human.getMass(), "Weight", "0.00", "kg" );
         weightControl.addChangeListener( new ChangeListener() {
@@ -96,47 +96,9 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( fatFreeMassPercent );
-//        final LinearValueControl muscle = new HumanSlider( 0, 100, human.getLeanMuscleMass(), "Lean Muscle Mass", "0.0", "kg" );
-//        add( muscle );
-////        final LinearValueControl fat = new HumanSlider( 0, 100, human.getFatPercent(), "Fat", "0.0", "kg" );
-////        add( fat );
-//
-//        muscle.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                human.setLeanMuscleMass( muscle.getValue() );
-//            }
-//        } );
-////        fat.addChangeListener( new ChangeListener() {
-////            public void stateChanged( ChangeEvent e ) {
-////                human.setFatPercent( fat.getValue() );
-////            }
-////        } );
-//        human.addListener( new Human.Adapter() {
-//            public void musclePercentChanged() {
-//                muscle.setValue( human.getLeanMuscleMass() );
-//            }
-//
-////            public void fatPercentChanged() {
-////                fat.setValue( human.getFatPercent() );
-////            }
-//        } );
 
-//        Human maxBMIHuman = new Human( 0, minHeight, maxWeight, Human.Gender.MALE, "max" );
-//        Human minBMIHuman = new Human( 0, maxHeight, minWeight, Human.Gender.MALE, "minnie" );
-//        final LinearValueControl bmi = new LinearValueControl( minBMIHuman.getBMI(), maxBMIHuman.getBMI(), human.getBMI(), "BMI", "0.00", "kg/m^2" );
-////        bmi.setEnabled( false );
-//        bmi.getTextField().setEditable( false );
-//        bmi.getSlider().setEnabled( false );
-////        add( bmi );
-
-//        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, muscle, fat};
         LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, fatMassPercent, fatFreeMassPercent};
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
-//        human.addListener( new Human.Adapter() {
-//            public void bmiChanged() {
-//                bmi.setValue( human.getBMI() );
-//            }
-//        } );
     }
 
     public static final class HumanSlider extends LinearValueControl {
