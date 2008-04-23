@@ -20,23 +20,21 @@ import org.xml.sax.SAXException;
 public class ProcessRecentChanges {
 
     private final ProgramArgs args;
-    private UnfuddleAccount unfuddleAccount;
-    private UnfuddleCurl unfuddleCurl;
-    private Timer timer;
-    private JFrame running;
-    private JTextField minutes;
+    private final UnfuddleAccount unfuddleAccount;
+    private final UnfuddleCurl unfuddleCurl;
+    private final Timer timer;
+    private final JFrame running;
+    private final JTextField minutes;
     private final boolean sendMail;
-    public static String SVN_TRUNK; //TODO: make this go away, assignment is not obvious and it's used in too many places
 
     public ProcessRecentChanges( ProgramArgs args )
         throws IOException, SAXException, ParserConfigurationException {
         
         this.args = args;
-        SVN_TRUNK = args.getSvnTrunk();
         this.sendMail = args.isSendMailEnabled(); // must be final for use in callbacks
         
         unfuddleAccount = new UnfuddleAccount( new File( args.getXmlDumpPath() ) );
-        unfuddleCurl = new UnfuddleCurl( args.getUnfuddleUsername(), args.getUnfuddlePassword(), UnfuddleNotifierConstants.PHET_ACCOUNT_ID );
+        unfuddleCurl = new UnfuddleCurl( args.getUnfuddleUsername(), args.getUnfuddlePassword(), UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args.getSvnTrunk() );
 
         running = new JFrame( "Process Unfuddle Changes" );
         running.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -66,7 +64,6 @@ public class ProcessRecentChanges {
         } );
         running.setContentPane( contentPanel );
 
-
         timer = new Timer( getTimerDelay(), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( jCheckBox.isSelected() ) {
@@ -85,7 +82,6 @@ public class ProcessRecentChanges {
         System.out.println( "changed delay to = " + v + " minutes" );
         return (int) ( 60 * 1000 * v );
     }
-
 
     private void start() {
         timer.start();
@@ -123,7 +119,7 @@ public class ProcessRecentChanges {
         t.start();
         long startTime = System.currentTimeMillis();
         long timeout = 1000 * 60 * 5;
-        //todo: better thread communication
+        //TODO: better thread communication
         while ( recent[0] == null && System.currentTimeMillis() - startTime < timeout ) {
             try {
                 Thread.sleep( 5000 );
@@ -138,8 +134,6 @@ public class ProcessRecentChanges {
             return;
         }
 
-//        String recent = STORED_XML;
-
         XMLObject events = new XMLObject( recent[0] );
         int e = events.getNodeCount( "event" );
         System.out.println( "Requested " + limit + " events, received: " + e );
@@ -147,8 +141,7 @@ public class ProcessRecentChanges {
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
         h.addMessageHandler( new EmailHandler( args.getEmailFromAddress(), args.getEmailServer(), args.getEmailUsername(), args.getEmailPassword(), new ReadEmailList( unfuddleAccount, unfuddleCurl ), sendMail ) );
-        IMessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( SVN_TRUNK + "\\util\\unfuddle\\data\\handled.txt" ) );
-//        MessageHandler mh = h;
+        IMessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( args.getSvnTrunk() + "\\util\\unfuddle\\data\\handled.txt" ) ); //TODO separator is Windows specific
         int handled = 0;
         for ( int i = e - 1; i >= 0; i-- ) {//reverse iterate to post notifications in chronological order
             XMLObject auditTrail = events.getNode( i, "event" );

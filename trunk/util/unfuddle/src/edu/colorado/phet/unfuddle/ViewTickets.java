@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
  * Dec 13, 2007 at 10:32:47 PM
  */
 public class ViewTickets {
-    private static final File file = new File( "C:\\Users\\Sam\\Desktop\\tickets-2-17-2008.xml" );
+    private static final File file = new File( "C:\\Users\\Sam\\Desktop\\tickets-2-17-2008.xml" ); //TODO Windows and user specific
 
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         File file = args.length > 0 ? new File( args[0] ) : ViewTickets.file;

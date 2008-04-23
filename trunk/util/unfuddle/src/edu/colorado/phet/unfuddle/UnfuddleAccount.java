@@ -17,10 +17,9 @@ import org.xml.sax.SAXException;
  * Feb 17, 2008 at 4:13:56 PM
  */
 public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
-    //    private static File FILE = new File( "C:/Users/Sam/Desktop/phet.unfuddled.20080217220129.xml" );
-    private static File FILE = new File( ProcessRecentChanges.SVN_TRUNK+"\\util\\unfuddle\\data\\phet.unfuddled.xml" );
-    private String PROJECTS = "projects";
 
+    private final String PROJECTS = "projects";
+    
     public UnfuddleAccount( File xmlDump ) throws IOException, SAXException, ParserConfigurationException {
         this( toNode( xmlDump ) );
     }
@@ -219,12 +218,9 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
     }
 
     public static void main( String[] args ) throws ParserConfigurationException, IOException, SAXException {
-        File file = args.length > 0 ? new File( args[0] ) : FILE;
-
-        File f = file;
-
+        File file = new File( args[0] );
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document s = documentBuilder.parse( f );
+        Document s = documentBuilder.parse( file );
         Element root = s.getDocumentElement();
         UnfuddleAccount unfuddleProject = new UnfuddleAccount( root );
         System.out.println( "unfuddleProject = " + unfuddleProject );
@@ -234,4 +230,4 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
 
         }
     }
-         }
+}
