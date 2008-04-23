@@ -35,6 +35,16 @@ public class ShadowPText extends PNode {
         background.setOffset( 1, 1 );
     }
 
+    public ShadowPText( String text, Color foreground ) {
+        this( text );
+        setTextPaint( foreground );
+    }
+
+    public ShadowPText( String text, Color foreground, Font font ) {
+        this( text, foreground );
+        setFont( font );
+    }
+
     public void setTextPaint( Paint paint ) {
         foreground.setTextPaint( paint );
     }
