@@ -12,7 +12,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -211,8 +210,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         addWorldChild(rightBreakoutLine);
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GradientButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS, new Point2D.Double(0,0), 16, 
-                new Color(0xff9900));
+        _resetButtonNode = new GradientButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS, 16, new Color(0xff9900));
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.

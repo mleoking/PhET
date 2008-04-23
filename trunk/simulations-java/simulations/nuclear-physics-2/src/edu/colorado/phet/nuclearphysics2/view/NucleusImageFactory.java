@@ -116,8 +116,8 @@ public class NucleusImageFactory {
 
         // For the following loop to work, it is assumed that the number of
         // neutrons equals or exceeds the number of protons, which is always
-        // (I think) true in the real world.  However, just in case the caller
-        // has not done this, we adjust the values here if it is not true.
+        // true (I think) in the real world.  However, just in case the caller
+        // has not done this, we adjust the values here if necessary.
         if (numFreeProtons > numFreeNeutrons){
             numFreeNeutrons = numFreeProtons;
         }
