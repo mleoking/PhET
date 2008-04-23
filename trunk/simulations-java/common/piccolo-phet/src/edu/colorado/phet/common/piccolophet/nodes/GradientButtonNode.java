@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class represents a button that is a PNode and thus can be placed 
@@ -85,25 +86,27 @@ public class GradientButtonNode extends PhetPNode {
         _buttonText.setPickable( false );
 
         // Gradient for when the mouse is not over the button.
-        final Paint mouseNotOverGradient = new GradientPaint((float)_buttonText.getFullBounds().width / 2, 0f,
-                getBrighterColor( buttonColor ), 
-                (float)_buttonText.getFullBounds().width * 0.5f, (float)_buttonText.getFullBounds().height, 
+        PBounds textBounds = _buttonText.getFullBoundsReference();
+        Color brighterColor = getBrighterColor( buttonColor );
+        final Paint mouseNotOverGradient = new GradientPaint((float)textBounds.width / 2, 0f,
+                brighterColor, 
+                (float)textBounds.width * 0.5f, (float)textBounds.height, 
                 buttonColor);
         // Gradient for when the mouse is over the button.
-        final Paint mouseOverGradient = new GradientPaint((float)_buttonText.getFullBounds().width / 2, 0f,
-                getBrighterColor(getBrighterColor( buttonColor )), 
-                (float)_buttonText.getFullBounds().width * 0.5f, (float)_buttonText.getFullBounds().height, 
-                getBrighterColor( buttonColor ));
+        final Paint mouseOverGradient = new GradientPaint((float)textBounds.width / 2, 0f,
+                getBrighterColor(brighterColor), 
+                (float)textBounds.width * 0.5f, (float)textBounds.height, 
+                brighterColor);
         // Gradient for when the button is armed.
-        final Paint armedGradient = new GradientPaint((float)_buttonText.getFullBounds().width / 2, 0f,
+        final Paint armedGradient = new GradientPaint((float)textBounds.width / 2, 0f,
                 buttonColor, 
-                (float)_buttonText.getFullBounds().width * 0.5f, (float)_buttonText.getFullBounds().height, 
-                getBrighterColor( buttonColor ));
+                (float)textBounds.width * 0.5f, (float)textBounds.height, 
+                brighterColor);
 
         // Create the button node.
         RoundRectangle2D buttonShape = new RoundRectangle2D.Double(0, 0, 
-                _buttonText.getFullBounds().width + 2 * HORIZONTAL_PADDING,
-                _buttonText.getFullBounds().height + 2 * VERTICAL_PADDING,
+                textBounds.width + 2 * HORIZONTAL_PADDING,
+                textBounds.height + 2 * VERTICAL_PADDING,
                 BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS);
                 
         final PPath button = new PPath(buttonShape);
