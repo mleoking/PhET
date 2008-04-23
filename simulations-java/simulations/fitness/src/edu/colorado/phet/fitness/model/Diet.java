@@ -36,4 +36,13 @@ public class Diet {
     public String toString() {
         return name+", Fat Calories/Day: "+fat+", Carb Calories/Day: "+carb+", Protein Calories/Day: "+protein;
     }
+
+    public Diet getInstanceOfMagnitude( double magnitude ) {
+        double actual=getTotalCalories();
+        return new Diet( name+" scaled", fat*magnitude/actual,carb*magnitude/actual,protein*magnitude/actual);
+    }
+
+    private double getTotalCalories() {
+        return fat+carb+protein;
+    }
 }

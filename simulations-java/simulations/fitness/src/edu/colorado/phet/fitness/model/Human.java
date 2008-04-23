@@ -73,7 +73,7 @@ public class Human {
 
 
     public Human() {
-        setDiet( FitnessModel.BALANCED_DIET );
+
         addListener( new Adapter() {
             public void heightChanged() {
                 updateBMR();
@@ -97,8 +97,8 @@ public class Human {
         } );
         updateBMR();
         activity.setValue( bmr.getValue() * 0.5 );
-        double dCal = getDeltaCaloriesGained();
-        exercise.setValue( exercise.getValue() + dCal );
+        setDiet( FitnessModel.BALANCED_DIET.getInstanceOfMagnitude(activity.getValue()+bmr.getValue()+exercise.getValue()) );
+//        exercise.setValue( Math.max( exercise.getValue() + getDeltaCaloriesGained(), 0 ) );
         lipids.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 notifyDietChanged();
