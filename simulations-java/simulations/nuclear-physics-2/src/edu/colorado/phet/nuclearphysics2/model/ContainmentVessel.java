@@ -6,8 +6,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.nuclearphysics2.model.NeutronSource.Listener;
-
 /**
  * This class is meant to represent a vessel in which nuclear reactions can
  * be contained.  It is intended to be a part of the model, and have a
@@ -21,7 +19,6 @@ public class ContainmentVessel {
     // Class Data
     //------------------------------------------------------------------------
     
-    private static final double DEFAULT_RADIUS = 50;     // In femtometers.
     private static final double CONTAINMENT_RANGE = 10;  // In femtometers.
     private static final double APERTURE_HEIGHT = 20;    // In femtometers.
     private static final double APERTURE_WIDTH = CONTAINMENT_RANGE * 1.5;  // In femtometers.
