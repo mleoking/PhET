@@ -28,6 +28,16 @@ public class SummaryNode extends PNode {
             public void itemAdded( CaloricItem item ) {
                 addItem( item );
             }
+
+            public void itemRemoved( CaloricItem item ) {
+                for (int i=0;i<layer.getChildrenCount();i++){
+                    SummaryItemNode child= (SummaryItemNode) layer.getChild( i );
+                    if (child.item==item){
+                        layer.removeChild( child );
+                        i--;
+                    }
+                }
+            }
         } );
     }
 

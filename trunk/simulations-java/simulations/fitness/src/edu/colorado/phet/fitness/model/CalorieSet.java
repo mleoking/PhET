@@ -24,7 +24,7 @@ public class CalorieSet {
 
     public void addItem( CaloricItem item ) {
         list.add( item );
-        notifyItemAdded(item);
+        notifyItemAdded( item );
     }
 
     public double getTotal() {
@@ -52,8 +52,21 @@ public class CalorieSet {
         return size();
     }
 
+    public void removeItem( CaloricItem item ) {
+        list.remove( item );
+        notifyItemRemoved( item );
+    }
+
+    private void notifyItemRemoved( CaloricItem item ) {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener) listeners.get( i )).itemRemoved(item);
+        }
+    }
+
     public static interface Listener {
         void itemAdded( CaloricItem item );
+
+        void itemRemoved( CaloricItem item );
     }
 
     public void addListener( Listener listener ) {
@@ -62,7 +75,7 @@ public class CalorieSet {
 
     public void notifyItemAdded( CaloricItem item ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).itemAdded(item);
+            ( (Listener) listeners.get( i ) ).itemAdded( item );
         }
     }
 }
