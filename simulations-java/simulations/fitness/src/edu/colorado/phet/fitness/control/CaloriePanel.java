@@ -32,8 +32,8 @@ public class CaloriePanel extends PNode {
     private PhetPCanvas phetPCanvas;
     private StackedBarChartNode stackedBarChart;
     private DietNode dietNode;
-//    private ExerciseNode exerciseNode;
-//    private ActivityNode activityNode;
+    //    private ExerciseNode exerciseNode;
+    //    private ActivityNode activityNode;
     //    private PSwing newDietNode;
     private CalorieNode foodNode;
     private CalorieNode exerciseNode;
@@ -87,13 +87,13 @@ public class CaloriePanel extends PNode {
 //        newDietNode = new PSwing( new DietControlPanel() );
 //        addChild( newDietNode );
 
-        foodNode = new CalorieNode( "Edit Diet", Color.blue, model.getHuman().getSelectedFoods() );
+        foodNode = new CalorieNode( "Edit Diet", Color.blue, FitnessModel.availableFoods, model.getHuman().getSelectedFoods() );
         addChild( foodNode );
 
 //        exerciseNode = new ExerciseNode( model );
 //        addChild( exerciseNode );
 
-        exerciseNode = new CalorieNode( "Edit Exercise", Color.red, model.getHuman().getSelectedExercise() );
+        exerciseNode = new CalorieNode( "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise() );
         addChild( exerciseNode );
 
 //        activityNode = new ActivityNode( model, phetPCanvas );

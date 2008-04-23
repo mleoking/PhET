@@ -8,8 +8,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.fitness.model.CalorieSet;
-import edu.colorado.phet.nuclearphysics2.util.GradientButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -21,13 +21,13 @@ public class CalorieNode extends PNode {
     private PText plusNode;
     private CalorieSet calorieSet;
 
-    public CalorieNode( String editButtonText, Color editButtonColor, final CalorieSet calorieSet ) {
-        this.calorieSet=calorieSet;
+    public CalorieNode( String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet ) {
+        this.calorieSet = calorieSet;
         GradientButtonNode gradientButtonNode = new GradientButtonNode( editButtonText, 18, editButtonColor );
         gradientButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JDialog dialog = new JDialog();
-                DietControlPanel panel = new DietControlPanel();
+                CalorieSelectionPanel panel = new CalorieSelectionPanel( available, calorieSet );
                 dialog.setContentPane( panel );
                 dialog.pack();
                 dialog.setVisible( true );
@@ -55,13 +55,13 @@ public class CalorieNode extends PNode {
 
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemSetChanged() {
-                updatePlusNodeVisible( );
+                updatePlusNodeVisible();
             }
         } );
-        updatePlusNodeVisible(  );
+        updatePlusNodeVisible();
     }
 
-    private void updatePlusNodeVisible( ) {
+    private void updatePlusNodeVisible() {
         plusNode.setVisible( calorieSet.getItemCount() != 0 );
     }
 }
