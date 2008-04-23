@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
 
 import javax.swing.*;
 
@@ -220,7 +221,6 @@ public class FitnessApplication extends PiccoloPhetApplication {
      * @throws InterruptedException
      */
     public static void main( final String[] args ) {
-
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
