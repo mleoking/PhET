@@ -124,7 +124,7 @@ public class CaloriePanel extends PNode {
         exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 2, 100 );
         activityNode.setOffset( exerciseNode.getOffset().getX(), exerciseNode.getOffset().getY() + 100 );
 
-        newDietNode.setOffset( 0, 0 );
+        newDietNode.setOffset( stackedBarChart.getFullBounds().getX()-newDietNode.getFullBounds().getWidth()-5, 0 );
     }
 
 }
