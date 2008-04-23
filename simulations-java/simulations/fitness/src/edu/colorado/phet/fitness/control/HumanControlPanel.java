@@ -25,12 +25,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         this.human = human;
         getGridBagConstraints().insets = new Insets( 4, 4, 4, 4 );
         setFillNone();
-        JPanel namePanel = new JPanel();
-        namePanel.add( new JLabel( "Name: " ) );
-        JTextField name = new JTextField( human.getName() );
-        name.setColumns( 10 );
-        namePanel.add( name );
-        add( namePanel );
+
+//        add (new NamePanel(human));
 
         add( new GenderControl( human ) );
         setFillHorizontal();
