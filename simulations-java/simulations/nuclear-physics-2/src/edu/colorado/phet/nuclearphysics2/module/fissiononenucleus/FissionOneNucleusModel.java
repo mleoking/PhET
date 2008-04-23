@@ -14,7 +14,7 @@ import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.DaughterNucleus;
-import edu.colorado.phet.nuclearphysics2.model.FissionOneNucleus;
+import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
@@ -46,7 +46,7 @@ public class FissionOneNucleusModel {
     // Instance data
     //------------------------------------------------------------------------
     
-    private FissionOneNucleus _primaryNucleus;
+    private Uranium235Nucleus _primaryNucleus;
     private AtomicNucleus _daughterNucleus;
     private NeutronSource _neutronSource;
     private ArrayList _freeNucleons = new ArrayList();
@@ -62,7 +62,7 @@ public class FissionOneNucleusModel {
     public FissionOneNucleusModel(NuclearPhysics2Clock clock)
     {
         // Add a nucleus of Uranium 235 to the model.
-        _primaryNucleus = new FissionOneNucleus( clock, new Point2D.Double( 0, 0 ), FISSION_INTERVAL );
+        _primaryNucleus = new Uranium235Nucleus( clock, new Point2D.Double( 0, 0 ), FISSION_INTERVAL );
         
         // Register as a listener to the nucleus so that we can see if any new
         // particles come out of it that need to be managed.
@@ -120,7 +120,7 @@ public class FissionOneNucleusModel {
      * 
      * @return - Reference to the nucleus model element.
      */
-    public FissionOneNucleus getAtomicNucleus(){
+    public Uranium235Nucleus getAtomicNucleus(){
         return _primaryNucleus;
     }
     
