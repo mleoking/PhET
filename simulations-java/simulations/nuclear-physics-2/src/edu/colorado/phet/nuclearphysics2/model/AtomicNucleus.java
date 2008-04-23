@@ -137,13 +137,9 @@ public abstract class AtomicNucleus {
      */
     public AtomicNucleus(NuclearPhysics2Clock clock, Point2D position, ArrayList constituents)
     {
-        _clock = clock;
-        
-        addClockListener();
+        // Create an empty nucleus.
+        this(clock, position, 0, 0);
 
-        // Set the initial position for this nucleus.
-        _position = position;
-        
         // Figure out the makeup of the constituents.
         _numAlphas = 0;
         _numFreeNeutrons = 0;
@@ -168,10 +164,10 @@ public abstract class AtomicNucleus {
         // Keep the array of constituents.
         _constituents = constituents;
         
-        // Calculate our diameter.
+        // recalculate our diameter.
         updateDiameter();
         
-        // Set the initial agitation factor.
+        // Update our agitation factor.
         updateAgitationFactor();
     }
     
