@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import javax.mail.MessagingException;
@@ -13,6 +14,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 /**
+ * This is the main entry point for the Unfuddle Notifier.
+ * 
  * Created by: Sam
  * Feb 21, 2008 at 7:30:51 AM
  */
@@ -23,9 +26,12 @@ public class ProcessRecentChanges {
     private Timer timer;
     private JFrame running;
     private JTextField minutes;
-    public static String SVN_TRUNK;
+    public static String SVN_TRUNK; //TODO: make this go away, assignment is not obvious and it's used in too many places
 
     public ProcessRecentChanges( String[] args ) throws IOException, SAXException, ParserConfigurationException {
+        
+        //TODO: args[] should have been processed into individual arguments by main
+        
         this.args = args;
         unfuddleAccount = new UnfuddleAccount( new File( args[7] ) );
         unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID );
@@ -197,35 +203,29 @@ public class ProcessRecentChanges {
     }
 
 
-    // args example:
-    // @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:/phet/svn C:/phet/unfuddled.xml true
-    public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        if ( args.length == 1 && new File( args[0] ).exists() ) {
-            String text = FileUtils.loadFileAsString( new File( args[0] ) );
-            StringTokenizer st = new StringTokenizer( text, " " );
-            args = new String[9];
-            for ( int i = 0; i < args.length; i++ ) {
-                args[i] = st.nextToken();
-            }
+    public static void main( String[] args ) throws IOException {
+        
+        if ( args.length == 1 ) {
+            args = readArgsFromFile( args[0], 9 /* numberOfArgs */, " " /* delimiter */ );
         }
         else if ( args.length == 0 ) {
-            args = new String[9];
-            args[0] = JOptionPane.showInputDialog( "Unfuddle ID" );
-            args[1] = JOptionPane.showInputDialog( "Unfuddle Password" );
-            args[2] = "phetmail@comcast.net";
-            args[3] = "smtp.comcast.net";
-            args[4] = "phetmail";
-            args[5] = JOptionPane.showInputDialog( "Phetmail password" );
-            args[6] = JOptionPane.showInputDialog( "SVN-trunk dir, e.g. C:/phet/svn/trunk" );
-            args[7] = JOptionPane.showInputDialog( "Path to phet-unfuddled.xml, e.g. C:/phet-unfuddled.xml" );
-            args[8] = JOptionPane.showInputDialog( "Send mail? true=yes false=test only", "true" );
+            args = promptForArgs();
         }
+        else {
+            System.out.println( "usage: ProcessRecentChanges [argsFile]" );
+            System.exit( 1 );
+        }
+        for ( int i = 0; i < args.length; i++ ) {
+            System.out.println( "<" + args[i] + ">" );
+        }
+        
         final String[] out = args;
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 try {
                     runMain( out );
                 }
+                //TODO: should System.exit(1) if any of these exceptions occur
                 catch( IOException e ) {
                     e.printStackTrace();
                 }
@@ -240,7 +240,54 @@ public class ProcessRecentChanges {
     }
 
     private static void runMain( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        SVN_TRUNK = args[6];
+        //TODO: args should have been processed into individual arguments by main
+        SVN_TRUNK = args[6]; //TODO: eliminate this non-obvious assignment to static variable
         new ProcessRecentChanges( args ).start();
+    }
+    
+    /*
+     * Reads program arguments from a file.
+     * Sample file format:
+     * @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:/phet/svn C:/phet/unfuddled.xml true
+     */
+    private static String[] readArgsFromFile( String filename, int numberOfArgs, String delimiter ) throws IOException {
+        String[] args = new String[numberOfArgs];
+        File file = new File( filename );
+        if ( file.exists() && file.canRead() ) {
+            String text = FileUtils.loadFileAsString( file );
+            StringTokenizer st = new StringTokenizer( text, delimiter );
+            for ( int i = 0; i < args.length; i++ ) {
+                try {
+                    args[i] = st.nextToken(); // throws NoSuchElementException if we run out of tokens
+                }
+                catch ( NoSuchElementException e ) {
+                    throw new IOException( "file is missing one or more args" );
+                }
+                //TODO remove '\n' on end of last token in Unix files
+            }
+        }
+        else {
+            throw new IOException( "cannot read file " + filename );
+        }
+        return args;
+    }
+    
+    /*
+     * Prompts the user for program arguments.
+     */
+    private static String[] promptForArgs() {
+        //TODO: this is a painful way to prompt, use 1 dialog
+        //TODO: Cancel button is ignored in each of these JOptionPane calls
+        String[] args = new String[9];
+        args[0] = JOptionPane.showInputDialog( "Unfuddle username" );
+        args[1] = JOptionPane.showInputDialog( "Unfuddle password" ); //TODO don't use clear text for passwords
+        args[2] = JOptionPane.showInputDialog( "Email from address", "phetmail@comcast.net" );
+        args[3] = JOptionPane.showInputDialog( "Email server", "smtp.comcast.net" );
+        args[4] = JOptionPane.showInputDialog( "Email username", "phetmail" );
+        args[5] = JOptionPane.showInputDialog( "Email password" ); //TODO don't use clear text for passwords
+        args[6] = JOptionPane.showInputDialog( "SVN-trunk dir (e.g. C:/phet/svn/trunk)" );
+        args[7] = JOptionPane.showInputDialog( "Path to Unfuddle XML dump (e.g. C:/phet-unfuddled.xml)" );
+        args[8] = JOptionPane.showInputDialog( "Send mail? (true=yes false=test only)", "true" );
+        return args;
     }
 }
