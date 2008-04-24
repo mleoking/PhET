@@ -6,6 +6,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- move origin indicator on thermometer to be vertically aligned with bottom of bulb
 - morph or move ice textures to show downvalley motion
 - optimize ice flow vectors, use same 1D grid as ice thickness
 - developer controls for ice velocity "look"?
@@ -16,10 +17,17 @@ HIGH PRIORITY:
 - divide ice into separate shapes for above and below the ELA
 
 MEDIUM PRIORITY:
+- fake rocks using ice textures
+- fake moraine formation using a Hollywood model
+- drop constraints for tools
+- change cursor when tools are at illegal drop location
+- make advancing glaciers delete flags that are on valley floor
+- change tool values to '?' when they are in an illegal drop location
+- drill a borehole each time mouse button is released on borehole drill
+- when a tool is dragged from the toolbox and dropped illegally, snap it back to the toolbox
+- when a tool is dragged in the world and dropped illegally, snap it back to its location at the start of the drag
 - extruded portion of ice jiggles at headwall while it's evolving
 - remove yaw from mountains image perspective
-- add moving debris
-- form terminus from debris
 - ice textures for above/below ELA, and in/on ice
 - model borehole as a set of moving points, connected via line segments
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
@@ -30,6 +38,7 @@ MEDIUM PRIORITY:
 - add Advanced panel
 
 LOW PRIORITY:
+- add moving debris (if textures are convincing enough)
 - icons for View checkboxes
 - make mountains image big enough so that all we see is sky when the birds-eye view is made very wide
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
@@ -53,6 +62,7 @@ LOW PRIORITY:
 - rotate some of the tool icons to reduce height of toolbox?
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 - should Glacial Budget vs Elevation chart show negative ablation?
+- add rocks falling off mountains onto glacier surface?
 
 PERFORMANCE OPTIMIZATIONS:
 - Valley.getX uses divide-and-conquer
