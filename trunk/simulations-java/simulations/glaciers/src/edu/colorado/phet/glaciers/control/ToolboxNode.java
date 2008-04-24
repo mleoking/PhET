@@ -26,6 +26,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * ToolboxNode is the toolbox. It contains a collection of icons, 
  * positioned on a background, with a title tab in the upper left corner.
  * The origin of this node is at the upper-left corner of the tab.
+ * <p>
+ * When an icon is clicked in the toolbox, the icon asked a specified "tool producer"
+ * to create a tool (model and view). The tool icon then handles the initial
+ * dragging of from the toolbox to the world.  See ToolIconNode.  
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
