@@ -30,8 +30,7 @@ public class CalorieSet {
     public double getTotalCalories() {
         double sum = 0;
         for ( int i = 0; i < list.size(); i++ ) {
-            CaloricItem caloricItem = (CaloricItem) list.get( i );
-            sum += caloricItem.getCalories();
+            sum += ( (CaloricItem) list.get( i ) ).getCalories();
         }
         return sum;
     }
