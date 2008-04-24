@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.awt.FlowLayout;
-import java.awt.Insets;
 import java.text.NumberFormat;
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -11,7 +9,6 @@ import java.util.Hashtable;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -21,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantD
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GlaciersClock;

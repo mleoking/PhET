@@ -6,21 +6,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
-import edu.colorado.phet.glaciers.control.GraphsControlPanel;
-import edu.colorado.phet.glaciers.control.MiscControlPanel;
-import edu.colorado.phet.glaciers.control.ClimateControlPanel;
-import edu.colorado.phet.glaciers.control.ViewControlPanel;
+import edu.colorado.phet.glaciers.control.*;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 

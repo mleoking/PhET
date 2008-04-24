@@ -25,8 +25,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
-import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
-import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 
 /**
  * GlacierLengthVersusTimeChart displays a "Glacier Length versus Time" chart.
