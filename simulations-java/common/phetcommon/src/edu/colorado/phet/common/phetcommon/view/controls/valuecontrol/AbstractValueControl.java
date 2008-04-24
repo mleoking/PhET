@@ -184,14 +184,6 @@ public abstract class AbstractValueControl extends JPanel {
         return _unitsLabel;
     }
 
-    /**
-     * Changes the text value of the units label.
-     * @param units the new units label string
-     */
-    public void setUnits(String units){
-        _unitsLabel.setText( units );
-    }
-
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -396,6 +388,14 @@ public abstract class AbstractValueControl extends JPanel {
             value = _value;
         }
         return value;
+    }
+    
+    /**
+     * Changes the text value of the units label.
+     * @param units the new units label string
+     */
+    public void setUnits( String units ) {
+        _unitsLabel.setText( units );
     }
 
     //----------------------------------------------------------------------------
