@@ -1,8 +1,9 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.view;
+package edu.colorado.phet.glaciers.view.tools;
 
 import edu.colorado.phet.glaciers.model.*;
+import edu.colorado.phet.glaciers.view.ModelViewTransform;
 
 /**
  * ToolNodeFactory uses the Factory design pattern to create tool nodes.

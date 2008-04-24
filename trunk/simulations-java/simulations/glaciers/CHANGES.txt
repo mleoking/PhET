@@ -13,6 +13,7 @@ HIGH PRIORITY:
 - remove tools by dragging them back to the trash can (or toolbox?)
 
 MEDIUM PRIORITY:
+- creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - fake rocks using ice textures
@@ -81,6 +82,7 @@ CLEANUP:
 
 
 DONE:
+4/24/08 - move tools and toolbox nodes to a new package
 4/24/08 - first pass at dragging tools to the trash (doesn't work on initial drag that creates the tool)
 4/24/08 - move origin indicator on thermometer to be vertically aligned with bottom of bulb
 4/22/08 - swap colors for ice surface and cross-section

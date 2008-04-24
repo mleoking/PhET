@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ScrollArrowNode;
-import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.control.ScrollArrowNode.LeftScrollArrowNode;
 import edu.colorado.phet.glaciers.control.ScrollArrowNode.RightScrollArrowNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
@@ -30,6 +29,9 @@ import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Viewport;
 import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
+import edu.colorado.phet.glaciers.view.tools.AbstractToolNode;
+import edu.colorado.phet.glaciers.view.tools.ToolNodeFactory;
+import edu.colorado.phet.glaciers.view.tools.ToolboxNode;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 

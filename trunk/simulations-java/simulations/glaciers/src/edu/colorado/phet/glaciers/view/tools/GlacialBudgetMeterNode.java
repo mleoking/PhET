@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.view;
+package edu.colorado.phet.glaciers.view.tools;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -22,7 +22,8 @@ import edu.colorado.phet.glaciers.model.GlacialBudgetMeter;
 import edu.colorado.phet.glaciers.model.GlacialBudgetMeter.GlacialBudgetMeterListener;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
-import edu.colorado.phet.glaciers.view.AbstractToolOriginNode.LeftToolOriginNode;
+import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
