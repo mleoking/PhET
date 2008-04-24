@@ -142,7 +142,7 @@ public class Human {
         Diet initialDiet = FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
         foodItems.clear();
         exerciseItems.clear();
-        foodItems.addItem( new CaloricFoodItem( "balanced diet", "balanced.png", initialDiet.getTotal(), initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false ) );//todo: standardize constructor units
+        foodItems.addItem( new CaloricFoodItem( "healthy diet", "balanced.png", initialDiet.getTotal(), initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false ) );//todo: standardize constructor units
         updateIntake();
     }
 

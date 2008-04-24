@@ -1,3 +1,4 @@
+Lightened up intake colors
 Added reset all button
 
 0.00.14
