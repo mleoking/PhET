@@ -14,12 +14,14 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLay
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
+import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 
 /**
  * Created by: Sam
  * Apr 3, 2008 at 1:14:21 PM
  */
 public class HumanControlPanel extends VerticalLayoutPanel {
+    private FitnessModel model;
     private Human human;
 
 //    public String toString( double sec ) {
@@ -28,7 +30,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //        int months=(int) FitnessUnits
 //    }
 
-    public HumanControlPanel( final Human human ) {
+    public HumanControlPanel( final FitnessModel model, final Human human ) {
+        this.model = model;
         this.human = human;
         getGridBagConstraints().insets = new Insets( 4, 4, 4, 4 );
         setFillNone();
@@ -62,17 +65,26 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         add( heightControl );
 
-        double minWeight = 0;
-        double maxWeight = 560;//world record
-        final LinearValueControl weightControl = new HumanSlider( minWeight, maxWeight, human.getMass(), "Weight", "0.00", "kg" );
+        final double minWeight = 0;
+        final double maxWeight = 560;//world record
+        final LinearValueControl weightControl = new HumanSlider( minWeight, maxWeight, human.getMass(), "Weight", "0.00", model.getUnits().getMassUnit() );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setMass( weightControl.getValue() );
+                human.setMass( model.getUnits().viewToModel( weightControl.getValue() ) );
             }
         } );
         human.addListener( new Human.Adapter() {
             public void weightChanged() {
-                weightControl.setValue( human.getMass() );
+                weightControl.setValue( model.getUnits().modelToView( human.getMass() ) );
+            }
+        } );
+        model.addListener( new FitnessModel.Listener() {
+            public void unitsChanged() {
+                weightControl.setValue( model.getUnits().modelToView( human.getMass() ) );
+                weightControl.setUnits( model.getUnits().getMassUnit() );
+                weightControl.setRange( model.getUnits().modelToView( minWeight ), model.getUnits().modelToView( maxWeight ) );
+                weightControl.getSlider().setPaintLabels( false );
+                weightControl.getSlider().setPaintTicks( false );
             }
         } );
         add( weightControl );

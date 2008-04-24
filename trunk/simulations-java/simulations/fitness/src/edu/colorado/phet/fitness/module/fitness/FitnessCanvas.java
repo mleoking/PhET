@@ -65,7 +65,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         addWorldChild( _rootNode );
 
 //        _rootNode.addChild( new HumanNode( model.getHuman() ) );
-        _rootNode.addChild( new ScaleNode( model.getHuman() ) );
+        _rootNode.addChild( new ScaleNode( model,model.getHuman() ) );
         _rootNode.addChild( new HumanAreaNode( model.getHuman() ) );
 
         setZoomEventHandler( new PZoomEventHandler() );
@@ -74,7 +74,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         rulerNode = createRulerNode();
         addWorldChild( rulerNode );
 
-        HumanControlPanel humanControlPanel = new HumanControlPanel( model.getHuman() );
+        HumanControlPanel humanControlPanel = new HumanControlPanel( model, model.getHuman() );
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
