@@ -81,6 +81,8 @@ EOT;
 
         // Second, add all new files:
         contribution_add_all_form_files_to_contribution($contribution_id);
+
+        cache_clear_teacher_ideas();
     }
 
     function handle_action($action) {

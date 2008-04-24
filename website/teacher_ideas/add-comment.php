@@ -23,6 +23,8 @@ class AddComment extends SitePage {
 
             $this->id = contribution_add_comment($contribution_id, $contributor_id, $contribution_comment_text);
 
+            cache_clear_teacher_ideas();
+
             $this->meta_refresh($this->referrer, 0);
         }
     }
@@ -39,6 +41,7 @@ class AddComment extends SitePage {
             BasePage::render_redirect();
         }
     }
+
 }
 
 $page = new AddComment("Add Comment", NAV_TEACHER_IDEAS, get_referrer(), SP_AUTHLEVEL_USER);
