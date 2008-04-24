@@ -70,7 +70,7 @@
      * @return unknown_type result of mysql_query
      */
     function db_exec_query($statement) {
-        print "<!-- MYSQLQUERY: $statement -->\n";
+        //print "<!-- MYSQLQUERY: $statement -->\n";
         $result = mysql_query($statement);
 
         db_verify_mysql_result($result, $statement);
