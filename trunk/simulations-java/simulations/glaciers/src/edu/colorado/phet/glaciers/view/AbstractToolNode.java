@@ -73,8 +73,19 @@ public abstract class AbstractToolNode extends PComposite {
         updatePosition();
     }
     
+    /**
+     * Call this before releasing all references to an object of this type.
+     */
     public void cleanup() {
         _tool.removeMovableListener( _movableListener );
+    }
+    
+    /**
+     * Gets the tool model element that is associated with this node.
+     * @return
+     */
+    public AbstractTool getTool() {
+        return _tool;
     }
     
     /*

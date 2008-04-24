@@ -3,7 +3,6 @@
 package edu.colorado.phet.glaciers.view;
 
 import edu.colorado.phet.glaciers.model.*;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * ToolNodeFactory uses the Factory design pattern to create tool nodes.
@@ -22,8 +21,8 @@ public class ToolNodeFactory {
      * @param mvt
      * @return
      */
-    public static PNode createNode( AbstractTool tool, ModelViewTransform mvt ) {
-        PNode node = null;
+    public static AbstractToolNode createNode( AbstractTool tool, ModelViewTransform mvt ) {
+        AbstractToolNode node = null;
         if ( tool instanceof Thermometer ) {
             node = new ThermometerNode( (Thermometer)tool, mvt );
         }
