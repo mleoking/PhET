@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 /**
  * ToolIconNode is the base class for all tool icons in the toolbox.
  * When a tool icon receives a mouse press, a corresponding tool is created in the model.
- * As long as the mouse remains pressed, drag events are used to change the tools position.
+ * As long as the mouse remains pressed, drag events are used to change the tool's position.
  * <p>
  * This class contains an inner subclass for each type of tool in the toolbox.
  * Each subclass knows about its image and text label, and what type of tool to create.
