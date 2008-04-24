@@ -25,9 +25,10 @@ public class FitnessModel {
     //http://www.calorie-count.com/calories/item/9316.html
     public static final FoodCalorieSet availableFoods = new FoodCalorieSet( new CaloricFoodItem[]{
             new CaloricFoodItem( "hamburger", "burger.png", 279, 13.5, 27.3, 12.9 ),
-            new CaloricFoodItem( "cup strawberries", "strawberry.png", 49, 0.5, 11.7, 1.0 ),//per cup
+            new CaloricFoodItem( "cup strawberries", "strawberry.png", 49, 0.5, 11.7, 1.0 ),
             new CaloricFoodItem( "banana split", "bananasplit.png", 894, 43, 121, 15 ),
-            new CaloricFoodItem( "cup grapefruit", "grapefruit.png", 97, 0.3, 24.5, 1.8 ),//per cup
+            new CaloricFoodItem( "cup grapefruit", "grapefruit.png", 97, 0.3, 24.5, 1.8 ),
+            new CaloricFoodItem( "large fries", "fries.png", 539, 28.8, 63.4, 6.4 ),
     } );
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp

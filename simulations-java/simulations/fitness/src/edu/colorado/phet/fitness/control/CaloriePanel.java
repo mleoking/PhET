@@ -61,7 +61,7 @@ public class CaloriePanel extends PNode {
         } );
 
         Function.LinearFunction transform = new Function.LinearFunction( 0, 3500, 0, 250 );
-        stackedBarChart = new StackedBarChartNode( transform, "Calories/Day", 10, 250, 1000, 8000);
+        stackedBarChart = new StackedBarChartNode( transform, "Calories/Day", 10, 250, 1000, 8000 );
 
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids() ), StackedBarNode.LEFT );
@@ -77,10 +77,10 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        foodNode = new CalorieNode( "Edit Diet", Color.blue, FitnessModel.availableFoods, model.getHuman().getSelectedFoods() );
+        foodNode = new CalorieNode( "Edit Diet", Color.blue, FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" );
         addChild( foodNode );
 
-        exerciseNode = new CalorieNode( "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise() );
+        exerciseNode = new CalorieNode( "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" );
         addChild( exerciseNode );
 
         relayout();
