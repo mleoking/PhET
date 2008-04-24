@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 
 /**
@@ -35,19 +36,18 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-        final JLabel ageReadout = new JLabel();
-        add( ageReadout );
-        final LinearValueControl age = new HumanSlider( 0, 100 * 525600.0 * 60, human.getAge(), "Age", "0.00", "seconds" );
-        age.getTextField().setColumns( 9 );
+        final LinearValueControl age = new HumanSlider( 0, 100 * 525600.0 * 60, FitnessUnits.secondsToYears( human.getAge() ), "Age", "0.00", "years" );
+        age.getTextField().setColumns( 5 );
         add( age );
         age.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setAge( age.getValue() );
+                human.setAge( FitnessUnits.yearsToSeconds( age.getValue() ) );
             }
         } );
         human.addListener( new Human.Adapter() {
             public void ageChanged() {
-                age.setValue( human.getAge() );
+                age.setValue( FitnessUnits.secondsToYears( human.getAge() ) );
+//                age.setValue( human.getAge() );
             }
         } );
 
@@ -108,7 +108,6 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     }
 
     public static final class HumanSlider extends LinearValueControl {
-
         public HumanSlider( double min, double max, double value, String label, String textFieldPattern, String units ) {
             super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
             getSlider().setPaintLabels( false );

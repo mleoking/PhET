@@ -6,19 +6,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Created by: Sam
  * Apr 23, 2008 at 11:55:28 AM
  */
 public class CalorieNode extends PNode {
-    private PText plusNode;
+    //    private PText plusNode;
     private CalorieSet available;
     private CalorieSet calorieSet;
     private JDialog dialog;
@@ -40,21 +38,21 @@ public class CalorieNode extends PNode {
         } );
         addChild( gradientButtonNode );
 
-        PText baseDietNode = new PText( "Balanced Diet" );
-        baseDietNode.setFont( new PhetDefaultFont( 20, true ) );
-        addChild( baseDietNode );
+//        PText baseDietNode = new PText( "Balanced Diet" );
+//        baseDietNode.setFont( new PhetDefaultFont( 20, true ) );
+//        addChild( baseDietNode );
 
-        plusNode = new PText( "Plus:" );
-        plusNode.setFont( new PhetDefaultFont( 15, true ) );
-        addChild( plusNode );
+//        plusNode = new PText( "Plus:" );
+//        plusNode.setFont( new PhetDefaultFont( 15, true ) );
+//        addChild( plusNode );
 
         SummaryNode summaryNode = new SummaryNode( calorieSet );
 
         addChild( summaryNode );
 
-        baseDietNode.setOffset( 0, gradientButtonNode.getFullBounds().getMaxY() );
-        plusNode.setOffset( 0, baseDietNode.getFullBounds().getMaxY() );
-        summaryNode.setOffset( 0, plusNode.getFullBounds().getMaxY() );
+//        baseDietNode.setOffset( 0, gradientButtonNode.getFullBounds().getMaxY() );
+//        plusNode.setOffset( 0, baseDietNode.getFullBounds().getMaxY() );
+        summaryNode.setOffset( 0, gradientButtonNode.getFullBounds().getMaxY());
 
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
@@ -83,6 +81,6 @@ public class CalorieNode extends PNode {
     }
 
     private void updatePlusNodeVisible() {
-        plusNode.setVisible( calorieSet.getItemCount() != 0 );
+//        plusNode.setVisible( calorieSet.getItemCount() != 0 );
     }
 }
