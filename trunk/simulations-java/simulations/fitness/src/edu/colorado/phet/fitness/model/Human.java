@@ -17,14 +17,14 @@ import edu.colorado.phet.fitness.module.fitness.FoodCalorieSet;
  */
 public class Human {
 
-    private Gender gender = DEFAULT_VALUE.getGender();
-    private String name = "Larry";
+    private String name;
     private ArrayList listeners = new ArrayList();
 
-    private DefaultTemporalVariable height = new DefaultTemporalVariable( DEFAULT_VALUE.getHeightMeters() );//meters
-    private DefaultTemporalVariable mass = new DefaultTemporalVariable( DEFAULT_VALUE.getMassKG() );//kg
-    private DefaultTemporalVariable age = new DefaultTemporalVariable( DEFAULT_VALUE.getAgeSeconds() );//sec
-    private DefaultTemporalVariable fatMassFraction = new DefaultTemporalVariable( ( 100 - DEFAULT_VALUE.getFatFreeMassPercent() ) / 100.0 );
+    private Gender gender = DEFAULT_VALUE.getGender();
+    private DefaultTemporalVariable height = new DefaultTemporalVariable();//meters
+    private DefaultTemporalVariable mass = new DefaultTemporalVariable();//kg
+    private DefaultTemporalVariable age = new DefaultTemporalVariable();//sec
+    private DefaultTemporalVariable fatMassFraction = new DefaultTemporalVariable();
 
     private DefaultTemporalVariable lipids = new DefaultTemporalVariable();
     private DefaultTemporalVariable carbs = new DefaultTemporalVariable();
@@ -84,12 +84,6 @@ public class Human {
 
 
     public Human() {
-        updateBMR();
-        setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2].getValue() );
-        Diet diet = FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
-        foodItems.addItem( new CaloricFoodItem( "balanced diet", "balanced.png", diet.getTotal(), diet.getFat() / 9, diet.getCarb() / 4, diet.getProtein() / 4, false ) );//todo: standardize constructor units
-        updateIntake();
-
         lipids.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 notifyDietChanged();
@@ -128,6 +122,41 @@ public class Human {
                 updateIntake();
             }
         } );
+        resetAll();
+    }
+
+
+    public void resetAll() {
+        name = "Larry";
+
+        clearTemporalVariables();
+
+        setGender( DEFAULT_VALUE.getGender() );
+        setHeight( DEFAULT_VALUE.getHeightMeters() );
+        setMass( DEFAULT_VALUE.getMassKG() );
+        setAge( DEFAULT_VALUE.getAgeSeconds() );
+        setFatMassPercent( ( 100 - DEFAULT_VALUE.getFatFreeMassPercent() ) );
+
+        updateBMR();
+        setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2].getValue() );
+        Diet initialDiet = FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
+        foodItems.clear();
+        exerciseItems.clear();
+        foodItems.addItem( new CaloricFoodItem( "balanced diet", "balanced.png", initialDiet.getTotal(), initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false ) );//todo: standardize constructor units
+        updateIntake();
+    }
+
+    private void clearTemporalVariables() {
+        height.clear();
+        mass.clear();
+        age.clear();
+        fatMassFraction.clear();
+        lipids.clear();
+        carbs.clear();
+        proteins.clear();
+        activity.clear();
+        exercise.clear();
+        bmr.clear();
     }
 
     private void updateIntake() {

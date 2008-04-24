@@ -140,4 +140,8 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
         //XXX lay out nodes
     }
+
+    //reset any view settings
+    public void resetAll() {
+    }
 }
