@@ -31,10 +31,6 @@ public class CaloriePanel extends PNode {
     private MinimizableControlGraph calorieChart;
     private PhetPCanvas phetPCanvas;
     private StackedBarChartNode stackedBarChart;
-    private DietNode dietNode;
-    //    private ExerciseNode exerciseNode;
-    //    private ActivityNode activityNode;
-    //    private PSwing newDietNode;
     private CalorieNode foodNode;
     private CalorieNode exerciseNode;
 
@@ -64,8 +60,8 @@ public class CaloriePanel extends PNode {
             }
         } );
 
-        Function.LinearFunction transform = new Function.LinearFunction( 0, 2500, 0, 250 );
-        stackedBarChart = new StackedBarChartNode( transform, "Calories/Day", 10, 250, 1000, 4000 );
+        Function.LinearFunction transform = new Function.LinearFunction( 0, 3500, 0, 250 );
+        stackedBarChart = new StackedBarChartNode( transform, "Calories/Day", 10, 250, 1000, 8000);
 
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids() ), StackedBarNode.LEFT );
@@ -81,23 +77,11 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        dietNode = new DietNode( model );
-//        addChild( dietNode );
-
-//        newDietNode = new PSwing( new DietControlPanel() );
-//        addChild( newDietNode );
-
         foodNode = new CalorieNode( "Edit Diet", Color.blue, FitnessModel.availableFoods, model.getHuman().getSelectedFoods() );
         addChild( foodNode );
 
-//        exerciseNode = new ExerciseNode( model );
-//        addChild( exerciseNode );
-
         exerciseNode = new CalorieNode( "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise() );
         addChild( exerciseNode );
-
-//        activityNode = new ActivityNode( model, phetPCanvas );
-//        addChild( activityNode );
 
         relayout();
     }
@@ -126,11 +110,6 @@ public class CaloriePanel extends PNode {
         calorieChart.setOffset( 0, weightChart.getFullBounds().getMaxY() );
         double width = phetPCanvas.getWidth() - getOffset().getX();
         stackedBarChart.setOffset( width / 2 - stackedBarChart.getFullBounds().getWidth() / 2, weightChart.getFullBounds().getY() );
-        dietNode.setOffset( stackedBarChart.getFullBounds().getX() - dietNode.getFullBounds().getWidth() - 2, 100 );
-//        exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 2, 100 );
-//        activityNode.setOffset( exerciseNode.getOffset().getX(), exerciseNode.getOffset().getY() + 100 );
-
-//        newDietNode.setOffset( stackedBarChart.getFullBounds().getX() - newDietNode.getFullBounds().getWidth() - 5, 0 );
         foodNode.setOffset( stackedBarChart.getFullBounds().getX() - foodNode.getFullBounds().getWidth() - 5, 10 );
         exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 20, 10 );
     }

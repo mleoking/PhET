@@ -22,11 +22,12 @@ public class FitnessModel {
     private final ConstantDtClock _clock;
     private final Human human = new Human();
 
-    public static final CalorieSet availableFoods = new CalorieSet( new CaloricItem[]{
-            new CaloricItem( "hamburger", "burger.png", 279 ),
-            new CaloricItem( "1 cup strawberry", "strawberry.png", 28 ),//per cup
-            new CaloricItem( "banana split", "bananasplit.png", 510 ),
-            new CaloricItem( "1 cup grapefruit", "grapefruit.png", 74 ),//per cup
+    //http://www.calorie-count.com/calories/item/9316.html
+    public static final FoodCalorieSet availableFoods = new FoodCalorieSet( new CaloricFoodItem[]{
+            new CaloricFoodItem( "hamburger", "burger.png", 279, 13.5, 27.3, 12.9 ),
+            new CaloricFoodItem( "1 cup strawberry", "strawberry.png", 49, 0.5, 11.7, 1.0 ),//per cup
+            new CaloricFoodItem( "banana split", "bananasplit.png", 894, 43, 121, 15 ),
+            new CaloricFoodItem( "1 cup grapefruit", "grapefruit.png", 97, 0.3, 24.5, 1.8 ),//per cup
     } );
 
 //    private FoodItem[] availableFoods = new FoodItem[]{

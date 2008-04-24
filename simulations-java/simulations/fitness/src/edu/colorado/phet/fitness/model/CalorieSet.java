@@ -27,7 +27,7 @@ public class CalorieSet {
         notifyItemAdded( item );
     }
 
-    public double getTotal() {
+    public double getTotalCalories() {
         double sum = 0;
         for ( int i = 0; i < list.size(); i++ ) {
             CaloricItem caloricItem = (CaloricItem) list.get( i );
@@ -59,7 +59,7 @@ public class CalorieSet {
 
     private void notifyItemRemoved( CaloricItem item ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener) listeners.get( i )).itemRemoved(item);
+            ( (Listener) listeners.get( i ) ).itemRemoved( item );
         }
     }
 

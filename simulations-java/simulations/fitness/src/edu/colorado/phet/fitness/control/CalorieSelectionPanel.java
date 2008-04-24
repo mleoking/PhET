@@ -3,6 +3,7 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -71,22 +72,46 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
             }
 
             public void itemRemoved( CaloricItem item ) {
-                for (int i=0;i<rightPanel.getComponentCount();i++){
-                    Component c=rightPanel.getComponent( i );
-                    if (c instanceof SelectedComponent){
-                        SelectedComponent sc= (SelectedComponent) c;
-                        if (sc.item==item){
+                for ( int i = 0; i < rightPanel.getComponentCount(); i++ ) {
+                    Component c = rightPanel.getComponent( i );
+                    if ( c instanceof SelectedComponent ) {
+                        SelectedComponent sc = (SelectedComponent) c;
+                        if ( sc.item == item ) {
                             rightPanel.remove( sc );
                             i--;
                             rightPanel.invalidate();
                             rightPanel.revalidate();
-                            rightPanel.repaint(  );
+                            rightPanel.repaint();
                         }
                     }
 
                 }
             }
         } );
+        JButton button = new JButton( "Done" );
+        button.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyDonePressed();
+            }
+        } );
+        setFillNone();
+        add( button );
+    }
+
+    public static interface Listener {
+        void donePressed();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyDonePressed() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).donePressed();
+        }
     }
 
     private TitledBorder createTitledBorder( String title ) {
@@ -133,7 +158,7 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
         public SelectedComponent( final CalorieSet set, final CaloricItem item ) {
             super( item );
             this.set = set;
-            this.item=item;
+            this.item = item;
             JButton button = new JButton( "Remove from Diet" );
             button.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
