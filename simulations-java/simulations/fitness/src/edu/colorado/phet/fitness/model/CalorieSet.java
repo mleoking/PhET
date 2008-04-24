@@ -62,6 +62,12 @@ public class CalorieSet {
         }
     }
 
+    public void clear() {
+        while ( getItemCount() > 0 ) {
+            removeItem( getItem( 0 ) );
+        }
+    }
+
     public static interface Listener {
         void itemAdded( CaloricItem item );
 

@@ -3,6 +3,8 @@
 package edu.colorado.phet.fitness.module.fitness;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.*;
 
@@ -54,6 +56,14 @@ public class FitnessModule extends PiccoloModule {
         _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
+        JButton button = new JButton( "Reset All" );
+        button.addActionListener( new ActionListener(){
+            public void actionPerformed( ActionEvent e ) {
+                _model.resetAll();
+                _canvas.resetAll();
+            }
+        });
+        _clockControlPanel.add( button, 0 );
 
 //        JComponent timeSpeedSlider = createTimeSpeedSlider();
 

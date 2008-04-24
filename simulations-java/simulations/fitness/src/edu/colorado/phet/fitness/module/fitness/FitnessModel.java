@@ -19,7 +19,7 @@ public class FitnessModel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final ConstantDtClock _clock;
+    private final ConstantDtClock clock;
     private final Human human = new Human();
 
     //http://www.calorie-count.com/calories/item/9316.html
@@ -53,9 +53,9 @@ public class FitnessModel {
     public FitnessModel( ConstantDtClock clock ) {
         super();
 
-        _clock = clock;
+        this.clock = clock;
 
-        _clock.addClockListener( new ClockAdapter() {
+        this.clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 if ( !paused ) {
                     human.simulationTimeChanged( clockEvent.getSimulationTimeChange() );
@@ -72,7 +72,7 @@ public class FitnessModel {
     //----------------------------------------------------------------------------
 
     public ConstantDtClock getClock() {
-        return _clock;
+        return clock;
     }
 
     public CalorieSet getAvailableFoods() {
@@ -101,5 +101,10 @@ public class FitnessModel {
     //Todo: remove this workaround for performance/graphics problems
     public void setPaused( boolean paused ) {
         this.paused = paused;
+    }
+
+    public void resetAll() {
+        clock.setSimulationTime( 0.0 );
+        human.resetAll();
     }
 }
