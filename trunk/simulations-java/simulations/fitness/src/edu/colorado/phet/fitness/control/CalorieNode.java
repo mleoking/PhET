@@ -21,7 +21,7 @@ public class CalorieNode extends PNode {
     private CalorieSet calorieSet;
     private JDialog dialog;
     private String selectedTitle;
-    private String availableTitle ;
+    private String availableTitle;
 
     public CalorieNode( String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle ) {
         this.available = available;
@@ -32,7 +32,7 @@ public class CalorieNode extends PNode {
         gradientButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {
-                    createDialog( );
+                    createDialog();
                 }
 
                 dialog.setVisible( true );
@@ -42,21 +42,10 @@ public class CalorieNode extends PNode {
         } );
         addChild( gradientButtonNode );
 
-//        PText baseDietNode = new PText( "Balanced Diet" );
-//        baseDietNode.setFont( new PhetDefaultFont( 20, true ) );
-//        addChild( baseDietNode );
-
-//        plusNode = new PText( "Plus:" );
-//        plusNode.setFont( new PhetDefaultFont( 15, true ) );
-//        addChild( plusNode );
-
         SummaryNode summaryNode = new SummaryNode( calorieSet );
-
         addChild( summaryNode );
 
-//        baseDietNode.setOffset( 0, gradientButtonNode.getFullBounds().getMaxY() );
-//        plusNode.setOffset( 0, baseDietNode.getFullBounds().getMaxY() );
-        summaryNode.setOffset( 0, gradientButtonNode.getFullBounds().getMaxY());
+        summaryNode.setOffset( 0, gradientButtonNode.getFullBounds().getMaxY() );
 
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
@@ -70,9 +59,9 @@ public class CalorieNode extends PNode {
         updatePlusNodeVisible();
     }
 
-    private void createDialog( ) {
+    protected void createDialog() {
         this.dialog = new JDialog();
-        CalorieSelectionPanel panel = new CalorieSelectionPanel( available, calorieSet, availableTitle, selectedTitle );
+        CalorieSelectionPanel panel = createCalorieSelectionPanel();
         panel.addListener( new CalorieSelectionPanel.Listener() {
             public void donePressed() {
                 dialog.hide();
@@ -82,6 +71,26 @@ public class CalorieNode extends PNode {
         dialog.pack();
         dialog.setSize( 800, 600 );
         SwingUtils.centerWindowOnScreen( dialog );
+    }
+
+    protected CalorieSelectionPanel createCalorieSelectionPanel() {
+        return new CalorieSelectionPanel( available, calorieSet, availableTitle, selectedTitle );
+    }
+
+    public CalorieSet getAvailable() {
+        return available;
+    }
+
+    public CalorieSet getCalorieSet() {
+        return calorieSet;
+    }
+
+    public String getAvailableTitle() {
+        return availableTitle;
+    }
+
+    public String getSelectedTitle() {
+        return selectedTitle;
     }
 
     private void updatePlusNodeVisible() {

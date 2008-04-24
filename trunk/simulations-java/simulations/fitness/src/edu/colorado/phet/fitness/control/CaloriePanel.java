@@ -80,7 +80,11 @@ public class CaloriePanel extends PNode {
         foodNode = new CalorieNode( "Edit Diet", Color.blue, FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" );
         addChild( foodNode );
 
-        exerciseNode = new CalorieNode( "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" );
+        exerciseNode = new CalorieNode( "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" ) {
+            protected CalorieSelectionPanel createCalorieSelectionPanel() {
+                return new ExerciseSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
+            }
+        };
         addChild( exerciseNode );
 
         relayout();
