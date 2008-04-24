@@ -62,7 +62,7 @@ public class ToolboxNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final ArrayList _iconNodes; // array of IconNode
+    private final ArrayList _toolIconNodes; // array of ToolIconNode
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -74,21 +74,21 @@ public class ToolboxNode extends PNode {
     public ToolboxNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
         super();
         
-        _iconNodes = new ArrayList();
+        _toolIconNodes = new ArrayList();
         
         // create icons, under a common parent
         PNode iconsParentNode = new PNode();
         {
-            _iconNodes.add( new ThermometerIconNode( toolProducer, mvt ) );
-            _iconNodes.add( new GlacialBudgetMeterIconNode( toolProducer, mvt ) );
-            _iconNodes.add( new TracerFlagIconNode( toolProducer, mvt ) );
-            _iconNodes.add( new IceThicknessToolIconNode( toolProducer, mvt ) );
-            _iconNodes.add( new BoreholeDrillIconNode( toolProducer, mvt ) );
+            _toolIconNodes.add( new ThermometerIconNode( toolProducer, mvt ) );
+            _toolIconNodes.add( new GlacialBudgetMeterIconNode( toolProducer, mvt ) );
+            _toolIconNodes.add( new TracerFlagIconNode( toolProducer, mvt ) );
+            _toolIconNodes.add( new IceThicknessToolIconNode( toolProducer, mvt ) );
+            _toolIconNodes.add( new BoreholeDrillIconNode( toolProducer, mvt ) );
             if ( GlaciersApplication.instance().isDeveloperControlsEnabled() ) {
-                _iconNodes.add( new GPSReceiverIconNode( toolProducer, mvt ) );
+                _toolIconNodes.add( new GPSReceiverIconNode( toolProducer, mvt ) );
             }
-            _iconNodes.add( new TrashCanNode() );
-            layoutIcons( _iconNodes, iconsParentNode );
+            _toolIconNodes.add( new TrashCanIconNode() );
+            layoutIcons( _toolIconNodes, iconsParentNode );
         }
         
         // create the background
@@ -149,7 +149,7 @@ public class ToolboxNode extends PNode {
         // add all icons to parent, calculate max height
         Iterator i = nodes.iterator();
         while ( i.hasNext() ) {
-            IconNode currentNode = (IconNode) i.next();
+            ToolIconNode currentNode = (ToolIconNode) i.next();
             parentNode.addChild( currentNode );
         }
         final double maxToolHeight = parentNode.getFullBoundsReference().getHeight();
@@ -159,7 +159,7 @@ public class ToolboxNode extends PNode {
         PNode previousNode = null;
         Iterator j = nodes.iterator();
         while ( j.hasNext() ) {
-            IconNode currentNode = (IconNode) j.next();
+            ToolIconNode currentNode = (ToolIconNode) j.next();
             if ( previousNode == null ) {
                 x = 0;
                 y = ( maxToolHeight - currentNode.getFullBoundsReference().getHeight() ) / 2;
