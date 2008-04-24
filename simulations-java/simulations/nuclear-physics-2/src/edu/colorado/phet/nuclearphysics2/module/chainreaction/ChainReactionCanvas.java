@@ -19,6 +19,7 @@ import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusImageNode;
+import edu.colorado.phet.nuclearphysics2.view.ContainmentVesselNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronSourceNode;
 import edu.umd.cs.piccolo.PNode;
@@ -61,6 +62,9 @@ public class ChainReactionCanvas extends PhetPCanvas {
     public ChainReactionCanvas(ChainReactionModel chainReactionModel) {
 
         _chainReactionModel = chainReactionModel;
+        
+        // Register as a listener for notifications from the model about model
+        // elements coming and going.
         _chainReactionModel.addListener( new ChainReactionModel.Adapter(){
             public void modelElementAdded(Object modelElement){
                 handleModelElementAdded(modelElement);
@@ -87,6 +91,9 @@ public class ChainReactionCanvas extends PhetPCanvas {
         // will be added.
         _nucleusLayer = new PNode();
         addWorldChild( _nucleusLayer );
+        
+        // Add a node that will depict the containment vessel.
+        addWorldChild(new ContainmentVesselNode(_chainReactionModel.getContainmentVessel()));
         
         // Add the button for enabling the containment vessel to the canvas.
         // TODO: JPB TBD - Need to make this a string and possibly a two-lined button.
