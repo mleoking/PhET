@@ -69,7 +69,7 @@ public class ThermometerNode extends AbstractToolNode {
         
         PImage imageNode = new PImage( GlaciersImages.THERMOMETER );
         addChild( imageNode );
-        imageNode.setOffset( arrowNode.getFullBoundsReference().getMaxX(), -imageNode.getFullBoundsReference().getHeight() / 2 );
+        imageNode.setOffset( arrowNode.getFullBoundsReference().getMaxX(), -imageNode.getFullBoundsReference().getHeight() );
         
         _temperatureDisplayC = new JLabel( "0" );
         _temperatureDisplayC.setFont( FONT );
