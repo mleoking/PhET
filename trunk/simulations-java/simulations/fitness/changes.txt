@@ -1,3 +1,4 @@
+Fixed BMR to be a function of FFM, not FFM%
 Lightened up intake colors
 Added reset all button
 
