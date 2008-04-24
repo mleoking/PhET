@@ -7,6 +7,7 @@ package edu.colorado.phet.fitness.model;
 public class FitnessUnits {
     private static double SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
     private static final double SECONDS_PER_DAY = 24 * 60 * 60;
+    private static double POUNDS_PER_KG = 2.20462262;
 
     public static double secondsToYears( double sec ) {
         return sec / SECONDS_PER_YEAR;
@@ -51,5 +52,13 @@ public class FitnessUnits {
 
     public static double gramsToCaloriesLipids( double grams ) {
         return grams * 9;
+    }
+
+    public static double kgToPounds( double mass ) {
+        return mass * POUNDS_PER_KG;
+    }
+
+    public static double poundsToKg( double value ) {
+        return value / POUNDS_PER_KG;
     }
 }

@@ -2,18 +2,64 @@
 
 package edu.colorado.phet.fitness.module.fitness;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.fitness.control.CaloricItem;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Diet;
+import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 
 /**
  * FitnessModel is the model for FitnessModule.
  */
 public class FitnessModel {
+
+    public static class Units {
+        public static final Units ENGLISH = new Units( "English", "Lbs" ) {
+            public double modelToView( double mass ) {
+                return FitnessUnits.kgToPounds( mass );
+            }
+
+            public double viewToModel( double value ) {
+                return FitnessUnits.poundsToKg(value);
+            }
+        };
+        public static final Units METRIC = new Units( "Metric", "Kg" );
+        private String shortName;
+        private String massUnit;
+
+        public Units( String shortName, String massUnit ) {
+            this.shortName = shortName;
+            this.massUnit = massUnit;
+        }
+
+        public String toString() {
+            return shortName;
+        }
+
+        public String getShortName() {
+            return shortName;
+        }
+
+        public double modelToView( double mass ) {
+            return mass;
+        }
+
+        public String getMassUnit() {
+            return massUnit;
+        }
+
+        public double viewToModel( double value ) {
+            return value;
+        }
+    }
+
+    private Units units = Units.ENGLISH;
+    public static final Units[] availableUnits = new Units[]{Units.ENGLISH, Units.METRIC};
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -107,4 +153,30 @@ public class FitnessModel {
         clock.setSimulationTime( 0.0 );
         human.resetAll();
     }
+
+    public Units getUnits() {
+        return units;
+    }
+
+    public void setUnits( Units units ) {
+        this.units = units;
+        notifyUnitsChanged();
+    }
+
+    private void notifyUnitsChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).unitsChanged();
+        }
+    }
+
+    public static interface Listener {
+        void unitsChanged();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
 }
