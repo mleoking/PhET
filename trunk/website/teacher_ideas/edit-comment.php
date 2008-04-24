@@ -43,9 +43,10 @@ class EditCommentPage extends SitePage {
                 return false;
             }
 
-           contribution_update_comment($comment_id, $_REQUEST["new_comment_text"]);
-           $this->updated = true;
-           $this->meta_refresh($this->referrer, 3);
+            contribution_update_comment($comment_id, $_REQUEST["new_comment_text"]);
+            $this->updated = true;
+            cache_clear_teacher_ideas();
+            $this->meta_refresh($this->referrer, 3);
         }
         else {
             $this->comment = comment_get_comment_by_id($comment_id);

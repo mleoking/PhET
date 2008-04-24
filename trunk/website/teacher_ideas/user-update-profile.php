@@ -53,6 +53,10 @@ class UpdateUserProfile extends SitePage {
             cookie_var_store("contributor_password_hash", $pass1);
         }
 
+        if ($this->success) {
+            cache_clear_teacher_ideas();
+        }
+
         //$this->meta_refresh(SITE_ROOT."teacher_ideas/user-edit-profile.php", 3);
         return true;
     }

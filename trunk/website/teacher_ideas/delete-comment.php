@@ -40,6 +40,7 @@ class DeleteCommentPage extends SitePage {
         if (isset($_REQUEST["submit_delete_comment"])) {
            contribution_delete_comment($comment_id);
            $this->deleted = true;
+            cache_clear_teacher_ideas();
            $this->meta_refresh($this->referrer, 3);
         }
         else {

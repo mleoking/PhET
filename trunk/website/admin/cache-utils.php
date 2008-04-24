@@ -63,6 +63,10 @@
         exec('rm -rf '.SITE_ROOT."/admin/cached-*");
     }
 
+    function cache_clear_teacher_ideas() {
+        exec('rm -rf '.SITE_ROOT."/teacher_ideas/cached-*");
+    }
+
     /**
      * Cache the given resource
      *

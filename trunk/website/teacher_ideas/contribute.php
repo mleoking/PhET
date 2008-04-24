@@ -4,6 +4,7 @@ include_once("../admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class ContributePage extends SitePage {
+
     function update() {
         parent::update();
 
@@ -25,6 +26,7 @@ class ContributePage extends SitePage {
             return $result;
         }
     }
+
 }
 
 $page = new ContributePage("Submit an Activity", NAV_TEACHER_IDEAS, get_referrer(), SP_AUTHLEVEL_USER);
