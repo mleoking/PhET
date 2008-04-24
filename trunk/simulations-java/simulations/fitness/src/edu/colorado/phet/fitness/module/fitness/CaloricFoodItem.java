@@ -52,4 +52,7 @@ public class CaloricFoodItem extends CaloricItem {
         return protein * 4;
     }
 
+    public String toString() {
+        return getName() + ", calories=" + getCalories() + ", lipids=" + lipids + ", carbs=" + carbs + ", proteins=" + protein+", image="+getImage();
+    }
 }

@@ -46,9 +46,13 @@ public class SummaryNode extends PNode {
 
         public SummaryItemNode( CaloricItem item, int count ) {
             this.item = item;
-//            addChild( new PText( item.getName() ) );
-
-            PImage imageNode = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), 30 ) );
+            PNode imageNode;
+            if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
+                imageNode = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), 30 ) );
+            }
+            else {
+                imageNode = new PText( item.getName() );
+            }
             addChild( imageNode );
             PText textNode = new PText( "=" + item.getCalories() + " kcal/day" );
             addChild( textNode );

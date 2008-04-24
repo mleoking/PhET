@@ -27,4 +27,7 @@ public class CaloricItem {
         return cal;
     }
 
+    public String toString() {
+        return "name="+name+", image="+image+", cal="+cal;
+    }
 }

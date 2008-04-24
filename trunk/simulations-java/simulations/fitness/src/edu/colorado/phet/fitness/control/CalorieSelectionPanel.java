@@ -55,7 +55,7 @@ public class CalorieSelectionPanel extends JPanel {
         rightScrollPane.setBorder( createTitledBorder( selectedTitle ) );
 
         final JSplitPane pane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, leftScrollPane, rightScrollPane );
-        pane.setEnabled( false );
+//        pane.setEnabled( false );
         pane.setDividerLocation( 0.5 );
 
         add( pane, new GridBagConstraints( 0, 1, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
@@ -134,9 +134,12 @@ public class CalorieSelectionPanel extends JPanel {
 
     private class DietComponent extends JPanel {
         private DietComponent( String name, String image, double cal ) {
-            add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( image ), 50 ) ) ) );
+            if ( image != null && image.trim().length() > 0 ) {
+                System.out.println( "image=" + image );
+                add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( image ), 50 ) ) ) );
+            }
             JLabel jLabel = new JLabel( "<html>One " + name + " per day<br>(" + cal + " kcal/day)</html>" );
-            jLabel.setFont( new PhetDefaultFont( 12) );
+            jLabel.setFont( new PhetDefaultFont( 12 ) );
             add( jLabel );
         }
 
