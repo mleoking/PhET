@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.fitness.control.CaloricItem;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Diet;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
+import edu.colorado.phet.fitness.util.FileParser;
 
 /**
  * FitnessModel is the model for FitnessModule.
@@ -25,7 +25,7 @@ public class FitnessModel {
             }
 
             public double viewToModel( double value ) {
-                return FitnessUnits.poundsToKg(value);
+                return FitnessUnits.poundsToKg( value );
             }
         };
         public static final Units METRIC = new Units( "Metric", "Kg" );
@@ -69,13 +69,8 @@ public class FitnessModel {
     private final Human human = new Human();
 
     //http://www.calorie-count.com/calories/item/9316.html
-    public static final FoodCalorieSet availableFoods = new FoodCalorieSet( new CaloricFoodItem[]{
-            new CaloricFoodItem( "hamburger", "burger.png", 279, 13.5, 27.3, 12.9 ),
-            new CaloricFoodItem( "cup strawberries", "strawberry.png", 49, 0.5, 11.7, 1.0 ),
-            new CaloricFoodItem( "banana split", "bananasplit.png", 894, 43, 121, 15 ),
-            new CaloricFoodItem( "cup grapefruit", "grapefruit.png", 97, 0.3, 24.5, 1.8 ),
-            new CaloricFoodItem( "large fries", "fries.png", 539, 28.8, 63.4, 6.4 ),
-    } );
+    public static final FoodCalorieSet availableFoods = new FoodCalorieSet( FileParser.getFoodItems() );
+    public static final CalorieSet availableExercise = new CalorieSet( FileParser.getExerciseItems() );
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
     public static final Diet BALANCED_DIET = new Diet( "Balanced Diet", 870, 1583, 432 );
@@ -84,13 +79,7 @@ public class FitnessModel {
             BALANCED_DIET,
             FAST_FOOD_ONLY
     };
-    public static final CalorieSet availableExercise = new CalorieSet( new CaloricItem[]{
-            //http://www.nutristrategy.com/activitylist.htm
-            new CaloricItem( "hour swimming laps", "swim.png", 590 ),//todo: make a function of weight
-            new CaloricItem( "hour basketball", "basketball.png", 472 ),
-            new CaloricItem( "hour bowling", "bowling.png", 177 ),
-            new CaloricItem( "hour dancing", "dancing.png", 266 ),
-    } );
+
     private boolean paused = false;
     //----------------------------------------------------------------------------
     // Constructors
