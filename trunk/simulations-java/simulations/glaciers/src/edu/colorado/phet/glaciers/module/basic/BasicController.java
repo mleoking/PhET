@@ -196,14 +196,5 @@ public class BasicController {
                 glacier.setSteadyState();
             }
         });
-        
-        // Initialization
-//        playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
-//        playArea.setIceFlowVisible( viewControlPanel.isIceFlowSelected() );
-//        playArea.setAxesVisible( viewControlPanel.isCoordinatesSelected() );
-//        climateControlPanel.setSnowfall( climate.getSnowfall() );
-//        climateControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
-//        climateControlPanel.setTemperature( climate.getTemperature() );
-//        miscControlPanel.setEquilibriumButtonEnabled( !glacier.isSteadyState() );
     }
 }
