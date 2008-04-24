@@ -81,7 +81,8 @@ CLEANUP:
 
 
 DONE:
-4/23/08 - move origin indicator on thermometer to be vertically aligned with bottom of bulb
+4/24/08 - first pass at dragging tools to the trash (doesn't work on initial drag that creates the tool)
+4/24/08 - move origin indicator on thermometer to be vertically aligned with bottom of bulb
 4/22/08 - swap colors for ice surface and cross-section
 4/22/08 - draw equilibrium line across valley floor when terminus is above ela
 ******** 0.00.14 (20849)

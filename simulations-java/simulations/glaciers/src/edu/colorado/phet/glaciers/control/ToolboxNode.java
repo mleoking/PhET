@@ -15,8 +15,11 @@ import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ToolIconNode.*;
 import edu.colorado.phet.glaciers.model.IToolProducer;
+import edu.colorado.phet.glaciers.view.AbstractToolNode;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -62,7 +65,11 @@ public class ToolboxNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final ArrayList _toolIconNodes; // array of ToolIconNode
+    private final IToolProducer _toolProducer;
+    private final ArrayList _toolIconNodes; // array of ToolIconNode, in the toolbox
+    private final ArrayList _toolNodes; // array of ToolNodes, in the world
+    private final TrashCanIconNode _trashCanIconNode;
+    private PDragEventHandler _dropInTrashHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -74,11 +81,14 @@ public class ToolboxNode extends PNode {
     public ToolboxNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
         super();
         
+        _toolProducer = toolProducer;
         _toolIconNodes = new ArrayList();
+        _toolNodes = new ArrayList();
         
         // create icons, under a common parent
         PNode iconsParentNode = new PNode();
         {
+            // interactive tools
             _toolIconNodes.add( new ThermometerIconNode( toolProducer, mvt ) );
             _toolIconNodes.add( new GlacialBudgetMeterIconNode( toolProducer, mvt ) );
             _toolIconNodes.add( new TracerFlagIconNode( toolProducer, mvt ) );
@@ -87,7 +97,11 @@ public class ToolboxNode extends PNode {
             if ( GlaciersApplication.instance().isDeveloperControlsEnabled() ) {
                 _toolIconNodes.add( new GPSReceiverIconNode( toolProducer, mvt ) );
             }
-            _toolIconNodes.add( new TrashCanIconNode() );
+            
+            // trash can is special
+            _trashCanIconNode = new TrashCanIconNode();
+            _toolIconNodes.add( _trashCanIconNode );
+            
             layoutIcons( _toolIconNodes, iconsParentNode );
         }
         
@@ -142,6 +156,19 @@ public class ToolboxNode extends PNode {
         backgroundNode.setChildrenPickable( false );
         tabNode.setPickable( false );
         tabNode.setChildrenPickable( false );
+        
+        // handles dropping tool nodes in the trash
+        _dropInTrashHandler = new PDragEventHandler() {
+            public void endDrag( PInputEvent event ) {
+                super.endDrag( event );
+                if ( event.getPickedNode() instanceof AbstractToolNode ) {
+                    AbstractToolNode toolNode = (AbstractToolNode) event.getPickedNode();
+                    if ( isInTrash( toolNode ) ) {
+                        _toolProducer.removeTool( toolNode.getTool() );
+                    }
+                }
+            }
+        };
     }
     
     private static void layoutIcons( ArrayList nodes, PNode parentNode ) {
@@ -171,5 +198,31 @@ public class ToolboxNode extends PNode {
             currentNode.setOffset( x, y );
             previousNode = currentNode;
         }
+    }
+    
+    /**
+     * Adds a tool node for the purposes of trash can management.
+     * @param toolNode
+     */
+    public void addToolNode( final AbstractToolNode toolNode ) {
+        _toolNodes.add( toolNode );
+        toolNode.addInputEventListener( _dropInTrashHandler );
+    }
+    
+    /**
+     * Removes a tool node for the purposes of trash can management.
+     * @param toolNode
+     */
+    public void removeToolNode( AbstractToolNode toolNode ) {
+        toolNode.removeInputEventListener( _dropInTrashHandler );
+        _toolNodes.remove( toolNode );
+        //TODO add animation of tool node being trashed (PActivity?)
+    }
+    
+    /*
+     * A tool node is in the trash if its bounds intersect the bounds of the trash can.
+     */
+    private boolean isInTrash( AbstractToolNode toolNode ) {
+        return toolNode.getGlobalFullBounds().intersects( _trashCanIconNode.getGlobalFullBounds() );
     }
 }
