@@ -27,7 +27,7 @@ import edu.colorado.phet.fitness.view.FitnessColorScheme;
  */
 public class CalorieSelectionPanel extends JPanel {
 
-    public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected ) {
+    public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected, String availableTitle, String selectedTitle ) {
         setLayout( new GridBagLayout() );
         JPanel leftPanel = new VerticalLayoutPanel();
         for ( int i = 0; i < available.getItemCount(); i++ ) {
@@ -54,10 +54,10 @@ public class CalorieSelectionPanel extends JPanel {
         }
 
         JScrollPane leftScrollPane = new JScrollPane( leftPanel );
-        leftScrollPane.setBorder( createTitledBorder( "Grocery Store" ) );
+        leftScrollPane.setBorder( createTitledBorder( availableTitle ) );
 
         JScrollPane rightScrollPane = new JScrollPane( rightPanel );
-        rightScrollPane.setBorder( createTitledBorder( "Diet" ) );
+        rightScrollPane.setBorder( createTitledBorder( selectedTitle ) );
 
         final JSplitPane pane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, leftScrollPane, rightScrollPane );
         pane.setDividerLocation( 0.5 );
@@ -133,7 +133,7 @@ public class CalorieSelectionPanel extends JPanel {
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( new CalorieSelectionPanel( FitnessModel.availableFoods, new CalorieSet() ) );
+        frame.setContentPane( new CalorieSelectionPanel( FitnessModel.availableFoods, new CalorieSet(), "Grocery Store", "Diet" ) );
         frame.pack();
         frame.setSize( 800, 600 );
         frame.setVisible( true );

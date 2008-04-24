@@ -31,15 +31,15 @@ public class CaloricFoodItem extends CaloricItem {
     }
 
     public double getLipidCalories() {
-        return lipids;
+        return lipids*9;
     }
 
     public double getCarbCalories() {
-        return carbs;
+        return carbs*4;
     }
 
     public double getProteinCalories() {
-        return protein;
+        return protein*4;
     }
 
 }

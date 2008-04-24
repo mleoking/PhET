@@ -82,7 +82,7 @@ public class Human {
         updateBMR();
         activity.setValue( bmr.getValue() * 0.5 );
         Diet diet = FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
-        foodItems.addItem( new CaloricFoodItem( "Balanced Diet", "balanced.png", diet.getTotal(), diet.getFat(), diet.getCarb(), diet.getProtein() ) );
+        foodItems.addItem( new CaloricFoodItem( "Balanced Diet", "balanced.png", diet.getTotal(), diet.getFat() / 9, diet.getCarb() / 4, diet.getProtein() / 4 ) );//todo: choose constructor units
         updateIntake();
 
 //        setDiet( diet );

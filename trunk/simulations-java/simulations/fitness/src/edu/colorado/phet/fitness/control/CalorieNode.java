@@ -20,15 +20,19 @@ public class CalorieNode extends PNode {
     private CalorieSet available;
     private CalorieSet calorieSet;
     private JDialog dialog;
+    private String selectedTitle;
+    private String availableTitle ;
 
-    public CalorieNode( String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet ) {
+    public CalorieNode( String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle ) {
         this.available = available;
         this.calorieSet = calorieSet;
+        this.availableTitle = availableTitle;
+        this.selectedTitle = selectedTitle;
         GradientButtonNode gradientButtonNode = new GradientButtonNode( editButtonText, 18, editButtonColor );
         gradientButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {
-                    createDialog();
+                    createDialog( );
                 }
 
                 dialog.setVisible( true );
@@ -66,9 +70,9 @@ public class CalorieNode extends PNode {
         updatePlusNodeVisible();
     }
 
-    private void createDialog() {
+    private void createDialog( ) {
         this.dialog = new JDialog();
-        CalorieSelectionPanel panel = new CalorieSelectionPanel( available, calorieSet );
+        CalorieSelectionPanel panel = new CalorieSelectionPanel( available, calorieSet, availableTitle, selectedTitle );
         panel.addListener( new CalorieSelectionPanel.Listener() {
             public void donePressed() {
                 dialog.hide();
