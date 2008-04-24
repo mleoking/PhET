@@ -77,7 +77,7 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        foodNode = new CalorieNode( "Edit Diet", Color.blue, FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" );
+        foodNode = new CalorieNode( "Edit Diet", new Color( 100,100,255), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" );
         addChild( foodNode );
 
         exerciseNode = new CalorieNode( "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" ) {

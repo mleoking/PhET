@@ -135,7 +135,9 @@ public class CalorieSelectionPanel extends JPanel {
     private class DietComponent extends JPanel {
         private DietComponent( String name, String image, double cal ) {
             add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( image ), 50 ) ) ) );
-            add( new JLabel( "<html>One " + name + " per day<br>(" + cal + " kcal/day)</html>" ) );
+            JLabel jLabel = new JLabel( "<html>One " + name + " per day<br>(" + cal + " kcal/day)</html>" );
+            jLabel.setFont( new PhetDefaultFont( 12) );
+            add( jLabel );
         }
 
         public DietComponent( CaloricItem item, boolean showPieChart ) {
