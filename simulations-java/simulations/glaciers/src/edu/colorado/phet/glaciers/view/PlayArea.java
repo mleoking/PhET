@@ -528,7 +528,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         AbstractToolNode node = ToolNodeFactory.createNode( tool, _mvt );
         _toolsLayer.addChild( node );
         _toolsMap.put( tool, node );
-        _toolboxNode.addToolNode( node );
+        _toolboxNode.getTrashCan().addManagedNode( node );
     }
 
     /**
@@ -540,7 +540,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         AbstractToolNode toolNode = (AbstractToolNode)_toolsMap.get( tool );
         _toolsLayer.removeChild( toolNode );
         _toolsMap.remove( tool );
-        _toolboxNode.removeToolNode( toolNode );
+        _toolboxNode.getTrashCan().removeManagedNode( toolNode );
     }
     
     //----------------------------------------------------------------------------

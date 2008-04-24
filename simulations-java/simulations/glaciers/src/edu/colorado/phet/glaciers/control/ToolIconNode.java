@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -14,11 +15,14 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.IToolProducer;
+import edu.colorado.phet.glaciers.view.AbstractToolNode;
 import edu.colorado.phet.glaciers.view.GPSReceiverNode;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -242,8 +246,38 @@ public abstract class ToolIconNode extends PNode {
      */
     public static class TrashCanIconNode extends ToolIconNode {
         
-        public TrashCanIconNode() {
+        private PInputEventListener _trashHandler;
+        
+        public TrashCanIconNode( final IToolProducer toolProducer ) {
             super( GlaciersImages.TRASH_CAN, GlaciersStrings.TOOLBOX_TRASH_CAN );
+            
+            // handles dropping tool nodes in the trash
+            _trashHandler = new PBasicInputEventHandler() {
+                public void mouseReleased( PInputEvent event ) {
+                    if ( event.getPickedNode() instanceof AbstractToolNode ) {
+                        AbstractToolNode toolNode = (AbstractToolNode) event.getPickedNode();
+                        if ( isInTrash( toolNode ) ) {
+                            toolProducer.removeTool( toolNode.getTool() );
+                        }
+                    }
+                }
+            };
+        }
+        
+        public void addManagedNode( AbstractToolNode node ) {
+            node.addInputEventListener( _trashHandler );
+        }
+        
+        public void removeManagedNode( AbstractToolNode node ) {
+            node.removeInputEventListener( _trashHandler );
+            //TODO add animation of tool node being trashed (PActivity?)
+        }
+        
+        /*
+         * A tool node is in the trash if its bounds intersect the bounds of the trash can.
+         */
+        private boolean isInTrash( AbstractToolNode toolNode ) {
+            return toolNode.getGlobalFullBounds().intersects( getGlobalFullBounds() );
         }
     }
 }
