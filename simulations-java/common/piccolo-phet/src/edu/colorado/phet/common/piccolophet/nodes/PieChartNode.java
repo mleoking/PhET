@@ -1,5 +1,5 @@
 /* Copyright 2007, University of Colorado */
-package edu.colorado.phet.energyskatepark.view.piccolo;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 import java.awt.geom.Arc2D;
@@ -11,7 +11,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * This class can be used to display a Pie Chart in Piccolo.
+ * This class can be used to display a Pie Chart in Piccolo.  See main() for sample usage and behavior.
+ * //todo: create addPieValue() method instead of having to set all data at once
  */
 public class PieChartNode extends PNode {
     private PieValue[] slices;//The values to show in the pie
@@ -75,14 +76,20 @@ public class PieChartNode extends PNode {
         }
     }
 
-
+    /**
+     * Sample usage of PieChartNode
+     */
     public static void main( String[] args ) {
-        // Show the component in a frame
-        PieChartNode.PieValue[] values = new PieValue[]{new PieChartNode.PieValue( 25, Color.red ), new PieChartNode.PieValue( 33, Color.green ), new PieChartNode.PieValue( 20, Color.pink ), new PieChartNode.PieValue( 15, Color.blue )};
+        PieChartNode.PieValue[] values = new PieValue[]{
+                new PieChartNode.PieValue( 25, Color.red ),
+                new PieChartNode.PieValue( 33, Color.green ),
+                new PieChartNode.PieValue( 20, Color.pink ),
+                new PieChartNode.PieValue( 15, Color.blue )};
         PieChartNode n = new PieChartNode( values, new Rectangle( 100, 100 ) );
         JFrame frame = new JFrame();
         PCanvas contentPane = new PCanvas();
         frame.setContentPane( contentPane );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         contentPane.getLayer().addChild( n );
 
         frame.setSize( 400, 400 );
