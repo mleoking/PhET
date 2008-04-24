@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.model.*;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 
 /**
  * ToolNodeFactory uses the Factory design pattern to create tool nodes.
