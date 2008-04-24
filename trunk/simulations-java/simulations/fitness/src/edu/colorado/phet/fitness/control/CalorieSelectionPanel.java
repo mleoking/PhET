@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -26,12 +25,13 @@ import edu.colorado.phet.fitness.view.FitnessColorScheme;
  * Apr 23, 2008 at 10:35:43 AM
  */
 public class CalorieSelectionPanel extends JPanel {
+    private ArrayList listeners = new ArrayList();
 
     public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected, String availableTitle, String selectedTitle ) {
         setLayout( new GridBagLayout() );
-        JPanel leftPanel = new VerticalLayoutPanel();
+        JPanel leftPanel = new MyVerticalLayoutPanel();
         for ( int i = 0; i < available.getItemCount(); i++ ) {
-            DietComponent ban = new DietComponent( available.getItem( i ) );
+            DietComponent ban = new DietComponent( available.getItem( i ), true );
             JButton button = new JButton( "Add" );
             ban.add( button );
             final int i1 = i;
@@ -42,15 +42,10 @@ public class CalorieSelectionPanel extends JPanel {
             } );
             leftPanel.add( ban );
         }
-        leftPanel.add( Box.createVerticalStrut( 10 ), new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 10, 10, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
 
-        final JPanel rightPanel = new VerticalLayoutPanel();
-        final Component rightStrut = Box.createVerticalBox();
-        rightPanel.add( rightStrut, new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
+        final JPanel rightPanel = new MyVerticalLayoutPanel();
         for ( int i = 0; i < selected.getItemCount(); i++ ) {
-            rightPanel.remove( rightStrut );//todo: fix this awkward workaround
             rightPanel.add( new SelectedComponent( selected, selected.getItem( i ) ) );
-            rightPanel.add( rightStrut, new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
         }
 
         JScrollPane leftScrollPane = new JScrollPane( leftPanel );
@@ -60,15 +55,14 @@ public class CalorieSelectionPanel extends JPanel {
         rightScrollPane.setBorder( createTitledBorder( selectedTitle ) );
 
         final JSplitPane pane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, leftScrollPane, rightScrollPane );
+        pane.setEnabled( false );
         pane.setDividerLocation( 0.5 );
 
         add( pane, new GridBagConstraints( 0, 0, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
         pane.setPreferredSize( new Dimension( 300, 300 ) );
         selected.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
-                rightPanel.remove( rightStrut );
                 rightPanel.add( new SelectedComponent( selected, item ) );
-                rightPanel.add( rightStrut, new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
                 pane.setDividerLocation( 0.5 );
                 pane.invalidate();
                 pane.revalidate();
@@ -103,7 +97,6 @@ public class CalorieSelectionPanel extends JPanel {
         void donePressed();
     }
 
-    private ArrayList listeners = new ArrayList();
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
@@ -147,9 +140,11 @@ public class CalorieSelectionPanel extends JPanel {
 //            add( new JButton( "Remove" ) );
         }
 
-        public DietComponent( CaloricItem item ) {
+        public DietComponent( CaloricItem item, boolean showPieChart ) {
             this( item.getName(), item.getImage(), item.getCalories() );
-            showPieChart( item );
+            if ( showPieChart ) {
+                showPieChart( item );
+            }
         }
 
         protected void showPieChart( CaloricItem item ) {
@@ -175,7 +170,7 @@ public class CalorieSelectionPanel extends JPanel {
         private CaloricItem item;
 
         public SelectedComponent( final CalorieSet set, final CaloricItem item ) {
-            super( item );
+            super( item, false );
             this.set = set;
             this.item = item;
             JButton button = new JButton( "Remove" );
@@ -185,10 +180,6 @@ public class CalorieSelectionPanel extends JPanel {
                 }
             } );
             add( button );
-        }
-
-        protected void showPieChart( CaloricItem item ) {
-            //no-op
         }
     }
 }
