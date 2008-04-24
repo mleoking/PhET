@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Glaciers, version 0.00.14
+Glaciers, version 0.00.15
 </b></big></big>
 <p>
 English: <a href="glaciers.jnlp">Glaciers</a>
@@ -13,12 +13,10 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
-<li>add left & right scroll arrows to zoomed view
-<li>equilibrium line ends at x=0 when ELA > F(0)
-<li>equilibrium line follows contour of glacier as it evolves
-<li>first pass at ice extrusion
-<li>add elevation to glacial budget meter
-<li>use same colors in glacial budget meter and "Glacial Budget vs Elevation" chart
+<li>draw equilibrium line across valley floor when terminus is above ELA
+<li>swap colors for ice surface and cross-section
+<li>move origin indicator on thermometer to be vertically aligned with bottom of bulb
+<li>first pass at dragging tools to the trash (doesn't work on initial drag that creates the tool)
 </ul>
 <p>
 <b>Known problems:</b>
@@ -31,7 +29,6 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <ul>
 <li>marker flags do not move with glacier
 <li>borehole drill doesn't work
-<li>tools cannot be dragged to the trash
 <li>snowfall is not visible
 <li>Advanced panel is hidden; what you see is the Basic panel.
 <li>ice measurement tool doesn't resize its calipers
