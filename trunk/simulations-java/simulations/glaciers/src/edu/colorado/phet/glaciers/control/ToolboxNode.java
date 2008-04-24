@@ -15,12 +15,8 @@ import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ToolIconNode.*;
 import edu.colorado.phet.glaciers.model.IToolProducer;
-import edu.colorado.phet.glaciers.view.AbstractToolNode;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -67,9 +63,7 @@ public class ToolboxNode extends PNode {
     //----------------------------------------------------------------------------
     
     private final ArrayList _toolIconNodes; // array of ToolIconNode, in the toolbox
-    private final ArrayList _toolNodes; // array of ToolNodes, in the world
     private final TrashCanIconNode _trashCanIconNode;
-    private final PInputEventListener _trashHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,11 +75,10 @@ public class ToolboxNode extends PNode {
      * @param toolProducer
      * @param mvt
      */
-    public ToolboxNode( final IToolProducer toolProducer, ModelViewTransform mvt ) {
+    public ToolboxNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
         super();
         
         _toolIconNodes = new ArrayList();
-        _toolNodes = new ArrayList();
         
         // create icons, under a common parent
         PNode iconsParentNode = new PNode();
@@ -101,7 +94,7 @@ public class ToolboxNode extends PNode {
             }
             
             // trash can is special
-            _trashCanIconNode = new TrashCanIconNode();
+            _trashCanIconNode = new TrashCanIconNode( toolProducer );
             _toolIconNodes.add( _trashCanIconNode );
             
             layoutIcons( _toolIconNodes, iconsParentNode );
@@ -158,18 +151,6 @@ public class ToolboxNode extends PNode {
         backgroundNode.setChildrenPickable( false );
         tabNode.setPickable( false );
         tabNode.setChildrenPickable( false );
-        
-        // handles dropping tool nodes in the trash
-        _trashHandler = new PBasicInputEventHandler() {
-            public void mouseReleased( PInputEvent event ) {
-                if ( event.getPickedNode() instanceof AbstractToolNode ) {
-                    AbstractToolNode toolNode = (AbstractToolNode) event.getPickedNode();
-                    if ( isInTrash( toolNode ) ) {
-                        toolProducer.removeTool( toolNode.getTool() );
-                    }
-                }
-            }
-        };
     }
     
     /*
@@ -204,29 +185,7 @@ public class ToolboxNode extends PNode {
         }
     }
     
-    /**
-     * Adds a tool node for the purposes of trash can management.
-     * @param toolNode
-     */
-    public void addToolNode( final AbstractToolNode toolNode ) {
-        _toolNodes.add( toolNode );
-        toolNode.addInputEventListener( _trashHandler );
-    }
-    
-    /**
-     * Removes a tool node for the purposes of trash can management.
-     * @param toolNode
-     */
-    public void removeToolNode( AbstractToolNode toolNode ) {
-        toolNode.removeInputEventListener( _trashHandler );
-        _toolNodes.remove( toolNode );
-        //TODO add animation of tool node being trashed (PActivity?)
-    }
-    
-    /*
-     * A tool node is in the trash if its bounds intersect the bounds of the trash can.
-     */
-    private boolean isInTrash( AbstractToolNode toolNode ) {
-        return toolNode.getGlobalFullBounds().intersects( _trashCanIconNode.getGlobalFullBounds() );
+    public TrashCanIconNode getTrashCan() {
+        return _trashCanIconNode;
     }
 }
