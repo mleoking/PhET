@@ -12,10 +12,14 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.CalorieSet;
+import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
+import edu.colorado.phet.fitness.view.FitnessColorScheme;
 
 /**
  * Created by: Sam
@@ -29,8 +33,7 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
         baseDietPanel.add( new JLabel( "Base Diet: " ) );
         baseDietPanel.add( new JComboBox( new Object[]{"Balanced Diet"} ) );
         add( baseDietPanel );
-
-        add( new JLabel( "In addition to your Balanced Diet, you can select additional items:" ) );
+//        add( new JLabel( "In addition to your Balanced Diet, you can select additional items:" ) );
 
         JPanel leftPanel = new VerticalLayoutPanel();
         for ( int i = 0; i < available.getItemCount(); i++ ) {
@@ -139,8 +142,8 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
     }
 
     private class DietComponent extends JPanel {
-        public DietComponent( String name, String image, double cal ) {
-            add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( image ), 30 ) ) ) );
+        private DietComponent( String name, String image, double cal ) {
+            add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( image ), 50 ) ) ) );
             add( new JLabel( "<html>One " + name + " per day<br>(" + cal + " kcal/day)</html>" ) );
 //            add( new JButton( createIcon( "-", Color.red, new PhetDefaultFont( 20, true ) ) ) );
 //            add( new JButton( "Remove" ) );
@@ -148,6 +151,24 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
 
         public DietComponent( CaloricItem item ) {
             this( item.getName(), item.getImage(), item.getCalories() );
+            showPieChart( item );
+        }
+
+        protected void showPieChart( CaloricItem item ) {
+            if ( item instanceof CaloricFoodItem ) {
+                CaloricFoodItem c = (CaloricFoodItem) item;
+                PhetPCanvas canvas = new PhetPCanvas();
+                canvas.setPreferredSize( new Dimension( 50, 50) );
+                canvas.addScreenChild( new PieChartNode( new PieChartNode.PieValue[]{
+                        new PieChartNode.PieValue( c.getCarbCalories(), FitnessColorScheme.CARBS ),
+                        new PieChartNode.PieValue( c.getProteinCalories(), FitnessColorScheme.PROTEIN ),
+                        new PieChartNode.PieValue( c.getLipidCalories(), FitnessColorScheme.FATS ),
+                }, new Rectangle( 5, 5, 40, 40) ) );
+                canvas.setOpaque( false );
+                canvas.setBackground( new Color( 0, 0, 0, 0 ) );
+                canvas.setBorder( null );
+                add( canvas );
+            }
         }
     }
 
@@ -166,8 +187,13 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
                 }
             } );
             add( button );
+
 //            DietComponent ban = new DietComponent( selected.getItem( i ) );
 //            rightPanel.add( ban );
+        }
+
+        protected void showPieChart( CaloricItem item ) {
+            //no-op
         }
     }
 }
