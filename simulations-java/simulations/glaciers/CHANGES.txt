@@ -82,6 +82,7 @@ CLEANUP:
 
 
 DONE:
+4/24/08 - organized imports
 4/24/08 - move tools and toolbox nodes to a new package
 4/24/08 - first pass at dragging tools to the trash (doesn't work on initial drag that creates the tool)
 4/24/08 - move origin indicator on thermometer to be vertically aligned with bottom of bulb

@@ -15,7 +15,6 @@ import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IToolProducer;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
-import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
