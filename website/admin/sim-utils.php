@@ -19,6 +19,12 @@
             SIM_TYPE_FLASH  => 'flash.png'
         );
 
+    // Java localization automatically (and silently) converts some newer ISO language codes to the
+    // older obsolete codes.  These lanugages are affected:
+    // Hebrew: he -> iw
+    // Yiddish: yi -> ji
+    // Indonesian id -> in
+    // We will us the right hand column (the old ones) until this gets resolved.
     $LANGUAGE_CODE_TO_LANGUAGE_NAME = array(
         "es" => "Spanish",
         "aa" => "Afar",
@@ -76,7 +82,9 @@
         "gu" => "Gujarati",
         "gv" => "Manx",
         "ha" => "Hausa",
-        "he" => "Hebrew",
+        // Hebrew: new is "he", old is "iw"
+        //"he" => "Hebrew",
+        "iw" => "Hebrew",
         "hi" => "Hindi",
         "ho" => "Hiri Motu",
         "hr" => "Croatian",
@@ -85,7 +93,9 @@
         "hy" => "Armenian",
         "hz" => "Herero",
         "ia" => "Interlingua",
-        "id" => "Indonesian",
+        // Indonesian: new is "id", old is "in"
+        //"id" => "Indonesian",
+        "in" => "Indonesian",
         "ie" => "Interlingue",
         "ig" => "Igbo",
         "ii" => "Sichuan Yi",
@@ -202,7 +212,9 @@
         "wa" => "Walloon",
         "wo" => "Wolof",
         "xh" => "Xhosa",
-        "yi" => "Yiddish",
+        // Yiddish: new is "yi", old is "ji"
+        //"yi" => "Yiddish",
+        "ji" => "Yiddish",
         "yo" => "Yoruba",
         "za" => "Zhuang",
         "zh" => "Chinese",
