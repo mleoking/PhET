@@ -25,17 +25,10 @@ public class FitnessModel {
     //http://www.calorie-count.com/calories/item/9316.html
     public static final FoodCalorieSet availableFoods = new FoodCalorieSet( new CaloricFoodItem[]{
             new CaloricFoodItem( "hamburger", "burger.png", 279, 13.5, 27.3, 12.9 ),
-            new CaloricFoodItem( "1 cup strawberry", "strawberry.png", 49, 0.5, 11.7, 1.0 ),//per cup
+            new CaloricFoodItem( "cup strawberries", "strawberry.png", 49, 0.5, 11.7, 1.0 ),//per cup
             new CaloricFoodItem( "banana split", "bananasplit.png", 894, 43, 121, 15 ),
-            new CaloricFoodItem( "1 cup grapefruit", "grapefruit.png", 97, 0.3, 24.5, 1.8 ),//per cup
+            new CaloricFoodItem( "cup grapefruit", "grapefruit.png", 97, 0.3, 24.5, 1.8 ),//per cup
     } );
-
-//    private FoodItem[] availableFoods = new FoodItem[]{
-//            new FoodItem( "burger.png", 279 ),
-//            new FoodItem( "strawberry.png", 28 ),//per cup
-//            new FoodItem( "bananasplit.png", 510 ),
-//            new FoodItem( "grapefruit.png", 74 ),//per cup
-//    };
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
     public static final Diet BALANCED_DIET = new Diet( "Balanced Diet", 870, 1583, 432 );
@@ -46,18 +39,11 @@ public class FitnessModel {
     };
     public static final CalorieSet availableExercise = new CalorieSet( new CaloricItem[]{
             //http://www.nutristrategy.com/activitylist.htm
-            new CaloricItem( "1 hour swimming laps", "swim.png", 590 ),//todo: make a function of weight
-            new CaloricItem( "1 hour basketball", "basketball.png", 472 ),
-            new CaloricItem( "1 hour bowling", "bowling.png", 177 ),
-            new CaloricItem( "1 hour dancing", "dancing.png", 266 ),
+            new CaloricItem( "hour swimming laps", "swim.png", 590 ),//todo: make a function of weight
+            new CaloricItem( "hour basketball", "basketball.png", 472 ),
+            new CaloricItem( "hour bowling", "bowling.png", 177 ),
+            new CaloricItem( "hour dancing", "dancing.png", 266 ),
     } );
-    //    public static final Exercise[] availableExercise = new Exercise[]{
-    //            //http://www.nutristrategy.com/activitylist.htm
-    //            new Exercise( "Swimming Laps (1 hour/day)", 590 ),//todo: make a function of weight
-    //            new Exercise( "Basketball (1 hour/day)", 472 ),
-    //            new Exercise( "Bowling (1 hour/day)", 177 ),
-    //            new Exercise( "Dancing (1 hour/day)", 266 ),
-    //    };
     private boolean paused = false;
     //----------------------------------------------------------------------------
     // Constructors

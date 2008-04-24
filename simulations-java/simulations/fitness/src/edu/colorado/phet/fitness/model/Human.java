@@ -6,6 +6,7 @@ import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.fitness.control.CaloricItem;
+import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.colorado.phet.fitness.module.fitness.FoodCalorieSet;
 
@@ -38,7 +39,7 @@ public class Human {
 
     private CalorieSet exerciseItems = new CalorieSet();
     private FoodCalorieSet foodItems = new FoodCalorieSet();
-    private Diet diet;
+//    private Diet diet;
 
     static class ReferenceHuman {
         boolean male;
@@ -80,7 +81,11 @@ public class Human {
     public Human() {
         updateBMR();
         activity.setValue( bmr.getValue() * 0.5 );
-        setDiet( FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() ) );
+        Diet diet = FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
+        foodItems.addItem( new CaloricFoodItem( "Balanced Diet", "balanced.png", diet.getTotal(), diet.getFat(), diet.getCarb(), diet.getProtein() ) );
+        updateIntake();
+
+//        setDiet( diet );
         lipids.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 notifyDietChanged();
@@ -122,9 +127,9 @@ public class Human {
     }
 
     private void updateIntake() {
-        lipids.setValue( diet.getFat() + foodItems.getTotalLipidCalories() );
-        carbs.setValue( diet.getCarb() + foodItems.getTotalCarbCalories() );
-        proteins.setValue( diet.getProtein() + foodItems.getTotalProteinCalories() );
+        lipids.setValue( foodItems.getTotalLipidCalories() );
+        carbs.setValue( foodItems.getTotalCarbCalories() );
+        proteins.setValue( foodItems.getTotalProteinCalories() );
     }
 
     private void updateExercise() {
@@ -156,10 +161,10 @@ public class Human {
         }
     }
 
-    public void setDiet( Diet diet ) {
-        this.diet = diet;
-        updateIntake();
-    }
+//    public void setDiet( Diet diet ) {
+//        this.diet = diet;
+//        updateIntake();
+//    }
 
     private void updateBMR() {
 //        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getMass(), getHeight(), getAge(), gender ) );

@@ -25,16 +25,10 @@ import edu.colorado.phet.fitness.view.FitnessColorScheme;
  * Created by: Sam
  * Apr 23, 2008 at 10:35:43 AM
  */
-public class CalorieSelectionPanel extends VerticalLayoutPanel {
+public class CalorieSelectionPanel extends JPanel {
 
     public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected ) {
-        JPanel baseDietPanel = new JPanel();
-        baseDietPanel.setBorder( BorderFactory.createRaisedBevelBorder() );
-        baseDietPanel.add( new JLabel( "Base Diet: " ) );
-        baseDietPanel.add( new JComboBox( new Object[]{"Balanced Diet"} ) );
-        add( baseDietPanel );
-//        add( new JLabel( "In addition to your Balanced Diet, you can select additional items:" ) );
-
+        setLayout( new GridBagLayout() );
         JPanel leftPanel = new VerticalLayoutPanel();
         for ( int i = 0; i < available.getItemCount(); i++ ) {
             DietComponent ban = new DietComponent( available.getItem( i ) );
@@ -48,26 +42,33 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
             } );
             leftPanel.add( ban );
         }
+        leftPanel.add( Box.createVerticalStrut( 10 ), new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 10, 10, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
 
-        final JPanel rightPanel = new JPanel();
-        rightPanel.setLayout( new BoxLayout( rightPanel, BoxLayout.Y_AXIS ) );
+        final JPanel rightPanel = new VerticalLayoutPanel();
+        final Component rightStrut = Box.createVerticalBox();
+        rightPanel.add( rightStrut, new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
         for ( int i = 0; i < selected.getItemCount(); i++ ) {
+            rightPanel.remove( rightStrut );//todo: fix this awkward workaround
             rightPanel.add( new SelectedComponent( selected, selected.getItem( i ) ) );
+            rightPanel.add( rightStrut, new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
         }
 
-        JScrollPane jScrollPane = new JScrollPane( leftPanel );
-        jScrollPane.setBorder( createTitledBorder( "Available Foods" ) );
-        JScrollPane jScrollPane1 = new JScrollPane( rightPanel );
-        jScrollPane1.setBorder( createTitledBorder( "Selected Foods" ) );
-        final JSplitPane pane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, jScrollPane, jScrollPane1 );
+        JScrollPane leftScrollPane = new JScrollPane( leftPanel );
+        leftScrollPane.setBorder( createTitledBorder( "Grocery Store" ) );
+
+        JScrollPane rightScrollPane = new JScrollPane( rightPanel );
+        rightScrollPane.setBorder( createTitledBorder( "Diet" ) );
+
+        final JSplitPane pane = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, leftScrollPane, rightScrollPane );
         pane.setDividerLocation( 0.5 );
 
-        add( pane );
+        add( pane, new GridBagConstraints( 0, 0, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
         pane.setPreferredSize( new Dimension( 300, 300 ) );
         selected.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
-                rightPanel.add( Box.createRigidArea( new Dimension( 2, 2 ) ) );
+                rightPanel.remove( rightStrut );
                 rightPanel.add( new SelectedComponent( selected, item ) );
+                rightPanel.add( rightStrut, new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
                 pane.setDividerLocation( 0.5 );
                 pane.invalidate();
                 pane.revalidate();
@@ -86,7 +87,6 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
                             break;//remove the first matching item
                         }
                     }
-
                 }
             }
         } );
@@ -96,8 +96,7 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
                 notifyDonePressed();
             }
         } );
-        setFillNone();
-        add( button );
+        add( button, new GridBagConstraints( 0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
     }
 
     public static interface Listener {
