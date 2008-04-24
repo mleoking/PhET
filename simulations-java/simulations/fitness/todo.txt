@@ -1,17 +1,26 @@
+add reset all button
+3000 kcal/day wrong, should be 2000kcal/day
+editable balanced diet should be called "healthy diet", number of calories should be editable
+lighten up intake colors
+fix BMR to be a function of FFM, not FFM%
+    check with Bill
+check FDA & related sites for food composition icons
 +Should fat/fat free composition change based on diet & exercise?
-+Better values/more options for base diets
+    Check with bill
 +Change units
+    LBS default
 +Constrain slider range
 +Graphs
-+Better behavior for heart/health indicator
-+KG gained per day should be a function of caloric distribution over lipids, carbs and protein
-+Add a legend for caloric breakdown pie chart
 +Add foods/exercise
+    Marj will help
 +The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
 +Suggested food bag:  Hamburger, large fries, large soda (not supersize),
     submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
     apple, banana or orange, a serving of vegetables, slice of pizza, ?
 +Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
+
+Med Priority:
++Add a legend for caloric breakdown pie chart
 
 Low Priority:
 +Editors for exercise (change time or intensity)
@@ -19,6 +28,9 @@ Low Priority:
 +Caloric intake changes resting metabolic rate
     Extra carbs or protein can increase RMR (not agreed upon)
 +Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
++Better values/more options for base diets
++Better behavior for heart/health indicator
++KG gained per day should be a function of caloric distribution over lipids, carbs and protein
 
 Bill 4/18/2008
 
