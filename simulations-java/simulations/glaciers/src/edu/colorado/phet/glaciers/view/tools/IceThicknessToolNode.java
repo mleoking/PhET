@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.view;
+package edu.colorado.phet.glaciers.view.tools;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -17,7 +17,8 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IceThicknessTool;
 import edu.colorado.phet.glaciers.model.IceThicknessTool.IceThicknessToolListener;
-import edu.colorado.phet.glaciers.view.AbstractToolOriginNode.DownToolOriginNode;
+import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.DownToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;

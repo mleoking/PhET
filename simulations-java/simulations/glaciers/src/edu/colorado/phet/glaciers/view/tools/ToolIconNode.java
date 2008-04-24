@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.control;
+package edu.colorado.phet.glaciers.view.tools;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,8 +15,6 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.IToolProducer;
-import edu.colorado.phet.glaciers.view.AbstractToolNode;
-import edu.colorado.phet.glaciers.view.GPSReceiverNode;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

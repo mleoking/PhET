@@ -1,9 +1,10 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.view;
+package edu.colorado.phet.glaciers.view.tools;
 
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.BoreholeDrill;
+import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
