@@ -15,19 +15,63 @@ PhET Fitness/Calorie Simulation
 </p>
 <p></p>
 <ul>
-  <li>editable bar charts to show calorie intake and expense</li>
-  <li><a href="http://en.wikipedia.org/wiki/Basal_metabolic_rate">Benedict
-BMR computation</a></li>
+  <li>new user interface for selecting diet, exercise and NEAT</li>
+  <ul>
+    <li>Gives detailed information about times and amounts</li>
+    <li>Editor is in a dialog, summary is on main screen<br>
+    </li>
+  </ul>
+  <ul>
+    <li>per-food pie chart for caloric breakdown</li>
+  </ul>
+  <li>model for fat mass/fat free mass and BMR<br>
+  </li>
+  <li>initial diet balances out energy expenditure<br>
+  </li>
+  <li>basic dynamic model (with weight change)<br>
+  </li>
+  <li>color chooser for bar chart<br>
+  </li>
+  <li>stacked bar charts to show calorie intake and expense</li>
   <li>expanding human graphic<br>
   </li>
 </ul>
-<p><span style="font-weight: bold;">To Do:</span><br>
-</p>
-<p></p>
+<p><span style="font-weight: bold;">To Do:</span></p>
 <ul>
-  <li>graphs not written yet</li>
-  <li>better user interface for choosing exercise/diet<br>
-  </li>
+  <li>Should fat/fat free composition change based on diet &amp;
+exercise?</li>
+  <li>Better values/more options for base diets</li>
+  <li>Change units</li>
+  <li>Constrain slider range</li>
+  <li>Graphs</li>
+  <li>Better behavior for heart/health indicator</li>
+  <li>KG gained per day should be a function of caloric distribution
+over lipids, carbs and protein</li>
+  <li>Add a legend for caloric breakdown pie chart</li>
+  <li>Add foods/exercise</li>
+  <li>The energy cost of walking/running is about 1.43 kcal/kg/mile,
+swimming 4x higher, biking 1/4 value of walking</li>
+  <li>Suggested food bag:&nbsp; Hamburger, large fries, large soda (not
+supersize),</li>
+  <ul>
+    <li>&nbsp;&nbsp;&nbsp; submarine sandwich, candy bar, icecream (as
+you have), a piece of fruit -</li>
+    <li>&nbsp;&nbsp;&nbsp; apple, banana or orange, a serving of
+vegetables, slice of pizza, ?</li>
+  </ul>
+  <li>Satisfy learning goal: How long do you have to bike/walk to burn
+a certain number of calories?</li>
+  <li>Low Priority:</li>
+  <li>Editors for exercise (change time or intensity)</li>
+  <li>Put BMI somewhere other than scale</li>
+  <li>Caloric intake changes resting metabolic rate</li>
+  <ul>
+    <li>&nbsp;&nbsp;&nbsp; Extra carbs or protein can increase RMR (not
+agreed upon)</li>
+  </ul>
+  <li>Change in intake or expenditure &#8230; doesn&#8217;t lead to ideal weight
+loss, since other compartments adjust to compensate</li>
 </ul>
+<p></p>
 </body>
 </html>
