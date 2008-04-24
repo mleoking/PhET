@@ -3,7 +3,11 @@
 package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.QuadCurve2D;
 
 import edu.colorado.phet.nuclearphysics2.model.ContainmentVessel;
 import edu.umd.cs.piccolo.PNode;
@@ -31,7 +35,8 @@ public class ContainmentVesselNode extends PNode {
     private ContainmentVessel _containmentVessel;
     
     // The shape and the node that represent the main vessel.
-    private Ellipse2D.Double _mainVesselShape;
+    private CubicCurve2D _mainVesselTop;
+    private CubicCurve2D _mainVesselBottom;
     private PPath _mainVesselNode;
     
     //------------------------------------------------------------------------
@@ -52,12 +57,13 @@ public class ContainmentVesselNode extends PNode {
             }
         });
         
-        // Create the mostly circular shape that represents the containment vessel.
-        _mainVesselShape = new Ellipse2D.Double(10,10,100,100);
-        _mainVesselNode = new PPath(_mainVesselShape, new BasicStroke(CONTAINMENT_VESSEL_STROKE_WIDTH));
+        // Create the shape that represents the containment vessel.
+        _mainVesselTop = new CubicCurve2D.Double();
+        _mainVesselBottom = new CubicCurve2D.Double();
+        _mainVesselNode = new PPath(_mainVesselTop, new BasicStroke(CONTAINMENT_VESSEL_STROKE_WIDTH));
+        setVesselNodeSizeAndPosition( _containmentVessel.getRadius() );
         _mainVesselNode.setVisible( _containmentVessel.getIsEnabled() );
         _mainVesselNode.setPickable( true );
-        setVesselNodeSizeAndPosition( _containmentVessel.getRadius() );
         addChild(_mainVesselNode);
     }
     
@@ -65,10 +71,27 @@ public class ContainmentVesselNode extends PNode {
     // Methods
     //------------------------------------------------------------------------
     private void setVesselNodeSizeAndPosition(double radius){
-        _mainVesselShape.setFrame( 0, 0, radius * 2, radius * 2);
-        _mainVesselNode.setPathTo(_mainVesselShape);
-        setOffset(-radius, -radius);
-    }
+        
+        // TODO: JPB TBD - Figure out how to calculate aperture height.
+        double apertureHeight = 30;
+        
+        double aperturePosX = Math.sqrt( radius * radius - (apertureHeight/2) * (apertureHeight/2) );
+        
+        _mainVesselTop.setCurve(
+                -aperturePosX, -apertureHeight/2, // x1, y1 
+                -radius*0.8, -radius*1.3,         // ctrlx1, ctrly1
+                radius*0.95, -radius*1.3,         // ctrlx2, ctrly2
+                radius, 0                         // x2, y2
+                );
+        
+        _mainVesselBottom.setCurve(
+                radius, 0,                       // x1, y1 
+                radius*0.95, radius*1.3,         // ctrlx1, ctrly1
+                -radius*0.8, radius*1.3,         // ctrlx2, ctrly2
+                -aperturePosX, apertureHeight/2  // x2, y2
+                );
 
-    
+        _mainVesselNode = new PPath(_mainVesselTop, new BasicStroke(CONTAINMENT_VESSEL_STROKE_WIDTH));
+        _mainVesselNode.append( _mainVesselBottom, true );
+    }
 }
