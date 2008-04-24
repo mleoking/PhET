@@ -1,35 +1,25 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
+import java.awt.*;
+import java.awt.geom.Arc2D;
+
+import javax.swing.*;
+
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Arc2D;
-
 /**
- * User: Sam Reid
- * Date: Oct 25, 2005
- * Time: 9:49:41 AM
+ * This class can be used to display a Pie Chart in Piccolo.
  */
-
 public class PieChartNode extends PNode {
-    private PieValue[] slices;
-    private Rectangle area;
+    private PieValue[] slices;//The values to show in the pie
+    private Rectangle area;//The area which the pie should take up
 
-    // Class to hold a value for a slice
-    public static class PieValue {
-        double value;
-        Color color;
-
-        public PieValue( double value, Color color ) {
-            this.value = value;
-            this.color = color;
-        }
-    }
-
+    /*
+     * Creates a PieChartNode with the specified slices and area
+     */
     public PieChartNode( PieValue[] slices, Rectangle area ) {
         this.slices = slices;
         this.area = area;
@@ -50,20 +40,19 @@ public class PieChartNode extends PNode {
         removeAllChildren();
         // Get total value of all slices
         double total = 0.0D;
-        for( int i = 0; i < slices.length; i++ ) {
+        for ( int i = 0; i < slices.length; i++ ) {
             total += slices[i].value;
         }
 
         // Draw each pie slice
         double curValue = 0.0D;
-        int startAngle = 0;
-        for( int i = 0; i < slices.length; i++ ) {
+        for ( int i = 0; i < slices.length; i++ ) {
             // Compute the start and stop angles
-            startAngle = (int)( curValue * 360 / total );
-            int arcAngle = (int)( slices[i].value * 360 / total );
+            int startAngle = (int) ( curValue * 360 / total );
+            int arcAngle = (int) ( slices[i].value * 360 / total );
 
             // Ensure that rounding errors do not leave a gap between the first and last slice
-            if( i == slices.length - 1 ) {
+            if ( i == slices.length - 1 ) {
                 arcAngle = 360 - startAngle;
             }
 
@@ -72,6 +61,17 @@ public class PieChartNode extends PNode {
             path.setPaint( slices[i].color );
             addChild( path );
             curValue += slices[i].value;
+        }
+    }
+
+    // Class to hold a value for a slice
+    public static class PieValue {
+        double value;
+        Color color;
+
+        public PieValue( double value, Color color ) {
+            this.value = value;
+            this.color = color;
         }
     }
 

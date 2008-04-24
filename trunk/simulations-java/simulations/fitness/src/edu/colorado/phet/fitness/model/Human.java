@@ -118,7 +118,6 @@ public class Human {
             public void itemRemoved( CaloricItem item ) {
                 updateIntake();
             }
-
         } );
     }
 
