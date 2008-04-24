@@ -6,21 +6,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.glaciers.GlaciersImages;
-import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.IToolProducer;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -29,12 +24,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * <p>
  * InteractiveToolNode adds interactivity to tool icons, resulting in
  * the creation of new tools.
- * <p>
- * Concrete subclasses are provided for each icon in the toolbox.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class ToolIconNode extends PNode {
+public abstract class AbstractToolIconNode extends PNode {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -54,7 +47,7 @@ public abstract class ToolIconNode extends PNode {
      * @param image image displayed on the icon
      * @param html HTML text, centered under image
      */
-    public ToolIconNode( Image image, String html ) {
+    public AbstractToolIconNode( Image image, String html ) {
         super();
         
         PImage imageNode = new PImage( image );
@@ -86,7 +79,7 @@ public abstract class ToolIconNode extends PNode {
      * to create a tool model element. As long as the mouse remains pressed, drag events 
      * are used to change the new tool's position.
      */
-    protected static abstract class InteractiveToolIconNode extends ToolIconNode {
+    protected static abstract class InteractiveToolIconNode extends AbstractToolIconNode {
 
         private IToolProducer _toolProducer;
         private ModelViewTransform _mvt;
@@ -149,133 +142,5 @@ public abstract class ToolIconNode extends PNode {
          * @param position position in model coordinates
          */
         protected abstract AbstractTool createTool( Point2D position );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Concrete subclasses for each icon in the toolbox
-    //----------------------------------------------------------------------------
-    
-    /**
-     * ThermometerIconNode
-     */
-    public static class ThermometerIconNode extends InteractiveToolIconNode {
-        
-        public ThermometerIconNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
-            super( GlaciersImages.THERMOMETER, GlaciersStrings.TOOLBOX_THERMOMETER, toolProducer, mvt );
-        }
-        
-        public AbstractTool createTool( Point2D position ) {
-            return getToolProducer().addThermometer( position );
-        }
-    }
-    
-    /**
-     * GlacialBudgetMeterIconNode
-     */
-    public static class GlacialBudgetMeterIconNode extends InteractiveToolIconNode {
-        
-        public GlacialBudgetMeterIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GlaciersImages.GLACIAL_BUDGET_METER, GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER, toolProducer, mvt );
-        }
-        
-        public AbstractTool createTool( Point2D position ) {
-            return getToolProducer().addGlacialBudgetMeter( position );
-        }
-    }
-    
-    /**
-     * TracerFlagIconNode
-     */
-    public static class TracerFlagIconNode extends InteractiveToolIconNode {
-        
-        public TracerFlagIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GlaciersImages.TRACER_FLAG, GlaciersStrings.TOOLBOX_TRACER_FLAG, toolProducer, mvt );
-        }
-        
-        public AbstractTool createTool( Point2D position ) {
-            return getToolProducer().addTracerFlag( position );
-        }
-    }
-    
-    /**
-     * IceThicknessToolIconNode
-     */
-    public static class IceThicknessToolIconNode extends InteractiveToolIconNode {
-        
-        public IceThicknessToolIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GlaciersImages.ICE_THICKNESS_TOOL, GlaciersStrings.TOOLBOX_ICE_THICKNESS_TOOL, toolProducer, mvt );
-        }
-        
-        public AbstractTool createTool( Point2D position ) {
-            return getToolProducer().addIceThicknessTool( position );
-        }
-    }
-    
-    /**
-     * BoreholeDrillIconNode
-     */
-    public static class BoreholeDrillIconNode extends InteractiveToolIconNode {
-        
-        public BoreholeDrillIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GlaciersImages.BOREHOLE_DRILL, GlaciersStrings.TOOLBOX_BOREHOLD_DRILL, toolProducer, mvt );
-        }
-        
-        public AbstractTool createTool( Point2D position ) {
-            return getToolProducer().addBoreholeDrill( position );
-        }
-    }
-    
-    /**
-     * GPSReceiverIconNode
-     */
-    public static class GPSReceiverIconNode extends InteractiveToolIconNode {
-        
-        public GPSReceiverIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GPSReceiverNode.createImage(), GlaciersStrings.TOOLBOX_GPS_RECEIVER, toolProducer, mvt );
-        }
-        
-        public AbstractTool createTool( Point2D position ) {
-            return getToolProducer().createGPSReceiver( position );
-        }
-    }
-    
-    /**
-     * TrashCanIconNode
-     */
-    public static class TrashCanIconNode extends ToolIconNode {
-        
-        private PInputEventListener _trashHandler;
-        
-        public TrashCanIconNode( final IToolProducer toolProducer ) {
-            super( GlaciersImages.TRASH_CAN, GlaciersStrings.TOOLBOX_TRASH_CAN );
-            
-            // handles dropping tool nodes in the trash
-            _trashHandler = new PBasicInputEventHandler() {
-                public void mouseReleased( PInputEvent event ) {
-                    if ( event.getPickedNode() instanceof AbstractToolNode ) {
-                        AbstractToolNode toolNode = (AbstractToolNode) event.getPickedNode();
-                        if ( isInTrash( toolNode ) ) {
-                            toolProducer.removeTool( toolNode.getTool() );
-                        }
-                    }
-                }
-            };
-        }
-        
-        public void addManagedNode( AbstractToolNode node ) {
-            node.addInputEventListener( _trashHandler );
-        }
-        
-        public void removeManagedNode( AbstractToolNode node ) {
-            node.removeInputEventListener( _trashHandler );
-            //TODO add animation of tool node being trashed (PActivity?)
-        }
-        
-        /*
-         * A tool node is in the trash if its bounds intersect the bounds of the trash can.
-         */
-        private boolean isInTrash( AbstractToolNode toolNode ) {
-            return toolNode.getGlobalFullBounds().intersects( getGlobalFullBounds() );
-        }
     }
 }

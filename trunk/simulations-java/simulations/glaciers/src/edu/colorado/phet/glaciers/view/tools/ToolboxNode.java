@@ -15,7 +15,7 @@ import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IToolProducer;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
-import edu.colorado.phet.glaciers.view.tools.ToolIconNode.*;
+import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -161,7 +161,7 @@ public class ToolboxNode extends PNode {
         // add all icons to parent, calculate max height
         Iterator i = nodes.iterator();
         while ( i.hasNext() ) {
-            ToolIconNode currentNode = (ToolIconNode) i.next();
+            AbstractToolIconNode currentNode = (AbstractToolIconNode) i.next();
             parentNode.addChild( currentNode );
         }
         final double maxToolHeight = parentNode.getFullBoundsReference().getHeight();
@@ -171,7 +171,7 @@ public class ToolboxNode extends PNode {
         PNode previousNode = null;
         Iterator j = nodes.iterator();
         while ( j.hasNext() ) {
-            ToolIconNode currentNode = (ToolIconNode) j.next();
+            AbstractToolIconNode currentNode = (AbstractToolIconNode) j.next();
             if ( previousNode == null ) {
                 x = 0;
                 y = ( maxToolHeight - currentNode.getFullBoundsReference().getHeight() ) / 2;
