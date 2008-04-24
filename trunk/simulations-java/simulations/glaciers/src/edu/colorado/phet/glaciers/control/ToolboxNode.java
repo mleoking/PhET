@@ -18,8 +18,9 @@ import edu.colorado.phet.glaciers.model.IToolProducer;
 import edu.colorado.phet.glaciers.view.AbstractToolNode;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -65,11 +66,10 @@ public class ToolboxNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final IToolProducer _toolProducer;
     private final ArrayList _toolIconNodes; // array of ToolIconNode, in the toolbox
     private final ArrayList _toolNodes; // array of ToolNodes, in the world
     private final TrashCanIconNode _trashCanIconNode;
-    private PDragEventHandler _dropInTrashHandler;
+    private final PInputEventListener _trashHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -77,11 +77,13 @@ public class ToolboxNode extends PNode {
     
     /**
      * Constructor.
+     * 
+     * @param toolProducer
+     * @param mvt
      */
-    public ToolboxNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
+    public ToolboxNode( final IToolProducer toolProducer, ModelViewTransform mvt ) {
         super();
         
-        _toolProducer = toolProducer;
         _toolIconNodes = new ArrayList();
         _toolNodes = new ArrayList();
         
@@ -158,19 +160,21 @@ public class ToolboxNode extends PNode {
         tabNode.setChildrenPickable( false );
         
         // handles dropping tool nodes in the trash
-        _dropInTrashHandler = new PDragEventHandler() {
-            public void endDrag( PInputEvent event ) {
-                super.endDrag( event );
+        _trashHandler = new PBasicInputEventHandler() {
+            public void mouseReleased( PInputEvent event ) {
                 if ( event.getPickedNode() instanceof AbstractToolNode ) {
                     AbstractToolNode toolNode = (AbstractToolNode) event.getPickedNode();
                     if ( isInTrash( toolNode ) ) {
-                        _toolProducer.removeTool( toolNode.getTool() );
+                        toolProducer.removeTool( toolNode.getTool() );
                     }
                 }
             }
         };
     }
     
+    /*
+     * Sets the positions of the icons.
+     */
     private static void layoutIcons( ArrayList nodes, PNode parentNode ) {
         
         // add all icons to parent, calculate max height
@@ -206,7 +210,7 @@ public class ToolboxNode extends PNode {
      */
     public void addToolNode( final AbstractToolNode toolNode ) {
         _toolNodes.add( toolNode );
-        toolNode.addInputEventListener( _dropInTrashHandler );
+        toolNode.addInputEventListener( _trashHandler );
     }
     
     /**
@@ -214,7 +218,7 @@ public class ToolboxNode extends PNode {
      * @param toolNode
      */
     public void removeToolNode( AbstractToolNode toolNode ) {
-        toolNode.removeInputEventListener( _dropInTrashHandler );
+        toolNode.removeInputEventListener( _trashHandler );
         _toolNodes.remove( toolNode );
         //TODO add animation of tool node being trashed (PActivity?)
     }
