@@ -86,12 +86,10 @@ public class Human {
     public Human() {
         updateBMR();
         setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2].getValue() );
-//        activity.setValue( bmr.getValue() * 0.5 );
         Diet diet = FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
         foodItems.addItem( new CaloricFoodItem( "balanced diet", "balanced.png", diet.getTotal(), diet.getFat() / 9, diet.getCarb() / 4, diet.getProtein() / 4, false ) );//todo: standardize constructor units
         updateIntake();
 
-//        setDiet( diet );
         lipids.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 notifyDietChanged();
@@ -166,11 +164,6 @@ public class Human {
             ( (Listener) listeners.get( i ) ).dietChanged();
         }
     }
-
-//    public void setDiet( Diet diet ) {
-//        this.diet = diet;
-//        updateIntake();
-//    }
 
     private void updateBMR() {
 //        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getMass(), getHeight(), getAge(), gender ) );
