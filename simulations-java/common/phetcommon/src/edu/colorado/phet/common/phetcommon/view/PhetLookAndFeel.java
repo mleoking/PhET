@@ -221,7 +221,7 @@ public class PhetLookAndFeel {
         for ( int i = 0; i < types.length; i++ ) {
             String type = types[i];
 
-            add( keyValuePairs, type, "font", new FontUIResource( titledBorderFont ) );
+            add( keyValuePairs, type, "font", new FontUIResource( font ) );
 
             if ( foregroundResource != null ) {
                 add( keyValuePairs, type, "foreground", foregroundResource );
