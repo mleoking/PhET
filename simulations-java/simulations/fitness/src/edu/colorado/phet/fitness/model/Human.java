@@ -197,8 +197,12 @@ public class Human {
     private void updateBMR() {
 //        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getMass(), getHeight(), getAge(), gender ) );
 //        System.out.println( "value = " + value +", FFMP="+getFatFreeMassPercent());
-        bmr.setValue( 392 + 21.8 * getFatFreeMassPercent() );
+        bmr.setValue( 392 + 21.8 * getFatFreeMassKG() );
         updateActivity();
+    }
+
+    private double getFatFreeMassKG() {
+        return getFatFreeMassPercent() / 100.0 * getMass();
     }
 
     /**
@@ -432,6 +436,7 @@ public class Human {
 
     public void setMass( double weight ) {
         this.mass.setValue( Math.max( weight, 0 ) );
+        updateBMR();
         notifyWeightChanged();
         notifyBMIChanged();
     }
