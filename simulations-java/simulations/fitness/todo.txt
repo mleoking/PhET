@@ -1,25 +1,29 @@
-+Add/Remove Exercise items (including time + calories per day)
-+Add/Remove Diet items
++Should fat/fat free composition change based on diet & exercise?
 +Better values/more options for base diets
 +Change units
 +Constrain slider range
 +Graphs
 +Better behavior for heart/health indicator
-
-Wendy 4/10/2008
-+Should specify times for each food and exercise (including per day)
-+Put BMI somewhere other than scale
++KG gained per day should be a function of caloric distribution over lipids, carbs and protein
++Add a legend for caloric breakdown pie chart
++Add foods/exercise
++The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
 +Suggested food bag:  Hamburger, large fries, large soda (not supersize),
     submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
     apple, banana or orange, a serving of vegetables, slice of pizza, ?
++Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
+
+Low Priority:
++Editors for exercise (change time or intensity)
++Put BMI somewhere other than scale
++Caloric intake changes resting metabolic rate
+    Extra carbs or protein can increase RMR (not agreed upon)
++Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
 
 Bill 4/18/2008
 
 6. I would also be happy to provide calorie numbers for selected physical activities
-just let me know what you might have in mind. The energy cost of walking is about 1.43 kcal/kg/mile.
-I would note that the cost per mile for running is the same.
-The energy cost of swimming per mile is about 4 times higher than walking/running while the energy cost of
-biking per mile is about 1/4 that of walking/running.
+just let me know what you might have in mind.
 
 Kathy Minutes 4/17/2008
 
@@ -29,15 +33,6 @@ Basal or Resting metabolic rate – from sitting around but awake
 Planned exercise/work –
 Non-exercise activity thermal-genesis – (fidgeting) this changes when you do exercise
 
-Energy intake:
-Calorie intake effects RMR…
-Extra carbohydrates or protein intake – can effect (increase) RMR according to number of calories you took in (not agreed upon).
-
-Change in intake or expenditure … doesn’t lead to ideal weight loss.
-
 Possibly visualize balance of caloric intake as scale
 Should it be a daily view only or extended view?
-	- expend
-
-Start with a basic daily food diet … # of calories per day, then they can add a piece of cake or subtract a Gatorade.
-Learning Goal: How long do you have to bike/walk to burn a certain number of calories?
+	- extended
