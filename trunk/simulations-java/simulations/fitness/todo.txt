@@ -1,8 +1,6 @@
-3000 kcal/day wrong, should be 2000kcal/day
-editable balanced diet should be called "healthy diet", number of calories should be editable
-lighten up intake colors
 fix BMR to be a function of FFM, not FFM%
     check with Bill
+3000 kcal/day wrong, should be 2000kcal/day
 check FDA & related sites for food composition icons
 Add graphical icons to bar chart elements
 +Should fat/fat free composition change based on diet & exercise?
@@ -22,6 +20,7 @@ Calorie editor dialogs should pop up down and to the left, to not obscure main a
     should also be smaller
 Remove zoom handler
 Remove draggable triangles on bar chart
+number of calories of healthy diet should be editable
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart
