@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.fitness.control.CaloricItem;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
+import edu.colorado.phet.fitness.module.fitness.FoodCalorieSet;
 
 /**
  * Created by: Sam
@@ -35,7 +37,8 @@ public class Human {
     private static final ReferenceHuman DEFAULT_VALUE = REFERENCE_FEMALE;
 
     private CalorieSet exerciseItems = new CalorieSet();
-    private CalorieSet foodItems = new CalorieSet();
+    private FoodCalorieSet foodItems = new FoodCalorieSet();
+    private Diet diet;
 
     static class ReferenceHuman {
         boolean male;
@@ -98,6 +101,35 @@ public class Human {
                 notifyExerciseChanged();
             }
         } );
+        exerciseItems.addListener( new CalorieSet.Listener() {
+            public void itemAdded( CaloricItem item ) {
+                updateExercise();
+            }
+
+            public void itemRemoved( CaloricItem item ) {
+                updateExercise();
+            }
+        } );
+        foodItems.addListener( new CalorieSet.Listener() {
+            public void itemAdded( CaloricItem item ) {
+                updateIntake();
+            }
+
+            public void itemRemoved( CaloricItem item ) {
+                updateIntake();
+            }
+
+        } );
+    }
+
+    private void updateIntake() {
+        lipids.setValue( diet.getFat() + foodItems.getTotalLipidCalories() );
+        carbs.setValue( diet.getCarb() + foodItems.getTotalCarbCalories() );
+        proteins.setValue( diet.getProtein() + foodItems.getTotalProteinCalories() );
+    }
+
+    private void updateExercise() {
+        exercise.setValue( exerciseItems.getTotalCalories() );
     }
 
     public CalorieSet getSelectedFoods() {
@@ -126,9 +158,8 @@ public class Human {
     }
 
     public void setDiet( Diet diet ) {
-        lipids.setValue( diet.getFat() );
-        carbs.setValue( diet.getCarb() );
-        proteins.setValue( diet.getProtein() );
+        this.diet = diet;
+        updateIntake();
     }
 
     private void updateBMR() {

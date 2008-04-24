@@ -19,20 +19,22 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class CalorieNode extends PNode {
     private PText plusNode;
+    private CalorieSet available;
     private CalorieSet calorieSet;
+    private JDialog dialog;
 
     public CalorieNode( String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet ) {
+        this.available = available;
         this.calorieSet = calorieSet;
         GradientButtonNode gradientButtonNode = new GradientButtonNode( editButtonText, 18, editButtonColor );
         gradientButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JDialog dialog = new JDialog();
-                CalorieSelectionPanel panel = new CalorieSelectionPanel( available, calorieSet );
-                dialog.setContentPane( panel );
-                dialog.pack();
-                dialog.setSize( 800, 600 );
+                if ( dialog == null ) {
+                    createDialog();
+                }
+
                 dialog.setVisible( true );
-                SwingUtils.centerWindowOnScreen( dialog );
+                JComponent panel = (JComponent) dialog.getContentPane();
                 panel.paintImmediately( 0, 0, panel.getWidth(), panel.getHeight() );
             }
         } );
@@ -64,6 +66,20 @@ public class CalorieNode extends PNode {
             }
         } );
         updatePlusNodeVisible();
+    }
+
+    private void createDialog() {
+        this.dialog = new JDialog();
+        CalorieSelectionPanel panel = new CalorieSelectionPanel( available, calorieSet );
+        panel.addListener( new CalorieSelectionPanel.Listener() {
+            public void donePressed() {
+                dialog.hide();
+            }
+        } );
+        dialog.setContentPane( panel );
+        dialog.pack();
+        dialog.setSize( 800, 600 );
+        SwingUtils.centerWindowOnScreen( dialog );
     }
 
     private void updatePlusNodeVisible() {

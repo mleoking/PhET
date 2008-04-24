@@ -40,4 +40,16 @@ public class FitnessUnits {
     public static double feetToMeters( double heightFT ) {
         return heightFT * 0.3048;
     }
+
+    public static double gramsToCaloriesCarb( double grams ) {
+        return grams * 4;
+    }
+
+    public static double gramsToCaloriesProtein( double grams ) {
+        return grams * 4;
+    }
+
+    public static double gramsToCaloriesLipids( double grams ) {
+        return grams * 9;
+    }
 }
