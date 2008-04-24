@@ -6,17 +6,15 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- move origin indicator on thermometer to be vertically aligned with bottom of bulb
+- divide ice into separate shapes for above and below the ELA
 - morph or move ice textures to show downvalley motion
-- optimize ice flow vectors, use same 1D grid as ice thickness
-- developer controls for ice velocity "look"?
-- always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
-- add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - marker flags as first test of motion (distance=velocity*dt)
 - visual representation of snowfall
-- divide ice into separate shapes for above and below the ELA
+- remove tools by dragging them back to the trash can (or toolbox?)
 
 MEDIUM PRIORITY:
+- always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
+- add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - fake rocks using ice textures
 - fake moraine formation using a Hollywood model
 - drop constraints for tools
@@ -31,13 +29,13 @@ MEDIUM PRIORITY:
 - ice textures for above/below ELA, and in/on ice
 - model borehole as a set of moving points, connected via line segments
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
-- remove tools by dragging them back to the trash can (or toolbox?)
 - make ice thickness tool adjust its caliper to fit the ice thickness
 - adjust magnification of zoomed view?
 - adjust aspect ratio?
 - add Advanced panel
 
 LOW PRIORITY:
+- developer controls for ice velocity "look"?
 - add moving debris (if textures are convincing enough)
 - icons for View checkboxes
 - make mountains image big enough so that all we see is sky when the birds-eye view is made very wide
@@ -436,6 +434,7 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+4/21/08 - optimize ice flow vectors, use same 1D grid as ice thickness (no, we need better precision)
 4/15/08 - why does ablation curve back towards zero when elevation < 1000m? (problem went away)
 4/15/08 - Climate model is very sensitive at "warm" end of scale, huge ELA jumps (Archie says this is accurate)
 4/15/08 - add view of valley floor with rivers (this is part of the mountains.svg image file)
