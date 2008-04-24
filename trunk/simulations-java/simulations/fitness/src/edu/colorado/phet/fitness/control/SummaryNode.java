@@ -34,7 +34,7 @@ public class SummaryNode extends PNode {
                     SummaryItemNode child = (SummaryItemNode) layer.getChild( i );
                     if ( child.item == item ) {
                         layer.removeChild( child );
-                        i--;
+                        break;//remove first match
                     }
                 }
             }

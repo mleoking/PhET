@@ -38,12 +38,11 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
         JPanel leftPanel = new VerticalLayoutPanel();
         for ( int i = 0; i < available.getItemCount(); i++ ) {
             DietComponent ban = new DietComponent( available.getItem( i ) );
-            JButton button = new JButton( "Add to Diet" );
+            JButton button = new JButton( "Add" );
             ban.add( button );
             final int i1 = i;
             button.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    System.out.println( "CalorieSelectionPanel.actionPerformed" );
                     selected.addItem( available.getItem( i1 ) );
                 }
             } );
@@ -81,10 +80,10 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
                         SelectedComponent sc = (SelectedComponent) c;
                         if ( sc.item == item ) {
                             rightPanel.remove( sc );
-                            i--;
                             rightPanel.invalidate();
                             rightPanel.revalidate();
                             rightPanel.repaint();
+                            break;//remove the first matching item
                         }
                     }
 
@@ -158,12 +157,12 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
             if ( item instanceof CaloricFoodItem ) {
                 CaloricFoodItem c = (CaloricFoodItem) item;
                 PhetPCanvas canvas = new PhetPCanvas();
-                canvas.setPreferredSize( new Dimension( 50, 50) );
+                canvas.setPreferredSize( new Dimension( 50, 50 ) );
                 canvas.addScreenChild( new PieChartNode( new PieChartNode.PieValue[]{
                         new PieChartNode.PieValue( c.getCarbCalories(), FitnessColorScheme.CARBS ),
                         new PieChartNode.PieValue( c.getProteinCalories(), FitnessColorScheme.PROTEIN ),
                         new PieChartNode.PieValue( c.getLipidCalories(), FitnessColorScheme.FATS ),
-                }, new Rectangle( 5, 5, 40, 40) ) );
+                }, new Rectangle( 5, 5, 40, 40 ) ) );
                 canvas.setOpaque( false );
                 canvas.setBackground( new Color( 0, 0, 0, 0 ) );
                 canvas.setBorder( null );
@@ -180,16 +179,13 @@ public class CalorieSelectionPanel extends VerticalLayoutPanel {
             super( item );
             this.set = set;
             this.item = item;
-            JButton button = new JButton( "Remove from Diet" );
+            JButton button = new JButton( "Remove" );
             button.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     set.removeItem( item );
                 }
             } );
             add( button );
-
-//            DietComponent ban = new DietComponent( selected.getItem( i ) );
-//            rightPanel.add( ban );
         }
 
         protected void showPieChart( CaloricItem item ) {
