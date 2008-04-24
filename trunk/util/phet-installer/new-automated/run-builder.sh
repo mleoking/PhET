@@ -8,6 +8,11 @@
 # Make sure we're in the proper directory
 cd /web/htdocs/phet/installer-builder/
 
+echo "================================================================" | tee --append installer-builder-log.txt
+echo " Installer opreation performed on: " | tee --append installer-builder-log.txt
+date  | tee --append installer-builder-log.txt
+echo "================================================================" | tee --append installer-builder-log.txt
+
 echo "Performing SVN update" | tee --append installer-builder-log.txt
 
 svn update
