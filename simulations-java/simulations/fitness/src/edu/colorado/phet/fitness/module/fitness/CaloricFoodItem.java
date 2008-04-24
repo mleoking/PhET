@@ -7,15 +7,25 @@ import edu.colorado.phet.fitness.control.CaloricItem;
  * Apr 23, 2008 at 6:31:17 PM
  */
 public class CaloricFoodItem extends CaloricItem {
-    private double lipids;
+    private double lipids;//grams
     private double carbs;
     private double protein;
+    private boolean removable;
 
     public CaloricFoodItem( String name, String image, double cal, double lipids, double carbs, double protein ) {
+        this( name, image, cal, lipids, carbs, protein, true );
+    }
+
+    public CaloricFoodItem( String name, String image, double cal, double lipids, double carbs, double protein, boolean removable ) {
         super( name, image, cal );
         this.lipids = lipids;
         this.carbs = carbs;
         this.protein = protein;
+        this.removable = removable;
+    }
+
+    public boolean isRemovable() {
+        return removable;
     }
 
     public double getLipids() {
@@ -31,15 +41,15 @@ public class CaloricFoodItem extends CaloricItem {
     }
 
     public double getLipidCalories() {
-        return lipids*9;
+        return lipids * 9;
     }
 
     public double getCarbCalories() {
-        return carbs*4;
+        return carbs * 4;
     }
 
     public double getProteinCalories() {
-        return protein*4;
+        return protein * 4;
     }
 
 }

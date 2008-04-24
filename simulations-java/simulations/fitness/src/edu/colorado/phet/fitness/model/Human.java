@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.fitness.control.Activity;
 import edu.colorado.phet.fitness.control.CaloricItem;
 import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
@@ -39,7 +40,11 @@ public class Human {
 
     private CalorieSet exerciseItems = new CalorieSet();
     private FoodCalorieSet foodItems = new FoodCalorieSet();
-//    private Diet diet;
+    private double activityLevel = Activity.DEFAULT_ACTIVITY_LEVEL.getValue();
+
+    public double getActivityLevel() {
+        return activityLevel;
+    }
 
     static class ReferenceHuman {
         boolean male;
@@ -80,9 +85,10 @@ public class Human {
 
     public Human() {
         updateBMR();
-        activity.setValue( bmr.getValue() * 0.5 );
+        setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2].getValue() );
+//        activity.setValue( bmr.getValue() * 0.5 );
         Diet diet = FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
-        foodItems.addItem( new CaloricFoodItem( "Balanced Diet", "balanced.png", diet.getTotal(), diet.getFat() / 9, diet.getCarb() / 4, diet.getProtein() / 4 ) );//todo: choose constructor units
+        foodItems.addItem( new CaloricFoodItem( "balanced diet", "balanced.png", diet.getTotal(), diet.getFat() / 9, diet.getCarb() / 4, diet.getProtein() / 4, false ) );//todo: standardize constructor units
         updateIntake();
 
 //        setDiet( diet );
@@ -242,7 +248,6 @@ public class Human {
 
     //    }
 
-    double activityLevel = 0.5;
 
     public void setActivityLevel( double val ) {
         activityLevel = val;

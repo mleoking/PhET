@@ -58,7 +58,7 @@ public class CalorieSelectionPanel extends JPanel {
         pane.setEnabled( false );
         pane.setDividerLocation( 0.5 );
 
-        add( pane, new GridBagConstraints( 0, 0, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
+        add( pane, new GridBagConstraints( 0, 1, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
         pane.setPreferredSize( new Dimension( 300, 300 ) );
         selected.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
@@ -90,7 +90,7 @@ public class CalorieSelectionPanel extends JPanel {
                 notifyDonePressed();
             }
         } );
-        add( button, new GridBagConstraints( 0, 1, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
+        add( button, new GridBagConstraints( 0, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
     }
 
     public static interface Listener {
@@ -108,7 +108,7 @@ public class CalorieSelectionPanel extends JPanel {
         }
     }
 
-    private TitledBorder createTitledBorder( String title ) {
+    public static TitledBorder createTitledBorder( String title ) {
         return new TitledBorder( new BevelBorder( BevelBorder.LOWERED ), title, TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new PhetDefaultFont( 20, true ) ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
                 Graphics2D g2 = (Graphics2D) g;
@@ -136,8 +136,6 @@ public class CalorieSelectionPanel extends JPanel {
         private DietComponent( String name, String image, double cal ) {
             add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( image ), 50 ) ) ) );
             add( new JLabel( "<html>One " + name + " per day<br>(" + cal + " kcal/day)</html>" ) );
-//            add( new JButton( createIcon( "-", Color.red, new PhetDefaultFont( 20, true ) ) ) );
-//            add( new JButton( "Remove" ) );
         }
 
         public DietComponent( CaloricItem item, boolean showPieChart ) {
@@ -173,13 +171,16 @@ public class CalorieSelectionPanel extends JPanel {
             super( item, false );
             this.set = set;
             this.item = item;
-            JButton button = new JButton( "Remove" );
-            button.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    set.removeItem( item );
-                }
-            } );
-            add( button );
+            boolean removableFood = item instanceof CaloricFoodItem && ( (CaloricFoodItem) item ).isRemovable();
+            if ( removableFood || !( item instanceof CaloricFoodItem ) ) {
+                JButton button = new JButton( "Remove" );
+                button.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        set.removeItem( item );
+                    }
+                } );
+                add( button );
+            }
         }
     }
 }
