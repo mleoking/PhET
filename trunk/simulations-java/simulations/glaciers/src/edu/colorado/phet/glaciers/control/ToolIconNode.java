@@ -23,11 +23,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * ToolIconNode is the base class for all tool icons in the toolbox.
- * When a tool icon receives a mouse press, a corresponding tool is created in the model.
- * As long as the mouse remains pressed, drag events are used to change the tool's position.
+ * It handles the layout of the icon's image and text.
  * <p>
- * This class contains an inner subclass for each type of tool in the toolbox.
- * Each subclass knows about its image and text label, and what type of tool to create.
+ * InteractiveToolNode adds interactivity to tool icons, resulting in
+ * the creation of new tools.
+ * <p>
+ * Concrete subclasses are provided for each icon in the toolbox.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -42,37 +43,16 @@ public abstract class ToolIconNode extends PNode {
     private static final Color LABEL_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private IToolProducer _toolProducer;
-    private ModelViewTransform _mvt;
-    private Point2D _pModel; // reusable point for model-view transforms
-    
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     /**
-     * Constructor for tool icons that do not create tools.
-     * The trash can is an example.
+     * Constructor.
      * 
      * @param image image displayed on the icon
      * @param html HTML text, centered under image
      */
     public ToolIconNode( Image image, String html ) {
-        this( image, html, null /* toolProducer */, null /* mvt */ );
-    }
-    
-    /**
-     * Constructor for tool icons that are capable of creating tools.
-     * 
-     * @param image image displayed on the icon
-     * @param html HTML text, centered under image
-     * @param toolProducer object capable of creating tools
-     * @param mvt model-view transform, used to convert mouse position to tool position
-     */
-    public ToolIconNode( Image image, String html, IToolProducer toolProducer, ModelViewTransform mvt ) {
         super();
         
         PImage imageNode = new PImage( image );
@@ -92,18 +72,44 @@ public abstract class ToolIconNode extends PNode {
             imageNode.setOffset( labelNode.getX() + ( labelNode.getWidth() - imageNode.getWidth() ) / 2, 0 );
         }
 
-        _toolProducer = toolProducer;
-        _mvt = mvt;
-        _pModel = new Point2D.Double();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Subclass that adds interactivity
+    //----------------------------------------------------------------------------
+    
+    /**
+     * InteractiveToolIconNode adds interactivity to ToolIconNode.
+     * When an interactive tool icon receives a mouse press, it asks a specified tool producer
+     * to create a tool model element. As long as the mouse remains pressed, drag events 
+     * are used to change the new tool's position.
+     */
+    protected static abstract class InteractiveToolIconNode extends ToolIconNode {
 
-        if ( toolProducer != null ) {
-            assert( mvt != null );
-            
+        private IToolProducer _toolProducer;
+        private ModelViewTransform _mvt;
+        private Point2D _pModel; // reusable point for model-view transforms
+
+        /**
+         * Constructor.
+         * 
+         * @param image image displayed on the icon
+         * @param html HTML text, centered under image
+         * @param toolProducer object capable of creating tools
+         * @param mvt model-view transform, used to convert mouse position to tool position
+         */
+        public InteractiveToolIconNode( Image image, String html, IToolProducer toolProducer, ModelViewTransform mvt ) {
+            super( image, html );
+
+            _toolProducer = toolProducer;
+            _mvt = mvt;
+            _pModel = new Point2D.Double();
+
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PDragEventHandler() {
 
                 private AbstractTool _tool = null; // tool model element created when drag starts
-                
+
                 /* When the drag starts, create the new tool. */
                 protected void startDrag( PInputEvent event ) {
                     _mvt.viewToModel( event.getPosition(), _pModel );
@@ -126,34 +132,31 @@ public abstract class ToolIconNode extends PNode {
                 }
             } );
         }
-    }
-    
-    /*
-     * Provides access to tool producer for subclasses.
-     */
-    protected IToolProducer getToolProducer() {
-        return _toolProducer;
-    }
-    
-    /*
-     * Creates the appropriate tool at the specified position.
-     * The default implementation returns null.
-     * ToolIconNodes that create tools should override this method.
-     * 
-     * @param position position in model coordinates
-     */
-    protected AbstractTool createTool( Point2D position ) {
-        return null;
+
+        /*
+         * Provides access to tool producer for subclasses.
+         * The tool producer is responsible for creating the tool model element.
+         */
+        protected IToolProducer getToolProducer() {
+            return _toolProducer;
+        }
+
+        /*
+         * Creates the appropriate tool at the specified position.
+         * 
+         * @param position position in model coordinates
+         */
+        protected abstract AbstractTool createTool( Point2D position );
     }
     
     //----------------------------------------------------------------------------
-    // Subclasses for each tool type
+    // Concrete subclasses for each icon in the toolbox
     //----------------------------------------------------------------------------
     
     /**
      * ThermometerIconNode
      */
-    public static class ThermometerIconNode extends ToolIconNode {
+    public static class ThermometerIconNode extends InteractiveToolIconNode {
         
         public ThermometerIconNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
             super( GlaciersImages.THERMOMETER, GlaciersStrings.TOOLBOX_THERMOMETER, toolProducer, mvt );
@@ -167,7 +170,7 @@ public abstract class ToolIconNode extends PNode {
     /**
      * GlacialBudgetMeterIconNode
      */
-    public static class GlacialBudgetMeterIconNode extends ToolIconNode {
+    public static class GlacialBudgetMeterIconNode extends InteractiveToolIconNode {
         
         public GlacialBudgetMeterIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
             super( GlaciersImages.GLACIAL_BUDGET_METER, GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER, toolProducer, mvt );
@@ -181,7 +184,7 @@ public abstract class ToolIconNode extends PNode {
     /**
      * TracerFlagIconNode
      */
-    public static class TracerFlagIconNode extends ToolIconNode {
+    public static class TracerFlagIconNode extends InteractiveToolIconNode {
         
         public TracerFlagIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
             super( GlaciersImages.TRACER_FLAG, GlaciersStrings.TOOLBOX_TRACER_FLAG, toolProducer, mvt );
@@ -195,7 +198,7 @@ public abstract class ToolIconNode extends PNode {
     /**
      * IceThicknessToolIconNode
      */
-    public static class IceThicknessToolIconNode extends ToolIconNode {
+    public static class IceThicknessToolIconNode extends InteractiveToolIconNode {
         
         public IceThicknessToolIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
             super( GlaciersImages.ICE_THICKNESS_TOOL, GlaciersStrings.TOOLBOX_ICE_THICKNESS_TOOL, toolProducer, mvt );
@@ -209,7 +212,7 @@ public abstract class ToolIconNode extends PNode {
     /**
      * BoreholeDrillIconNode
      */
-    public static class BoreholeDrillIconNode extends ToolIconNode {
+    public static class BoreholeDrillIconNode extends InteractiveToolIconNode {
         
         public BoreholeDrillIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
             super( GlaciersImages.BOREHOLE_DRILL, GlaciersStrings.TOOLBOX_BOREHOLD_DRILL, toolProducer, mvt );
@@ -223,7 +226,7 @@ public abstract class ToolIconNode extends PNode {
     /**
      * GPSReceiverIconNode
      */
-    public static class GPSReceiverIconNode extends ToolIconNode {
+    public static class GPSReceiverIconNode extends InteractiveToolIconNode {
         
         public GPSReceiverIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
             super( GPSReceiverNode.createImage(), GlaciersStrings.TOOLBOX_GPS_RECEIVER, toolProducer, mvt );
