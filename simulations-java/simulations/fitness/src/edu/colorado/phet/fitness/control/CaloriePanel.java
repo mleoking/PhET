@@ -76,19 +76,19 @@ public class CaloriePanel extends PNode {
             }
         } );
 
-        Function.LinearFunction transform = new Function.LinearFunction( 0, 3500, 0, 250 );
+        Function.LinearFunction transform = new Function.LinearFunction( 0, 3000, 0, 250 );
         stackedBarChart = new StackedBarChartNode( transform, "Calories/Day", 10, 250, 1000, 8000 );
                                                                                                                        
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
-        intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids() , "j0232547.gif" ), StackedBarNode.LEFT );
-        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs() ,"j0410455.gif"), StackedBarNode.LEFT );
-        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins(),"j0413686.gif" ), StackedBarNode.LEFT );
+        intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids() , "j0232547.gif" ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs() ,"j0410455.gif"), StackedBarNode.NONE);
+        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins(),"j0413686.gif" ), StackedBarNode.NONE );
 
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
 //        exerciseBars.addElement( new BarChartElementAdapter( "<html><center>Basal<br>Metabolic<br>Rate<br>(BMR)</center></html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ,"heart2.png"), StackedBarNode.RIGHT );
-        exerciseBars.addElement( new BarChartElementAdapter( "<html>Resting<br>(BMR)</html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ,"heart2.png"), StackedBarNode.RIGHT );
-        exerciseBars.addElement( new BarChartElementAdapter( "Activity", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(),"j0417518.png" ), StackedBarNode.RIGHT );
-        exerciseBars.addElement( new BarChartElementAdapter( "Exercise", FitnessColorScheme.EXERCISE, model.getHuman().getExercise(),"road_biker.png" ), StackedBarNode.RIGHT );
+        exerciseBars.addElement( new BarChartElementAdapter( "<html>Resting<br>(BMR)</html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ,"heart2.png"), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( "Activity", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(),"j0417518.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( "Exercise", FitnessColorScheme.EXERCISE, model.getHuman().getExercise(),"road_biker.png" ), StackedBarNode.NONE );
 
         stackedBarChart.addStackedBarNode( intakeBars );
         stackedBarChart.addStackedBarNode( exerciseBars );
