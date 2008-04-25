@@ -1,4 +1,4 @@
-0.00.17
+0.00.18
 Added better behavior for heart/health indicator, based on BMI
 Fixed: Constrain slider range: Snap after release
 Added graphical icons to bar chart elements
@@ -10,5 +10,3 @@ Added ability to change units between metric and english
 Fixed BMR to be a function of FFM, not FFM%
 Lightened up intake colors
 Added reset all button
-
-0.00.14
