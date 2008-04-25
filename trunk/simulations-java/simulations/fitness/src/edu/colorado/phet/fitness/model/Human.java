@@ -411,8 +411,10 @@ public class Human {
     }
 
     public void setAge( double age ) {
-        this.age.setValue( age );
-        notifyAgeChanged();
+        if ( getAge() != age ) {
+            this.age.setValue( age );
+            notifyAgeChanged();
+        }
     }
 
     private void notifyAgeChanged() {
