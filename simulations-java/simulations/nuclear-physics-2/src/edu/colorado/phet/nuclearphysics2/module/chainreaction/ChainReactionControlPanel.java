@@ -4,6 +4,10 @@ package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
 import java.awt.Frame;
 
+import javax.swing.JCheckBox;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationLegendPanel;
@@ -35,6 +39,7 @@ public class ChainReactionControlPanel extends ControlPanel {
      * @param parentFrame parent frame, for creating dialogs
      */
     public ChainReactionControlPanel( ChainReactionModule chainReactionModule, Frame parentFrame ) {
+        
         super();
         
         // Set the control panel's minimum width.
@@ -45,7 +50,8 @@ public class ChainReactionControlPanel extends ControlPanel {
         _legendPanel = new ChainReactionLegendPanel();
         addControlFullWidth( _legendPanel );
 
-        // Add the controls
+        // Add the controls that allow the user to set the number of various
+        // nuclei in the sim.
         _controlsPanel = new ChainReactionControlsSubPanel(chainReactionModule.getChainReactionModel());
         addControlFullWidth( _controlsPanel );
         

@@ -8,7 +8,10 @@ import java.awt.GridLayout;
 import java.awt.Image;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -71,6 +74,24 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 Color.GRAY );
         
         setBorder( titledBorder );
+        
+        // Add the check box for the containment vessel.
+        final JCheckBox enableContainmentVesselCheckBox = new JCheckBox( "Containment Vessel Enabled" );
+        enableContainmentVesselCheckBox.setSelected( _model.getContainmentVessel().getIsEnabled() );
+        enableContainmentVesselCheckBox.addChangeListener( new ChangeListener() {
+            
+            public void stateChanged( ChangeEvent e ) {
+                _model.getContainmentVessel().setIsEnabled( enableContainmentVesselCheckBox.isSelected() );
+            }
+        } );
+        enableContainmentVesselCheckBox.setBorder( BorderFactory.createEtchedBorder() );
+        add(enableContainmentVesselCheckBox);
+        
+        // Add a little spacing in order to make the controls easier to spot.
+        JPanel spacePanel = new JPanel();
+        spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
+        spacePanel.add( Box.createVerticalStrut( 20 ) );
+        add( spacePanel );
         
         // Add the slider that controls the number of U-235 nuclei that appear.
         _u235AmountControl = new LinearValueControl( 0, 100, "U-235", "###", "Nuclei" );

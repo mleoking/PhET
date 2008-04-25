@@ -2,22 +2,15 @@
 
 package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
-import edu.colorado.phet.nuclearphysics2.util.GraphicButtonNode;
+import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics2.view.ContainmentVesselNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
@@ -50,7 +43,6 @@ public class ChainReactionCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private ChainReactionModel _chainReactionModel;
-    private GradientButtonNode _containmentVesselButtonNode;
     private HashMap _modelElementToNodeMap = new HashMap();
     private PNode _nucleusLayer;
     private NeutronSourceNode _neutronSourceNode;
@@ -94,35 +86,6 @@ public class ChainReactionCanvas extends PhetPCanvas {
         
         // Add a node that will depict the containment vessel.
         addWorldChild(new ContainmentVesselNode(_chainReactionModel.getContainmentVessel()));
-        
-        // Add the button for enabling the containment vessel to the canvas.
-        // TODO: JPB TBD - Need to make this a string and possibly a two-lined button.
-        _containmentVesselButtonNode = new GradientButtonNode("<html><center>Containment<br>Vessel</center></html>", 
-                16, new Color(0x99cccc));
-        addScreenChild(_containmentVesselButtonNode);
-        
-        // Register to receive button pushes.
-        _containmentVesselButtonNode.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-                boolean currentVesselState = _chainReactionModel.getContainmentVessel().getIsEnabled();
-                _chainReactionModel.getContainmentVessel().setIsEnabled( !currentVesselState );
-            }
-        });
-
-        // Add a listener for when the canvas is resized.
-        addComponentListener( new ComponentAdapter() {
-            
-            /**
-             * This method is called when the canvas is resized.  In response,
-             * we generally pass this event on to child nodes that need to be
-             * aware of it.
-             */
-            public void componentResized( ComponentEvent e ) {
-                
-                // Position the containment vessel button.
-                _containmentVesselButtonNode.setOffset( 0.80 * getWidth(), 0.10 * getHeight() );
-            }
-        });
         
         // Add the neutron source to the canvas.
         _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 55);
