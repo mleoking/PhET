@@ -11,7 +11,8 @@ Add foods/exercise
         apple, banana or orange, a serving of vegetables, slice of pizza, ?
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
 Number of calories of healthy diet should be editable
-Better behavior for heart/health indicator
+Fix Time scale (perhaps slow down)
+Performance: consider profiling or changing clock rate
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart
