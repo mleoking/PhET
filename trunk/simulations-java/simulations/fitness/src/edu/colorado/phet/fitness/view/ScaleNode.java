@@ -111,7 +111,7 @@ public class ScaleNode extends PNode {
     }
 
     private void updateWeightReadout() {
-        weightReadout.setText( "" + new DecimalFormat( "0.0" ).format( model.getUnits().modelToView( human.getMass() ) ) + " " + model.getUnits().getMassUnit() );
+        weightReadout.setText( "" + new DecimalFormat( "0.0" ).format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() );
         updateTextLayout();
     }
 

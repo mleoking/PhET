@@ -19,22 +19,32 @@ import edu.colorado.phet.fitness.util.FileParser;
 public class FitnessModel {
 
     public static class Units {
-        public static final Units ENGLISH = new Units( "English", "Lbs" ) {
-            public double modelToView( double mass ) {
+        public static final Units ENGLISH = new Units( "English", "Lbs", "feet" ) {
+            public double modelToViewMass( double mass ) {
                 return FitnessUnits.kgToPounds( mass );
             }
 
-            public double viewToModel( double value ) {
+            public double viewToModelMass( double value ) {
                 return FitnessUnits.poundsToKg( value );
             }
+
+            public double modelToViewDistance( double distance ) {
+                return FitnessUnits.metersToFeet(distance);
+            }
+
+            public double viewToModelDistance( double value ) {
+                return FitnessUnits.feetToMeters( value );
+            }
         };
-        public static final Units METRIC = new Units( "Metric", "Kg" );
+        public static final Units METRIC = new Units( "Metric", "Kg", "meters" );
         private String shortName;
         private String massUnit;
+        private String distanceUnit;
 
-        public Units( String shortName, String massUnit ) {
+        public Units( String shortName, String massUnit, String distanceUnit ) {
             this.shortName = shortName;
             this.massUnit = massUnit;
+            this.distanceUnit = distanceUnit;
         }
 
         public String toString() {
@@ -45,7 +55,7 @@ public class FitnessModel {
             return shortName;
         }
 
-        public double modelToView( double mass ) {
+        public double modelToViewMass( double mass ) {
             return mass;
         }
 
@@ -53,7 +63,19 @@ public class FitnessModel {
             return massUnit;
         }
 
-        public double viewToModel( double value ) {
+        public double viewToModelMass( double value ) {
+            return value;
+        }
+
+        public String getDistanceUnit() {
+            return distanceUnit;
+        }
+
+        public double modelToViewDistance( double distance ) {
+            return distance;
+        }
+
+        public double viewToModelDistance( double value ) {
             return value;
         }
     }

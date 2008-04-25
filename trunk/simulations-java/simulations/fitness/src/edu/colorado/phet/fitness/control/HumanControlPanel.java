@@ -54,12 +54,27 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        double minHeight = 1;
-        double maxHeight = 2.72;
-        final LinearValueControl heightControl = new HumanSlider( minHeight, maxHeight, human.getHeight(), "Height", "0.00", "meters" );
+        //todo: factor out slider that accommodates units
+        final double minHeight = 1;
+        final double maxHeight = 2.72;
+        final LinearValueControl heightControl = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ), model.getUnits().modelToViewDistance( human.getHeight() ), "Height", "0.00", model.getUnits().getDistanceUnit() );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setHeight( heightControl.getValue() );
+                double v = model.getUnits().viewToModelDistance( heightControl.getValue() );
+                human.setHeight( v );
+            }
+        } );
+        model.addListener( new FitnessModel.Listener() {
+            public void unitsChanged() {
+                double value = model.getUnits().modelToViewDistance( human.getHeight() );
+
+                //have to change range before changing value
+                heightControl.setRange( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ) );
+                heightControl.setValue( value );
+                heightControl.setUnits( model.getUnits().getDistanceUnit() );
+
+                heightControl.getSlider().setPaintLabels( false );
+                heightControl.getSlider().setPaintTicks( false );
             }
         } );
 
@@ -67,22 +82,22 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         final double minWeight = 0;
         final double maxWeight = 560;//world record
-        final LinearValueControl weightControl = new HumanSlider( minWeight, maxWeight, human.getMass(), "Weight", "0.00", model.getUnits().getMassUnit() );
+        final LinearValueControl weightControl = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), "Weight", "0.00", model.getUnits().getMassUnit() );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setMass( model.getUnits().viewToModel( weightControl.getValue() ) );
+                human.setMass( model.getUnits().viewToModelMass( weightControl.getValue() ) );
             }
         } );
         human.addListener( new Human.Adapter() {
             public void weightChanged() {
-                weightControl.setValue( model.getUnits().modelToView( human.getMass() ) );
+                weightControl.setValue( model.getUnits().modelToViewMass( human.getMass() ) );
             }
         } );
         model.addListener( new FitnessModel.Listener() {
             public void unitsChanged() {
-                weightControl.setValue( model.getUnits().modelToView( human.getMass() ) );
+                weightControl.setValue( model.getUnits().modelToViewMass( human.getMass() ) );
                 weightControl.setUnits( model.getUnits().getMassUnit() );
-                weightControl.setRange( model.getUnits().modelToView( minWeight ), model.getUnits().modelToView( maxWeight ) );
+                weightControl.setRange( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ) );
                 weightControl.getSlider().setPaintLabels( false );
                 weightControl.getSlider().setPaintTicks( false );
             }
