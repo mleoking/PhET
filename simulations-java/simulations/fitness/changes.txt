@@ -1,3 +1,4 @@
+0.00.17
 Added better behavior for heart/health indicator, based on BMI
 Fixed: Constrain slider range: Snap after release
 Added graphical icons to bar chart elements
