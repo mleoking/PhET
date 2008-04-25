@@ -1,4 +1,6 @@
-package edu.colorado.phet.nuclearphysics2.util;
+/* Copyright 2008, University of Colorado */
+
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -15,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class DoubleArrowNode extends PPath {
 
     //------------------------------------------------------------------------
-    // Class data
+    // Instance Data
     //------------------------------------------------------------------------
     
     // The points that describe the location of the tip and tail of the arrow.
@@ -30,6 +32,10 @@ public class DoubleArrowNode extends PPath {
     // arrow.
     GeneralPath m_overallShape;
     
+    //------------------------------------------------------------------------
+    // Constructor
+    //------------------------------------------------------------------------
+
     /**
      * Constructor.
      *
@@ -59,10 +65,6 @@ public class DoubleArrowNode extends PPath {
         m_tipLocation = tipLocation;
     }
     
-    //------------------------------------------------------------------------
-    // Constructor
-    //------------------------------------------------------------------------
-
     /**
      * Constructor.
      *
@@ -79,7 +81,7 @@ public class DoubleArrowNode extends PPath {
                       double fractionalHeadHeight, boolean scaleTailToo ) {
         super();
         
-        // Find the midpoint between the two given points.
+        // Find the midpoint between the two supplied endpoints.
         Point2D midpoint = midPoint(tailLocation, tipLocation);
         
         // Create two single-ended arrows, one from the midpoint to the tail
@@ -92,12 +94,26 @@ public class DoubleArrowNode extends PPath {
     }
 
     //------------------------------------------------------------------------
-    // Methods
+    // Public Methods
     //------------------------------------------------------------------------
 
+    public double getHeadWidth()
+    {
+        return m_midToTail.getHeadWidth();
+    }
+    
+    public double getTailWidth()
+    {
+        return m_midToTail.getTailWidth();
+    }
+    
+    public double getHeadHeight()
+    {
+        return m_midToTail.getHeadHeight();
+    }
+
     /**
-     * Method to set a new tip location, effectively moving the arrow as a
-     * result.
+     * Sets a new tip location, effectively moving the arrow as a result.
      */
     public void setTipLocation(Point2D newTipLocation){
         m_tipLocation = newTipLocation;
@@ -113,8 +129,7 @@ public class DoubleArrowNode extends PPath {
     }
 
     /**
-     * Method to set a new tail location, effectively moving the arrow as a
-     * result.
+     * Sets a new tail location, effectively moving the arrow as a result.
      */
     public void setTailLocation(Point2D newTailLocation){
         m_tailLocation = newTailLocation;
@@ -130,7 +145,7 @@ public class DoubleArrowNode extends PPath {
     }
 
     /**
-     * Method to set new locations for both the tail and the tip of the arrow.
+     * Sets new locations for both the tail and the tip of the arrow.
      * This method can be used to translate or rotate the arrow.
      */
     public void setTipAndTailLocations(Point2D newTipLocation, Point2D newTailLocation){
@@ -147,24 +162,12 @@ public class DoubleArrowNode extends PPath {
         setPathTo( m_overallShape );
     }
     
-    public double getHeadHeight()
-    {
-        return m_midToTail.getHeadHeight();
-    }
+    //------------------------------------------------------------------------
+    // Private Methods
+    //------------------------------------------------------------------------
 
-    public double getHeadWidth()
-    {
-        return m_midToTail.getHeadWidth();
-    }
-    
-    public double getTailWidth()
-    {
-        return m_midToTail.getTailWidth();
-    }
-    
     private Point2D midPoint(Point2D point1, Point2D point2){ 
         
         return (new Point2D.Double( point1.getX() +( (point2.getX()-point1.getX())/2 ), point1.getY() +( (point2.getY()-point1.getY())/2 ) ));
     }
-    
 }
