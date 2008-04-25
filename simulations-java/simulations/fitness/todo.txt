@@ -4,18 +4,13 @@ Graphs
     Need a reset graph only button
     Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
 Add foods/exercise
-    -Marj will help
+    -Marj is helping with this
     -The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
     -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
         submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
         apple, banana or orange, a serving of vegetables, slice of pizza, ?
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
-number of calories of healthy diet should be editable
-Should fat/fat free composition change based on diet & exercise?
-    Check with bill
-    -emailed bill
-Should we allow option to show BMI in English units?
-    -it looks like the universal unit for this is metric kg/m^2
+Number of calories of healthy diet should be editable
 Better behavior for heart/health indicator
 
 Med Priority:
@@ -36,6 +31,11 @@ Discussion:
     can't force 2000kcal/day and prescribed ffm and have balanced calories
 -cauliflower fat content double check
     confirmed this at: http://www.calorie-count.com/calories/item/11761.html
+Should fat/fat free composition change based on diet & exercise?
+    Check with bill
+    -emailed bill
+Should we allow option to show BMI in English units?
+    -it looks like the universal unit for this is metric kg/m^2
 
 Bill 4/18/2008
 
