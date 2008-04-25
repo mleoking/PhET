@@ -1,6 +1,3 @@
-3000 kcal/day wrong, should be 2000kcal/day
-    should this be exact?
-    can't force 2000kcal/day and prescribed ffm and have balanced calories
 Add graphical icons to bar chart elements
 Check FDA & related sites for food composition icons
 Should fat/fat free composition change based on diet & exercise?
@@ -19,6 +16,9 @@ Satisfy learning goal: How long do you have to bike/walk to burn a certain numbe
 Remove zoom handler
 Remove draggable triangles on bar chart
 number of calories of healthy diet should be editable
+3000 kcal/day wrong, should be 2000kcal/day
+    should this be exact?
+    can't force 2000kcal/day and prescribed ffm and have balanced calories
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart
