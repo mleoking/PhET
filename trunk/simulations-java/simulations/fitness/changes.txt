@@ -1,3 +1,5 @@
+Fixed: Constrain slider range: Snap after release
+Added graphical icons to bar chart elements
 Fixed: -weight in pounds triple numbers readout on gray slider do not fit inside box alloted
 Fixed: -dude is too tall (head goes off screen) at 5'9"
 Calorie editor dialogs pop up south, to not obscure main area, also is smaller
