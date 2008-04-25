@@ -3,6 +3,7 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
@@ -22,6 +23,7 @@ import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.colorado.phet.fitness.view.FitnessColorScheme;
 import edu.colorado.phet.fitness.view.StackedBarChartNode;
 import edu.colorado.phet.fitness.view.StackedBarNode;
+import edu.colorado.phet.fitness.FitnessResources;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -76,16 +78,17 @@ public class CaloriePanel extends PNode {
 
         Function.LinearFunction transform = new Function.LinearFunction( 0, 3500, 0, 250 );
         stackedBarChart = new StackedBarChartNode( transform, "Calories/Day", 10, 250, 1000, 8000 );
-
+                                                                                                                       
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
-        intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids() ), StackedBarNode.LEFT );
-        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs() ), StackedBarNode.LEFT );
-        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins() ), StackedBarNode.LEFT );
+        intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids() , "j0232547.gif" ), StackedBarNode.LEFT );
+        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs() ,"j0410455.gif"), StackedBarNode.LEFT );
+        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins(),"j0413686.gif" ), StackedBarNode.LEFT );
 
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
-        exerciseBars.addElement( new BarChartElementAdapter( "<html><center>Basal<br>Metabolic<br>Rate<br>(BMR)</center></html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ), StackedBarNode.RIGHT );
-        exerciseBars.addElement( new BarChartElementAdapter( "Activity", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity() ), StackedBarNode.RIGHT );
-        exerciseBars.addElement( new BarChartElementAdapter( "Exercise", FitnessColorScheme.EXERCISE, model.getHuman().getExercise() ), StackedBarNode.RIGHT );
+//        exerciseBars.addElement( new BarChartElementAdapter( "<html><center>Basal<br>Metabolic<br>Rate<br>(BMR)</center></html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ,"heart2.png"), StackedBarNode.RIGHT );
+        exerciseBars.addElement( new BarChartElementAdapter( "<html>Resting<br>(BMR)</html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ,"heart2.png"), StackedBarNode.RIGHT );
+        exerciseBars.addElement( new BarChartElementAdapter( "Activity", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(),"j0417518.png" ), StackedBarNode.RIGHT );
+        exerciseBars.addElement( new BarChartElementAdapter( "Exercise", FitnessColorScheme.EXERCISE, model.getHuman().getExercise(),"road_biker.png" ), StackedBarNode.RIGHT );
 
         stackedBarChart.addStackedBarNode( intakeBars );
         stackedBarChart.addStackedBarNode( exerciseBars );
@@ -105,8 +108,8 @@ public class CaloriePanel extends PNode {
     }
 
     public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {
-        public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable ) {
-            super( name, paint, variable.getValue() );
+        public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable, String image) {
+            super( name, paint, variable.getValue(), FitnessResources.getImage( image ) );
             variable.addListener( new IVariable.Listener() {
                 public void valueChanged() {
                     BarChartElementAdapter.this.setValue( variable.getValue() );

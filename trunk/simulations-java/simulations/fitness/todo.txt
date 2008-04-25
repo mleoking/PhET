@@ -1,3 +1,9 @@
+-dude is too tall (head goes off screen) at 5'9"
+-cauliflower fat content double check
+-need a reset graph only button
+-weight in lbs readout on graph does not equal weight in pounds readout on gray slider
+-weight in pounds triple numbers readout on gray slider do not fit inside box alloted
+-difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
 Constrain slider range
 Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
 Add foods/exercise

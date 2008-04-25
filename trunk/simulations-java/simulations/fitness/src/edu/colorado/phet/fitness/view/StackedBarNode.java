@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -20,9 +22,11 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fitness.FitnessResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
@@ -107,6 +111,7 @@ public class StackedBarNode extends PNode {
         private HTMLNode htmlNode;
         private PhetPPath barThumb;
         private Thumb thumbLocation;
+        private PNode imageNode;
 
         private BarChartElementNode( final BarChartElement barChartElement, Thumb thumbLocation ) {
             this.thumbLocation = thumbLocation;
@@ -142,8 +147,18 @@ public class StackedBarNode extends PNode {
                 }
             } );
             clip = new PClip();
+
+            if ( barChartElement.getImage() != null ) {
+                imageNode = new PImage( BufferedImageUtils.multiScaleToHeight( barChartElement.getImage(), 25 ) );
+            }
+            else {
+                imageNode = new PNode();
+            }
+
             htmlNode = new HTMLNode( barChartElement.getName(), new PhetDefaultFont( 20, true ), Color.black );
+            clip.addChild( imageNode );
             clip.addChild( htmlNode );
+
             addChild( clip );
 
             //todo: delegate to subclass
@@ -162,7 +177,8 @@ public class StackedBarNode extends PNode {
         private void updateShape() {
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
-            htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, 0 );
+            imageNode.setOffset( clip.getFullBounds().getWidth() / 2 - imageNode.getFullBounds().getWidth() / 2, 0 );
+            htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight()  );
             barThumb.setPathTo( thumbLocation.getThumbShape( barWidth ) );
         }
 
@@ -179,11 +195,17 @@ public class StackedBarNode extends PNode {
         private String name;
         private Paint paint;
         private double value;
+        private BufferedImage image;
 
         public BarChartElement( String name, Paint paint, double value ) {
+            this( name, paint, value, null );
+        }
+
+        public BarChartElement( String name, Paint paint, double value, BufferedImage image ) {
             this.name = name;
             this.paint = paint;
             this.value = value;
+            this.image = image;
         }
 
         public Paint getPaint() {
@@ -209,6 +231,10 @@ public class StackedBarNode extends PNode {
                 Listener listener = (Listener) listeners.get( i );
                 listener.paintChanged();
             }
+        }
+
+        public BufferedImage getImage() {
+            return image;
         }
 
         public static interface Listener {
@@ -294,7 +320,7 @@ public class StackedBarNode extends PNode {
 //        StackedBarNode barNode = new StackedBarNode( new Function.IdentityFunction(), 100 );
         StackedBarNode barNode = new StackedBarNode( new Function.LinearFunction( 0.5 ), 100 );
         barNode.setOffset( 100, 360 );
-        final BarChartElement bmr = new BarChartElement( "BMR", Color.red, 100 );
+        final BarChartElement bmr = new BarChartElement( "BMR", Color.red, 100, FitnessResources.getImage( "eye.png" ) );
         barNode.addElement( bmr );
         BarChartElement activity = new BarChartElement( "Activity", Color.green, 200 );
         barNode.addElement( activity );
