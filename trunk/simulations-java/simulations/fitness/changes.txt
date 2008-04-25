@@ -1,3 +1,4 @@
+Fixed: -dude is too tall (head goes off screen) at 5'9"
 Calorie editor dialogs pop up south, to not obscure main area, also is smaller
 Added graphs
 Added ability to change units between metric and english

@@ -38,7 +38,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     // View
     private PNode _rootNode;
 
-    public static final double CANVAS_WIDTH = 4;
+    public static final double CANVAS_WIDTH = 4.6;
     public static final double CANVAS_HEIGHT = CANVAS_WIDTH * ( 3.0d / 4.0d );
 
     // Translation factors, used to set origin of canvas area.
@@ -50,7 +50,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     //----------------------------------------------------------------------------
 
     public FitnessCanvas( final FitnessModel model, Frame parentFrame ) {
-        super( new PDimension( 10, 10 ) );
+        super( new PDimension( 15,15) );
 
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
@@ -65,8 +65,6 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
         _rootNode.addChild( new ScaleNode( model, model.getHuman() ) );
         _rootNode.addChild( new HumanAreaNode( model.getHuman() ) );
-
-        setZoomEventHandler( new PZoomEventHandler() );
 
         rulerNode = createRulerNode();
         addWorldChild( rulerNode );

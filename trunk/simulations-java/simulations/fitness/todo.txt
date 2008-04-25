@@ -1,4 +1,3 @@
--dude is too tall (head goes off screen) at 5'9"
 -cauliflower fat content double check
 -need a reset graph only button
 -weight in lbs readout on graph does not equal weight in pounds readout on gray slider
@@ -13,8 +12,6 @@ Add foods/exercise
         submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
         apple, banana or orange, a serving of vegetables, slice of pizza, ?
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
-Remove zoom handler
-Remove draggable triangles on bar chart
 number of calories of healthy diet should be editable
 3000 kcal/day wrong, should be 2000kcal/day
     should this be exact?
@@ -26,6 +23,7 @@ Should fat/fat free composition change based on diet & exercise?
     -emailed bill
 Should we allow option to show BMI in English units?
     -it looks like the universal unit for this is metric kg/m^2
+Better behavior for heart/health indicator
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart
@@ -37,7 +35,6 @@ Low Priority:
     Extra carbs or protein can increase RMR (not agreed upon)
 +Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
 +Better values/more options for base diets
-+Better behavior for heart/health indicator
 +KG gained per day should be a function of caloric distribution over lipids, carbs and protein
 
 Bill 4/18/2008
