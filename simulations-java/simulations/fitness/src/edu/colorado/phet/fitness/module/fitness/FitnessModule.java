@@ -42,7 +42,7 @@ public class FitnessModule extends PiccoloModule {
         _model = new FitnessModel( (ConstantDtClock) getClock() );
 
         // Canvas
-        _canvas = new FitnessCanvas( _model );
+        _canvas = new FitnessCanvas( _model,parentFrame );
         setSimulationPanel( _canvas );
 
         // Control Panel

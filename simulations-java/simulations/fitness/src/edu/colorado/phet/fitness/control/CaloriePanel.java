@@ -36,7 +36,7 @@ public class CaloriePanel extends PNode {
     private CalorieNode foodNode;
     private CalorieNode exerciseNode;
 
-    public CaloriePanel( final FitnessModel model, PhetPCanvas phetPCanvas ) {
+    public CaloriePanel( final FitnessModel model, PhetPCanvas phetPCanvas, Frame parentFrame ) {
         this.phetPCanvas = phetPCanvas;
         GraphSuiteSet graphSuiteSet = new GraphSuiteSet();
         TimeSeriesModel tsm = new MotionTimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) );
@@ -91,10 +91,10 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        foodNode = new CalorieNode( "Edit Diet", new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" );
+        foodNode = new CalorieNode( parentFrame, "Edit Diet", new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" );
         addChild( foodNode );
 
-        exerciseNode = new CalorieNode( "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" ) {
+        exerciseNode = new CalorieNode( parentFrame, "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" ) {
             protected CalorieSelectionPanel createCalorieSelectionPanel() {
                 return new ExerciseSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }

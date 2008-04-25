@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
@@ -16,14 +15,15 @@ import edu.umd.cs.piccolo.PNode;
  * Apr 23, 2008 at 11:55:28 AM
  */
 public class CalorieNode extends PNode {
-    //    private PText plusNode;
+    private Frame parentFrame;
     private CalorieSet available;
     private CalorieSet calorieSet;
     private JDialog dialog;
     private String selectedTitle;
     private String availableTitle;
 
-    public CalorieNode( String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle ) {
+    public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle ) {
+        this.parentFrame = parentFrame;
         this.available = available;
         this.calorieSet = calorieSet;
         this.availableTitle = availableTitle;
@@ -60,7 +60,7 @@ public class CalorieNode extends PNode {
     }
 
     protected void createDialog() {
-        this.dialog = new JDialog();
+        this.dialog = new JDialog( parentFrame, false );
         CalorieSelectionPanel panel = createCalorieSelectionPanel();
         panel.addListener( new CalorieSelectionPanel.Listener() {
             public void donePressed() {
@@ -69,8 +69,14 @@ public class CalorieNode extends PNode {
         } );
         dialog.setContentPane( panel );
         dialog.pack();
-        dialog.setSize( 800, 600 );
-        SwingUtils.centerWindowOnScreen( dialog );
+        dialog.setSize( 1024, 400 );
+
+
+        Rectangle parentBounds = parentFrame.getBounds();
+        Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + parentBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
+                                                (int) ( parentBounds.getMaxY() - dialog.getHeight() ),
+                                                dialog.getWidth(), dialog.getHeight() );
+        dialog.setBounds( dialogBounds );
     }
 
     protected CalorieSelectionPanel createCalorieSelectionPanel() {

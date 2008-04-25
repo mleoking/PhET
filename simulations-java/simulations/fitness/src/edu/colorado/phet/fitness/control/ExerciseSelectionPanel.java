@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Human;
 
@@ -20,7 +21,8 @@ public class ExerciseSelectionPanel extends CalorieSelectionPanel {
         super( available, selected, availableTitle, selectedTitle );
         this.human = human;
 
-        JPanel activityLevels = new MyVerticalLayoutPanel();
+//        JPanel activityLevels = new MyVerticalLayoutPanel();
+        JPanel activityLevels = new JPanel();
         activityLevels.setBorder( CalorieSelectionPanel.createTitledBorder( "Lifestyle" ) );
         ButtonGroup bg = new ButtonGroup();
         for ( int i = 0; i < Activity.DEFAULT_ACTIVITY_LEVELS.length; i++ ) {
@@ -32,6 +34,7 @@ public class ExerciseSelectionPanel extends CalorieSelectionPanel {
                     human.setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[i1].getValue() );
                 }
             } );
+            jRadioButton.setFont( new PhetDefaultFont( 13, true ) );
             bg.add( jRadioButton );
             activityLevels.add( jRadioButton );
         }
