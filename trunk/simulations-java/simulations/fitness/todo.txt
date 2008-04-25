@@ -1,9 +1,7 @@
--cauliflower fat content double check
--need a reset graph only button
--weight in lbs readout on graph does not equal weight in pounds readout on gray slider
--weight in pounds triple numbers readout on gray slider do not fit inside box alloted
 -difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
 Constrain slider range
+    -Snap after release
+-weight in lbs readout on graph does not equal weight in pounds readout on gray slider
 Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
 Add foods/exercise
     -Marj will help
@@ -24,9 +22,12 @@ Should fat/fat free composition change based on diet & exercise?
 Should we allow option to show BMI in English units?
     -it looks like the universal unit for this is metric kg/m^2
 Better behavior for heart/health indicator
+Need a reset graph only button
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart
+-cauliflower fat content double check
+    confirmed this at: http://www.calorie-count.com/calories/item/11761.html
 
 Low Priority:
 +Editors for exercise (change time or intensity)
