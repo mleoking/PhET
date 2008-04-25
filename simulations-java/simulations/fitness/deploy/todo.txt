@@ -1,3 +1,4 @@
+High Priority:
 Graphs
     Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
     Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
