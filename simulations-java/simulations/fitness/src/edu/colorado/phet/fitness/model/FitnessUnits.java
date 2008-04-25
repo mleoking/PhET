@@ -38,8 +38,12 @@ public class FitnessUnits {
         return seconds / SECONDS_PER_DAY;
     }
 
-    public static double feetToMeters( double heightFT ) {
-        return heightFT * 0.3048;
+    public static double feetToMeters( double dist ) {
+        return dist * 0.3048;
+    }
+
+    public static double metersToFeet( double dist ) {
+        return dist / 0.3048;
     }
 
     public static double gramsToCaloriesCarb( double grams ) {
@@ -61,4 +65,5 @@ public class FitnessUnits {
     public static double poundsToKg( double value ) {
         return value / POUNDS_PER_KG;
     }
+
 }
