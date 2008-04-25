@@ -1,8 +1,8 @@
--difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
-Constrain slider range
-    -Snap after release
--weight in lbs readout on graph does not equal weight in pounds readout on gray slider
-Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
+Graphs
+    Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
+    Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
+    Need a reset graph only button
+    Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
 Add foods/exercise
     -Marj will help
     -The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
@@ -11,23 +11,15 @@ Add foods/exercise
         apple, banana or orange, a serving of vegetables, slice of pizza, ?
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
 number of calories of healthy diet should be editable
-3000 kcal/day wrong, should be 2000kcal/day
-    should this be exact?
-    can't force 2000kcal/day and prescribed ffm and have balanced calories
-Add graphical icons to bar chart elements
-    Check FDA & related sites for food composition icons
 Should fat/fat free composition change based on diet & exercise?
     Check with bill
     -emailed bill
 Should we allow option to show BMI in English units?
     -it looks like the universal unit for this is metric kg/m^2
 Better behavior for heart/health indicator
-Need a reset graph only button
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart
--cauliflower fat content double check
-    confirmed this at: http://www.calorie-count.com/calories/item/11761.html
 
 Low Priority:
 +Editors for exercise (change time or intensity)
@@ -37,6 +29,13 @@ Low Priority:
 +Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
 +Better values/more options for base diets
 +KG gained per day should be a function of caloric distribution over lipids, carbs and protein
+
+Discussion:
+3000 kcal/day wrong, should be 2000kcal/day
+    should this be exact?
+    can't force 2000kcal/day and prescribed ffm and have balanced calories
+-cauliflower fat content double check
+    confirmed this at: http://www.calorie-count.com/calories/item/11761.html
 
 Bill 4/18/2008
 

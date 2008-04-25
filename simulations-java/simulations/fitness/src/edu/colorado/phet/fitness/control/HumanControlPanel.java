@@ -3,21 +3,23 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
-import edu.colorado.phet.fitness.view.SliderNode;
 import edu.colorado.phet.fitness.view.FitnessColorScheme;
+import edu.colorado.phet.fitness.view.SliderNode;
 
 /**
  * Created by: Sam
@@ -119,6 +121,13 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 fatMassPercent.setValue( human.getFatMassPercent() );
             }
         } );
+        fatMassPercent.getSlider().addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                double va = human.getFatMassPercent();
+                fatMassPercent.setValue( human.getFatMassPercent() + 1 );
+                fatMassPercent.setValue( va );
+            }
+        } );
         add( fatMassPercent );
 
         final HumanSlider fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Fat Free Mass", "0.00", "%" );
@@ -130,6 +139,13 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         human.addListener( new Human.Adapter() {
             public void fatPercentChanged() {
                 fatFreeMassPercent.setValue( human.getFatFreeMassPercent() );
+            }
+        } );
+        fatFreeMassPercent.getSlider().addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                double va = human.getFatFreeMassPercent();
+                fatFreeMassPercent.setValue( human.getFatFreeMassPercent() + 1 );
+                fatFreeMassPercent.setValue( va );
             }
         } );
         add( fatFreeMassPercent );
@@ -167,9 +183,9 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             sliderNode = new SliderNode( min, max, value );
             setBorder( null );
             setBackground( FitnessColorScheme.getBackgroundColor() );
-            sliderNode.setOffset( -sliderNode.getFullBounds().getX()+1, -sliderNode.getFullBounds().getY()+1);
+            sliderNode.setOffset( -sliderNode.getFullBounds().getX() + 1, -sliderNode.getFullBounds().getY() + 1 );
             addScreenChild( sliderNode );
-            setPreferredSize( new Dimension( (int)sliderNode.getFullBounds().getWidth()+2, (int) sliderNode.getFullBounds().getHeight() +2) );
+            setPreferredSize( new Dimension( (int) sliderNode.getFullBounds().getWidth() + 2, (int) sliderNode.getFullBounds().getHeight() + 2 ) );
         }
 
         public void setColumns( int col ) {
