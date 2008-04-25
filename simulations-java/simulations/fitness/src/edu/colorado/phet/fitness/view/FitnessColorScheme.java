@@ -16,4 +16,8 @@ public class FitnessColorScheme {
     public static final Color PROTEIN = FitnessUtil.brighter( new Color( 17, 93, 24 ),20 );
     public static final Color CARBS = FitnessUtil.brighter( new Color( 29, 32, 175 ),20 );
     public static final Color FATS = FitnessUtil.brighter( new Color( 75, 3, 75 ),20);
+
+    public static Color getBackgroundColor() {
+        return new Color( 200, 240, 200 );
+    }
 }

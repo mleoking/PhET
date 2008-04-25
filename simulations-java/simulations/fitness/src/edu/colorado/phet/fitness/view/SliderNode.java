@@ -4,8 +4,11 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -41,6 +44,8 @@ public class SliderNode extends PNode {
     private RestrictedRangeNode lowerRestrictedRange;
     private RestrictedRangeNode upperRestrictedRange;
 
+    private ArrayList listeners = new ArrayList();
+
     public SliderNode( double min, double max, double value ) {
         this.min = min;
         this.max = max;
@@ -63,6 +68,21 @@ public class SliderNode extends PNode {
         updateRestrictedRanges();
     }
 
+    public double getValue() {
+        return value;
+    }
+
+    public void addChangeListener( ChangeListener changeListener ) {
+        listeners.add( changeListener );
+    }
+
+    public void setRange( double min, double max ) {
+        this.min = min;
+        this.max = max;
+        updateThumbLocation();
+        //todo: check that the value appears in the range
+    }
+
     private class RestrictedRangeNode extends PNode {
         private PhetPPath path;
         private double min;
@@ -78,7 +98,7 @@ public class SliderNode extends PNode {
 
         private void updatePath() {
             path.setPathTo( createTrackShape( min, max ) );
-            path.setVisible( min!=max );
+            path.setVisible( min != max );
         }
 
         public void setRange( double min, double max ) {
@@ -137,14 +157,21 @@ public class SliderNode extends PNode {
         }
     }
 
-    private void setValue( double v ) {
+    public void setValue( double v ) {
+        double origValue = getValue();
         v = MathUtil.clamp( min, v, max );
-        this.value = MathUtil.clamp( dragmin, v, dragmax );
-        notifyValueChanged();
-        updateThumbLocation();
+        double newValue = MathUtil.clamp( dragmin, v, dragmax );
+        if ( newValue != origValue ) {
+            this.value = newValue;
+            notifyValueChanged();
+            updateThumbLocation();
+        }
     }
 
     private void notifyValueChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (ChangeListener) listeners.get( i ) ).stateChanged( new ChangeEvent( this ) );
+        }
     }
 
     public static class SwingSlider extends PhetPCanvas {

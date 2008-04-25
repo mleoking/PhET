@@ -9,12 +9,15 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
+import edu.colorado.phet.fitness.view.SliderNode;
+import edu.colorado.phet.fitness.view.FitnessColorScheme;
 
 /**
  * Created by: Sam
@@ -39,8 +42,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-        final LinearValueControl age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), "Age", "0.00", "years" );
-        age.getTextField().setColumns( 5 );
+        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), "Age", "0.00", "years" );
+        age.setColumns( 5 );
         add( age );
         age.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -57,7 +60,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         //todo: factor out slider that accommodates units
         final double minHeight = 1;
         final double maxHeight = 2.72;
-        final LinearValueControl heightControl = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ), model.getUnits().modelToViewDistance( human.getHeight() ), "Height", "0.00", model.getUnits().getDistanceUnit() );
+        final HumanSlider heightControl = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ), model.getUnits().modelToViewDistance( human.getHeight() ), "Height", "0.00", model.getUnits().getDistanceUnit() );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double v = model.getUnits().viewToModelDistance( heightControl.getValue() );
@@ -73,8 +76,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 heightControl.setValue( value );
                 heightControl.setUnits( model.getUnits().getDistanceUnit() );
 
-                heightControl.getSlider().setPaintLabels( false );
-                heightControl.getSlider().setPaintTicks( false );
+                heightControl.setPaintLabels( false );
+                heightControl.setPaintTicks( false );
             }
         } );
 
@@ -82,7 +85,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         final double minWeight = 0;
         final double maxWeight = 560;//world record
-        final LinearValueControl weightControl = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), "Weight", "0.00", model.getUnits().getMassUnit() );
+        final HumanSlider weightControl = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), "Weight", "0.00", model.getUnits().getMassUnit() );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setMass( model.getUnits().viewToModelMass( weightControl.getValue() ) );
@@ -98,13 +101,13 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 weightControl.setValue( model.getUnits().modelToViewMass( human.getMass() ) );
                 weightControl.setUnits( model.getUnits().getMassUnit() );
                 weightControl.setRange( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ) );
-                weightControl.getSlider().setPaintLabels( false );
-                weightControl.getSlider().setPaintTicks( false );
+                weightControl.setPaintLabels( false );
+                weightControl.setPaintTicks( false );
             }
         } );
         add( weightControl );
 
-        final LinearValueControl fatMassPercent = new HumanSlider( 0, 100, human.getFatMassPercent(), "Fat Mass", "0.00", "%" );
+        final HumanSlider fatMassPercent = new HumanSlider( 0, 100, human.getFatMassPercent(), "Fat Mass", "0.00", "%" );
         fatMassPercent.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setFatMassPercent( fatMassPercent.getValue() );
@@ -117,7 +120,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( fatMassPercent );
 
-        final LinearValueControl fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Fat Free Mass", "0.00", "%" );
+        final HumanSlider fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Fat Free Mass", "0.00", "%" );
         fatFreeMassPercent.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setFatMassPercent( 100 - fatFreeMassPercent.getValue() );
@@ -140,6 +143,60 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             getSlider().setPaintLabels( false );
             getSlider().setPaintTicks( false );
             setSignifyOutOfBounds( false );
+        }
+
+        public void setColumns( int i ) {
+            getTextField().setColumns( i );
+        }
+
+        public void setPaintLabels( boolean b ) {
+            getSlider().setPaintLabels( b );
+        }
+
+        public void setPaintTicks( boolean b ) {
+            getSlider().setPaintTicks( b );
+        }
+    }
+
+    public static final class HumanSliderNEW extends PhetPCanvas {
+        private SliderNode sliderNode;
+
+        public HumanSliderNEW( double min, double max, double value, String label, String textFieldPattern, String units ) {
+//            super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
+            sliderNode = new SliderNode( min, max, value );
+            setBorder( null );
+            setBackground( FitnessColorScheme.getBackgroundColor() );
+            sliderNode.setOffset( -sliderNode.getFullBounds().getX()+1, -sliderNode.getFullBounds().getY()+1);
+            addScreenChild( sliderNode );
+            setPreferredSize( new Dimension( (int)sliderNode.getFullBounds().getWidth()+2, (int) sliderNode.getFullBounds().getHeight() +2) );
+        }
+
+        public void setColumns( int col ) {
+        }
+
+        public double getValue() {
+            return sliderNode.getValue();
+        }
+
+        public void addChangeListener( ChangeListener changeListener ) {
+            sliderNode.addChangeListener( changeListener );
+        }
+
+        public void setValue( double v ) {
+            sliderNode.setValue( v );
+        }
+
+        public void setRange( double min, double max ) {
+            sliderNode.setRange( min, max );
+        }
+
+        public void setUnits( String units ) {
+        }
+
+        public void setPaintLabels( boolean b ) {
+        }
+
+        public void setPaintTicks( boolean b ) {
         }
     }
 

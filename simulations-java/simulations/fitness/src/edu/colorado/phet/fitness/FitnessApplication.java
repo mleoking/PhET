@@ -25,6 +25,7 @@ import edu.colorado.phet.fitness.menu.OptionsMenu;
 import edu.colorado.phet.fitness.module.fitness.FitnessModule;
 import edu.colorado.phet.fitness.persistence.FitnessConfig;
 import edu.colorado.phet.fitness.persistence.SimTemplateConfig;
+import edu.colorado.phet.fitness.view.FitnessColorScheme;
 
 public class FitnessApplication extends PiccoloPhetApplication {
 
@@ -236,7 +237,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
 
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                 phetLookAndFeel.setFont( new PhetDefaultFont( 14, true ) );
-                phetLookAndFeel.setBackgroundColor( new Color( 200, 240, 200 ) );
+                phetLookAndFeel.setBackgroundColor( FitnessColorScheme.getBackgroundColor() );
                 phetLookAndFeel.setTextFieldBackgroundColor( Color.white );
                 phetLookAndFeel.initLookAndFeel();
                 PhetApplicationConfig config = new PhetApplicationConfig( args, FitnessConstants.FRAME_SETUP, FitnessResources.getResourceLoader() );
