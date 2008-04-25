@@ -54,6 +54,7 @@ public class ControlGraph extends PNode {
     private ZoomSuiteNode zoomControl;
     private TitleLayer titleLayer;
 
+    private double minDomainValue=0;
     private double maxDomainValue;
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
@@ -99,7 +100,7 @@ public class ControlGraph extends PNode {
         titleLayer = createTitleLayer();
         jFreeChart.setTitle( (String) null );
         setVerticalRange( minY, maxY );
-        setHorizontalRange( maxDomainTime );
+        setHorizontalRangeMax( maxDomainTime );
         jFreeChart.setBackgroundPaint( null );
 
         dynamicJFreeChartNode = new DynamicJFreeChartNode( pSwingCanvas, jFreeChart );
@@ -205,8 +206,15 @@ public class ControlGraph extends PNode {
         return new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb, highlightColor );//todo: better support for non-controllable graphs
     }
 
-    public void setHorizontalRange( double maxDomainValue ) {
-        jFreeChart.getXYPlot().getDomainAxis().setRange( 0, maxDomainValue );
+    public void setHorizontalRangeMax( double maxDomainValue ) {
+        setHorizontalRange( 0, maxDomainValue );
+    }
+
+    public void setHorizontalRange( double minDomainValue, double maxDomainValue ) {
+        jFreeChart.getXYPlot().getDomainAxis().setRange( minDomainValue, maxDomainValue );
+        this.minDomainValue = minDomainValue;
+        this.maxDomainValue = maxDomainValue;
+        notifyZoomChanged();
     }
 
     protected GraphTimeControlNode createGraphTimeControlNode( TimeSeriesModel timeSeriesModel ) {
@@ -280,7 +288,7 @@ public class ControlGraph extends PNode {
 
     public void resetRange() {
         setVerticalRange( defaultMinY, defaultMaxY );
-        setHorizontalRange( defaultMaxX );
+        setHorizontalRangeMax( defaultMaxX );
     }
 
     public double getDefaultMinY() {
