@@ -304,4 +304,19 @@ public class FileUtils {
         }
     }
 
+    public static void copyRecursive( File src, File dest ) throws IOException {
+        if ( src.isDirectory() ) {
+            dest.mkdirs();
+            System.out.println( "Created: " + dest.getAbsolutePath() );
+            File[] f = src.listFiles();
+            for ( int i = 0; i < f.length; i++ ) {
+                File child = f[i];
+                copyRecursive( child, new File( dest, child.getName() ) );
+            }
+        }
+        else {
+            copyTo( src, dest );
+            System.out.println( "Copied to: " + dest.getAbsolutePath() );
+        }
+    }
 }
