@@ -64,7 +64,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 human.setHeight( v );
             }
         } );
-        model.addListener( new FitnessModel.Listener() {
+        model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
                 double value = model.getUnits().modelToViewDistance( human.getHeight() );
 
@@ -93,7 +93,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 weightControl.setValue( model.getUnits().modelToViewMass( human.getMass() ) );
             }
         } );
-        model.addListener( new FitnessModel.Listener() {
+        model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
                 weightControl.setValue( model.getUnits().modelToViewMass( human.getMass() ) );
                 weightControl.setUnits( model.getUnits().getMassUnit() );

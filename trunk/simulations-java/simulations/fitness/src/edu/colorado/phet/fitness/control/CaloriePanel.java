@@ -16,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.fitness.model.FitnessUnits;
+import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.colorado.phet.fitness.view.FitnessColorScheme;
 import edu.colorado.phet.fitness.view.StackedBarChartNode;
@@ -38,14 +40,26 @@ public class CaloriePanel extends PNode {
         this.phetPCanvas = phetPCanvas;
         GraphSuiteSet graphSuiteSet = new GraphSuiteSet();
         TimeSeriesModel tsm = new MotionTimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) );
-        ControlGraph controlGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Weight", Color.blue, "weight", "lbs", "human", new DefaultTemporalVariable() ), "Weight", 0, 100, tsm );
-        controlGraph.setEditable( false );
-        weightChart = new MinimizableControlGraph( "Weight", controlGraph );
-        ControlGraph controlGraph1 = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Calories", Color.blue, "Cal", "Cal", "human", new DefaultTemporalVariable() ), "Calories", 0, 100, tsm );
-        controlGraph1.setEditable( false );
-        calorieChart = new MinimizableControlGraph( "Calories", controlGraph1 );
+
+        ControlGraph weightGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Weight", Color.blue, "weight", "lbs", "", model.getHuman().getMassVariable() ), "Weight", 0, 100, tsm, 7.37E8 );
+        weightGraph.setHorizontalRange( Human.DEFAULT_VALUE.getAgeSeconds(), Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( 20 ) );
+        weightGraph.setEditable( false );
+        weightChart = new MinimizableControlGraph( "Weight", weightGraph );
         weightChart.setAvailableBounds( 600, 125 );
+
+        final ControlGraph calorieGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Calories", Color.green, "Cal", "Cal", new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", model.getHuman().getCaloricIntakeVariable() ), "Calories", 0, 4000, tsm );
+        calorieGraph.addSeries( new ControlGraphSeries( "Exercise Calories", Color.red, "cal", "kcal", new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", model.getHuman().getCaloricBurnVariable() ) );
+        calorieGraph.setHorizontalRange( Human.DEFAULT_VALUE.getAgeSeconds(), Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( 20 ) );
+        calorieGraph.setEditable( false );
+        model.addListener( new FitnessModel.Adapter() {
+            public void simulationTimeChanged() {
+                calorieGraph.forceUpdateAll();
+            }
+        } );
+
+        calorieChart = new MinimizableControlGraph( "Calories", calorieGraph );
         calorieChart.setAvailableBounds( 600, 125 );
+
         MinimizableControlGraph[] graphs = {weightChart, calorieChart};
         weightChart.setAlignedLayout( graphs );
         calorieChart.setAlignedLayout( graphs );
@@ -77,7 +91,7 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        foodNode = new CalorieNode( "Edit Diet", new Color( 100,100,255), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" );
+        foodNode = new CalorieNode( "Edit Diet", new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" );
         addChild( foodNode );
 
         exerciseNode = new CalorieNode( "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" ) {

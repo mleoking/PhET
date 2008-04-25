@@ -29,7 +29,7 @@ public class FitnessModel {
             }
 
             public double modelToViewDistance( double distance ) {
-                return FitnessUnits.metersToFeet(distance);
+                return FitnessUnits.metersToFeet( distance );
             }
 
             public double viewToModelDistance( double value ) {
@@ -116,9 +116,16 @@ public class FitnessModel {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 if ( !paused ) {
                     human.simulationTimeChanged( clockEvent.getSimulationTimeChange() );
+                    notifySimulationTimeChanged();
                 }
             }
         } );
+    }
+
+    private void notifySimulationTimeChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).simulationTimeChanged();
+        }
     }
 
     public Diet[] getAvailableDiets() {
@@ -182,6 +189,16 @@ public class FitnessModel {
 
     public static interface Listener {
         void unitsChanged();
+
+        void simulationTimeChanged();
+    }
+
+    public static class Adapter implements Listener {
+        public void unitsChanged() {
+        }
+
+        public void simulationTimeChanged() {
+        }
     }
 
     private ArrayList listeners = new ArrayList();
