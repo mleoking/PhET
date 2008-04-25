@@ -140,7 +140,6 @@ public class Human {
         resetAll();
     }
 
-
     public void resetAll() {
         name = "Larry";
 
