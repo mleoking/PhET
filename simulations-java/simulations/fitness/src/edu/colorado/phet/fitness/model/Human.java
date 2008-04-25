@@ -3,6 +3,7 @@ package edu.colorado.phet.fitness.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.fitness.control.Activity;
@@ -36,24 +37,38 @@ public class Human {
     //    private Exercise exerciseObject = null;
     private static final ReferenceHuman REFERENCE_MALE = new ReferenceHuman( true, 22, 5, 8.5, 70, 86 );
     private static final ReferenceHuman REFERENCE_FEMALE = new ReferenceHuman( false, 22, 5, 4.5, 57, 74 );
-    private static final ReferenceHuman DEFAULT_VALUE = REFERENCE_FEMALE;
+    public static final ReferenceHuman DEFAULT_VALUE = REFERENCE_FEMALE;
 
     private CalorieSet exerciseItems = new CalorieSet();
     private FoodCalorieSet foodItems = new FoodCalorieSet();
     private double activityLevel = Activity.DEFAULT_ACTIVITY_LEVEL.getValue();
+    private ITemporalVariable caloricIntakeVariable = new DefaultTemporalVariable();
+    private ITemporalVariable caloricBurnVariable = new DefaultTemporalVariable();
 
     public double getActivityLevel() {
         return activityLevel;
     }
 
-    static class ReferenceHuman {
+    public ITemporalVariable getMassVariable() {
+        return mass;
+    }
+
+    public ITemporalVariable getCaloricIntakeVariable() {
+        return caloricIntakeVariable;
+    }
+
+    public ITemporalVariable getCaloricBurnVariable() {
+        return caloricBurnVariable;
+    }
+
+    public static class ReferenceHuman {
         boolean male;
         double ageYears;
         double heightFT;
         double massKG;
         double fatFreeMassPercent;
 
-        ReferenceHuman( boolean male, double ageYears, double heightFT, double heightIN, double massKG, double fatFreeMassPercent ) {
+        public ReferenceHuman( boolean male, double ageYears, double heightFT, double heightIN, double massKG, double fatFreeMassPercent ) {
             this.male = male;
             this.ageYears = ageYears;
             this.heightFT = heightFT + heightIN / 12;
@@ -61,19 +76,19 @@ public class Human {
             this.fatFreeMassPercent = fatFreeMassPercent;
         }
 
-        double getHeightMeters() {
+        public double getHeightMeters() {
             return FitnessUnits.feetToMeters( heightFT );
         }
 
-        double getAgeSeconds() {
+        public double getAgeSeconds() {
             return FitnessUnits.yearsToSeconds( ageYears );
         }
 
-        double getMassKG() {
+        public double getMassKG() {
             return massKG;
         }
 
-        double getFatFreeMassPercent() {
+        public double getFatFreeMassPercent() {
             return fatFreeMassPercent;
         }
 
@@ -157,6 +172,8 @@ public class Human {
         activity.clear();
         exercise.clear();
         bmr.clear();
+        caloricIntakeVariable.clear();
+        caloricBurnVariable.clear();
     }
 
     private void updateIntake() {
@@ -320,7 +337,16 @@ public class Human {
         setAge( getAge() + simulationTimeChange );
         double caloriesGainedPerDay = getDeltaCaloriesGained();
         double kgGainedPerDay = FitnessUnits.caloriesToKG( caloriesGainedPerDay );
+
         setMass( getMass() + kgGainedPerDay * FitnessUnits.secondsToDays( simulationTimeChange ) );
+        mass.addValue( getMass(), getAge() );
+
+        caloricIntakeVariable.setValue( getDailyCaloricIntake() );
+        caloricIntakeVariable.addValue( getDailyCaloricIntake(), getAge() );
+
+        caloricBurnVariable.setValue( getDailyCaloricExpense() );
+        caloricBurnVariable.addValue( getDailyCaloricExpense(), getAge() );
+//        System.out.println( "getDailyCaloricIntake() = " + getDailyCaloricIntake() );
     }
 
     private double getDeltaCaloriesGained() {
@@ -334,15 +360,6 @@ public class Human {
     private double getDailyCaloricIntake() {
         return lipids.getValue() + proteins.getValue() + carbs.getValue();
     }
-
-//    public void setExercise( Exercise exercise ) {
-//        this.exerciseObject = exercise;//todo: should be a list
-//        this.exercise.setValue( exercise.getCalories() );
-//    }
-//
-//    public Exercise getExerciseObject() {
-//        return exerciseObject;
-//    }
 
     public double getHeartHealth() {
         return 0.5;

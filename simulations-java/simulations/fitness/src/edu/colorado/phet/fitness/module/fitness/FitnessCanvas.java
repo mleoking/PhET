@@ -50,7 +50,6 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     //----------------------------------------------------------------------------
 
     public FitnessCanvas( final FitnessModel model ) {
-//        super( new Rectangle2D.Double( -10,-10,20,20) );
         super( new PDimension( 10, 10 ) );
 
         // Set the transform strategy in such a way that the center of the
@@ -64,12 +63,10 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
 
-//        _rootNode.addChild( new HumanNode( model.getHuman() ) );
-        _rootNode.addChild( new ScaleNode( model,model.getHuman() ) );
+        _rootNode.addChild( new ScaleNode( model, model.getHuman() ) );
         _rootNode.addChild( new HumanAreaNode( model.getHuman() ) );
 
         setZoomEventHandler( new PZoomEventHandler() );
-//        setPanEventHandler( new PPanEventHandler() );
 
         rulerNode = createRulerNode();
         addWorldChild( rulerNode );
@@ -91,16 +88,6 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
                 requestFocus();
             }
         } );
-//        addKeyListener( new KeyAdapter() {
-//            public void keyPressed( KeyEvent e ) {
-//                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
-//                    model.getHuman().setLeanMuscleMass( model.getHuman().getLeanMuscleMass() + 10 );
-//                }
-//                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-//                    model.getHuman().setLeanMuscleMass( model.getHuman().getLeanMuscleMass() - 10 );
-//                }
-//            }
-//        } );
     }
 
     private RulerNode createRulerNode() {
