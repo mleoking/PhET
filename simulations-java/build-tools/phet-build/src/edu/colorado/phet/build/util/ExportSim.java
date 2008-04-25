@@ -25,7 +25,7 @@ public class ExportSim {
         for ( int i = 0; i < s.length; i++ ) {
             File file = s[i];
             System.out.println( "file = " + file );
-//            FileUtils.copyRecursive( file, new File( dest, "" + file.getParentFile().getName() + "-src" ) );
+            FileUtils.copyRecursive( file, new File( dest, "" + file.getParentFile().getName() + "-src" ) );
         }
         File[] k = p.getAllJarFiles();
         for ( int i = 0; i < k.length; i++ ) {
