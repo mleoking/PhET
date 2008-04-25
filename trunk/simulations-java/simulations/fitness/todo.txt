@@ -1,12 +1,3 @@
-+Add foods/exercise
-    Marj will help
-+The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
-+Suggested food bag:  Hamburger, large fries, large soda (not supersize),
-    submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
-    apple, banana or orange, a serving of vegetables, slice of pizza, ?
-+Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
-Calorie editor dialogs should pop up down and to the left, to not obscure main area
-    should also be smaller
 Remove zoom handler
 Remove draggable triangles on bar chart
 number of calories of healthy diet should be editable
@@ -20,6 +11,13 @@ check FDA & related sites for food composition icons
 Should we allow option to show BMI in English units?
 +Constrain slider range
 +Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
++Add foods/exercise
+    -Marj will help
+    -The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
+    -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
+        submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
+        apple, banana or orange, a serving of vegetables, slice of pizza, ?
++Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart

@@ -49,7 +49,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessCanvas( final FitnessModel model ) {
+    public FitnessCanvas( final FitnessModel model, Frame parentFrame ) {
         super( new PDimension( 10, 10 ) );
 
         // Set the transform strategy in such a way that the center of the
@@ -75,7 +75,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
-        PNode caloriePanel = new CaloriePanel( model, this );
+        PNode caloriePanel = new CaloriePanel( model, this,parentFrame );
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         addScreenChild( caloriePanel );
 
