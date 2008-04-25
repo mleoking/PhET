@@ -4,11 +4,9 @@ package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.QuadCurve2D;
 
+import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.nuclearphysics2.model.ContainmentVessel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -25,7 +23,9 @@ public class ContainmentVesselNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    private static final float CONTAINMENT_VESSEL_STROKE_WIDTH = 8.0f; 
+    private static final float   CONTAINMENT_VESSEL_STROKE_WIDTH = 8.0f; 
+    private static final double  HANDLE_HEIGHT = 30; 
+    private static final float   HANDLE_WIDTH = 15; 
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -38,6 +38,10 @@ public class ContainmentVesselNode extends PNode {
     private CubicCurve2D _mainVesselTop;
     private CubicCurve2D _mainVesselBottom;
     private PPath _mainVesselNode;
+    
+    // A node that represents a handle that the user can grab to change the
+    // size of the containment vessel.
+    private HandleNode _handle;
     
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -54,8 +58,15 @@ public class ContainmentVesselNode extends PNode {
             }
             public void enableStateChanged(boolean isEnabled){
                 _mainVesselNode.setVisible( isEnabled );
+                _handle.setVisible( isEnabled );
             }
         });
+        
+        // Create the handle for sizing the containment vessel.
+        _handle = new HandleNode(HANDLE_WIDTH, HANDLE_HEIGHT, Color.GRAY);
+        _handle.setVisible( _containmentVessel.getIsEnabled() );
+        _handle.rotate( Math.PI * 1.22 );
+        addChild(_handle);
         
         // Create the shape that represents the containment vessel.
         _mainVesselTop = new CubicCurve2D.Double();
@@ -75,6 +86,7 @@ public class ContainmentVesselNode extends PNode {
         // TODO: JPB TBD - Figure out how to calculate aperture height.
         double apertureHeight = 30;
         
+        // Set the size of the containment vessel.
         double aperturePosX = Math.sqrt( radius * radius - (apertureHeight/2) * (apertureHeight/2) );
         
         _mainVesselTop.setCurve(
@@ -93,5 +105,9 @@ public class ContainmentVesselNode extends PNode {
 
         _mainVesselNode = new PPath(_mainVesselTop, new BasicStroke(CONTAINMENT_VESSEL_STROKE_WIDTH));
         _mainVesselNode.append( _mainVesselBottom, true );
+        
+        // Set the position of the handle.
+//        _handle.setOffset( radius * Math.cos( Math.PI / 4 ), radius * Math.sin( Math.PI / 4 ) );
+      _handle.setOffset( radius * 0.82, radius * 0.92 );
     }
 }
