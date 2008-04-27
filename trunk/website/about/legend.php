@@ -46,7 +46,11 @@ class LegendPage extends SitePage {
                         </tr>
 
                         <tr>
-                            <td>$gold_star_html</td>    <td><strong>Gold Star Contribution</strong>: Gold Star Contribution: This contribution has received a Gold Star for its quality and usefulness to many teachers.</td>
+                            <td>$gold_star_html</td>    <td><strong>Gold Star Contribution</strong>: 
+                            This contribution has received a Gold Star
+                            because it is a high quality inquiry-based activity that follows the
+                            <a href="../teacher_ideas/contribution-guidelines.pdf">PhET design guidelines</a>
+                            and teachers have found it useful.</td>
                         </tr>
 
                         <tr>
@@ -55,8 +59,10 @@ class LegendPage extends SitePage {
                     </tbody>
                 </table>
             </div>
+
 EOT;
     }
+
 }
 
 $page = new LegendPage("Legend", NAV_ABOUT_PHET, null);
