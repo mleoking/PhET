@@ -1,9 +1,17 @@
 High Priority:
+
 Graphs
     Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
     Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
     Need a reset graph only button
     Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
+Is this a known bug: 'restart' button should clear graph
+    - click 'reset all', wait a couple seconds, then click 'restart': graph
+      lines are still there, but are drawn over
+To emphasize the meaning of the bar charts, you might have big labels on
+    the left and right of the center line of the bar chart: 'Diet' on the
+    left and 'Exercise' on the right (perhaps with the 'edit' buttons below
+    the labels)
 Add foods/exercise
     -Marj is helping with this
     -The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
@@ -11,9 +19,17 @@ Add foods/exercise
         submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
         apple, banana or orange, a serving of vegetables, slice of pizza, ?
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
+    the learning goal seems too easy: to figure out "How long do you have to
+    bike/walk to burn a certain number of calories?", you just have to look
+    at the number of kcal/day in the text of the exercise type.
+        might be better to ask how long it would take to lose 10 lbs?
 Number of calories of healthy diet should be editable
 Fix Time scale (perhaps slow down)
 Performance: consider profiling or changing clock rate
+Is it true that I can eat a hamburger per day above a 'healthy diet', and
+  have a steady weight (though a ~10 lb gain) after about three years?
+    - to see this, click 'reset all', wait until you're 23 years old, then
+      add a hamburger per day.
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart
