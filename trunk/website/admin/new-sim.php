@@ -1,6 +1,5 @@
 <?php
 
-    include_once("../admin/global.php");
 include_once("../admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
