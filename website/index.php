@@ -11,14 +11,14 @@
     include_once(SITE_ROOT."admin/cache-utils.php");
     include_once(SITE_ROOT."admin/authentication.php");
 
-    auth_do_validation();
-    cache_auto_start();
-
     include_once(SITE_ROOT."./admin/sim-utils.php");
     include_once(SITE_ROOT."./admin/web-utils.php");
     include_once(SITE_ROOT."./admin/site-utils.php");
 
     chdir($original_dir);
+
+    auth_do_validation();
+    cache_auto_start();
 
     $referrer           = $_SERVER['PHP_SELF'];
     $utility_panel_html = get_sitewide_utility_html('.');
