@@ -239,10 +239,13 @@ EOT;
         print <<<EOT
             </div>
 
-            <h3>Nominations</h3>
+            <h3>Nominations for Gold Star</h3>
 
-            <p><em>Contributions that meet the Gold Star criteria may be nominated as Gold Star contributions to direct teachers toward them and to recognize the teachers that created them.</em></p>
-
+            <p><em>
+                Gold Star contributions are high quality inquiry-based activities that follow the
+                <a href="contribution-guidelines.pdf">PhET design guidelines</a> and that teachers
+                find useful.
+            </em></p>
             <p><a href="javascript:void;" onclick="$(this).parent().next().toggle(300); return false;">Nominate this contribution as a Gold Star Activity</a></p>
 
             <div id="nominate-contribution" style="display: none;">
