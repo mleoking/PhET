@@ -2,10 +2,10 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-faraday, version 2.00.03
+faraday 2.00.03
 </b></big></big>
 <p>
-<b>Run a simulation (English):</b>
+<b>Click to run English versions:</b>
 <ul>
 <li><a href="faraday.jnlp">Faraday's Electromagnetic Lab</a>
 <li><a href="magnet-and-compass.jnlp">Magnet and Compass</a>
