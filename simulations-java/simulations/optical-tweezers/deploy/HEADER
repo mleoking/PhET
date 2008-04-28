@@ -16,5 +16,6 @@ Click to run English versions:
 <ul>
 <li>redeployed to fix Greek and Portuguese translations (Unfuddle #141)
 <li>pick up change to PhetDefaultFont so that default font is "Lucida Sans" plain 12pt on all platforms
+<li>add PhetLookAndFeel to mains
 </ul>
 </html>
