@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-bound-states 1.03.01
+bound-states 1.03.02
 </b></big></big>
 <p>
 Click to run English versions:
@@ -14,7 +14,6 @@ Click to run English versions:
 <b>What's new:</b>
 <p>
 <ul>
-<li>republish dev version to confirm that this fixes translations, as described in Unfuddle #534
 <li>change PhetDefaultFont to "Lucida Sans" plain 12pt on all platforms
 </ul>
 <p>
