@@ -3,7 +3,7 @@ Change history for optical-tweezers
 ================================================================================
 
 DONE:
-********* version 2.01.00 (21025)
+********* version 2.01.00 (?)
 4/28/08 - add PhetLookAndFeel to main
 4/28/08 - pick up fix to PhetDefaultFont so that preferred fonts are derived properly
 4/28/08 - pick up change to PhetDefaultFont so that default font is "Lucida Sans" plain 12pt on all platforms
