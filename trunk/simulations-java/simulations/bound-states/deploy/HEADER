@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-bound-states 1.03.00
+bound-states 1.03.01
 </b></big></big>
 <p>
 Click to run English versions:
@@ -15,9 +15,7 @@ Click to run English versions:
 <b>What's new:</b>
 <p>
 <ul>
-<li>
-</ul>
-<p>
+<li>republish dev version to confirm that this fixes translations, as described in Unfuddle #534
 <b>Known problems:</b>
 <ul>
 <li>none
