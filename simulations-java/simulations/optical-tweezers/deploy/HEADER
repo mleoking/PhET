@@ -14,6 +14,7 @@ Click to run English versions:
 <b>What's new:</b>
 <p>
 <ul>
-<li>no changes, redeployed to fix Greek and Portuguese translations (Unfuddle #141)
+<li>redeployed to fix Greek and Portuguese translations (Unfuddle #141)
+<li>pick up change to PhetDefaultFont so that default font is "Lucida Sans" plain 12pt on all platforms
 </ul>
 </html>
