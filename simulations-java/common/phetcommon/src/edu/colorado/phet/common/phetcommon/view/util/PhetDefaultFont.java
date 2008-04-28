@@ -129,7 +129,7 @@ public class PhetDefaultFont extends Font {
             for ( int k = 0; preferredFont == null && k < fonts.size(); k++ ) {
                 Font o = (Font) fonts.get( k );
                 if ( o.getName().equals( preferredFontName ) ) {
-                    preferredFont = o.deriveFont( defaultFont.getSize() );
+                    preferredFont = o.deriveFont( defaultFont.getStyle(), defaultFont.getSize2D() );
                 }
             }
         }
