@@ -82,6 +82,7 @@ CLEANUP:
 
 
 DONE:
+4/28/08 - add PhetLookAndFeel to main
 ******** 0.00.15 (20952)
 4/24/08 - organized imports
 4/24/08 - move tools and toolbox nodes to a new package

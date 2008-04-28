@@ -21,6 +21,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.opticalquantumcontrol.help.ExplanationDialog;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
@@ -128,6 +129,10 @@ public class OpticalQuantumControlApplication extends PhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
+                
+                // Initialize look-and-feel
+                PhetLookAndFeel laf = new PhetLookAndFeel();
+                laf.initLookAndFeel();
 
                 PhetApplicationConfig config = new PhetApplicationConfig( args, OQCConstants.FRAME_SETUP, OQCResources.getResourceLoader() );
 

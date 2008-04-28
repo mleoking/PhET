@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.fourier.control.OptionsMenu;
 import edu.colorado.phet.fourier.module.D2CModule;
 import edu.colorado.phet.fourier.module.DiscreteModule;
@@ -224,6 +225,11 @@ public class FourierApplication extends PhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
+                
+                // Initialize look-and-feel
+                PhetLookAndFeel laf = new PhetLookAndFeel();
+                laf.initLookAndFeel();
+                
                 PhetApplicationConfig config = new PhetApplicationConfig( args, FourierConstants.FRAME_SETUP, FourierResources.getResourceLoader() );
 
                 // Create the application.
