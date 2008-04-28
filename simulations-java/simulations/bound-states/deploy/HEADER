@@ -15,6 +15,7 @@ Click to run English versions:
 <p>
 <ul>
 <li>republish dev version to confirm that this fixes translations, as described in Unfuddle #534
+<li>change PhetDefaultFont to "Lucida Sans" plain 12pt on all platforms
 </ul>
 <p>
 <b>Known problems:</b>
