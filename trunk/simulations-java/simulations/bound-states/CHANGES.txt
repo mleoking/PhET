@@ -5,7 +5,7 @@ Change history for bound-states project
 DONE:
 ********* version 1.03.01 (21013)
 4/28/08 - pick up fix to PhetDefaultFont so that preferred fonts are derived properly
-4/28/08 - pick up fix to PhetDefaultFont so that default is not bold on Windows
+4/28/08 - pick up fix to PhetDefaultFont so we use "Ludica Sans" plain 12pt on all platforms
 4/28/08 - republish dev version to confirm that this fixes translations [#534]
 12/21/07 - delete BSLauncher and associated localized strings, replaced by phetcommon FlavorLauncher
 12/4/07 - rename main classes to be consistent with flavor names
