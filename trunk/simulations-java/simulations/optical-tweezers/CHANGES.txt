@@ -3,7 +3,8 @@ Change history for optical-tweezers
 ================================================================================
 
 DONE:
-********* version 2.01.00 (21003)
+********* version 2.01.00 (?)
+4/28/08 - pick up fix to PhetDefaultFont so that preferred fonts are derived properly
 4/28/08 - pick up fix to PhetDefaultFont so that default is not bold on Windows
 4/28/08 - redeploy production version to fix translations (Unfuddle #141)
 ********* version 2.00.01 (20988)
