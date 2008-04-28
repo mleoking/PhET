@@ -42,7 +42,7 @@ public abstract class BSAbstractControlPanel extends ControlPanel {
      */
     public BSAbstractControlPanel( BSAbstractModule module ) {
         super();
-        setInsets( new Insets( 0, 3, 0, 3 ) );
+        setInsets( new Insets( 0, 3, 0, 3 ) ); // top, left, bottom, right
         _module = module;
     }
 

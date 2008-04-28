@@ -3,6 +3,8 @@ Change history for bound-states project
 ===============================================================================
 
 DONE:
+********* version 1.03.03 (?)
+4/28/08 - reduce vertical spacing between sub-control panels to zero
 ********* version 1.03.02 (21022)
 4/28/08 - pick up fix to PhetDefaultFont so we use "Ludica Sans" plain 12pt on all platforms
 ********* version 1.03.01 (21013)
