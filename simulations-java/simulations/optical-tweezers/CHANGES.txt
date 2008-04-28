@@ -3,7 +3,7 @@ Change history for optical-tweezers
 ================================================================================
 
 DONE:
-********* version 2.01.00 (20994)
+********* version 2.01.00 (?)
 4/28/08 - redeploy production version to fix translations (Unfuddle #141)
 ********* version 2.00.01 (20988)
 4/28/08 - publish dev version to test translations (Unfuddle #141)
