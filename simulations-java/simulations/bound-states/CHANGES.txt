@@ -3,7 +3,7 @@ Change history for bound-states project
 ===============================================================================
 
 DONE:
-********* version 1.03.01 (?)
+********* version 1.03.01 (21013)
 4/28/08 - pick up fix to PhetDefaultFont so that preferred fonts are derived properly
 4/28/08 - pick up fix to PhetDefaultFont so that default is not bold on Windows
 4/28/08 - republish dev version to confirm that this fixes translations [#534]
