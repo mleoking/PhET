@@ -116,7 +116,7 @@ EOT;
 
 }
 
-$page = new SearchPage("Search results", NAV_NOT_SPECIFIED, get_referrer());
+$page = new SearchPage("Search results", NAV_NOT_SPECIFIED, get_referrer(), SP_AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 
