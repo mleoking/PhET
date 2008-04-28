@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 public class PhetDefaultFont extends Font {
     
     // we'll use this font if we have no font preference, or if no preferred font is installed
-    private static final Font FALLBACK_FONT = new Font( "LucidaSans", Font.PLAIN, 12 );
+    private static final Font FALLBACK_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
     
     // the font used to create instances of PhetDefaultFont
     private static final Font DEFAULT_FONT = createDefaultFont();
