@@ -55,7 +55,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
     
     private static final int INDENTATION = 10; // pixels
     
-    private static final int SUBPANEL_SPACING = 5; // pixels
+    private static final int SUBPANEL_SPACING = 0; // pixels
 
     // Color key
     private static final int COLOR_KEY_SPACING = 7; // pixels, space between checkbox and color key
