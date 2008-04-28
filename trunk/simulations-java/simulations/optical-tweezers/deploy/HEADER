@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-optical-tweezers 2.00.01
+optical-tweezers 2.01.00
 </b></big></big>
 <p>
 Click to run English versions:
@@ -14,6 +14,6 @@ Click to run English versions:
 <b>What's new:</b>
 <p>
 <ul>
-<li>test Greek and Portuguese translations (Unfuddle #141)
+<li>no changes, redeployed to fix Greek and Portuguese translations (Unfuddle #141)
 </ul>
 </html>
