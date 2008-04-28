@@ -1,3 +1,7 @@
+New in 1.04.01 (4-28-08)
+Picked up fixes in PhetDefaultFont
+
+
 10-5-2007: reduced padding between components to remove scrollbars at 1024x768
 10-5-2007: reduced barrier thickness
 10-5-2007: reduced graph size slightly
