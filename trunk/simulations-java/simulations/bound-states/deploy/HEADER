@@ -11,11 +11,12 @@ Click to run English versions:
 <li><a href="band-structure.jnlp">Band Structure</a>
 </ul>
 <p>
-<p>
 <b>What's new:</b>
 <p>
 <ul>
 <li>republish dev version to confirm that this fixes translations, as described in Unfuddle #534
+</ul>
+<p>
 <b>Known problems:</b>
 <ul>
 <li>none
