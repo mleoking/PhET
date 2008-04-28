@@ -4,6 +4,7 @@ Changes for faraday
 
 
 DONE:
+********* version 2.01.00 (?)
 ********* version 2.00.04 (21033)
 4/28/08 - add PhetLookAndFeel to mains
 4/28/08 - pick up PhetDefaultFont fixes
