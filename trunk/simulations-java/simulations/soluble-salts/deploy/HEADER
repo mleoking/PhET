@@ -7,13 +7,14 @@ soluble salts 1.03.01
 <p>
 <b>Click to run English versions:</b>
 <ul>
-<li><a href="soluble-salts.jnlp">Soluble Salts</a>
+<li><a href="soluble-salts.jnlp">Salts & Solubility</a>
 </ul>
 <p>
 <b>What's new:</b>
 <p>
 <ul>
 <li>PhetDefaultFont fixes in common code
+<li>add PhetLookAndFeel to main
 </ul>
 <p>
 <b>Known problems:</b>
