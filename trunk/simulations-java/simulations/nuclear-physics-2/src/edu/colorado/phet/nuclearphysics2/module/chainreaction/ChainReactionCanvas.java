@@ -85,7 +85,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         addWorldChild( _nucleusLayer );
         
         // Add a node that will depict the containment vessel.
-        addWorldChild(new ContainmentVesselNode(_chainReactionModel.getContainmentVessel()));
+        addWorldChild(new ContainmentVesselNode(_chainReactionModel.getContainmentVessel(), this));
         
         // Add the neutron source to the canvas.
         _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 55);

@@ -20,8 +20,9 @@ public class ContainmentVessel {
     //------------------------------------------------------------------------
     
     private static final double CONTAINMENT_RANGE = 10;  // In femtometers.
-    private static final double APERTURE_HEIGHT = 20;    // In femtometers.
-    private static final double APERTURE_WIDTH = CONTAINMENT_RANGE * 1.5;  // In femtometers.
+    private static final double APERTURE_HEIGHT = 22;    // In femtometers.
+    private static final double APERTURE_WIDTH = CONTAINMENT_RANGE * 2.0;  // In femtometers.
+    private static final double MINIMUM_RADIUS = 20;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -74,13 +75,15 @@ public class ContainmentVessel {
     }
     
     public void setRadius(double radius){
-        _radius = radius;
-        notifiyRadiusChanged();
+        if (radius > MINIMUM_RADIUS){
+            _radius = radius;
+            notifiyRadiusChanged();
+            updateApertureRect();
+        }
     }
     
-    public Rectangle2D getAperatureRect(){
-        return new Rectangle2D.Double(_apertureRect.getX(), _apertureRect.getY(), _apertureRect.getWidth(),
-                _apertureRect.getHeight());
+    public Rectangle2D getAperatureRectReference(){
+        return _apertureRect;
     }
     
     /**
@@ -164,7 +167,8 @@ public class ContainmentVessel {
      * containment vessel.
      */
     private void updateApertureRect(){
-        _apertureRect.setFrame( -_radius - (APERTURE_WIDTH / 2), -APERTURE_HEIGHT, APERTURE_WIDTH, APERTURE_HEIGHT ); 
+        _apertureRect.setFrame( -_radius - (APERTURE_WIDTH / 2), -APERTURE_HEIGHT / 2, APERTURE_WIDTH, 
+                APERTURE_HEIGHT ); 
     }
     
     private void notifiyRadiusChanged(){
