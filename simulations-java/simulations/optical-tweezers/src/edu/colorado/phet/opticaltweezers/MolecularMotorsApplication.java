@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.opticaltweezers.module.motors.MotorsModule;
 import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
 import edu.colorado.phet.opticaltweezers.persistence.MolecularMotorsConfig;
@@ -136,6 +137,10 @@ public class MolecularMotorsApplication extends OTAbstractApplication {
 
             public void run() {
 
+                // Initialize look-and-feel
+                PhetLookAndFeel laf = new PhetLookAndFeel();
+                laf.initLookAndFeel();
+                
                 PhetApplicationConfig config = new PhetApplicationConfig( args, OTConstants.FRAME_SETUP, OTResources.getResourceLoader(), OTConstants.FLAVOR_MOLECULAR_MOTORS );
 
                 // Create the application.

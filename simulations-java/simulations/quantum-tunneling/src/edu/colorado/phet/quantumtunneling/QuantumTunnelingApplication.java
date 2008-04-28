@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.quantumtunneling.color.BlackColorScheme;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
@@ -238,6 +239,10 @@ public class QuantumTunnelingApplication extends PhetApplication {
 
             public void run() {
 
+                // Initialize look-and-feel
+                PhetLookAndFeel laf = new PhetLookAndFeel();
+                laf.initLookAndFeel();
+                
                 // Config
                 PhetApplicationConfig config = new PhetApplicationConfig( args, QTConstants.FRAME_SETUP,  QTResources.getResourceLoader() );
 

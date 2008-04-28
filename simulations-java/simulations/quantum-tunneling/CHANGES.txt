@@ -3,6 +3,7 @@ Change history for quantum-tunneling
 ===============================================================================
 
 DONE:
+4/28/08 - add PhetLookAndFeel to main
 ********* version 1.09.00 (18718)
 11/29/07 - change name to "Quantum Tunneling and Wave Packets"
 11/9/07 - move about.credits property to localization file

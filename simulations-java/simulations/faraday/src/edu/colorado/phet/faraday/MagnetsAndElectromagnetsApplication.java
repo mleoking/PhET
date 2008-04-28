@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.BarMagnetModule;
@@ -74,6 +75,11 @@ public class MagnetsAndElectromagnetsApplication extends PiccoloPhetApplication 
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
+                
+                // Initialize look-and-feel
+                PhetLookAndFeel laf = new PhetLookAndFeel();
+                laf.initLookAndFeel();
+                
                 PhetApplicationConfig config = new PhetApplicationConfig( args, FaradayConstants.FRAME_SETUP, 
                         FaradayResources.getResourceLoader(), FaradayConstants.FLAVOR_MAGNETS_AND_ELECTROMAGNETS );
 
