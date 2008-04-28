@@ -7,7 +7,7 @@ import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 public class PhetDefaultFont extends Font {
     
     // we'll use this font if we have no font preference, or if no preferred font is installed
-    private static final Font FALLBACK_FONT = new JLabel().getFont();
+    private static final Font FALLBACK_FONT = new JPanel().getFont();
     
     // the font used to create instances of PhetDefaultFont
     private static final Font DEFAULT_FONT = createDefaultFont();
