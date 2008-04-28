@@ -2,7 +2,7 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-faraday 2.00.03
+faraday 2.00.04
 </b></big></big>
 <p>
 <b>Click to run English versions:</b>
@@ -16,7 +16,7 @@ faraday 2.00.03
 <b>What's new:</b>
 <p>
 <ul>
-<li>this is a special version that has the "Show Field" and "Show Electrons" features hidden (for Archie Paulson's studies)
+<li>PhetDefaultFont fixes in common code
 </ul>
 <p>
 <b>Known problems:</b>
