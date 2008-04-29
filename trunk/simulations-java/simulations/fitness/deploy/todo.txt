@@ -68,7 +68,7 @@ Weight text box needs more columns.
 Can't read "protein" word on the bar chart
 Need better carbs pic for bar chart
 Time readout at bottom should be years, not seconds.
-
+Crashes on mac, see email
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart
