@@ -22,6 +22,9 @@ public class DefaultResourceLoader extends AbstractResourceLoader {
      * @return BufferedImage
      */
     public BufferedImage getImage( String resource ) {
+        if ( resource == null || resource.length() == 0 ) {
+            throw new IllegalArgumentException( "null or zero-length resource name" );
+        }
         BufferedImage image = null;
         try {
             image = ImageLoader.loadBufferedImage( resource );
@@ -40,6 +43,9 @@ public class DefaultResourceLoader extends AbstractResourceLoader {
      * @return PhetAudioClip
      */
     public PhetAudioClip getAudioClip( String resource ) {
+        if ( resource == null || resource.length() == 0 ) {
+            throw new IllegalArgumentException( "null or zero-length resource name" );
+        }
         return new PhetAudioClip( resource );
     }
 }
