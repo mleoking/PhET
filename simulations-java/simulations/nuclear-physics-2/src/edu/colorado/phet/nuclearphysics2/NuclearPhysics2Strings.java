@@ -62,4 +62,6 @@ public class NuclearPhysics2Strings {
     public static final String DECAY_TIME_CHART_HALF_LIFE = NuclearPhysics2Resources.getString( "DecayTimeChart.HalfLife" );
 
     public static final String RESET_NUCLEUS = NuclearPhysics2Resources.getString( "SharedLabels.ResetNucleus" );
+    
+    public static final String PERCENT_FISSIONED_LABEL = NuclearPhysics2Resources.getString( "MultipleNucleusFissionControlPanel.FissionPercentLabel" );
 }

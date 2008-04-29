@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -107,7 +108,7 @@ public class ChainReactionModel {
                 // Add this new neutron to the list of free particles and let
                 // any listeners know that it has come into existence.
                 _freeNeutrons.add( neutron );
-                sendAddedNotifications( neutron );
+                notifyModelElementAdded( neutron );
             }
             public void positionChanged(){
                 // Ignore this, since we don't really care about it.
@@ -162,6 +163,53 @@ public class ChainReactionModel {
         nucleiList.addAll( _inactiveNuclei );
         return nucleiList;
     }
+    
+    /**
+     * Get the percentage of U235 nuclei that have fissioned.
+     */
+    public double getPercentageU235Fissioned(){
+        
+        double totalU235Nuclei = 0;
+        double fissionedU235Nuclei = 0;
+        
+        // First check the collection of active U235 nuclei.
+        for ( Iterator iterator = _u235Nuclei.iterator(); iterator.hasNext(); ) {
+            
+            // Increment the total count.
+            totalU235Nuclei++;
+            
+            Uranium235Nucleus nucleus = (Uranium235Nucleus) iterator.next();
+            
+            if ( nucleus.getNumNeutrons() < Uranium235Nucleus.ORIGINAL_NUM_NEUTRONS ){
+                // Fission has occurred, so increment the counter.
+                fissionedU235Nuclei++;
+            }
+        }
+        
+        // Now go through the daughter nuclei.
+        for ( Iterator iterator = _daughterNuclei.iterator(); iterator.hasNext(); ) {
+            
+            AtomicNucleus nucleus = (AtomicNucleus) iterator.next();
+            
+            if (nucleus instanceof Uranium235Nucleus){
+                // Increment the total count.
+                totalU235Nuclei++;
+                
+                if ( nucleus.getNumNeutrons() < Uranium235Nucleus.ORIGINAL_NUM_NEUTRONS ){
+                    // Fission has occurred, so increment the counter.
+                    fissionedU235Nuclei++;
+                }
+            }
+        }
+        
+        if (totalU235Nuclei == 0){
+            // There are no U235 nuclei present, to return 0 and thereby
+            // avoid any divide-by-zero issues.
+            return 0;
+        }
+        
+        return 100 * (fissionedU235Nuclei/totalU235Nuclei);
+    }
         
     //------------------------------------------------------------------------
     // Other Public Methods
@@ -189,24 +237,24 @@ public class ChainReactionModel {
         int i;
         
         for (i = 0; i < _freeNeutrons.size(); i++){
-            sendRemovalNotifications( _freeNeutrons.get( i ) );
+            notifyModelElementRemoved( _freeNeutrons.get( i ) );
         }
         _freeNeutrons.removeAll( _freeNeutrons );
         
         for (i = 0; i < _u235Nuclei.size(); i++){
-            sendRemovalNotifications( _u235Nuclei.get( i ) );
+            notifyModelElementRemoved( _u235Nuclei.get( i ) );
             ((AtomicNucleus)_u235Nuclei.get( i )).removedFromModel();
         }
         _u235Nuclei.removeAll( _u235Nuclei );
         
         for (i = 0; i < _u238Nuclei.size(); i++){
-            sendRemovalNotifications( _u238Nuclei.get( i ) );
+            notifyModelElementRemoved( _u238Nuclei.get( i ) );
             ((AtomicNucleus)_u238Nuclei.get( i )).removedFromModel();
         }
         _u238Nuclei.removeAll( _u238Nuclei );
         
         for (i = 0; i < _daughterNuclei.size(); i++){
-            sendRemovalNotifications( _daughterNuclei.get( i ) );
+            notifyModelElementRemoved( _daughterNuclei.get( i ) );
             ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
         }
         _daughterNuclei.removeAll( _daughterNuclei );
@@ -215,10 +263,9 @@ public class ChainReactionModel {
         // nucleus in the center.
         setNumU235Nuclei( 1 );
         
-        // Let listeners know that a reset has occurred.
-        for (i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get(i)).resetOccurred();
-        }
+        // Let listeners know that things have changed.
+        notifyPercentFissionedChanged();
+        notifyResetOccurred();
     }
     
     /**
@@ -253,7 +300,7 @@ public class ChainReactionModel {
                 AtomicNucleus nucleus = new Uranium235Nucleus(_clock, position, 0);
                 nucleus.setDynamic( false );
                 _u235Nuclei.add(nucleus);
-                sendAddedNotifications( nucleus );
+                notifyModelElementAdded( nucleus );
                 nucleus.addListener( new AtomicNucleus.Adapter(){
                     public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons,
                             ArrayList byProducts){
@@ -271,11 +318,16 @@ public class ChainReactionModel {
                 if (_u235Nuclei.size() > 0){
                     Object nucleus = _u235Nuclei.get( _u235Nuclei.size() - 1 );
                     _u235Nuclei.remove( nucleus );
-                    sendRemovalNotifications( nucleus );
+                    notifyModelElementRemoved( nucleus );
                 }
             }
         }
         
+        // This may have changed the percentage of fissioned nuclei, so send
+        // an update just in case.
+        notifyPercentFissionedChanged();
+        
+        // Return the number of U235 nuclei present.
         return _u235Nuclei.size();
     }
 
@@ -304,7 +356,7 @@ public class ChainReactionModel {
                 AtomicNucleus nucleus = new Uranium238Nucleus(_clock, position);
                 nucleus.setDynamic( false );
                 _u238Nuclei.add(nucleus);
-                sendAddedNotifications( nucleus );
+                notifyModelElementAdded( nucleus );
             }
         }
         else{
@@ -315,7 +367,7 @@ public class ChainReactionModel {
                 if (_u238Nuclei.size() > 0){
                     Object nucleus = _u238Nuclei.get( _u238Nuclei.size() - 1 );
                     _u238Nuclei.remove( nucleus );
-                    sendRemovalNotifications( nucleus );
+                    notifyModelElementRemoved( nucleus );
                 }
             }
         }
@@ -366,7 +418,7 @@ public class ChainReactionModel {
                 // need to take it off the list of free particles and let the
                 // view know that it has disappeared as a separate entity.
                 _freeNeutrons.remove( i );
-                sendRemovalNotifications( freeNucleon );
+                notifyModelElementRemoved( freeNucleon );
             }
             else if ((_containmentVessel.getIsEnabled() && 
                     _containmentVessel.isPositionContained( freeNucleon.getPosition() ))){
@@ -457,7 +509,7 @@ public class ChainReactionModel {
      * 
      * @param removedElement
      */
-    private void sendRemovalNotifications (Object removedElement){
+    private void notifyModelElementRemoved (Object removedElement){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get(i)).modelElementRemoved( removedElement );
         }
@@ -467,9 +519,29 @@ public class ChainReactionModel {
      * Notify listeners about the addition of an element to the model.
      * @param addedElement
      */
-    private void sendAddedNotifications (Object addedElement){
+    private void notifyModelElementAdded (Object addedElement){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get(i)).modelElementAdded( addedElement );
+        }
+    }
+
+    /**
+     * Notify listeners that the percentage of U235 that has fissioned has
+     * changed.
+     */
+    private void notifyPercentFissionedChanged(){
+        double percentU235Fissioned = getPercentageU235Fissioned();
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).percentageU235FissionedChanged(percentU235Fissioned);
+        }
+    }
+    
+    /**
+     * Notify listeners that the model has been reset.
+     */
+    private void notifyResetOccurred(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).resetOccurred();
         }
     }
     
@@ -483,15 +555,16 @@ public class ChainReactionModel {
      */
     private void handleU235AtomicWeightChange(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
             ArrayList byProducts){
+        
         if (byProducts != null){
             // There are some byproducts of this event that need to be
             // managed by this object.
             for (int i = 0; i < byProducts.size(); i++){
                 Object byProduct = byProducts.get( i );
                 if ((byProduct instanceof Neutron) || (byProduct instanceof Proton)){
-                    // Let any listeners know that this element has appeared
+                    // Let any listeners know that a new element has appeared
                     // separately in the model.
-                    sendAddedNotifications(byProduct);
+                    notifyModelElementAdded(byProduct);
                     
                     // Set a direction and velocity for this neutron.
                     double angle = (_rand.nextDouble() * Math.PI * 2);
@@ -506,7 +579,7 @@ public class ChainReactionModel {
                     // Save the new daughter and let any listeners
                     // know that it exists.
                     AtomicNucleus daughterNucleus = (AtomicNucleus)byProduct;
-                    sendAddedNotifications( daughterNucleus );
+                    notifyModelElementAdded( daughterNucleus );
 
                     // Set random but opposite directions for the produced
                     // nuclei.
@@ -529,6 +602,10 @@ public class ChainReactionModel {
                     assert (nucleus instanceof Uranium235Nucleus);
                     _u235Nuclei.remove( nucleus );
                     _daughterNuclei.add( nucleus );
+                    
+                    // Signal any listeners that the percentage of fissioned
+                    // U235 nuclei has probably changed.
+                    notifyPercentFissionedChanged();
                 }
                 else {
                     // We should never get here, debug it if it does.
@@ -578,6 +655,12 @@ public class ChainReactionModel {
          * 
          */
         public void resetOccurred();
+        
+        /**
+         * This method is called to inform listeners that a change has
+         * occurred in the percentage of U235 that has fissioned.
+         */
+        public void percentageU235FissionedChanged(double percentU235Fissioned);
     }
     
     /**
@@ -589,5 +672,6 @@ public class ChainReactionModel {
         public void modelElementAdded(Object modelElement){}
         public void modelElementRemoved(Object modelElement){}
         public void resetOccurred(){}
+        public void percentageU235FissionedChanged(double percentU235Fissioned){}
     }
 }
