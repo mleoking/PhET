@@ -1,3 +1,4 @@
+Fixed: Rename "fat-free mass" to "Other" or "non-fat" mass, sounds too much like "fat-free" used in foods.
 Fixed: Need better carbs pic for bar chart
 Fixed: Weight text box needs more columns.
 Renamed "activity" to "lifestyle" in the stacked bar chart
