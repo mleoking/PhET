@@ -39,6 +39,8 @@ public class ChainReactionModel {
     private static final double MAX_NUCLEUS_RANGE_X = 400;
     private static final double MAX_NUCLEUS_RANGE_Y = MAX_NUCLEUS_RANGE_X * 0.75;
     private static final double INTER_NUCLEUS_PROXIMITRY_LIMIT = 12;
+    private static final double INITIAL_CONTAINMENT_VESSEL_RADIUS = MAX_NUCLEUS_RANGE_X / 6;
+    private static final double CONTAINMENT_VESSEL_MARGIN = 12;
     
     // Constants that control the position of the neutron source.
     private static final double NEUTRON_SOURCE_POS_X = -50;
@@ -116,7 +118,7 @@ public class ChainReactionModel {
         });
         
         // Add the containment vessel to the model.
-        _containmentVessel = new ContainmentVessel((double)MAX_NUCLEUS_RANGE_X / 5);
+        _containmentVessel = new ContainmentVessel(INITIAL_CONTAINMENT_VESSEL_RADIUS);
     }
     
     //------------------------------------------------------------------------
@@ -452,7 +454,7 @@ public class ChainReactionModel {
             // Check if this point is available.
             boolean pointAvailable = true;
             if ((_containmentVessel.getIsEnabled() == true) && 
-                    ((Point2D.distance( xPos, yPos, 0, 0 )) > _containmentVessel.getRadius())){
+                    ((Point2D.distance( xPos, yPos, 0, 0 )) > (_containmentVessel.getRadius() - CONTAINMENT_VESSEL_MARGIN))){
                 pointAvailable = false;
             }
             if (NEUTRON_SOURCE_OFF_LIMITS_RECT.contains( position )){
