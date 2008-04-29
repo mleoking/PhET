@@ -178,7 +178,7 @@ public class StackedBarNode extends PNode {
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
             imageNode.setOffset( clip.getFullBounds().getWidth() / 2 - imageNode.getFullBounds().getWidth() / 2, 0 );
-            htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight()  );
+            htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight() );
             barThumb.setPathTo( thumbLocation.getThumbShape( barWidth ) );
         }
 

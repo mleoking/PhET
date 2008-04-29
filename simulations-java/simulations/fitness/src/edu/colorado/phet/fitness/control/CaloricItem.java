@@ -28,6 +28,6 @@ public class CaloricItem {
     }
 
     public String toString() {
-        return "name="+name+", image="+image+", cal="+cal;
+        return "name=" + name + ", image=" + image + ", cal=" + cal;
     }
 }

@@ -8,7 +8,7 @@ public class Activity {
     private String name;
     private double activityLevel;
     public static final Activity DEFAULT_ACTIVITY_LEVEL = new Activity( "Moderate Activity", 1.5 );
-    
+
     public static final Activity[] DEFAULT_ACTIVITY_LEVELS = {
             new Activity( "Very Sedentary", 1.3 ),
             new Activity( "Sedentary", 1.4 ),

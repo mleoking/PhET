@@ -2,10 +2,10 @@ package edu.colorado.phet.fitness.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.Human;
@@ -51,13 +51,13 @@ public class HeartNode extends PImage {
     private void updateSmile() {
         double optimalBMI = 21.5;//median of WHO values according to: http://en.wikipedia.org/wiki/Body_mass_index
         double distFromOptimal = Math.abs( human.getBMI() - optimalBMI );
-        Function.LinearFunction linearFunction=new Function.LinearFunction( 0,10,1,0);
+        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 10, 1, 0 );
 
         DoubleGeneralPath smile = new DoubleGeneralPath();
         double smileInsetScaleX = 0.3;
         double smileYFrac = 0.6;
 //        double happiness = ( human.getLeanMuscleMass() / 100.0 - 0.5 ) * 2;//between 0 and 1
-        double happiness = MathUtil.clamp( -0.5,linearFunction.evaluate( distFromOptimal ),1);
+        double happiness = MathUtil.clamp( -0.5, linearFunction.evaluate( distFromOptimal ), 1 );
         double controlPointDY = 50 * happiness;
         smile.moveTo( heart.getFullBounds().getWidth() * smileInsetScaleX, heart.getFullBounds().getHeight() * smileYFrac );
         smile.curveTo( heart.getFullBounds().getWidth() * 0.4, heart.getFullBounds().getHeight() * smileYFrac + controlPointDY,
