@@ -1,3 +1,7 @@
+4-28-2008: Quantum Bound States (1.04) - minor bug fixes (translations, default font)
+4-28-2008: Double Wells and Covalent Bonds (1.04) - minor bug fixes (translations, default font)
+4-28-2008: Band Structure (1.04) - minor bug fixes (translations, default font)
+4-28-2008: Ladybug Revolution (1.05) - minor bug fixes (translations, default font)
 4-28-2008: Faraday's Electromagnetic Lab (2.01) - minor bug fixes (translations, default font)
 4-28-2008: Generator (2.01) - minor bug fixes (translations, default font)
 4-28-2008: Magnets and Electromagnets (2.01) - minor bug fixes (translations, default font)
