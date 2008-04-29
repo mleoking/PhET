@@ -68,8 +68,7 @@ Is it true that I can eat a hamburger per day above a 'healthy diet', and
     - to see this, click 'reset all', wait until you're 23 years old, then
       add a hamburger per day.
 Food composition should lead to a change in the Fat Free Mass %
-Rename "fat-free mass" to "Other" or "non-fat" mass, sounds too much like " fat-free" used in foods.
-Weight text box needs more columns.
+Rename "fat-free mass" to "Other" or "non-fat" mass, sounds too much like "fat-free" used in foods.
 Can't read "protein" word on the bar chart
 Need better carbs pic for bar chart
 Time readout at bottom should be years, not seconds.
