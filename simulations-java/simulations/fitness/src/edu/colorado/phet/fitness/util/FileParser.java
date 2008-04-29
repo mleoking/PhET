@@ -1,5 +1,6 @@
 package edu.colorado.phet.fitness.util;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -51,7 +52,6 @@ public class FileParser {
     }
 
 
-
     private static class FoodItemParser implements IParser {
         public Object parseLine( String line ) {
             String name = line.substring( 0, line.indexOf( ":" ) );
@@ -87,11 +87,36 @@ public class FileParser {
             return new CaloricItem( name, image, cal );
         }
     }
+
     public static void main( String[] args ) throws IOException {
-        Object[] c = FileParser.getExerciseItems();
+        for ( int i = 0; i < 10; i++ ) {
+            System.out.println( "################\n" +
+                                "# Started iteration " + i + "\n" +
+                                "###############" );
+            iterateAll();
+        }
+
+
+    }
+
+    private static void iterateAll() {
+        CaloricFoodItem[] c = FileParser.getFoodItems();
         for ( int i = 0; i < c.length; i++ ) {
-            Object caloricFoodItem = c[i];
-            System.out.println( "i = " + i + ", c=" + caloricFoodItem );
+            System.out.println( "i = " + i + ", c=" + c[i] );
+            if ( c[i].getImage() != null && c[i].getImage().length() > 0 ) {
+                BufferedImage im = FitnessResources.getImage( c[i].getImage() );
+                System.out.println( "loaded image[" + i + "]=" + im );
+            }
+        }
+
+        CaloricItem[] ex = FileParser.getExerciseItems();
+        for ( int i = 0; i < ex.length; i++ ) {
+            CaloricItem caloricItem = ex[i];
+            System.out.println( "caloricItem = " + caloricItem );
+            if ( ex[i].getImage() != null && ex[i].getImage().length() > 0 ) {
+                BufferedImage im = FitnessResources.getImage( ex[i].getImage() );
+                System.out.println( "loaded image[" + i + "]=" + im );
+            }
         }
     }
 }
