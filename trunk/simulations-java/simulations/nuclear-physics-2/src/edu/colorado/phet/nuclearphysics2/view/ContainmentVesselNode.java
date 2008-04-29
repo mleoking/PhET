@@ -5,11 +5,9 @@ package edu.colorado.phet.nuclearphysics2.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Area;
-import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.QuadCurve2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Ellipse2D.Double;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -33,9 +31,13 @@ public class ContainmentVesselNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    private static final float   CONTAINMENT_VESSEL_THICKNESS = 8.0f; 
-    private static final double  HANDLE_HEIGHT = 30; 
-    private static final float   HANDLE_WIDTH = 15; 
+    private static final float        CONTAINMENT_VESSEL_THICKNESS = 8.0f; 
+    private static final double       HANDLE_HEIGHT = 30; 
+    private static final float        HANDLE_WIDTH = 20;
+    private static final float        HANDLE_THICKNESS = 7;
+    private static final BasicStroke  HANDLE_STROKE = new BasicStroke(1.5f);
+    private static final float        HANDLE_CORNER_WIDTH = 8;
+    private static final double       HANDLE_ANGLE = Math.PI / 4;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -87,43 +89,28 @@ public class ContainmentVesselNode extends PNode {
         });
         
         // Create a handle for sizing the containment vessel.
-        _upperRightHandle = new HandleNode(HANDLE_WIDTH, HANDLE_HEIGHT, Color.GRAY);
+        _upperRightHandle = new HandleNode(HANDLE_WIDTH, HANDLE_HEIGHT, HANDLE_THICKNESS, HANDLE_CORNER_WIDTH,
+                Color.GRAY, Color.BLACK, HANDLE_STROKE);
         _upperRightHandle.setVisible( _containmentVessel.getIsEnabled() );
-        _upperRightHandle.rotate( Math.PI * 0.79 );
+        _upperRightHandle.rotate( Math.PI - HANDLE_ANGLE );
         _upperRightHandle.addInputEventListener( new CursorHandler() );
         _upperRightHandle.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                
-                PDimension unitDimension = new PDimension( 1, 1 );
-                
-                _canvas.getCamera().getTransform().getTranslateX();
-                System.out.println(_canvas.getCamera().getTransform().getTranslateX());
-                
-                // Convert the radius to canvas coordinates so that we have
-                // the right units for setting the new size of the containment vessel.
-                _canvas.getPhetRootNode().screenToWorld( unitDimension );
-                double unitOfChange = unitDimension.getWidth();
-                
-                PDimension delta = event.getCanvasDelta();
-                
-                // TODO: JPB TBD - Just to get something happening.
-                _containmentVessel.setRadius( _containmentVessel.getRadius() + delta.width * unitOfChange );
+                handleMouseDraggedEvent( event );
             }
         } );
 
         addChild(_upperRightHandle);
         
         // Create a handle for sizing the containment vessel.
-        _lowerRightHandle = new HandleNode(HANDLE_WIDTH, HANDLE_HEIGHT, Color.GRAY);
+        _lowerRightHandle = new HandleNode(HANDLE_WIDTH, HANDLE_HEIGHT, HANDLE_THICKNESS, HANDLE_CORNER_WIDTH,
+                Color.GRAY, Color.BLACK, HANDLE_STROKE);
         _lowerRightHandle.setVisible( _containmentVessel.getIsEnabled() );
-        _lowerRightHandle.rotate( Math.PI * 1.22 );
+        _lowerRightHandle.rotate( Math.PI + HANDLE_ANGLE );
         _lowerRightHandle.addInputEventListener( new CursorHandler() );
         _lowerRightHandle.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                System.out.println("mouseDragged, canvas pos = " + event.getCanvasPosition());
-                System.out.println("mouseDragged, position = " + event.getPosition());
-                System.out.println("mouseDragged, delta = " + event.getDelta());
-                System.out.println("+++++++++++++");
+                handleMouseDraggedEvent( event );
             }
         } );
 
@@ -134,19 +121,36 @@ public class ContainmentVesselNode extends PNode {
         _mainVesselOuterEllipse = new Ellipse2D.Double();
         _mainVesselInnerEllipse = new Ellipse2D.Double();
         _mainVesselNode = new PPath(_mainVesselOuterEllipse);
-        setVesselNodeSizeAndPosition();
+        _mainVesselNode.addInputEventListener( new CursorHandler() );
+        _mainVesselNode.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                handleMouseDraggedEvent( event );
+            }
+        } );
         _mainVesselNode.setVisible( _containmentVessel.getIsEnabled() );
         _mainVesselNode.setPickable( true );
-        addChild(_mainVesselNode);        
+        addChild(_mainVesselNode);
+
+        // Set the initial size and position for the container.
+        setVesselNodeSizeAndPosition();
     }
     
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
+    
+    /**
+     * Set the size and position of the nodes and the various other pieces
+     * that ultimately depict the containment vessel.
+     * 
+     */
     private void setVesselNodeSizeAndPosition(){
         
         double radius = _containmentVessel.getRadius();
         Rectangle2D apertureRect = _containmentVessel.getAperatureRectReference();
+        
+        // Create the shape that represents the containment vessel based on
+        // the radius of the containment vessel in the model.
 
         _mainVesselInnerEllipse.setFrameFromDiagonal( -radius, -radius, radius, radius );
         _mainVesselOuterEllipse.setFrameFromDiagonal( -radius - CONTAINMENT_VESSEL_THICKNESS, 
@@ -159,9 +163,44 @@ public class ContainmentVesselNode extends PNode {
         _mainVesselNode.setPathTo( mainVesselArea );
         _mainVesselNode.setPaint( Color.BLACK );
         
-        // Set the position of the handles.
-      _lowerRightHandle.setOffset( radius * 0.82,  radius * 0.92 );
-      _upperRightHandle.setOffset( radius * 1.05, -radius * 0.60 );
+        // Set the positions for the handles.  The calculations are necessary
+        // to account for the fact that the locator point for the handle node
+        // is on the corner of it, not the center.
+        
+        double handleRadius = radius + HANDLE_WIDTH + (CONTAINMENT_VESSEL_THICKNESS / 2);
+        double handleAngle = HANDLE_ANGLE - Math.atan( (HANDLE_HEIGHT / 2 )/(radius + HANDLE_WIDTH) );
+        double xPos = handleRadius * Math.cos( handleAngle );
+        double yPos = -handleRadius * Math.sin( handleAngle );
+        _upperRightHandle.setOffset( xPos, yPos );
       
+        handleAngle = -HANDLE_ANGLE - Math.atan( (HANDLE_HEIGHT / 2 )/(radius + HANDLE_WIDTH) );
+        xPos = handleRadius * Math.cos( handleAngle );
+        yPos = -handleRadius * Math.sin( handleAngle );
+        _lowerRightHandle.setOffset( xPos,  yPos );
+    }
+    
+    /**
+     * Handle a mouse drag event, which for this node generally means that the
+     * containment vessel size is being changed.
+     */
+    private void handleMouseDraggedEvent(PInputEvent event){
+
+        final Point2D originPos = new Point2D.Double();
+        final Point2D beforePos = new Point2D.Double();
+        
+        // Calculate the change in distance relative to the center of the canvas.
+        originPos.setLocation( _canvas.getWidth() / 2, _canvas.getHeight() / 2 );
+        beforePos.setLocation( event.getPosition().getX() - event.getDelta().width,
+                event.getPosition().getY() - event.getDelta().height );
+        double distanceDelta = originPos.distance( event.getPosition() ) - originPos.distance( beforePos );
+        
+        // Convert the radius to canvas coordinates so that we have
+        // the right units for setting the new size of the containment vessel.
+        PDimension unitDimension = new PDimension( 1, 1 );
+        _canvas.getPhetRootNode().screenToWorld( unitDimension );
+        double unitOfChange = unitDimension.getWidth();
+        
+        // Set the new size for the containment vessel.
+        _containmentVessel.setRadius( _containmentVessel.getRadius() + distanceDelta * unitOfChange );
     }
 }
