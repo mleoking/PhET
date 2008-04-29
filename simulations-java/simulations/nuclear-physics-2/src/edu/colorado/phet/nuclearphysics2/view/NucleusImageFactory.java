@@ -43,6 +43,7 @@ public class NucleusImageFactory {
     //------------------------------------------------------------------------
  
     private static final int IMAGES_TO_CACHE = 4;
+    private static final double DEEFAULT_PIXELS_PER_FM = 20;
     
     private static final double NUCLEON_DIAMETER = 1.6; // Femtometers.
     private static final double ALPHA_PARTICLE_DIAMTER = 3.2; // Femtometers.
@@ -62,9 +63,27 @@ public class NucleusImageFactory {
     //------------------------------------------------------------------------
     
     /**
-     * Constructor for this singleton class, exists to defeat direct instantiation.
+     * Constructor for this singleton class, should never be invoked directly
+     * by another object.
      */
     private NucleusImageFactory(){
+        // During construction we fill the cache for several of the more
+        // common nuclei.  This saves us from doing it during run time, which
+        // was found to create pauses in the simulation.
+        for ( int i = 0; i < IMAGES_TO_CACHE; i++ ) {
+            // U235
+            generateNucleusImage( 92, 143, DEEFAULT_PIXELS_PER_FM );
+            // U236
+            generateNucleusImage( 92, 144, DEEFAULT_PIXELS_PER_FM );
+            // U238
+            generateNucleusImage( 92, 146, DEEFAULT_PIXELS_PER_FM );
+            // U239
+            generateNucleusImage( 92, 147, DEEFAULT_PIXELS_PER_FM );
+            // K92
+            generateNucleusImage( 36, 56, DEEFAULT_PIXELS_PER_FM );
+            // Br141
+            generateNucleusImage( 56, 85, DEEFAULT_PIXELS_PER_FM );
+        }
     }
     
     //------------------------------------------------------------------------
