@@ -1,3 +1,4 @@
+Fixed: Character Graphic: 180 lbs should look much fatter
 Fixed: Fix blinking stroke graphic on the character
 Fixed: Rename "fat-free mass" to "Other" or "non-fat" mass, sounds too much like "fat-free" used in foods.
 Fixed: Need better carbs pic for bar chart

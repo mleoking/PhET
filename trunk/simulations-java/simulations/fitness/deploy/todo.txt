@@ -1,6 +1,6 @@
 High Priority:
 
-I use a mac so I don' t know if it's just a difference in compatability, but when i access the diet window the sim crashes on me..
+I use a mac-when i access the diet window the sim crashes on me..
 I don't understand what the seconds at the bottom of the simulation is referring to.
     When it comes to a person's age, we tend to speak in years or days instead of seconds.
 The exercise function is great. Two questions on this, would it be informative for students
@@ -38,7 +38,6 @@ Graphs
     - 'restart' button should clear graph
             click 'reset all', wait a couple seconds, then click 'restart': graph
             lines are still there, but are drawn over
-Character Graphic: 180 lbs should look much fatter
 Layout for food summary panel should update after food removed
 Is this a known bug: 'restart' button should clear graph
     - click 'reset all', wait a couple seconds, then click 'restart': graph
@@ -62,10 +61,6 @@ Satisfy learning goal: How long do you have to bike/walk to burn a certain numbe
 Number of calories of healthy diet should be editable
 Fix Time scale (perhaps slow down)
 Performance: consider profiling or changing clock rate
-Is it true that I can eat a hamburger per day above a 'healthy diet', and
-  have a steady weight (though a ~10 lb gain) after about three years?
-    - to see this, click 'reset all', wait until you're 23 years old, then
-      add a hamburger per day.
 Food composition should lead to a change in the Fat Free Mass %
 Can't read "protein" word on the bar chart
 Time readout at bottom should be years, not seconds.
@@ -94,6 +89,10 @@ Should fat/fat free composition change based on diet & exercise?
     -emailed bill
 Should we allow option to show BMI in English units?
     -it looks like the universal unit for this is metric kg/m^2
+Is it true that I can eat a hamburger per day above a 'healthy diet', and
+  have a steady weight (though a ~10 lb gain) after about three years?
+    - to see this, click 'reset all', wait until you're 23 years old, then
+      add a hamburger per day.
 
 Bill 4/18/2008
 
