@@ -30,7 +30,8 @@ public class HumanAreaNode extends PNode {
     private Human human;
     private PhetPPath head;
     private PImage heart;
-    private PhetPPath areaNode = new PhetPPath( Color.white, new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Color.black );
+    private BasicStroke stroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
+    private PhetPPath areaNode = new PhetPPath( Color.white, stroke, Color.black );
 
     public HumanAreaNode( Human human ) {
         this.human = human;
@@ -84,7 +85,7 @@ public class HumanAreaNode extends PNode {
         bodyArea.add( new Area( createStomachShape( bodyShape ) ) );
 
         areaNode.setPathTo( bodyArea );
-        areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * human.getMass() / 75, 0.025f ) ) ) );
+        areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * human.getMass() / 75, 0.025f ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) );
 
         heart.setOffset( -heart.getFullBounds().getWidth() * 0.15, neckY + heart.getFullBounds().getHeight() * 1.25 );
     }

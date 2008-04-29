@@ -25,15 +25,17 @@ public class HumanNode extends PNode {
 
     public HumanNode( Human human ) {
         this.human = human;
-        leftLeg = new PhetPPath( new BasicStroke( 0.02f ), Color.black );
-        rightLeg = new PhetPPath( new BasicStroke( 0.02f ), Color.black );
+//        BasicStroke basicStroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 0.0001f );
+        BasicStroke basicStroke = new BasicStroke( 0.02f);
+        leftLeg = new PhetPPath( basicStroke, Color.black );
+        rightLeg = new PhetPPath( basicStroke, Color.black );
 
-        body = new PhetPPath( new BasicStroke( 0.02f ), Color.black );
+        body = new PhetPPath( basicStroke, Color.black );
 
-        leftArm = new PhetPPath( new BasicStroke( 0.02f ), Color.black );
-        rightArm = new PhetPPath( new BasicStroke( 0.02f ), Color.black );
+        leftArm = new PhetPPath( basicStroke, Color.black );
+        rightArm = new PhetPPath( basicStroke, Color.black );
 
-        head = new PhetPPath( new BasicStroke( 0.02f ), Color.black );
+        head = new PhetPPath( basicStroke, Color.black );
 
         addChild( head );
         addChild( leftArm );

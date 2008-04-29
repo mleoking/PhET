@@ -38,7 +38,6 @@ Graphs
     - 'restart' button should clear graph
             click 'reset all', wait a couple seconds, then click 'restart': graph
             lines are still there, but are drawn over
-Fix blinking stroke graphic on the character
 Character Graphic: 180 lbs should look much fatter
 Layout for food summary panel should update after food removed
 Is this a known bug: 'restart' button should clear graph
