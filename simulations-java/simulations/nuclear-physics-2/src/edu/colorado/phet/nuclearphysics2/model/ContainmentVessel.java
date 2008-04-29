@@ -20,9 +20,9 @@ public class ContainmentVessel {
     //------------------------------------------------------------------------
     
     private static final double CONTAINMENT_RANGE = 10;  // In femtometers.
-    private static final double APERTURE_HEIGHT = 22;    // In femtometers.
+    private static final double APERTURE_HEIGHT = 18;    // In femtometers.
     private static final double APERTURE_WIDTH = CONTAINMENT_RANGE * 2.0;  // In femtometers.
-    private static final double MINIMUM_RADIUS = 20;
+    private static final double MINIMUM_RADIUS = 15;
     
     //------------------------------------------------------------------------
     // Instance Data
