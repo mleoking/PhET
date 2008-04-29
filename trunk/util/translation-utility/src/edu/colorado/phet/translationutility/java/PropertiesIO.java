@@ -42,7 +42,7 @@ public class PropertiesIO {
     public static void writePropertiesToFile( Properties properties, File file ) throws PropertiesIOException {
         try {
             OutputStream outputStream = new FileOutputStream( file );
-            String header = file.getCanonicalPath();
+            String header = file.getName() + " created using PhET Translation Utility " + TUResources.getVersion();
             properties.store( outputStream, header );
             outputStream.close();
         }
