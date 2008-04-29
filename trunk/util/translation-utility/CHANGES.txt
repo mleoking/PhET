@@ -3,6 +3,9 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+********* version 0.02.00 (21098)
+4/29/08 - delete test JAR on VM exit [98]
+4/29/08 - properties file header: add version number, shorten filename [256]
 1/7/08 - get preferred fonts from PhetCommonResources.getPreferredFonts
 ********* version 0.01.00 (19216)
 1/2/08 - switch new language codes (he,yi,id) to old language codes (iw,ji,in) because java.util.Locale does this mapping
