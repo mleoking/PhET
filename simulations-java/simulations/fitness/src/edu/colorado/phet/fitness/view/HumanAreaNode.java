@@ -30,7 +30,7 @@ public class HumanAreaNode extends PNode {
     private Human human;
     private PhetPPath head;
     private PImage heart;
-    private BasicStroke stroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
+    private BasicStroke stroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER );
     private PhetPPath areaNode = new PhetPPath( Color.white, stroke, Color.black );
 
     public HumanAreaNode( Human human ) {
@@ -65,6 +65,8 @@ public class HumanAreaNode extends PNode {
         double neckY = -human.getHeight() + headHeight;
         double shoulderY = neckY + headHeight;
 
+        double m = getScaledMass();
+
         Line2D.Double leftLeg = ( new Line2D.Double( -distBetweenShoulders / 2, 0, 0, hipY ) );
         Line2D.Double rightLeg = ( new Line2D.Double( +distBetweenShoulders / 2, 0, 0, hipY ) );
         Line2D.Double body = ( new Line2D.Double( 0, hipY, 0, neckY ) );
@@ -73,8 +75,8 @@ public class HumanAreaNode extends PNode {
         Ellipse2D.Double head = ( new Ellipse2D.Double( -headWidth / 2, neckY - headHeight, headWidth, headHeight ) );
         this.head.setPathTo( head );
 
-        BasicStroke limbStroke = new BasicStroke( (float) ( 0.08f * human.getMass() / 75 ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-        BasicStroke bodyStroke = new BasicStroke( (float) ( 0.08f * human.getMass() / 75 * 1.2 ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        BasicStroke limbStroke = new BasicStroke( (float) ( 0.08f * m ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        BasicStroke bodyStroke = new BasicStroke( (float) ( 0.08f * m * 1.2 ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         Area bodyArea = new Area();
         bodyArea.add( new Area( limbStroke.createStrokedShape( leftLeg ) ) );
         bodyArea.add( new Area( limbStroke.createStrokedShape( rightLeg ) ) );
@@ -85,16 +87,22 @@ public class HumanAreaNode extends PNode {
         bodyArea.add( new Area( createStomachShape( bodyShape ) ) );
 
         areaNode.setPathTo( bodyArea );
-        areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * human.getMass() / 75, 0.025f ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND) );
+        areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * m, 0.025f ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
 
         heart.setOffset( -heart.getFullBounds().getWidth() * 0.15, neckY + heart.getFullBounds().getHeight() * 1.25 );
     }
 
+    //provides a mapping from human mass in KG to the arbitrary-scaled value for showing weight
+    //set this scale here as desired
+    //todo: could use nonlinear function if necessary
+    private double getScaledMass() {
+        return human.getMass() / 75 * 1.75;
+    }
+
     private Shape createStomachShape( Shape bodyShape ) {
         Rectangle2D bounds = bodyShape.getBounds2D();
-        double w = Math.max( 0.05 * 2 * human.getMass() / 75 / 2 - 0.05, 0 );
-        Ellipse2D.Double stomach = new Ellipse2D.Double( bounds.getX() - w / 2, bounds.getCenterY(), bounds.getWidth() + w, bounds.getHeight() / 2 );
-        return stomach;
+        double w = Math.max( 0.05 * 2 * getScaledMass() / 2 - 0.05, 0 );
+        return new Ellipse2D.Double( bounds.getX() - w / 2, bounds.getCenterY(), bounds.getWidth() + w, bounds.getHeight() / 2 );
     }
 
     public static void main( String[] args ) {
