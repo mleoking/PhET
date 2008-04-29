@@ -1,8 +1,16 @@
 High Priority:
 
-Hi Sam, I was looking at the simulation and was wondering a few things. I use a mac so I don' t know if it's just a difference in compatability,but when i access the diet window the sim crashes on me.. i think that this is something that might already be on the high priority list, but I don't understand what the seconds at the bottom of the simulation is referring to. When it comes to a person's age, we tend to speak in years or days instead of seconds.
-The exercise function is great. Two questions on this, would it be informative for studnets to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)  my other question is that as I add the exercise the graphs begin to change, but I can't see whats happening from the getgo because it runs while the exercise window is open. I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
-I was also wondering if there is a reason that when we open the simulation it automatically starts running the seconds. it seems like someone first using the sim would be most interested in seeing what their height and weight equates to and then they would begin to change features to see how that would affect them.
+I use a mac so I don' t know if it's just a difference in compatability, but when i access the diet window the sim crashes on me..
+I don't understand what the seconds at the bottom of the simulation is referring to.
+    When it comes to a person's age, we tend to speak in years or days instead of seconds.
+The exercise function is great. Two questions on this, would it be informative for students
+    to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
+as I add the exercise the graphs begin to change,
+    but I can't see whats happening from the getgo because it runs while the exercise window is open.
+    I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
+I was also wondering if there is a reason that when we open the simulation it automatically starts running the seconds.
+    it seems like someone first using the sim would be most interested in seeing what their height and weight equates to
+    and then they would begin to change features to see how that would affect them.
 
 - to emphasize the meaning of the bar charts, you might have big labels on
   the left and right of the center line of the bar chart: 'Diet' on the
@@ -13,10 +21,6 @@ I was also wondering if there is a reason that when we open the simulation it au
   bike/walk to burn a certain number of calories?", you just have to look
   at the number of kcal/day in the text of the exercise type.
     - might be better to ask how long it would take to lose 10 lbs?
-
-- is this a known bug: 'restart' button should clear graph
-    - click 'reset all', wait a couple seconds, then click 'restart': graph
-      lines are still there, but are drawn over
 
 - is it true that I can eat a hamburger per day above a 'healthy diet', and
   have a steady weight (though a ~10 lb gain) after about three years?
@@ -31,6 +35,9 @@ Graphs
     Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
     Rename to "caloric intake" and "caloric burn", make sure they don't overlap
     Graphs need to sync units with unit change button.
+    - 'restart' button should clear graph
+            click 'reset all', wait a couple seconds, then click 'restart': graph
+            lines are still there, but are drawn over
 Fix blinking stroke graphic on the character
 Character Graphic: 180 lbs should look much fatter
 Layout for food summary panel should update after food removed

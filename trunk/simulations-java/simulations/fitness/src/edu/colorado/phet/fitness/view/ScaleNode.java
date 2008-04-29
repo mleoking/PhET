@@ -84,7 +84,7 @@ public class ScaleNode extends PNode {
                     model.setUnits( FitnessModel.availableUnits[i1] );
                 }
             } );
-            model.addListener( new FitnessModel.Adapter () {
+            model.addListener( new FitnessModel.Adapter() {
                 public void unitsChanged() {
                     jRadioButton.setSelected( model.getUnits() == FitnessModel.availableUnits[i1] );
                 }

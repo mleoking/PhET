@@ -18,7 +18,6 @@ import edu.colorado.phet.fitness.view.HumanAreaNode;
 import edu.colorado.phet.fitness.view.ScaleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -50,7 +49,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     //----------------------------------------------------------------------------
 
     public FitnessCanvas( final FitnessModel model, Frame parentFrame ) {
-        super( new PDimension( 15,15) );
+        super( new PDimension( 15, 15 ) );
 
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
@@ -73,7 +72,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
-        PNode caloriePanel = new CaloriePanel( model, this,parentFrame );
+        PNode caloriePanel = new CaloriePanel( model, this, parentFrame );
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         addScreenChild( caloriePanel );
 

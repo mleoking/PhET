@@ -25,8 +25,8 @@ public class Diet {
         return fat;
     }
 
-    public double getTotal(){
-        return fat+carb+protein;
+    public double getTotal() {
+        return fat + carb + protein;
     }
 
     public double getCarb() {
