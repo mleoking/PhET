@@ -37,6 +37,7 @@ public class SummaryNode extends PNode {
                         break;//remove first match
                     }
                 }
+                relayout();
             }
         } );
     }
