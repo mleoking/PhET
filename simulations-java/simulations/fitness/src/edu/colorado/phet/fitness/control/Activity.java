@@ -14,7 +14,7 @@ public class Activity {
             new Activity( "Sedentary", 1.4 ),
             DEFAULT_ACTIVITY_LEVEL,
             new Activity( "Very Active", 1.6 ),
-            new Activity( "Competitive Athlete", 1.7 )
+            new Activity( "Athletic Lifestyle", 1.7 )
     };
 
 

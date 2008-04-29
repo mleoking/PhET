@@ -86,7 +86,7 @@ public class CaloriePanel extends PNode {
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
 //        exerciseBars.addElement( new BarChartElementAdapter( "<html><center>Basal<br>Metabolic<br>Rate<br>(BMR)</center></html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ,"heart2.png"), StackedBarNode.RIGHT );
         exerciseBars.addElement( new BarChartElementAdapter( "<html>Resting<br>(BMR)</html>", FitnessColorScheme.BMR, model.getHuman().getBmr(), "heart2.png" ), StackedBarNode.NONE );
-        exerciseBars.addElement( new BarChartElementAdapter( "Activity", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(), "j0417518.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( "Lifestyle", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(), "j0417518.png" ), StackedBarNode.NONE );
         exerciseBars.addElement( new BarChartElementAdapter( "Exercise", FitnessColorScheme.EXERCISE, model.getHuman().getExercise(), "road_biker.png" ), StackedBarNode.NONE );
 
         stackedBarChart.addStackedBarNode( intakeBars );
@@ -97,7 +97,7 @@ public class CaloriePanel extends PNode {
         addChild( foodNode );
 
         exerciseNode = new CalorieNode( parentFrame, "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" ) {
-            protected CalorieSelectionPanel createCalorieSelectionPanel() {
+            protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new ExerciseSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }
         };

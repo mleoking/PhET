@@ -67,8 +67,6 @@ Is it true that I can eat a hamburger per day above a 'healthy diet', and
   have a steady weight (though a ~10 lb gain) after about three years?
     - to see this, click 'reset all', wait until you're 23 years old, then
       add a hamburger per day.
-Rename "activity" to "lifestyle" in the stacked bar chart
-    remove confusing "professional athlete" option
 Food composition should lead to a change in the Fat Free Mass %
 Rename "fat-free mass" to "Other" or "non-fat" mass, sounds too much like " fat-free" used in foods.
 Weight text box needs more columns.

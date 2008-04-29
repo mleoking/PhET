@@ -61,13 +61,13 @@ public class CalorieNode extends PNode {
 
     protected void createDialog() {
         this.dialog = new JDialog( parentFrame, false );
-        CalorieSelectionPanel panel = createCalorieSelectionPanel();
+        ICalorieSelectionPanel panel = createCalorieSelectionPanel();
         panel.addListener( new CalorieSelectionPanel.Listener() {
             public void donePressed() {
                 dialog.hide();
             }
         } );
-        dialog.setContentPane( panel );
+        dialog.setContentPane( (JPanel)panel );//todo: remove need for cast
         dialog.pack();
         dialog.setSize( 1024, 400 );
 
@@ -79,7 +79,7 @@ public class CalorieNode extends PNode {
         dialog.setBounds( dialogBounds );
     }
 
-    protected CalorieSelectionPanel createCalorieSelectionPanel() {
+    protected ICalorieSelectionPanel createCalorieSelectionPanel() {
         return new CalorieSelectionPanel( available, calorieSet, availableTitle, selectedTitle );
     }
 

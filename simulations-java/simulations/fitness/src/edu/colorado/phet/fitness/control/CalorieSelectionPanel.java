@@ -24,7 +24,7 @@ import edu.colorado.phet.fitness.view.FitnessColorScheme;
  * Created by: Sam
  * Apr 23, 2008 at 10:35:43 AM
  */
-public class CalorieSelectionPanel extends JPanel {
+public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPanel{
     private ArrayList listeners = new ArrayList();
 
     public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected, String availableTitle, String selectedTitle ) {
