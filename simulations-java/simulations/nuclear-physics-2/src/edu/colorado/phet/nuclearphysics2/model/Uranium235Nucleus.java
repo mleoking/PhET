@@ -84,7 +84,7 @@ public class Uranium235Nucleus extends AtomicNucleus{
             if (_dynamic){
                 freeParticle.setTunnelingEnabled( true );
             }
-            freeParticle.setPosition( getPosition() );
+            freeParticle.setPosition( getPositionRef() );
             freeParticle.setVelocity( 0, 0 );
             _constituents.add( freeParticle );
             _numFreeNeutrons++;
