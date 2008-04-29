@@ -56,6 +56,7 @@ public class FitnessModule extends PiccoloModule {
         _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel.setRestartButtonVisible( false );
         JButton button = new JButton( "Reset All" );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

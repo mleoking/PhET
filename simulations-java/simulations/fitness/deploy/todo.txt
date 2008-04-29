@@ -1,5 +1,4 @@
 High Priority:
-
 The exercise function is great. Two questions on this, would it be informative for students
     to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
 As I add the exercise the graphs begin to change,
@@ -10,12 +9,12 @@ Graphs
     Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
         Set graph units to years
     Need a reset graph only button
+    Reset all needs to clear graphs
+        click 'reset all', wait a couple seconds, then click 'restart': graph
+        lines are still there, but are drawn over
     Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
     Rename to "caloric intake" and "caloric burn", make sure they don't overlap
     Graphs need to sync units with unit change button.
-    - 'restart' button should clear graph
-            click 'reset all', wait a couple seconds, then click 'restart': graph
-            lines are still there, but are drawn over
 To emphasize the meaning of the bar charts, you might have big labels on
     the left and right of the center line of the bar chart: 'Diet' on the
     left and 'Exercise' on the right (perhaps with the 'edit' buttons below

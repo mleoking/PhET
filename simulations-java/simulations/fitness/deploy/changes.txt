@@ -1,3 +1,4 @@
+Removed "Restart" button from clock controls
 Fixed: Sim should not be running on startup
 Reduced simulation rate to 30% of previous rate
 Added other base options for diet, including "none"
