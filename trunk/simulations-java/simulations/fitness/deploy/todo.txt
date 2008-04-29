@@ -49,7 +49,6 @@ Satisfy learning goal: How long do you have to bike/walk to burn a certain numbe
     at the number of kcal/day in the text of the exercise type.
         might be better to ask how long it would take to lose 10 lbs?
 Number of calories of healthy diet should be editable
-Fix Time scale (perhaps slow down)
 Performance: consider profiling or changing clock rate
 Food composition should lead to a change in the Fat Free Mass %
 Can't read "protein" word on the bar chart
