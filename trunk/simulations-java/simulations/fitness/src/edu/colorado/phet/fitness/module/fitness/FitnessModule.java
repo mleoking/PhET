@@ -36,7 +36,7 @@ public class FitnessModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public FitnessModule( Frame parentFrame ) {
-        super( FitnessStrings.TITLE_FITNESS_MODULE, new ConstantDtClock( FitnessDefaults.CLOCK_DELAY, FitnessDefaults.CLOCK_DT ) );
+        super( FitnessStrings.TITLE_FITNESS_MODULE, new ConstantDtClock( FitnessDefaults.CLOCK_DELAY, FitnessDefaults.CLOCK_DT ), FitnessDefaults.STARTS_PAUSED );
 
         // Model
         _model = new FitnessModel( (ConstantDtClock) getClock() );
@@ -123,8 +123,7 @@ public class FitnessModule extends PiccoloModule {
         ConstantDtClock clock = _model.getClock();
         clock.resetSimulationTime();
         clock.setDt( FitnessDefaults.CLOCK_DT );
-        setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
-
+        setClockRunningWhenActive( !FitnessDefaults.STARTS_PAUSED );
     }
 
     //----------------------------------------------------------------------------
