@@ -1,6 +1,8 @@
 High Priority:
-The exercise function is great. Two questions on this, would it be informative for students
-    to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
+Exercise Selection:
+    The exercise function is great. Two questions on this, would it be informative for students
+        to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
+    Improve layout of exercise and calories selection panels, so that things line up and there are no scroll bars    
 As I add the exercise the graphs begin to change,
     but I can't see whats happening from the getgo because it runs while the exercise window is open.
     I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
@@ -13,12 +15,8 @@ Graphs
         click 'reset all', wait a couple seconds, then click 'restart': graph
         lines are still there, but are drawn over
     Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
-    Rename to "caloric intake" and "caloric burn", make sure they don't overlap
+    Rename readouts to "caloric intake" and "caloric burn", make sure they don't overlap
     Graphs need to sync units with unit change button.
-To emphasize the meaning of the bar charts, you might have big labels on
-    the left and right of the center line of the bar chart: 'Diet' on the
-    left and 'Exercise' on the right (perhaps with the 'edit' buttons below
-    the labels)
 Add foods/exercise
     -The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
     -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
@@ -31,8 +29,13 @@ Satisfy learning goal: How long do you have to bike/walk to burn a certain numbe
         might be better to ask how long it would take to lose 10 lbs?
 Number of calories of healthy diet should be editable
 Food composition should lead to a change in the Fat Free Mass %
-Can't read "protein" word on the bar chart
-Bar chart should have numeric readouts
+Bar chart
+    Can't read "protein" word on the bar chart
+    Bar chart should have numeric readouts
+    To emphasize the meaning of the bar charts, you might have big labels on
+        the left and right of the center line of the bar chart: 'Diet' on the
+        left and 'Exercise' on the right (perhaps with the 'edit' buttons below
+        the labels)
 Time readout at bottom should be years, not seconds.
         When it comes to a person's age, we tend to speak in years or days instead of seconds.
 Performance: consider profiling or changing clock rate
