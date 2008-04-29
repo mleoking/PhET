@@ -3,7 +3,7 @@ Change history for bound-states project
 ===============================================================================
 
 DONE:
-********* version 1.04.00 (?)
+********* version 1.04.00 (21058)
 ********* version 1.03.03 (21046)
 4/28/08 - reduce vertical spacing between sub-control panels to zero
 ********* version 1.03.02 (21022)
