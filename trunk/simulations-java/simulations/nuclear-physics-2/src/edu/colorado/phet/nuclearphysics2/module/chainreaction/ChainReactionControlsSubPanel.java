@@ -4,30 +4,25 @@ package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
-import edu.colorado.phet.nuclearphysics2.view.LabeledNucleusNode;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * This class defines a subpanel that goes on the main control panel for the
@@ -45,6 +40,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
     //------------------------------------------------------------------------
     private LinearValueControl _u235AmountControl;
     private LinearValueControl _u238AmountControl;
+    private JTextField         _percentFissioned;
     private ChainReactionModel _model;
 
     //------------------------------------------------------------------------
@@ -61,6 +57,10 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
             public void resetOccurred(){
                 _u235AmountControl.setValue( _model.getNumU235Nuclei() );
                 _u238AmountControl.setValue( _model.getNumU238Nuclei() );                
+            }
+            public void percentageU235FissionedChanged(double percentU235Fissioned){
+                DecimalFormat formatter = new DecimalFormat( "##0.00" );
+                _percentFissioned.setText( new String (formatter.format(percentU235Fissioned) + "%" ));
             }
         });
         
@@ -128,5 +128,16 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
             }
         } );
         add(_u238AmountControl);
+        
+        // Add the percentage fissioned information.
+        JPanel fissionInfoPanel = new JPanel();
+        JLabel percentFissionedLabel = new JLabel(NuclearPhysics2Strings.PERCENT_FISSIONED_LABEL);
+        fissionInfoPanel.add(percentFissionedLabel);
+        _percentFissioned = new JTextField( 5 );
+        _percentFissioned.setHorizontalAlignment( JTextField.RIGHT );
+        _percentFissioned.setText( "0" );
+        _percentFissioned.setEditable( false );
+        fissionInfoPanel.add(_percentFissioned);
+        add(fissionInfoPanel);
     }
 }
