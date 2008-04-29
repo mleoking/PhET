@@ -44,6 +44,7 @@ public class Human {
     private double activityLevel = Activity.DEFAULT_ACTIVITY_LEVEL.getValue();
     private ITemporalVariable caloricIntakeVariable = new DefaultTemporalVariable();
     private ITemporalVariable caloricBurnVariable = new DefaultTemporalVariable();
+    private CaloricFoodItem defaultIntake;
 
     public double getActivityLevel() {
         return activityLevel;
@@ -59,6 +60,10 @@ public class Human {
 
     public ITemporalVariable getCaloricBurnVariable() {
         return caloricBurnVariable;
+    }
+
+    public CaloricFoodItem getDefaultIntake() {
+        return defaultIntake;
     }
 
     public static class ReferenceHuman {
@@ -156,7 +161,10 @@ public class Human {
         Diet initialDiet = FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
         foodItems.clear();
         exerciseItems.clear();
-        foodItems.addItem( new CaloricFoodItem( "healthy diet", "balanced.png", initialDiet.getTotal(), initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false ) );//todo: standardize constructor units
+        if ( defaultIntake == null ) {//todo: change to single instance so that view/controller can observe it
+            defaultIntake = new CaloricFoodItem( "healthy diet", "balanced.png", initialDiet.getTotal(), initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
+        }
+        foodItems.addItem( defaultIntake );//todo: standardize constructor units
         updateIntake();
     }
 

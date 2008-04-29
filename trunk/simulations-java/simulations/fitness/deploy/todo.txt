@@ -1,8 +1,5 @@
 High Priority:
 
-I use a mac-when i access the diet window the sim crashes on me..
-I don't understand what the seconds at the bottom of the simulation is referring to.
-    When it comes to a person's age, we tend to speak in years or days instead of seconds.
 The exercise function is great. Two questions on this, would it be informative for students
     to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
 as I add the exercise the graphs begin to change,
@@ -21,11 +18,6 @@ I was also wondering if there is a reason that when we open the simulation it au
   bike/walk to burn a certain number of calories?", you just have to look
   at the number of kcal/day in the text of the exercise type.
     - might be better to ask how long it would take to lose 10 lbs?
-
-- is it true that I can eat a hamburger per day above a 'healthy diet', and
-  have a steady weight (though a ~10 lb gain) after about three years?
-    - to see this, click 'reset all', wait until you're 23 years old, then
-      add a hamburger per day.
 
 Graphs
     Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
@@ -51,7 +43,6 @@ Add foods/exercise
     -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
         submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
         apple, banana or orange, a serving of vegetables, slice of pizza, ?
-    -Add other base options for diet, including "none"
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
     the learning goal seems too easy: to figure out "How long do you have to
     bike/walk to burn a certain number of calories?", you just have to look
@@ -63,7 +54,9 @@ Performance: consider profiling or changing clock rate
 Food composition should lead to a change in the Fat Free Mass %
 Can't read "protein" word on the bar chart
 Time readout at bottom should be years, not seconds.
+        When it comes to a person's age, we tend to speak in years or days instead of seconds.
 Crashes on mac, see email
+    I use a mac-when i access the diet window the sim crashes on me..
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart

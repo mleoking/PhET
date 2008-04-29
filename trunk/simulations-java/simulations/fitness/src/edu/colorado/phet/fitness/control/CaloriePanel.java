@@ -94,7 +94,11 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        foodNode = new CalorieNode( parentFrame, "Edit Diet", new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" );
+        foodNode = new CalorieNode( parentFrame, "Edit Diet", new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" ){
+            protected ICalorieSelectionPanel createCalorieSelectionPanel() {
+                return new FoodSelectionPanel(model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
+            }
+        };
         addChild( foodNode );
 
         exerciseNode = new CalorieNode( parentFrame, "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" ) {
