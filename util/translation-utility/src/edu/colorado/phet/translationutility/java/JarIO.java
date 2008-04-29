@@ -220,6 +220,7 @@ public class JarIO {
         }
         
         File testFile = new File( newJarFileName );
+        testFile.deleteOnExit(); // temporary file, delete when the VM exits
         try {
             // input comes from the original JAR file
             JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
