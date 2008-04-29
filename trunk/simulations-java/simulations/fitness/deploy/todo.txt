@@ -1,10 +1,20 @@
 High Priority:
 
+Hi Sam, I was looking at the simulation and was wondering a few things. I use a mac so I don' t know if it's just a difference in compatability,but when i access the diet window the sim crashes on me.. i think that this is something that might already be on the high priority list, but I don't understand what the seconds at the bottom of the simulation is referring to. When it comes to a person's age, we tend to speak in years or days instead of seconds.
+The exercise function is great. Two questions on this, would it be informative for studnets to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)  my other question is that as I add the exercise the graphs begin to change, but I can't see whats happening from the getgo because it runs while the exercise window is open. I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
+I was also wondering if there is a reason that when we open the simulation it automatically starts running the seconds. it seems like someone first using the sim would be most interested in seeing what their height and weight equates to and then they would begin to change features to see how that would affect them.
+
 Graphs
     Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
     Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
+        Set graph units to years
     Need a reset graph only button
     Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
+    Rename to "caloric intake" and "caloric burn", make sure they don't overlap
+    Graphs need to sync units with unit change button.
+Fix blinking stroke graphic on the character
+Character Graphic: 180 lbs should look much fatter
+Layout for food summary panel should update after food removed
 Is this a known bug: 'restart' button should clear graph
     - click 'reset all', wait a couple seconds, then click 'restart': graph
       lines are still there, but are drawn over
@@ -18,6 +28,7 @@ Add foods/exercise
     -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
         submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
         apple, banana or orange, a serving of vegetables, slice of pizza, ?
+    -Add other base options for diet, including "none"
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
     the learning goal seems too easy: to figure out "How long do you have to
     bike/walk to burn a certain number of calories?", you just have to look
@@ -30,6 +41,15 @@ Is it true that I can eat a hamburger per day above a 'healthy diet', and
   have a steady weight (though a ~10 lb gain) after about three years?
     - to see this, click 'reset all', wait until you're 23 years old, then
       add a hamburger per day.
+Rename "activity" to "lifestyle" in the stacked bar chart
+    remove confusing "professional athlete" option
+Food composition should lead to a change in the Fat Free Mass %
+Rename "fat-free mass" to "Other" or "non-fat" mass, sounds too much like " fat-free" used in foods.
+Weight text box needs more columns.
+Can't read "protein" word on the bar chart
+Need better carbs pic for bar chart
+Time readout at bottom should be years, not seconds.
+
 
 Med Priority:
 +Add a legend for caloric breakdown pie chart
