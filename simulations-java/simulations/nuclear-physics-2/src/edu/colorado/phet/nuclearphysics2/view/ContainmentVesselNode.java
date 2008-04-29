@@ -32,11 +32,12 @@ public class ContainmentVesselNode extends PNode {
     //------------------------------------------------------------------------
     
     private static final float        CONTAINMENT_VESSEL_THICKNESS = 8.0f; 
-    private static final double       HANDLE_HEIGHT = 30; 
-    private static final float        HANDLE_WIDTH = 20;
-    private static final float        HANDLE_THICKNESS = 7;
+    private static final double       HANDLE_HEIGHT = 25; 
+    private static final float        HANDLE_WIDTH = 17;
+    private static final float        HANDLE_THICKNESS = 5;
     private static final BasicStroke  HANDLE_STROKE = new BasicStroke(1.5f);
-    private static final float        HANDLE_CORNER_WIDTH = 8;
+    private static final float        HANDLE_CORNER_WIDTH = 6;
+    private static final Color        HANDLE_COLOR = Color.LIGHT_GRAY;
     private static final double       HANDLE_ANGLE = Math.PI / 4;
     
     //------------------------------------------------------------------------
@@ -90,7 +91,7 @@ public class ContainmentVesselNode extends PNode {
         
         // Create a handle for sizing the containment vessel.
         _upperRightHandle = new HandleNode(HANDLE_WIDTH, HANDLE_HEIGHT, HANDLE_THICKNESS, HANDLE_CORNER_WIDTH,
-                Color.GRAY, Color.BLACK, HANDLE_STROKE);
+                HANDLE_COLOR, Color.BLACK, HANDLE_STROKE);
         _upperRightHandle.setVisible( _containmentVessel.getIsEnabled() );
         _upperRightHandle.rotate( Math.PI - HANDLE_ANGLE );
         _upperRightHandle.addInputEventListener( new CursorHandler() );
@@ -104,7 +105,7 @@ public class ContainmentVesselNode extends PNode {
         
         // Create a handle for sizing the containment vessel.
         _lowerRightHandle = new HandleNode(HANDLE_WIDTH, HANDLE_HEIGHT, HANDLE_THICKNESS, HANDLE_CORNER_WIDTH,
-                Color.GRAY, Color.BLACK, HANDLE_STROKE);
+                HANDLE_COLOR, Color.BLACK, HANDLE_STROKE);
         _lowerRightHandle.setVisible( _containmentVessel.getIsEnabled() );
         _lowerRightHandle.rotate( Math.PI + HANDLE_ANGLE );
         _lowerRightHandle.addInputEventListener( new CursorHandler() );
