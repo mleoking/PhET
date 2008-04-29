@@ -540,7 +540,7 @@ public class FissionEnergyChart extends PComposite {
             yPos = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
             
             // Figure out X position of the larger daughter nucleus.
-            Point2D nucleusPosition = _model.getAtomicNucleus().getPosition();
+            Point2D nucleusPosition = _model.getAtomicNucleus().getPositionRef();
             PDimension nucleusDistanceDim = new PDimension(nucleusPosition.getX(), nucleusPosition.getX());
             _canvas.getPhetRootNode().worldToScreen( nucleusDistanceDim );
             xPos = _usableAreaOriginX/2 + _usableWidth/2 + nucleusDistanceDim.getWidth();
@@ -556,7 +556,7 @@ public class FissionEnergyChart extends PComposite {
             
             // Figure out X position of the smaller daughter nucleus.
             if (_daughterNucleus != null){
-                nucleusPosition = _daughterNucleus.getPosition();
+                nucleusPosition = _daughterNucleus.getPositionRef();
                 nucleusDistanceDim = new PDimension(nucleusPosition.getX(), nucleusPosition.getX());
                 _canvas.getPhetRootNode().worldToScreen( nucleusDistanceDim );
                 xPos = _usableAreaOriginX/2 + _usableWidth/2 + nucleusDistanceDim.getWidth();

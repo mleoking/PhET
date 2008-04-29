@@ -146,6 +146,17 @@ public class ContainmentVessel {
         return contained;
     }
     
+    /**
+     * Locate the nearest point at the containment radius to the provided
+     * point.
+     * 
+     * @param point - Point to locate a contained point nearby.
+     */
+    public Point2D getNearestContainmentPoint(Point2D point){
+        double angle = Math.atan2( point.getY(), point.getX() );
+        return new Point2D.Double( Math.cos( angle ) * _radius, Math.sin( angle ) * _radius );
+    }
+    
     public void addListener(Listener listener)
     {
         if (_listeners.contains( listener ))

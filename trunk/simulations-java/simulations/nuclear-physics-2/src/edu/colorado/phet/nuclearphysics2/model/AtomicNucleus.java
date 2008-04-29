@@ -175,12 +175,13 @@ public abstract class AtomicNucleus {
     // Accessor methods
     //------------------------------------------------------------------------
 
-    public Point2D getPosition(){
+    public Point2D getPositionRef(){
         return _position;
     }
     
     public void setPosition(Point2D newPosition){
         _position.setLocation( newPosition );
+        notifyPositionChanged();
     }
     
     public void setVelocity( double xVel, double yVel){
@@ -200,6 +201,10 @@ public abstract class AtomicNucleus {
 
     public Vector2D.Double getAcceleration(){
         return new Vector2D.Double(_xAcceleration, _yAcceleration);
+    }
+    
+    public Vector2D.Double getVelocity(){
+        return new Vector2D.Double(_xVelocity, _yVelocity);
     }
     
     public ArrayList getConstituents(){

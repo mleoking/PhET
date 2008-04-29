@@ -50,8 +50,8 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
         super.update();
 
         if (_displayImage != null){
-            _displayImage.setOffset( _atomicNucleus.getPosition().getX() - _atomicNucleus.getDiameter()/2,  
-                    _atomicNucleus.getPosition().getY() - _atomicNucleus.getDiameter()/2);
+            _displayImage.setOffset( _atomicNucleus.getPositionRef().getX() - _atomicNucleus.getDiameter()/2,  
+                    _atomicNucleus.getPositionRef().getY() - _atomicNucleus.getDiameter()/2);
         }
     }
 }
