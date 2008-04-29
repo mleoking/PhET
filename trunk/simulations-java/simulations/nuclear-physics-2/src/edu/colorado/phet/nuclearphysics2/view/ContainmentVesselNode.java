@@ -81,6 +81,7 @@ public class ContainmentVesselNode extends PNode {
         _containmentVessel.addListener( new ContainmentVessel.Listener(){
             public void radiusChanged(double newRadius){
                 setVesselNodeSizeAndPosition();
+                _canvas.repaint();
             }
             public void enableStateChanged(boolean isEnabled){
                 _mainVesselNode.setVisible( isEnabled );
