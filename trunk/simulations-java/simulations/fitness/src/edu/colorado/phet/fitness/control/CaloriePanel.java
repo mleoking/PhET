@@ -80,7 +80,8 @@ public class CaloriePanel extends PNode {
 
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         intakeBars.addElement( new BarChartElementAdapter( "Lipids", FitnessColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif" ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "j0410455.gif" ), StackedBarNode.NONE );
+//        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "j0410455.gif" ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png" ), StackedBarNode.NONE );
         intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif" ), StackedBarNode.NONE );
 
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
