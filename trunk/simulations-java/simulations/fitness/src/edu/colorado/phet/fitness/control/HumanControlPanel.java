@@ -88,7 +88,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         final double minWeight = 0;
         final double maxWeight = 300;
         final HumanSlider weightControl = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), "Weight", "0.00", model.getUnits().getMassUnit() );
-        weightControl.setColumns( 4 );
+        weightControl.setColumns( 5 );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setMass( model.getUnits().viewToModelMass( weightControl.getValue() ) );
