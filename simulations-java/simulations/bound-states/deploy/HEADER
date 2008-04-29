@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-bound-states 1.03.03
+bound-states 1.04.00
 </b></big></big>
 <p>
 Click to run English versions:
@@ -14,9 +14,7 @@ Click to run English versions:
 <b>What's new:</b>
 <p>
 <ul>
-<li>reduce vertical spacing between subpanels of control panel to zero,
-in an effort to get rid of scrollbars for Windows users who are running at 1024x768 resolution
-(and really get 1024x738)
+<li>same as 1.03.03, published to PhET website
 </ul>
 <p>
 <b>Known problems:</b>
