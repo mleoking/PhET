@@ -130,7 +130,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( fatMassPercent );
 
-        final HumanSlider fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Fat Free Mass", "0.00", "%" );
+//        final HumanSlider fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Fat Free Mass", "0.00", "%" );
+        final HumanSlider fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Other Mass", "0.00", "%" );
         fatFreeMassPercent.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setFatMassPercent( 100 - fatFreeMassPercent.getValue() );
