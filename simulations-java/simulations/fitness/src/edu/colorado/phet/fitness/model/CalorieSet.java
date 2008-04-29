@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.fitness.control.CaloricItem;
+import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 
 /**
  * Created by: Sam
@@ -68,6 +69,12 @@ public class CalorieSet {
         }
     }
 
+    public void removeAll( CaloricFoodItem[] baseDiets ) {
+        for ( int i = 0; i < baseDiets.length; i++ ) {
+            removeItem( baseDiets[i] );
+        }
+    }
+
     public static interface Listener {
         void itemAdded( CaloricItem item );
 
@@ -82,5 +89,9 @@ public class CalorieSet {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).itemAdded( item );
         }
+    }
+
+    public boolean contains( CaloricItem item ) {
+        return list.contains( item );
     }
 }

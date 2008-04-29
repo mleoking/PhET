@@ -24,11 +24,8 @@ public class ExerciseSelectionPanel extends JPanel implements ICalorieSelectionP
         this.human = human;
 
         JPanel activityLevels = new ActivityLevelsPanel();
-        //todo: fix layout with respect to parent, breaks encapsulation
         add( activityLevels, new GridBagConstraints( 0, 0, 1, 1, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 1, 1, 1, 1 ), 0, 0 ), 0 );
         add( calorieSelectionPanel, new GridBagConstraints( 0, 1, 1, 1, 1, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
-//        add(activityLevels);
-//        add(calorieSelectionPanel);
     }
 
     public void addListener( CalorieSelectionPanel.Listener listener ) {
