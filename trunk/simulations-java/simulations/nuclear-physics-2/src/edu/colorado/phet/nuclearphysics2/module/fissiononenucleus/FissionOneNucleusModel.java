@@ -80,7 +80,7 @@ public class FissionOneNucleusModel {
         
         // Register as a listener to the neutron source so that we know when
         // new neutrons are generated.
-        _neutronSource.addListener( new NeutronSource.Listener (){
+        _neutronSource.addListener( new NeutronSource.Adapter (){
             public void neutronGenerated(Neutron neutron){
                 // Add this new neutron to the list of free particles.  It
                 // should already be represented in the view and thus does

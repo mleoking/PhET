@@ -27,6 +27,9 @@ public class NeutronSource {
     // Location in space of this particle.
     private Point2D.Double _position;
     
+    // Angle, in radians, at which the neutron should be fired.
+    private double _firingAngle = 0;
+    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -42,6 +45,24 @@ public class NeutronSource {
 
     public Point2D getPosition(){
         return new Point2D.Double(_position.getX(), _position.getY());
+    }
+    
+    public void setPosition( double xPos, double yPos ){
+        if ((xPos != _position.getX()) || (yPos != _position.getY())){
+            _position.setLocation( xPos, yPos );
+            notifyPositionChanged();
+        }
+    }
+    
+    public double getFiringAngle(){
+        return _firingAngle;
+    }
+    
+    public void setFiringAngle(double angle){
+        if (angle != _firingAngle){
+            _firingAngle = angle;
+            notifyOrientationChanged();
+        }
     }
 
     //------------------------------------------------------------------------
@@ -61,7 +82,32 @@ public class NeutronSource {
     
     public static interface Listener {
         void positionChanged();
+        void orientationChanged();
         void neutronGenerated(Neutron newNeutron);
+    }
+    
+    public static class Adapter implements Listener {
+        public void positionChanged(){};
+        public void orientationChanged(){};
+        public void neutronGenerated(Neutron newNeutron){};
+    }
+    
+    public void notifyPositionChanged(){
+        for ( int i = 0; i < _listeners.size(); i++ ) {
+            ((NeutronSource.Listener)_listeners.get( i )).positionChanged();            
+        }
+    }
+
+    public void notifyOrientationChanged(){
+        for ( int i = 0; i < _listeners.size(); i++ ) {
+            ((NeutronSource.Listener)_listeners.get( i )).orientationChanged();            
+        }
+    }
+
+    public void notifyNeutronGenerated(Neutron newNeutron){
+        for ( int i = 0; i < _listeners.size(); i++ ) {
+            ((NeutronSource.Listener)_listeners.get( i )).neutronGenerated( newNeutron );            
+        }
     }
 
     //------------------------------------------------------------------------
@@ -72,11 +118,10 @@ public class NeutronSource {
      * Commands the neutron source to generate a new neutron.
      */
     public void generateNeutron(){
-        Neutron newNeutron = new Neutron(_position.x, _position.y, NEUTRON_VELOCITY, 0, false);
         
-        for (int i = 0; i < _listeners.size(); i++){
-            // Notify listeners of new particle.
-            ((NeutronSource.Listener)_listeners.get( i )).neutronGenerated( newNeutron );
-        }
+        Neutron newNeutron = new Neutron(_position.x, _position.y, NEUTRON_VELOCITY * Math.cos( _firingAngle ),
+                NEUTRON_VELOCITY * Math.sin( _firingAngle ), false);
+        
+        notifyNeutronGenerated( newNeutron );
     }
 }

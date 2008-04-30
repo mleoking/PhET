@@ -171,7 +171,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         
         // Register as a listener with the neutron source so that we will know
         // when new neutrons have been produced.
-        fissionOneNucleusModel.getNeutronSource().addListener( new NeutronSource.Listener (){
+        fissionOneNucleusModel.getNeutronSource().addListener( new NeutronSource.Adapter (){
             public void neutronGenerated(Neutron neutron){
                 // Add this new neutron to the canvas.
                 NeutronNode neutronNode = new NeutronNode(neutron);
