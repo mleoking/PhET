@@ -8,7 +8,6 @@ DESIGN ISSUES (user interface):
 HIGH PRIORITY:
 - divide ice into separate shapes for above and below the ELA
 - morph or move ice textures to show downvalley motion
-- marker flags as first test of motion (distance=velocity*dt)
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
@@ -81,6 +80,8 @@ CLEANUP:
 
 
 DONE:
+4/30/08 - deactivate tools (in model) while they are being dragged
+4/30/08 - add motion model for tracer flags
 4/30/08 - explicitly set font styles & sizes for control panels
 4/28/08 - add PhetLookAndFeel to main
 ******** 0.00.15 (20952)

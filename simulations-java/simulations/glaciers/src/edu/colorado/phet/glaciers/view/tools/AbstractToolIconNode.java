@@ -109,21 +109,21 @@ public abstract class AbstractToolIconNode extends PNode {
                 protected void startDrag( PInputEvent event ) {
                     _mvt.viewToModel( event.getPosition(), _pModel );
                     _tool = createTool( _pModel );
+                    _tool.setActive( false );
                     super.startDrag( event );
                 }
 
                 /* During the drag, set the position of the new tool. */
                 protected void drag( PInputEvent event ) {
-                    if ( _tool != null ) {
-                        _mvt.viewToModel( event.getPosition(), _pModel );
-                        _tool.setPosition( _pModel );
-                    }
+                    _mvt.viewToModel( event.getPosition(), _pModel );
+                    _tool.setPosition( _pModel );
                 }
 
-                /* When the drag ends, release control of the tool. */
+                /* When the drag ends, release control of the tool and activate it. */
                 protected void endDrag( PInputEvent event ) {
-                    _tool = null;
                     super.endDrag( event );
+                    _tool.setActive( true );
+                    _tool = null;
                 }
             } );
         }
