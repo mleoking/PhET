@@ -29,13 +29,13 @@ public class TracerFlagNode extends AbstractToolNode {
         addInputEventListener( new PDragEventHandler() {
 
             protected void startDrag( PInputEvent event ) {
-                getTool().setActive( false );
+                getTool().setDragging( false );
                 super.startDrag( event );
             }
 
             protected void endDrag( PInputEvent event ) {
                 super.endDrag( event );
-                getTool().setActive( true );
+                getTool().setDragging( true );
             }
         } );
     }

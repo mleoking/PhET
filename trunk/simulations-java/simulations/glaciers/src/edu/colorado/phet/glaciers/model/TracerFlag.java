@@ -40,7 +40,7 @@ public class TracerFlag extends AbstractTool {
     //----------------------------------------------------------------------------
     
     public void simulationTimeChanged( ClockEvent clockEvent ) {
-        if ( isActive() ) {
+        if ( isDragging() ) {
             // distance = velocity * dt
             Vector2D velocity = _glacier.getIceVelocity( getX(), getElevation() );
             final double dt = clockEvent.getSimulationTimeChange();
