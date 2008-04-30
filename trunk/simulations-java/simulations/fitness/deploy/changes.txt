@@ -1,4 +1,6 @@
 New in
+Fixed: Can't read "protein" word on the bar chart, made text scale down
+Added numeric readouts to bar chart
 Improved layout of exercise and calories selection panels, so that things line up and there are no scroll bars
     Also set text to line up
     Also, items bunch up near the top when there are a small number of items

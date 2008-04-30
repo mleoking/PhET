@@ -18,8 +18,6 @@ Satisfy learning goal: How long do you have to bike/walk to burn a certain numbe
 Number of calories of healthy diet should be editable
 Food composition should lead to a change in the Fat Free Mass %
 Bar chart
-    Can't read "protein" word on the bar chart
-    Bar chart should have numeric readouts
     To emphasize the meaning of the bar charts, you might have big labels on
         the left and right of the center line of the bar chart: 'Diet' on the
         left and 'Exercise' on the right (perhaps with the 'edit' buttons below
