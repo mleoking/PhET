@@ -1,3 +1,8 @@
+New in
+Improved layout of exercise and calories selection panels, so that things line up and there are no scroll bars
+    Also set text to line up
+    Also, items bunch up near the top when there are a small number of items
+
 New in 0.00.20 (4-29-2008)
 Removed "Restart" button from clock controls
 Fixed: Sim should not be running on startup

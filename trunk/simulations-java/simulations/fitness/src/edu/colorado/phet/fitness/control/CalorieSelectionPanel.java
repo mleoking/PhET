@@ -3,6 +3,7 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +13,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.fitness.FitnessResources;
@@ -30,7 +32,8 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
 
     public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected, String availableTitle, String selectedTitle ) {
         setLayout( new GridBagLayout() );
-        JComponent leftPanel = Box.createVerticalBox();
+//        JComponent leftPanel = Box.createVerticalBox();
+        JComponent leftPanel = new MyVerticalLayoutPanel();
 
         for ( int i = 0; i < available.getItemCount(); i++ ) {
             DietComponent dietComponent = new DietComponent( available.getItem( i ), true );
@@ -46,7 +49,8 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
 //            leftPanel.add(new JTextField(random.nextInt( 10 )));
         }
 
-        final JComponent rightPanel = Box.createVerticalBox();
+//        final JComponent rightPanel = Box.createVerticalBox();
+        final JComponent rightPanel = new MyVerticalLayoutPanel();
         for ( int i = 0; i < selected.getItemCount(); i++ ) {
             rightPanel.add( new SelectedComponent( selected, selected.getItem( i ) ) );
         }
@@ -128,11 +132,18 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
     }
 
     private class DietComponent extends JPanel {
+        int maxImageW = 60;
 
         private DietComponent( String name, String image, double cal ) {
-            setLayout( new BoxLayout( this,BoxLayout.X_AXIS ) );
+            setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
+            int imageW = 0;
             if ( image != null && image.trim().length() > 0 ) {
-                add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( image ), 50 ) ) ) );
+                BufferedImage bufferedImage = BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( image ), 50 );
+                imageW = bufferedImage.getWidth();
+                add( new JLabel( new ImageIcon( bufferedImage ) ) );
+            }
+            if ( maxImageW - imageW > 0 ) {
+                add( Box.createHorizontalStrut( maxImageW - imageW ) );
             }
             JLabel jLabel = new JLabel( "<html>One " + name + " per day<br>(" + cal + " kcal/day)</html>" );
             jLabel.setFont( new PhetDefaultFont( 12 ) );
@@ -141,26 +152,24 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
 
         public DietComponent( CaloricItem item, boolean showPieChart ) {
             this( item.getName(), item.getImage(), item.getCalories() );
-            if ( showPieChart ) {
-                showPieChart( item );
+            if ( showPieChart && item instanceof CaloricFoodItem ) {
+                showPieChart( (CaloricFoodItem) item );
             }
         }
 
-        protected void showPieChart( CaloricItem item ) {
-            if ( item instanceof CaloricFoodItem ) {
-                CaloricFoodItem c = (CaloricFoodItem) item;
-                PhetPCanvas pieChartCanvas = new PhetPCanvas();
-                pieChartCanvas.setPreferredSize( new Dimension( 50, 50 ) );
-                pieChartCanvas.addScreenChild( new PieChartNode( new PieChartNode.PieValue[]{
-                        new PieChartNode.PieValue( c.getCarbCalories(), FitnessColorScheme.CARBS ),
-                        new PieChartNode.PieValue( c.getProteinCalories(), FitnessColorScheme.PROTEIN ),
-                        new PieChartNode.PieValue( c.getLipidCalories(), FitnessColorScheme.FATS ),
-                }, new Rectangle( 5, 5, 40, 40 ) ) );
-                pieChartCanvas.setOpaque( false );
-                pieChartCanvas.setBackground( new Color( 0, 0, 0, 0 ) );
-                pieChartCanvas.setBorder( null );
-                add( pieChartCanvas );
-            }
+        protected void showPieChart( CaloricFoodItem item ) {
+            CaloricFoodItem c = (CaloricFoodItem) item;
+            PhetPCanvas pieChartCanvas = new PhetPCanvas();
+            pieChartCanvas.setPreferredSize( new Dimension( 50, 50 ) );
+            pieChartCanvas.addScreenChild( new PieChartNode( new PieChartNode.PieValue[]{
+                    new PieChartNode.PieValue( c.getCarbCalories(), FitnessColorScheme.CARBS ),
+                    new PieChartNode.PieValue( c.getProteinCalories(), FitnessColorScheme.PROTEIN ),
+                    new PieChartNode.PieValue( c.getLipidCalories(), FitnessColorScheme.FATS ),
+            }, new Rectangle( 5, 5, 40, 40 ) ) );
+            pieChartCanvas.setOpaque( false );
+            pieChartCanvas.setBackground( new Color( 0, 0, 0, 0 ) );
+            pieChartCanvas.setBorder( null );
+            add( pieChartCanvas );
         }
     }
 
