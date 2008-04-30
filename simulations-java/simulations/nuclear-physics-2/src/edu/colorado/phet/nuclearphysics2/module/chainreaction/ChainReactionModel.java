@@ -105,7 +105,7 @@ public class ChainReactionModel {
         
         // Register as a listener to the neutron source so that we know when
         // new neutrons are generated.
-        _neutronSource.addListener( new NeutronSource.Listener (){
+        _neutronSource.addListener( new NeutronSource.Adapter (){
             public void neutronGenerated(Neutron neutron){
                 // Add this new neutron to the list of free particles and let
                 // any listeners know that it has come into existence.

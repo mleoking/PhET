@@ -122,6 +122,7 @@ public class NeutronSourceNode extends PNode{
             
             public void drag(PInputEvent event){
                 _currentOrientation = calcEventAngleFromRotationPoint(event);
+                _neutronSource.setFiringAngle( _currentOrientation );
                 rotateAboutPoint( _startDragAngle - _currentOrientation, _rotationPointX, _rotationPointY );
                 _startDragAngle = _currentOrientation;
             }
