@@ -4,6 +4,9 @@ package edu.colorado.phet.glaciers.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+
 /**
  * TracerFlag is the model of a tracer flag.
  * A tracer flag can be planted at a position along the glacier.
@@ -36,9 +39,16 @@ public class TracerFlag extends AbstractTool {
     // AbstractTool overrides
     //----------------------------------------------------------------------------
     
-    //XXX should this be replaced with a GlacierListener?
-    protected void handleTimeChanged() {
-        //XXX calculate new position, call setPosition
+    public void simulationTimeChanged( ClockEvent clockEvent ) {
+        if ( isActive() ) {
+            // distance = velocity * dt
+            Vector2D velocity = _glacier.getIceVelocity( getX(), getElevation() );
+            final double dt = clockEvent.getSimulationTimeChange();
+            final double dx = velocity.getX() * dt;
+            final double dy = velocity.getY() * dt;
+            if ( dx != 0 || dy != 0 ) {
+                setPosition( getX() + dx, getY() + dy );
+            }
+        }
     }
-
 }

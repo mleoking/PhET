@@ -109,6 +109,7 @@ public abstract class AbstractModel implements IToolProducer {
             throw new IllegalStateException( "attempted to add tool twice: " + tool.getClass().getName() );
         }
         _tools.add( tool );
+        _clock.addClockListener( tool );
         notifyToolAdded( tool );
     }
     
@@ -117,16 +118,15 @@ public abstract class AbstractModel implements IToolProducer {
             throw new IllegalStateException( "attempted to remove a tool that doesn't exist: " + tool.getClass().getName() );
         }
         _tools.remove( tool );
+        _clock.removeClockListener( tool );
         notifyToolRemoved( tool );
     }
     
     public void removeAllTools() {
-        ArrayList toolsCopy = new ArrayList( _tools );
+        ArrayList toolsCopy = new ArrayList( _tools ); // iterate on a copy of the array
         Iterator i = toolsCopy.iterator();
         while ( i.hasNext() ) {
-            AbstractTool tool = (AbstractTool) i.next();
-            _tools.remove( tool );
-            notifyToolRemoved( tool );
+            removeTool( (AbstractTool) i.next() );
         }
     }
     
