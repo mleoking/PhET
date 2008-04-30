@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -13,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
@@ -24,26 +24,29 @@ import edu.colorado.phet.fitness.view.FitnessColorScheme;
  * Created by: Sam
  * Apr 23, 2008 at 10:35:43 AM
  */
-public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPanel{
+public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPanel {
     private ArrayList listeners = new ArrayList();
+    Random random = new Random();
 
     public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected, String availableTitle, String selectedTitle ) {
         setLayout( new GridBagLayout() );
-        JPanel leftPanel = new MyVerticalLayoutPanel();
+        JComponent leftPanel = Box.createVerticalBox();
+
         for ( int i = 0; i < available.getItemCount(); i++ ) {
-            DietComponent ban = new DietComponent( available.getItem( i ), true );
-            JButton button = new JButton( "Add" );
-            ban.add( button );
+            DietComponent dietComponent = new DietComponent( available.getItem( i ), true );
+            JButton addButton = new JButton( "Add" );
+            dietComponent.add( addButton );
             final int i1 = i;
-            button.addActionListener( new ActionListener() {
+            addButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     selected.addItem( available.getItem( i1 ) );
                 }
             } );
-            leftPanel.add( ban );
+            leftPanel.add( dietComponent );
+//            leftPanel.add(new JTextField(random.nextInt( 10 )));
         }
 
-        final JPanel rightPanel = new MyVerticalLayoutPanel();
+        final JComponent rightPanel = Box.createVerticalBox();
         for ( int i = 0; i < selected.getItemCount(); i++ ) {
             rightPanel.add( new SelectedComponent( selected, selected.getItem( i ) ) );
         }
@@ -95,7 +98,6 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
         void donePressed();
     }
 
-
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
@@ -116,11 +118,6 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
         };
     }
 
-    private Icon createIcon( String s, Color color, PhetDefaultFont font ) {
-        ShadowPText shadowPText = new ShadowPText( s, color, font );
-        return new ImageIcon( shadowPText.toImage() );
-    }
-
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -131,9 +128,10 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
     }
 
     private class DietComponent extends JPanel {
+
         private DietComponent( String name, String image, double cal ) {
+            setLayout( new BoxLayout( this,BoxLayout.X_AXIS ) );
             if ( image != null && image.trim().length() > 0 ) {
-                System.out.println( "image=" + image );
                 add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( image ), 50 ) ) ) );
             }
             JLabel jLabel = new JLabel( "<html>One " + name + " per day<br>(" + cal + " kcal/day)</html>" );
@@ -151,17 +149,17 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
         protected void showPieChart( CaloricItem item ) {
             if ( item instanceof CaloricFoodItem ) {
                 CaloricFoodItem c = (CaloricFoodItem) item;
-                PhetPCanvas canvas = new PhetPCanvas();
-                canvas.setPreferredSize( new Dimension( 50, 50 ) );
-                canvas.addScreenChild( new PieChartNode( new PieChartNode.PieValue[]{
+                PhetPCanvas pieChartCanvas = new PhetPCanvas();
+                pieChartCanvas.setPreferredSize( new Dimension( 50, 50 ) );
+                pieChartCanvas.addScreenChild( new PieChartNode( new PieChartNode.PieValue[]{
                         new PieChartNode.PieValue( c.getCarbCalories(), FitnessColorScheme.CARBS ),
                         new PieChartNode.PieValue( c.getProteinCalories(), FitnessColorScheme.PROTEIN ),
                         new PieChartNode.PieValue( c.getLipidCalories(), FitnessColorScheme.FATS ),
                 }, new Rectangle( 5, 5, 40, 40 ) ) );
-                canvas.setOpaque( false );
-                canvas.setBackground( new Color( 0, 0, 0, 0 ) );
-                canvas.setBorder( null );
-                add( canvas );
+                pieChartCanvas.setOpaque( false );
+                pieChartCanvas.setBackground( new Color( 0, 0, 0, 0 ) );
+                pieChartCanvas.setBorder( null );
+                add( pieChartCanvas );
             }
         }
     }
