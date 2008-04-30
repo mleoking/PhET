@@ -339,7 +339,8 @@ public class BufferedImageUtils {
             g2.dispose();
 
             ret = tmp;
-        } while ( w != targetWidth || h != targetHeight );
+//            System.out.println( "w = " + w +", h="+h);
+        } while ( w > targetWidth || h >targetHeight );
 
         return ret;
     }
