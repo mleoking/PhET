@@ -47,7 +47,14 @@ public class TracerFlag extends AbstractTool {
             final double dx = velocity.getX() * dt;
             final double dy = velocity.getY() * dt;
             if ( dx != 0 || dy != 0 ) {
-                setPosition( getX() + dx, getY() + dy );
+                double newX = getX() + dx;
+                double newY = getY() + dy;
+                // constrain to the surface of the glacier
+                double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
+                if ( newY > newGlacierSurfaceElevation ) {
+                    newY = newGlacierSurfaceElevation;
+                }
+                setPosition( newX, newY );
             }
         }
     }
