@@ -17,9 +17,6 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
         
         // Create a graphical image that will represent this nucleus in
         // the view.
-//        _displayImage = NuclearPhysics2Resources.getImageNode("Uranium Nucleus Small.png");
-//        _displayImage = NucleusImageFactory.generateNucleusImage( atomicNucleus.getNumNeutrons(), 
-//                atomicNucleus.getNumProtons(), 20 );
         _displayImage = NucleusImageFactory.getInstance().generateNucleusImage( atomicNucleus.getNumNeutrons(), 
                 atomicNucleus.getNumProtons(), 20 );
         
@@ -50,8 +47,8 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
         super.update();
 
         if (_displayImage != null){
-            _displayImage.setOffset( _atomicNucleus.getPositionRef().getX() - _atomicNucleus.getDiameter()/2,  
-                    _atomicNucleus.getPositionRef().getY() - _atomicNucleus.getDiameter()/2);
+            _displayImage.setOffset( _atomicNucleus.getPositionReference().getX() - _atomicNucleus.getDiameter()/2,  
+                    _atomicNucleus.getPositionReference().getY() - _atomicNucleus.getDiameter()/2);
         }
     }
 }

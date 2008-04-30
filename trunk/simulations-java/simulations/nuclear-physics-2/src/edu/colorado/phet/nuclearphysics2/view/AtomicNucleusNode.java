@@ -219,8 +219,8 @@ public class AtomicNucleusNode extends PNode {
      */
     protected void update(){
 
-        _isotopeLabel.setOffset( _atomicNucleus.getPositionRef().getX() - _atomicNucleus.getDiameter()/2,  
-                _atomicNucleus.getPositionRef().getY() - _atomicNucleus.getDiameter()/2);
+        _isotopeLabel.setOffset( _atomicNucleus.getPositionReference().getX() - _atomicNucleus.getDiameter()/2,  
+                _atomicNucleus.getPositionReference().getY() - _atomicNucleus.getDiameter()/2);
         
     }
 
@@ -261,7 +261,7 @@ public class AtomicNucleusNode extends PNode {
         if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
             // This was a decay event, so kick off the explosion graphic.
             _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
-            _explosion.setOffset( _atomicNucleus.getPositionRef() );
+            _explosion.setOffset( _atomicNucleus.getPositionReference() );
             _explosion.setVisible( true );
         }
         

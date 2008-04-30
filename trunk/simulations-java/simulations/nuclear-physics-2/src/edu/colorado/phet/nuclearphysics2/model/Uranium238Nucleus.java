@@ -52,7 +52,7 @@ public class Uranium238Nucleus extends AtomicNucleus {
 
         boolean retval = false;
 
-        if (_position.distance( freeParticle.getPosition() ) <= getDiameter() / 2){
+        if (_position.distance( freeParticle.getPositionReference() ) <= getDiameter() / 2){
             
             int totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
             if (totalNumNeutrons == ORIGINAL_NUM_NEUTRONS){

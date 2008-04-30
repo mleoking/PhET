@@ -22,6 +22,13 @@ public interface AtomicNucleusConstituent {
     public Point2D.Double getPosition();
     
     /**
+     * Get a reference to the 2D position of the constituent.
+     * 
+     * @return The position.
+     */
+    public Point2D.Double getPositionReference();
+    
+    /**
      * Set the 2D position of the constituent.
      * 
      * @return The position.

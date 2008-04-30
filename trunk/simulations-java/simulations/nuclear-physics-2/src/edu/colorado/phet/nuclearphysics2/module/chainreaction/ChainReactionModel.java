@@ -397,7 +397,7 @@ public class ChainReactionModel {
             numNuclei = _u235Nuclei.size();
             for (j = 0; (j < numNuclei) && (particleAbsorbed == false); j++){
                 AtomicNucleus nucleus = (AtomicNucleus)_u235Nuclei.get( j );
-                if (freeNucleon.getPosition().distance( nucleus.getPositionRef() ) <=
+                if (freeNucleon.getPosition().distance( nucleus.getPositionReference() ) <=
                     nucleus.getDiameter() / 2)
                 {
                     // The particle is within capture range - see if the nucleus can capture it.
@@ -407,7 +407,7 @@ public class ChainReactionModel {
             numNuclei = _u238Nuclei.size();
             for (j = 0; (j < numNuclei) && (particleAbsorbed == false); j++){
                 AtomicNucleus nucleus = (AtomicNucleus)_u238Nuclei.get( j );
-                if (freeNucleon.getPosition().distance( nucleus.getPositionRef() ) <=
+                if (freeNucleon.getPosition().distance( nucleus.getPositionReference() ) <=
                     nucleus.getDiameter() / 2)
                 {
                     // The particle is within capture range - see if the nucleus can capture it.
@@ -462,13 +462,13 @@ public class ChainReactionModel {
                 pointAvailable = false;
             }
             for (int j = 0; (j < _u235Nuclei.size()) && (pointAvailable == true); j++){
-                if (position.distance( ((AtomicNucleus)_u235Nuclei.get(j)).getPositionRef()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
+                if (position.distance( ((AtomicNucleus)_u235Nuclei.get(j)).getPositionReference()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
                     // This point is taken.
                     pointAvailable = false;
                 }
             }
             for (int j = 0; (j < _u238Nuclei.size()) && (pointAvailable == true); j++){
-                if (position.distance( ((AtomicNucleus)_u238Nuclei.get(j)).getPositionRef()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
+                if (position.distance( ((AtomicNucleus)_u238Nuclei.get(j)).getPositionReference()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
                     // This point is taken.
                     pointAvailable = false;
                 }
@@ -497,11 +497,11 @@ public class ChainReactionModel {
         for (int i = 0; i < numNuclei; i++){
             nuke = (AtomicNucleus)nuclei.get(i);
             if ((nuke.getVelocity().getMagnitude() != 0 ) && 
-                (_containmentVessel.isPositionContained( nuke.getPositionRef() ))){
+                (_containmentVessel.isPositionContained( nuke.getPositionReference() ))){
                 // Freeze the nucleus at the edge of the containment vessel.
                 nuke.setAcceleration( ZERO_ACCELERATION );
                 nuke.setVelocity( 0, 0 );
-                nuke.setPosition( _containmentVessel.getNearestContainmentPoint( nuke.getPositionRef() ));
+                nuke.setPosition( _containmentVessel.getNearestContainmentPoint( nuke.getPositionReference() ));
             }
         }
     }

@@ -75,6 +75,11 @@ public class Nucleon implements AtomicNucleusConstituent {
     
     public Point2D.Double getPosition()
     {
+        return new Point2D.Double(_position.getX(), _position.getY());
+    }
+    
+    public Point2D.Double getPositionReference()
+    {
         return _position;
     }
     
