@@ -230,6 +230,18 @@ public class Glacier extends ClockAdapter {
         return _intersectionWithSteadyStateELA;
     }
     
+    /**
+     * Gets the elevation at some point on the glacier's surface.
+     * At points where the glacier thickness is zero, this is the same as 
+     * the elevation of the valley floor.
+     * 
+     * @param x
+     * @return
+     */
+    public double getSurfaceElevation( double x ) {
+        return _valley.getElevation( x ) + getIceThickness( x );
+    }
+    
     //----------------------------------------------------------------------------
     // Ice Thickness model
     //----------------------------------------------------------------------------

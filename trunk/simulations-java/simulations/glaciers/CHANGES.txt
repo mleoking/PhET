@@ -6,7 +6,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- should velocities on the surface of the glacier move parallel to the surface, instead of the valley floor? (flags stop on surface)
 - divide ice into separate shapes for above and below the ELA
 - morph or move ice textures to show downvalley motion
 - visual representation of snowfall
@@ -81,6 +80,7 @@ CLEANUP:
 
 
 DONE:
+4/30/08 - constrain flag to surface of glacier, so that it doesn't stop on the surface due to velocity direction that follows valley
 4/30/08 - make tools know when they are being dragged
 4/30/08 - add motion model for tracer flags
 4/30/08 - explicitly set font styles & sizes for control panels
