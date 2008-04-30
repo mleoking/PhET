@@ -175,7 +175,7 @@ public abstract class AtomicNucleus {
     // Accessor methods
     //------------------------------------------------------------------------
 
-    public Point2D getPositionRef(){
+    public Point2D getPositionReference(){
         return _position;
     }
     
@@ -343,8 +343,8 @@ public abstract class AtomicNucleus {
             AtomicNucleusConstituent constituent = null;
             for (int i = 0; i < numConstituents; i++){
                 constituent = (AtomicNucleusConstituent)_constituents.get(i);
-                newPosX = constituent.getPosition().x + _xVelocity; 
-                newPosY = constituent.getPosition().y + _yVelocity;
+                newPosX = constituent.getPositionReference().x + _xVelocity; 
+                newPosY = constituent.getPositionReference().y + _yVelocity;
                 constituent.setPosition( newPosX, newPosY );
             }
         }

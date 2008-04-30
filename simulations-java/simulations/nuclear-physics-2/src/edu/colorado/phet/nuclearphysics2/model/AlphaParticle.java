@@ -88,6 +88,10 @@ public class AlphaParticle implements AtomicNucleusConstituent {
         return new Point2D.Double(_position.getX(), _position.getY());
     }
     
+    public Point2D.Double getPositionReference(){
+        return _position;
+    }
+    
     public int getTunnelingState(){
         return _tunnelingState;
     }
