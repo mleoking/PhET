@@ -21,7 +21,7 @@ public abstract class AbstractTool extends Movable implements ClockListener {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private boolean _active;
+    private boolean _dragging;
     private ArrayList _listeners;
     
     //----------------------------------------------------------------------------
@@ -30,7 +30,7 @@ public abstract class AbstractTool extends Movable implements ClockListener {
     
     public AbstractTool( Point2D position ) {
         super( position );
-        _active = true;
+        _dragging = true;
         _listeners = new ArrayList();
         addMovableListener( new MovableAdapter() {
             public void positionChanged() {
@@ -47,15 +47,15 @@ public abstract class AbstractTool extends Movable implements ClockListener {
         return getY();
     }
     
-    public void setActive( boolean active ) {
-        if ( active != _active ) {
-            _active = active;
-            notifyActiveChanged();
+    public void setDragging( boolean dragging ) {
+        if ( dragging != _dragging ) {
+            _dragging = dragging;
+            notifyDraggingChanged();
         }
     }
     
-    public boolean isActive() {
-        return _active;
+    public boolean isDragging() {
+        return _dragging;
     }
     
     //----------------------------------------------------------------------------
@@ -63,7 +63,7 @@ public abstract class AbstractTool extends Movable implements ClockListener {
     //----------------------------------------------------------------------------
     
     public interface ToolListener {
-        public void activeChanged();
+        public void draggingChanged();
     }
     
     public void addToolListener( ToolListener listener ) {
@@ -78,10 +78,10 @@ public abstract class AbstractTool extends Movable implements ClockListener {
     // Notification handlers
     //----------------------------------------------------------------------------
     
-    private void notifyActiveChanged() {
+    private void notifyDraggingChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ToolListener) i.next() ).activeChanged();
+            ( (ToolListener) i.next() ).draggingChanged();
         }
     }
     

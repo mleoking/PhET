@@ -81,7 +81,7 @@ CLEANUP:
 
 
 DONE:
-4/30/08 - deactivate tools (in model) while they are being dragged
+4/30/08 - make tools know when they are being dragged
 4/30/08 - add motion model for tracer flags
 4/30/08 - explicitly set font styles & sizes for control panels
 4/28/08 - add PhetLookAndFeel to main
