@@ -1,7 +1,4 @@
 High Priority:
-Exercise Selection:
-    The exercise function is great. Two questions on this, would it be informative for students
-        to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
 Graphs
     Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
     Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
@@ -13,12 +10,6 @@ Graphs
     Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
     Rename readouts to "caloric intake" and "caloric burn", make sure they don't overlap
     Graphs need to sync units with unit change button.
-Add foods/exercise
-    -The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
-    -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
-        submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
-        apple, banana or orange, a serving of vegetables, slice of pizza, ?
-    -Remove wine/beer
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
     the learning goal seems too easy: to figure out "How long do you have to
     bike/walk to burn a certain number of calories?", you just have to look
@@ -50,6 +41,14 @@ Low Priority:
 +Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
 +Better values/more options for base diets
 +KG gained per day should be a function of caloric distribution over lipids, carbs and protein
+Exercise Selection:
+    The exercise function is great. Two questions on this, would it be informative for students
+    to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
+Add foods/exercise
+    -The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
+    -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
+        submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
+        apple, banana or orange, a serving of vegetables, slice of pizza, ?
 
 Discussion:
 3000 kcal/day wrong, should be 2000kcal/day
