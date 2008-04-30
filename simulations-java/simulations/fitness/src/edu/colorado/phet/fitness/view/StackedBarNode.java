@@ -5,6 +5,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -108,10 +109,13 @@ public class StackedBarNode extends PNode {
         private BarChartElement barChartElement;
         private PClip clip;
         private PhetPPath barNode;
-        private HTMLNode htmlNode;
         private PhetPPath barThumb;
         private Thumb thumbLocation;
+
+        private PNode labelNode = new PNode();//contains image + label + readout
         private PNode imageNode;
+        private HTMLNode htmlNode;
+        private HTMLNode readoutNode;
 
         private BarChartElementNode( final BarChartElement barChartElement, Thumb thumbLocation ) {
             this.thumbLocation = thumbLocation;
@@ -155,9 +159,13 @@ public class StackedBarNode extends PNode {
                 imageNode = new PNode();
             }
 
-            htmlNode = new HTMLNode( barChartElement.getName(), new PhetDefaultFont( 20, true ), Color.black );
-            clip.addChild( imageNode );
-            clip.addChild( htmlNode );
+            htmlNode = new HTMLNode( barChartElement.getName(), new PhetDefaultFont( 18, true ), Color.black );
+            readoutNode = new HTMLNode( "", new PhetDefaultFont( 12, true ), Color.black );
+            clip.addChild( labelNode );
+            labelNode.addChild( imageNode );
+            labelNode.addChild( htmlNode );
+//            clip.addChild( readoutNode );
+            labelNode.addChild( readoutNode );
 
             addChild( clip );
 
@@ -175,10 +183,29 @@ public class StackedBarNode extends PNode {
         }
 
         private void updateShape() {
+            double value = barChartElement.getValue();
+//            readoutNode.setHTML( new DecimalFormat( "0.0" ).format( value ) + " kcal/day" );
+            readoutNode.setHTML( new DecimalFormat( "0.0" ).format( value ) + " kcal/day" );
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
+            double availHeight = clip.getFullBounds().getHeight();
+            labelNode.setScale( 1 );
+            labelNode.setOffset( 0, 0 );
+            System.out.println( "avail=" + availHeight + ", labHeight=" + labelNode.getFullBounds().getHeight() );
             imageNode.setOffset( clip.getFullBounds().getWidth() / 2 - imageNode.getFullBounds().getWidth() / 2, 0 );
-            htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight() );
+            htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight()-3 );
+//            readoutNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutNode.getFullBounds().getWidth() / 2, labelNode.getFullBounds().getMaxY() );
+            readoutNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutNode.getFullBounds().getWidth() / 2+2, htmlNode.getFullBounds().getMaxY()-2 );
+            if ( availHeight < labelNode.getFullBounds().getHeight() ) {
+                double sy = availHeight / labelNode.getFullBounds().getHeight();
+                System.out.println( "sy = " + sy );
+                if ( sy > 0 && sy < 1 ) {
+                    System.out.println( "Scaling" );
+                    labelNode.setScale( sy );
+//                    labelNode.setOffset(clip.getFullBounds().getWidth()/2/sy-labelNode.getFullBounds().getWidth()/2/sy,0);
+                }
+            }
+
             barThumb.setPathTo( thumbLocation.getThumbShape( barWidth ) );
         }
 
