@@ -76,7 +76,6 @@ public class FileParser {
 
     private static class ExerciseItemParser implements IParser {
         public Object parseLine( String line ) {
-            System.out.println( "line = " + line );
             String name = line.substring( 0, line.indexOf( ":" ) );
             String remainder = line.substring( line.indexOf( ":" ) + 1 );
             StringTokenizer st = new StringTokenizer( remainder, "," );

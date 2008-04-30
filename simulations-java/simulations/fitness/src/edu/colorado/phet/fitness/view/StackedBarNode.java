@@ -184,25 +184,19 @@ public class StackedBarNode extends PNode {
 
         private void updateShape() {
             double value = barChartElement.getValue();
-//            readoutNode.setHTML( new DecimalFormat( "0.0" ).format( value ) + " kcal/day" );
             readoutNode.setHTML( new DecimalFormat( "0.0" ).format( value ) + " kcal/day" );
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
             double availHeight = clip.getFullBounds().getHeight();
             labelNode.setScale( 1 );
             labelNode.setOffset( 0, 0 );
-            System.out.println( "avail=" + availHeight + ", labHeight=" + labelNode.getFullBounds().getHeight() );
             imageNode.setOffset( clip.getFullBounds().getWidth() / 2 - imageNode.getFullBounds().getWidth() / 2, 0 );
             htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight()-3 );
-//            readoutNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutNode.getFullBounds().getWidth() / 2, labelNode.getFullBounds().getMaxY() );
             readoutNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutNode.getFullBounds().getWidth() / 2+2, htmlNode.getFullBounds().getMaxY()-2 );
             if ( availHeight < labelNode.getFullBounds().getHeight() ) {
                 double sy = availHeight / labelNode.getFullBounds().getHeight();
-                System.out.println( "sy = " + sy );
                 if ( sy > 0 && sy < 1 ) {
-                    System.out.println( "Scaling" );
                     labelNode.setScale( sy );
-//                    labelNode.setOffset(clip.getFullBounds().getWidth()/2/sy-labelNode.getFullBounds().getWidth()/2/sy,0);
                 }
             }
 

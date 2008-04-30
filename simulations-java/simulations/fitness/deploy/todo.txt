@@ -1,3 +1,50 @@
+-Can we get a readout for: Cal. consumed, Cal Burned
+outside the bars sitting on top of the bar
+
+-Do we need fat mass% and non-fat mass percent?
+    can we remove this?
+    can be default based on gender
+    or buttons for "muscular or nonmuscular"
+
+-can we call fat mass percent body fat percent instead?
+    sounds good
+
+-How is body fat calculated?  How would a student know their % body fat?
+    see above muscular vs non
+
+-scaling is confusing. x and y axis calibration is set out of range on graphs
+-step=year on graphs
+    had to zoom out in both axes to see anything
+    change x-axis to be in years
+    barker used step first, Step=1 month
+
+- one "hour" of exercise
+    done
+
+-need more junk food for diet options: pizza, burrito, chips, cookies, tacos, etc
+    get rid of brussel sprouts?
+    twizzlers or candies
+    more junk
+    like actual student diets
+
+-Incorporate growth or height changes with weight?
+    should we increase this?
+    yes, look on web for height changes since BMI =f(height)
+
+BMI comparative thing, popup box regarding healthy BMI's
+
+-BMI readings may be slightly off...we checked them against the NHLBinstute chart)
+
+-BMI readout is too small to see.  Maybe put next to BMR?
+
+-Can we put a chart or weblink to compare healthy or unhealthy BMI? (see categories chart on national heart lung and blood institute bmi calculator page)
+
+-Are we accounting for sex affects on BMI and BMR?
+
+We are still confused about a delay in weight loss if: all variables remained constant: diet and lifestyle and then we ran amile, why there is a delay in weight loss.
+
+Also, how will we get our students to access the site?  Do we need to provide a weblink?  will it be on the phet site?
+
 High Priority:
 Graphs
     Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
@@ -10,18 +57,7 @@ Graphs
     Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
     Rename readouts to "caloric intake" and "caloric burn", make sure they don't overlap
     Graphs need to sync units with unit change button.
-Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
-    the learning goal seems too easy: to figure out "How long do you have to
-    bike/walk to burn a certain number of calories?", you just have to look
-    at the number of kcal/day in the text of the exercise type.
-        might be better to ask how long it would take to lose 10 lbs?
-Number of calories of healthy diet should be editable
 Food composition should lead to a change in the Fat Free Mass %
-Bar chart
-    To emphasize the meaning of the bar charts, you might have big labels on
-        the left and right of the center line of the bar chart: 'Diet' on the
-        left and 'Exercise' on the right (perhaps with the 'edit' buttons below
-        the labels)
 Time readout at bottom should be years, not seconds.
         When it comes to a person's age, we tend to speak in years or days instead of seconds.
 Performance: consider profiling or changing clock rate
@@ -29,7 +65,8 @@ Crashes on mac, see email
     I use a mac-when i access the diet window the sim crashes on me..
 
 Med Priority:
-+Add a legend for caloric breakdown pie chart
+Add a legend for caloric breakdown pie chart
+Number of calories of healthy diet should be editable
 
 Low Priority:
 +Editors for exercise (change time or intensity)
@@ -70,6 +107,16 @@ As I add the exercise the graphs begin to change,
     >>To address this problem, I started the simulation paused; hopefully the user will be able to pause the simulation before
     >>adding exercise/diet.  If not, we can either pause the sim when they bring up an editor, or add a control to the
     >>diet selection panel
+Bar chart
+    To emphasize the meaning of the bar charts, you might have big labels on
+        the left and right of the center line of the bar chart: 'Diet' on the
+        left and 'Exercise' on the right (perhaps with the 'edit' buttons below
+        the labels)
+Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
+    the learning goal seems too easy: to figure out "How long do you have to
+    bike/walk to burn a certain number of calories?", you just have to look
+    at the number of kcal/day in the text of the exercise type.
+        might be better to ask how long it would take to lose 10 lbs?
 
 Bill 4/18/2008
 
