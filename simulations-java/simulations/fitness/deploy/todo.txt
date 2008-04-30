@@ -2,9 +2,6 @@ High Priority:
 Exercise Selection:
     The exercise function is great. Two questions on this, would it be informative for students
         to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
-As I add the exercise the graphs begin to change,
-    but I can't see whats happening from the getgo because it runs while the exercise window is open.
-    I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
 Graphs
     Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
     Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
@@ -70,6 +67,12 @@ Is it true that I can eat a hamburger per day above a 'healthy diet', and
   have a steady weight (though a ~10 lb gain) after about three years?
     - to see this, click 'reset all', wait until you're 23 years old, then
       add a hamburger per day.
+As I add the exercise the graphs begin to change,
+    but I can't see whats happening from the getgo because it runs while the exercise window is open.
+    I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
+    >>To address this problem, I started the simulation paused; hopefully the user will be able to pause the simulation before
+    >>adding exercise/diet.  If not, we can either pause the sim when they bring up an editor, or add a control to the
+    >>diet selection panel
 
 Bill 4/18/2008
 

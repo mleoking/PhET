@@ -13,7 +13,6 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.fitness.FitnessResources;
@@ -134,7 +133,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
     private class DietComponent extends JPanel {
         int maxImageW = 60;
 
-        private DietComponent( String name, String image, double cal ) {
+        private DietComponent( String image, String jlabelText ) {
             setLayout( new BoxLayout( this, BoxLayout.X_AXIS ) );
             int imageW = 0;
             if ( image != null && image.trim().length() > 0 ) {
@@ -145,20 +144,19 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
             if ( maxImageW - imageW > 0 ) {
                 add( Box.createHorizontalStrut( maxImageW - imageW ) );
             }
-            JLabel jLabel = new JLabel( "<html>One " + name + " per day<br>(" + cal + " kcal/day)</html>" );
+            JLabel jLabel = new JLabel( jlabelText );
             jLabel.setFont( new PhetDefaultFont( 12 ) );
             add( jLabel );
         }
 
         public DietComponent( CaloricItem item, boolean showPieChart ) {
-            this( item.getName(), item.getImage(), item.getCalories() );
+            this( item.getImage(), item.getLabelText() );
             if ( showPieChart && item instanceof CaloricFoodItem ) {
                 showPieChart( (CaloricFoodItem) item );
             }
         }
 
-        protected void showPieChart( CaloricFoodItem item ) {
-            CaloricFoodItem c = (CaloricFoodItem) item;
+        protected void showPieChart( CaloricFoodItem c ) {
             PhetPCanvas pieChartCanvas = new PhetPCanvas();
             pieChartCanvas.setPreferredSize( new Dimension( 50, 50 ) );
             pieChartCanvas.addScreenChild( new PieChartNode( new PieChartNode.PieValue[]{
