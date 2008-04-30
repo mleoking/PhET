@@ -2,15 +2,19 @@
 
 package edu.colorado.phet.nuclearphysics2.view;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
-import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * This class acts as the visual representation of a neutron source.
@@ -29,17 +33,26 @@ public class NeutronSourceNode extends PNode{
     // not exactly in the center or at the top or bottom of the gun.  It is
     // the ratio of the distance from the top of the graphic to the gun tip
     // relative to the overall height of the gun image.
-    private final static double GUN_TIP_FRACTION_Y = 0.27; 
+    private final static double GUN_TIP_FRACTION_Y = 0.27;
+    
+    // These constants control the size of the invisible node that allows the
+    // user to grab the tip of the gun and rotate it.  The values are in
+    // fractions of the overall image size.
+    private final static double ROTATION_GRABBER_WIDTH_FRACTION = 0.2;
+    private final static double ROTATION_GRABBER_HEIGHT_FRACTION = 0.30;
     
     
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
     
+    private NeutronSource _neutronSource;
     private PNode         _displayImage;
     private PNode         _fireButtonUp;
     private PNode         _fireButtonDown;
-    private NeutronSource _neutronSource;
+    private double        _rotationPointX;
+    private double        _rotationPointY;
+    private double        _currentOrientation;  // Rotational angle in radians.
     
     //------------------------------------------------------------------------
     // Constructor
@@ -55,6 +68,9 @@ public class NeutronSourceNode extends PNode{
     public NeutronSourceNode(NeutronSource neutronSource, double graphicWidth)
     {
         _neutronSource = neutronSource;
+        
+        // Initialize local variables.
+        _currentOrientation = 0;
 
         // Load the graphic image for this device.
         _displayImage = NuclearPhysics2Resources.getImageNode("neutron-gun.png");
@@ -86,6 +102,41 @@ public class NeutronSourceNode extends PNode{
             }
         } );
         
+        // Add the invisible node that will allow the user to grab the front
+        // of the gun and rotate it.
+        PPath rotationGrabberNode = new PPath (new Rectangle2D.Double(0, 0, _displayImage.getWidth() * ROTATION_GRABBER_WIDTH_FRACTION, 
+                _displayImage.getHeight() * ROTATION_GRABBER_HEIGHT_FRACTION));
+        rotationGrabberNode.setOffset( _displayImage.getWidth() - rotationGrabberNode.getWidth(), 
+                _displayImage.getHeight() * GUN_TIP_FRACTION_Y - (rotationGrabberNode.getHeight() / 2));
+        rotationGrabberNode.setPaint( new Color (0, 0, 0, 0)); // The forth param makes it 100% transparent and thus invisible.
+        rotationGrabberNode.setStroke( null );
+        rotationGrabberNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
+        rotationGrabberNode.addInputEventListener( new PDragEventHandler(){
+            
+            double _startDragAngle;
+            
+            public void startDrag(PInputEvent event){
+                super.startDrag( event );
+                _startDragAngle = calcEventAngleFromRotationPoint( event );
+            }
+            
+            public void drag(PInputEvent event){
+                _currentOrientation = calcEventAngleFromRotationPoint(event);
+                rotateAboutPoint( _startDragAngle - _currentOrientation, _rotationPointX, _rotationPointY );
+                _startDragAngle = _currentOrientation;
+            }
+            
+            public void endDrag(PInputEvent event){
+                super.endDrag( event );
+            }
+        });
+        
+        _displayImage.addChild(rotationGrabberNode);
+        
+        // Set up the values needed for rotating the image.
+        _rotationPointX = getFullBounds().width / 2;
+        _rotationPointY = getFullBounds().height / 2;
+        
         // Set our initial position.
         update();
     }
@@ -102,7 +153,21 @@ public class NeutronSourceNode extends PNode{
         // Position the image so that the tip of the gun is where the neutrons
         // will appear.
         
-        _displayImage.setOffset( _neutronSource.getPosition().getX() - _displayImage.getWidth() * _displayImage.getScale(),  
+        setOffset( _neutronSource.getPosition().getX() - _displayImage.getWidth() * _displayImage.getScale(),  
                 _neutronSource.getPosition().getY() - (_displayImage.getHeight() * _displayImage.getScale() * GUN_TIP_FRACTION_Y));
+    }
+    
+    /**
+     * Calculate the angle between the point where the given event occurred
+     * and the rotation point.
+     * 
+     * @param event - Mouse event.
+     * @return angle in radians
+     */
+    double calcEventAngleFromRotationPoint(PInputEvent event){
+        double scaledXPos = event.getPositionRelativeTo( _displayImage ).getX() * _displayImage.getScale();
+        double scaledYPos = event.getPositionRelativeTo( _displayImage ).getY() * _displayImage.getScale();
+        System.out.println("calcAngleFromNodeCenter: " + scaledXPos + " " + scaledYPos);
+        return Math.atan( -(scaledYPos - _rotationPointY) / (scaledXPos - _rotationPointX) );
     }
 }
