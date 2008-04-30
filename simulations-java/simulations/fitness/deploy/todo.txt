@@ -2,7 +2,6 @@ High Priority:
 Exercise Selection:
     The exercise function is great. Two questions on this, would it be informative for students
         to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
-    Improve layout of exercise and calories selection panels, so that things line up and there are no scroll bars    
 As I add the exercise the graphs begin to change,
     but I can't see whats happening from the getgo because it runs while the exercise window is open.
     I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
