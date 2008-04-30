@@ -22,6 +22,7 @@ Add foods/exercise
     -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
         submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
         apple, banana or orange, a serving of vegetables, slice of pizza, ?
+    -Remove wine/beer
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
     the learning goal seems too easy: to figure out "How long do you have to
     bike/walk to burn a certain number of calories?", you just have to look
@@ -65,6 +66,7 @@ Should fat/fat free composition change based on diet & exercise?
     -emailed bill
 Should we allow option to show BMI in English units?
     -it looks like the universal unit for this is metric kg/m^2
+    -Franny says we should only use SI
 Is it true that I can eat a hamburger per day above a 'healthy diet', and
   have a steady weight (though a ~10 lb gain) after about three years?
     - to see this, click 'reset all', wait until you're 23 years old, then
