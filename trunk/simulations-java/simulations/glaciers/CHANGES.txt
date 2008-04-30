@@ -10,7 +10,6 @@ HIGH PRIORITY:
 - morph or move ice textures to show downvalley motion
 - marker flags as first test of motion (distance=velocity*dt)
 - visual representation of snowfall
-- remove tools by dragging them back to the trash can (or toolbox?)
 
 MEDIUM PRIORITY:
 - creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
@@ -82,6 +81,7 @@ CLEANUP:
 
 
 DONE:
+4/30/08 - explicitly set font styles & sizes for control panels
 4/28/08 - add PhetLookAndFeel to main
 ******** 0.00.15 (20952)
 4/24/08 - organized imports
