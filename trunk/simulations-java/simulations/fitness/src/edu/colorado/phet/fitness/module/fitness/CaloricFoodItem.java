@@ -55,4 +55,8 @@ public class CaloricFoodItem extends CaloricItem {
     public String toString() {
         return getName() + ", calories=" + getCalories() + ", lipids=" + lipids + ", carbs=" + carbs + ", proteins=" + protein + ", image=" + getImage();
     }
+
+    public String getLabelText() {
+        return "<html>One " + getName() + " per day<br>(" + getCalories() + " kcal/day)</html>";
+    }
 }

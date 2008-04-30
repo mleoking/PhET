@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.control.CaloricItem;
+import edu.colorado.phet.fitness.control.ExerciseItem;
 import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 
 /**
@@ -84,7 +85,7 @@ public class FileParser {
             if ( st.hasMoreTokens() ) {
                 image = st.nextToken().trim();
             }
-            return new CaloricItem( name, image, cal );
+            return new ExerciseItem( name, image, cal );
         }
     }
 

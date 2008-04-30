@@ -4,7 +4,7 @@ package edu.colorado.phet.fitness.control;
  * Created by: Sam
  * Apr 23, 2008 at 1:34:08 PM
  */
-public class CaloricItem {
+public abstract class CaloricItem {
     private String name;
     private String image;
     private double cal;
@@ -30,4 +30,6 @@ public class CaloricItem {
     public String toString() {
         return "name=" + name + ", image=" + image + ", cal=" + cal;
     }
+
+    public abstract String getLabelText();
 }
