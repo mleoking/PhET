@@ -5,6 +5,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- flags should drop to valley floor when glaciers recedes, they are get stuck above the valley floor
 - make advancing glaciers delete flags that are on valley floor
 - divide ice into separate shapes for above and below the ELA
 - ice textures for above/below ELA, and in/on ice
@@ -84,7 +85,7 @@ CLEANUP:
 
 
 DONE:
-******** 0.00.16 (?)
+******** 0.00.16 (21125)
 4/30/08 - constrain flag to surface of glacier, so that it doesn't stop on the surface due to velocity direction that follows valley
 4/30/08 - make tools know when they are being dragged
 4/30/08 - add motion model for tracer flags
