@@ -30,7 +30,7 @@ public abstract class AbstractTool extends Movable implements ClockListener {
     
     public AbstractTool( Point2D position ) {
         super( position );
-        _dragging = true;
+        _dragging = false;
         _listeners = new ArrayList();
         addMovableListener( new MovableAdapter() {
             public void positionChanged() {

@@ -40,22 +40,21 @@ public class TracerFlag extends AbstractTool {
     //----------------------------------------------------------------------------
     
     public void simulationTimeChanged( ClockEvent clockEvent ) {
-        if ( isDragging() ) {
+        if ( !isDragging() ) {
+            
             // distance = velocity * dt
             Vector2D velocity = _glacier.getIceVelocity( getX(), getElevation() );
             final double dt = clockEvent.getSimulationTimeChange();
-            final double dx = velocity.getX() * dt;
-            final double dy = velocity.getY() * dt;
-            if ( dx != 0 || dy != 0 ) {
-                double newX = getX() + dx;
-                double newY = getY() + dy;
-                // constrain to the surface of the glacier
-                double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
-                if ( newY > newGlacierSurfaceElevation ) {
-                    newY = newGlacierSurfaceElevation;
-                }
-                setPosition( newX, newY );
+            final double newX = getX() + ( velocity.getX() * dt );
+            double newY = getY() + ( velocity.getY() * dt );
+            
+            // constrain to the surface of the glacier (or valley floor)
+            double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
+            if ( newY > newGlacierSurfaceElevation ) {
+                newY = newGlacierSurfaceElevation;
             }
+            
+            setPosition( newX, newY );
         }
     }
 }

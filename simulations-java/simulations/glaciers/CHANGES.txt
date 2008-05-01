@@ -5,11 +5,10 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- flags should drop to valley floor when glaciers recedes, they are get stuck above the valley floor
+- add framework that allows tools to delete themselves? (eg, flag crushed by glacier)
 - make advancing glaciers delete flags that are on valley floor
 - divide ice into separate shapes for above and below the ELA
-- ice textures for above/below ELA, and in/on ice
-- morph or move ice textures to show downvalley motion
+- morph or move ice textures to show downvalley motion (how to do this? different points in texture have different velocities!)
 - visual representation of snowfall
 - create framework for specifying drag-&-drop constraints for tools
 
@@ -85,6 +84,13 @@ CLEANUP:
 
 
 DONE:
+5/1/08 - create preliminary image for "illegal drop location" cursor
+5/1/08 - add textures and nodes for ice surface above and below ELA (no geometry added yet)
+5/1/08 - add textures for ice cross-section and surface
+5/1/08 - delete dirt texture, no longer used and unknown licensing
+5/1/08 - add icons for View check boxes (equilibrium line, ice flow, coordinates)
+5/1/08 - fix semantics of AbstractTool.isDragging, it was reversed
+5/1/08 - ensure that flags drop to valley floor when glaciers recedes
 ******** 0.00.16 (21125)
 4/30/08 - constrain flag to surface of glacier, so that it doesn't stop on the surface due to velocity direction that follows valley
 4/30/08 - make tools know when they are being dragged
