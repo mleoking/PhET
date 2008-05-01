@@ -64,4 +64,5 @@ public class NuclearPhysics2Strings {
     public static final String RESET_NUCLEUS = NuclearPhysics2Resources.getString( "SharedLabels.ResetNucleus" );
     
     public static final String PERCENT_FISSIONED_LABEL = NuclearPhysics2Resources.getString( "MultipleNucleusFissionControlPanel.FissionPercentLabel" );
+    public static final String CONTAINMENT_VESSEL_CHECK_BOX = NuclearPhysics2Resources.getString( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" );
 }
