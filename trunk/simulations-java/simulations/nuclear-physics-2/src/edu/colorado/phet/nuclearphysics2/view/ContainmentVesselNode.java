@@ -32,11 +32,11 @@ public class ContainmentVesselNode extends PNode {
     //------------------------------------------------------------------------
     
     private static final float        CONTAINMENT_VESSEL_THICKNESS = 8.0f; 
-    private static final double       HANDLE_HEIGHT = 25; 
-    private static final float        HANDLE_WIDTH = 17;
-    private static final float        HANDLE_THICKNESS = 5;
-    private static final BasicStroke  HANDLE_STROKE = new BasicStroke(1.5f);
-    private static final float        HANDLE_CORNER_WIDTH = 6;
+    private static final double       HANDLE_HEIGHT = 15; 
+    private static final float        HANDLE_WIDTH = 12;
+    private static final float        HANDLE_THICKNESS = 3;
+    private static final BasicStroke  HANDLE_STROKE = new BasicStroke(1.2f);
+    private static final float        HANDLE_CORNER_WIDTH = 4;
     private static final Color        HANDLE_COLOR = Color.LIGHT_GRAY;
     private static final double       HANDLE_ANGLE = Math.PI / 4;
     
