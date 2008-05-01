@@ -59,6 +59,7 @@ public class ChainReactionModel {
     
     // Constants for convenience and optimization.
     private static final Vector2D ZERO_ACCELERATION = new Vector2D.Double(0, 0);
+    private static final double INITIAL_NEUTRON_SOURCE_ANGLE = -0.07;
     
     //------------------------------------------------------------------------
     // Instance data
@@ -116,6 +117,12 @@ public class ChainReactionModel {
                 // Ignore this, since we don't really care about it.
             }
         });
+        
+        // There was a request by the team leaders for the neutron source to
+        // be slightly tilted at init in this portion of the simulation in an
+        // effort to tip off users that it can be repositioned.  This line of
+        // code implements this request.
+        _neutronSource.setFiringAngle( INITIAL_NEUTRON_SOURCE_ANGLE );
         
         // Add the containment vessel to the model.
         _containmentVessel = new ContainmentVessel(INITIAL_CONTAINMENT_VESSEL_RADIUS);
@@ -235,7 +242,7 @@ public class ChainReactionModel {
      */
     public void reset(){
 
-        // Get rid of all the existing model elements.
+        // Get rid of all the existing nuclei and free nucleons.
         int i;
         
         for (i = 0; i < _freeNeutrons.size(); i++){
@@ -264,6 +271,10 @@ public class ChainReactionModel {
         // Set ourself back to the original state, which is with a single u235
         // nucleus in the center.
         setNumU235Nuclei( 1 );
+        
+        // Put the neutron source back to its original position.
+        _neutronSource.setFiringAngle( INITIAL_NEUTRON_SOURCE_ANGLE );
+        _neutronSource.setPosition( NEUTRON_SOURCE_POS_X, NEUTRON_SOURCE_POS_Y );
         
         // Let listeners know that things have changed.
         notifyPercentFissionedChanged();

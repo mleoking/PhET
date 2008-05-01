@@ -148,13 +148,14 @@ public class NeutronSourceNode extends PNode{
         
         _displayImage.addChild(rotationGrabberNode);
         
-        // Set up the relative rotation and translation vars.
+        // Set up the relative rotation and translation variables.
         _relativeRotationPointX = getFullBounds().width / 2;
         _relativeRotationPointY = getFullBounds().height * GUN_TIP_FRACTION_Y;
         _origWidth              = getFullBounds().width;
         _origHeight             = getFullBounds().height;
         
-        // Set our initial position.
+        // Set our initial rotation and position.
+        rotateToMatchNeutronSource();
         translateToMatchNeutronSource();
 
         // Set up the absolute, or compensated, values needed for determining
