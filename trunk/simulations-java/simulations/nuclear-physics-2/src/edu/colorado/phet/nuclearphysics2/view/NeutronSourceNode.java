@@ -15,7 +15,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.nodes.PLine;
 
 /**
  * This class acts as the visual representation of a neutron source.
@@ -55,6 +54,7 @@ public class NeutronSourceNode extends PNode{
     private double        _absoluteRotationPointX;
     private double        _absoluteRotationPointY;
     private double        _origWidth;
+    private double        _origHeight;
     private double        _currentOrientation;  // Rotational angle in radians.
     
     //------------------------------------------------------------------------
@@ -78,9 +78,10 @@ public class NeutronSourceNode extends PNode{
         // Register as a listener to the neutron source in the model.
         _neutronSource.addListener( new NeutronSource.Adapter(){
             public void orientationChanged() {
-                rotateAboutPoint( _neutronSource.getFiringAngle() - _currentOrientation, _relativeRotationPointX, 
-                        _relativeRotationPointY );
-                _currentOrientation = _neutronSource.getFiringAngle();
+                rotateToMatchNeutronSource();
+            }
+            public void positionChanged(){
+                translateToMatchNeutronSource();
             }
         });
 
@@ -123,17 +124,19 @@ public class NeutronSourceNode extends PNode{
         rotationGrabberNode.setPaint( new Color (0, 0, 0, 0)); // The forth param makes it 100% transparent and thus invisible.
         rotationGrabberNode.setStroke( null );
         rotationGrabberNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
+        
+        // Set ourself up to listen for and handle mouse dragging events.
         rotationGrabberNode.addInputEventListener( new PDragEventHandler(){
             
             double _previousMouseAngle;
             
             public void startDrag(PInputEvent event){
                 super.startDrag( event );
-                _previousMouseAngle = calcEventAngleFromRotationPoint( event );
+                _previousMouseAngle = calculateEventAngle( event );
             }
             
             public void drag(PInputEvent event){
-                double mouseAngle = calcEventAngleFromRotationPoint( event );
+                double mouseAngle = calculateEventAngle( event );
                 double angleDelta = mouseAngle - _previousMouseAngle;
                 _neutronSource.setFiringAngle( _currentOrientation + angleDelta );
                 double xGunTipPos = _absoluteRotationPointX + (Math.cos( _currentOrientation ) * _origWidth / 2);
@@ -141,24 +144,23 @@ public class NeutronSourceNode extends PNode{
                 _neutronSource.setPosition( xGunTipPos, yGunTipPos );
                 _previousMouseAngle = mouseAngle;
             }
-            
-            public void endDrag(PInputEvent event){
-                super.endDrag( event );
-            }
         });
         
         _displayImage.addChild(rotationGrabberNode);
         
-        // Set our initial position.
-        update();
-
-        // Set up the values needed for determining desired rotation angle
-        // and for rotating the image.
+        // Set up the relative rotation and translation vars.
         _relativeRotationPointX = getFullBounds().width / 2;
         _relativeRotationPointY = getFullBounds().height * GUN_TIP_FRACTION_Y;
+        _origWidth              = getFullBounds().width;
+        _origHeight             = getFullBounds().height;
+        
+        // Set our initial position.
+        translateToMatchNeutronSource();
+
+        // Set up the absolute, or compensated, values needed for determining
+        // desired rotation angle and for rotating the image.
         _absoluteRotationPointX = getFullBounds().x + _relativeRotationPointX;
         _absoluteRotationPointY = getFullBounds().y + _relativeRotationPointY;
-        _origWidth      = getFullBounds().width;
     }
     
     //------------------------------------------------------------------------
@@ -166,15 +168,30 @@ public class NeutronSourceNode extends PNode{
     //------------------------------------------------------------------------
 
     /**
-     * Position the Neutron Source Node on the canvas.
+     * Translate (i.e. move without rotating) the node so that the tip of the
+     * gun is where the neutron source is located.
      */
-    private void update(){
+    private void translateToMatchNeutronSource(){
+
+        double xPos = _neutronSource.getPosition().getX() - (Math.cos( _currentOrientation ) * _origWidth)
+                + (Math.sin( _currentOrientation ) * (_origHeight * GUN_TIP_FRACTION_Y));
+        double yPos = _neutronSource.getPosition().getY() - (Math.sin( _currentOrientation ) * _origWidth)
+                - (Math.cos( _currentOrientation ) * (_origHeight * GUN_TIP_FRACTION_Y));
+        setOffset( xPos, yPos );  
+    }
+    
+    /**
+     * Rotate the node to an angle that matches the firing angle of the
+     * neutron source.
+     * 
+     * @param angle - Desired angle of rotation in radians.
+     */
+    private void rotateToMatchNeutronSource(){
         
-        // Position the image so that the tip of the gun is where the neutrons
-        // will appear.
+        rotateAboutPoint( _neutronSource.getFiringAngle() - _currentOrientation, _relativeRotationPointX, 
+                _relativeRotationPointY );
         
-        setOffset( _neutronSource.getPosition().getX() - _displayImage.getWidth() * _displayImage.getScale(),  
-                _neutronSource.getPosition().getY() - (_displayImage.getHeight() * _displayImage.getScale() * GUN_TIP_FRACTION_Y));
+        _currentOrientation = _neutronSource.getFiringAngle();
     }
     
     /**
@@ -184,7 +201,7 @@ public class NeutronSourceNode extends PNode{
      * @param event - Mouse event.
      * @return angle in radians
      */
-    double calcEventAngleFromRotationPoint(PInputEvent event){
+    double calculateEventAngle(PInputEvent event){
         double xPos = event.getPositionRelativeTo( this.getParent() ).getX();
         double yPos = event.getPositionRelativeTo( this.getParent() ).getY();
         return Math.atan2( yPos - _absoluteRotationPointY, xPos - _absoluteRotationPointX );
