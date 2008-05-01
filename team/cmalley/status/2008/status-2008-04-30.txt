@@ -8,10 +8,12 @@ ACCOMPLISHMENTS:
   Glaciers:
   - tool requirements meeting with Archie
   - add support for dragging tools to the trash
-  - publish 0.00.15
+  - add simple motion model for tracer flags
+  - add framework for disabling specific tool behaviors while they are being dragged
+  - publish 0.00.15, 0.00.16
   
   Common code:
-  - fixes to PhetDefaultFont with Sam Reid
+  - fixes to PhetDefaultFont with Sam Reid (I don't think we're done with this yet)
   
   Translation Utility:
   - remove test JAR file when VM exits 
@@ -33,6 +35,8 @@ ACCOMPLISHMENTS:
   - add PhetLookAndFeel to all of my sims so that PhetDefaultFont is set properly
   - debug fitness on Mac with Sam Reid, Java VM crashes intermittently
   - standardize of deployed HEADER file for all of my sims
+  - look at nuclear-physics performance optimization with John
+  - create Unfuddle notebook page "Tips for optimizing performance"
   
 WHAT'S NEXT:
 
