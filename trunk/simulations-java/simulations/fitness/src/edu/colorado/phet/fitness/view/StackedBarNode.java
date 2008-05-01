@@ -28,6 +28,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
@@ -38,6 +39,7 @@ public class StackedBarNode extends PNode {
     private Function transform;
     private int barWidth;
     private PNode barChartElementNodeLayer = new PNode();
+    private ReadoutNode readoutNode;
 
     public StackedBarNode( int barWidth ) {
         this( new Function.IdentityFunction(), barWidth );
@@ -47,6 +49,8 @@ public class StackedBarNode extends PNode {
         this.transform = transform;
         this.barWidth = barWidth;
         addChild( barChartElementNodeLayer );
+        readoutNode = new ReadoutNode();
+        addChild( readoutNode );
     }
 
     public void addElement( final BarChartElement barChartElement ) {
@@ -69,7 +73,18 @@ public class StackedBarNode extends PNode {
         relayout();
     }
 
+    public double getTotal() {
+        double sum = 0;
+        for ( int i = barChartElementNodeLayer.getChildrenCount() - 1; i >= 0; i-- ) {
+            BarChartElementNode node = (BarChartElementNode) barChartElementNodeLayer.getChild( i );
+            sum += node.getBarChartElement().getValue();
+        }
+        return sum;
+    }
+
     private void relayout() {
+        DecimalFormat decimalFormat=new DecimalFormat( "0.0");
+        readoutNode.setText( decimalFormat.format( getTotal() )+ " kcal/day" );
         double viewHeight = modelToView( getTotalModelValue() );
         double offsetY = 0;
         for ( int i = barChartElementNodeLayer.getChildrenCount() - 1; i >= 0; i-- ) {
@@ -77,6 +92,8 @@ public class StackedBarNode extends PNode {
             node.setOffset( 0, offsetY - viewHeight );
             offsetY += modelToView( node.getBarChartElement().getValue() );
         }
+        BarChartElementNode node = (BarChartElementNode) barChartElementNodeLayer.getChild( 0 );
+        readoutNode.setOffset( barWidth / 2 - readoutNode.getFullBounds().getWidth() / 2, -offsetY - readoutNode.getFullBounds().getHeight() );
     }
 
     private double modelToView( double model ) {
@@ -191,8 +208,8 @@ public class StackedBarNode extends PNode {
             labelNode.setScale( 1 );
             labelNode.setOffset( 0, 0 );
             imageNode.setOffset( clip.getFullBounds().getWidth() / 2 - imageNode.getFullBounds().getWidth() / 2, 0 );
-            htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight()-3 );
-            readoutNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutNode.getFullBounds().getWidth() / 2+2, htmlNode.getFullBounds().getMaxY()-2 );
+            htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight() - 3 );
+            readoutNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutNode.getFullBounds().getWidth() / 2 + 2, htmlNode.getFullBounds().getMaxY() - 2 );
             if ( availHeight < labelNode.getFullBounds().getHeight() ) {
                 double sy = availHeight / labelNode.getFullBounds().getHeight();
                 if ( sy > 0 && sy < 1 ) {
@@ -367,4 +384,16 @@ public class StackedBarNode extends PNode {
         controlPanel.pack();
     }
 
+    private class ReadoutNode extends PNode {
+        private PText child;
+
+        private ReadoutNode() {
+            child = new PText( "Text" );
+            addChild( child );
+        }
+
+        public void setText( String s ) {
+            child.setText( s );
+        }
+    }
 }

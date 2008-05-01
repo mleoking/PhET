@@ -110,7 +110,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( weightControl );
 
-        final HumanSlider fatMassPercent = new HumanSlider( 0, 100, human.getFatMassPercent(), "Fat Mass", "0.00", "%" );
+        final HumanSlider fatMassPercent = new HumanSlider( 0, 100, human.getFatMassPercent(), "Body Fat", "0.00", "%" );
         fatMassPercent.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setFatMassPercent( fatMassPercent.getValue() );

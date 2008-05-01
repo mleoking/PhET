@@ -1,13 +1,7 @@
--Can we get a readout for: Cal. consumed, Cal Burned
-outside the bars sitting on top of the bar
-
 -Do we need fat mass% and non-fat mass percent?
     can we remove this?
     can be default based on gender
     or buttons for "muscular or nonmuscular"
-
--can we call fat mass percent body fat percent instead?
-    sounds good
 
 -How is body fat calculated?  How would a student know their % body fat?
     see above muscular vs non

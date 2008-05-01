@@ -1,4 +1,6 @@
 New in
+Added bar chart total readout on top of bar chart
+Renamed Fat Mass % to Body Fat %
 Fixed: Can't read "protein" word on the bar chart, made text scale down
 Added numeric readouts to bar chart
 Improved layout of exercise and calories selection panels, so that things line up and there are no scroll bars
