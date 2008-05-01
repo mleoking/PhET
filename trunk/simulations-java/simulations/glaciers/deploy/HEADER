@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.15
+glaciers 0.00.16
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,21 +12,21 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>draw equilibrium line across valley floor when terminus is above ELA
-<li>swap colors for ice surface and cross-section
-<li>move origin indicator on thermometer to be vertically aligned with bottom of bulb
-<li>first pass at dragging tools to the trash (doesn't work on initial drag that creates the tool)
+<li>add motion model for tracer flags
+<li>add framework for disabling specific tool behaviors while they are being dragged
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
+<li>tracer flags are not crushed by advancing glacier
 <li>tools can be lost by dragging them outside the birds-eye view
 <li>ice should use different colors above/below the equilibrium line
 </ul>
 <p>
 <b>Not implemented:</b>
 <ul>
-<li>marker flags do not move with glacier
+<li>ice has no texture, so you can't see it moving
+<li>tools have no drag constraints
 <li>borehole drill doesn't work
 <li>snowfall is not visible
 <li>Advanced panel is hidden; what you see is the Basic panel.

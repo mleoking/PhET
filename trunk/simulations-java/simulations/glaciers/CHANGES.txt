@@ -84,6 +84,7 @@ CLEANUP:
 
 
 DONE:
+******** 0.00.16 (?)
 4/30/08 - constrain flag to surface of glacier, so that it doesn't stop on the surface due to velocity direction that follows valley
 4/30/08 - make tools know when they are being dragged
 4/30/08 - add motion model for tracer flags
