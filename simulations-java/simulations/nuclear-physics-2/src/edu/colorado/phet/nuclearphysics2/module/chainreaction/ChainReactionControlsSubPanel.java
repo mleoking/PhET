@@ -76,7 +76,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         setBorder( titledBorder );
         
         // Add the check box for the containment vessel.
-        final JCheckBox enableContainmentVesselCheckBox = new JCheckBox( "Containment Vessel Enabled" );
+        final JCheckBox enableContainmentVesselCheckBox = new JCheckBox( NuclearPhysics2Strings.CONTAINMENT_VESSEL_CHECK_BOX );
         enableContainmentVesselCheckBox.setSelected( _model.getContainmentVessel().getIsEnabled() );
         enableContainmentVesselCheckBox.addChangeListener( new ChangeListener() {
             
