@@ -1,62 +1,54 @@
--Do we need fat mass% and non-fat mass percent?
-    can we remove this?
-    can be default based on gender
-    or buttons for "muscular or nonmuscular"
-
--How is body fat calculated?  How would a student know their % body fat?
-    see above muscular vs non
-
--scaling is confusing. x and y axis calibration is set out of range on graphs
--step=year on graphs
-    had to zoom out in both axes to see anything
-    change x-axis to be in years
-    barker used step first, Step=1 month
-
-- one "hour" of exercise
-    done
-
--need more junk food for diet options: pizza, burrito, chips, cookies, tacos, etc
-    get rid of brussel sprouts?
-    twizzlers or candies
-    more junk
-    like actual student diets
-
--Incorporate growth or height changes with weight?
-    should we increase this?
-    yes, look on web for height changes since BMI =f(height)
-
-BMI comparative thing, popup box regarding healthy BMI's
-
--BMI readings may be slightly off...we checked them against the NHLBinstute chart)
-
--BMI readout is too small to see.  Maybe put next to BMR?
-
--Can we put a chart or weblink to compare healthy or unhealthy BMI? (see categories chart on national heart lung and blood institute bmi calculator page)
-
--Are we accounting for sex affects on BMI and BMR?
-
-We are still confused about a delay in weight loss if: all variables remained constant: diet and lifestyle and then we ran amile, why there is a delay in weight loss.
-
-Also, how will we get our students to access the site?  Do we need to provide a weblink?  will it be on the phet site?
-
 High Priority:
+
+Will students know to push play?
+
+Change "Step button" to correspond to 1 month per press.
+
+Fat Mass
+    -Do we need fat mass% and non-fat mass percent? / -How is body fat calculated?  How would a student know their % body fat?
+        can we remove this?
+        can be default based on gender
+        or buttons for "muscular or nonmuscular"
+
+Height
+    Incorporate growth or height changes with weight?
+        should we increase this?
+        yes, look on web for height changes since BMI =f(height)
+
+BMI:
+    BMI comparative thing, popup box regarding healthy BMI's
+    BMI readings may be slightly off...we checked them against the NHLBinstute chart
+    BMI readout is too small to see.  Maybe put next to BMR?
+        >>I'd recommend elsewhere, perhaps in the human control panel
+    Are we accounting for sex affects on BMI and BMR?
+    -Can we put a chart or weblink to compare healthy or unhealthy BMI?
+    (see categories chart on national heart lung and blood institute bmi calculator page)
+
+We are still confused about a delay in weight loss if: all variables remained constant:
+    diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
+    -I think you should be able to do "step day", so you can see the effects of 1 hour activity    
+
 Graphs
     Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
     Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
         Set graph units to years
     Need a reset graph only button
-    Reset all needs to clear graphs
-        click 'reset all', wait a couple seconds, then click 'restart': graph
-        lines are still there, but are drawn over
     Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
     Rename readouts to "caloric intake" and "caloric burn", make sure they don't overlap
     Graphs need to sync units with unit change button.
+    Had to zoom out in both axes to see anything
+    Change x-axis to be in years
+    Scaling is confusing. x and y axis calibration is set out of range on graphs
+
 Food composition should lead to a change in the Fat Free Mass %
+
 Time readout at bottom should be years, not seconds.
         When it comes to a person's age, we tend to speak in years or days instead of seconds.
-Performance: consider profiling or changing clock rate
+
 Crashes on mac, see email
     I use a mac-when i access the diet window the sim crashes on me..
+    
+Provide a link for RV teachers
 
 Med Priority:
 Add a legend for caloric breakdown pie chart
@@ -111,6 +103,16 @@ Satisfy learning goal: How long do you have to bike/walk to burn a certain numbe
     bike/walk to burn a certain number of calories?", you just have to look
     at the number of kcal/day in the text of the exercise type.
         might be better to ask how long it would take to lose 10 lbs?
+-need more junk food for diet options: pizza, burrito, chips, cookies, tacos, etc
+    get rid of brussel sprouts?
+    twizzlers or candies
+    more junk
+    like actual student diets
+Reset all needs to clear graphs
+    click 'reset all', wait a couple seconds, then click 'restart': graph
+    lines are still there, but are drawn over
+    >>is this fixed?
+Performance: consider profiling or changing clock rate
 
 Bill 4/18/2008
 
