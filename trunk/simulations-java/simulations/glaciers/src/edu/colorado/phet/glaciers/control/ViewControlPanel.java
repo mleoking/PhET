@@ -11,11 +11,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
+import edu.colorado.phet.glaciers.view.ElevationAxisNode;
+import edu.colorado.phet.glaciers.view.EquilibriumLineNode;
+import edu.colorado.phet.glaciers.view.IceFlowNode;
 
 /**
  * ViewControlPanel is the "View" control panel.
@@ -54,41 +59,65 @@ public class ViewControlPanel extends AbstractSubPanel {
         
         _listeners = new ArrayList();
         
-        _equilibriumLineCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_EQUILIBRIUM_LINE );
-        _equilibriumLineCheckBox.setFont( CONTROL_FONT );
-        _equilibriumLineCheckBox.setForeground( CONTROL_COLOR );
-        _equilibriumLineCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifyEquilibriumLineChanged();
-            }
-        });
+        JPanel equilibriumLinePanel = new JPanel();
+        {
+            _equilibriumLineCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_EQUILIBRIUM_LINE );
+            _equilibriumLineCheckBox.setFont( CONTROL_FONT );
+            _equilibriumLineCheckBox.setForeground( CONTROL_COLOR );
+            _equilibriumLineCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    notifyEquilibriumLineChanged();
+                }
+            } );
+            
+            JLabel equilibriumLineIcon = new JLabel( EquilibriumLineNode.createIcon() );
+            
+            equilibriumLinePanel.add( _equilibriumLineCheckBox );
+            equilibriumLinePanel.add( equilibriumLineIcon );
+        }
         
-        _iceFlowCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_ICE_FLOW );
-        _iceFlowCheckBox.setFont( CONTROL_FONT );
-        _iceFlowCheckBox.setForeground( CONTROL_COLOR );
-        _iceFlowCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifyIceFlowChanged();
-            }
-        });
+        JPanel iceFlowPanel = new JPanel();
+        {
+            _iceFlowCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_ICE_FLOW );
+            _iceFlowCheckBox.setFont( CONTROL_FONT );
+            _iceFlowCheckBox.setForeground( CONTROL_COLOR );
+            _iceFlowCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    notifyIceFlowChanged();
+                }
+            } );
+            
+            JLabel iceFlowIcon = new JLabel( IceFlowNode.createIcon() );
+            
+            iceFlowPanel.add( _iceFlowCheckBox );
+            iceFlowPanel.add( iceFlowIcon );
+        }
         
-        _coordinatesCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_COORDINATES );
-        _coordinatesCheckBox.setFont( CONTROL_FONT );
-        _coordinatesCheckBox.setForeground( CONTROL_COLOR );
-        _coordinatesCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifyCoordinatesChanged();
-            }
-        });
+        JPanel coordinatesPanel = new JPanel();
+        {
+            _coordinatesCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_COORDINATES );
+            _coordinatesCheckBox.setFont( CONTROL_FONT );
+            _coordinatesCheckBox.setForeground( CONTROL_COLOR );
+            _coordinatesCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    notifyCoordinatesChanged();
+                }
+            } );
+            
+            JLabel coordinatesIcon = new JLabel( ElevationAxisNode.createIcon() );
+            
+            coordinatesPanel.add( _coordinatesCheckBox );
+            coordinatesPanel.add( coordinatesIcon );
+        }
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
         int column = 0;
         layout.setAnchor( GridBagConstraints.WEST );
-        layout.addComponent( _equilibriumLineCheckBox, row++, column );
-        layout.addComponent( _iceFlowCheckBox, row++, column );
-        layout.addComponent( _coordinatesCheckBox, row++, column );
+        layout.addComponent( equilibriumLinePanel, row++, column );
+        layout.addComponent( iceFlowPanel, row++, column );
+        layout.addComponent( coordinatesPanel, row++, column );
         
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* excludedClasses */, false /* processContentsOfExcludedContainers */ );
     }

@@ -4,9 +4,14 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.glaciers.model.Glacier;
@@ -130,5 +135,23 @@ public class EquilibriumLineNode extends PhetPNode {
         }
         
         _pathNode.setPathTo( _path );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Icon
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Creates an icon to represent this node.
+     * Used in control panels.
+     * @return Icon
+     */
+    public static Icon createIcon() {
+        final double width = 30;
+        PPath pathNode = new PPath( new Line2D.Double( 0, 0, width, 0 ) );
+        pathNode.setStroke( STROKE );
+        pathNode.setStrokePaint( STROKE_COLOR );
+        Image image = pathNode.toImage();
+        return new ImageIcon( image );
     }
 }

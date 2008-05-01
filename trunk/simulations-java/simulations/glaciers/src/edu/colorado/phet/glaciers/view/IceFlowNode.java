@@ -2,11 +2,11 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Point2D;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
@@ -81,12 +81,20 @@ public class IceFlowNode extends PComposite {
         updateVectors();
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( _isDirty ) {
             updateVectors();
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
     
     private void updateVectors() {
         
@@ -118,10 +126,14 @@ public class IceFlowNode extends PComposite {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
     /*
      * VelocityVectorNode encapsulates the "look" of an ice velocity vector.
      */
-    private class VelocityVectorNode extends Vector2DNode {
+    private static class VelocityVectorNode extends Vector2DNode {
         public VelocityVectorNode( double x, double y, double scale ) {
             super( x, y, 1, scale );
             setHeadSize( VELOCITY_VECTOR_HEAD_WIDTH, VELOCITY_VECTOR_HEAD_HEIGHT );
@@ -132,5 +144,36 @@ public class IceFlowNode extends PComposite {
             setFractionalHeadHeight( 0.5 );
             setValueVisible( false );
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Icon
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Creates an icon to represent this node.
+     * The icon consists of a column of 3 vectors, left aligned.
+     * Vectors near the top are longer than vectors near the bottom.
+     * @return Icon
+     */
+    public static Icon createIcon() {
+        PNode parentNode = new PNode();
+        VelocityVectorNode vectorNode;
+        final double ySpacing = 6;
+
+        vectorNode = new VelocityVectorNode( 30, 0, 1 );
+        vectorNode.setOffset( 0, 0 );
+        parentNode.addChild( vectorNode );
+        
+        vectorNode = new VelocityVectorNode( 20, 0, 1 );
+        vectorNode.setOffset( 0, ySpacing );
+        parentNode.addChild( vectorNode );
+        
+        vectorNode = new VelocityVectorNode( 10, 0, 1 );
+        vectorNode.setOffset( 0, 2 * ySpacing );
+        parentNode.addChild( vectorNode );
+        
+        Image image = parentNode.toImage();
+        return new ImageIcon( image );
     }
 }
