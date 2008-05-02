@@ -45,10 +45,13 @@ public class AtomicNucleusNode extends PNode {
     private static final double LABEL_SCALING_FACTOR = 0.35;
     
     // Constants that control the nature of the explosion graphic.
-    private static int   EXPLOSION_COUNTER_RESET_VAL = 10;
-    private static Color EXPLOSION_STROKE_COLOR = new Color(0xffff33);
-    private static Color EXPLOSION_FILL_COLOR = new Color(0xffff33);
-    private static float EXPLOSION_MIN_TRANSPARENCY = 0.4f;
+    private static final int   EXPLOSION_COUNTER_RESET_VAL = 10;
+    private static final Color EXPLOSION_STROKE_COLOR = new Color(0xffff33);
+    private static final Color EXPLOSION_FILL_COLOR = new Color(0xffff33);
+    private static final float EXPLOSION_MIN_TRANSPARENCY = 0.4f;
+    
+    // Constants that control the range of nuclei for which labels are created.
+    private static int MIN_PROTONS_OF_LABELED_NUCLEUS = 80;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -78,12 +81,17 @@ public class AtomicNucleusNode extends PNode {
         // Create the shape that will be used to define the explosion.
         _explosionShape = new Ellipse2D.Double();
         
-        // Create the labels (initially blank) and add them to this node.        
-        _isotopeLabel = new ShadowHTMLNode("");
-        _isotopeLabel.setFont( ISOTOPE_LABEL_FONT );
-        _isotopeLabel.setScale( LABEL_SCALING_FACTOR );
-        _isotopeLabel.setShadowOffset( 0.5, 0.5 );
-        addChild(_isotopeLabel);
+        // Create the labels (initially blank) and add them to this node.  Note
+        // that not all nuclei get a label allocated for them.  This is an
+        // optimization, since it was found that the allocation and cleanup of
+        // these nodes was expensive in terms of memory usage.
+        if (_atomicNucleus.getNumProtons() >= MIN_PROTONS_OF_LABELED_NUCLEUS){
+            _isotopeLabel = new ShadowHTMLNode("");
+            _isotopeLabel.setFont( ISOTOPE_LABEL_FONT );
+            _isotopeLabel.setScale( LABEL_SCALING_FACTOR );
+            _isotopeLabel.setShadowOffset( 0.5, 0.5 );
+            addChild(_isotopeLabel);
+        }
         
         // Set the label based on the configuration of the nucleus.
         _currentAtomicWeight = _atomicNucleus.getAtomicWeight();
@@ -130,6 +138,11 @@ public class AtomicNucleusNode extends PNode {
      * @param numNeutrons - The total number of neutrons in the nucleus.
      */
     private void setLabel(int numProtons, int numNeutrons){
+        
+        if (_isotopeLabel == null){
+            // Don't bother doing anything if there is no label to set.
+            return;
+        }
         
         String labelText = "";
         Color labelColor = Color.GRAY;
@@ -219,9 +232,11 @@ public class AtomicNucleusNode extends PNode {
      */
     protected void update(){
 
-        _isotopeLabel.setOffset( _atomicNucleus.getPositionReference().getX() - _atomicNucleus.getDiameter()/2,  
-                _atomicNucleus.getPositionReference().getY() - _atomicNucleus.getDiameter()/2);
-        
+        if (_isotopeLabel != null){
+            
+            _isotopeLabel.setOffset( _atomicNucleus.getPositionReference().getX() - _atomicNucleus.getDiameter()/2,  
+                    _atomicNucleus.getPositionReference().getY() - _atomicNucleus.getDiameter()/2);            
+        }
     }
 
     /**
