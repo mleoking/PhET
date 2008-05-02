@@ -210,4 +210,21 @@ public class NeutronSourceNode extends PNode{
         double yPos = event.getPositionRelativeTo( this.getParent() ).getY();
         return Math.atan2( yPos - _absoluteRotationPointY, xPos - _absoluteRotationPointX );
     }
+
+    /**
+     * This main routine allows the class to be tested in a standalone manner.
+     * 
+     * @param args
+     */
+    public static void main( String[] args ) {
+        NeutronSourceNode neutronSourceNode = new NeutronSourceNode( new NeutronSource( 100, 100 ), 100 );
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        PhetPCanvas contentPane = new PhetPCanvas();
+        contentPane.addScreenChild( neutronSourceNode );
+        frame.setContentPane( contentPane );
+        frame.setSize( 1024, 768 );
+        frame.show();
+    }
+
 }
