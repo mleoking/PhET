@@ -68,7 +68,7 @@ public class ProtonNode extends PNode implements NucleonNode{
     //------------------------------------------------------------------------
 
     private void update(){
-        _displayImage.setOffset( _nucleon.getPosition().getX() - PARTICLE_DIAMETER/2,  
-                _nucleon.getPosition().getY() - PARTICLE_DIAMETER/2);
+        _displayImage.setOffset( _nucleon.getPositionReference().getX() - PARTICLE_DIAMETER/2,  
+                _nucleon.getPositionReference().getY() - PARTICLE_DIAMETER/2);
     }
 }

@@ -44,6 +44,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
     private LinearValueControl _u238AmountControl;
     private JTextField         _percentFissioned;
     private ChainReactionModel _model;
+    private boolean            _ignoreStateChanges;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -107,8 +108,10 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u235AmountControl.setValue( _model.getNumU235Nuclei() );
         _u235AmountControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int num = _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
-                _u235AmountControl.setValue( (double )num );
+                if (_ignoreStateChanges == false){
+                    int num = _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
+                    _u235AmountControl.setValue( (double )num );
+                }
             }
         });        
         _u235AmountControl.getSlider().addMouseListener( new MouseListener() {
@@ -119,8 +122,11 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 // cannot actually be accomodated by the simulation.  For some
                 // reason, it must be set to an incorrect value and then back
                 // to a correct one for this to work right.
-                _u235AmountControl.setValue( _model.getNumU235Nuclei() - 1 );
-                _u235AmountControl.setValue( _model.getNumU235Nuclei() );
+                _ignoreStateChanges = true;
+                double numNuclei = _model.getNumU235Nuclei();
+                _u235AmountControl.setValue( numNuclei - 1 );
+                _u235AmountControl.setValue( numNuclei );
+                _ignoreStateChanges = false;
             }
             public void mouseClicked(MouseEvent e) {}
             public void mousePressed(MouseEvent e) {}
@@ -141,8 +147,10 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u238AmountControl.setValue( _model.getNumU238Nuclei() );
         _u238AmountControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int num = _model.setNumU238Nuclei( (int)Math.round(_u238AmountControl.getValue()) );
-                _u238AmountControl.setValue( (double )num );
+                if (_ignoreStateChanges == false){
+                    int num = _model.setNumU238Nuclei( (int)Math.round(_u238AmountControl.getValue()) );
+                    _u238AmountControl.setValue( (double )num );
+                }
             }
         } );
         _u238AmountControl.getSlider().addMouseListener( new MouseListener() {
@@ -153,8 +161,11 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 // cannot actually be accomodated by the simulation.  For some
                 // reason, it must be set to an incorrect value and then back
                 // to a correct one for this to work right.
-                _u238AmountControl.setValue( _model.getNumU238Nuclei() - 1 );
-                _u238AmountControl.setValue( _model.getNumU238Nuclei() );
+                _ignoreStateChanges = true;
+                double numNuclei = _model.getNumU238Nuclei();
+                _u238AmountControl.setValue( numNuclei - 1 );
+                _u238AmountControl.setValue( numNuclei );
+                _ignoreStateChanges = false;
             }
             public void mouseClicked(MouseEvent e) {}
             public void mousePressed(MouseEvent e) {}

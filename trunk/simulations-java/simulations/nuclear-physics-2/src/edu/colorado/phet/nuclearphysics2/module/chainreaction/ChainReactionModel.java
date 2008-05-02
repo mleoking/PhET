@@ -408,7 +408,7 @@ public class ChainReactionModel {
             numNuclei = _u235Nuclei.size();
             for (j = 0; (j < numNuclei) && (particleAbsorbed == false); j++){
                 AtomicNucleus nucleus = (AtomicNucleus)_u235Nuclei.get( j );
-                if (freeNucleon.getPosition().distance( nucleus.getPositionReference() ) <=
+                if (freeNucleon.getPositionReference().distance( nucleus.getPositionReference() ) <=
                     nucleus.getDiameter() / 2)
                 {
                     // The particle is within capture range - see if the nucleus can capture it.
@@ -418,7 +418,7 @@ public class ChainReactionModel {
             numNuclei = _u238Nuclei.size();
             for (j = 0; (j < numNuclei) && (particleAbsorbed == false); j++){
                 AtomicNucleus nucleus = (AtomicNucleus)_u238Nuclei.get( j );
-                if (freeNucleon.getPosition().distance( nucleus.getPositionReference() ) <=
+                if (freeNucleon.getPositionReference().distance( nucleus.getPositionReference() ) <=
                     nucleus.getDiameter() / 2)
                 {
                     // The particle is within capture range - see if the nucleus can capture it.
@@ -434,7 +434,7 @@ public class ChainReactionModel {
                 notifyModelElementRemoved( freeNucleon );
             }
             else if ((_containmentVessel.getIsEnabled() && 
-                    _containmentVessel.isPositionContained( freeNucleon.getPosition() ))){
+                    _containmentVessel.isPositionContained( freeNucleon.getPositionReference() ))){
                 // This particle is contained by the containment vessel, so freeze it where it is.
                 freeNucleon.setVelocity( 0, 0 );
             }
