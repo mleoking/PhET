@@ -5,19 +5,14 @@ package edu.colorado.phet.nuclearphysics2.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
-import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -36,8 +31,9 @@ public class AtomicNucleusNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    // Font for displaying the label on the nucleus.
-    private static final Font ISOTOPE_LABEL_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
+    // Fonts for displaying the label on the nucleus.
+    private static final Font ISOTOPE_NUMBER_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
+    private static final Font ISOTOPE_CHEM_SYMBOL_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
     
     // Factor by which the font should be scaled.  This allows us to use
     // standard font sizes and the use the Piccolo scaling capabilities,
@@ -51,18 +47,30 @@ public class AtomicNucleusNode extends PNode {
     private static final float EXPLOSION_MIN_TRANSPARENCY = 0.4f;
     
     // Constants that control the range of nuclei for which labels are created.
-    private static int MIN_PROTONS_OF_LABELED_NUCLEUS = 80;
+    private static final int MIN_PROTONS_OF_LABELED_NUCLEUS = 80;
+    
+    // Amount that shadow should be offset from the main text.
+    private static final double SHADOW_OFFSET = 0.2;
     
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
     
-    private ShadowHTMLNode _isotopeLabel;
     protected AtomicNucleus _atomicNucleus;
     private int _currentAtomicWeight;
     private int _explosionCounter = 0;
     private PPath _explosion;
     private Ellipse2D _explosionShape;
+
+    // The following variables represent the four portions of the label,
+    // which are the isotope number, the chemical symbol, and a shadow for
+    // each.  These were done individually because it turned out that using
+    // the HTMLShadowNode class used too much memory and computational power
+    // when large quantities of them were moving around the screen.
+    private PText _isotopeNumber;
+    private PText _isotopeNumberShadow;
+    private PText _isotopeChemSymbol;
+    private PText _isotopeChemSymbolShadow;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -71,6 +79,7 @@ public class AtomicNucleusNode extends PNode {
     public AtomicNucleusNode(AtomicNucleus atomicNucleus)
     {
         _atomicNucleus = atomicNucleus;
+        _currentAtomicWeight = _atomicNucleus.getAtomicWeight();
         
         // Initialize the node that is used to display the explosion.
         _explosion = new PPath();
@@ -86,15 +95,29 @@ public class AtomicNucleusNode extends PNode {
         // optimization, since it was found that the allocation and cleanup of
         // these nodes was expensive in terms of memory usage.
         if (_atomicNucleus.getNumProtons() >= MIN_PROTONS_OF_LABELED_NUCLEUS){
-            _isotopeLabel = new ShadowHTMLNode("");
-            _isotopeLabel.setFont( ISOTOPE_LABEL_FONT );
-            _isotopeLabel.setScale( LABEL_SCALING_FACTOR );
-            _isotopeLabel.setShadowOffset( 0.5, 0.5 );
-            addChild(_isotopeLabel);
+            
+            _isotopeNumberShadow = new PText();
+            _isotopeNumberShadow.setFont( ISOTOPE_NUMBER_FONT );
+            _isotopeNumberShadow.setScale( LABEL_SCALING_FACTOR );
+            addChild(_isotopeNumberShadow);
+            
+            _isotopeNumber = new PText();
+            _isotopeNumber.setFont( ISOTOPE_NUMBER_FONT );
+            _isotopeNumber.setScale( LABEL_SCALING_FACTOR );
+            addChild(_isotopeNumber);
+            
+            _isotopeChemSymbolShadow = new PText();
+            _isotopeChemSymbolShadow.setFont( ISOTOPE_CHEM_SYMBOL_FONT );
+            _isotopeChemSymbolShadow.setScale( LABEL_SCALING_FACTOR );
+            addChild(_isotopeChemSymbolShadow);
+            
+            _isotopeChemSymbol = new PText();
+            _isotopeChemSymbol.setFont( ISOTOPE_CHEM_SYMBOL_FONT );
+            _isotopeChemSymbol.setScale( LABEL_SCALING_FACTOR );
+            addChild(_isotopeChemSymbol);
         }
         
         // Set the label based on the configuration of the nucleus.
-        _currentAtomicWeight = _atomicNucleus.getAtomicWeight();
         setLabel(_atomicNucleus.getNumProtons(), _atomicNucleus.getNumNeutrons());
         
         // Register as a listener for the model representation.
@@ -139,12 +162,13 @@ public class AtomicNucleusNode extends PNode {
      */
     private void setLabel(int numProtons, int numNeutrons){
         
-        if (_isotopeLabel == null){
+        if (_isotopeChemSymbol == null){
             // Don't bother doing anything if there is no label to set.
             return;
         }
         
-        String labelText = "";
+        String chemSymbol = "";
+        String isotopeNumber = "";
         Color labelColor = Color.GRAY;
         
         switch (numProtons){
@@ -152,27 +176,27 @@ public class AtomicNucleusNode extends PNode {
             // Uranium
             if (numNeutrons == 143){
                 // Uranium 235
-                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER +
-                " </font></sup>" + NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL + "</html>";
+                isotopeNumber = NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL;
                 labelColor = NuclearPhysics2Constants.URANIUM_235_LABEL_COLOR;
             }
             else if (numNeutrons == 144){
                 // Uranium 236
                 // TODO: JPB TBD - Make these into strings if we decide to keep it.
-                labelText = "<html><sup><font size=-2>" + "236" +
-                " </font></sup>" + NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL + "</html>";
+                isotopeNumber = "236";
+                chemSymbol = NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL;
                 labelColor = Color.ORANGE;
             }
             else if (numNeutrons == 146){
                 // Uranium 238
-                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.URANIUM_238_ISOTOPE_NUMBER +
-                " </font></sup>" + NuclearPhysics2Strings.URANIUM_238_CHEMICAL_SYMBOL + "</html>";
+                isotopeNumber = NuclearPhysics2Strings.URANIUM_238_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysics2Strings.URANIUM_238_CHEMICAL_SYMBOL;
                 labelColor = NuclearPhysics2Constants.URANIUM_238_LABEL_COLOR;
             }
             else if (numNeutrons == 147){
                 // Uranium 239
-                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.URANIUM_239_ISOTOPE_NUMBER +
-                " </font></sup>" + NuclearPhysics2Strings.URANIUM_239_CHEMICAL_SYMBOL + "</html>";
+                isotopeNumber = NuclearPhysics2Strings.URANIUM_239_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysics2Strings.URANIUM_239_CHEMICAL_SYMBOL;
                 labelColor = NuclearPhysics2Constants.URANIUM_239_LABEL_COLOR;
             }
             
@@ -182,8 +206,8 @@ public class AtomicNucleusNode extends PNode {
             // Polonium
             if (numNeutrons == 127){
             // Polonium 211
-                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER +
-                " </font></sup>" + NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL + "</html>";
+                isotopeNumber = NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL;
                 labelColor = NuclearPhysics2Constants.POLONIUM_LABEL_COLOR;
             }
             
@@ -192,8 +216,8 @@ public class AtomicNucleusNode extends PNode {
         case 82:
             // Lead
             if (numNeutrons == 125){
-                labelText = "<html><sup><font size=-2>" + NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER +
-                " </font></sup>" + NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL + "</html>";
+                isotopeNumber = NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL;
                 labelColor = NuclearPhysics2Constants.LEAD_LABEL_COLOR;
             }
             
@@ -203,26 +227,33 @@ public class AtomicNucleusNode extends PNode {
             // This is a special case that is used to signal that the nucleus
             // should have no label.
             
-            labelText = "";
+            chemSymbol = "";
             
             break;
             
         default:
             // Add no label.
-            labelText = "";
+            chemSymbol = "";
             
             break;
         }
 
-        _isotopeLabel.setColor( labelColor );
+        _isotopeChemSymbol.setTextPaint( labelColor );
+        _isotopeNumber.setTextPaint( labelColor );
+        
         if (labelColor == Color.BLACK){
-            _isotopeLabel.setShadowColor( Color.WHITE );
+            _isotopeChemSymbolShadow.setTextPaint( Color.WHITE );
+            _isotopeNumberShadow.setTextPaint( Color.WHITE );
         }
         else{
-            _isotopeLabel.setShadowColor( Color.BLACK );            
+            _isotopeChemSymbolShadow.setTextPaint( Color.BLACK );
+            _isotopeNumberShadow.setTextPaint( Color.BLACK );
         }
         
-        _isotopeLabel.setHtml( labelText );
+        _isotopeChemSymbol.setText( chemSymbol );
+        _isotopeChemSymbolShadow.setText( chemSymbol );
+        _isotopeNumber.setText( isotopeNumber );
+        _isotopeNumberShadow.setText( isotopeNumber );
     }
     
     /**
@@ -232,10 +263,19 @@ public class AtomicNucleusNode extends PNode {
      */
     protected void update(){
 
-        if (_isotopeLabel != null){
+        // Optimization: Only check one of the label elements, and only do
+        // the update if it exists.
+        if (_isotopeChemSymbol != null){
             
-            _isotopeLabel.setOffset( _atomicNucleus.getPositionReference().getX() - _atomicNucleus.getDiameter()/2,  
-                    _atomicNucleus.getPositionReference().getY() - _atomicNucleus.getDiameter()/2);            
+            double numPosX = _atomicNucleus.getPositionReference().getX() - _atomicNucleus.getDiameter()/2;
+            double numPosY = _atomicNucleus.getPositionReference().getY() - _atomicNucleus.getDiameter()/2;
+            _isotopeNumber.setOffset( numPosX, numPosY );            
+            _isotopeNumberShadow.setOffset( numPosX + SHADOW_OFFSET, numPosY + SHADOW_OFFSET);
+            
+            double chemPosX = _isotopeNumber.getOffset().getX() + _isotopeNumber.getFullBounds().getWidth();
+            double chemPosY = _isotopeNumber.getOffset().getY();
+            _isotopeChemSymbol.setOffset( chemPosX, chemPosY );
+            _isotopeChemSymbolShadow.setOffset( chemPosX + SHADOW_OFFSET, chemPosY + SHADOW_OFFSET);            
         }
     }
 
