@@ -4,6 +4,8 @@ package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
@@ -108,7 +110,23 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 int num = _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
                 _u235AmountControl.setValue( (double )num );
             }
-        } );        
+        });        
+        _u235AmountControl.getSlider().addMouseListener( new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+                // Handle the event that is created when the user releases the
+                // slider.  This is done to create a "snap back" effect in
+                // cases where the user slides the slider to a level that
+                // cannot actually be accomodated by the simulation.  For some
+                // reason, it must be set to an incorrect value and then back
+                // to a correct one for this to work right.
+                _u235AmountControl.setValue( _model.getNumU235Nuclei() + 1 );
+                _u235AmountControl.setValue( _model.getNumU235Nuclei() );
+            }
+            public void mouseClicked(MouseEvent e) {}
+            public void mousePressed(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {}
+            public void mouseExited(MouseEvent e)  {}
+        });
         add(_u235AmountControl);
         
         // Add the slider that controls the number of U-238 nuclei that appear.
@@ -127,6 +145,22 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 _u238AmountControl.setValue( (double )num );
             }
         } );
+        _u238AmountControl.getSlider().addMouseListener( new MouseListener() {
+            public void mouseReleased(MouseEvent e) {
+                // Handle the event that is created when the user releases the
+                // slider.  This is done to create a "snap back" effect in
+                // cases where the user slides the slider to a level that
+                // cannot actually be accomodated by the simulation.  For some
+                // reason, it must be set to an incorrect value and then back
+                // to a correct one for this to work right.
+                _u238AmountControl.setValue( _model.getNumU238Nuclei() + 1 );
+                _u238AmountControl.setValue( _model.getNumU238Nuclei() );
+            }
+            public void mouseClicked(MouseEvent e) {}
+            public void mousePressed(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {}
+            public void mouseExited(MouseEvent e)  {}
+        });
         add(_u238AmountControl);
         
         // Add the percentage fissioned information.
