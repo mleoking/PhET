@@ -119,7 +119,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 // cannot actually be accomodated by the simulation.  For some
                 // reason, it must be set to an incorrect value and then back
                 // to a correct one for this to work right.
-                _u235AmountControl.setValue( _model.getNumU235Nuclei() + 1 );
+                _u235AmountControl.setValue( _model.getNumU235Nuclei() - 1 );
                 _u235AmountControl.setValue( _model.getNumU235Nuclei() );
             }
             public void mouseClicked(MouseEvent e) {}
@@ -153,7 +153,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 // cannot actually be accomodated by the simulation.  For some
                 // reason, it must be set to an incorrect value and then back
                 // to a correct one for this to work right.
-                _u238AmountControl.setValue( _model.getNumU238Nuclei() + 1 );
+                _u238AmountControl.setValue( _model.getNumU238Nuclei() - 1 );
                 _u238AmountControl.setValue( _model.getNumU238Nuclei() );
             }
             public void mouseClicked(MouseEvent e) {}
