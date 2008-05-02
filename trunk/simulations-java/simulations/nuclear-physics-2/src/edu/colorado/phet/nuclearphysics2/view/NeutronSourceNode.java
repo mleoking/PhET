@@ -226,5 +226,4 @@ public class NeutronSourceNode extends PNode{
         frame.setSize( 1024, 768 );
         frame.show();
     }
-
 }
