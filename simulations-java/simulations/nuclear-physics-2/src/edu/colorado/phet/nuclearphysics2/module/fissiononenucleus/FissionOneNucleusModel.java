@@ -182,7 +182,8 @@ public class FissionOneNucleusModel {
 
             // Check if any of the free particles have collided with the nucleus
             // and, if so, transfer the particle into the nucleus.
-            if (Point2D.distance(freeNucleon.getPosition().getX(), freeNucleon.getPosition().getY(), _primaryNucleus.getPositionReference().getX(), _primaryNucleus.getPositionReference().getY()) <
+            if (Point2D.distance(freeNucleon.getPositionReference().getX(), freeNucleon.getPositionReference().getY(),
+                    _primaryNucleus.getPositionReference().getX(), _primaryNucleus.getPositionReference().getY()) <
                 _primaryNucleus.getDiameter() / 2){
                 
                 if (_primaryNucleus.captureParticle( freeNucleon )){
