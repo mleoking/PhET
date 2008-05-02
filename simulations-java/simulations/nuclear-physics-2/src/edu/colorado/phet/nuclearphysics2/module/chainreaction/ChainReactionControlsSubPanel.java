@@ -124,7 +124,12 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 // to a correct one for this to work right.
                 _ignoreStateChanges = true;
                 double numNuclei = _model.getNumU235Nuclei();
-                _u235AmountControl.setValue( numNuclei - 1 );
+                if (numNuclei > 0){
+                    _u235AmountControl.setValue( numNuclei - 1 );
+                }
+                else{
+                    _u235AmountControl.setValue( numNuclei + 1 );
+                }
                 _u235AmountControl.setValue( numNuclei );
                 _ignoreStateChanges = false;
             }
@@ -163,7 +168,12 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 // to a correct one for this to work right.
                 _ignoreStateChanges = true;
                 double numNuclei = _model.getNumU238Nuclei();
-                _u238AmountControl.setValue( numNuclei - 1 );
+                if (numNuclei > 0){
+                    _u238AmountControl.setValue( numNuclei - 1 );
+                }
+                else{
+                    _u238AmountControl.setValue( numNuclei + 1 );
+                }
                 _u238AmountControl.setValue( numNuclei );
                 _ignoreStateChanges = false;
             }
