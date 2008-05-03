@@ -31,4 +31,5 @@ public class FitnessStrings {
     public static final String FATS = "Fats";
 
     public static final DecimalFormat KCAL_PER_DAY_FORMAT = new DecimalFormat( "0" );
+    public static final DecimalFormat WEIGHT_FORMAT = new DecimalFormat( "0" );
 }

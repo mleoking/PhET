@@ -11,6 +11,7 @@ import javax.swing.border.BevelBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
@@ -111,7 +112,7 @@ public class ScaleNode extends PNode {
     }
 
     private void updateWeightReadout() {
-        weightReadout.setText( "" + new DecimalFormat( "0.0" ).format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() );
+        weightReadout.setText( "" + FitnessStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() );
         updateTextLayout();
     }
 

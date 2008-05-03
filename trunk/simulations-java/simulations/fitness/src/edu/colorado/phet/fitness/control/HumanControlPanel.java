@@ -20,6 +20,7 @@ import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.colorado.phet.fitness.view.FitnessColorScheme;
 import edu.colorado.phet.fitness.view.SliderNode;
+import edu.colorado.phet.fitness.FitnessStrings;
 
 /**
  * Created by: Sam
@@ -87,7 +88,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         final double minWeight = 0;
         final double maxWeight = 300;
-        final HumanSlider weightControl = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), "Weight", "0.00", model.getUnits().getMassUnit() );
+        final HumanSlider weightControl = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), "Weight", FitnessStrings.WEIGHT_FORMAT.toPattern(), model.getUnits().getMassUnit() );
         weightControl.setColumns( 5 );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
