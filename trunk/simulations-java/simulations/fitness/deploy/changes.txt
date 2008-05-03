@@ -2,9 +2,10 @@ New in
 Changed kcal to Cal
 Relabeled Lipid to Fat
 Lightened caloric intake bar chart colors
-Rounded all kcal/day to nearest 1.
+Rounded all kcal/day to nearest 1
+Rounded weight to nearest 1
+Rounded age to 0.1
 Removed units from interior of stacked bar chart
-Rounded weight to nearest 1.
 
 New in 0.00.21 (4-30-2008)
 Added more junk foods

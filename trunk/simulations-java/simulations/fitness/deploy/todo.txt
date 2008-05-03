@@ -10,8 +10,6 @@ horizontal graph scale should be linked
 
 bug: top graph continued while bottom graph stopped, on McKagan's machine
 
-Age round to 0.1
-
 "Not intended as a replacement for professional medical advice or common sense"
 
 Zoom in/out for bar graphs

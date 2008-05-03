@@ -45,7 +45,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), "Age", "0.00", "years" );
+        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), "Age", FitnessStrings.AGE_FORMAT.toPattern(), "years" );
         age.setColumns( 5 );
         add( age );
         age.addChangeListener( new ChangeListener() {
