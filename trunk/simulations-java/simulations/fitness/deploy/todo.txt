@@ -6,8 +6,6 @@ add description to sedentary, moderate activity, etc.
 
 check with fran, bill & kate regarding change in % fat
 
-lighten intake colors, or make text white
-
 horizontal graph scale should be linked
 
 bug: top graph continued while bottom graph stopped, on McKagan's machine

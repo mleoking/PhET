@@ -177,8 +177,8 @@ public class StackedBarNode extends PNode {
                 imageNode = new PNode();
             }
 
-            htmlNode = new HTMLNode( barChartElement.getName(), new PhetDefaultFont( 18, true ), Color.black );
-            readoutNode = new HTMLNode( "", new PhetDefaultFont( 12, true ), Color.black );
+            htmlNode = new HTMLNode( barChartElement.getName(), new PhetDefaultFont( 18, true ), barChartElement.getTextColor() );
+            readoutNode = new HTMLNode( "", new PhetDefaultFont( 12, true ), barChartElement.getTextColor() );
             clip.addChild( labelNode );
             labelNode.addChild( imageNode );
             labelNode.addChild( htmlNode );
@@ -235,16 +235,22 @@ public class StackedBarNode extends PNode {
         private Paint paint;
         private double value;
         private BufferedImage image;
+        private Color textColor;
 
         public BarChartElement( String name, Paint paint, double value ) {
             this( name, paint, value, null );
         }
 
-        public BarChartElement( String name, Paint paint, double value, BufferedImage image ) {
+        public BarChartElement( String name, Paint paint, double value, BufferedImage image, Color textColor ) {
             this.name = name;
             this.paint = paint;
             this.value = value;
             this.image = image;
+            this.textColor=textColor;
+        }
+
+        public BarChartElement( String name, Paint paint, double value, BufferedImage image ) {
+            this( name, paint, value, image, Color.black );
         }
 
         public Paint getPaint() {
@@ -274,6 +280,10 @@ public class StackedBarNode extends PNode {
 
         public BufferedImage getImage() {
             return image;
+        }
+
+        public Color getTextColor() {
+            return textColor;
         }
 
         public static interface Listener {

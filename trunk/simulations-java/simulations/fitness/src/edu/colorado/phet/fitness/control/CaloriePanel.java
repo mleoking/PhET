@@ -80,10 +80,12 @@ public class CaloriePanel extends PNode {
         stackedBarChart = new StackedBarChartNode( transform, "Calories/Day", 10, 250, 1000, 8000 );
 
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
-        intakeBars.addElement( new BarChartElementAdapter( FitnessStrings.FATS, FitnessColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif" ), StackedBarNode.NONE );
+//        Color labelColor=Color.white;
+        Color labelColor=Color.black;
+        intakeBars.addElement( new BarChartElementAdapter( FitnessStrings.FATS, FitnessColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif", labelColor ), StackedBarNode.NONE );
 //        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "j0410455.gif" ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png" ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif" ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png" ,labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif",labelColor ), StackedBarNode.NONE );
 
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
 //        exerciseBars.addElement( new BarChartElementAdapter( "<html><center>Basal<br>Metabolic<br>Rate<br>(BMR)</center></html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ,"heart2.png"), StackedBarNode.RIGHT );
@@ -113,8 +115,8 @@ public class CaloriePanel extends PNode {
     }
 
     public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {
-        public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable, String image ) {
-            super( name, paint, variable.getValue(), FitnessResources.getImage( image ) );
+        public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable, String image, Color textColor ) {
+            super( name, paint, variable.getValue(), FitnessResources.getImage( image ) ,textColor);
             variable.addListener( new IVariable.Listener() {
                 public void valueChanged() {
                     BarChartElementAdapter.this.setValue( variable.getValue() );
@@ -128,6 +130,10 @@ public class CaloriePanel extends PNode {
                 public void paintChanged() {
                 }
             } );
+        }
+
+        public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable, String image ) {
+            this( name, paint, variable, image, Color.black );
         }
     }
 
