@@ -1,10 +1,6 @@
 High Priority:
 
-layout problem on web start, scale readouts cut off, scale units cut off
-
 relabel 5.89 ft to 5' 9" etc.
-
-Change kcal to Cal
 
 add description to sedentary, moderate activity, etc.
 
@@ -82,6 +78,9 @@ Crashes on mac, see email
     
 Provide a link for RV teachers
 
+Layout
+    Layout problem on web start, scale readouts cut off, scale units cut off
+    
 Med Priority:
 Add a legend for caloric breakdown pie chart
 Number of calories of healthy diet should be editable

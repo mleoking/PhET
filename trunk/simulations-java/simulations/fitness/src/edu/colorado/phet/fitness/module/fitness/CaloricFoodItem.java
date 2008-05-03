@@ -1,6 +1,7 @@
 package edu.colorado.phet.fitness.module.fitness;
 
 import edu.colorado.phet.fitness.control.CaloricItem;
+import edu.colorado.phet.fitness.FitnessStrings;
 
 /**
  * Created by: Sam
@@ -57,6 +58,6 @@ public class CaloricFoodItem extends CaloricItem {
     }
 
     public String getLabelText() {
-        return "<html>One " + getName() + " per day<br>(" + getCalories() + " kcal/day)</html>";
+        return "<html>One " + getName() + " per day<br>(" + getCalories() + " "+ FitnessStrings.KCAL_PER_DAY+")</html>";
     }
 }

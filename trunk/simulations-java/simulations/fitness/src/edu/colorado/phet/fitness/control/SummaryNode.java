@@ -5,6 +5,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
@@ -56,7 +57,7 @@ public class SummaryNode extends PNode {
                 imageNode = new PText( item.getName() );
             }
             addChild( imageNode );
-            PText textNode = new PText( "=" + item.getCalories() + " kcal/day" );
+            PText textNode = new PText( "=" + item.getCalories() + " "+ FitnessStrings.KCAL_PER_DAY);
             addChild( textNode );
             textNode.setOffset( imageNode.getFullBounds().getWidth(), imageNode.getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
             if ( count != 1 ) {

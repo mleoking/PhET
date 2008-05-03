@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
@@ -49,7 +50,7 @@ public class CaloriePanel extends PNode {
         weightChart.setAvailableBounds( 600, 125 );
 
         final ControlGraph calorieGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Calories", Color.green, "Cal", "Cal", new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", model.getHuman().getCaloricIntakeVariable() ), "Calories", 0, 4000, tsm );
-        calorieGraph.addSeries( new ControlGraphSeries( "Exercise Calories", Color.red, "cal", "kcal", new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", model.getHuman().getCaloricBurnVariable() ) );
+        calorieGraph.addSeries( new ControlGraphSeries( "Exercise Calories", Color.red, "cal", FitnessStrings.KCAL, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", model.getHuman().getCaloricBurnVariable() ) );
         calorieGraph.setHorizontalRange( Human.DEFAULT_VALUE.getAgeSeconds(), Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( 20 ) );
         calorieGraph.setEditable( false );
         model.addListener( new FitnessModel.Adapter() {
