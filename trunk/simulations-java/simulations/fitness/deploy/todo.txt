@@ -1,5 +1,37 @@
 High Priority:
 
+layout problem on web start, scale readouts cut off, scale units cut off
+
+relabel 5.89 ft to 5' 9" etc.
+
+Change kcal to Cal
+
+add description to sedentary, moderate activity, etc.
+
+relabel Lipid to Fat
+
+check with fran, bill & kate regarding change in % fat
+
+lighten intake colors, or make text white
+
+should scale x linked???
+
+bug: top graph continued while bottom graph stopped, on McKagan's machine
+
+Round all kcal/day to nearest 1.
+
+Take units off individual bars (interior)
+
+Round weight to nearast 1.
+
+Age round to 0.1
+
+"Not intended as a replacement for professional medical advice or common sense"
+
+Zoom in/out for bar graphs
+
+alternatively: Readouts by base of bar graph?
+
 Will students know to push play?
 
 Change "Step button" to correspond to 1 month per press.
