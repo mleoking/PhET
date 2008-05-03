@@ -12,6 +12,6 @@ public class ExerciseItem extends CaloricItem {
     }
 
     public String getLabelText() {
-        return "<html>One hour " + getName() + " per day<br>(" + getCalories() + " " + FitnessStrings.KCAL_PER_DAY+")</html>";
+        return "<html>One hour " + getName() + " per day<br>(" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY+")</html>";
     }
 }

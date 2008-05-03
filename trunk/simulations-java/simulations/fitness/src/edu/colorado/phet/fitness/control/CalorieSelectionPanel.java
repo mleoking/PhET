@@ -31,7 +31,6 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
 
     public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected, String availableTitle, String selectedTitle ) {
         setLayout( new GridBagLayout() );
-//        JComponent leftPanel = Box.createVerticalBox();
         JComponent leftPanel = new MyVerticalLayoutPanel();
 
         for ( int i = 0; i < available.getItemCount(); i++ ) {
@@ -45,10 +44,8 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
                 }
             } );
             leftPanel.add( dietComponent );
-//            leftPanel.add(new JTextField(random.nextInt( 10 )));
         }
 
-//        final JComponent rightPanel = Box.createVerticalBox();
         final JComponent rightPanel = new MyVerticalLayoutPanel();
         for ( int i = 0; i < selected.getItemCount(); i++ ) {
             rightPanel.add( new SelectedComponent( selected, selected.getItem( i ) ) );

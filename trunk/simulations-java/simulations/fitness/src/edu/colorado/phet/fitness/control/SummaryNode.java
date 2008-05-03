@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.FitnessStrings;
-import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -57,7 +56,7 @@ public class SummaryNode extends PNode {
                 imageNode = new PText( item.getName() );
             }
             addChild( imageNode );
-            PText textNode = new PText( "=" + item.getCalories() + " "+ FitnessStrings.KCAL_PER_DAY);
+            PText textNode = new PText( "=" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY );
             addChild( textNode );
             textNode.setOffset( imageNode.getFullBounds().getWidth(), imageNode.getFullBounds().getCenterY() - textNode.getFullBounds().getHeight() / 2 );
             if ( count != 1 ) {
@@ -74,7 +73,7 @@ public class SummaryNode extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PhetPCanvas contentPane = new PhetPCanvas();
         SummaryNode node = new SummaryNode( new CalorieSet() );
-        node.addItem( new ExerciseItem(  "banana split", "bananasplit.png", 100 ) );
+        node.addItem( new ExerciseItem( "banana split", "bananasplit.png", 100 ) );
         node.addItem( new ExerciseItem( "burger", "burger.png", 100 ) );
         node.addItem( new ExerciseItem( "strawberry", "strawberry.png", 100 ) );
         contentPane.addScreenChild( node );

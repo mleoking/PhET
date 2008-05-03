@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.fitness;
 
+import java.text.DecimalFormat;
+
 /**
  * The collection of localized strings used by this simulations.
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
@@ -27,4 +29,6 @@ public class FitnessStrings {
     public static final String KCAL = "Cal";
     public static final String KCAL_PER_DAY = KCAL + "/day";
     public static final String FATS = "Fats";
+
+    public static final DecimalFormat KCAL_PER_DAY_FORMAT = new DecimalFormat( "0" );
 }
