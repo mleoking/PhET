@@ -33,4 +33,7 @@ public class FitnessStrings {
     public static final DecimalFormat KCAL_PER_DAY_FORMAT = new DecimalFormat( "0" );
     public static final DecimalFormat WEIGHT_FORMAT = new DecimalFormat( "0" );
     public static final DecimalFormat AGE_FORMAT = new DecimalFormat( "0.0" );
+
+    public static final String DISCLAIMER = "This simulation depicts behavior under ideal circumstances and a variety of assumptions.\nIt is not intended as a replacement for medical advice or common sense.";
+
 }
