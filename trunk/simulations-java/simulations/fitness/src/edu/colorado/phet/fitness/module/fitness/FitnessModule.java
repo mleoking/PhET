@@ -35,7 +35,7 @@ public class FitnessModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessModule( Frame parentFrame ) {
+    public FitnessModule( final Frame parentFrame ) {
         super( FitnessStrings.TITLE_FITNESS_MODULE, new ConstantDtClock( FitnessDefaults.CLOCK_DELAY, FitnessDefaults.CLOCK_DT ), FitnessDefaults.STARTS_PAUSED );
 
         // Model
@@ -64,7 +64,16 @@ public class FitnessModule extends PiccoloModule {
                 _canvas.resetAll();
             }
         } );
-        _clockControlPanel.add( button, 0 );
+
+        JButton disclaimerButton = new JButton( "Disclaimer" );
+        disclaimerButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                JOptionPane.showMessageDialog( parentFrame, FitnessStrings.DISCLAIMER );
+            }
+        } );
+        _clockControlPanel.add( disclaimerButton, 0 );
+        _clockControlPanel.add( Box.createHorizontalStrut( 100 ), 1 );
+        _clockControlPanel.add( button, 2 );
 
 //        JComponent timeSpeedSlider = createTimeSpeedSlider();
 
