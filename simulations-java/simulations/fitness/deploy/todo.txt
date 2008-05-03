@@ -10,8 +10,6 @@ horizontal graph scale should be linked
 
 bug: top graph continued while bottom graph stopped, on McKagan's machine
 
-Round weight to nearast 1.
-
 Age round to 0.1
 
 "Not intended as a replacement for professional medical advice or common sense"
@@ -136,6 +134,8 @@ Reset all needs to clear graphs
     lines are still there, but are drawn over
     >>is this fixed?
 Performance: consider profiling or changing clock rate
+Removed units from interior of stacked bar chart
+    >>Not sure this looks better
 
 Bill 4/18/2008
 
