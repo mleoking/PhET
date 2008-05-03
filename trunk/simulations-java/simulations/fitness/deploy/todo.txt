@@ -14,7 +14,7 @@ check with fran, bill & kate regarding change in % fat
 
 lighten intake colors, or make text white
 
-should scale x linked???
+horizontal graph scale should be linked
 
 bug: top graph continued while bottom graph stopped, on McKagan's machine
 
