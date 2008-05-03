@@ -5,6 +5,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -73,7 +74,7 @@ public class StackedBarChartNode extends PNode {
         barNode.addElement( new StackedBarNode.BarChartElement( "Exercise", FitnessColorScheme.EXERCISE, 50 ) );
 
         StackedBarNode barNode2 = new StackedBarNode( 100 );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Lipids", FitnessColorScheme.FATS, 150 ) );
+        barNode2.addElement( new StackedBarNode.BarChartElement( FitnessStrings.FATS, FitnessColorScheme.FATS, 150 ) );
         barNode2.addElement( new StackedBarNode.BarChartElement( "Carbs", FitnessColorScheme.CARBS, 75 ) );
         barNode2.addElement( new StackedBarNode.BarChartElement( "Proteins", FitnessColorScheme.PROTEIN, 150 ) );
 

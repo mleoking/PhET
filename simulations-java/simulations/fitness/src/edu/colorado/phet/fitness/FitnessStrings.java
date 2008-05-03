@@ -9,6 +9,7 @@ package edu.colorado.phet.fitness;
 public class FitnessStrings {
     public static String TITLE_FITNESS_MODULE = FitnessResources.getString( "fitness.module.title" );
 
+
     /* not intended for instantiation */
     private FitnessStrings() {
     }
@@ -25,4 +26,5 @@ public class FitnessStrings {
 
     public static final String KCAL = "Cal";
     public static final String KCAL_PER_DAY = KCAL + "/day";
+    public static final String FATS = "Fats";
 }

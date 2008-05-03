@@ -4,8 +4,6 @@ relabel 5.89 ft to 5' 9" etc.
 
 add description to sedentary, moderate activity, etc.
 
-relabel Lipid to Fat
-
 check with fran, bill & kate regarding change in % fat
 
 lighten intake colors, or make text white
