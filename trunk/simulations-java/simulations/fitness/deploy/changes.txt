@@ -3,6 +3,8 @@ Changed kcal to Cal
 Relabeled Lipid to Fat
 Lightened caloric intake bar chart colors
 Rounded all kcal/day to nearest 1.
+Removed units from interior of stacked bar chart
+    >>Not sure this looks better
 
 New in 0.00.21 (4-30-2008)
 Added more junk foods

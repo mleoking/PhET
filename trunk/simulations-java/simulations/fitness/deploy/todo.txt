@@ -10,8 +10,6 @@ horizontal graph scale should be linked
 
 bug: top graph continued while bottom graph stopped, on McKagan's machine
 
-Take units off individual bars (interior)
-
 Round weight to nearast 1.
 
 Age round to 0.1
