@@ -93,7 +93,7 @@ public class StackedBarNode extends PNode {
             node.setOffset( 0, offsetY - viewHeight );
             offsetY += modelToView( node.getBarChartElement().getValue() );
         }
-        BarChartElementNode node = (BarChartElementNode) barChartElementNodeLayer.getChild( 0 );
+//        BarChartElementNode node = (BarChartElementNode) barChartElementNodeLayer.getChild( 0 );
         readoutNode.setOffset( barWidth / 2 - readoutNode.getFullBounds().getWidth() / 2, -offsetY - readoutNode.getFullBounds().getHeight() );
     }
 
@@ -202,7 +202,8 @@ public class StackedBarNode extends PNode {
 
         private void updateShape() {
             double value = barChartElement.getValue();
-            readoutNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value ) + " " + FitnessStrings.KCAL_PER_DAY );
+//            readoutNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value ) + " " + FitnessStrings.KCAL_PER_DAY );
+            readoutNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value )  );
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
             double availHeight = clip.getFullBounds().getHeight();
