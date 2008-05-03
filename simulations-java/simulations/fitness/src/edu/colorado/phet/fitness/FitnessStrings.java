@@ -3,7 +3,7 @@
 package edu.colorado.phet.fitness;
 
 /**
- * TemplateStrings is the collection of localized strings used by this simulations.
+ * The collection of localized strings used by this simulations.
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  */
 public class FitnessStrings {
@@ -23,4 +23,6 @@ public class FitnessStrings {
     public static final String UNITS_ORIENTATION = FitnessResources.getString( "units.orientation" );
     public static final String UNITS_TIME = FitnessResources.getString( "units.time" );
 
+    public static final String KCAL = "Cal";
+    public static final String KCAL_PER_DAY = KCAL + "/day";
 }

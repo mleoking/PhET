@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -83,8 +84,8 @@ public class StackedBarNode extends PNode {
     }
 
     private void relayout() {
-        DecimalFormat decimalFormat=new DecimalFormat( "0.0");
-        readoutNode.setText( decimalFormat.format( getTotal() )+ " kcal/day" );
+        DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
+        readoutNode.setText( decimalFormat.format( getTotal() ) + " " + FitnessStrings.KCAL_PER_DAY );
         double viewHeight = modelToView( getTotalModelValue() );
         double offsetY = 0;
         for ( int i = barChartElementNodeLayer.getChildrenCount() - 1; i >= 0; i-- ) {
@@ -201,7 +202,7 @@ public class StackedBarNode extends PNode {
 
         private void updateShape() {
             double value = barChartElement.getValue();
-            readoutNode.setHTML( new DecimalFormat( "0.0" ).format( value ) + " kcal/day" );
+            readoutNode.setHTML( new DecimalFormat( "0.0" ).format( value ) + " " + FitnessStrings.KCAL_PER_DAY );
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
             double availHeight = clip.getFullBounds().getHeight();
