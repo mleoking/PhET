@@ -6,9 +6,7 @@ check with fran, bill & kate regarding change in % fat
         Yes. To increase or decrease your percent of body fat you need to create the right balance between the calories in and calories out. The best way to do this is to decrease daily calories by about 500 and increase your exercise. Aerobic exercise along with strength training is ideal. If you are beginning a new exercise program, you are advised to first consult your physician.
 
 Will students know to push play?
->>How to indicate this?
-
-Change "Step button" to correspond to 1 month per press.
+    >>How to indicate this?
 
 Fat Mass
     -Do we need fat mass% and non-fat mass percent? / -How is body fat calculated?  How would a student know their % body fat?
@@ -50,8 +48,10 @@ Graphs
 
 Food composition should lead to a change in the Fat Free Mass %
 
-Time readout at bottom should be years, not seconds.
+Time:
+    Time readout at bottom should be years, not seconds.
         When it comes to a person's age, we tend to speak in years or days instead of seconds.
+    Change "Step button" to correspond to 1 month per press.
 
 Crashes on mac, see email
     I use a mac-when i access the diet window the sim crashes on me..
