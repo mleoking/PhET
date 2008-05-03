@@ -84,7 +84,7 @@ public class StackedBarNode extends PNode {
     }
 
     private void relayout() {
-        DecimalFormat decimalFormat = new DecimalFormat( "0.0" );
+        DecimalFormat decimalFormat = FitnessStrings.KCAL_PER_DAY_FORMAT;
         readoutNode.setText( decimalFormat.format( getTotal() ) + " " + FitnessStrings.KCAL_PER_DAY );
         double viewHeight = modelToView( getTotalModelValue() );
         double offsetY = 0;
@@ -202,7 +202,7 @@ public class StackedBarNode extends PNode {
 
         private void updateShape() {
             double value = barChartElement.getValue();
-            readoutNode.setHTML( new DecimalFormat( "0.0" ).format( value ) + " " + FitnessStrings.KCAL_PER_DAY );
+            readoutNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value ) + " " + FitnessStrings.KCAL_PER_DAY );
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
             double availHeight = clip.getFullBounds().getHeight();

@@ -73,7 +73,7 @@ public class StackedBarChartAxisNode extends PNode {
         public MajorTick( double width, double y, boolean textOnLeft ) {
             PhetPPath path = new PhetPPath( new Line2D.Double( -width / 2, -modelToView( y ), width / 2, -modelToView( y ) ), new BasicStroke( 2 ), Color.black );
             addChild( path );
-            PText textLabel = new PText( new DecimalFormat( "0.00" ).format( y ) );
+            PText textLabel = new PText( new DecimalFormat( "0" ).format( y ) );
             addChild( textLabel );
             textLabel.setOffset( path.getFullBounds().getX() - textLabel.getFullBounds().getWidth(),
                                  path.getFullBounds().getCenterY() - textLabel.getFullBounds().getHeight() / 2 );

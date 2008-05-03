@@ -10,8 +10,6 @@ horizontal graph scale should be linked
 
 bug: top graph continued while bottom graph stopped, on McKagan's machine
 
-Round all kcal/day to nearest 1.
-
 Take units off individual bars (interior)
 
 Round weight to nearast 1.
