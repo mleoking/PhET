@@ -1,4 +1,4 @@
-New in ???
+New in 0.00.24 (5-5-2008)
 Fixed weight readout control, was broken under web start
 Fixed layout of control panel, aligned text boxes
 Fixed: Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
