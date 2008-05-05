@@ -1,9 +1,5 @@
 High Priority:
 
-Graphs
-    Add ability to change weight units between metric and english
-        >>Chart vertical range should reflect this change as well.
-
 Protein bar chart text should read out even when too small to show image
 
 Crashes on mac, see email
