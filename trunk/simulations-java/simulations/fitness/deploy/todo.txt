@@ -1,12 +1,14 @@
 High Priority:
 
 Graphs
-    Scaling is confusing. x and y axis calibration is set out of range on graphs
-    Bug: top graph continued while bottom graph stopped, on McKagan's machine
-    Weight graph sometimes disappears after rescale or units change
     Graphs need correct vertical and horizontal units
+    Zoom in/out should have better behavior
+        vertical: don't go below zero
+        horizontal: keep the same minimum value
+            This value should be respected on chart reset
+    Charts ranges should reset on sim reset
     Add ability to change weight units between metric and english
-    Graphs need to sync units with unit change button.
+        >>Chart vertical range should reflect this change as well.
 
 Protein bar chart text should read out even when too small to show image
 
@@ -14,6 +16,7 @@ Crashes on mac, see email
     I use a mac-when i access the diet window the sim crashes on me..
     
 Provide a link for RV teachers
+    >>Just send email
 
 Med Priority:
 Add a legend for caloric breakdown pie chart
@@ -108,6 +111,8 @@ Fat Mass
         can we remove this?
         can be default based on gender
         or buttons for "muscular or nonmuscular"
+Bug: top graph continued while bottom graph stopped, on McKagan's machine
+    >> Can't reproduce this
 
 Bill 4/18/2008
 
