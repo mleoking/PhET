@@ -16,6 +16,7 @@ Fixed: Zoom in/out should have better behavior
 Fixed: Charts ranges should reset on sim reset
 Added ability to change weight units between metric and english
     Chart vertical range reflects this change as well.
+Fixed: Protein bar chart text should read out even when too small to show image
 
 New in 0.00.23 (5-5-2008)
 Lightened caloric intake bar chart colors
