@@ -1,6 +1,6 @@
 <?php
 
-    error_reporting(0);
+error_reporting(0);
 
 $GLOBALS['IE6_DOWNLOAD_WORKAROUND'] = true;
 
@@ -10,7 +10,7 @@ include_once(SITE_ROOT."admin/web-utils.php");
 
 include_once("../page_templates/SitePage.php");
 class DownloadPage extends SitePage {
-    function __construct($nav_selected_page, $referrer, $page_title = "") {
+    function __construct($nav_selected_page, $referrer, $page_title = "Download File") {
         $this->render = true;
         parent::__construct($page_title, $nav_selected_page, $referrer, SP_AUTHLEVEL_NONE, false);
     }
@@ -22,7 +22,8 @@ class DownloadPage extends SitePage {
         }
 
         if (!isset($_REQUEST['file'])) {
-            // Nothing to do, fail silently
+            // Nothing to do
+            $this->add_content("No file has been specified.");
             $this->render = false;
             return;
         }
@@ -58,6 +59,7 @@ class DownloadPage extends SitePage {
             }
             else {
                 $this->add_content("Due to security restrictions, the specified file may not be accessed.");
+                $this->render = false;
             }
         }
         else {
@@ -65,14 +67,16 @@ class DownloadPage extends SitePage {
         }
     }
 
-    function render() {
-        if ($this->render) {
-            parent::render();
-        }
-    }
-
     function render_content() {
         $result = parent::render_content();
+        if (!$result) {
+            BasePage::render_content();
+            return $result;
+        }
+
+        if (!$this->render) {
+            return;
+        }
 
         if ($this->authentication_level < SP_AUTHLEVEL_USER) {
             print <<<EOT
@@ -88,7 +92,10 @@ EOT;
 
         $name = basename($this->file);
 
-        $size = filesize($this->file);
+        $size = 0;
+        if (file_exists($this->file)) {
+            $size = filesize($this->file);
+        }
 
         // Estimate download times for users with fast & slow connections:
         $slow_time = floor($size * 8 / 56000   / 60 + 0.5);
@@ -116,7 +123,7 @@ EOT;
     }
 }
 
-$download_page = new DownloadPage("", NAV_NOT_SPECIFIED, "");
+$download_page = new DownloadPage(NAV_NOT_SPECIFIED, null);
 $download_page->update();
 $download_page->render();
 
