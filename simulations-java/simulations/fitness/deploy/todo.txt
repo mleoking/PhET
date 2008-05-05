@@ -1,7 +1,6 @@
 High Priority:
 
 Graphs
-    Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
     Rename readouts to "caloric intake" and "caloric burn", make sure they don't overlap
     Graphs need to sync units with unit change button.
     Had to zoom out in both axes to see anything
