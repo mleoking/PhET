@@ -12,7 +12,10 @@
     function cache_enabled() {
         if ((isset($_SERVER['SERVER_NAME'])) &&
             ($_SERVER['SERVER_NAME'] == 'localhost')) {
-            return true;
+            if (isset($GLOBALS["DEBUG_FORCE_LOCAL_CACHE"]) && $GLOBALS["DEBUG_FORCE_LOCAL_CACHE"]) {
+                return true;
+            }
+            return false;
         }
         else {
             return true;
@@ -98,7 +101,9 @@
 
         $resource_location = cache_get_file_location($cache_name, $resource_name);
 
-        if (!file_exists($resource_location)) return false;
+        if (!file_exists($resource_location)) {
+            return false;
+        }
 
         if (is_numeric($expiration_hours)) {
             $time = filemtime($resource_location);
@@ -122,6 +127,39 @@
         }
 
         return md5($hash_contents).'.html';
+    }
+
+    function cache_has_valid_page($cache_name = WEBPAGES_CACHE, $orig_resource_name = false, $expiration_hours = HOURS_TO_CACHE_WEBPAGES) {
+        if (!cache_enabled()) return;
+
+        if (!$orig_resource_name) {
+            $resource_name = cache_auto_get_page_name();
+        }
+        else {
+            $resource_name = $orig_resource_name;
+        }
+
+        $resource_location = cache_get_file_location($cache_name, $resource_name);
+
+        $result = file_exists($resource_location);
+
+        if (!file_exists($resource_location)) {
+            return false;
+        }
+
+        if (is_numeric($expiration_hours)) {
+            $time = filemtime($resource_location);
+
+            $diff = time() - $time;
+
+            // Check if the page is still fresh enough
+            if ($diff > $expiration_hours * 60 * 60) {
+                return false;
+            }
+            // TODO: else, delete it!
+        }
+
+        return true;
     }
 
     /**
@@ -158,6 +196,15 @@
 
         $page_contents = preg_replace('/^ +/',       '',   $page_contents);
         $page_contents = preg_replace('/[ \t]{2,}/', ' ',  $page_contents);
+
+        if (debug_is_on()) {
+            // Change the css file
+            $page_contents = preg_replace('/main.css/', 'main-cached.css', $page_contents);
+    
+            // Add a timestamp
+            $timestamp = date("F j, Y, g:i a");
+            $page_contents = $page_contents . "<!-- {$timestamp} -->\n";
+        }
 
         cache_put(WEBPAGES_CACHE, $page_name, $page_contents);
 

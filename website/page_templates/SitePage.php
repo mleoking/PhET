@@ -30,6 +30,9 @@ class SitePage extends BasePage {
     // contributor_array - The user who is logged in (NULL if no user is logged on)
     protected $user;
 
+    // Default is to cache the page, this allows for an override
+    private $cache_page;
+
     function __construct($page_title,
                          $nav_selected_page,
                          $referrer,
@@ -43,12 +46,53 @@ class SitePage extends BasePage {
         // Assume the info needed is all correct
         $this->valid_info = true;
 
+        $this->cache_page = $cache_page;
+
         // Authenticate the user
         $this->user = null;
         $this->required_authentication_level = $authentication_level;
         $this->authenticate_user();
 
-        parent::__construct($page_title, $nav_selected_page, $referrer, $cache_page, $base_title);
+        // Set up the parent
+        parent::__construct($page_title, $nav_selected_page, $referrer, $base_title);
+
+        // Set default site settings
+
+        // The main stylesheet
+        $this->add_stylesheet("css/main.css");
+
+        // Setup java scripts
+        // NOTE: order is important
+         $this->javascript_files = $this->add_javascript_file(
+             array(
+                "js/jquery.pack.js",
+                "js/jquery.MultiFile.js",
+                "js/jquery_std.js",
+                "js/jquery.autocomplete.js",
+                "js/http.js",
+                "js/form-validation.js",
+                "js/multi-select.js",
+                "js/phet-scripts.js",
+                "js/navigation.js",
+                "js/submit.js"
+                )
+             );
+
+        $this->add_javascript_header_script(
+            array(
+                "                    select_current_navbar_category('{$_SERVER["REQUEST_URI"]}');",
+                // Old method used a lot of $() to find inputs and place a regex
+                // validation pattern in it, which really bogged down on big pages.
+                // Replaced with a method to just look for inputs and moved it to
+                // form-validation.js to clean up a little.
+                // On my computer, improvement on big pages is from ~5s to 0.005s,
+                // small pages from about 0.200s to 0.0s (time too small to measure)
+                "                    setup_input_validation_patterns();",
+                "                    validate_and_setup_validation_triggers();",
+                "                    setup_submit_form_validation();"
+                )
+            );
+
     }
 
     function authenticate_user() {
@@ -68,6 +112,16 @@ class SitePage extends BasePage {
         }
 
         return $this->authentication_level;
+    }
+
+    function authenticate_user_is_authorized() {
+        // Make sure the authentication level is at least what is required to see this page
+        if ($this->authentication_level >= $this->required_authentication_level) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     function print_javascript_error() {
@@ -149,8 +203,35 @@ EOT;
         return true;
     }
 
+    /*
+     * Do some checks on the page.  Will return false if (in order):
+     *    BasePage::update() return false
+     *    user does not have proper authorization
+     *    cache is active and does not have a valid page
+     * 
+     * @return bool true if page should be updated (this is a suggestion)
+     */
     function update() {
-        return parent::update();
+        // First, give the parent a change to update, if it fails, pass it down
+        $result = parent::update();
+        if (!$result) {
+            return $result;
+        }
+
+        //
+        // But if it succeeds, do some more tests
+
+        // Make sure the authentication level is at least what is required to see this page
+        if (!$this->authenticate_user_is_authorized()) {
+            return false;
+        }
+
+        // Check if this page has something valid in the cache
+        if ($this->cache_page && cache_has_valid_page()) {
+            return false;
+        }
+
+        return true;
     }
 
     function print_invalid_info() {
@@ -158,12 +239,11 @@ EOT;
         <p>The information needed was either invalid or not specified.  Please go back and try again.</p>
 
 EOT;
-
     }
 
     function render_content() {
         // Make sure the authentication level is at least what is required to see this page
-        if ($this->authentication_level >= $this->required_authentication_level) {
+        if ($this->authenticate_user_is_authorized()) {
             // Authentication level is OK
 
             // Last render a message if the info is invalid
@@ -195,6 +275,18 @@ EOT;
         }
 
         return TRUE;
+    }
+
+    function render() {
+        if ($this->cache_page) {
+            cache_auto_start();
+        }
+
+        parent::render();
+
+        if ($this->cache_page) {
+            cache_auto_end();
+        }
     }
 
 }
