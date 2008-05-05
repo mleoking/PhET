@@ -29,6 +29,9 @@ class BasePage {
     // Array containing JavaScript code to run once page is loaded
     private $javascript_ready;
 
+    // Array containing header key=> value pairs, ex: Content-Type: text/html
+    private $headers;
+
     // Favicon file
     private $favicon;
 
@@ -47,9 +50,6 @@ class BasePage {
     // description.
     private $css_container_name;
 
-    // Default is to cache the page, this allows for an override
-    private $cache_page;
-
     /**
      * BasePage constructor
      *
@@ -59,7 +59,6 @@ class BasePage {
     function __construct($page_title = "",
                          $nav_selected_page,
                          $referrer = null,
-                         $cache_page = true,
                          $base_title = WEBSITE_BASE_TITLE) {
         assert(selected_page_is_valid($nav_selected_page));
 
@@ -71,41 +70,19 @@ class BasePage {
         $this->content = array();
 
         // Setup stylesheets
-        //$this->stylesheets = array();
-        $this->stylesheets = array("css/main.css");
+        $this->stylesheets = array();
 
         // Setup java scripts
         // NOTE: order is important
-        //$this->javascript_files = array();
-        $this->javascript_files = array(
-            "js/jquery.pack.js",
-            "js/jquery.MultiFile.js",
-            "js/jquery_std.js",
-            "js/jquery.autocomplete.js",
-            "js/http.js",
-            "js/form-validation.js",
-            "js/multi-select.js",
-            "js/phet-scripts.js",
-            "js/navigation.js",
-            "js/submit.js"
-            );
+        $this->javascript_files = array();
 
-        //$this->javascript_ready = array();
-        $this->javascript_ready = array(
-            "                    select_current_navbar_category('{$_SERVER["REQUEST_URI"]}');",
-            // Old method used a lot of $() to find inputs and place a regex
-            // validation pattern in it, which really bogged down on big pages.
-            // Replaced with a method to just look for inputs and moved it to
-            // form-validation.js to clean up a little.
-            // On my computer, improvement on big pages is from ~5s to 0.005s,
-            // small pages from about 0.200s to 0.0s (time too small to measure)
-            "                    setup_input_validation_patterns();",
-            "                    validate_and_setup_validation_triggers();",
-            "                    setup_submit_form_validation();"
-            );
+        $this->javascript_ready = array();
 
         // Setup favicon
         $this->favicon = '';
+
+        // HTML headers, $key = $value pairs
+        $this->headers = array();
 
         // Setup the debug content
         $this->debug_content = array();
@@ -127,8 +104,6 @@ class BasePage {
         $this->prefix = "..";
 
         $this->css_container_name = "container";
-
-        $this->cache_page = $cache_page;
     }
 
     /**
@@ -255,7 +230,7 @@ class BasePage {
     //
 
     ///
-    // send_default_headers()
+    // send_headers()
     //
     // Send the default headers for the HTML transaction.
     //
@@ -263,16 +238,21 @@ class BasePage {
     //
     
     /**
-     * Send the default headers for the HTML transaction.
+     * Send the headers for the HTML transaction.
      * 
      * NOTE: these should be sent BEFORE anything else.
      *
      */
-    function send_default_headers() {
-        // Deliver the default headers
-        // Note: pulled straight from PlanetFinder, have not checked them
+    function send_headers() {
+        // Deliver the headers
+        foreach ($this->headers as $key => $value) {
+            header("{$key}: {$value}");
+            print "{$key}: {$value}";
+            print "\n";
+        }
         /*
-         * TODO: pulled from PlanetFinder, verify for PhET
+         * example from another project, verify useful for PhET
+         * if so, move to appropriate location (not here)
         header("Expires: Mon, 1 Jan 1990 05:00:00 GMT");
         header("Cache-Control: no-store, no-cache, must-revalidate");
         header("Cache-Control: post-check=0, pre-check=0", false);
@@ -280,6 +260,9 @@ class BasePage {
         */
     }
 
+    function set_header($key, $value) {
+        
+    }
 
     //
     // HTML document section functions
@@ -620,9 +603,7 @@ EOT;
      *
      */
     function render() {
-        if ($this->cache_page) {
-            cache_auto_start();
-        }
+        $this->send_headers();
 
         $this->open_xhtml();
 
@@ -646,10 +627,6 @@ EOT;
         $this->close_xhtml_body();
 
         $this->close_xhtml();
-
-        if ($this->cache_page) {
-            cache_auto_end();
-        }
     }
 
 }
