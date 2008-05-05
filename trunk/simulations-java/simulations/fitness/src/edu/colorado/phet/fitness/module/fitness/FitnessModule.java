@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.fitness.FitnessApplication;
@@ -17,6 +16,7 @@ import edu.colorado.phet.fitness.FitnessConstants;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.defaults.ExampleDefaults;
+import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.persistence.FitnessConfig;
 
@@ -52,13 +52,18 @@ public class FitnessModule extends PiccoloModule {
         setLogoPanelVisible( false );
 
         // Clock controls
-        _clockControlPanel = new ClockControlPanel( getClock() );
+        _clockControlPanel = new ClockControlPanel( getClock() ) {
+            public void setTimeDisplay( double time ) {
+                super.setTimeDisplay( FitnessUnits.secondsToYears( time ) );
+            }
+        };
         _clockControlPanel.setRestartButtonVisible( true );
         _clockControlPanel.setTimeDisplayVisible( true );
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         _clockControlPanel.setRestartButtonVisible( false );
         _clockControlPanel.setStepButtonText( "Next Month" );
+        _clockControlPanel.setTimeFormat( "0.0" );
         JButton button = new JButton( "Reset All" );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

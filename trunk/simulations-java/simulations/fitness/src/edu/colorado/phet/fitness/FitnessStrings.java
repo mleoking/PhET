@@ -24,7 +24,7 @@ public class FitnessStrings {
 
     public static final String UNITS_DISTANCE = FitnessResources.getString( "units.distance" );
     public static final String UNITS_ORIENTATION = FitnessResources.getString( "units.orientation" );
-    public static final String UNITS_TIME = FitnessResources.getString( "units.time" );
+    public static final String UNITS_TIME = "years";
 
     public static final String KCAL = "Cal";
     public static final String KCAL_PER_DAY = KCAL + "/day";
