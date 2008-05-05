@@ -82,7 +82,7 @@ public class ReadoutTitleNode extends PNode {
         }
     }
 
-    public ReadoutTitleNode( ControlGraphSeries series ) {
+    public ReadoutTitleNode( final ControlGraphSeries series ) {
         this.series = series;
         this.decimalFormat=series.getNumberFormat();
 
@@ -119,7 +119,9 @@ public class ReadoutTitleNode extends PNode {
         } );
         series.addListener( new ControlGraphSeries.Adapter() {
             public void unitsChanged() {
+                unitsNode.setHtml( series.getUnits() );
                 updateText();
+
             }
         } );
 

@@ -48,15 +48,18 @@ public class ChartNode extends PNode {
         updateVars();
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
-                massVar.clear();
-                ITemporalVariable itv = model.getHuman().getMassVariable();
-                for ( int i = 0; i < itv.getSampleCount(); i++ ) {
-                    massVar.addValue( model.getUnits().modelToViewMass( itv.getData( i ).getValue() ), itv.getData( i ).getTime() );
-                }
+                syncMassVar();
             }
         } );
 
-        final ControlGraph weightGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Weight", Color.blue, "weight", "lbs", "", massVar ), "Weight", 0, 250, tsm, 7.37E8 );
+        final ControlGraphSeries weightSeries = new ControlGraphSeries( "Weight", Color.blue, "weight", "lbs", "", massVar );
+        weightSeries.setDecimalFormat( new DefaultDecimalFormat( "0" ) );
+        model.addListener( new FitnessModel.Adapter() {
+            public void unitsChanged() {
+                weightSeries.setUnits( model.getUnits().getMassUnit() );
+            }
+        } );
+        final ControlGraph weightGraph = new ControlGraph( phetPCanvas, weightSeries, "Weight", 0, 250, tsm, 7.37E8 );
         double DEFAULT_RANGE_YEARS = 5;
         weightGraph.setHorizontalRange( FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() ),
                                         FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
@@ -102,6 +105,14 @@ public class ChartNode extends PNode {
         addChild( calorieChart );
         System.out.println( "a.getFullBounds() = " + weightChart.getFullBounds() );
 
+    }
+
+    private void syncMassVar() {
+        massVar.clear();
+        ITemporalVariable itv = model.getHuman().getMassVariable();
+        for ( int i = 0; i < itv.getSampleCount(); i++ ) {
+            massVar.addValue( model.getUnits().modelToViewMass( itv.getData( i ).getValue() ), FitnessUnits.secondsToYears( itv.getData( i ).getTime() ) );
+        }
     }
 
     private void updateVars() {

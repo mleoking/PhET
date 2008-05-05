@@ -1,7 +1,6 @@
 High Priority:
 
 Graphs
-    Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
     Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
         Set graph units to years
     Need a reset graph only button
@@ -12,6 +11,7 @@ Graphs
     Change x-axis to be in years
     Scaling is confusing. x and y axis calibration is set out of range on graphs
     Bug: top graph continued while bottom graph stopped, on McKagan's machine
+    Weight graph sometimes disappears after rescale or units change
 
 Protein bar chart text should read out even when too small to show image
 
