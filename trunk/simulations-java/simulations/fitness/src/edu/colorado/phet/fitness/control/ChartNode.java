@@ -76,7 +76,7 @@ public class ChartNode extends PNode {
         ControlGraphSeries burnSeries = new ControlGraphSeries( "Burned", Color.red, "Burned", FitnessStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
         burnSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
 
-        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, "Calories", 0, 4000, tsm );
+        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, "Calories", 0, 6000, tsm );
         calorieGraph.addSeries( burnSeries );
         updateGraphRanges();
         calorieGraph.setEditable( false );
