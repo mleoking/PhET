@@ -14,6 +14,8 @@ Moved BMI readout from scale to control panel
 Fixed layout problem on web start (scale readouts cut off, scale units cut off)
 Changed "Step button" to correspond to 1 month per press.
 Changed time readout at bottom should to years instead of seconds.
+Charts:
+    Fixed: Horizontal graph scale should be linked
 
 New in 0.00.21 (4-30-2008)
 Added more junk foods
