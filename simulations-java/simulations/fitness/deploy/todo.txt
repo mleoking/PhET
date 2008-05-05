@@ -15,8 +15,6 @@ Graphs
 
 Protein bar chart text should read out even when too small to show image
 
-Increase speed at which sliders move in calorie selection panels
-
 Crashes on mac, see email
     I use a mac-when i access the diet window the sim crashes on me..
     

@@ -27,7 +27,7 @@ import edu.colorado.phet.fitness.view.FitnessColorScheme;
  */
 public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPanel {
     private ArrayList listeners = new ArrayList();
-    Random random = new Random();
+    private Random random = new Random();
 
     public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected, String availableTitle, String selectedTitle ) {
         setLayout( new GridBagLayout() );
@@ -52,9 +52,12 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
         }
 
         JScrollPane leftScrollPane = new JScrollPane( leftPanel );
+        int unitIncrement = 40;
+        leftScrollPane.getVerticalScrollBar().setUnitIncrement( unitIncrement );
         leftScrollPane.setBorder( createTitledBorder( availableTitle ) );
 
         JScrollPane rightScrollPane = new JScrollPane( rightPanel );
+        rightScrollPane.getVerticalScrollBar().setUnitIncrement( unitIncrement );
         rightScrollPane.setBorder( createTitledBorder( selectedTitle ) );
 
         final JPanel pane = new JPanel( new GridLayout( 1, 2 ) );
