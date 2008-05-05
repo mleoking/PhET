@@ -1,6 +1,8 @@
 package edu.colorado.phet.fitness.control;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
@@ -12,11 +14,11 @@ import edu.colorado.phet.common.motion.model.MotionTimeSeriesModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.FitnessUnits;
-import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -32,6 +34,9 @@ public class ChartNode extends PNode {
     private DefaultTemporalVariable calIntakeVar = new DefaultTemporalVariable();
     private DefaultTemporalVariable calBurnVar = new DefaultTemporalVariable();
     private FitnessModel model;
+    private ControlGraph weightGraph;
+    private ControlGraph calorieGraph;
+    private static final double DEFAULT_RANGE_YEARS = 5;
 
     public ChartNode( final FitnessModel model, PhetPCanvas phetPCanvas ) {
         this.model = model;
@@ -59,10 +64,9 @@ public class ChartNode extends PNode {
                 weightSeries.setUnits( model.getUnits().getMassUnit() );
             }
         } );
-        final ControlGraph weightGraph = new ControlGraph( phetPCanvas, weightSeries, "Weight", 0, 250, tsm, 7.37E8 );
-        double DEFAULT_RANGE_YEARS = 5;
-        weightGraph.setHorizontalRange( FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() ),
-                                        FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
+        weightGraph = new FitnessControlGraph( phetPCanvas, weightSeries, "Weight", 0, 250, tsm );
+
+
         weightGraph.setEditable( false );
         weightChart = new MinimizableControlGraph( "Weight", weightGraph );
         weightChart.setAvailableBounds( 600, 125 );
@@ -72,10 +76,9 @@ public class ChartNode extends PNode {
         ControlGraphSeries burnSeries = new ControlGraphSeries( "Burned", Color.red, "Burned", FitnessStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
         burnSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
 
-        final ControlGraph calorieGraph = new ControlGraph( phetPCanvas, intakeSeries, "Calories", 0, 4000, tsm );
+        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, "Calories", 0, 4000, tsm );
         calorieGraph.addSeries( burnSeries );
-        calorieGraph.setHorizontalRange( FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() ),
-                                         FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
+        updateGraphRanges();
         calorieGraph.setEditable( false );
         model.addListener( new FitnessModel.Adapter() {
             public void simulationTimeChanged() {
@@ -104,7 +107,26 @@ public class ChartNode extends PNode {
         addChild( weightChart );
         addChild( calorieChart );
         System.out.println( "a.getFullBounds() = " + weightChart.getFullBounds() );
+    }
 
+    private void updateGraphRanges() {
+//        calorieGraph.setHorizontalRange( FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() ),
+//                                         FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
+//        weightGraph.setHorizontalRange( FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() ),
+//                                        FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
+//        double startTime = Human.DEFAULT_VALUE.getAgeSeconds();
+        double startTime = model.getHuman().getAge();
+        calorieGraph.setHorizontalRange( FitnessUnits.secondsToYears( startTime ),
+                                         FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
+        weightGraph.setHorizontalRange( FitnessUnits.secondsToYears( startTime ),
+                                        FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
+    }
+
+    private void resetChartArea() {
+        massVar.clear();
+        calIntakeVar.clear();
+        calBurnVar.clear();
+        updateGraphRanges();
     }
 
     private void syncMassVar() {
@@ -147,4 +169,31 @@ public class ChartNode extends PNode {
         weightChart.setOffset( 0, height - weightChart.getFullBounds().getHeight() - calorieChart.getFullBounds().getHeight() );
         calorieChart.setOffset( 0, weightChart.getFullBounds().getMaxY() );
     }
+
+    private class FitnessControlGraph extends ControlGraph {
+        private GradientButtonNode gradientButtonNode;
+
+        public FitnessControlGraph( PhetPCanvas canvas, ControlGraphSeries series, String title, int minY, int maxY, TimeSeriesModel timeSeriesModel ) {
+            super( canvas, series, title, minY, maxY, timeSeriesModel );
+            gradientButtonNode = new GradientButtonNode( "Reset", 12, Color.green );
+            gradientButtonNode.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    resetChartArea();
+                }
+            } );
+            addChild( gradientButtonNode );
+            relayout();
+        }
+
+        public void relayout() {
+            super.relayout();
+            if ( gradientButtonNode != null ) {
+                int buttonInsetX = 2;
+                gradientButtonNode.setOffset( getJFreeChartNode().getDataArea().getMaxX() - gradientButtonNode.getFullBounds().getWidth()
+                                              - buttonInsetX + getJFreeChartNode().getOffset().getX(),
+                                              getJFreeChartNode().getDataArea().getMaxY() - gradientButtonNode.getFullBounds().getHeight() );
+            }
+        }
+    }
+
 }
