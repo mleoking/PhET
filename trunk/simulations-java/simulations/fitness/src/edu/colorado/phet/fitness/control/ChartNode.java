@@ -39,6 +39,7 @@ public class ChartNode extends PNode {
     private ControlGraph weightGraph;
     private ControlGraph calorieGraph;
     private static final double DEFAULT_RANGE_YEARS = 5;
+    private FitnessModel.Units previousUnits;
 
     public ChartNode( final FitnessModel model, PhetPCanvas phetPCanvas ) {
         this.model = model;
@@ -55,7 +56,8 @@ public class ChartNode extends PNode {
         updateVars();
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
-                syncMassVar();
+                syncVerticalRanges();
+
             }
         } );
 
@@ -111,6 +113,21 @@ public class ChartNode extends PNode {
         addChild( calorieChart );
         System.out.println( "a.getFullBounds() = " + weightChart.getFullBounds() );
         resetChartVerticalRanges();
+        syncVerticalRanges();
+    }
+
+    private void syncVerticalRanges() {
+        if ( previousUnits == null ) {
+            previousUnits = model.getUnits();
+        }
+        if ( previousUnits != model.getUnits() ) {
+            double max = weightGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().getUpperBound();
+            double modelMax = previousUnits.viewToModelMass( max );
+            double viewMax = model.getUnits().modelToViewMass( modelMax );
+            weightGraph.setVerticalRange( 0, viewMax );
+            syncMassVar();
+        }
+        previousUnits = model.getUnits();
     }
 
     private void resetChartVerticalRanges() {
