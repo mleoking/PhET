@@ -1,22 +1,20 @@
 <?php
-/*
- * These are not for the live site...
+
     @include_once("local-debug-settings.php");
 
-    if (debug_is_on()) {
-        error_reporting(E_ERROR | E_ALL | E_STRICT);
-        assert_options(ASSERT_BAIL, 1);
+    function debug_is_on() {
+        if (isset($GLOBALS["DEBUG"]) && $GLOBALS["DEBUG"]) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
-    else {
-        print "<h1>DEBUGGING SHOULD BE ON YOU BOZO</h1>\n";
-        exit();
+
+    if (!debug_is_on()) {
         error_reporting(E_ERROR);
         assert_options(ASSERT_ACTIVE, 0);
     }
-*/
-
-    error_reporting(E_ERROR);
-    assert_options(ASSERT_ACTIVE, 0);
 
     ini_set("session.gc_maxlifetime", "999999999"); 
     ini_set("session.cache_expire",   "999999999");
