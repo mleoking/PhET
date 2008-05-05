@@ -192,6 +192,11 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 updateBodyFatSlider();
             }
         } );
+        model.addListener( new FitnessModel.Adapter(){
+            public void unitsChanged() {
+                new AlignedSliderSetLayoutStrategy( hs ).doLayout();
+            }
+        } );
     }
 
     private void updateBodyFatSlider() {

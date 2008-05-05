@@ -98,8 +98,7 @@ public class ControlGraphSeries {
 
     private void notifyUnitsChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
-            listener.unitsChanged();
+            ((Listener) listeners.get( i )).unitsChanged();
         }
     }
 
