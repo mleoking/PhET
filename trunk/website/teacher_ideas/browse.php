@@ -303,7 +303,7 @@ if ($mark !== false) {
     $referrer = substr($referrer, 0, $mark);
 }
 
-$page = new BrowseContributions("Browse Contributions", NAV_TEACHER_IDEAS, $referrer);
+$page = new BrowseContributions("Browse Contributions", NAV_TEACHER_IDEAS, $referrer, SP_AUTHLEVEL_NONE, false);
 $page->add_javascript_file("js/browse.js");
 $page->update();
 $page->render();
