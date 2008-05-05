@@ -2,6 +2,7 @@ New in ???
 Fixed weight readout control, was broken under web start
 Fixed layout of control panel, aligned text boxes
 Fixed: Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
+Added a button that resets the horizontal chart range
 
 New in 0.00.23 (5-5-2008)
 Lightened caloric intake bar chart colors
