@@ -79,8 +79,9 @@ public class ChartNode extends PNode {
         burnSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
 
         calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, "Calories", 0, 6000, tsm );
+
         calorieGraph.addSeries( burnSeries );
-        updateGraphRanges( DEFAULT_RANGE_YEARS );
+        updateGraphDomains( DEFAULT_RANGE_YEARS );
         calorieGraph.setEditable( false );
         model.addListener( new FitnessModel.Adapter() {
             public void simulationTimeChanged() {
@@ -109,21 +110,27 @@ public class ChartNode extends PNode {
         addChild( weightChart );
         addChild( calorieChart );
         System.out.println( "a.getFullBounds() = " + weightChart.getFullBounds() );
+        resetChartVerticalRanges();
+    }
+
+    private void resetChartVerticalRanges() {
+        weightGraph.setVerticalRange( 0, 250 );
+        calorieGraph.setVerticalRange( 0, 6000 );
     }
 
     private void updateGraphRanges() {
         double min = weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getLowerBound();
         double max = weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getUpperBound();
         double currentRange = max - min;
-        updateGraphRanges( currentRange );
+        updateGraphDomains( currentRange );
     }
 
-    private void updateGraphRanges( double defaultRangeYears ) {
+    private void updateGraphDomains( double rangeYears ) {
         double startTime = model.getHuman().getAge();
         calorieGraph.setHorizontalRange( FitnessUnits.secondsToYears( startTime ),
-                                         FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( defaultRangeYears ) ) );
+                                         FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( rangeYears ) ) );
         weightGraph.setHorizontalRange( FitnessUnits.secondsToYears( startTime ),
-                                        FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( defaultRangeYears ) ) );
+                                        FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( rangeYears ) ) );
     }
 
     private void resetChartArea() {
@@ -172,6 +179,14 @@ public class ChartNode extends PNode {
     public void relayout( int width, int height ) {
         weightChart.setOffset( 0, height - weightChart.getFullBounds().getHeight() - calorieChart.getFullBounds().getHeight() );
         calorieChart.setOffset( 0, weightChart.getFullBounds().getMaxY() );
+    }
+
+    public void resetAll() {
+        massVar.clear();
+        calBurnVar.clear();
+        calIntakeVar.clear();
+        updateGraphDomains( DEFAULT_RANGE_YEARS );
+        resetChartVerticalRanges();
     }
 
     private class FitnessControlGraph extends ControlGraph {
