@@ -1,7 +1,6 @@
 High Priority:
 
 Graphs
-    Had to zoom out in both axes to see anything
     Scaling is confusing. x and y axis calibration is set out of range on graphs
     Bug: top graph continued while bottom graph stopped, on McKagan's machine
     Weight graph sometimes disappears after rescale or units change
