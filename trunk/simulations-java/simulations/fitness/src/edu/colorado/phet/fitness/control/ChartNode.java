@@ -21,6 +21,7 @@ import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.FitnessUnits;
+import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -57,7 +58,20 @@ public class ChartNode extends PNode {
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
                 syncVerticalRanges();
+            }
+        } );
+        model.getHuman().addListener( new Human.Adapter() {
+            public void weightChanged() {
+                massVar.setValue( getMassDisplayValue() );
+            }
+        } );
+        model.getHuman().addListener( new Human.Adapter() {
+            public void caloricIntakeChanged() {
+                calIntakeVar.setValue( model.getHuman().getDailyCaloricIntake() );
+            }
 
+            public void caloricBurnChanged() {
+                calBurnVar.setValue( model.getHuman().getDailyCaloricBurn() );
             }
         } );
 
@@ -184,9 +198,12 @@ public class ChartNode extends PNode {
     }
 
     private void updateMassVar() {
-        double newMass = model.getUnits().modelToViewMass( model.getHuman().getMass() );
-        massVar.setValue( newMass );
-        massVar.addValue( newMass, getAgeYears() );
+        massVar.setValue( getMassDisplayValue() );
+        massVar.addValue( getMassDisplayValue(), getAgeYears() );
+    }
+
+    private double getMassDisplayValue() {
+        return model.getUnits().modelToViewMass( model.getHuman().getMass() );
     }
 
     private double getAgeYears() {
