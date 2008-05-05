@@ -1,10 +1,5 @@
 High Priority:
 
-BMI:
-    Are we accounting for sex affects on BMI and BMR?
-    -Can we put a chart or weblink to compare healthy or unhealthy BMI?
-    (see categories chart on national heart lung and blood institute bmi calculator page)
-
 We are still confused about a delay in weight loss if: all variables remained constant:
     diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
     -I think you should be able to do "step day", so you can see the effects of 1 hour activity    
@@ -55,6 +50,10 @@ Height
     Incorporate growth or height changes with weight?
         should we increase this?
         yes, look on web for height changes since BMI =f(height)
+BMI:
+    Are we accounting for sex affects on BMI and BMR?
+    -Can we put a chart or weblink to compare healthy or unhealthy BMI?
+    (see categories chart on national heart lung and blood institute bmi calculator page)
 
 Low Priority:
 +Editors for exercise (change time or intensity)
