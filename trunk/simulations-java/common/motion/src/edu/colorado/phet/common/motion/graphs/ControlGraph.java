@@ -306,7 +306,7 @@ public class ControlGraph extends PNode {
         return defaultMaxX;
     }
 
-    private void zoomHorizontal( double v ) {
+    protected void zoomHorizontal( double v ) {
         double currentValue = jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
         double newValue = currentValue * v;
         if ( newValue > maxDomainValue ) {
@@ -316,13 +316,13 @@ public class ControlGraph extends PNode {
         forceUpdateAll();
     }
 
-    private void notifyZoomChanged() {
+    protected void notifyZoomChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).zoomChanged();
         }
     }
 
-    private void zoomVertical( double zoomValue ) {
+    protected void zoomVertical( double zoomValue ) {
         Range verticalRange = getVerticalRange( zoomValue );
         setVerticalRange( verticalRange.getLowerBound(), verticalRange.getUpperBound() );
         updateHorizontalZoomEnabled();//todo: this should probably update the vertical zoom
@@ -336,8 +336,12 @@ public class ControlGraph extends PNode {
         return new Range( jFreeChart.getXYPlot().getRangeAxis().getLowerBound() - newRange / 2, jFreeChart.getXYPlot().getRangeAxis().getUpperBound() + newRange / 2 );
     }
 
-    private void updateHorizontalZoomEnabled() {
+    protected void updateHorizontalZoomEnabled() {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
+    }
+
+    protected ZoomSuiteNode getZoomControl() {
+        return zoomControl;
     }
 
     public ControlGraphSeries getControlGraphSeries( int i ) {

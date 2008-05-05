@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import org.jfree.data.Range;
+
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
@@ -78,7 +80,7 @@ public class ChartNode extends PNode {
 
         calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, "Calories", 0, 6000, tsm );
         calorieGraph.addSeries( burnSeries );
-        updateGraphRanges();
+        updateGraphRanges( DEFAULT_RANGE_YEARS );
         calorieGraph.setEditable( false );
         model.addListener( new FitnessModel.Adapter() {
             public void simulationTimeChanged() {
@@ -110,16 +112,18 @@ public class ChartNode extends PNode {
     }
 
     private void updateGraphRanges() {
-//        calorieGraph.setHorizontalRange( FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() ),
-//                                         FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
-//        weightGraph.setHorizontalRange( FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() ),
-//                                        FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
-//        double startTime = Human.DEFAULT_VALUE.getAgeSeconds();
+        double min = weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getLowerBound();
+        double max = weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getUpperBound();
+        double currentRange = max - min;
+        updateGraphRanges( currentRange );
+    }
+
+    private void updateGraphRanges( double defaultRangeYears ) {
         double startTime = model.getHuman().getAge();
         calorieGraph.setHorizontalRange( FitnessUnits.secondsToYears( startTime ),
-                                         FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
+                                         FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( defaultRangeYears ) ) );
         weightGraph.setHorizontalRange( FitnessUnits.secondsToYears( startTime ),
-                                        FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
+                                        FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( defaultRangeYears ) ) );
     }
 
     private void resetChartArea() {
@@ -193,6 +197,31 @@ public class ChartNode extends PNode {
                                               - buttonInsetX + getJFreeChartNode().getOffset().getX(),
                                               getJFreeChartNode().getDataArea().getMaxY() - gradientButtonNode.getFullBounds().getHeight() );
             }
+        }
+
+        protected void zoomHorizontal( double v ) {
+            double min = getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getLowerBound();
+            double max = getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getUpperBound();
+            double currentRange = max - min;
+            double newRange = Math.max( 1, currentRange * v );
+
+            setHorizontalRange( min, min + newRange );
+            forceUpdateAll();
+        }
+
+        public void setHorizontalRange( double minDomainValue, double maxDomainValue ) {
+            super.setHorizontalRange( minDomainValue, maxDomainValue );
+            if ( getZoomControl() != null ) {
+                getZoomControl().setHorizontalZoomInEnabled( maxDomainValue - minDomainValue > 1 );
+            }
+            syncMassVar();//todo: remove the need for this workaround
+        }
+
+        protected void zoomVertical( double zoomValue ) {
+            Range verticalRange = getVerticalRange( zoomValue );
+            setVerticalRange( 0, verticalRange.getUpperBound() );
+            notifyZoomChanged();
+            forceUpdateAll();
         }
     }
 

@@ -3,9 +3,7 @@ High Priority:
 Graphs
     Graphs need correct vertical and horizontal units
     Zoom in/out should have better behavior
-        vertical: don't go below zero
-        horizontal: keep the same minimum value
-            This value should be respected on chart reset
+        
     Charts ranges should reset on sim reset
     Add ability to change weight units between metric and english
         >>Chart vertical range should reflect this change as well.
