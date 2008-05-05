@@ -10,6 +10,7 @@ import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionTimeSeriesModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -27,24 +28,24 @@ public class ChartNode extends PNode {
     private MinimizableControlGraph weightChart;
     private MinimizableControlGraph calorieChart;
 
-    private DefaultTemporalVariable massVar;
+    private DefaultTemporalVariable massVar = new DefaultTemporalVariable();
     private DefaultTemporalVariable calIntakeVar = new DefaultTemporalVariable();
     private DefaultTemporalVariable calBurnVar = new DefaultTemporalVariable();
+    private FitnessModel model;
 
     public ChartNode( final FitnessModel model, PhetPCanvas phetPCanvas ) {
-
+        this.model = model;
         GraphSuiteSet graphSuiteSet = new GraphSuiteSet();
+
         //todo: remove the following bogus line
         TimeSeriesModel tsm = new MotionTimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) );
 
-        massVar = new DefaultTemporalVariable();
         model.addListener( new FitnessModel.Adapter() {
             public void simulationTimeChanged() {
-                super.simulationTimeChanged();
-                massVar.addValue( model.getUnits().modelToViewMass( model.getHuman().getMass() ), FitnessUnits.secondsToYears( model.getHuman().getAge() ) );
+                updateVars();
             }
         } );
-        massVar.setValue( model.getUnits().modelToViewMass( model.getHuman().getMass() ) );
+        updateVars();
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
                 massVar.clear();
@@ -56,16 +57,22 @@ public class ChartNode extends PNode {
         } );
 
         final ControlGraph weightGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Weight", Color.blue, "weight", "lbs", "", massVar ), "Weight", 0, 250, tsm, 7.37E8 );
+        double DEFAULT_RANGE_YEARS = 5;
         weightGraph.setHorizontalRange( FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() ),
-                                        FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( 10 ) ) );
+                                        FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
         weightGraph.setEditable( false );
         weightChart = new MinimizableControlGraph( "Weight", weightGraph );
         weightChart.setAvailableBounds( 600, 125 );
 
-        final ControlGraph calorieGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Calories", Color.green, "Cal", "Cal", new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", model.getHuman().getCaloricIntakeVariable() ), "Calories", 0, 4000, tsm );
-        calorieGraph.addSeries( new ControlGraphSeries( "Exercise Calories", Color.red, "cal", FitnessStrings.KCAL, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", model.getHuman().getCaloricBurnVariable() ) );
+        ControlGraphSeries intakeSeries = new ControlGraphSeries( "Intake", Color.green, "Intake", FitnessStrings.KCAL_PER_DAY, new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calIntakeVar );
+        intakeSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
+        ControlGraphSeries burnSeries = new ControlGraphSeries( "Burned", Color.red, "Burned", FitnessStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
+        burnSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
+
+        final ControlGraph calorieGraph = new ControlGraph( phetPCanvas, intakeSeries, "Calories", 0, 4000, tsm );
+        calorieGraph.addSeries( burnSeries );
         calorieGraph.setHorizontalRange( FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() ),
-                                         FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( 10 ) ) );
+                                         FitnessUnits.secondsToYears( Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( DEFAULT_RANGE_YEARS ) ) );
         calorieGraph.setEditable( false );
         model.addListener( new FitnessModel.Adapter() {
             public void simulationTimeChanged() {
@@ -95,6 +102,34 @@ public class ChartNode extends PNode {
         addChild( calorieChart );
         System.out.println( "a.getFullBounds() = " + weightChart.getFullBounds() );
 
+    }
+
+    private void updateVars() {
+        updateMassVar();
+        updateCalIntakeVar();
+        updateCalBurnVar();
+    }
+
+    private void updateCalBurnVar() {
+        double calBurn = model.getHuman().getCaloricBurnVariable().getValue();
+        calBurnVar.setValue( calBurn );
+        calBurnVar.addValue( calBurn, getAgeYears() );
+    }
+
+    private void updateCalIntakeVar() {
+        double calIntake = model.getHuman().getCaloricIntakeVariable().getValue();
+        calIntakeVar.setValue( calIntake );
+        calIntakeVar.addValue( calIntake, getAgeYears() );
+    }
+
+    private void updateMassVar() {
+        double newMass = model.getUnits().modelToViewMass( model.getHuman().getMass() );
+        massVar.setValue( newMass );
+        massVar.addValue( newMass, getAgeYears() );
+    }
+
+    private double getAgeYears() {
+        return FitnessUnits.secondsToYears( model.getHuman().getAge() );
     }
 
     public void relayout( int width, int height ) {

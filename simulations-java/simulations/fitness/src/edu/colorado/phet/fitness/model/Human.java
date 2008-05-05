@@ -166,6 +166,9 @@ public class Human {
         }
         foodItems.addItem( defaultIntake );//todo: standardize constructor units
         updateIntake();
+
+        //todo remove the need for this workaround
+        simulationTimeChanged( 0.0 );
     }
 
     private void clearTemporalVariables() {
