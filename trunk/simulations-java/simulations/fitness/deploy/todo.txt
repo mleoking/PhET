@@ -1,14 +1,13 @@
 High Priority:
 
 Graphs
-    Graphs need to sync units with unit change button.
     Had to zoom out in both axes to see anything
-    Change x-axis to be in years
     Scaling is confusing. x and y axis calibration is set out of range on graphs
     Bug: top graph continued while bottom graph stopped, on McKagan's machine
     Weight graph sometimes disappears after rescale or units change
     Graphs need correct vertical and horizontal units
     Add ability to change weight units between metric and english
+    Graphs need to sync units with unit change button.
 
 Protein bar chart text should read out even when too small to show image
 

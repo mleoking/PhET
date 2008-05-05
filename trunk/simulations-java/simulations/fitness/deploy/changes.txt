@@ -5,6 +5,7 @@ Fixed: Weight in lbs readout on graph does not equal weight in pounds readout on
 Added a button that resets the horizontal chart range
 Fixed: Difference between green cal and red cal lines unclear.  Is one cal in and one cal out?
 Fixed: Rename readouts to "caloric intake" and "caloric burn", make sure they don't overlap
+Changed x-axis to be in years
 
 New in 0.00.23 (5-5-2008)
 Lightened caloric intake bar chart colors
