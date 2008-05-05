@@ -132,8 +132,8 @@ public class StackedBarNode extends PNode {
 
         private PNode labelNode = new PNode();//contains image + label + readout
         private PNode imageNode;
-        private HTMLNode htmlNode;
-        private HTMLNode readoutNode;
+        private HTMLNode labelTextNode;
+        private HTMLNode readoutValueNode;
 
         private BarChartElementNode( final BarChartElement barChartElement, Thumb thumbLocation ) {
             this.thumbLocation = thumbLocation;
@@ -177,13 +177,13 @@ public class StackedBarNode extends PNode {
                 imageNode = new PNode();
             }
 
-            htmlNode = new HTMLNode( barChartElement.getName(), new PhetDefaultFont( 18, true ), barChartElement.getTextColor() );
-            readoutNode = new HTMLNode( "", new PhetDefaultFont( 12, true ), barChartElement.getTextColor() );
+            labelTextNode = new HTMLNode( barChartElement.getName(), new PhetDefaultFont( 18, true ), barChartElement.getTextColor() );
+            readoutValueNode = new HTMLNode( "", new PhetDefaultFont( 12, true ), barChartElement.getTextColor() );
             clip.addChild( labelNode );
             labelNode.addChild( imageNode );
-            labelNode.addChild( htmlNode );
+            labelNode.addChild( labelTextNode );
 //            clip.addChild( readoutNode );
-            labelNode.addChild( readoutNode );
+            labelNode.addChild( readoutValueNode );
 
             addChild( clip );
 
@@ -203,19 +203,30 @@ public class StackedBarNode extends PNode {
         private void updateShape() {
             double value = barChartElement.getValue();
 //            readoutNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value ) + " " + FitnessStrings.KCAL_PER_DAY );
-            readoutNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value )  );
+            readoutValueNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value ) );
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
             double availHeight = clip.getFullBounds().getHeight();
             labelNode.setScale( 1 );
             labelNode.setOffset( 0, 0 );
+            labelTextNode.setOffset( 0, 0 );
             imageNode.setOffset( clip.getFullBounds().getWidth() / 2 - imageNode.getFullBounds().getWidth() / 2, 0 );
-            htmlNode.setOffset( clip.getFullBounds().getWidth() / 2 - htmlNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight() - 3 );
-            readoutNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutNode.getFullBounds().getWidth() / 2 + 2, htmlNode.getFullBounds().getMaxY() - 2 );
+
+            labelTextNode.setOffset( clip.getFullBounds().getWidth() / 2 - labelTextNode.getFullBounds().getWidth() / 2, imageNode.getFullBounds().getHeight() - 3 );
+            readoutValueNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutValueNode.getFullBounds().getWidth() / 2 + 2, labelTextNode.getFullBounds().getMaxY() - 2 );
+
             if ( availHeight < labelNode.getFullBounds().getHeight() ) {
                 double sy = availHeight / labelNode.getFullBounds().getHeight();
                 if ( sy > 0 && sy < 1 ) {
+                    double MIN_SCALE = 0.6;
+                    sy = Math.max( MIN_SCALE, sy );
                     labelNode.setScale( sy );
+
+                    //if the font is pretty small, then move the text to the top right so it's not obscured
+                    if ( sy == MIN_SCALE ) {
+                        labelTextNode.setOffset( imageNode.getFullBounds().getMaxX(), imageNode.getFullBounds().getY() );
+                        readoutValueNode.setOffset( clip.getFullBounds().getWidth() / 2 - readoutValueNode.getFullBounds().getWidth() / 2 + 2, labelTextNode.getFullBounds().getMaxY() - 2 );
+                    }
                 }
             }
 
@@ -247,7 +258,7 @@ public class StackedBarNode extends PNode {
             this.paint = paint;
             this.value = value;
             this.image = image;
-            this.textColor=textColor;
+            this.textColor = textColor;
         }
 
         public BarChartElement( String name, Paint paint, double value, BufferedImage image ) {
