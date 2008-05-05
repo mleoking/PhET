@@ -1,19 +1,5 @@
 High Priority:
 
-check with fran, bill & kate regarding change in % fat
-    http://sportsmedicine.about.com/od/fitnessevalandassessment/a/Body_Fat_Comp.htm
-        Can I Change My Body Composition?
-        Yes. To increase or decrease your percent of body fat you need to create the right balance between the calories in and calories out. The best way to do this is to decrease daily calories by about 500 and increase your exercise. Aerobic exercise along with strength training is ideal. If you are beginning a new exercise program, you are advised to first consult your physician.
-
-Will students know to push play?
-    >>How to indicate this?
-
-Fat Mass
-    -Do we need fat mass% and non-fat mass percent? / -How is body fat calculated?  How would a student know their % body fat?
-        can we remove this?
-        can be default based on gender
-        or buttons for "muscular or nonmuscular"
-
 Height
     Incorporate growth or height changes with weight?
         should we increase this?
@@ -68,6 +54,13 @@ Zoom in/out for bar graphs
     alternatively: Readouts by base of bar graph?
 Add description to sedentary, moderate activity, etc.
 Relabel 5.89 ft to 5' 9" etc.
+check with fran, bill & kate regarding change in % fat
+    http://sportsmedicine.about.com/od/fitnessevalandassessment/a/Body_Fat_Comp.htm
+        Can I Change My Body Composition?
+        Yes. To increase or decrease your percent of body fat you need to create the right balance between the calories in and calories out. The best way to do this is to decrease daily calories by about 500 and increase your exercise. Aerobic exercise along with strength training is ideal. If you are beginning a new exercise program, you are advised to first consult your physician.
+
+Will students know to push play?
+    >>How to indicate this?
 
 Low Priority:
 +Editors for exercise (change time or intensity)
@@ -130,6 +123,11 @@ Reset all needs to clear graphs
 Performance: consider profiling or changing clock rate
 Removed units from interior of stacked bar chart
     >>Not sure this looks better
+Fat Mass
+    -Do we need fat mass% and non-fat mass percent? / -How is body fat calculated?  How would a student know their % body fat?
+        can we remove this?
+        can be default based on gender
+        or buttons for "muscular or nonmuscular"
 
 Bill 4/18/2008
 

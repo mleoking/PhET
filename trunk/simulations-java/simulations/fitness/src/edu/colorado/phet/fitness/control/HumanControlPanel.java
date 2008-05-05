@@ -1,10 +1,8 @@
 package edu.colorado.phet.fitness.control;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -15,12 +13,12 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSli
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.colorado.phet.fitness.view.FitnessColorScheme;
 import edu.colorado.phet.fitness.view.SliderNode;
-import edu.colorado.phet.fitness.FitnessStrings;
 
 /**
  * Created by: Sam
@@ -29,12 +27,8 @@ import edu.colorado.phet.fitness.FitnessStrings;
 public class HumanControlPanel extends VerticalLayoutPanel {
     private FitnessModel model;
     private Human human;
-
-//    public String toString( double sec ) {
-//        int years = (int) FitnessUnits.secondsToYears( sec );
-//        double remainingSec = sec - FitnessUnits.yearsToSeconds( years );
-//        int months=(int) FitnessUnits
-//    }
+    private HumanSlider bodyFat;
+    private LinearValueControl[] hs;
 
     public HumanControlPanel( final FitnessModel model, final Human human ) {
         this.model = model;
@@ -111,48 +105,92 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( weightControl );
 
-        final HumanSlider fatMassPercent = new HumanSlider( 0, 100, human.getFatMassPercent(), "Body Fat", "0.00", "%" );
-        fatMassPercent.addChangeListener( new ChangeListener() {
+//        final HumanSlider fatMassPercent = new HumanSlider( 0, 100, human.getFatMassPercent(), "Body Fat", "0.00", "%" );
+//        fatMassPercent.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                human.setFatMassPercent( fatMassPercent.getValue() );
+//            }
+//        } );
+//        human.addListener( new Human.Adapter() {
+//            public void fatPercentChanged() {
+//                fatMassPercent.setValue( human.getFatMassPercent() );
+//            }
+//        } );
+//        fatMassPercent.getSlider().addMouseListener( new MouseAdapter() {
+//            public void mouseReleased( MouseEvent e ) {
+//                double va = human.getFatMassPercent();
+//                fatMassPercent.setValue( human.getFatMassPercent() + 1 );
+//                fatMassPercent.setValue( va );
+//            }
+//        } );
+//        add( fatMassPercent );
+//
+////        final HumanSlider fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Fat Free Mass", "0.00", "%" );
+//        final HumanSlider fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Other Mass", "0.00", "%" );
+//        fatFreeMassPercent.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                human.setFatMassPercent( 100 - fatFreeMassPercent.getValue() );
+//            }
+//        } );
+//        human.addListener( new Human.Adapter() {
+//            public void fatPercentChanged() {
+//                fatFreeMassPercent.setValue( human.getFatFreeMassPercent() );
+//            }
+//        } );
+//        fatFreeMassPercent.getSlider().addMouseListener( new MouseAdapter() {
+//            public void mouseReleased( MouseEvent e ) {
+//                double va = human.getFatFreeMassPercent();
+//                fatFreeMassPercent.setValue( human.getFatFreeMassPercent() + 1 );
+//                fatFreeMassPercent.setValue( va );
+//            }
+//        } );
+//        add( fatFreeMassPercent );
+        bodyFat = new HumanSlider( 0, 100, human.getFatMassPercent(), "Body Fat", "0.0", "%" );
+        bodyFat.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setFatMassPercent( fatMassPercent.getValue() );
+                human.setFatMassPercent( bodyFat.getValue() );
             }
         } );
-        human.addListener( new Human.Adapter() {
-            public void fatPercentChanged() {
-                fatMassPercent.setValue( human.getFatMassPercent() );
-            }
-        } );
-        fatMassPercent.getSlider().addMouseListener( new MouseAdapter() {
+        bodyFat.getSlider().addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
                 double va = human.getFatMassPercent();
-                fatMassPercent.setValue( human.getFatMassPercent() + 1 );
-                fatMassPercent.setValue( va );
-            }
-        } );
-        add( fatMassPercent );
-
-//        final HumanSlider fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Fat Free Mass", "0.00", "%" );
-        final HumanSlider fatFreeMassPercent = new HumanSlider( 0, 100, human.getFatFreeMassPercent(), "Other Mass", "0.00", "%" );
-        fatFreeMassPercent.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                human.setFatMassPercent( 100 - fatFreeMassPercent.getValue() );
+                bodyFat.setValue( human.getFatMassPercent() + 1 );
+                bodyFat.setValue( va );
             }
         } );
         human.addListener( new Human.Adapter() {
             public void fatPercentChanged() {
-                fatFreeMassPercent.setValue( human.getFatFreeMassPercent() );
+                bodyFat.setValue( human.getFatMassPercent() );
             }
         } );
-        fatFreeMassPercent.getSlider().addMouseListener( new MouseAdapter() {
-            public void mouseReleased( MouseEvent e ) {
-                double va = human.getFatFreeMassPercent();
-                fatFreeMassPercent.setValue( human.getFatFreeMassPercent() + 1 );
-                fatFreeMassPercent.setValue( va );
+        human.addListener( new Human.Adapter() {
+            public void genderChanged() {
+                updateBodyFatSlider();
             }
         } );
-        add( fatFreeMassPercent );
 
-        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, fatMassPercent, fatFreeMassPercent};
+
+        add( bodyFat );
+
+//        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, fatMassPercent, fatFreeMassPercent};
+        hs = new LinearValueControl[]{age, heightControl, weightControl, bodyFat};
+        new AlignedSliderSetLayoutStrategy( hs ).doLayout();
+
+        updateBodyFatSlider();
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateBodyFatSlider();
+            }
+        } );
+    }
+
+    private void updateBodyFatSlider() {
+        bodyFat.setRange( 0, human.getGender().getMaxFatMassPercent() );
+        Hashtable table = new Hashtable();
+        table.put( new Double( 4 ), new JLabel( "muscular" ) );
+        table.put( new Double( human.getGender().getMaxFatMassPercent() ), new JLabel( "non" ) );
+//        table.put( new Integer( 40 ), new JLabel("non") );
+        bodyFat.setTickLabels( table );
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
     }
 

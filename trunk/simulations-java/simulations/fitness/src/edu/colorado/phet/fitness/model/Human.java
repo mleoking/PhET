@@ -381,36 +381,38 @@ public class Human {
     }
 
     public void setFatMassPercent( double value ) {
-        if ( getGender() == Gender.FEMALE ) {
-            value = MathUtil.clamp( 10, value, 40 );
-        }
-        else if ( getGender() == Gender.MALE ) {
-            value = MathUtil.clamp( 4, value, 40 );
-        }
-        fatMassFraction.setValue( value / 100.0 );
+        fatMassFraction.setValue( gender.clampFatMassPercent( value ) / 100.0 );
         updateBMR();
         notifyFatPercentChanged();
     }
-    //    public double getDailyCaloricIntake() {
-//        double sum = 0;
-//        for ( Iterator iterator = foods.iterator(); iterator.hasNext(); ) {
-//            FoodItem foodItem = (FoodItem) iterator.next();
-//            sum += foodItem.getCalories();
-//        }
-//        return sum;
-//    }
 
     public static class Gender {
-        public static Gender MALE = new Gender( "male" );
-        public static Gender FEMALE = new Gender( "female" );
+        public static Gender MALE = new Gender( "male", 4, 40 );
+        public static Gender FEMALE = new Gender( "female", 10, 40 );
         private String name;
+        private double minFatMassPercent;
+        private double maxFatMassPercent;
 
-        private Gender( String name ) {
+        private Gender( String name, double minFatMassPercent, double maxFatMassPercent ) {
             this.name = name;
+            this.minFatMassPercent = minFatMassPercent;
+            this.maxFatMassPercent = maxFatMassPercent;
         }
 
         public String toString() {
             return name;
+        }
+
+        public double getMinFatMassPercent() {
+            return minFatMassPercent;
+        }
+
+        public double getMaxFatMassPercent() {
+            return maxFatMassPercent;
+        }
+
+        public double clampFatMassPercent( double value ) {
+            return MathUtil.clamp( minFatMassPercent, value, maxFatMassPercent );
         }
     }
 
