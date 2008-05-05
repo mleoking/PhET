@@ -66,4 +66,8 @@ public class FitnessUnits {
         return value / POUNDS_PER_KG;
     }
 
+    public static double monthsToSeconds( double months ) {
+        //1 month = 2 629 743.83 seconds
+        return months * 2629743.83;
+    }
 }
