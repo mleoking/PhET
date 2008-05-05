@@ -18,11 +18,16 @@ public class CaloricFoodItem extends CaloricItem {
     }
 
     public CaloricFoodItem( String name, String image, double cal, double lipids, double carbs, double protein, boolean removable ) {
-        super( name, image, cal );
+        super( name, image, lipids * 9 + carbs * 4 + protein * 4 );
         this.lipids = lipids;
         this.carbs = carbs;
         this.protein = protein;
         this.removable = removable;
+//        System.out.println( "cal=" + cal + ", tcal=" + getTotalCalories() + ", c=" + getCalories() );
+    }
+
+    private double getTotalCalories() {
+        return getLipidCalories() + getCarbCalories() + getProteinCalories();
     }
 
     public boolean isRemovable() {

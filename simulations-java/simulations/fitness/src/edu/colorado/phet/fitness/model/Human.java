@@ -46,63 +46,6 @@ public class Human {
     private ITemporalVariable caloricBurnVariable = new DefaultTemporalVariable();
     private CaloricFoodItem defaultIntake;
 
-    public double getActivityLevel() {
-        return activityLevel;
-    }
-
-    public ITemporalVariable getMassVariable() {
-        return mass;
-    }
-
-    public ITemporalVariable getCaloricIntakeVariable() {
-        return caloricIntakeVariable;
-    }
-
-    public ITemporalVariable getCaloricBurnVariable() {
-        return caloricBurnVariable;
-    }
-
-    public CaloricFoodItem getDefaultIntake() {
-        return defaultIntake;
-    }
-
-    public static class ReferenceHuman {
-        boolean male;
-        double ageYears;
-        double heightFT;
-        double massKG;
-        double fatFreeMassPercent;
-
-        public ReferenceHuman( boolean male, double ageYears, double heightFT, double heightIN, double massKG, double fatFreeMassPercent ) {
-            this.male = male;
-            this.ageYears = ageYears;
-            this.heightFT = heightFT + heightIN / 12;
-            this.massKG = massKG;
-            this.fatFreeMassPercent = fatFreeMassPercent;
-        }
-
-        public double getHeightMeters() {
-            return FitnessUnits.feetToMeters( heightFT );
-        }
-
-        public double getAgeSeconds() {
-            return FitnessUnits.yearsToSeconds( ageYears );
-        }
-
-        public double getMassKG() {
-            return massKG;
-        }
-
-        public double getFatFreeMassPercent() {
-            return fatFreeMassPercent;
-        }
-
-        public Gender getGender() {
-            return male ? Gender.MALE : Gender.FEMALE;
-        }
-    }
-
-
     public Human() {
         lipids.addListener( new IVariable.Listener() {
             public void valueChanged() {
@@ -169,7 +112,49 @@ public class Human {
 
         //todo remove the need for this workaround
         simulationTimeChanged( 0.0 );
+        foodItems.addListener( new CalorieSet.Listener() {
+            public void itemAdded( CaloricItem item ) {
+                notifyDietChanged();
+            }
+
+            public void itemRemoved( CaloricItem item ) {
+                notifyDietChanged();
+            }
+        } );
+        exerciseItems.addListener( new CalorieSet.Listener() {
+            public void itemAdded( CaloricItem item ) {
+                exercise.setValue( exerciseItems.getTotalCalories() );
+                notifyExerciseChanged();
+            }
+
+            public void itemRemoved( CaloricItem item ) {
+                exercise.setValue( exerciseItems.getTotalCalories() );
+                notifyExerciseChanged();
+            }
+        } );
+
     }
+
+    public double getActivityLevel() {
+        return activityLevel;
+    }
+
+    public ITemporalVariable getMassVariable() {
+        return mass;
+    }
+
+    public ITemporalVariable getCaloricIntakeVariable() {
+        return caloricIntakeVariable;
+    }
+
+    public ITemporalVariable getCaloricBurnVariable() {
+        return caloricBurnVariable;
+    }
+
+    public CaloricFoodItem getDefaultIntake() {
+        return defaultIntake;
+    }
+
 
     private void clearTemporalVariables() {
         height.clear();
@@ -206,9 +191,9 @@ public class Human {
 
     private void notifyExerciseChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
-            listener.exerciseChanged();
+            ( (Listener) listeners.get( i ) ).exerciseChanged();
         }
+        notifyCaloricBurnChanged();
     }
 
     public Diet getDiet() {
@@ -218,6 +203,7 @@ public class Human {
     private void notifyDietChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).dietChanged();
+            ( (Listener) listeners.get( i ) ).caloricIntakeChanged();
         }
     }
 
@@ -317,6 +303,13 @@ public class Human {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).activityChanged();
         }
+        notifyCaloricBurnChanged();
+    }
+
+    private void notifyCaloricBurnChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).caloricBurnChanged();
+        }
     }
 
     public DefaultTemporalVariable getLipids() {
@@ -354,20 +347,20 @@ public class Human {
         caloricIntakeVariable.setValue( getDailyCaloricIntake() );
         caloricIntakeVariable.addValue( getDailyCaloricIntake(), getAge() );
 
-        caloricBurnVariable.setValue( getDailyCaloricExpense() );
-        caloricBurnVariable.addValue( getDailyCaloricExpense(), getAge() );
+        caloricBurnVariable.setValue( getDailyCaloricBurn() );
+        caloricBurnVariable.addValue( getDailyCaloricBurn(), getAge() );
 //        System.out.println( "getDailyCaloricIntake() = " + getDailyCaloricIntake() );
     }
 
     private double getDeltaCaloriesGained() {
-        return getDailyCaloricIntake() - getDailyCaloricExpense();
+        return getDailyCaloricIntake() - getDailyCaloricBurn();
     }
 
-    private double getDailyCaloricExpense() {
+    public double getDailyCaloricBurn() {
         return bmr.getValue() + activity.getValue() + exercise.getValue();
     }
 
-    private double getDailyCaloricIntake() {
+    public double getDailyCaloricIntake() {
         return lipids.getValue() + proteins.getValue() + carbs.getValue();
     }
 
@@ -509,8 +502,6 @@ public class Human {
 
         void fatPercentChanged();
 
-        void foodItemsChanged();
-
         void ageChanged();
 
         void dietChanged();
@@ -518,6 +509,10 @@ public class Human {
         void exerciseChanged();
 
         void activityChanged();
+
+        void caloricIntakeChanged();
+
+        void caloricBurnChanged();
     }
 
     public static class Adapter implements Listener {
@@ -540,9 +535,6 @@ public class Human {
         public void fatPercentChanged() {
         }
 
-        public void foodItemsChanged() {
-        }
-
         public void ageChanged() {
         }
 
@@ -553,6 +545,12 @@ public class Human {
         }
 
         public void activityChanged() {
+        }
+
+        public void caloricIntakeChanged() {
+        }
+
+        public void caloricBurnChanged() {
         }
     }
 
@@ -586,6 +584,42 @@ public class Human {
 //            System.out.println( "removed foodItem = " + foodItem );
 //            notifyFoodItemsChanged();
 //        }
-//    }
 
+    //    }
+
+    public static class ReferenceHuman {
+        boolean male;
+        double ageYears;
+        double heightFT;
+        double massKG;
+        double fatFreeMassPercent;
+
+        public ReferenceHuman( boolean male, double ageYears, double heightFT, double heightIN, double massKG, double fatFreeMassPercent ) {
+            this.male = male;
+            this.ageYears = ageYears;
+            this.heightFT = heightFT + heightIN / 12;
+            this.massKG = massKG;
+            this.fatFreeMassPercent = fatFreeMassPercent;
+        }
+
+        public double getHeightMeters() {
+            return FitnessUnits.feetToMeters( heightFT );
+        }
+
+        public double getAgeSeconds() {
+            return FitnessUnits.yearsToSeconds( ageYears );
+        }
+
+        public double getMassKG() {
+            return massKG;
+        }
+
+        public double getFatFreeMassPercent() {
+            return fatFreeMassPercent;
+        }
+
+        public Gender getGender() {
+            return male ? Gender.MALE : Gender.FEMALE;
+        }
+    }
 }
