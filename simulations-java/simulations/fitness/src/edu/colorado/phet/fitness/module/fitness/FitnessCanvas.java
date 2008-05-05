@@ -58,7 +58,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
-        setWorldTransformStrategy( new FitnessRenderingSizeStrategy( this, CANVAS_WIDTH, CANVAS_HEIGHT ) );
+
         _model = model;
 
         setBackground( FitnessConstants.CANVAS_BACKGROUND );
@@ -99,6 +99,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
                 requestFocus();
             }
         } );
+        setWorldTransformStrategy( new FitnessRenderingSizeStrategy( this, CANVAS_WIDTH, CANVAS_HEIGHT ) );
     }
 
     private void updateHeartHealthButtonNodeLayout() {
@@ -121,7 +122,10 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         return rulerNode;
     }
 
-    //----------------------------------------------------------------------------
+    public HumanAreaNode getHumanAreaNode() {
+        return humanAreaNode;
+    }
+//----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------
 
@@ -143,9 +147,14 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         humanControlPanelPSwing.setOffset( 0, getHeight() - humanControlPanelPSwing.getFullBounds().getHeight() );
 
         //XXX lay out nodes
+
     }
 
     //reset any view settings
     public void resetAll() {
+    }
+
+    public double getHumanControlPanelHeight() {
+        return humanControlPanelPSwing == null ? 0 : humanControlPanelPSwing.getFullBounds().getHeight();
     }
 }

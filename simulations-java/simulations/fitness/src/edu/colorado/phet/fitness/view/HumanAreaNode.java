@@ -114,7 +114,8 @@ public class HumanAreaNode extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
         PhetPCanvas contentPane = new BufferedPhetPCanvas( new PDimension( 10, 10 ) );
-        contentPane.setWorldTransformStrategy( new FitnessRenderingSizeStrategy( contentPane, FitnessCanvas.CANVAS_WIDTH, FitnessCanvas.CANVAS_HEIGHT ) );
+        //todo: update layout
+//        contentPane.setWorldTransformStrategy( new FitnessRenderingSizeStrategy( contentPane, FitnessCanvas.CANVAS_WIDTH, FitnessCanvas.CANVAS_HEIGHT ) );
         frame.setContentPane( contentPane );
 
         final Human human1 = new Human();
