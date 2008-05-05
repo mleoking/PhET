@@ -43,7 +43,7 @@ public class CaloriePanel extends PNode {
         GraphSuiteSet graphSuiteSet = new GraphSuiteSet();
         TimeSeriesModel tsm = new MotionTimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) );
 
-        ControlGraph weightGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Weight", Color.blue, "weight", "lbs", "", model.getHuman().getMassVariable() ), "Weight", 0, 100, tsm, 7.37E8 );
+        final ControlGraph weightGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( "Weight", Color.blue, "weight", "lbs", "", model.getHuman().getMassVariable() ), "Weight", 0, 100, tsm, 7.37E8 );
         weightGraph.setHorizontalRange( Human.DEFAULT_VALUE.getAgeSeconds(), Human.DEFAULT_VALUE.getAgeSeconds() + FitnessUnits.yearsToSeconds( 20 ) );
         weightGraph.setEditable( false );
         weightChart = new MinimizableControlGraph( "Weight", weightGraph );
@@ -58,9 +58,19 @@ public class CaloriePanel extends PNode {
                 calorieGraph.forceUpdateAll();
             }
         } );
-
         calorieChart = new MinimizableControlGraph( "Calories", calorieGraph );
         calorieChart.setAvailableBounds( 600, 125 );
+
+        calorieGraph.addListener( new ControlGraph.Adapter() {
+            public void zoomChanged() {
+                weightGraph.setHorizontalRange( calorieGraph.getMinDataX(), calorieGraph.getMaxDataX() );
+            }
+        } );
+        weightGraph.addListener( new ControlGraph.Adapter() {
+            public void zoomChanged() {
+                calorieGraph.setHorizontalRange( weightGraph.getMinDataX(), weightGraph.getMaxDataX() );
+            }
+        } );
 
         MinimizableControlGraph[] graphs = {weightChart, calorieChart};
         weightChart.setAlignedLayout( graphs );
@@ -81,11 +91,11 @@ public class CaloriePanel extends PNode {
 
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
 //        Color labelColor=Color.white;
-        Color labelColor=Color.black;
+        Color labelColor = Color.black;
         intakeBars.addElement( new BarChartElementAdapter( FitnessStrings.FATS, FitnessColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif", labelColor ), StackedBarNode.NONE );
 //        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "j0410455.gif" ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png" ,labelColor ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif",labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif", labelColor ), StackedBarNode.NONE );
 
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
 //        exerciseBars.addElement( new BarChartElementAdapter( "<html><center>Basal<br>Metabolic<br>Rate<br>(BMR)</center></html>", FitnessColorScheme.BMR, model.getHuman().getBmr() ,"heart2.png"), StackedBarNode.RIGHT );
@@ -116,7 +126,7 @@ public class CaloriePanel extends PNode {
 
     public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {
         public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable, String image, Color textColor ) {
-            super( name, paint, variable.getValue(), FitnessResources.getImage( image ) ,textColor);
+            super( name, paint, variable.getValue(), FitnessResources.getImage( image ), textColor );
             variable.addListener( new IVariable.Listener() {
                 public void valueChanged() {
                     BarChartElementAdapter.this.setValue( variable.getValue() );

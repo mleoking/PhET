@@ -274,6 +274,7 @@ public class ControlGraph extends PNode {
         }
     }
 
+    //todo: should we use addListener instead?
     public void addHorizontalZoomListener( ZoomControlNode.ZoomListener zoomListener ) {
         zoomControl.addHorizontalZoomListener( zoomListener );
     }
@@ -432,7 +433,9 @@ public class ControlGraph extends PNode {
         }
         return -1;
     }
-
+    public double getMinDataX() {
+        return jFreeChart.getXYPlot().getDomainAxis().getLowerBound();
+    }
     public double getMaxDataX() {
         return jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
     }
