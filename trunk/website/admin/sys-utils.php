@@ -1,5 +1,10 @@
 <?php
 
+    // Local defines
+    define("FLOCK_MAX_TRIES", 5);
+    define("FLOCK_RETRY_WAIT_MIN", 100);
+    define("FLOCK_RETRY_WAIT_MAX", 500);
+
     if (!function_exists('file_put_contents') && !defined('FILE_APPEND')) {
         define('FILE_APPEND', 1);
 
@@ -344,15 +349,24 @@
     function flock_get_contents($filename){
         $return = false;
 
+        $tries = 0;
+
         if (is_string($filename) && !empty($filename)) {
             if (is_readable($filename)) {
                 if ($handle = @fopen($filename, 'rt')) {
-                    while (!$return){
+                    while ($tries < FLOCK_MAX_TRIES) {
+                        $tries = $tries + 1;
+
                         if (flock($handle, LOCK_SH)) {
-                            if ($return = file_get_contents($filename)) {
+                            $return = file_get_contents($filename);
+                            if ($return) {
                                 flock($handle, LOCK_UN);
+                                break;
                             }
                         }
+
+                        // The lock didn't work, sleep a bit before trying again
+                        usleep(rand(FLOCK_RETRY_WAIT_MIN, FLOCK_RETRY_WAIT_MAX));
                     }
 
                     fclose($handle);
@@ -366,17 +380,31 @@
     function flock_put_contents($filename, $contents) {
         $return = false;
 
+        $tries = 0;
+
         if (is_string($filename) && !empty($filename)) {
             if ($handle = @fopen($filename, 'w+t')) {
-                while (!$return) {
+                while ($tries < FLOCK_MAX_TRIES) {
+                    $tries = $tries + 1;
+
                     if (flock($handle, LOCK_EX)) {
-                        if ($return = file_put_contents($filename, $contents)) {
+                        $return = file_put_contents($filename, $contents);
+                        if ($return) {
                             flock($handle, LOCK_UN);
+                            break;
                         }
                     }
+
+                    // The lock didn't work, sleep a bit before trying again
+                    usleep(rand(FLOCK_RETRY_WAIT_MIN, FLOCK_RETRY_WAIT_MAX));
                 }
 
                 fclose($handle);
+
+                if (!$return) {
+                    // The writing failed, remove the file
+                    unlink($filename);
+                }
             }
         }
 
