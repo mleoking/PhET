@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Diet;
 import edu.colorado.phet.fitness.model.FitnessUnits;
@@ -170,6 +169,8 @@ public class FitnessModel {
     public void resetAll() {
         clock.setSimulationTime( 0.0 );
         human.resetAll();
+        setUnits( Units.ENGLISH );
+        getClock().pause();
     }
 
     public Units getUnits() {
@@ -177,8 +178,10 @@ public class FitnessModel {
     }
 
     public void setUnits( Units units ) {
-        this.units = units;
-        notifyUnitsChanged();
+        if ( this.units != units ) {
+            this.units = units;
+            notifyUnitsChanged();
+        }
     }
 
     private void notifyUnitsChanged() {

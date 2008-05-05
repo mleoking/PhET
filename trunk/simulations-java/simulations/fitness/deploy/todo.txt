@@ -1,10 +1,6 @@
 High Priority:
 
 Graphs
-    Graphs need correct vertical and horizontal units
-    Zoom in/out should have better behavior
-        
-    Charts ranges should reset on sim reset
     Add ability to change weight units between metric and english
         >>Chart vertical range should reflect this change as well.
 
@@ -111,6 +107,8 @@ Fat Mass
         or buttons for "muscular or nonmuscular"
 Bug: top graph continued while bottom graph stopped, on McKagan's machine
     >> Can't reproduce this
+Graphs need correct vertical and horizontal units
+    >> is this fixed, or should we add labels?
 
 Bill 4/18/2008
 

@@ -12,6 +12,8 @@ Fixed: Scaling is confusing. x and y axis calibration is set out of range on gra
 Fixed: Vertical zoom shouldn't go below zero
 Fixed: Horizontal zoom works properly
     horizontal range maintained on chart reset
+Fixed: Zoom in/out should have better behavior
+Fixed: Charts ranges should reset on sim reset
 
 New in 0.00.23 (5-5-2008)
 Lightened caloric intake bar chart colors

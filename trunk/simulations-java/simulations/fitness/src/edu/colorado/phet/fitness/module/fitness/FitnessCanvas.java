@@ -48,6 +48,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     private PSwing humanControlPanelPSwing;
     private HumanAreaNode humanAreaNode;
     private BMIHelpButtonNode heartHealthButtonNode;
+    private CaloriePanel caloriePanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -86,7 +87,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
-        PNode caloriePanel = new CaloriePanel( model, this, parentFrame );
+        caloriePanel = new CaloriePanel( model, this, parentFrame );
         caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         addScreenChild( caloriePanel );
 
@@ -152,6 +153,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
     //reset any view settings
     public void resetAll() {
+        caloriePanel.resetAll();
     }
 
     public double getHumanControlPanelHeight() {
