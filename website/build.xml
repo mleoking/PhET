@@ -79,6 +79,7 @@ build-related libraries from the simulations-java project.
                     <exclude name=".svn" />
                     <exclude name="**/cached-*/*" />
                     <exclude name="admin/login-info.php" />
+                    <exclude name="admin/local-debug-settings.php" />
                 </fileset>
             </sftp>
 
@@ -104,6 +105,7 @@ build-related libraries from the simulations-java project.
                     <exclude name=".svn" />
                     <exclude name="**/cached-*/*" />
                     <exclude name="admin/login-info.php" />
+                    <exclude name="admin/local-debug-settings.php" />
                 </fileset>
             </sftp>
 
