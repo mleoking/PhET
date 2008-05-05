@@ -207,6 +207,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     public static final class HumanSlider extends LinearValueControl {
         public HumanSlider( double min, double max, double value, String label, String textFieldPattern, String units ) {
             super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
+            setColumns( 4 );
             setPaintTicks( false );
             setPaintLabels( false );
             setSignifyOutOfBounds( false );
