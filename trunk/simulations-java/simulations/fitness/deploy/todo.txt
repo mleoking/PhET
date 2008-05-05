@@ -44,6 +44,7 @@ BMI:
 We are still confused about a delay in weight loss if: all variables remained constant:
     diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
     -I think you should be able to do "step day", so you can see the effects of 1 hour activity
+Time readouts should be Years:Months, not years in decimal
 
 Low Priority:
 +Editors for exercise (change time or intensity)
