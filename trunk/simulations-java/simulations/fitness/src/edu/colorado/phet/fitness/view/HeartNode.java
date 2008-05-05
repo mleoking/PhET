@@ -51,7 +51,7 @@ public class HeartNode extends PImage {
     private void updateSmile() {
         double optimalBMI = 21.5;//median of WHO values according to: http://en.wikipedia.org/wiki/Body_mass_index
         double distFromOptimal = Math.abs( human.getBMI() - optimalBMI );
-        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 10, 1, 0 );
+        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 3, 1, 0 );
 
         DoubleGeneralPath smile = new DoubleGeneralPath();
         double smileInsetScaleX = 0.3;

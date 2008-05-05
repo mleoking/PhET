@@ -3,9 +3,12 @@
 package edu.colorado.phet.fitness.module.fitness;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -43,6 +46,8 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     // Translation factors, used to set origin of canvas area.
     private RulerNode rulerNode;
     private PSwing humanControlPanelPSwing;
+    private HumanAreaNode humanAreaNode;
+    private BMIHelpButtonNode heartHealthButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,7 +68,16 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         addWorldChild( _rootNode );
 
         _rootNode.addChild( new ScaleNode( model, model.getHuman() ) );
-        _rootNode.addChild( new HumanAreaNode( model.getHuman() ) );
+        humanAreaNode = new HumanAreaNode( model.getHuman() );
+        _rootNode.addChild( humanAreaNode );
+        heartHealthButtonNode = new BMIHelpButtonNode( this, model.getHuman() );
+        addScreenChild( heartHealthButtonNode );
+        updateHeartHealthButtonNodeLayout();
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateHeartHealthButtonNodeLayout();
+            }
+        } );
 
         rulerNode = createRulerNode();
         addWorldChild( rulerNode );
@@ -85,6 +99,12 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
                 requestFocus();
             }
         } );
+    }
+
+    private void updateHeartHealthButtonNodeLayout() {
+        Point2D pt = humanAreaNode.getHeartNode().getGlobalFullBounds().getOrigin();
+        pt.setLocation( pt.getX() + humanAreaNode.getHeartNode().getGlobalFullBounds().getWidth(), pt.getY() );
+        heartHealthButtonNode.setOffset( pt );
     }
 
     private RulerNode createRulerNode() {
