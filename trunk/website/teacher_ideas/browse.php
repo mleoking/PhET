@@ -271,7 +271,7 @@ EOT;
             $GLOBALS['g_content_only'] = true;
             $result =
                 browse_print_content_only($this->Simulations, $this->Types, $this->Levels,
-                                        $this->sort_by, $this->order, $this->next_order, true, $this->referrer);
+                                          $this->sort_by, $this->order, $this->next_order, true, $this->referrer);
             if (!$result) {
                 print "<p>There are no contributions meeting the specified criteria.</p>";
             }
@@ -290,6 +290,7 @@ EOT;
             $this->print_content_with_header();
         }
     }
+
 }
 
 // Do some processing on the referrer first
