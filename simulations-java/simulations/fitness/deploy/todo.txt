@@ -1,13 +1,6 @@
 High Priority:
 
-Height
-    Incorporate growth or height changes with weight?
-        should we increase this?
-        yes, look on web for height changes since BMI =f(height)
-
 BMI:
-    BMI comparative thing, popup box regarding healthy BMI's
-    BMI readings may be slightly off...we checked them against the NHLBinstute chart
     BMI readout is too small to see.  Maybe put next to BMR?
         >>I'd recommend elsewhere, perhaps in the human control panel
     Are we accounting for sex affects on BMI and BMR?
@@ -58,9 +51,12 @@ check with fran, bill & kate regarding change in % fat
     http://sportsmedicine.about.com/od/fitnessevalandassessment/a/Body_Fat_Comp.htm
         Can I Change My Body Composition?
         Yes. To increase or decrease your percent of body fat you need to create the right balance between the calories in and calories out. The best way to do this is to decrease daily calories by about 500 and increase your exercise. Aerobic exercise along with strength training is ideal. If you are beginning a new exercise program, you are advised to first consult your physician.
-
 Will students know to push play?
     >>How to indicate this?
+Height
+    Incorporate growth or height changes with weight?
+        should we increase this?
+        yes, look on web for height changes since BMI =f(height)
 
 Low Priority:
 +Editors for exercise (change time or intensity)

@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class HumanAreaNode extends PNode {
     private Human human;
     private PhetPPath head;
-    private PImage heart;
+    private PImage heartNode;
     private BasicStroke stroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER );
     private PhetPPath areaNode = new PhetPPath( Color.white, stroke, Color.black );
 
@@ -38,9 +38,9 @@ public class HumanAreaNode extends PNode {
         head = new PhetPPath( Color.white, new BasicStroke( 0.02f ), Color.black );
         addChild( areaNode );
 
-        heart = new HeartNode( human );
-        heart.scale( 0.25 / heart.getFullBounds().getWidth() );
-        addChild( heart );
+        heartNode = new HeartNode( human );
+        heartNode.scale( 0.25 / heartNode.getFullBounds().getWidth() );
+        addChild( heartNode );
         addChild( head );
         human.addListener( new Human.Adapter() {
             public void heightChanged() {
@@ -52,6 +52,10 @@ public class HumanAreaNode extends PNode {
             }
         } );
         update();
+    }
+
+    public PImage getHeartNode() {
+        return heartNode;
     }
 
     private void update() {
@@ -89,7 +93,7 @@ public class HumanAreaNode extends PNode {
         areaNode.setPathTo( bodyArea );
         areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * m, 0.025f ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
 
-        heart.setOffset( -heart.getFullBounds().getWidth() * 0.15, neckY + heart.getFullBounds().getHeight() * 1.25 );
+        heartNode.setOffset( -heartNode.getFullBounds().getWidth() * 0.15, neckY + heartNode.getFullBounds().getHeight() * 1.25 );
     }
 
     //provides a mapping from human mass in KG to the arbitrary-scaled value for showing weight
