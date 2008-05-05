@@ -18,8 +18,6 @@ Graphs
     Horizontal graph scale should be linked
     Bug: top graph continued while bottom graph stopped, on McKagan's machine
 
-Food composition should lead to a change in the Fat Free Mass %
-
 Time:
     Time readout at bottom should be years, not seconds.
         When it comes to a person's age, we tend to speak in years or days instead of seconds.
@@ -30,9 +28,6 @@ Crashes on mac, see email
     
 Provide a link for RV teachers
 
-Layout
-    Layout problem on web start, scale readouts cut off, scale units cut off
-    
 Med Priority:
 Add a legend for caloric breakdown pie chart
 Number of calories of healthy diet should be editable
@@ -40,6 +35,7 @@ Zoom in/out for bar graphs
     alternatively: Readouts by base of bar graph?
 Add description to sedentary, moderate activity, etc.
 Relabel 5.89 ft to 5' 9" etc.
+Food composition should lead to a change in the Fat Free Mass %
 check with fran, bill & kate regarding change in % fat
     http://sportsmedicine.about.com/od/fitnessevalandassessment/a/Body_Fat_Comp.htm
         Can I Change My Body Composition?
