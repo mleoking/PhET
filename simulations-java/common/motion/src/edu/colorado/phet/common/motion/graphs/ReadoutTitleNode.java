@@ -27,7 +27,7 @@ public class ReadoutTitleNode extends PNode {
     private ShadowHTMLNode unitsNode;
 
     private ControlGraphSeries series;
-    private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
+    private DecimalFormat decimalFormat;
     private PhetPPath background;
     private double insetX = 2;
     private double insetY = 2;
@@ -84,6 +84,7 @@ public class ReadoutTitleNode extends PNode {
 
     public ReadoutTitleNode( ControlGraphSeries series ) {
         this.series = series;
+        this.decimalFormat=series.getNumberFormat();
 
         titleNode = new ShadowHTMLNode();
         titleNode.setFont( getTitleFont() );
@@ -107,7 +108,7 @@ public class ReadoutTitleNode extends PNode {
         background = new PhetPPath( Color.white );
         addChild( background );
         addChild( titleNode );
-        addChild( (PNode)valueNode );
+        addChild( valueNode );
         addChild( unitsNode );
         background.translate( insetX, insetY );
         titleNode.translate( insetX, insetY );
@@ -129,7 +130,7 @@ public class ReadoutTitleNode extends PNode {
             titleNode.setHtml( series.getAbbr() + "= " );
         }
 
-        ((PNode)valueNode).setOffset( titleNode.getFullBounds().getWidth() + 3, 3 );
+        valueNode.setOffset( titleNode.getFullBounds().getWidth() + 3, 3 );
         
 //        ((PNode)valueNode).setOffset( titleNode.getFullBounds().getWidth() + 3, ( (PNode) valueNode ).getFullBounds().getHeight()*1.5);
         updateText();
@@ -153,8 +154,8 @@ public class ReadoutTitleNode extends PNode {
 
     private void setValueText( String valueText ) {
         valueNode.setText( valueText );
-        double maxY = ((PNode)valueNode).getFullBounds().getMaxY();
-        unitsNode.setOffset( ((PNode)valueNode).getFullBounds().getMaxX() + 3, maxY - unitsNode.getFullBounds().getHeight() );
+        double maxY = valueNode.getFullBounds().getMaxY();
+        unitsNode.setOffset( valueNode.getFullBounds().getMaxX() + 3, maxY - unitsNode.getFullBounds().getHeight() );
         background.setPathTo( RectangleUtils.expand( titleNode.getFullBounds().createUnion( unitsNode.getFullBounds() ), insetX, insetY ) );//todo: avoid setting identical shapes here for performance considerations
     }
 

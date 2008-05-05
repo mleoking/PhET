@@ -54,7 +54,7 @@ public class ControlGraph extends PNode {
     private ZoomSuiteNode zoomControl;
     private TitleLayer titleLayer;
 
-    private double minDomainValue=0;
+    private double minDomainValue = 0;
     private double maxDomainValue;
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
@@ -211,10 +211,12 @@ public class ControlGraph extends PNode {
     }
 
     public void setHorizontalRange( double minDomainValue, double maxDomainValue ) {
-        jFreeChart.getXYPlot().getDomainAxis().setRange( minDomainValue, maxDomainValue );
-        this.minDomainValue = minDomainValue;
-        this.maxDomainValue = maxDomainValue;
-        notifyZoomChanged();
+        if ( minDomainValue != this.minDomainValue || this.maxDomainValue != maxDomainValue ) {
+            jFreeChart.getXYPlot().getDomainAxis().setRange( minDomainValue, maxDomainValue );
+            this.minDomainValue = minDomainValue;
+            this.maxDomainValue = maxDomainValue;
+            notifyZoomChanged();
+        }
     }
 
     protected GraphTimeControlNode createGraphTimeControlNode( TimeSeriesModel timeSeriesModel ) {
@@ -316,8 +318,7 @@ public class ControlGraph extends PNode {
 
     private void notifyZoomChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
-            listener.zoomChanged();
+            ( (Listener) listeners.get( i ) ).zoomChanged();
         }
     }
 
@@ -433,9 +434,11 @@ public class ControlGraph extends PNode {
         }
         return -1;
     }
+
     public double getMinDataX() {
         return jFreeChart.getXYPlot().getDomainAxis().getLowerBound();
     }
+
     public double getMaxDataX() {
         return jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
     }

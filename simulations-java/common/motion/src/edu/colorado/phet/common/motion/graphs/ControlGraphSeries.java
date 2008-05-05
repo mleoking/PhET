@@ -1,10 +1,12 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
  * Author: Sam Reid
@@ -22,6 +24,7 @@ public class ControlGraphSeries {
     private String character;
 
     private ArrayList listeners = new ArrayList();
+    private DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
 
     public ControlGraphSeries( ITemporalVariable temporalVariable ) {
         this( "", Color.BLACK, "x", "meters", new BasicStroke(), "", temporalVariable );
@@ -63,6 +66,14 @@ public class ControlGraphSeries {
         return visible;
     }
 
+    public DefaultDecimalFormat getDecimalFormat() {
+        return decimalFormat;
+    }
+
+    public void setDecimalFormat( DefaultDecimalFormat decimalFormat ) {
+        this.decimalFormat = decimalFormat;
+    }
+
     public void setVisible( boolean visible ) {
         if ( this.visible != visible ) {
             this.visible = visible;
@@ -99,6 +110,10 @@ public class ControlGraphSeries {
     public ITemporalVariable getTemporalVariable() {
         //return seriesVariable.getSeries();//todo: remove
         return temporalVariable;
+    }
+
+    public DecimalFormat getNumberFormat() {
+        return decimalFormat;
     }
 
     public static interface Listener {
