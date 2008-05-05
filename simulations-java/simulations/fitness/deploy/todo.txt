@@ -1,8 +1,6 @@
 High Priority:
 
 BMI:
-    BMI readout is too small to see.  Maybe put next to BMR?
-        >>I'd recommend elsewhere, perhaps in the human control panel
     Are we accounting for sex affects on BMI and BMR?
     -Can we put a chart or weblink to compare healthy or unhealthy BMI?
     (see categories chart on national heart lung and blood institute bmi calculator page)

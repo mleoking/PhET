@@ -26,13 +26,13 @@ public class ScaleNode extends PNode {
     private FitnessModel model;
     private Human human;
     private PText weightReadout;
-    double faceWidth = 0.9;
-    double faceHeight = 0.1;
-    double faceY = 0.05;
-    double depthDX = 0.06;
-    double depthDY = 0.1;
+    private double faceWidth = 0.9;
+    private double faceHeight = 0.1;
+    private double faceY = 0.05;
+    private double depthDX = 0.06;
+    private double depthDY = 0.1;
     private float strokeWidth = 0.02f;
-    private PText bmiReadout;
+//    private PText bmiReadout;
     private PSwing unitsPSwing;
 
     public ScaleNode( final FitnessModel model, Human human ) {
@@ -56,7 +56,7 @@ public class ScaleNode extends PNode {
         addChild( new PhetPPath( facePath.getGeneralPath(), new BasicStroke( strokeWidth ), Color.black ) );
         human.addListener( new Human.Adapter() {
             public void bmiChanged() {
-                updateBMIReadout();
+//                updateBMIReadout();
             }
 
             public void weightChanged() {
@@ -68,11 +68,11 @@ public class ScaleNode extends PNode {
         weightReadout.scale( TEXT_SCALE );
         addChild( weightReadout );
 
-        bmiReadout = new PText( "??" );
-        bmiReadout.scale( TEXT_SCALE );
-        addChild( bmiReadout );
+//        bmiReadout = new PText( "??" );
+//        bmiReadout.scale( TEXT_SCALE );
+//        addChild( bmiReadout );
         updateWeightReadout();
-        updateBMIReadout();
+//        updateBMIReadout();
 
         JPanel units = new VerticalLayoutPanel();
 //        units.setBorder( BorderFactory.createTitledBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ),"units" ) );
@@ -101,15 +101,15 @@ public class ScaleNode extends PNode {
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
                 updateWeightReadout();
-                updateBMIReadout();
+//                updateBMIReadout();
             }
         } );
     }
 
-    private void updateBMIReadout() {
-        bmiReadout.setText( "BMI: " + new DecimalFormat( "0.0" ).format( human.getBMI() ) + " kg/m^2" );
-        updateTextLayout();
-    }
+//    private void updateBMIReadout() {
+//        bmiReadout.setText( "BMI: " + new DecimalFormat( "0.0" ).format( human.getBMI() ) + " kg/m^2" );
+//        updateTextLayout();
+//    }
 
     private void updateWeightReadout() {
         weightReadout.setText( "" + FitnessStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() );
@@ -117,7 +117,8 @@ public class ScaleNode extends PNode {
     }
 
     private void updateTextLayout() {
-        weightReadout.setOffset( -faceWidth / 2 + strokeWidth, faceY );
-        bmiReadout.setOffset( faceWidth / 2 - strokeWidth - bmiReadout.getFullBounds().getWidth(), faceY );
+//        weightReadout.setOffset( -faceWidth / 2 + strokeWidth, faceY );
+        weightReadout.setOffset( 0-weightReadout.getFullBounds().getWidth()/2, faceY );
+//        bmiReadout.setOffset( faceWidth / 2 - strokeWidth - bmiReadout.getFullBounds().getWidth(), faceY );
     }
 }

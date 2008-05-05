@@ -10,6 +10,7 @@ Added disclaimer
 Removed fat free mass percent control
 Relabeled fat mass percent slider to go from "muscular" to "non", changed slider range
 Added help button for heart graphic, indicates healthy BMI values
+Moved BMI readout from scale to control panel
 
 New in 0.00.21 (4-30-2008)
 Added more junk foods

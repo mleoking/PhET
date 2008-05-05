@@ -40,7 +40,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         setFillHorizontal();
 
         final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), "Age", FitnessStrings.AGE_FORMAT.toPattern(), "years" );
-        age.setColumns( 5 );
+//        age.setColumns( 5 );
         add( age );
         age.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -80,10 +80,11 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         add( heightControl );
 
+
         final double minWeight = 0;
         final double maxWeight = 300;
         final HumanSlider weightControl = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), "Weight", FitnessStrings.WEIGHT_FORMAT.toPattern(), model.getUnits().getMassUnit() );
-        weightControl.setColumns( 5 );
+//        weightControl.setColumns( 5 );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setMass( model.getUnits().viewToModelMass( weightControl.getValue() ) );
@@ -144,7 +145,16 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //                fatFreeMassPercent.setValue( va );
 //            }
 //        } );
-//        add( fatFreeMassPercent );
+//
+//
+//
+//   add( fatFreeMassPercent );
+
+        HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), "BMI", "0.0", "kg/m^2" );
+        bmiSlider.getTextField().setEditable( false );
+        bmiSlider.getSlider().setVisible( false );
+        add( bmiSlider );
+
         bodyFat = new HumanSlider( 0, 100, human.getFatMassPercent(), "Body Fat", "0.0", "%" );
         bodyFat.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -173,7 +183,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( bodyFat );
 
 //        LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, fatMassPercent, fatFreeMassPercent};
-        hs = new LinearValueControl[]{age, heightControl, weightControl, bodyFat};
+        hs = new LinearValueControl[]{age, heightControl, weightControl, bmiSlider, bodyFat};
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
 
         updateBodyFatSlider();
@@ -197,8 +207,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     public static final class HumanSlider extends LinearValueControl {
         public HumanSlider( double min, double max, double value, String label, String textFieldPattern, String units ) {
             super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
-            getSlider().setPaintLabels( false );
-            getSlider().setPaintTicks( false );
+            setPaintTicks( false );
+            setPaintLabels( false );
             setSignifyOutOfBounds( false );
         }
 
