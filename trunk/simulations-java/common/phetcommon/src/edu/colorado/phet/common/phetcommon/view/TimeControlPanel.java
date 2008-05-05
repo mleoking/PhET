@@ -145,6 +145,14 @@ public class TimeControlPanel extends JPanel {
     }
 
     /**
+     * Sets the text for the step button to the specified value.
+     * @param text the label text to display on the step button
+     */
+    public void setStepButtonText(String text){
+        stepButton.setText( text);
+    }
+
+    /**
      * Advances the animated clock icon by one step.
      */
     public void advanceAnimatedClockIcon() {
