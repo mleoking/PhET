@@ -1,11 +1,4 @@
-New in
-Text:
-    Changed kcal to Cal
-    Relabeled Lipid to Fat
-    Rounded all kcal/day to nearest 1
-    Rounded weight to nearest 1
-    Rounded age to 0.1
-    Removed units from interior of stacked bar chart
+New in 0.00.23 (5-5-2008)
 Lightened caloric intake bar chart colors
 Added disclaimer
 Removed fat free mass percent control
@@ -15,6 +8,13 @@ Moved BMI readout from scale to control panel
 Fixed layout problem on web start (scale readouts cut off, scale units cut off)
 Changed "Step button" to correspond to 1 month per press.
 Changed time readout at bottom should to years instead of seconds.
+Text:
+    Changed kcal to Cal
+    Relabeled Lipid to Fat
+    Rounded all kcal/day to nearest 1
+    Rounded weight to nearest 1
+    Rounded age to 0.1
+    Removed units from interior of stacked bar chart
 Charts:
     Fixed: Horizontal graph scale should be linked
 Increased speed at which scroll bars move in calorie selection panels
