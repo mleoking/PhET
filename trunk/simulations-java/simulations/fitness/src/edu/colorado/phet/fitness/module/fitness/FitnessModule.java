@@ -36,10 +36,11 @@ public class FitnessModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public FitnessModule( final Frame parentFrame ) {
-        super( FitnessStrings.TITLE_FITNESS_MODULE, new ConstantDtClock( FitnessDefaults.CLOCK_DELAY, FitnessDefaults.CLOCK_DT ), FitnessDefaults.STARTS_PAUSED );
+        super( FitnessStrings.TITLE_FITNESS_MODULE, new FitnessClock(), FitnessDefaults.STARTS_PAUSED );
 
         // Model
-        _model = new FitnessModel( (ConstantDtClock) getClock() );
+        FitnessClock clock1 = (FitnessClock) getClock();
+        _model = new FitnessModel( clock1 );
 
         // Canvas
         _canvas = new FitnessCanvas( _model, parentFrame );
@@ -57,6 +58,7 @@ public class FitnessModule extends PiccoloModule {
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         _clockControlPanel.setRestartButtonVisible( false );
+        _clockControlPanel.setStepButtonText( "Next Month" );
         JButton button = new JButton( "Reset All" );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -130,7 +132,7 @@ public class FitnessModule extends PiccoloModule {
     public void reset() {
 
         // Clock
-        ConstantDtClock clock = _model.getClock();
+        FitnessClock clock = _model.getClock();
         clock.resetSimulationTime();
         clock.setDt( FitnessDefaults.CLOCK_DT );
         setClockRunningWhenActive( !FitnessDefaults.STARTS_PAUSED );
@@ -148,9 +150,9 @@ public class FitnessModule extends PiccoloModule {
         config.setActive( isActive() );
 
         // Clock
-        ConstantDtClock clock = _model.getClock();
-        config.setClockDt( clock.getDt() );
-        config.setClockRunning( getClockRunningWhenActive() );
+//        ConstantDtClock clock = _model.getClock();
+//        config.setClockDt( clock.getDt() );
+//        config.setClockRunning( getClockRunningWhenActive() );
 
         // FitnessModelElement
         Human fitnessModelElement = _model.getHuman();
@@ -171,9 +173,9 @@ public class FitnessModule extends PiccoloModule {
         }
 
         // Clock
-        ConstantDtClock clock = _model.getClock();
-        clock.setDt( config.getClockDt() );
-        setClockRunningWhenActive( config.isClockRunning() );
+//        ConstantDtClock clock = _model.getClock();
+//        clock.setDt( config.getClockDt() );
+//        setClockRunningWhenActive( config.isClockRunning() );
 
         // FitnessModelElement
 //        FitnessModelElement fitnessModelElement = _model.getFitnessModelElement();

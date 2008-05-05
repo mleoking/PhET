@@ -87,7 +87,7 @@ public class FitnessModel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final ConstantDtClock clock;
+    private final FitnessClock clock;
     private final Human human = new Human();
 
     //http://www.calorie-count.com/calories/item/9316.html
@@ -107,7 +107,7 @@ public class FitnessModel {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessModel( ConstantDtClock clock ) {
+    public FitnessModel( FitnessClock clock ) {
         super();
 
         this.clock = clock;
@@ -135,7 +135,7 @@ public class FitnessModel {
     // Accessors
     //----------------------------------------------------------------------------
 
-    public ConstantDtClock getClock() {
+    public FitnessClock getClock() {
         return clock;
     }
 

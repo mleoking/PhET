@@ -1,9 +1,5 @@
 High Priority:
 
-We are still confused about a delay in weight loss if: all variables remained constant:
-    diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
-    -I think you should be able to do "step day", so you can see the effects of 1 hour activity    
-
 Graphs
     Weight in lbs readout on graph does not equal weight in pounds readout on gray slider
     Graphs need correct vertical and horizontal units, and ability to change weight units between metric and english
@@ -21,7 +17,6 @@ Graphs
 Time:
     Time readout at bottom should be years, not seconds.
         When it comes to a person's age, we tend to speak in years or days instead of seconds.
-    Change "Step button" to correspond to 1 month per press.
 
 Crashes on mac, see email
     I use a mac-when i access the diet window the sim crashes on me..
@@ -50,6 +45,9 @@ BMI:
     Are we accounting for sex affects on BMI and BMR?
     -Can we put a chart or weblink to compare healthy or unhealthy BMI?
     (see categories chart on national heart lung and blood institute bmi calculator page)
+We are still confused about a delay in weight loss if: all variables remained constant:
+    diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
+    -I think you should be able to do "step day", so you can see the effects of 1 hour activity
 
 Low Priority:
 +Editors for exercise (change time or intensity)
