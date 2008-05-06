@@ -82,7 +82,7 @@ public class NuclearReactorModule extends PiccoloModule {
     /**
      * Gets the specific model for this module.
      */
-    public NuclearReactorModel getChainReactionModel(){
+    public NuclearReactorModel getNuclearReactorModel(){
         return _model;
     }
 }
