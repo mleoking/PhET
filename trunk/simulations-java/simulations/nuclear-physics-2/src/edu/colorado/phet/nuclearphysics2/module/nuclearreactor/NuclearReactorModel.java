@@ -57,6 +57,10 @@ public class NuclearReactorModel {
     private static final double MIN_DISTANCE_FROM_NUCLEI_TO_WALLS  = 25;
     private static final double MIN_INTER_NUCLEI_DISTANCE          = 25;
     
+    // Constants that control the behavior of neutrons fired into reaction chambers.
+    private static final double NUMBER_OF_NEUTRONS_TO_FIRE = 2;
+    private static final double NEUTRON_VELOCITY = 2;
+    
     // Constants that control the behavior of fission products.
     private static final double FREED_NEUTRON_VELOCITY = 3;
     private static final double INITIAL_DAUGHTER_NUCLEUS_VELOCITY = 0;
@@ -170,9 +174,109 @@ public class NuclearReactorModel {
         return _u235Nuclei.size();
     }
     
+    /**
+     * Get a rectangle that represents the size and position of the reactor in
+     * model coordinates.  Note that this allocates a new rectangle object, so
+     * it should not be called too frequently or performance issues could
+     * result.
+     * 
+     * @return rectangle representing the position of the nuclear reactor.
+     */
+    public Rectangle2D getReactorRect(){
+        return new Rectangle2D.Double(REACTOR_POSITION.getX(), REACTOR_POSITION.getY(), OVERALL_REACTOR_WIDTH,
+                OVERALL_REACTOR_HEIGHT);    
+    }
+    
+    /**
+     * Get a reference to the array of control rods maintained by this model.
+     * 
+     * @return
+     */
+    public ArrayList getControlRodsReference(){
+        return _controlRods;
+    }
+    
+    /**
+     * Get a reference to the array of Uranium 235 nuclei maintained by this
+     * model.
+     * 
+     * @return
+     */
+    public ArrayList getU235NucleiReference(){
+        return _u235Nuclei;
+    }
+    
     //------------------------------------------------------------------------
     // Other Public Methods
     //------------------------------------------------------------------------
+    
+    /**
+     * Extends superclass behavior to recompute the launch parameters each time a neutron is fired. Launch
+     * points must be in different inter-rod chambers
+     */
+    public void fireNeutrons() {
+        ArrayList chambersUsed = new ArrayList();
+        for( int i = 0; i < NUMBER_OF_NEUTRONS_TO_FIRE; i++ ) {
+            
+            // Select the chamber into which this neutron will be fired.
+            Integer chamberNumber = null;
+            do {
+                chamberNumber = new Integer( _rand.nextInt( NUMBER_OF_REACTION_CHAMBERS ) );
+            } while( chambersUsed.contains( chamberNumber ) );
+            
+            chambersUsed.add( chamberNumber );
+            Rectangle2D chamberRect = (Rectangle2D)_reactionChamberRects.get( chamberNumber.intValue() );
+            
+            // Select the initial position along the edge of the chamber.
+            double startPosX;
+            double startPosY;
+            if (_rand.nextBoolean()){
+                // Launch neutron from the side of the chamber.
+                if (_rand.nextBoolean()){
+                    // Left side.
+                    startPosX = chamberRect.getX();
+                }
+                else{
+                    // Right side.
+                    startPosX = chamberRect.getX() + chamberRect.getWidth();
+                }
+                startPosY = chamberRect.getY() + (_rand.nextDouble() * chamberRect.getHeight());   
+            }
+            else{
+                // Launch neutron from top or bottom of chamber.
+                if (_rand.nextBoolean()){
+                    // Top.
+                    startPosY = chamberRect.getY();
+                }
+                else{
+                    // Bottom.
+                    startPosY = chamberRect.getY() + chamberRect.getHeight();
+                }
+                startPosX = chamberRect.getX() + (_rand.nextDouble() * chamberRect.getWidth());   
+            }
+            
+            // Calculate a path toward the center of the chamber.
+            double angle = Math.atan2( chamberRect.getCenterY() - startPosY, chamberRect.getCenterX() - startPosX );
+            double startVelX = NEUTRON_VELOCITY * Math.cos( angle );
+            double startVelY = NEUTRON_VELOCITY * Math.sin( angle );
+            
+            // Create the neutron and let any listeners know about it.
+            Neutron firedNeutron = new Neutron(startPosX, startPosY, startVelX, startVelY, false);
+            _freeNeutrons.add( firedNeutron );
+            notifyModelElementAdded( firedNeutron );
+            
+            // Make sure we don't get stuck in this loop if we need to fire
+            // more neutrons than we have reaction chambers.
+            if ((NUMBER_OF_NEUTRONS_TO_FIRE > NUMBER_OF_REACTION_CHAMBERS) &&
+                (chambersUsed.size() == NUMBER_OF_REACTION_CHAMBERS))
+            {
+                // Clear the list of chambers used.
+                chambersUsed.clear();
+            }
+        }
+    }
+
+
 
     /**
      * This method allows the caller to register for changes in the overall
