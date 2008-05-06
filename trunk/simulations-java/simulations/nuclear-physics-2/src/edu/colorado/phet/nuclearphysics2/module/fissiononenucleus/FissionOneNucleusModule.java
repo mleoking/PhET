@@ -7,7 +7,6 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
-import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
 import edu.colorado.phet.nuclearphysics2.defaults.FissionOneNucleusDefaults;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 
