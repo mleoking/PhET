@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.nuclearphysics2.view;
 
-import java.util.Random;
-
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.umd.cs.piccolo.PNode;

@@ -2,14 +2,11 @@
 
 package edu.colorado.phet.nuclearphysics2.view;
 
-import java.awt.Color;
-import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * AlphaParticleNode - This class is used to represent an alpha particle in

@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.nuclearphysics2.defaults;
 
-import java.awt.Dimension;
-
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 
 

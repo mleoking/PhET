@@ -7,12 +7,8 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
-import edu.colorado.phet.nuclearphysics2.defaults.AlphaRadiationDefaults;
 import edu.colorado.phet.nuclearphysics2.defaults.ChainReactionDefaults;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
-import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationCanvas;
-import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationControlPanel;
-import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModel;
 
 /**
  * This is the class where the model and the view for the Chain Reaction tab

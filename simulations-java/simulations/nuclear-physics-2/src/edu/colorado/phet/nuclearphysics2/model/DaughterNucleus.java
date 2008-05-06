@@ -3,8 +3,6 @@ package edu.colorado.phet.nuclearphysics2.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus.Listener;
-
 
 public class DaughterNucleus extends AtomicNucleus {
 

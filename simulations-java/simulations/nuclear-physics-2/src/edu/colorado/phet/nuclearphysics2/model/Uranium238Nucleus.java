@@ -5,9 +5,6 @@ package edu.colorado.phet.nuclearphysics2.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus.Listener;
-
 
 public class Uranium238Nucleus extends AtomicNucleus {
     //------------------------------------------------------------------------
