@@ -22,6 +22,7 @@ import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationMod
 import edu.colorado.phet.nuclearphysics2.module.chainreaction.ChainReactionModule;
 import edu.colorado.phet.nuclearphysics2.module.example.ExampleModule;
 import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModule;
+import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorModule;
 
 /**
  * TemplateApplication is the main application for this simulation.
@@ -35,8 +36,6 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ExampleModule _exampleModule;
-
     // Module for the tab that displays alpha radiation behavior.
     private AlphaRadiationModule _alphaRadiationModule;
     
@@ -45,6 +44,9 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
     
     // Module for the tab that displays a chain reaction of multiple nuclei.
     private ChainReactionModule _chainReactionModule;
+    
+    // Module for the tab that displays the nuclear reactor.
+    private NuclearReactorModule _nuclearReactorModule;
     
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -104,8 +106,8 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
         _chainReactionModule = new ChainReactionModule( parentFrame );
         addModule( _chainReactionModule );
 
-        _exampleModule = new ExampleModule( parentFrame );
-        addModule( _exampleModule );
+        _nuclearReactorModule = new NuclearReactorModule( parentFrame );
+        addModule( _nuclearReactorModule );
     }
 
     /**
