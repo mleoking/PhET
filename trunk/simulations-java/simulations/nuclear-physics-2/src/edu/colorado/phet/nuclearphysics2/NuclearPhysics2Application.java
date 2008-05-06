@@ -20,7 +20,6 @@ import edu.colorado.phet.nuclearphysics2.developer.DeveloperMenu;
 import edu.colorado.phet.nuclearphysics2.menu.OptionsMenu;
 import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModule;
 import edu.colorado.phet.nuclearphysics2.module.chainreaction.ChainReactionModule;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleModule;
 import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModule;
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorModule;
 
