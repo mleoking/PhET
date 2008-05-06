@@ -150,7 +150,12 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //
 //   add( fatFreeMassPercent );
 
-        HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), "BMI", "0.0", "kg/m^2" );
+        final HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), "BMI", "0.0", "kg/m^2" );
+        human.addListener( new Human.Adapter(){
+            public void bmiChanged() {
+                bmiSlider.setValue( human.getBMI() );
+            }
+        } );
         bmiSlider.getTextField().setEditable( false );
         bmiSlider.getSlider().setVisible( false );
         add( bmiSlider );
