@@ -380,6 +380,6 @@ public class TestViewport extends JFrame {
         JFrame frame = new TestFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( new Dimension( 640, 480 ) );
-        frame.show();
+        frame.setVisible( true );
     }
 }

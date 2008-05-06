@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.view.tools;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IToolProducer;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PInputEventListener;
@@ -23,13 +24,29 @@ public class TrashCanIconNode extends AbstractToolIconNode {
         _trashHandler = new PBasicInputEventHandler() {
             public void mouseReleased( PInputEvent event ) {
                 if ( event.getPickedNode() instanceof AbstractToolNode ) {
-                    AbstractToolNode toolNode = (AbstractToolNode) event.getPickedNode();
+                    final AbstractToolNode toolNode = (AbstractToolNode) event.getPickedNode();
                     if ( isInTrash( toolNode ) ) {
-                        toolProducer.removeTool( toolNode.getTool() );
+//                        toolProducer.removeTool( toolNode.getTool() );
+                        deleteTool( toolNode, toolProducer );
                     }
                 }
             }
         };
+    }
+    
+    //XXX problem: shrinking needs to be done about the center of the trash can icon
+    private static void deleteTool( final AbstractToolNode toolNode, final IToolProducer toolProducer ) {
+        final double scale = 0.1;
+        final long duration = 300; // ms
+        PActivity a1 = toolNode.animateToPositionScaleRotation( toolNode.getXOffset(), toolNode.getYOffset(), scale, toolNode.getRotation(), duration );
+        PActivity a2 = new PActivity( -1 ) {
+            protected void activityStep( long elapsedTime ) {
+                toolProducer.removeTool( toolNode.getTool() );
+                terminate(); // ends this activity
+            }
+        };
+        toolNode.getRoot().addActivity( a2 );
+        a2.startAfter( a1 );
     }
     
     public void addManagedNode( AbstractToolNode node ) {
