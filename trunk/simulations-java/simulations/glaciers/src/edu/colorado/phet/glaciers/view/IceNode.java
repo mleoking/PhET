@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import java.awt.Paint;
-import java.awt.TexturePaint;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -60,20 +59,20 @@ public class IceNode extends PComposite {
         
         _crossSectionPath = new GeneralPath();
         _crossSectionNode = new PPath( _crossSectionPath );
-        _crossSectionNode.setStroke( null );
         _crossSectionNode.setPaint( createCrossSectionPaint() );
+        _crossSectionNode.setStroke( null );
         addChild( _crossSectionNode );
         
         _surfaceAboveELAPath = new GeneralPath();
         _surfaceAboveELANode = new PPath( _surfaceAboveELAPath );
-        _surfaceAboveELANode.setStroke( null );
         _surfaceAboveELANode.setPaint( createSurfaceAboveELAPaint() );
+        _surfaceAboveELANode.setStroke( null );
         addChild( _surfaceAboveELANode );
         
         _surfaceBelowELAPath = new GeneralPath();
         _surfaceBelowELANode = new PPath( _surfaceAboveELAPath );
-        _surfaceBelowELANode.setStroke( null );
         _surfaceBelowELANode.setPaint( createSurfaceBelowELAPaint() );
+        _surfaceBelowELANode.setStroke( null );
         addChild( _surfaceBelowELANode );
         
         _pModel = new Point2D.Double();
@@ -106,64 +105,127 @@ public class IceNode extends PComposite {
     }
     
     private void update() {
-        
+
         final double x0 = Glacier.getMinX();
         final double dx = Glacier.getDx();
         Valley valley = _glacier.getValley();
-        
-        double x = x0;
         double elevation = 0;
-        
+
         // reset the reusable paths
         _crossSectionPath.reset();
         _surfaceAboveELAPath.reset();
+        _surfaceBelowELAPath.reset();
 
         double[] iceThicknessSamples = _glacier.getIceThicknessSamples();
         if ( iceThicknessSamples != null && iceThicknessSamples.length > 0 ) {
-
-            // move downvalley, draw ice-air boundary
-            for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
-                elevation = valley.getElevation( x ) + iceThicknessSamples[i];
-                _pModel.setLocation( x, elevation );
-                _mvt.modelToView( _pModel, _pView );
-                if ( i == 0 ) {
-                    _crossSectionPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
-                    _surfaceAboveELAPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
-                }
-                else {
-                    _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-                    _surfaceAboveELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-                }
-                x += dx;
-            }
-            final double xTerminus = x - dx;
             
-            // move upvalley, draw surface perspective
-            x = xTerminus;
-            final double perspectiveHeight = MountainsAndValleyNode.getPerspectiveHeight();
-            for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
-                elevation = valley.getElevation( x ) + iceThicknessSamples[i] + perspectiveHeight;
-                _pModel.setLocation( x, elevation );
-                _mvt.modelToView( _pModel, _pView );
-                _surfaceAboveELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-                x -= dx;
+            // cross-section
+            {
+                double x = x0;
+                
+                // ice-air boundary, moving downvalley
+                for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
+                    elevation = valley.getElevation( x ) + iceThicknessSamples[i];
+                    _pModel.setLocation( x, elevation );
+                    _mvt.modelToView( _pModel, _pView );
+                    if ( i == 0 ) {
+                        _crossSectionPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+                    }
+                    else {
+                        _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                    }
+                    x += dx;
+                }
+
+                // ice-rock boundary, moving upvalley
+                x = x - dx;
+                for ( int i = iceThicknessSamples.length - 1; i >= 0; i-- ) {
+                    elevation = valley.getElevation( x );
+                    _pModel.setLocation( x, elevation );
+                    _mvt.modelToView( _pModel, _pView );
+                    _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                    x -= dx;
+                }
+
+                _crossSectionPath.closePath();
             }
 
-            // move upvalley, draw cross-section ice-rock boundary
-            x = xTerminus;
-            for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
-                elevation = valley.getElevation( x );
-                _pModel.setLocation( x, elevation );
-                _mvt.modelToView( _pModel, _pView );
-                _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-                x -= dx;
+            // surface above ELA
+            //XXX This is creating the entire surface, from headwall to terminus!
+            {
+                double x = x0;
+
+                // ice-air boundary, moving downvalley
+                for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
+                    elevation = valley.getElevation( x ) + iceThicknessSamples[i];
+                    _pModel.setLocation( x, elevation );
+                    _mvt.modelToView( _pModel, _pView );
+                    if ( i == 0 ) {
+                        _surfaceAboveELAPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+                    }
+                    else {
+                        _surfaceAboveELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                    }
+                    x += dx;
+                }
+                
+                // surface perspective, moving upvalley
+                x = x - dx;
+                final double perspectiveHeight = MountainsAndValleyNode.getPerspectiveHeight();
+                for ( int i = iceThicknessSamples.length - 1; i >= 0; i-- ) {
+                    elevation = valley.getElevation( x ) + iceThicknessSamples[i] + perspectiveHeight;
+                    _pModel.setLocation( x, elevation );
+                    _mvt.modelToView( _pModel, _pView );
+                    _surfaceAboveELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                    x -= dx;
+                }
+
+                _surfaceAboveELAPath.closePath();
             }
 
-            _crossSectionPath.closePath();
-            _surfaceAboveELAPath.closePath();
+            // surface below ELA 
+            //XXX this uses a more precise (but costlier?) method of determining points, might not match shapes above
+            final Point2D surfaceAtELA = _glacier.getSurfaceAtSteadyStateELAReference();
+            if ( surfaceAtELA != null )
+            {
+                final int xSurface = (int) surfaceAtELA.getX();
+                final int xTerminus = (int) _glacier.getTerminusReference().getX();
+                
+                // ice-air boundary, moving downvalley
+                boolean first = true;
+                for ( int x = xSurface; x <= xTerminus ;x++ ) {
+                    elevation = _glacier.getSurfaceElevation( x );
+                    _pModel.setLocation( x, elevation );
+                    _mvt.modelToView( _pModel, _pView );
+                    if ( first ) {
+                        _surfaceBelowELAPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+                        first = false;
+                    }
+                    else {
+                        _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                    }
+                }
+                
+                final double perspectiveHeight = MountainsAndValleyNode.getPerspectiveHeight();
+                elevation = _glacier.getSurfaceElevation( xTerminus ) + perspectiveHeight;
+                _pModel.setLocation( xTerminus, elevation );
+                _mvt.modelToView( _pModel, _pView );
+                _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                
+                // surface perspective, moving upvalley
+                for ( int x = xTerminus; x >= xSurface; x-- ) {
+                    elevation = _glacier.getSurfaceElevation( x ) + perspectiveHeight;
+                    _pModel.setLocation( x, elevation );
+                    _mvt.modelToView( _pModel, _pView );
+                    _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                }
+
+                _surfaceBelowELAPath.closePath();
+            }
         }
         
         _crossSectionNode.setPathTo( _crossSectionPath );
         _surfaceAboveELANode.setPathTo( _surfaceAboveELAPath );
+        _surfaceBelowELANode.setPathTo( _surfaceBelowELAPath );
     }
 }

@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 public class MountainsAndValleyNode extends PImage {
 
     // 2D elevation change between foreground and background valley width boundaries
-    private static final double PERSPECTIVE_HEIGHT = 300; // meters
+    private static final double PERSPECTIVE_HEIGHT = 250; // meters
     
     public MountainsAndValleyNode( ModelViewTransform mvt ) {
         super( GlaciersImages.MOUNTAINS );
