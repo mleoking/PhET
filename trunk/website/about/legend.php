@@ -15,9 +15,6 @@ class LegendPage extends SitePage {
 
         $crutch_html     = SIM_CRUTCH_IMAGE_HTML;
         $no_mac_html     = SIM_NO_MAC_IMAGE_HTML;
-        $beta_html       = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_BETA];
-        $beta_minus_html = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_BETA_MINUS];
-        $beta_plus_html  = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_BETA_PLUS];
         $check_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_CHECK];
         $alpha_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_ALPHA];
         $gold_star_html  = contribution_get_gold_star_html();

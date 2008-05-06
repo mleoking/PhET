@@ -222,31 +222,25 @@
     );
 
     // Beta has been removed but I'm keeping these here for reference
-    define("SIM_RATING_BETA_MINUS",     "0");
-    define("SIM_RATING_BETA",           "1");
-    define("SIM_RATING_BETA_PLUS",      "2");
-    define("SIM_RATING_CHECK",          "3");
-    define("SIM_RATING_ALPHA",          "4");
+    define("SIM_RATING_NONE",           "0");
+    define("SIM_RATING_ALPHA",          "1");
+    define("SIM_RATING_CHECK",          "2");
 
     $SIM_RATING_TO_IMAGE =
         array(
             // Beta has been removed but these must stay to match the database
-            SIM_RATING_BETA_MINUS   => 'beta-minus25x25.png',
-            SIM_RATING_BETA_PLUS    => 'beta-plus25x25.png',
-            SIM_RATING_BETA         => 'beta25x25.png',
-            SIM_RATING_CHECK        => 'checkmark25x25.png',
-            SIM_RATING_ALPHA        => 'alpha25x25.png'
-        );
+            SIM_RATING_NONE   => '',
+            SIM_RATING_ALPHA        => 'alpha25x25.png',
+            SIM_RATING_CHECK        => 'checkmark25x25.png'
+            );
 
     $SIM_RATING_TO_IMAGE_HTML =
         array(
             // Beta has been removed but these must stay to match the database
-            SIM_RATING_BETA_MINUS   => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_MINUS].'" alt="Beta Minus Rating Image"     width="37" title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
-            SIM_RATING_BETA_PLUS    => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_PLUS].'"     alt="Beta Plus Rating Image"     width="37" title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
-            SIM_RATING_BETA         => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA].'"         alt="Beta Rating Image"         width="37" title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
+            SIM_RATING_NONE         => '',
             SIM_RATING_CHECK        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_CHECK].'"         alt="Checkmark Rating Image"     width="37" title="Classroom Tested: This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews." /></a>',
             SIM_RATING_ALPHA        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_ALPHA].'"         alt="Alpha Rating Image"         width="37" title="Under Construction: This simulation is an early preview version, and may have functional or usability bugs." /></a>'
-        );
+            );
 
     $SIM_TYPE_TO_IMAGE_HTML =
         array(
