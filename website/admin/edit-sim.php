@@ -41,8 +41,15 @@ class EditSimPage extends SitePage {
     function print_rating_checkbox($rating, $selected) {
         global $SIM_RATING_TO_IMAGE_HTML;
 
-        $image_html   = $SIM_RATING_TO_IMAGE_HTML[$rating];
         $check_status = generate_check_status($rating, $selected);
+
+        // Special case, have a "none" type with no image
+        if ($rating == SIM_RATING_NONE) {
+            print "<input name=\"sim_rating\" type=\"radio\" value=\"$rating\" $check_status /> None";
+            return;
+        }
+
+        $image_html   = $SIM_RATING_TO_IMAGE_HTML[$rating];
 
         print "<input name=\"sim_rating\" type=\"radio\" value=\"$rating\" $check_status /> $image_html";
     }
@@ -121,10 +128,8 @@ EOT;
 
 EOT;
 
+        $this->print_rating_checkbox(SIM_RATING_NONE,         $sim_rating);
         $this->print_rating_checkbox(SIM_RATING_ALPHA,         $sim_rating);
-        // Temp change while PhET team decides how to handle ratings; for now just
-        // include under construction & classroom tested:
-        //$this->print_rating_checkbox(SIM_RATING_BETA,          $sim_rating);
         $this->print_rating_checkbox(SIM_RATING_CHECK,         $sim_rating);
 
 print <<<EOT
