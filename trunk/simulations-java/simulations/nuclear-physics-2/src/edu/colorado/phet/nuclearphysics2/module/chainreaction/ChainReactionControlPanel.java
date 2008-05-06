@@ -4,14 +4,8 @@ package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
 import java.awt.Frame;
 
-import javax.swing.JCheckBox;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
-import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationLegendPanel;
-import edu.colorado.phet.nuclearphysics2.module.alpharadiation.AlphaRadiationModule;
 
 /**
  * This class represents the control panel that presents the legend and allows

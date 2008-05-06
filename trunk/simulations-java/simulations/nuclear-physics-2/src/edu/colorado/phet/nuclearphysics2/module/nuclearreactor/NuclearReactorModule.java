@@ -10,9 +10,6 @@ import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.defaults.ChainReactionDefaults;
 import edu.colorado.phet.nuclearphysics2.defaults.NuclearReactorDefaults;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
-import edu.colorado.phet.nuclearphysics2.module.chainreaction.ChainReactionCanvas;
-import edu.colorado.phet.nuclearphysics2.module.chainreaction.ChainReactionControlPanel;
-import edu.colorado.phet.nuclearphysics2.module.chainreaction.ChainReactionModel;
 
 
 /**
