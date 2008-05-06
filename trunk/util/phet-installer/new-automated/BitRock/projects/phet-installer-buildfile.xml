@@ -42,7 +42,17 @@
             <selected>1</selected>
             <show>1</show>
             <componentSelectionValidationActionList/>
-            <desktopShortcutList/>
+            <desktopShortcutList>
+                <fileShortcut>
+                     <comment>Launches local mirror of the PhET website.</comment>
+                     <filePath>${installdir}/new/index.html</filePath>
+                     <icon>${installdir}/Phet-logo-48x48.gif</icon>
+                     <name>PhET Simulations</name>
+                     <platforms>windows</platforms>
+                     <runInTerminal>0</runInTerminal>
+                     <windowsIcon>${installdir}/Phet-logo-48x48.ico</windowsIcon>
+                </fileShortcut>
+            </desktopShortcutList>
             <folderList>
                 <folder>
                     <description>Program Files</description>
