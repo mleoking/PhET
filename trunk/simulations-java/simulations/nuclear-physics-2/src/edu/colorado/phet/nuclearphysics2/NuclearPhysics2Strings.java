@@ -21,6 +21,7 @@ public class NuclearPhysics2Strings {
     public static final String TITLE_ALPHA_RADIATION_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.AlphaDecayModule" );
     public static final String TITLE_FISSION_ONE_NUCLEUS_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.SingleNucleusFissionModule" );
     public static final String TITLE_CHAIN_REACTION_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.MultipleNucleusFissionModule" );
+    public static final String TITLE_NUCLEAR_REACTOR_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.ControlledReaction" );
 
     public static final String NEUTRON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.NeutronLabel" );
     public static final String PROTON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
