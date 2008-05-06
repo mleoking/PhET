@@ -33,9 +33,9 @@ public class NuclearReactorModel {
     // that these dimensions are in femtometers in order to be consistent with
     // the nuclei size in this and the other models, but of course a real
     // nuclear reactor would have much larger dimensions.
-    private static final double OVERALL_REACTOR_WIDTH = 1000;
-    private static final double OVERALL_REACTOR_HEIGHT = OVERALL_REACTOR_WIDTH * 0.5;
-    private static final double REACTOR_HOUSING_WIDTH = 20;
+    private static final double OVERALL_REACTOR_WIDTH = 650;
+    private static final double OVERALL_REACTOR_HEIGHT = OVERALL_REACTOR_WIDTH * 0.42;
+    private static final double REACTOR_WALL_WIDTH = 20;
     
     // Constant that controls where in model space the reactor resides.  This
     // assumes that the 'center of the world' is at (0,0).
@@ -50,12 +50,12 @@ public class NuclearReactorModel {
     // Constant that controls the size relationship between the chambers and
     // the control rods.  This is a ratio, and can be though of as
     // (chamber width)/(control rod width).
-    private static final double CHAMBER_TO_CONTROL_ROD_WIDTH_RATIO = 4;
+    private static final double CHAMBER_TO_CONTROL_ROD_WIDTH_RATIO = 5;
     
     // Constants that control the initial placement of nuclei within the
     // reaction chambers.
-    private static final double MIN_DISTANCE_FROM_NUCLEI_TO_WALLS  = 25;
-    private static final double MIN_INTER_NUCLEI_DISTANCE          = 25;
+    private static final double MIN_DISTANCE_FROM_NUCLEI_TO_WALLS  = 18;
+    private static final double MIN_INTER_NUCLEI_DISTANCE          = 15;
     
     // Constants that control the behavior of neutrons fired into reaction chambers.
     private static final double NUMBER_OF_NEUTRONS_TO_FIRE = 2;
@@ -115,14 +115,14 @@ public class NuclearReactorModel {
         // Create the rectangles that will be used in this model to place the
         // initial nuclei and such, and also create the control rods.
         double reactionChamberWidth = 
-            (OVERALL_REACTOR_WIDTH - (2 * REACTOR_HOUSING_WIDTH)) / NUMBER_OF_REACTION_CHAMBERS;
+            (OVERALL_REACTOR_WIDTH - (2 * REACTOR_WALL_WIDTH)) / NUMBER_OF_REACTION_CHAMBERS;
         double controlRodWidth = reactionChamberWidth / CHAMBER_TO_CONTROL_ROD_WIDTH_RATIO;
-        reactionChamberWidth -= controlRodWidth;
-        double reactionChamberHeight = (OVERALL_REACTOR_HEIGHT - (REACTOR_HOUSING_WIDTH * 2)); 
+        reactionChamberWidth -= controlRodWidth * (NUMBER_OF_REACTION_CHAMBERS - 1)/NUMBER_OF_REACTION_CHAMBERS;
+        double reactionChamberHeight = (OVERALL_REACTOR_HEIGHT - (REACTOR_WALL_WIDTH * 2)); 
         for ( int i = 0; i < NUMBER_OF_REACTION_CHAMBERS; i++ ) {
             double xPos = 
-                REACTOR_POSITION.getX() + REACTOR_HOUSING_WIDTH + (i * (reactionChamberWidth + controlRodWidth));
-            double yPos = REACTOR_POSITION.getY() + REACTOR_HOUSING_WIDTH;
+                REACTOR_POSITION.getX() + REACTOR_WALL_WIDTH + (i * (reactionChamberWidth + controlRodWidth));
+            double yPos = REACTOR_POSITION.getY() + REACTOR_WALL_WIDTH;
             Rectangle2D chamberRect = new Rectangle2D.Double(xPos, yPos, reactionChamberWidth, reactionChamberHeight);
             _reactionChamberRects.add( chamberRect );
             
@@ -137,9 +137,9 @@ public class NuclearReactorModel {
         // Figure out how many nuclei can fit in each chamber and their
         // relative positions.
         int numNucleiAcross = 
-            (int)((reactionChamberWidth - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE);
+            (int)(((reactionChamberWidth - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE) + 1);
         int numNucleiDown = 
-            (int)((reactionChamberHeight - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE);
+            (int)(((reactionChamberHeight - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE) + 1);
         
         // Add the nuclei to each chamber.
         Point2D nucleusPosition = new Point2D.Double();
@@ -172,6 +172,10 @@ public class NuclearReactorModel {
     
     public int getNumU235Nuclei(){
         return _u235Nuclei.size();
+    }
+    
+    public double getReactorWallWidth(){
+        return REACTOR_WALL_WIDTH;
     }
     
     /**
@@ -211,8 +215,9 @@ public class NuclearReactorModel {
     //------------------------------------------------------------------------
     
     /**
-     * Extends superclass behavior to recompute the launch parameters each time a neutron is fired. Launch
-     * points must be in different inter-rod chambers
+     * Fires neutrons into the reaction chambers, which is how the reaction
+     * can be initiated.
+     * 
      */
     public void fireNeutrons() {
         ArrayList chambersUsed = new ArrayList();
@@ -326,13 +331,23 @@ public class NuclearReactorModel {
     /**
      * Get references to the nuclei currently maintained by the model.
      * 
-     * @return
+     * @return An ArrayList containing references to the nuclei in the model.
      */
     public ArrayList getNuclei(){
         ArrayList nucleiList = new ArrayList(_u235Nuclei.size() + _daughterNuclei.size());
         nucleiList.addAll( _u235Nuclei );
         nucleiList.addAll( _daughterNuclei );
         return nucleiList;
+    }
+    
+    /**
+     * Get a reference to the list of rectangles that represent the reaction
+     * chambers.
+     * 
+     * @return
+     */
+    public ArrayList getChamberRectsReference(){
+        return _reactionChamberRects;
     }
 
     //------------------------------------------------------------------------
