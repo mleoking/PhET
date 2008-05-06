@@ -32,13 +32,13 @@ public class AtomicNucleusNode extends PNode {
     //------------------------------------------------------------------------
     
     // Fonts for displaying the label on the nucleus.
-    private static final Font ISOTOPE_NUMBER_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
+    private static final Font ISOTOPE_NUMBER_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 10 );
     private static final Font ISOTOPE_CHEM_SYMBOL_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
     
     // Factor by which the font should be scaled.  This allows us to use
     // standard font sizes and the use the Piccolo scaling capabilities,
     // which tends to look better than using non-standard sizes.
-    private static final double LABEL_SCALING_FACTOR = 0.35;
+    private static final double LABEL_SCALING_FACTOR = 0.30;
     
     // Constants that control the nature of the explosion graphic.
     private static final int   EXPLOSION_COUNTER_RESET_VAL = 10;
