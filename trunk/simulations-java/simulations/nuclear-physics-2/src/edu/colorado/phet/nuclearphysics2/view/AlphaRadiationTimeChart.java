@@ -137,18 +137,18 @@ public class AlphaRadiationTimeChart extends PNode {
 
     // Variables that control the origins and lengths of the time lines.
     Point2D _preDecayTimeLineOrigin;
-    double _preDecayTimeLineLength; // In milliseconds
+    double  _preDecayTimeLineLength;  // In milliseconds
     Point2D _postDecayTimeLineOrigin;
-    double _postDecayTimeLineLength; // In milliseconds
+    double  _postDecayTimeLineLength; // In milliseconds
 
     // Boolean that tracks whether decay has occurred.
     boolean _decayHasOccurred = false;
 
     // List of decay times for each trial and their markers.
     double _decayTimes[] = new double[MAX_DECAYS];
-    int _numDecays = 0;
-    PText _markers[] = new PText[MAX_DECAYS];
-    int _numMarkers = 0;
+    int    _numDecays    = 0;
+    PText  _markers[]    = new PText[MAX_DECAYS];
+    int    _numMarkers   = 0;
 
     // Factor for converting milliseconds to pixels.
     double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
