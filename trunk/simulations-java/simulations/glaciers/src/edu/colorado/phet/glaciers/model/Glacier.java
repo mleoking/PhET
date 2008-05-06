@@ -59,7 +59,7 @@ public class Glacier extends ClockAdapter {
     
     private final Point2D _headwall; // point at the top of the headwall (upvalley end)
     private final Point2D _terminus; /// point at the terminus (downvalley end)
-    private Point2D _intersectionWithSteadyStateELA;
+    private Point2D _surfaceAtSteadyStateELA; // point where the steady state ELA intersects the ice surface
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -102,7 +102,7 @@ public class Glacier extends ClockAdapter {
         
         _headwall = new Point2D.Double( MIN_X, valley.getElevation( MIN_X ) );
         _terminus = new Point2D.Double();
-        _intersectionWithSteadyStateELA = new Point2D.Double();
+        _surfaceAtSteadyStateELA = new Point2D.Double();
 
         _climateChangedTime = _clock.getSimulationTime();
         _previousELA = _currentELA = _climate.getELA();
@@ -221,13 +221,13 @@ public class Glacier extends ClockAdapter {
     }
     
     /**
-     * Gets the point where the steady-state ELA intersects the surface of the ice.
+     * Gets a reference to the point where the steady-state ELA intersects the surface of the ice.
      * This will be null unless ice exists at elevations lower than the steady-state ELA.
      * 
      * @return
      */
-    public Point2D getIntersectionWithSteadyStateELA() {
-        return _intersectionWithSteadyStateELA;
+    public Point2D getSurfaceAtSteadyStateELAReference() {
+        return _surfaceAtSteadyStateELA;
     }
     
     /**
@@ -299,7 +299,7 @@ public class Glacier extends ClockAdapter {
     private void updateIce() {
         
         final double steadyStateELA = _climate.getELA();
-        _intersectionWithSteadyStateELA = null;
+        _surfaceAtSteadyStateELA = null;
         
         final double maxElevation = _headwall.getY();
         final double glacierLength = computeLength( _currentELA, maxElevation ); // x_terminus in documentation, but this is really length
@@ -346,10 +346,10 @@ public class Glacier extends ClockAdapter {
                 }
                 
                 // look for steady state ELA contour
-                if ( _intersectionWithSteadyStateELA == null ) {
+                if ( _surfaceAtSteadyStateELA == null ) {
                     surfaceElevation = _valley.getElevation( x ) + thickness;
-                    if ( surfaceElevation < steadyStateELA ) {
-                        _intersectionWithSteadyStateELA = new Point2D.Double( x, surfaceElevation );
+                    if ( surfaceElevation <= steadyStateELA ) {
+                        _surfaceAtSteadyStateELA = new Point2D.Double( x, surfaceElevation );
                     }
                 }
 
