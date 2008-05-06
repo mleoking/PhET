@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.nuclearphysics2.module.nuclearreactor;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -27,6 +29,34 @@ public class NuclearReactorModel {
     // Class data
     //------------------------------------------------------------------------
 
+    // Constants that control the overall size of the nuclear reactor.  Note
+    // that these dimensions are in femtometers in order to be consistent with
+    // the nuclei size in this and the other models, but of course a real
+    // nuclear reactor would have much larger dimensions.
+    private static final double OVERALL_REACTOR_WIDTH = 1000;
+    private static final double OVERALL_REACTOR_HEIGHT = OVERALL_REACTOR_WIDTH * 0.5;
+    private static final double REACTOR_HOUSING_WIDTH = 20;
+    
+    // Constant that controls where in model space the reactor resides.  This
+    // assumes that the 'center of the world' is at (0,0).
+    private static final Point2D REACTOR_POSITION = new Point2D.Double(-(OVERALL_REACTOR_WIDTH / 2), 
+            -(OVERALL_REACTOR_HEIGHT / 2));
+    
+    // Constant that controls the number of chambers, between which are the
+    // control rods.  There will always be one less control rod than there are
+    // chambers.  It is assumed that the chambers are of equal size.
+    private static final int NUMBER_OF_REACTION_CHAMBERS = 6;
+    
+    // Constant that controls the size relationship between the chambers and
+    // the control rods.  This is a ratio, and can be though of as
+    // (chamber width)/(control rod width).
+    private static final double CHAMBER_TO_CONTROL_ROD_WIDTH_RATIO = 4;
+    
+    // Constants that control the initial placement of nuclei within the
+    // reaction chambers.
+    private static final double MIN_DISTANCE_FROM_NUCLEI_TO_WALLS  = 25;
+    private static final double MIN_INTER_NUCLEI_DISTANCE          = 25;
+    
     // Constants that control the behavior of fission products.
     private static final double FREED_NEUTRON_VELOCITY = 3;
     private static final double INITIAL_DAUGHTER_NUCLEUS_VELOCITY = 0;
@@ -37,10 +67,12 @@ public class NuclearReactorModel {
     //------------------------------------------------------------------------
     
     private NuclearPhysics2Clock _clock;
-    private ArrayList _listeners = new ArrayList();
-    private ArrayList _u235Nuclei = new ArrayList();
-    private ArrayList _daughterNuclei = new ArrayList();
-    private ArrayList _freeNeutrons = new ArrayList();
+    private ArrayList _listeners;
+    private ArrayList _u235Nuclei;
+    private ArrayList _daughterNuclei;
+    private ArrayList _freeNeutrons;
+    private ArrayList _controlRods;
+    private ArrayList _reactionChamberRects;
     private Random _rand = new Random();
     
     //------------------------------------------------------------------------
@@ -67,6 +99,63 @@ public class NuclearReactorModel {
                 // TODO: JPB TBD.
             }
         });
+        
+        // Allocate the array lists that we will need.
+        _listeners            = new ArrayList();
+        _u235Nuclei           = new ArrayList();
+        _daughterNuclei       = new ArrayList();
+        _freeNeutrons         = new ArrayList();
+        _reactionChamberRects = new ArrayList(NUMBER_OF_REACTION_CHAMBERS);
+        _controlRods          = new ArrayList(NUMBER_OF_REACTION_CHAMBERS - 1);
+        
+        // Create the rectangles that will be used in this model to place the
+        // initial nuclei and such, and also create the control rods.
+        double reactionChamberWidth = 
+            (OVERALL_REACTOR_WIDTH - (2 * REACTOR_HOUSING_WIDTH)) / NUMBER_OF_REACTION_CHAMBERS;
+        double controlRodWidth = reactionChamberWidth / CHAMBER_TO_CONTROL_ROD_WIDTH_RATIO;
+        reactionChamberWidth -= controlRodWidth;
+        double reactionChamberHeight = (OVERALL_REACTOR_HEIGHT - (REACTOR_HOUSING_WIDTH * 2)); 
+        for ( int i = 0; i < NUMBER_OF_REACTION_CHAMBERS; i++ ) {
+            double xPos = 
+                REACTOR_POSITION.getX() + REACTOR_HOUSING_WIDTH + (i * (reactionChamberWidth + controlRodWidth));
+            double yPos = REACTOR_POSITION.getY() + REACTOR_HOUSING_WIDTH;
+            Rectangle2D chamberRect = new Rectangle2D.Double(xPos, yPos, reactionChamberWidth, reactionChamberHeight);
+            _reactionChamberRects.add( chamberRect );
+            
+            if (i < NUMBER_OF_REACTION_CHAMBERS - 1){
+                // Create a control rod.
+                ControlRod controlRod = 
+                    new ControlRod(xPos + reactionChamberWidth, yPos, controlRodWidth, OVERALL_REACTOR_HEIGHT);
+                _controlRods.add( controlRod );
+            }
+        }
+        
+        // Figure out how many nuclei can fit in each chamber and their
+        // relative positions.
+        int numNucleiAcross = 
+            (int)((reactionChamberWidth - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE);
+        int numNucleiDown = 
+            (int)((reactionChamberHeight - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE);
+        
+        // Add the nuclei to each chamber.
+        Point2D nucleusPosition = new Point2D.Double();
+        for (int i = 0; i < _reactionChamberRects.size(); i++){
+            
+            Rectangle2D reactionChamberRect = (Rectangle2D)_reactionChamberRects.get( i );
+            double xStartPos = reactionChamberRect.getX() + MIN_DISTANCE_FROM_NUCLEI_TO_WALLS;
+            double yStartPos = reactionChamberRect.getY() + MIN_DISTANCE_FROM_NUCLEI_TO_WALLS;
+            
+            for (int j = 0; j < numNucleiAcross; j++){
+                
+                for (int k = 0; k < numNucleiDown; k++){
+                    
+                    nucleusPosition.setLocation( xStartPos + (j * MIN_INTER_NUCLEI_DISTANCE), 
+                            yStartPos + (k * MIN_INTER_NUCLEI_DISTANCE) );
+                    Uranium235Nucleus nucleus = new Uranium235Nucleus(_clock, nucleusPosition, 0);
+                    _u235Nuclei.add( nucleus );
+                }
+            }
+        }
     }
     
     //------------------------------------------------------------------------
