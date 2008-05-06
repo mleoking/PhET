@@ -20,6 +20,7 @@ public class NuclearReactorControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     private NuclearReactorLegendPanel _legendPanel;
+    private NuclearReactorControlsSubPanel _controlSubPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -43,11 +44,10 @@ public class NuclearReactorControlPanel extends ControlPanel {
         
         // Add the legend panel.
         addControlFullWidth( _legendPanel );
-        
-        // Add the Reset All button.
-        addVerticalSpace( 10 );
-        addResetAllButton( nuclearReactorModule );
 
+        // Add the sub panel with the interactive controls.
+        _controlSubPanel = new NuclearReactorControlsSubPanel(nuclearReactorModule.getNuclearReactorModel());
+        addControlFullWidth( _controlSubPanel );
     }
     
     //----------------------------------------------------------------------------
