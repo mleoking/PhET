@@ -115,46 +115,6 @@ public class ChainReactionCanvas extends PhetPCanvas {
     public void handleModelElementAdded(Object modelElement){
         
         if ((modelElement instanceof AtomicNucleus)){
-
-            /*
-            if (!(modelElement instanceof DaughterNucleus)){
-                // Add a node for each of the constituents of this nucleus.
-                // Note that we DON'T do this for daughter nuclei since
-                // their constituents came from their parent and were thus
-                // already present on the canvas.
-                ArrayList nucleusConstituents = ((AtomicNucleus)modelElement).getConstituents();
-                for (int i = 0; i < nucleusConstituents.size(); i++){
-                    
-                    Object constituent = nucleusConstituents.get( i );
-                    
-                    if (constituent instanceof AlphaParticle){
-                        // Add a visible representation of the alpha particle to the canvas.
-                        AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
-                        _modelElementToNodeMap.put( constituent, alphaNode );
-                           _nucleusLayer.addChild( alphaNode );
-                    }
-                    else if (constituent instanceof Neutron){
-                        // Add a visible representation of the neutron to the canvas.
-                        NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
-                        _modelElementToNodeMap.put( constituent, neutronNode );
-                        _nucleusLayer.addChild( neutronNode );
-                    }
-                    else if (constituent instanceof Proton){
-                        // Add a visible representation of the proton to the canvas.
-                        ProtonNode protonNode = new ProtonNode((Proton)constituent);
-                        _modelElementToNodeMap.put( constituent, protonNode );
-                        _nucleusLayer.addChild( protonNode );
-                    }
-                    else {
-                        // There is some unexpected object in the list of constituents
-                        // of the nucleus.  This should never happen and should be
-                        // debugged if it does.
-                        assert false;
-                    }
-                }
-            }
-            */
-            
             // Add an atom node for this guy.
             PNode atomNode = new AtomicNucleusImageNode((AtomicNucleus)modelElement);
             _nucleusLayer.addChild( atomNode );
@@ -181,24 +141,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         if ((nucleusNode != null) || (nucleusNode instanceof PNode)){
             
             if (modelElement instanceof AtomicNucleus){
-                // First remove the nodes for all the constituent particles.
-                /*
-                ArrayList nucleusConstituents = ((AtomicNucleus)modelElement).getConstituents();
-                for (int i = 0; i < nucleusConstituents.size(); i++){
-                    
-                    Object constituent = nucleusConstituents.get( i );
-
-                    PNode constituentNode = (PNode)_modelElementToNodeMap.get( constituent );
-
-                    if (constituentNode != null){
-                        _nucleusLayer.removeChild( constituentNode );
-                    }
-                    
-                    _modelElementToNodeMap.remove( constituent );
-                }
-                */
-
-                // Remove the nucleus node itself.
+                // Remove the nucleus node.
                 _nucleusLayer.removeChild( (PNode )nucleusNode );
                 _modelElementToNodeMap.remove( modelElement );
             }
