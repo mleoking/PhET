@@ -59,6 +59,8 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         
         setBorder( titledBorder );
         
+        addSpace(5);
+        
         // Add the check box for the energy graphs.
         final JCheckBox energyGraphsCheckBox = new JCheckBox( NuclearPhysics2Strings.ENERGY_GRAPHS_CHECK_BOX );
         energyGraphsCheckBox.setSelected( false );
@@ -72,10 +74,10 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         add(energyGraphsCheckBox);
         
         // Add a little spacing in order to make the controls easier to spot.
-        JPanel spacePanel1 = new JPanel();
-        spacePanel1.setLayout( new BoxLayout( spacePanel1, BoxLayout.Y_AXIS ) );
-        spacePanel1.add( Box.createVerticalStrut( 20 ) );
-        add( spacePanel1 );
+        addSpace( 20 );
+        
+        // Turn off the fill so the buttons don't get stretched.
+        setFillNone();
         
         // Add the button that allows users to fire neutrons into the reaction area.
         JButton fireNeutronsButton = new JButton(NuclearPhysics2Strings.FIRE_NEUTRONS_BUTTON_LABEL );
@@ -87,10 +89,7 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         add(fireNeutronsButton);
         
         // Add a bit more spacing.
-        JPanel spacePanel2 = new JPanel();
-        spacePanel2.setLayout( new BoxLayout( spacePanel2, BoxLayout.Y_AXIS ) );
-        spacePanel2.add( Box.createVerticalStrut( 20 ) );
-        add( spacePanel2 );
+        addSpace( 10 );
         
         // Add the button that allows the user to reset the reaction.
         JButton resetButton = new JButton(NuclearPhysics2Strings.RESET_BUTTON_LABEL);
@@ -101,5 +100,16 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
             }
         });
         add(resetButton);
+    }
+    
+    //------------------------------------------------------------------------
+    // Private Methods
+    //------------------------------------------------------------------------
+    
+    private void addSpace(int space){
+        JPanel spacePanel = new JPanel();
+        spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
+        spacePanel.add( Box.createVerticalStrut( space ) );
+        add( spacePanel );
     }
 }
