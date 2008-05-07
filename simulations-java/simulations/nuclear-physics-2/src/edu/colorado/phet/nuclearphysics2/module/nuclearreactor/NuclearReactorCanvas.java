@@ -27,7 +27,7 @@ public class NuclearReactorCanvas extends PhetPCanvas{
 
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 2.0;
-    private final double HEIGHT_TRANSLATION_FACTOR = 2.0;
+    private final double HEIGHT_TRANSLATION_FACTOR = 2.5;
     
     //----------------------------------------------------------------------------
     // Instance data
