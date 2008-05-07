@@ -3,10 +3,7 @@
 package edu.colorado.phet.fitness.module.fitness;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -166,5 +163,9 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
     public void applicationStarted() {
         caloriePanel.applicationStarted();
+    }
+
+    public void addEditorClosedListener( ActionListener actionListener ) {
+        caloriePanel.addEditorClosedListener(actionListener);
     }
 }

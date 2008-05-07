@@ -3,6 +3,7 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
@@ -87,6 +88,11 @@ public class CaloriePanel extends PNode {
             fitnessWiggleMe = new FitnessWiggleMe( phetPCanvas, getEditDietButton() );
             addChild( fitnessWiggleMe );
         }
+    }
+
+    public void addEditorClosedListener( ActionListener actionListener ) {
+        foodNode.addEditorClosedListener(actionListener);
+        exerciseNode.addEditorClosedListener(actionListener);
     }
 
     public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {

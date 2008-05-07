@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
@@ -34,6 +36,8 @@ public class FitnessModule extends PiccoloModule {
     private ClockControlPanel _clockControlPanel;
     private JFrame parentFrame;
     private boolean inited = false;
+    private boolean everStarted = false;
+    private FitnessClock fitnessClock;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,11 +48,21 @@ public class FitnessModule extends PiccoloModule {
         this.parentFrame = parentFrame;
 
         // Model
-        FitnessClock clock1 = (FitnessClock) getClock();
-        _model = new FitnessModel( clock1 );
+        fitnessClock = (FitnessClock) getClock();
+        fitnessClock.addClockListener( new ClockAdapter() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                everStarted = true;
+            }
+        } );
+        _model = new FitnessModel( fitnessClock );
 
         // Canvas
         _canvas = new FitnessCanvas( _model, parentFrame );
+        _canvas.addEditorClosedListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                activateStartButtonWiggleMe();
+            }
+        } );
         setSimulationPanel( _canvas );
 
         // Control Panel
@@ -89,30 +103,23 @@ public class FitnessModule extends PiccoloModule {
 
 //        JComponent timeSpeedSlider = createTimeSpeedSlider();
 
-//        _clockControlPanel.addBetweenTimeDisplayAndButtons( timeSpeedSlider );
         setClockControlPanel( _clockControlPanel );
 
-        // Controller
-//        FitnessController controller = new FitnessController( _model, _canvas, _controlPanel );
-
-        // Help
-//        if ( hasHelp() ) {
-        //XXX add help items
-//            HelpItem
-
-//        }
-
-//        addWiggleMe();
         // Set initial state
         setHelpEnabled( true );
         reset();
     }
 
-    public void activate() {
-        super.activate();
-        if ( !inited ) {
-            MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, "Start the simulation" );
+    private void activateStartButtonWiggleMe() {
+        if ( !inited && !everStarted ) {
+            final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, "Start the simulation" );
+            fitnessClock.addClockListener( new ClockAdapter() {
+                public void clockStarted( ClockEvent clockEvent ) {
+                    getDefaultHelpPane().remove( motionHelpBalloon );
+                }
+            } );
             motionHelpBalloon.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
+            motionHelpBalloon.setOffset( 800, 0 );
             motionHelpBalloon.animateTo( _clockControlPanel.getPlayPauseButton(), 15 );
             setHelpPane( new HelpPane( parentFrame ) );
             getDefaultHelpPane().add( motionHelpBalloon );
