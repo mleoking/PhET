@@ -70,4 +70,12 @@ public class FitnessUnits {
         //1 month = 2 629 743.83 seconds
         return months * 2629743.83;
     }
+
+    public static double feetToInches( double feet ) {
+        return feet * 12;
+    }
+
+    public static double inchesToFeet( double inches ) {
+        return inches / 12;
+    }
 }

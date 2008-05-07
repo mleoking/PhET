@@ -2,6 +2,7 @@ package edu.colorado.phet.fitness.control;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.NumberFormat;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -11,6 +12,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
+import edu.colorado.phet.fitness.util.FeetInchesFormat;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fitness.FitnessStrings;
@@ -73,6 +75,12 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
                 heightControl.setPaintLabels( false );
                 heightControl.setPaintTicks( false );
+            }
+        } );
+        heightControl.setTextFieldFormat( new FeetInchesFormat() );
+        model.addListener( new FitnessModel.Adapter() {
+            public void unitsChanged() {
+                heightControl.setTextFieldFormat( model.getUnits() == FitnessModel.Units.METRIC ? (NumberFormat) FitnessStrings.AGE_FORMAT : new FeetInchesFormat() );
             }
         } );
 
@@ -231,6 +239,10 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         public void setPaintTicks( boolean b ) {
             getSlider().setPaintTicks( b );
+        }
+
+        public void setTextFieldFormat( NumberFormat format ) {
+            super.setTextFieldFormat( format );
         }
     }
 

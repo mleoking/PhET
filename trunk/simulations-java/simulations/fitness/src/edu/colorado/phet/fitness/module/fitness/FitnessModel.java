@@ -18,7 +18,7 @@ import edu.colorado.phet.fitness.util.FileParser;
 public class FitnessModel {
 
     public static class Units {
-        public static final Units ENGLISH = new Units( "English", "lbs", "feet" ) {
+        public static final Units ENGLISH = new Units( "English", "lbs", "feet/in" ) {
             public double modelToViewMass( double mass ) {
                 return FitnessUnits.kgToPounds( mass );
             }
