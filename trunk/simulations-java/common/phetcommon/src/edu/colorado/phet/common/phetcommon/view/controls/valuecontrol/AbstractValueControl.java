@@ -6,11 +6,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.NumberFormat;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 
 import javax.swing.*;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -57,7 +60,7 @@ public abstract class AbstractValueControl extends JPanel {
     private JFormattedTextField _textField;
     private JLabel _valueLabel, _unitsLabel;
     private Font _font; // font used for all components
-    private DecimalFormat _textFieldFormat; // format for the text field
+    private NumberFormat _textFieldFormat; // format for the text field
     private DecimalFormat _tickFormat; // format for the tick mark labels
     private boolean _majorTicksVisible; // are major ticks & labels visible?
     private boolean _minorTicksVisible; // are minor ticks & labels visible?
@@ -363,6 +366,18 @@ public abstract class AbstractValueControl extends JPanel {
     }
 
     /**
+     * Sets the NumberFormat to be used in the text field.
+     *
+     * This NumberFormat will replace any value set by setTextFieldPattern
+     * @param format the format to use
+     */
+    protected void setTextFieldFormat( NumberFormat format){
+        _textFieldFormat=format;
+        _textField.setFormatterFactory( new DefaultFormatterFactory( new NumberFormatter( format )) );
+        updateView();
+    }
+
+    /**
      * Sets the columns width of the text field.
      * The default is determined by the width of the text field pattern.
      *
@@ -389,7 +404,7 @@ public abstract class AbstractValueControl extends JPanel {
         }
         return value;
     }
-    
+
     /**
      * Changes the text value of the units label.
      * @param units the new units label string
