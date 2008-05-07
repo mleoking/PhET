@@ -11,6 +11,7 @@ import java.util.HashMap;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
+import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.ControlRod;
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -91,6 +92,13 @@ public class NuclearReactorNode extends PNode {
         for (int i = 0; i < chamberRects.size(); i++){
             PPath chamberNode = new PPath((Rectangle2D)chamberRects.get( i ));
             addChild(chamberNode);
+        }
+        
+        // Add the nodes for each of the control rods.
+        ArrayList controlRods = _nuclearReactorModel.getControlRodsReference();
+        for (int i = 0; i < controlRods.size(); i++){
+            ControlRodNode controlRodNode = new ControlRodNode((ControlRod)controlRods.get( i ));
+            addChild(controlRodNode);
         }
         
         // Add the node into which the nuclei and free nucleons will be placed.
