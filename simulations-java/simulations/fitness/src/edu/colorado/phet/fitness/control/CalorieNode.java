@@ -3,6 +3,9 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -22,6 +25,7 @@ public class CalorieNode extends PNode {
     private String selectedTitle;
     private String availableTitle;
     private GradientButtonNode editButton;
+    private ArrayList closedListeners=new ArrayList( );
 
     public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle ) {
         this.parentFrame = parentFrame;
@@ -66,6 +70,12 @@ public class CalorieNode extends PNode {
         panel.addListener( new CalorieSelectionPanel.Listener() {
             public void donePressed() {
                 dialog.hide();
+                notifyClosing();
+            }
+        } );
+        dialog.addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                notifyClosing();
             }
         } );
         dialog.setContentPane( (JPanel)panel );//todo: remove need for cast
@@ -78,6 +88,12 @@ public class CalorieNode extends PNode {
                                                 (int) ( parentBounds.getMaxY() - dialog.getHeight() ),
                                                 dialog.getWidth(), dialog.getHeight() );
         dialog.setBounds( dialogBounds );
+    }
+
+    private void notifyClosing() {
+        for ( int i = 0; i < closedListeners.size(); i++ ) {
+            ((ActionListener) closedListeners.get( i )).actionPerformed( null );
+        }
     }
 
     protected ICalorieSelectionPanel createCalorieSelectionPanel() {
@@ -106,5 +122,9 @@ public class CalorieNode extends PNode {
 
     public PNode getEditButton() {
         return editButton;
+    }
+
+    public void addEditorClosedListener( final ActionListener actionListener ) {
+        closedListeners.add(actionListener);
     }
 }
