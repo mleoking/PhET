@@ -1,6 +1,7 @@
 New in 0.00.27 (5-7-2008)
 Fixed: The x-axis on the graph needs to rescale with the input age (most of our kids are 15-16, but the x-axis begins at 22 years regardless.
     When the simulation is paused and the age changes, the charts domain resets.
+Added unit labels on the time series graphs
 
 New in 0.00.26 (5-6-2008)
 Fixed BMI slider; wasn't updating
