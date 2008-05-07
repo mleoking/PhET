@@ -3,6 +3,7 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 
 import org.jfree.data.Range;
 
@@ -13,10 +14,13 @@ import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionTimeSeriesModel;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessStrings;
@@ -24,6 +28,7 @@ import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Created by: Sam
@@ -57,6 +62,7 @@ public class ChartNode extends PNode {
         updateVars();
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
+                updateWeightMassLabel();
                 syncVerticalRanges();
             }
         } );
@@ -93,6 +99,8 @@ public class ChartNode extends PNode {
         weightGraph = new FitnessControlGraph( phetPCanvas, weightSeries, "Weight", 0, 250, tsm );
 
         weightGraph.setEditable( false );
+//        weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().setLabel( "Label" );//takes up too much vertical space
+        updateWeightMassLabel();
         weightChart = new MinimizableControlGraph( "Weight", weightGraph );
         weightChart.setAvailableBounds( 600, 125 );
 
@@ -102,7 +110,7 @@ public class ChartNode extends PNode {
         burnSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
 
         calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, "Calories", 0, 6000, tsm );
-
+        calorieGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( "Calories per day" );
         calorieGraph.addSeries( burnSeries );
         updateGraphDomains( DEFAULT_RANGE_YEARS );
         calorieGraph.setEditable( false );
@@ -132,9 +140,17 @@ public class ChartNode extends PNode {
 
         addChild( weightChart );
         addChild( calorieChart );
-        System.out.println( "a.getFullBounds() = " + weightChart.getFullBounds() );
+
+//        PNode chartAxisLabel = new PText( "label" );
+//        addChild( chartAxisLabel );
+//        chartAxisLabel.setOffset( weightChart.getFullBounds().getWidth()/2, weightChart.getFullBounds().getHeight()/2);
+//        System.out.println( "a.getFullBounds() = " + weightChart.getFullBounds() );
         resetChartVerticalRanges();
         syncVerticalRanges();
+    }
+
+    private void updateWeightMassLabel() {
+        weightGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( "Weight (" + model.getUnits().getMassUnit() + ")" );
     }
 
     private void syncVerticalRanges() {
@@ -234,6 +250,7 @@ public class ChartNode extends PNode {
 
     private class FitnessControlGraph extends ControlGraph {
         private GradientButtonNode gradientButtonNode;
+        private PNode axisLabel;
 
         public FitnessControlGraph( PhetPCanvas canvas, ControlGraphSeries series, String title, int minY, int maxY, TimeSeriesModel timeSeriesModel ) {
             super( canvas, series, title, minY, maxY, timeSeriesModel );
@@ -244,6 +261,13 @@ public class ChartNode extends PNode {
                 }
             } );
             addChild( gradientButtonNode );
+
+            axisLabel = new PNode();
+            PText text = new PText( "Time (years)" );
+            axisLabel.addChild( text );
+            axisLabel.addChild( new PhetPPath( new Arrow( new Point2D.Double( text.getFullBounds().getMaxX(), text.getFullBounds().getCenterY() ),
+                                                          new Vector2D.Double( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );
+            addChild( axisLabel );
             relayout();
         }
 
@@ -254,6 +278,9 @@ public class ChartNode extends PNode {
                 gradientButtonNode.setOffset( getJFreeChartNode().getDataArea().getMaxX() - gradientButtonNode.getFullBounds().getWidth()
                                               - buttonInsetX + getJFreeChartNode().getOffset().getX(),
                                               getJFreeChartNode().getDataArea().getMaxY() - gradientButtonNode.getFullBounds().getHeight() );
+                axisLabel.setOffset( getJFreeChartNode().getDataArea().getCenterX() - axisLabel.getFullBounds().getWidth()
+                                     - buttonInsetX + getJFreeChartNode().getOffset().getX(),
+                                     getJFreeChartNode().getDataArea().getMaxY() - axisLabel.getFullBounds().getHeight() );
             }
         }
 
