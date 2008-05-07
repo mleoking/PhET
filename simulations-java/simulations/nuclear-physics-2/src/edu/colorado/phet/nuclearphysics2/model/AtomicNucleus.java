@@ -180,7 +180,11 @@ public abstract class AtomicNucleus {
     }
     
     public void setPosition(Point2D newPosition){
-        _position.setLocation( newPosition );
+        setPosition( newPosition.getX(), newPosition.getY() );
+    }
+    
+    public void setPosition(double x, double y){
+        _position.setLocation( x, y );
         notifyPositionChanged();
     }
     

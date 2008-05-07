@@ -63,8 +63,7 @@ public class NuclearReactorModel {
     
     // Constants that control the behavior of fission products.
     private static final double FREED_NEUTRON_VELOCITY = 3;
-    private static final double INITIAL_DAUGHTER_NUCLEUS_VELOCITY = 0;
-    private static final double DAUGHTER_NUCLEUS_ACCELERATION = 0.2;
+    private static final double DAUGHTER_NUCLEI_SPLIT_DISTANCE = 10;
 
     //------------------------------------------------------------------------
     // Instance data
@@ -100,7 +99,7 @@ public class NuclearReactorModel {
             
             public void simulationTimeReset(ClockEvent clockEvent){
                 // Reset the model.
-                // TODO: JPB TBD.
+                reset();
             }
         });
         
@@ -131,33 +130,6 @@ public class NuclearReactorModel {
                 ControlRod controlRod = 
                     new ControlRod(xPos + reactionChamberWidth, yPos, controlRodWidth, OVERALL_REACTOR_HEIGHT);
                 _controlRods.add( controlRod );
-            }
-        }
-        
-        // Figure out how many nuclei can fit in each chamber and their
-        // relative positions.
-        int numNucleiAcross = 
-            (int)(((reactionChamberWidth - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE) + 1);
-        int numNucleiDown = 
-            (int)(((reactionChamberHeight - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE) + 1);
-        
-        // Add the nuclei to each chamber.
-        Point2D nucleusPosition = new Point2D.Double();
-        for (int i = 0; i < _reactionChamberRects.size(); i++){
-            
-            Rectangle2D reactionChamberRect = (Rectangle2D)_reactionChamberRects.get( i );
-            double xStartPos = reactionChamberRect.getX() + MIN_DISTANCE_FROM_NUCLEI_TO_WALLS;
-            double yStartPos = reactionChamberRect.getY() + MIN_DISTANCE_FROM_NUCLEI_TO_WALLS;
-            
-            for (int j = 0; j < numNucleiAcross; j++){
-                
-                for (int k = 0; k < numNucleiDown; k++){
-                    
-                    nucleusPosition.setLocation( xStartPos + (j * MIN_INTER_NUCLEI_DISTANCE), 
-                            yStartPos + (k * MIN_INTER_NUCLEI_DISTANCE) );
-                    Uranium235Nucleus nucleus = new Uranium235Nucleus(_clock, nucleusPosition, 0);
-                    _u235Nuclei.add( nucleus );
-                }
             }
         }
     }
@@ -321,11 +293,44 @@ public class NuclearReactorModel {
         }
         _daughterNuclei.removeAll( _daughterNuclei );
         
-        // Set ourself back to the original state.
-        // TODO: JPB TBD.
+        // Set ourself back to the original state.  The first step is to see
+        // how many nuclei can fit in each chamber and their relative
+        // positions.
+        double reactionChamberWidth = ((Rectangle2D)_reactionChamberRects.get( 0 )).getWidth();
+        double reactionChamberHeight = ((Rectangle2D)_reactionChamberRects.get( 0 )).getHeight();
+        int numNucleiAcross = 
+            (int)(((reactionChamberWidth - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE) + 1);
+        int numNucleiDown = 
+            (int)(((reactionChamberHeight - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE) + 1);
         
-        // Let listeners know that things have changed.
-        // TODO: JPB TBD.
+        // Add the nuclei to each chamber.
+        Point2D nucleusPosition = new Point2D.Double();
+        for (i = 0; i < _reactionChamberRects.size(); i++){
+            
+            Rectangle2D reactionChamberRect = (Rectangle2D)_reactionChamberRects.get( i );
+            double xStartPos = reactionChamberRect.getX() + MIN_DISTANCE_FROM_NUCLEI_TO_WALLS;
+            double yStartPos = reactionChamberRect.getY() + MIN_DISTANCE_FROM_NUCLEI_TO_WALLS;
+            
+            for (int j = 0; j < numNucleiAcross; j++){
+                
+                for (int k = 0; k < numNucleiDown; k++){
+                    
+                    nucleusPosition.setLocation( xStartPos + (j * MIN_INTER_NUCLEI_DISTANCE), 
+                            yStartPos + (k * MIN_INTER_NUCLEI_DISTANCE) );
+                    Uranium235Nucleus nucleus = new Uranium235Nucleus(_clock, nucleusPosition, 0);
+                    _u235Nuclei.add( nucleus );
+                    nucleus.addListener( new Uranium235Nucleus.Adapter(){
+                        public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                                ArrayList byProducts){
+                            handleU235AtomicWeightChange( atomicNucleus, numProtons, numNeutrons, byProducts );
+                        }
+                    });
+                }
+            }
+        }
+        
+        // Let listeners know that a reset has occurred.
+        notifyResetOccurred();
     }
     
     /**
@@ -356,11 +361,23 @@ public class NuclearReactorModel {
     
     private void handleClockTicked(ClockEvent clockEvent){
 
-        // Move any free particles that exist.
-        for (int i = 0; i < _freeNeutrons.size(); i++){
+        // Move any free particles that exist and check them for absorption.
+        // We work from back to front to avoid any problems with removing
+        // particles as we go along.
+        int numFreeNeutrons = _freeNeutrons.size();
+        for (int i = numFreeNeutrons - 1; i >= 0; i--){
             Nucleon freeNucleon = (Nucleon)_freeNeutrons.get( i );
             assert freeNucleon instanceof Nucleon;
             freeNucleon.translate();
+            
+            // Check if the particle has gone outside of the reactor and, if
+            // so, remove it from the model.
+            if (!(getReactorRect().contains( freeNucleon.getPositionReference()))){
+                // Particle is out of bounds, so blow it away.
+                notifyModelElementRemoved( freeNucleon );
+                _freeNeutrons.remove( i );
+                continue;
+            }
 
             // Check if any of the free particles have collided with a nucleus
             // and, if so, give the nucleus the opportunity to absorb the
@@ -412,13 +429,11 @@ public class NuclearReactorModel {
     /**
      * Notify listeners that the model has been reset.
      */
-    /* TODO: JPB TBD - Decide whether or not this is needed.
     private void notifyResetOccurred(){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get(i)).resetOccurred();
         }
     }
-    */
     
     /**
      * Handle a change in atomic weight signaled by a U235 nucleus, which
@@ -456,17 +471,17 @@ public class NuclearReactorModel {
                     AtomicNucleus daughterNucleus = (AtomicNucleus)byProduct;
                     notifyModelElementAdded( daughterNucleus );
 
-                    // Set random but opposite directions for the produced
-                    // nuclei.
+                    // In this model, we just move the daughter nuclei a
+                    // little and then stop them, creating an effect that
+                    // illustrates the split but doesn't have too much stuff
+                    // flying around.
                     double angle = (_rand.nextDouble() * Math.PI * 2);
-                    double xVel = Math.sin( angle ) * INITIAL_DAUGHTER_NUCLEUS_VELOCITY;
-                    double yVel = Math.cos( angle ) * INITIAL_DAUGHTER_NUCLEUS_VELOCITY;
-                    double xAcc = Math.sin( angle ) * DAUGHTER_NUCLEUS_ACCELERATION;
-                    double yAcc = Math.cos( angle ) * DAUGHTER_NUCLEUS_ACCELERATION;
-                    nucleus.setVelocity( xVel, yVel );
-                    nucleus.setAcceleration( xAcc, yAcc );
-                    daughterNucleus.setVelocity( -xVel, -yVel );
-                    daughterNucleus.setAcceleration( -xAcc, -yAcc );
+                    double xDistance = Math.sin( angle ) * DAUGHTER_NUCLEI_SPLIT_DISTANCE;
+                    double yDistance = Math.cos( angle ) * DAUGHTER_NUCLEI_SPLIT_DISTANCE;
+                    nucleus.setPosition( daughterNucleus.getPositionReference().getX() + xDistance,
+                            daughterNucleus.getPositionReference().getY() + yDistance );
+                    daughterNucleus.setPosition( daughterNucleus.getPositionReference().getX() - xDistance,
+                            daughterNucleus.getPositionReference().getY() - yDistance );
                     
                     // Add the daughter nucleus to our collection.
                     _daughterNuclei.add( daughterNucleus );
@@ -512,11 +527,10 @@ public class NuclearReactorModel {
         public void modelElementRemoved(Object modelElement);
 
         /**
-         * TODO: JPB TBD - Decide if this is needed.
          * This is invoked to signal that the model has been reset.
-         * 
+         *
+         */
         public void resetOccurred();
-        */
     }
     
     /**
@@ -527,6 +541,6 @@ public class NuclearReactorModel {
     public static class Adapter implements Listener {
         public void modelElementAdded(Object modelElement){}
         public void modelElementRemoved(Object modelElement){}
-        // TODO: JPB TBD - uncomment if I decide this is needed - public void resetOccurred(){}
+        public void resetOccurred(){}
     }
 }
