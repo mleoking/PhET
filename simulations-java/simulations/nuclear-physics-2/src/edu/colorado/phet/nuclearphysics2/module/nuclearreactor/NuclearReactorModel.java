@@ -111,8 +111,8 @@ public class NuclearReactorModel {
         _reactionChamberRects = new ArrayList(NUMBER_OF_REACTION_CHAMBERS);
         _controlRods          = new ArrayList(NUMBER_OF_REACTION_CHAMBERS - 1);
         
-        // Create the rectangles that will be used in this model to place the
-        // initial nuclei and such, and also create the control rods.
+        // Create the reaction chambers (which are modeled as simple 
+        // rectangles) and the control rods.
         double reactionChamberWidth = 
             (OVERALL_REACTOR_WIDTH - (2 * REACTOR_WALL_WIDTH)) / NUMBER_OF_REACTION_CHAMBERS;
         double controlRodWidth = reactionChamberWidth / CHAMBER_TO_CONTROL_ROD_WIDTH_RATIO;
@@ -253,8 +253,6 @@ public class NuclearReactorModel {
         }
     }
 
-
-
     /**
      * This method allows the caller to register for changes in the overall
      * model, as opposed to changes in the individual model elements.
@@ -367,7 +365,10 @@ public class NuclearReactorModel {
         int numFreeNeutrons = _freeNeutrons.size();
         for (int i = numFreeNeutrons - 1; i >= 0; i--){
             Nucleon freeNucleon = (Nucleon)_freeNeutrons.get( i );
-            assert freeNucleon instanceof Nucleon;
+            assert freeNucleon instanceof Nucleon; // Only neutrons are expected in this model.
+            boolean particleAbsorbed = false;
+            
+            // Move the neutron.
             freeNucleon.translate();
             
             // Check if the particle has gone outside of the reactor and, if
@@ -378,14 +379,26 @@ public class NuclearReactorModel {
                 _freeNeutrons.remove( i );
                 continue;
             }
+            
+            // Check if the particle has been absorbed by a control rod and, if
+            // so, remove it.
+            int numControlRods = _controlRods.size();
+            for (int j = 0; (j < numControlRods) && (particleAbsorbed == false); j++){
+                ControlRod controlRod = (ControlRod)_controlRods.get( j );
+                if (controlRod.particleAbsorbed( freeNucleon )){
+                    // The particle is absorbed, so delete it from the model.
+                    notifyModelElementRemoved( freeNucleon );
+                    _freeNeutrons.remove( i );
+                    continue;
+                }
+            }
 
             // Check if any of the free particles have collided with a nucleus
             // and, if so, give the nucleus the opportunity to absorb the
             // neutron (and possibly fission as a result).
-            boolean particleAbsorbed = false;
-            int j, numNuclei;
-            numNuclei = _u235Nuclei.size();
-            for (j = 0; (j < numNuclei) && (particleAbsorbed == false); j++){
+            particleAbsorbed = false;
+            int numNuclei = _u235Nuclei.size();
+            for (int j = 0; (j < numNuclei) && (particleAbsorbed == false); j++){
                 AtomicNucleus nucleus = (AtomicNucleus)_u235Nuclei.get( j );
                 if (freeNucleon.getPositionReference().distance( nucleus.getPositionReference() ) <=
                     nucleus.getDiameter() / 2)
