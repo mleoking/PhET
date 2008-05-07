@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.fitness.module.fitness;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +10,9 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
+import edu.colorado.phet.common.piccolophet.help.HelpPane;
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.fitness.FitnessApplication;
 import edu.colorado.phet.fitness.FitnessConstants;
 import edu.colorado.phet.fitness.FitnessResources;
@@ -30,13 +32,16 @@ public class FitnessModule extends PiccoloModule {
     private FitnessCanvas _canvas;
     //    private FitnessControlPanel _controlPanel;
     private ClockControlPanel _clockControlPanel;
+    private JFrame parentFrame;
+    private boolean inited = false;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessModule( final Frame parentFrame ) {
+    public FitnessModule( final JFrame parentFrame ) {
         super( FitnessStrings.TITLE_FITNESS_MODULE, new FitnessClock(), FitnessDefaults.STARTS_PAUSED );
+        this.parentFrame = parentFrame;
 
         // Model
         FitnessClock clock1 = (FitnessClock) getClock();
@@ -91,43 +96,30 @@ public class FitnessModule extends PiccoloModule {
 //        FitnessController controller = new FitnessController( _model, _canvas, _controlPanel );
 
         // Help
-        if ( hasHelp() ) {
-            //XXX add help items
-        }
+//        if ( hasHelp() ) {
+        //XXX add help items
+//            HelpItem
 
+//        }
+
+//        addWiggleMe();
         // Set initial state
+        setHelpEnabled( true );
         reset();
     }
 
-    //todo, move to phetcommon and consolidate with BSClockControls and HAClockControls
-//    private JComponent createTimeSpeedSlider() {
-//        JSlider _clockIndexSlider = new JSlider();
-//        _clockIndexSlider.setMinimum( 0 );
-//        int[] steps = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-//        _clockIndexSlider.setMaximum( steps.length - 1 );
-//        _clockIndexSlider.setMajorTickSpacing( 1 );
-//        _clockIndexSlider.setPaintTicks( true );
-//        _clockIndexSlider.setPaintLabels( true );
-//        _clockIndexSlider.setSnapToTicks( true );
-//        _clockIndexSlider.setValue( 0 );
-//
-//        // Label the min "normal", the max "fast".
-//        String normalString = "normal";
-//        String fastString = "fast";
-//        Hashtable labelTable = new Hashtable();
-//        labelTable.put( new Integer( _clockIndexSlider.getMinimum() ), new JLabel( normalString ) );
-//        labelTable.put( new Integer( _clockIndexSlider.getMaximum() ), new JLabel( fastString ) );
-//        _clockIndexSlider.setLabelTable( labelTable );
-//
-//        // Set the slider's physical width
-//        Dimension preferredSize = _clockIndexSlider.getPreferredSize();
-//        Dimension size = new Dimension( 150, (int) preferredSize.getHeight() );
-//        _clockIndexSlider.setPreferredSize( size );
-//
-//        return _clockIndexSlider;
-//    }
-
-    //----------------------------------------------------------------------------
+    public void activate() {
+        super.activate();
+        if ( !inited ) {
+            MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, "Start the simulation" );
+            motionHelpBalloon.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
+            motionHelpBalloon.animateTo( _clockControlPanel.getPlayPauseButton(), 15 );
+            setHelpPane( new HelpPane( parentFrame ) );
+            getDefaultHelpPane().add( motionHelpBalloon );
+            inited = true;
+        }
+    }
+//----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
 
@@ -135,6 +127,8 @@ public class FitnessModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
+//        activate();
+//        setHelpEnabled( true );
 
         // Clock
         FitnessClock clock = _model.getClock();
@@ -160,7 +154,7 @@ public class FitnessModule extends PiccoloModule {
 //        config.setClockRunning( getClockRunningWhenActive() );
 
         // FitnessModelElement
-        Human fitnessModelElement = _model.getHuman();
+//        Human fitnessModelElement = _model.getHuman();
 //        config.setFitnessModelElementPosition( fitnessModelElement.getPositionReference() );
 //        config.setFitnessModelElementOrientation( fitnessModelElement.getOrientation() );
 
@@ -189,6 +183,7 @@ public class FitnessModule extends PiccoloModule {
 
         // Control panel settings that are specific to the view
         //XXX
+
     }
 
     public Human getHuman() {
@@ -209,5 +204,9 @@ public class FitnessModule extends PiccoloModule {
                 app.startApplication();
             }
         } );
+    }
+
+    public void applicationStarted() {
+        _canvas.applicationStarted();
     }
 }

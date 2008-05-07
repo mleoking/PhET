@@ -33,7 +33,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private FitnessModule _exampleModule;
+    private FitnessModule fitnessModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -80,11 +80,8 @@ public class FitnessApplication extends PiccoloPhetApplication {
     * Initializes the modules.
     */
     private void initModules() {
-
-        Frame parentFrame = getPhetFrame();
-
-        _exampleModule = new FitnessModule( parentFrame );
-        addModule( _exampleModule );
+        fitnessModule = new FitnessModule( getPhetFrame());
+        addModule( fitnessModule );
     }
 
     /*
@@ -183,7 +180,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
         appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
 
-        FitnessConfig exampleConfig = _exampleModule.save();
+        FitnessConfig exampleConfig = fitnessModule.save();
         appConfig.setExampleConfig( exampleConfig );
 
         _persistenceManager.save( appConfig );
@@ -201,7 +198,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
                 SimTemplateConfig appConfig = (SimTemplateConfig) object;
 
                 FitnessConfig exampleConfig = appConfig.getExampleConfig();
-                _exampleModule.load( exampleConfig );
+                fitnessModule.load( exampleConfig );
             }
             else {
                 String message = FitnessResources.getString( "message.notAConfigFile" );
@@ -249,5 +246,10 @@ public class FitnessApplication extends PiccoloPhetApplication {
                 app.startApplication();
             }
         } );
+    }
+
+    public void startApplication() {
+        super.startApplication();
+        fitnessModule.applicationStarted();
     }
 }
