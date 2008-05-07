@@ -59,8 +59,10 @@ public class ControlRod {
      * @param yPos - Desired vertical position for this control rod.
      */
     public void setPosition(double yPos){
-        _rect.setRect(_rect.getX(), yPos, _rect.getWidth(), _rect.getHeight());
-        notifyPositionChanged();
+        if (yPos != _rect.getY()){
+            _rect.setRect(_rect.getX(), yPos, _rect.getWidth(), _rect.getHeight());
+            notifyPositionChanged();
+        }
     }
     
     /**

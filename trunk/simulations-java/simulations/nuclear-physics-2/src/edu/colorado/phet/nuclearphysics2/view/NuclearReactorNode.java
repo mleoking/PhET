@@ -101,6 +101,9 @@ public class NuclearReactorNode extends PNode {
             addChild(controlRodNode);
         }
         
+        // Add the control rod adjuster node.
+        addChild(new ControlRodAdjusterNode(_nuclearReactorModel));
+        
         // Add the node into which the nuclei and free nucleons will be placed.
         _nucleiAndFreeParticleNode = new PNode();
         addChild(_nucleiAndFreeParticleNode);

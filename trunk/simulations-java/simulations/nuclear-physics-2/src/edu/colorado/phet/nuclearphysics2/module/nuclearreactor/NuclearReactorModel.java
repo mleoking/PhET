@@ -252,6 +252,36 @@ public class NuclearReactorModel {
             }
         }
     }
+    
+    /**
+     * Adjust the position of the control rods.  The control rods can only be
+     * moved up or down.
+     * 
+     * @param yDelta - Amount to move in the Y direction.
+     */
+    public void moveControlRods(double yDelta){
+        
+        int numControlRods = _controlRods.size();
+        
+        // Make sure that we don't move the control rods where they can't go.
+        double topPosY = getReactorRect().getY() + REACTOR_WALL_WIDTH;
+        double bottomPosY = getReactorRect().getY() + getReactorRect().getHeight() - REACTOR_WALL_WIDTH;
+        if (numControlRods > 0){
+            ControlRod controlRod = (ControlRod)_controlRods.get( 0 );
+            if (controlRod.getPosition().getY() + yDelta < topPosY){
+                yDelta = topPosY - controlRod.getPosition().getY();
+            }
+            else if (controlRod.getPosition().getY() + yDelta > bottomPosY){
+                yDelta = bottomPosY - controlRod.getPosition().getY();
+            }
+        }
+        
+        // Set the actual position.
+        for (int i = 0; i < numControlRods; i++){
+            ControlRod controlRod = (ControlRod)_controlRods.get( i );
+            controlRod.setPosition( controlRod.getPosition().getY() + yDelta );
+        }
+    }
 
     /**
      * This method allows the caller to register for changes in the overall
