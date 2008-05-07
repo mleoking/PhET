@@ -130,6 +130,10 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     // Canvas layout
     //----------------------------------------------------------------------------
 
+    public PNode getEditDietButton(){
+        return caloriePanel.getEditDietButton();
+    }
+
     /*
      * Updates the layout of stuff on the canvas.
      */
@@ -158,5 +162,9 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
     public double getHumanControlPanelHeight() {
         return humanControlPanelPSwing == null ? 0 : humanControlPanelPSwing.getFullBounds().getHeight();
+    }
+
+    public void applicationStarted() {
+        caloriePanel.applicationStarted();
     }
 }

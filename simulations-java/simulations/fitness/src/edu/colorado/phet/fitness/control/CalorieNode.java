@@ -21,6 +21,7 @@ public class CalorieNode extends PNode {
     private JDialog dialog;
     private String selectedTitle;
     private String availableTitle;
+    private GradientButtonNode editButton;
 
     public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle ) {
         this.parentFrame = parentFrame;
@@ -28,8 +29,8 @@ public class CalorieNode extends PNode {
         this.calorieSet = calorieSet;
         this.availableTitle = availableTitle;
         this.selectedTitle = selectedTitle;
-        GradientButtonNode gradientButtonNode = new GradientButtonNode( editButtonText, 18, editButtonColor );
-        gradientButtonNode.addActionListener( new ActionListener() {
+        editButton = new GradientButtonNode( editButtonText, 18, editButtonColor );
+        editButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {
                     createDialog();
@@ -40,12 +41,12 @@ public class CalorieNode extends PNode {
                 panel.paintImmediately( 0, 0, panel.getWidth(), panel.getHeight() );
             }
         } );
-        addChild( gradientButtonNode );
+        addChild( editButton );
 
         SummaryNode summaryNode = new SummaryNode( calorieSet );
         addChild( summaryNode );
 
-        summaryNode.setOffset( 0, gradientButtonNode.getFullBounds().getMaxY() );
+        summaryNode.setOffset( 0, editButton.getFullBounds().getMaxY() );
 
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
@@ -101,5 +102,9 @@ public class CalorieNode extends PNode {
 
     private void updatePlusNodeVisible() {
 //        plusNode.setVisible( calorieSet.getItemCount() != 0 );
+    }
+
+    public PNode getEditButton() {
+        return editButton;
     }
 }
