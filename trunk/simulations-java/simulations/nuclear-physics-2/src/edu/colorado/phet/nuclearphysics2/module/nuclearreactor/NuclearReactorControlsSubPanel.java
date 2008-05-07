@@ -4,6 +4,8 @@ package edu.colorado.phet.nuclearphysics2.module.nuclearreactor;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -77,7 +79,11 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         
         // Add the button that allows users to fire neutrons into the reaction area.
         JButton fireNeutronsButton = new JButton(NuclearPhysics2Strings.FIRE_NEUTRONS_BUTTON_LABEL );
-        // TODO: JPB TBD - Add listener and action.
+        fireNeutronsButton.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                _model.fireNeutrons();
+            }
+        });
         add(fireNeutronsButton);
         
         // Add a bit more spacing.
@@ -88,7 +94,12 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         
         // Add the button that allows the user to reset the reaction.
         JButton resetButton = new JButton(NuclearPhysics2Strings.RESET_BUTTON_LABEL);
-        // TODO: JPB TBD - Add listener and action.
+        resetButton.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+                // Reset the sim time, which will in turn reset the model.
+                _model.getClock().resetSimulationTime();
+            }
+        });
         add(resetButton);
     }
 }
