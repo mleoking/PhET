@@ -68,9 +68,10 @@ public class MotionHelpBalloon extends HelpBalloon {
      * @param x
      * @param y
      * @throws IllegalStateException if this node is not yet in the Piccolo tree
+     * @return the PActivity that was scheduled, or null if none was scheduled
      */
-    public void animateTo( final double x, final double y ) {
-        animateTo( x, y, DEFAULT_DURATION );
+    public PActivity animateTo( final double x, final double y ) {
+        return animateTo( x, y, DEFAULT_DURATION );
     }
 
     /**
@@ -82,14 +83,18 @@ public class MotionHelpBalloon extends HelpBalloon {
      * @param y
      * @param duration duration in milliseconds
      * @throws IllegalStateException if this node is not yet in the Piccolo tree
+     * @return the PActivity that was scheduled, or null if none was scheduled
      */
-    public void animateTo( final double x, final double y, final long duration ) {
+    public PActivity animateTo( final double x, final double y, final long duration ) {
         if ( !started ) {
             if ( getRoot() == null ) {
                 throw new IllegalStateException( "node has no root" );
             }
             PActivity activity = animateToPositionScaleRotation( x, y, 1 /*scale*/, 0 /*theta*/, duration );
             getRoot().addActivity( activity );
+            return activity;
+        }else{
+            return null;
         }
     }
 
@@ -101,9 +106,10 @@ public class MotionHelpBalloon extends HelpBalloon {
      *
      * @param node
      * @throws IllegalStateException if this node is not yet in the Piccolo tree
+     * @return the PActivity that was scheduled, or null if none was scheduled
      */
-    public void animateTo( final PNode node ) {
-        animateTo( node, DEFAULT_DURATION );
+    public PActivity animateTo( final PNode node ) {
+        return animateTo( node, DEFAULT_DURATION );
     }
 
     /**
@@ -115,8 +121,9 @@ public class MotionHelpBalloon extends HelpBalloon {
      * @param node
      * @param duration duration in milliseconds
      * @throws IllegalStateException if this node is not yet in the Piccolo tree
+     * @return the PActivity that was scheduled, or null if none was scheduled
      */
-    public void animateTo( final PNode node, long duration ) {
+    public PActivity animateTo( final PNode node, long duration ) {
         if ( !started ) {
             if ( getRoot() == null ) {
                 throw new IllegalStateException( "node has no root" );
@@ -136,6 +143,9 @@ public class MotionHelpBalloon extends HelpBalloon {
                 }
             } );
             getRoot().addActivity( activity );
+            return activity;
+        }else{
+            return null;
         }
     }
 
