@@ -5,16 +5,21 @@ package edu.colorado.phet.nuclearphysics2.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.ControlRod;
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * This node attaches to the control rods in a model to allow the user to
@@ -29,13 +34,13 @@ public class ControlRodAdjusterNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    private static final Color        CONTROL_ROD_ADJUSTER_COLOR = Color.GREEN;
+    private static final Color        CONTROL_ROD_ADJUSTER_COLOR = new Color(0x66cc00);
     private static final double       HANDLE_HEIGHT = 50;
     private static final float        HANDLE_WIDTH = 25;
     private static final float        HANDLE_THICKNESS = 12;
     private static final BasicStroke  HANDLE_STROKE = new BasicStroke(1.2f);
     private static final float        HANDLE_CORNER_WIDTH = 15;
-    private static final Color        HANDLE_COLOR = Color.LIGHT_GRAY;
+    private static final Color        HANDLE_COLOR = Color.DARK_GRAY;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -73,7 +78,7 @@ public class ControlRodAdjusterNode extends PNode {
         float width = (float)controlRod.getRectangleReference().getWidth();
         float vertSize = (float)(controlRod.getRectangleReference().getHeight() + width);
         float horizSize = (float)(_nuclearReactorModel.getReactorRect().getWidth() - (controlRod.getPosition().getX() -
-                _nuclearReactorModel.getReactorRect().getX()) + (2 * _nuclearReactorModel.getReactorWallWidth()));
+                _nuclearReactorModel.getReactorRect().getX()) + (1.5 * _nuclearReactorModel.getReactorWallWidth()));
         GeneralPath adjusterShape = new GeneralPath();
         adjusterShape.moveTo( 0, 0 );
         adjusterShape.lineTo( horizSize - width, 0 );
@@ -99,17 +104,29 @@ public class ControlRodAdjusterNode extends PNode {
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
 
         // Create and add the handle.
+//      GradientPaint handleGradientPaint = new GradientPaint((float)_handle.getOffset().getX(), 
+//      (float)_handle.getOffset().getY(), Color.darkGray,
+//      (float)_handle.getOffset().getX() + HANDLE_WIDTH, (float)_handle.getOffset().getY(), 
+//      Color.white); 
+        GradientPaint handleGradientPaint = new GradientPaint(0f, 
+                (float)(HANDLE_HEIGHT / 2), Color.white,
+                (float)(HANDLE_WIDTH * 1.5), (float)(HANDLE_HEIGHT / 2), 
+                HANDLE_COLOR);
         _handle = new HandleNode(HANDLE_WIDTH, HANDLE_HEIGHT, HANDLE_THICKNESS, HANDLE_CORNER_WIDTH,
-                HANDLE_COLOR, Color.BLACK, HANDLE_STROKE);
+                handleGradientPaint, Color.BLACK, HANDLE_STROKE);
         _handle.rotate( Math.PI);
         _handle.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        _handle.addInputEventListener( new PDragEventHandler(){
-            public void drag(PInputEvent event){
-                handleDragEvent( event );
-            }
-        } );
-        _handle.setOffset( horizSize + HANDLE_WIDTH, 0 );
+        _handle.setOffset( horizSize + HANDLE_WIDTH, -vertSize + HANDLE_HEIGHT + (2 * width));
+        _handle.setPaint( Color.RED );
+
         addChild(_handle);
+        
+        // Add the textual label to the adjuster.
+        PText label = new PText(NuclearPhysics2Strings.CONTROL_ROD_ADJUSTER_LABEL);
+        label.setFont( new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 14 ) );
+        label.rotate( -Math.PI / 2 );
+        addChild(label);
+        label.setOffset( horizSize - width, -(vertSize / 3) + (label.getWidth() / 2));
 
         // Set our offset to correspond to the bottom of the first control rod.
         setOffsetBasedOnControlRod( controlRod );

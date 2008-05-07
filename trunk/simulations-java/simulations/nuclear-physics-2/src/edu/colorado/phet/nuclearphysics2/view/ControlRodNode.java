@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.ControlRod;
@@ -48,7 +49,9 @@ public class ControlRodNode extends PNode {
         Rectangle2D rect = new Rectangle2D.Double(0, 0, _controlRod.getRectangleReference().getWidth(),
                 _controlRod.getRectangleReference().getHeight());
         PPath controlRodPath = new PPath(rect);
-        controlRodPath.setPaint( CONTROL_ROD_COLOR );
+        GradientPaint gradientPaint = new GradientPaint(0f, (float)(rect.getHeight() / 2), CONTROL_ROD_COLOR,
+                (float)(rect.getWidth() * 1.2), (float)rect.getHeight() / 2, Color.white); 
+        controlRodPath.setPaint( gradientPaint );
         addChild(controlRodPath);
         
         // Set our offset to correspond to the control rod location.

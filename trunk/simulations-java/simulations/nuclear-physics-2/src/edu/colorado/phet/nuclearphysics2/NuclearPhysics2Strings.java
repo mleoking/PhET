@@ -71,4 +71,5 @@ public class NuclearPhysics2Strings {
 
     public static final String ENERGY_GRAPHS_CHECK_BOX = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.EnergyGraphControl" );
     public static final String FIRE_NEUTRONS_BUTTON_LABEL = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.FireButton" );
+    public static final String CONTROL_ROD_ADJUSTER_LABEL = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.ControlRodAdjuster" );
 }
