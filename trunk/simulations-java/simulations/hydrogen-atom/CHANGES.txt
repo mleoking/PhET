@@ -3,7 +3,7 @@ Change history for hydrogen-atom
 ===============================================================================
 
 DONE:
-***** 1.06.01 (?)
+***** 1.06.01 (21223)
 5/7/08 - pickup PhetDefaultFont support for Japanese preferred fonts [543]
 4/4/08 - remove clock icon from HAClockControlPanel, animated icon was added to phetcommon
 1/7/08 - replace "Lucida Sans" with PhetDefaultFont in test code
