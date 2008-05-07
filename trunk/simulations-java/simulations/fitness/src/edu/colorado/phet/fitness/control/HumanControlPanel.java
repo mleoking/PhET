@@ -40,7 +40,6 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         setFillHorizontal();
 
         final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), "Age", FitnessStrings.AGE_FORMAT.toPattern(), "years" );
-//        age.setColumns( 5 );
         add( age );
         age.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -50,7 +49,6 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         human.addListener( new Human.Adapter() {
             public void ageChanged() {
                 age.setValue( FitnessUnits.secondsToYears( human.getAge() ) );
-//                age.setValue( human.getAge() );
             }
         } );
 
@@ -151,7 +149,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //   add( fatFreeMassPercent );
 
         final HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), "BMI", "0.0", "kg/m^2" );
-        human.addListener( new Human.Adapter(){
+        human.addListener( new Human.Adapter() {
             public void bmiChanged() {
                 bmiSlider.setValue( human.getBMI() );
             }
@@ -197,7 +195,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 updateBodyFatSlider();
             }
         } );
-        model.addListener( new FitnessModel.Adapter(){
+        model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
                 new AlignedSliderSetLayoutStrategy( hs ).doLayout();
             }
