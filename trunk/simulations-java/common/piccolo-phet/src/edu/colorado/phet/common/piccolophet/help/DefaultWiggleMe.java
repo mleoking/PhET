@@ -56,19 +56,28 @@ public class DefaultWiggleMe extends MotionHelpBalloon {
 
         // balloon...
         setBalloonVisible( true );
-        setBalloonFillPaint( BACKGROUND );
-        setBalloonStrokePaint( FOREGROUND );
         setBalloonStroke( STROKE );
 
         // arrow...
         setArrowVisible( true );
-        setArrowFillPaint( BACKGROUND );
-        setArrowStrokePaint( FOREGROUND );
         setArrowStroke( STROKE );
         setArrowHeadSize( ARROW_HEAD_SIZE.width, ARROW_HEAD_SIZE.height );
         setArrowTailWidth( ARROW_TAIL_WIDTH );
         setArrowLength( ARROW_LENGTH );
         setArrowTailPosition( ARROW_ATTACHMENT );
+
+        //foreground & background...
+        setForeground( FOREGROUND );
+        setBackground( BACKGROUND );
     }
 
+    public void setForeground( Paint foreground ) {
+        setArrowStrokePaint( foreground );
+        setBalloonStrokePaint( foreground );
+    }
+
+    public void setBackground( Paint background ) {
+        setArrowFillPaint( background );
+        setBalloonFillPaint( background );
+    }
 }
