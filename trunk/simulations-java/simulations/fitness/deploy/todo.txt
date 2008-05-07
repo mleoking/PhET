@@ -1,8 +1,7 @@
-4) Also arrow bubbles indicating the inputs (like, edit diet, excercise and start) would be beneficial.
-
 Sometimes the weight graph doesn't clear all data lines on reset.
 
 If the user enters an out-of-range value for height, then changes units, the wrong value is set.
+This problem also occurs at the boundaries of the range
 
 High Priority:
 
