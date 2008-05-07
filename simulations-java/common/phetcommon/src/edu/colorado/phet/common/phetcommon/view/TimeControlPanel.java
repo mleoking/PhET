@@ -393,6 +393,14 @@ public class TimeControlPanel extends JPanel {
         }
     }
 
+    /**
+     * Returns the component responsible for handling play/pause button presses.
+     * @return the play/pause button
+     */
+    public JComponent getPlayPauseButton() {
+        return playPauseButton; 
+    }
+
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         TimeControlPanel pane = new TimeControlPanel();
