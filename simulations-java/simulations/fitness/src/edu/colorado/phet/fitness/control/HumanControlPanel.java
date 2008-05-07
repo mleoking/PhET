@@ -12,13 +12,13 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
-import edu.colorado.phet.fitness.util.FeetInchesFormat;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
+import edu.colorado.phet.fitness.util.FeetInchesFormat;
 import edu.colorado.phet.fitness.view.FitnessColorScheme;
 import edu.colorado.phet.fitness.view.SliderNode;
 
@@ -60,12 +60,12 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         final HumanSlider heightControl = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ), model.getUnits().modelToViewDistance( human.getHeight() ), "Height", "0.00", model.getUnits().getDistanceUnit() );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double v = model.getUnits().viewToModelDistance( heightControl.getValue() );
-                human.setHeight( v );
+                human.setHeight( model.getUnits().viewToModelDistance( heightControl.getValue() ) );
             }
         } );
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
+                double origHeight = human.getHeight();
                 double value = model.getUnits().modelToViewDistance( human.getHeight() );
 
                 //have to change range before changing value
@@ -75,6 +75,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
                 heightControl.setPaintLabels( false );
                 heightControl.setPaintTicks( false );
+
+                human.setHeight( origHeight );//restore original value since clamping the range at a different time as the value can lead to incorrect values
             }
         } );
         heightControl.setTextFieldFormat( new FeetInchesFormat() );

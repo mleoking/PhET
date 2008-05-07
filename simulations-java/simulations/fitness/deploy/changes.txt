@@ -1,3 +1,6 @@
+New in 0.00.28 (5-7-2008)
+Fixed: If the user enters an out-of-range value for height, then changes units, the wrong value is set.  Also happens at the boundaries of the range.
+
 New in 0.00.27 (5-7-2008)
 Fixed: The x-axis on the graph needs to rescale with the input age (most of our kids are 15-16, but the x-axis begins at 22 years regardless.
     When the simulation is paused and the age changes, the charts domain resets.

@@ -435,9 +435,11 @@ public class Human {
     }
 
     public void setHeight( double height ) {
-        this.height.setValue( height );
-        notifyHeightChanged();
-        notifyBMIChanged();
+        if ( this.height.getValue() != height ) {
+            this.height.setValue( height );
+            notifyHeightChanged();
+            notifyBMIChanged();
+        }
     }
 
     private void notifyBMIChanged() {
