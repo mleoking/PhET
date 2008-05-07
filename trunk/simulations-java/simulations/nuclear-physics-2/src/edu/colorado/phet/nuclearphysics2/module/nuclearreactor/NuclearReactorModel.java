@@ -38,8 +38,10 @@ public class NuclearReactorModel {
     private static final double REACTOR_WALL_WIDTH = 20;
     
     // Constant that controls where in model space the reactor resides.  This
-    // assumes that the 'center of the world' is at (0,0).
-    private static final Point2D REACTOR_POSITION = new Point2D.Double(-(OVERALL_REACTOR_WIDTH / 2), 
+    // assumes that the 'center of the world' is at (0,0).  It is shifted
+    // slightly to the left to account for the control rod handle on the right
+    // hand side.
+    private static final Point2D REACTOR_POSITION = new Point2D.Double(-(OVERALL_REACTOR_WIDTH / 1.9), 
             -(OVERALL_REACTOR_HEIGHT / 2));
     
     // Constant that controls the number of chambers, between which are the

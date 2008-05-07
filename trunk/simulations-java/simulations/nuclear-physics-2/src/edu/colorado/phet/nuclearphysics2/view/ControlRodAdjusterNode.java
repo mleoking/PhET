@@ -2,13 +2,13 @@
 
 package edu.colorado.phet.nuclearphysics2.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Shape;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.ControlRod;
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorModel;
 import edu.umd.cs.piccolo.PNode;
@@ -30,6 +30,12 @@ public class ControlRodAdjusterNode extends PNode {
     //------------------------------------------------------------------------
     
     private static final Color        CONTROL_ROD_ADJUSTER_COLOR = Color.GREEN;
+    private static final double       HANDLE_HEIGHT = 50;
+    private static final float        HANDLE_WIDTH = 25;
+    private static final float        HANDLE_THICKNESS = 12;
+    private static final BasicStroke  HANDLE_STROKE = new BasicStroke(1.2f);
+    private static final float        HANDLE_CORNER_WIDTH = 15;
+    private static final Color        HANDLE_COLOR = Color.LIGHT_GRAY;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -37,6 +43,10 @@ public class ControlRodAdjusterNode extends PNode {
     
     // Reference to the model contain the set of control rods.
     private NuclearReactorModel _nuclearReactorModel;
+    
+    // A node representing a physical handle on the control rod adjuster, not 
+    // to be confused with a file handle.
+    private HandleNode _handle;
     
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -76,18 +86,30 @@ public class ControlRodAdjusterNode extends PNode {
         controlRodAdjuster.setPaint( CONTROL_ROD_ADJUSTER_COLOR );
         addChild(controlRodAdjuster);
 
-        // Set ourself up to listen for and handle mouse dragging events.
+        // Set ourself up to listen for and handle mouse dragging events on
+        // the adjuster.
         addInputEventListener( new PDragEventHandler(){
-            
             public void drag(PInputEvent event){
-                double yDelta = event.getDelta().height;
-                _nuclearReactorModel.moveControlRods( yDelta );
+                handleDragEvent( event );
             }
         });
         
         // Add a cursor handler to make it clear to the user that they can
         // grab and move this thing.
         addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
+
+        // Create and add the handle.
+        _handle = new HandleNode(HANDLE_WIDTH, HANDLE_HEIGHT, HANDLE_THICKNESS, HANDLE_CORNER_WIDTH,
+                HANDLE_COLOR, Color.BLACK, HANDLE_STROKE);
+        _handle.rotate( Math.PI);
+        _handle.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
+        _handle.addInputEventListener( new PDragEventHandler(){
+            public void drag(PInputEvent event){
+                handleDragEvent( event );
+            }
+        } );
+        _handle.setOffset( horizSize + HANDLE_WIDTH, 0 );
+        addChild(_handle);
 
         // Set our offset to correspond to the bottom of the first control rod.
         setOffsetBasedOnControlRod( controlRod );
@@ -100,5 +122,10 @@ public class ControlRodAdjusterNode extends PNode {
     private void setOffsetBasedOnControlRod(ControlRod controlRod){
         setOffset(controlRod.getPosition().getX(),
                 controlRod.getPosition().getY() + controlRod.getRectangleReference().getHeight());
+    }
+    
+    private void handleDragEvent(PInputEvent event){
+        double yDelta = event.getDelta().height;
+        _nuclearReactorModel.moveControlRods( yDelta );
     }
 }
