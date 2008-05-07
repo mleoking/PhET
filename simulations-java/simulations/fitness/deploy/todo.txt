@@ -1,9 +1,4 @@
-Notes from Ingrid, 5-7-2008
-
-I am hearing a lot of positive feedback.  We also found 4 areas of improvement:
-
-1) The x-axis on the graph needs to rescale with the input age (most of our kids are 15-16,
-but the x-axis begins at 22 years regardless.  Also unit labels on the graph would help)
+1) Also unit labels on the graph would help)
 
 2) There is confusion about height input.  We need an inches box.
 If a kid is 5' 5", they are putting in 5.5 ft instead of 5.41 ft.  This is messing up their BMI

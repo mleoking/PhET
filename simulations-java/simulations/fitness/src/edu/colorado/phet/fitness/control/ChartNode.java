@@ -61,6 +61,14 @@ public class ChartNode extends PNode {
             }
         } );
         model.getHuman().addListener( new Human.Adapter() {
+            public void ageChanged() {
+                if ( model.getClock().isPaused() ) {
+                    clearData();
+                    updateGraphDomains();
+                }
+            }
+        } );
+        model.getHuman().addListener( new Human.Adapter() {
             public void weightChanged() {
                 massVar.setValue( getMassDisplayValue() );
             }
@@ -83,7 +91,6 @@ public class ChartNode extends PNode {
             }
         } );
         weightGraph = new FitnessControlGraph( phetPCanvas, weightSeries, "Weight", 0, 250, tsm );
-
 
         weightGraph.setEditable( false );
         weightChart = new MinimizableControlGraph( "Weight", weightGraph );
@@ -149,7 +156,7 @@ public class ChartNode extends PNode {
         calorieGraph.setVerticalRange( 0, 6000 );
     }
 
-    private void updateGraphRanges() {
+    private void updateGraphDomains() {
         double min = weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getLowerBound();
         double max = weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getUpperBound();
         double currentRange = max - min;
@@ -165,10 +172,8 @@ public class ChartNode extends PNode {
     }
 
     private void resetChartArea() {
-        massVar.clear();
-        calIntakeVar.clear();
-        calBurnVar.clear();
-        updateGraphRanges();
+        clearData();
+        updateGraphDomains();
     }
 
     private void syncMassVar() {
@@ -216,11 +221,15 @@ public class ChartNode extends PNode {
     }
 
     public void resetAll() {
+        clearData();
+        updateGraphDomains( DEFAULT_RANGE_YEARS );
+        resetChartVerticalRanges();
+    }
+
+    private void clearData() {
         massVar.clear();
         calBurnVar.clear();
         calIntakeVar.clear();
-        updateGraphDomains( DEFAULT_RANGE_YEARS );
-        resetChartVerticalRanges();
     }
 
     private class FitnessControlGraph extends ControlGraph {
