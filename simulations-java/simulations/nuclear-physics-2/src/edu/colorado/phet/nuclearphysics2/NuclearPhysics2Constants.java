@@ -83,6 +83,9 @@ public class NuclearPhysics2Constants {
     public static final Color URANIUM_235_LABEL_COLOR = Color.GREEN;
     
     // Color for label used for the Uranium 235 nucleus.
+    public static final Color URANIUM_236_LABEL_COLOR = Color.ORANGE;
+    
+    // Color for label used for the Uranium 235 nucleus.
     public static final Color URANIUM_238_LABEL_COLOR = Color.YELLOW;
     
     // Color for label used for the Uranium 235 nucleus.
