@@ -91,7 +91,6 @@ public class MotionHelpBalloon extends HelpBalloon {
                 throw new IllegalStateException( "node has no root" );
             }
             PActivity activity = animateToPositionScaleRotation( x, y, 1 /*scale*/, 0 /*theta*/, duration );
-            getRoot().addActivity( activity );
             return activity;
         }else{
             return null;
@@ -142,7 +141,6 @@ public class MotionHelpBalloon extends HelpBalloon {
                     activity.setDestinationTransform( m );
                 }
             } );
-            getRoot().addActivity( activity );
             return activity;
         }else{
             return null;
