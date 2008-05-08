@@ -26,15 +26,12 @@ clean up this box a bit as well.
 
 Add a done button at the top of the diet and exercise boxes.
 
-I don't think the next month button is working right.
-
 The muscular scale says non on the right.  What should it say?
 
 I'd put the question mark box about BMI next to the BMI readout down below.
 That is not what I expected to find next to the heart.
 
 Changing my guy from male to female didn't seem to change anything.
-
 
 Ok, I'm starting to get to things that will take more time. My biggest
 concern is the body fat indicator not changing as your guy gets fatter or
