@@ -1,3 +1,5 @@
+5-7-2008: Wave Interference (1.05) - fixes for translation support
+5-7-2008: Salts & Solubility (1.04) - fixes for translation support
 5-7-2008: Models of the Hydrogen Atom (1.07) - added support for Japanese and other languages that require preferred fonts
 4-28-2008: Torque (1.05) - added
 4-28-2008: Quantum Bound States (1.04) - minor bug fixes (translations, default font)
