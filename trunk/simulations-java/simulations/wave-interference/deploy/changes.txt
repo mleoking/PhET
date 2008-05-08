@@ -1,3 +1,6 @@
+1.05.00 (5-7-08)
+Same as 1.04.01, to pick up translation fixes in PhetDefaultFont.
+
 New in 1.04.01 (4-28-08)
 Picked up fixes in PhetDefaultFont
 
