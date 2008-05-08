@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-color-vision 1.06.01
+color-vision 1.07.00
 </b></big></big>
 <p>
 Click to run English version:
@@ -12,7 +12,7 @@ Click to run English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>pickup PhetDefaultFont support for Japanese preferred fonts [543]
+<li>same as 1.06.01, pickup PhetDefaultFont support for Japanese preferred fonts [543]
 </ul>
 <p>
 <b>Known problems:</b>
