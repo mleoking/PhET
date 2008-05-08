@@ -87,7 +87,7 @@ CLEANUP:
 
 
 DONE:
-******** 0.00.17 (?)
+******** 0.00.17 (21262)
 5/6/08 - first pass at making tools that are dropped in trash disappear by shrinking them
 5/6/08 - write test program demonstrating use of PActivity to shrink tools that are dropped in trash
 5/6/08 - change size of ice perspective to more closely match valley width in image
