@@ -72,6 +72,27 @@ public class AtomicNucleusNode extends PNode {
     private PText _isotopeChemSymbol;
     private PText _isotopeChemSymbolShadow;
     
+    // Adapter for registering to get nucleus events.
+    AtomicNucleus.Adapter _atomicNucleusAdapter = new AtomicNucleus.Adapter(){
+        
+        public void positionChanged(){
+            update();
+        }
+        
+        public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
+                ArrayList byProducts){
+            
+            handleAtomicWeightChanged( atomicNucleus, numProtons, numNeutrons, byProducts );
+        }
+    };
+    
+    // Adapter for registering to receive clock events.
+    ClockAdapter _clockAdapter = new ClockAdapter(){
+        public void clockTicked(ClockEvent clockEvent){
+            handleClockTicked(clockEvent);
+        }
+    };
+    
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -121,37 +142,33 @@ public class AtomicNucleusNode extends PNode {
         setLabel(_atomicNucleus.getNumProtons(), _atomicNucleus.getNumNeutrons());
         
         // Register as a listener for the model representation.
-        _atomicNucleus.addListener(new AtomicNucleus.Adapter(){
-            public void positionChanged(){
-                update();
-            }
-            public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
-                    ArrayList byProducts){
-                
-                handleAtomicWeightChanged( atomicNucleus, numProtons, numNeutrons, byProducts );
-            }
-        });
+        _atomicNucleus.addListener(_atomicNucleusAdapter);
         
         // Register as a listener to the clock that is driving the model.
-        _atomicNucleus.getClock().addClockListener( new ClockAdapter(){
-            
-            /**
-             * Clock tick handler - causes the model to move forward one
-             * increment in time.
-             */
-            public void clockTicked(ClockEvent clockEvent){
-                handleClockTicked(clockEvent);
-            }
-            
-            public void simulationTimeReset(ClockEvent clockEvent){
-                // Ignore.
-            }
-        });
+        _atomicNucleus.getClock().addClockListener( _clockAdapter );
         
         // Call update at the end of construction to assure that the view is
         // synchronized with the model.
         update();
     }
+
+    //------------------------------------------------------------------------
+    // Public Methods
+    //------------------------------------------------------------------------
+    
+    /**
+     * Perform any cleanup necessary before being garbage collected.
+     */
+    public void cleanup(){
+        // Remove ourself as a listener from any place that we have registered
+        // in order to avoid memory leaks.
+        _atomicNucleus.removeListener(_atomicNucleusAdapter);
+        _atomicNucleus.getClock().removeClockListener( _clockAdapter );
+    }
+
+    //------------------------------------------------------------------------
+    // Private and Protected Methods
+    //------------------------------------------------------------------------
     
     /**
      * Set the label for the nucleus based on the number of protons and
