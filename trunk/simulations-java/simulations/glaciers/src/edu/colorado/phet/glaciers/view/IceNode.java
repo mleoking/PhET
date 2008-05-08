@@ -33,8 +33,8 @@ public class IceNode extends PComposite {
     
     private GeneralPath _crossSectionPath;
     private PPath _crossSectionNode;
-    private GeneralPath _surfaceAboveELAPath, _surfaceBelowELAPath;
-    private PPath _surfaceAboveELANode, _surfaceBelowELANode;
+    private GeneralPath _surfacePath, _surfaceBelowELAPath;
+    private PPath _surfaceNode, _surfaceBelowELANode;
     private Point2D _pModel, _pView; // reusable points
     
     //----------------------------------------------------------------------------
@@ -63,14 +63,14 @@ public class IceNode extends PComposite {
         _crossSectionNode.setStroke( null );
         addChild( _crossSectionNode );
         
-        _surfaceAboveELAPath = new GeneralPath();
-        _surfaceAboveELANode = new PPath( _surfaceAboveELAPath );
-        _surfaceAboveELANode.setPaint( createSurfaceAboveELAPaint() );
-        _surfaceAboveELANode.setStroke( null );
-        addChild( _surfaceAboveELANode );
+        _surfacePath = new GeneralPath();
+        _surfaceNode = new PPath( _surfacePath );
+        _surfaceNode.setPaint( createSurfaceAboveELAPaint() );
+        _surfaceNode.setStroke( null );
+        addChild( _surfaceNode );
         
         _surfaceBelowELAPath = new GeneralPath();
-        _surfaceBelowELANode = new PPath( _surfaceAboveELAPath );
+        _surfaceBelowELANode = new PPath( _surfacePath );
         _surfaceBelowELANode.setPaint( createSurfaceBelowELAPaint() );
         _surfaceBelowELANode.setStroke( null );
         addChild( _surfaceBelowELANode );
@@ -106,22 +106,21 @@ public class IceNode extends PComposite {
     
     private void update() {
 
-        final double x0 = Glacier.getMinX();
-        final double dx = Glacier.getDx();
-        Valley valley = _glacier.getValley();
-        double elevation = 0;
-
         // reset the reusable paths
         _crossSectionPath.reset();
-        _surfaceAboveELAPath.reset();
+        _surfacePath.reset();
         _surfaceBelowELAPath.reset();
 
         double[] iceThicknessSamples = _glacier.getIceThicknessSamples();
         if ( iceThicknessSamples != null && iceThicknessSamples.length > 0 ) {
             
+            Valley valley = _glacier.getValley();
+            double elevation = 0;
+            
             // cross-section
             {
-                double x = x0;
+                double x = Glacier.getMinX();;
+                final double dx = Glacier.getDx();
                 
                 // ice-air boundary, moving downvalley
                 for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
@@ -150,10 +149,10 @@ public class IceNode extends PComposite {
                 _crossSectionPath.closePath();
             }
 
-            // surface above ELA
-            //XXX This is creating the entire surface, from headwall to terminus!
+            // complete surface (above and below ELA)
             {
-                double x = x0;
+                final double dx = Glacier.getDx();
+                double x = Glacier.getMinX();;
 
                 // ice-air boundary, moving downvalley
                 for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
@@ -161,10 +160,10 @@ public class IceNode extends PComposite {
                     _pModel.setLocation( x, elevation );
                     _mvt.modelToView( _pModel, _pView );
                     if ( i == 0 ) {
-                        _surfaceAboveELAPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+                        _surfacePath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
                     }
                     else {
-                        _surfaceAboveELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                        _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                     }
                     x += dx;
                 }
@@ -176,11 +175,11 @@ public class IceNode extends PComposite {
                     elevation = valley.getElevation( x ) + iceThicknessSamples[i] + perspectiveHeight;
                     _pModel.setLocation( x, elevation );
                     _mvt.modelToView( _pModel, _pView );
-                    _surfaceAboveELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                    _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                     x -= dx;
                 }
 
-                _surfaceAboveELAPath.closePath();
+                _surfacePath.closePath();
             }
 
             // surface below ELA 
@@ -188,12 +187,13 @@ public class IceNode extends PComposite {
             final Point2D surfaceAtELA = _glacier.getSurfaceAtSteadyStateELAReference();
             if ( surfaceAtELA != null )
             {
-                final int xSurface = (int) surfaceAtELA.getX();
-                final int xTerminus = (int) _glacier.getTerminusReference().getX();
+                final double xSurface = surfaceAtELA.getX();
+                final double xTerminus = _glacier.getTerminusReference().getX();
+                final double dx = 1;
                 
                 // ice-air boundary, moving downvalley
                 boolean first = true;
-                for ( int x = xSurface; x <= xTerminus ;x++ ) {
+                for ( double x = xSurface; x <= xTerminus; x += dx ) {
                     elevation = _glacier.getSurfaceElevation( x );
                     _pModel.setLocation( x, elevation );
                     _mvt.modelToView( _pModel, _pView );
@@ -213,7 +213,7 @@ public class IceNode extends PComposite {
                 _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 
                 // surface perspective, moving upvalley
-                for ( int x = xTerminus; x >= xSurface; x-- ) {
+                for ( double x = xTerminus; x >= xSurface; x -= dx ) {
                     elevation = _glacier.getSurfaceElevation( x ) + perspectiveHeight;
                     _pModel.setLocation( x, elevation );
                     _mvt.modelToView( _pModel, _pView );
@@ -225,7 +225,7 @@ public class IceNode extends PComposite {
         }
         
         _crossSectionNode.setPathTo( _crossSectionPath );
-        _surfaceAboveELANode.setPathTo( _surfaceAboveELAPath );
+        _surfaceNode.setPathTo( _surfacePath );
         _surfaceBelowELANode.setPathTo( _surfaceBelowELAPath );
     }
 }
