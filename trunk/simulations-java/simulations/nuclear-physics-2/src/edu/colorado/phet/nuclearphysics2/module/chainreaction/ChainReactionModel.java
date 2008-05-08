@@ -97,7 +97,7 @@ public class ChainReactionModel {
             
             public void simulationTimeReset(ClockEvent clockEvent){
                 // Reset the model.
-                // TODO: JPB TBD.
+                reset();
             }
         });
         
