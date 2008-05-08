@@ -81,6 +81,12 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         addWorldChild( rulerNode );
 
         HumanControlPanel humanControlPanel = new HumanControlPanel( model, model.getHuman() );
+        humanControlPanel.addListener( new HumanControlPanel.Listener() {
+            public void ageManuallyChanged() {
+                caloriePanel.clearAndResetDomains();
+            }
+        } );
+//        humanControlPanel.addListener(){
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 

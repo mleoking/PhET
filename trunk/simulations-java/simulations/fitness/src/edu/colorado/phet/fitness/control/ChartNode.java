@@ -66,14 +66,13 @@ public class ChartNode extends PNode {
                 syncVerticalRanges();
             }
         } );
-        model.getHuman().addListener( new Human.Adapter() {
-            public void ageChanged() {
-                if ( model.getClock().isPaused() ) {
-                    clearData();
-                    updateGraphDomains();
-                }
-            }
-        } );
+//        model.getHuman().addListener( new Human.Adapter() {
+//            public void ageChanged() {
+//                if ( model.getClock().isPaused() ) {
+//                    clearAndResetDomains();
+//                }
+//            }
+//        } );
         model.getHuman().addListener( new Human.Adapter() {
             public void weightChanged() {
                 massVar.setValue( getMassDisplayValue() );
@@ -149,6 +148,11 @@ public class ChartNode extends PNode {
         syncVerticalRanges();
     }
 
+    public void clearAndResetDomains() {
+        clearData();
+        updateGraphDomains();
+    }
+
     private void updateWeightMassLabel() {
         weightGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( "Weight (" + model.getUnits().getMassUnit() + ")" );
     }
@@ -188,8 +192,7 @@ public class ChartNode extends PNode {
     }
 
     private void resetChartArea() {
-        clearData();
-        updateGraphDomains();
+        clearAndResetDomains();
     }
 
     private void syncMassVar() {
