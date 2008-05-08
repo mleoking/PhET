@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers.view.tools;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IToolProducer;
@@ -34,11 +36,16 @@ public class TrashCanIconNode extends AbstractToolIconNode {
         };
     }
     
-    //XXX problem: shrinking needs to be done about the center of the trash can icon
-    private static void deleteTool( final AbstractToolNode toolNode, final IToolProducer toolProducer ) {
+    private void deleteTool( final AbstractToolNode toolNode, final IToolProducer toolProducer ) {
+        
+        // shrink the tool to the center of the trash can
         final double scale = 0.1;
         final long duration = 300; // ms
-        PActivity a1 = toolNode.animateToPositionScaleRotation( toolNode.getXOffset(), toolNode.getYOffset(), scale, toolNode.getRotation(), duration );
+        Point2D trashCanCenterGlobal = this.localToGlobal( new Point2D.Double( getX() + getFullBoundsReference().getWidth()/2, getY() + getFullBoundsReference().getHeight()/2) );
+        Point2D p = toolNode.getParent().globalToLocal( trashCanCenterGlobal );
+        PActivity a1 = toolNode.animateToPositionScaleRotation( p.getX(), p.getY(), scale, toolNode.getRotation(), duration );
+        
+        // then delete the tool
         PActivity a2 = new PActivity( -1 ) {
             protected void activityStep( long elapsedTime ) {
                 toolProducer.removeTool( toolNode.getTool() );
