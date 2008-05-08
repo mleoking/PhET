@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.16
+glaciers 0.00.17
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,20 +12,23 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>add motion model for tracer flags
-<li>add framework for disabling specific tool behaviors while they are being dragged
+<li>create separate geometry for ice surface below ELA
+<li>add textures to ice (cross-section, surface above ELA, surface below ELA)
+<li>make flags drop to valley floor when glacier recedes
+<li>add icons for View check boxes (equilibrium line, ice flow, coordinates)
+<li>change size of ice perspective to more closely match valley width in image
+<li>first pass at animating tools that are dropped in trash (they shrink to disappear)
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
 <li>tracer flags are not crushed by advancing glacier
 <li>tools can be lost by dragging them outside the birds-eye view
-<li>ice should use different colors above/below the equilibrium line
 </ul>
 <p>
 <b>Not implemented:</b>
 <ul>
-<li>ice has no texture, so you can't see it moving
+<li>ice texture doesn't move
 <li>tools have no drag constraints
 <li>borehole drill doesn't work
 <li>snowfall is not visible
