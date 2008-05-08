@@ -1,5 +1,6 @@
 New in 0.00.29 (5-7-2008)
 Fixed a bug that made "Next Month" button clear the graphs
+Removed disclaimer phrase regarding common sense.
 
 New in 0.00.28 (5-7-2008)
 Fixed: If the user enters an out-of-range value for height, then changes units, the wrong value is set.  Also happens at the boundaries of the range.
