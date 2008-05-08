@@ -11,10 +11,15 @@
 
 package edu.colorado.phet.common.piccolophet.help;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -145,6 +150,61 @@ public class MotionHelpBalloon extends HelpBalloon {
         }else{
             return null;
         }
+    }
+
+    /**
+     * Animates this help item towards the specified JComponent at the specified speed.  The animation ceases
+     * when the help item is close to the target JComponent.
+     *
+     * @param component the JComponent to move towards.
+     * @param speed     the speed at which to move
+     */
+    public void animateTo( JComponent component, final double speed ) {
+        IFollower follower = getFollower();
+        if ( follower != null ) {
+            follower.setFollowEnabled( false );
+        }
+        follower = new JComponentFollower( this, component ) {
+            private Timer timer;
+
+            /* Turns following on and off. */
+            public void setFollowEnabled( boolean enabled ) {
+                super.setFollowEnabled( enabled );
+                if ( enabled ) {
+                    if ( timer != null ) {
+                        timer.stop();
+                    }
+                    timer = new Timer( 30, new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            updatePosition();
+                        }
+                    } );
+                    timer.start();
+                }
+            }
+
+            /* Synchronizes position. */
+            public void updatePosition() {
+                AbstractHelpItem _helpItem = super.getHelpItem();
+                if ( _helpItem.getVisible() ) {
+                    Point2D target = _helpItem.mapLocation( super.getComponent() );
+                    Point2D source = _helpItem.getOffset();
+                    Vector2D.Double vec = new Vector2D.Double( source, target );
+                    if ( source.distance( target ) > speed ) {
+                        Point2D newLoc = vec.getInstanceOfMagnitude( speed ).getDestination( source );
+                        _helpItem.setOffset( newLoc );
+                    }
+                    else {
+                        if ( timer != null ) {
+                            timer.stop();
+                        }
+                    }
+                }
+            }
+        };
+        follower.setFollowEnabled( isEnabled() );
+        super.setFollower( follower );
+
     }
 
     /**
