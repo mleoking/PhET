@@ -182,7 +182,8 @@ public class NuclearReactorNode extends PNode {
             if (modelElement instanceof AtomicNucleus){
                 // Remove the nucleus node.
                 _nucleiAndFreeParticleNode.removeChild( (PNode )nucleusNode );
-                _modelElementToNodeMap.remove( modelElement );
+                AtomicNucleusNode node = (AtomicNucleusNode)_modelElementToNodeMap.remove( modelElement );
+                node.cleanup();
             }
             else {
                 // This is not a composite model element, so just remove the

@@ -286,13 +286,8 @@ public abstract class AtomicNucleus {
     // Other public methods
     //------------------------------------------------------------------------
     
-    /**
-     * Method to add listeners.
-     * 
-     * @param listener
-     */
-    public void addListener(Listener listener)
-    {
+    public void addListener(Listener listener){
+        
         if (_listeners.contains( listener ))
         {
             // Don't bother re-adding.
@@ -300,6 +295,10 @@ public abstract class AtomicNucleus {
         }
         
         _listeners.add( listener );
+    }
+    
+    public boolean removeListener(Listener listener){
+        return _listeners.remove( listener );
     }
     
     /**

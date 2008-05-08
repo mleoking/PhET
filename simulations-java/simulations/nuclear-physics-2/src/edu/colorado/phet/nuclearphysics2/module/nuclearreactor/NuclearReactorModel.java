@@ -328,9 +328,9 @@ public class NuclearReactorModel {
         // positions.
         double reactionChamberWidth = ((Rectangle2D)_reactionChamberRects.get( 0 )).getWidth();
         double reactionChamberHeight = ((Rectangle2D)_reactionChamberRects.get( 0 )).getHeight();
-        int numNucleiAcross = 
+        int numNucleiAcross =
             (int)(((reactionChamberWidth - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE) + 1);
-        int numNucleiDown = 
+        int numNucleiDown =
             (int)(((reactionChamberHeight - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE) + 1);
         
         // Add the nuclei to each chamber.

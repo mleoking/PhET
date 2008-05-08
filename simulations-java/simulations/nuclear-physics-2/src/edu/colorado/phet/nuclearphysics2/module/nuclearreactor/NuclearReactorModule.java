@@ -74,9 +74,6 @@ public class NuclearReactorModule extends PiccoloModule {
         // Reset the clock, which ultimately resets the model too.
         _model.getClock().resetSimulationTime();
         setClockRunningWhenActive( ChainReactionDefaults.CLOCK_RUNNING );
-        
-        // Reset the model to its original state.
-        _model.reset();
     }
     
     /**
