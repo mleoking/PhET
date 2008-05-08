@@ -199,10 +199,9 @@ public class AtomicNucleusNode extends PNode {
             }
             else if (numNeutrons == 144){
                 // Uranium 236
-                // TODO: JPB TBD - Make these into strings if we decide to keep it.
-                isotopeNumber = "236";
-                chemSymbol = NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL;
-                labelColor = Color.ORANGE;
+                isotopeNumber = NuclearPhysics2Strings.URANIUM_236_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysics2Strings.URANIUM_236_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysics2Constants.URANIUM_236_LABEL_COLOR;
             }
             else if (numNeutrons == 146){
                 // Uranium 238

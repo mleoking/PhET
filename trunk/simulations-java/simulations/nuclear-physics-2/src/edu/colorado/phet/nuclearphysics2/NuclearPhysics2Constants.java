@@ -82,20 +82,14 @@ public class NuclearPhysics2Constants {
     // Color for label used for the Uranium 235 nucleus.
     public static final Color URANIUM_235_LABEL_COLOR = Color.GREEN;
     
-    // Color for label used for the Uranium 235 nucleus.
+    // Color for label used for the Uranium 236 nucleus.
     public static final Color URANIUM_236_LABEL_COLOR = Color.ORANGE;
     
-    // Color for label used for the Uranium 235 nucleus.
+    // Color for label used for the Uranium 238 nucleus.
     public static final Color URANIUM_238_LABEL_COLOR = Color.YELLOW;
     
-    // Color for label used for the Uranium 235 nucleus.
+    // Color for label used for the Uranium 239 nucleus.
     public static final Color URANIUM_239_LABEL_COLOR = Color.WHITE;
-    
-    // Color for label used for the Krypton 92 nucleus.
-    public static final Color KRYPTON_LABEL_COLOR = Color.YELLOW;
-    
-    // Color for label used for the Barium 141 nucleus.
-    public static final Color BARIUM_LABEL_COLOR = Color.CYAN;
     
     //----------------------------------------------------------------------------
     // Images
