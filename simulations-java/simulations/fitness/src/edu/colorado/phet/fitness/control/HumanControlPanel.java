@@ -3,6 +3,7 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -31,6 +32,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private Human human;
     private HumanSlider bodyFat;
     private LinearValueControl[] hs;
+    private ArrayList listeners = new ArrayList();
 
     public HumanControlPanel( final FitnessModel model, final Human human ) {
         this.model = model;
@@ -43,16 +45,48 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), "Age", FitnessStrings.AGE_FORMAT.toPattern(), "years" );
         add( age );
+
         age.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setAge( FitnessUnits.yearsToSeconds( age.getValue() ) );
             }
         } );
+
+        //todo: find a more elegant way to decide when to reset the chart regions
         human.addListener( new Human.Adapter() {
             public void ageChanged() {
                 age.setValue( FitnessUnits.secondsToYears( human.getAge() ) );
             }
         } );
+        age.getTextField().addKeyListener( new KeyAdapter() {
+            public void keyReleased( KeyEvent e ) {
+                notifyAgeManuallyChanged();
+            }
+        } );
+        age.getTextField().addActionListener( new ActionListener(){
+            public void actionPerformed( ActionEvent e ) {
+                notifyAgeManuallyChanged();
+            }
+        } );
+        age.getTextField().addFocusListener( new FocusListener() {
+            public void focusGained( FocusEvent e ) {
+            }
+
+            public void focusLost( FocusEvent e ) {
+                notifyAgeManuallyChanged();
+            }
+        } );
+        age.getSlider().addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                notifyAgeManuallyChanged();
+            }
+        } );
+        age.getSlider().addMouseMotionListener( new MouseMotionAdapter() {
+            public void mouseDragged( MouseEvent e ) {
+                notifyAgeManuallyChanged();
+            }
+        } );
+        
 
         //todo: factor out slider that accommodates units
         final double minHeight = 1;
@@ -314,6 +348,20 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 }
             } );
 
+        }
+    }
+
+    public static interface Listener {
+        void ageManuallyChanged();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyAgeManuallyChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).ageManuallyChanged();
         }
     }
 }

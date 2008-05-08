@@ -95,6 +95,10 @@ public class CaloriePanel extends PNode {
         exerciseNode.addEditorClosedListener(actionListener);
     }
 
+    public void clearAndResetDomains() {
+        chartNode.clearAndResetDomains();
+    }
+
     public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {
         public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable, String image, Color textColor ) {
             super( name, paint, variable.getValue(), FitnessResources.getImage( image ), textColor );
