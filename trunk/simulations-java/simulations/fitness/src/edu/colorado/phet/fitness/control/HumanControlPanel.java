@@ -52,12 +52,13 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        //todo: find a more elegant way to decide when to reset the chart regions
         human.addListener( new Human.Adapter() {
             public void ageChanged() {
                 age.setValue( FitnessUnits.secondsToYears( human.getAge() ) );
             }
         } );
+
+        //todo: find a more elegant way to decide when to reset the chart regions
         age.getTextField().addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
                 notifyAgeManuallyChanged();
