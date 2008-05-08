@@ -115,7 +115,9 @@ public class FitnessModule extends PiccoloModule {
             final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, "Start the simulation" );
             fitnessClock.addClockListener( new ClockAdapter() {
                 public void clockStarted( ClockEvent clockEvent ) {
-                    getDefaultHelpPane().remove( motionHelpBalloon );
+                    if ( getDefaultHelpPane().getLayer().indexOfChild( motionHelpBalloon ) >= 0 ) {
+                        getDefaultHelpPane().remove( motionHelpBalloon );
+                    }
                 }
             } );
             motionHelpBalloon.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
