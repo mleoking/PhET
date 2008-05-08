@@ -162,6 +162,7 @@ public class Glacier extends ClockAdapter {
     
     /**
      * Gets the spacing used between x-axis sample points.
+     * This is the optimal dx to use when requesting ice thickness values.
      * 
      * @return meters
      */
@@ -247,17 +248,6 @@ public class Glacier extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the ice thickness samples.
-     * Samples were made from MIN_X to the terminus, at intervals of DX.
-     * Use getMinX, getTerminus, and getDX to interpret these samples.
-     * 
-     * @return
-     */
-    public double[] getIceThicknessSamples() {
-        return _iceThicknessSamples;
-    }
-    
-    /**
      * Gets the ice thickness at an x coordinate.
      * <p>
      * This method provides an approximate result, the accuracy of
@@ -292,9 +282,6 @@ public class Glacier extends ClockAdapter {
     
     /*
      * Updates the ice for the current ELA.
-     * 
-     * @param ela
-     * @return double[] ice thickness samples, meters
      */
     private void updateIce() {
         

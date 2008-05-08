@@ -5,8 +5,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- don't make ice thickness grid visible in glacier model interface?
-- computation of geometry for surface below ELA uses a different algorithm than cross-section and surface
 - replace Glacier._surfaceAtSteadyStateELA with something cleaner?
 - add framework that allows tools to delete themselves? (eg, flag crushed by glacier)
 - make advancing glaciers delete flags that are on valley floor
@@ -89,6 +87,9 @@ CLEANUP:
 
 
 DONE:
+5/8/08 - reduce number of calls to Glacier.getSurfaceElevation in IceNode
+5/8/08 - use same method of computation and precision for all geometry in IceNode
+5/8/08 - remove ice thickness grid from public interface of Glacier model
 5/8/08 - switch to double precision for computing geometry of surface below ELA
 5/8/08 - make tools shrink to the center of the trash can
 ******** 0.00.17 (21262)
