@@ -28,7 +28,6 @@ public class TrashCanIconNode extends AbstractToolIconNode {
                 if ( event.getPickedNode() instanceof AbstractToolNode ) {
                     final AbstractToolNode toolNode = (AbstractToolNode) event.getPickedNode();
                     if ( isInTrash( toolNode ) ) {
-//                        toolProducer.removeTool( toolNode.getTool() );
                         deleteTool( toolNode, toolProducer );
                     }
                 }
@@ -62,7 +61,6 @@ public class TrashCanIconNode extends AbstractToolIconNode {
     
     public void removeManagedNode( AbstractToolNode node ) {
         node.removeInputEventListener( _trashHandler );
-        //TODO add animation of tool node being trashed (PActivity?)
     }
     
     /*
