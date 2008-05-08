@@ -5,7 +5,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- tool dragged to trash needs to shrink towards trash can in all cases
 - divide ice into separate shapes for above and below the ELA
 - don't make ice thickness grid visible in glacier model interface?
 - replace Glacier._surfaceAtSteadyStateELA with something cleaner?
@@ -14,6 +13,9 @@ HIGH PRIORITY:
 - morph or move ice textures to show downvalley motion (how to do this? different points in texture have different velocities!)
 - visual representation of snowfall
 - create framework for specifying drag-&-drop constraints for tools
+- add moving glyphs to ice surface to show motion
+- use solid colors for ice surface and cross-section
+- add 3D model and pseudo-3D view for debris that moves in/on glacier
 
 MEDIUM PRIORITY:
 - change cursor to universal "no" symbol when tools are at an illegal drop location
@@ -87,6 +89,7 @@ CLEANUP:
 
 
 DONE:
+5/8/08 - make tools shrink to the center of the trash can
 ******** 0.00.17 (21262)
 5/6/08 - first pass at making tools that are dropped in trash disappear by shrinking them
 5/6/08 - write test program demonstrating use of PActivity to shrink tools that are dropped in trash
