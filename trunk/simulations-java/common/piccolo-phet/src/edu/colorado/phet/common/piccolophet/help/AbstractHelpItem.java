@@ -54,7 +54,6 @@ public abstract class AbstractHelpItem extends PNode {
     private JComponent _helpPane; // the parent help pane
     private IFollower _follower; // tracks the position of some object
     private boolean _enabled; // whether this help item is enabled, see setEnabled
-    private Timer timer;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -239,56 +238,6 @@ public abstract class AbstractHelpItem extends PNode {
     }
 
     /**
-     * Animates this help item towards the specified JComponent at the specified speed.  The animation ceases
-     * when the help item is close to the target JComponent.
-     *
-     * @param component the JComponent to move towards.
-     * @param speed     the speed at which to move
-     */
-    public void animateTo( JComponent component, final double speed ) {
-        if ( _follower != null ) {
-            _follower.setFollowEnabled( false );
-        }
-        _follower = new JComponentFollower( this, component ) {
-            /* Turns following on and off. */
-            public void setFollowEnabled( boolean enabled ) {
-                super.setFollowEnabled( enabled );
-                if ( enabled ) {
-                    if ( timer != null ) {
-                        timer.stop();
-                    }
-                    timer = new Timer( 30, new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            updatePosition();
-                        }
-                    } );
-                    timer.start();
-                }
-            }
-
-            /* Synchronizes position. */
-            public void updatePosition() {
-                AbstractHelpItem _helpItem = super.getHelpItem();
-                if ( _helpItem.getVisible() ) {
-                    Point2D target = _helpItem.mapLocation( super.getComponent() );
-                    Point2D source = _helpItem.getOffset();
-                    Vector2D.Double vec = new Vector2D.Double( source, target );
-                    if ( source.distance( target ) > speed ) {
-                        Point2D newLoc = vec.getInstanceOfMagnitude( speed ).getDestination( source );
-                        _helpItem.setOffset( newLoc );
-                    }
-                    else {
-                        if ( timer != null ) {
-                            timer.stop();
-                        }
-                    }
-                }
-            }
-        };
-        _follower.setFollowEnabled( _enabled );
-    }
-
-    /**
      * Makes the help item point at JComponent embedded in a PSwing on a PCanvas.
      * Responsibility for following the JComponent is delegated
      * to an EmbeddedJComponentFollower.
@@ -407,7 +356,7 @@ public abstract class AbstractHelpItem extends PNode {
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private interface IFollower {
+    public interface IFollower {
 
         /**
          * Turns following on and off.
@@ -437,7 +386,7 @@ public abstract class AbstractHelpItem extends PNode {
      * @author Chris Malley (cmalley@pixelzoom.com)
      * @version $Revision$
      */
-    private static class JComponentFollower implements IFollower, ComponentListener {
+    public static class JComponentFollower implements IFollower, ComponentListener {
 
         private AbstractHelpItem _helpItem;
         private JComponent _component;
@@ -742,5 +691,13 @@ public abstract class AbstractHelpItem extends PNode {
             }
             _watchList.clear();
         }
+    }
+
+    public IFollower getFollower() {
+        return _follower;
+    }
+
+    protected void setFollower( IFollower follower) {
+        this._follower = follower;
     }
 }
