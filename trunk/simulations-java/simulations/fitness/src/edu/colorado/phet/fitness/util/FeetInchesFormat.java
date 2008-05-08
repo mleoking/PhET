@@ -13,7 +13,7 @@ public class FeetInchesFormat extends NumberFormat {
     private DecimalFormat format = new DecimalFormat( "0" );
 
     public Number parse( String source, ParsePosition parsePosition ) {
-        StringTokenizer st = new StringTokenizer( source.substring( parsePosition.getIndex() ), "'\" " );
+        StringTokenizer st = new StringTokenizer( source.substring( parsePosition.getIndex() ), "'\" /" );
         parsePosition.setIndex( source.length() );
         if ( st.countTokens() == 0 ) {
             return new Long( 0 );
