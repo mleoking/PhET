@@ -2,7 +2,7 @@
 <!-- This file is named HEADER so that it will appear at the top of a browser's directory listing. -->
 <p>
 <big><big><b>
-soluble salts 1.03.01
+soluble salts 1.04.00
 </b></big></big>
 <p>
 <b>Click to run English versions:</b>
@@ -13,6 +13,7 @@ soluble salts 1.03.01
 <b>What's new:</b>
 <p>
 <ul>
+<li>same as dev version 1.03.01
 <li>PhetDefaultFont fixes in common code
 <li>add PhetLookAndFeel to main
 </ul>
