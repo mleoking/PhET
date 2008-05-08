@@ -382,6 +382,10 @@ public class Human {
         notifyFatPercentChanged();
     }
 
+    public void clearMassData() {
+        mass.clear();
+    }
+
     public static class Gender {
         public static Gender MALE = new Gender( "male", 4, 40 );
         public static Gender FEMALE = new Gender( "female", 10, 40 );
