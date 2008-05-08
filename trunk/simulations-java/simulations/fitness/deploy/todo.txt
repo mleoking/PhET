@@ -1,5 +1,3 @@
-Sometimes the weight graph doesn't clear all data lines on reset.
-
 High Priority:
 
 Crashes on mac, see email

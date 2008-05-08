@@ -244,6 +244,8 @@ public class ChartNode extends PNode {
 
     private void clearData() {
         massVar.clear();
+        //todo: remove the need for this workaround
+        model.getHuman().clearMassData();
         calBurnVar.clear();
         calIntakeVar.clear();
     }
