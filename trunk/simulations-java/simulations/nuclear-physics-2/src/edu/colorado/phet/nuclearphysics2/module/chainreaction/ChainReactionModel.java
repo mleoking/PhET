@@ -309,7 +309,6 @@ public class ChainReactionModel {
                     // We were unable to find a spot for this nucleus.
                     continue;
                 }
-                // TODO: JPB TBD - Need to either create a different nucleus or refactor FissionOneNucleus.
                 AtomicNucleus nucleus = new Uranium235Nucleus(_clock, position, 0);
                 nucleus.setDynamic( false );
                 _u235Nuclei.add(nucleus);

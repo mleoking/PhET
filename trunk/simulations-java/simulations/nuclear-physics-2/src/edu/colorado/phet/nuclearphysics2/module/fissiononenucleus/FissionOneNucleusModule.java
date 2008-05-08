@@ -7,6 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics2.defaults.ChainReactionDefaults;
 import edu.colorado.phet.nuclearphysics2.defaults.FissionOneNucleusDefaults;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 
@@ -68,27 +69,8 @@ public class FissionOneNucleusModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-
-        // Clock
-        /* TODO: JPB TBD - Need to implement real reset functionality - stubbed for now.
-        NuclearPhysics2Clock clock = _model.getClock();
-        clock.setDt( ExampleDefaults.CLOCK_DT );
-        setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
-        */
-
-        // ExampleNode
-        /*
-        ExampleNode exampleNode = _canvas.getExampleNode();
-        exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
-        exampleNode.setPosition( exampleModelElement.getPosition() );
-        exampleNode.setOrientation( exampleModelElement.getOrientation() );
-        */
-
-        // Control panel settings
-        /*
-        ExampleSubPanel subPanel = _controlPanel.getExampleSubPanel();
-        subPanel.setPosition( exampleModelElement.getPositionReference() );
-        subPanel.setOrientation( exampleModelElement.getOrientation() );
-        */
+        // Reset the clock, which ultimately resets the model too.
+        _model.getClock().resetSimulationTime();
+        setClockRunningWhenActive( ChainReactionDefaults.CLOCK_RUNNING );
     }
 }
