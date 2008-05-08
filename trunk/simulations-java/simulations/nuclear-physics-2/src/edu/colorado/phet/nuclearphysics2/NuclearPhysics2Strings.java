@@ -34,6 +34,10 @@ public class NuclearPhysics2Strings {
     public static final String URANIUM_235_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Uranium235Graphic.Number" );
     public static final String URANIUM_235_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Uranium235Label" );
 
+    public static final String URANIUM_236_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Uranium236Graphic.Symbol" );
+    public static final String URANIUM_236_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Uranium236Graphic.Number" );
+    public static final String URANIUM_236_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Uranium236Label" );
+
     public static final String URANIUM_238_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Uranium238Graphic.Symbol" );
     public static final String URANIUM_238_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Uranium238Graphic.Number" );
     public static final String URANIUM_238_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.Uranium238Label" );
