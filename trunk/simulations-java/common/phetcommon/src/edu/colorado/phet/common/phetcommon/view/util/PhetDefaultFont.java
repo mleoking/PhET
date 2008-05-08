@@ -145,26 +145,24 @@ public class PhetDefaultFont extends Font {
     
     public static void main( String[] args ) {
         
-        System.out.println( "Our current choice for FALLBACK_FONT..." );
-        System.out.println( FALLBACK_FONT );
+        System.out.println( "Java " + System.getProperty( "java.version" ) + ", " +
+             System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ));
         
-        System.out.println();
-        System.out.println( "Other alternatives we've tried..." );
+        System.out.println( "Our current choice for FALLBACK_FONT..." );
+        System.out.println( "> " + FALLBACK_FONT );
+        
+        System.out.println( "Alternatives we've tried..." );
         
         // Mac: creates a Java font that doesn't look good
-        // Win: ?
-        System.out.println( new Font( "Lucida Sans", Font.PLAIN, 12 ) );
+        System.out.println( "> " + new Font( "Lucida Sans", Font.PLAIN, 12 ) );
         
         // Mac: creates an Apple-specific font that looks good, but is larger than Windows default font
-        // Win: ?
-        System.out.println( new JTextField().getFont() );
+        System.out.println( "> " + new JTextField().getFont() );
         
         // Mac: creates an Apple-specific font, and we have control over style and size
-        // Win: ?
-        System.out.println( new JTextField().getFont().deriveFont( Font.PLAIN, 12f ) );
+        System.out.println( "> " + new JTextField().getFont().deriveFont( Font.PLAIN, 12f ) );
         
         // Mac: creates a Java font that doesn't look good
-        // Win: ?
-        System.out.println( new Font( new JTextField().getFont().getName(), Font.PLAIN, 12 ) );
+        System.out.println( "> " + new Font( new JTextField().getFont().getName(), Font.PLAIN, 12 ) );
     }
 }
