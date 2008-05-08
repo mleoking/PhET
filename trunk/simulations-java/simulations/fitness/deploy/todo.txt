@@ -1,3 +1,45 @@
+I'm having trouble making sense out of this. It appears that if I add weight
+my BMR increases tremendously.  I thought BMR does not increase unless
+muscle mass increases.  Then I see that adding to my weight does not change
+my body fat.  That seems very strange to me.  Shouldn't that be a
+calculation of my weight and height with a slight scaling due to the
+muscular slider? The way it's set up, adding to a person's weight
+immediately causes calorie burn to compensate and they get lose weight
+immediately. This does not match my understanding.
+
+At the meeting let's talk about the amount of exercises that are available.
+I think maybe 6 -10 should be up front but then provide an advanced library
+or something to access the rest. It's overwhelming right now.  Same thing
+with the food.
+
+I think you can do without the per day label on all the foods.  One label
+for the box could say Base Diet per day. Then all the rest will be obvious.
+
+"Grocery Store & Restaurants"  could say "individual items"
+
+"Diet" could say "Food for the day" or something straight forward. Diet
+means eating less so you can lose weight to most people.
+
+I wanted to click on the food item or description rather than the add
+button. Can you change the interface to something like that.  That would
+clean up this box a bit as well.
+
+Add a done button at the top of the diet and exercise boxes.
+
+I don't think the next month button is working right.
+
+The muscular scale says non on the right.  What should it say?
+
+I'd put the question mark box about BMI next to the BMI readout down below.
+That is not what I expected to find next to the heart.
+
+Changing my guy from male to female didn't seem to change anything.
+
+
+Ok, I'm starting to get to things that will take more time. My biggest
+concern is the body fat indicator not changing as your guy gets fatter or
+you set his weight really high.
+
 High Priority:
 
 Crashes on mac, see email
