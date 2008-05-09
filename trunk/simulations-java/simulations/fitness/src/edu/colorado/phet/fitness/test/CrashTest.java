@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.control.CaloricItem;
@@ -43,6 +44,7 @@ public class CrashTest {
     private CaloricFoodItem[] foodList;
     private CaloricItem[] exerciseList;
     private ArrayList test = new ArrayList();
+    private ImageFrame imageFrame = new ImageFrame();
 
     public CrashTest() {
         frame = new JFrame( "Mac Crash Test" );
@@ -51,6 +53,7 @@ public class CrashTest {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
 
+        imageFrame.setSize( 200,768 );
 
         test.add( new Test( "Test Button" ) {
             public boolean runTest() {
@@ -78,12 +81,20 @@ public class CrashTest {
                 for ( int i = 0; i < exerciseList.length; i++ ) {
                     test.add( new ItemTest( exerciseList[i] ) );
                 }
+                for ( int i = 0; i < foodList.length; i++ ) {
+                    test.add( new ShowItemTest( imageFrame, foodList[i] ) );
+                }
+                for ( int i = 0; i < exerciseList.length; i++ ) {
+                    test.add( new ShowItemTest( imageFrame, exerciseList[i] ) );
+                }
                 return super.runTest();
             }
         } );
 
 
     }
+
+
 
     public static void main( String[] args ) {
         new CrashTest().start();
@@ -169,6 +180,44 @@ public class CrashTest {
                 addMessage( "no image" );
             }
             return super.runTest();
+        }
+    }
+
+    private class ShowItemTest extends ItemTest {
+        private ImageFrame frame;
+        private CaloricItem item;
+
+        public ShowItemTest( ImageFrame frame, CaloricItem caloricFoodItem ) {
+            super( caloricFoodItem );
+            this.frame = frame;
+            this.item = caloricFoodItem;
+        }
+
+        public boolean runTest() {
+            frame.setVisible( true );
+            boolean superT = super.runTest();
+            if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
+                BufferedImage image = BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), 30 );
+                frame.addImage( image );
+                addMessage( "displayed image dim=" + image.getWidth() + " x " + image.getHeight() );
+            }
+            else {
+                addMessage( "no image to display" );
+            }
+            return super.runTest();
+        }
+    }
+
+    private class ImageFrame extends JFrame {
+        private VerticalLayoutPanel panel;
+
+        private ImageFrame() {
+            panel = new VerticalLayoutPanel();
+            setContentPane( new JScrollPane( panel ) );
+        }
+
+        public void addImage( BufferedImage image ) {
+            panel.add( new JLabel( new ImageIcon( image ) ) );
         }
     }
 }
