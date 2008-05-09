@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
-import edu.colorado.phet.glaciers.view.MountainsAndValleyNode;
 
 /**
  * Thermometer is the model of a thermometer.

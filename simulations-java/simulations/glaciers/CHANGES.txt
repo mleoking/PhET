@@ -85,6 +85,7 @@ CLEANUP:
 
 
 DONE:
+5/9/08 - organize imports
 5/9/08 - make ice thickness tool display "?" while it's being dragged
 ******* 0.00.19 (21308)
 5/9/08 - add drop constraints for all other tools
