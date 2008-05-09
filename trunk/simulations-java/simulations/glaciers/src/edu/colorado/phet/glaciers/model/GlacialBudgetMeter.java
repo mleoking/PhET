@@ -56,10 +56,6 @@ public class GlacialBudgetMeter extends AbstractTool {
         _listeners = new ArrayList();
     }
     
-    public void cleanup() {
-        super.cleanup();
-    }
-    
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
