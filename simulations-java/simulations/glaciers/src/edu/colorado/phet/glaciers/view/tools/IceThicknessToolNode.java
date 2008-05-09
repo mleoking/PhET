@@ -16,7 +16,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IceThicknessTool;
+import edu.colorado.phet.glaciers.model.AbstractTool.ToolListener;
 import edu.colorado.phet.glaciers.model.IceThicknessTool.IceThicknessToolListener;
+import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
+import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.DownToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
@@ -44,6 +47,8 @@ public class IceThicknessToolNode extends AbstractToolNode {
     
     private IceThicknessTool _iceThicknessTool;
     private IceThicknessToolListener _iceThicknessToolListener;
+    private MovableListener _movableListener;
+    private ToolListener _toolListener;
     private JLabel _iceThicknessDisplay;
 
     //----------------------------------------------------------------------------
@@ -56,10 +61,24 @@ public class IceThicknessToolNode extends AbstractToolNode {
         _iceThicknessTool = iceThicknessTool;
         _iceThicknessToolListener = new IceThicknessToolListener() {
             public void thicknessChanged() {
-                updateThickness();
+                update();
             }
         };
         _iceThicknessTool.addIceThicknessToolListener( _iceThicknessToolListener );
+        
+        _movableListener = new MovableAdapter() {
+            public void positionChanged() {
+                update();
+            }
+        };
+        _iceThicknessTool.addMovableListener( _movableListener );
+        
+        _toolListener = new ToolListener() {
+            public void draggingChanged() {
+                update();
+            }
+        };
+        _iceThicknessTool.addToolListener( _toolListener );
         
         PNode arrowNode = new DownToolOriginNode();
         addChild( arrowNode );
@@ -79,10 +98,13 @@ public class IceThicknessToolNode extends AbstractToolNode {
         panelNode.setOffset( imageNode.getFullBoundsReference().getMaxX() + 2, imageNode.getFullBoundsReference().getMinY() );
         
         // initial state
-        updateThickness();
+        update();
     }
     
     public void cleanup() {
+        _iceThicknessTool.removeIceThicknessToolListener( _iceThicknessToolListener );
+        _iceThicknessTool.removeMovableListener( _movableListener );
+        _iceThicknessTool.removeToolListener( _toolListener );
         super.cleanup();
     }
     
@@ -91,13 +113,23 @@ public class IceThicknessToolNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the ice thickness display to match the model.
+     * Updates the tool to match the model.
      */
-    private void updateThickness() {
-        double value = _iceThicknessTool.getThickness();
-        String text = ICE_THICKNESS_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ICE_THICKNESS;
-        _iceThicknessDisplay.setText( text );
+    private void update() {
         
-        //TODO: open/close the calipers to match the ice thickness, align with ice
+        if ( _iceThicknessTool.isDragging() ) {
+            String text = "? " + GlaciersStrings.UNITS_ICE_THICKNESS;
+            _iceThicknessDisplay.setText( text );
+            
+            //TODO: calipers should be in neutral state while dragging
+        }
+        else {
+            double value = _iceThicknessTool.getThickness();
+            String text = ICE_THICKNESS_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ICE_THICKNESS;
+            _iceThicknessDisplay.setText( text );
+            
+            //TODO: open/close the calipers to match the ice thickness, align with ice
+        }
+
     }
 }
