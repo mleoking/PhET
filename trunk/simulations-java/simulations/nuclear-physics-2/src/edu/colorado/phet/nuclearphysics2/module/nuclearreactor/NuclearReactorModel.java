@@ -16,6 +16,7 @@ import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
 import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
+import edu.colorado.phet.nuclearphysics2.model.Uranium238Nucleus;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -74,10 +75,12 @@ public class NuclearReactorModel {
     private NuclearPhysics2Clock _clock;
     private ArrayList _listeners;
     private ArrayList _u235Nuclei;
+    private ArrayList _u238Nuclei;
     private ArrayList _daughterNuclei;
     private ArrayList _freeNeutrons;
     private ArrayList _controlRods;
     private ArrayList _reactionChamberRects;
+    private Rectangle2D _innerReactorRect;
     private Random _rand = new Random();
     
     //------------------------------------------------------------------------
@@ -108,6 +111,7 @@ public class NuclearReactorModel {
         // Allocate the array lists that we will need.
         _listeners            = new ArrayList();
         _u235Nuclei           = new ArrayList();
+        _u238Nuclei           = new ArrayList();
         _daughterNuclei       = new ArrayList();
         _freeNeutrons         = new ArrayList();
         _reactionChamberRects = new ArrayList(NUMBER_OF_REACTION_CHAMBERS);
@@ -134,6 +138,13 @@ public class NuclearReactorModel {
                 _controlRods.add( controlRod );
             }
         }
+        
+        // Create a rectangle that represents the inner boundary of the
+        // reactor.  This is used to test when particles have effectively gone
+        // outside the bounds of the reactor.
+        _innerReactorRect = new Rectangle2D.Double(REACTOR_POSITION.getX() + REACTOR_WALL_WIDTH,
+                REACTOR_POSITION.getY() + REACTOR_WALL_WIDTH, OVERALL_REACTOR_WIDTH - (2 * REACTOR_WALL_WIDTH),
+                OVERALL_REACTOR_HEIGHT - (2 * REACTOR_WALL_WIDTH));
     }
     
     //------------------------------------------------------------------------
@@ -142,10 +153,6 @@ public class NuclearReactorModel {
 
     public ConstantDtClock getClock(){
         return _clock;
-    }
-    
-    public int getNumU235Nuclei(){
-        return _u235Nuclei.size();
     }
     
     public double getReactorWallWidth(){
@@ -172,16 +179,6 @@ public class NuclearReactorModel {
      */
     public ArrayList getControlRodsReference(){
         return _controlRods;
-    }
-    
-    /**
-     * Get a reference to the array of Uranium 235 nuclei maintained by this
-     * model.
-     * 
-     * @return
-     */
-    public ArrayList getU235NucleiReference(){
-        return _u235Nuclei;
     }
     
     //------------------------------------------------------------------------
@@ -303,25 +300,37 @@ public class NuclearReactorModel {
      */
     public void reset(){
 
-        // Get rid of all the existing nuclei and free nucleons.
-        int i;
-        
+        int i, numNuclei;
+
+        // Remove the free neutrons from the model and the view.
         for (i = 0; i < _freeNeutrons.size(); i++){
             notifyModelElementRemoved( _freeNeutrons.get( i ) );
         }
-        _freeNeutrons.removeAll( _freeNeutrons );
+        _freeNeutrons.clear();
         
-        for (i = 0; i < _u235Nuclei.size(); i++){
+        // Remove the U235 nuclei from the model.
+        numNuclei = _u235Nuclei.size();
+        for (i = 0; i < numNuclei; i++){
             notifyModelElementRemoved( _u235Nuclei.get( i ) );
             ((AtomicNucleus)_u235Nuclei.get( i )).removedFromModel();
         }
-        _u235Nuclei.removeAll( _u235Nuclei );
+        _u235Nuclei.clear();
         
-        for (i = 0; i < _daughterNuclei.size(); i++){
+        // Remove the U238 nuclei from the model.
+        numNuclei = _u238Nuclei.size();
+        for (i = 0; i < numNuclei; i++){
+            notifyModelElementRemoved( _u238Nuclei.get( i ) );
+            ((AtomicNucleus)_u238Nuclei.get( i )).removedFromModel();
+        }
+        _u238Nuclei.clear();
+        
+        // Remove the daughter nuclei from the model and the view.
+        numNuclei = _daughterNuclei.size();
+        for (i = 0; i < numNuclei; i++){
             notifyModelElementRemoved( _daughterNuclei.get( i ) );
             ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
         }
-        _daughterNuclei.removeAll( _daughterNuclei );
+        _daughterNuclei.clear();
         
         // Set ourself back to the original state.  The first step is to see
         // how many nuclei can fit in each chamber and their relative
@@ -333,7 +342,11 @@ public class NuclearReactorModel {
         int numNucleiDown =
             (int)(((reactionChamberHeight - (2 * MIN_DISTANCE_FROM_NUCLEI_TO_WALLS)) / MIN_INTER_NUCLEI_DISTANCE) + 1);
         
-        // Add the nuclei to each chamber.
+        // Add the U235 and U238 nuclei to each chamber.  Note that the U238
+        // nuclei are present to moderate the reaction, but the educators have
+        // requested that they don't appear visually to the user since this
+        // makes the reactor look too cluttered, so they are not added to the
+        // view.
         Point2D nucleusPosition = new Point2D.Double();
         for (i = 0; i < _reactionChamberRects.size(); i++){
             
@@ -341,20 +354,31 @@ public class NuclearReactorModel {
             double xStartPos = reactionChamberRect.getX() + MIN_DISTANCE_FROM_NUCLEI_TO_WALLS;
             double yStartPos = reactionChamberRect.getY() + MIN_DISTANCE_FROM_NUCLEI_TO_WALLS;
             
-            for (int j = 0; j < numNucleiAcross; j++){
+            for (int j = 0; j < numNucleiDown; j++){
                 
-                for (int k = 0; k < numNucleiDown; k++){
+                for (int k = 0; k < numNucleiAcross; k++){
                     
-                    nucleusPosition.setLocation( xStartPos + (j * MIN_INTER_NUCLEI_DISTANCE), 
-                            yStartPos + (k * MIN_INTER_NUCLEI_DISTANCE) );
-                    Uranium235Nucleus nucleus = new Uranium235Nucleus(_clock, nucleusPosition, 0);
-                    _u235Nuclei.add( nucleus );
-                    nucleus.addListener( new Uranium235Nucleus.Adapter(){
+                    // Add the U235 nucleus.
+                    nucleusPosition.setLocation( xStartPos + (k * MIN_INTER_NUCLEI_DISTANCE), 
+                            yStartPos + (j * MIN_INTER_NUCLEI_DISTANCE) );
+                    Uranium235Nucleus u235Nucleus = new Uranium235Nucleus(_clock, nucleusPosition, 0);
+                    _u235Nuclei.add( u235Nucleus );
+                    u235Nucleus.addListener( new Uranium235Nucleus.Adapter(){
                         public void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
                                 ArrayList byProducts){
                             handleU235AtomicWeightChange( atomicNucleus, numProtons, numNeutrons, byProducts );
                         }
                     });
+                    
+                    // Add the U238 nucleus.  We don't need to listen for
+                    // changes to atomic weight.  These exist primarily to
+                    // moderate the overall reaction.
+                    if (k < numNucleiAcross - 1){
+                        nucleusPosition.setLocation( xStartPos + ((k + 0.5) * MIN_INTER_NUCLEI_DISTANCE), 
+                                yStartPos + ((j + 0.5) * MIN_INTER_NUCLEI_DISTANCE) );
+                        Uranium238Nucleus u238Nucleus = new Uranium238Nucleus(_clock, nucleusPosition);
+                        _u238Nuclei.add( u238Nucleus );
+                    }
                 }
             }
         }
@@ -369,8 +393,9 @@ public class NuclearReactorModel {
      * @return An ArrayList containing references to the nuclei in the model.
      */
     public ArrayList getNuclei(){
-        ArrayList nucleiList = new ArrayList(_u235Nuclei.size() + _daughterNuclei.size());
+        ArrayList nucleiList = new ArrayList(_u235Nuclei.size() + _u238Nuclei.size() + _daughterNuclei.size());
         nucleiList.addAll( _u235Nuclei );
+        nucleiList.addAll( _u238Nuclei );
         nucleiList.addAll( _daughterNuclei );
         return nucleiList;
     }
@@ -397,19 +422,18 @@ public class NuclearReactorModel {
         int numFreeNeutrons = _freeNeutrons.size();
         for (int i = numFreeNeutrons - 1; i >= 0; i--){
             Nucleon freeNucleon = (Nucleon)_freeNeutrons.get( i );
-            assert freeNucleon instanceof Nucleon; // Only neutrons are expected in this model.
+            assert freeNucleon instanceof Nucleon; // Only neutrons are expected to be free in this model.
             boolean particleAbsorbed = false;
             
             // Move the neutron.
             freeNucleon.translate();
             
-            // Check if the particle has gone outside of the reactor and, if
-            // so, remove it from the model.
-            if (!(getReactorRect().contains( freeNucleon.getPositionReference()))){
-                // Particle is out of bounds, so blow it away.
-                notifyModelElementRemoved( freeNucleon );
-                _freeNeutrons.remove( i );
-                continue;
+            // Check if the particle has gone outside the bounds of the
+            // reactor and, if so, remove it from the model.
+            if (!(_innerReactorRect.contains( freeNucleon.getPositionReference()))){
+                // Particle is outside the bounds of the reactor, so consider
+                // it to be absorbed by the wall.
+                particleAbsorbed = true;
             }
             
             // Check if the particle has been absorbed by a control rod and, if
@@ -418,19 +442,29 @@ public class NuclearReactorModel {
             for (int j = 0; (j < numControlRods) && (particleAbsorbed == false); j++){
                 ControlRod controlRod = (ControlRod)_controlRods.get( j );
                 if (controlRod.particleAbsorbed( freeNucleon )){
-                    // The particle is absorbed, so delete it from the model.
-                    notifyModelElementRemoved( freeNucleon );
-                    _freeNeutrons.remove( i );
-                    continue;
+                    // The particle is absorbed by the control rod.
+                    particleAbsorbed = true;
+                }
+            }
+            
+            // Check if any of the free particles have collided with a U238
+            // nucleus.
+            int numU238Nuclei = _u238Nuclei.size();
+            for (int j = 0; (j < numU238Nuclei) && (particleAbsorbed == false); j++){
+                AtomicNucleus nucleus = (AtomicNucleus)_u238Nuclei.get( j );
+                if (freeNucleon.getPositionReference().distance( nucleus.getPositionReference() ) <=
+                    nucleus.getDiameter() / 2)
+                {
+                    // The particle is within capture range - see if the nucleus can capture it.
+                    particleAbsorbed = nucleus.captureParticle( freeNucleon );
                 }
             }
 
-            // Check if any of the free particles have collided with a nucleus
-            // and, if so, give the nucleus the opportunity to absorb the
-            // neutron (and possibly fission as a result).
-            particleAbsorbed = false;
-            int numNuclei = _u235Nuclei.size();
-            for (int j = 0; (j < numNuclei) && (particleAbsorbed == false); j++){
+            // Check if any of the free particles have collided with a U235
+            // nucleus and, if so, give the nucleus the opportunity to absorb
+            // the neutron (and possibly fission as a result).
+            int numU235Nuclei = _u235Nuclei.size();
+            for (int j = 0; (j < numU235Nuclei) && (particleAbsorbed == false); j++){
                 AtomicNucleus nucleus = (AtomicNucleus)_u235Nuclei.get( j );
                 if (freeNucleon.getPositionReference().distance( nucleus.getPositionReference() ) <=
                     nucleus.getDiameter() / 2)
