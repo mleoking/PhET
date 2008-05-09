@@ -38,19 +38,12 @@ public class TracerFlag extends AbstractTool {
     //----------------------------------------------------------------------------
     // AbstractTool overrides
     //----------------------------------------------------------------------------
-    
-    public void setDragging( boolean dragging ) {
-        super.setDragging( dragging );
-        if ( dragging == false ) {
-            constrainDrag();
-        }
-    }
-    
+
     /*
-     * If the flag is above or below the ice, snap it to the ice.
-     * If there is no ice, the flag will snap to the valley floor.
+     * If the tool is above or below the ice, snap it to the ice.
+     * If there is no ice, the tool will snap to the valley floor.
      */
-    private void constrainDrag() {
+    protected void constrainDrop() {
         double surfaceElevation = _glacier.getSurfaceElevation( getX() );
         if ( getY() > surfaceElevation ) {
             setPosition( getX(), surfaceElevation );

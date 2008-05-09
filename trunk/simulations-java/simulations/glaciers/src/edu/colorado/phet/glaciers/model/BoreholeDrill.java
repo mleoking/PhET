@@ -29,4 +29,16 @@ public class BoreholeDrill extends AbstractTool {
     public void cleanup() {
         super.cleanup();
     }
+    
+    //----------------------------------------------------------------------------
+    // AbstractTool overrides
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Always snap to the ice surface.
+     */
+    protected void constrainDrop() {
+        double surfaceElevation = _glacier.getSurfaceElevation( getX() );
+        setPosition( getX(), surfaceElevation );
+    }
 }

@@ -85,7 +85,7 @@ public abstract class AbstractModel implements IToolProducer {
     }
     
     public Thermometer addThermometer( Point2D position ) {
-        Thermometer tool = new Thermometer( position, getClimate() );
+        Thermometer tool = new Thermometer( position, getGlacier() );
         addTool( tool );
         return tool;
     }
