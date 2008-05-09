@@ -1,9 +1,10 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class SimSubmitContribution extends SitePage {
+class SimSubmitContributionPage extends SitePage {
 
     function update() {
         $result = parent::update();
@@ -102,7 +103,7 @@ class SimSubmitContribution extends SitePage {
         db_insert_row("temporary_partial_contribution_track", $row_data);
 
         $sims_page    = "\"$sim_url\"";
-        $this->edit_contrib = "../teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;sim_id=$sim_id&amp;referrer=$sims_page";
+        $this->edit_contrib = "{$this->prefix}teacher_ideas/edit-contribution.php?contribution_id=$contribution_id&amp;sim_id=$sim_id&amp;referrer=$sims_page";
 
         // Immediately redirect to contribution editing page:
         $this->meta_refresh("{$this->edit_contrib}", 0);
@@ -129,7 +130,7 @@ class SimSubmitContribution extends SitePage {
 
 }
 
-$page = new SimSubmitContribution("Submit Contribution from Simulation Page", NAV_SIMULATIONS, null);
+$page = new SimSubmitContributionPage("Submit Contribution from Simulation Page", NAV_SIMULATIONS, null);
 $page->update();
 $page->render();
 

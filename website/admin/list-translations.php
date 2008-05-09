@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class ListTranslationsPage extends SitePage {
@@ -122,9 +123,10 @@ class ListTranslationsPage extends SitePage {
 
         flush();
     }
+
 }
 
-$page = new ListTranslationsPage("List Translations", NAV_SIMULATIONS, null, SP_AUTHLEVEL_NONE, false);
+$page = new ListTranslationsPage("List Translations", NAV_SIMULATIONS, null, AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

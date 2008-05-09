@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class JavaScriptTroubleshootingPage extends SitePage {
@@ -53,13 +54,13 @@ class JavaScriptTroubleshootingPage extends SitePage {
                 /* ]]> */
             </script>
 
-            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q2" >Why is JavaScript needed?</h3>
 
             <p>JavaScript is used with many features on the website, including filtering routines and allowing for multiple inputs of data.  Howevery, many pages will work fine without JavaScript enabled.</p>
 
-            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q3" >How do I enable JavaScript on Firefox?</h3>
 
@@ -70,7 +71,7 @@ class JavaScriptTroubleshootingPage extends SitePage {
                 <li>Reload this page, and see <a href="#q1">question 1</a></li>
             </ol>
 
-            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q4" >How do I enable JavaScript on Internet Explorer?</h3>
 
@@ -85,30 +86,31 @@ class JavaScriptTroubleshootingPage extends SitePage {
                 <li>Reload the page (you can check if it worked by reading <a href="#q1">this question</a>)</li>
             </ol>
 
-            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q5" >How do I enable JavaScript on Safari?</h3>
 
             <p>Coming soon...</p>
 
-            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
 <!--
             <h3 id="q6" >Q6?</h3>
 
             <p>A6</p>
 
-            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q7" >Q7?</h3>
 
             <p>A7</p>
 
-            <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 -->
 
 EOT;
     }
+
 }
 
 $page = new JavaScriptTroubleshootingPage("Troubleshooting JavaScript", NAV_TECH_SUPPORT, null);

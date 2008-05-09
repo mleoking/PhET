@@ -1,7 +1,9 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
+include_once(SITE_ROOT."admin/referring-statistics.php");
 
 class ViewStatisticsPage extends SitePage {
 
@@ -119,7 +121,7 @@ EOT;
                 $contribution = contribution_get_contribution_by_id($contribution_id);
 
                 $title      = format_string_for_html($contribution['contribution_title']);
-                $title_html = "<a href=\"../teacher_ideas/edit-contribution.php?contribution_id=$contribution_id\">$title</a>";
+                $title_html = "<a href=\"{$this->prefix}teacher_ideas/edit-contribution.php?contribution_id=$contribution_id\">$title</a>";
 
                 $desc  = $descs[$contribution_id];
 
@@ -132,9 +134,10 @@ EOT;
             print "<p>No contributions have been nominated as Gold Star contributions.</p>";
         }
     }
+
 }
 
-$page = new ViewStatisticsPage("View Statistics", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new ViewStatisticsPage("View Statistics", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

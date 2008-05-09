@@ -1,17 +1,18 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class AddComment extends SitePage {
+class AddCommentPage extends SitePage {
+
     function update() {
         $result = parent::update();
         if (!$result) {
             return $result;
         }
 
-        $contributor = contributor_get_contributor_by_username(auth_get_username());
-        $contributor_id = $contributor["contributor_id"];
+        $contributor_id = $this->user["contributor_id"];
         if (isset($_REQUEST['contribution_id']) && isset($contributor_id) && isset($_REQUEST['contribution_comment_text'])) {
             if (!isset($_REQUEST['contribution_id']) ||
                 !isset($_REQUEST['contribution_comment_text'])) {
@@ -25,7 +26,7 @@ class AddComment extends SitePage {
 
             cache_clear_teacher_ideas();
 
-            $this->meta_refresh($this->referrer, 0);
+            $this->meta_refresh($this->referrer, 3);
         }
     }
 
@@ -34,17 +35,24 @@ class AddComment extends SitePage {
         if (!$result) {
             return $result;
         }
+
         if (!isset($this->id)) {
             print "<p>There was an error.  Please go back and try again.</p>\n";
         }
         else {
-            BasePage::render_redirect();
+            print <<<EOT
+            <h2>Success</h2>
+            <p>You have successfully updated the comment.</p>
+            <p>You will be redirected <a href="{$this->referrer}">here</a> in 3 seconds.</p>
+
+EOT;
+            return true;
         }
     }
 
 }
 
-$page = new AddComment("Add Comment", NAV_TEACHER_IDEAS, get_referrer(), SP_AUTHLEVEL_USER);
+$page = new AddCommentPage("Add Comment", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

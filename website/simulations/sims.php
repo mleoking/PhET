@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 include_once(SITE_ROOT."teacher_ideas/browse-utils.php");
 
@@ -11,10 +12,6 @@ class IndividualSimulationPage extends SitePage {
         if (!$result) {
             return $result;
         }
-
-        // Get the user info
-        $this->contributor = contributor_get_contributor_by_username(auth_get_username());
-        $this->contributor_is_team_member = $this->contributor["contributor_is_team_member"];
 
         $this->simulation = null;
         if (!isset($_REQUEST['sim'])) {
@@ -53,7 +50,7 @@ class IndividualSimulationPage extends SitePage {
         }
 
         if ($sim_type == SIM_TYPE_FLASH) {
-            $gen_flash_page = "../admin/gen-flash-page.php?flash={$this->sim_launch_url}&amp;title={$sim_name}";
+            $gen_flash_page = "{$this->prefix}admin/gen-flash-page.php?flash={$this->sim_launch_url}&amp;title={$sim_name}";
 
             $this->on_click_html = 'onclick="javascript:open_limited_window(\''.$gen_flash_page.'\',\'simwindow\'); return false;"';
         }
@@ -147,7 +144,7 @@ class IndividualSimulationPage extends SitePage {
         }
 
         if ($sim_type == SIM_TYPE_FLASH) {
-            $gen_flash_page = "../admin/gen-flash-page.php?flash=$sim_launch_url&amp;title=$sim_name";
+            $gen_flash_page = "{$this->prefix}admin/gen-flash-page.php?flash=$sim_launch_url&amp;title=$sim_name";
 
             $on_click_html = 'onclick="javascript:open_limited_window(\''.$gen_flash_page.'\',\'simwindow\'); return false;"';
         }
@@ -190,9 +187,9 @@ EOT;
                     <span class="promote" title="If you like this simulation, please consider sharing it with others by submitting it to Digg or StumbleUpon">
                             share sim:
 
-                            <a href="{$digg_link}"><img class="digg" src="../images/digg-thumb-10x10.gif" alt="Icon for Digg" title="Click here to submit this page to Digg" /></a>
+                            <a href="{$digg_link}"><img class="digg" src="{$this->prefix}images/digg-thumb-10x10.gif" alt="Icon for Digg" title="Click here to submit this page to Digg" /></a>
 
-                            <a href="{$stumble_link}"><img class="stumble" src="../images/stumble.gif" alt="StumbleUpon Toolbar" title="Click here to submit this page to StumbleUpon" /></a>
+                            <a href="{$stumble_link}"><img class="stumble" src="{$this->prefix}images/stumble.gif" alt="StumbleUpon Toolbar" title="Click here to submit this page to StumbleUpon" /></a>
                     </span>
                 </div>
 
@@ -267,7 +264,7 @@ EOT;
 
         if (file_or_url_exists($guide)) {
             $guide_html = <<<EOT
-                The <a href="../admin/get-upload.php?url={$sim_teachers_guide_url}">teacher's guide</a> contains tips for teachers created by the PhET team (PDF).
+                The <a href="{$this->prefix}admin/get-upload.php?url={$sim_teachers_guide_url}">teacher's guide</a> contains tips for teachers created by the PhET team (PDF).
 
 EOT;
         }
@@ -276,7 +273,7 @@ EOT;
         }
 
         print <<<EOT
-        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
+        <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to Top Image"/></a></p>
 
         <h1 class="indi-sim" id="ideas">Teaching Ideas</h1>
 
@@ -292,7 +289,7 @@ EOT;
 
 EOT;
 
-            $contributor_id = $this->contributor["contributor_id"];
+            $contributor_id = $this->user["contributor_id"];
 
             $content_only = true;
 
@@ -395,7 +392,7 @@ EOT;
         </form>
         </div>
 
-        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
+        <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to Top Image"/></a></p>
 
         <h1 class="indi-sim" id="software">Software Requirements</h1>
 
@@ -467,7 +464,7 @@ EOT;
             </table>
         </div>
 
-        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
+        <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to Top Image"/></a></p>
 
         <h1 class="indi-sim" id="versions">Translated Versions</h1>
 
@@ -502,7 +499,7 @@ EOT;
 
         print <<<EOT
 
-        <p><a href="#top"><img src="../images/top.gif" alt="Go to Top Image"/></a></p>
+        <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to Top Image"/></a></p>
 
         <h1 class="indi-sim" id="credits">Credits</h1>
 
@@ -565,8 +562,8 @@ EOT;
 
         $sim_id = $this->simulation["sim_id"];
         $sim_name = format_string_for_html($this->simulation["sim_name"]);
-        if (isset($this->contributor_is_team_member) && $this->contributor_is_team_member == '1') {
-            print "<h1 class=\"first-child\"><a href=\"../admin/edit-sim.php?sim_id={$sim_id}\" title=\"Click here to edit the simulation\">{$sim_name}</a></h1>";
+        if (isset($this->user) && ($this->user["contributor_is_team_member"] == '1')) {
+            print "<h1 class=\"first-child\"><a href=\"{$this->prefix}admin/edit-sim.php?sim_id={$sim_id}\" title=\"Click here to edit the simulation\">{$sim_name}</a></h1>";
         }
         else {
             print "<h1 class=\"first-child\"><a href=\"{$this->sim_launch_url}\" {$this->on_click_html}>{$sim_name}</a></h1>";

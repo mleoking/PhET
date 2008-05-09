@@ -5,14 +5,17 @@
 // Since I'm working on something else, this will be mostly a stud until
 // I can separate some things out.
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/BasePage.php");
+include_once(SITE_ROOT."page_templates/NavBar.php");
+include_once(SITE_ROOT."admin/authentication.php");
 
 // Required athentication levels to view the page
 // The numbers must increase so that they may be compared
-define("SP_AUTHLEVEL_NONE", 0);
-define("SP_AUTHLEVEL_USER", 1);
-define("SP_AUTHLEVEL_TEAM", 2);
+define("AUTHLEVEL_NONE", 0);
+define("AUTHLEVEL_USER", 1);
+define("AUTHLEVEL_TEAM", 2);
 
 // Value types, used to verify that desired query string info is presentt
 define("VT_NONE", 0);       // Do not check this value
@@ -33,15 +36,17 @@ class SitePage extends BasePage {
     // Default is to cache the page, this allows for an override
     private $cache_page;
 
+    private $navigation_bar;
+
     function __construct($page_title,
                          $nav_selected_page,
                          $referrer,
-                         $authentication_level = SP_AUTHLEVEL_NONE,
+                         $authentication_level = AUTHLEVEL_NONE,
                          $cache_page = true,
                          $base_title = "") {
-        assert(($authentication_level == SP_AUTHLEVEL_NONE) ||
-            ($authentication_level == SP_AUTHLEVEL_USER) ||
-            ($authentication_level == SP_AUTHLEVEL_TEAM));
+        assert(($authentication_level == AUTHLEVEL_NONE) ||
+            ($authentication_level == AUTHLEVEL_USER) ||
+            ($authentication_level == AUTHLEVEL_TEAM));
 
         // Assume the info needed is all correct
         $this->valid_info = true;
@@ -51,10 +56,17 @@ class SitePage extends BasePage {
         // Authenticate the user
         $this->user = null;
         $this->required_authentication_level = $authentication_level;
+
+        session_start();
         $this->authenticate_user();
+        cache_setup_page_name();
+        session_write_close();
+
+        // Set up the nav bar
+        $this->navigation_bar = new NavBar($this, $nav_selected_page, SITE_ROOT);
 
         // Set up the parent
-        parent::__construct($page_title, $nav_selected_page, $referrer, $base_title);
+        parent::__construct($page_title, $referrer, $base_title);
 
         // Set default site settings
 
@@ -98,16 +110,16 @@ class SitePage extends BasePage {
     function authenticate_user() {
         $user_authenticated = auth_do_validation();
         if ($user_authenticated == false) {
-            $this->authentication_level = SP_AUTHLEVEL_NONE;
+            $this->authentication_level = AUTHLEVEL_NONE;
         }
         else {
             // If someone is logged in, check if they are a team member
             $this->user = contributor_get_contributor_by_username(auth_get_username());
             if ($this->user["contributor_is_team_member"]) {
-                $this->authentication_level = SP_AUTHLEVEL_TEAM;
+                $this->authentication_level = AUTHLEVEL_TEAM;
             }
             else {
-                $this->authentication_level = SP_AUTHLEVEL_USER;
+                $this->authentication_level = AUTHLEVEL_USER;
             }
         }
 
@@ -124,14 +136,22 @@ class SitePage extends BasePage {
         }
     }
 
+    function authenticate_get_user() {
+        return $this->user;
+    }
+
+    function authenticate_get_level() {
+        return $this->authentication_level;
+    }
+
     function print_javascript_error() {
         print <<<EOT
             <h2>Error in submission</h2>
 
-            <p>Sorry, there was as error with your submission..</p>
+            <p>Sorry, there was as error with your submission.</p>
 
             <p>JavaScript is not enabled.</p>
-            <p>You must have JavaScript enabled to submit information to PhET.  For directions on how to check this, <a href="../tech_support/support-javascript.php  ">go here</a>.</p>
+            <p>You must have JavaScript enabled to submit information to PhET.  For directions on how to check this, <a href="{$this->prefix}tech_support/support-javascript.php  ">go here</a>.</p>
 
 EOT;
     }
@@ -241,6 +261,20 @@ EOT;
 EOT;
     }
 
+    function open_xhtml_body() {
+        parent::open_xhtml_body();
+
+        print <<<EOT
+        <div id="content">
+            <div class="main">
+
+EOT;
+    }
+
+    function render_navigation_bar() {
+        $this->navigation_bar->render();
+    }
+
     function render_content() {
         // Make sure the authentication level is at least what is required to see this page
         if ($this->authenticate_user_is_authorized()) {
@@ -256,7 +290,7 @@ EOT;
         }
 
         // Handle mismatch between the required and actual authentication level
-        if ($this->authentication_level == SP_AUTHLEVEL_NONE) {
+        if ($this->authentication_level == AUTHLEVEL_NONE) {
             // Need to login
             print_login_and_new_account_form("", "", $this->referrer);
             return FALSE;
@@ -287,6 +321,34 @@ EOT;
         if ($this->cache_page) {
             cache_auto_end();
         }
+    }
+
+    function get_login_panel() {
+        $php_self = $_SERVER['REQUEST_URI'];
+
+        // Don't require authentication, but do it if the cookies are available:
+        $contributor_authenticated = $this->authenticate_get_level() != AUTHLEVEL_NONE;
+
+        if (!$contributor_authenticated) {
+            $cooked_php_self = htmlspecialchars($php_self);
+            $utility_panel_html = <<<EOT
+            <a href="{$this->prefix}teacher_ideas/login-and-redirect.php?url=$cooked_php_self">Login / Register</a>
+
+EOT;
+        }
+        else {
+            $contributor = $this->user;
+            $contributor_name = $contributor['contributor_name'];
+
+            $formatted_php_self = format_string_for_html($php_self);
+
+            $utility_panel_html = <<<EOT
+            Welcome <a href="{$this->prefix}teacher_ideas/user-edit-profile.php">{$contributor_name}</a> - <a href="{$this->prefix}teacher_ideas/user-logout.php?url={$formatted_php_self}">Logout</a>
+
+EOT;
+        }
+
+        return $utility_panel_html;
     }
 
 }

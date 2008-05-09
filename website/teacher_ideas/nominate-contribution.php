@@ -1,8 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
-
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class NominateContributionPage extends SitePage {
@@ -13,10 +12,6 @@ class NominateContributionPage extends SitePage {
             return $result;
         }
 
-        if (!auth_user_validated()) {
-            return;
-        }
-
         if (!isset($_REQUEST['contribution_id']) ||
             !isset($_REQUEST['contribution_nomination_desc'])) {
             return false;
@@ -25,7 +20,13 @@ class NominateContributionPage extends SitePage {
         $this->contribution_id = $_REQUEST['contribution_id'];
         $contribution_nomination_desc = $_REQUEST['contribution_nomination_desc'];
 
-        $this->success = nominate_contribution($this->contribution_id, $contribution_nomination_desc);
+        $this->success = nominate_contribution($this->contribution_id,
+                                               $contribution_nomination_desc,
+                                               $this->user["contributor_id"]);
+
+        if ($this->success) {
+            $this->meta_refresh($this->referrer, 5);
+        }
     }
 
     function print_nomination_success() {
@@ -39,6 +40,8 @@ class NominateContributionPage extends SitePage {
             <p>If PhET determines the contribution meets Gold Star criteria, the contribution will receive a Gold Star.</p>
 
 EOT;
+
+        $this->render_redirect();
     }
 
     function render_content() {
@@ -54,9 +57,10 @@ EOT;
             print "<p>There was an error, please go back and try again.</p>\n";
         }
     }
+
 }
 
-$page = new NominateContributionPage("Nominate Contribution", NAV_TEACHER_IDEAS, null, SP_AUTHLEVEL_USER);
+$page = new NominateContributionPage("Nominate Contribution", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

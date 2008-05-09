@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 include_once(SITE_ROOT."admin/research-utils.php");
 
@@ -72,7 +73,7 @@ EOT;
 
             $can_edit = false;
 
-            if ($this->authentication_level >= SP_AUTHLEVEL_TEAM) {
+            if ($this->authentication_level >= AUTHLEVEL_TEAM) {
                 $can_edit = true;
             }
 
@@ -135,6 +136,7 @@ EOT;
 EOT;
             }
     }
+
 }
 
 $page = new ResearchPage("Research", NAV_RESEARCH, null);

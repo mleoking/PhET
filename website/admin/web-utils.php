@@ -1,4 +1,5 @@
 <?php
+
     include_once("sys-utils.php");
 
     function web_get_real_path($path) {
@@ -29,6 +30,10 @@
 
     function force_redirect($url, $timeout = 0, $die = true) {
         print "<meta http-equiv=\"Refresh\" content=\"$timeout;url=$url\">";
+    }
+
+    function force_header_redirect($url) {
+        header("Location: ".$url);
     }
 
     // function url_exists($url) {

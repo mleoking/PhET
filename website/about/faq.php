@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class FAQPage extends SitePage {
@@ -28,6 +29,7 @@ class FAQPage extends SitePage {
 
 EOT;
     }
+
 }
 
 $page = new FAQPage("FAQ", NAV_ABOUT_PHET, null);

@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 include_once(SITE_ROOT."admin/newsletter-utils.php");
 
@@ -21,7 +22,7 @@ class NewsPage extends SitePage {
         print <<<EOT
             <h2>Subscribe to Newsletter</h2>
 
-            <p>The best way to learn about changes to the PhET simulations or website is to <a href="../teacher_ideas/subscribe-newsletter.php">subscribe to PhET newsletters</a>, distributed approximately four times per year.</p>
+            <p>The best way to learn about changes to the PhET simulations or website is to <a href="{$this->prefix}teacher_ideas/subscribe-newsletter.php">subscribe to PhET newsletters</a>, distributed approximately four times per year.</p>
 
             <p>You may unsubscribe from the newsletters at any time.</p>
 
@@ -71,6 +72,7 @@ EOT;
                 }
             }
     }
+
 }
 
 $page = new NewsPage("News", NAV_ABOUT_PHET, null);

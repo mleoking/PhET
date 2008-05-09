@@ -1,6 +1,9 @@
 <?php
 
-include_once("../admin/global.php");
+// Administrative control panel page
+
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class AdminControlPanelPage extends SitePage {
@@ -59,7 +62,7 @@ EOT;
 
 }
 
-$page = new AdminControlPanelPage("PhET Administration Control Panel", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new AdminControlPanelPage("PhET Administration Control Panel", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

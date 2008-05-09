@@ -1,9 +1,10 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class ManageContributors extends SitePage {
+class ManageContributorsPage extends SitePage {
 
     function do_update() {
         $contributor_id = $_REQUEST['contributor_id'];
@@ -133,9 +134,10 @@ EOT2;
 
         $this->print_contributors();
     }
+
 }
 
-$page = new ManageContributors("Manage Contributors", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new ManageContributorsPage("Manage Contributors", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

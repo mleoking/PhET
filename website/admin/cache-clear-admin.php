@@ -5,6 +5,7 @@
     //    the simulations, the teacher_ideas, and the base site
     //
 
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
     include_once("cache-clear-utils.php");
 
     function clear_cache_activitiesdb() {
@@ -21,7 +22,7 @@
 EOD;
 
         // Clear the admin cache(s)
-        cache_clear_explicit('../admin', true, 'Administrative cache');
+        cache_clear_explicit(SITE_ROOT.'admin/', true, 'Administrative cache');
 
         // Print a nice XHTML footer
         print <<<EOD
@@ -31,4 +32,5 @@ EOD;
     }
 
     clear_cache_activitiesdb();
+
 ?>

@@ -1,14 +1,16 @@
 <?php
 
-    include_once("../admin/global.php");
-    
+    // Called from Javascript for AJAX stuff
+
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+    include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/contrib-utils.php");
 
     if (isset($_REQUEST['q'])) {
         $name_prefix = $_REQUEST['q'];
-    
+
         $contributors = contributor_get_all_contributors();
-    
+
         foreach($contributors as $contributor) {
             $contributor_name = $contributor['contributor_name'];
 
@@ -18,4 +20,5 @@
             }
         }
     }
+
 ?>

@@ -1,6 +1,7 @@
 <?php
 
-    include_once("../admin/global.php");
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+    include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/db.php");
     include_once(SITE_ROOT."admin/db-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");
@@ -27,9 +28,7 @@
         return count(get_all_nominations_for_contribution($contribution_id));
     }
 
-    function nominate_contribution($contribution_id, $contribution_nomination_desc) {
-        $contributor_id = contributor_get_id_from_contributor_username(auth_get_username());
-
+    function nominate_contribution($contribution_id, $contribution_nomination_desc, $contributor_id) {
         if (is_contribution_nominated_by($contribution_id, $contributor_id)) {
             return true;
         }
@@ -93,4 +92,5 @@
 
         return $contrib_to_descs;
     }
+
 ?>

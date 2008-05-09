@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class OrganizeCategoriesPage extends SitePage {
@@ -48,6 +49,12 @@ class OrganizeCategoriesPage extends SitePage {
             else if ($action == "rename") {
                 $this->do_rename($cat_id, $cat_name);
             }
+            else {
+                // undefined action, ignore
+                return;
+            }
+
+            cache_clear_simulations();
         }
     }
 
@@ -178,7 +185,7 @@ EOT;
 
 }
 
-$page = new OrganizeCategoriesPage("Organize Categories", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new OrganizeCategoriesPage("Organize Categories", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

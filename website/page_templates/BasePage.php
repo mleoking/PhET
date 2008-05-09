@@ -1,7 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
-include_once(SITE_ROOT."admin/site-utils.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."teacher_ideas/referrer.php");
 
 define("WEBSITE_BASE_TITLE", "PhET :: Physics Education Technology at CU Boulder");
@@ -50,6 +50,8 @@ class BasePage {
     // description.
     private $css_container_name;
 
+    protected $prefix;
+
     /**
      * BasePage constructor
      *
@@ -57,14 +59,9 @@ class BasePage {
      * @param $base_title string[optional] base tile of the website
      */
     function __construct($page_title = "",
-                         $nav_selected_page,
                          $referrer = null,
                          $base_title = WEBSITE_BASE_TITLE) {
-        assert(selected_page_is_valid($nav_selected_page));
-
         $this->set_title($page_title, $base_title);
-
-        $this->nav_selected_page = $nav_selected_page;
 
         // Setup the content
         $this->content = array();
@@ -101,7 +98,7 @@ class BasePage {
         }
 
         // Prefix to the base directory
-        $this->prefix = "..";
+        $this->set_prefix();
 
         $this->css_container_name = "container";
     }
@@ -134,7 +131,7 @@ class BasePage {
      *
      * @param $prefix string[optional] relative path prefix to the root directory
      */
-    function set_prefix($prefix = "..") {
+    function set_prefix($prefix = SITE_ROOT) {
         $this->prefix = $prefix;
     }
 
@@ -323,7 +320,7 @@ EOT;
         if (count($this->stylesheets) > 0) {
             $styles = array();
             foreach ($this->stylesheets as $stylesheet) {
-                $styles[] = "@import url({$this->prefix}/{$stylesheet});";
+                $styles[] = "@import url({$this->prefix}{$stylesheet});";
             }
 
             $rendered_styles = join("\n            ", $styles);
@@ -341,12 +338,12 @@ EOT;
         if (count($this->javascript_files) > 0) {
             $script_files = array();
             foreach ($this->javascript_files as $javascript_file) {
-                $script_files[] = '<script type="text/javascript" src="'.$this->prefix.'/'.$javascript_file.'"></script>';
+                $script_files[] = '<script type="text/javascript" src="'.$this->prefix.$javascript_file.'"></script>';
             }
             $rendered_script_files = join("\n    ", $script_files);
             print <<<EOT
     <!-- compliance patch for microsoft browsers -->
-    <!--[if lt IE 7]><script src="{$this->prefix}/js/ie7/ie7-standard-p.js" type="text/javascript"></script><![endif]-->
+    <!--[if lt IE 7]><script src="{$this->prefix}js/ie7/ie7-standard-p.js" type="text/javascript"></script><![endif]-->
     {$rendered_script_files}
 
 EOT;
@@ -395,8 +392,6 @@ EOT;
      *
      */
     function open_xhtml_body() {
-        $prefix = "..";
-
         $referrer = "";
         if (!is_null($this->referrer)) {
             $formatted_referrer = format_string_for_html($this->referrer);
@@ -413,14 +408,14 @@ EOT;
         <div id="headerContainer">
             <div class="images">
                 <div class="logo">
-                    <a href="{$this->prefix}/index.php"><img src="$prefix/images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
+                    <a href="{$this->prefix}index.php"><img src="{$this->prefix}images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
                 </div>
 
                 <div class="title">
-                    <img src="$prefix/images/logo-title.jpg" alt="Physics Education Technology - University of Colorado, Boulder" title="Physics Education Technology - University of Colorado, Boulder" />
+                    <img src="{$this->prefix}images/logo-title.jpg" alt="Physics Education Technology - University of Colorado, Boulder" title="Physics Education Technology - University of Colorado, Boulder" />
 
                     <div id="quicksearch">
-                        <form method="post" action="{$this->prefix}/simulations/search.php">
+                        <form method="get" action="{$this->prefix}simulations/search.php">
                             <fieldset>
                                 <span>Search</span>
                                 <input type="text" size="15" name="search_for" title="Enter the text to search for" class="always-enabled" />
@@ -440,13 +435,7 @@ EOT;
 
 EOT;
 
-        print_navigation_bar($this->nav_selected_page, $prefix);
-
-        print <<<EOT
-        <div id="content">
-            <div class="main">
-
-EOT;
+        $this->render_navigation_bar();
     }
 
     /**
@@ -454,8 +443,7 @@ EOT;
      *
      */
     function close_xhtml_body() {
-        $prefix = "..";
-        $utility_panel_html = get_sitewide_utility_html($prefix);
+        $utility_panel_html = $this->get_login_panel();
 
         print <<<EOT
                         </div>
@@ -567,6 +555,14 @@ EOT;
     }
 
     /**
+     * Render the navigation bar.  Meant to be overridden in subclasses.
+     *
+     */
+    function render_navigation_bar() {
+        // No navigation bar in the base class, should be overridden
+    }
+
+    /**
      * Render the content of the page.  Will print the login / new account form if the login is required.
      *
      * @return bool FALSE if login required and the user isn't validated
@@ -627,6 +623,19 @@ EOT;
         $this->close_xhtml_body();
 
         $this->close_xhtml();
+    }
+
+
+    //
+    // Misc functions
+    //
+
+    /**
+     * Get the panel that is displayed showing login status, or link to login page.  Meant to be overridden.
+     *
+     */
+    function get_login_panel() {
+        return "";
     }
 
 }

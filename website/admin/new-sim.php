@@ -1,9 +1,11 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class NewSimulation extends SitePage {
+class NewSimulationPage extends SitePage {
+
     function update() {
         $result = parent::update();
         if (!$result) {
@@ -16,9 +18,10 @@ class NewSimulation extends SitePage {
 
         $this->meta_refresh("edit-sim.php?sim_id=$sim_id", 0);
     }
+
 }
 
-$page = new NewSimulation("New Simulations", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new NewSimulationPage("New Simulations", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

@@ -5,6 +5,7 @@
     //    the simulations, the teacher_ideas, and the base site
     //
 
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
     include_once("cache-clear-utils.php");
 
     function clear_cache_all() {
@@ -21,10 +22,10 @@
 EOD;
 
         // Clear all the caches
-        cache_clear_explicit('..', true, 'Base website cache');
-        cache_clear_explicit('../simulations', true, 'Simulations cache');
-        cache_clear_explicit('../teacher_ideas', true, 'Teacher activities cache');
-        cache_clear_explicit('../admin', true, 'Administrative cache');
+        cache_clear_explicit(SITE_ROOT, true, 'Base website cache');
+        cache_clear_explicit(SITE_ROOT.'simulations/', true, 'Simulations cache');
+        cache_clear_explicit(SITE_ROOT.'teacher_ideas/', true, 'Teacher activities cache');
+        cache_clear_explicit(SITE_ROOT.'admin/', true, 'Administrative cache');
 
         // Print a nice XHTML footer
         print <<<EOD
@@ -34,4 +35,5 @@ EOD;
     }
 
     clear_cache_all();
+
 ?>

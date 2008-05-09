@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class SimulationLauncherPage extends SitePage {
@@ -13,7 +14,7 @@ class SimulationLauncherPage extends SitePage {
 
         print <<<EOT
             <p>
-                Click on the name of any simulation to download the simulation to your computer. To run the simulation, double-click it. If you have difficulties, please see our <a href="../tech_support/index.php">technical support</a> page.
+                Click on the name of any simulation to download the simulation to your computer. To run the simulation, double-click it. If you have difficulties, please see our <a href="{$this->prefix}tech_support/index.php">technical support</a> page.
             </p>
 
             <p>
@@ -46,6 +47,7 @@ EOT;
 
 EOT;
     }
+
 }
 
 $page = new SimulationLauncherPage("Launch Sim One at a Time", NAV_GET_PHET, null);

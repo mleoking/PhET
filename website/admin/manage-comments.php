@@ -1,9 +1,11 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class ManageCommentsPage extends SitePage {
+
     function update() {
         $result = parent::update();
         if (!$result) {
@@ -37,8 +39,8 @@ class ManageCommentsPage extends SitePage {
             $comment_info_html["comment_author"] = format_string_for_html($row["contributor_name"]);
             $comment_info_html["comment_updated"] = format_string_for_html($row["contribution_comment_updated"]);
             $comment_info_html["controls"] =
-                "<a href=\"".SITE_ROOT."teacher_ideas/edit-comment.php?comment_id={$row["contribution_comment_id"]}&amp;referrer=../admin/manage-comments.php\">edit</a><br />".
-                "<a href=\"".SITE_ROOT."teacher_ideas/delete-comment.php?comment_id={$row["contribution_comment_id"]}&amp;referrer=../admin/manage-comments.php\">delete</a><br />".
+                "<a href=\"".SITE_ROOT."teacher_ideas/edit-comment.php?comment_id={$row["contribution_comment_id"]}&amp;referrer={$this->prefix}admin/manage-comments.php\">edit</a><br />".
+                "<a href=\"".SITE_ROOT."teacher_ideas/delete-comment.php?comment_id={$row["contribution_comment_id"]}&amp;referrer={$this->prefix}admin/manage-comments.php\">delete</a><br />".
                 "<a href=\"".SITE_ROOT."admin/manage-comments.php?delete_comment_id={$row["contribution_comment_id"]}\">delete&nbsp;now</a>";
 
             $this->comments_array_html[] = $comment_info_html;
@@ -106,9 +108,10 @@ EOT;
 
 EOT;
     }
+
 }
 
-$page = new ManageCommentsPage("Manage Comments", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new ManageCommentsPage("Manage Comments", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

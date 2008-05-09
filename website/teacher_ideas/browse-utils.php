@@ -1,6 +1,9 @@
 <?php
 
-    include_once("../admin/global.php");
+    // See comment in browse.php for a terse explaination about what is going on here.
+
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+    include_once(SITE_ROOT."admin/global.php");
 
     define("UP_ARROW",       SITE_ROOT."images/sorting-uarrow.gif");
     define("DOWN_ARROW",     SITE_ROOT."images/sorting-darrow.gif");

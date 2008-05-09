@@ -1,6 +1,13 @@
 <?php
 
-    include_once("../admin/global.php");
+    // Many pages in the teacher ideas use a variable passed called "referrer" to tell which page to
+    // go back to after an operation is complete.  For example, when a contribution is deleted, the
+    // delete-contribution page is loaded, and after an timeout (via a meta redirect) it is directed
+    // back to whatever page had the "delete" command posted to it.  I've tried to maitain this
+    // behavior as I've been refactoring many of these pages, but it has been awkward and may have
+    // affected the referring page tracker.  It does work, though.
+
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../"); include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/web-utils.php");
 
     /**

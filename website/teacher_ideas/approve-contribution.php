@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class ApproveContributionPage extends SitePage {
@@ -38,7 +39,7 @@ EOT;
 
 }
 
-$page = new ApproveContributionPage("Approve Contribtuion", NAV_TEACHER_IDEAS, get_referrer("../teacher_ideas/manage-contributions.php"), SP_AUTHLEVEL_TEAM);
+$page = new ApproveContributionPage("Approve Contribtuion", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT."teacher_ideas/manage-contributions.php"), AUTHLEVEL_TEAM);
 $page->update();
 $page->render();
 

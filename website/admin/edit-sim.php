@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class EditSimPage extends SitePage {
@@ -186,9 +187,10 @@ EOT;
             <div>*Separated by commas or asterisks. Asterisk separation has precedence over comma separation.</div>
 EOT;
     }
+
 }
 
-$page = new EditSimPage("Edit Simulation Parameters", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new EditSimPage("Edit Simulation Parameters", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

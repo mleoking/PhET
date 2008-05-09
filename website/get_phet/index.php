@@ -1,9 +1,10 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class GetPhetPage extends SitePage {
+class GetPhETPage extends SitePage {
 
     function render_content() {
         $result = parent::render_content();
@@ -39,15 +40,15 @@ class GetPhetPage extends SitePage {
                         <th scope="row" abbr="" class="specalt-none"></th>
 
                         <th scope="row" abbr="" class="specalt-none">
-                            <p><a href="../simulations/index.php"><img src="../images/button-clickhere.jpg" alt="Click here"/></a></p>
+                            <p><a href="{$this->prefix}simulations/index.php"><img src="{$this->prefix}images/button-clickhere.jpg" alt="Click here"/></a></p>
                         </th>
 
                         <th scope="row" abbr="" class="specalt-none">
-                            <p><a href="../get_phet/full_install.php"><img src="../images/button-clickhere.jpg"  alt="Click here"/></a></p>
+                            <p><a href="{$this->prefix}get_phet/full_install.php"><img src="{$this->prefix}images/button-clickhere.jpg"  alt="Click here"/></a></p>
                         </th>
 
                         <th scope="row" abbr="" class="specalt-none">
-                            <p><a href="../get_phet/simlauncher.php"><img src="../images/button-clickhere.jpg"  alt="Click here"/></a></p>
+                            <p><a href="{$this->prefix}get_phet/simlauncher.php"><img src="{$this->prefix}images/button-clickhere.jpg"  alt="Click here"/></a></p>
                         </th>
                     </tr>
                 
@@ -56,9 +57,9 @@ class GetPhetPage extends SitePage {
 
                         <th scope="row" abbr="" class="specalt"><p>Click on the simulation icon on the web page of the simulation you want to run.</p></th>
 
-                        <th scope="row" abbr="" class="specalt"><p><a href="../get_phet/full_install.php">Click here</a> to go to the download page.</p></th>
+                        <th scope="row" abbr="" class="specalt"><p><a href="{$this->prefix}get_phet/full_install.php">Click here</a> to go to the download page.</p></th>
 
-                        <th scope="row" abbr="" class="specalt"><p><a href="../get_phet/simlauncher.php">Click here</a> to go to the all-simulations download page.</p></th>
+                        <th scope="row" abbr="" class="specalt"><p><a href="{$this->prefix}get_phet/simlauncher.php">Click here</a> to go to the all-simulations download page.</p></th>
                     </tr>
 
                     <tr>
@@ -115,9 +116,10 @@ class GetPhetPage extends SitePage {
 
 EOT;
     }
+
 }
 
-$page = new GetPhetPage("Three Ways to Run Our Free Simulations", NAV_GET_PHET, null);
+$page = new GetPhETPage("Three Ways to Run Our Free Simulations", NAV_GET_PHET, null);
 $page->update();
 $page->render();
 

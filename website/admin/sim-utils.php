@@ -1,10 +1,12 @@
 <?php
 
-    include_once("../admin/global.php");
+    // Utils to support sims
+
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+    include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/db.php");
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/db-utils.php");
-    include_once(SITE_ROOT."admin/xml_parser.php");
     include_once(SITE_ROOT."admin/cache-utils.php");
 
     define("SIM_THUMBNAIL_WIDTH", 130);
@@ -238,26 +240,26 @@
         array(
             // Beta has been removed but these must stay to match the database
             SIM_RATING_NONE         => '',
-            SIM_RATING_CHECK        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_CHECK].'"         alt="Checkmark Rating Image"     width="37" title="Classroom Tested: This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews." /></a>',
-            SIM_RATING_ALPHA        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_ALPHA].'"         alt="Alpha Rating Image"         width="37" title="Under Construction: This simulation is an early preview version, and may have functional or usability bugs." /></a>'
+            SIM_RATING_CHECK        => '<a href="'.SITE_ROOT.'about/legend.php"><img src="'.SITE_ROOT.'images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_CHECK].'"         alt="Checkmark Rating Image"     width="37" title="Classroom Tested: This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews." /></a>',
+            SIM_RATING_ALPHA        => '<a href="'.SITE_ROOT.'about/legend.php"><img src="'.SITE_ROOT.'images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_ALPHA].'"         alt="Alpha Rating Image"         width="37" title="Under Construction: This simulation is an early preview version, and may have functional or usability bugs." /></a>'
             );
 
     $SIM_TYPE_TO_IMAGE_HTML =
         array(
-            SIM_TYPE_JAVA  => '<a href="../tech_support/support-java.php"> <img src="../images/sims/ratings/'.$SIM_TYPE_TO_IMAGE[SIM_TYPE_JAVA].'" alt="Java Icon" title="This simulation is a Java simulation" /></a>',
-            SIM_TYPE_FLASH => '<a href="../tech_support/support-flash.php"><img src="../images/sims/ratings/'.$SIM_TYPE_TO_IMAGE[SIM_TYPE_FLASH].'" alt="Java Icon" title="This simulation is a Flash simulation" /></a>'
+            SIM_TYPE_JAVA  => '<a href="'.SITE_ROOT.'tech_support/support-java.php"> <img src="'.SITE_ROOT.'images/sims/ratings/'.$SIM_TYPE_TO_IMAGE[SIM_TYPE_JAVA].'" alt="Java Icon" title="This simulation is a Java simulation" /></a>',
+            SIM_TYPE_FLASH => '<a href="'.SITE_ROOT.'tech_support/support-flash.php"><img src="'.SITE_ROOT.'images/sims/ratings/'.$SIM_TYPE_TO_IMAGE[SIM_TYPE_FLASH].'" alt="Java Icon" title="This simulation is a Flash simulation" /></a>'
         );
 
-    define("SIM_NO_MAC_IMAGE", '../images/sims/ratings/no-mac25x25.png');
-    define("SIM_CRUTCH_IMAGE", '../images/sims/ratings/crutch25x25.png');
+    define("SIM_NO_MAC_IMAGE", SITE_ROOT.'images/sims/ratings/no-mac25x25.png');
+    define("SIM_CRUTCH_IMAGE", SITE_ROOT.'images/sims/ratings/crutch25x25.png');
 
-    define("FROM_PHET_IMAGE_HTML", '<a href="../about/legend.php"><img src="../images/phet-logo-icon.jpg" alt="Designed by PhET Icon" title="PhET Designed: This contribution was designed by PhET." /></a>');
+    define("FROM_PHET_IMAGE_HTML", '<a href="'.SITE_ROOT.'about/legend.php"><img src="'.SITE_ROOT.'images/phet-logo-icon.jpg" alt="Designed by PhET Icon" title="PhET Designed: This contribution was designed by PhET." /></a>');
 
     define("SIM_NO_MAC_IMAGE_HTML",
-            "<a href=\"../about/legend.php\"><img src=\"".SIM_NO_MAC_IMAGE."\" alt=\"No Mac\" title=\"Not supported on Mac\"/></a>");
+            "<a href=\"".SITE_ROOT."about/legend.php\"><img src=\"".SIM_NO_MAC_IMAGE."\" alt=\"No Mac\" title=\"Not supported on Mac\"/></a>");
 
     define("SIM_CRUTCH_IMAGE_HTML",
-        "<a href=\"../about/legend.php\"><img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" width=\"37\" title=\"Guidance Recommended: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.\"/></a>");
+        "<a href=\"".SITE_ROOT."about/legend.php\"><img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" width=\"37\" title=\"Guidance Recommended: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.\"/></a>");
 
     define("SIM_THUMBNAILS_CACHE",      "thumbnails");
     define("SIM_TRANSLATIONS_CACHE", "translations");
@@ -294,10 +296,10 @@
 
         $icon_name = strtolower($language_name).'-'.strtolower($language_code).'.png';
 
-        $icon_location = "../images/languages/$icon_name";
+        $icon_location = SITE_ROOT."images/languages/$icon_name";
 
         if ($is_vertical) {
-            $vertical_icon_location = "../images/languages/vertical-$icon_name";
+            $vertical_icon_location = SITE_ROOT."images/languages/vertical-$icon_name";
 
             if (!file_exists($vertical_icon_location)) {
                 $source = imagecreatefrompng($icon_location);
@@ -363,7 +365,7 @@
 
         $translations = array();
 
-        $launch_file_base_dir = realpath(dirname(__FILE__)."/../../sims");
+        $launch_file_base_dir = realpath(dirname(__FILE__)."/".PORTAL_ROOT."sims");
 
         foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $language_name) {
             $translated_flavorname = "${flavorname}_${code}";
@@ -464,7 +466,7 @@
     function sim_get_url_to_sim_page_by_sim_name($sim_name) {
         $sim_encoding = web_encode_string($sim_name);
 
-        return "../simulations/sims.php?sim=$sim_encoding";
+        return SITE_ROOT."simulations/sims.php?sim=$sim_encoding";
     }
 
     function sim_get_url_to_sim_page($sim_id) {
@@ -538,7 +540,7 @@
         else {
             $class_html = 'class="'.$class.'"';
         }
-        return '<a '.$class_html.' href="../simulations/index.php?cat='.$cat_encoding.$extra_param.'">'.$desc.'</a>';
+        return '<a '.$class_html.' href="'.SITE_ROOT.'simulations/index.php?cat='.$cat_encoding.$extra_param.'">'.$desc.'</a>';
     }
 
     function sim_get_category_url_by_cat_id($cat_id) {
@@ -789,14 +791,14 @@
 
         if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
             // Try local first
-            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.swf";
+            $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
             if (!file_exists($link)) {
                 $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}.swf";
             }
         }
         else {
             // Try local first
-            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.jar";
+            $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jar";
             if (!file_exists($link)) {
                 $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}.jar";
             }
@@ -820,14 +822,14 @@
     function sim_form_launch_url($dirname, $flavorname, $sim_type = SIM_TYPE_JAVA) {
         if ($sim_type == SIM_TYPE_FLASH) {
             // Try local first
-            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.swf";
+            $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
             if (!file_exists($link)) {
                 $link = "http://phet.colorado.edu/sims/$dirname/$flavorname.swf";
             }
         }
         else {
             // Try local first
-            $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}.jnlp";
+            $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jnlp";
             if (!file_exists($link)) {
                 $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}.jnlp";
             }
@@ -849,7 +851,7 @@
         $flavorname = $simulation['sim_flavorname'];
 
         // Try local first
-        $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}-screenshot.png";
+        $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-screenshot.png";
         if (!file_exists($link)) {
             $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}-screenshot.png";
         }
@@ -862,7 +864,7 @@
         $flavorname = $simulation['sim_flavorname'];
 
         // Try local first
-        $link = SITE_ROOT."../sims/{$dirname}/{$flavorname}-screenshot.gif";
+        $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-screenshot.gif";
         if (!file_exists($link)) {
             $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
         }
@@ -871,7 +873,7 @@
     }
 
     function sim_get_run_offline_link($simulation) {
-        return '../admin/get-run-offline.php?sim_id='.$simulation['sim_id'];
+        return SITE_ROOT.'admin/get-run-offline.php?sim_id='.$simulation['sim_id'];
     }
 
     function sim_get_select_sims_by_category_statement($cat_id) {
@@ -883,7 +885,7 @@
     }
 
     function sim_get_file_contents($resource) {
-        $new_resource = str_replace('http://phet.colorado.edu/sims/', SITE_ROOT.'../sims/', $resource);
+        $new_resource = str_replace('http://phet.colorado.edu/sims/', PORTAL_ROOT.'sims/', $resource);
 
         if (file_exists($new_resource)) return file_get_contents($new_resource);
 
