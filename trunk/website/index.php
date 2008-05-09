@@ -156,7 +156,10 @@ EOT;
             <dl>
                 <dt onclick="javascript:location.href='teacher_ideas/index.php'"><a href="teacher_ideas/index.php">Teacher Ideas &amp; Activities</a></dt>
 
-                <dd><a href="teacher_ideas/browse.php">Search for lesson plans and activities that were created by teachers to use with the PhET simulations</a></dd>
+                <dd><a href="teacher_ideas/browse.php">Search for lessons created by teachers using PhET simulations.</a></dd>
+
+                <dd><a href="teacher_ideas/workshops.php">Information about our upcoming workshops.</a></dd>
+
             </dl>
 
             <dl>

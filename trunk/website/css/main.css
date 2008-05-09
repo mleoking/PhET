@@ -1549,3 +1549,33 @@ text-decoration: underline;
     font-weight: bold;
 }
 
+
+/* Workshops */
+.workshop {
+    padding-left: 1em;
+    padding-bottom: 3em;
+}
+
+.workshop h3 {
+    font-weight: bold;
+}
+.workshop-title {
+    padding-left: 0em;
+    text-align: center;
+    font-weight: bold;
+    font-size: medium;
+}
+
+.workshop-date ul {
+    margin-top: 0px;
+    padding-left: 2em;
+}
+
+.workshop-location {
+}
+
+.workshop-downloadables {
+}
+
+.workshop-description {
+}

@@ -158,7 +158,7 @@ EOT;
         $teacher_ideas_subs = array();
 
         $teacher_ideas_subs['teacher_ideas/browse.php']                 = 'Browse';
-
+        $teacher_ideas_subs['teacher_ideas/workshops.php']              = 'Workshops';
         $teacher_ideas_subs['teacher_ideas/contribute.php']             = 'Submit an Activity';
         $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Activities';
         $teacher_ideas_subs['teacher_ideas/user-edit-profile.php']      = 'My Profile';
