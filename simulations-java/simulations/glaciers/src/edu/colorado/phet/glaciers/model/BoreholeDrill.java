@@ -26,10 +26,6 @@ public class BoreholeDrill extends AbstractTool {
         _glacier = glacier;
     }
     
-    public void cleanup() {
-        super.cleanup();
-    }
-    
     //----------------------------------------------------------------------------
     // AbstractTool overrides
     //----------------------------------------------------------------------------

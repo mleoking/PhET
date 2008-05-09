@@ -31,10 +31,6 @@ public class TracerFlag extends AbstractTool {
         _glacier = glacier;
     }
     
-    public void cleanup() {
-        super.cleanup();
-    }
-
     //----------------------------------------------------------------------------
     // AbstractTool overrides
     //----------------------------------------------------------------------------
