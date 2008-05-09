@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.17
+glaciers 0.00.18
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,12 +12,8 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>create separate geometry for ice surface below ELA
-<li>add textures to ice (cross-section, surface above ELA, surface below ELA)
-<li>make flags drop to valley floor when glacier recedes
-<li>add icons for View check boxes (equilibrium line, ice flow, coordinates)
-<li>change size of ice perspective to more closely match valley width in image
-<li>first pass at animating tools that are dropped in trash (they shrink to disappear)
+<li>tracer flag snaps to a legal position if it's dropped above or below the ice
+<li>optimizations in how ice is drawn
 </ul>
 <p>
 <b>Known problems:</b>
@@ -29,7 +25,7 @@ Click to launch English version:
 <b>Not implemented:</b>
 <ul>
 <li>ice texture doesn't move
-<li>tools have no drag constraints
+<li>some tools have no drag constraints
 <li>borehole drill doesn't work
 <li>snowfall is not visible
 <li>Advanced panel is hidden; what you see is the Basic panel.
