@@ -67,6 +67,12 @@ public class NuclearReactorModel {
     // Constants that control the behavior of fission products.
     private static final double FREED_NEUTRON_VELOCITY = 3;
     private static final double DAUGHTER_NUCLEI_SPLIT_DISTANCE = 10;
+    
+    // Constants that control the monitoring of fission events, which
+    // allow us to determine the average energy released.
+    private static final int MS_PER_FISSION_EVENT_BIN = 100;
+    private static final int NUMBER_FISSION_EVENT_BINS = 20;
+    private static final double MAX_TEMP_CHANGE_PER_TICK = 1.0;
 
     //------------------------------------------------------------------------
     // Instance data
@@ -80,6 +86,10 @@ public class NuclearReactorModel {
     private ArrayList _freeNeutrons;
     private ArrayList _controlRods;
     private ArrayList _reactionChamberRects;
+    private int       _u235FissionEventCount;
+    private int []    _fissionEventBins;
+    private int       _currentBin;
+    private double    _currentTemperature;
     private Rectangle2D _innerReactorRect;
     private Random _rand = new Random();
     
@@ -116,6 +126,10 @@ public class NuclearReactorModel {
         _freeNeutrons         = new ArrayList();
         _reactionChamberRects = new ArrayList(NUMBER_OF_REACTION_CHAMBERS);
         _controlRods          = new ArrayList(NUMBER_OF_REACTION_CHAMBERS - 1);
+        
+        // Perform other internal initialization.
+        _fissionEventBins = new int [NUMBER_FISSION_EVENT_BINS];
+        _currentBin = 0;
         
         // Create the reaction chambers (which are modeled as simple 
         // rectangles) and the control rods.
@@ -409,13 +423,17 @@ public class NuclearReactorModel {
     public ArrayList getChamberRectsReference(){
         return _reactionChamberRects;
     }
-
+    
+    public double getTemperature(){
+        return _currentTemperature;
+    }
+    
     //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
     
     private void handleClockTicked(ClockEvent clockEvent){
-
+        
         // Move any free particles that exist and check them for absorption.
         // We work from back to front to avoid any problems with removing
         // particles as we go along.
@@ -482,8 +500,53 @@ public class NuclearReactorModel {
                 notifyModelElementRemoved( freeNucleon );
             }
         }
+        
+        // Accumulate any fission events that have occurred since the last
+        // clock tick into the appropriate bin so that a moving average can
+        // be calculated.
+        int binNumber = (int)(_clock.getSimulationTime() / MS_PER_FISSION_EVENT_BIN) % NUMBER_FISSION_EVENT_BINS;
+        if (binNumber != _currentBin){
+            // We are moving to a new bin, so clear out any old data.
+            _fissionEventBins[binNumber] = 0;
+            _currentBin = binNumber;
+        }
+        _fissionEventBins[_currentBin] += _u235FissionEventCount;
+        _u235FissionEventCount = 0;
+        
+        // See if the internal temperature has changed and, if so, notify any
+        // listeners.
+        double temperature = calculateTemperature();
+        if (_currentTemperature != temperature){
+            // Adjust the temperature, but not instantaneously.
+            if (Math.abs( _currentTemperature - temperature ) < MAX_TEMP_CHANGE_PER_TICK){
+                _currentTemperature = temperature;
+            }
+            else if (_currentTemperature < temperature){
+                _currentTemperature += MAX_TEMP_CHANGE_PER_TICK;
+            }
+            else{
+                _currentTemperature -= MAX_TEMP_CHANGE_PER_TICK;
+            }
+            notifyTemperatureChanged();
+        }
     }
     
+    /**
+     * Get the current temperature of the reactor core.  Note that this is not
+     * in any real units (e.g. degrees celsius), it is simply the total
+     * number of fission events that have occurred over the configured time
+     * window, which would correlate to temperature.
+     *  
+     * @return
+     */
+    private double calculateTemperature(){
+        double sum = 0;
+        for (int i = 0; i < NUMBER_FISSION_EVENT_BINS; i++){
+            sum += _fissionEventBins[i];
+        }
+        return sum;
+    }
+
     /**
      * Notify listeners about the removal of an element from the model.
      * 
@@ -513,6 +576,17 @@ public class NuclearReactorModel {
             ((Listener)_listeners.get(i)).resetOccurred();
         }
     }
+    
+    /**
+     * Notify listeners that the temperature has changed.
+     */
+    private void notifyTemperatureChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).temperatureChanged();
+        }
+    }
+    
+    
     
     /**
      * Handle a change in atomic weight signaled by a U235 nucleus, which
@@ -571,6 +645,10 @@ public class NuclearReactorModel {
                     assert (nucleus instanceof Uranium235Nucleus);
                     _u235Nuclei.remove( nucleus );
                     _daughterNuclei.add( nucleus );
+                    
+                    // Increment the count of fission events.  This will be
+                    // cleared when a total tally is made.
+                    _u235FissionEventCount++;
                 }
                 else {
                     // We should never get here, debug it if it does.
@@ -610,6 +688,11 @@ public class NuclearReactorModel {
          *
          */
         public void resetOccurred();
+        
+        /**
+         * This signals that the internal reactor temperature has changed.
+         */
+        public void temperatureChanged();
     }
     
     /**
@@ -621,5 +704,6 @@ public class NuclearReactorModel {
         public void modelElementAdded(Object modelElement){}
         public void modelElementRemoved(Object modelElement){}
         public void resetOccurred(){}
+        public void temperatureChanged(){}
     }
 }
