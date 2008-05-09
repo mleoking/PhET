@@ -18,7 +18,6 @@ HIGH PRIORITY:
 - create framework for specifying drag-&-drop constraints for tools
 
 MEDIUM PRIORITY:
-- ice thickness tool shows "?" until dropped
 - thermometer displays "?" when advancing glacier overlaps a thermometer, or when in illegal drop location
 - make ice thickness tool adjust its caliper to fit the ice thickness
 - visual representation of snowfall
@@ -35,6 +34,7 @@ MEDIUM PRIORITY:
 - add Advanced panel
 
 LOW PRIORITY:
+- ice thickness tool's value display doesn't size itself reliably
 - make flags fall over (with somewhat random orientation?) when they hit the valley floor
 - remove registration points from mountains image
 - creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
@@ -84,6 +84,7 @@ CLEANUP:
 
 
 DONE:
+5/9/08 - make ice thickness tool display "?" while it's being dragged
 ******* 0.00.19 (21308)
 5/9/08 - add drop constraints for all other tools
 ******* 0.00.18 (21304)
