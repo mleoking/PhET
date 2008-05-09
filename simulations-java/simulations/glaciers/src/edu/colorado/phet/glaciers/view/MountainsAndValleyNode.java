@@ -48,6 +48,10 @@ public class MountainsAndValleyNode extends PImage {
         transform.translate( offset.getX(), offset.getY() );
     }
     
+    /**
+     * Gets the height of the pseudo-3D perspective, in meters.
+     * @return
+     */
     public static double getPerspectiveHeight() {
         return PERSPECTIVE_HEIGHT;
     }

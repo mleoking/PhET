@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
+import edu.colorado.phet.glaciers.view.MountainsAndValleyNode;
 
 /**
  * Thermometer is the model of a thermometer.
@@ -21,7 +22,7 @@ public class Thermometer extends AbstractTool {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Climate _climate;
+    private Glacier _glacier;
     private ClimateListener _climateListener;
     private double _temperature; // units=Celcius
     private ArrayList _listeners; // list of ThermometerListener
@@ -30,23 +31,23 @@ public class Thermometer extends AbstractTool {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Thermometer( Point2D position, Climate climate ) {
+    public Thermometer( Point2D position, Glacier glacier ) {
         super( position );
         
-        _climate = climate;
+        _glacier = glacier;
         _climateListener = new ClimateAdapter() {
             public void temperatureChanged() {
                 updateTemperature();
             }
         };
-        _climate.addClimateListener( _climateListener );
+        _glacier.getClimate().addClimateListener( _climateListener );
         
         _listeners = new ArrayList();
     }
     
     public void cleanup() {
         super.cleanup();
-        _climate.removeClimateListener( _climateListener );
+        _glacier.getClimate().removeClimateListener( _climateListener );
     }
     
     //----------------------------------------------------------------------------
@@ -72,13 +73,23 @@ public class Thermometer extends AbstractTool {
     // AbstractTool overrides
     //----------------------------------------------------------------------------
     
+    /*
+     * If the tool is below the surface of the ice, snap it just above the ice.
+     */
+    protected void constrainDrop() {
+        double surfaceElevation = _glacier.getSurfaceElevation( getX() );
+        if ( getY() <= surfaceElevation ) {
+            setPosition( getX(), surfaceElevation + 100 );
+        }
+    }
+    
     protected void handlePositionChanged() {
         updateTemperature();
     }
 
     private void updateTemperature() {
         final double elevation = getElevation();
-        final double temperature = _climate.getTemperature( elevation );
+        final double temperature = _glacier.getClimate().getTemperature( elevation );
         setTemperature( temperature );
     }
     

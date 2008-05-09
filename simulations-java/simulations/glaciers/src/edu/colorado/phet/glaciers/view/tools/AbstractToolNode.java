@@ -57,6 +57,7 @@ public abstract class AbstractToolNode extends PComposite {
             private double _xOffset, _yOffset; // distance between mouse press and model origin, in view coordinates
             
             protected void startDrag( PInputEvent event ) {
+                getTool().setDragging( true );
                 _mvt.modelToView( _tool.getPosition(), _pView );
                 _xOffset = event.getPosition().getX() - _pView.getX();
                 _yOffset = event.getPosition().getY() - _pView.getY();
@@ -68,6 +69,12 @@ public abstract class AbstractToolNode extends PComposite {
                 double y = event.getPosition().getY() - _yOffset;
                 _mvt.viewToModel( x, y, _pModel );
                 _tool.setPosition( _pModel );
+                super.drag( event );
+            }
+            
+            protected void endDrag( PInputEvent event ) {
+                getTool().setDragging( false );
+                super.endDrag( event );
             }
         } );
 

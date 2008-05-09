@@ -51,8 +51,18 @@ public abstract class AbstractTool extends Movable implements ClockListener {
         if ( dragging != _dragging ) {
             _dragging = dragging;
             notifyDraggingChanged();
+            if ( !dragging ) {
+                constrainDrop();
+            }
         }
     }
+    
+    /**
+     * Called when dragging had ended, and tool has been dropped.
+     * Default implementation is to do nothing.
+     * Subclasses that have drop constraints should override this method. 
+     */
+    protected void constrainDrop() {}
     
     public boolean isDragging() {
         return _dragging;

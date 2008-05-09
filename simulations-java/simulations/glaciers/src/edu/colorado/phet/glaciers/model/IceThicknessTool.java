@@ -68,6 +68,14 @@ public class IceThicknessTool extends AbstractTool {
     // AbstractTool overrides
     //----------------------------------------------------------------------------
     
+    /*
+     * Always snap to the valley floor.
+     */
+    protected void constrainDrop() {
+        double valleyElevation = _glacier.getValley().getElevation( getX() );
+        setPosition( getX(), valleyElevation );
+    }
+    
     protected void handlePositionChanged() {
         updateThickness();
     }
