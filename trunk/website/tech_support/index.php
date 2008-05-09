@@ -1,10 +1,7 @@
 <?php
 
-    include_once("../admin/global.php");
-    include_once(SITE_ROOT."admin/site-utils.php");
-    include_once(SITE_ROOT."admin/sim-utils.php");
-
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class TroubleshootingPage extends SitePage {
@@ -51,7 +48,7 @@ class TroubleshootingPage extends SitePage {
 
                     <li class="faq"><a href="#q10">I would like to translate PhET Simulations into another Language. Can this be easily done?</a></li>
 
-                    <li class="faq"><a href="../about/licensing.php">What are Licensing requirements?</a></li>
+                    <li class="faq"><a href="{$this->prefix}about/licensing.php">What are Licensing requirements?</a></li>
                 </ul>
             </div><br />
             <br />
@@ -60,9 +57,9 @@ class TroubleshootingPage extends SitePage {
 
             <p>Some of our simulations are Java Web Start based applications and others use Macromedia's Flash player. Flash comes with most computers while Java Web Start is a free application that can be downloaded from Sun Microsystems. To run the Java-based simulations you must have Java version 1.4.2 or higher installed on your computer.</p>
 
-            <p><a href="../tech_support/support-java.php">Learn about Java installation and Troubleshooting here</a>.</p>
+            <p><a href="{$this->prefix}tech_support/support-java.php">Learn about Java installation and Troubleshooting here</a>.</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q2" >What are the System Requirements for running PhET simulations?</h3>
 
@@ -86,7 +83,7 @@ class TroubleshootingPage extends SitePage {
             Macromedia Flash 7 or later<br />
             Safari 2 or later, Firefox 2 or later</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <p><strong>Linux Systems</strong>
             Intel Pentium processor<br />
@@ -101,7 +98,7 @@ class TroubleshootingPage extends SitePage {
 
             <p>Some of our simulations use Java, and some use Flash. Both of these are available as free downloads, and our downloadable installer includes Java for those who need it.</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q4" >I use Internet Explorer and the simulations do not run on my computer.</h3>
 
@@ -118,7 +115,7 @@ class TroubleshootingPage extends SitePage {
                 <li>Choose OK.</li>
             </ol>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q5" >Why don't Flash simulations run on my computer?</h3>
 
@@ -129,7 +126,7 @@ class TroubleshootingPage extends SitePage {
 
             <p>We are aware that this is not an acceptable solution and are working to resolve this issue. If you are experiencing this problem, please contact us at at <a href="mailto:phethelp@colorado.edu?Subject=Flash%20Simulations">phethelp@colorado.edu</a> and regularly check back here for more information.</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q6" >What is the ideal screen resolution to run PhET simulations?</h3>
 
@@ -153,7 +150,7 @@ class TroubleshootingPage extends SitePage {
                     <li>Quit or close the System Preferences when done. </li>
                 </ol>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q7" >I have Windows 2000 and can run Flash simulations but the Java based simulations do not work.</h3>
 
@@ -176,7 +173,7 @@ class TroubleshootingPage extends SitePage {
 
             <p>Please contact us by email at <a href="mailto:phethelp@colorado.edu?Subject=Windows%202000%20Issues">phethelp@colorado.edu</a> if you have any further difficulties.</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q8" >Why do PhET simulations run slower on my laptop than on a desktop?</h3>
 
@@ -184,20 +181,21 @@ class TroubleshootingPage extends SitePage {
 
                 <p>Many laptop computers are configured to reduce the amount of battery power used by the graphics/video system while the computer is running on battery power. If you must use the laptop while it is not plugged in, we suggest changing your computer's power management settings to "maximize performance" while unplugged. This should ensure that the graphics system runs at its peak speed. The location of this setting varies from one manufacturer to the next and we suggest contacting your computer vendor if you have difficulty locating it. Please contact us at <a href="mailto:phethelp@colorado.edu?Subject=Laptop%20Performance%20Issues">phethelp@colorado.edu</a> if you continue to encounter problems.</p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q9" >Why does my computer crash when I run one of the simulations that has sound?</h3>
 
             <p>Simulations that use sound can be unstable when run on computers using old device driver software. If you are encountering crashes or other undesirable behavior with any of our simulations that use sound, we advise updating your sound drivers, as this may solve the problem. For assistance with updating your sound drivers, contact your computer vendor or audio hardware manufacturer. Contact us at <a href="mailto:phethelp@colorado.edu?Subject=Sound%20Issues">phethelp@colorado.edu</a> if you continue to encounter difficulty. </p>
 
-            <p><a href="#top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q10" >I would like to translate PhET Simulations into another Language. Can this be easily done?</h3>
 
-            <p>The PhET simulations have been written so that they are easily translated to languages other than English. Please <a href="../contribute/index.php">click here</a> for more information.</p>
+            <p>The PhET simulations have been written so that they are easily translated to languages other than English. Please <a href="{$this->prefix}contribute/index.php">click here</a> for more information.</p>
 
 EOT;
     }
+
 }
 
 $page = new TroubleshootingPage("Troubleshooting", NAV_TECH_SUPPORT, null);

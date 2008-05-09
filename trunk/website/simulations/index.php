@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class SimulationsPage extends SitePage {
@@ -170,12 +171,6 @@ class SimulationsPage extends SitePage {
 
                     print "<div class=\"productEntry\">\n";
 
-                    /*
-                        <a href="#"><img src="../images/sims/baloon_static.jpg" width="130" height="97" alt="" /></a>
-
-                        <p><a href="/">Balloons &amp; Static</a><br /></p>
-                    */
-
                     $sim_url = sim_get_url_to_sim_page($sim_id);
 
                     $link_to_sim = "<a href=\"$sim_url\">";
@@ -316,7 +311,7 @@ EOT;
         print <<<EOT
             <div class="full-width">
                 <div class="rage_button_218928">
-                    <a href="../teacher_ideas/browse.php?cat=$cat_encoding">Related Activities &amp; Ideas</a>
+                    <a href="{$this->prefix}teacher_ideas/browse.php?cat=$cat_encoding">Related Activities &amp; Ideas</a>
                 </div>
             </div>
 

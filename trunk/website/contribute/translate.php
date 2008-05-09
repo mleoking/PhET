@@ -1,6 +1,6 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../"); include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class TranslationInstructionsPage extends SitePage {
@@ -157,6 +157,7 @@ class TranslationInstructionsPage extends SitePage {
 
 EOT;
     }
+
 }
 
 $page = new TranslationInstructionsPage("PhET Translation Utility (beta)", NAV_CONTRIBUTE, null);

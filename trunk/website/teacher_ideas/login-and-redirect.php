@@ -1,12 +1,13 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class LoginAndRedirectPage extends SitePage {
 
     function update() {
-        if ($this->authentication_level >= SP_AUTHLEVEL_USER) {
+        if ($this->authentication_level >= AUTHLEVEL_USER) {
             $this->header_redirect($_REQUEST['url']);
         }
     }
@@ -22,15 +23,14 @@ class LoginAndRedirectPage extends SitePage {
 
 }
 
-
 if (isset($_REQUEST["url"]) && (strlen($_REQUEST["url"]) > 0)) {
     $redirect_url = $_REQUEST["url"];
 }
 else {
-    $redirect_url = "../index.php";
+    $redirect_url = SITE_ROOT."index.php";
 }
 
-$page = new LoginAndRedirectPage("Login", NAV_NOT_SPECIFIED, $redirect_url);
+$page = new LoginAndRedirectPage("Login", NAV_NOT_SPECIFIED, $redirect_url, AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

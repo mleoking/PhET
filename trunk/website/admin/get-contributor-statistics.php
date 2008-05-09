@@ -1,5 +1,7 @@
 <?php
 
+    // This is called from view-statistics.php to compile contributor statistics.
+
     include_once("db.php");
     include_once("db-utils.php");
     include_once("contrib-utils.php");

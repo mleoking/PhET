@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class ComposeNewsletterPage extends SitePage {
@@ -11,8 +12,7 @@ class ComposeNewsletterPage extends SitePage {
             return $result;
         }
 
-        $contributor = contributor_get_contributor_by_username(auth_get_username());
-        $contributor_email = $contributor["contributor_email"];
+        $contributor_email = $this->user["contributor_email"];
 
         print <<<EOT
             <p>
@@ -68,7 +68,7 @@ The PhET Team
 
 ----
 
-If you would like to unsubscribe from the PhET mailing list, please visit http://phet.colorado.edu/teacher_ideas/user-edit-profile.php
+If you would like to unsubscribe from the PhET mailing list, please visit http://phet.colorado.edu/new/teacher_ideas/user-edit-profile.php
 
 </textarea>
                         </span>
@@ -90,9 +90,10 @@ If you would like to unsubscribe from the PhET mailing list, please visit http:/
 
 EOT;
     }
+
 }
 
-$page = new ComposeNewsletterPage("Compose Newsletter", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new ComposeNewsletterPage("Compose Newsletter", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

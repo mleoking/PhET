@@ -1,5 +1,9 @@
 <?php
-	error_reporting(0);
+
+    // Called from sims.php to get the teacher guides, which are stored in the uploads directory
+
+    // Legacy: Not sure why error reporting isn't off by default
+    error_reporting(0);
 
     include_once("web-utils.php");
     include_once("sys-utils.php");

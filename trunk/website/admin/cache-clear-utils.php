@@ -20,7 +20,7 @@
         }
 
         // Get the cache directories to clear
-        $clear_dirs = glob($base_directory.'/cached-*');
+        $clear_dirs = glob($base_directory.'cached-*');
 
         // Nothing to do?
         if (count($clear_dirs) == 0) {

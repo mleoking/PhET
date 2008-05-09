@@ -1,13 +1,28 @@
 <?php
 
-    include_once("../admin/global.php");
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+    include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/sys-utils.php");
 
     define("WEBPAGES_CACHE",             "webpages");
     define("HOURS_TO_CACHE_WEBPAGES",     1);
 
+    // FIXME: Caching uses the $_SESSION variable to generate a name.  We are now doing a
+    // session_start and session_write_close() to keep the session open for as short a
+    // time as possible.  Using this global to be set when the session is open to genearte
+    // the name that will be used with the cache.  All this caching stuff should be
+    // integrated more tightly into SitePage.
+    $cache_page_name = null;
+
     // Disable all caching when run on developer's machine:
     //$g_disable_all_caching = ((isset($_SERVER['SERVER_NAME'])) && ($_SERVER['SERVER_NAME'] == 'localhost')) ? true : false;
+
+    // FIXME: horrible implementation
+    function cache_setup_page_name() {
+        global $cache_page_name;
+
+        $cache_page_name = cache_auto_get_page_name();
+    }
 
     function cache_enabled() {
         if ((isset($_SERVER['SERVER_NAME'])) &&
@@ -120,6 +135,12 @@
     }
 
     function cache_auto_get_page_name() {
+        // FIXME: horrible implementation
+        global $cache_page_name;
+        if (!is_null($cache_page_name)) {
+            return $cache_page_name;
+        }
+
         $hash_contents = $_SERVER['REQUEST_URI'];
 
         foreach ($_SESSION as $key => $value) {

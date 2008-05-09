@@ -1,99 +1,48 @@
 <?php
 
-// HACK: get around PHP's weird behavior of looking for all include
-// files relative to this file, rather than the included file, which
-// really makes include file chaining a mess
-    $original_dir = getcwd();
-    chdir("./admin");
+define("SITE_ROOT", "./");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-    define("SITE_ROOT", "../");
-
-    include_once(SITE_ROOT."admin/cache-utils.php");
-    include_once(SITE_ROOT."admin/authentication.php");
-
-    include_once(SITE_ROOT."./admin/sim-utils.php");
-    include_once(SITE_ROOT."./admin/web-utils.php");
-    include_once(SITE_ROOT."./admin/site-utils.php");
-
-    chdir($original_dir);
-
-    auth_do_validation();
-    cache_auto_start();
-
-    $referrer           = $_SERVER['PHP_SELF'];
-    $utility_panel_html = get_sitewide_utility_html('.');
-
-    if (!isset($contributor_email)) {
-        $contributor_email = '';
+class MainPage extends SitePage {
+    function __contstruct($title, $nav, $referrer) {
+        parent::__construct($title, $nav, $referrer);
     }
 
-    if (!isset($_REQUEST['subscribed'])) {
-        $just_subscribed = false;
-    }
-    else {
-        $just_subscribed = true;
+    function open_xhtml_body() {
+        BasePage::open_xhtml_body();
     }
 
-    /*
+    /**
+     * Output HTML associated with end of the body section
+     *
+     */
+    function close_xhtml_body() {
+        $utility_panel_html = $this->get_login_panel();
 
-        TODO:
+        print <<<EOT
+                        </div>
 
-            Reinsert <?xml version="1.0" encoding="UTF-8"?>
-                after IE6 is dead
+                        <div id="footer">
+                            <p>&copy; 2008 University of Colorado. All rights reserved.</p>
+                        </div>
 
-    */
-
-    print <<<EOT
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>PhET :: Physics Education Technology at CU Boulder</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="Shortcut Icon" type="image/x-icon" href="favicon.ico" />
-<style type="text/css">
-/*<![CDATA[*/
-        @import url(css/main.css);
-        @import url(css/home.css);
-/*]]>*/
-</style>
-<!-- compliance patch for microsoft browsers -->
-<!--[if lt IE 7]><script src="js/ie7/ie7-standard-p.js" type="text/javascript"></script><![endif]-->
-<script src="js/jquery.pack.js" type="text/javascript"></script>
-</head>
-
-<body>
-    <div id="skipNav">
-        <a href="#content" accesskey="0">Skip to Main Content</a>
-    </div>
-
-    <div id="header">
-        <div id="headerContainer">
-            <div class="images">
-                <div class="logo">
-                    <a href="index.php"><img src="images/phet-logo.gif" alt="PhET Logo" title="Click here to go to the home page" /></a>
+                <div id="utility-panel">
+                    $utility_panel_html
                 </div>
+            </body>
 
-                <div class="title">
-                    <img src="images/logo-title.jpg" alt="Physics Education Technology - University of Colorado, Boulder" title="Physics Education Technology - University of Colorado, Boulder" />
+EOT;
+    }
 
-                    <div id="quicksearch">
-                        <form method="post" action="simulations/search.php">
-                            <fieldset>
-                                <span>Search</span>
-                                <input type="text" size="15" name="search_for" title="Enter the text to search for" class="always-enabled" />
-                                <input type="submit" value="Go" title="Click here to search the PhET website" class="always-enabled" />
-                                <input type="hidden" name="referrer" value="$referrer"  class="always-enabled" />
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
+    function render_title() {
+    }
 
-            <div class="clear"></div>
-        </div>
-    </div>
+    function render_navigation_bar() {
+        // No nav bar
+    }
 
-    <div id="container">
+    function render_content() {
+        print <<<EOT
         <div class="home-page">
             <div id="newsflashes">
                 <table>
@@ -239,18 +188,15 @@ EOT;
             </div>
         </div>
 
-        <div id="footer">
-            <p>&copy; 2008 University of Colorado. All rights reserved.</p>
-        </div>
-
-        <div id="utility-panel">
-            $utility_panel_html
-        </div>
-    </div>
-</body>
-</html>
-
 EOT;
+    }
 
-    cache_auto_end();
+}
+
+$page = new MainPage("PhET :: Physics Education Technology at CU Boulder", NAV_NOT_SPECIFIED, null);
+$page->set_prefix(SITE_ROOT);
+$page->add_stylesheet("css/home.css");
+$page->update();
+$page->render();
+
 ?>

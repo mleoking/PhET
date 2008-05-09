@@ -1,11 +1,17 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class TranslationsPage extends SitePage {
 
     function update() {
+        $result = parent::update();
+        if (!$result) {
+            return $result;
+        }
+
         // Workaround for an IE6 bug rendering this page.
         // See the css file and BasePage.php for more
         // explaination.
@@ -20,7 +26,7 @@ class TranslationsPage extends SitePage {
 
         print <<<EOT
             <p>
-                <a href="../contribute/translate.php">Create a New Translation!</a>
+                <a href="{$this->prefix}contribute/translate.php">Create a New Translation!</a>
             </p>
 
 EOT;
@@ -109,7 +115,7 @@ EOT;
 
                     print <<<EOT
                         <a href="$launch_url">
-                            <img src="../images/electron-small.png" alt="Image of Electron" />
+                            <img src="{$this->prefix}images/electron-small.png" alt="Image of Electron" />
                         </a>
 
 EOT;
@@ -117,7 +123,7 @@ EOT;
                     flush();
                 }
                 else {
-                    print "<a class=\"translate-prompt\" title=\"Click to translate this sim into $language_name!\" href=\"../contribute/translate.php\"></a>\n";
+                    print "<a class=\"translate-prompt\" title=\"Click to translate this sim into $language_name!\" href=\"{$this->prefix}contribute/translate.php\"></a>\n";
                 }
 
                 print "</td>\n";
@@ -158,6 +164,7 @@ EOT;
 
         flush();
     }
+
 }
 
 $page = new TranslationsPage("Translated Sims", NAV_SIMULATIONS, null);

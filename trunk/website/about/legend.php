@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class LegendPage extends SitePage {
@@ -46,7 +47,7 @@ class LegendPage extends SitePage {
                             <td>$gold_star_html</td>    <td><strong>Gold Star Contribution</strong>: 
                             This contribution has received a Gold Star
                             because it is a high quality inquiry-based activity that follows the
-                            <a href="../teacher_ideas/contribution-guidelines.pdf">PhET design guidelines</a>
+                            <a href="{$this->prefix}teacher_ideas/contribution-guidelines.pdf">PhET design guidelines</a>
                             and teachers have found it useful.</td>
                         </tr>
 

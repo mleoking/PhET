@@ -1,8 +1,9 @@
 <?php
 
-include_once("../page_templates/SitePage.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class CheckContributionItegrity extends SitePage {
+class CheckContributionItegrityPage extends SitePage {
     const ENTRY_VALID_DATA = "0";
     const ENTRY_INVALID_DATA = "1";
     const ENTRY_VALID_BLANK = "3";
@@ -12,13 +13,13 @@ class CheckContributionItegrity extends SitePage {
     const ROW_VALID_DATA = "0";
     const ROW_INVALID_DATA = "1";
 
-    const ICON_DIR = "../images/icons";
+    const ICON_DIR = "images/icons";
 
     function __construct($page_title, $nav_selected_page) {
         $this->num_invalid_rows = 0;
         $this->num_rows = 0;
 
-        parent::__construct($page_title, $nav_selected_page, null, SP_AUTHLEVEL_TEAM, false);
+        parent::__construct($page_title, $nav_selected_page, null, AUTHLEVEL_TEAM, false);
     }
 
     function check_contribution_row($row) {
@@ -274,7 +275,7 @@ class CheckContributionItegrity extends SitePage {
         print "<p>There are <strong>".count($this->contribution_info)."</strong> total contributions.</p>\n";
         print "<p>There are <em>{$this->num_invalid_rows}</em> contributions with invalid data.</p>\n";
         $table_description = db_describe_table("contribution");
-        $icon_dir = self::ICON_DIR;
+        $icon_dir = $this->prefix.self::ICON_DIR;
         print <<<EOT
         <table>
             <thead>
@@ -401,7 +402,7 @@ EOT;
                     case "contribution_id":
                     case "contribution_title":
                         $string .= format_string_for_html(": $data");
-                        $string = "<a href=\"../teacher_ideas/edit-contribution.php?contribution_id={$data_row["contribution_id"]}&amp;referrer=../admin/db-check-integrity.php\">$string</a>";
+                        $string = "<a href=\"{$this->prefix}teacher_ideas/edit-contribution.php?contribution_id={$data_row["contribution_id"]}&amp;referrer={$this->prefix}admin/db-check-integrity.php\">$string</a>";
                         break;
                 }
 
@@ -418,7 +419,7 @@ EOT;
     }
 }
 
-$page = new CheckContributionItegrity("Check Database Integrity", NAV_ADMIN);
+$page = new CheckContributionItegrityPage("Check Database Integrity", NAV_ADMIN);
 $page->add_stylesheet("css/scrollable_tables.css");
 $page->add_stylesheet("css/db-integrity.css");
 $page->update();

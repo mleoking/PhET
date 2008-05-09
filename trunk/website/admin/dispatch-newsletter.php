@@ -5,7 +5,8 @@
 
 $ONLY_SEND_TO = "formv09@yahoo.com";
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class DispatchNewsletterPage extends SitePage {
@@ -89,9 +90,10 @@ EOT;
 
         $this->meta_refresh('index.php', 5);
     }
+
 }
 
-$page = new DispatchNewsletterPage("Dispatch Newsletter", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new DispatchNewsletterPage("Dispatch Newsletter", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

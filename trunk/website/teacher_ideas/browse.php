@@ -1,12 +1,23 @@
 <?php
 
-include_once("../admin/global.php");
+// The browse files, browse.php and browse-utils.php, used to be a bunch of global functions
+// with lots of global variables "passed" between them.  What you see here is an first loose
+// pass to decouple many functions from these globals.
+//
+// Further complicating the matter, a lot (but not all) functionality was called as a standalone
+// page, and from sims.php which used some of the functionality, but not all.  You can still see
+// some residue of this in the code.
+//
+// These files work, but still stand to have a lot of cleanup.
+
+
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."teacher_ideas/referrer.php");
 include_once(SITE_ROOT."teacher_ideas/browse-utils.php");
-
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class BrowseContributions extends SitePage {
+class BrowseContributionsPage extends SitePage {
 
     function filter_contributions($contributions, $field_name, $selected_values) {
         if (in_array('all', $selected_values)) return $contributions;
@@ -114,7 +125,6 @@ class BrowseContributions extends SitePage {
         return $new;
     }
 
-
     function print_content_with_header() {
         $sim_list   = $this->build_sim_list($this->Simulations);
         $type_list  = $this->build_type_list($this->Types);
@@ -187,7 +197,7 @@ EOT;
             print <<<EOT
                 <div class="full-width">
                     <div class="rage_button_357660">
-                        <a href="../simulations/index.php?cat=$cat_encoding">Back to Simulations</a>
+                        <a href="{$this->prefix}simulations/index.php?cat=$cat_encoding">Back to Simulations</a>
                     </div>
                 </div>
 
@@ -303,7 +313,7 @@ if ($mark !== false) {
     $referrer = substr($referrer, 0, $mark);
 }
 
-$page = new BrowseContributions("Browse Contributions", NAV_TEACHER_IDEAS, $referrer, SP_AUTHLEVEL_NONE, false);
+$page = new BrowseContributionsPage("Browse Contributions", NAV_TEACHER_IDEAS, $referrer, AUTHLEVEL_NONE, false);
 $page->add_javascript_file("js/browse.js");
 $page->update();
 $page->render();

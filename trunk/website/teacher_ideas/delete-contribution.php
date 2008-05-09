@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class DeleteContributionPage extends SitePage {
@@ -11,8 +12,7 @@ class DeleteContributionPage extends SitePage {
             return $result;
         }
 
-        $username = auth_get_username();
-        $contributor_id = contributor_get_id_from_contributor_username($username);
+        $contributor_id = $this->user["contributor_id"];
 
         $this->meta_refresh($this->referrer, 2);
         $this->delete_success = false;
@@ -46,9 +46,10 @@ EOT;
 EOT;
         }
     }
+
 }
 
-$page = new DeleteContributionPage("Delete Contribution", NAV_TEACHER_IDEAS, get_referrer("../teacher_ideas/manage-contributions.php"), SP_AUTHLEVEL_USER);
+$page = new DeleteContributionPage("Delete Contribution", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT."teacher_ideas/manage-contributions.php"), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

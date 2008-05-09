@@ -1,27 +1,15 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."teacher_ideas/referrer.php");
 
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class EditContributionPage extends SitePage {
 
-    function print_javascript_error() {
-        print <<<EOT
-            <h2>Error in submission</h2>
-
-            <p>Sorry, there was as error with your submission..</p>
-
-            <p>JavaScript is not enabled.</p>
-            <p>You must have JavaScript enabled to submit information to PhET.  For directions on how to check this, <a href="../tech_support/support-javascript.php  ">go here</a>.</p>
-
-EOT;
-    }
-
     function update_contribution($contribution) {
-        $username = auth_get_username();
-        $contributor = contributor_get_contributor_by_username($username);
+        $contributor = $this->user;
 
         // Only allow team members to change these fields:
         if ($contributor['contributor_is_team_member'] != 1) {
@@ -122,7 +110,7 @@ EOT;
     function update() {
         $result = parent::update();
         if (!$result) {
-
+            return $result;
         }
 
         ob_start();
@@ -141,29 +129,28 @@ EOT;
 EOT;
         }
         else {
-            if ($this->authentication_level < SP_AUTHLEVEL_USER) {
+            if ($this->authentication_level < AUTHLEVEL_USER) {
                 $this->add_javascript_header_script("disable_not_always_enabled_form_elements();");
             }
 
             $contribution_id = $_REQUEST['contribution_id'];
-            $username = auth_get_username();
-            $contributor = contributor_get_contributor_by_username($username);
+            $contributor = $this->user;
 
             if (contribution_can_contributor_manage_contribution($contributor["contributor_id"], $contribution_id)) {
                 if (isset($_REQUEST['action'])) {
                     $success = $this->handle_action($_REQUEST['action']);
 
                     if ($success) {
-                        $this->referrer = "../teacher_ideas/manage-contributions.php";
-                        $this->meta_refresh("../teacher_ideas/manage-contributions.php", 3);
+                        $this->referrer = "{$this->prefix}teacher_ideas/manage-contributions.php";
+                        $this->meta_refresh("{$this->prefix}teacher_ideas/manage-contributions.php", 3);
                         $this->print_success();
                     }
                     else {
-                        contribution_print_full_edit_form($contribution_id, "../teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
+                        contribution_print_full_edit_form($contribution_id, "{$this->prefix}teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
                     }
                 }
                 else {
-                    contribution_print_full_edit_form($contribution_id, "../teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
+                    contribution_print_full_edit_form($contribution_id, "{$this->prefix}teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
                 }
             }
             else {
@@ -174,7 +161,6 @@ EOT;
             }
         }
 
-        //contribution_print_full_edit_form2(-1, '../teacher_ideas/edit-contribution.php', '../teacher_ideas/edit-contribution.php', 'Submit', $this);
         $this->add_content(ob_get_clean());
         return true;
     }
@@ -182,12 +168,13 @@ EOT;
     function render_content() {
         $result = parent::render_content();
         if (!$result) {
-            return BasePage::render_content();//$result;
+            return BasePage::render_content();
         }
     }
+
 }
 
-$page = new EditContributionPage("Edit an Activity", NAV_TEACHER_IDEAS, get_referrer("../teacher_ideas/edit-contribution.php"), SP_AUTHLEVEL_USER);
+$page = new EditContributionPage("Edit an Activity", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT."teacher_ideas/edit-contribution.php"), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

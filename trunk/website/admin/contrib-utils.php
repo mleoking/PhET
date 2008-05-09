@@ -1,6 +1,7 @@
 <?php
 
-    include_once("../admin/global.php");
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+    include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/db.php");
     include_once(SITE_ROOT."admin/authentication.php");
     include_once(SITE_ROOT."admin/db-utils.php");
@@ -62,6 +63,8 @@
     }
 
     function contribution_get_files_listing_html($contribution_id) {
+        $prefix = SITE_ROOT;
+
         $files_html = '<p>No files</p>';
 
         $files = contribution_get_contribution_file_infos($contribution_id);
@@ -76,7 +79,7 @@
 
                 $kb = format_string_for_html(ceil($contribution_file_size / 1024));
 
-                $files_html .= "<li><a href=\"../admin/get-upload.php?contribution_file_id=$contribution_file_id\">".
+                $files_html .= "<li><a href=\"{$prefix}admin/get-upload.php?contribution_file_id=$contribution_file_id\">".
                                "$contribution_file_name</a>".
                                " - $kb KB</li>";
             }
@@ -136,7 +139,7 @@
      */
     function contribution_get_gold_star_html($image_width = 37) {
         // TODO: add height element
-        return "<img src=\"../images/gold-star.jpg\" width=\"$image_width\" alt=\"Image of Gold Star\" title=\"Gold Star Contribution: This contribution has received a Gold Star for its quality and usefulness to many teachers.\" />";
+        return "<img src=\"".SITE_ROOT."images/gold-star.jpg\" width=\"$image_width\" alt=\"Image of Gold Star\" title=\"Gold Star Contribution: This contribution has received a Gold Star for its quality and usefulness to many teachers.\" />";
     }
 
     /**
@@ -517,10 +520,9 @@ EOT;
     }
 
     function contribution_print_full_edit_form($contribution_id, $script, $referrer, $button_name = 'Update', $page = null) {
-        $contributor_authenticated = auth_user_validated();
+        $contributor_authenticated = $page->authenticate_user_is_authorized();
 
-        $username = auth_get_username();
-        $contributor = contributor_get_from_contributor_email($username);
+        $contributor = $page->authenticate_get_user();
 
         $contribution = contribution_get_contribution_by_id($contribution_id);
 
@@ -1224,8 +1226,9 @@ EOT;
 
         $author_html = "<abbr title=\"$contribution_author\">$author_abbr</abbr>";
 
+        $prefix = SITE_ROOT;
         $title_html = <<<EOT
-                <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
+                <a href="{$prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
 
 EOT;
 
@@ -1325,8 +1328,9 @@ EOT;
 
         $author_html = "<abbr title=\"$contribution_author\">$author_abbr</abbr>";
 
+        $prefix = SITE_ROOT;
         $title_html = <<<EOT
-                <a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
+                <a href="{$prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer=$referrer">$contribution_title</a>
 
 EOT;
 
@@ -2292,7 +2296,6 @@ EOT;
         return $contributors;
     }
 
-
     /**
      * Get the contributor information with the given username
      *
@@ -2483,7 +2486,6 @@ EOT;
         return (contributor_get_id_from_contributor_username_and_encrypted_password($username, $password_hash) !== false);
     }
 
-
     /**
      * Determine if the email address and password are for an administrator.
      *
@@ -2590,7 +2592,6 @@ EOT;
         return mysql_fetch_assoc($result);
     }
 
-
     /**
      * Finds contributor data give the email address
      *
@@ -2606,7 +2607,6 @@ EOT;
 
         return mysql_fetch_assoc($result);
     }
-
 
     function contributor_print_desc_list($contributor_desc, $wide) {
         if ($wide) {

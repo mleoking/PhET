@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class DeleteCommentPage extends SitePage {
@@ -38,10 +39,10 @@ class DeleteCommentPage extends SitePage {
 
         // Check if there was a submition to change the comment
         if (isset($_REQUEST["submit_delete_comment"])) {
-           contribution_delete_comment($comment_id);
-           $this->deleted = true;
+            contribution_delete_comment($comment_id);
+            $this->deleted = true;
             cache_clear_teacher_ideas();
-           $this->meta_refresh($this->referrer, 3);
+            $this->meta_refresh($this->referrer, 3);
         }
         else {
             $this->comment = comment_get_comment_by_id($comment_id);
@@ -92,9 +93,10 @@ EOT;
 EOT;
         }
     }
+
 }
 
-$page = new DeleteCommentPage("Delete Comment", NAV_TEACHER_IDEAS, get_referrer(), SP_AUTHLEVEL_USER);
+$page = new DeleteCommentPage("Delete Comment", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

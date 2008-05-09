@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class WhoWeArePage extends SitePage {
@@ -14,7 +15,7 @@ class WhoWeArePage extends SitePage {
         $is_team_member = (isset($this->user)) ? $this->user["contributor_is_team_member"] : 0;
 
         print <<<EOT
-        <img src="../images/contact-page.jpg" class="imageOne" alt="Image of the PhET Team" width="578"/>
+        <img src="{$this->prefix}images/contact-page.jpg" class="imageOne" alt="Image of the PhET Team" width="578"/>
 
         <div>
             <div class="caption">

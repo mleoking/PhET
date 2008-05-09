@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 include_once(SITE_ROOT."admin/research-utils.php");
 
@@ -79,7 +80,7 @@ EOT;
                 $contribution_id = $contrib['contribution_id'];
                 $contribution_title = format_string_for_html($contrib['contribution_title']);
                 print <<<EOT
-                    <li><a href="../teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer={$this->referrer}">$contribution_title</a></li>
+                    <li><a href="{$this->prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer={$this->referrer}">$contribution_title</a></li>
 
 EOT;
             }
@@ -116,7 +117,7 @@ EOT;
 
 }
 
-$page = new SearchPage("Search results", NAV_NOT_SPECIFIED, get_referrer(), SP_AUTHLEVEL_NONE, false);
+$page = new SearchPage("Search results", NAV_NOT_SPECIFIED, get_referrer(), AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 

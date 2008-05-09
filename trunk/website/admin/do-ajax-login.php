@@ -1,7 +1,9 @@
 <?php
 
-    include_once("../admin/global.php");
+// TODO: I have not yet set about grokking this file.
 
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+    include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/authentication.php");
     include_once(SITE_ROOT."admin/contrib-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");

@@ -1,9 +1,10 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class UpdateUserProfile extends SitePage {
+class UpdateUserProfilePage extends SitePage {
 
     function update() {
         $result = parent::update();
@@ -11,7 +12,7 @@ class UpdateUserProfile extends SitePage {
             return $result;
         }
 
-        // HACK: check on passwords matching,
+        // check on passwords matching,
         //   encrypt password in the $_REQUEST var, and
         //   use it if it is not changing
         $this->password_failure = false;
@@ -50,14 +51,16 @@ class UpdateUserProfile extends SitePage {
 
         if ((strlen($pass1) > 0) && ($this->success)) {
             // Make sure the cookie password is updated
+            session_start();
             cookie_var_store("contributor_password_hash", $pass1);
+            session_write_close();
         }
 
         if ($this->success) {
             cache_clear_teacher_ideas();
         }
 
-        //$this->meta_refresh(SITE_ROOT."teacher_ideas/user-edit-profile.php", 3);
+        $this->meta_refresh(SITE_ROOT."teacher_ideas/user-edit-profile.php", 3);
         return true;
     }
 
@@ -90,7 +93,7 @@ EOT;
 
 }
 
-$page = new UpdateUserProfile("Update User Profile", NAV_TEACHER_IDEAS, null, SP_AUTHLEVEL_USER);
+$page = new UpdateUserProfilePage("Update User Profile", NAV_TEACHER_IDEAS, null, AUTHLEVEL_USER);
 $page->update();
 $page->render();
 

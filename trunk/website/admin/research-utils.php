@@ -1,7 +1,9 @@
 <?php
 
-    include_once("../admin/global.php");
+    // Utilities related to the research done by PhET
 
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+    include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/db.php");
     include_once(SITE_ROOT."admin/db-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");

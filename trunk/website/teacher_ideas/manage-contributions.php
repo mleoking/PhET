@@ -1,12 +1,11 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../"); include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class ManageContributions extends SitePage {
+class ManageContributionsPage extends SitePage {
     function print_contributions($contributions, $heading) {
-        $username = auth_get_username();
-        $contributor = contributor_get_contributor_by_username($username);
+        $contributor = $this->user;
         $contributor_id = $contributor["contributor_id"];
         $contributor_is_team_member = $contributor["contributor_is_team_member"];
 
@@ -30,8 +29,7 @@ EOT;
     }
 
     function print_manage_contributions() {
-        $username = auth_get_username();
-        $contributor = contributor_get_contributor_by_username($username);
+        $contributor = $this->user;
         $contributor_id = $contributor["contributor_id"];
         $contributor_is_team_member = $contributor["contributor_is_team_member"];
 
@@ -77,9 +75,10 @@ EOT;
 
         return true;
     }
+
 }
 
-$page = new ManageContributions("Manage Contributions", NAV_TEACHER_IDEAS, get_referrer(), SP_AUTHLEVEL_USER, false);
+$page = new ManageContributionsPage("Manage Contributions", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 

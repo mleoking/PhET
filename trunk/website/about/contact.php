@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class ContactPage extends SitePage {
@@ -25,11 +26,12 @@ class ContactPage extends SitePage {
 
             <h2 style="margin-bottom: -10px;">Email:</h2>
 
-            <p style="margin-left:0px;">Please address all electronic correspondence to: <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a> Information on contributing to PhET can be found <a href="../contribute/index.php"><em>here.</em></a></p>
+            <p style="margin-left:0px;">Please address all electronic correspondence to: <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a> Information on contributing to PhET can be found <a href="{$this->prefix}contribute/index.php"><em>here.</em></a></p>
         </div>
 
 EOT;
     }
+
 }
 
 $page = new ContactPage("Contact", NAV_ABOUT_PHET, null);

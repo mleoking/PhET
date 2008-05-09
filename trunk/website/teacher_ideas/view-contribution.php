@@ -1,10 +1,10 @@
 <?php
 
-include_once("../admin/global.php");
-
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 
-class ViewContribution extends SitePage {
+class ViewContributionPage extends SitePage {
 
     function render_content() {
         $result = parent::render_content();
@@ -95,7 +95,7 @@ class ViewContribution extends SitePage {
                 $comments_html .= '</em>&quot; - '.format_string_for_html($comment['contributor_name']);
                 if (($this->user["contributor_id"] == $comment["contributor_id"]) ||
                     ($this->user["contributor_is_team_member"])) {
-                    $ref = "referrer=../teacher_ideas/view-contribution.php?contribution_id={$contribution["contribution_id"]}";
+                    $ref = "referrer={$this->prefix}teacher_ideas/view-contribution.php?contribution_id={$contribution["contribution_id"]}";
                     $comments_html .= " (<a href=\"edit-comment.php?comment_id=".$comment["contribution_comment_id"]."&amp;{$ref}\">edit</a>,";
                     $comments_html .= " <a href=\"delete-comment.php?comment_id=".$comment["contribution_comment_id"]."&amp;{$ref}\">delete</a>)";
                 }
@@ -249,9 +249,10 @@ EOT;
             <p><a href="javascript:void;" onclick="$(this).parent().next().toggle(300); return false;">Nominate this contribution as a Gold Star Activity</a></p>
 
             <div id="nominate-contribution" style="display: none;">
-                <form method="get" action="../teacher_ideas/nominate-contribution.php">
+                <form method="get" action="{$this->prefix}teacher_ideas/nominate-contribution.php">
                     <div>
                         <input type="hidden" name="contribution_id" value="$contribution_id" />
+                        <input type="hidden" name="referrer"        value="{$php_self}?contribution_id={$contribution_id}&amp;referrer={$this->referrer}" />
                     </div>
 
                     <table class="form">
@@ -324,7 +325,7 @@ EOT;
 
 }
 
-$page = new ViewContribution("View Contributions", NAV_TEACHER_IDEAS, get_referrer("../teacher_ideas/manage-contributions.php"), SP_AUTHLEVEL_NONE);
+$page = new ViewContributionPage("View Contributions", NAV_TEACHER_IDEAS, get_referrer(SITE_ROOT."teacher_ideas/manage-contributions.php"), AUTHLEVEL_NONE);
 $page->update();
 $page->render();
 

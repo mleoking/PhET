@@ -1,7 +1,7 @@
 <?php
 
-    include_once("../admin/global.php");
-
+    if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+    include_once(SITE_ROOT."admin/global.php");
     include_once(SITE_ROOT."admin/db.php");
     include_once(SITE_ROOT."admin/sim-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");
@@ -103,6 +103,5 @@
 
         db_exec_query("UPDATE `$table_name` SET `${table_name}_order`='$updated_order' WHERE `${table_name}_order`='$new_order' AND `${table_name}_id`<>'$id' $condition_postfix ");
     }
-
 
 ?>

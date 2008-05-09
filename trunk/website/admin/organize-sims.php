@@ -1,6 +1,7 @@
 <?php
 
-include_once("../admin/global.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
 include_once(SITE_ROOT."admin/ordering-util.php");
 
@@ -15,6 +16,12 @@ class OrganizeSimulationsPage extends SitePage {
         else if ($action == 'move_down') {
             order_move_lower('simulation_listing', $simulation_listing_id, $condition);
         }
+        else {
+            // undefined action, ignore
+            return;
+        }
+
+        cache_clear_simulations();
     }
 
     function update() {
@@ -108,9 +115,10 @@ EOT;
 EOT;
         }
     }
+
 }
 
-$page = new OrganizeSimulationsPage("Organize Simulations", NAV_ADMIN, null, SP_AUTHLEVEL_TEAM, false);
+$page = new OrganizeSimulationsPage("Organize Simulations", NAV_ADMIN, null, AUTHLEVEL_TEAM, false);
 $page->update();
 $page->render();
 

@@ -1,5 +1,7 @@
 <?php
 
+// Called from sims.php to run a flash simulation
+
 if (!isset($_REQUEST['title']) ||
     !isset($_REQUEST['flash'])) {
     exit;
@@ -292,4 +294,5 @@ print <<<EOT
     </html>
 
 EOT;
+
 ?>

@@ -1,6 +1,7 @@
 <?php
 
     @include_once("local-debug-settings.php");
+    include_once("referring-page-tracker.php");
 
     function debug_is_on() {
         if (isset($GLOBALS["DEBUG"]) && $GLOBALS["DEBUG"]) {
@@ -15,6 +16,9 @@
         error_reporting(E_ERROR);
         assert_options(ASSERT_ACTIVE, 0);
     }
+
+    assert(defined("SITE_ROOT"));
+    define("PORTAL_ROOT", SITE_ROOT."../");
 
     ini_set("session.gc_maxlifetime", "999999999"); 
     ini_set("session.cache_expire",   "999999999");
@@ -31,7 +35,6 @@
             session_cache_limiter('must-revalidate');
         }
     }
-    session_start();
 
     /**
      * This constant is used so that included scripts can reference the files 
