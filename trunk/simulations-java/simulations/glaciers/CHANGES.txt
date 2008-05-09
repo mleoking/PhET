@@ -85,6 +85,7 @@ CLEANUP:
 
 
 DONE:
+5/8/08 - call cleanup on all tools and tool nodes when they are trashed
 5/8/08 - reduce number of calls to Glacier.getSurfaceElevation in IceNode
 5/8/08 - use same method of computation and precision for all geometry in IceNode
 5/8/08 - remove ice thickness grid from public interface of Glacier model

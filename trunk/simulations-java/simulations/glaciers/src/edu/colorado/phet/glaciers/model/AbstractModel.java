@@ -120,6 +120,7 @@ public abstract class AbstractModel implements IToolProducer {
         _tools.remove( tool );
         _clock.removeClockListener( tool );
         notifyToolRemoved( tool );
+        tool.cleanup();
     }
     
     public void removeAllTools() {

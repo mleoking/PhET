@@ -543,6 +543,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _toolsLayer.removeChild( toolNode );
         _toolsMap.remove( tool );
         _toolboxNode.getTrashCan().removeManagedNode( toolNode );
+        toolNode.cleanup();
     }
     
     //----------------------------------------------------------------------------
