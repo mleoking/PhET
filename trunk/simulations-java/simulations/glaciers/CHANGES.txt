@@ -86,6 +86,7 @@ CLEANUP:
 
 
 DONE:
+5/9/08 - add drag constraints to tracer flag model, snap to legal position
 5/8/08 - call cleanup on all tools and tool nodes when they are trashed
 5/8/08 - reduce number of calls to Glacier.getSurfaceElevation in IceNode
 5/8/08 - use same method of computation and precision for all geometry in IceNode
