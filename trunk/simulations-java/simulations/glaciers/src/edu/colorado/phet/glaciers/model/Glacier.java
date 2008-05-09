@@ -102,7 +102,7 @@ public class Glacier extends ClockAdapter {
         
         _headwall = new Point2D.Double( MIN_X, valley.getElevation( MIN_X ) );
         _terminus = new Point2D.Double();
-        _surfaceAtSteadyStateELA = new Point2D.Double();
+        _surfaceAtSteadyStateELA = null; // will be allocated as needed
 
         _climateChangedTime = _clock.getSimulationTime();
         _previousELA = _currentELA = _climate.getELA();
@@ -332,7 +332,7 @@ public class Glacier extends ClockAdapter {
                     countOfNonZeroSquares++;
                 }
                 
-                // look for steady state ELA contour
+                // look for steady state ELA contour, this is approximate!
                 if ( _surfaceAtSteadyStateELA == null ) {
                     surfaceElevation = _valley.getElevation( x ) + thickness;
                     if ( surfaceElevation <= steadyStateELA ) {
