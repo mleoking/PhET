@@ -37,6 +37,7 @@ MEDIUM PRIORITY:
 - add Advanced panel
 
 LOW PRIORITY:
+- make flags fall over (with somewhat random orientation?) when they hit the valley floor
 - remove registration points from mountains image
 - creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
 - developer controls for ice velocity "look"?
