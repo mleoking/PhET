@@ -30,7 +30,10 @@ public class NuclearReactorNode extends PNode {
     //------------------------------------------------------------------------
     
     private static final Color        REACTOR_WALL_COLOR = Color.BLACK;
-    private static final Color        REACTOR_CHAMBER_COLOR = new Color(0xf5f5d6);
+    private static final Color        COOL_REACTOR_CHAMBER_COLOR = new Color(0xbbbbbb);
+    private static final Color        HOT_REACTOR_CHAMBER_COLOR = new Color(0xff3333);
+    
+    private static final double       MAX_TEMPERATURE = 100;  // Unitless value.
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -42,6 +45,9 @@ public class NuclearReactorNode extends PNode {
     // Reference to the canvas upon which this node resides.  This is needed
     // for scaling model coordinates into canvas coordinates.
     PhetPCanvas _canvas;
+    
+    // A node representing the outside of the reactor.
+    PPath _reactorWall;
     
     // A child PNode where all the atomic nuclei and free particles are
     // maintained.
@@ -74,6 +80,9 @@ public class NuclearReactorNode extends PNode {
             public void resetOccurred(){
                 handleReactorReset();
             }
+            public void temperatureChanged(){
+                setInternalReactorColor();
+            }
         });
 
         // Create the shapes and the node that will represent the outer wall
@@ -83,11 +92,11 @@ public class NuclearReactorNode extends PNode {
         Rectangle2D reactorWallShape = new Rectangle2D.Double(reactorRect.getX() + (reactorWallWidth / 2),
                 reactorRect.getY() + (reactorWallWidth / 2), reactorRect.getWidth() - reactorWallWidth,
                 reactorRect.getHeight() - reactorWallWidth);
-        PPath reactorWall = new PPath(reactorWallShape);
-        reactorWall.setStroke( new BasicStroke((float)reactorWallWidth) );
-        reactorWall.setStrokePaint( REACTOR_WALL_COLOR );
-        reactorWall.setPaint( REACTOR_CHAMBER_COLOR );
-        addChild(reactorWall);
+        _reactorWall = new PPath(reactorWallShape);
+        _reactorWall.setStroke( new BasicStroke((float)reactorWallWidth) );
+        _reactorWall.setStrokePaint( REACTOR_WALL_COLOR );
+        addChild(_reactorWall);
+        setInternalReactorColor();
         
         // Add nodes for each of the reactor chambers in the reactor.
         ArrayList chamberRects = _nuclearReactorModel.getChamberRectsReference();
@@ -132,6 +141,32 @@ public class NuclearReactorNode extends PNode {
         // Add the nuclei to the model.  It is assumed after reset that there
         // are no free particles.
         addNucleusNodes();
+    }
+    
+    /**
+     * Set the internal reactor color, which is a function of the internal
+     * temperature.
+     */
+    private void setInternalReactorColor(){
+        double reactorTemperature = _nuclearReactorModel.getTemperature();
+        if (reactorTemperature > MAX_TEMPERATURE){
+            reactorTemperature = MAX_TEMPERATURE;
+        }
+        // Blend the hot and cold colors together based on the current temp.
+        double weighting = (MAX_TEMPERATURE - reactorTemperature) / MAX_TEMPERATURE;
+        
+        int red = (int)(Math.round( (COOL_REACTOR_CHAMBER_COLOR.getRed() * weighting) + 
+                (HOT_REACTOR_CHAMBER_COLOR.getRed() * (1 - weighting)) )); 
+        int green = (int)(Math.round( (COOL_REACTOR_CHAMBER_COLOR.getGreen() * weighting) + 
+                (HOT_REACTOR_CHAMBER_COLOR.getGreen() * (1 - weighting)) )); 
+        int blue = (int)(Math.round( (COOL_REACTOR_CHAMBER_COLOR.getBlue() * weighting) + 
+                (HOT_REACTOR_CHAMBER_COLOR.getBlue() * (1 - weighting)) ));
+        
+        if (blue > 255){
+            System.err.println("Holy jeez, what's going on?");
+        }
+        
+        _reactorWall.setPaint( new Color(red, green, blue) );
     }
     
     /**
