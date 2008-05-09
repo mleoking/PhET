@@ -1,3 +1,12 @@
+rather than inventing a disclaimer, perhaps you should adapt one
+from a diet book, health website, or similar.
+
+For example:
+http://www.thehealthierlife.co.uk/page/191/health-disclaimer.html
+http://www.geneticalliance.org/ws_display.asp?filter=disclaimer
+http://www.sugarshock.com/healthdisclaimer.html
+etc.
+
 Move BMI readout to near the heart
 
 Didn't crash on 1.5.0_13 for 0.00.29 on Mac OS X 10.5.2
