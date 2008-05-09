@@ -11,6 +11,8 @@ import java.util.HashMap;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
+import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
+import edu.colorado.phet.nuclearphysics2.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.ControlRod;
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorModel;
 import edu.umd.cs.piccolo.PNode;
@@ -140,9 +142,16 @@ public class NuclearReactorNode extends PNode {
         ArrayList nuclei = _nuclearReactorModel.getNuclei();
         for ( int i = 0; i < nuclei.size(); i++ ) {
             AtomicNucleus nucleus = (AtomicNucleus) nuclei.get( i );
-            AtomicNucleusImageNode atomNode = new AtomicNucleusImageNode(nucleus);
-            _nucleiAndFreeParticleNode.addChild( atomNode );
-            _modelElementToNodeMap.put( nucleus, atomNode );
+            
+            // Only show U235 nuclei in the view.  There are likely to be
+            // other nuclei present in the model (generally U238) to moderate
+            // the reaction, but the educators have specified that these not
+            // be shown since it makes the view too cluttered.
+            if (nucleus instanceof Uranium235Nucleus){
+                AtomicNucleusImageNode atomNode = new AtomicNucleusImageNode(nucleus);
+                _nucleiAndFreeParticleNode.addChild( atomNode );
+                _modelElementToNodeMap.put( nucleus, atomNode );
+            }
         }
     }
     
@@ -175,7 +184,7 @@ public class NuclearReactorNode extends PNode {
      * from the canvas.
      */
     public void handleModelElementRemoved(Object modelElement){
-        
+
         Object nucleusNode = _modelElementToNodeMap.get( modelElement );
         if ((nucleusNode != null) || (nucleusNode instanceof PNode)){
             
@@ -193,7 +202,9 @@ public class NuclearReactorNode extends PNode {
             }
         }
         else{
-            System.err.println("Error: Problem encountered removing node from canvas.");
+            if (!(modelElement instanceof Uranium238Nucleus)){
+                System.err.println("Error: Problem encountered removing node from canvas.");
+            }
         }
     }
 }
