@@ -12,6 +12,7 @@ DROP THESE FEATURES?
 
 HIGH PRIORITY:
 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
+- I don't like having dragging property in AbstractTool model, perhaps move this into AbstractToolNode and call tool.constrainDrop at end of drag?
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
 - use solid colors for ice surface and cross-section
