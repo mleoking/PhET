@@ -1,3 +1,17 @@
+Move BMI readout to near the heart
+
+Didn't crash on 1.5.0_13 for 0.00.29 on Mac OS X 10.5.2
+
+Lighten up proteins, fats, lipids for projector
+
+Try dark gray color for bar chart text color (not black)
+
+Weight gain goes into fat% to keep BMR basically constant.
+
+Mass slider thumb in the wrong spot on Mac, see malley's machine.
+
+"?" icon should move with the heart
+
 I'm having trouble making sense out of this. It appears that if I add weight
 my BMR increases tremendously.  I thought BMR does not increase unless
 muscle mass increases.  Then I see that adding to my weight does not change
