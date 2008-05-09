@@ -33,7 +33,7 @@ public class NuclearReactorNode extends PNode {
     private static final Color        COOL_REACTOR_CHAMBER_COLOR = new Color(0xbbbbbb);
     private static final Color        HOT_REACTOR_CHAMBER_COLOR = new Color(0xff3333);
     
-    private static final double       MAX_TEMPERATURE = 100;  // Unitless value.
+    private static final double       MAX_TEMPERATURE = 75;  // Unitless value.
     
     //------------------------------------------------------------------------
     // Instance Data
