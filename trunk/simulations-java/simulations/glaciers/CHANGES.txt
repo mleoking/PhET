@@ -11,6 +11,7 @@ DROP THESE FEATURES?
 - when a tool is dragged in the world and dropped illegally, snap it back to its location at the start of the drag (animated?)
 
 HIGH PRIORITY:
+- Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
 - use solid colors for ice surface and cross-section
@@ -23,7 +24,7 @@ MEDIUM PRIORITY:
 - thermometer displays "?" when advancing glacier overlaps a thermometer, or when in illegal drop location
 - make ice thickness tool adjust its caliper to fit the ice thickness
 - visual representation of snowfall
-- drill a borehole each time mouse button is released on borehole drill
+- drill a borehole each time mouse button is released on borehole drill (or add a button to drill)
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - fake rocks using ice textures
