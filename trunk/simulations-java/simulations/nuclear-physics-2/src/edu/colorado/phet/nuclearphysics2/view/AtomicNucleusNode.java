@@ -41,7 +41,7 @@ public class AtomicNucleusNode extends PNode {
     private static final double LABEL_SCALING_FACTOR = 0.30;
     
     // Constants that control the nature of the explosion graphic.
-    private static final int   EXPLOSION_COUNTER_RESET_VAL = 10;
+    private static final int   EXPLOSION_COUNTER_RESET_VAL = 15;
     private static final Color EXPLOSION_STROKE_COLOR = new Color(0xffff33);
     private static final Color EXPLOSION_FILL_COLOR = new Color(0xffff33);
     private static final float EXPLOSION_MIN_TRANSPARENCY = 0.4f;
@@ -304,7 +304,7 @@ public class AtomicNucleusNode extends PNode {
 
         if (_explosionCounter > 0){
             // Step the explosion graphic.
-            double explosionRadius = (double)(EXPLOSION_COUNTER_RESET_VAL - _explosionCounter + 1) * 3;
+            double explosionRadius = (double)(EXPLOSION_COUNTER_RESET_VAL - _explosionCounter + 1) * 3.5;
             _explosionShape.setFrameFromCenter( 0, 0, explosionRadius, explosionRadius );
             _explosion.setPathTo( _explosionShape );
             _explosion.setTransparency( 
