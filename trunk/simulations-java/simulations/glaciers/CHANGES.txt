@@ -86,6 +86,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.19 (?)
 5/9/08 - add drop constraints for all other tools
 ******* 0.00.18 (21304)
 5/9/08 - add drop constraints to tracer flag model, snap to legal position
