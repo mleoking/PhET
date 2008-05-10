@@ -695,6 +695,17 @@ margin-left: 14px;
 padding: 0;
 margin: 0;
 }
+div.simupgrade {
+    background-color: #fff;
+    border: solid 2px #f00;
+    margin-left: 2em;
+    margin-right: 2em;
+    margin-bottom: 1em;
+}
+div.simupgrade img {
+    float: left;
+    padding-right: 1em;
+}
 #content a.breadcrumbs {
 margin: 0px 20px 0px 0px;
 padding: 0px 0px 0px 15px;

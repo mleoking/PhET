@@ -29,7 +29,7 @@ class IndividualSimulationPage extends SitePage {
         $this->simulation = sim_get_sim_by_id($this->sim_id);
 
         $sim_rating = $this->simulation["sim_rating"];
-        $sim_type = $this->simulation["sim_type"];
+        $this->sim_type = $this->simulation["sim_type"];
         $sim_name = format_string_for_html($this->simulation["sim_name"]);
         $sim_crutch = $this->simulation["sim_crutch"];
         $this->sim_crutch_html = '';
@@ -39,7 +39,7 @@ class IndividualSimulationPage extends SitePage {
         }
 
         $this->sim_rating_html = $SIM_RATING_TO_IMAGE_HTML["$sim_rating"];
-        $this->sim_type_html   = $SIM_TYPE_TO_IMAGE_HTML[$sim_type];
+        $this->sim_type_html   = $SIM_TYPE_TO_IMAGE_HTML[$this->sim_type];
         $this->sim_launch_url  = sim_get_launch_url($this->simulation);
         $this->sim_image_url   = sim_get_screenshot($this->simulation);
 
@@ -66,6 +66,30 @@ class IndividualSimulationPage extends SitePage {
         return true;
     }
 
+    function get_sim_java_upgrade_html() {
+        return <<<EOT
+            <div class="simupgrade">
+                <p>
+                    <a href="http://www.java.com/en/index.jsp"><img src="{$this->prefix}images/javalogo52x88.gif" alt="Java Jump" /></a>
+                </p>
+                <div>
+                    <p>
+                        <strong>PhET Sims Are Getting An Upgrade!</strong>
+                    </p>
+                    <p>
+                        PhET is considering upgrading to Java 1.5 this summer.
+                        To run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
+                        <a href="http://www.java.com/en/index.jsp">Upgrade now!</a>
+                    </p>
+                    <p>
+                        <a href="http://localhost/PhET/new/tech_support/support-java.php#q4">How do I check my computer's current version of Java?</a>
+                    </p>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+EOT;
+    }
     // TODO: separate out the update and render functions more.  No time now.
     function print_content() {
         $result = parent::render_content();
@@ -153,8 +177,16 @@ class IndividualSimulationPage extends SitePage {
         }
 */
 
+        $sim_java_upgrade_html = "";
+        if ($this->sim_type == 0) {
+            $sim_java_upgrade_html = $this->get_sim_java_upgrade_html();
+        }
+
             print <<<EOT
         <div class="container">
+
+            {$sim_java_upgrade_html}
+
             <div id="simsummary">
                 <p class="sim-abstract">{$formatted_sim_desc}</p>
 
