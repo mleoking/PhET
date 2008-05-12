@@ -1,4 +1,4 @@
-New in 0.00.32 (5-9-2008)
+New in 0.00.32 (5-12-2008)
 Added a trial fix for mac crash problem.
 
 New in 0.00.30 (5-9-2008)
