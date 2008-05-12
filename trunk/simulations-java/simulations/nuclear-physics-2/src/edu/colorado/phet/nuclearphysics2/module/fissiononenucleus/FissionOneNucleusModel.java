@@ -213,7 +213,7 @@ public class FissionOneNucleusModel {
                 ((Listener)_listeners.get( j )).nucleonRemoved( (Nucleon)_freeNucleons.get( i ) );
             }
         }
-        _freeNucleons.removeAll( _freeNucleons );
+        _freeNucleons.clear();
     }
     
     /**
