@@ -248,25 +248,25 @@ public class ChainReactionModel {
         for (i = 0; i < _freeNeutrons.size(); i++){
             notifyModelElementRemoved( _freeNeutrons.get( i ) );
         }
-        _freeNeutrons.removeAll( _freeNeutrons );
+        _freeNeutrons.clear();
         
         for (i = 0; i < _u235Nuclei.size(); i++){
             notifyModelElementRemoved( _u235Nuclei.get( i ) );
             ((AtomicNucleus)_u235Nuclei.get( i )).removedFromModel();
         }
-        _u235Nuclei.removeAll( _u235Nuclei );
+        _u235Nuclei.clear();
         
         for (i = 0; i < _u238Nuclei.size(); i++){
             notifyModelElementRemoved( _u238Nuclei.get( i ) );
             ((AtomicNucleus)_u238Nuclei.get( i )).removedFromModel();
         }
-        _u238Nuclei.removeAll( _u238Nuclei );
+        _u238Nuclei.clear();
         
         for (i = 0; i < _daughterNuclei.size(); i++){
             notifyModelElementRemoved( _daughterNuclei.get( i ) );
             ((AtomicNucleus)_daughterNuclei.get( i )).removedFromModel();
         }
-        _daughterNuclei.removeAll( _daughterNuclei );
+        _daughterNuclei.clear();
         
         // Set ourself back to the original state, which is with a single u235
         // nucleus in the center.

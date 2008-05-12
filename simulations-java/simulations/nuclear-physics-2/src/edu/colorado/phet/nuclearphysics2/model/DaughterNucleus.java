@@ -42,7 +42,7 @@ public class DaughterNucleus extends AtomicNucleus {
      */
     public void reset(){
 
-        _constituents.removeAll( _constituents );
+        _constituents.clear();
         _numAlphas = 0;
         _numFreeNeutrons = 0;
         _numFreeProtons = 0;
