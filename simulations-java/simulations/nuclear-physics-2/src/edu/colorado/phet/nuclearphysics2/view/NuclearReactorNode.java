@@ -17,6 +17,7 @@ import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.ControlRod;
 import edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * A node that represents a nuclear reactor in the view.
@@ -29,11 +30,21 @@ public class NuclearReactorNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
+    // Constants the control the look of the reactor.
     private static final Color        REACTOR_WALL_COLOR = Color.BLACK;
     private static final Color        COOL_REACTOR_CHAMBER_COLOR = new Color(0xbbbbbb);
     private static final Color        HOT_REACTOR_CHAMBER_COLOR = new Color(0xff3333);
     
+    // Max temperature, with used when setting up the thermometer and in
+    // in controlling the internal color of the reactor.
     private static final double       MAX_TEMPERATURE = 75;  // Unitless value.
+    
+    // Constants that control the position and size of the thermometer.
+    private static final double       THERMOMETER_PROPORTION_FROM_LEFT_SIDE = 0.08;
+    private static final double       THERMOMETER_PROPORTION_ABOVE = 0.18;
+    private static final double       THERMOMETER_WIDTH_PROPORTION = 0.05;
+    private static final double       THERMOMETER_HEIGHT_PROPORTION = 0.40;
+    
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -121,6 +132,16 @@ public class NuclearReactorNode extends PNode {
         
         // Add the initial nuclei (if there are any).
         addNucleusNodes();
+        
+        // Add the thermometer.
+        PNode thermometerNode = new ThermometerNode(_nuclearReactorModel,
+                new PDimension(THERMOMETER_WIDTH_PROPORTION * reactorRect.getWidth(), 
+                        THERMOMETER_HEIGHT_PROPORTION * reactorRect.getHeight()), MAX_TEMPERATURE);
+        addChild(thermometerNode);
+        thermometerNode.setOffset( 
+                reactorRect.getX() + (reactorRect.getWidth() * THERMOMETER_PROPORTION_FROM_LEFT_SIDE),
+                reactorRect.getY() - (reactorRect.getHeight() * THERMOMETER_PROPORTION_ABOVE));
+        
     }
     
     //------------------------------------------------------------------------
