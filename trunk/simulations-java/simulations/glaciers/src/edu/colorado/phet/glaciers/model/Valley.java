@@ -38,6 +38,8 @@ public class Valley {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final double HEADWALL_X = 0; // x coordinate where the headwall starts (meters) CHANGING THIS IS UNTESTED!!
+    
     // These constants affect the headwall, the steepest part of the valley floor.
     private static final double HEADWALL_STEEPNESS = 5000;
     private static final double HEADWALL_LENGTH = 800;
@@ -45,14 +47,31 @@ public class Valley {
     private static final double X_EQUALITY_THREHOLD = 1; // meters
     
     //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private final Point2D _headwallPosition;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Valley() {}
+    public Valley() {
+        _headwallPosition = new Point2D.Double( HEADWALL_X, getElevation( HEADWALL_X ) );
+    }
     
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
+    
+    /**
+     * Gets a reference to the position where the headwall starts.
+     * 
+     * @return Point2D
+     */
+    public Point2D getHeadwallPositionReference() {
+        return _headwallPosition;
+    }
     
     /**
      * Gets the elevation at a position along the valley floor.
@@ -63,8 +82,7 @@ public class Valley {
      */
     public double getElevation( final double x ) {
         double elevation = 0;
-        final double minX = Glacier.getMinX();
-        if ( x >= minX ) {
+        if ( x >= HEADWALL_X ) {
             elevation = 4e3 - ( x / 30. ) + Math.exp( -( x - HEADWALL_STEEPNESS ) / HEADWALL_LENGTH );
             if ( elevation < 0 ) {
                 elevation = 0;
@@ -73,7 +91,7 @@ public class Valley {
         else {
             // To the left of the headwall, use a simple constant slope.
             // This is needed mainly so that tools behave correctly.
-            elevation = getElevation( minX ) + ( 0.5 * ( minX - x ) ); 
+            elevation = getElevation( HEADWALL_X ) + ( 0.5 * ( HEADWALL_X - x ) ); 
         }
         return elevation;
     }
@@ -86,8 +104,8 @@ public class Valley {
      * @return
      */
     public double getX( final double elevation ) {
-        double x = Glacier.getMinX() + ( Glacier.getMaxLength() / 2 ); // midpoint of largest glacier
-        double dx = Glacier.getMaxLength() / 10;
+        double x = HEADWALL_X;
+        double dx = 4000;
         boolean found = false;
         while ( !found ) {
             double e = getElevation( x );

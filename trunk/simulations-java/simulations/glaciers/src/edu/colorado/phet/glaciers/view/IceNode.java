@@ -115,8 +115,8 @@ public class IceNode extends PComposite {
 
             // constants
             final double dx = Glacier.getDx();
-            final double xHeadwall = _glacier.getHeadwallReference().getX();
-            final double xTerminus = _glacier.getTerminusReference().getX();
+            final double xHeadwall = _glacier.getHeadwallX();
+            final double xTerminus = _glacier.getTerminusX();
             final Point2D surfaceAtELA = _glacier.getSurfaceAtSteadyStateELAReference();
             final double perspectiveHeight = MountainsAndValleyNode.getPerspectiveHeight();
             

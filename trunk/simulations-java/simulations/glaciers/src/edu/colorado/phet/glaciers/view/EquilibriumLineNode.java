@@ -95,11 +95,9 @@ public class EquilibriumLineNode extends PhetPNode {
         _mvt.modelToView( _pModel, _pView );
         _path.moveTo( (float)_pView.getX(), (float)_pView.getY() );
         
-        final double x0 = _glacier.getHeadwallReference().getX();
-        final double y0 = _glacier.getHeadwallReference().getY();
-        if ( ela > y0 ) {
+        if ( ela > _glacier.getHeadwallY() ) {
             // if the ELA is above the top of the headwall, then stop drawing at the headwall
-            _pModel.setLocation( x0, ela );
+            _pModel.setLocation( _glacier.getHeadwallX(), ela );
             _mvt.modelToView( _pModel, _pView );
             _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
         }

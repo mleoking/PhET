@@ -65,6 +65,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     // Class data
     //----------------------------------------------------------------------------
     
+    // maximum x coordinate of interest
+    private static final double MAX_X = 80000;
+    
     // constant height of the birds-eye view, in pixels
     private static final double BIRDS_EYE_VIEW_HEIGHT = 75;
     
@@ -123,16 +126,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         _mvt = mvt;
         
-        // range of x values that we're interested in
-        final double minX = Glacier.getMinX();
-        final double maxX = Glacier.getMaxX();
-        
-        // elevation left edge of valley
-        double elevationAtMinX = _model.getValley().getElevation( minX );
+        // headwall position
+        Point2D headwallPosition = _model.getValley().getHeadwallPositionReference();
         
         // birds-eye viewport
         _birdsEyeViewport = new Viewport( "birds-eye" ); // bounds will be set when play area is resized
-        _birdsEyeViewport.setPosition( minX + BIRDS_EYE_VIEWPORT_OFFSET.getX(), elevationAtMinX + BIRDS_EYE_VIEWPORT_OFFSET.getY() );
+        _birdsEyeViewport.setPosition( headwallPosition.getX() + BIRDS_EYE_VIEWPORT_OFFSET.getX(), headwallPosition.getY() + BIRDS_EYE_VIEWPORT_OFFSET.getY() );
         _birdsEyeViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleBirdsEyeViewportChanged();
@@ -272,7 +271,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _toolboxLayer.addChild( _elaValueNode );
         
         // Penguin is the control for moving the zoomed viewport
-        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, maxX );
+        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, MAX_X );
         _viewportLayer.addChild( _penguinNode );
         
         // Arrows for moving zoomed viewport
