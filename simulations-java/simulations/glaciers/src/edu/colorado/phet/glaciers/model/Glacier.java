@@ -27,10 +27,7 @@ public class Glacier extends ClockAdapter {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double MIN_X = 0; // x coordinate where the glacier starts (meters) CHANGING THIS IS UNTESTED!!
     private static final double DX = 80; // distance between x-axis sample points (meters)
-    private static final double MAX_LENGTH = 80000; // maximum glacier length (meters)
-    
     private static final double ELA_EQUALITY_THRESHOLD = 1; // ELAs are considered equal if they are at least this close (meters)
     private static final double U_SLIDE = 20; // downvalley ice speed (meters/year)
     private static final double U_DEFORM = 20; // contribution of vertical deformation to ice speed (meters/year)
@@ -57,7 +54,6 @@ public class Glacier extends ClockAdapter {
     private boolean _steadyState; // is the glacier in the steady state?
     private double[] _iceThicknessSamples; // ice thickness at t=now (meters)
     
-    private final Point2D _headwall; // point at the top of the headwall (upvalley end)
     private final Point2D _terminus; /// point at the terminus (downvalley end)
     private Point2D _surfaceAtSteadyStateELA; // point where the steady state ELA intersects the ice surface
     
@@ -100,7 +96,6 @@ public class Glacier extends ClockAdapter {
         
         _listeners = new ArrayList();
         
-        _headwall = new Point2D.Double( MIN_X, valley.getElevation( MIN_X ) );
         _terminus = new Point2D.Double();
         _surfaceAtSteadyStateELA = null; // will be allocated as needed
 
@@ -133,31 +128,6 @@ public class Glacier extends ClockAdapter {
      */
     public Climate getClimate() {
         return _climate;
-    }
-    
-    /**
-     * Gets the minimum x coordinate, used for the first x-axis sample point.
-     * 
-     * @return meters
-     */
-    public static double getMinX() {
-        return MIN_X;
-    }
-    
-    /**
-     * Gets the maximum x coordinate.
-     * Depending on how the model is parameterized, we may exceed this value.
-     * This value is used mainly to tell the view how much of the Valley we need 
-     * to be able to look at.
-     * 
-     * @return
-     */
-    public static double getMaxX() {
-        return MIN_X + MAX_LENGTH;
-    }
-    
-    public static double getMaxLength() {
-        return MAX_LENGTH;
     }
     
     /**
@@ -200,25 +170,41 @@ public class Glacier extends ClockAdapter {
      * @return length in meters
      */
     public double getLength() {
-        return _terminus.getX() - _headwall.getX();
+        return getTerminusX() - getHeadwallX();
     }
     
     /**
-     * Gets a reference to the point at the top of the headwall.
+     * Convenience method for getting the headwall position.
      * 
-     * @return
+     * @return Point2D
      */
-    public Point2D getHeadwallReference() {
-        return _headwall;
+    public Point2D getHeadwallPositionReference() {
+        return _valley.getHeadwallPositionReference();
+    }
+    
+    public double getHeadwallX() {
+        return _valley.getHeadwallPositionReference().getX();
+    }
+    
+    public double getHeadwallY() {
+        return _valley.getHeadwallPositionReference().getY();
     }
     
     /**
-     * Gets a reference to the point at the terminus.
+     * Gets a reference to the terminus position.
      * 
      * @return
      */
-    public Point2D getTerminusReference() {
+    public Point2D getTerminusPositionReference() {
         return _terminus;
+    }
+    
+    public double getTerminusX() {
+        return _terminus.getX();
+    }
+    
+    public double getTerminusY() {
+        return _terminus.getY();
     }
     
     /**
@@ -261,15 +247,16 @@ public class Glacier extends ClockAdapter {
      */
     public double getIceThickness( final double x ) {
         double iceThickness = 0;
+        final double headwallX = _valley.getHeadwallPositionReference().getX();
         if ( _iceThicknessSamples != null ) {
             final double xTerminus = _terminus.getX();
-            if ( x >= MIN_X && x <= xTerminus ) {
+            if ( x >= headwallX && x <= xTerminus ) {
                 if ( x == xTerminus ) {
                     iceThickness = _iceThicknessSamples[_iceThicknessSamples.length - 1];
                 }
                 else {
-                    int index = (int) ( ( x - MIN_X ) / DX );
-                    double x1 = MIN_X + ( index * DX );
+                    int index = (int) ( ( x - headwallX ) / DX );
+                    double x1 = headwallX + ( index * DX );
                     double t1 = _iceThicknessSamples[index];
                     double t2 = _iceThicknessSamples[index + 1];
                     iceThickness = t1 + ( ( ( x - x1 ) / DX ) * ( t2 - t1 ) ); // linear interpolation
@@ -288,26 +275,27 @@ public class Glacier extends ClockAdapter {
         final double steadyStateELA = _climate.getELA();
         _surfaceAtSteadyStateELA = null;
         
-        final double maxElevation = _headwall.getY();
-        final double glacierLength = computeLength( _currentELA, maxElevation ); // x_terminus in documentation, but this is really length
+        final double headwallX = _valley.getHeadwallPositionReference().getX();
+        final double headwallY = _valley.getHeadwallPositionReference().getY();
+        final double glacierLength = computeLength( _currentELA, headwallY ); // x_terminus in documentation, but this is really length
         
         if ( glacierLength == 0 ) {
             _iceThicknessSamples = null;
             _averageIceThicknessSquares = 0;
-            _terminus.setLocation( _headwall );
+            _terminus.setLocation( _valley.getHeadwallPositionReference() );
         }
         else {
             
             // compute constants used herein
-            final double maxThickness = computeMaxThickness( _currentELA, maxElevation ); // H_max in documentation
+            final double maxThickness = computeMaxThickness( _currentELA, headwallY ); // H_max in documentation
             final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
-            final double xPeak = MIN_X + ( 0.5 * glacierLength ); // midpoint of the ice
+            final double xPeak = headwallX + ( 0.5 * glacierLength ); // midpoint of the ice
             final double p = Math.max( 1.5, 42 - ( 0.01 * _currentELA ) );
             final double r = 1.5 * xPeak;
             final double xPeakPow = Math.pow( xPeak, p );
 
             // initialize variables
-            double x = _headwall.getX();
+            double x = headwallX;
             double surfaceElevation = 0;
             double thickness = 0;
             double sumOfNonZeroSquares = 0;
@@ -350,8 +338,8 @@ public class Glacier extends ClockAdapter {
             
             // terminus
             _terminus.setLocation( x, _valley.getElevation( x ) );
-            assert( _terminus.getX() >= _headwall.getX() );
-            assert( _terminus.getY() <= _headwall.getY() );
+            assert( _terminus.getX() >= headwallX );
+            assert( _terminus.getY() <= headwallY );
         }
 
         notifyIceThicknessChanged();

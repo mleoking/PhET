@@ -106,8 +106,8 @@ public class IceFlowNode extends PComposite {
             Point2D outputPoint = new Point2D.Double();
             
             _parentNode.removeAllChildren();
-            final double xTerminus = _glacier.getTerminusReference().getX();
-            double x = _glacier.getHeadwallReference().getX();
+            final double xTerminus = _glacier.getTerminusX();
+            double x = _glacier.getHeadwallX();
             while ( x <= xTerminus ) {
                 double valleyFloorElevation = _glacier.getValley().getElevation( x );
                 double iceSurfaceElevation = valleyFloorElevation + _glacier.getIceThickness( x );
