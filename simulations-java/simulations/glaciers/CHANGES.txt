@@ -88,7 +88,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.20 (?)
+******* 0.00.20 (21338)
 5/12/08 - move "max x" property out of glacier and into view; model has no such limit on x
 5/12/08 - move headwall property to valley model
 5/12/08 - change valley formula to better match the elevation left of the headwall in the image
