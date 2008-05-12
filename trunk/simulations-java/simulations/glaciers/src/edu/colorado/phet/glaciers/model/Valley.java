@@ -62,9 +62,18 @@ public class Valley {
      * @return elevation (meters)
      */
     public double getElevation( final double x ) {
-        double elevation = 4e3 - ( x / 30. ) + Math.exp( -( x - HEADWALL_STEEPNESS ) / HEADWALL_LENGTH );
-        if ( elevation < 0 ) {
-            elevation = 0;
+        double elevation = 0;
+        final double minX = Glacier.getMinX();
+        if ( x >= minX ) {
+            elevation = 4e3 - ( x / 30. ) + Math.exp( -( x - HEADWALL_STEEPNESS ) / HEADWALL_LENGTH );
+            if ( elevation < 0 ) {
+                elevation = 0;
+            }
+        }
+        else {
+            // To the left of the headwall, use a simple constant slope.
+            // This is needed mainly so that tools behave correctly.
+            elevation = getElevation( minX ) + ( 0.5 * ( minX - x ) ); 
         }
         return elevation;
     }
