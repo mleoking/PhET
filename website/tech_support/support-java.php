@@ -64,7 +64,7 @@ class JavaSupportPage extends SitePage {
             <h3 id="q4" >How do I check my computer's current version of Java?</h3>
 
             <p><strong><em>Windows users:</em></strong><br />
-            From a command line (Start menu-&gt;Accessories-&gt;Command Prompt), type: java -version followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p>
+            From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>java&nbsp;-version</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p>
 
             <p><strong><em>Macintosh users:</em></strong><br />
             From the Apple menu, click on "About this Mac", then on "More Info...". You will find the Java software version under "Software-&gt;Applications".</p>
