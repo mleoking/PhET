@@ -65,7 +65,7 @@ public class Valley {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets a reference to the position where the headwall starts.
+     * Gets a reference to the position where the headwall starts (the top of the headwall).
      * 
      * @return Point2D
      */
