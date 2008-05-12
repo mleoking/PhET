@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.19
+glaciers 0.00.20
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,7 +12,7 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>add drop constrains for all tools
+<li>for x < 0, change valley model to F(x) = F(0) - ( 0.5 * x )
 </ul>
 <p>
 <b>Known problems:</b>
