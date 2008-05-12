@@ -21,7 +21,6 @@ public class GlaciersImages {
     public static final BufferedImage ICE_SURFACE_ABOVE_ELA_TEXTURE = GlaciersResources.getImage( "iceSurfaceAboveELATexture.png" );
     public static final BufferedImage ICE_SURFACE_BELOW_ELA_TEXTURE = GlaciersResources.getImage( "iceSurfaceBelowELATexture.png" );
     public static final BufferedImage ICE_THICKNESS_TOOL = GlaciersResources.getImage( "iceThicknessTool.png" );
-    public static final BufferedImage ILLEGAL_CURSOR = GlaciersResources.getImage( "illegalCursor.png" );
     public static final BufferedImage THERMOMETER = GlaciersResources.getImage( "thermometer.png" );
     public static final BufferedImage TRACER_FLAG = GlaciersResources.getImage( "tracerFlag.png" );
     public static final BufferedImage TRASH_CAN = GlaciersResources.getImage( "trashCan.png" );
