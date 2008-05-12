@@ -159,7 +159,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
         private static final Stroke STROKE = new BasicStroke( 1f );
         private static final Color STROKE_COLOR = Color.BLACK;
         private static final Color FILL_COLOR = new Color( 140, 136, 120 ); // metal gray
-        private static final double FRAME_THICKNESS = 4;
+        private static final double FRAME_THICKNESS = 3;
         
         private PDimension _closedSize;
         private GeneralPath _path;
@@ -220,7 +220,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
     private void update() {
         
         if ( _iceThicknessTool.isDragging() ) {
-            String text = "? " + GlaciersStrings.UNITS_ICE_THICKNESS +  "    ";
+            String text = "? " + GlaciersStrings.UNITS_ICE_THICKNESS;
             _iceThicknessDisplay.setText( text );
             _calipersNode.open( 20 );
         }
