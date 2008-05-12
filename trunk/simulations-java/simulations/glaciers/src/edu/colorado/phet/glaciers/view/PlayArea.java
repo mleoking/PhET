@@ -65,8 +65,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     // Class data
     //----------------------------------------------------------------------------
     
-    // maximum x coordinate of interest
-    private static final double MAX_X = 80000;
+    // maximum glacier length of interest
+    private static final double MAX_GLACIER_LENGTH = 80000;
     
     // constant height of the birds-eye view, in pixels
     private static final double BIRDS_EYE_VIEW_HEIGHT = 75;
@@ -271,7 +271,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _toolboxLayer.addChild( _elaValueNode );
         
         // Penguin is the control for moving the zoomed viewport
-        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, MAX_X );
+        final double maxX = headwallPosition.getX() + MAX_GLACIER_LENGTH;
+        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, maxX );
         _viewportLayer.addChild( _penguinNode );
         
         // Arrows for moving zoomed viewport
