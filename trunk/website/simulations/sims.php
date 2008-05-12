@@ -82,7 +82,7 @@ class IndividualSimulationPage extends SitePage {
                         <a href="http://www.java.com/en/index.jsp">Upgrade now!</a>
                     </p>
                     <p>
-                        <a href="http://localhost/PhET/new/tech_support/support-java.php#q4">How do I check my computer's current version of Java?</a>
+                        <a href="{$this->prefix}tech_support/support-java.php#q4">How do I check my computer's current version of Java?</a>
                     </p>
                 </div>
                 <div class="clear"></div>
