@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
@@ -60,7 +61,9 @@ public class GradientButtonNode extends PhetPNode {
     //------------------------------------------------------------------------
     
     private ArrayList _actionListeners;
-    
+    private PBounds textBounds;
+    private Color _buttonColor;
+
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
@@ -74,7 +77,8 @@ public class GradientButtonNode extends PhetPNode {
      * be created.
      */
     public GradientButtonNode(String label, int fontSize, Color buttonColor){
-        
+        this._buttonColor=buttonColor;
+
         // Initialize local data.
         _actionListeners = new ArrayList();
         
@@ -85,23 +89,14 @@ public class GradientButtonNode extends PhetPNode {
         _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
         _buttonText.setPickable( false );
 
+        textBounds = _buttonText.getFullBoundsReference();
+
         // Gradient for when the mouse is not over the button.
-        PBounds textBounds = _buttonText.getFullBoundsReference();
-        Color brighterColor = getBrighterColor( buttonColor );
-        final Paint mouseNotOverGradient = new GradientPaint((float)textBounds.width / 2, 0f,
-                brighterColor, 
-                (float)textBounds.width * 0.5f, (float)textBounds.height, 
-                buttonColor);
+        final Paint mouseNotOverGradient = getMouseNotOverGradient();
         // Gradient for when the mouse is over the button.
-        final Paint mouseOverGradient = new GradientPaint((float)textBounds.width / 2, 0f,
-                getBrighterColor(brighterColor), 
-                (float)textBounds.width * 0.5f, (float)textBounds.height, 
-                brighterColor);
+        final Paint mouseOverGradient = getMouseOverGradient();
         // Gradient for when the button is armed.
-        final Paint armedGradient = new GradientPaint((float)textBounds.width / 2, 0f,
-                buttonColor, 
-                (float)textBounds.width * 0.5f, (float)textBounds.height, 
-                brighterColor);
+        final Paint armedGradient = getArmedGradient();
 
         // Create the button node.
         RoundRectangle2D buttonShape = new RoundRectangle2D.Double(0, 0, 
@@ -153,7 +148,39 @@ public class GradientButtonNode extends PhetPNode {
             }
         } );
     }
-    
+
+    private Paint getArmedGradient() {
+        return useGradient() ?
+               new GradientPaint( (float) textBounds.width / 2, 0f, _buttonColor,
+                                  (float) textBounds.width * 0.5f, (float) textBounds.height,
+                                  getBrighterColor( _buttonColor ) )
+               :
+               (Paint) getBrighterColor( getBrighterColor( _buttonColor ) );
+    }
+
+    // See Unfuddle Ticket #553
+    // https://phet.unfuddle.com/projects/9404/tickets/by_number/553
+    // Button Gradient Paint is disabled on Mac until this problem is resolved
+    private boolean useGradient() {
+        return !PhetUtilities.isMacintosh();
+    }
+
+    private Paint getMouseOverGradient() {
+        return useGradient()?new GradientPaint((float) textBounds.width / 2, 0f,
+                getBrighterColor(getBrighterColor( _buttonColor )),
+                (float) textBounds.width * 0.5f, (float) textBounds.height,
+                getBrighterColor( _buttonColor ))
+               :(Paint) getBrighterColor( _buttonColor );
+    }
+
+    private Paint getMouseNotOverGradient() {
+        return useGradient()?new GradientPaint((float) textBounds.width / 2, 0f,
+                getBrighterColor( _buttonColor ),
+                (float) textBounds.width * 0.5f, (float) textBounds.height,
+                _buttonColor)
+               :(Paint)_buttonColor;
+    }
+
     /**
      * Constructor for creating a default gradient button with only the label
      * specified.
