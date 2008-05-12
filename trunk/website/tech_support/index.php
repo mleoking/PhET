@@ -109,7 +109,7 @@ class TroubleshootingPage extends SitePage {
             <p>Some installations of Internet Explorer, particularly under Windows XP SP2, have default security settings which can impede some aspects of how your locally installed PhET interface functions. For the best user experience while using our simulations installed on your computer, we recommend following the steps below:</p>
 
             <ol>
-                <li>In Internet Explorer on your local workstation, choose Tools > Internet Options.</li>
+                <li>In Internet Explorer on your local workstation, choose Tools &gt; Internet Options.</li>
                 <li>Choose the Advanced tab, then scroll to the Security section.</li>
                 <li>Enable "Allow active content to run in files on my computer".</li>
                 <li>Choose OK.</li>
