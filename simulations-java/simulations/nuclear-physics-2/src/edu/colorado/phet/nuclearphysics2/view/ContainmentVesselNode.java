@@ -47,8 +47,7 @@ public class ContainmentVesselNode extends PNode {
     // Reference to the containment vessel in the model that this node represents.
     private ContainmentVessel _containmentVessel;
     
-    // The shapes and the node that represent the main vessel.  The shapes
-    // make up the vessel shape in sections that go clockwise around it.
+    // The shapes and the node that represent the main vessel.
     private Ellipse2D _mainVesselOuterEllipse;
     private Ellipse2D _mainVesselInnerEllipse;
     private PPath _mainVesselNode;
