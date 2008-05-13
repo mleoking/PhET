@@ -1,10 +1,14 @@
-package edu.colorado.phet.unfuddle;
+package edu.colorado.phet.unfuddle.test;
 
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
+
+import edu.colorado.phet.unfuddle.UnfuddleCurl;
+import edu.colorado.phet.unfuddle.UnfuddleNotifierConstants;
+import edu.colorado.phet.unfuddle.XMLObject;
 
 /**
  * Created by: Sam
