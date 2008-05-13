@@ -2,6 +2,9 @@ Get better simulation name
 
 Rename directory to match new simulation name, once we have it
 
+Internationalize
+__
+
 I am a bit confused about what encompasses the term lifestyle calories, so i will have to see how the simulation is demonstrating this.
 ___
 Sam,
