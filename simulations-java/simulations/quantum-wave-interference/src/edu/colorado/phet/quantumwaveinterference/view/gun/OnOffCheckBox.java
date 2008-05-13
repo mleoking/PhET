@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.view.gun;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +29,7 @@ public class OnOffCheckBox extends JCheckBox {
 //                setForeground( isSelected() ? Color.red : Color.black );
             }
         } );
-        setFont( new PhetDefaultFont( 13, true ) );
+        setFont( new PhetFont( 13, true ) );
         try {
             ImageIcon on = new ImageIcon( ImageLoader.loadBufferedImage( "quantum-wave-interference/images/button-in-40.gif" ) );
             ImageIcon off = new ImageIcon( ImageLoader.loadBufferedImage( "quantum-wave-interference/images/button-out-40.gif" ) );

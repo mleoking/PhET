@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -86,7 +86,7 @@ public class TestPhetTextGraphic2 {
 
             // Title
             PhetTextGraphic2 title = new PhetTextGraphic2( apparatusPanel );
-            title.setFont( new PhetDefaultFont( Font.PLAIN, 24 ) );
+            title.setFont( new PhetFont( Font.PLAIN, 24 ) );
             title.setColor( Color.YELLOW );
             title.setText( "PhetTextGraphic2: test of bounds, justifications, and registration points" );
             title.setLocation( 50, 50 );
@@ -94,7 +94,7 @@ public class TestPhetTextGraphic2 {
 
             // A bunch of PhetTextGraphic2s
 
-            Font font = new PhetDefaultFont( Font.PLAIN, 18 );
+            Font font = new PhetFont( Font.PLAIN, 18 );
             Color color = Color.LIGHT_GRAY;
 
             {

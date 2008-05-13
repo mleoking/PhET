@@ -3,7 +3,7 @@ package edu.colorado.phet.chart_movingman;
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -18,7 +18,7 @@ import java.text.NumberFormat;
 public abstract class AbstractTicks extends AbstractGrid {
     private int tickHeight = 6;
     private NumberFormat format = new DecimalFormat( "#.#" );
-    private Font font = new PhetDefaultFont( Font.PLAIN, 12 );
+    private Font font = new PhetFont( Font.PLAIN, 12 );
     private FontMetrics fontMetrics;
     private boolean showLabels = true;
     private GraphicLayerSet tickGraphics;

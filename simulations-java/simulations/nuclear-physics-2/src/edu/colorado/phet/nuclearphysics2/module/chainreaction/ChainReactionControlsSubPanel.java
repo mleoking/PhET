@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 
@@ -73,7 +73,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 NuclearPhysics2Resources.getString( "MultipleNucleusFissionControlPanel.ControlBorder" ),
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
-                new PhetDefaultFont( Font.BOLD, 14 ),
+                new PhetFont( Font.BOLD, 14 ),
                 Color.GRAY );
         
         setBorder( titledBorder );
@@ -100,7 +100,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u235AmountControl = new LinearValueControl( 0, 100, "U-235", "###", "Nuclei" );
         _u235AmountControl.setUpDownArrowDelta( 1 );
         _u235AmountControl.setTextFieldEditable( true );
-        _u235AmountControl.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        _u235AmountControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _u235AmountControl.setTickPattern( "0" );
         _u235AmountControl.setMajorTickSpacing( 25 );
         _u235AmountControl.setMinorTickSpacing( 12.5 );
@@ -144,7 +144,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u238AmountControl = new LinearValueControl( 0, 100, "U-238", "###", "Nuclei" );
         _u238AmountControl.setUpDownArrowDelta( 1 );
         _u238AmountControl.setTextFieldEditable( true );
-        _u238AmountControl.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        _u238AmountControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _u238AmountControl.setTickPattern( "0" );
         _u238AmountControl.setMajorTickSpacing( 25 );
         _u238AmountControl.setMinorTickSpacing( 12.5 );

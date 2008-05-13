@@ -12,7 +12,7 @@ package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.collision_idealgas.Wall;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 
@@ -29,7 +29,7 @@ public class GraduatedWallGraphic extends WallGraphic {
     private Color backgroundColor = new Color( 230, 230, 40 );
     private Stroke minorTickStroke = new BasicStroke( 1f );
     private Stroke majorTickStroke = new BasicStroke( 1f );
-    private Font graduationFont = new PhetDefaultFont( Font.PLAIN, 10 );
+    private Font graduationFont = new PhetFont( Font.PLAIN, 10 );
     private Wall wall;
 
     public GraduatedWallGraphic( Wall wall, Component component, Paint fill, Paint borderPaint, int translationDirection ) {

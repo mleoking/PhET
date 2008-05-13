@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.math.Function;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.ApparatusPanel;
@@ -179,7 +179,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         private String text;
         private int y = 134;
         private PhetShapeGraphic shapeGraphic;
-        private Font font = new PhetDefaultFont( Font.BOLD, 16 );
+        private Font font = new PhetFont( Font.BOLD, 16 );
         private PhetTextGraphic textGraphic;
 
         public TickGraphic( Component component ) {

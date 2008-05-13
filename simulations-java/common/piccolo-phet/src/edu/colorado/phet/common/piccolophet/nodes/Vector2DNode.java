@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -44,7 +44,7 @@ public class Vector2DNode extends PhetPNode {
     private static final Paint DEFAULT_ARROW_STROKE_PAINT = Color.BLACK;
     private static final Paint DEFAULT_ARROW_FILL_PAINT = Color.WHITE;
 
-    private static final Font DEFAULT_VALUE_FONT = new PhetDefaultFont();
+    private static final Font DEFAULT_VALUE_FONT = new PhetFont();
     private static final Paint DEFAULT_VALUE_PAINT = Color.BLACK;
     private static final double DEFAULT_VALUE_SPACING = 0;
     private static final DecimalFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.##E0" );

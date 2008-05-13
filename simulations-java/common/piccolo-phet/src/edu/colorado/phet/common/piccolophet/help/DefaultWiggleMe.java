@@ -4,7 +4,7 @@ package edu.colorado.phet.common.piccolophet.help;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PCanvas;
 
 
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PCanvas;
 public class DefaultWiggleMe extends MotionHelpBalloon {
 
     // text properties
-    private static final Font DEFAULT_FONT = new PhetDefaultFont( Font.BOLD, 20 );
+    private static final Font DEFAULT_FONT = new PhetFont( Font.BOLD, 20 );
     private static final Color TEXT_COLOR = Color.BLACK;
 
     // bubble properties

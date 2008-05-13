@@ -21,7 +21,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -44,7 +44,7 @@ public class HelpItem extends PhetGraphic {
     public final static int LEFT = 3;
     public final static int CENTER = 4;
     public final static int RIGHT = 5;
-    public final static Font DEFAULT_FONT = new PhetDefaultFont( Font.BOLD, 16 );
+    public final static Font DEFAULT_FONT = new PhetFont( Font.BOLD, 16 );
 
     private static String[] tokenizeString( String inputText ) {
         StringTokenizer st = new StringTokenizer( inputText, "\n" );

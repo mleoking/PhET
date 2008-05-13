@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantD
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
@@ -93,7 +93,7 @@ public class GlaciersClockControlPanel extends ClockControlPanel {
             while ( e.hasMoreElements() ) {
                 Object o = e.nextElement();
                 if ( o instanceof JComponent )
-                    ( (JComponent) o ).setFont( new PhetDefaultFont( 10 ) );
+                    ( (JComponent) o ).setFont( new PhetFont( 10 ) );
             }
             
             // Slider width

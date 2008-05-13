@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 /**
  * PhetDefaultFont provides an interface for instantiating the default font used in PhET simulations.
  */
-public class PhetDefaultFont extends Font {
+public class PhetFont extends Font {
     
     // We'll use this font if we have no font preference, or if no preferred font is installed
     // By deriving the font from a Swing component's font, we should get a platform-specific font 
@@ -28,7 +28,7 @@ public class PhetDefaultFont extends Font {
     /**
      * Constructs a PhetDefaultFont with a default style and point size.
      */
-    public PhetDefaultFont() {
+    public PhetFont() {
         this( getDefaultFontSize() );
     }
     
@@ -37,7 +37,7 @@ public class PhetDefaultFont extends Font {
      *
      * @param size the size of the font.
      */
-    public PhetDefaultFont( int size ) {
+    public PhetFont( int size ) {
         this( getDefaultFontStyle(), size );
     }
 
@@ -47,7 +47,7 @@ public class PhetDefaultFont extends Font {
      * @param style
      * @param size
      */
-    public PhetDefaultFont( int style, int size ) {
+    public PhetFont( int style, int size ) {
         super( getDefaultFontName(), style, size );
     }
 
@@ -57,7 +57,7 @@ public class PhetDefaultFont extends Font {
      * @param size the font size
      * @param bold whether it is bold.
      */
-    public PhetDefaultFont( int size, boolean bold ) {
+    public PhetFont( int size, boolean bold ) {
         this( size, bold, false );
     }
 
@@ -68,7 +68,7 @@ public class PhetDefaultFont extends Font {
      * @param bold    whether it is bold
      * @param italics whether it is italicized.
      */
-    public PhetDefaultFont( int size, boolean bold, boolean italics ) {
+    public PhetFont( int size, boolean bold, boolean italics ) {
         this( ( bold ? Font.BOLD : Font.PLAIN ) | ( italics ? Font.ITALIC : Font.PLAIN ), size );
     }
 

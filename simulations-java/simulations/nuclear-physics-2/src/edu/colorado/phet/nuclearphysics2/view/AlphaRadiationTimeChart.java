@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
@@ -58,9 +58,9 @@ public class AlphaRadiationTimeChart extends PNode {
     private static final double TICK_MARK_LENGTH = 3;
     private static final float TICK_MARK_WIDTH = 2;
     private static final Stroke TICK_MARK_STROKE = new BasicStroke( TICK_MARK_WIDTH );
-    private static final Font TICK_MARK_LABEL_FONT = new PhetDefaultFont( Font.PLAIN, 12 );
+    private static final Font TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final Color TICK_MARK_COLOR = AXES_LINE_COLOR;
-    private static final Font LABEL_FONT = new PhetDefaultFont( Font.PLAIN, 14 );
+    private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final float TIME_LINE_STROKE_WIDTH = 2f;
     private static final Stroke TIME_LINE_STROKE = new BasicStroke( TIME_LINE_STROKE_WIDTH );
     private static final Color TIME_LINE_COLOR_PRE_DECAY = NuclearPhysics2Constants.POLONIUM_LABEL_COLOR;
@@ -69,8 +69,8 @@ public class AlphaRadiationTimeChart extends PNode {
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
     private static final Color HALF_LIFE_LINE_COLOR = new Color (0x990000);
     private static final Color HALF_LIFE_TEXT_COLOR = Color.WHITE;
-    private static final Font HALF_LIFE_FONT = new PhetDefaultFont( Font.BOLD, 14 );
-    private static final Font DECAY_TIME_FONT = new PhetDefaultFont( Font.PLAIN, 14 );
+    private static final Font HALF_LIFE_FONT = new PhetFont( Font.BOLD, 14 );
+    private static final Font DECAY_TIME_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final Color DECAY_TIME_COLOR = Color.RED;
 
     // Constants that control the location of the origin.
@@ -79,7 +79,7 @@ public class AlphaRadiationTimeChart extends PNode {
 
     // Constants that control the marker character.
     private static final String MARKER_CHAR = "*";
-    private static final Font MARKER_CHAR_FONT = new PhetDefaultFont( Font.PLAIN, 20 );
+    private static final Font MARKER_CHAR_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color MARKER_COLOR = Color.RED;
 
     // Max number of decays that we will keep track of.

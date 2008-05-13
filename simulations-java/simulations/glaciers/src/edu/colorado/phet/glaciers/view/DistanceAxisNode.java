@@ -10,7 +10,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.model.Valley;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -42,7 +42,7 @@ public class DistanceAxisNode extends PComposite {
     private static final Stroke TICK_STROKE = AXIS_STROKE;
     private static final double TICK_LENGTH = 100; // meters
     private static final Color TICK_LABEL_COLOR = TICK_COLOR;
-    private static final Font TICK_LABEL_FONT = new PhetDefaultFont( 12 );
+    private static final Font TICK_LABEL_FONT = new PhetFont( 12 );
     private static final double TICK_LABEL_SPACING = 2; // pixels
     private static final DecimalFormat TICK_LABEL_FORMAT = new DecimalFormat( "0" );
     

@@ -11,7 +11,7 @@
 package edu.colorado.phet.instrumentation_idealgas;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
@@ -47,7 +47,7 @@ public class Thermometer extends PhetGraphic {
     private double thickness;
     private double value;
     private Rectangle2D boundingRect;
-    private Font font = new PhetDefaultFont( Font.BOLD, 10 );
+    private Font font = new PhetFont( Font.BOLD, 10 );
     private FontMetrics fontMetrics;
     private double rectBorderThickness = 2;
     private RoundRectangle2D.Double readoutRect = new RoundRectangle2D.Double();

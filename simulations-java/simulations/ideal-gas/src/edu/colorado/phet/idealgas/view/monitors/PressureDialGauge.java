@@ -8,7 +8,7 @@
 package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.coreadditions_idealgas.ScalarObservable;
 import edu.colorado.phet.idealgas.IdealGasConfig;
@@ -28,7 +28,7 @@ public class PressureDialGauge extends PhetShapeGraphic {
     private DialGauge pressureGauge;
     private Point2D.Double center;
     private Rectangle2D.Double stem;
-    private Font font = new PhetDefaultFont( Font.BOLD, 10 );
+    private Font font = new PhetFont( Font.BOLD, 10 );
     private DecimalFormat numberFormat;
 
     private long updatePeriod = 200;

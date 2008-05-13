@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -178,7 +178,7 @@ public class FreeBodyDiagramNode extends PNode {
             shapeGraphic.setPaint( color );
             shapeGraphic.setStrokePaint( Color.black );
             addChild( shapeGraphic );
-            Font font = new PhetDefaultFont( Font.BOLD, 16 );
+            Font font = new PhetFont( Font.BOLD, 16 );
             textGraphic = new HTMLNode( name, font, color );
             addChild( textGraphic );
             setVector( vector );

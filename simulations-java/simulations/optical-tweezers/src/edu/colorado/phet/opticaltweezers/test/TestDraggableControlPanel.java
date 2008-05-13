@@ -12,7 +12,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -71,7 +71,7 @@ public class TestDraggableControlPanel extends JFrame {
             // Label that displays slider value
             _label = new JLabel();
             _label.setText( String.valueOf( _slider.getValue() ) );
-            _label.setFont( new PhetDefaultFont( 24 ) );
+            _label.setFont( new PhetFont( 24 ) );
             PSwing labelWrapper = new PSwing( _label );
             
             // Background rectangle

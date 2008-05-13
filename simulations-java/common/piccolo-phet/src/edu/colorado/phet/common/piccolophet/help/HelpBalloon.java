@@ -27,7 +27,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
@@ -105,7 +105,7 @@ public class HelpBalloon extends AbstractHelpItem {
     //----------------------------------------------------------------------------
 
     // Text parameters
-    private static final Font DEFAULT_TEXT_FONT = new PhetDefaultFont( Font.PLAIN, 14 );
+    private static final Font DEFAULT_TEXT_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final double DEFAULT_TEXT_MARGIN = 4; // pixels
     private static final Dimension DEFAULT_SHADOW_TEXT_OFFSET = new Dimension( 1, 1 ); // pixels

@@ -4,7 +4,7 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.view.GoPauseClearPanel;
 
@@ -33,7 +33,7 @@ public class RampControlPanel extends ControlPanel {
         super( rampModule );
         this.rampModule = rampModule;
         JButton jb = new JButton( TheRampStrings.getString( "controls.reset" ) );
-        jb.setFont( new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 18 ) );
+        jb.setFont( new Font( PhetFont.getDefaultFontName(), Font.BOLD, 18 ) );
 
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

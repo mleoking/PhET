@@ -20,7 +20,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.hydrogenatom.control.WavelengthControl;
@@ -114,8 +114,8 @@ public class TestWavelengthControl extends JFrame {
             }
         } );
         c7.setUnitsForeground( Color.BLUE );
-        c7.setTextFieldFont( new PhetDefaultFont( Font.PLAIN, 20 ) );
-        c7.setUnitsFont( new PhetDefaultFont( Font.ITALIC, 14 ) );
+        c7.setTextFieldFont( new PhetFont( Font.PLAIN, 20 ) );
+        c7.setUnitsFont( new PhetFont( Font.ITALIC, 14 ) );
         c7.setTextFieldColumns( 5 );
         c7.setKnobSize( 15, 15 );
         canvas.getLayer().addChild( c7 );

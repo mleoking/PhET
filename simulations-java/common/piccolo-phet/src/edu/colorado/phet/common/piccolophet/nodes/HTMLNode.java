@@ -20,7 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
@@ -36,7 +36,7 @@ public class HTMLNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final Font DEFAULT_FONT = new PhetDefaultFont( Font.BOLD, 12 );
+    private static final Font DEFAULT_FONT = new PhetFont( Font.BOLD, 12 );
     private static final Color DEFAULT_HTML_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------

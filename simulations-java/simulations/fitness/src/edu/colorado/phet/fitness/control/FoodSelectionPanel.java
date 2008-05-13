@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
@@ -51,7 +51,7 @@ public class FoodSelectionPanel extends JPanel implements ICalorieSelectionPanel
                         human.getSelectedFoods().addItem( baseDiets[i1] );
                     }
                 } );
-                jRadioButton.setFont( new PhetDefaultFont( 13, true ) );
+                jRadioButton.setFont( new PhetFont( 13, true ) );
                 bg.add( jRadioButton );
                 add( jRadioButton );
             }

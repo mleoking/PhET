@@ -9,7 +9,7 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 /**
@@ -87,8 +87,8 @@ public class GlaciersConstants {
     //----------------------------------------------------------------------------
     
     // Subpanels of the main control panel
-    public static final Font SUBPANEL_TITLE_FONT = new PhetDefaultFont( Font.BOLD, 12 );
-    public static final Font SUBPANEL_CONTROL_FONT = new PhetDefaultFont( Font.PLAIN, 12 );
+    public static final Font SUBPANEL_TITLE_FONT = new PhetFont( Font.BOLD, 12 );
+    public static final Font SUBPANEL_CONTROL_FONT = new PhetFont( Font.PLAIN, 12 );
     public static final Color SUBPANEL_BACKGROUND_COLOR = new Color( 82, 126, 90 ); // dark pastel green
     public static final Color SUBPANEL_TITLE_COLOR = Color.WHITE;
     public static final Color SUBPANEL_CONTROL_COLOR = Color.WHITE;

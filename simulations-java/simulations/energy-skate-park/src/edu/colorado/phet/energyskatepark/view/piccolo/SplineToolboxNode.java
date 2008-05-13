@@ -2,7 +2,7 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.PreFabSplines;
@@ -77,7 +77,7 @@ public class SplineToolboxNode extends PNode {
         boundGraphic.setPaint( Color.yellow );
         addChild( boundGraphic );
         textGraphic = new PText( EnergySkateParkStrings.getString( "controls.add-track" ) );
-        textGraphic.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+        textGraphic.setFont( new PhetFont( Font.BOLD, 14 ) );
         textGraphic.setOffset( boundGraphic.getFullBounds().getX() + 5, boundGraphic.getFullBounds().getY() + 2 );
         addChild( textGraphic );
         addChild( this.draggableIcon );

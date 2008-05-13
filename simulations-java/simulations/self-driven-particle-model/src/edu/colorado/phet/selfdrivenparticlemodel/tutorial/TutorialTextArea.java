@@ -4,7 +4,7 @@ package edu.colorado.phet.selfdrivenparticlemodel.tutorial;
 import javax.swing.*;
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * User: Sam Reid
@@ -21,7 +21,7 @@ public class TutorialTextArea extends JTextArea {
         setOpaque( false );
         setEditable( false );
         setForeground( Color.blue );
-        setFont( new PhetDefaultFont( 18, true ) );
+        setFont( new PhetFont( 18, true ) );
         setLineWrap( true );
     }
 

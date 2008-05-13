@@ -3,7 +3,7 @@ package edu.colorado.phet.movingman.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_movingman.math.Vector2D;
 import edu.colorado.phet.common_movingman.view.graphics.shapes.Arrow;
@@ -104,7 +104,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         private ForceComponent forceComponent;
         PhetShadowTextGraphic textGraphic;
         PhetShapeGraphic shapeGraphic;
-        final Font font = new PhetDefaultFont( Font.BOLD, 13 );
+        final Font font = new PhetFont( Font.BOLD, 13 );
         private Arrow lastArrow;
 
         public ForceArrowGraphic( Component component, String name, Color color, int dy, ForceComponent forceComponent ) {

@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * User: Sam Reid
@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 public abstract class AbstractTicks extends AbstractGrid {
     private int tickHeight = 6;
     private NumberFormat format = new DecimalFormat( "#.#" );
-    private Font font = new PhetDefaultFont( Font.PLAIN, 12 );
+    private Font font = new PhetFont( Font.PLAIN, 12 );
     private FontMetrics fontMetrics;
     private boolean showLabels = true;
 

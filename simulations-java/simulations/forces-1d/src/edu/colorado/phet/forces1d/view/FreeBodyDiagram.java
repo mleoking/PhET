@@ -10,7 +10,7 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.common_force1d.math.Vector2D;
@@ -179,7 +179,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             this.name = name;
             shapeGraphic = new PhetShapeGraphic( component, null, Force1DUtil.transparify( color, 150 ), new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Force1DUtil.transparify( Color.black, 128 ) );
             addGraphic( shapeGraphic );
-            Font font = new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 18 );
+            Font font = new Font( PhetFont.getDefaultFontName(), Font.BOLD, 18 );
 //            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
             textGraphic = new HTMLGraphic( component, font, name, color );
             addGraphic( textGraphic );
@@ -251,7 +251,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             addGraphic( yAxis );
 
 
-            Font font = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 16 );
+            Font font = new Font( PhetFont.getDefaultFontName(), Font.PLAIN, 16 );
             xLabel = new HTMLGraphic( component, font, SimStrings.get( "FreeBodyDiagram.fx" ), Color.black );
             yLabel = new HTMLGraphic( component, font, SimStrings.get( "FreeBodyDiagram.fy" ), Color.black );
             addGraphic( xLabel );

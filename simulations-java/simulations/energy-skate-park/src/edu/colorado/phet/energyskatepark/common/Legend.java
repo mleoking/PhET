@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.common;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
@@ -44,7 +44,7 @@ public class Legend extends PhetPNode {
             this.node = node;
             textNode = new ShadowPText( text );
             textNode.setShadowOffset( 1, 1 );
-            textNode.setFont( new PhetDefaultFont( 16, false, true ) );
+            textNode.setFont( new PhetFont( 16, false, true ) );
             textNode.setShadowColor( Color.black );
             textNode.setTextPaint( textColor );
             addChild( textNode );

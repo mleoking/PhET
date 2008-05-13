@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -52,7 +52,7 @@ public class TestApparatusPanel2Resize {
             }
         } );
 
-        PhetTextGraphic textGraphic = new PhetTextGraphic( panel, new PhetDefaultFont( 0, 24 ), "Hello", Color.black, 0, 0 );
+        PhetTextGraphic textGraphic = new PhetTextGraphic( panel, new PhetFont( 0, 24 ), "Hello", Color.black, 0, 0 );
         textGraphic.setLocation( 400, 100 );
         panel.addGraphic( textGraphic );
 

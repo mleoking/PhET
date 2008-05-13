@@ -14,7 +14,7 @@ import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
@@ -39,7 +39,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font FONT = new PhetDefaultFont( 10 );
+    private static final Font FONT = new PhetFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final NumberFormat ELEVATION_FORMAT = new DefaultDecimalFormat( "0" );
     private static final NumberFormat ACCUMULATION_FORMAT = new DefaultDecimalFormat( "0.0" );

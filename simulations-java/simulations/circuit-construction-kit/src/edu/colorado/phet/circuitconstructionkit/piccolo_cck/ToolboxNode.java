@@ -15,7 +15,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike.BulbComponentNode;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike.BulbNode;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -163,10 +163,10 @@ public class ToolboxNode extends PhetPNode {
 
         private Font createFont() {
             if ( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
-                return new PhetDefaultFont( Font.PLAIN, 16 );
+                return new PhetFont( Font.PLAIN, 16 );
             }
             else {
-                return new PhetDefaultFont( Font.PLAIN, 12 );
+                return new PhetFont( Font.PLAIN, 12 );
             }
         }
 

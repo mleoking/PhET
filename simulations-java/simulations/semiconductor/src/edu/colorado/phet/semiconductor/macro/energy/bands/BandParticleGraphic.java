@@ -2,7 +2,7 @@
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
@@ -34,7 +34,7 @@ public class BandParticleGraphic extends TransformGraphic {
         } );
     }
 
-    static Font exclaimFont = new PhetDefaultFont( Font.ITALIC, 18 );
+    static Font exclaimFont = new PhetFont( Font.ITALIC, 18 );
 
     public void paint( Graphics2D graphics2D ) {
         PhetVector modelLoc = bandParticle.getPosition();

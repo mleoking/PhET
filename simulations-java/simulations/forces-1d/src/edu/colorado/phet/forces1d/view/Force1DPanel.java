@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.math.Vector2D;
@@ -170,7 +170,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
             public void wallForceChanged() {
             }
         } );
-        Font checkBoxFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 13 );
+        Font checkBoxFont = new Font( PhetFont.getDefaultFontName(), Font.PLAIN, 13 );
         String stf = SimStrings.get( "Force1DPanel.showFTotalHTML" );
 //        final JCheckBox showNetForce = new JCheckBox( "Show Total Force", true );
         final JCheckBox showNetForce = new JCheckBox( stf, true );

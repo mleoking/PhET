@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -177,8 +177,8 @@ public class StackedBarNode extends PNode {
                 imageNode = new PNode();
             }
 
-            labelTextNode = new HTMLNode( barChartElement.getName(), new PhetDefaultFont( 18, true ), barChartElement.getTextColor() );
-            readoutValueNode = new HTMLNode( "", new PhetDefaultFont( 12, true ), barChartElement.getTextColor() );
+            labelTextNode = new HTMLNode( barChartElement.getName(), new PhetFont( 18, true ), barChartElement.getTextColor() );
+            readoutValueNode = new HTMLNode( "", new PhetFont( 12, true ), barChartElement.getTextColor() );
             clip.addChild( labelNode );
             labelNode.addChild( imageNode );
             labelNode.addChild( labelTextNode );

@@ -14,7 +14,7 @@ import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
@@ -33,7 +33,7 @@ public class ReadoutNode extends PhetPNode {
     protected DecimalFormat formatter;
     private PPath linePNode;
 
-    static Font font = new PhetDefaultFont( Font.BOLD, 16 );
+    static Font font = new PhetFont( Font.BOLD, 16 );
 
     public ReadoutNode( ICCKModule module, Branch branch, JComponent panel, DecimalFormat formatter ) {
         this.module = module;

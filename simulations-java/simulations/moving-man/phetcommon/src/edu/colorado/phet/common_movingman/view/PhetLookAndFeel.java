@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * PhetLookAndFeel describes the UI resources that need to be installed in
@@ -99,8 +99,8 @@ public class PhetLookAndFeel {
      */
     private void setDefaults() {
         int fontSize = getFontSizeForScreen();
-        font = new PhetDefaultFont( Font.PLAIN, fontSize );
-        titledBorderFont = new PhetDefaultFont( Font.PLAIN, fontSize );
+        font = new PhetFont( Font.PLAIN, fontSize );
+        titledBorderFont = new PhetFont( Font.PLAIN, fontSize );
         foregroundColor = Color.BLACK;
         backgroundColor = new Color( 200, 240, 200 );  // light green
         textFieldBackgroundColor = Color.WHITE;

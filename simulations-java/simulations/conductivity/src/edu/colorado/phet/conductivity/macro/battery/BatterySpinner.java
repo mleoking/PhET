@@ -13,7 +13,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.conductivity.ConductivityApplication;
 
@@ -55,7 +55,7 @@ public class BatterySpinner {
         }
 
         TitledBorder titledborder = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
-        titledborder.setTitleFont( new PhetDefaultFont( Font.BOLD, 12 ) );
+        titledborder.setTitleFont( new PhetFont( Font.BOLD, 12 ) );
         spinner.setBorder( titledborder );
         spinner.setPreferredSize( new Dimension( 150, spinner.getPreferredSize().height ) );
         spinner.addChangeListener( new ChangeListener() {

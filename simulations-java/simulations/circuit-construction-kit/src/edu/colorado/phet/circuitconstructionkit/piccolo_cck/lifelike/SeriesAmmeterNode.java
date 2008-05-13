@@ -18,7 +18,7 @@ import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentNode;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -34,7 +34,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     private ICCKModule module;
     private static final double SCALE = 1.0 / 60.0;
     private Stroke stroke = new BasicStroke( (float) ( 5 * SCALE ) );
-    private Font font = new PhetDefaultFont( Font.BOLD, 17 );
+    private Font font = new PhetFont( Font.BOLD, 17 );
     private Shape shape;
     private String text = CCKResources.getString( "SeriesAmmeterGraphic.Ammeter" );
     private String fixedMessage;

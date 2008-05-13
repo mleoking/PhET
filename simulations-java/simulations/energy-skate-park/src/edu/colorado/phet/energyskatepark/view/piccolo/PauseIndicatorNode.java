@@ -4,7 +4,7 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkUtils;
@@ -36,7 +36,7 @@ public class PauseIndicatorNode extends PNode {
         ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "message.paused" ) );
         addChild( text );
         text.setOffset( im.getFullBounds().getMaxX() + 5, 0 );
-        text.setFont( new PhetDefaultFont( Font.BOLD, 16 ) );
+        text.setFont( new PhetFont( Font.BOLD, 16 ) );
         text.setTextPaint( Color.red );
         text.setShadowColor( Color.black );
         module.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {

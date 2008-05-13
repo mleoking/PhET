@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -317,7 +317,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             addGraphic( levelIcon );
             boolean showLifetime = false;
             if ( isAdjustable && showLifetime ) {
-                textGraphic = new PhetTextGraphic2( getComponent(), new PhetDefaultFont(), "Lifetime", Color.black );
+                textGraphic = new PhetTextGraphic2( getComponent(), new PhetFont(), "Lifetime", Color.black );
                 addGraphic( textGraphic );
             }
         }

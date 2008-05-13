@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
@@ -390,7 +390,7 @@ public class RampPanel extends PhetPCanvas {
         layoutAll();
         if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 && RampModule.MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN ) {
             if( allThreeGraphsUp() ) {
-                rampPlotSet.setTimeSeriesPlotFont( new PhetDefaultFont( 9, true, false ) );
+                rampPlotSet.setTimeSeriesPlotFont( new PhetFont( 9, true, false ) );
                 rampPlotSet.setTimeSeriesPlotShadow( 0, 0 );
             }
             else {

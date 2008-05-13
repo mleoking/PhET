@@ -14,7 +14,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
@@ -227,17 +227,17 @@ public class FissionEnergyChart extends PComposite {
         
         // Add the text for the Y axis.
         _yAxisLabelHigh = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel3" ));
-        _yAxisLabelHigh.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        _yAxisLabelHigh.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _yAxisLabelHigh.rotate( 1.5 * Math.PI );
         addChild( _yAxisLabelHigh );
         _yAxisLabelLow = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel4" ));
-        _yAxisLabelLow.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        _yAxisLabelLow.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _yAxisLabelLow.rotate( 1.5 * Math.PI );
         addChild( _yAxisLabelLow );
         
         // Add the text for the X axis.
         _xAxisLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.XAxisLabel" ));
-        _xAxisLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        _xAxisLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         addChild( _xAxisLabel );
         
         // Create the legend (i.e. key) node for the chart.
@@ -254,7 +254,7 @@ public class FissionEnergyChart extends PComposite {
         _legend.addChild( _potentialEnergyLegendLine );
         
         _potentialEnergyLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.PotentialEnergy") );
-        _potentialEnergyLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        _potentialEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _legend.addChild( _potentialEnergyLabel );
         
         _totalEnergyLegendLine = new PLine ();
@@ -263,7 +263,7 @@ public class FissionEnergyChart extends PComposite {
         _legend.addChild( _totalEnergyLegendLine );
         
         _totalEnergyLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.TotalEnergy") );
-        _totalEnergyLabel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        _totalEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _legend.addChild( _totalEnergyLabel );
         
         // Add the images for the nuclei.  Not all are initially visible.

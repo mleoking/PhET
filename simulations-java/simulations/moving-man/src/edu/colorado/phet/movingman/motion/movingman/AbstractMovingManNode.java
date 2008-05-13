@@ -13,7 +13,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.movingman.motion.MovingManResources;
@@ -188,7 +188,7 @@ public class AbstractMovingManNode extends PNode {
         public TickLabel( DecimalFormat decimalFormat, double x ) {
             super( "" + decimalFormat.format( x ) + ( x == 0 ? " " + MovingManResources.getString( "units.meters" ) : "" ) );
             this.x = x;
-            setFont( new PhetDefaultFont( 14, true ) );
+            setFont( new PhetFont( 14, true ) );
             updateTransform();
         }
 

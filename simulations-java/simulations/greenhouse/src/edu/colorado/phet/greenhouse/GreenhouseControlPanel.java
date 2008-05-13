@@ -22,7 +22,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.view.util.GraphicsUtil;
 import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
@@ -539,7 +539,7 @@ public class GreenhouseControlPanel extends JPanel {
             }
 
             // Make the colored tick marks on the slider
-            Font defaultFont = new PhetDefaultFont();
+            Font defaultFont = new PhetFont();
             Font tickFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 6 );
             Hashtable labelTable = new Hashtable();
             JLabel iceAgeTick = new JLabel( "|" );

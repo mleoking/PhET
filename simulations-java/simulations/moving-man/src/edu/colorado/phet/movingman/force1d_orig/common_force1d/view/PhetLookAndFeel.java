@@ -21,7 +21,7 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
@@ -100,8 +100,8 @@ public class PhetLookAndFeel {
      */
     private void setDefaults() {
         int fontSize = getFontSizeForScreen();
-        font = new PhetDefaultFont( Font.PLAIN, fontSize );
-        titledBorderFont = new PhetDefaultFont( Font.PLAIN, fontSize );
+        font = new PhetFont( Font.PLAIN, fontSize );
+        titledBorderFont = new PhetFont( Font.PLAIN, fontSize );
         foregroundColor = Color.BLACK;
         backgroundColor = new Color( 200, 240, 200 );  // light green
         textFieldBackgroundColor = Color.WHITE;

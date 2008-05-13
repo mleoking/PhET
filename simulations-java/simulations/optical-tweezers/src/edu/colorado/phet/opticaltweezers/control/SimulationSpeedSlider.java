@@ -19,7 +19,7 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicMappingStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -147,11 +147,11 @@ public class SimulationSpeedSlider extends PNode {
         String fastString = OTResources.getString( "label.fast" );
         
         PText slowTextNode = new PText( slowString );
-        slowTextNode.setFont( new PhetDefaultFont( LABEL_FONT_SIZE ) );
+        slowTextNode.setFont( new PhetFont( LABEL_FONT_SIZE ) );
         slowTextNode.setTextPaint( SLOW_LABEL_FONT_COLOR );
         
         PText fastTextNode = new PText( fastString );
-        fastTextNode.setFont( new PhetDefaultFont( LABEL_FONT_SIZE ) );
+        fastTextNode.setFont( new PhetFont( LABEL_FONT_SIZE ) );
         fastTextNode.setTextPaint( FAST_LABEL_FONT_COLOR );
         
         // Background sections
@@ -341,7 +341,7 @@ public class SimulationSpeedSlider extends PNode {
     private static PText createTickLabelNode( double value ) {
         PText textNode = new PText();
         textNode.setText( TICK_LABEL_FORMAT.format( value ) );
-        textNode.setFont( new PhetDefaultFont( TICK_LABEL_FONT_SIZE ) );
+        textNode.setFont( new PhetFont( TICK_LABEL_FONT_SIZE ) );
         textNode.setTextPaint( TICK_LABEL_COLOR );
         return textNode;
     }

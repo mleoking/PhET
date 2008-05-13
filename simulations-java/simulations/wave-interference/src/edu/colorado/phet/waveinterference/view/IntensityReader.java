@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -136,7 +136,7 @@ public class IntensityReader extends PhetPNode {
             textBackground.setPaint( new Color( 255, 255, 255, 235 ) );
             addChild( textBackground );
             readout = new PText( WIStrings.getString( "readout.value-unknown" ) );
-            readout.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+            readout.setFont( new PhetFont( Font.BOLD, 14 ) );
             readout.setTextPaint( Color.blue );
             addChild( readout );
         }

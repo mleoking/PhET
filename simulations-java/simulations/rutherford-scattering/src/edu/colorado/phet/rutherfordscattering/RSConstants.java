@@ -12,7 +12,7 @@ import javax.swing.border.Border;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 /**
@@ -58,7 +58,7 @@ public class RSConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final String DEFAULT_FONT_NAME = PhetDefaultFont.getDefaultFontName();
+    public static final String DEFAULT_FONT_NAME = PhetFont.getDefaultFontName();
     public static final int DEFAULT_FONT_STYLE = Font.BOLD;
     public static final int DEFAULT_FONT_SIZE = 16;
     public static final Font DEFAULT_FONT = new Font( DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, DEFAULT_FONT_SIZE );

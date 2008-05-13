@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -41,7 +41,7 @@ public class MinimizeMaximizeNode extends PNode {
     //----------------------------------------------------------------------------
 
     private static final double DEFAULT_SPACING = 5; // space between text and button
-    private static final Font DEFAULT_FONT = new PhetDefaultFont();
+    private static final Font DEFAULT_FONT = new PhetFont();
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
     private final static Image MINIMIZE_IMAGE;

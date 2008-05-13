@@ -4,7 +4,7 @@ package edu.colorado.phet.forces1d.common;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
@@ -35,7 +35,7 @@ public class HelpItem2 extends CompositePhetGraphic {
     public HelpItem2( Component component, String text ) {
         super( component );
         this.text = text;
-        Font font = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 18 );
+        Font font = new Font( PhetFont.getDefaultFontName(), Font.PLAIN, 18 );
 
         shadowHTMLGraphic = new ShadowHTMLGraphic( component, text, font, textColor, 1, 1, shadowColor );
 

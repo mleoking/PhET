@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * User: Sam Reid
@@ -18,9 +18,9 @@ public class CCKPhetLookAndFeel extends PhetLookAndFeel {
 
     public CCKPhetLookAndFeel() {
         setBackgroundColor( cckBackground );
-        setFont( new PhetDefaultFont( Font.BOLD, 13 ) );
-        setTitledBorderFont( new PhetDefaultFont( Font.BOLD, 12 ) );
-        setTabFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+        setFont( new PhetFont( Font.BOLD, 13 ) );
+        setTitledBorderFont( new PhetFont( Font.BOLD, 12 ) );
+        setTabFont( new PhetFont( Font.BOLD, 14 ) );
     }
 
     protected String getLookAndFeelClassName() {

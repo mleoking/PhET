@@ -7,8 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.motion.model.IVariable;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
@@ -139,7 +138,7 @@ public class ReadoutTitleNode extends PNode {
     }
 
     private Font getTitleFont() {
-        return new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, isLowRes() ? 12 : 14 );
+        return new Font( PhetFont.getDefaultFontName(), Font.BOLD, isLowRes() ? 12 : 14 );
     }
 
     private boolean isLowRes() {

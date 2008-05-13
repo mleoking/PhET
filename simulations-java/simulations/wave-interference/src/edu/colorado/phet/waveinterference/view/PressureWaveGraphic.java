@@ -16,7 +16,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.umd.cs.piccolo.PNode;
@@ -267,7 +267,7 @@ public class PressureWaveGraphic extends PNode {
 
         public MarkedParticle( BufferedImage newImage, int i, int j ) {
             super( newImage, i, j );
-            Font font = new PhetDefaultFont( Font.BOLD, 22 );
+            Font font = new PhetFont( Font.BOLD, 22 );
             FontRenderContext fontRenderContext = new FontRenderContext( new AffineTransform(), true, false );
             GlyphVector glyphVector = font.createGlyphVector( fontRenderContext, "X" );
             Shape shape = glyphVector.getOutline();

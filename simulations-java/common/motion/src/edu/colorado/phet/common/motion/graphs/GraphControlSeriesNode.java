@@ -3,7 +3,7 @@ package edu.colorado.phet.common.motion.graphs;
 import java.awt.Color;
 import java.awt.Font;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -16,7 +16,7 @@ public class GraphControlSeriesNode extends PNode {
     private ShadowPText shadowPText;
     private PSwing textBox;
     private GraphControlTextBox boxGraphControl;
-    public static final Font LABEL_FONT = new PhetDefaultFont( Font.BOLD,18 );
+    public static final Font LABEL_FONT = new PhetFont( Font.BOLD,18 );
 
     public GraphControlSeriesNode( ControlGraphSeries series ) {
         shadowPText = new ShadowPText( series.getTitle() );

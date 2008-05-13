@@ -8,8 +8,7 @@ import java.awt.Font;
 import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.simtemplate.SimTemplateConstants;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 /**
@@ -41,7 +40,7 @@ public class SimTemplateConstants {
     //----------------------------------------------------------------------------
 
     // Default font properties
-    public static final String DEFAULT_FONT_NAME = PhetDefaultFont.getDefaultFontName();
+    public static final String DEFAULT_FONT_NAME = PhetFont.getDefaultFontName();
     public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
     public static final int DEFAULT_FONT_SIZE = 16;
     

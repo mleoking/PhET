@@ -15,7 +15,7 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.reactionsandrates.model.*;
 import edu.colorado.phet.reactionsandrates.model.reactions.A_BC_AB_C_Reaction;
@@ -54,7 +54,7 @@ public class ReactionGraphic extends RegisterablePNode implements MRModel.ModelL
             PNode arrowNode = new ReactionArrowNode( arrowColor );
 
 
-            Font font = new PhetDefaultFont( Font.BOLD, 18 );
+            Font font = new PhetFont( Font.BOLD, 18 );
             PText plusA = new PText( "+" );
             plusA.setTextPaint( arrowColor );
             plusA.setFont( font );

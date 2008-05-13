@@ -8,7 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 
 /**
@@ -27,7 +27,7 @@ public class TimeSpeedSlider extends VerticalLayoutPanel {
         table.put( new Double( min ), new JLabel( TimeseriesResources.getString( "time.slow" ) ) );
         table.put( new Double( max ), new JLabel( TimeseriesResources.getString( "time.fast" ) ) );
         final JLabel value = new JLabel( TimeseriesResources.getString( "sim.speed" ) );
-        value.setFont( new PhetDefaultFont( Font.ITALIC, PhetDefaultFont.getDefaultFontSize()) );
+        value.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize()) );
         table.put( new Double( ( max + min ) / 2 ), value );
         linearSlider.setTickLabels( table );
         defaultClock.addConstantDtClockListener( new ConstantDtClock.ConstantDtClockAdapter() {

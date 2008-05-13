@@ -9,7 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -32,7 +32,7 @@ public class DNAExtensionNode extends PhetPNode {
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,6}, 0 ); // dashed
     
     private static final Color VALUE_COLOR = Color.BLACK;
-    private static final Font VALUE_FONT = new PhetDefaultFont();
+    private static final Font VALUE_FONT = new PhetFont();
     
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.0" );
 

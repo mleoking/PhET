@@ -11,7 +11,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.movingman.motion.ramps.Force1DObjectConfig;
 
@@ -22,7 +22,7 @@ import edu.colorado.phet.movingman.motion.ramps.Force1DObjectConfig;
  */
 
 public class ObjectComboBox extends JComboBox {
-    private static Font font = new PhetDefaultFont( Font.BOLD, 10 );
+    private static Font font = new PhetFont( Font.BOLD, 10 );
 
     public ObjectComboBox( final Force1DApplication module, final Force1DObjectConfig[] imageElements ) {
         super( toLabelArray( imageElements ) );

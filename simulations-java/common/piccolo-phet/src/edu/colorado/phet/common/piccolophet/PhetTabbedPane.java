@@ -23,7 +23,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -50,7 +50,7 @@ public class PhetTabbedPane extends JPanel {
 
     public static final String IMAGE_PHET_LOGO = LogoPanel.IMAGE_PHET_LOGO;
 
-    public static final Font DEFAULT_TAB_FONT = new PhetDefaultFont( 16, true /* bold */ );
+    public static final Font DEFAULT_TAB_FONT = new PhetFont( 16, true /* bold */ );
 
     private TabPane tabPane;
     /**

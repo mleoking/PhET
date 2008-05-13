@@ -12,7 +12,7 @@ import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_sound.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions_sound.ScalarObservable;
 import edu.colorado.phet.coreadditions_sound.ScalarObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -93,7 +93,7 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
 
     private class FaceGraphic extends PhetShapeGraphic {
         private Rectangle2D.Double tickMark;
-        private Font font = new PhetDefaultFont( Font.BOLD, 8 );
+        private Font font = new PhetFont( Font.BOLD, 8 );
 
         FaceGraphic() {
             super( component, null, Color.white, new BasicStroke( 5 ), new Color( 80, 80, 40 ) );

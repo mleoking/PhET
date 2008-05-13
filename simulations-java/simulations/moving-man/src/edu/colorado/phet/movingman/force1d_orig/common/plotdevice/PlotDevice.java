@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.ApparatusPanel2;
@@ -974,7 +974,7 @@ public class PlotDevice extends GraphicLayerSet {
 
         public TypingTextField( int columns, final PlotDevice plotDevice, PlotDeviceModel module ) {
             super( columns );
-            Font borderFont = new PhetDefaultFont( Font.PLAIN, 12 );
+            Font borderFont = new PhetFont( Font.PLAIN, 12 );
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "PlotDevice.appliedForce" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderFont, plotDevice.color ) );
             this.plotDevice = plotDevice;
             this.addMouseListener( new MouseAdapter() {

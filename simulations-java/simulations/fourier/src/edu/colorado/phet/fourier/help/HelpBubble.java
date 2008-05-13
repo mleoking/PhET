@@ -21,7 +21,7 @@ import java.awt.Stroke;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -82,7 +82,7 @@ public class HelpBubble extends CompositePhetGraphic implements PhetGraphicListe
     private static final Stroke ARROW_STROKE = new BasicStroke( 1f );
 
     // Text parameters
-    private static final Font TEXT_FONT = new PhetDefaultFont( Font.PLAIN, 14 );
+    private static final Font TEXT_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final int TEXT_MARGIN = 4; // pixels
     

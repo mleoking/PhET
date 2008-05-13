@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -94,7 +94,7 @@ public class VoltmeterNode extends PhetPNode {
             } );
             addChild( PImageFactory.create( "circuit-construction-kit/images/vm3.gif" ) );
             textNode = new PText();
-            textNode.setFont( new PhetDefaultFont( Font.PLAIN, 20 ) );
+            textNode.setFont( new PhetFont( Font.PLAIN, 20 ) );
             textNode.setOffset( 15, 20 );
             addChild( textNode );
             addInputEventListener( new PBasicInputEventHandler() {

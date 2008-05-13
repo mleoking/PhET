@@ -20,7 +20,7 @@ import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.motion.model.UpdateableObject;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
@@ -98,7 +98,7 @@ public class MovingManGraph extends MotionControlGraph {
         xAxis.setTickUnit( new NumberTickUnit( 5 ) );
 
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setTickLabelFont( new PhetDefaultFont( 12, true ) );
+        yAxis.setTickLabelFont( new PhetFont( 12, true ) );
         yAxis.setTickUnit( new NumberTickUnit( verticalTickUnit ) );
 
 

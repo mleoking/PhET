@@ -51,7 +51,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -160,7 +160,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
 
             // Pop-up menu attached to right mouse button
             HTMLNode html = new HTMLNode( "To access a pop-up menu,<br>click anywhere on the canvas<br>with the right mouse button</html>" );
-            html.setFont( new PhetDefaultFont( Font.PLAIN, 18 ) );
+            html.setFont( new PhetFont( Font.PLAIN, 18 ) );
             html.setOffset( 300, 100 );
             canvas.getLayer().addChild( html );
             final JPopupMenu popupMenu = new JPopupMenu();

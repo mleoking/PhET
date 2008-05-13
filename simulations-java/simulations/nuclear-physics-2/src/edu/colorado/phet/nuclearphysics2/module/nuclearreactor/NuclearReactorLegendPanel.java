@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
@@ -46,7 +46,7 @@ public class NuclearReactorLegendPanel extends JPanel {
                 NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.LegendBorder" ),
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
-                new PhetDefaultFont( Font.BOLD, 14 ),
+                new PhetFont( Font.BOLD, 14 ),
                 Color.GRAY );
         
         setBorder( titledBorder );

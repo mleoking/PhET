@@ -12,7 +12,7 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
@@ -199,7 +199,7 @@ public class EnergyHistogramDialog extends JDialog {
         lightSpeedLabel = new JLabel( speedDetailsLegends[1] );
 
         // Upper histogram
-        outOfRangeIndicatorFont = new PhetDefaultFont( Font.BOLD, 30 );
+        outOfRangeIndicatorFont = new PhetFont( Font.BOLD, 30 );
 
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = defaultInsets;

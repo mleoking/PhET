@@ -34,7 +34,7 @@ import java.awt.Font;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.umd.cs.piccolo.PCanvas;
 
@@ -52,9 +52,9 @@ public class TestRulerNode {
         int rulerInsetWidth = 14;
         int rulerHeight = 40;
         String[] majorTickLabels;
-        Font majorTickFont = new PhetDefaultFont( Font.PLAIN, 14 );
+        Font majorTickFont = new PhetFont( Font.PLAIN, 14 );
         String units = "nm";
-        Font unitsFont = new PhetDefaultFont( Font.PLAIN, 10 );
+        Font unitsFont = new PhetFont( Font.PLAIN, 10 );
         int numMinorTicksBetweenMajors = 4;
         int majorTickHeight = 10;
         int minorTickHeight = 6;

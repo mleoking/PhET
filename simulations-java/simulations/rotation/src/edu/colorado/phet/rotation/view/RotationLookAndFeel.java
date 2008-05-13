@@ -3,7 +3,7 @@ package edu.colorado.phet.rotation.view;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * User: Sam Reid
@@ -20,23 +20,23 @@ public class RotationLookAndFeel extends PhetLookAndFeel {
     public RotationLookAndFeel() {
 
         super.setBackgroundColor( backgroundColor );
-        setFont( new PhetDefaultFont( 12, true ) );
+        setFont( new PhetFont( 12, true ) );
     }
 
     public static Font getControlPanelTitleFont() {
-        return new PhetDefaultFont( 16, true );
+        return new PhetFont( 16, true );
     }
 
     public static Font getLegendItemFont() {
-        return new PhetDefaultFont( 14, false );
+        return new PhetFont( 14, false );
     }
 
     public static Font getCheckBoxFont() {
-        return new PhetDefaultFont( 14, false );
+        return new PhetFont( 14, false );
     }
 
     public static Font getGraphSelectionItemFont() {
-        return new PhetDefaultFont( 14, false );
+        return new PhetFont( 14, false );
     }
 
     public static boolean isLowResolutionY() {
@@ -44,7 +44,7 @@ public class RotationLookAndFeel extends PhetLookAndFeel {
     }
 
     public static Font getGraphVerticalAxisLabelFont() {
-        return new PhetDefaultFont( isLowResolutionY() ? 11 : 14, true );
+        return new PhetFont( isLowResolutionY() ? 11 : 14, true );
     }
 
 }

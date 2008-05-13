@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class CCKLookAndFeel {
     //    public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);
@@ -21,9 +21,9 @@ public class CCKLookAndFeel {
     }
 
     private static void init() {
-        Font font1280 = new PhetDefaultFont( Font.PLAIN, 16 );
-        Font font1040 = new PhetDefaultFont( Font.PLAIN, 9 );
-        Font font800 = new PhetDefaultFont( Font.PLAIN, 6 );
+        Font font1280 = new PhetFont( Font.PLAIN, 16 );
+        Font font1040 = new PhetFont( Font.PLAIN, 9 );
+        Font font800 = new PhetFont( Font.PLAIN, 6 );
 
         Font uifont = font1040;
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();

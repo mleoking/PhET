@@ -27,7 +27,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
@@ -215,7 +215,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 getClock().addClockListener( ige );
 
                 // Display a message
-                Font font = new PhetDefaultFont( Font.ITALIC, 72 );
+                Font font = new PhetFont( Font.ITALIC, 72 );
                 atomicBombTextGraphic = new PhetTextGraphic2( getPhysicalPanel(), font, "You have made an atomic bomb", Color.red );
                 getPhysicalPanel().addGraphic( atomicBombTextGraphic );
                 getApparatusPanel().getFontMetrics( font );

@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
@@ -57,7 +57,7 @@ public class TestPhetJComponentTabTraversal {
             apparatusPanel.setBackground( Color.WHITE );
             setApparatusPanel( apparatusPanel );
 
-            Font font = new PhetDefaultFont( Font.PLAIN, 14 );
+            Font font = new PhetFont( Font.PLAIN, 14 );
 
             // Instructions
             String html = "<html>Click in a text field.<br>Then use Tab or Shift-Tab to move between text fields.</html>";

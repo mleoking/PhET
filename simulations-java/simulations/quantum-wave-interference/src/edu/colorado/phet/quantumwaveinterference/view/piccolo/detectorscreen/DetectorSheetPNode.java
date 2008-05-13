@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.quantumwaveinterference.controls.DetectorSheetControlPanel;
 import edu.colorado.phet.quantumwaveinterference.modules.intensity.IntensityBeamPanel;
@@ -66,7 +66,7 @@ public class DetectorSheetPNode extends PhetPNode {
         recreateImage();
 //        title.setShadowColor( Color.black );
         title.setTextPaint( Color.black );
-        title.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+        title.setFont( new PhetFont( Font.BOLD, 14 ) );
         screenGraphic = new ScreenGraphic( bufferedImage );
 
         setBrightness( 0.2 );

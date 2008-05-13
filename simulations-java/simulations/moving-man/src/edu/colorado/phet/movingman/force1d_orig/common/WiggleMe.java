@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.math.Vector2D;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.model.clock.AbstractClock;
@@ -40,7 +40,7 @@ public class WiggleMe extends CompositePhetGraphic {
     }
 
     public WiggleMe( final Component component, AbstractClock clock, String text, Target t ) {
-        this( component, clock, text, t, new PhetDefaultFont( Font.BOLD, 20 ), 1, 1 );
+        this( component, clock, text, t, new PhetFont( Font.BOLD, 20 ), 1, 1 );
     }
 
     public WiggleMe( final Component component, AbstractClock clock, String text, Target t, Font font, int dx, int dy ) {

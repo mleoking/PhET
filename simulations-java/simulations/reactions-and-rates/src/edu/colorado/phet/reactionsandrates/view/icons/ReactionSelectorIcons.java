@@ -18,7 +18,7 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.reactionsandrates.model.EnergyProfile;
 import edu.colorado.phet.reactionsandrates.model.MoleculeA;
 import edu.colorado.phet.reactionsandrates.model.MoleculeBC;
@@ -84,7 +84,7 @@ public class ReactionSelectorIcons {
 
     private static Image createImage( EnergyProfile profile ) {
         setMoleculeImages( profile );
-        Font font = new PhetDefaultFont( Font.BOLD, 18 );
+        Font font = new PhetFont( Font.BOLD, 18 );
         PText plusA = new PText( "+" );
         plusA.setTextPaint( Color.black );
         plusA.setFont( font );

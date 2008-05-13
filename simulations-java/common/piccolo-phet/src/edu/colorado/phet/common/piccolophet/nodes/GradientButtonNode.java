@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -85,7 +85,7 @@ public class GradientButtonNode extends PhetPNode {
         // Create the label node first, since its size will be the basis for
         // the other components of this button.
         final HTMLNode _buttonText = new HTMLNode(label);        
-        _buttonText.setFont(new PhetDefaultFont(Font.BOLD, fontSize));
+        _buttonText.setFont(new PhetFont(Font.BOLD, fontSize));
         _buttonText.setOffset(HORIZONTAL_PADDING, VERTICAL_PADDING);
         _buttonText.setPickable( false );
 

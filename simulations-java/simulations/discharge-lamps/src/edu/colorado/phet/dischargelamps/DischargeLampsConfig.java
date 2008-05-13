@@ -16,7 +16,7 @@ import java.awt.Point;
 import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * FluorescentLightsConfig
@@ -81,7 +81,7 @@ public class DischargeLampsConfig {
     // Scale factors
     public static final double MODEL_TO_VIEW_DIST_FACTOR = 1E12;
     // Fonts
-    public static final Font DEFAULT_CONTROL_FONT = new PhetDefaultFont( Font.BOLD, 10 );
+    public static final Font DEFAULT_CONTROL_FONT = new PhetFont( Font.BOLD, 10 );
     // Factor that scales pixels to real dimensional units
     public static double PIXELS_PER_NM = 1E6;
     // Factor that converts volts on the control panel slider to real volts

@@ -26,7 +26,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 
 /**
@@ -55,7 +55,7 @@ public class TestPhetTabbedPane {
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 System.out.println( "slider.getValue() = " + slider.getValue() );
-                phetTabbedPane.setTabFont( new PhetDefaultFont( Font.BOLD, slider.getValue() ) );
+                phetTabbedPane.setTabFont( new PhetFont( Font.BOLD, slider.getValue() ) );
             }
         } );
 //        phetTabbedPane.addTab( "<html>Font<br>Size</html>", slider );

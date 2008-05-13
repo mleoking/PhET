@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumwaveinterference.QWILookAndFeel;
 import edu.colorado.phet.quantumwaveinterference.model.potentials.RectangularPotential;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
@@ -32,7 +32,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         this.potential = potential;
 
         potDisplay = new PText( "" );
-        potDisplay.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+        potDisplay.setFont( new PhetFont( Font.BOLD, 14 ) );
         potDisplay.setTextPaint( Color.blue );
         potDisplay.setPickable( false );
         potDisplay.setChildrenPickable( false );

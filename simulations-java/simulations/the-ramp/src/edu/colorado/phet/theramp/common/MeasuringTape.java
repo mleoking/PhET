@@ -4,7 +4,7 @@ package edu.colorado.phet.theramp.common;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BoundNode;
 import edu.colorado.phet.theramp.TheRampStrings;
@@ -182,7 +182,7 @@ public class MeasuringTape extends PNode {
         public ReadoutGraphic( String units ) {
             this.units = units;
             phetShadowTextGraphic = new PText( "" );
-            phetShadowTextGraphic.setFont( new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 14 ) );
+            phetShadowTextGraphic.setFont( new Font( PhetFont.getDefaultFontName(), Font.BOLD, 14 ) );
             phetShadowTextGraphic.setTextPaint( Color.black );
 
             BoundNode boundGraphic = new BoundNode( phetShadowTextGraphic, 2, 2 );

@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
@@ -45,7 +45,7 @@ public class TestPhetApplication2 {
     static class TestApparatusPanel extends ApparatusPanel {
         public TestApparatusPanel() {
 //            HTMLGraphic htmlGraphic=new HTMLGraphic( this, getFont(), "Size="+Color.blue);
-            Font font = new PhetDefaultFont( Font.BOLD, 22 );
+            Font font = new PhetFont( Font.BOLD, 22 );
             final HTMLGraphic htmlGraphic = new HTMLGraphic( this, font, "Size=" + getSize(), Color.blue );
             addGraphic( htmlGraphic, Double.POSITIVE_INFINITY );
             htmlGraphic.setLocation( 0, 100 );

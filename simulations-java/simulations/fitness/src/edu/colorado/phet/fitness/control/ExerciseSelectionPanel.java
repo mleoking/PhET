@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Human;
 
@@ -45,7 +45,7 @@ public class ExerciseSelectionPanel extends JPanel implements ICalorieSelectionP
                         human.setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[i1].getValue() );
                     }
                 } );
-                jRadioButton.setFont( new PhetDefaultFont( 13, true ) );
+                jRadioButton.setFont( new PhetFont( 13, true ) );
                 bg.add( jRadioButton );
                 add( jRadioButton );
             }

@@ -10,7 +10,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
@@ -30,11 +30,11 @@ public class BatterySpinner {
         spinner = new MyJSpinner( new SpinnerNumberModel( battery.getVoltage(), min, max, .1 ) );
 
         TitledBorder border = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
-        border.setTitleFont( new PhetDefaultFont( Font.PLAIN, 18 ) );
+        border.setTitleFont( new PhetFont( Font.PLAIN, 18 ) );
 
         spinner.setBorder( border );
         spinner.setPreferredSize( new Dimension( 125, 100 ) );
-        spinner.getEditor().setFont( new PhetDefaultFont( Font.BOLD, 20 ) );
+        spinner.getEditor().setFont( new PhetFont( Font.BOLD, 20 ) );
         if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
             final JSpinner.DefaultEditor ed = (JSpinner.DefaultEditor) spinner.getEditor();
             ed.getTextField().addKeyListener( new KeyAdapter() {

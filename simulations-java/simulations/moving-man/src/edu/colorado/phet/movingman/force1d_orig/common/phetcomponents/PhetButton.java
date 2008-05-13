@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.phetgraphics.PhetTextGraphic;
@@ -31,7 +31,7 @@ public class PhetButton extends CompositePhetGraphic {
     private Color clickColor = Color.gray;
     private Color borderColor = Color.black;
     private Stroke borderStroke = new BasicStroke( 2.0f );
-    private Font font = new PhetDefaultFont( Font.BOLD, 18 );
+    private Font font = new PhetFont( Font.BOLD, 18 );
 
     public PhetButton( Component component, String text ) {
         super( component );

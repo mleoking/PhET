@@ -12,12 +12,11 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.model.RotationBody;
-import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
@@ -46,7 +45,7 @@ public class RotationGraph extends MotionControlGraph {
         getJFreeChartNode().getChart().getXYPlot().setRangeAxis( verticalAxis );
 
         NumberAxis domainAxis = new NumberAxis( RotationStrings.getString( "variable.time.s" ) );
-        domainAxis.setLabelFont( new PhetDefaultFont( 12 ) );
+        domainAxis.setLabelFont( new PhetFont( 12 ) );
         domainAxis.setRange( getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getRange() );
         domainAxis.setTickUnit( new NumberTickUnit( 2.5 ) );
         getJFreeChartNode().getChart().getXYPlot().setDomainAxis( domainAxis );

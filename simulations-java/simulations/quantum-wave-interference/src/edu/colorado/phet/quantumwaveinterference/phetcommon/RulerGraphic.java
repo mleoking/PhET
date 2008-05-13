@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.phetcommon;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -87,7 +87,7 @@ public class RulerGraphic extends PhetPNode {
 
             if( i == 0 ) {
                 PText unitsGraphic = new PText( units );
-                unitsGraphic.setFont( new PhetDefaultFont( 22, true ) );
+                unitsGraphic.setFont( new PhetFont( 22, true ) );
                 addChild( unitsGraphic );
                 unitsGraphic.setOffset( pText.getOffset().getX() + pText.getFullBounds().getWidth() + 5, pText.getOffset().getY() - pText.getFullBounds().getHeight() / 2 );
             }
