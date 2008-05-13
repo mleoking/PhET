@@ -12,9 +12,13 @@ public class CompositeMessageHandler implements IMessageHandler {
     }
 
     public String handleMessage( IMessage m ) throws MessagingException {
-        String s="";
-        for ( IMessageHandler aList : list ) {
-            s+=aList.handleMessage( m )+" ";
+        String s = "";
+        for ( int i = 0; i < list.size(); i++ ) {
+            IMessageHandler handler = list.get( i );
+            s += "ACTION[" + i + "]: " + handler.handleMessage( m );
+            if ( i < list.size() - 1 ) {
+                s += ", ";
+            }
         }
         return s;
     }
