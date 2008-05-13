@@ -22,6 +22,7 @@ import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -47,7 +48,7 @@ public class GPSReceiverNode extends AbstractToolNode {
     
     private GPSReceiver _gps;
     private MovableListener _movableListener;
-    private JLabel _coordinatesDisplay;
+    private ValueNode _valueNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,15 +71,9 @@ public class GPSReceiverNode extends AbstractToolNode {
         arrowNode.setOffset( 0, 0 ); // this node identifies the origin
         
         // display to the right of arrow, vertically centered
-        _coordinatesDisplay = new JLabel( DISPLAY_FORMAT );
-        _coordinatesDisplay.setFont( FONT );
-        JPanel panel = new JPanel();
-        panel.setBackground( Color.WHITE );
-        panel.setBorder( BORDER );
-        panel.add( _coordinatesDisplay );
-        PSwing panelNode = new PSwing( panel );
-        addChild( panelNode );
-        panelNode.setOffset( arrowNode.getFullBounds().getWidth() + 1, -panelNode.getFullBounds().getHeight() / 2 );
+        _valueNode = new ValueNode();
+        addChild( _valueNode );
+        _valueNode.setOffset( arrowNode.getFullBounds().getWidth() + 1, -_valueNode.getFullBounds().getHeight() / 2 );
         
         // initial state
         updateCoordinates();
@@ -90,6 +85,40 @@ public class GPSReceiverNode extends AbstractToolNode {
     }
     
     //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Displays the position coordinates.
+     */
+    private static class ValueNode extends PComposite {
+        
+        private JLabel _coordinatesLabel;
+        private PSwing _pswing;
+        
+        public ValueNode() {
+            super();
+            
+            _coordinatesLabel = new JLabel( DISPLAY_FORMAT );
+            _coordinatesLabel.setFont( FONT );
+            
+            JPanel panel = new JPanel();
+            panel.setBackground( Color.WHITE );
+            panel.setBorder( BORDER );
+            panel.add( _coordinatesLabel );
+            
+            _pswing = new PSwing( panel );
+            addChild( _pswing );
+        }
+        
+        public void setCoordinates( Point2D position ) {
+            Object[] args = { COORDINATE_FORMAT.format( position.getX() ), COORDINATE_FORMAT.format( position.getY() ) };
+            String s = MessageFormat.format( DISPLAY_FORMAT, args );
+            _coordinatesLabel.setText( s );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
@@ -97,10 +126,7 @@ public class GPSReceiverNode extends AbstractToolNode {
      * Updates the displayed coordinates to match the model.
      */
     private void updateCoordinates() {
-        Point2D pModel = _gps.getPositionReference();
-        Object[] args = { COORDINATE_FORMAT.format( pModel.getX() ), COORDINATE_FORMAT.format( pModel.getY() ) };
-        String s = MessageFormat.format( DISPLAY_FORMAT, args );
-        _coordinatesDisplay.setText( s );
+        _valueNode.setCoordinates( _gps.getPositionReference() );
     }
     
     //----------------------------------------------------------------------------

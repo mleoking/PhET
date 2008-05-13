@@ -6,7 +6,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- ice thickness tool's value display doesn't size itself reliably
 - make ice thickness tool look nicer
 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
 - increase zoom on vertical axis by 2x
@@ -83,6 +82,8 @@ CLEANUP:
 
 
 DONE:
+5/13/07 - add PSwing bounds workaround to all tools that that display a JPanel of values
+5/13/07 - bugfix: ice thickness tool's value display (JPanel wrapped in a PSwing) doesn't size itself reliably
 5/13/07 - replace ice thickness tool image in toolbox, delete related image files
 5/13/08 - bugfix: tools dropped in the trash incorrectly "snap" to their drop constraints before disappearing
 5/13/08 - change ice thickness tool to "?" when drag starts, not during the drag

@@ -64,8 +64,12 @@ public class Thermometer extends AbstractTool {
         return _temperature;
     }
     
-    public double getTemperatureFahrenheit() {
-        return ( (9./5.) * _temperature ) + 32.;
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    public static double celsiusToFahrenheit( double celsius ) {
+        return ( (9./5.) * celsius ) + 32.;
     }
     
     //----------------------------------------------------------------------------
