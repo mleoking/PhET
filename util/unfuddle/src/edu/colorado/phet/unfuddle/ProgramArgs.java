@@ -28,7 +28,7 @@ public class ProgramArgs {
             promptForArgs();
         }
         else if ( args.length == 1 ) {
-            readArgsFromFile( args[0], NUMBER_OF_ARGS, TOKEN_DELIMITER );
+            readArgsFromFile( args[0], TOKEN_DELIMITER );
         }
         else {
             throw new IllegalArgumentException( "wrong number of args" );
@@ -91,7 +91,7 @@ public class ProgramArgs {
     * Sample file format:
     * @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:/phet/svn C:/phet/unfuddled.xml true
     */
-    private void readArgsFromFile( String filename, int numberOfArgs, String delimiter ) throws IOException {
+    private void readArgsFromFile( String filename, String delimiter ) throws IOException {
         File file = new File( filename );
         if ( file.exists() && file.canRead() ) {
             String text = FileUtils.loadFileAsString( file );
