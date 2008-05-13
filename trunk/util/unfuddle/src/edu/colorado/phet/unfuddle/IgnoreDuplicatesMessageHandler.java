@@ -21,10 +21,14 @@ public class IgnoreDuplicatesMessageHandler implements IMessageHandler {
         this.file = file;
     }
 
-    public void handleMessage( IMessage m ) throws MessagingException {
+    public String handleMessage( IMessage m ) throws MessagingException {
         if ( !alreadyHandled( m ) ) {
-            target.handleMessage( m );
+            String s = target.handleMessage( m );
             setHandled( m );
+            return s;
+        }
+        else {
+            return "already handled message, ignoring.  message subject=" + m.getEmailSubject();
         }
     }
 

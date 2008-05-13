@@ -9,9 +9,7 @@ import javax.swing.*;
 
 
 public class ProgramArgs {
-
     private static final String TOKEN_DELIMITER = " ";
-    private static final int NUMBER_OF_ARGS = 9;
 
     private String unfuddleUsername;
     private String unfuddlePassword;

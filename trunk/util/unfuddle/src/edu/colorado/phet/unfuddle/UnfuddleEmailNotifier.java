@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.swing.*;
@@ -58,7 +60,6 @@ public class UnfuddleEmailNotifier {
         contentPanel.add( updateNow );
         updateNow.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                processRecentChanges( ProcessRecentChanges.this );
                 processChangesDisplayExceptions( sendMail );
             }
         } );
@@ -68,7 +69,6 @@ public class UnfuddleEmailNotifier {
             public void actionPerformed( ActionEvent e ) {
                 if ( jCheckBox.isSelected() ) {
                     processChangesDisplayExceptions( sendMail );
-//                    processRecentChanges( ProcessRecentChanges.this );
                 }
             }
         } );
@@ -104,6 +104,7 @@ public class UnfuddleEmailNotifier {
     }
 
     private void processChanges( boolean sendMail ) throws IOException, SAXException, ParserConfigurationException {
+        System.out.println( "Started update at " + new Date() );
         final int limit = 20;
         final String[] recent = new String[]{null};
         Thread t = new Thread( new Runnable() {
@@ -142,17 +143,16 @@ public class UnfuddleEmailNotifier {
         h.addMessageHandler( new PrintMessageHandler() );
         h.addMessageHandler( new EmailHandler( args.getEmailFromAddress(), args.getEmailServer(), args.getEmailUsername(), args.getEmailPassword(), new EmailList( unfuddleAccount, unfuddleCurl ), sendMail ) );
         IMessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( args.getSvnTrunk() + "\\util\\unfuddle\\data\\handled.txt" ) ); //TODO separator is Windows specific
-        int handled = 0;
+        ArrayList<String> results = new ArrayList<String>();
         for ( int i = e - 1; i >= 0; i-- ) {//reverse iterate to post notifications in chronological order
             XMLObject auditTrail = events.getNode( i, "event" );
             XMLObject record = auditTrail.getNode( "record" );
-
             XMLObject comment = record.getNode( "comment" );
             if ( comment != null ) {
                 if ( comment.getTextContent( "parent-type" ).equals( "Ticket" ) ) {
                     try {
-                        mh.handleMessage( new TicketCommentMessage( comment, unfuddleAccount, unfuddleCurl ) );
-                        handled++;
+                        String result = mh.handleMessage( new TicketCommentMessage( comment, unfuddleAccount, unfuddleCurl ) );
+                        results.add( result );
                     }
                     catch( MessagingException e1 ) {
                         e1.printStackTrace();
@@ -166,8 +166,8 @@ public class UnfuddleEmailNotifier {
                 XMLObject ticket = record.getNode( "ticket" );
                 if ( ticket != null ) {
                     try {
-                        mh.handleMessage( new TicketNewMessage( ticket, unfuddleAccount ) );
-                        handled++;
+                        String result = mh.handleMessage( new TicketNewMessage( ticket, unfuddleAccount ) );
+                        results.add( result );
                     }
                     catch( MessagingException e1 ) {
                         e1.printStackTrace();
@@ -180,8 +180,8 @@ public class UnfuddleEmailNotifier {
                     try {
                         String resolvedBy = unfuddleAccount.getPersonForID( auditTrail.getTextContentAsInt( "person-id" ) );
                         int recordID = auditTrail.getTextContentAsInt( "record-id" );
-                        mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedBy, recordID ) );
-                        handled++;
+                        String result = mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedBy, recordID ) );
+                        results.add( result );
                     }
                     catch( MessagingException e1 ) {
                         e1.printStackTrace();
@@ -192,13 +192,14 @@ public class UnfuddleEmailNotifier {
                 System.out.println( "Skipping unknown type: " + auditTrail.getTextContent( "summary" ) );
             }
         }
-        System.out.println( "Finished update, number of messages handled=" + handled );
+        System.out.println( "Finished update at " + new Date() + ", number of messages handled=" + results.size() + ", elapsed time=" + ( System.currentTimeMillis() - startTime ) / 1000.0 + " sec" );
+        for ( int i = 0; i < results.size(); i++ ) {
+            System.out.println( "Result[" + i + "]: " + results.get( i ) );
+        }
     }
 
     public static void main( String[] args ) throws IOException {
-
         final ProgramArgs programArgs = new ProgramArgs( args );
-//        System.out.println( programArgs.toString() );
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
