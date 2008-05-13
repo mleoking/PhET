@@ -6,33 +6,32 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- make ice thickness tool look nicer
+- add a button to borehole drill, press button to drill a borehole
+- model borehole as a set of moving points, connected via line segments
+- add framework that allows tools to delete themselves? (eg, flag crushed by glacier)
+- make advancing glaciers delete flags that are on valley floor
 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
 - use solid colors for ice surface and cross-section
 - add 3D model and pseudo-3D view for debris that moves in/on glacier
-- add framework that allows tools to delete themselves? (eg, flag crushed by glacier)
-- make advancing glaciers delete flags that are on valley floor
-- add a button to borehole drill, press button to drill a borehole
 
 MEDIUM PRIORITY:
 - add pseudo 3D model & view for rocks
 - create rocks at random elevations in ice cross-section above ELA, at random distance across valley width
 - deposit rocks at terminus to create moraine
 - delete rocks on valley floor when covered by an advancing glacier
-- make thermometer display "?" when advancing glacier overlaps a thermometer, or when in illegal drop location
 - visual representation of snowfall
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - extruded portion of ice jiggles at headwall while it's evolving
 - remove yaw from mountains image perspective, or add yaw to ice perspective (wait until tools behavior is finalized)
-- model borehole as a set of moving points, connected via line segments
 - adjust magnification of zoomed view?
 - adjust aspect ratio?
 - add Advanced panel
 
 LOW PRIORITY:
+- right edge of ice thickness tool icon is clipped (PNode.toImage problem caused by stroke width?)
 - make flags fall over (with somewhat random orientation?) when they hit the valley floor
 - remove registration points from mountains image
 - creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
@@ -82,6 +81,7 @@ CLEANUP:
 
 
 DONE:
+5/13/08 - make thermometer display "?" when advancing glacier overlaps a thermometer, or when in illegal drop location
 5/13/07 - add PSwing bounds workaround to all tools that that display a JPanel of values
 5/13/07 - bugfix: ice thickness tool's value display (JPanel wrapped in a PSwing) doesn't size itself reliably
 5/13/07 - replace ice thickness tool image in toolbox, delete related image files
