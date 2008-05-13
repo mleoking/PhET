@@ -85,6 +85,8 @@ CLEANUP:
 
 
 DONE:
+5/13/08 - change ice thickness tool to "?" when drag starts, not during the drag
+5/13/08 - do not call super.drag in drag handlers, it causes problems as noted in code comments
 5/12/08 - first pass at resizable ice thickness tool, a little clunky looking
 5/12/08 - delete unused images and assets
 ******* 0.00.20 (21338)
