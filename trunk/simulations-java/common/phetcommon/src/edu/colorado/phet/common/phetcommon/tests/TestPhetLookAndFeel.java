@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * User: Sam Reid
@@ -29,7 +29,7 @@ public class TestPhetLookAndFeel extends PhetApplication {
         public TestPhetLookAndFeelExample() {
             setBackgroundColor( Color.blue );
             setForegroundColor( Color.white );
-            setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
+            setFont( new PhetFont( Font.BOLD, 24 ) );
         }
     }
 

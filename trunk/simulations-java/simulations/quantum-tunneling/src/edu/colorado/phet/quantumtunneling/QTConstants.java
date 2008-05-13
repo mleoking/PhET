@@ -20,7 +20,7 @@ import java.text.DecimalFormat;
 import org.jfree.data.Range;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.color.WhiteColorScheme;
 import edu.colorado.phet.quantumtunneling.control.ZoomControl.ZoomSpec;
@@ -62,7 +62,7 @@ public class QTConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final String FONT_NAME = PhetDefaultFont.getDefaultFontName();
+    public static final String FONT_NAME = PhetFont.getDefaultFontName();
     public static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
     public static final Font DRAG_HANDLE_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
     public static final Font TIME_DISPLAY_FONT = new Font( QTConstants.FONT_NAME, Font.BOLD, 22 );

@@ -15,7 +15,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.application.Module;
 import edu.colorado.phet.common_greenhouse.application.PhetApplication;
@@ -105,8 +105,8 @@ public class GreenhouseApplication extends PhetApplication {
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
         phetLookAndFeel.setForegroundColor( Color.black );
-        phetLookAndFeel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
-        phetLookAndFeel.setTitledBorderFont( new PhetDefaultFont( Font.PLAIN, 12 ) );
+        phetLookAndFeel.setFont( new PhetFont( Font.PLAIN, 14 ) );
+        phetLookAndFeel.setTitledBorderFont( new PhetFont( Font.PLAIN, 12 ) );
         phetLookAndFeel.initLookAndFeel();
     }
 

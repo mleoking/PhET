@@ -12,7 +12,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.fitness.FitnessResources;
@@ -112,7 +112,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
     }
 
     public static TitledBorder createTitledBorder( String title ) {
-        return new TitledBorder( new BevelBorder( BevelBorder.LOWERED ), title, TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new PhetDefaultFont( 16, true ) ) {
+        return new TitledBorder( new BevelBorder( BevelBorder.LOWERED ), title, TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new PhetFont( 16, true ) ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -145,7 +145,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
                 add( Box.createHorizontalStrut( maxImageW - imageW ) );
             }
             JLabel jLabel = new JLabel( jlabelText );
-            jLabel.setFont( new PhetDefaultFont( 12 ) );
+            jLabel.setFont( new PhetFont( 12 ) );
             add( jLabel );
         }
 

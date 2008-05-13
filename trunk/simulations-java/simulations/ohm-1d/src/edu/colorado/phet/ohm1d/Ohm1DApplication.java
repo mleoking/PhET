@@ -2,7 +2,7 @@ package edu.colorado.phet.ohm1d;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.ohm1d.collisions.Collider;
 import edu.colorado.phet.ohm1d.collisions.DefaultCollisionEvent;
 import edu.colorado.phet.ohm1d.common.math.functions.Transform;
@@ -564,7 +564,7 @@ public class Ohm1DApplication extends JApplet {
 //        URL fontLocation = loader.getResource( "fonts/SYLFAEN.TTF" );
         //URL fontLocation=loader.getResource("fonts/PAPYRUS.TTF");
 
-        Font sylfFont = new PhetDefaultFont( Font.PLAIN, 18 );
+        Font sylfFont = new PhetFont( Font.PLAIN, 18 );
         sylfFont = font.deriveFont( Font.PLAIN, 44.2f );
 
         //System.err.println("Battx="+battX+", batty="+battY);

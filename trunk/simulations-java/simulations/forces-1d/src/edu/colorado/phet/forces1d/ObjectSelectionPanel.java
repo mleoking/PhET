@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
@@ -22,8 +22,8 @@ import edu.colorado.phet.forces1d.model.Force1dObject;
  */
 
 public class ObjectSelectionPanel extends JPanel {
-    private Font selectedFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 13 );
-    private Font normalFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 13 );
+    private Font selectedFont = new Font( PhetFont.getDefaultFontName(), Font.BOLD, 13 );
+    private Font normalFont = new Font( PhetFont.getDefaultFontName(), Font.PLAIN, 13 );
 
     public ObjectSelectionPanel( final Force1dObject[] imageElements, final SimpleControlPanel simpleControlPanel ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );

@@ -13,7 +13,7 @@ package edu.colorado.phet.idealgas.view.monitors;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
@@ -60,7 +60,7 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
     private NumberFormat heightFormatter = new DecimalFormat( "0.00" );
     private double temperature;
     private double pressure;
-    private Font font = new PhetDefaultFont( Font.BOLD, 12 );
+    private Font font = new PhetFont( Font.BOLD, 12 );
     private InternalGraphic internalGraphic;
     private Area drawingArea = new Area();
     private boolean displayTemperature;

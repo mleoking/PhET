@@ -11,7 +11,7 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.photoelectric.model.Ammeter;
 import edu.colorado.phet.photoelectric.model.util.ScalarDataRecorder;
 
@@ -26,7 +26,7 @@ import java.text.DecimalFormat;
  */
 public class AmmeterViewTextGraphic extends PhetTextGraphic {
 
-    static private Font font = new PhetDefaultFont( Font.PLAIN, 6 );
+    static private Font font = new PhetFont( Font.PLAIN, 6 );
     private PhetTextGraphic currentLabel;
     private PhetTextGraphic currentTF;
     private DecimalFormat format = new DecimalFormat( "#0.0000" );

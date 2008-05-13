@@ -1,7 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.doping;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.ApparatusPanel;
 import edu.colorado.phet.common_semiconductor.view.CompositeInteractiveGraphic;
@@ -62,7 +62,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
             }
         } );
         Border init = BorderFactory.createLineBorder( Color.blue, 2 );
-        Font font = new PhetDefaultFont( Font.BOLD, 16 );
+        Font font = new PhetFont( Font.BOLD, 16 );
         Border bo = BorderFactory.createTitledBorder( init, SimStrings.get( "DopantPanel.DopantBorder" ), 0, 0, font, Color.black );
         border = new BorderGraphic( bo, apparatusPanel, viewRect );
 
@@ -102,7 +102,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
     }
 
     private void addText( String s, CompositeInteractiveGraphic graphic, PhetVector cell, ModelViewTransform2D transform ) {
-        final TextGraphic pText = new TextGraphic( 100, 100, new PhetDefaultFont( Font.PLAIN, 14 ), Color.black, s );
+        final TextGraphic pText = new TextGraphic( 100, 100, new PhetFont( Font.PLAIN, 14 ), Color.black, s );
         ViewChangeListener vcl = new ViewChangeListener() {
             public void viewCoordinateChanged( int x, int y ) {
                 pText.setPosition( x - 25, y - 23 );

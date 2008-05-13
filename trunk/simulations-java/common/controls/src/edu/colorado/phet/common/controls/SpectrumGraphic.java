@@ -16,7 +16,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
  * @version $Revision$
  */
 public class SpectrumGraphic extends CompositePhetGraphic {
-    public static final Font DEFAULT_CONTROL_FONT = new PhetDefaultFont( Font.BOLD, 10 );
+    public static final Font DEFAULT_CONTROL_FONT = new PhetFont( Font.BOLD, 10 );
     //    private static Color invisibleColor = new Color( 0, 0, 0 );
     private static Color invisibleColor = new Color( 64, 64, 64 );
 

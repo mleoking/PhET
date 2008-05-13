@@ -12,7 +12,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSuite;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.movingman.MMUtil;
@@ -57,7 +57,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         PNode vectorLayer = new PNode();
         movingManNode.addChild( vectorLayer );
 
-        velocityVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), MovingManResources.getString( "variables.velocity" ), MMUtil.transparify( Color.red, 128 ), new BasicStroke( 0.03f ), Color.black, -0.5 );
+        velocityVector = new MotionVectorNode( new PhetFont( 14, true ), MovingManResources.getString( "variables.velocity" ), MMUtil.transparify( Color.red, 128 ), new BasicStroke( 0.03f ), Color.black, -0.5 );
         velocityVector.setVisible( true );
         final ITemporalVariable.ListenerAdapter velocityVectorUpdate = new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
@@ -68,7 +68,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         motionModel.getVVariable().addListener( velocityVectorUpdate );
         vectorLayer.addChild( velocityVector );
 
-        accelVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), MovingManResources.getString( "variables.acceleration" ), MMUtil.transparify( Color.green, 128 ), new BasicStroke( 0.03f ), Color.black, 0.0 );
+        accelVector = new MotionVectorNode( new PhetFont( 14, true ), MovingManResources.getString( "variables.acceleration" ), MMUtil.transparify( Color.green, 128 ), new BasicStroke( 0.03f ), Color.black, 0.0 );
         accelVector.setVisible( true );
         final ITemporalVariable.ListenerAdapter accelVectorUpdate = new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
@@ -166,7 +166,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
 
         public TimeReadoutNode( final MovingManMotionModel motionModel ) {
             final PText text = new PText();
-            text.setFont( new PhetDefaultFont( 16, true ) );
+            text.setFont( new PhetFont( 16, true ) );
             motionModel.getTimeVariable().addListener( new ITemporalVariable.ListenerAdapter() {
                 public void valueChanged() {
                     text.setText( decimalFormat.format( motionModel.getTime() ) + " " + MovingManResources.getString( "units.seconds" ) );

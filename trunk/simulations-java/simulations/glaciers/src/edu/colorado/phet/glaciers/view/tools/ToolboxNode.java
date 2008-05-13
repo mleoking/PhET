@@ -10,7 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IToolProducer;
@@ -50,7 +50,7 @@ public class ToolboxNode extends PNode {
     private static final double BACKGROUND_CORNER_RADIUS = 10;
     
     // tab properties
-    private static final Font TAB_LABEL_FONT = new PhetDefaultFont( 12 );
+    private static final Font TAB_LABEL_FONT = new PhetFont( 12 );
     private static final Color TAB_LABEL_COLOR = Color.BLACK;
     private static final Color TAB_COLOR = BACKGROUND_COLOR;
     private static final Color TAB_STROKE_COLOR = BACKGROUND_STROKE_COLOR;

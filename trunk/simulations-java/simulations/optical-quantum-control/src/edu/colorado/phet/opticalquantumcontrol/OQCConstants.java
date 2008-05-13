@@ -16,7 +16,7 @@ import java.awt.Cursor;
 
 import edu.colorado.phet.common.phetcommon.math.TrigCache;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 /**
@@ -60,7 +60,7 @@ public class OQCConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final String FONT_NAME = PhetDefaultFont.getDefaultFontName();
+    public static final String FONT_NAME = PhetFont.getDefaultFontName();
     
     //----------------------------------------------------------------------------
     // Colors

@@ -46,7 +46,7 @@
 
 package edu.colorado.phet.quantumwaveinterference.phetcommon;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -250,7 +250,7 @@ public class JFontChooser extends JDialog {
 
     private Font getCurrentFont() {
         if( fontList == null || cbBold == null || cbItalic == null || sizeList == null || sizeList.getSelectedValue() == null ) {
-            return new PhetDefaultFont( Font.PLAIN, 12 );
+            return new PhetFont( Font.PLAIN, 12 );
         }
         String fontFamily = (String)fontList.getSelectedValue();
         int fontSize = Integer.parseInt( (String)sizeList.getSelectedValue() );

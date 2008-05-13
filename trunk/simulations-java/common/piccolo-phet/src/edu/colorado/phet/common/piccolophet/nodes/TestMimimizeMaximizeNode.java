@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -59,7 +59,7 @@ public class TestMimimizeMaximizeNode {
         canvas.getLayer().addChild( chartNode2 );
         chartNode2.setOffset( chartNode1.getFullBounds().getMaxX() + 20, chartNode1.getOffset().getY() );
 
-        Font font = new PhetDefaultFont( Font.BOLD, 18 );
+        Font font = new PhetFont( Font.BOLD, 18 );
         double spacing = 10;
         final MinimizeMaximizeNode minMaxNode2 = new MinimizeMaximizeNode( "Show chart 2", MinimizeMaximizeNode.BUTTON_LEFT, font, Color.BLACK, spacing );
         canvas.getLayer().addChild( minMaxNode2 );

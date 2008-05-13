@@ -7,7 +7,7 @@ import java.awt.Font;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class ELAValueNode extends PText {
 
-    private static final Font FONT = new PhetDefaultFont( 14 );
+    private static final Font FONT = new PhetFont( 14 );
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final NumberFormat NUMBER_FORMAT = new DefaultDecimalFormat( "0" );
     

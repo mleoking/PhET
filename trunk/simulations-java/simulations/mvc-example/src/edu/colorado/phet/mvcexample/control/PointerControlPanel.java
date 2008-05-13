@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * PointerControlPanel is a control panel for pointers.
@@ -26,7 +26,7 @@ public class PointerControlPanel extends JPanel {
         
         // Title
         JLabel titleLabel = new JLabel( title );
-        titleLabel.setFont( new PhetDefaultFont( 14, true /* bold */ ) );
+        titleLabel.setFont( new PhetFont( 14, true /* bold */ ) );
         titleLabel.setForeground( titleColor );
         
         // Position control (display only)

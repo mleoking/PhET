@@ -3,7 +3,7 @@ package edu.colorado.phet.movingman.motion;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Created by: Sam
@@ -16,7 +16,7 @@ public class MotionProjectLookAndFeel {
     public static void init() {
         PhetLookAndFeel plaf = new PhetLookAndFeel();
         plaf.setBackgroundColor( BACKGROUND_COLOR );
-        plaf.setFont( new PhetDefaultFont( 14, true ) );
+        plaf.setFont( new PhetFont( 14, true ) );
         plaf.initLookAndFeel();
     }
 }

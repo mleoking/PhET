@@ -9,7 +9,7 @@ import javax.swing.border.LineBorder;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 
 /**
@@ -29,7 +29,7 @@ public class StopwatchPanelDectorator extends VerticalLayoutPanel {
         stopwatchPanel.setScaleFactor( timeScale );
         stopwatchPanel.setTimeUnits( timeUnits );
         add( stopwatchPanel );
-        label.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+        label.setFont( new PhetFont( Font.BOLD, 14 ) );
         label.setBackground( stopwatchPanel.getBackground() );
         label.setOpaque( true );
     }

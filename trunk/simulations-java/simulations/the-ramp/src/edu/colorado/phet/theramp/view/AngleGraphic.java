@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -31,7 +31,7 @@ public class AngleGraphic extends PNode {
         phetShapeGraphic.setStrokePaint( Color.black );
 //        phetShapeGraphic = new PhetShapeGraphic( getComponent(), null, new BasicStroke( 2 ), Color.black );
         label = new HTMLNode( "test" );
-        label.setFont( new PhetDefaultFont( 14 ) );
+        label.setFont( new PhetFont( 14 ) );
 //        label = new ShadowHTMLGraphic( getComponent(), "test", new Font( PhetDefaultFont.LUCIDA_SANS, 0, 14 ), Color.black, 1, 1, Color.gray );
         addChild( phetShapeGraphic );
         addChild( label );

@@ -1,7 +1,7 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -40,7 +40,7 @@ public class ZeroPointPotentialNode extends PhetPNode {
         addChild( path );
 
         ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "label.zero-potential-energy" ) );
-        text.setFont( new PhetDefaultFont( 16, true ) );
+        text.setFont( new PhetFont( 16, true ) );
         text.setTextPaint( Color.black );
         text.setShadowColor( new Color( 128, 128, 255 ) );
         addChild( text );

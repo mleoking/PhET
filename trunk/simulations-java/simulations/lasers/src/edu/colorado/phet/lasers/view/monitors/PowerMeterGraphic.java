@@ -11,7 +11,7 @@
 package edu.colorado.phet.lasers.view.monitors;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -198,7 +198,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
 
             // Text annotations
             String lasingStr = SimStrings.getInstance().getString( "PowerMeter.Lasing" );
-            Font font = new PhetDefaultFont( Font.BOLD, 12 );
+            Font font = new PhetFont( Font.BOLD, 12 );
             PhetTextGraphic lasingAnnotation = new PhetTextGraphic();
             lasingAnnotation.setComponent( component );
             lasingAnnotation.setFont( font );

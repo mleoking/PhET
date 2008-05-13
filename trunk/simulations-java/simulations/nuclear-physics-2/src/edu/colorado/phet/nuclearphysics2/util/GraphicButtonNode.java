@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
@@ -46,7 +46,7 @@ public class GraphicButtonNode extends PhetPNode {
         
         // Add label for button.
         _buttonLabel = new PText(labelText);
-        _buttonLabel.setFont( new PhetDefaultFont(Font.PLAIN, 16 ));
+        _buttonLabel.setFont( new PhetFont(Font.PLAIN, 16 ));
         _buttonLabel.setPickable( false );
         addChild( _buttonLabel );
         

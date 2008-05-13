@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -214,7 +214,7 @@ public class MeasuringTape extends PhetPNode {
         public ReadoutGraphic( String units ) {
             this.units = units;
             phetShadowTextGraphic = new PText( "" );
-            phetShadowTextGraphic.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+            phetShadowTextGraphic.setFont( new PhetFont( Font.BOLD, 14 ) );
             phetShadowTextGraphic.setTextPaint( Color.black );
 
             BoundNode boundGraphic = new BoundNode( phetShadowTextGraphic, 2, 2 );

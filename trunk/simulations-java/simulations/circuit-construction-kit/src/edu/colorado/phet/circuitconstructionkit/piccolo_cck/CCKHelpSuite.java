@@ -10,7 +10,7 @@ import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PNode;
@@ -33,7 +33,7 @@ public class CCKHelpSuite extends PhetPNode {
         motionHelpBalloon = new MotionHelpBalloon( cckSimulationPanel, CCKStrings.getString( "CCK3Module.GrabAWire" ) );
         motionHelpBalloon.setArrowVisible( true );
         motionHelpBalloon.setBalloonVisible( true );
-        motionHelpBalloon.setFont( new PhetDefaultFont( Font.BOLD, 18 ) );
+        motionHelpBalloon.setFont( new PhetFont( Font.BOLD, 18 ) );
         motionHelpBalloon.setArrowTailPosition( MotionHelpBalloon.RIGHT_CENTER );
         addChild( motionHelpBalloon );
         cckSimulationPanel.addMouseListener( new MouseAdapter() {

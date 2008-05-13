@@ -7,7 +7,7 @@ import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 public abstract class AbstractTicks extends AbstractGrid {
     private int tickHeight = 6;
     private NumberFormat numberFormat = new DecimalFormat( "#.#" );
-    private Font font = new PhetDefaultFont( Font.PLAIN, 12 );
+    private Font font = new PhetFont( Font.PLAIN, 12 );
     private boolean showLabels = true;
     private GraphicLayerSet tickGraphics;
     private GraphicLayerSet labelGraphics;

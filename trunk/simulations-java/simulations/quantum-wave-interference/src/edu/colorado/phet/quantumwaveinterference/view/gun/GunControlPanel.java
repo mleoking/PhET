@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.view.gun;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
@@ -37,7 +37,7 @@ public class GunControlPanel extends VerticalLayoutPanel {
         };
         titleLabel.setForeground( Color.white );
         titleLabel.setOpaque( false );
-        titleLabel.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+        titleLabel.setFont( new PhetFont( Font.BOLD, 14 ) );
         add( titleLabel );
     }
 

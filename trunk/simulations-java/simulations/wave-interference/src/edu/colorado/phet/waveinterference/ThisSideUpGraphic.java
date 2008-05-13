@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -30,7 +30,7 @@ public class ThisSideUpGraphic extends PhetPNode {
         arrowNode.setStrokePaint( Color.black );
         addChild( arrowNode );
 
-        textNode.setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
+        textNode.setFont( new PhetFont( Font.BOLD, 24 ) );
         arrowNode.setOffset( textNode.getFullBounds().getWidth() + arrowNode.getFullBounds().getWidth() / 2, textNode.getFullBounds().getHeight() / 2 + arrowNode.getFullBounds().getHeight() / 2 );
         origHeight = getFullBounds().getHeight();
     }

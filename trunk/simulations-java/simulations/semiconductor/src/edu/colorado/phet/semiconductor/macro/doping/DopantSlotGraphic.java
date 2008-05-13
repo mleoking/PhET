@@ -2,7 +2,7 @@ package edu.colorado.phet.semiconductor.macro.doping;
 
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.semiconductor.SemiconductorApplication;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -19,7 +19,7 @@ public class DopantSlotGraphic implements Graphic {
     private Shape shape;
     //    private String name;
     private TexturePaint texture;
-    static final Font font = new PhetDefaultFont( Font.BOLD, 18 );
+    static final Font font = new PhetFont( Font.BOLD, 18 );
 
     public DopantSlotGraphic( Shape shape, DopantType type ) throws IOException {
         this.shape = shape;

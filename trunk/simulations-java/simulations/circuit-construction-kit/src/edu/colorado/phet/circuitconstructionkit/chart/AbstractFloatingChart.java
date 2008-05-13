@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -148,7 +148,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
             textBackground.setPaint( new Color( 255, 255, 255, 235 ) );
             addChild( textBackground );
             readout = new PText( ( "value" ) );
-            readout.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+            readout.setFont( new PhetFont( Font.BOLD, 14 ) );
             readout.setTextPaint( Color.blue );
             addChild( readout );
         }

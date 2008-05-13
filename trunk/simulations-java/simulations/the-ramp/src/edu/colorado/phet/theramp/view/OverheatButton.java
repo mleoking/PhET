@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
@@ -33,7 +33,7 @@ public class OverheatButton extends PNode {
         this.rampPanel = rampPanel;
         ShadowHTMLNode shadowHTMLNode = new ShadowHTMLNode( TheRampStrings.getString( "message.overheated" ) );
         shadowHTMLNode.setColor( Color.red );
-        shadowHTMLNode.setFont( new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 14 ) );
+        shadowHTMLNode.setFont( new Font( PhetFont.getDefaultFontName(), Font.BOLD, 14 ) );
         addChild( shadowHTMLNode );
         JButton overheat = new JButton( TheRampStrings.getString( "controls.cool-ramp" ) );
         overheat.setFont( RampFontSet.getFontSet().getNormalButtonFont() );

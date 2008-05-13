@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSequence;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -119,7 +119,7 @@ public class Kaboom implements ModelElement {
 
         // Add the message to the user
         labelMessage = new JLabel( SimStrings.getInstance().getString( "Kaboom.message" ) );
-        labelMessage.setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
+        labelMessage.setFont( new PhetFont( Font.BOLD, 24 ) );
         labelMessage.setForeground( Color.red );
         labelMessage.setLocation( -20, 10 );
         panel.add( labelMessage );

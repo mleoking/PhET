@@ -13,7 +13,7 @@ package edu.colorado.phet.photoelectric.view;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.model.Ammeter;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
@@ -29,7 +29,7 @@ import java.text.DecimalFormat;
  */
 public class AmmeterViewGraphic extends CompositePhetGraphic {
 
-    private Font font = new PhetDefaultFont( Font.BOLD, 14 );
+    private Font font = new PhetFont( Font.BOLD, 14 );
     private PhetShapeGraphic background1;
     private PhetShapeGraphic background2;
     private PhetTextGraphic currentLabel;

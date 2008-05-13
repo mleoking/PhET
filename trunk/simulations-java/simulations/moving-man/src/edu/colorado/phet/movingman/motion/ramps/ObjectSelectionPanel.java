@@ -11,7 +11,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
@@ -21,8 +21,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  */
 
 public class ObjectSelectionPanel extends JPanel {
-    private Font selectedFont = new PhetDefaultFont( Font.BOLD, 13 );
-    private Font normalFont = new PhetDefaultFont( Font.PLAIN, 13 );
+    private Font selectedFont = new PhetFont( Font.BOLD, 13 );
+    private Font normalFont = new PhetFont( Font.PLAIN, 13 );
 
     public static interface Listener {
         void objectChanged( Force1DObjectConfig imageElement );

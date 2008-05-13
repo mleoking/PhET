@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Class for rendering HTML Text.
@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 public class HTMLGraphic extends CompositePhetGraphic {
 
     private static final Color DEFAULT_COLOR = Color.BLACK;
-    private static final Font DEFAULT_FONT = new PhetDefaultFont( Font.PLAIN, 12 );
+    private static final Font DEFAULT_FONT = new PhetFont( Font.PLAIN, 12 );
 
     private String html;
     private Font font;

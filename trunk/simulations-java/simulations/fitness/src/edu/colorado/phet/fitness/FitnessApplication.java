@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.fitness.developer.DeveloperMenu;
@@ -233,7 +233,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
             public void run() {
 
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-                phetLookAndFeel.setFont( new PhetDefaultFont( 14, true ) );
+                phetLookAndFeel.setFont( new PhetFont( 14, true ) );
                 phetLookAndFeel.setBackgroundColor( FitnessColorScheme.getBackgroundColor() );
                 phetLookAndFeel.setTextFieldBackgroundColor( Color.white );
                 phetLookAndFeel.initLookAndFeel();

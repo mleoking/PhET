@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -50,7 +50,7 @@ public class StackedBarChartAxisNode extends PNode {
             count++;
         }
         PText titleNode = new PText( title );
-        titleNode.setFont( new PhetDefaultFont( 18, true ) );
+        titleNode.setFont( new PhetFont( 18, true ) );
         addChild( titleNode );
 
         PNode bottomMajor = (PNode) minorTicks.get( 0 );

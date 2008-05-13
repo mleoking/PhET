@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.opticaltweezers.control.SimulationSpeedSlider;
 import edu.umd.cs.piccolo.PCanvas;
@@ -47,7 +47,7 @@ public class TestSimulationSpeedSlider extends JFrame {
         System.out.println( _slider.getValue() );//XXX
         
         _valueNode = new PText();
-        _valueNode.setFont( new PhetDefaultFont( 24 ) );
+        _valueNode.setFont( new PhetFont( 24 ) );
         _valueNode.setTextPaint( Color.BLACK );
         
         PCanvas canvas = new PhetPCanvas();

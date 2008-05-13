@@ -25,7 +25,7 @@ import edu.colorado.phet.collision_idealgas.VerticalBarrier;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -56,7 +56,7 @@ abstract public class AdvancedModule extends IdealGasModule {
     //    public static final Color COLOR_B = new Color( 200, 100, 0 );
     public static final Color COLOR_A = new Color( 0, 150, 0 );
 
-    private static Font readoutFont = new PhetDefaultFont( Font.BOLD, 12 );
+    private static Font readoutFont = new PhetFont( Font.BOLD, 12 );
     protected VerticalBarrier verticalWall;
     private ParticleCounter leftRegionParticleCounter;
     private ParticleCounter rightRegionParticleCounter;
@@ -249,7 +249,7 @@ abstract public class AdvancedModule extends IdealGasModule {
 
         public void update() {
             int size = Math.max( 12, particleCounter.getCnt() );
-            Font font = new PhetDefaultFont( Font.BOLD, size );
+            Font font = new PhetFont( Font.BOLD, size );
             this.setFont( font );
         }
     }

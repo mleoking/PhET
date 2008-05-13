@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
@@ -29,7 +29,7 @@ public class RotationOriginNode extends PNode {
         addChild( path );
 
         htmlNode = new HTMLNode( "<html>" + UnicodeUtil.THETA + "=0<sup>o</sup></html>" );
-        htmlNode.setFont( new PhetDefaultFont( 16, true ) );
+        htmlNode.setFont( new PhetFont( 16, true ) );
         htmlNode.setTransform( AffineTransform.getScaleInstance( RotationPlayAreaNode.SCALE, -RotationPlayAreaNode.SCALE ) );
         addChild( htmlNode );
 

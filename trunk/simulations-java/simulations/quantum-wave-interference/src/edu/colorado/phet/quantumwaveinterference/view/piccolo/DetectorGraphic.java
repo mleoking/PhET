@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumwaveinterference.QWILookAndFeel;
 import edu.colorado.phet.quantumwaveinterference.model.Detector;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
@@ -39,7 +39,7 @@ public class DetectorGraphic extends RectangleGraphic {
 
         darkGreen = new Color( 50, 230, 75 );
         probDisplay = new PText();
-        probDisplay.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+        probDisplay.setFont( new PhetFont( Font.BOLD, 14 ) );
         probDisplay.setTextPaint( darkGreen );
         probDisplay.setPickable( false );
         probDisplay.setChildrenPickable( false );

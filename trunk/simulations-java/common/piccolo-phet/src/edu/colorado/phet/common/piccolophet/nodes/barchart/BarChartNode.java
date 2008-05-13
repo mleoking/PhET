@@ -16,7 +16,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
@@ -64,7 +64,7 @@ public class BarChartNode extends PNode {
         titleNode.setFont( getTitleFont() );
         PhetPPath titleBackground = new PhetPPath( titleNode.getFullBounds(), backgroundColor );
         frontLayer.addChild( titleBackground );
-        verticalLabelNode = new VerticalShadowHTMLNode( new PhetDefaultFont(), "", Color.red, Color.black );
+        verticalLabelNode = new VerticalShadowHTMLNode( new PhetFont(), "", Color.red, Color.black );
         verticalLabelNode.setOffset( -20,150);
         frontLayer.addChild( verticalLabelNode );
 
@@ -74,7 +74,7 @@ public class BarChartNode extends PNode {
     }
 
     protected Font getTitleFont() {
-        return new PhetDefaultFont( Font.BOLD, 18 );
+        return new PhetFont( Font.BOLD, 18 );
     }
 
     public void setVerticalAxisLabelShadowVisible( boolean b ) {
@@ -145,7 +145,7 @@ public class BarChartNode extends PNode {
             int x = (int) ( i * sep + dw );
             final BarNode barGraphic = new BarNode( variable.getName(), scale,
                                                     variable.getValue(), x, (int) barWidth,
-                                                    (int) barChartHeight, variable.getColor(), new PhetDefaultFont( Font.BOLD, 14 ) );
+                                                    (int) barChartHeight, variable.getColor(), new PhetFont( Font.BOLD, 14 ) );
             addBarGraphic( barGraphic );
         }
         frontLayer.addChild( titleNode );

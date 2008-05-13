@@ -18,7 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 /**
@@ -110,7 +110,7 @@ public abstract class AbstractValueControl extends JPanel {
 
         _notifyWhileAdjusting = true; // provide change notification while slider is dragging
         _isAdjusting = false;
-        _font = new PhetDefaultFont();
+        _font = new PhetFont();
         _listenerList = new EventListenerList();
 
         // Labels

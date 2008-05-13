@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.Surface;
@@ -94,7 +94,7 @@ public class SurfaceGraphic extends PNode {
 
 //        heightReadoutGraphic = new PText( rampPanel, new Font( PhetDefaultFont.LUCIDA_SANS, 0, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
         heightReadoutGraphic = new PText( TheRampStrings.getString( "indicator.height-zero" ) );
-        heightReadoutGraphic.setFont( new PhetDefaultFont( 18, true ) );
+        heightReadoutGraphic.setFont( new PhetFont( 18, true ) );
         heightReadoutGraphic.setPaint( SkyGraphic.lightBlue );
         addChild( heightReadoutGraphic );
 

@@ -41,7 +41,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -130,7 +130,7 @@ public class TestHelpBalloon extends PhetApplication {
             pathNode.setOffset( 0, 0 );
 
             PText textNode = new PText( "Drag me" );
-            textNode.setFont( new PhetDefaultFont( Font.BOLD, 16 ) );
+            textNode.setFont( new PhetFont( Font.BOLD, 16 ) );
             textNode.setTextPaint( Color.BLACK );
             textNode.setOffset( pathNode.getWidth() / 2 - textNode.getWidth() / 2, pathNode.getHeight() / 2 - textNode.getHeight() / 2 );
 
@@ -176,7 +176,7 @@ public class TestHelpBalloon extends PhetApplication {
                 fontSizeSlider.addChangeListener( new ChangeListener() {
 
                     public void stateChanged( ChangeEvent e ) {
-                        Font font = new PhetDefaultFont( Font.PLAIN, fontSizeSlider.getValue() );
+                        Font font = new PhetFont( Font.PLAIN, fontSizeSlider.getValue() );
                         _helpBalloon.setFont( font );
                     }
                 } );

@@ -7,7 +7,7 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.common_movingman.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -37,7 +37,7 @@ public class HelpItem2 extends CompositePhetGraphic {
     public HelpItem2( Component component, String text ) {
         super( component );
         this.text = text;
-        Font font = new PhetDefaultFont( Font.PLAIN, 18 );
+        Font font = new PhetFont( Font.PLAIN, 18 );
 
         shadowHTMLGraphic = new ShadowHTMLGraphic( component, text, font, textColor, 1, 1, shadowColor );
 

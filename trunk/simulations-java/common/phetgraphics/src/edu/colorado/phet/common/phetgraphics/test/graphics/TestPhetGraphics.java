@@ -37,7 +37,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
@@ -73,7 +73,7 @@ public class TestPhetGraphics extends JFrame {
         TestPhetGraphicSource[] graphics = new TestPhetGraphicSource[]{
                 new TestPhetGraphicSource() {
                     public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                        return new PhetTextGraphic( panel, new PhetDefaultFont( Font.BOLD, 24 ), "PhetGraphic Test", Color.blue, 100, 100 );
+                        return new PhetTextGraphic( panel, new PhetFont( Font.BOLD, 24 ), "PhetGraphic Test", Color.blue, 100, 100 );
                     }
                 },
                 new TestPhetGraphicSource() {
@@ -101,7 +101,7 @@ public class TestPhetGraphics extends JFrame {
                         CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
                         cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
                         cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
-                        cpg.addGraphic( new PhetShadowTextGraphic( panel, new PhetDefaultFont( 0, 12 ), "compositegraphic", Color.white, 1, 1, Color.black ) );
+                        cpg.addGraphic( new PhetShadowTextGraphic( panel, new PhetFont( 0, 12 ), "compositegraphic", Color.white, 1, 1, Color.black ) );
                         return cpg;
                     }
                 },
@@ -109,7 +109,7 @@ public class TestPhetGraphics extends JFrame {
                     public PhetGraphic createGraphic( ApparatusPanel panel ) {
 //                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 4, new float[]{6, 6}, 0 );
                         Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
-                        final OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new PhetDefaultFont( Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
+                        final OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new PhetFont( Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
                         g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
                         return g;
                     }

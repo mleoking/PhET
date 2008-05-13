@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -113,7 +113,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     }
 
     private RulerNode createRulerNode() {
-        final RulerNode rulerNode = new RulerNode( 1, 0.1, 0.1, new String[]{"0.0", "0.25", "0.5", "0.75", "1.0"}, new PhetDefaultFont(), "m", new PhetDefaultFont(), 4, 0.03, 0.01 );
+        final RulerNode rulerNode = new RulerNode( 1, 0.1, 0.1, new String[]{"0.0", "0.25", "0.5", "0.75", "1.0"}, new PhetFont(), "m", new PhetFont(), 4, 0.03, 0.01 );
         rulerNode.rotate( Math.PI * 3 / 2 );
         rulerNode.addInputEventListener( new PDragEventHandler() );
 

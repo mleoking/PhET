@@ -13,7 +13,7 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.mri.MriConfig;
@@ -47,7 +47,7 @@ public class RadiowaveSourceGraphic extends PNode {
 
     private double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.45 * .7; // for scale = 0.4
 
-    private Font font = new PhetDefaultFont( Font.BOLD, 16 );
+    private Font font = new PhetFont( Font.BOLD, 16 );
     private double panelDepth = 93;
     private EnergySquiggle energySquiggle;
     private MriModel model;

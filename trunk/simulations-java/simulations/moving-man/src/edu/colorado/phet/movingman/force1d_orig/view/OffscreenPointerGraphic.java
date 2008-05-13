@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.math.Vector2D;
@@ -19,7 +19,7 @@ import edu.colorado.phet.movingman.force1d_orig.model.Block;
  * Dec 22, 2004, 8:34:00 AM
  */
 public class OffscreenPointerGraphic extends GraphicLayerSet {
-    private static final Font font = new PhetDefaultFont( Font.BOLD, 28 );
+    private static final Font font = new PhetFont( Font.BOLD, 28 );
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.0" );
     private PhetTextGraphic textGraphic;
     private BlockGraphic blockGraphic;

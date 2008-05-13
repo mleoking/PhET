@@ -2,7 +2,7 @@
 package edu.colorado.phet.quantumwaveinterference.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
@@ -60,7 +60,7 @@ public class IntensityReader extends PComposite {
         addChild( crosshairs );
 
         readout = new PText( QWIStrings.getString( "value" ) );
-        readout.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
+        readout.setFont( new PhetFont( Font.BOLD, 14 ) );
         readout.setTextPaint( Color.blue );
         addChild( readout );
         readout.setOffset( 0, crosshairs.getHeight() + 5 );

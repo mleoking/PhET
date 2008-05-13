@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.energyskatepark.model.Body;
@@ -54,7 +54,7 @@ public class EnergyErrorIndicatorNode extends PhetPNode {
 
     private ShadowPText createTextNode( String textValue ) {
         ShadowPText text = new ShadowPText( textValue );
-        text.setFont( new PhetDefaultFont( 18, true ) );
+        text.setFont( new PhetFont( 18, true ) );
         text.setShadowColor( Color.black );
         text.setShadowOffset( 2, 2 );
         text.setTextPaint( Color.red );

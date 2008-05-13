@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -76,7 +76,7 @@ public class TestArrows {
             }
         } );
 
-        Font font = new PhetDefaultFont( Font.BOLD, 24 );
+        Font font = new PhetFont( Font.BOLD, 24 );
         PhetTextGraphic textGraphic = new PhetTextGraphic( p, font, "Hello PhET", Color.blue, 200, 100 );
         compositeGraphic.addGraphic( textGraphic, 10 );
         compositeGraphic.addGraphic( shapeGraphic, 30 );

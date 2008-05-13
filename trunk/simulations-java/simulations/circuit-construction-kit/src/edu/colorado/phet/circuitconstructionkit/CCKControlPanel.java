@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -552,7 +552,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             resistivitySlider.setNumMajorTicks( 5 );
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
 
-            Font labelFont = new PhetDefaultFont( Font.PLAIN, 10 );
+            Font labelFont = new PhetFont( Font.PLAIN, 10 );
             JLabel lowLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.AlmostNoneLabel" ) );
             lowLabel.setFont( labelFont );
             JLabel highLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.LotsLabel" ) );

@@ -37,7 +37,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -62,7 +62,7 @@ public class TestSinePlotPerformance {
     private static final Range2D CHART_RANGE = new Range2D( -0.5, -1, 0.5, 1 ); // xMin, yMin, xMax, yMax
     private static final Dimension CHART_SIZE = new Dimension( 650, 160 );
     private static final Point CHART_LOCATION = new Point( 50, 200 );
-    private static final String CHART_FONT_NAME = PhetDefaultFont.getDefaultFontName();
+    private static final String CHART_FONT_NAME = PhetFont.getDefaultFontName();
 
     // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -584,7 +584,7 @@ public class TimePlotSuitePNode extends PhetPNode {
             Point2D imagLoc = toImageLocation( t, 0 );
             PText text = new PText( "" + t );
             text.setOffset( imagLoc.getX() - text.getWidth() / 2, imagLoc.getY() );
-            text.setFont( new PhetDefaultFont( 10 ) );
+            text.setFont( new PhetFont( 10 ) );
             text.fullPaint( new PPaintContext( g2 ) );
         }
     }
@@ -612,7 +612,7 @@ public class TimePlotSuitePNode extends PhetPNode {
         NumberAxis yAxis = new NumberAxis( title );
         yAxis.setAutoRange( false );
         yAxis.setRange( range.getMinY(), range.getMaxY() );
-        yAxis.setLabelFont( new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 11 ) );
+        yAxis.setLabelFont( new Font( PhetFont.getDefaultFontName(), Font.PLAIN, 11 ) );
         plot.setRangeAxis( yAxis );
 
         plot.setDomainCrosshairVisible( true );

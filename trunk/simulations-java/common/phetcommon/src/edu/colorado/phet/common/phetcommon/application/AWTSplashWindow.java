@@ -26,7 +26,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -136,7 +136,7 @@ public class AWTSplashWindow extends Window {
      * This workaround is necessary because peered AWT components can only use logical fonts.
      */
     private Image createLabelImage( String labelString, Color background, Color foreground ) {
-        PhetDefaultFont font = new PhetDefaultFont( 13, false );
+        PhetFont font = new PhetFont( 13, false );
         final TextLayout textLayout = new TextLayout( labelString, font, new FontRenderContext( new AffineTransform(), true, false ) );
         Rectangle2D bounds = textLayout.getBounds();
         BufferedImage bufferedImage = new BufferedImage( (int) Math.ceil( bounds.getWidth() ) + 2, (int) Math.ceil( bounds.getHeight() ) + 2, BufferedImage.TYPE_INT_RGB );

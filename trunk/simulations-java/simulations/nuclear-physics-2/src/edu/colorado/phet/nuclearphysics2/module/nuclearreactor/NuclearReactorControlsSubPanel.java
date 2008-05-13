@@ -19,7 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 
 /**
@@ -54,7 +54,7 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
                 NuclearPhysics2Strings.CONTROLS_BORDER,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
-                new PhetDefaultFont( Font.BOLD, 14 ),
+                new PhetFont( Font.BOLD, 14 ),
                 Color.GRAY );
         
         setBorder( titledBorder );

@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Author: Sam Reid
@@ -29,7 +29,7 @@ public class GraphControlTextBox extends JPanel {
 
     public GraphControlTextBox( ControlGraphSeries series ) {
         this.series = series;
-        Font labelFont = new PhetDefaultFont( Font.PLAIN, 24 );//Java 1.6 renders THETA as an empty box with Lucida Sans BOLD
+        Font labelFont = new PhetFont( Font.PLAIN, 24 );//Java 1.6 renders THETA as an empty box with Lucida Sans BOLD
         add( new ShadowJLabel( series.getAbbr(), series.getColor(), labelFont ) );
 
         JLabel equalsSign = new JLabel( " =" );
@@ -38,7 +38,7 @@ public class GraphControlTextBox extends JPanel {
         add( equalsSign );
 
         textField = new JTextField( "0.0", 6 );
-        textField.setFont( new PhetDefaultFont( 20,true) );
+        textField.setFont( new PhetFont( 20,true) );
         textField.setHorizontalAlignment( JTextField.RIGHT );
         add( textField );
         setBorder( BorderFactory.createLineBorder( Color.black ) );

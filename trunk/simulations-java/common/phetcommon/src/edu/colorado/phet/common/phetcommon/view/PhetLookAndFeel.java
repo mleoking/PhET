@@ -11,7 +11,7 @@
 package edu.colorado.phet.common.phetcommon.view;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -70,9 +70,9 @@ public class PhetLookAndFeel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private Font font = new PhetDefaultFont();
-    private Font titledBorderFont = new PhetDefaultFont();
-    private Font tabFont = new PhetDefaultFont();
+    private Font font = new PhetFont();
+    private Font titledBorderFont = new PhetFont();
+    private Font tabFont = new PhetFont();
     private Color foregroundColor;
     private Color backgroundColor;
     private Color textFieldBackgroundColor = Color.white;//necessary to get white textfields on webstart under 1.5?
@@ -98,7 +98,7 @@ public class PhetLookAndFeel {
     }
 
     public void setFont( Font font ) {
-        if ( font == null ) font = new PhetDefaultFont();
+        if ( font == null ) font = new PhetFont();
 
         this.font = font;
     }
@@ -108,7 +108,7 @@ public class PhetLookAndFeel {
     }
 
     public void setTabFont( Font tabFont ) {
-        if ( tabFont == null ) tabFont = new PhetDefaultFont();
+        if ( tabFont == null ) tabFont = new PhetFont();
 
         this.tabFont = tabFont;
     }
@@ -118,7 +118,7 @@ public class PhetLookAndFeel {
     }
 
     public void setTitledBorderFont( Font borderFont ) {
-        if ( titledBorderFont == null ) titledBorderFont = new PhetDefaultFont();
+        if ( titledBorderFont == null ) titledBorderFont = new PhetFont();
 
         this.titledBorderFont = borderFont;
     }

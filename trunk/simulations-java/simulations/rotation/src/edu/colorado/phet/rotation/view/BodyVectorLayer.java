@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.rotation.RotationStrings;
@@ -84,7 +84,7 @@ public class BodyVectorLayer extends PNode {
             arrowNode = new PhetPPath( color, getStroke(), getStrokePaint() );
             addChild( arrowNode );
             labelNode = new ShadowPText( label );
-            labelNode.setFont( new PhetDefaultFont( Font.BOLD, 18 ) );
+            labelNode.setFont( new PhetFont( Font.BOLD, 18 ) );
             labelNode.setTextPaint( color );
             addChild( labelNode );
         }

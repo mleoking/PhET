@@ -1,7 +1,7 @@
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -18,7 +18,7 @@ import java.util.Hashtable;
  */
 
 public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
-    private Font titleFont = new PhetDefaultFont( Font.BOLD, 12 );
+    private Font titleFont = new PhetFont( Font.BOLD, 12 );
     private JSlider slider;
 //    private ConstrainedSliderControl.TextReadout textReadout;
 

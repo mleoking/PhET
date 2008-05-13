@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ConstrainedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -77,7 +77,7 @@ public class TestConstrainedDragHandler extends JFrame {
         PhetPCanvas canvas = new PhetPCanvas( new Dimension( 500, 500 ) );
 
         PText instructionsNode = new PText( "Drag the red circle" );
-        instructionsNode.setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
+        instructionsNode.setFont( new PhetFont( Font.BOLD, 24 ) );
         instructionsNode.setTextPaint( Color.RED );
         canvas.addScreenChild( instructionsNode );
         instructionsNode.setOffset( 50, 20 );

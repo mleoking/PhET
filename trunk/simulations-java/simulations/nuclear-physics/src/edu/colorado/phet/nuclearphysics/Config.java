@@ -8,7 +8,7 @@ package edu.colorado.phet.nuclearphysics;
 
 import java.awt.Font;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 public class Config {
@@ -60,7 +60,7 @@ public class Config {
     public static final int BIG_NEUTRON_SCALE = 2;
 
     // Fonts
-    public static final Font PROFILE_PANEL_TITLE_FONT = new PhetDefaultFont( Font.BOLD, 14 );
+    public static final Font PROFILE_PANEL_TITLE_FONT = new PhetFont( Font.BOLD, 14 );
     public static final double CONTAINMENT_EXPLOSION_THRESHOLD = 400;
     public static final double CONTAINMENT_NEUTRON_ABSORPTION_PROBABILITY = 0.9;
 

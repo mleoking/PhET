@@ -3,7 +3,7 @@ package edu.colorado.phet.quantumwaveinterference.view.gun;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.quantumwaveinterference.controls.IntensitySlider;
 import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
@@ -49,7 +49,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
 
     public IntensityGunNode( final QWIPanel QWIPanel ) {
         super( QWIPanel );
-        onOffTextNode.setFont( new PhetDefaultFont( 12, true ) );
+        onOffTextNode.setFont( new PhetFont( 12, true ) );
         alwaysOnCheckBox = new OnOffCheckBox( this );
 //        intensitySlider = new ModelSlider( "Intensity ( particles/second )", "", 0, MAX_INTENSITY_READOUT, MAX_INTENSITY_READOUT, new DecimalFormat( "0.000" ) );
 //        intensitySlider.setModelTicks( new double[]{0, 10, 20, 30, 40} );

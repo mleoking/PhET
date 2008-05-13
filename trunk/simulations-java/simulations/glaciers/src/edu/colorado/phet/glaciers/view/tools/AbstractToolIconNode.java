@@ -7,7 +7,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.glaciers.model.AbstractTool;
@@ -34,7 +34,7 @@ public abstract class AbstractToolIconNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final int VERTICAL_SPACING = 2; // vertical space between a tool's icon and label
-    private static final Font LABEL_FONT = new PhetDefaultFont( 12 );
+    private static final Font LABEL_FONT = new PhetFont( 12 );
     private static final Color LABEL_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------

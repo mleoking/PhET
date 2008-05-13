@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
@@ -86,7 +86,7 @@ public class TimeSeriesPNode {
     }
 
     public static Font createDefaultFont() {
-        return new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 13 );
+        return new Font( PhetFont.getDefaultFontName(), Font.BOLD, 13 );
     }
 
     void updateReadout() {

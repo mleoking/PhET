@@ -13,7 +13,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ModelSliderLayoutStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.util.GraphicsState;
@@ -216,7 +216,7 @@ public class Force1dControlPanel extends IForceControl {
                 super.paintComponent( g );
             }
         };
-        horizLabel.setFont( new PhetDefaultFont( Font.PLAIN, 10 ) );
+        horizLabel.setFont( new PhetFont( Font.PLAIN, 10 ) );
         Dimension pre = horizLabel.getPreferredSize();
         horizLabel.setPreferredSize( new Dimension( pre.width, pre.height + 5 ) );
         return horizLabel;

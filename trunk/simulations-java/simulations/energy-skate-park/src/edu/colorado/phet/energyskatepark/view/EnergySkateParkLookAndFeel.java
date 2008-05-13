@@ -2,7 +2,7 @@
 package edu.colorado.phet.energyskatepark.view;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +19,7 @@ public class EnergySkateParkLookAndFeel extends PhetLookAndFeel {
     public EnergySkateParkLookAndFeel() {
         setBackgroundColor( backgroundColor );
         setTextFieldBackgroundColor( Color.white );
-        setTabFont( new PhetDefaultFont( Font.BOLD, 18 ) );
+        setTabFont( new PhetFont( Font.BOLD, 18 ) );
     }
 
     protected String getLookAndFeelClassName() {

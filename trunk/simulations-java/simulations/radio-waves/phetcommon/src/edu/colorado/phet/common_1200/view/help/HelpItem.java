@@ -9,7 +9,7 @@ package edu.colorado.phet.common_1200.view.help;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.graphics.ShadowTextGraphic;
 import edu.colorado.phet.common_1200.view.graphics.ShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -27,7 +27,7 @@ public class HelpItem implements Graphic {
     ArrayList shadowTextGraphics = new ArrayList();
     int horizontalAlignment;
     int verticalAlignment;
-    private Font font = new PhetDefaultFont( Font.BOLD, 16 );
+    private Font font = new PhetFont( Font.BOLD, 16 );
     private String text;
     private Point2D.Double location;
     private Color shadowColor;
