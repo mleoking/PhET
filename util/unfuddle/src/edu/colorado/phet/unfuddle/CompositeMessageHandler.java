@@ -11,9 +11,11 @@ public class CompositeMessageHandler implements IMessageHandler {
         list.add( m );
     }
 
-    public void handleMessage( IMessage m ) throws MessagingException {
+    public String handleMessage( IMessage m ) throws MessagingException {
+        String s="";
         for ( IMessageHandler aList : list ) {
-            aList.handleMessage( m );
+            s+=aList.handleMessage( m )+" ";
         }
+        return s;
     }
 }

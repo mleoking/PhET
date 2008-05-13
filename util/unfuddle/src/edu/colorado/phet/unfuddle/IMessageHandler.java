@@ -7,5 +7,11 @@ import javax.mail.MessagingException;
  * Feb 21, 2008 at 8:27:23 AM
  */
 public interface IMessageHandler {
-    void handleMessage( IMessage m ) throws MessagingException;
+    /**
+     * Handles the specified message
+     * @param m the message to handle
+     * @return a human-readable string signifying the action taken, if any
+     * @throws MessagingException
+     */
+    String handleMessage( IMessage m ) throws MessagingException;
 }

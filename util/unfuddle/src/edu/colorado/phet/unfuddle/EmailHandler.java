@@ -33,7 +33,7 @@ public class EmailHandler implements IMessageHandler {
         this.sendMail = sendMail;
     }
 
-    public void handleMessage( IMessage m ) throws MessagingException {
+    public String handleMessage( IMessage m ) throws MessagingException {
         String[] to = new String[0];
         try {
             to = getTo( m.getComponent() );
@@ -49,17 +49,21 @@ public class EmailHandler implements IMessageHandler {
         }
         if ( sendMail ) {
             if ( to.length == 0 ) {
-                System.out.println( "Had a message for delivery, but nobody signed up for notification of " + m.getComponent() );
+                String message = "Had a message for delivery, but nobody signed up for notification of " + m.getComponent();
                 if ( m.getComponent() == null ) {
-                    System.out.println( "Perhaps this indicates that phet.unfuddled.xml needs to be updated." );
+                    message += ( "Perhaps this indicates that phet.unfuddled.xml needs to be updated." );
                 }
+                System.out.println( message );
+                return message;
             }
             else {
                 EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject(), username, password );
+                return "sent email subject=" + m.getEmailSubject() + ", to " + Arrays.asList( to );
             }
         }
         else {
             System.out.println( "email server would have sent message m: " + m.getEmailSubject() + " to " + Arrays.asList( to ) );
+            return "created message, but did not send: " + m.getEmailSubject() + ", to " + Arrays.asList( to );
         }
     }
 
