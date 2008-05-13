@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
  * Created by: Sam
  * Feb 21, 2008 at 7:30:51 AM
  */
-public class ProcessRecentChanges {
+public class UnfuddleEmailNotifier {
 
     private final ProgramArgs args;
     private final UnfuddleAccount unfuddleAccount;
@@ -27,7 +27,7 @@ public class ProcessRecentChanges {
     private final JTextField minutes;
     private final boolean sendMail;
 
-    public ProcessRecentChanges( ProgramArgs args )
+    public UnfuddleEmailNotifier( ProgramArgs args )
             throws IOException, SAXException, ParserConfigurationException {
 
         this.args = args;
@@ -203,7 +203,7 @@ public class ProcessRecentChanges {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 try {
-                    new ProcessRecentChanges( programArgs ).start();
+                    new UnfuddleEmailNotifier( programArgs ).start();
                 }
                 catch( IOException e ) {
                     e.printStackTrace();

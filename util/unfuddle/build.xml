@@ -22,7 +22,7 @@
         <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
         <jar jarfile="${dist}/unfuddle-email.jar" basedir="${classes}">
             <manifest>
-                <attribute name="Main-Class" value="edu.colorado.phet.unfuddle.ProcessRecentChanges"/>
+                <attribute name="Main-Class" value="edu.colorado.phet.unfuddle.UnfuddleEmailNotifier"/>
             </manifest>
             <fileset dir="data"/>
         </jar>
