@@ -64,8 +64,8 @@ public class IceThicknessToolNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IceThicknessToolNode( IceThicknessTool iceThicknessTool, ModelViewTransform mvt ) {
-        super( iceThicknessTool, mvt );
+    public IceThicknessToolNode( IceThicknessTool iceThicknessTool, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+        super( iceThicknessTool, mvt, trashCanIconNode );
         
         _iceThicknessTool = iceThicknessTool;
         _iceThicknessToolListener = new IceThicknessToolListener() {
@@ -89,12 +89,10 @@ public class IceThicknessToolNode extends AbstractToolNode {
         };
         _iceThicknessTool.addToolListener( _toolListener );
 
-        // When we start dragging, set the display to "?" and open the caliper.
+        // When we start dragging, set the tool to its unknown state
         addInputEventListener( new PDragEventHandler() {
             protected void startDrag( PInputEvent event ) {
-                String text = "? " + GlaciersStrings.UNITS_ICE_THICKNESS;
-                _iceThicknessDisplay.setText( text );
-                _calipersNode.open( 20 );
+                updateUnknown();
                 super.startDrag( event );
             }
         } );
@@ -117,8 +115,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
         panelNode.setOffset( 2, -panelNode.getFullBoundsReference().getHeight() + _calipersNode.getJawsHeight() );
         
         // initial state
-        update();
-        _calipersNode.open( 20 );
+        updateUnknown();
     }
     
     public void cleanup() {
@@ -238,5 +235,11 @@ public class IceThicknessToolNode extends AbstractToolNode {
             double viewDistance = Math.abs( getModelViewTransform().modelToView( 0, value ).getY() );
             _calipersNode.open( viewDistance );
         }
+    }
+    
+    private void updateUnknown() {
+        String text = "? " + GlaciersStrings.UNITS_ICE_THICKNESS;
+        _iceThicknessDisplay.setText( text );
+        _calipersNode.open( 20 );
     }
 }

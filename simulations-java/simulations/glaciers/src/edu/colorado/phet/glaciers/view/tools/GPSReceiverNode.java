@@ -53,8 +53,8 @@ public class GPSReceiverNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GPSReceiverNode( GPSReceiver gps, ModelViewTransform mvt ) {
-        super( gps, mvt );
+    public GPSReceiverNode( GPSReceiver gps, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+        super( gps, mvt, trashCanIconNode );
         
         _gps = gps;
         _movableListener = new MovableAdapter() {
@@ -113,7 +113,7 @@ public class GPSReceiverNode extends AbstractToolNode {
     public static Image createImage() {
         GPSReceiver gpsReceiver = new GPSReceiver( new Point2D.Double( 0, 0 ) );
         ModelViewTransform mvt = new ModelViewTransform(); // identity transform
-        PNode node = new GPSReceiverNode( gpsReceiver, mvt );
+        PNode node = new GPSReceiverNode( gpsReceiver, mvt, null /* trashCanIconNode */ );
         return node.toImage();
     }
 }

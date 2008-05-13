@@ -18,8 +18,8 @@ public class TracerFlagNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public TracerFlagNode( TracerFlag tracerFlag, ModelViewTransform mvt ) {
-        super( tracerFlag, mvt );
+    public TracerFlagNode( TracerFlag tracerFlag, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+        super( tracerFlag, mvt, trashCanIconNode );
         PImage imageNode = new PImage( GlaciersImages.TRACER_FLAG );
         addChild( imageNode );
         imageNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() ); // lower left corner
