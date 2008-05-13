@@ -32,7 +32,7 @@ public class EmailAccount {
 
 
         try {
-            // Instantiatee a message
+            // Instantiate a message
             Message msg = new MimeMessage( session );
 
             //Set message attributes
