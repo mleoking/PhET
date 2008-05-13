@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.view.tools;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
@@ -191,5 +192,13 @@ public class ThermometerNode extends AbstractToolNode {
         else {
             _valueNode.setTemperatureUnknown();
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    public static Image createImage() {
+        return GlaciersImages.THERMOMETER;
     }
 }

@@ -9,9 +9,9 @@ import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * AbstractToolNode is the base class for all tool nodes.
@@ -19,7 +19,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractToolNode extends PComposite {
+public abstract class AbstractToolNode extends PNode {
     
     //----------------------------------------------------------------------------
     // Instance data

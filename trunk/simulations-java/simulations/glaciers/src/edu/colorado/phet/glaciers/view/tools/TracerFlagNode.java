@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers.view.tools;
 
+import java.awt.Image;
+
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.TracerFlag;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
@@ -25,7 +27,11 @@ public class TracerFlagNode extends AbstractToolNode {
         imageNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() ); // lower left corner
     }
     
-    public void cleanup() {
-        super.cleanup();
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    public static Image createImage() {
+        return GlaciersImages.TRACER_FLAG;
     }
 }
