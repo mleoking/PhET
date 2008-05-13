@@ -159,6 +159,9 @@ public class NuclearReactorNode extends PNode {
             _nucleiAndFreeParticleNode.removeAllChildren();
         }
         
+        // Make sure the interior color is correct.
+        setInternalReactorColor();
+        
         // Add the nuclei to the model.  It is assumed after reset that there
         // are no free particles.
         addNucleusNodes();

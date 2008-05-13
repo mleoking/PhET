@@ -73,6 +73,7 @@ public class NuclearReactorModel {
     private static final int MS_PER_FISSION_EVENT_BIN = 100;
     private static final int NUMBER_FISSION_EVENT_BINS = 20;
     private static final double MAX_TEMP_CHANGE_PER_TICK = 1.0;
+    private static double JOULES_PER_FISSION_EVENT = 3.2E-11;
 
     //------------------------------------------------------------------------
     // Instance data
@@ -89,8 +90,10 @@ public class NuclearReactorModel {
     private int       _u235FissionEventCount;
     private int []    _fissionEventBins;
     private int       _currentBin;
-    private double    _currentTemperature;
     private Rectangle2D _innerReactorRect;
+    private double    _currentTemperature;
+    private double    _totalEnergyReleased;
+    private double    _energyReleasedPerSecond;
     private Random _rand = new Random();
     
     //------------------------------------------------------------------------
@@ -130,6 +133,8 @@ public class NuclearReactorModel {
         // Perform other internal initialization.
         _fissionEventBins = new int [NUMBER_FISSION_EVENT_BINS];
         _currentBin = 0;
+        _totalEnergyReleased = 0;
+        _energyReleasedPerSecond = 0;
         
         // Create the reaction chambers (which are modeled as simple 
         // rectangles) and the control rods.
@@ -346,7 +351,15 @@ public class NuclearReactorModel {
         }
         _daughterNuclei.clear();
         
-        // Set ourself back to the original state.  The first step is to see
+        // Clear out the energy accumulators.
+        _totalEnergyReleased = 0;
+        for (i = 0; i < NUMBER_FISSION_EVENT_BINS; i++){
+            _fissionEventBins[i] = 0;
+        }
+        _currentBin = 0;
+        _currentTemperature = 0;
+        
+        // Add the unfissioned nuclei to the model.  The first step is to see
         // how many nuclei can fit in each chamber and their relative
         // positions.
         double reactionChamberWidth = ((Rectangle2D)_reactionChamberRects.get( 0 )).getWidth();
@@ -422,6 +435,16 @@ public class NuclearReactorModel {
      */
     public ArrayList getChamberRectsReference(){
         return _reactionChamberRects;
+    }
+    
+    /**
+     * Get a value representing the total energy released by fission events
+     * that have occurred since the last reset.
+     * 
+     * @return
+     */
+    public double getTotalEnergyReleased(){
+        return _totalEnergyReleased;
     }
     
     public double getTemperature(){
@@ -501,9 +524,9 @@ public class NuclearReactorModel {
             }
         }
         
-        // Accumulate any fission events that have occurred since the last
-        // clock tick into the appropriate bin so that a moving average can
-        // be calculated.
+        // Look at the number of fission events that have occurred since the
+        // last clock tick and use the information to calculate energy
+        // released and current temperature.
         int binNumber = (int)(_clock.getSimulationTime() / MS_PER_FISSION_EVENT_BIN) % NUMBER_FISSION_EVENT_BINS;
         if (binNumber != _currentBin){
             // We are moving to a new bin, so clear out any old data.
@@ -511,6 +534,7 @@ public class NuclearReactorModel {
             _currentBin = binNumber;
         }
         _fissionEventBins[_currentBin] += _u235FissionEventCount;
+        _totalEnergyReleased += _u235FissionEventCount * JOULES_PER_FISSION_EVENT;
         _u235FissionEventCount = 0;
         
         // See if the internal temperature has changed and, if so, notify any
