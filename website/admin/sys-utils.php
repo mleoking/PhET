@@ -388,7 +388,7 @@
                     $tries = $tries + 1;
 
                     if (flock($handle, LOCK_EX)) {
-                        $return = file_put_contents($filename, $contents);
+                        $return = fwrite($handle, $contents);
                         if ($return) {
                             flock($handle, LOCK_UN);
                             break;
