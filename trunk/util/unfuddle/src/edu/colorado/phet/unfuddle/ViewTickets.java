@@ -38,16 +38,13 @@ public class ViewTickets {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document s = documentBuilder.parse( file );
         Element root = s.getDocumentElement();
-        ArrayList tickets = getTickets( root );
-        for ( int i = 0; i < tickets.size(); i++ ) {
-            TicketElement ticketElement = (TicketElement) tickets.get( i );
-            System.out.println( "ticketElement = " + ticketElement );
+        ArrayList<TicketElement> tickets = getTickets( root );
+        for ( TicketElement ticket : tickets ) {
+            System.out.println( "ticketElement = " + ticket );
         }
-        Collections.sort( tickets, new Comparator() {
-            public int compare( Object o1, Object o2 ) {
-                TicketElement t = (TicketElement) o1;
-                TicketElement t2 = (TicketElement) o2;
-                return Double.compare( t.getUpdatedAt().getTime(), t2.getUpdatedAt().getTime() );//t.getUpdatedAt().compareTo( t2.getUpdatedAt() );
+        Collections.sort( tickets, new Comparator<TicketElement>() {
+            public int compare( TicketElement o1, TicketElement o2 ) {
+                return Double.compare( o1.getUpdatedAt().getTime(), o2.getUpdatedAt().getTime() );//t.getUpdatedAt().compareTo( t2.getUpdatedAt() );
             }
         } );
     }
@@ -104,13 +101,13 @@ public class ViewTickets {
         }
     }
 
-    static ArrayList getTickets( Node node ) {
-        ArrayList t = new ArrayList();
+    static ArrayList<TicketElement> getTickets( Node node ) {
+        ArrayList<TicketElement> t = new ArrayList<TicketElement>();
         getTickets( node, t );
         return t;
     }
 
-    static void getTickets( Node node, ArrayList tickets ) {
+    static void getTickets( Node node, ArrayList<TicketElement> tickets ) {
         if ( node.getNodeName().equals( "ticket" ) ) {
             tickets.add( new TicketElement( node ) );
         }

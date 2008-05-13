@@ -53,7 +53,7 @@ public class IgnoreDuplicatesMessageHandler implements IMessageHandler {
     private ArrayList getHandledList() throws IOException {
         String s = FileUtils.loadFileAsString( file );
         StringTokenizer st = new StringTokenizer( s, " \n" );
-        ArrayList handled = new ArrayList();
+        ArrayList<String> handled = new ArrayList<String>();
         while ( st.hasMoreTokens() ) {
             handled.add( st.nextToken().trim() );
         }
