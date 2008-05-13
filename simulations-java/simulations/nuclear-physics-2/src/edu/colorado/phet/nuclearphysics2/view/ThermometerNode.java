@@ -39,9 +39,10 @@ public class ThermometerNode extends PNode {
     // The overall dimensions of this thermometer.
     PDimension _dimension;
     
-    // The shapes and the node that represent the liquid within the thermometer.
+    // The shapes and the node that represent the various parts of the thermometer.
     private Rectangle2D _thermometerLiquidShape;
     private PPath _thermometerLiquidNode;
+    private PPath _shaftNode;
     
     // Max temp for this thermometer.
     private double _maxTemperature;
@@ -67,9 +68,9 @@ public class ThermometerNode extends PNode {
         // Create the shaft of the thermometer.
         RoundRectangle2D shaftShape = new RoundRectangle2D.Double(SHAFT_WIDTH_PROPORTION / 2 * size.width, 0,
                 SHAFT_WIDTH_PROPORTION * size.width, size.height, size.width / 2, size.width / 2);
-        PPath shaftNode = new PPath(shaftShape);
-        shaftNode.setPaint( Color.WHITE );
-        addChild( shaftNode );
+        _shaftNode = new PPath(shaftShape);
+        _shaftNode.setPaint( Color.WHITE );
+        addChild( _shaftNode );
 
         // Create the rectangle that will represent the liquid that moves
         // up and down the shaft of the thermometer.
@@ -96,13 +97,19 @@ public class ThermometerNode extends PNode {
     //------------------------------------------------------------------------
     
     /**
-     * Set the temperature that this thermometer should display.
+     * Set the temperature that this thermometer should display.  The input
+     * value is arbitrary, and the thermometer displays the value as the
+     * proportion of the max temperature.
      */
     private void setTemperature(double temperature){
         
         if (temperature > _maxTemperature){
             // Limiter.
             temperature = _maxTemperature;
+            _shaftNode.setPaint(THERMOMETER_LIQUID_COLOR);
+        }
+        else{
+            _shaftNode.setPaint( Color.WHITE );
         }
         
         double liquidLength = 

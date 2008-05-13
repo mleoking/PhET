@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.nuclearphysics2.module.nuclearreactor;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class represents the control panel that presents the legend and allows
@@ -48,6 +50,13 @@ public class NuclearReactorControlPanel extends ControlPanel {
         // Add the sub panel with the interactive controls.
         _controlSubPanel = new NuclearReactorControlsSubPanel(nuclearReactorModule.getNuclearReactorModel());
         addControlFullWidth( _controlSubPanel );
+        
+        // Add the energy graph.
+        NuclearReactorEnergyGraphPanel energyGraphPanel = 
+            new NuclearReactorEnergyGraphPanel(nuclearReactorModule.getNuclearReactorModel());
+        energyGraphPanel.setMaximumSize( new Dimension(10, 30) );
+        addControlFullWidth( energyGraphPanel );
+
     }
     
     //----------------------------------------------------------------------------
