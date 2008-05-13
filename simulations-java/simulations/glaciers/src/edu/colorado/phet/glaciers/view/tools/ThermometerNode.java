@@ -68,13 +68,13 @@ public class ThermometerNode extends AbstractToolNode {
         addChild( arrowNode );
         arrowNode.setOffset( 0, 0 ); // this node identifies the origin
         
-        PImage imageNode = new PImage( GlaciersImages.THERMOMETER );
-        addChild( imageNode );
-        imageNode.setOffset( arrowNode.getFullBoundsReference().getMaxX(), -imageNode.getFullBoundsReference().getHeight() );
+        PNode glassNode = new GlassNode();
+        addChild( glassNode );
+        glassNode.setOffset( arrowNode.getFullBoundsReference().getMaxX(), -glassNode.getFullBoundsReference().getHeight() );
         
         _valueNode = new ValueNode();
         addChild( _valueNode );
-        _valueNode.setOffset( imageNode.getFullBoundsReference().getMaxX(), -_valueNode.getFullBoundsReference().getHeight() / 2 );
+        _valueNode.setOffset( glassNode.getFullBoundsReference().getMaxX(), -_valueNode.getFullBoundsReference().getHeight() / 2 );
         
         // initial state
         updatePosition();
@@ -89,6 +89,17 @@ public class ThermometerNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
+    
+    /*
+     * The thermometer's glass bottle.
+     */
+    private static class GlassNode extends PComposite {
+        public GlassNode() {
+            super();
+            PImage imageNode = new PImage( GlaciersImages.THERMOMETER );
+            addChild( imageNode );
+        }
+    }
     
     /*
      * Displays the temperature value.

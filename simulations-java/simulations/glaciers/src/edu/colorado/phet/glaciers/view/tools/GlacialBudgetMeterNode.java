@@ -89,13 +89,13 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         addChild( arrowNode );
         arrowNode.setOffset( 0, 0 ); // this node identifies the origin
         
-        PImage imageNode = new PImage( GlaciersImages.GLACIAL_BUDGET_METER );
-        addChild( imageNode );
-        imageNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 1, -imageNode.getFullBoundsReference().getHeight() / 2 );
+        PNode meterNode = new MeterNode();
+        addChild( meterNode );
+        meterNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 1, -meterNode.getFullBoundsReference().getHeight() / 2 );
         
         _valueNode = new ValueNode();
         addChild( _valueNode );
-        _valueNode.setOffset( imageNode.getFullBounds().getMaxX() + 1, -_valueNode.getFullBounds().getHeight() / 2 );
+        _valueNode.setOffset( meterNode.getFullBounds().getMaxX() + 1, -_valueNode.getFullBounds().getHeight() / 2 );
         
         // initial state
         updateElevation();
@@ -113,6 +113,18 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
+    
+    /*
+     * The meter.
+     */
+    private static class MeterNode extends PComposite {
+        
+        public MeterNode() {
+            super();
+            PImage imageNode = new PImage( GlaciersImages.GLACIAL_BUDGET_METER );
+            addChild( imageNode );
+        }
+    }
     
     /*
      * Displays the values measured by the meter.
