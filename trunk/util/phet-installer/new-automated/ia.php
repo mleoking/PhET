@@ -9,10 +9,6 @@
 	    return "PhET-dist-$dist";
 	}
 	
-	function installer_get_tarred_mac_bundle_name($distfile) {
-		return file_remove_extension($distfile).".tar";
-	}	
-	
 	function installer_get_zipped_mac_bundle_name($distfile) {
 		return file_remove_extension($distfile).".zip";
 	}
@@ -60,22 +56,15 @@
 	        }
 	
 			if ($platform == BITROCK_PLATFORM_OSX) {
-				// OSX requires special treatment; the .app directory must be bundled into a zip file.
-				$tarfile = installer_get_tarred_mac_bundle_name($distfile);
-								
-				flushing_echo("Tarring Mac OS X bundle $distfile to $tarfile");
-				
-				file_native_tar($distfile, $tarfile);
-
+				// OSX requires special treatment - the .app directory must be bundled into a zip file.
 				$zipped_bundle_name = installer_get_zipped_mac_bundle_name($distfile);
 				
-				flushing_echo("Zipping Mac OS X tar $tarfile to $zipped_bundle_name");
+				flushing_echo("Zipping Mac OS X distribution $distfile to $zipped_bundle_name");
 				
-				file_native_zip($tarfile,  $zipped_bundle_name);
+				file_native_zip($distfile, $zipped_bundle_name);
 				
 				// Remove application bundle:
 				file_remove_all($distfile);
-				file_remove_all($tarfile);
 			}
 	    }
     
