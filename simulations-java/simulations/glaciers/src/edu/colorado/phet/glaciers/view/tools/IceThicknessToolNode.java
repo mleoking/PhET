@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.glaciers.view.tools;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
@@ -241,5 +238,25 @@ public class IceThicknessToolNode extends AbstractToolNode {
         String text = "? " + GlaciersStrings.UNITS_ICE_THICKNESS;
         _iceThicknessDisplay.setText( text );
         _calipersNode.open( 20 );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Icon image
+    //----------------------------------------------------------------------------
+    
+    public static Image createImage() {
+        
+        PNode parentNode = new PNode();
+        
+        CalipersNode calipersNode = new CalipersNode( CALIPERS_CLOSED_SIZE );
+        calipersNode.open( 20 );
+        parentNode.addChild( calipersNode );
+        calipersNode.setOffset( 0, 0 );
+        
+        PNode handleNode = new HandleNode( HANDLE_SIZE );
+        parentNode.addChild( handleNode );
+        handleNode.setOffset( -handleNode.getFullBoundsReference().getWidth(), calipersNode.getFullBoundsReference().getMaxY() );
+        
+        return parentNode.toImage();
     }
 }

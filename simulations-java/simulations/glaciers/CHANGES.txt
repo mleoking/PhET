@@ -6,7 +6,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- replace ice thickness tool image in toolbox
 - ice thickness tool's value display doesn't size itself reliably
 - make ice thickness tool look nicer
 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
@@ -84,6 +83,7 @@ CLEANUP:
 
 
 DONE:
+5/13/07 - replace ice thickness tool image in toolbox, delete related image files
 5/13/08 - bugfix: tools dropped in the trash incorrectly "snap" to their drop constraints before disappearing
 5/13/08 - change ice thickness tool to "?" when drag starts, not during the drag
 5/13/08 - do not call super.drag in drag handlers, it causes problems as noted in code comments
