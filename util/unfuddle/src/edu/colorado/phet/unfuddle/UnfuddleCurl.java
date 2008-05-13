@@ -77,7 +77,7 @@ public class UnfuddleCurl {
         }
         System.out.println( "" );
         in.close();
-        System.out.println( "s = " + s );
+//        System.out.println( "s = " + s );
         return s.substring( s.indexOf( "<?xml" ) );
     }
 
