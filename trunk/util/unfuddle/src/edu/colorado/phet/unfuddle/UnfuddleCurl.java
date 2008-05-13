@@ -27,6 +27,7 @@ public class UnfuddleCurl {
         this.username = username;
         this.password = password;
         this.accountID = accountID;
+        this.svnTrunk = svnTrunk;
     }
 
     static interface INotifyHandler {
@@ -76,7 +77,7 @@ public class UnfuddleCurl {
         }
         System.out.println( "" );
         in.close();
-
+        System.out.println( "s = " + s );
         return s.substring( s.indexOf( "<?xml" ) );
     }
 
