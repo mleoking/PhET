@@ -2,8 +2,13 @@
 
 package edu.colorado.phet.glaciers.view.tools;
 
+import java.awt.Image;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.piccolophet.nodes.ImageButtonNode;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.BoreholeDrill;
+import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -26,10 +31,11 @@ public class BoreholeDrillNode extends AbstractToolNode {
         PNode drillNode = new DrillNode();
         addChild( drillNode );
         drillNode.setOffset( 0, -drillNode.getFullBoundsReference().getHeight() ); // lower left
-    }
-    
-    public void cleanup() {
-        super.cleanup();
+        
+        PNode buttonNode = new ButtonNode();
+        buttonNode.scale( 0.4 ); //XXX
+        addChild( buttonNode );
+        buttonNode.setOffset( 0, -drillNode.getFullBoundsReference().getHeight() + 10 );
     }
     
     //----------------------------------------------------------------------------
@@ -42,5 +48,20 @@ public class BoreholeDrillNode extends AbstractToolNode {
             PImage imageNode = new PImage( GlaciersImages.BOREHOLE_DRILL );
             addChild( imageNode );
         }
+    }
+    
+    private static class ButtonNode extends ImageButtonNode {
+        public ButtonNode() {
+            super( GlaciersImages.BOREHOLE_DRILL_OFF_BUTTON, GlaciersImages.BOREHOLE_DRILL_ON_BUTTON );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Image icon
+    //----------------------------------------------------------------------------
+    
+    public static Image createImage() {
+        //TODO add button
+        return GlaciersImages.BOREHOLE_DRILL;
     }
 }

@@ -268,7 +268,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
     }
     
     //----------------------------------------------------------------------------
-    // Icon image
+    // Utilities
     //----------------------------------------------------------------------------
     
     public static Image createImage() {

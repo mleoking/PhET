@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.view.tools;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
@@ -241,5 +242,13 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
      */
     private void updateGlacialBudget() {
         _valueNode.setGlacialBudget( _glacialBudgetMeter.getGlacialBudget() );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    public static Image createImage() {
+        return GlaciersImages.GLACIAL_BUDGET_METER;
     }
 }
