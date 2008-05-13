@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 public class FaradayResources {
     
-    private static final PhetResources RESOURCES = PhetResources.forProject( FaradayConstants.PROJECT_NAME );
+    private static final PhetResources RESOURCES = new PhetResources( FaradayConstants.PROJECT_NAME );
     
     /* not intended for instantiation */
     private FaradayResources() {}

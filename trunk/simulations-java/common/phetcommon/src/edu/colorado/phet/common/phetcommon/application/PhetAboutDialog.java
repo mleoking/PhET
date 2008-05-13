@@ -74,7 +74,7 @@ public class PhetAboutDialog extends JDialog {
      * @param simulationShortName
      */
     public PhetAboutDialog( Frame ownwer, String simulationShortName ) {
-        this( ownwer, new PhetAboutDialog.PhetApplicationConfigDialogConfig( new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( simulationShortName ) ) ) );
+        this( ownwer, new PhetAboutDialog.PhetApplicationConfigDialogConfig( new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( simulationShortName ) ) ) );
     }
 
     /**

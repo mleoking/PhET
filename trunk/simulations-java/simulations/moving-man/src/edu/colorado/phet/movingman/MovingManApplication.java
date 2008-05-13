@@ -22,7 +22,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
     public static final double FRAME_DELAY_MILLIS = 1000 * FRAME_DELAY_SEC;
 
     public MovingManApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), PhetResources.forProject( "moving-man" ), "moving-man" ) );
+        super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), new PhetResources( "moving-man" ), "moving-man" ) );
         MovingManMotionModule m = new MovingManMotionModule( new ConstantDtClock( (int) FRAME_DELAY_MILLIS, FRAME_DELAY_SEC ) );
         addModule( m );
 

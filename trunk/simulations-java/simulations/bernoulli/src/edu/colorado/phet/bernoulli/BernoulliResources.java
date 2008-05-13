@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * May 18, 2007, 11:12:58 PM
  */
 public class BernoulliResources {
-    private static final PhetResources INSTANCE = PhetResources.forProject( "bernoulli" );
+    private static final PhetResources INSTANCE = new PhetResources( "bernoulli" );
 
     public static BufferedImage getImage( String s ) {
         return INSTANCE.getImage( s );

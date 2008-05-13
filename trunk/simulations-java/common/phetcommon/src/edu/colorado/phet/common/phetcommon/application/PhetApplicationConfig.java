@@ -278,7 +278,7 @@ public class PhetApplicationConfig {
      * @deprecated Simulations should use PhetApplicationConfig properly.
      */
     public static PhetVersionInfo getVersion( String simName ) {
-        return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( simName ) ).getVersion();
+        return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( simName ) ).getVersion();
     }
 
     /**
@@ -290,6 +290,6 @@ public class PhetApplicationConfig {
      * @deprecated Simulations should use PhetApplicationConfig properly.
      */
     public static String getCredits( String simName ) {
-        return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( simName ) ).getCredits();
+        return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( simName ) ).getCredits();
     }
 }

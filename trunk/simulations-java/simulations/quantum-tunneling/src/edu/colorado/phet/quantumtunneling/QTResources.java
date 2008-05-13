@@ -13,7 +13,7 @@ public class QTResources {
     /* not intended for instantiation */
     private QTResources() {}
     
-    private static final PhetResources RESOURCES = PhetResources.forProject( "quantum-tunneling" );
+    private static final PhetResources RESOURCES = new PhetResources( "quantum-tunneling" );
 
     public static PhetResources getResourceLoader() {
         return RESOURCES;

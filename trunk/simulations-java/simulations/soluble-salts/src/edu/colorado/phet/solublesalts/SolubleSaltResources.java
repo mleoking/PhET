@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class SolubleSaltResources {
 
-    private static final PhetResources RESOURCES = PhetResources.forProject( "soluble-salts" );
+    private static final PhetResources RESOURCES = new PhetResources( "soluble-salts" );
 
     /* not intended for instantiation */
     private SolubleSaltResources() {

@@ -18,7 +18,7 @@ import edu.colorado.phet.movingman.MovingManApplication;
  */
 public class Force1DMotionApplication extends PiccoloPhetApplication {
     public Force1DMotionApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), PhetResources.forProject( "moving-man" ), "mm-ramps" ) );
+        super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), new PhetResources( "moving-man" ), "mm-ramps" ) );
         addModule( new Force1DMotionModule( new ConstantDtClock( (int) MovingManApplication.FRAME_DELAY_MILLIS, MovingManApplication.FRAME_DELAY_SEC ) ) );
     }
 

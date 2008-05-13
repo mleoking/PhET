@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * May 18, 2007, 12:58:55 PM
  */
 public class IdealGasResources {
-    private static PhetResources INSTANCE = PhetResources.forProject( "ideal-gas" );
+    private static PhetResources INSTANCE = new PhetResources( "ideal-gas" );
 
     public static String getLocalizedString( String key ) {
         return INSTANCE.getLocalizedString( key );

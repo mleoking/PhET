@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
  * May 18, 2007, 10:56:26 PM
  */
 public class BatteryVoltageResources {
-    private static final PhetResources INSTANCE = PhetResources.forProject( "battery-voltage" );
+    private static final PhetResources INSTANCE = new PhetResources( "battery-voltage" );
 
     public static String getString( String key ) {
         return INSTANCE.getLocalizedString( key );

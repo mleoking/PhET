@@ -35,7 +35,7 @@ public class TestPhetFrameWorkaround {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                final PhetApplication phetApplication = new PhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), PhetResources.forProject( "phetcommon" ) ) ) {
+                final PhetApplication phetApplication = new PhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), new PhetResources( "phetcommon" ) ) ) {
                     protected PhetFrame createPhetFrame() {
                         if ( USE_WORKAROUND ) {
                             return new PhetFrameWorkaround( this );

@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class FitnessResources {
 
-    private static final PhetResources RESOURCES = PhetResources.forProject( "fitness" );
+    private static final PhetResources RESOURCES = new PhetResources( "fitness" );
 
     /* not intended for instantiation */
     private FitnessResources() {

@@ -110,6 +110,6 @@ public class IdealGasConfig {
     public static final double MOLECULE_LAYER = 10;
 
     public static PhetVersionInfo getVersion() {
-        return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( "ideal-gas" ) ).getVersion();
+        return new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( "ideal-gas" ) ).getVersion();
     }
 }
