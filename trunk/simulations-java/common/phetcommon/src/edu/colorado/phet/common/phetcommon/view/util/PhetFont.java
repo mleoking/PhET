@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
- * PhetDefaultFont provides an interface for instantiating the default font used in PhET simulations.
+ * PhetFont provides an interface for instantiating the default font used in PhET simulations.
  */
 public class PhetFont extends Font {
     
@@ -22,18 +22,18 @@ public class PhetFont extends Font {
     // that looks very nice compared to Java fonts, while still having control over the style and size.
     private static final Font FALLBACK_FONT = new JTextField().getFont().deriveFont( Font.PLAIN, 12f );
     
-    // the font used to create instances of PhetDefaultFont
+    // the font used to create instances of PhetFont
     private static final Font DEFAULT_FONT = createDefaultFont();
 
     /**
-     * Constructs a PhetDefaultFont with a default style and point size.
+     * Constructs a PhetFont with a default style and point size.
      */
     public PhetFont() {
         this( getDefaultFontSize() );
     }
     
     /**
-     * Constructs a PhetDefaultFont with a default style and specified point size.
+     * Constructs a PhetFont with a default style and specified point size.
      *
      * @param size the size of the font.
      */
@@ -42,7 +42,7 @@ public class PhetFont extends Font {
     }
 
     /**
-     * Constructs a PhetDefaultFont with a specified style and point size.
+     * Constructs a PhetFont with a specified style and point size.
      *
      * @param style
      * @param size
@@ -52,7 +52,7 @@ public class PhetFont extends Font {
     }
 
     /**
-     * Constructs a PhetDefaultFont with a specified font size, and whether it is bold.
+     * Constructs a PhetFont with a specified font size, and whether it is bold.
      *
      * @param size the font size
      * @param bold whether it is bold.
@@ -62,7 +62,7 @@ public class PhetFont extends Font {
     }
 
     /**
-     * Constructs a PhetDefaultFont font with a specified size, and whether it is bold and/or italicized.
+     * Constructs a PhetFont font with a specified size, and whether it is bold and/or italicized.
      *
      * @param size    the font size.
      * @param bold    whether it is bold
@@ -100,7 +100,7 @@ public class PhetFont extends Font {
     }
 
     /*
-     * Creates the font that will be used to create all instances of PhetDefaultFont.
+     * Creates the font that will be used to create all instances of PhetFont.
      */
     private static Font createDefaultFont() {
 
@@ -111,7 +111,7 @@ public class PhetFont extends Font {
             defaultFont = getPreferredFont( preferredFonts, FALLBACK_FONT );
         }
 
-//        System.out.println( "PhetDefaultFont.createDefaultFont defaultFont=" + defaultFont.toString() );
+//        System.out.println( "PhetFont.createDefaultFont defaultFont=" + defaultFont.toString() );
         return defaultFont;
     }
     
@@ -127,7 +127,7 @@ public class PhetFont extends Font {
         for ( int i = 0; preferredFont == null && i < preferredFontNames.length; i++ ) {
             String preferredFontName = preferredFontNames[i];
             ArrayList fonts = new ArrayList( Arrays.asList( GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts() ) );
-//            System.out.println( "PhetDefaultFonts.getPreferredFont fonts=" + fonts );
+//            System.out.println( "PhetFont.getPreferredFont fonts=" + fonts );
             for ( int k = 0; preferredFont == null && k < fonts.size(); k++ ) {
                 Font o = (Font) fonts.get( k );
                 if ( o.getName().equals( preferredFontName ) ) {
