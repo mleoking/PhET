@@ -4,19 +4,6 @@ java -cp %classpath%;../classes edu.colorado.phet.balloon.BalloonApplet
 
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.balloons.common.paint.*;
-import edu.colorado.phet.balloons.common.paint.particle.ParticlePainterAdapter;
-import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
-import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
-import edu.colorado.phet.balloons.common.phys2d.Repaint;
-import edu.colorado.phet.balloons.common.phys2d.System2D;
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,41 +13,60 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+
+import edu.colorado.phet.balloons.common.paint.*;
+import edu.colorado.phet.balloons.common.paint.particle.ParticlePainterAdapter;
+import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
+import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
+import edu.colorado.phet.balloons.common.phys2d.Repaint;
+import edu.colorado.phet.balloons.common.phys2d.System2D;
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+
 
 /**
  * Test comment.
  */
 public class BalloonsApplication extends JApplet implements IHelp {
-    //    private static final String VERSION = "1.00.01";
+    private int width;
+    private int height;
+    private PainterPanel painterPanel;
+    private LayeredPainter layeredPainter;
+    private boolean miniHelpShowing = false;
+    private Painter balloonHelp;
+    private BufferedImage sweaterImage;
+    private int wallWidth;
+    private JPanel controlPanel;
+    private JFrame frame;
+    private PhetApplicationConfig phetApplicationConfig;
+
     static final int CHARGE_LEVEL = 1;
-    static boolean isApplet = true;
-    int width;
-    int height;
+    static boolean isApplet = false;
+
     static final int PANEL_WIDTH = 750;
     static final int PANEL_HEIGHT = 500;
 
-    static Color red = new Color( 255, 0, 0 );
+    static Color plusColor = new Color( 255, 0, 0 );
     static Color minusColor = new Color( 0, 0, 255 );
-    static Color oval = new Color( 255, 255, 255, 80 );
+    static Color ovalColor = new Color( 255, 255, 255, 80 );
 
-    static PlusPainter plusPainter = new PlusPainter( 14, 4, red, oval );
-    static MinusPainter minusPainter = new MinusPainter( 14, 4, minusColor, oval );
-    private PainterPanel painterPanel;
-    public LayeredPainter layeredPainter;
-    private boolean miniHelpShowing = false;
-    private Painter balloonHelp;
-    public BufferedImage sweaterImage;
-    public int wallWidth;
-    public JPanel controlPanel;
-    private JFrame frame;
-    private PhetApplicationConfig phetApplicationConfig;
+    static PlusPainter plusPainter = new PlusPainter( 14, 4, plusColor, ovalColor );
+    static MinusPainter minusPainter = new MinusPainter( 14, 4, minusColor, ovalColor );
 
     public BalloonsApplication( String[] args ) {
         phetApplicationConfig = new PhetApplicationConfig( args, new FrameSetup.NoOp(), BalloonsResources.getResourceLoader() );
     }
 
     public static void paintCharge( BufferedImage bi ) {
-        Graphics2D g2 = (Graphics2D)bi.getGraphics();
+        Graphics2D g2 = (Graphics2D) bi.getGraphics();
         plusPainter.paintAt( 40, 60, g2 );
         plusPainter.paintAt( 90, 50, g2 );
         plusPainter.paintAt( 98, 80, g2 );
@@ -182,9 +188,9 @@ public class BalloonsApplication extends JApplet implements IHelp {
 
         showAllCharges.setSelected( true );
         ActionListener[] al = showAllCharges.getActionListeners();
-        for( int i = 0; i < al.length; i++ ) {
+        for ( int i = 0; i < al.length; i++ ) {
             ActionListener actionListener = al[i];
-            actionListener.actionPerformed( new ActionEvent( showAllCharges, (int)System.currentTimeMillis(), "fire" ) );
+            actionListener.actionPerformed( new ActionEvent( showAllCharges, (int) System.currentTimeMillis(), "fire" ) );
         }
 
         JPanel buttonPanel = new JPanel();
@@ -192,7 +198,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         buttonPanel.add( showAllCharges );
         buttonPanel.add( showNoCharges );
         buttonPanel.add( showDiff );
-        buttonPanel.setBorder( PhetLookAndFeel.createSmoothBorder( BalloonsResources.getString( "BalloonApplet.ChargeDisplay" ) ) );
+        buttonPanel.setBorder( createSmoothBorder( BalloonsResources.getString( "BalloonApplet.ChargeDisplay" ) ) );
         JButton resetBtn = new JButton( BalloonsResources.getString( "BalloonApplet.Reset" ) );
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
@@ -228,7 +234,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
 
 
             public void actionPerformed( ActionEvent e ) {
-                PhetAboutDialog phetAboutDialog=new PhetAboutDialog( frame,new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) );
+                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) );
 //                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.SimpleDialogConfig(
 //                        phetApplicationConfig.getName(), phetApplicationConfig.getDescription(), phetApplicationConfig.getVersion().formatForAboutDialog(), phetApplicationConfig.getCredits() ) );
                 phetAboutDialog.show();
@@ -255,7 +261,7 @@ public class BalloonsApplication extends JApplet implements IHelp {
         resetBtn.addActionListener( reset );
         int neighborWidth = 20;
         int neighborHeight = 20;
-        for( int i = 0; i < numSweaterCharges; i++ ) {
+        for ( int i = 0; i < numSweaterCharges; i++ ) {
             Charge plus = new Charge();
             int x = r.nextInt( maxX - minX ) + minX;
             int y = r.nextInt( maxY - minY ) + minY;
@@ -323,10 +329,10 @@ public class BalloonsApplication extends JApplet implements IHelp {
     }
 
     public void setHelpEnabled( boolean miniHelpShowing ) {
-        if( this.miniHelpShowing != miniHelpShowing ) {
+        if ( this.miniHelpShowing != miniHelpShowing ) {
             this.miniHelpShowing = miniHelpShowing;
             int layer = 100;
-            if( miniHelpShowing ) {
+            if ( miniHelpShowing ) {
                 layeredPainter.addPainter( balloonHelp, layer );
             }
             else {
@@ -362,36 +368,55 @@ public class BalloonsApplication extends JApplet implements IHelp {
         return painterPanel.getHeight();
     }
 
-//    private static String getTitle() {
-//        return BalloonStrings.getString( "balloons.name" ) + " (" + VERSION + ")";
-//    }
-
     private void setFrame( JFrame frame ) {
         this.frame = frame;
     }
 
-    public static void main( String[] args ) throws UnsupportedLookAndFeelException, IOException {
-//        Locale.setDefault( new Locale( "fr") );
-        UIManager.setLookAndFeel( new PhetLookAndFeel() );
-        isApplet = false;
-        BalloonsApplication ba = new BalloonsApplication( args );
-        ba.init( args );
+    public static void main( final String[] args ) throws UnsupportedLookAndFeelException, IOException {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+//                PhetResources.setFontRenderTest("ja","\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316");
+//                Locale.setDefault( new Locale( "ja" ) );
+                PhetLookAndFeel laf = new PhetLookAndFeel();
+                laf.setBackgroundColor( new Color( 200, 240, 200 ) );
+                laf.initLookAndFeel();
+//                UIManager.setLookAndFeel( new PhetLookAndFeel() );
+                BalloonsApplication ba = new BalloonsApplication( args );
+                try {
+                    ba.init( args );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
 
-        JFrame frame = new JFrame( ba.phetApplicationConfig.getName() + " (" + ba.phetApplicationConfig.getVersion().formatForTitleBar() + ")" );
-        ba.setFrame( frame );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( ba );
-        frame.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );
-        SwingUtils.centerWindowOnScreen( frame );
-        frame.setVisible( true );
+                JFrame frame = new JFrame( ba.phetApplicationConfig.getName() + " (" + ba.phetApplicationConfig.getVersion().formatForTitleBar() + ")" );
+                ba.setFrame( frame );
+                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                frame.setContentPane( ba );
+                frame.setSize( PANEL_WIDTH, PANEL_HEIGHT + ba.controlPanel.getPreferredSize().height + 10 );
+                SwingUtils.centerWindowOnScreen( frame );
+                frame.setVisible( true );
 
-        frame.invalidate();
-        frame.validate();
-        frame.repaint();
-        frame.getContentPane().invalidate();
-        frame.getContentPane().validate();
-        frame.getContentPane().repaint();
-        //System.out.println("main: height="+ba.getHeight()); //476 for full application.
+                frame.invalidate();
+                frame.validate();
+                frame.repaint();
+                frame.getContentPane().invalidate();
+                frame.getContentPane().validate();
+                frame.getContentPane().repaint();
+                //System.out.println("main: height="+ba.getHeight()); //476 for full application.
+            }
+        } );
+
+    }
+
+    public static Border createSmoothBorder( String s ) {
+        return new TitledBorder( s ) {
+            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                super.paintBorder( c, g, x, y, width, height );
+            }
+        };
     }
 
 }
