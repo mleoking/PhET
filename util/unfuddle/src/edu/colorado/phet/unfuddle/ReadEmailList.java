@@ -24,23 +24,22 @@ public class ReadEmailList {
 
     public String[] getEmailsForComponent( String component ) throws IOException, SAXException, ParserConfigurationException {
         String s = curl.readString( "notebooks/7161/pages/23056/latest" );
-//        System.out.println( "s = " + s );
         XMLObject xml = new XMLObject( s );
         String body = xml.getTextContent( "body" );
-//        System.out.println( "body = " + body );
 
         Properties p = new Properties();
         p.load( new StringInputStream( body ) );
         ArrayList<String> emails = new ArrayList<String>();
-        final Set set = p.keySet();
-        for ( Object aSet : set ) {
-            String key = (String) aSet;
+        Set set = p.keySet();
+        for ( Object element : set ) {
+            String key = (String) element;
             String value = p.getProperty( key );
             StringTokenizer st = new StringTokenizer( value, ", " );
             while ( st.hasMoreTokens() ) {
-                String t = st.nextToken();
-                final String email = getEmail( key );
-                if ( t.equalsIgnoreCase( component ) && !emails.contains( email ) && email != null ) {
+                String listedComponent = st.nextToken();
+                String email = getEmail( key );
+                if ( listedComponent.equals( "*" ) ||
+                     ( listedComponent.equalsIgnoreCase( component ) && !emails.contains( email ) && email != null ) ) {
                     emails.add( email );
                 }
             }
