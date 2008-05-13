@@ -52,8 +52,8 @@ public class ThermometerNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ThermometerNode( Thermometer thermometer, ModelViewTransform mvt ) {
-        super( thermometer, mvt );
+    public ThermometerNode( Thermometer thermometer, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+        super( thermometer, mvt, trashCanIconNode );
         
         _thermometer = thermometer;
         _thermometerListener = new ThermometerListener() {

@@ -27,6 +27,7 @@ public abstract class AbstractToolNode extends PComposite {
     
     private AbstractTool _tool;
     private ModelViewTransform _mvt;
+    private TrashCanIconNode _trashCanIconNode;
     private MovableListener _movableListener;
     private Point2D _pModel, _pView; // reusable points
     
@@ -34,7 +35,7 @@ public abstract class AbstractToolNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractToolNode( AbstractTool tool, ModelViewTransform mvt ) {
+    public AbstractToolNode( AbstractTool tool, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
         super();
         
         _pModel = new Point2D.Double();
@@ -42,6 +43,7 @@ public abstract class AbstractToolNode extends PComposite {
         
         _tool = tool;
         _mvt = mvt;
+        _trashCanIconNode = trashCanIconNode;
         
         _movableListener = new MovableAdapter() {
             public void positionChanged() {
@@ -73,7 +75,12 @@ public abstract class AbstractToolNode extends PComposite {
             }
             
             protected void endDrag( PInputEvent event ) {
-                getTool().setDragging( false );
+                if ( _trashCanIconNode.isInTrash( AbstractToolNode.this ) ) {
+                    _trashCanIconNode.delete( AbstractToolNode.this );
+                }
+                else {
+                    getTool().setDragging( false );
+                }
                 super.endDrag( event );
             }
         } );

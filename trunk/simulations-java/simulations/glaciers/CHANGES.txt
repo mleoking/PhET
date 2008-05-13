@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - replace ice thickness tool image in toolbox
 - ice thickness tool's value display doesn't size itself reliably
 - make ice thickness tool look nicer
-- bug: tools dropped in the trash first "snap" to their drop constraints
 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
@@ -85,6 +84,7 @@ CLEANUP:
 
 
 DONE:
+5/13/08 - bugfix: tools dropped in the trash incorrectly "snap" to their drop constraints before disappearing
 5/13/08 - change ice thickness tool to "?" when drag starts, not during the drag
 5/13/08 - do not call super.drag in drag handlers, it causes problems as noted in code comments
 5/12/08 - first pass at resizable ice thickness tool, a little clunky looking

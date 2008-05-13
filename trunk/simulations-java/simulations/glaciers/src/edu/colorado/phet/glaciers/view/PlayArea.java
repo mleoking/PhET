@@ -25,7 +25,6 @@ import edu.colorado.phet.glaciers.control.ScrollArrowNode.LeftScrollArrowNode;
 import edu.colorado.phet.glaciers.control.ScrollArrowNode.RightScrollArrowNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
-import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Viewport;
 import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
@@ -527,10 +526,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
      * @param tool
      */
     public void toolAdded( AbstractTool tool ) {
-        AbstractToolNode node = ToolNodeFactory.createNode( tool, _mvt );
-        _toolsLayer.addChild( node );
-        _toolsMap.put( tool, node );
-        _toolboxNode.getTrashCan().addManagedNode( node );
+        AbstractToolNode toolNode = ToolNodeFactory.createNode( tool, _mvt, _toolboxNode.getTrashCan() );
+        _toolsLayer.addChild( toolNode );
+        _toolsMap.put( tool, toolNode );
     }
 
     /**
@@ -542,7 +540,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         AbstractToolNode toolNode = (AbstractToolNode)_toolsMap.get( tool );
         _toolsLayer.removeChild( toolNode );
         _toolsMap.remove( tool );
-        _toolboxNode.getTrashCan().removeManagedNode( toolNode );
         toolNode.cleanup();
     }
     
