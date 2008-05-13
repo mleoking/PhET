@@ -23,11 +23,15 @@ public class SimStrings {
     private static SimStrings INSTANCE = new SimStrings();
     private static boolean debugLocalization = false;
 
+    /**
+     * @deprecated
+     */
     public static SimStrings getInstance() {
         return INSTANCE;
     }
 
-    public SimStrings() {
+    /* intended to be a singleton, use getInstance */
+    private SimStrings() {
 
         // user.language indicates the default locale
         locale = Locale.getDefault();
