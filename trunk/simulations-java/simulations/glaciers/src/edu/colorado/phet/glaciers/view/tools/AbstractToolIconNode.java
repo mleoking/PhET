@@ -117,6 +117,7 @@ public abstract class AbstractToolIconNode extends PNode {
                 protected void drag( PInputEvent event ) {
                     _mvt.viewToModel( event.getPosition(), _pModel );
                     _tool.setPosition( _pModel );
+                    // do not call super.drag, or the icon in the toolbox will move!
                 }
 
                 /* When the drag ends, release control of the tool and activate it. */
