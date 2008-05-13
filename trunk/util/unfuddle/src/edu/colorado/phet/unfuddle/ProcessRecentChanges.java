@@ -140,7 +140,7 @@ public class ProcessRecentChanges {
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args.getEmailFromAddress(), args.getEmailServer(), args.getEmailUsername(), args.getEmailPassword(), new ReadEmailList( unfuddleAccount, unfuddleCurl ), sendMail ) );
+        h.addMessageHandler( new EmailHandler( args.getEmailFromAddress(), args.getEmailServer(), args.getEmailUsername(), args.getEmailPassword(), new EmailList( unfuddleAccount, unfuddleCurl ), sendMail ) );
         IMessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( args.getSvnTrunk() + "\\util\\unfuddle\\data\\handled.txt" ) ); //TODO separator is Windows specific
         int handled = 0;
         for ( int i = e - 1; i >= 0; i-- ) {//reverse iterate to post notifications in chronological order

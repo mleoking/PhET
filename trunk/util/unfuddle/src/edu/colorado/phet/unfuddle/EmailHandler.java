@@ -17,14 +17,14 @@ public class EmailHandler implements IMessageHandler {
     private String server;
     private String username;
     private String password;
-    private ReadEmailList emailList;
+    private EmailList emailList;
     private boolean sendMail;
 
-    public EmailHandler( String fromAddress, String server, String username, String password, ReadEmailList emailList ) {
+    public EmailHandler( String fromAddress, String server, String username, String password, EmailList emailList ) {
         this( fromAddress, server, username, password, emailList, true );
     }
 
-    public EmailHandler( String fromAddress, String server, String username, String password, ReadEmailList emailList, boolean sendMail ) {
+    public EmailHandler( String fromAddress, String server, String username, String password, EmailList emailList, boolean sendMail ) {
         this.fromAddress = fromAddress;
         this.server = server;
         this.username = username;
