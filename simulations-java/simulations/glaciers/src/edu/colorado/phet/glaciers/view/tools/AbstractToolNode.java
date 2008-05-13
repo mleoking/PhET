@@ -69,7 +69,7 @@ public abstract class AbstractToolNode extends PComposite {
                 double y = event.getPosition().getY() - _yOffset;
                 _mvt.viewToModel( x, y, _pModel );
                 _tool.setPosition( _pModel );
-                super.drag( event );
+                // do not call super.drag, or tool will wobble
             }
             
             protected void endDrag( PInputEvent event ) {
