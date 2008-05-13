@@ -15,7 +15,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.control.LanguageComboBox;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
@@ -46,7 +46,7 @@ public class InitializationDialog extends JDialog {
     private static final String HELP_JAR_FILE = TUResources.getString( "help.jarFile" );
     private static final String HELP_LANGUAGE_CODE = TUResources.getString( "help.languageCode" );
     
-    private static final Font TITLE_FONT = new PhetDefaultFont( 32, true /* bold */ );
+    private static final Font TITLE_FONT = new PhetFont( 32, true /* bold */ );
     private static final String LANGUAGE_CODE_PATTERN = "[a-z][a-z]"; // regular expression that describes ISO 639-1 specification
     
     private JTextField _jarFileTextField;

@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import javax.swing.JLabel;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.translationutility.TUResources;
 
 /**
@@ -48,7 +48,7 @@ public class FontFactory {
      * @return Font
      */
     public static Font createFont( String languageCode, int style, int size ) {
-        Font font = new PhetDefaultFont( style, size );
+        Font font = new PhetFont( style, size );
         String[] preferredFontNames = TUResources.getPreferredFontNames( languageCode );
         if ( preferredFontNames != null ) {
             for ( int i = 0; i < preferredFontNames.length; i++ ) {
