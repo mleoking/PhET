@@ -17,7 +17,12 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
+import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Thermometer;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
+import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
+import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.model.Thermometer.ThermometerListener;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
@@ -46,23 +51,42 @@ public class ThermometerNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     private Thermometer _thermometer;
+    private Glacier _glacier;
     private ThermometerListener _thermometerListener;
+    private MovableListener _movableListener;
+    private GlacierListener _glacierListener;
     private ValueNode _valueNode;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ThermometerNode( Thermometer thermometer, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+    public ThermometerNode( Thermometer thermometer, Glacier glacier, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
         super( thermometer, mvt, trashCanIconNode );
         
         _thermometer = thermometer;
+        _glacier = glacier;
+        
         _thermometerListener = new ThermometerListener() {
             public void temperatureChanged() {
                 updateTemperature();
             }
         };
         _thermometer.addThermometerListener( _thermometerListener );
+        
+        _movableListener = new MovableAdapter() {
+            public void positionChanged() {
+                updateTemperature();
+            }
+        };
+        _thermometer.addMovableListener( _movableListener );
+        
+        _glacierListener = new GlacierAdapter() {
+            public void iceThicknessChanged() {
+                updateTemperature();
+            }
+        };
+        _glacier.addGlacierListener( _glacierListener );
         
         PNode arrowNode = new LeftToolOriginNode();
         addChild( arrowNode );
@@ -77,12 +101,13 @@ public class ThermometerNode extends AbstractToolNode {
         _valueNode.setOffset( glassNode.getFullBoundsReference().getMaxX(), -_valueNode.getFullBoundsReference().getHeight() / 2 );
         
         // initial state
-        updatePosition();
-        updateTemperature();
+        _valueNode.setTemperatureUnknown();
     }
     
     public void cleanup() {
         _thermometer.removeThermometerListener( _thermometerListener );
+        _thermometer.removeMovableListener( _movableListener );
+        _glacier.removeGlacierListener( _glacierListener );
         super.cleanup();
     }
     
@@ -143,6 +168,12 @@ public class ThermometerNode extends AbstractToolNode {
             
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
+        
+        public void setTemperatureUnknown() {
+            _celsiusLabel.setText( "? " + GlaciersStrings.UNITS_CELSIUS );
+            _fahrenheitLabel.setText( "? " + GlaciersStrings.UNITS_FAHRENHEIT );
+            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -153,6 +184,12 @@ public class ThermometerNode extends AbstractToolNode {
      * Updates the temperature display to match the model.
      */
     private void updateTemperature() {
-        _valueNode.setTemperature( _thermometer.getTemperature() );
+        double glacierSurfaceY = _glacier.getSurfaceElevation( _thermometer.getX() );
+        if ( _thermometer.getY() > glacierSurfaceY ) {
+            _valueNode.setTemperature( _thermometer.getTemperature() ); 
+        }
+        else {
+            _valueNode.setTemperatureUnknown();
+        }
     }
 }

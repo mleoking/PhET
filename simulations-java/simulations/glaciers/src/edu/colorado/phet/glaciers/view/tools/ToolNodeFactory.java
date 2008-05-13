@@ -22,10 +22,10 @@ public class ToolNodeFactory {
      * @param mvt
      * @return
      */
-    public static AbstractToolNode createNode( AbstractTool tool, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+    public static AbstractToolNode createNode( AbstractTool tool, AbstractModel model, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
         AbstractToolNode node = null;
         if ( tool instanceof Thermometer ) {
-            node = new ThermometerNode( (Thermometer) tool, mvt, trashCanIconNode );
+            node = new ThermometerNode( (Thermometer) tool, model.getGlacier(), mvt, trashCanIconNode );
         }
         else if ( tool instanceof GlacialBudgetMeter ) {
             node = new GlacialBudgetMeterNode( (GlacialBudgetMeter) tool, mvt, trashCanIconNode );

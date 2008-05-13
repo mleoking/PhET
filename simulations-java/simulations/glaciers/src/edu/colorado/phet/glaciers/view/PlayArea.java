@@ -35,7 +35,7 @@ import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * PlayArea is the area of the application that constains the birds-eye and zoomed views
+ * PlayArea is the area of the application that contains the birds-eye and zoomed views
  * of the world.  
  * <p>
  * The birds-eye view appears at the top of the play area, and shows a tiny
@@ -526,7 +526,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
      * @param tool
      */
     public void toolAdded( AbstractTool tool ) {
-        AbstractToolNode toolNode = ToolNodeFactory.createNode( tool, _mvt, _toolboxNode.getTrashCan() );
+        AbstractToolNode toolNode = ToolNodeFactory.createNode( tool, _model, _mvt, _toolboxNode.getTrashCan() );
         _toolsLayer.addChild( toolNode );
         _toolsMap.put( tool, toolNode );
     }
