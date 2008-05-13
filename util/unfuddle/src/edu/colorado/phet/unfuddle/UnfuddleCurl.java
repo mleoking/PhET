@@ -56,7 +56,7 @@ public class UnfuddleCurl {
         String cmdArg = accountID + "/" + readARG;
         String cmd = curl + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
         System.out.println( "cmd = " + cmd );
-        return execCommand(cmd);
+        return execCommand( cmd );
     }
 
     protected String execCommand( String cmd ) throws IOException {

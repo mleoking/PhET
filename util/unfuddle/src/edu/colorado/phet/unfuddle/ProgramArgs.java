@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 
 public class ProgramArgs {
-    
+
     private static final String TOKEN_DELIMITER = " ";
     private static final int NUMBER_OF_ARGS = 9;
-    
+
     private String unfuddleUsername;
     private String unfuddlePassword;
     private String emailFromAddress;
@@ -22,7 +22,7 @@ public class ProgramArgs {
     private String svnTrunk;
     private String xmlDumpPath;
     private boolean sendMailEnabled;
-    
+
     public ProgramArgs( String[] args ) throws IOException {
         if ( args == null || args.length == 0 ) {
             promptForArgs();
@@ -34,15 +34,15 @@ public class ProgramArgs {
             throw new IllegalArgumentException( "wrong number of args" );
         }
     }
-    
+
     public String getUnfuddleUsername() {
         return unfuddleUsername;
     }
-    
+
     public String getUnfuddlePassword() {
         return unfuddlePassword;
     }
-    
+
     public String getEmailFromAddress() {
         return emailFromAddress;
     }
@@ -50,15 +50,15 @@ public class ProgramArgs {
     public String getEmailServer() {
         return emailServer;
     }
-    
+
     public String getEmailUsername() {
         return emailUsername;
     }
-    
+
     public String getEmailPassword() {
         return emailPassword;
     }
-    
+
     public String getSvnTrunk() {
         return svnTrunk;
     }
@@ -66,11 +66,11 @@ public class ProgramArgs {
     public String getXmlDumpPath() {
         return xmlDumpPath;
     }
-    
+
     public boolean isSendMailEnabled() {
         return sendMailEnabled;
     }
-    
+
     public String toString() {
         String s = getClass().getName() + "[";
         s += ( "unfuddleUsername=" + unfuddleUsername ) + ",";
@@ -85,12 +85,12 @@ public class ProgramArgs {
         s += "]";
         return s;
     }
-    
+
     /*
-     * Reads program arguments from a file.
-     * Sample file format:
-     * @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:/phet/svn C:/phet/unfuddled.xml true
-     */
+    * Reads program arguments from a file.
+    * Sample file format:
+    * @unfuddle-id@ @unfuddle-password@ phetmail@comcast.net smtp.comcast.net phetmail @phet-mail-password@ C:/phet/svn C:/phet/unfuddled.xml true
+    */
     private void readArgsFromFile( String filename, int numberOfArgs, String delimiter ) throws IOException {
         File file = new File( filename );
         if ( file.exists() && file.canRead() ) {
@@ -107,7 +107,7 @@ public class ProgramArgs {
                 xmlDumpPath = st.nextToken();
                 sendMailEnabled = Boolean.parseBoolean( st.nextToken() );
             }
-            catch ( NoSuchElementException e ) {
+            catch( NoSuchElementException e ) {
                 throw new IOException( "file is missing one or more args" );
             }
             //TODO remove '\n' on end of last token in Unix files
@@ -116,10 +116,10 @@ public class ProgramArgs {
             throw new IOException( "cannot read file " + filename );
         }
     }
-    
+
     /*
-     * Prompts the user for program arguments.
-     */
+    * Prompts the user for program arguments.
+    */
     private void promptForArgs() {
         //TODO: this is a painful way to prompt, use 1 dialog
         //TODO: Cancel button is ignored in each of these JOptionPane calls

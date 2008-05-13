@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
 
 /**
  * This is the main entry point for the Unfuddle Notifier.
- * 
+ * <p/>
  * Created by: Sam
  * Feb 21, 2008 at 7:30:51 AM
  */
@@ -28,11 +28,11 @@ public class ProcessRecentChanges {
     private final boolean sendMail;
 
     public ProcessRecentChanges( ProgramArgs args )
-        throws IOException, SAXException, ParserConfigurationException {
-        
+            throws IOException, SAXException, ParserConfigurationException {
+
         this.args = args;
         this.sendMail = args.isSendMailEnabled(); // must be final for use in callbacks
-        
+
         unfuddleAccount = new UnfuddleAccount( new File( args.getXmlDumpPath() ) );
         unfuddleCurl = new UnfuddleCurl( args.getUnfuddleUsername(), args.getUnfuddlePassword(), UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args.getSvnTrunk() );
 
@@ -196,10 +196,10 @@ public class ProcessRecentChanges {
     }
 
     public static void main( String[] args ) throws IOException {
-        
+
         final ProgramArgs programArgs = new ProgramArgs( args );
 //        System.out.println( programArgs.toString() );
-        
+
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 try {

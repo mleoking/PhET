@@ -16,7 +16,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 /**
- * TODO: 
+ * TODO:
  * It looks like this was copied from phet-build.
  * Either use the version from phet-build, or reduce this to what's really needed.
  */

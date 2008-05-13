@@ -58,7 +58,7 @@ public class ReadEmailList {
             System.exit( 1 );
         }
         UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
-        UnfuddleAccount unfuddleAccount = new UnfuddleAccount( new File( args[2]+"\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );//TODO separator is Windows specific
+        UnfuddleAccount unfuddleAccount = new UnfuddleAccount( new File( args[2] + "\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );//TODO separator is Windows specific
         ReadEmailList readEmailList = new ReadEmailList( unfuddleAccount, curl );
         String[] s = readEmailList.getEmailsForComponent( "charts" );
         System.out.println( "Arrays.asList( = " + Arrays.asList( s ) );

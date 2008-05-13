@@ -29,7 +29,7 @@ getResolutionDescription();
     }
 
     public String getHashID() {
-        return recordID+"<record>";
+        return recordID + "<record>";
         //todo: fix this awkward workaround
 //        return recordID * 123 + 17;//it appears that "record-id" is not unique compared to "id", so this function tries to avoid hits
     }
