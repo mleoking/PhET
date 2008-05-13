@@ -38,8 +38,8 @@ public class ReadEmailList {
             while ( st.hasMoreTokens() ) {
                 String listedComponent = st.nextToken();
                 String email = getEmail( key );
-                if ( listedComponent.equals( "*" ) ||
-                     ( listedComponent.equalsIgnoreCase( component ) && !emails.contains( email ) && email != null ) ) {
+                if ( ( listedComponent.equals( "*" ) || listedComponent.equalsIgnoreCase( component ) ) &&
+                     ( !emails.contains( email ) && email != null ) ) {
                     emails.add( email );
                 }
             }
