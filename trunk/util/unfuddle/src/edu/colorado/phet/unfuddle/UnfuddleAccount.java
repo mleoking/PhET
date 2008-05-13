@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
 
     private final String PROJECTS = "projects";
-    
+
     public UnfuddleAccount( File xmlDump ) throws IOException, SAXException, ParserConfigurationException {
         this( toNode( xmlDump ) );
     }

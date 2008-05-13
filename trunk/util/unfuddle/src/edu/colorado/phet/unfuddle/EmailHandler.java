@@ -3,8 +3,8 @@ package edu.colorado.phet.unfuddle;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.mail.MessagingException;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
@@ -20,11 +20,11 @@ public class EmailHandler implements IMessageHandler {
     private ReadEmailList emailList;
     private boolean sendMail;
 
-    public EmailHandler( String fromAddress, String server, String username,String password,ReadEmailList emailList ) {
+    public EmailHandler( String fromAddress, String server, String username, String password, ReadEmailList emailList ) {
         this( fromAddress, server, username, password, emailList, true );
     }
 
-    public EmailHandler( String fromAddress, String server, String username,String password,ReadEmailList emailList, boolean sendMail ) {
+    public EmailHandler( String fromAddress, String server, String username, String password, ReadEmailList emailList, boolean sendMail ) {
         this.fromAddress = fromAddress;
         this.server = server;
         this.username = username;
@@ -50,12 +50,12 @@ public class EmailHandler implements IMessageHandler {
         if ( sendMail ) {
             if ( to.length == 0 ) {
                 System.out.println( "Had a message for delivery, but nobody signed up for notification of " + m.getComponent() );
-                if (m.getComponent()==null){
+                if ( m.getComponent() == null ) {
                     System.out.println( "Perhaps this indicates that phet.unfuddled.xml needs to be updated." );
                 }
             }
             else {
-                EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject(),username,password );
+                EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject(), username, password );
             }
         }
         else {

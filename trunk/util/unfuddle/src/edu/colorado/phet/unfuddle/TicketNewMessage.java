@@ -108,7 +108,7 @@ public class TicketNewMessage implements IMessage {
         //if it is still located there
 
 //        return "https://phet.unfuddle.com/p/unfuddled/tickets/show/" + getTicketNumber() + "/cycle";
-        return UnfuddleNotifierConstants.PHET_PROJECT_URL + "/tickets/by_number/"+ getTicketNumber();
+        return UnfuddleNotifierConstants.PHET_PROJECT_URL + "/tickets/by_number/" + getTicketNumber();
     }
 
     protected String getAssignee() {
