@@ -66,31 +66,33 @@ public class PhetResources {
     //----------------------------------------------------------------------------
 
     /**
-     * Constructs a new PhetResources for the specified project, using the default locale.
+     * Factory method, default locale and default resource loader.
      *
      * @param projectName the project name
      * @return PhetResources for the project
+     * @deprecated
      */
     public static PhetResources forProject( String projectName ) {
-        return forProject( projectName, readLocale() );
+        return new PhetResources( projectName );
     }
 
     /**
-     * Constructs a new PhetResources for the specified project and locale.
-     *
-     * @param projectName the project name
-     * @param locale      the locale.
-     * @return PhetResources for the project and locale
+     * Constructor, default locale and default resource loader.
+     * 
+     * @param projectName
      */
-    public static PhetResources forProject( String projectName, Locale locale ) {
-        return new PhetResources( projectName, locale, new DefaultResourceLoader() );
+    public PhetResources( String projectName ) {
+        this( projectName, readLocale(), new DefaultResourceLoader() );
     }
-
-    /*
-    * This constructor is not private only for testing purposes. It should not be used.
-    * Clients should use the static forProject() methods to construct new PhetResources objects.
-    */
-    protected PhetResources( String projectName, Locale locale, IResourceLoader resourceLoader ) {
+    
+    /**
+     * Constructor.
+     * 
+     * @param projectName
+     * @param locale
+     * @param resourceLoader
+     */
+    public PhetResources( String projectName, Locale locale, IResourceLoader resourceLoader ) {
 
         this.projectName = projectName;
         this.rootDirectoryName = projectName;
