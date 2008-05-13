@@ -6,7 +6,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- add a button to borehole drill, press button to drill a borehole
+- create a borehole when drill button is pressed
 - model borehole as a set of moving points, connected via line segments
 - add framework that allows tools to delete themselves? (eg, flag crushed by glacier)
 - make advancing glaciers delete flags that are on valley floor
@@ -14,7 +14,6 @@ HIGH PRIORITY:
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
 - use solid colors for ice surface and cross-section
-- add 3D model and pseudo-3D view for debris that moves in/on glacier
 
 MEDIUM PRIORITY:
 - add pseudo 3D model & view for rocks
