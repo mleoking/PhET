@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 public class StatesOfMatterConfig extends PhetApplicationConfig {
     private static final String PROJECT_NAME = "states-of-matter";
 
-    public static final PhetResources RESOURCES = PhetResources.forProject(PROJECT_NAME);
+    public static final PhetResources RESOURCES = new PhetResources(PROJECT_NAME);
     public static final int WINDOW_WIDTH  = 800;
     public static final int WINDOW_HEIGHT = 600;
     public static final int INITIAL_MAX_PARTICLE_COUNT = 600;

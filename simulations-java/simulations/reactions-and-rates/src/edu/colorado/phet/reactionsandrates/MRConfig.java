@@ -23,7 +23,7 @@ import java.awt.*;
  * @version $Revision$
  */
 public class MRConfig {
-    public static PhetResources RESOURCES = PhetResources.forProject( "reactions-and-rates" );
+    public static PhetResources RESOURCES = new PhetResources( "reactions-and-rates" );
 
     //--------------------------------------------------------------------------------------------------
     // Misc

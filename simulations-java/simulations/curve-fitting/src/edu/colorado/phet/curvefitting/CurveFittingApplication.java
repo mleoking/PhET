@@ -12,6 +12,6 @@ public class CurveFittingApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new CurveFittingApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithInsets( 100,100), PhetResources.forProject( "curve-fitting" ), "curve-fitting") ).startApplication();
+        new CurveFittingApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithInsets( 100,100), new PhetResources( "curve-fitting" ), "curve-fitting") ).startApplication();
     }
 }

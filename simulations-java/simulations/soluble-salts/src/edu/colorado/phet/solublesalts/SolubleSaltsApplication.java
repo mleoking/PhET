@@ -38,7 +38,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
     private boolean showOptions = true;
 
     public SolubleSaltsApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1000, 740 ), PhetResources.forProject( "soluble-salts" ) ) );
+        super( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1000, 740 ), new PhetResources( "soluble-salts" ) ) );
 
         Module moduleA = new RealSaltsModule( new SolubleSaltsClock() );
         Module moduleB = new ConfigurableSaltModule( new SolubleSaltsClock() );

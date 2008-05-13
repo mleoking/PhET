@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * May 15, 2007, 8:12:31 PM
  */
 public class TimeseriesResources {
-    private static final PhetResources instance = PhetResources.forProject( "timeseries" );
+    private static final PhetResources instance = new PhetResources( "timeseries" );
 
     public static PhetResources getInstance() {
         return instance;

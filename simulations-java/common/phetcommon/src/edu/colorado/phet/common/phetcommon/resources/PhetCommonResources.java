@@ -31,7 +31,7 @@ public class PhetCommonResources {
     // preferred physical font names for various ISO language codes
     private static final String PREFERRED_FONTS_RESOURCE = "localization/phetcommon-fonts.properties";
 
-    private static PhetResources INSTANCE = PhetResources.forProject( "phetcommon" );
+    private static PhetResources INSTANCE = new PhetResources( "phetcommon" );
 
     /* not intended for instantiation */
     private PhetCommonResources() {

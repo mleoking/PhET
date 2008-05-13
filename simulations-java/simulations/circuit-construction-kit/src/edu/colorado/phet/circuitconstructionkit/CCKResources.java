@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * May 18, 2007, 11:33:31 PM
  */
 public class CCKResources {
-    private static final PhetResources INSTANCE = PhetResources.forProject( "circuit-construction-kit" );
+    private static final PhetResources INSTANCE = new PhetResources( "circuit-construction-kit" );
 
     public static BufferedImage getImage( String s ) {
         return INSTANCE.getImage( s );

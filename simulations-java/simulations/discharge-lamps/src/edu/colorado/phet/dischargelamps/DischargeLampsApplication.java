@@ -45,7 +45,7 @@ public class DischargeLampsApplication extends PhetApplication {
     public DischargeLampsApplication( String[] args ) {
         super( args, SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
                SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
-               new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( "discharge-lamps" ) ).getVersion().formatForTitleBar(),
+               new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), new PhetResources( "discharge-lamps" ) ).getVersion().formatForTitleBar(),
                frameSetup );
 
         // Determine the resolution of the screen

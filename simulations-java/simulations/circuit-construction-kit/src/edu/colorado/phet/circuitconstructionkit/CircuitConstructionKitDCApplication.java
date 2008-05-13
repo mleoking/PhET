@@ -32,7 +32,7 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
     public static final String AC_OPTION = "-dynamics";
 
     public CircuitConstructionKitDCApplication( String[] args ) throws IOException {
-        super( new PhetApplicationConfig( args, createFrameSetup(), PhetResources.forProject( "circuit-construction-kit" ), isDynamic( args ) ? "circuit-construction-kit-ac" : "circuit-construction-kit-dc" ) );
+        super( new PhetApplicationConfig( args, createFrameSetup(), new PhetResources( "circuit-construction-kit" ), isDynamic( args ) ? "circuit-construction-kit-ac" : "circuit-construction-kit-dc" ) );
 
         boolean debugMode = false;
         if ( Arrays.asList( args ).contains( "debug" ) ) {

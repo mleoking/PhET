@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * Apr 24, 2007, 4:54:35 AM
  */
 public class MovingManResources {
-    private static PhetResources INSTANCE = PhetResources.forProject( "moving-man" );
+    private static PhetResources INSTANCE = new PhetResources( "moving-man" );
 
     /* not intended for instantiation */
     private MovingManResources() {

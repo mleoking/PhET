@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  */
 public class TUResources {
     
-    private static final PhetResources RESOURCES = PhetResources.forProject( "translation-utility" );
+    private static final PhetResources RESOURCES = new PhetResources( "translation-utility" );
     private static final PhetApplicationConfig CONFIG = new PhetApplicationConfig( null /* args */, new FrameSetup.NoOp(), RESOURCES );
 
     private static final String COMMON_PROJECTS_SEPARATOR = ",";

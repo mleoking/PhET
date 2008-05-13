@@ -280,7 +280,7 @@ public class PlatformNode2 extends PNode {
     }
 
     public static void main( String[] args ) {
-        PiccoloPhetApplication phetApplication = new PiccoloPhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), PhetResources.forProject( "rotation" ) ) );
+        PiccoloPhetApplication phetApplication = new PiccoloPhetApplication( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 800, 600 ), new PhetResources( "rotation" ) ) );
         phetApplication.addModule( new TestModule( "test", new ConstantDtClock( 30, 1 ) ) );
         phetApplication.startApplication();
     }

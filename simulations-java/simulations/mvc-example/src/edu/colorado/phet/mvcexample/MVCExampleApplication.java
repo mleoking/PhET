@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  */
 public class MVCExampleApplication extends PiccoloPhetApplication {
 
-    public static final PhetResources RESOURCE_LOADER = PhetResources.forProject( "mvc-example" );
+    public static final PhetResources RESOURCE_LOADER = new PhetResources( "mvc-example" );
     
     /**
      * Sole constructor.

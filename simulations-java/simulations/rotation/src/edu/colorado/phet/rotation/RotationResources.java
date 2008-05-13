@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * Apr 24, 2007, 4:54:35 AM
  */
 public class RotationResources {
-    private static PhetResources INSTANCE = PhetResources.forProject( "rotation" );
+    private static PhetResources INSTANCE = new PhetResources( "rotation" );
 
     /* not intended for instantiation */
     private RotationResources() {

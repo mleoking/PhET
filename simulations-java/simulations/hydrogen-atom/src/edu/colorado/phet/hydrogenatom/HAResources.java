@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 public class HAResources {
     
-    private static final PhetResources RESOURCES = PhetResources.forProject( "hydrogen-atom" );
+    private static final PhetResources RESOURCES = new PhetResources( "hydrogen-atom" );
     
     /* not intended for instantiation */
     private HAResources() {}

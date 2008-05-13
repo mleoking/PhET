@@ -66,17 +66,6 @@ public class PhetResources {
     //----------------------------------------------------------------------------
 
     /**
-     * Factory method, default locale and default resource loader.
-     *
-     * @param projectName the project name
-     * @return PhetResources for the project
-     * @deprecated
-     */
-    public static PhetResources forProject( String projectName ) {
-        return new PhetResources( projectName );
-    }
-
-    /**
      * Constructor, default locale and default resource loader.
      * 
      * @param projectName

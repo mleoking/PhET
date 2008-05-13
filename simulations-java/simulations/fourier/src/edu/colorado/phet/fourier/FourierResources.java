@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 public class FourierResources {
     
-    private static final PhetResources RESOURCES = PhetResources.forProject( "fourier" );
+    private static final PhetResources RESOURCES = new PhetResources( "fourier" );
     
     /* not intended for instantiation */
     private FourierResources() {}

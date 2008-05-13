@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class SimTemplateResources {
     
-    private static final PhetResources RESOURCES = PhetResources.forProject( "sim-template" );
+    private static final PhetResources RESOURCES = new PhetResources( "sim-template" );
     
     /* not intended for instantiation */
     private SimTemplateResources() {}
