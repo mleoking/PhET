@@ -251,10 +251,12 @@ public class IceThicknessToolNode extends AbstractToolNode {
         CalipersNode calipersNode = new CalipersNode( CALIPERS_CLOSED_SIZE );
         calipersNode.open( 20 );
         parentNode.addChild( calipersNode );
-        calipersNode.setOffset( 0, 0 );
-        
+
         PNode handleNode = new HandleNode( HANDLE_SIZE );
         parentNode.addChild( handleNode );
+        
+        //TODO these 2 lines of code are duplicated from the constructor
+        calipersNode.setOffset( 0, 0 );
         handleNode.setOffset( -handleNode.getFullBoundsReference().getWidth(), calipersNode.getFullBoundsReference().getMaxY() );
         
         return parentNode.toImage();
