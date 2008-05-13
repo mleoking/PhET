@@ -11,13 +11,6 @@ import javax.mail.internet.MimeMessage;
 // Send a simple, single part, text/plain e-mail
 public class EmailAccount {
 
-    public static void main( String[] args ) throws MessagingException {
-        String from = args[0];
-        String to = args[1];
-        String host = args[2];
-        sendEmail( from, new String[]{to}, host, "Hello self email body", "Hello self subject", args[3], args[4] );
-    }
-
     public static void sendEmail( String from, String[] to, String host, String emailBody, String emailSubject, final String user, final String password ) throws MessagingException {
         // Create properties, get Session
         Properties props = new Properties();
@@ -65,5 +58,15 @@ public class EmailAccount {
             throw mex;
         }
         System.out.println( "Sent email to: " + Arrays.asList( to ) );
+    }
+
+    /**
+     * Sends a test email.
+     */
+    public static void main( String[] args ) throws MessagingException {
+        String from = args[0];
+        String to = args[1];
+        String host = args[2];
+        sendEmail( from, new String[]{to}, host, "Hello self email body", "Hello self subject", args[3], args[4] );
     }
 }//End of class

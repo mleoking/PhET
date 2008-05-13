@@ -33,22 +33,6 @@ import org.xml.sax.SAXException;
 public class ViewTickets {
     private static final File file = new File( "C:\\Users\\Sam\\Desktop\\tickets-2-17-2008.xml" ); //TODO Windows and user specific
 
-    public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        File file = args.length > 0 ? new File( args[0] ) : ViewTickets.file;
-        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document s = documentBuilder.parse( file );
-        Element root = s.getDocumentElement();
-        ArrayList<TicketElement> tickets = getTickets( root );
-        for ( TicketElement ticket : tickets ) {
-            System.out.println( "ticketElement = " + ticket );
-        }
-        Collections.sort( tickets, new Comparator<TicketElement>() {
-            public int compare( TicketElement o1, TicketElement o2 ) {
-                return Double.compare( o1.getUpdatedAt().getTime(), o2.getUpdatedAt().getTime() );//t.getUpdatedAt().compareTo( t2.getUpdatedAt() );
-            }
-        } );
-    }
-
     static class TicketElement {
         private Node node;
 
@@ -119,4 +103,19 @@ public class ViewTickets {
         }
     }
 
+    public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
+        File file = args.length > 0 ? new File( args[0] ) : ViewTickets.file;
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document s = documentBuilder.parse( file );
+        Element root = s.getDocumentElement();
+        ArrayList<TicketElement> tickets = getTickets( root );
+        for ( TicketElement ticket : tickets ) {
+            System.out.println( "ticketElement = " + ticket );
+        }
+        Collections.sort( tickets, new Comparator<TicketElement>() {
+            public int compare( TicketElement o1, TicketElement o2 ) {
+                return Double.compare( o1.getUpdatedAt().getTime(), o2.getUpdatedAt().getTime() );//t.getUpdatedAt().compareTo( t2.getUpdatedAt() );
+            }
+        } );
+    }
 }
