@@ -25,6 +25,8 @@ import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -86,6 +88,16 @@ public class IceThicknessToolNode extends AbstractToolNode {
             }
         };
         _iceThicknessTool.addToolListener( _toolListener );
+
+        // When we start dragging, set the display to "?" and open the caliper.
+        addInputEventListener( new PDragEventHandler() {
+            protected void startDrag( PInputEvent event ) {
+                String text = "? " + GlaciersStrings.UNITS_ICE_THICKNESS;
+                _iceThicknessDisplay.setText( text );
+                _calipersNode.open( 20 );
+                super.startDrag( event );
+            }
+        } );
         
         _calipersNode = new CalipersNode( CALIPERS_CLOSED_SIZE );
         addChild( _calipersNode );
@@ -106,6 +118,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
         
         // initial state
         update();
+        _calipersNode.open( 20 );
     }
     
     public void cleanup() {
@@ -218,19 +231,12 @@ public class IceThicknessToolNode extends AbstractToolNode {
      * Updates the tool to match the model.
      */
     private void update() {
-        
-        if ( _iceThicknessTool.isDragging() ) {
-            String text = "? " + GlaciersStrings.UNITS_ICE_THICKNESS;
-            _iceThicknessDisplay.setText( text );
-            _calipersNode.open( 20 );
-        }
-        else {
+        if ( !_iceThicknessTool.isDragging() ) {
             double value = _iceThicknessTool.getThickness();
             String text = ICE_THICKNESS_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ICE_THICKNESS;
             _iceThicknessDisplay.setText( text );
             double viewDistance = Math.abs( getModelViewTransform().modelToView( 0, value ).getY() );
             _calipersNode.open( viewDistance );
         }
-
     }
 }
