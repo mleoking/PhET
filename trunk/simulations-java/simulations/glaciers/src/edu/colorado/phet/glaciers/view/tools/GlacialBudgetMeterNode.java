@@ -26,6 +26,7 @@ import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -53,11 +54,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     private GlacialBudgetMeter _glacialBudgetMeter;
     private GlacialBudgetMeterListener _glacialBudgetMeterListener;
     private MovableListener _movableListener;
-    
-    private JLabel _elevationDisplay;
-    private JLabel _accumulationDisplay;
-    private JLabel _ablationDisplay;
-    private JLabel _glacialBudgetDisplay;
+    private ValueNode _valueNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -96,51 +93,9 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         addChild( imageNode );
         imageNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 1, -imageNode.getFullBoundsReference().getHeight() / 2 );
         
-        JLabel elevationLabel = new JLabel( GlaciersStrings.LABEL_ELEVATION + ":" );
-        elevationLabel.setFont( FONT );
-        _elevationDisplay = new JLabel( "0" );
-        _elevationDisplay.setFont( FONT );
-        
-        JLabel accumulationLabel = new JLabel( GlaciersStrings.LABEL_ACCUMULATION + ":" );
-        accumulationLabel.setFont( FONT );
-        _accumulationDisplay = new JLabel( "0" );
-        _accumulationDisplay.setFont( FONT );
-        _accumulationDisplay.setForeground( GlaciersConstants.ACCUMULATION_COLOR );
-        
-        JLabel ablationLabel = new JLabel( GlaciersStrings.LABEL_ABLATION + ":" );
-        ablationLabel.setFont( FONT );
-        _ablationDisplay = new JLabel( "0" );
-        _ablationDisplay.setFont( FONT );
-        _ablationDisplay.setForeground( GlaciersConstants.ABLATION_COLOR );
-        
-        JLabel glacialBudgetLabel = new JLabel( GlaciersStrings.LABEL_GLACIAL_BUDGET + ":" );
-        glacialBudgetLabel.setFont( FONT );
-        _glacialBudgetDisplay = new JLabel( "0" );
-        _glacialBudgetDisplay.setFont( FONT );
-        _glacialBudgetDisplay.setForeground( GlaciersConstants.GLACIAL_BUDGET_COLOR );
-        
-        JPanel displayPanel = new JPanel();
-        displayPanel.setBackground( Color.WHITE );
-        displayPanel.setBorder( BORDER );
-        EasyGridBagLayout layout = new EasyGridBagLayout( displayPanel );
-        displayPanel.setLayout( layout );
-        int row = 0;
-        int column = 0;
-        layout.addAnchoredComponent( elevationLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _elevationDisplay, row++, column++, GridBagConstraints.WEST );
-        column = 0;
-        layout.addAnchoredComponent( accumulationLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _accumulationDisplay, row++, column++, GridBagConstraints.WEST );
-        column = 0;
-        layout.addAnchoredComponent( ablationLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _ablationDisplay, row++, column++, GridBagConstraints.WEST );
-        column = 0;
-        layout.addAnchoredComponent( glacialBudgetLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _glacialBudgetDisplay, row++, column++, GridBagConstraints.WEST );
-        
-        PSwing panelNode = new PSwing( displayPanel );
-        addChild( panelNode );
-        panelNode.setOffset( imageNode.getFullBounds().getMaxX() + 1, -panelNode.getFullBounds().getHeight() / 2 );
+        _valueNode = new ValueNode();
+        addChild( _valueNode );
+        _valueNode.setOffset( imageNode.getFullBounds().getMaxX() + 1, -_valueNode.getFullBounds().getHeight() / 2 );
         
         // initial state
         updateElevation();
@@ -156,6 +111,95 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     }
     
     //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Displays the values measured by the meter.
+     */
+    private static class ValueNode extends PComposite {
+        
+        private JLabel _elevationLabel;
+        private JLabel _accumulationLabel;
+        private JLabel _ablationLabel;
+        private JLabel _glacialBudgetLabel;
+        private PSwing _pswing;
+        
+        public ValueNode() {
+            super();
+            
+            JLabel elevationLabel = new JLabel( GlaciersStrings.LABEL_ELEVATION + ":" );
+            elevationLabel.setFont( FONT );
+            _elevationLabel = new JLabel( "0" );
+            _elevationLabel.setFont( FONT );
+            
+            JLabel accumulationLabel = new JLabel( GlaciersStrings.LABEL_ACCUMULATION + ":" );
+            accumulationLabel.setFont( FONT );
+            _accumulationLabel = new JLabel( "0" );
+            _accumulationLabel.setFont( FONT );
+            _accumulationLabel.setForeground( GlaciersConstants.ACCUMULATION_COLOR );
+            
+            JLabel ablationLabel = new JLabel( GlaciersStrings.LABEL_ABLATION + ":" );
+            ablationLabel.setFont( FONT );
+            _ablationLabel = new JLabel( "0" );
+            _ablationLabel.setFont( FONT );
+            _ablationLabel.setForeground( GlaciersConstants.ABLATION_COLOR );
+            
+            JLabel glacialBudgetLabel = new JLabel( GlaciersStrings.LABEL_GLACIAL_BUDGET + ":" );
+            glacialBudgetLabel.setFont( FONT );
+            _glacialBudgetLabel = new JLabel( "0" );
+            _glacialBudgetLabel.setFont( FONT );
+            _glacialBudgetLabel.setForeground( GlaciersConstants.GLACIAL_BUDGET_COLOR );
+            
+            JPanel displayPanel = new JPanel();
+            displayPanel.setBackground( Color.WHITE );
+            displayPanel.setBorder( BORDER );
+            EasyGridBagLayout layout = new EasyGridBagLayout( displayPanel );
+            displayPanel.setLayout( layout );
+            int row = 0;
+            int column = 0;
+            layout.addAnchoredComponent( elevationLabel, row, column++, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( _elevationLabel, row++, column++, GridBagConstraints.WEST );
+            column = 0;
+            layout.addAnchoredComponent( accumulationLabel, row, column++, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( _accumulationLabel, row++, column++, GridBagConstraints.WEST );
+            column = 0;
+            layout.addAnchoredComponent( ablationLabel, row, column++, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( _ablationLabel, row++, column++, GridBagConstraints.WEST );
+            column = 0;
+            layout.addAnchoredComponent( glacialBudgetLabel, row, column++, GridBagConstraints.EAST );
+            layout.addAnchoredComponent( _glacialBudgetLabel, row++, column++, GridBagConstraints.WEST );
+            
+            _pswing = new PSwing( displayPanel );
+            addChild( _pswing );
+        }
+        
+        public void setElevation( double elevation ) {
+            String text = ELEVATION_FORMAT.format( elevation ) + " " + GlaciersStrings.UNITS_ELEVATION;
+            _elevationLabel.setText( text );
+            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+        }
+        
+        public void setAccumulation( double accumulation ) {
+            String text = ACCUMULATION_FORMAT.format( accumulation ) + " " + GlaciersStrings.UNITS_ACCUMULATION;
+            _accumulationLabel.setText( text );
+            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+        }
+        
+        public void setAblation( double ablation ) {
+            String text = ABLATION_FORMAT.format( ablation ) + " " + GlaciersStrings.UNITS_ABLATION;
+            _ablationLabel.setText( text );
+            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+        }
+        
+        public void setGlacialBudget( double glacialBudget ) {
+            String text = GLACIAL_BUDGET_FORMAT.format( glacialBudget )  + " " + GlaciersStrings.UNITS_GLACIAL_BUDGET;
+            _glacialBudgetLabel.setText( text );
+            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
@@ -163,35 +207,27 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
      * Updates the elevation display to match the model.
      */
     private void updateElevation() {
-        double value = _glacialBudgetMeter.getPosition().getY();
-        String text = ELEVATION_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ELEVATION;
-        _elevationDisplay.setText( text );
+        _valueNode.setElevation( _glacialBudgetMeter.getPosition().getY() );
     }
     
     /*
      * Updates the accumulation display to match the model.
      */
     private void updateAccumulation() {
-        double value = _glacialBudgetMeter.getAccumulation();
-        String text = ACCUMULATION_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ACCUMULATION;
-        _accumulationDisplay.setText( text );
+        _valueNode.setAccumulation( _glacialBudgetMeter.getAccumulation() );
     }
     
     /*
      * Updates the ablation display to match the model.
      */
     private void updateAblation() {
-        double value = _glacialBudgetMeter.getAblation();
-        String text = ABLATION_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ABLATION;
-        _ablationDisplay.setText( text );
+        _valueNode.setAblation( _glacialBudgetMeter.getAblation() );
     }
     
     /*
      * Updates the "glacial budget" display to match the model.
      */
     private void updateGlacialBudget() {
-        double value = _glacialBudgetMeter.getGlacialBudget();
-        String text = GLACIAL_BUDGET_FORMAT.format( value )  + " " + GlaciersStrings.UNITS_GLACIAL_BUDGET;
-        _glacialBudgetDisplay.setText( text );
+        _valueNode.setGlacialBudget( _glacialBudgetMeter.getGlacialBudget() );
     }
 }

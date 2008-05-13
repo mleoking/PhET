@@ -43,6 +43,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
     private static final Font FONT = new PhetFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final NumberFormat ICE_THICKNESS_FORMAT = new DefaultDecimalFormat( "0.0" );
+    
     private static final PDimension HANDLE_SIZE = new PDimension( 5, 20 );
     private static final PDimension CALIPERS_CLOSED_SIZE = new PDimension( 25, 20 );
     
@@ -54,8 +55,8 @@ public class IceThicknessToolNode extends AbstractToolNode {
     private IceThicknessToolListener _iceThicknessToolListener;
     private MovableListener _movableListener;
     private ToolListener _toolListener;
-    private JLabel _iceThicknessDisplay;
     private CalipersNode _calipersNode;
+    private ValueNode _valueNode;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -102,14 +103,9 @@ public class IceThicknessToolNode extends AbstractToolNode {
         addChild( handleNode );
         handleNode.setOffset( -handleNode.getFullBoundsReference().getWidth(), _calipersNode.getFullBoundsReference().getMaxY() );
         
-        _iceThicknessDisplay = new JLabel( "?" );
-        _iceThicknessDisplay.setFont( FONT );
-        JPanel panel = new JPanel();
-        panel.setBorder( BORDER );
-        panel.add( _iceThicknessDisplay );
-        PSwing panelNode = new PSwing( panel );
-        addChild( panelNode );
-        panelNode.setOffset( 2, -panelNode.getFullBoundsReference().getHeight() + _calipersNode.getJawsHeight() );
+        _valueNode = new ValueNode();
+        addChild( _valueNode );
+        _valueNode.setOffset( 2, -_valueNode.getFullBoundsReference().getHeight() + _calipersNode.getJawsHeight() );
         
         // initial state
         updateUnknown();
@@ -126,7 +122,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
     // Geometry
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * Handle on the tool.
      */
     private static class HandleNode extends PComposite {
@@ -158,7 +154,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
         }
     }
     
-    /**
+    /*
      * Resizable calipers.
      */
     private static class CalipersNode extends PComposite {
@@ -217,6 +213,39 @@ public class IceThicknessToolNode extends AbstractToolNode {
         }
     }
     
+    /*
+     * Displays the thickness value.
+     */
+    private static class ValueNode extends PComposite {
+        
+        private JLabel _thicknessLabel;
+        private PSwing _pswing;
+        
+        public ValueNode() {
+            super();
+
+            _thicknessLabel = new JLabel( "?" );
+            _thicknessLabel.setFont( FONT );
+           
+            JPanel panel = new JPanel();
+            panel.setBorder( BORDER );
+            panel.add( _thicknessLabel );
+            
+            _pswing = new PSwing( panel );
+            addChild( _pswing );
+        }
+        
+        public void setThickness( double thickness ) {
+            setThickness( ICE_THICKNESS_FORMAT.format( thickness ) );
+        }
+        
+        public void setThickness( String thickness ) {
+            String text =  thickness + " " + GlaciersStrings.UNITS_ICE_THICKNESS;
+            _thicknessLabel.setText( text );
+            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
@@ -227,16 +256,14 @@ public class IceThicknessToolNode extends AbstractToolNode {
     private void update() {
         if ( !_iceThicknessTool.isDragging() ) {
             double value = _iceThicknessTool.getThickness();
-            String text = ICE_THICKNESS_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ICE_THICKNESS;
-            _iceThicknessDisplay.setText( text );
+            _valueNode.setThickness( value );
             double viewDistance = Math.abs( getModelViewTransform().modelToView( 0, value ).getY() );
             _calipersNode.open( viewDistance );
         }
     }
     
     private void updateUnknown() {
-        String text = "? " + GlaciersStrings.UNITS_ICE_THICKNESS;
-        _iceThicknessDisplay.setText( text );
+        _valueNode.setThickness( "?" );
         _calipersNode.open( 20 );
     }
     
