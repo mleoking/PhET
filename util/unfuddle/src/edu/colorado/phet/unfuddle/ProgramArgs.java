@@ -29,7 +29,16 @@ public class ProgramArgs {
             readArgsFromFile( args[0], TOKEN_DELIMITER );
         }
         else {
-            throw new IllegalArgumentException( "wrong number of args" );
+            int index = 0;
+            unfuddleUsername = args[index++];
+            unfuddlePassword = args[index++];
+            emailFromAddress = args[index++];
+            emailServer = args[index++];
+            emailUsername = args[index++];
+            emailPassword = args[index++];
+            svnTrunk = args[index++];
+            xmlDumpPath = args[index++];
+            sendMailEnabled = Boolean.parseBoolean( args[index++] );
         }
     }
 
