@@ -31,10 +31,10 @@ public class ReadEmailList {
 
         Properties p = new Properties();
         p.load( new StringInputStream( body ) );
-        ArrayList emails = new ArrayList();
+        ArrayList<String> emails = new ArrayList<String>();
         final Set set = p.keySet();
-        for ( Iterator iterator = set.iterator(); iterator.hasNext(); ) {
-            String key = (String) iterator.next();
+        for ( Object aSet : set ) {
+            String key = (String) aSet;
             String value = p.getProperty( key );
             StringTokenizer st = new StringTokenizer( value, ", " );
             while ( st.hasMoreTokens() ) {
@@ -45,7 +45,7 @@ public class ReadEmailList {
                 }
             }
         }
-        return (String[]) emails.toArray( new String[0] );
+        return emails.toArray( new String[emails.size()] );
     }
 
     private String getEmail( String username ) {
