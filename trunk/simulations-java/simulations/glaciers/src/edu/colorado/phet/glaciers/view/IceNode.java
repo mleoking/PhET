@@ -2,14 +2,10 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import java.awt.Paint;
-import java.awt.TexturePaint;
+import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
@@ -23,6 +19,14 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class IceNode extends PComposite {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Color CROSS_SECTION_COLOR = new Color( 207, 255, 255 ); // ice blue
+    private static final Color SURFACE_COLOR = Color.WHITE;
+    private static final Color SURFACE_BELOW_ELA_COLOR = new Color( 230, 230, 230 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -59,19 +63,19 @@ public class IceNode extends PComposite {
         
         _crossSectionPath = new GeneralPath();
         _crossSectionNode = new PPath( _crossSectionPath );
-        _crossSectionNode.setPaint( createCrossSectionPaint() );
+        _crossSectionNode.setPaint( CROSS_SECTION_COLOR );
         _crossSectionNode.setStroke( null );
         addChild( _crossSectionNode );
         
         _surfacePath = new GeneralPath();
         _surfaceNode = new PPath( _surfacePath );
-        _surfaceNode.setPaint( createSurfaceAboveELAPaint() );
+        _surfaceNode.setPaint( SURFACE_COLOR );
         _surfaceNode.setStroke( null );
         addChild( _surfaceNode );
         
         _surfaceBelowELAPath = new GeneralPath();
         _surfaceBelowELANode = new PPath( _surfacePath );
-        _surfaceBelowELANode.setPaint( createSurfaceBelowELAPaint() );
+        _surfaceBelowELANode.setPaint( SURFACE_BELOW_ELA_COLOR );
         _surfaceBelowELANode.setStroke( null );
         addChild( _surfaceBelowELANode );
         
@@ -84,24 +88,6 @@ public class IceNode extends PComposite {
     
     public void cleanup() {
         _glacier.removeGlacierListener( _glacierListener );
-    }
-    
-    private static Paint createCrossSectionPaint() {
-        final BufferedImage texture = GlaciersImages.ICE_CROSS_SECTION_TEXTURE;
-        final Rectangle2D anchorRect = new Rectangle2D.Double( 0, 0, texture.getWidth(), texture.getHeight() );
-        return new TexturePaint( texture, anchorRect );
-    }
-    
-    private static Paint createSurfaceAboveELAPaint() {
-        final BufferedImage texture = GlaciersImages.ICE_SURFACE_ABOVE_ELA_TEXTURE;
-        final Rectangle2D anchorRect = new Rectangle2D.Double( 0, 0, texture.getWidth(), texture.getHeight() );
-        return new TexturePaint( texture, anchorRect );
-    }
-    
-    private static Paint createSurfaceBelowELAPaint() {
-        final BufferedImage texture = GlaciersImages.ICE_SURFACE_BELOW_ELA_TEXTURE;
-        final Rectangle2D anchorRect = new Rectangle2D.Double( 0, 0, texture.getWidth(), texture.getHeight() );
-        return new TexturePaint( texture, anchorRect );
     }
     
     private void update() {

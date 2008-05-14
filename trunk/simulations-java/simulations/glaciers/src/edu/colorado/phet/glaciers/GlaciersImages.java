@@ -19,9 +19,6 @@ public class GlaciersImages {
     public static final BufferedImage BOREHOLE_DRILL_ON_BUTTON = GlaciersResources.getImage( "boreholeDrillOnButton.png" );
     public static final BufferedImage BOREHOLE_DRILL_OFF_BUTTON = GlaciersResources.getImage( "boreholeDrillOffButton.png" );
     public static final BufferedImage GLACIAL_BUDGET_METER = GlaciersResources.getImage( "glacialBudgetMeter.png" );
-    public static final BufferedImage ICE_CROSS_SECTION_TEXTURE = GlaciersResources.getImage( "iceCrossSectionTexture.png" );
-    public static final BufferedImage ICE_SURFACE_ABOVE_ELA_TEXTURE = GlaciersResources.getImage( "iceSurfaceAboveELATexture.png" );
-    public static final BufferedImage ICE_SURFACE_BELOW_ELA_TEXTURE = GlaciersResources.getImage( "iceSurfaceBelowELATexture.png" );
     public static final BufferedImage THERMOMETER = GlaciersResources.getImage( "thermometer.png" );
     public static final BufferedImage TRACER_FLAG = GlaciersResources.getImage( "tracerFlag.png" );
     public static final BufferedImage TRASH_CAN = GlaciersResources.getImage( "trashCan.png" );
