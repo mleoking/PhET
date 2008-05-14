@@ -358,12 +358,18 @@ public class NuclearReactorModel {
         _daughterNuclei.clear();
         
         // Clear out the energy accumulators.
-        _totalEnergyReleased = 0;
         for (i = 0; i < NUMBER_FISSION_EVENT_BINS; i++){
             _fissionEventBins[i] = 0;
         }
         _currentBin = 0;
+        for (i = 0; i < _clockTicksPerSecond; i++){
+            _fissionEventBins2[i] = 0;
+        }
+        _currentBin = 0;
         _currentTemperature = 0;
+        _totalEnergyReleased = 0;
+        _energyReleasedPerSecond = 0;
+        notifyEnergyChanged();
         
         // Add the unfissioned nuclei to the model.  The first step is to see
         // how many nuclei can fit in each chamber and their relative
@@ -528,6 +534,9 @@ public class NuclearReactorModel {
             }
         }
         
+        // Accumulate the total amount of energy release so far.
+        double totalEnergyReleased = _totalEnergyReleased + (_u235FissionEventCount * JOULES_PER_FISSION_EVENT);
+        
         // Look at the number of fission events that have occurred since the
         // last clock tick and use the information to calculate energy
         // released and current temperature.
@@ -538,19 +547,12 @@ public class NuclearReactorModel {
             _currentBin = binNumber;
         }
         _fissionEventBins[_currentBin] += _u235FissionEventCount;
-        double totalEnergyReleased = _totalEnergyReleased + (_u235FissionEventCount * JOULES_PER_FISSION_EVENT);
         
         // Update the bins used for calculating the energy produced per second.
-        _fissionEventBins2[_currentBin2] = 0;
-        _currentBin2 = (_currentBin2 + 1) % _clockTicksPerSecond;
+        double energyPerSecond = _energyReleasedPerSecond + 
+                ((_u235FissionEventCount - _fissionEventBins2[_currentBin2]) * JOULES_PER_FISSION_EVENT);
         _fissionEventBins2[_currentBin2] = _u235FissionEventCount;
-        
-        // Calculate the amount of energy released over the previous second.
-        int totalFissionEventsThisSecond = 0;
-        for ( int i = 0; i < _clockTicksPerSecond; i++ ) {
-            totalFissionEventsThisSecond += _fissionEventBins2[i]; 
-        }
-        double energyPerSecond = (double)totalFissionEventsThisSecond * JOULES_PER_FISSION_EVENT;
+        _currentBin2 = (_currentBin2 + 1) % _clockTicksPerSecond;
         
         // Reset the fission event counter.
         _u235FissionEventCount = 0;
