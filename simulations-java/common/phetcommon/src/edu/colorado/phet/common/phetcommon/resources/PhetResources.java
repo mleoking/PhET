@@ -61,6 +61,9 @@ public class PhetResources {
     private final IResourceLoader resourceLoader;
     private final String rootDirectoryName;
 
+    //This can be used for testing. If non-null, this string is returned on calls to getLocalizedString 
+    private static String dummyString=null;
+
     //----------------------------------------------------------------------------
     // Constructors & initializers
     //----------------------------------------------------------------------------
@@ -232,6 +235,9 @@ public class PhetResources {
     }
 
     public String getLocalizedString( String key ) {
+        if (dummyString!=null){
+            return dummyString;
+        }
         return localizedProperties.getString( key );
     }
 
@@ -245,5 +251,10 @@ public class PhetResources {
 
     public double getLocalizedDouble( String key, double defaultValue ) {
         return localizedProperties.getDouble( key, defaultValue );
+    }
+
+    //This can be used for testing. If non-null, dummyString is returned on calls to getLocalizedString
+    public static void setConstantTestString( String dummyStringValue ) {
+        dummyString =dummyStringValue;
     }
 }
