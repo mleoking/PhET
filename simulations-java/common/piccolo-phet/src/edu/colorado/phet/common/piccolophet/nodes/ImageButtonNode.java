@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
@@ -127,6 +128,7 @@ public class ImageButtonNode extends PhetPNode {
         frame.setContentPane( canvas );
         frame.setSize( 400, 300 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE ); 
+        SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
     }
 }
