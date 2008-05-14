@@ -80,10 +80,12 @@ CLEANUP:
 
 
 DONE:
+5/13/08 - create ticket #558: image returned by PPath.toImage is clipped on right and bottom edges
 5/13/08 - add createImage method to all tool nodes, used to create icons
 5/13/08 - add a button to borehole drill
 5/13/08 - create ImageButtonNode and add to piccolo-phet
 5/13/08 - make thermometer display "?" when advancing glacier overlaps a thermometer, or when in illegal drop location
+5/13/08 - create ticket #557: PSwing doesn't compute its bounds reliably when it's component is a JPanel
 5/13/07 - add PSwing bounds workaround to all tools that that display a JPanel of values
 5/13/07 - bugfix: ice thickness tool's value display (JPanel wrapped in a PSwing) doesn't size itself reliably
 5/13/07 - replace ice thickness tool image in toolbox, delete related image files
