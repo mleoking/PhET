@@ -25,8 +25,10 @@ import edu.colorado.phet.glaciers.control.ScrollArrowNode.LeftScrollArrowNode;
 import edu.colorado.phet.glaciers.control.ScrollArrowNode.RightScrollArrowNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
+import edu.colorado.phet.glaciers.model.Borehole;
 import edu.colorado.phet.glaciers.model.Viewport;
-import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
+import edu.colorado.phet.glaciers.model.IBoreholeProducer.IBoreholeProducerListener;
+import edu.colorado.phet.glaciers.model.IToolProducer.IToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolNode;
 import edu.colorado.phet.glaciers.view.tools.ToolNodeFactory;
@@ -52,7 +54,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlayArea extends JPanel implements ToolProducerListener {
+public class PlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener {
     
     //----------------------------------------------------------------------------
     // Debug
@@ -97,7 +99,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     // View
     private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private PLayer _backgroundLayer, _iceLayer, _velocityLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
+    private PLayer _backgroundLayer, _iceLayer, _velocityLayer, _boreholeLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
     private IceFlowNode _iceFlowNode;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
@@ -108,6 +110,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
     private ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
+    private HashMap _boreholesMap; // key=Borehole, value=BoreholeNode, used for removing borehole nodes when their model elements are deleted
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -122,6 +125,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         _model = model;
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
+        _model.addBoreholeProducerListener( this ); // manage nodes when boreholes are added/removed
         
         _mvt = mvt;
         
@@ -194,6 +198,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // Layers, back to front
         _backgroundLayer = new PLayer();
         _iceLayer = new PLayer();
+        _boreholeLayer = new PLayer();
         _coordinatesLayer = new PLayer();
         _velocityLayer = new PLayer();
         _toolboxLayer = new PLayer();
@@ -202,6 +207,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _debugLayer = new PLayer();
         addToBothViews( _backgroundLayer );
         addToBothViews( _iceLayer );
+        addToZoomedView( _boreholeLayer );
         addToZoomedView( _velocityLayer );
         addToZoomedView( _coordinatesLayer );
         addToZoomedView( _toolboxLayer );
@@ -261,6 +267,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // Toolbox
         _toolsMap = new HashMap();
+        _boreholesMap = new HashMap();
         _toolboxNode = new ToolboxNode( _model, _mvt );
         _toolboxLayer.addChild( _toolboxNode );
         
@@ -517,7 +524,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     }
     
     //----------------------------------------------------------------------------
-    // ToolProducerListener implementation
+    // IToolProducerListener implementation
     //----------------------------------------------------------------------------
     
     /**
@@ -541,6 +548,33 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _toolsLayer.removeChild( toolNode );
         _toolsMap.remove( tool );
         toolNode.cleanup();
+    }
+    
+    //----------------------------------------------------------------------------
+    // IBoreholeProducerListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * When a borehole is added from the model, add a corresponding node.
+     * 
+     * @param borehole
+     */
+    public void boreholeAdded( Borehole borehole ) {
+        BoreholeNode boreholeNode = new BoreholeNode( borehole, _mvt );
+        _boreholeLayer.addChild( boreholeNode );
+        _boreholesMap.put( borehole, boreholeNode );
+    }
+    
+    /**
+     * When a borehole is removed from the model, remove its corresponding node.
+     * 
+     * @param borehole
+     */
+    public void boreholeRemoved( Borehole borehole ) {
+        BoreholeNode boreholeNode = (BoreholeNode)_boreholesMap.get( borehole );
+        _boreholeLayer.removeChild( boreholeNode );
+        _boreholesMap.remove( borehole );
+        boreholeNode.cleanup();
     }
     
     //----------------------------------------------------------------------------

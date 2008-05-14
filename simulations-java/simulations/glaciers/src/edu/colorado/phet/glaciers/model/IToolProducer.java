@@ -38,7 +38,7 @@ public interface IToolProducer {
     /**
      * Listeners interested in when tools are added or removed should implement this interface.
      */
-    public static interface ToolProducerListener {
+    public static interface IToolProducerListener {
         public void toolAdded( AbstractTool tool );
         public void toolRemoved( AbstractTool tool );
     }
@@ -47,11 +47,11 @@ public interface IToolProducer {
      * Add a ToolProducerListener, who will be notified when tools are added or removed.
      * @param listener
      */
-    public void addToolProducerListener( ToolProducerListener listener );
+    public void addToolProducerListener( IToolProducerListener listener );
     
     /**
      * Removes a ToolProducerListener.
      * @param listener
      */
-    public void removeToolProducerListener( ToolProducerListener listener );
+    public void removeToolProducerListener( IToolProducerListener listener );
 }
