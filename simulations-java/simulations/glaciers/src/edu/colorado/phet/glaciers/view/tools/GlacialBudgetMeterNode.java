@@ -44,9 +44,9 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     private static final Font FONT = new PhetFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final NumberFormat ELEVATION_FORMAT = new DefaultDecimalFormat( "0" );
-    private static final NumberFormat ACCUMULATION_FORMAT = new DefaultDecimalFormat( "0.0" );
-    private static final NumberFormat ABLATION_FORMAT = new DefaultDecimalFormat( "0.0" );
-    private static final NumberFormat GLACIAL_BUDGET_FORMAT = new DefaultDecimalFormat( "0.0" );
+    private static final NumberFormat ACCUMULATION_FORMAT = new DefaultDecimalFormat( "0.00" );
+    private static final NumberFormat ABLATION_FORMAT = new DefaultDecimalFormat( "0.00" );
+    private static final NumberFormat GLACIAL_BUDGET_FORMAT = new DefaultDecimalFormat( "0.00" );
     
     //----------------------------------------------------------------------------
     // Instance data

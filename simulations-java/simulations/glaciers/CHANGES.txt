@@ -80,6 +80,7 @@ CLEANUP:
 
 
 DONE:
+5/13/08 - increase precision of glacial budget meter displayed values to 0.01 meter
 5/13/08 - create ticket #558: image returned by PPath.toImage is clipped on right and bottom edges
 5/13/08 - add createImage method to all tool nodes, used to create icons
 5/13/08 - add a button to borehole drill
