@@ -76,7 +76,7 @@ import org.jfree.ui.TextAnchor;
  *
  * @author David Gilbert
  */
-public class BarChartDemo7 extends JPanel {
+public class BarChartDemo7 extends ApplicationFrame {
 
     /**
      * A custom label generator.
@@ -103,13 +103,13 @@ public class BarChartDemo7 extends JPanel {
      */
     public BarChartDemo7(String title) {
 
-//        super(title);
+        super(title);
 
         CategoryDataset dataset = createDataset();
         JFreeChart chart = createChart(dataset);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(500, 270));
-        add(chartPanel);
+        setContentPane( chartPanel );
 
     }
 
@@ -136,22 +136,22 @@ public class BarChartDemo7 extends JPanel {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 
         dataset.addValue(1.0, series1, category1);
-//        dataset.addValue(4.0, series1, category2);
-//        dataset.addValue(3.0, series1, category3);
-//        dataset.addValue(5.0, series1, category4);
-//        dataset.addValue(5.0, series1, category5);
+        dataset.addValue(4.0, series1, category2);
+        dataset.addValue(3.0, series1, category3);
+        dataset.addValue(5.0, series1, category4);
+        dataset.addValue(5.0, series1, category5);
 
         dataset.addValue(5.0, series2, category1);
-//        dataset.addValue(7.0, series2, category2);
-//        dataset.addValue(6.0, series2, category3);
-//        dataset.addValue(8.0, series2, category4);
-//        dataset.addValue(4.0, series2, category5);
+        dataset.addValue(7.0, series2, category2);
+        dataset.addValue(6.0, series2, category3);
+        dataset.addValue(8.0, series2, category4);
+        dataset.addValue(4.0, series2, category5);
 
-//        dataset.addValue(4.0, series3, category1);
-//        dataset.addValue(3.0, series3, category2);
-//        dataset.addValue(2.0, series3, category3);
-//        dataset.addValue(3.0, series3, category4);
-//        dataset.addValue(6.0, series3, category5);
+        dataset.addValue(4.0, series3, category1);
+        dataset.addValue(3.0, series3, category2);
+        dataset.addValue(2.0, series3, category3);
+        dataset.addValue(3.0, series3, category4);
+        dataset.addValue(6.0, series3, category5);
         
         return dataset;
         
@@ -189,13 +189,13 @@ public class BarChartDemo7 extends JPanel {
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
         
-//        IntervalMarker target = new IntervalMarker(4.5, 7.5);
-//        target.setLabel("Target Range");
-//        target.setLabelFont(new Font("SansSerif", Font.ITALIC, 11));
-//        target.setLabelAnchor(RectangleAnchor.LEFT);
-//        target.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
-//        target.setPaint(new Color(222, 222, 255, 128));
-//        plot.addRangeMarker(target, Layer.BACKGROUND);
+        IntervalMarker target = new IntervalMarker(4.5, 7.5);
+        target.setLabel("Target Range");
+        target.setLabelFont(new Font("SansSerif", Font.ITALIC, 11));
+        target.setLabelAnchor(RectangleAnchor.LEFT);
+        target.setLabelTextAnchor(TextAnchor.CENTER_LEFT);
+        target.setPaint(new Color(222, 222, 255, 128));
+        plot.addRangeMarker(target, Layer.BACKGROUND);
         
         // set the range axis to display integers only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
@@ -262,16 +262,10 @@ public class BarChartDemo7 extends JPanel {
      */
     public static void main(String[] args) {
 
-//        BarChartDemo7 demo = new BarChartDemo7("Bar Chart Demo 7");
-//        demo.pack();
-//        RefineryUtilities.centerFrameOnScreen(demo);
-//        demo.setVisible(true);
         BarChartDemo7 demo = new BarChartDemo7("Bar Chart Demo 7");
-        JFrame frame = new JFrame();
-        frame.getContentPane().add( demo );
-        frame.setSize( 500, 270 );
-        frame.setVisible( true );
-
+        demo.pack();
+        RefineryUtilities.centerFrameOnScreen(demo);
+        demo.setVisible(true);
     }
 
 }

@@ -89,7 +89,10 @@ public class NuclearReactorModel {
     private ArrayList _reactionChamberRects;
     private int       _u235FissionEventCount;
     private int []    _fissionEventBins;
+    private int []    _fissionEventBins2;
     private int       _currentBin;
+    private int       _currentBin2;
+    private int       _clockTicksPerSecond;
     private Rectangle2D _innerReactorRect;
     private double    _currentTemperature;
     private double    _totalEnergyReleased;
@@ -133,6 +136,9 @@ public class NuclearReactorModel {
         // Perform other internal initialization.
         _fissionEventBins = new int [NUMBER_FISSION_EVENT_BINS];
         _currentBin = 0;
+        _clockTicksPerSecond = (int)(Math.round(1000/_clock.getDt()));
+        _fissionEventBins2 = new int [_clockTicksPerSecond];
+        _currentBin2 = 0;
         _totalEnergyReleased = 0;
         _energyReleasedPerSecond = 0;
         
@@ -437,14 +443,12 @@ public class NuclearReactorModel {
         return _reactionChamberRects;
     }
     
-    /**
-     * Get a value representing the total energy released by fission events
-     * that have occurred since the last reset.
-     * 
-     * @return
-     */
     public double getTotalEnergyReleased(){
         return _totalEnergyReleased;
+    }
+    
+    public double getEnergyReleasedPerSecond(){
+        return _energyReleasedPerSecond;
     }
     
     public double getTemperature(){
@@ -534,7 +538,21 @@ public class NuclearReactorModel {
             _currentBin = binNumber;
         }
         _fissionEventBins[_currentBin] += _u235FissionEventCount;
-        _totalEnergyReleased += _u235FissionEventCount * JOULES_PER_FISSION_EVENT;
+        double totalEnergyReleased = _totalEnergyReleased + (_u235FissionEventCount * JOULES_PER_FISSION_EVENT);
+        
+        // Update the bins used for calculating the energy produced per second.
+        _fissionEventBins2[_currentBin2] = 0;
+        _currentBin2 = (_currentBin2 + 1) % _clockTicksPerSecond;
+        _fissionEventBins2[_currentBin2] = _u235FissionEventCount;
+        
+        // Calculate the amount of energy released over the previous second.
+        int totalFissionEventsThisSecond = 0;
+        for ( int i = 0; i < _clockTicksPerSecond; i++ ) {
+            totalFissionEventsThisSecond += _fissionEventBins2[i]; 
+        }
+        double energyPerSecond = (double)totalFissionEventsThisSecond * JOULES_PER_FISSION_EVENT;
+        
+        // Reset the fission event counter.
         _u235FissionEventCount = 0;
         
         // See if the internal temperature has changed and, if so, notify any
@@ -551,8 +569,17 @@ public class NuclearReactorModel {
             else{
                 _currentTemperature -= MAX_TEMP_CHANGE_PER_TICK;
             }
-            notifyTemperatureChanged();
+            notifyEnergyChanged();
         }
+        
+        // Send change notification if needed.
+        if ((energyPerSecond != _energyReleasedPerSecond) || (totalEnergyReleased != _totalEnergyReleased)){
+            notifyEnergyChanged();
+        }
+        
+        // Update our energy-related variables.
+        _energyReleasedPerSecond = energyPerSecond;
+        _totalEnergyReleased = totalEnergyReleased;
     }
     
     /**
@@ -604,13 +631,11 @@ public class NuclearReactorModel {
     /**
      * Notify listeners that the temperature has changed.
      */
-    private void notifyTemperatureChanged(){
+    private void notifyEnergyChanged(){
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get(i)).temperatureChanged();
+            ((Listener)_listeners.get(i)).energyChanged();
         }
     }
-    
-    
     
     /**
      * Handle a change in atomic weight signaled by a U235 nucleus, which
@@ -714,9 +739,11 @@ public class NuclearReactorModel {
         public void resetOccurred();
         
         /**
-         * This signals that the internal reactor temperature has changed.
+         * This signals that some aspect of the amount of energy being
+         * produced by the reactor has changed.  This includes changes to the
+         * internal reactor temperature.
          */
-        public void temperatureChanged();
+        public void energyChanged();
     }
     
     /**
@@ -728,6 +755,6 @@ public class NuclearReactorModel {
         public void modelElementAdded(Object modelElement){}
         public void modelElementRemoved(Object modelElement){}
         public void resetOccurred(){}
-        public void temperatureChanged(){}
+        public void energyChanged(){}
     }
 }
