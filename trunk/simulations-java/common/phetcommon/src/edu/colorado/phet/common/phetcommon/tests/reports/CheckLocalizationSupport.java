@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetProjectFlavor;
-import edu.colorado.phet.common.phetcommon.tests.reports.TestSim;
 
 /**
  * Created by: Sam

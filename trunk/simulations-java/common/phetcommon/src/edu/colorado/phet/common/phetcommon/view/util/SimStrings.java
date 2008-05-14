@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
+import edu.colorado.phet.common.phetcommon.tests.reports.DummyConstantStringTester;
 
 /**
  * SimStrings
