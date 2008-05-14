@@ -3,6 +3,8 @@
 package edu.colorado.phet.glaciers.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * BoreholeDrill is the model of a borehole drill.
@@ -16,6 +18,7 @@ public class BoreholeDrill extends AbstractTool {
     //----------------------------------------------------------------------------
     
     private final Glacier _glacier;
+    private ArrayList _listeners;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -24,6 +27,13 @@ public class BoreholeDrill extends AbstractTool {
     public BoreholeDrill( Point2D position, Glacier glacier ) {
         super( position );
         _glacier = glacier;
+        _listeners = new ArrayList();
+    }
+    
+    public void drill() {
+        if ( _glacier.getIceThickness( getX() ) > 0 ) {
+            notifyDrillAt( getPosition() );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -36,5 +46,28 @@ public class BoreholeDrill extends AbstractTool {
     protected void constrainDrop() {
         double surfaceElevation = _glacier.getSurfaceElevation( getX() );
         setPosition( getX(), surfaceElevation );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Listener
+    //----------------------------------------------------------------------------
+    
+    public interface BoreholeDrillListener {
+        public void drillAt( Point2D position );
+    }
+    
+    public void addBoreholeDrillListener( BoreholeDrillListener listener ) {
+        _listeners.add( listener );
+    }
+    
+    public void removeBoreholeDrillListener( BoreholeDrillListener listener ) {
+        _listeners.remove( listener );
+    }
+    
+    private void notifyDrillAt( Point2D position ) {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (BoreholeDrillListener) i.next() ).drillAt( position );
+        }
     }
 }

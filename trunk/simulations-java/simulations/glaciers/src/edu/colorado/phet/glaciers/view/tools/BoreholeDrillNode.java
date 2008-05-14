@@ -3,12 +3,12 @@
 package edu.colorado.phet.glaciers.view.tools;
 
 import java.awt.Image;
-import java.awt.geom.Point2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.piccolophet.nodes.ImageButtonNode;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.BoreholeDrill;
-import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -25,17 +25,23 @@ public class BoreholeDrillNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BoreholeDrillNode( BoreholeDrill boreholeDrill, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+    public BoreholeDrillNode( final BoreholeDrill boreholeDrill, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
         super( boreholeDrill, mvt, trashCanIconNode );
         
         PNode drillNode = new DrillNode();
         addChild( drillNode );
         drillNode.setOffset( 0, -drillNode.getFullBoundsReference().getHeight() ); // lower left
         
-        PNode buttonNode = new ButtonNode();
-        buttonNode.scale( 0.4 ); //XXX
+        ButtonNode buttonNode = new ButtonNode();
+        buttonNode.scale( 0.4 ); //XXX compute this based on image width
         addChild( buttonNode );
         buttonNode.setOffset( 0, -drillNode.getFullBoundsReference().getHeight() + 10 );
+        
+        buttonNode.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                boreholeDrill.drill();
+            }
+        });
     }
     
     //----------------------------------------------------------------------------
