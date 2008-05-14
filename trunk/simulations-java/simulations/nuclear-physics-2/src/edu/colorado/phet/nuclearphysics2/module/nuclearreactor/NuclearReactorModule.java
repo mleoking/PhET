@@ -35,7 +35,7 @@ public class NuclearReactorModule extends PiccoloModule {
 
     public NuclearReactorModule( Frame parentFrame ) {
         super( NuclearPhysics2Strings.TITLE_NUCLEAR_REACTOR_MODULE,
-               new NuclearPhysics2Clock( ChainReactionDefaults.CLOCK_FRAME_RATE, NuclearReactorDefaults.CLOCK_DT ));
+               new NuclearPhysics2Clock( NuclearReactorDefaults.CLOCK_FRAME_RATE, NuclearReactorDefaults.CLOCK_DT ));
  
         // Model
         NuclearPhysics2Clock clock = (NuclearPhysics2Clock) getClock();
