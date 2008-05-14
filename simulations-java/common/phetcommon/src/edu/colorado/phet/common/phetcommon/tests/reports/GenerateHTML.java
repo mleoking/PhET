@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.reports;
+package edu.colorado.phet.common.phetcommon.tests.reports;
 
 import java.io.File;
 import java.io.IOException;
