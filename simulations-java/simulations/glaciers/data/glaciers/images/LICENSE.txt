@@ -1,20 +1,23 @@
+=============================================================================
 License information for image files 
+=============================================================================
 
-boreholeDrill.svg source=? author=? license=?
+boreholeDrill.png source=? author=? license=?
 
-bucket.svg source=PhET author=Archie Paulson
+boreholdDrillOnButton.png source=PhET author=Chris Malley
 
-dirt-texture.png source=http://ozviz.wasp.uwa.edu.au/~pbourke/texture_colour/dirt/ license=?
+boreholdDrillOffButton.png source=PhET author=Chris Malley
 
-glacialBudgetMeter.svg source=PhET author=Archie Paulson
+glacialBudgetMeter.png source=PhET author=Archie Paulson
 
-iceThicknessTool.svg source=http://openclipart.org author=?  license=http://creativecommons.org:81/licenses/publicdomain/
+mountains.png source=PhET author=Archie Paulson
 
-penguin.svg source=http://openclipart.org author=jesusfreak210  license=http://creativecommons.org:81/licenses/publicdomain/
+penguin.png source=http://openclipart.org author=jesusfreak210 license=http://creativecommons.org:81/licenses/publicdomain/
 
-thermometer.svg source=PhET author=Archie Paulson
+thermometer.png source=PhET author=Archie Paulson
 
-tracerFlag.svg source=PHET author=Archie Paulson
+tracerFlag.png source=PHET author=Archie Paulson
 
-trashCan.svg source=http://openclipart.org author=?  license=http://creativecommons.org:81/licenses/publicdomain/
+trashCan.png source=http://openclipart.org author=? license=http://creativecommons.org:81/licenses/publicdomain/
 
+=============================================================================
