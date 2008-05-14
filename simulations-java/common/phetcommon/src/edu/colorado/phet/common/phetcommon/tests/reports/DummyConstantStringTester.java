@@ -1,4 +1,6 @@
-package edu.colorado.phet.common.phetcommon.resources;
+package edu.colorado.phet.common.phetcommon.tests.reports;
+
+import java.util.Locale;
 
 /**
  * This class can be used to return a constant dummy string instead of the correct dynamically loaded string
@@ -20,5 +22,10 @@ public class DummyConstantStringTester {
     //This can be used for testing. If non-null, dummyString is returned on calls to getLocalizedString
     public static void setConstantTestString( String dummyStringValue ) {
         dummyString = dummyStringValue;
+    }
+
+    public static void setTestScenario( Locale locale, String dummyStringValue ) {
+        Locale.setDefault( locale );
+        setConstantTestString( dummyStringValue );
     }
 }

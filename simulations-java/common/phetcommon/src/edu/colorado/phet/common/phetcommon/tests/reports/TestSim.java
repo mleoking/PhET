@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetProjectFlavor;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
+import edu.colorado.phet.common.phetcommon.tests.reports.DummyConstantStringTester;
 
 /**
  * Created by: Sam
@@ -26,11 +26,8 @@ public class TestSim {
         PhetProject phetProject = new PhetProject( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" ), project );
         PhetProjectFlavor flavor = phetProject.getFlavor( sim );
 
-        DummyConstantStringTester.setConstantTestString( "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
-        Locale.setDefault( new Locale( "ja" ) );
-//
-//        DummyConstantStringTester.setConstantTestString( "\u0627\u0646\u062A\u0632\u0639 " );
-//        Locale.setDefault( new Locale( "ar" ) );
+        DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
+//        DummyConstantStringTester.setTestScenario( new Locale( "ar" ), "\u0627\u0646\u062A\u0632\u0639" );
 
         Class c = Class.forName( flavor.getMainclass() );
         Method m = c.getMethod( "main", new Class[]{new String[0].getClass()} );
