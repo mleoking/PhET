@@ -22,12 +22,7 @@ public class CheckLocalizationSupport {
     private void start() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException, InterruptedException {
         PhetProject[] x = PhetProject.getAllProjects( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java" ) );
         for ( int i = 0; i < x.length; i++ ) {
-            PhetProject phetProject = x[i];
-            System.out.println( "phetProject = " + phetProject );
-        }
-        for ( int i = 0; i < x.length; i++ ) {
-            PhetProject phetProject = x[i];
-            checkLocalization( phetProject );
+            checkLocalization( x[i] );
         }
     }
 
