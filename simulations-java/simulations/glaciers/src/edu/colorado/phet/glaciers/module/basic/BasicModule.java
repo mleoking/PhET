@@ -164,7 +164,7 @@ public class BasicModule extends PiccoloModule {
         // Controls ---------------------------------------------
 
         ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
-        viewControlPanel.setEquilibriumLineSelected( true );//XXX for testing, default should be false
+        viewControlPanel.setEquilibriumLineSelected( false );
         viewControlPanel.setIceFlowSelected( false );
         viewControlPanel.setCoordinatesSelected( false );
         
