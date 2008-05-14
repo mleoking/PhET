@@ -29,7 +29,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 
 /**
@@ -372,6 +371,16 @@ public class BalloonsApplication extends JApplet implements IHelp {
         this.frame = frame;
     }
 
+    public static Border createSmoothBorder( String s ) {
+        return new TitledBorder( s ) {
+            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                super.paintBorder( c, g, x, y, width, height );
+            }
+        };
+    }
+
     public static void main( final String[] args ) throws UnsupportedLookAndFeelException, IOException {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
@@ -407,16 +416,6 @@ public class BalloonsApplication extends JApplet implements IHelp {
             }
         } );
 
-    }
-
-    public static Border createSmoothBorder( String s ) {
-        return new TitledBorder( s ) {
-            public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                super.paintBorder( c, g, x, y, width, height );
-            }
-        };
     }
 
 }
