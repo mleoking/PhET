@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.translate;
+package edu.colorado.phet.build.reports;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.build.reports.TestSim;
 
 /**
  * Created by: Sam
