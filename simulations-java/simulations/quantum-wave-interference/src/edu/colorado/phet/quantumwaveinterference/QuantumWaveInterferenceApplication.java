@@ -1,6 +1,16 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+
+import javax.jnlp.UnavailableServiceException;
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -15,15 +25,6 @@ import edu.colorado.phet.quantumwaveinterference.modules.mandel.MandelModule;
 import edu.colorado.phet.quantumwaveinterference.modules.single.SingleParticleModule;
 import edu.colorado.phet.quantumwaveinterference.persistence.PersistenceManager;
 import edu.colorado.phet.quantumwaveinterference.persistence.QWIState;
-
-import javax.jnlp.UnavailableServiceException;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -42,10 +43,10 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
                getQWIVersion(), new QWIFrameSetup() );
         setTabbedPaneType( new TabbedPaneType() {
             public ITabbedModulePane createTabbedPane() {
-                return new TabbedModulePanePiccolo( ){
+                return new TabbedModulePanePiccolo() {
                     //workaround for bug: "High Intensity" module tab renders as "High      " under Java 1.4
                     public void addTab( Module module ) {
-                        super.addTab( "<html>"+module.getName()+"</html>", module.getModulePanel() );
+                        super.addTab( "<html>" + module.getName() + "</html>", module.getModulePanel() );
                     }
                 };
             }
@@ -75,7 +76,7 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
             public void actionPerformed( ActionEvent e ) {
                 try {
                     QWIModule qwiModule = getActiveSchrodingerModule();
-                    QWIState state = (QWIState)new PersistenceManager( qwiModule.getSchrodingerPanel() ).load();
+                    QWIState state = (QWIState) new PersistenceManager( qwiModule.getSchrodingerPanel() ).load();
                     state.restore( qwiModule );
                 }
                 catch( IOException e1 ) {
@@ -96,26 +97,11 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
     }
 
     private QWIModule getActiveSchrodingerModule() {
-        return (QWIModule)getActiveModule();
+        return (QWIModule) getActiveModule();
     }
 
     private static IClock createClock() {
         return new SwingClock( 30, 1 );
-    }
-
-    public static void main( final String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                QWIStrings.init( args );
-                new QWIPhetLookAndFeel().initLookAndFeel();
-                final QuantumWaveInterferenceApplication QWIApplication = new QuantumWaveInterferenceApplication( args );
-                QWIApplication.startApplication();
-                if( QWIApplication.intensityModule != null ) {
-                    addWiggleMe( QWIApplication );
-                }
-                System.out.println( "UIManager.getLookAndFeel() = " + UIManager.getLookAndFeel() );
-            }
-        } );
     }
 
     public IntensityModule getIntensityModule() {
@@ -148,4 +134,18 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
         } );
     }
 
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                QWIStrings.init( args );
+                new QWIPhetLookAndFeel().initLookAndFeel();
+                final QuantumWaveInterferenceApplication QWIApplication = new QuantumWaveInterferenceApplication( args );
+                QWIApplication.startApplication();
+                if ( QWIApplication.intensityModule != null ) {
+                    addWiggleMe( QWIApplication );
+                }
+                System.out.println( "UIManager.getLookAndFeel() = " + UIManager.getLookAndFeel() );
+            }
+        } );
+    }
 }
