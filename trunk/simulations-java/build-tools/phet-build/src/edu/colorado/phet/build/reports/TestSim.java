@@ -1,4 +1,4 @@
-package edu.colorado.phet.build.translate;
+package edu.colorado.phet.build.reports;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -28,6 +28,9 @@ public class TestSim {
 
         DummyConstantStringTester.setConstantTestString( "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
         Locale.setDefault( new Locale( "ja" ) );
+//
+//        DummyConstantStringTester.setConstantTestString( "\u0627\u0646\u062A\u0632\u0639 " );
+//        Locale.setDefault( new Locale( "ar" ) );
 
         Class c = Class.forName( flavor.getMainclass() );
         Method m = c.getMethod( "main", new Class[]{new String[0].getClass()} );
