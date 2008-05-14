@@ -79,6 +79,7 @@ CLEANUP:
 
 
 DONE:
+5/13/08 - set View equilibrium line check box to off by default
 5/13/08 - update data/glaciers/images/LICENSE.txt
 5/13/08 - use solid colors for ice surface and cross-section, delete texture files
 5/13/08 - increase precision of glacial budget meter displayed values to 0.01 meter
