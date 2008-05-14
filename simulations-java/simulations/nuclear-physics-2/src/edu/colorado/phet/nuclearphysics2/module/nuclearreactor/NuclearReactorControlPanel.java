@@ -18,11 +18,20 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class NuclearReactorControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
-    // Instance data
+    // Class Data
     //----------------------------------------------------------------------------
     
-    private NuclearReactorLegendPanel _legendPanel;
+    // Using a fixed constant for this, but there may be a better way to do it
+    // more dynamically.
+    private static final int ENERGY_GRAPH_PANEL_HEIGHT = 300;
+    
+    //----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+    
+    private NuclearReactorLegendPanel      _legendPanel;
     private NuclearReactorControlsSubPanel _controlSubPanel;
+    private NuclearReactorEnergyGraphPanel _energyGraphPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,12 +60,18 @@ public class NuclearReactorControlPanel extends ControlPanel {
         _controlSubPanel = new NuclearReactorControlsSubPanel(nuclearReactorModule.getNuclearReactorModel());
         addControlFullWidth( _controlSubPanel );
         
+        // Register as a listener with the control panel for param changes.
+        _controlSubPanel.addListener( new NuclearReactorControlsSubPanel.Listener(){
+            public void parameterChanged(){
+                _energyGraphPanel.setVisible( _controlSubPanel.getEnergyGraphCheckBoxState() );
+            }
+        });
+        
         // Add the energy graph.
-        NuclearReactorEnergyGraphPanel energyGraphPanel = 
-            new NuclearReactorEnergyGraphPanel(nuclearReactorModule.getNuclearReactorModel());
-        energyGraphPanel.setMaximumSize( new Dimension(10, 30) );
-        addControlFullWidth( energyGraphPanel );
-
+        _energyGraphPanel = new NuclearReactorEnergyGraphPanel(nuclearReactorModule.getNuclearReactorModel());
+        _energyGraphPanel.setPreferredSize( new Dimension(getWidth(), ENERGY_GRAPH_PANEL_HEIGHT ));
+        addControlFullWidth( _energyGraphPanel );
+        _energyGraphPanel.setVisible( _controlSubPanel.getEnergyGraphCheckBoxState() );
     }
     
     //----------------------------------------------------------------------------
@@ -66,4 +81,9 @@ public class NuclearReactorControlPanel extends ControlPanel {
     public void closeAllDialogs() {
         //XXX close any dialogs created via the control panel
     }
+    
+    //----------------------------------------------------------------------------
+    // Private Methods
+    //----------------------------------------------------------------------------
+    
 }

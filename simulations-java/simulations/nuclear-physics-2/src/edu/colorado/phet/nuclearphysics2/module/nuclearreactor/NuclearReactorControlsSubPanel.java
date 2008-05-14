@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -21,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics2.model.AlphaParticle.Listener;
 
 /**
  * This class defines a subpanel that goes on the main control panel for the
@@ -38,7 +40,9 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
+    private ArrayList _listeners;
     private NuclearReactorModel _model;
+    private final JCheckBox _energyGraphsCheckBox;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -47,6 +51,9 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
     public NuclearReactorControlsSubPanel(NuclearReactorModel model) {
         
         _model = model;
+        
+        // Perform local initialization.
+        _listeners = new ArrayList();
         
         // Add the border around the sub panel.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
@@ -62,16 +69,16 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         addSpace(5);
         
         // Add the check box for the energy graphs.
-        final JCheckBox energyGraphsCheckBox = new JCheckBox( NuclearPhysics2Strings.ENERGY_GRAPHS_CHECK_BOX );
-        energyGraphsCheckBox.setSelected( false );
-        energyGraphsCheckBox.addChangeListener( new ChangeListener() {
+        _energyGraphsCheckBox = new JCheckBox( NuclearPhysics2Strings.ENERGY_GRAPHS_CHECK_BOX );
+        _energyGraphsCheckBox.setSelected( false );
+        _energyGraphsCheckBox.addChangeListener( new ChangeListener() {
             
             public void stateChanged( ChangeEvent e ) {
-                // TODO: JPB TBD - Need to fill this in.
+                notifyParameterChanged();
             }
         } );
-        energyGraphsCheckBox.setBorder( BorderFactory.createEtchedBorder() );
-        add(energyGraphsCheckBox);
+        _energyGraphsCheckBox.setBorder( BorderFactory.createEtchedBorder() );
+        add(_energyGraphsCheckBox);
         
         // Add a little spacing in order to make the controls easier to spot.
         addSpace( 20 );
@@ -103,13 +110,65 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
     }
     
     //------------------------------------------------------------------------
+    // Accessor Methods
+    //------------------------------------------------------------------------
+
+    public boolean getEnergyGraphCheckBoxState(){
+        return _energyGraphsCheckBox.isSelected();
+    }
+    
+    //------------------------------------------------------------------------
+    // Other Public Methods
+    //------------------------------------------------------------------------
+    
+    public void addListener(Listener listener){
+
+        if (_listeners.contains( listener ))
+        {
+            // Don't bother re-adding.
+            return;
+        }
+        
+        _listeners.add( listener );
+    }
+
+    //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
     
+    /**
+     * Add space to the panel, generally used to create space between other
+     * components added to the panel.
+     */
     private void addSpace(int space){
         JPanel spacePanel = new JPanel();
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
         spacePanel.add( Box.createVerticalStrut( space ) );
         add( spacePanel );
+    }
+    
+    /**
+     * Notify listeners that a control parameter has changed.
+     */
+    private void notifyParameterChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).parameterChanged();
+        }
+    }
+    
+    //------------------------------------------------------------------------
+    // Inner Interfaces
+    //------------------------------------------------------------------------
+
+    /**
+     * This listener interface allows listeners to get notified when the user
+     * changes something on this control panel.
+     */
+    public static interface Listener {
+        /**
+         * This informs the listener that the state of some potentially
+         * important parameter has changed.
+         */
+        public void parameterChanged();
     }
 }
