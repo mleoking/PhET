@@ -7,6 +7,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
+
 /**
  * SimStrings
  * <p/>
@@ -139,7 +141,8 @@ public class SimStrings {
                 value = key;
             }
 
-            return value;
+//            return value;
+            return DummyConstantStringTester.getString( value );
         }
     }
 
@@ -182,7 +185,7 @@ public class SimStrings {
      * @deprecated use getString()
      */
     public static String get( String s ) {
-        return INSTANCE.getString( s );
+        return DummyConstantStringTester.getString( INSTANCE.getString( s ) );
     }
 
     /**
@@ -191,4 +194,6 @@ public class SimStrings {
     public static void setStrings( String s ) {
         INSTANCE.addStrings( s );
     }
+
+
 }
