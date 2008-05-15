@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
  * Created by: Sam
  * May 13, 2008 at 9:02:34 PM
  */
-public class TestSim {
+public class CaptureScreenshot {
     public static void main( String[] args ) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InterruptedException, AWTException {
         final String project = args[0];
         final String sim = args[1];

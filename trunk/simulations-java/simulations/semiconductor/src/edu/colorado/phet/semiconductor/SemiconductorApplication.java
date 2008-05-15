@@ -1,5 +1,17 @@
 package edu.colorado.phet.semiconductor;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.application.Module;
@@ -44,17 +56,6 @@ import edu.colorado.phet.semiconductor.macro.energyprobe.Cable;
 import edu.colorado.phet.semiconductor.macro.energyprobe.CableGraphic;
 import edu.colorado.phet.semiconductor.macro.energyprobe.Lead;
 import edu.colorado.phet.semiconductor.macro.energyprobe.LeadGraphic;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -162,10 +163,10 @@ public class SemiconductorApplication extends Module implements Graphic {
         dig.addCursorHandBehavior();
         dig.addTranslationBehavior( new Translatable() {
             public void translate( double dx, double dy ) {
-                Point2D.Double out = transform.viewToModelDifferential( (int)dx, (int)dy );
+                Point2D.Double out = transform.viewToModelDifferential( (int) dx, (int) dy );
                 Rectangle2D.Double allowed = transform.getModelBounds();
                 Shape trans = magnet.getTranslatedShape( out.x, out.y );
-                if( allowed.contains( trans.getBounds2D() ) ) {
+                if ( allowed.contains( trans.getBounds2D() ) ) {
                     magnet.translate( out.x, out.y );
                     getApparatusPanel().repaint();
                 }
@@ -173,24 +174,24 @@ public class SemiconductorApplication extends Module implements Graphic {
         } );
         ModelElement goToMagnet = new ModelElement() {
             public void stepInTime( double dt ) {
-                if( magnetGraphic.isVisible() ) {
-                    if( energySection.numBandSets() == 3 ) {
+                if ( magnetGraphic.isVisible() ) {
+                    if ( energySection.numBandSets() == 3 ) {
                         Band mid = energySection.bandSetAt( 1 ).getTopBand();
                         final Band con = energySection.bandSetAt( 1 ).getConductionBand();
                         boolean in = false;
 //                        if( mid.getRegion().toRectangle().intersects( magnet.getBounds() ) ) {
 //                            in = true;
 //                        }
-                        if( con.getRegion().toRectangle().intersects( magnet.getBounds() ) ) {
+                        if ( con.getRegion().toRectangle().intersects( magnet.getBounds() ) ) {
                             in = true;
                         }
-                        if( in ) {
+                        if ( in ) {
                             ParticleAction pa = new ParticleAction() {
                                 public void apply( BandParticle particle ) {
-                                    if( particle.getBand() == con ||
-                                        ( particle.getBand() == energySection.bandSetAt( 1 ).getValenceBand()
-                                          && particle.getEnergyLevel().getDistanceFromBottomLevelInBand() >= DopantType.P.getNumFilledLevels() )
-                                        && !particle.isExcited() ) {
+                                    if ( particle.getBand() == con ||
+                                         ( particle.getBand() == energySection.bandSetAt( 1 ).getValenceBand()
+                                           && particle.getEnergyLevel().getDistanceFromBottomLevelInBand() >= DopantType.P.getNumFilledLevels() )
+                                         && !particle.isExcited() ) {
                                         particle.setState( new GoToMagnet( magnet, particle.getEnergyCell() ) );
                                     }
                                 }
@@ -226,7 +227,7 @@ public class SemiconductorApplication extends Module implements Graphic {
 
     private void setupCables() {
         cableGraphics.clear();
-        for( int i = 0; i < circuitSection.numDopantSlots() && i < energySection.numBandSets(); i++ ) {
+        for ( int i = 0; i < circuitSection.numDopantSlots() && i < energySection.numBandSets(); i++ ) {
             try {
                 addCable( circuitSection.dopantSlotAt( i ).getModelCenter(), i );
             }
@@ -237,8 +238,8 @@ public class SemiconductorApplication extends Module implements Graphic {
     }
 
     public void paint( Graphics2D g ) {
-        for( int i = 0; i < cableGraphics.size(); i++ ) {
-            Graphic gr = (Graphic)cableGraphics.get( i );
+        for ( int i = 0; i < cableGraphics.size(); i++ ) {
+            Graphic gr = (Graphic) cableGraphics.get( i );
             gr.paint( g );
         }
     }
@@ -276,41 +277,10 @@ public class SemiconductorApplication extends Module implements Graphic {
         }
     }
 
-    public static void main( String[] args ) throws IOException, UnsupportedLookAndFeelException {
-        SimStrings.getInstance().init( args, localizedStringsPath );
-
-//        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
-//        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
-        FrameSetup fs = new TopOfScreen();
-        ApplicationDescriptor ad = new ApplicationDescriptor( SimStrings.get( "SemiconductorApplication.title" ) + " " + VERSION,
-                                                              SimStrings.get( "SemiconductorApplication.description" ),
-                                                              VERSION, fs );
-        ad.setName( "semiconductor" );
-        SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
-        SemiconductorApplication application = new SemiconductorApplication( clock );
-        final PhetApplication pa = new PhetApplication( ad, application, clock );
-        pa.startApplication( application );
-        enableAspectRatio( pa, application );
-        pa.getApplicationView().getPhetFrame().addComponentListener( new ComponentListener() {
-            public void componentHidden( ComponentEvent e ) {
-            }
-
-            public void componentMoved( ComponentEvent e ) {
-            }
-
-            public void componentResized( ComponentEvent e ) {
-                System.out.println( "pa.getApplicationView().getPhetFrame().getSize( ) = " + pa.getApplicationView().getPhetFrame().getSize() );
-            }
-
-            public void componentShown( ComponentEvent e ) {
-            }
-        } );
-    }
-
     private static void enableAspectRatio( PhetApplication app, Module module ) {
         ApparatusPanelContainer apc = app.getApplicationView().getApparatusPanelContainer();
-        if( apc instanceof SingleApparatusPanelContainer ) {
-            SingleApparatusPanelContainer sapc = (SingleApparatusPanelContainer)apc;
+        if ( apc instanceof SingleApparatusPanelContainer ) {
+            SingleApparatusPanelContainer sapc = (SingleApparatusPanelContainer) apc;
             sapc.getComponent().setLayout( new AspectRatioLayout( module.getApparatusPanel(), 10, 10, .75 ) );
             app.getApplicationView().getBasicPhetPanel().invalidate();
             app.getApplicationView().getBasicPhetPanel().validate();
@@ -347,17 +317,57 @@ public class SemiconductorApplication extends Module implements Graphic {
     }
 
     public void releaseGate() {
-        for( int i = 0; i < energySection.numParticles(); i++ ) {
+        for ( int i = 0; i < energySection.numParticles(); i++ ) {
             BandParticle bp = energySection.particleAt( i );
-            if( bp.getState() instanceof GoToMagnet ) {
-                GoToMagnet gtm = (GoToMagnet)bp.getState();
+            if ( bp.getState() instanceof GoToMagnet ) {
+                GoToMagnet gtm = (GoToMagnet) bp.getState();
                 bp.setState( new MoveToCell( bp, gtm.getFrom(), .2 ) );
                 bp.setExcited( false );
             }
         }
-        if( energySection.numBandSets() == 3 && energySection.bandSetAt( 1 ).getDopantType() == DopantType.P ) {
+        if ( energySection.numBandSets() == 3 && energySection.bandSetAt( 1 ).getDopantType() == DopantType.P ) {
             energySection.bandSetAt( 1 ).trickDopantType( DopantType.N );
         }
     }
 
+    public static void main( final String[] args ) throws IOException, UnsupportedLookAndFeelException {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                SimStrings.getInstance().init( args, localizedStringsPath );
+
+//        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());
+//        FrameSetup fs = new MaxExtentFrameSetup( new FullScreen() );
+                FrameSetup fs = new TopOfScreen();
+                ApplicationDescriptor ad = new ApplicationDescriptor( SimStrings.get( "SemiconductorApplication.title" ) + " " + VERSION,
+                                                                      SimStrings.get( "SemiconductorApplication.description" ),
+                                                                      VERSION, fs );
+                ad.setName( "semiconductor" );
+                SwingTimerClock clock = new SwingTimerClock( 1, 45, true );
+                SemiconductorApplication application = null;
+                try {
+                    application = new SemiconductorApplication( clock );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                final PhetApplication pa = new PhetApplication( ad, application, clock );
+                pa.startApplication( application );
+                enableAspectRatio( pa, application );
+                pa.getApplicationView().getPhetFrame().addComponentListener( new ComponentListener() {
+                    public void componentHidden( ComponentEvent e ) {
+                    }
+
+                    public void componentMoved( ComponentEvent e ) {
+                    }
+
+                    public void componentResized( ComponentEvent e ) {
+                        System.out.println( "pa.getApplicationView().getPhetFrame().getSize( ) = " + pa.getApplicationView().getPhetFrame().getSize() );
+                    }
+
+                    public void componentShown( ComponentEvent e ) {
+                    }
+                } );
+            }
+        } );
+    }
 }
