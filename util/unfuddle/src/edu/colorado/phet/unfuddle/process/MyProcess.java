@@ -1,4 +1,4 @@
-package edu.colorado.phet.unfuddle.test;
+package edu.colorado.phet.unfuddle.process;
 
 import java.io.IOException;
 
