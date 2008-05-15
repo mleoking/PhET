@@ -70,8 +70,6 @@ public class NuclearReactorModel {
     
     // Constants that control the monitoring of fission events, which
     // allow us to determine the average energy released.
-    private static final int MS_PER_FISSION_EVENT_BIN = 100;
-    private static final int NUMBER_FISSION_EVENT_BINS = 20;
     private static final double MAX_TEMP_CHANGE_PER_TICK = 1.0;
     private static double JOULES_PER_FISSION_EVENT = 3.2E-11;
 
@@ -89,9 +87,7 @@ public class NuclearReactorModel {
     private ArrayList _reactionChamberRects;
     private int       _u235FissionEventCount;
     private int []    _fissionEventBins;
-    private int []    _fissionEventBins2;
     private int       _currentBin;
-    private int       _currentBin2;
     private int       _clockTicksPerSecond;
     private Rectangle2D _innerReactorRect;
     private double    _currentTemperature;
@@ -134,11 +130,9 @@ public class NuclearReactorModel {
         _controlRods          = new ArrayList(NUMBER_OF_REACTION_CHAMBERS - 1);
         
         // Perform other internal initialization.
-        _fissionEventBins = new int [NUMBER_FISSION_EVENT_BINS];
-        _currentBin = 0;
         _clockTicksPerSecond = (int)(Math.round(1000/_clock.getDt()));
-        _fissionEventBins2 = new int [_clockTicksPerSecond];
-        _currentBin2 = 0;
+        _fissionEventBins = new int [_clockTicksPerSecond];
+        _currentBin = 0;
         _totalEnergyReleased = 0;
         _energyReleasedPerSecond = 0;
         
@@ -358,12 +352,8 @@ public class NuclearReactorModel {
         _daughterNuclei.clear();
         
         // Clear out the energy accumulators.
-        for (i = 0; i < NUMBER_FISSION_EVENT_BINS; i++){
-            _fissionEventBins[i] = 0;
-        }
-        _currentBin = 0;
         for (i = 0; i < _clockTicksPerSecond; i++){
-            _fissionEventBins2[i] = 0;
+            _fissionEventBins[i] = 0;
         }
         _currentBin = 0;
         _currentTemperature = 0;
@@ -537,29 +527,18 @@ public class NuclearReactorModel {
         // Accumulate the total amount of energy release so far.
         double totalEnergyReleased = _totalEnergyReleased + (_u235FissionEventCount * JOULES_PER_FISSION_EVENT);
         
-        // Look at the number of fission events that have occurred since the
-        // last clock tick and use the information to calculate energy
-        // released and current temperature.
-        int binNumber = (int)(_clock.getSimulationTime() / MS_PER_FISSION_EVENT_BIN) % NUMBER_FISSION_EVENT_BINS;
-        if (binNumber != _currentBin){
-            // We are moving to a new bin, so clear out any old data.
-            _fissionEventBins[binNumber] = 0;
-            _currentBin = binNumber;
-        }
-        _fissionEventBins[_currentBin] += _u235FissionEventCount;
-        
         // Update the bins used for calculating the energy produced per second.
         double energyPerSecond = _energyReleasedPerSecond + 
-                ((_u235FissionEventCount - _fissionEventBins2[_currentBin2]) * JOULES_PER_FISSION_EVENT);
-        _fissionEventBins2[_currentBin2] = _u235FissionEventCount;
-        _currentBin2 = (_currentBin2 + 1) % _clockTicksPerSecond;
+                ((_u235FissionEventCount - _fissionEventBins[_currentBin]) * JOULES_PER_FISSION_EVENT);
+        _fissionEventBins[_currentBin] = _u235FissionEventCount;
+        _currentBin = (_currentBin + 1) % _clockTicksPerSecond;
         
         // Reset the fission event counter.
         _u235FissionEventCount = 0;
         
         // See if the internal temperature has changed and, if so, notify any
         // listeners.
-        double temperature = calculateTemperature();
+        double temperature = energyPerSecond * (1/JOULES_PER_FISSION_EVENT);
         if (_currentTemperature != temperature){
             // Adjust the temperature, but not instantaneously.
             if (Math.abs( _currentTemperature - temperature ) < MAX_TEMP_CHANGE_PER_TICK){
@@ -584,22 +563,6 @@ public class NuclearReactorModel {
         _totalEnergyReleased = totalEnergyReleased;
     }
     
-    /**
-     * Get the current temperature of the reactor core.  Note that this is not
-     * in any real units (e.g. degrees celsius), it is simply the total
-     * number of fission events that have occurred over the configured time
-     * window, which would correlate to temperature.
-     *  
-     * @return
-     */
-    private double calculateTemperature(){
-        double sum = 0;
-        for (int i = 0; i < NUMBER_FISSION_EVENT_BINS; i++){
-            sum += _fissionEventBins[i];
-        }
-        return sum;
-    }
-
     /**
      * Notify listeners about the removal of an element from the model.
      * 
