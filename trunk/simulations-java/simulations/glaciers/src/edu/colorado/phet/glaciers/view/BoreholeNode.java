@@ -12,18 +12,34 @@ import edu.colorado.phet.glaciers.model.Borehole.BoreholeListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * BoreholeNode is the visual representation of a borehole.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class BoreholeNode extends PComposite {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Borehole _borehole;
     private ModelViewTransform _mvt;
     private BoreholeListener _boreholeListener;
     private GeneralPath _path;
     private PPath _pathNode;
     private Point2D _pView;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public BoreholeNode( Borehole borehole, ModelViewTransform mvt ) {
         super();
@@ -52,6 +68,10 @@ public class BoreholeNode extends PComposite {
     public void cleanup() {
         _borehole.removeBoreholeListener( _boreholeListener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
     
     private void update() {
         _path.reset();

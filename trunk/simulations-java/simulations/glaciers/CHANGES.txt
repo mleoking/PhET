@@ -6,7 +6,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- javadoc borehole-related work
 - behavior or borehole points near the terminus
 - behavior of borehole as glacier recedes looks wrong
 - make advancing glaciers delete flags that are on valley floor
@@ -79,6 +78,7 @@ CLEANUP:
 
 
 DONE:
+5/14/08 - javadoc borehole-related work
 5/14/08 - delete borehole when it passes the terminus
 5/14/08 - create a borehole when drill button is pressed
 5/14/08 - model borehole as a set of moving points, connected via line segments
