@@ -1,0 +1,55 @@
+package edu.colorado.phet.common.testing;
+
+import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import edu.colorado.phet.build.PhetProject;
+import edu.colorado.phet.build.PhetProjectFlavor;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+
+/**
+ * Created by: Sam
+ * May 13, 2008 at 9:02:34 PM
+ */
+public class TestPhetApplicationUsage {
+    public static void main( String[] args ) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InterruptedException, AWTException {
+        final String project = args[0];
+        final String sim = args[1];
+
+        final PhetProject phetProject = new PhetProject( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" ), project );
+        final PhetProjectFlavor flavor = phetProject.getFlavor( sim );
+
+        Class c = Class.forName( flavor.getMainclass() );
+        Method m = c.getMethod( "main", new Class[]{new String[0].getClass()} );
+        m.invoke( null, new Object[]{new String[0]} );
+
+        new Thread( new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep( 5000 );//todo: sleep until the main frame is available
+                    File file = new File( "C:/users/sam/desktop/simlog.txt" );
+                    if ( !file.exists() ) {
+                        file.createNewFile();
+                    }
+                    FileWriter fileWriter = new FileWriter( file, true );
+                    int count = PhetApplication.instances;
+                    System.out.println( "count = " + count );
+                    fileWriter.write( "project=" + phetProject.getName() + ", sim=" + flavor.getFlavorName() + ", phetAppCount=" + count + "\n" );
+                    fileWriter.flush();
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                System.exit( 0 );
+            }
+        } ).start();
+
+    }
+}
