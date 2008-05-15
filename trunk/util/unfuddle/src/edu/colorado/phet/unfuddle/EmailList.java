@@ -9,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.xml.sax.SAXException;
 
-import edu.colorado.phet.unfuddle.test.BasicProcess;
+import edu.colorado.phet.unfuddle.process.BasicProcess;
 
 /**
  * Created by: Sam

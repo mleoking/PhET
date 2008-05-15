@@ -11,8 +11,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import edu.colorado.phet.unfuddle.test.BasicProcess;
-import edu.colorado.phet.unfuddle.test.MyProcess;
+import edu.colorado.phet.unfuddle.process.BasicProcess;
+import edu.colorado.phet.unfuddle.process.MyProcess;
 
 
 /**

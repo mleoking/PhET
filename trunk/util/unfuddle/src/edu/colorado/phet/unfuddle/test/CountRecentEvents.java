@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 import edu.colorado.phet.unfuddle.UnfuddleCurl;
 import edu.colorado.phet.unfuddle.UnfuddleNotifierConstants;
 import edu.colorado.phet.unfuddle.XMLObject;
+import edu.colorado.phet.unfuddle.process.BasicProcess;
 
 /**
  * Created by: Sam

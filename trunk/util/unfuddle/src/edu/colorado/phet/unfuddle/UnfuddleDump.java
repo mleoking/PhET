@@ -2,7 +2,7 @@ package edu.colorado.phet.unfuddle;
 
 import java.io.IOException;
 
-import edu.colorado.phet.unfuddle.test.BasicProcess;
+import edu.colorado.phet.unfuddle.process.BasicProcess;
 
 /**
  * This doesn't work.

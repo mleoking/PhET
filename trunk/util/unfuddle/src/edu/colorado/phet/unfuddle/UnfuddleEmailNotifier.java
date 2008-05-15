@@ -13,9 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import edu.colorado.phet.unfuddle.test.BasicProcess;
-import edu.colorado.phet.unfuddle.test.MyProcess;
-import edu.colorado.phet.unfuddle.test.ThreadProcess;
+import edu.colorado.phet.unfuddle.process.BasicProcess;
+import edu.colorado.phet.unfuddle.process.MyProcess;
+import edu.colorado.phet.unfuddle.process.ThreadProcess;
 
 /**
  * This is the main entry point for the Unfuddle Notifier.
