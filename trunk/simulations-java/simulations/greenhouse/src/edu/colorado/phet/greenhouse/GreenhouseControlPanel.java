@@ -55,14 +55,14 @@ public class GreenhouseControlPanel extends JPanel {
     String[] preIndRevConcentrations = new String[]{
             "70% " + SimStrings.get( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
             "280 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-            "730 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-            "270 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" )};
+            "730 " + SimStrings.get( "GreenhouseControlPanel.PPBAbreviation" ),
+            "270 " + SimStrings.get( "GreenhouseControlPanel.PPBAbreviation" )};
 
     String[] todayConcentrations = new String[]{
             "70% " + SimStrings.get( "GreenhouseControlPanel.RelativeHumidityAbbreviation" ),
             "370 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-            "1843 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" ),
-            "317 " + SimStrings.get( "GreenhouseControlPanel.PPMAbreviation" )};
+            "1843 " + SimStrings.get( "GreenhouseControlPanel.PPBAbreviation" ),
+            "317 " + SimStrings.get( "GreenhouseControlPanel.PPBAbreviation" )};
 
     String[] venusConcentrations = new String[]{
             "",

@@ -54,15 +54,24 @@ public class GreenhouseApplication extends PhetApplication {
         super( applicationDescriptor, apparatusPanelContainerFactory, modules, iClock );
     }
 
+    public static void paintContentImmediately() {
+        Container contentPane = s_application.getApplicationView().getPhetFrame().getContentPane();
+        if ( contentPane instanceof JComponent ) {
+            JComponent jComponent = (JComponent) contentPane;
+            jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
+        }
+    }
 
     public static void main( String[] args ) {
-//        Locale.setDefault( new Locale( "ja" ) );
         SimStrings.getInstance().init( args, localizedStringsPath );
         SimStrings.getInstance().addStrings( "greenhouse/localization/phetcommon-strings" );
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                initLookAndFeel();
+                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+                phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
+                phetLookAndFeel.setTitledBorderFont( new PhetFont( Font.PLAIN, 12 ) );
+                phetLookAndFeel.initLookAndFeel();
 
                 JFrame window = new JFrame();
                 AWTSplashWindow splashWindow = new AWTSplashWindow( window, SimStrings.get( "greenhouse.name" ) );
@@ -99,22 +108,5 @@ public class GreenhouseApplication extends PhetApplication {
                 } );
             }
         } );
-    }
-
-    private static void initLookAndFeel() {
-        PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
-        phetLookAndFeel.setForegroundColor( Color.black );
-        phetLookAndFeel.setFont( new PhetFont( Font.PLAIN, 14 ) );
-        phetLookAndFeel.setTitledBorderFont( new PhetFont( Font.PLAIN, 12 ) );
-        phetLookAndFeel.initLookAndFeel();
-    }
-
-    public static void paintContentImmediately() {
-        Container contentPane = s_application.getApplicationView().getPhetFrame().getContentPane();
-        if ( contentPane instanceof JComponent ) {
-            JComponent jComponent = (JComponent) contentPane;
-            jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
-        }
     }
 }
