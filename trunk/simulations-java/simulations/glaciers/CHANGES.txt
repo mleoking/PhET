@@ -6,14 +6,16 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- behavior of borehole points near the terminus
-- behavior of borehole as glacier recedes looks wrong
+- delete borehole points on surface and at terminus? (prune the line)
+- start to fade borehole after surface point has traveled 2km, fade to nothing over 1km
+- drills in the world need to stay on the surface of the glacier
 - make advancing glaciers delete flags that are on valley floor
-- Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
 
 MEDIUM PRIORITY:
+- remove labels from tools in toolbox, show names on mouseover
+- make GPS Receiver a permanent tool; image with distance=, elevation= next to it (ala glacial budget meter)
 - add pseudo 3D model & view for rocks
 - create rocks at random elevations in ice cross-section above ELA, at random distance across valley width
 - deposit rocks at terminus to create moraine
@@ -494,6 +496,8 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+5/15/08 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
+(could not reproduce)
 5/12/08 - move "dragging" property out of tool model (necessary and consistent with model of tools)
 5/9/08 - change cursor to universal "no" symbol when tools are at an illegal drop location (not necessary, expensive)
 5/9/08 - when a tool is dragged from the toolbox and dropped illegally, snap it back to the toolbox (snap to closest legal position)
