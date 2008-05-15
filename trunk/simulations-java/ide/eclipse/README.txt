@@ -23,6 +23,8 @@ In Eclipse 3.3, got to Eclipse>Preferences>Java>Code Style>Code Templates, then 
 (5) Select simulations-java in the Package Explorer view, then refresh by pressing F5 or choose File>Refresh.
 This tells Eclipse that files have been changed outside of Eclipse.
 
+(6) Use eclipse-dictionary.txt as the user-defined spellcheck dictionary.
+See Preferences>General>Editors>Text Editors>Spelling>User defined dictionary.
 
 
 --
