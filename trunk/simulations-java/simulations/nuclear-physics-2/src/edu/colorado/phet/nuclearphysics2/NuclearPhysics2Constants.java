@@ -67,6 +67,9 @@ public class NuclearPhysics2Constants {
     // Color of labels placed directly on the play area
     public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
     
+    // Color of labels placed directly on the play area
+    public static final Color CONTROL_PANEL_COLOR = new Color( 0xfffacd );
+    
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     

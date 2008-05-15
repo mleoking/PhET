@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics2.module.nuclearreactor;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.GridLayout;
@@ -16,12 +17,17 @@ import javax.swing.border.TitledBorder;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
+import edu.colorado.phet.nuclearphysics2.util.SimpleChartPanel;
 
 /**
  * This class represents a panel which tracks and displays the energy released
@@ -39,13 +45,20 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
     // trial and error, but it may make sense to coordinate them with the
     // nuclear reactor model eventually.
     private static final double TOTAL_ENERGY_GRAPH_RANGE = 0.11E-7;
-    private static final double ENERGY_PER_SECOND_GRAPH_RANGE = TOTAL_ENERGY_GRAPH_RANGE / 5;
+    private static final double ENERGY_PER_SECOND_GRAPH_RANGE = TOTAL_ENERGY_GRAPH_RANGE / 6;
     
     // Keys for creating and manipulating data sets for charts.
     private static final String TOTAL_ENERGY_ROW_KEY         = new String("Total");
     private static final String TOTAL_ENERGY_COLUMN_KEY      = new String("Energy");
-    private static final String PER_SECOND_ENERGY_ROW_KEY    = new String("Per Second");
-    private static final String PER_SECOND_ENERGY_COLUMN_KEY = new String("Energy");
+    private static final String PER_SECOND_ENERGY_ROW_KEY    = new String("Instantaneous");
+    private static final String PER_SECOND_ENERGY_COLUMN_KEY = new String("Power");
+    
+    // Fonts for the graphs.
+    private static final Font LABEL_FONT = new PhetFont(Font.BOLD, 14);
+    
+    // Initial size for charts.
+    private static final int INITIAL_CHART_WIDTH = 100;
+    private static final int INITIAL_CHART_HEIGHT = 300;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -92,11 +105,13 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         
         // Create and add the energy charts.
         _energyPerSecondChart = createEnergyPerSecondChart();
-        ChartPanel energyPerSecondChartPanel = new ChartPanel(_energyPerSecondChart);
+        SimpleChartPanel energyPerSecondChartPanel = new SimpleChartPanel(_energyPerSecondChart, INITIAL_CHART_WIDTH, 
+                INITIAL_CHART_HEIGHT);
         add(energyPerSecondChartPanel);
         
         _totalEnergyChart = createTotalEnergyChart();
-        ChartPanel totalEnergyChartPanel = new ChartPanel(_totalEnergyChart);
+        SimpleChartPanel totalEnergyChartPanel = new SimpleChartPanel(_totalEnergyChart, INITIAL_CHART_WIDTH, 
+                INITIAL_CHART_HEIGHT);
         add(totalEnergyChartPanel);
         
         // Set initial levels.
@@ -116,25 +131,31 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
                 TOTAL_ENERGY_COLUMN_KEY);
 
         _energyPerSecondDataSet.setValue(_nuclearReactorModel.getEnergyReleasedPerSecond(), 
-                PER_SECOND_ENERGY_COLUMN_KEY, PER_SECOND_ENERGY_ROW_KEY);
+                PER_SECOND_ENERGY_ROW_KEY, PER_SECOND_ENERGY_COLUMN_KEY);
     }
     
     private JFreeChart createEnergyPerSecondChart(){
         
-        _energyPerSecondDataSet.setValue(ENERGY_PER_SECOND_GRAPH_RANGE, PER_SECOND_ENERGY_COLUMN_KEY, 
-                PER_SECOND_ENERGY_ROW_KEY);
+        _energyPerSecondDataSet.setValue(ENERGY_PER_SECOND_GRAPH_RANGE, PER_SECOND_ENERGY_ROW_KEY, 
+                PER_SECOND_ENERGY_COLUMN_KEY);
         
         // TODO: JPB TBD - the strings used here need to be found in or added to the properties file.
-        JFreeChart chart = ChartFactory.createBarChart("Per Second",
-                null, "Joules/Sec", _energyPerSecondDataSet, PlotOrientation.VERTICAL, false,
-                false, false);
-        chart.setBackgroundPaint( Color.white );
+        JFreeChart chart = ChartFactory.createBarChart(null, null, "joules/sec", _energyPerSecondDataSet, 
+                PlotOrientation.VERTICAL, false, false, false);
+        chart.setBackgroundPaint( NuclearPhysics2Constants.CONTROL_PANEL_COLOR );
         CategoryPlot plot = (CategoryPlot)chart.getPlot();
-        plot.setBackgroundPaint( Color.lightGray );
+        plot.setBackgroundPaint( Color.darkGray );
         plot.setRangeGridlinePaint(Color.white);
         
         // Set the range for the Y axis.
-        plot.getRangeAxis().setRange( 0, ENERGY_PER_SECOND_GRAPH_RANGE );
+        ValueAxis rangeAxis = plot.getRangeAxis();
+        rangeAxis.setRange( 0, ENERGY_PER_SECOND_GRAPH_RANGE );
+        rangeAxis.setTickLabelsVisible( false );
+        rangeAxis.setLabelFont( LABEL_FONT );
+        
+        // Set the font for the X axis.
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setTickLabelFont( LABEL_FONT );
         
         // Disable bar outlines.
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -157,16 +178,22 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         _totalEnergyDataSet.setValue(TOTAL_ENERGY_GRAPH_RANGE, TOTAL_ENERGY_ROW_KEY, TOTAL_ENERGY_COLUMN_KEY);
         
         // TODO: JPB TBD - the strings used here need to be found in or added to the properties file.
-        JFreeChart chart = ChartFactory.createBarChart("Total",
-                null, "Joules", _totalEnergyDataSet, PlotOrientation.VERTICAL, false,
-                false, false);
-        chart.setBackgroundPaint( Color.white );
+        JFreeChart chart = ChartFactory.createBarChart(null, null, "joules", _totalEnergyDataSet, PlotOrientation.VERTICAL,
+                false, false, false);
+        chart.setBackgroundPaint( NuclearPhysics2Constants.CONTROL_PANEL_COLOR );
         CategoryPlot plot = (CategoryPlot)chart.getPlot();
-        plot.setBackgroundPaint( Color.lightGray );
+        plot.setBackgroundPaint( Color.DARK_GRAY );
         plot.setRangeGridlinePaint(Color.white);
         
         // Set the range for the Y axis.
-        plot.getRangeAxis().setRange( 0, TOTAL_ENERGY_GRAPH_RANGE );
+        ValueAxis rangeAxis = plot.getRangeAxis();
+        rangeAxis.setRange( 0, TOTAL_ENERGY_GRAPH_RANGE );
+        rangeAxis.setTickLabelsVisible( false );
+        rangeAxis.setLabelFont( LABEL_FONT );
+        
+        // Set the font for the X axis.
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setTickLabelFont( LABEL_FONT );
         
         // Disable bar outlines.
         BarRenderer renderer = (BarRenderer) plot.getRenderer();

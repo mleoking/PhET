@@ -69,7 +69,7 @@ public class NuclearReactorControlPanel extends ControlPanel {
         
         // Add the energy graph.
         _energyGraphPanel = new NuclearReactorEnergyGraphPanel(nuclearReactorModule.getNuclearReactorModel());
-        _energyGraphPanel.setPreferredSize( new Dimension(getWidth(), ENERGY_GRAPH_PANEL_HEIGHT ));
+//        _energyGraphPanel.setPreferredSize( new Dimension(getWidth(), ENERGY_GRAPH_PANEL_HEIGHT ));
         addControlFullWidth( _energyGraphPanel );
         _energyGraphPanel.setVisible( _controlSubPanel.getEnergyGraphCheckBoxState() );
     }

@@ -192,7 +192,7 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysics2Constants.FRAME_SETUP, NuclearPhysics2Resources.getResourceLoader() );
                 
                 PhetLookAndFeel p = new PhetLookAndFeel();
-                p.setBackgroundColor( new Color (0xfffacd) );
+                p.setBackgroundColor( NuclearPhysics2Constants.CONTROL_PANEL_COLOR );
                 p.initLookAndFeel();
 
                 // Create the application.
