@@ -33,7 +33,7 @@ public class NuclearReactorNode extends PNode {
     // Constants that control the look of the reactor.
     private static final Color        REACTOR_WALL_COLOR = Color.BLACK;
     private static final Color        COOL_REACTOR_CHAMBER_COLOR = new Color(0xbbcccc);
-    private static final Color        HOT_REACTOR_CHAMBER_COLOR = new Color(0xffcc55);
+    private static final Color        HOT_REACTOR_CHAMBER_COLOR = new Color(0xffbb44);
     
     // Max temperature, with used when setting up the thermometer and in
     // in controlling the internal color of the reactor.
