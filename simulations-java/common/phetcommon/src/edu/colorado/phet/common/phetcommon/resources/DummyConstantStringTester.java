@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.tests.reports;
+package edu.colorado.phet.common.phetcommon.resources;
 
 import java.util.Locale;
 

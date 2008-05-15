@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
-import edu.colorado.phet.common.phetcommon.tests.reports.DummyConstantStringTester;
 
 /**
  * PhetResources provides the facilities for accessing JAR resources.

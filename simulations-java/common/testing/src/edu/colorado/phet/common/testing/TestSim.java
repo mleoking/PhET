@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.tests.reports;
+package edu.colorado.phet.common.testing;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetProjectFlavor;
-import edu.colorado.phet.common.phetcommon.tests.reports.DummyConstantStringTester;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 
 /**
  * Created by: Sam
