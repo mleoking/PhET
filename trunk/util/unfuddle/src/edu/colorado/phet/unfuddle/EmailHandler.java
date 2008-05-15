@@ -47,6 +47,9 @@ public class EmailHandler implements IMessageHandler {
         catch( ParserConfigurationException e ) {
             e.printStackTrace();
         }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
         if ( sendMail ) {
             if ( to.length == 0 ) {
                 String message = "Had a message for delivery, but nobody signed up for notification of " + m.getComponent();
@@ -67,7 +70,7 @@ public class EmailHandler implements IMessageHandler {
         }
     }
 
-    private String[] getTo( String component ) throws IOException, SAXException, ParserConfigurationException {
+    private String[] getTo( String component ) throws IOException, SAXException, ParserConfigurationException, InterruptedException {
         return emailList.getEmailsForComponent( component );
     }
 }

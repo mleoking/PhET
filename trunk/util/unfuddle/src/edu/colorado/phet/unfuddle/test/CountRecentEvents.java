@@ -15,11 +15,11 @@ import edu.colorado.phet.unfuddle.XMLObject;
  * Feb 22, 2008 at 7:25:45 AM
  */
 public class CountRecentEvents {
-    public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
+    public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException, InterruptedException {
         if ( args.length != 3 ) {
             System.out.println( "usage: CountRecentEvents unfuddleUsername unfuddlePassword svnTrunk" );
         }
-        UnfuddleCurl unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
+        UnfuddleCurl unfuddleCurl = new UnfuddleCurl( new BasicProcess(), args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
         System.out.println( "limit\tevents" );
         for ( int limit = 1; limit < 50; limit++ ) {
             XMLObject events = new XMLObject( unfuddleCurl.readString( "activity.xml?limit=" + limit ) );

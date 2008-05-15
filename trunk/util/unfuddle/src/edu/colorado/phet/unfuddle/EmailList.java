@@ -9,6 +9,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.tools.ant.filters.StringInputStream;
 import org.xml.sax.SAXException;
 
+import edu.colorado.phet.unfuddle.test.BasicProcess;
+
 /**
  * Created by: Sam
  * Feb 21, 2008 at 3:01:06 PM
@@ -22,7 +24,7 @@ public class EmailList {
         this.curl = curl;
     }
 
-    public String[] getEmailsForComponent( String component ) throws IOException, SAXException, ParserConfigurationException {
+    public String[] getEmailsForComponent( String component ) throws IOException, SAXException, ParserConfigurationException, InterruptedException {
         String s = curl.readString( "notebooks/7161/pages/23056/latest" );
         XMLObject xml = new XMLObject( s );
         String body = xml.getTextContent( "body" );
@@ -51,12 +53,12 @@ public class EmailList {
         return account.getEmailAddress( username );
     }
 
-    public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
+    public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException, InterruptedException {
         if ( args.length != 3 ) {
             System.out.println( "usage: ReadEmailList unfuddleUsername unfuddlePassword svnTrunk" );
             System.exit( 1 );
         }
-        UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
+        UnfuddleCurl curl = new UnfuddleCurl( new BasicProcess(), args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
         UnfuddleAccount unfuddleAccount = new UnfuddleAccount( new File( args[2] + "\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );//TODO separator is Windows specific
         EmailList readEmailList = new EmailList( unfuddleAccount, curl );
         String[] s = readEmailList.getEmailsForComponent( "charts" );

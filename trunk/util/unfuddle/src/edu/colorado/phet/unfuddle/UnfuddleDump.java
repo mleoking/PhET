@@ -2,6 +2,8 @@ package edu.colorado.phet.unfuddle;
 
 import java.io.IOException;
 
+import edu.colorado.phet.unfuddle.test.BasicProcess;
+
 /**
  * This doesn't work.
  * <p/>
@@ -14,11 +16,11 @@ import java.io.IOException;
  * Feb 19, 2008 at 8:37:29 AM
  */
 public class UnfuddleDump {
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws IOException, InterruptedException {
         if ( args.length != 3 ) {
             System.out.println( "usage: UnfuddleDump unfuddleUsername unfuddlePassword svnTrunk" );
         }
-        UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[3] );
+        UnfuddleCurl curl = new UnfuddleCurl( new BasicProcess(), args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[3] );
 //        String dump = curl.readString( "tickets" );
         String dump = curl.readString( "dump" );
         System.out.println( "dump.length = " + dump.length() );
