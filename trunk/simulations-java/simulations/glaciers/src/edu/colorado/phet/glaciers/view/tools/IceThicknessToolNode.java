@@ -93,6 +93,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
                 updateUnknown();
                 super.startDrag( event );
             }
+            protected void drag( PInputEvent event ) {}
         } );
         
         _calipersNode = new CalipersNode( CALIPERS_CLOSED_SIZE );

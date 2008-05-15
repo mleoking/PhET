@@ -6,7 +6,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- behavior or borehole points near the terminus
+- behavior of borehole points near the terminus
 - behavior of borehole as glacier recedes looks wrong
 - make advancing glaciers delete flags that are on valley floor
 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
@@ -78,6 +78,7 @@ CLEANUP:
 
 
 DONE:
+5/15/08 - parts of IceThicknessToolNode moves separately when dragged
 ******* 0.00.21 (21438)
 5/14/08 - javadoc borehole-related work
 5/14/08 - delete borehole when it passes the terminus
