@@ -13,6 +13,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import edu.colorado.phet.unfuddle.test.BasicProcess;
+import edu.colorado.phet.unfuddle.test.MyProcess;
+import edu.colorado.phet.unfuddle.test.ThreadProcess;
+
 /**
  * This is the main entry point for the Unfuddle Notifier.
  * <p/>
@@ -36,7 +40,8 @@ public class UnfuddleEmailNotifier {
         this.sendMail = args.isSendMailEnabled(); // must be final for use in callbacks
 
         unfuddleAccount = new UnfuddleAccount( new File( args.getXmlDumpPath() ) );
-        unfuddleCurl = new UnfuddleCurl( args.getUnfuddleUsername(), args.getUnfuddlePassword(), UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args.getSvnTrunk() );
+        MyProcess myProcess = new ThreadProcess( new BasicProcess(), 1000 * 60 * 3 );
+        unfuddleCurl = new UnfuddleCurl( myProcess, args.getUnfuddleUsername(), args.getUnfuddlePassword(), UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args.getSvnTrunk() );
 
         running = new JFrame( "Process Unfuddle Changes" );
         running.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -113,6 +118,9 @@ public class UnfuddleEmailNotifier {
                     recent[0] = unfuddleCurl.readString( "activity.xml?limit=" + limit );
                 }
                 catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }

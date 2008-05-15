@@ -44,6 +44,9 @@ public class TicketCommentMessage implements IMessage {
             catch( ParserConfigurationException e ) {
                 e.printStackTrace();
             }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
         }
         return ticketXML;
     }

@@ -2,7 +2,6 @@ package edu.colorado.phet.unfuddle;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,18 +11,23 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import edu.colorado.phet.unfuddle.test.BasicProcess;
+import edu.colorado.phet.unfuddle.test.MyProcess;
+
 
 /**
  * Created by: Sam
  * Feb 17, 2008 at 9:02:08 PM
  */
 public class UnfuddleCurl {
+    private MyProcess myProcess;
     private String username;
     private String password;
     private int accountID;
     private String svnTrunk;
 
-    public UnfuddleCurl( String username, String password, int accountID, String svnTrunk ) {
+    public UnfuddleCurl( MyProcess myProcess, String username, String password, int accountID, String svnTrunk ) {
+        this.myProcess = myProcess;
         this.username = username;
         this.password = password;
         this.accountID = accountID;
@@ -52,7 +56,7 @@ public class UnfuddleCurl {
     }
 
     //fails for dump (timeout)
-    public String readString( String readARG ) throws IOException {
+    public String readString( String readARG ) throws IOException, InterruptedException {
         String curl = svnTrunk + "\\util\\unfuddle\\contrib\\curl\\curl.exe"; //TODO this is Windows specific, users should have curl in their path
         String cmdArg = accountID + "/" + readARG;
         String cmd = curl + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
@@ -60,41 +64,12 @@ public class UnfuddleCurl {
         return execCommand( cmd );
     }
 
-    protected String execCommand( String cmd ) throws IOException {
-        try {
-            Process p = Runtime.getRuntime().exec( cmd );
-            // Get the input stream and read from it
-            StringBuffer s = new StringBuffer();
-            InputStream in = p.getInputStream();
-            int c;
-            int count = 0;
-            while ( ( c = in.read() ) != -1 ) {//blocks until data is available
-                s.append( (char) c );
-                count++;
-                if ( count % 1000 == 0 ) {
-                    System.out.print( "." );
-                }
-            }
-            System.out.println( "" );
-            in.close();
-//        System.out.println( "s = " + s );
-            return s.substring( s.indexOf( "<?xml" ) );
-        }
-        catch( Throwable t ) {
-            System.out.println( "##########################################" );
-            System.out.println( "#  Unfuddle Curl failed with throwable=" + t );
-            System.out.println( "#" );
-            t.printStackTrace();
-            System.out.println( "#" );
-            System.out.println( "#  Converting to IOException" );
-            System.out.println( "##########################################" );
-            //converting to IOException is a hack; it allows us to leverage existing error handling code without additional work
-            //this should be fixed
-            throw new IOException( t );//todo: better error handling
-        }
+    protected String execCommand( String cmd ) throws IOException, InterruptedException {
+        String s = myProcess.invoke( cmd );
+        return s.substring( s.indexOf( "<?xml" ) );
     }
 
-    public static void main( String[] args ) throws IOException, ParserConfigurationException, SAXException {
+    public static void main( String[] args ) throws IOException, ParserConfigurationException, SAXException, InterruptedException {
         File ticketFile = new File( "C:/users/sam/desktop/ticket-out-1.xml" );
         File ticketCommentFile = new File( "C:/users/sam/desktop/ticket-comment-out-1.xml" );
 
@@ -104,9 +79,9 @@ public class UnfuddleCurl {
             String username = args[0];
             String password = args[1];
             String svnTrunk = args[2];
-
-            String tickets = new UnfuddleCurl( username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).readString( "tickets" );
-            String ticketComments = new UnfuddleCurl( username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).readString( "tickets/comments" );
+            MyProcess myProcess = new BasicProcess();
+            String tickets = new UnfuddleCurl( myProcess, username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).readString( "tickets" );
+            String ticketComments = new UnfuddleCurl( myProcess, username, password, UnfuddleNotifierConstants.PHET_ACCOUNT_ID, svnTrunk ).readString( "tickets/comments" );
             FileUtils.writeString( ticketFile, tickets );
             FileUtils.writeString( ticketCommentFile, ticketComments );
         }
