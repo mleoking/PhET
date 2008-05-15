@@ -5,9 +5,11 @@ Malley
 Paulson
 Piccolo
 Python
+Unfuddle
 Updaters
 borehole
 cmalley
+com
 ditto
 downvalley
 draggable
@@ -29,6 +31,7 @@ rescale
 rescaled
 sim
 snowfall
+subpanels
 timescale
 toolbox
 upvalley
