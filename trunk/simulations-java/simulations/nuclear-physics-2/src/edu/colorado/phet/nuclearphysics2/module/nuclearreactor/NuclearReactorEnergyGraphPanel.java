@@ -45,7 +45,7 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
     // trial and error, but it may make sense to coordinate them with the
     // nuclear reactor model eventually.
     private static final double TOTAL_ENERGY_GRAPH_RANGE = 0.11E-7;
-    private static final double ENERGY_PER_SECOND_GRAPH_RANGE = TOTAL_ENERGY_GRAPH_RANGE / 6;
+    private static final double ENERGY_PER_SECOND_GRAPH_RANGE = TOTAL_ENERGY_GRAPH_RANGE / 8;
     
     // Keys for creating and manipulating data sets for charts.
     private static final String TOTAL_ENERGY_ROW_KEY         = new String("Total");
