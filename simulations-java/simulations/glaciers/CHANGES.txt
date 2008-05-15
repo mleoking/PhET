@@ -78,6 +78,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.21 (?)
 5/14/08 - javadoc borehole-related work
 5/14/08 - delete borehole when it passes the terminus
 5/14/08 - create a borehole when drill button is pressed
