@@ -61,24 +61,37 @@ public class UnfuddleCurl {
     }
 
     protected String execCommand( String cmd ) throws IOException {
-
-        Process p = Runtime.getRuntime().exec( cmd );
-        // Get the input stream and read from it
-        StringBuffer s = new StringBuffer();
-        InputStream in = p.getInputStream();
-        int c;
-        int count = 0;
-        while ( ( c = in.read() ) != -1 ) {
-            s.append( (char) c );
-            count++;
-            if ( count % 1000 == 0 ) {
-                System.out.print( "." );
+        try {
+            Process p = Runtime.getRuntime().exec( cmd );
+            // Get the input stream and read from it
+            StringBuffer s = new StringBuffer();
+            InputStream in = p.getInputStream();
+            int c;
+            int count = 0;
+            while ( ( c = in.read() ) != -1 ) {//blocks until data is available
+                s.append( (char) c );
+                count++;
+                if ( count % 1000 == 0 ) {
+                    System.out.print( "." );
+                }
             }
-        }
-        System.out.println( "" );
-        in.close();
+            System.out.println( "" );
+            in.close();
 //        System.out.println( "s = " + s );
-        return s.substring( s.indexOf( "<?xml" ) );
+            return s.substring( s.indexOf( "<?xml" ) );
+        }
+        catch( Throwable t ) {
+            System.out.println( "##########################################" );
+            System.out.println( "#  Unfuddle Curl failed with throwable=" + t );
+            System.out.println( "#" );
+            t.printStackTrace();
+            System.out.println( "#" );
+            System.out.println( "#  Converting to IOException" );
+            System.out.println( "##########################################" );
+            //converting to IOException is a hack; it allows us to leverage existing error handling code without additional work
+            //this should be fixed
+            throw new IOException( t );//todo: better error handling
+        }
     }
 
     public static void main( String[] args ) throws IOException, ParserConfigurationException, SAXException {
