@@ -160,6 +160,7 @@ public class BasicModule extends PiccoloModule {
 
         // Tools
         _model.removeAllTools();
+        _model.removeAllBoreholes();
         
         // Controls ---------------------------------------------
 

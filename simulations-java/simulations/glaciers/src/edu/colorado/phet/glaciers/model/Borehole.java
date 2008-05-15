@@ -18,11 +18,23 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  */
 public class Borehole extends ClockAdapter {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final double DZ = 10; // meters
         
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Glacier _glacier;
     private ArrayList _points;
     private ArrayList _listeners;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public Borehole( Glacier glacier, Point2D position ) {
         super();
@@ -60,10 +72,18 @@ public class Borehole extends ClockAdapter {
         
         return points;
     }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
 
     public Point2D[] getPoints() {
         return (Point2D[]) _points.toArray( new Point2D[_points.size()] );
     }
+    
+    //----------------------------------------------------------------------------
+    // ClockListener implementation
+    //----------------------------------------------------------------------------
     
     public void simulationTimeChanged( ClockEvent clockEvent ) {
         
@@ -103,6 +123,10 @@ public class Borehole extends ClockAdapter {
             notifyDeleteMe();
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Listener
+    //----------------------------------------------------------------------------
     
     public interface BoreholeListener {
         public void evolved();
