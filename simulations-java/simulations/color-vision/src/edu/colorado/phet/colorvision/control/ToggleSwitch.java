@@ -73,7 +73,6 @@ public class ToggleSwitch extends PhetImageGraphic {
      * @param onFlag true to turn the switch on, false to turn off
      */
     public void setOn( boolean onFlag ) {
-        System.out.println( "ToggleSwitch.setOn " + onFlag );//XXX
         if ( onFlag != _on ) {
             _on = onFlag;
             setImageResourceName( onFlag ? _onImageName : _offImageName );
@@ -121,7 +120,6 @@ public class ToggleSwitch extends PhetImageGraphic {
          * @param event the mouse event
          */
         public void mouseClicked( MouseEvent event ) {
-            System.out.println( "ToggleSwitchMouseInputListener.mouseClicked" );//XXX
             setOn( !_on );
         }
     }
