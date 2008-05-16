@@ -3,6 +3,11 @@ Change history for color-vision
 ===============================================================================
 
 DONE:
+5/15/08 - add About dialog credits
+5/15/08 - add hand cursor to sliders in RGB panel
+5/15/08 - replace SimStrings.get with PhetResources.getString
+5/15/08 - add PhetApplicationConfig and PhetLookAndFeel
+5/15/08 - port to SVN trunk versions of phetcommon and phetgraphics (delete project-specific copies)
 8/28/07 - fix bugs introduced in About dialog
 8/28/07 - replace stuff in copy of phetcommon with actual phetcommon (Sam Reid)
 8/28/07 - remove unused files from copy of phetcommon (Sam Reid)

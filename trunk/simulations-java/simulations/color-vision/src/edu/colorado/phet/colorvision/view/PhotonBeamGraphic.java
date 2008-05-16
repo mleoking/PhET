@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.view;
 
@@ -16,7 +7,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.colorvision.model.Photon;
 import edu.colorado.phet.colorvision.model.PhotonBeam;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
@@ -24,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  * PhotonBeamGraphic provides a view of a PhotonBeam.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PhotonBeamGraphic extends PhetGraphic implements SimpleObserver {
 

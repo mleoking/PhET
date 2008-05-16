@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.help;
 
@@ -15,10 +6,10 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
-import edu.colorado.phet.colorvision.phetcommon.view.graphics.shapes.Arrow;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.colorvision.ColorVisionResources;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 
 /**
  * FilterSliderWiggleMe is a help graphic that tells the user to move the filter slider.
@@ -54,7 +45,7 @@ public class FilterSliderWiggleMe extends WiggleMe {
         super( component, model );
 
         Shape arrowShape = null;
-        String string = SimStrings.get( "filterSlider.wiggleMe.text" );
+        String string = ColorVisionResources.getString( "filterSlider.wiggleMe.text" );
 
         // Create shapes, calculate bounds.
         Rectangle arrowBounds = null;

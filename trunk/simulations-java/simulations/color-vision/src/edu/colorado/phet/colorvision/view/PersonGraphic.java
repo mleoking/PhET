@@ -1,21 +1,12 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.view;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.model.Person;
-import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -25,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * layer, so that light appears to fall on the face.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PersonGraphic extends CompositePhetGraphic implements SimpleObserver {
 
@@ -107,8 +97,8 @@ public class PersonGraphic extends CompositePhetGraphic implements SimpleObserve
             _x = x;
             _y = y;
 
-            _headBackgroundGraphic.setPosition( (int) ( x + HEAD_X_OFFSET ), (int) ( y + HEAD_Y_OFFSET ) );
-            _headForegroundGraphic.setPosition( (int) ( x + HEAD_X_OFFSET ), (int) ( y + HEAD_Y_OFFSET ) );
+            _headBackgroundGraphic.setLocation( (int) ( x + HEAD_X_OFFSET ), (int) ( y + HEAD_Y_OFFSET ) );
+            _headForegroundGraphic.setLocation( (int) ( x + HEAD_X_OFFSET ), (int) ( y + HEAD_Y_OFFSET ) );
             _thoughtBubbleGraphic.setLocation( (int) ( x + THOUGHT_BUBBLE_X_OFFSET ), (int) ( y + THOUGHT_BUBBLE_Y_OFFSET ) );
         }
 

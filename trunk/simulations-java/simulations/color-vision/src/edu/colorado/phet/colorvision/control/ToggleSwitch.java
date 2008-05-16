@@ -1,17 +1,9 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.control;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.ChangeEvent;
@@ -19,33 +11,27 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.colorvision.phetcommon.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.colorvision.view.BoundsOutliner;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 
 /**
  * ToggleSwitch is an on/off switch.
  * The on/off states are represented by two images.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @revision $Revision$
  */
-public class ToggleSwitch extends DefaultInteractiveGraphic {
+public class ToggleSwitch extends PhetImageGraphic {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    // Image for the "on" state.
-    private PhetImageGraphic _onImage;
-    // Image for the "off" state.
-    private PhetImageGraphic _offImage;
+    // Image resource name for the "on" state.
+    private String _onImageName;
+    // Image resource name for the "off" state.
+    private String _offImageName;
     // The state.
     private boolean _on;
-    // Location, origin at upper left.
-    private Point _location;
-    // The parent component, needed for repaint.
-    private Component _component;
     // List of event listeners.
     private EventListenerList _listenerList;
 
@@ -62,19 +48,19 @@ public class ToggleSwitch extends DefaultInteractiveGraphic {
      */
     public ToggleSwitch( Component component, String onImageName, String offImageName ) {
 
-        super( null );
-
-        _component = component;
-        _onImage = new PhetImageGraphic( component, onImageName );
-        _offImage = new PhetImageGraphic( component, offImageName );
+        super( component, offImageName );
+        
+        _onImageName = onImageName;
+        _offImageName = offImageName;
+        
         _listenerList = new EventListenerList();
 
         // Set up interactivity.
-        super.setBoundedGraphic( _onImage );
-        super.addCursorHandBehavior();
+        super.setCursorHand();
         super.addMouseInputListener( new ToggleSwitchMouseInputListener() );
-
-        setLocation( 0, 0 );
+        
+        _on = true; // force an update
+        setOn( false );
     }
 
     //----------------------------------------------------------------------------
@@ -87,8 +73,10 @@ public class ToggleSwitch extends DefaultInteractiveGraphic {
      * @param onFlag true to turn the switch on, false to turn off
      */
     public void setOn( boolean onFlag ) {
-        if( onFlag != _on ) {
+        System.out.println( "ToggleSwitch.setOn " + onFlag );//XXX
+        if ( onFlag != _on ) {
             _on = onFlag;
+            setImageResourceName( onFlag ? _onImageName : _offImageName );
             fireChangeEvent( new ChangeEvent( this ) );
             repaint();
         }
@@ -103,86 +91,13 @@ public class ToggleSwitch extends DefaultInteractiveGraphic {
         return _on;
     }
 
-    /**
-     * Sets the location.
-     * 
-     * @param location the location
-     */
-    public void setLocation( Point location ) {
-        _location = location;
-        _onImage.setPosition( location.x, location.y );
-        _offImage.setPosition( location.x, location.y );
-        repaint();
-    }
-
-    /**
-     * Convenience function for setting the location.
-     * 
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     */
-    public void setLocation( int x, int y ) {
-        setLocation( new Point( x, y ) );
-    }
-
-    /**
-     * Gets the location.
-     * 
-     * @return the location
-     */
-    public Point getLocation() {
-        return _location;
-    }
-
-    /**
-     * Gets the bounds.
-     * If the switch is in the "on" state, the bounds of the "on" image are used.
-     * If the switch is in the "off" state, the bounds of the "off" image are used.
-     * 
-     * @return the bounds
-     */
-    protected Rectangle getBounds() {
-
-        Rectangle bounds = null;
-        if( isOn() ) {
-            bounds = new Rectangle( _onImage.getBounds() );
-        }
-        else {
-            bounds = new Rectangle( _offImage.getBounds() );
-        }
-        return bounds;
-    }
-
-    //----------------------------------------------------------------------------
-    // Rendering
-    //----------------------------------------------------------------------------
-
-    /**
-     * Repaints the switch.
-     */
-    public void repaint() {
-        Rectangle r = getBounds();
-        _component.repaint( r.x, r.y, r.width, r.height );
-    }
-
-    /**
-     * Draw the switch.
-     * 
-     * @param g2 the graphics context
-     */
     public void paint( Graphics2D g2 ) {
-
-        if( super.isVisible() ) {
-            if( isOn() ) {
-                _onImage.paint( g2 );
-            }
-            else {
-                _offImage.paint( g2 );
-            }
-            BoundsOutliner.paint( g2, getBounds(), Color.RED, new BasicStroke( 1f ) ); // DEBUG
+        if( isVisible() ) {
+            super.paint( g2 );
+            BoundsOutliner.paint( g2, this ); // DEBUG
         }
     }
-
+    
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
@@ -206,6 +121,7 @@ public class ToggleSwitch extends DefaultInteractiveGraphic {
          * @param event the mouse event
          */
         public void mouseClicked( MouseEvent event ) {
+            System.out.println( "ToggleSwitchMouseInputListener.mouseClicked" );//XXX
             setOn( !_on );
         }
     }
@@ -242,5 +158,4 @@ public class ToggleSwitch extends DefaultInteractiveGraphic {
             }
         }
     }
-
 }

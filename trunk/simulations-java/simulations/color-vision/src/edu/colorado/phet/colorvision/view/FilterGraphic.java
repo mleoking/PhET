@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.view;
 
@@ -17,7 +8,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.colorvision.model.Filter;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -25,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * It is a Shape that is described using constructive area geometry.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class FilterGraphic extends PhetGraphic implements SimpleObserver {
 

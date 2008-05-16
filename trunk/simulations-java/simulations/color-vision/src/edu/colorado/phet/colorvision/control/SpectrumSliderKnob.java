@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.control;
 
@@ -15,7 +6,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * SpectrumSliderKnob is the knob on a SpectrumSlider.
@@ -27,7 +18,6 @@ import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetShapeGraph
  * visible only to other classes within the same package.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 class SpectrumSliderKnob extends PhetShapeGraphic {
 

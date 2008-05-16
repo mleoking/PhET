@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.view;
 
@@ -18,7 +9,7 @@ import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.colorvision.model.SolidBeam;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
@@ -26,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  * SolidBeamGraphic provides a graphic representation of a solid beam.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class SolidBeamGraphic extends PhetShapeGraphic implements SimpleObserver {
 

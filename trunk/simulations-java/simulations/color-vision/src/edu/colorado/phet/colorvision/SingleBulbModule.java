@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info - 
- * Filename : $Source$
- * Branch : $Name$ 
- * Modified by : $Author$ 
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision;
 
@@ -26,15 +17,13 @@ import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
 import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
 import edu.colorado.phet.colorvision.help.FilterSliderWiggleMe;
 import edu.colorado.phet.colorvision.model.*;
-import edu.colorado.phet.colorvision.phetcommon.application.ApplicationModel;
-import edu.colorado.phet.colorvision.phetcommon.application.Module;
-import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
-import edu.colorado.phet.colorvision.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel2;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.colorvision.view.*;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 
 /**
  * SingleBulbModule implements the simulation module that demonstrates how color
@@ -42,9 +31,8 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  * bulb may be white or monochromatic.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
-public class SingleBulbModule extends Module implements ChangeListener, VisibleColorChangeListener {
+public class SingleBulbModule extends PhetGraphicsModule implements ChangeListener, VisibleColorChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -67,7 +55,6 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     private static final double BULB_SLIDER_LABEL_LAYER = 14;
     private static final double FILTER_SLIDER_LABEL_LAYER = 15;
     private static final double WIGGLE_ME_LAYER = 16;
-    private static final double HELP_LAYER = Double.MAX_VALUE;
 
     // Colors
     private static Color APPARATUS_BACKGROUND = ColorVisionConstants.APPARATUS_BACKGROUND;
@@ -141,21 +128,13 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
     // Constructors
     //----------------------------------------------------------------------------
 
-    /**
-     * Sole constructor.
-     * 
-     * @param appModel the application model
-     */
-    public SingleBulbModule( ApplicationModel appModel ) {
+    public SingleBulbModule() {
 
-        super( SimStrings.get( "SingleBulbModule.title" ) );
+        super( ColorVisionResources.getString( "SingleBulbModule.title" ), new SwingClock( ColorVisionConstants.CLOCK_DELAY, ColorVisionConstants.CLOCK_DT ) );
 
         //----------------------------------------------------------------------------
         // Models
         //----------------------------------------------------------------------------
-
-        // Clock
-        AbstractClock clock = appModel.getClock();
 
         // Module model
         BaseModel model = new BaseModel();
@@ -195,12 +174,8 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
         // Views
         //----------------------------------------------------------------------------
 
-        // Control Panel
-        _controlPanel = new SingleBulbControlPanel( this );
-        this.setControlPanel( _controlPanel );
-
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model, clock );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
 
@@ -243,7 +218,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
         apparatusPanel.addGraphic( _filterSlider, FILTER_SLIDER_LAYER );
 
         // Filter Color label
-        PhetTextGraphic filterSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, SimStrings.get( "filterSlider.label" ), LABEL_COLOR, FILTER_SLIDER_LABEL_LOCATION.x, FILTER_SLIDER_LABEL_LOCATION.y );
+        PhetTextGraphic filterSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, ColorVisionResources.getString( "filterSlider.label" ), LABEL_COLOR, FILTER_SLIDER_LABEL_LOCATION.x, FILTER_SLIDER_LABEL_LOCATION.y );
         apparatusPanel.addGraphic( filterSliderLabel, FILTER_SLIDER_LABEL_LAYER );
 
         // Bulb Color slider
@@ -253,7 +228,7 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
         apparatusPanel.addGraphic( _bulbSlider, BULB_SLIDER_LAYER );
 
         // Bulb Color label
-        _bulbSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, SimStrings.get( "bulbSlider.label" ), LABEL_COLOR, BULB_SLIDER_LABEL_LOCATION.x, BULB_SLIDER_LABEL_LOCATION.y );
+        _bulbSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, ColorVisionResources.getString( "bulbSlider.label" ), LABEL_COLOR, BULB_SLIDER_LABEL_LOCATION.x, BULB_SLIDER_LABEL_LOCATION.y );
         apparatusPanel.addGraphic( _bulbSliderLabel, BULB_SLIDER_LABEL_LAYER );
 
         // Pipe connecting filter control to filter.
@@ -278,6 +253,10 @@ public class SingleBulbModule extends Module implements ChangeListener, VisibleC
         _filterSwitch.setLocation( FILTER_SWITCH_LOCATION );
         apparatusPanel.addGraphic( _filterSwitch, FILTER_SWITCH_LAYER );
 
+        // Control Panel
+        _controlPanel = new SingleBulbControlPanel();
+        this.setControlPanel( _controlPanel );
+        
         //----------------------------------------------------------------------------
         // Observers
         //----------------------------------------------------------------------------

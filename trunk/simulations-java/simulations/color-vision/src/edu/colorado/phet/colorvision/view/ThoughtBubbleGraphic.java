@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.view;
 
@@ -15,13 +6,12 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * ThoughtBubbleGraphic displays a "thought bubble", used to show perceived color.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ThoughtBubbleGraphic extends PhetShapeGraphic {
 
@@ -43,13 +33,6 @@ public class ThoughtBubbleGraphic extends PhetShapeGraphic {
      */
     public ThoughtBubbleGraphic( Component component ) {
         super( component, null, null );
-
-        // Outline
-        super.setBorderColor( Color.WHITE );
-        super.setStroke( new BasicStroke( 1f ) );
-
-        // Fill color
-        super.setPaint( new Color( 0, 0, 0, 0 ) );
 
         // Use constructive area geometry to describe the "thought bubble" shape.
         // The "thought bubble" is an Area, composed by adding a set of ellipses.
@@ -74,6 +57,13 @@ public class ThoughtBubbleGraphic extends PhetShapeGraphic {
             area.add( new Area( new Ellipse2D.Double( 175, 170, 20, 10 ) ) );
         }
         super.setShape( area );
+
+        // Outline
+        super.setBorderColor( Color.WHITE );
+        super.setStroke( new BasicStroke( 1f ) );
+
+        // Fill color
+        super.setPaint( new Color( 0, 0, 0, 0 ) );
 
         // Request antialiasing.
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );

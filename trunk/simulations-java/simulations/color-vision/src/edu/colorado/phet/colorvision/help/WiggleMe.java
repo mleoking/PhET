@@ -1,21 +1,12 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.help;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.colorvision.view.BoundsOutliner;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
@@ -26,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  * and travel of the animation are adjustable.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 
 public class WiggleMe extends PhetGraphic implements ModelElement {

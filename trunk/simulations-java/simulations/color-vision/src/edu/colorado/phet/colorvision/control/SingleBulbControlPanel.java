@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.control;
 
@@ -23,9 +14,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
-import edu.colorado.phet.colorvision.SingleBulbModule;
-import edu.colorado.phet.colorvision.phetcommon.view.PhetControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.colorvision.ColorVisionResources;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 
 /**
  * SingleBulbControlPanel is the control panel for the "Single Bulb" simulation module.
@@ -33,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SingleBulbControlPanel extends PhetControlPanel implements ActionListener {
+public class SingleBulbControlPanel extends ControlPanel implements ActionListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -70,9 +60,9 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
      * 
      * @param module the module that this control panel is associated with.
      */
-    public SingleBulbControlPanel( SingleBulbModule module ) {
+    public SingleBulbControlPanel() {
 
-        super( module );
+        super();
 
         _listenerList = new EventListenerList();
 
@@ -85,7 +75,7 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
         JPanel bulbPanel = new JPanel();
         {
             // Titled border with a larger font.
-            TitledBorder border = new TitledBorder( SimStrings.get( "bulbType.title" ) );
+            TitledBorder border = new TitledBorder( ColorVisionResources.getString( "bulbType.title" ) );
             Font defaultFont = bulbPanel.getFont();
             Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
             border.setTitleFont( font );
@@ -94,8 +84,8 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
             bulbPanel.setLayout( new BoxLayout( bulbPanel, BoxLayout.Y_AXIS ) );
 
             // Radio buttons
-            _whiteRadioButton = new JRadioButton( SimStrings.get( "bulbType.white" ) );
-            _monochromaticRadioButton = new JRadioButton( SimStrings.get( "bulbType.monochromatic" ) );
+            _whiteRadioButton = new JRadioButton( ColorVisionResources.getString( "bulbType.white" ) );
+            _monochromaticRadioButton = new JRadioButton( ColorVisionResources.getString( "bulbType.monochromatic" ) );
             bulbPanel.add( _whiteRadioButton );
             bulbPanel.add( _monochromaticRadioButton );
 
@@ -109,7 +99,7 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
         JPanel beamPanel = new JPanel();
         {
             // Titled border with a larger font.
-            TitledBorder border = new TitledBorder( SimStrings.get( "beamType.title" ) );
+            TitledBorder border = new TitledBorder( ColorVisionResources.getString( "beamType.title" ) );
             Font defaultFont = bulbPanel.getFont();
             Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
             border.setTitleFont( font );
@@ -118,8 +108,8 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
             beamPanel.setLayout( new BoxLayout( beamPanel, BoxLayout.Y_AXIS ) );
 
             // Radio buttons
-            _photonsRadioButton = new JRadioButton( SimStrings.get( "beamType.photons" ) );
-            _solidRadioButton = new JRadioButton( SimStrings.get( "beamType.solid" ) );
+            _photonsRadioButton = new JRadioButton( ColorVisionResources.getString( "beamType.photons" ) );
+            _solidRadioButton = new JRadioButton( ColorVisionResources.getString( "beamType.solid" ) );
             beamPanel.add( _photonsRadioButton );
             beamPanel.add( _solidRadioButton );
 
@@ -150,7 +140,7 @@ public class SingleBulbControlPanel extends PhetControlPanel implements ActionLi
         _whiteRadioButton.setSelected( true );
         _solidRadioButton.setSelected( true );
 
-        super.setControlPane( panel );
+        super.addControlFullWidth( panel );
     }
 
     //----------------------------------------------------------------------------

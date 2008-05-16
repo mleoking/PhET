@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.view;
 
@@ -16,15 +7,14 @@ import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * PipeGraphic is a graphic that represents a collection of "pipe" segments.
  * Each segment is either horizontal or vertical.  The pipes can be filled
  * with color if desired.
  *
- * @author cmalley
- * @version $Revision$
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PipeGraphic extends PhetShapeGraphic {
 
