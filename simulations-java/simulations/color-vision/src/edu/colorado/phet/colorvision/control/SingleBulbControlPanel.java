@@ -14,7 +14,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
-import edu.colorado.phet.colorvision.ColorVisionResources;
+import edu.colorado.phet.colorvision.ColorVisionStrings;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 
 /**
@@ -75,7 +75,7 @@ public class SingleBulbControlPanel extends ControlPanel implements ActionListen
         JPanel bulbPanel = new JPanel();
         {
             // Titled border with a larger font.
-            TitledBorder border = new TitledBorder( ColorVisionResources.getString( "bulbType.title" ) );
+            TitledBorder border = new TitledBorder( ColorVisionStrings.BULB_TYPE_TITLE );
             Font defaultFont = bulbPanel.getFont();
             Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
             border.setTitleFont( font );
@@ -84,8 +84,8 @@ public class SingleBulbControlPanel extends ControlPanel implements ActionListen
             bulbPanel.setLayout( new BoxLayout( bulbPanel, BoxLayout.Y_AXIS ) );
 
             // Radio buttons
-            _whiteRadioButton = new JRadioButton( ColorVisionResources.getString( "bulbType.white" ) );
-            _monochromaticRadioButton = new JRadioButton( ColorVisionResources.getString( "bulbType.monochromatic" ) );
+            _whiteRadioButton = new JRadioButton( ColorVisionStrings.BULB_TYPE_WHITE );
+            _monochromaticRadioButton = new JRadioButton( ColorVisionStrings.BULB_TYPE_MONOCHROMATIC );
             bulbPanel.add( _whiteRadioButton );
             bulbPanel.add( _monochromaticRadioButton );
 
@@ -99,7 +99,7 @@ public class SingleBulbControlPanel extends ControlPanel implements ActionListen
         JPanel beamPanel = new JPanel();
         {
             // Titled border with a larger font.
-            TitledBorder border = new TitledBorder( ColorVisionResources.getString( "beamType.title" ) );
+            TitledBorder border = new TitledBorder( ColorVisionStrings.BEAM_TYPE_TITLE );
             Font defaultFont = bulbPanel.getFont();
             Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
             border.setTitleFont( font );
@@ -108,8 +108,8 @@ public class SingleBulbControlPanel extends ControlPanel implements ActionListen
             beamPanel.setLayout( new BoxLayout( beamPanel, BoxLayout.Y_AXIS ) );
 
             // Radio buttons
-            _photonsRadioButton = new JRadioButton( ColorVisionResources.getString( "beamType.photons" ) );
-            _solidRadioButton = new JRadioButton( ColorVisionResources.getString( "beamType.solid" ) );
+            _photonsRadioButton = new JRadioButton( ColorVisionStrings.BEAM_TYPE_PHOTONS );
+            _solidRadioButton = new JRadioButton( ColorVisionStrings.BEAM_TYPE_SOLID );
             beamPanel.add( _photonsRadioButton );
             beamPanel.add( _solidRadioButton );
 

@@ -75,10 +75,10 @@ public class SingleBulbModule extends PhetGraphicsModule implements ChangeListen
     private static final Point FILTER_SWITCH_LOCATION = new Point( 330, 440 );
     private static final Point FILTER_HOLDER_LOCATION = new Point( 342, 395 );
     private static final Point FILTER_SLIDER_LOCATION = new Point( 100, 515 );
-    private static final Point FILTER_SLIDER_LABEL_LOCATION = new Point( 100, 500 );
+    private static final Point FILTER_SLIDER_LABEL_LOCATION = new Point( 100, 490 );
     private static final Point FILTER_PIPE_LOCATION = new Point( 249, 415 );
     private static final Point BULB_SLIDER_LOCATION = new Point( 100, 100 );
-    private static final Point BULB_SLIDER_LABEL_LOCATION = new Point( 100, 85 );
+    private static final Point BULB_SLIDER_LABEL_LOCATION = new Point( 100, 75 );
     private static final Point BULB_PIPE_LOCATION = new Point( 50, 112 );
     private static final Point WIGGLE_ME_LOCATION = new Point( 215, 560 );
 
@@ -130,7 +130,7 @@ public class SingleBulbModule extends PhetGraphicsModule implements ChangeListen
 
     public SingleBulbModule() {
 
-        super( ColorVisionResources.getString( "SingleBulbModule.title" ), new SwingClock( ColorVisionConstants.CLOCK_DELAY, ColorVisionConstants.CLOCK_DT ) );
+        super( ColorVisionStrings.SINGLE_BULB_MODULE_TITLE, new SwingClock( ColorVisionConstants.CLOCK_DELAY, ColorVisionConstants.CLOCK_DT ) );
 
         //----------------------------------------------------------------------------
         // Models
@@ -218,7 +218,7 @@ public class SingleBulbModule extends PhetGraphicsModule implements ChangeListen
         apparatusPanel.addGraphic( _filterSlider, FILTER_SLIDER_LAYER );
 
         // Filter Color label
-        PhetTextGraphic filterSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, ColorVisionResources.getString( "filterSlider.label" ), LABEL_COLOR, FILTER_SLIDER_LABEL_LOCATION.x, FILTER_SLIDER_LABEL_LOCATION.y );
+        PhetTextGraphic filterSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, ColorVisionStrings.FILTER_SLIDER_LABEL, LABEL_COLOR, FILTER_SLIDER_LABEL_LOCATION.x, FILTER_SLIDER_LABEL_LOCATION.y );
         apparatusPanel.addGraphic( filterSliderLabel, FILTER_SLIDER_LABEL_LAYER );
 
         // Bulb Color slider
@@ -228,7 +228,7 @@ public class SingleBulbModule extends PhetGraphicsModule implements ChangeListen
         apparatusPanel.addGraphic( _bulbSlider, BULB_SLIDER_LAYER );
 
         // Bulb Color label
-        _bulbSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, ColorVisionResources.getString( "bulbSlider.label" ), LABEL_COLOR, BULB_SLIDER_LABEL_LOCATION.x, BULB_SLIDER_LABEL_LOCATION.y );
+        _bulbSliderLabel = new PhetTextGraphic( apparatusPanel, LABEL_FONT, ColorVisionStrings.BULB_SLIDER_LABEL, LABEL_COLOR, BULB_SLIDER_LABEL_LOCATION.x, BULB_SLIDER_LABEL_LOCATION.y );
         apparatusPanel.addGraphic( _bulbSliderLabel, BULB_SLIDER_LABEL_LAYER );
 
         // Pipe connecting filter control to filter.
