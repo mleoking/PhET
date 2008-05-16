@@ -1,3 +1,6 @@
+Fitness sim is very nice in many respects, but I really miss the drag and drop contributions to diet and exercise.  The “edit” boxes seem much less fun to play with.  Is this design set in stone?  Tossing a couple of hamburgers and a banana split on there and seeing what happens, or taking them off is just a lot more fun and gives more immediate response.
+    I was thinking you could bring the drag and drop food and exercise and then have a button for extended diet and exercise options since the list is soooo long. What do you think?
+
 Get better simulation name
 
 Rename directory to match new simulation name, once we have it
