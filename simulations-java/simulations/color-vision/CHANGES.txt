@@ -3,6 +3,8 @@ Change history for color-vision
 ===============================================================================
 
 DONE:
+5/15/08 - add phetgraphics and piccolo-phet dependencies to build file
+5/15/08 - upgrade to Piccolo tabs
 5/15/08 - add About dialog credits
 5/15/08 - add hand cursor to sliders in RGB panel
 5/15/08 - replace SimStrings.get with PhetResources.getString
