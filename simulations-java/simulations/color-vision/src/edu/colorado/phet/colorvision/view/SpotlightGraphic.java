@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.view;
 
@@ -17,15 +8,14 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.model.Spotlight;
-import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * SpotlightGraphic is the view component for a 2D spotlight.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class SpotlightGraphic extends PhetImageGraphic implements SimpleObserver {
 

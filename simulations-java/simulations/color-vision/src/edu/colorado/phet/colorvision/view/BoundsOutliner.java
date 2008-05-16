@@ -1,19 +1,10 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 /**
  * BoundsOutliner is a class used for debugging the bondaries of graphics components.
@@ -23,7 +14,6 @@ import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
  * component will be rendered as an outline, in a Color that you specify.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BoundsOutliner {
 

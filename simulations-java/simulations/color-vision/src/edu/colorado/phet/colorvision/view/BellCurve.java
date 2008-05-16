@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info - 
- * Filename : $Source$
- * Branch : $Name$ 
- * Modified by : $Author$ 
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.view;
 
@@ -15,14 +6,13 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * BellCurve draws a bell curve shape. The origin of the curve is at the peak in
  * the center of the curve.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BellCurve extends PhetShapeGraphic {
 

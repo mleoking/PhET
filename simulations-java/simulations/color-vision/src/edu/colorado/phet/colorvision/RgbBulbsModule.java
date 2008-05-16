@@ -1,20 +1,8 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info - 
- * Filename : $Source$
- * Branch : $Name$ 
- * Modified by : $Author$ 
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -29,25 +17,22 @@ import edu.colorado.phet.colorvision.help.WiggleMe;
 import edu.colorado.phet.colorvision.model.Person;
 import edu.colorado.phet.colorvision.model.PhotonBeam;
 import edu.colorado.phet.colorvision.model.Spotlight;
-import edu.colorado.phet.colorvision.phetcommon.application.ApplicationModel;
-import edu.colorado.phet.colorvision.phetcommon.application.Module;
-import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
-import edu.colorado.phet.colorvision.phetcommon.model.clock.AbstractClock;
-import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.colorvision.view.PersonGraphic;
 import edu.colorado.phet.colorvision.view.PhotonBeamGraphic;
 import edu.colorado.phet.colorvision.view.SpotlightGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 
 /**
  * RgbBulbsModule implements the simulation module that demonstrates how color
  * vision works in the context of three lights (red, green and blue).
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
-public class RgbBulbsModule extends Module implements ChangeListener, VisibleColorChangeListener {
+public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener, VisibleColorChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -63,7 +48,6 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
     private static final double BLUE_SPOTLIGHT_LAYER = 7;
     private static final double PERSON_FOREGROUND_LAYER = 8;
     private static final double WIGGLE_ME_LAYER = 9;
-    private static final double HELP_LAYER = Double.MAX_VALUE;
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = ColorVisionConstants.APPARATUS_BACKGROUND;
@@ -117,21 +101,13 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
     // Constructors
     //----------------------------------------------------------------------------
 
-    /**
-     * Sole constructor.
-     * 
-     * @param appModel the application model
-     */
-    public RgbBulbsModule( ApplicationModel appModel ) {
+    public RgbBulbsModule() {
 
-        super( SimStrings.get( "RgbBulbsModule.title" ) );
+        super( ColorVisionResources.getString( "RgbBulbsModule.title" ), new SwingClock( ColorVisionConstants.CLOCK_DELAY, ColorVisionConstants.CLOCK_DT ) );
 
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
-
-        // Clock
-        AbstractClock clock = appModel.getClock();
 
         // Module model
         BaseModel model = new BaseModel();
@@ -185,10 +161,10 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
         //----------------------------------------------------------------------------
 
         // Control Panel
-        this.setControlPanel( new RgbBulbsControlPanel( this ) );
+        this.setControlPanel( new RgbBulbsControlPanel() );
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( model );
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
 
@@ -223,16 +199,19 @@ public class RgbBulbsModule extends Module implements ChangeListener, VisibleCol
         // Red intensity control
         _redSlider = new ColorIntensitySlider( VisibleColor.RED, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
         _redSlider.setLocation( RED_SLIDER_LOCATION );
+        _redSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         apparatusPanel.add( _redSlider );
 
         // Green intensity control
         _greenSlider = new ColorIntensitySlider( VisibleColor.GREEN, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
         _greenSlider.setLocation( GREEN_SLIDER_LOCATION );
+        _greenSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         apparatusPanel.add( _greenSlider );
 
         // Blue intensity control
         _blueSlider = new ColorIntensitySlider( VisibleColor.BLUE, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
         _blueSlider.setLocation( BLUE_SLIDER_LOCATION );
+        _blueSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         apparatusPanel.add( _blueSlider );
 
         //----------------------------------------------------------------------------

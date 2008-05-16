@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info - 
- * Filename : $Source$
- * Branch : $Name$ 
- * Modified by : $Author$ 
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.control;
 
@@ -15,7 +6,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -46,7 +36,6 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
 
     private JPanel _containerPanel;
     private JSlider _slider;
-    private JLabel _label;
     private Color _color;
     private EventListenerList _listenerList;
 

@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.control;
 
@@ -16,8 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
-import edu.colorado.phet.colorvision.phetcommon.application.Module;
-import edu.colorado.phet.colorvision.phetcommon.view.PhetControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 
 /**
  * RgbBulbsControlPanel is the control panel for the "RGB Bulbs" simulation module.
@@ -25,25 +15,19 @@ import edu.colorado.phet.colorvision.phetcommon.view.PhetControlPanel;
  * graphic and Help buttons.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
-public class RgbBulbsControlPanel extends PhetControlPanel {
+public class RgbBulbsControlPanel extends ControlPanel {
 
-    /**
-     * Sole constructor.
-     * 
-     * @param module the module that this control panel is associated with.
-     */
-    public RgbBulbsControlPanel( Module module ) {
+    public RgbBulbsControlPanel() {
 
-        super( module );
+        super();
 
         JPanel fillerPanel = new JPanel();
         fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
         fillerPanel.add( Box.createHorizontalStrut( ColorVisionConstants.CONTROL_PANEL_MIN_WIDTH ) );
 
         // WORKAROUND: PhetControlPanel doesn't display anything unless we give it a dummy control pane.
-        this.setControlPane( fillerPanel );
+        this.addControlFullWidth( fillerPanel );
     }
 
 }

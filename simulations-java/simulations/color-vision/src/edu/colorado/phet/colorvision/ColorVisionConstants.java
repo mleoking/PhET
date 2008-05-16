@@ -18,26 +18,21 @@ import java.awt.Font;
  * ColorVisionConstants contains global configuration constants.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ColorVisionConstants {
 
     /* Not intended for instantiation */
     private ColorVisionConstants() {}
 
-    private static final String PROJECT = "color-vision";
+    public static final String PROJECT_NAME = "color-vision";
     
-    // Properties files
-    public static final String SIM_PROPERTIES_NAME = PROJECT + "/" + PROJECT;
-    public static final String SIM_STRINGS_NAME = PROJECT + "/localization/" + PROJECT + "-strings";
-    public static final String COMMON_STRINGS_NAME = PROJECT + "/localization/phetcommon-strings";
-
     // Clock constants
-    public static final double TIME_STEP = 1;
-    public static final int WAIT_TIME = 50;
-
+    private static final int CLOCK_FRAME_RATE = 25;  // frames per second
+    public static final int CLOCK_DELAY = ( 1000 / CLOCK_FRAME_RATE ); // milliseconds
+    public static final double CLOCK_DT = 1;
+    
     // Images
-    public static final String IMAGES_DIRECTORY = PROJECT + "/images/";
+    public static final String IMAGES_DIRECTORY = PROJECT_NAME + "/images/";
     public static final String HEAD_BACKGROUND_IMAGE = IMAGES_DIRECTORY + "headBackground.png";
     public static final String HEAD_FOREGROUND_IMAGE = IMAGES_DIRECTORY + "headForeground.png";
     public static final String SPECTRUM_IMAGE = IMAGES_DIRECTORY + "spectrum.png";

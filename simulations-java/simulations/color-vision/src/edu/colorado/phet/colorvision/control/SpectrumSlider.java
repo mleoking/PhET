@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2008, University of Colorado */
 
 package edu.colorado.phet.colorvision.control;
 
@@ -25,20 +16,20 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
-import edu.colorado.phet.colorvision.phetcommon.view.graphics.DefaultInteractiveGraphic;
-import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.colorvision.view.BellCurve;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 
 /**
  * SpectrumSlider is a UI component, similar to a JSlider, for selecting a
  * wavelength from the visible spectrum.  
  * <p>
- * The slider track shows the spectru of colors that correspond to visible
+ * The slider track shows the spectrum of colors that correspond to visible
  * wavelengths.  As the slider knob is moved, the knob color changes to match
- * the seleted wavelength.  If a transmission width has been set, then a 
+ * the selected wavelength.  If a transmission width has been set, then a 
  * bell curve is overlayed on the spectrum, aligned with the knob. 
  * <p>
  * The slider value is determined by the position of the slider knob,
@@ -51,7 +42,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrumSlider extends DefaultInteractiveGraphic {
+public class SpectrumSlider extends GraphicLayerSet {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -123,12 +114,13 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
 
         // Initialize graphical components.
         _spectrum = new PhetImageGraphic( component, ColorVisionConstants.SPECTRUM_IMAGE );
+        addGraphic( _spectrum );
         _knob = new SpectrumSliderKnob( component, DEFAULT_KNOB_SIZE, getRotationAngle() );
+        addGraphic( _knob );
 
         // Initialize interactivity
-        super.setBoundedGraphic( _knob );
-        super.addCursorHandBehavior();
-        super.addMouseInputListener( new SpectrumSliderMouseInputListener() );
+        _knob.setCursorHand();
+        _knob.addMouseInputListener( new SpectrumSliderMouseInputListener() );
 
         // This call recalculates the location of all graphic elements.
         setLocation( 0, 0 );
@@ -366,7 +358,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
      * 
      * @return the bounds
      */
-    protected Rectangle getBounds() {
+    public Rectangle getBounds() {
 
         // Start with the spectrum graphic's bounds.
         // Make a copy, so we don't accidentally change the graphic's bounds.
@@ -453,7 +445,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
 
         if( _orientation == HORIZONTAL ) {
             // Translate the spectrum graphic.
-            _spectrum.setPosition( x, y );
+            _spectrum.setLocation( x, y );
 
             // Set drag bounds.
             _dragBounds = new Rectangle( x, y + spectrumBounds.height, spectrumBounds.width, 0 );
@@ -463,7 +455,7 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
             double angle = getRotationAngle();
             AffineTransform transform = AffineTransform.getRotateInstance( angle );
             _spectrum.setTransform( transform );
-            _spectrum.setPosition( x, y + spectrumBounds.height );
+            _spectrum.setLocation( x, y + spectrumBounds.height );
 
             // Set drag bounds.
             _dragBounds = new Rectangle( x + spectrumBounds.width, y, 0, spectrumBounds.height );
@@ -521,10 +513,8 @@ public class SpectrumSlider extends DefaultInteractiveGraphic {
     public void paint( Graphics2D g2 ) {
 
         if( super.isVisible() ) {
-            // Draw the spectrum graphic.
-            _spectrum.paint( g2 );
 
-            // Draw the slider knob.
+            // Draw the specturm & slider knob.
             super.paint( g2 );
 
             // Draw the optional transmission width curve.  
