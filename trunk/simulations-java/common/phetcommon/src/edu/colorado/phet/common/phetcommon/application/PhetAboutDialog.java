@@ -44,7 +44,16 @@ public class PhetAboutDialog extends JDialog {
 
     // Resource (file) that contains the PhET license, in plain text format.
     private static final String LICENSE_RESOURCE = "phet-license.txt";
-
+    
+    // Copyright notice, not translated so no one messes with it, and so that we can easily change the date.
+    private static final String COPYRIGHT = 
+        "<html><head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>" +
+        "<b>Physics Education Technology project</b><br>" +
+        "Copyright &copy; 2004-2008 University of Colorado.<br>" +
+        "All rights reserved.<br>" +
+        "Visit <a href=http://phet.colorado.edu>http://phet.colorado.edu</a>" +
+        "</html>";
+    
     private JPanel logoPanel;
     private String titleString, descriptionString, versionString, creditsString;
 
@@ -128,19 +137,15 @@ public class PhetAboutDialog extends JDialog {
             }
         } );
 
-//        JLabel copyrightLabel = new JLabel( getLocalizedString( "Common.About.Copyright" ) );
         JEditorPane copyrightLabel = new JEditorPane();
         copyrightLabel.setEditorKit( new HTMLEditorKit() );
-        String html = getLocalizedString( "Common.About.Copyright" );
+        String html = COPYRIGHT;
         html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
         html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
         copyrightLabel.setText( html );
         copyrightLabel.setEditable( false );
         copyrightLabel.setBackground( new JLabel().getBackground() );
-
-
         copyrightLabel.setFont( new PhetFont( Font.BOLD, 24 ) );
-
         copyrightLabel.addHyperlinkListener( new HyperlinkListener() {
             public void hyperlinkUpdate( HyperlinkEvent e ) {
                 if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
