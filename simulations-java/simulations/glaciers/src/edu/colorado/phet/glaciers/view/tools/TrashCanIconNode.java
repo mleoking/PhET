@@ -56,7 +56,7 @@ public class TrashCanIconNode extends AbstractToolIconNode {
                 terminate(); // ends this activity
             }
         };
-        toolNode.getRoot().addActivity( a2 );
+        addActivity( a2 );
         a2.startAfter( a1 );
     }
 }
