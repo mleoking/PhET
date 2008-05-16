@@ -103,7 +103,7 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
 
     public RgbBulbsModule() {
 
-        super( ColorVisionResources.getString( "RgbBulbsModule.title" ), new SwingClock( ColorVisionConstants.CLOCK_DELAY, ColorVisionConstants.CLOCK_DT ) );
+        super( ColorVisionStrings.RGB_BULBS_MODULE_TITLE, new SwingClock( ColorVisionConstants.CLOCK_DELAY, ColorVisionConstants.CLOCK_DT ) );
 
         //----------------------------------------------------------------------------
         // Model

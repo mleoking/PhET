@@ -3,6 +3,8 @@ Change history for color-vision
 ===============================================================================
 
 DONE:
+5/15/08 - load all localized strings statically in ColorVisionStrings
+5/15/08 - move slider labels up 10 pixels, they were a bit crowded
 5/15/08 - add phetgraphics and piccolo-phet dependencies to build file
 5/15/08 - upgrade to Piccolo tabs
 5/15/08 - add About dialog credits

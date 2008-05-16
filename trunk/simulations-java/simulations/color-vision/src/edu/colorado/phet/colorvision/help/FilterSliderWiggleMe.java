@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.colorvision.ColorVisionResources;
+import edu.colorado.phet.colorvision.ColorVisionStrings;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
@@ -45,7 +45,7 @@ public class FilterSliderWiggleMe extends WiggleMe {
         super( component, model );
 
         Shape arrowShape = null;
-        String string = ColorVisionResources.getString( "filterSlider.wiggleMe.text" );
+        final String string = ColorVisionStrings.FILTER_SLIDER_WIGGLE_ME;
 
         // Create shapes, calculate bounds.
         Rectangle arrowBounds = null;
