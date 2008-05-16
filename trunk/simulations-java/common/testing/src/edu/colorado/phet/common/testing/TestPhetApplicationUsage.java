@@ -31,25 +31,31 @@ public class TestPhetApplicationUsage {
             public void run() {
                 try {
                     Thread.sleep( 5000 );//todo: sleep until the main frame is available
-                    File file = new File( "C:/users/sam/desktop/simlog.txt" );
-                    if ( !file.exists() ) {
-                        file.createNewFile();
-                    }
-                    FileWriter fileWriter = new FileWriter( file, true );
                     int count = PhetApplication.instances;
                     System.out.println( "count = " + count );
-                    fileWriter.write( "project=" + phetProject.getName() + ", sim=" + flavor.getFlavorName() + ", phetAppCount=" + count + "\n" );
-                    fileWriter.flush();
+                    log( "project=" + phetProject.getName() + ", sim=" + flavor.getFlavorName() + ", phetAppCount=" + count + "\n" );
                 }
                 catch( InterruptedException e ) {
-                    e.printStackTrace();
-                }
-                catch( IOException e ) {
                     e.printStackTrace();
                 }
                 System.exit( 0 );
             }
         } ).start();
 
+    }
+
+    public static void log( String str ) {
+        try {
+            File file = new File( "C:/users/sam/desktop/simlog.txt" );
+            if ( !file.exists() ) {
+                file.createNewFile();
+            }
+            FileWriter fileWriter = new FileWriter( file, true );
+            fileWriter.write( str + "\n" );
+            fileWriter.flush();
+        }
+        catch( IOException e ) {
+            throw new RuntimeException( e );
+        }
     }
 }

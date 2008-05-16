@@ -25,7 +25,7 @@ public class BatchSimTest {
     private void testAllSims( Class mainClass ) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException, InterruptedException {
         PhetProject[] x = PhetProject.getAllProjects( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java" ) );
         for ( int i = 0; i < x.length; i++ ) {
-                checkSim( x[i], mainClass );
+            checkSim( x[i], mainClass );
 
         }
     }
@@ -36,13 +36,14 @@ public class BatchSimTest {
 
             PhetProjectFlavor phetProjectFlavor = f[i];
             String cp = System.getProperty( "java.class.path" );
-            String command = "java -Dsun.java2d.noddraw=true -classpath \"" + cp + "\" " + mainClass.getName() + " " + phetProject.getName() + " " + phetProjectFlavor.getFlavorName();
+            String command = "C:\\j2sdk1.4.2_15\\bin\\java -Dsun.java2d.noddraw=true -classpath \"" + cp + "\" " + mainClass.getName() + " " + phetProject.getName() + " " + phetProjectFlavor.getFlavorName();
             System.out.println( "command = " + command );
 
-            if (count>=57){
+            if ( count >= 55 ) {
 
-            Process p = Runtime.getRuntime().exec( command );
-            int val = p.waitFor();
+                Process p = Runtime.getRuntime().exec( command );
+                int val = p.waitFor();
+                System.out.println( "Finished exec." );
             }
             count++;
 //            System.out.println( "val = " + val );
