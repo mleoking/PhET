@@ -6,6 +6,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
+
 /**
  * BoreholeDrill is the model of a borehole drill.
  *
@@ -18,7 +21,8 @@ public class BoreholeDrill extends AbstractTool {
     //----------------------------------------------------------------------------
     
     private final Glacier _glacier;
-    private ArrayList _listeners;
+    private final GlacierListener _glacierListener;
+    private final ArrayList _listeners;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -27,7 +31,21 @@ public class BoreholeDrill extends AbstractTool {
     public BoreholeDrill( Point2D position, Glacier glacier ) {
         super( position );
         _glacier = glacier;
+        _glacierListener = new GlacierAdapter() {
+            public void iceThicknessChanged() {
+                // keep drill on glacier surface as the glacier evolves
+                if ( !isDragging() ) {
+                    snapToGlacierSurface();
+                }
+            }
+        };
+        _glacier.addGlacierListener( _glacierListener );
         _listeners = new ArrayList();
+    }
+    
+    public void cleanup() {
+        _glacier.removeGlacierListener( _glacierListener );
+        super.cleanup();
     }
     
     public void drill() {
@@ -44,6 +62,10 @@ public class BoreholeDrill extends AbstractTool {
      * Always snap to the ice surface.
      */
     protected void constrainDrop() {
+        snapToGlacierSurface();
+    }
+    
+    private void snapToGlacierSurface() {
         double surfaceElevation = _glacier.getSurfaceElevation( getX() );
         setPosition( getX(), surfaceElevation );
     }
