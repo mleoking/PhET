@@ -266,6 +266,10 @@ public class ToolTipNode extends PComposite {
     //----------------------------------------------------------------------------
     
     public static void main( String[] args ) {
+        
+        // Instructions
+        PText instructionsNode = new PText( "Place mouse over a square to see its tool tip." );
+        instructionsNode.setFont( new PhetFont( 14 ) );
 
         // Orange Square
         PPath orangeNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
@@ -296,15 +300,17 @@ public class ToolTipNode extends PComposite {
         
         // Layout
         final int margin = 50;
-        final int xSpacing = 50;
-        orangeNode.setOffset( margin, margin );
-        blueNode.setOffset( orangeNode.getFullBoundsReference().getMaxX() + xSpacing, margin );
-        redNode.setOffset( blueNode.getFullBoundsReference().getMaxX() + xSpacing, margin );
-        greenNode.setOffset( redNode.getFullBoundsReference().getMaxX() + xSpacing, margin );
+        final int spacing = 50;
+        instructionsNode.setOffset( margin, margin );
+        orangeNode.setOffset( margin, instructionsNode.getFullBoundsReference().getMaxY() + spacing );
+        blueNode.setOffset( orangeNode.getFullBoundsReference().getMaxX() + spacing, orangeNode.getFullBoundsReference().getY() );
+        redNode.setOffset( blueNode.getFullBoundsReference().getMaxX() + spacing, blueNode.getFullBoundsReference().getY() );
+        greenNode.setOffset( redNode.getFullBoundsReference().getMaxX() + spacing, redNode.getFullBoundsReference().getY() );
         final double frameWidth = greenNode.getFullBoundsReference().getMaxX() + margin;
         
         // Canvas
         PCanvas canvas = new PCanvas();
+        canvas.getLayer().addChild( instructionsNode );
         canvas.getLayer().addChild( orangeNode );
         canvas.getLayer().addChild( blueNode );
         canvas.getLayer().addChild( redNode );
@@ -317,7 +323,7 @@ public class ToolTipNode extends PComposite {
         // Frame
         JFrame frame = new JFrame( "ToolTipNode test" );
         frame.setContentPane( canvas );
-        frame.setSize( (int)frameWidth, 200 );
+        frame.setSize( (int)frameWidth, 300 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
