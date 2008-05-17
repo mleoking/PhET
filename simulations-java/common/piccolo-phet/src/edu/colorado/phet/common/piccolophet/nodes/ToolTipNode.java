@@ -206,7 +206,7 @@ public class ToolTipNode extends PComposite {
     }
     
     //----------------------------------------------------------------------------
-    // Strategies for placing the tool tip
+    // Strategies for setting the tool tip's location
     //----------------------------------------------------------------------------
     
     /**
