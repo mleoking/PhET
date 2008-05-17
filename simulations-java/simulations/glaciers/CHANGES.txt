@@ -76,6 +76,7 @@ CLEANUP:
 
 
 DONE:
+5/17/08 - cleanup and move ToolTipNode to piccolo-phet
 5/17/08 - replace tool icon labels with tool tips
 5/17/08 - make flags on valley floor delete themselves when hit by advancing glacier
 5/17/08 - add ability for tools to delete themselves to the tool framework
