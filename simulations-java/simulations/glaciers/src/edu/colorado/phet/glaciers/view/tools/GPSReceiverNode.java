@@ -9,14 +9,12 @@ import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.text.NumberFormat;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GPSReceiver;
@@ -41,8 +39,6 @@ public class GPSReceiverNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font FONT = new PhetFont( 10 );
-    private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final NumberFormat DISTANCE_FORMAT = new DefaultDecimalFormat( "0" );
     private static final NumberFormat ELEVATION_FORMAT = new DefaultDecimalFormat( "0" );
     
@@ -80,7 +76,7 @@ public class GPSReceiverNode extends AbstractToolNode {
         receiverNode.setOffset( arrowNode.getFullBounds().getMaxX() + 2, -22 );
         
         // display to the right of arrow, vertically centered
-        _valueNode = new ValueNode();
+        _valueNode = new ValueNode( getValueFont(), getValueBorder() );
         addChild( _valueNode );
         _valueNode.setOffset( receiverNode.getFullBounds().getMaxX() + 2, -arrowNode.getFullBounds().getHeight() / 2 );
         
@@ -117,18 +113,18 @@ public class GPSReceiverNode extends AbstractToolNode {
         private JLabel _elevationLabel;
         private PSwing _pswing;
         
-        public ValueNode() {
+        public ValueNode( Font font, Border border ) {
             super();
             
             _distanceLabel = new JLabel( "?" );
-            _distanceLabel.setFont( FONT );
+            _distanceLabel.setFont( font );
             
             _elevationLabel = new JLabel( "?" );
-            _elevationLabel.setFont( FONT );
+            _elevationLabel.setFont( font );
             
             JPanel panel = new JPanel();
             panel.setBackground( Color.WHITE );
-            panel.setBorder( BORDER );
+            panel.setBorder( border );
             EasyGridBagLayout layout = new EasyGridBagLayout( panel );
             layout.setAnchor( GridBagConstraints.EAST );
             panel.setLayout( layout );

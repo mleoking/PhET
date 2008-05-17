@@ -8,14 +8,12 @@ import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.text.NumberFormat;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
@@ -41,8 +39,6 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font FONT = new PhetFont( 10 );
-    private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final NumberFormat ELEVATION_FORMAT = new DefaultDecimalFormat( "0" );
     private static final NumberFormat ACCUMULATION_FORMAT = new DefaultDecimalFormat( "0.00" );
     private static final NumberFormat ABLATION_FORMAT = new DefaultDecimalFormat( "0.00" );
@@ -94,7 +90,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         addChild( meterNode );
         meterNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 2, -meterNode.getFullBoundsReference().getHeight() / 2 );
         
-        _valueNode = new ValueNode();
+        _valueNode = new ValueNode( getValueFont(), getValueBorder() );
         addChild( _valueNode );
         _valueNode.setOffset( meterNode.getFullBounds().getMaxX() + 2, -_valueNode.getFullBounds().getHeight() / 2 );
         
@@ -138,35 +134,35 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         private JLabel _glacialBudgetLabel;
         private PSwing _pswing;
         
-        public ValueNode() {
+        public ValueNode( Font font, Border border ) {
             super();
             
             JLabel elevationLabel = new JLabel( GlaciersStrings.LABEL_ELEVATION + ":" );
-            elevationLabel.setFont( FONT );
+            elevationLabel.setFont( font );
             _elevationLabel = new JLabel( "0" );
-            _elevationLabel.setFont( FONT );
+            _elevationLabel.setFont( font );
             
             JLabel accumulationLabel = new JLabel( GlaciersStrings.LABEL_ACCUMULATION + ":" );
-            accumulationLabel.setFont( FONT );
+            accumulationLabel.setFont( font );
             _accumulationLabel = new JLabel( "0" );
-            _accumulationLabel.setFont( FONT );
+            _accumulationLabel.setFont( font );
             _accumulationLabel.setForeground( GlaciersConstants.ACCUMULATION_COLOR );
             
             JLabel ablationLabel = new JLabel( GlaciersStrings.LABEL_ABLATION + ":" );
-            ablationLabel.setFont( FONT );
+            ablationLabel.setFont( font );
             _ablationLabel = new JLabel( "0" );
-            _ablationLabel.setFont( FONT );
+            _ablationLabel.setFont( font );
             _ablationLabel.setForeground( GlaciersConstants.ABLATION_COLOR );
             
             JLabel glacialBudgetLabel = new JLabel( GlaciersStrings.LABEL_GLACIAL_BUDGET + ":" );
-            glacialBudgetLabel.setFont( FONT );
+            glacialBudgetLabel.setFont( font );
             _glacialBudgetLabel = new JLabel( "0" );
-            _glacialBudgetLabel.setFont( FONT );
+            _glacialBudgetLabel.setFont( font );
             _glacialBudgetLabel.setForeground( GlaciersConstants.GLACIAL_BUDGET_COLOR );
             
             JPanel displayPanel = new JPanel();
             displayPanel.setBackground( Color.WHITE );
-            displayPanel.setBorder( BORDER );
+            displayPanel.setBorder( border );
             EasyGridBagLayout layout = new EasyGridBagLayout( displayPanel );
             displayPanel.setLayout( layout );
             int row = 0;
