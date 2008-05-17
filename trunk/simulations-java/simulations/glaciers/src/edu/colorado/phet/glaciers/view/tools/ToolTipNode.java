@@ -29,6 +29,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * ToolTipNode is a Swing-style "tool tip" that can be associated with a node.
  * When the mouse is placed over the associated node, the tool tip appears after a brief delay.
  * Pressing the mouse or moving the mouse off the associated node hides the tool tip.
+ * Tool tip placement strategy can be specified.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -45,6 +46,7 @@ public class ToolTipNode extends PComposite {
 
     private PNode _associatedNode;
     private boolean _enabled;
+    private TimerEventStrategy _eventStrategy;
 
     public ToolTipNode( final String toolTipText, final PNode associatedNode ) {
         super();
@@ -88,7 +90,8 @@ public class ToolTipNode extends PComposite {
         addChild( toolTipTextNode );
         toolTipTextNode.setOffset( DEFAULT_MARGIN, DEFAULT_MARGIN );
 
-        associatedNode.addInputEventListener( new TimerEventStrategy( this ) );
+        _eventStrategy = new TimerEventStrategy( this );
+        associatedNode.addInputEventListener( _eventStrategy );
     }
 
     public void setEnabled( boolean enabled ) {
@@ -97,6 +100,10 @@ public class ToolTipNode extends PComposite {
 
     public boolean isEnabled() {
         return _enabled;
+    }
+    
+    public void setShowToolTipBelowNode( boolean b ) {
+        _eventStrategy.setShowToolTipBelowNode( b );
     }
     
     public PNode getAssociatedNode() {
@@ -111,23 +118,37 @@ public class ToolTipNode extends PComposite {
 
         private ToolTipNode _toolTipNode;
         private Timer _showToolTipTimer;
+        private boolean _showToolTipBelowNode; // true=tool tip appears below node, false=tool tip appears above mouse cursor
 
         public TimerEventStrategy( ToolTipNode toolTipNode ) {
             super();
             _toolTipNode = toolTipNode;
+            _showToolTipBelowNode = false;
         }
         
-        public void mouseEntered( PInputEvent mouseEvent ) {
+        public void mouseEntered( final PInputEvent mouseEvent ) {
             if ( _toolTipNode.isEnabled() ) {
                 
                 ActionListener onListener = new ActionListener() {
                     public void actionPerformed( ActionEvent ae ) {
-                        //XXX something wrong in here, tooltip alternates between 2 different positions for a stationary associatedNode
-                        //TODO center the tooltip below its associatedNode
-                        PBounds bGlobal = _toolTipNode.getAssociatedNode().getGlobalFullBounds();
-                        System.out.println( "associate node global bounds = " + bGlobal );//XXX
-                        Point2D pLocal = _toolTipNode.globalToLocal( new Point2D.Double( bGlobal.getX(), bGlobal.getY() + bGlobal.getHeight() + 5 ) );
-                        _toolTipNode.setOffset( pLocal.getX(), pLocal.getY() );
+
+                        if ( _showToolTipBelowNode ) {
+                            // center tooltip below node
+                            PBounds bGlobal = _toolTipNode.getAssociatedNode().getGlobalFullBounds();
+                            Point2D pLocal = _toolTipNode.getParent().globalToLocal( new Point2D.Double( bGlobal.getX(), bGlobal.getMaxY() ) );
+                            double xOffset = pLocal.getX() + ( _toolTipNode.getAssociatedNode().getFullBoundsReference().getWidth() - _toolTipNode.getFullBoundsReference().getWidth() ) / 2;
+                            double yOffset = pLocal.getY() + 5;
+                            _toolTipNode.setOffset( xOffset, yOffset );
+                        }
+                        else {
+                            // center tooltip above mouse cursor
+                            Point2D pGlobal = mouseEvent.getPosition();
+                            Point2D pLocal = _toolTipNode.getParent().globalToLocal( pGlobal );
+                            double xOffset = pLocal.getX() - ( _toolTipNode.getFullBoundsReference().getWidth() / 2 );
+                            double yOffset = pLocal.getY() - _toolTipNode.getFullBoundsReference().getHeight() - 5;
+                            _toolTipNode.setOffset( xOffset, yOffset );
+                        }
+
                         _toolTipNode.setVisible( true );
                     }
                 };
@@ -154,28 +175,56 @@ public class ToolTipNode extends PComposite {
                 _showToolTipTimer = null;
             }
         }
+        
+        public void setShowToolTipBelowNode( boolean b ) {
+            _showToolTipBelowNode = b;
+        }
     }
 
     public static void main( String[] args ) {
 
-        // Square
-        PPath squareNode = new PPath( new Rectangle( 0, 0, 75, 75 ) );
-        squareNode.setPaint( Color.RED );
-        squareNode.setOffset( 50, 50 );
-        squareNode.addInputEventListener( new CursorHandler() );
+        // Orange Square
+        PPath orangeNode = new PPath( new Rectangle( 0, 0, 100, 100 ) );
+        orangeNode.setPaint( Color.ORANGE );
+        orangeNode.setOffset( 50, 50 );
+        orangeNode.addInputEventListener( new CursorHandler() );
+        
+        // Tooltip that is centered above the mouse cursor
+        ToolTipNode orangeToolTipNode = new ToolTipNode( "tool tip follows mouse", orangeNode );
+        
+        // Red Square
+        PPath redNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
+        redNode.setPaint( Color.RED );
+        redNode.setOffset( 200, 50 );
+        redNode.addInputEventListener( new CursorHandler() );
 
-        // ToolTip
-        ToolTipNode toolTipNode = new ToolTipNode( "this is a red square", squareNode );
+        // ToolTip that is wider than its associated node, centered below the node.
+        ToolTipNode redToolTipNode = new ToolTipNode( "tool tip centered below red square", redNode );
+        redToolTipNode.setShowToolTipBelowNode( true );
 
+        // Green Square
+        PPath greenNode = new PPath( new Rectangle( 0, 0, 100, 100 ) );
+        greenNode.setPaint( Color.GREEN );
+        greenNode.setOffset( 350, 50 );
+        greenNode.addInputEventListener( new CursorHandler() );
+        
+        // ToolTip that is narrower than its associated node, centered below the node, HTML text.
+        ToolTipNode greenToolTipNode = new ToolTipNode( "<html><center>centered<br>green<br>tool tip</center></html>", greenNode );
+        greenToolTipNode.setShowToolTipBelowNode( true );
+        
         // Canvas
         PCanvas canvas = new PCanvas();
-        canvas.getLayer().addChild( squareNode );
-        canvas.getLayer().addChild( toolTipNode );
+        canvas.getLayer().addChild( orangeNode );
+        canvas.getLayer().addChild( redNode );
+        canvas.getLayer().addChild( greenNode );
+        canvas.getLayer().addChild( orangeToolTipNode );
+        canvas.getLayer().addChild( redToolTipNode );
+        canvas.getLayer().addChild( greenToolTipNode );
 
         // Frame
         JFrame frame = new JFrame();
         frame.setContentPane( canvas );
-        frame.setSize( 200, 200 );
+        frame.setSize( 600, 300 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
