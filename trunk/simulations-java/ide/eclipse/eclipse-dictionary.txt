@@ -17,9 +17,12 @@ editable
 extrude
 extruded
 extruding
+glyph
+glyphs
 headwall
 javadoc
 jiggles
+km
 max
 min
 misc
