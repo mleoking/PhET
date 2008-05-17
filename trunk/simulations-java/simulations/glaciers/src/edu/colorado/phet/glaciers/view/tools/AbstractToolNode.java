@@ -2,8 +2,14 @@
 
 package edu.colorado.phet.glaciers.view.tools;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.geom.Point2D;
 
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
@@ -20,6 +26,13 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class AbstractToolNode extends PNode {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Font FONT = new PhetFont( 10 );
+    private static final Border VALUE_BORDER = BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ), BorderFactory.createEmptyBorder( 1, 2, 1, 2 ) );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -116,5 +129,13 @@ public abstract class AbstractToolNode extends PNode {
     protected void updatePosition() {
         _mvt.modelToView( _tool.getPositionReference(), _pView );
         setOffset( _pView );
+    }
+    
+    protected static Font getValueFont() {
+        return FONT;
+    }
+    
+    protected static Border getValueBorder() {
+        return VALUE_BORDER;
     }
 }

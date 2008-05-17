@@ -8,14 +8,12 @@ import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.text.NumberFormat;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Glacier;
@@ -43,8 +41,6 @@ public class ThermometerNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font FONT = new PhetFont( 10 );
-    private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final NumberFormat TEMPERATURE_FORMAT = new DefaultDecimalFormat( "0.0" );
     
     //----------------------------------------------------------------------------
@@ -97,7 +93,7 @@ public class ThermometerNode extends AbstractToolNode {
         addChild( glassNode );
         glassNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 2, -glassNode.getFullBoundsReference().getHeight() );
         
-        _valueNode = new ValueNode();
+        _valueNode = new ValueNode( getValueFont(), getValueBorder() );
         addChild( _valueNode );
         _valueNode.setOffset( glassNode.getFullBoundsReference().getMaxX() + 2, -_valueNode.getFullBoundsReference().getHeight() );
         
@@ -136,18 +132,18 @@ public class ThermometerNode extends AbstractToolNode {
         private JLabel _fahrenheitLabel;
         private PSwing _pswing;
         
-        public ValueNode() {
+        public ValueNode( Font font, Border border ) {
             super();
             
             _celsiusLabel = new JLabel( "0" );
-            _celsiusLabel.setFont( FONT );
+            _celsiusLabel.setFont( font );
             
             _fahrenheitLabel = new JLabel( "0" );
-            _fahrenheitLabel.setFont( FONT );
+            _fahrenheitLabel.setFont( font );
             
             JPanel panel = new JPanel();
             panel.setBackground( Color.WHITE );
-            panel.setBorder( BORDER );
+            panel.setBorder( border );
             EasyGridBagLayout layout = new EasyGridBagLayout( panel );
             layout.setAnchor( GridBagConstraints.EAST );
             panel.setLayout( layout );
