@@ -16,7 +16,7 @@ import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.InteractiveToo
 public class IceThicknessToolIconNode extends InteractiveToolIconNode {
     
     public IceThicknessToolIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-        super( IceThicknessToolNode.createImage(), GlaciersStrings.TOOLBOX_ICE_THICKNESS_TOOL, toolProducer, mvt );
+        super( IceThicknessToolNode.createImage(), GlaciersStrings.TOOLTIP_ICE_THICKNESS_TOOL, toolProducer, mvt );
     }
     
     public AbstractTool createTool( Point2D position ) {

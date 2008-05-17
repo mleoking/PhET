@@ -16,7 +16,7 @@ import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.InteractiveToo
 public class ThermometerIconNode extends InteractiveToolIconNode {
     
     public ThermometerIconNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
-        super( ThermometerNode.createImage(), GlaciersStrings.TOOLBOX_THERMOMETER, toolProducer, mvt );
+        super( ThermometerNode.createImage(), GlaciersStrings.TOOLTIP_THERMOMETER, toolProducer, mvt );
     }
     
     public AbstractTool createTool( Point2D position ) {

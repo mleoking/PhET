@@ -16,7 +16,7 @@ import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.InteractiveToo
 public class TracerFlagIconNode extends InteractiveToolIconNode {
     
     public TracerFlagIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-        super( TracerFlagNode.createImage(), GlaciersStrings.TOOLBOX_TRACER_FLAG, toolProducer, mvt );
+        super( TracerFlagNode.createImage(), GlaciersStrings.TOOLTIP_TRACER_FLAG, toolProducer, mvt );
     }
     
     public AbstractTool createTool( Point2D position ) {

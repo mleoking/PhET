@@ -84,37 +84,37 @@ public class ToolboxNode extends PNode {
             
             // Thermometer
             toolNode = new ThermometerIconNode( toolProducer, mvt );
-            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLBOX_THERMOMETER, toolNode );
+            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLTIP_THERMOMETER, toolNode );
             toolTipsParentNode.addChild( toolTipNode );
             layoutNodeList.add( toolNode );
             
             // Glacial Budget Meter
             toolNode = new GlacialBudgetMeterIconNode( toolProducer, mvt );
-            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER, toolNode );
+            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLTIP_GLACIAL_BUDGET_METER, toolNode );
             toolTipsParentNode.addChild( toolTipNode );
             layoutNodeList.add( toolNode );
             
             // Tracer Flag
             toolNode = new TracerFlagIconNode( toolProducer, mvt );
-            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLBOX_TRACER_FLAG, toolNode );
+            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLTIP_TRACER_FLAG, toolNode );
             toolTipsParentNode.addChild( toolTipNode );
             layoutNodeList.add( toolNode );
             
             // Ice Thickness Tool
             toolNode = new IceThicknessToolIconNode( toolProducer, mvt );
-            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLBOX_ICE_THICKNESS_TOOL, toolNode );
+            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLTIP_ICE_THICKNESS_TOOL, toolNode );
             toolTipsParentNode.addChild( toolTipNode );
             layoutNodeList.add( toolNode );
             
             // Borehole Drill
             toolNode = new BoreholeDrillIconNode( toolProducer, mvt );
-            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLBOX_BOREHOLE_DRILL, toolNode );
+            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLTIP_BOREHOLE_DRILL, toolNode );
             toolTipsParentNode.addChild( toolTipNode );
             layoutNodeList.add( toolNode );
             
             // GPS Receiver
             toolNode = new GPSReceiverIconNode( toolProducer, mvt );
-            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLBOX_GPS_RECEIVER, toolNode );
+            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLTIP_GPS_RECEIVER, toolNode );
             toolTipsParentNode.addChild( toolTipNode );
             layoutNodeList.add( toolNode );
             
@@ -126,7 +126,7 @@ public class ToolboxNode extends PNode {
             
             // Trash Can
             toolNode = _trashCanIconNode = new TrashCanIconNode( toolProducer );
-            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLBOX_TRASH_CAN, toolNode );
+            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLTIP_TRASH_CAN, toolNode );
             toolTipsParentNode.addChild( toolTipNode );
             layoutNodeList.add( toolNode );
             

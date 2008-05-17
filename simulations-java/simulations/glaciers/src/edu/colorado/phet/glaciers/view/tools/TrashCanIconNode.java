@@ -22,7 +22,7 @@ public class TrashCanIconNode extends AbstractToolIconNode {
      * @param toolProducer
      */
     public TrashCanIconNode( final IToolProducer toolProducer ) {
-        super( GlaciersImages.TRASH_CAN, GlaciersStrings.TOOLBOX_TRASH_CAN );
+        super( GlaciersImages.TRASH_CAN, GlaciersStrings.TOOLTIP_TRASH_CAN );
         _toolProducer = toolProducer;
     }
     
