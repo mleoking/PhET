@@ -45,28 +45,28 @@ public abstract class AbstractToolIconNode extends PNode {
      * Constructor.
      * 
      * @param image image displayed on the icon
-     * @param html HTML text, centered under image
+     * @param text HTML or plain text, appears as a tool tip
      */
-    public AbstractToolIconNode( Image image, String html ) {
+    public AbstractToolIconNode( Image image, String text ) {
         super();
         
         PImage imageNode = new PImage( image );
+        imageNode.setOffset( 0, 0 );
         addChild( imageNode );
         
-        HTMLNode labelNode = new HTMLNode( html );
-        labelNode.setFont( LABEL_FONT );
-        labelNode.setHTMLColor( LABEL_COLOR );
-        addChild( labelNode );
-        
-        if ( imageNode.getWidth() > labelNode.getWidth() ) {
-            imageNode.setOffset( 0, 0 );
-            labelNode.setOffset( imageNode.getX() + ( imageNode.getWidth() - labelNode.getWidth() ) / 2, imageNode.getY() + imageNode.getHeight() + VERTICAL_SPACING );
-        }
-        else {
-            labelNode.setOffset( 0, imageNode.getY() + imageNode.getHeight() + VERTICAL_SPACING );
-            imageNode.setOffset( labelNode.getX() + ( labelNode.getWidth() - imageNode.getWidth() ) / 2, 0 );
-        }
-
+//        HTMLNode labelNode = new HTMLNode( text );
+//        labelNode.setFont( LABEL_FONT );
+//        labelNode.setHTMLColor( LABEL_COLOR );
+//        addChild( labelNode );
+//        
+//        if ( imageNode.getWidth() > labelNode.getWidth() ) {
+//            imageNode.setOffset( 0, 0 );
+//            labelNode.setOffset( imageNode.getX() + ( imageNode.getWidth() - labelNode.getWidth() ) / 2, imageNode.getY() + imageNode.getHeight() + VERTICAL_SPACING );
+//        }
+//        else {
+//            labelNode.setOffset( 0, imageNode.getY() + imageNode.getHeight() + VERTICAL_SPACING );
+//            imageNode.setOffset( labelNode.getX() + ( labelNode.getWidth() - imageNode.getWidth() ) / 2, 0 );
+//        }
     }
     
     //----------------------------------------------------------------------------

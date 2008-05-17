@@ -30,7 +30,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * When the mouse is placed over the associated node, the tool tip appears after a brief delay.
  * Pressing the mouse or moving the mouse off the associated node hides the tool tip.
  * <p>
- * A couple of tool tip location strategies are provided, and you can provide your own.
+ * Several tool tip location strategies are provided, and you can provide your own.
  * The default strategy centers the tool tip above the mouse cursor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -231,6 +231,19 @@ public class ToolTipNode extends PComposite {
             Point2D pGlobal = event.getPosition();
             Point2D pLocal = toolTipNode.getParent().globalToLocal( pGlobal );
             double xOffset = pLocal.getX() - ( toolTipNode.getFullBoundsReference().getWidth() / 2 );
+            double yOffset = pLocal.getY() - toolTipNode.getFullBoundsReference().getHeight() - 5;
+            toolTipNode.setOffset( xOffset, yOffset );
+        }
+    }
+    
+    /**
+     * Tool tip is left-aligned about the mouse cursor.
+     */
+    public static class LeftAlignToolTipAboveMouseCursor implements IToolTipLocationStrategy {
+        public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event ) {
+            Point2D pGlobal = event.getPosition();
+            Point2D pLocal = toolTipNode.getParent().globalToLocal( pGlobal );
+            double xOffset = pLocal.getX();
             double yOffset = pLocal.getY() - toolTipNode.getFullBoundsReference().getHeight() - 5;
             toolTipNode.setOffset( xOffset, yOffset );
         }
