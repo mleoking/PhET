@@ -20,12 +20,12 @@ public class GlacialBudgetMeter extends AbstractTool {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Climate _climate;
-    private ClimateListener _climateListener;
+    private final Climate _climate;
+    private final ClimateListener _climateListener;
     private double _accumulation;
     private double _ablation;
     private double _glacialBudget;
-    private ArrayList _listeners; // list of GlacialBudgetMeterListener
+    private final ArrayList _listeners; // list of GlacialBudgetMeterListener
 
     //----------------------------------------------------------------------------
     // Constructors

@@ -26,7 +26,7 @@ public abstract class Movable {
     
     private Point2D _position;
     private double _orientation;
-    private ArrayList _listeners; // list of MovableListener
+    private final ArrayList _listeners; // list of MovableListener
     
     //----------------------------------------------------------------------------
     // Constructors

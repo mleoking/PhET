@@ -21,10 +21,10 @@ public class IceThicknessTool extends AbstractTool {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Glacier _glacier;
-    private GlacierListener _glacierListener;
+    private final Glacier _glacier;
+    private final GlacierListener _glacierListener;
     private double _thickness;
-    private ArrayList _listeners; // list of IceThicknessToolListener
+    private final ArrayList _listeners; // list of IceThicknessToolListener
 
     //----------------------------------------------------------------------------
     // Constructors

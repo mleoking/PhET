@@ -21,10 +21,10 @@ public class Thermometer extends AbstractTool {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Glacier _glacier;
-    private ClimateListener _climateListener;
+    private final Glacier _glacier;
+    private final ClimateListener _climateListener;
     private double _temperature; // units=Celcius
-    private ArrayList _listeners; // list of ThermometerListener
+    private final ArrayList _listeners; // list of ThermometerListener
     
     //----------------------------------------------------------------------------
     // Constructors

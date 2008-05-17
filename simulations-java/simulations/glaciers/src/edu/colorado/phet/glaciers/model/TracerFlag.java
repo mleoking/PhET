@@ -20,7 +20,7 @@ public class TracerFlag extends AbstractTool {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Glacier _glacier;
+    private final Glacier _glacier;
     
     //----------------------------------------------------------------------------
     // Constructors
