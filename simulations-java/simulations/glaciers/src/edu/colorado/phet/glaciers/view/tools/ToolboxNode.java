@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IToolProducer;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
@@ -88,9 +87,7 @@ public class ToolboxNode extends PNode {
             _toolIconNodes.add( new TracerFlagIconNode( toolProducer, mvt ) );
             _toolIconNodes.add( new IceThicknessToolIconNode( toolProducer, mvt ) );
             _toolIconNodes.add( new BoreholeDrillIconNode( toolProducer, mvt ) );
-            if ( GlaciersApplication.instance().isDeveloperControlsEnabled() ) {
-                _toolIconNodes.add( new GPSReceiverIconNode( toolProducer, mvt ) );
-            }
+            _toolIconNodes.add( new GPSReceiverIconNode( toolProducer, mvt ) );
             
             // trash can is special
             _trashCanIconNode = new TrashCanIconNode( toolProducer );

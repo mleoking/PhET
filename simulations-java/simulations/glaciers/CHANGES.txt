@@ -15,7 +15,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - remove labels from tools in toolbox, show names on mouseover
-- make GPS Receiver a permanent tool; image with distance=, elevation= next to it (ala glacial budget meter)
 - add pseudo 3D model & view for rocks
 - create rocks at random elevations in ice cross-section above ELA, at random distance across valley width
 - deposit rocks at terminus to create moraine
@@ -80,6 +79,7 @@ CLEANUP:
 
 
 DONE:
+5/17/08 - make GPS Receiver a permanent tool, add image, add distance/elevation display
 5/16/08 - finalize ToolTipNode, use strategy pattern for placement, cleanup, javadoc
 5/16/08 - second pass at ToolTipNode
 5/16/08 - first pass at ToolTipNode
