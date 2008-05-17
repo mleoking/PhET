@@ -5,7 +5,6 @@ package edu.colorado.phet.glaciers.view.tools;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.GlaciersImages;
-import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IToolProducer;
 import edu.umd.cs.piccolo.activities.PActivity;
 
@@ -22,7 +21,7 @@ public class TrashCanIconNode extends AbstractToolIconNode {
      * @param toolProducer
      */
     public TrashCanIconNode( final IToolProducer toolProducer ) {
-        super( GlaciersImages.TRASH_CAN, GlaciersStrings.TOOLTIP_TRASH_CAN );
+        super( GlaciersImages.TRASH_CAN );
         _toolProducer = toolProducer;
     }
     

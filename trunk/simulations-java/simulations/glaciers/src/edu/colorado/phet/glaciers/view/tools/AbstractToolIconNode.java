@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 
+import javax.swing.plaf.basic.BasicHTML;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -17,6 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * ToolIconNode is the base class for all tool icons in the toolbox.
@@ -45,7 +48,16 @@ public abstract class AbstractToolIconNode extends PNode {
      * Constructor.
      * 
      * @param image image displayed on the icon
-     * @param text HTML or plain text, appears as a tool tip
+     */
+    public AbstractToolIconNode( Image image ) {
+        this( image, null /* text */ );
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param image image displayed on the icon
+     * @param text optional HTML or plain text, centered under image
      */
     public AbstractToolIconNode( Image image, String text ) {
         super();
@@ -54,19 +66,33 @@ public abstract class AbstractToolIconNode extends PNode {
         imageNode.setOffset( 0, 0 );
         addChild( imageNode );
         
-//        HTMLNode labelNode = new HTMLNode( text );
-//        labelNode.setFont( LABEL_FONT );
-//        labelNode.setHTMLColor( LABEL_COLOR );
-//        addChild( labelNode );
-//        
-//        if ( imageNode.getWidth() > labelNode.getWidth() ) {
-//            imageNode.setOffset( 0, 0 );
-//            labelNode.setOffset( imageNode.getX() + ( imageNode.getWidth() - labelNode.getWidth() ) / 2, imageNode.getY() + imageNode.getHeight() + VERTICAL_SPACING );
-//        }
-//        else {
-//            labelNode.setOffset( 0, imageNode.getY() + imageNode.getHeight() + VERTICAL_SPACING );
-//            imageNode.setOffset( labelNode.getX() + ( labelNode.getWidth() - imageNode.getWidth() ) / 2, 0 );
-//        }
+        if ( text != null ) {
+
+            PNode labelNode = null;
+            
+            if ( BasicHTML.isHTMLString( text ) ) {
+                HTMLNode htmlNode = new HTMLNode( text );
+                htmlNode.setFont( LABEL_FONT );
+                htmlNode.setHTMLColor( LABEL_COLOR );
+                labelNode = htmlNode;
+            }
+            else {
+                PText ptextNode = new PText( text );
+                ptextNode.setFont( LABEL_FONT );
+                ptextNode.setTextPaint( LABEL_COLOR );
+                labelNode = ptextNode;
+            }
+            addChild( labelNode );
+
+            if ( imageNode.getWidth() > labelNode.getWidth() ) {
+                imageNode.setOffset( 0, 0 );
+                labelNode.setOffset( imageNode.getX() + ( imageNode.getWidth() - labelNode.getWidth() ) / 2, imageNode.getY() + imageNode.getHeight() + VERTICAL_SPACING );
+            }
+            else {
+                labelNode.setOffset( 0, imageNode.getY() + imageNode.getHeight() + VERTICAL_SPACING );
+                imageNode.setOffset( labelNode.getX() + ( labelNode.getWidth() - imageNode.getWidth() ) / 2, 0 );
+            }
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -89,12 +115,23 @@ public abstract class AbstractToolIconNode extends PNode {
          * Constructor.
          * 
          * @param image image displayed on the icon
-         * @param html HTML text, centered under image
          * @param toolProducer object capable of creating tools
          * @param mvt model-view transform, used to convert mouse position to tool position
          */
-        public InteractiveToolIconNode( Image image, String html, IToolProducer toolProducer, ModelViewTransform mvt ) {
-            super( image, html );
+        public InteractiveToolIconNode( Image image, IToolProducer toolProducer, ModelViewTransform mvt ) { 
+            this( image, null /* text */, toolProducer, mvt );
+        }
+        
+        /**
+         * Constructor.
+         * 
+         * @param image image displayed on the icon
+         * @param text optional HTML or plain text, centered under image
+         * @param toolProducer object capable of creating tools
+         * @param mvt model-view transform, used to convert mouse position to tool position
+         */
+        public InteractiveToolIconNode( Image image, String text, IToolProducer toolProducer, ModelViewTransform mvt ) {
+            super( image, text );
 
             _toolProducer = toolProducer;
             _mvt = mvt;
