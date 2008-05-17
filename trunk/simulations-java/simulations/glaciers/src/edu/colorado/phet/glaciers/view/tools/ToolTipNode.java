@@ -268,45 +268,41 @@ public class ToolTipNode extends PComposite {
     
     public static void main( String[] args ) {
 
-        final int xSpacing = 50;
-        final int margin = 50;
-        
         // Orange Square
         PPath orangeNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         orangeNode.setPaint( Color.ORANGE );
-        orangeNode.setOffset( margin, margin );
         orangeNode.addInputEventListener( new CursorHandler() );
-        
         ToolTipNode orangeToolTipNode = new ToolTipNode( "left-aligned above mouse cursor", orangeNode );
         orangeToolTipNode.setLocationStrategy( new LeftAlignToolTipAboveMouseCursor() );
         
         // Blue Square
         PPath blueNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         blueNode.setPaint( Color.BLUE );
-        blueNode.setOffset( orangeNode.getFullBoundsReference().getMaxX() + xSpacing, margin );
         blueNode.addInputEventListener( new CursorHandler() );
-        
         ToolTipNode blueToolTipNode = new ToolTipNode( "centered above mouse cursor", blueNode );
         
         // Red Square
         PPath redNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         redNode.setPaint( Color.RED );
-        redNode.setOffset( blueNode.getFullBoundsReference().getMaxX() + xSpacing, margin );
         redNode.addInputEventListener( new CursorHandler() );
-
-        // Tool tip that is wider than its associated node, centered below the node.
         ToolTipNode redToolTipNode = new ToolTipNode( "centered below node", redNode );
         redToolTipNode.setLocationStrategy( new CenterToolTipUnderAssociatedNode() );
 
         // Green Square
-        PPath greenNode = new PPath( new Rectangle( 0, 0, 100, 100 ) );
+        PPath greenNode = new PPath( new Rectangle( 0, 0, 100, 50 ) );
         greenNode.setPaint( Color.GREEN );
-        greenNode.setOffset( redNode.getFullBoundsReference().getMaxX() + xSpacing, margin );
         greenNode.addInputEventListener( new CursorHandler() );
-        
-        // Tool tip that is narrower than its associated node, centered below the node, HTML text.
         ToolTipNode greenToolTipNode = new ToolTipNode( "<html><center>HTML<br><b>centered</b><br>below<br>node</center></html>", greenNode );
         greenToolTipNode.setLocationStrategy( new CenterToolTipUnderAssociatedNode() );
+        
+        // Layout
+        final int margin = 50;
+        final int xSpacing = 50;
+        orangeNode.setOffset( margin, margin );
+        blueNode.setOffset( orangeNode.getFullBoundsReference().getMaxX() + xSpacing, margin );
+        redNode.setOffset( blueNode.getFullBoundsReference().getMaxX() + xSpacing, margin );
+        greenNode.setOffset( redNode.getFullBoundsReference().getMaxX() + xSpacing, margin );
+        final double frameWidth = greenNode.getFullBoundsReference().getMaxX() + margin;
         
         // Canvas
         PCanvas canvas = new PCanvas();
@@ -320,9 +316,9 @@ public class ToolTipNode extends PComposite {
         canvas.getLayer().addChild( blueToolTipNode );
 
         // Frame
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame( "ToolTipNode test" );
         frame.setContentPane( canvas );
-        frame.setSize( 600, 300 );
+        frame.setSize( (int)frameWidth, 200 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
