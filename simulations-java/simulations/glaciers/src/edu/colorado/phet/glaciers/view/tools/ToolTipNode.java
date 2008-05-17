@@ -29,26 +29,74 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * ToolTipNode is a Swing-style "tool tip" that can be associated with a node.
  * When the mouse is placed over the associated node, the tool tip appears after a brief delay.
  * Pressing the mouse or moving the mouse off the associated node hides the tool tip.
- * Tool tip placement strategy can be specified.
+ * <p>
+ * A couple of tool tip location strategies are provided, and you can provide your own.
+ * The default strategy centers the tool tip above the mouse cursor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ToolTipNode extends PComposite {
 
-    private static final int DEFAULT_START_TIME = 2000; // how long after mouseEnter that the tool tip becomes visible (ms)
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final int DEFAULT_START_TIME = 1500; // how long after mouseEnter that the tool tip becomes visible (ms)
     private static final Font DEFAULT_FONT = new PhetFont( 12 );
+    private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
     private static final Stroke DEFAULT_STROKE = new BasicStroke( 1f );
-    private static final Color DEFAULT_STROKE_COLOR = new Color( 0, 0, 0, 200 );
-    private static final Color DEFAULT_BACKGROUND_COLOR = new Color( 255, 255, 204 ); // light yellow
-    private static final Color DEFAULT_BACKGROUND_SHADOW_COLOR = new Color( 0, 0, 0, 100 ); // transparent black
-    private static final Color DEFAULT_FOREGROUND_COLOR = Color.BLACK;
+    private static final Paint DEFAULT_STROKE_PAINT = new Color( 0, 0, 0, 200 );
+    private static final Paint DEFAULT_BACKGROUND_PAINT = new Color( 255, 255, 204 ); // light yellow
+    private static final Paint DEFAULT_BACKGROUND_SHADOW_PAINT = new Color( 0, 0, 0, 100 ); // transparent black
     private static final double DEFAULT_MARGIN = 5;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private PNode _associatedNode;
     private boolean _enabled;
-    private TimerEventStrategy _eventStrategy;
+    private Timer _showToolTipTimer;
+    private IToolTipLocationStrategy _locationStrategy;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor that provides a good default behavior.
+     * 
+     * @param toolTipText HTML or plain-text format
+     * @param associatedNode the node that the tool tip describes
+     */
     public ToolTipNode( final String toolTipText, final PNode associatedNode ) {
+        this( toolTipText, associatedNode, DEFAULT_START_TIME, 
+                DEFAULT_FONT, DEFAULT_TEXT_COLOR, 
+                DEFAULT_STROKE, DEFAULT_STROKE_PAINT, 
+                DEFAULT_BACKGROUND_PAINT, DEFAULT_BACKGROUND_SHADOW_PAINT,
+                DEFAULT_MARGIN );
+    }
+    
+    /*
+     * Fully-parameterized constructor.
+     * Subclass and use this constructor if you want something other than the default behavior.
+     * 
+     * @param toolTipText
+     * @param associatedNode
+     * @param startTime
+     * @param font
+     * @param textColor
+     * @param backgroundStroke
+     * @param backgroundStrokePaint
+     * @param backgroundPaint
+     * @param backgroundShadowPaint
+     * @param margin
+     */
+    protected ToolTipNode( final String toolTipText, final PNode associatedNode, final int startTime,
+            Font font, Color textColor,
+            Stroke backgroundStroke, Paint backgroundStrokePaint,
+            Paint backgroundPaint, Paint backgroundShadowPaint,
+            double margin ) {
         super();
         
         setVisible( false );
@@ -61,126 +109,150 @@ public class ToolTipNode extends PComposite {
         PNode toolTipTextNode = null;
         if ( BasicHTML.isHTMLString( toolTipText ) ) {
             HTMLNode htmlNode = new HTMLNode( toolTipText );
-            htmlNode.setFont( DEFAULT_FONT );
-            htmlNode.setHTMLColor( DEFAULT_FOREGROUND_COLOR );
+            htmlNode.setFont( font );
+            htmlNode.setHTMLColor( textColor );
             toolTipTextNode = htmlNode;
         }
         else {
             PText ptextNode = new PText( toolTipText );
-            ptextNode.setFont( DEFAULT_FONT );
-            ptextNode.setTextPaint( DEFAULT_FOREGROUND_COLOR );
+            ptextNode.setFont( font );
+            ptextNode.setTextPaint( textColor );
             toolTipTextNode = ptextNode;
         }
 
         PBounds b = toolTipTextNode.getFullBoundsReference();
-        final double w = b.getWidth() + ( 2 * DEFAULT_MARGIN );
-        final double h = b.getHeight() + ( 2 * DEFAULT_MARGIN );
+        final double w = b.getWidth() + ( 2 * margin );
+        final double h = b.getHeight() + ( 2 * margin );
         PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, w, h ) );
-        backgroundNode.setStroke( DEFAULT_STROKE );
-        backgroundNode.setStrokePaint( DEFAULT_STROKE_COLOR );
-        backgroundNode.setPaint( DEFAULT_BACKGROUND_COLOR );
+        backgroundNode.setStroke( backgroundStroke );
+        backgroundNode.setStrokePaint( backgroundStrokePaint );
+        backgroundNode.setPaint( backgroundPaint );
         
         PPath backgroundShadowNode = new PPath( new Rectangle2D.Double( 0, 0, w, h ) );
         backgroundShadowNode.setStroke( null );
-        backgroundShadowNode.setPaint( DEFAULT_BACKGROUND_SHADOW_COLOR );
+        backgroundShadowNode.setPaint( backgroundShadowPaint );
         backgroundShadowNode.setOffset( 2, 2 );
 
         addChild( backgroundShadowNode );
         addChild( backgroundNode );
         addChild( toolTipTextNode );
-        toolTipTextNode.setOffset( DEFAULT_MARGIN, DEFAULT_MARGIN );
+        toolTipTextNode.setOffset( margin, margin );
 
-        _eventStrategy = new TimerEventStrategy( this );
-        associatedNode.addInputEventListener( _eventStrategy );
+        _locationStrategy = new CenterToolTipAboveMouseCursor();
+        
+        associatedNode.addInputEventListener( new PBasicInputEventHandler() {
+            
+            public void mouseEntered( final PInputEvent mouseEvent ) {
+                if ( ToolTipNode.this.isEnabled() ) {
+                    
+                    ActionListener onListener = new ActionListener() {
+                        public void actionPerformed( ActionEvent ae ) {
+                            _locationStrategy.setToolTipLocation( ToolTipNode.this, _associatedNode, mouseEvent );
+                            ToolTipNode.this.setVisible( true );
+                        }
+                    };
+                    
+                    _showToolTipTimer = new Timer( startTime, onListener );
+                    _showToolTipTimer.setInitialDelay( startTime );
+                    _showToolTipTimer.setRepeats( false );
+                    _showToolTipTimer.start();
+                }
+            }
+            
+            public void mousePressed( PInputEvent event ) {
+                hideToolTip();
+            }
+
+            public void mouseExited( PInputEvent event ) {
+                hideToolTip();
+            }
+            
+            private void hideToolTip() {
+                ToolTipNode.this.setVisible( false );
+                if ( _showToolTipTimer != null ) {
+                    _showToolTipTimer.stop();
+                    _showToolTipTimer = null;
+                }
+            }
+        } );
     }
 
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Enables or disables the tool tip. 
+     * When disable, the tool tip will never become visible.
+     * @param enabled
+     */
     public void setEnabled( boolean enabled ) {
         _enabled = enabled;
     }
 
+    /**
+     * Is the tool tip enabled?
+     * @return
+     */
     public boolean isEnabled() {
         return _enabled;
     }
     
-    public void setShowToolTipBelowNode( boolean b ) {
-        _eventStrategy.setShowToolTipBelowNode( b );
+    /**
+     * Sets the strategy for placing the tool tip (setting its location).
+     * @param locationStrategy
+     */
+    public void setLocationStrategy( IToolTipLocationStrategy locationStrategy ) {
+        _locationStrategy = locationStrategy;
     }
     
-    public PNode getAssociatedNode() {
-        return _associatedNode;
-    }
-
-    /*
-     * When the mouse enters the associated node, the tool tip is shown after a delay.
-     * When the mouse is pressed or when the mouse exists, the tool tip is hidden.
+    //----------------------------------------------------------------------------
+    // Strategies for placing the tool tip
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Interface implemented by all strategies that set a tool tip's location.
      */
-    private static class TimerEventStrategy extends PBasicInputEventHandler {
-
-        private ToolTipNode _toolTipNode;
-        private Timer _showToolTipTimer;
-        private boolean _showToolTipBelowNode; // true=tool tip appears below node, false=tool tip appears above mouse cursor
-
-        public TimerEventStrategy( ToolTipNode toolTipNode ) {
-            super();
-            _toolTipNode = toolTipNode;
-            _showToolTipBelowNode = false;
+    public interface IToolTipLocationStrategy {
+        /**
+         * Sets the tool tip's location.
+         * @param toolTipNode the tool tip node
+         * @param associatedNode the node that the tool tip describes
+         * @param event the mouseEntered event that made the tool tip visible
+         */
+        public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event );
+    }
+    
+    /**
+     * Tool tip is centered about the mouse cursor.
+     */
+    public static class CenterToolTipAboveMouseCursor implements IToolTipLocationStrategy {
+        public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event ) {
+            Point2D pGlobal = event.getPosition();
+            Point2D pLocal = toolTipNode.getParent().globalToLocal( pGlobal );
+            double xOffset = pLocal.getX() - ( toolTipNode.getFullBoundsReference().getWidth() / 2 );
+            double yOffset = pLocal.getY() - toolTipNode.getFullBoundsReference().getHeight() - 5;
+            toolTipNode.setOffset( xOffset, yOffset );
         }
-        
-        public void mouseEntered( final PInputEvent mouseEvent ) {
-            if ( _toolTipNode.isEnabled() ) {
-                
-                ActionListener onListener = new ActionListener() {
-                    public void actionPerformed( ActionEvent ae ) {
-
-                        if ( _showToolTipBelowNode ) {
-                            // center tooltip below node
-                            PBounds bGlobal = _toolTipNode.getAssociatedNode().getGlobalFullBounds();
-                            Point2D pLocal = _toolTipNode.getParent().globalToLocal( new Point2D.Double( bGlobal.getX(), bGlobal.getMaxY() ) );
-                            double xOffset = pLocal.getX() + ( _toolTipNode.getAssociatedNode().getFullBoundsReference().getWidth() - _toolTipNode.getFullBoundsReference().getWidth() ) / 2;
-                            double yOffset = pLocal.getY() + 5;
-                            _toolTipNode.setOffset( xOffset, yOffset );
-                        }
-                        else {
-                            // center tooltip above mouse cursor
-                            Point2D pGlobal = mouseEvent.getPosition();
-                            Point2D pLocal = _toolTipNode.getParent().globalToLocal( pGlobal );
-                            double xOffset = pLocal.getX() - ( _toolTipNode.getFullBoundsReference().getWidth() / 2 );
-                            double yOffset = pLocal.getY() - _toolTipNode.getFullBoundsReference().getHeight() - 5;
-                            _toolTipNode.setOffset( xOffset, yOffset );
-                        }
-
-                        _toolTipNode.setVisible( true );
-                    }
-                };
-                
-                _showToolTipTimer = new Timer( DEFAULT_START_TIME, onListener );
-                _showToolTipTimer.setInitialDelay( DEFAULT_START_TIME );
-                _showToolTipTimer.setRepeats( false );
-                _showToolTipTimer.start();
-            }
-        }
-        
-        public void mousePressed( PInputEvent event ) {
-            hideToolTip();
-        }
-
-        public void mouseExited( PInputEvent event ) {
-            hideToolTip();
-        }
-        
-        private void hideToolTip() {
-            _toolTipNode.setVisible( false );
-            if ( _showToolTipTimer != null ) {
-                _showToolTipTimer.stop();
-                _showToolTipTimer = null;
-            }
-        }
-        
-        public void setShowToolTipBelowNode( boolean b ) {
-            _showToolTipBelowNode = b;
+    }
+    
+    /**
+     * Tool tip is centered below its associated node.
+     */
+    public static class CenterToolTipUnderAssociatedNode implements IToolTipLocationStrategy {
+        public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event ) {
+            PBounds bGlobal = associatedNode.getGlobalFullBounds();
+            Point2D pLocal = toolTipNode.getParent().globalToLocal( new Point2D.Double( bGlobal.getX(), bGlobal.getMaxY() ) );
+            double xOffset = pLocal.getX() + ( associatedNode.getFullBoundsReference().getWidth() - toolTipNode.getFullBoundsReference().getWidth() ) / 2;
+            double yOffset = pLocal.getY() + 5;
+            toolTipNode.setOffset( xOffset, yOffset );
         }
     }
 
+    //----------------------------------------------------------------------------
+    // Testing
+    //----------------------------------------------------------------------------
+    
     public static void main( String[] args ) {
 
         // Orange Square
@@ -189,7 +261,7 @@ public class ToolTipNode extends PComposite {
         orangeNode.setOffset( 50, 50 );
         orangeNode.addInputEventListener( new CursorHandler() );
         
-        // Tooltip that is centered above the mouse cursor
+        // Tool tip that is centered above the mouse cursor
         ToolTipNode orangeToolTipNode = new ToolTipNode( "tool tip follows mouse", orangeNode );
         
         // Red Square
@@ -198,9 +270,9 @@ public class ToolTipNode extends PComposite {
         redNode.setOffset( 200, 50 );
         redNode.addInputEventListener( new CursorHandler() );
 
-        // ToolTip that is wider than its associated node, centered below the node.
+        // Tool tip that is wider than its associated node, centered below the node.
         ToolTipNode redToolTipNode = new ToolTipNode( "tool tip centered below red square", redNode );
-        redToolTipNode.setShowToolTipBelowNode( true );
+        redToolTipNode.setLocationStrategy( new CenterToolTipUnderAssociatedNode() );
 
         // Green Square
         PPath greenNode = new PPath( new Rectangle( 0, 0, 100, 100 ) );
@@ -208,9 +280,9 @@ public class ToolTipNode extends PComposite {
         greenNode.setOffset( 350, 50 );
         greenNode.addInputEventListener( new CursorHandler() );
         
-        // ToolTip that is narrower than its associated node, centered below the node, HTML text.
+        // Tool tip that is narrower than its associated node, centered below the node, HTML text.
         ToolTipNode greenToolTipNode = new ToolTipNode( "<html><center>centered<br>green<br>tool tip</center></html>", greenNode );
-        greenToolTipNode.setShowToolTipBelowNode( true );
+        greenToolTipNode.setLocationStrategy( new CenterToolTipUnderAssociatedNode() );
         
         // Canvas
         PCanvas canvas = new PCanvas();

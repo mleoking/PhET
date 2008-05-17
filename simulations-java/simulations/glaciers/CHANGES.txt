@@ -80,6 +80,7 @@ CLEANUP:
 
 
 DONE:
+5/16/08 - finalize ToolTipNode, use strategy pattern for placement, cleanup, javadoc
 5/16/08 - second pass at ToolTipNode
 5/16/08 - first pass at ToolTipNode
 5/15/08 - parts of IceThicknessToolNode moves separately when dragged
