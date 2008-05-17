@@ -37,10 +37,10 @@ public class EquilibriumLineAltitudeVersusTimeChart extends JDialog {
     private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
     private static final Range TIME_RANGE = new Range( 0, 10E3 ); //XXX years
     
-    private Climate _climate;
-    private GlaciersClock _clock;
-    private ClockListener _clockListener;
-    private XYSeries _series;
+    private final Climate _climate;
+    private final GlaciersClock _clock;
+    private final ClockListener _clockListener;
+    private final XYSeries _series;
     
     public EquilibriumLineAltitudeVersusTimeChart( Frame owner, Dimension size, Climate climate, GlaciersClock clock ) {
         super( owner );

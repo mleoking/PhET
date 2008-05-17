@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.activities.PActivity;
  */
 public class TrashCanIconNode extends AbstractToolIconNode {
     
-    private IToolProducer _toolProducer;
+    private final IToolProducer _toolProducer;
     
     /**
      * Constructor.

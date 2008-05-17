@@ -37,10 +37,10 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     private static final Range LENGTH_RANGE = new Range( 0, 80E3 ); // meters
     private static final Range TIME_RANGE = new Range( 0, 10E3 ); //XXX years
     
-    private Glacier _glacier;
-    private GlaciersClock _clock;
-    private ClockListener _clockListener;
-    private XYSeries _series;
+    private final Glacier _glacier;
+    private final GlaciersClock _clock;
+    private final ClockListener _clockListener;
+    private final XYSeries _series;
     
     public GlacierLengthVersusTimeChart( Frame owner, Dimension size, Glacier glacier, GlaciersClock clock ) {
         super( owner );

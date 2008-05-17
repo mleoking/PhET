@@ -27,8 +27,8 @@ public class ViewportNode extends PPath {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Viewport _viewport;
-    private ModelViewTransform _mvt;
+    private final Viewport _viewport;
+    private final ModelViewTransform _mvt;
     
     //----------------------------------------------------------------------------
     // Constructors

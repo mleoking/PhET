@@ -7,9 +7,9 @@ import edu.colorado.phet.glaciers.view.PlayArea;
 
 public class AdvancedController {
 
-    private AdvancedModel _model;
-    private PlayArea _playArea;
-    private AdvancedControlPanel _controlPanel;
+    private final AdvancedModel _model;
+    private final PlayArea _playArea;
+    private final AdvancedControlPanel _controlPanel;
     
     public AdvancedController( AdvancedModel model, PlayArea playArea, AdvancedControlPanel controlPanel ) {
         

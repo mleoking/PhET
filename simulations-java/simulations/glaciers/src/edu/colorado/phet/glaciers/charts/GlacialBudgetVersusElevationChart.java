@@ -44,9 +44,9 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
     private static final Stroke ACCUMULATION_STROKE = new BasicStroke( 1f );
     private static final Stroke ABLATION_STROKE = new BasicStroke( 1f );
     
-    private Climate _climate;
-    private ClimateListener _climateListener;
-    private XYSeries _glacialBudgetSeries, _accumulationSeries, _ablationSeries;
+    private final Climate _climate;
+    private final ClimateListener _climateListener;
+    private final XYSeries _glacialBudgetSeries, _accumulationSeries, _ablationSeries;
     
     public GlacialBudgetVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
         super( owner );

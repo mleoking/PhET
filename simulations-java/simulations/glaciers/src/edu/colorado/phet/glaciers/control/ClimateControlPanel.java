@@ -47,11 +47,11 @@ public class ClimateControlPanel extends AbstractSubPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private LinearValueControl _temperatureControl;
-    private LinearValueControl _snowfallControl;
-    private LinearValueControl _snowfallReferenceElevationControl;
+    private final LinearValueControl _temperatureControl;
+    private final LinearValueControl _snowfallControl;
+    private final LinearValueControl _snowfallReferenceElevationControl;
     
-    private ArrayList _listeners; // list of ClimateControlPanelListener
+    private final ArrayList _listeners; // list of ClimateControlPanelListener
     
     //----------------------------------------------------------------------------
     // Constructors

@@ -50,9 +50,9 @@ public class GPSReceiverNode extends AbstractToolNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private GPSReceiver _gps;
-    private MovableListener _movableListener;
-    private ValueNode _valueNode;
+    private final GPSReceiver _gps;
+    private final MovableListener _movableListener;
+    private final ValueNode _valueNode;
     
     //----------------------------------------------------------------------------
     // Constructors

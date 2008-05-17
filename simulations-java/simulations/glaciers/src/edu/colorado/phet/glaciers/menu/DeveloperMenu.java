@@ -28,8 +28,8 @@ public class DeveloperMenu extends JMenu {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private GlaciersApplication _app;
-    private JCheckBoxMenuItem _developerControlsItem;
+    private final GlaciersApplication _app;
+    private final JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
 
     //----------------------------------------------------------------------------

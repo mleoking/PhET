@@ -51,12 +51,12 @@ public class IceThicknessToolNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private IceThicknessTool _iceThicknessTool;
-    private IceThicknessToolListener _iceThicknessToolListener;
-    private MovableListener _movableListener;
-    private ToolListener _toolListener;
-    private CalipersNode _calipersNode;
-    private ValueNode _valueNode;
+    private final IceThicknessTool _iceThicknessTool;
+    private final IceThicknessToolListener _iceThicknessToolListener;
+    private final MovableListener _movableListener;
+    private final ToolListener _toolListener;
+    private final CalipersNode _calipersNode;
+    private final ValueNode _valueNode;
 
     //----------------------------------------------------------------------------
     // Constructors
