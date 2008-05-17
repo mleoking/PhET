@@ -9,12 +9,14 @@ import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.text.NumberFormat;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GPSReceiver;
@@ -116,6 +118,16 @@ public class GPSReceiverNode extends AbstractToolNode {
         public ValueNode( Font font, Border border ) {
             super();
             
+            ArrowNode xArrowNode = new ArrowNode( new Point2D.Double( 0, 0 ), new Point2D.Double( 10, 0 ), 5, 8, 2 );
+            xArrowNode.setStroke( null );
+            xArrowNode.setPaint( Color.BLACK );
+            JLabel xArrowLabel = new JLabel( new ImageIcon( xArrowNode.toImage() ) );
+            
+            ArrowNode yArrowNode = new ArrowNode( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, -10 ), 5, 8, 2 );
+            yArrowNode.setStroke( null );
+            yArrowNode.setPaint( Color.BLACK );
+            JLabel yArrowLabel = new JLabel( new ImageIcon( yArrowNode.toImage() ) );
+            
             _distanceLabel = new JLabel( "?" );
             _distanceLabel.setFont( font );
             
@@ -128,16 +140,18 @@ public class GPSReceiverNode extends AbstractToolNode {
             EasyGridBagLayout layout = new EasyGridBagLayout( panel );
             layout.setAnchor( GridBagConstraints.EAST );
             panel.setLayout( layout );
-            layout.addComponent( _distanceLabel, 0, 0 );
-            layout.addComponent( _elevationLabel, 1, 0 );
+            layout.addComponent( xArrowLabel, 0, 0 );
+            layout.addComponent( _distanceLabel, 0, 1 );
+            layout.addComponent( yArrowLabel, 1, 0 );
+            layout.addComponent( _elevationLabel, 1, 1 );
             
             _pswing = new PSwing( panel );
             addChild( _pswing );
         }
         
         public void setCoordinates( Point2D position ) {
-            _distanceLabel.setText( "> " + GlaciersStrings.LABEL_DISTANCE + ": " +  DISTANCE_FORMAT.format( position.getX() ) + " " + GlaciersStrings.UNITS_DISTANCE );
-            _elevationLabel.setText( "^ " + GlaciersStrings.LABEL_ELEVATION + ": " +  ELEVATION_FORMAT.format( position.getY() ) + " " + GlaciersStrings.UNITS_ELEVATION );
+            _distanceLabel.setText( GlaciersStrings.LABEL_DISTANCE + ": " +  DISTANCE_FORMAT.format( position.getX() ) + " " + GlaciersStrings.UNITS_DISTANCE );
+            _elevationLabel.setText( GlaciersStrings.LABEL_ELEVATION + ": " +  ELEVATION_FORMAT.format( position.getY() ) + " " + GlaciersStrings.UNITS_ELEVATION );
         }
     }
     
