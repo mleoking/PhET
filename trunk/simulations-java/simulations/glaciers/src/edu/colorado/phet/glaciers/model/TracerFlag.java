@@ -6,6 +6,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 
 /**
  * TracerFlag is the model of a tracer flag.
@@ -21,6 +23,8 @@ public class TracerFlag extends AbstractTool {
     //----------------------------------------------------------------------------
     
     private final Glacier _glacier;
+    private final GlacierListener _glacierListener;
+    private boolean _onValleyFloor;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -29,6 +33,18 @@ public class TracerFlag extends AbstractTool {
     public TracerFlag( Point2D position, Glacier glacier ) {
         super( position );
         _glacier = glacier;
+        _glacierListener = new GlacierAdapter() {
+            public void iceThicknessChanged() {
+                checkForDeletion();
+            }
+        };
+        _glacier.addGlacierListener( _glacierListener );
+        _onValleyFloor = false;
+    }
+    
+    public void cleanup() {
+        _glacier.removeGlacierListener( _glacierListener );
+        super.cleanup();
     }
     
     //----------------------------------------------------------------------------
@@ -50,6 +66,10 @@ public class TracerFlag extends AbstractTool {
                 setPosition( getX(), valleyElevation );
             }
         }
+        
+        if ( getY() == _glacier.getValley().getElevation( getX() ) ) {
+            _onValleyFloor = true;
+        }
     }
     
     public void simulationTimeChanged( ClockEvent clockEvent ) {
@@ -67,7 +87,24 @@ public class TracerFlag extends AbstractTool {
                 newY = newGlacierSurfaceElevation;
             }
             
+            if ( newY == _glacier.getValley().getElevation( newX ) ) {
+                _onValleyFloor = true;
+            }
+            
             setPosition( newX, newY );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // 
+    //----------------------------------------------------------------------------
+    
+    private void checkForDeletion() {
+        if ( _onValleyFloor ) {
+            double iceThicknessAtFlag = _glacier.getIceThickness( getX() );
+            if ( iceThicknessAtFlag > 0 ) {
+                deleteMe();
+            }
         }
     }
 }
