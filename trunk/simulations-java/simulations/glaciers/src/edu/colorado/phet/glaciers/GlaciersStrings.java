@@ -55,13 +55,13 @@ public class GlaciersStrings {
     public static final String SLIDER_SNOWFALL_REFERENCE_ELEVATION = GlaciersResources.getString( "slider.snowfallReferenceElevation" );
     public static final String SLIDER_TEMPERATURE = GlaciersResources.getString( "slider.temperature" );
     
-    public static final String TOOLBOX_THERMOMETER = GlaciersResources.getString( "toolbox.thermometer" );
-    public static final String TOOLBOX_GLACIAL_BUDGET_METER = GlaciersResources.getString( "toolbox.glacialBudgetMeter" );
-    public static final String TOOLBOX_TRACER_FLAG = GlaciersResources.getString( "toolbox.tracerFlag" );
-    public static final String TOOLBOX_ICE_THICKNESS_TOOL = GlaciersResources.getString( "toolbox.iceThicknessTool" );
-    public static final String TOOLBOX_BOREHOLE_DRILL = GlaciersResources.getString( "toolbox.boreholeDrill" );
-    public static final String TOOLBOX_GPS_RECEIVER = GlaciersResources.getString( "toolbox.gpsReceiver" );
-    public static final String TOOLBOX_TRASH_CAN = GlaciersResources.getString( "toolbox.trashCan" );
+    public static final String TOOLTIP_THERMOMETER = GlaciersResources.getString( "tooltip.thermometer" );
+    public static final String TOOLTIP_GLACIAL_BUDGET_METER = GlaciersResources.getString( "tooltip.glacialBudgetMeter" );
+    public static final String TOOLTIP_TRACER_FLAG = GlaciersResources.getString( "tooltip.tracerFlag" );
+    public static final String TOOLTIP_ICE_THICKNESS_TOOL = GlaciersResources.getString( "tooltip.iceThicknessTool" );
+    public static final String TOOLTIP_BOREHOLE_DRILL = GlaciersResources.getString( "tooltip.boreholeDrill" );
+    public static final String TOOLTIP_GPS_RECEIVER = GlaciersResources.getString( "tooltip.gpsReceiver" );
+    public static final String TOOLTIP_TRASH_CAN = GlaciersResources.getString( "tooltip.trashCan" );
     
     public static final String TITLE_ADVANCED = GlaciersResources.getString( "title.advanced" );
     public static final String TITLE_BASIC = GlaciersResources.getString( "title.basic" );

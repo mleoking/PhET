@@ -16,7 +16,7 @@ import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.InteractiveToo
 public class GlacialBudgetMeterIconNode extends InteractiveToolIconNode {
     
     public GlacialBudgetMeterIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-        super( GlacialBudgetMeterNode.createImage(), GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER, toolProducer, mvt );
+        super( GlacialBudgetMeterNode.createImage(), GlaciersStrings.TOOLTIP_GLACIAL_BUDGET_METER, toolProducer, mvt );
     }
     
     public AbstractTool createTool( Point2D position ) {

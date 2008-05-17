@@ -16,7 +16,7 @@ import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.InteractiveToo
 public class GPSReceiverIconNode extends InteractiveToolIconNode {
     
     public GPSReceiverIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-        super( GPSReceiverNode.createImage(), GlaciersStrings.TOOLBOX_GPS_RECEIVER, toolProducer, mvt );
+        super( GPSReceiverNode.createImage(), GlaciersStrings.TOOLTIP_GPS_RECEIVER, toolProducer, mvt );
     }
     
     public AbstractTool createTool( Point2D position ) {
