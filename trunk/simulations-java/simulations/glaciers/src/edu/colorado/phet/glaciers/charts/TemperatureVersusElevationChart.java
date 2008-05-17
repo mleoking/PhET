@@ -36,9 +36,9 @@ public class TemperatureVersusElevationChart extends JDialog {
     private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
     
-    private Climate _climate;
-    private ClimateListener _climateListener;
-    private XYSeries _series;
+    private final Climate _climate;
+    private final ClimateListener _climateListener;
+    private final XYSeries _series;
     
     public TemperatureVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
         super( owner );

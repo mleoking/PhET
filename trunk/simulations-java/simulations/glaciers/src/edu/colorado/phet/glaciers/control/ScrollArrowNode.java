@@ -54,7 +54,7 @@ public abstract class ScrollArrowNode extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ArrayList _listeners;
+    private final ArrayList _listeners;
     
     //----------------------------------------------------------------------------
     // Constructors

@@ -18,7 +18,7 @@ import javax.swing.event.ChangeListener;
  */
 public class DoubleSpinner extends JPanel {
     
-    private JSpinner _spinner;
+    private final JSpinner _spinner;
     
     public DoubleSpinner( double value, double min, double max, double step, String format, Dimension size ) {
         super();

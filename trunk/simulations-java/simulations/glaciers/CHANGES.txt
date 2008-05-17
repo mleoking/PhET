@@ -78,6 +78,7 @@ CLEANUP:
 
 
 DONE:
+5/17/08 - add final modifier to appropriate instance data in all classes
 5/17/08 - keep borehole drill on glacier's surface as the glacier evolves
 5/17/08 - make GPS Receiver a permanent tool, add image, add distance/elevation display
 5/16/08 - finalize ToolTipNode, use strategy pattern for placement, cleanup, javadoc

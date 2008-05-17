@@ -25,11 +25,11 @@ public abstract class AbstractToolNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AbstractTool _tool;
-    private ModelViewTransform _mvt;
-    private TrashCanIconNode _trashCanIconNode;
-    private MovableListener _movableListener;
-    private Point2D _pModel, _pView; // reusable points
+    private final AbstractTool _tool;
+    private final ModelViewTransform _mvt;
+    private final TrashCanIconNode _trashCanIconNode;
+    private final MovableListener _movableListener;
+    private final Point2D _pModel, _pView; // reusable points
     
     //----------------------------------------------------------------------------
     // Constructors

@@ -24,8 +24,8 @@ public class ELAValueNode extends PText {
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final NumberFormat NUMBER_FORMAT = new DefaultDecimalFormat( "0" );
     
-    private Climate _climate;
-    private ClimateListener _climateListener;
+    private final Climate _climate;
+    private final ClimateListener _climateListener;
     
     public ELAValueNode( Climate climate ) {
         super();

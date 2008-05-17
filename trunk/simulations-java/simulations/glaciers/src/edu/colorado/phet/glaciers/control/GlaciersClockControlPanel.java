@@ -35,10 +35,9 @@ public class GlaciersClockControlPanel extends ClockControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private GlaciersClock _clock;
-    private ConstantDtClockListener _clockListener;
-    
-    private LinearValueControl _frameRateControl;
+    private final GlaciersClock _clock;
+    private final ConstantDtClockListener _clockListener;
+    private final LinearValueControl _frameRateControl;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -115,6 +114,5 @@ public class GlaciersClockControlPanel extends ClockControlPanel {
     public void cleanup() {
         cleanup();
         _clock.removeConstantDtClockListener( _clockListener );
-        _clock = null;
     }
 }

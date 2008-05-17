@@ -27,7 +27,7 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private GlaciersApplication _app;
+    private final GlaciersApplication _app;
 
     //----------------------------------------------------------------------------
     // Constructors

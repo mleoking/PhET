@@ -51,12 +51,12 @@ public class ThermometerNode extends AbstractToolNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Thermometer _thermometer;
-    private Glacier _glacier;
-    private ThermometerListener _thermometerListener;
-    private MovableListener _movableListener;
-    private GlacierListener _glacierListener;
-    private ValueNode _valueNode;
+    private final Thermometer _thermometer;
+    private final Glacier _glacier;
+    private final ThermometerListener _thermometerListener;
+    private final MovableListener _movableListener;
+    private final GlacierListener _glacierListener;
+    private final ValueNode _valueNode;
     
     //----------------------------------------------------------------------------
     // Constructors

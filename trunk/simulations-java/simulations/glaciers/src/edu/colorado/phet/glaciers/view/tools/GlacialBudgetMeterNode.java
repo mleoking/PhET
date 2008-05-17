@@ -52,10 +52,10 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private GlacialBudgetMeter _glacialBudgetMeter;
-    private GlacialBudgetMeterListener _glacialBudgetMeterListener;
-    private MovableListener _movableListener;
-    private ValueNode _valueNode;
+    private final GlacialBudgetMeter _glacialBudgetMeter;
+    private final GlacialBudgetMeterListener _glacialBudgetMeterListener;
+    private final MovableListener _movableListener;
+    private final ValueNode _valueNode;
     
     //----------------------------------------------------------------------------
     // Constructors

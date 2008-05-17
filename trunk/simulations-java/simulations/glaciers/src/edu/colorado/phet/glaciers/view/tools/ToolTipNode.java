@@ -54,7 +54,7 @@ public class ToolTipNode extends PComposite {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private PNode _associatedNode;
+    private final PNode _associatedNode;
     private boolean _enabled;
     private Timer _showToolTipTimer;
     private IToolTipLocationStrategy _locationStrategy;

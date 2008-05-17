@@ -31,11 +31,10 @@ public class MiscControlPanel extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JButton _equilibriumButton;
-    private JButton _resetAllButton;
-    private JButton _helpButton;
-    
-    private ArrayList _listeners; // list of MiscControlPanelListener
+    private final JButton _equilibriumButton;
+    private final JButton _resetAllButton;
+    private final JButton _helpButton;
+    private final ArrayList _listeners; // list of MiscControlPanelListener
     
     //----------------------------------------------------------------------------
     // Constructors

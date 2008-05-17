@@ -29,10 +29,10 @@ public class PenguinNode extends PImage {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Viewport _birdsEyeViewport;
-    private Viewport _zoomedViewport;
-    private ModelViewTransform _mvt;
-    private double _zoomedViewportMaxCenterX;
+    private final Viewport _birdsEyeViewport;
+    private final Viewport _zoomedViewport;
+    private final ModelViewTransform _mvt;
+    private final double _zoomedViewportMaxCenterX;
     
     //----------------------------------------------------------------------------
     // Constructors

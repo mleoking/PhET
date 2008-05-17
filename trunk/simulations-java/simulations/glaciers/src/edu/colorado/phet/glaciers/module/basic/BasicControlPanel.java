@@ -33,11 +33,11 @@ public class BasicControlPanel extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ViewControlPanel _viewControlPanel;
-    private ClimateControlPanel _climateControlPanel;
-    private GraphsControlPanel _graphsControlPanel;
-    private GlaciersClockControlPanel _clockControlPanel;
-    private MiscControlPanel _miscControlPanel;
+    private final ViewControlPanel _viewControlPanel;
+    private final ClimateControlPanel _climateControlPanel;
+    private final GraphsControlPanel _graphsControlPanel;
+    private final GlaciersClockControlPanel _clockControlPanel;
+    private final MiscControlPanel _miscControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors

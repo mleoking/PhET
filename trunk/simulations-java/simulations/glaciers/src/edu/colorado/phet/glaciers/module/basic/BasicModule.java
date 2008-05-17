@@ -46,10 +46,10 @@ public class BasicModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private BasicModel _model;
-    private PlayArea _playArea;
-    private BasicControlPanel _controlPanel;
-    private BasicController _controller;
+    private final BasicModel _model;
+    private final PlayArea _playArea;
+    private final BasicControlPanel _controlPanel;
+    private final BasicController _controller;
 
     //----------------------------------------------------------------------------
     // Constructors

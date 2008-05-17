@@ -31,15 +31,15 @@ public class IceNode extends PComposite {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Glacier _glacier;
-    private GlacierListener _glacierListener;
-    private ModelViewTransform _mvt;
+    private final Glacier _glacier;
+    private final GlacierListener _glacierListener;
+    private final ModelViewTransform _mvt;
     
-    private GeneralPath _crossSectionPath;
-    private PPath _crossSectionNode;
-    private GeneralPath _surfacePath, _surfaceBelowELAPath;
-    private PPath _surfaceNode, _surfaceBelowELANode;
-    private Point2D _pModel, _pView; // reusable points
+    private final GeneralPath _crossSectionPath;
+    private final PPath _crossSectionNode;
+    private final GeneralPath _surfacePath, _surfaceBelowELAPath;
+    private final PPath _surfaceNode, _surfaceBelowELANode;
+    private final Point2D _pModel, _pView; // reusable points
     
     //----------------------------------------------------------------------------
     // Constructors

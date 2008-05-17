@@ -46,10 +46,10 @@ public class IceFlowNode extends PComposite {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Glacier _glacier;
-    private GlacierListener _glacierListener;
-    private ModelViewTransform _mvt;
-    private PNode _parentNode;
+    private final Glacier _glacier;
+    private final GlacierListener _glacierListener;
+    private final ModelViewTransform _mvt;
+    private final PNode _parentNode;
     private boolean _isDirty;
     
     //----------------------------------------------------------------------------

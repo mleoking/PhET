@@ -27,8 +27,8 @@ public class AdvancedModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private AdvancedModel _model;
-    private AdvancedController _controller;
+    private final AdvancedModel _model;
+    private final AdvancedController _controller;
 
     //----------------------------------------------------------------------------
     // Constructors

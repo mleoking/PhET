@@ -44,10 +44,9 @@ public class ViewControlPanel extends AbstractSubPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JCheckBox _equilibriumLineCheckBox;
-    private JCheckBox _iceFlowCheckBox;
-    private JCheckBox _coordinatesCheckBox;
-    
+    private final JCheckBox _equilibriumLineCheckBox;
+    private final JCheckBox _iceFlowCheckBox;
+    private final JCheckBox _coordinatesCheckBox;
     private ArrayList _listeners; // list of ViewControlPanelListener
     
     //----------------------------------------------------------------------------

@@ -38,12 +38,11 @@ public class GraphsControlPanel extends AbstractSubPanel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private JCheckBox _glacierLengthVersusTimeCheckBox;
-    private JCheckBox _equilibriumLineAltitudeVersusTimeCheckBox;
-    private JCheckBox _glacialBudgetVersusElevationCheckBox;
-    private JCheckBox _temperatureVersusElevationCheckBox;
-
-    private ArrayList _listeners; // list of GraphsControlPanelListener
+    private final JCheckBox _glacierLengthVersusTimeCheckBox;
+    private final JCheckBox _equilibriumLineAltitudeVersusTimeCheckBox;
+    private final JCheckBox _glacialBudgetVersusElevationCheckBox;
+    private final JCheckBox _temperatureVersusElevationCheckBox;
+    private final ArrayList _listeners; // list of GraphsControlPanelListener
 
     //----------------------------------------------------------------------------
     // Constructors

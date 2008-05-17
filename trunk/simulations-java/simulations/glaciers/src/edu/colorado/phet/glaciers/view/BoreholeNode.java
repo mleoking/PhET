@@ -30,12 +30,12 @@ public class BoreholeNode extends PComposite {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Borehole _borehole;
-    private ModelViewTransform _mvt;
-    private BoreholeListener _boreholeListener;
-    private GeneralPath _path;
-    private PPath _pathNode;
-    private Point2D _pView;
+    private final Borehole _borehole;
+    private final ModelViewTransform _mvt;
+    private final BoreholeListener _boreholeListener;
+    private final GeneralPath _path;
+    private final PPath _pathNode;
+    private final Point2D _pView;
     
     //----------------------------------------------------------------------------
     // Constructors

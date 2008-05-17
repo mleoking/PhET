@@ -94,23 +94,24 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     //----------------------------------------------------------------------------
     
     // Model
-    private AbstractModel _model;
-    private Viewport _birdsEyeViewport, _zoomedViewport;
+    private final AbstractModel _model;
+    private final Viewport _birdsEyeViewport, _zoomedViewport;
     
     // View
-    private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private PLayer _backgroundLayer, _iceLayer, _velocityLayer, _boreholeLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
-    private IceFlowNode _iceFlowNode;
-    private ToolboxNode _toolboxNode;
-    private PNode _penguinNode;
-    private EquilibriumLineNode _equilibriumLineNode;
-    private ELAValueNode _elaValueNode;
-    private ElevationAxisNode _leftElevationAxisNode, _rightElevationAxisNode;
-    private DistanceAxisNode _distanceAxisNode;
-    private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
-    private ModelViewTransform _mvt;
-    private ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
-    private HashMap _boreholesMap; // key=Borehole, value=BoreholeNode, used for removing borehole nodes when their model elements are deleted
+    private final PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
+    private final PLayer _backgroundLayer, _iceLayer, _velocityLayer, _boreholeLayer;
+    private final PLayer _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
+    private final IceFlowNode _iceFlowNode;
+    private final ToolboxNode _toolboxNode;
+    private final PNode _penguinNode;
+    private final EquilibriumLineNode _equilibriumLineNode;
+    private final ELAValueNode _elaValueNode;
+    private final ElevationAxisNode _leftElevationAxisNode, _rightElevationAxisNode;
+    private final DistanceAxisNode _distanceAxisNode;
+    private final HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
+    private final ModelViewTransform _mvt;
+    private final ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
+    private final HashMap _boreholesMap; // key=Borehole, value=BoreholeNode, used for removing borehole nodes when their model elements are deleted
     
     //----------------------------------------------------------------------------
     // Constructors
