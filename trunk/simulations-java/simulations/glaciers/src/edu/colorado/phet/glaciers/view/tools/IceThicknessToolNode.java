@@ -106,7 +106,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
         
         _valueNode = new ValueNode();
         addChild( _valueNode );
-        _valueNode.setOffset( 2, -_valueNode.getFullBoundsReference().getHeight() + _calipersNode.getJawsHeight() );
+        _valueNode.setOffset( 3, -_valueNode.getFullBoundsReference().getHeight() + _calipersNode.getJawsHeight() );
         
         // initial state
         updateUnknown();

@@ -77,12 +77,12 @@ public class GPSReceiverNode extends AbstractToolNode {
         // GPS receiver image
         PNode receiverNode = new ReceiverNode();
         addChild( receiverNode );
-        receiverNode.setOffset( arrowNode.getFullBounds().getMaxX() + 1, -receiverNode.getFullBoundsReference().getHeight() / 2 );
+        receiverNode.setOffset( arrowNode.getFullBounds().getMaxX() + 2, -22 );
         
         // display to the right of arrow, vertically centered
         _valueNode = new ValueNode();
         addChild( _valueNode );
-        _valueNode.setOffset( receiverNode.getFullBounds().getMaxX() + 1, -_valueNode.getFullBounds().getHeight() / 2 );
+        _valueNode.setOffset( receiverNode.getFullBounds().getMaxX() + 2, -arrowNode.getFullBounds().getHeight() / 2 );
         
         // initial state
         updateCoordinates();

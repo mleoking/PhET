@@ -92,11 +92,11 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         
         PNode meterNode = new MeterNode();
         addChild( meterNode );
-        meterNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 1, -meterNode.getFullBoundsReference().getHeight() / 2 );
+        meterNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 2, -meterNode.getFullBoundsReference().getHeight() / 2 );
         
         _valueNode = new ValueNode();
         addChild( _valueNode );
-        _valueNode.setOffset( meterNode.getFullBounds().getMaxX() + 1, -_valueNode.getFullBounds().getHeight() / 2 );
+        _valueNode.setOffset( meterNode.getFullBounds().getMaxX() + 2, -_valueNode.getFullBounds().getHeight() / 2 );
         
         // initial state
         updateElevation();
