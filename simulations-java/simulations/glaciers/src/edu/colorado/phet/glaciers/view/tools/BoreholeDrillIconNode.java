@@ -16,7 +16,7 @@ import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.InteractiveToo
 public class BoreholeDrillIconNode extends InteractiveToolIconNode {
     
     public BoreholeDrillIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-        super( BoreholeDrillNode.createImage(), GlaciersStrings.TOOLBOX_BOREHOLD_DRILL, toolProducer, mvt );
+        super( BoreholeDrillNode.createImage(), GlaciersStrings.TOOLBOX_BOREHOLE_DRILL, toolProducer, mvt );
     }
     
     public AbstractTool createTool( Point2D position ) {
