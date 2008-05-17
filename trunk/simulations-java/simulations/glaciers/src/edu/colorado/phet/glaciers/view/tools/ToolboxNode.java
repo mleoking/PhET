@@ -228,7 +228,7 @@ public class ToolboxNode extends PNode {
         
         public ToolboxToolTipNode( String text, PNode associatedNode ) {
             super( text, associatedNode );
-            setLocationStrategy( new LeftAlignToolTipAboveMouseCursor() );
+            setLocationStrategy( new LeftAlignedAboveMouseCursor() );
         }
     }
 }
