@@ -4,9 +4,9 @@ package edu.colorado.phet.glaciers.view.tools;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.geom.Point2D;
-import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
@@ -15,13 +15,17 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.glaciers.GlaciersImages;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GPSReceiver;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -37,10 +41,10 @@ public class GPSReceiverNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String DISPLAY_FORMAT = "(x,z)=({0},{1})";
     private static final Font FONT = new PhetFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
-    private static final NumberFormat COORDINATE_FORMAT = new DefaultDecimalFormat( "0" );
+    private static final NumberFormat DISTANCE_FORMAT = new DefaultDecimalFormat( "0" );
+    private static final NumberFormat ELEVATION_FORMAT = new DefaultDecimalFormat( "0" );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -70,10 +74,15 @@ public class GPSReceiverNode extends AbstractToolNode {
         addChild( arrowNode );
         arrowNode.setOffset( 0, 0 ); // this node identifies the origin
         
+        // GPS receiver image
+        PNode receiverNode = new ReceiverNode();
+        addChild( receiverNode );
+        receiverNode.setOffset( arrowNode.getFullBounds().getMaxX() + 1, -receiverNode.getFullBoundsReference().getHeight() / 2 );
+        
         // display to the right of arrow, vertically centered
         _valueNode = new ValueNode();
         addChild( _valueNode );
-        _valueNode.setOffset( arrowNode.getFullBounds().getWidth() + 1, -_valueNode.getFullBounds().getHeight() / 2 );
+        _valueNode.setOffset( receiverNode.getFullBounds().getMaxX() + 1, -_valueNode.getFullBounds().getHeight() / 2 );
         
         // initial state
         updateCoordinates();
@@ -89,32 +98,50 @@ public class GPSReceiverNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     /*
+     * Image of the GPS receiver.
+     */
+    private static class ReceiverNode extends PComposite {
+        public ReceiverNode() {
+            super();
+            PImage imageNode = new PImage( GlaciersImages.GPS_RECEIVER );
+            addChild( imageNode );
+        }
+    }
+    
+    /*
      * Displays the position coordinates.
      */
     private static class ValueNode extends PComposite {
         
-        private JLabel _coordinatesLabel;
+        private JLabel _distanceLabel;
+        private JLabel _elevationLabel;
         private PSwing _pswing;
         
         public ValueNode() {
             super();
             
-            _coordinatesLabel = new JLabel( DISPLAY_FORMAT );
-            _coordinatesLabel.setFont( FONT );
+            _distanceLabel = new JLabel( "?" );
+            _distanceLabel.setFont( FONT );
+            
+            _elevationLabel = new JLabel( "?" );
+            _elevationLabel.setFont( FONT );
             
             JPanel panel = new JPanel();
             panel.setBackground( Color.WHITE );
             panel.setBorder( BORDER );
-            panel.add( _coordinatesLabel );
+            EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+            layout.setAnchor( GridBagConstraints.EAST );
+            panel.setLayout( layout );
+            layout.addComponent( _distanceLabel, 0, 0 );
+            layout.addComponent( _elevationLabel, 1, 0 );
             
             _pswing = new PSwing( panel );
             addChild( _pswing );
         }
         
         public void setCoordinates( Point2D position ) {
-            Object[] args = { COORDINATE_FORMAT.format( position.getX() ), COORDINATE_FORMAT.format( position.getY() ) };
-            String s = MessageFormat.format( DISPLAY_FORMAT, args );
-            _coordinatesLabel.setText( s );
+            _distanceLabel.setText( "> " + GlaciersStrings.LABEL_DISTANCE + " " +  DISTANCE_FORMAT.format( position.getX() ) + " " + GlaciersStrings.UNITS_DISTANCE );
+            _elevationLabel.setText( "^ " + GlaciersStrings.LABEL_ELEVATION + " " +  ELEVATION_FORMAT.format( position.getY() ) + " " + GlaciersStrings.UNITS_ELEVATION );
         }
     }
     
@@ -137,9 +164,6 @@ public class GPSReceiverNode extends AbstractToolNode {
      * Creates a sample image of this node type, for use as an icon.
      */
     public static Image createImage() {
-        GPSReceiver gpsReceiver = new GPSReceiver( new Point2D.Double( 0, 0 ) );
-        ModelViewTransform mvt = new ModelViewTransform(); // identity transform
-        PNode node = new GPSReceiverNode( gpsReceiver, mvt, null /* trashCanIconNode */ );
-        return node.toImage();
+        return new ReceiverNode().toImage();
     }
 }
