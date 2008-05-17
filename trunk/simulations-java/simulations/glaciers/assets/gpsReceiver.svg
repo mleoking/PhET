@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
+   xmlns:ns="http://creativecommons.org/ns#"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:cc="http://web.resource.org/cc/"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -12,11 +13,15 @@
    height="273.45828"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.46"
-   sodipodi:docname="gps_recevier.svg"
+   inkscape:version="0.45.1"
+   sodipodi:docname="gpsReceiver.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
-   style="display:inline">
+   style="display:inline"
+   sodipodi:docbase="/Users/cmalley/Downloads"
+   inkscape:export-filename="/Users/cmalley/Downloads/gps_receiver.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -48,15 +53,21 @@
      inkscape:cx="133.14931"
      inkscape:cy="140.44951"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer3"
      showgrid="false"
      inkscape:window-width="1280"
-     inkscape:window-height="952"
+     inkscape:window-height="878"
      inkscape:window-x="0"
      inkscape:window-y="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
+      <ns:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </ns:Work>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
@@ -72,15 +83,21 @@
      style="display:inline"
      transform="translate(-322.33125,-394.32114)">
     <path
-       style="fill:#b4b4b4;fill-opacity:0.49763034;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#a9a9a9;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 369.21076,396.77318 C 372.66213,404.52694 363.14984,447.28081 371.23106,454.85695 C 379.31228,462.4331 392.93433,449.14458 422.24376,474.04985 C 425.2212,487.65998 420.90991,640.59386 407.59655,653.857 C 390.04117,671.34616 357.03689,672.99787 335.37065,651.33163 C 327.43446,643.39544 320.21836,509.40519 323.75389,474.04985 C 323.75389,474.04985 331.83512,466.4737 333.85542,461.42294 C 336.05099,455.934 337.39095,415.96608 338.90618,398.28841 C 348.50263,394.2478 367.85771,393.73345 369.21076,396.77318 z"
        id="path2474"
-       sodipodi:nodetypes="cscssszcs" />
+       sodipodi:nodetypes="cscssszcs"
+       inkscape:export-filename="/Users/cmalley/Downloads/gps_receiver.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
-       style="opacity:0.38197422;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="opacity:0.82098765;fill:#ffff00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 422.24376,474.04985 C 425.2212,487.65998 420.90991,640.59386 407.59655,653.857 C 390.04117,671.34616 357.03689,672.99787 335.37065,651.33163 C 327.43446,643.39544 320.21836,509.40519 323.75389,474.04985 C 347.71914,461.70203 396.34111,464.69157 422.24376,474.04985 z"
        id="path2476"
-       sodipodi:nodetypes="csscc" />
+       sodipodi:nodetypes="csscc"
+       inkscape:export-filename="/Users/cmalley/Downloads/gps_receiver.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
   <g
      inkscape:groupmode="layer"
