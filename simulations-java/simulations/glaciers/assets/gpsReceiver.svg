@@ -18,7 +18,7 @@
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
    style="display:inline"
-   sodipodi:docbase="/Users/cmalley/Downloads"
+   sodipodi:docbase="/Users/cmalley/phet-workspace/simulations-java/simulations/glaciers/assets"
    inkscape:export-filename="/Users/cmalley/Downloads/gps_receiver.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -83,7 +83,7 @@
      style="display:inline"
      transform="translate(-322.33125,-394.32114)">
     <path
-       style="fill:#a9a9a9;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 369.21076,396.77318 C 372.66213,404.52694 363.14984,447.28081 371.23106,454.85695 C 379.31228,462.4331 392.93433,449.14458 422.24376,474.04985 C 425.2212,487.65998 420.90991,640.59386 407.59655,653.857 C 390.04117,671.34616 357.03689,672.99787 335.37065,651.33163 C 327.43446,643.39544 320.21836,509.40519 323.75389,474.04985 C 323.75389,474.04985 331.83512,466.4737 333.85542,461.42294 C 336.05099,455.934 337.39095,415.96608 338.90618,398.28841 C 348.50263,394.2478 367.85771,393.73345 369.21076,396.77318 z"
        id="path2474"
        sodipodi:nodetypes="cscssszcs"
