@@ -6,6 +6,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.glaciers.model.AbstractTool.ToolAdapter;
+import edu.colorado.phet.glaciers.model.AbstractTool.ToolListener;
 import edu.colorado.phet.glaciers.model.Borehole.BoreholeAdapter;
 import edu.colorado.phet.glaciers.model.Borehole.BoreholeListener;
 import edu.colorado.phet.glaciers.model.BoreholeDrill.BoreholeDrillListener;
@@ -28,9 +30,9 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
     private final ArrayList _toolProducerListeners; // array of ToolProducerListener
     private final ArrayList _boreholes; // array of Borehole
     private final ArrayList _boreholeProducerListeners; // array of BoreholeProducerListener
-
     private final BoreholeDrillListener _boreholeDrillListener;
     private final BoreholeListener _boreholeListener;
+    private final ToolListener _toolSelfDeletionListener;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -57,6 +59,13 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
         _boreholeListener = new BoreholeAdapter() {
             public void deleteMe( Borehole borehole ) {
                 removeBorehole( borehole );
+            }
+        };
+        
+        // tool deletes itself
+        _toolSelfDeletionListener = new ToolAdapter() {
+            public void deleteMe( AbstractTool tool ) {
+                removeTool( tool );
             }
         };
     }
@@ -134,6 +143,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
         if ( _tools.contains( tool ) ) {
             throw new IllegalStateException( "attempted to add tool twice: " + tool.getClass().getName() );
         }
+        tool.addToolListener( _toolSelfDeletionListener );
         _tools.add( tool );
         _clock.addClockListener( tool );
         notifyToolAdded( tool );
@@ -146,6 +156,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
         if ( tool instanceof BoreholeDrill ) { //XXX
             ( (BoreholeDrill) tool ).removeBoreholeDrillListener( _boreholeDrillListener );
         }
+        tool.removeToolListener( _toolSelfDeletionListener );
         _tools.remove( tool );
         _clock.removeClockListener( tool );
         notifyToolRemoved( tool );

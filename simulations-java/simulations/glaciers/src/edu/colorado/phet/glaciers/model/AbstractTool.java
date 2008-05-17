@@ -68,12 +68,22 @@ public abstract class AbstractTool extends Movable implements ClockListener {
         return _dragging;
     }
     
+    protected void deleteMe() {
+        notifyDeleteMe();
+    }
+    
     //----------------------------------------------------------------------------
     // Listeners
     //----------------------------------------------------------------------------
     
     public interface ToolListener {
         public void draggingChanged();
+        public void deleteMe( AbstractTool tool );
+    }
+    
+    public static class ToolAdapter implements ToolListener {
+        public void draggingChanged() {}
+        public void deleteMe( AbstractTool tool ) {}
     }
     
     public void addToolListener( ToolListener listener ) {
@@ -92,6 +102,14 @@ public abstract class AbstractTool extends Movable implements ClockListener {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ToolListener) i.next() ).draggingChanged();
+        }
+    }
+    
+    private void notifyDeleteMe() {
+        ArrayList listenersCopy = new ArrayList( _listeners ); // iterate on a copy, deleteMe causes a call to removeToolListener
+        Iterator i = listenersCopy.iterator();
+        while ( i.hasNext() ) {
+            ( (ToolListener) i.next() ).deleteMe( this );
         }
     }
     

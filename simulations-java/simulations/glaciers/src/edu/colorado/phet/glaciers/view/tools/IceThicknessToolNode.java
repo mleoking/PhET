@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IceThicknessTool;
+import edu.colorado.phet.glaciers.model.AbstractTool.ToolAdapter;
 import edu.colorado.phet.glaciers.model.AbstractTool.ToolListener;
 import edu.colorado.phet.glaciers.model.IceThicknessTool.IceThicknessToolListener;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
@@ -80,7 +81,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
         };
         _iceThicknessTool.addMovableListener( _movableListener );
         
-        _toolListener = new ToolListener() {
+        _toolListener = new ToolAdapter() {
             public void draggingChanged() {
                 update();
             }
