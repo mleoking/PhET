@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -310,6 +311,10 @@ public class ToolTipNode extends PComposite {
     
     public static void main( String[] args ) {
         
+        // Add test nodes and their tool tips to these lists
+        ArrayList testNodes = new ArrayList();  // list of PNode
+        ArrayList toolTips = new ArrayList();  // list of ToolTipNode
+        
         // Instructions
         PText instructionsNode = new PText( "Place mouse over a square to see its tool tip." );
         instructionsNode.setFont( new PhetFont( 14 ) );
@@ -317,95 +322,94 @@ public class ToolTipNode extends PComposite {
         // Cyan Square
         PPath cyanNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         cyanNode.setPaint( Color.CYAN );
-        cyanNode.addInputEventListener( new CursorHandler() );
-        ToolTipNode cyanToolTip = new ToolTipNode( "left-aligned above mouse cursor", cyanNode );
-        cyanToolTip.setLocationStrategy( new LeftAlignedAboveMouseCursor() );
+        ToolTipNode cyanToolTipNode = new ToolTipNode( "left-aligned above mouse cursor", cyanNode );
+        cyanToolTipNode.setLocationStrategy( new LeftAlignedAboveMouseCursor() );
+        testNodes.add( cyanNode );
+        toolTips.add( cyanToolTipNode );
         
         // Blue Square
         PPath blueNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         blueNode.setPaint( Color.BLUE );
-        blueNode.addInputEventListener( new CursorHandler() );
         ToolTipNode blueToolTipNode = new ToolTipNode( "centered above mouse cursor", blueNode );
+        testNodes.add( blueNode );
+        toolTips.add( blueToolTipNode );
         
         // Yellow Square
         PPath yellowNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         yellowNode.setPaint( Color.YELLOW );
-        yellowNode.addInputEventListener( new CursorHandler() );
         ToolTipNode yellowToolTipNode = new ToolTipNode( "right-aligned above mouse cursor", yellowNode );
         yellowToolTipNode.setLocationStrategy( new RightAlignedAboveMouseCursor() );
+        testNodes.add( yellowNode );
+        toolTips.add( yellowToolTipNode );
         
         // Red Square
         PPath redNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         redNode.setPaint( Color.RED );
-        redNode.addInputEventListener( new CursorHandler() );
         ToolTipNode redToolTipNode = new ToolTipNode( "centered below node", redNode );
         redToolTipNode.setLocationStrategy( new CenteredBelowAssociatedNode() );
-
+        testNodes.add( redNode );
+        toolTips.add( redToolTipNode );
+        
         // Green Square
         PPath greenNode = new PPath( new Rectangle( 0, 0, 100, 50 ) );
         greenNode.setPaint( Color.GREEN );
-        greenNode.addInputEventListener( new CursorHandler() );
         ToolTipNode greenToolTipNode = new ToolTipNode( "<html><center><b>centered</b><br>below<br>node<br>(HTML)</center></html>", greenNode );
         greenToolTipNode.setLocationStrategy( new CenteredBelowAssociatedNode() );
+        testNodes.add( greenNode );
+        toolTips.add( greenToolTipNode );
         
         // Gray Square
         PPath grayNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         grayNode.setPaint( Color.GRAY );
-        grayNode.addInputEventListener( new CursorHandler() );
         ToolTipNode grayToolTipNode = new ToolTipNode( "left-aligned below node", grayNode );
         grayToolTipNode.setLocationStrategy( new LeftAlignedBelowAssociatedNode() );
+        testNodes.add( grayNode );
+        toolTips.add( grayToolTipNode );
         
         // Black Square
         PPath blackNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         blackNode.setPaint( Color.BLACK );
-        blackNode.addInputEventListener( new CursorHandler() );
         ToolTipNode blackToolTipNode = new ToolTipNode( "right-aligned below node", blackNode );
         blackToolTipNode.setLocationStrategy( new RightAlignedBelowAssociatedNode() );
+        testNodes.add( blackNode );
+        toolTips.add( blackToolTipNode );
         
-        // Layout
+        // Add tests above here ---------------
+        
+        // Add nodes to scenegraph, set their positions to create 1 row of test nodes
+        PCanvas canvas = new PCanvas();
+        PNode rootNode = new PNode();
+        canvas.getLayer().addChild( rootNode );
+        PNode previousNode = null;
+        rootNode.addChild( instructionsNode );
         final int margin = 50;
         final int spacing = 50;
-        PNode previousNode = null;
         instructionsNode.setOffset( margin, margin );
-        previousNode = instructionsNode;
-        cyanNode.setOffset( margin, previousNode.getFullBoundsReference().getMaxY() + spacing );
-        previousNode = cyanNode;
-        blueNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
-        previousNode = blueNode;
-        yellowNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
-        previousNode = yellowNode;
-        redNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
-        previousNode = redNode;
-        greenNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
-        previousNode = greenNode;
-        grayNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
-        previousNode = grayNode;
-        blackNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
-        previousNode = blackNode;
-        final double frameWidth = previousNode.getFullBoundsReference().getMaxX() + margin;
-        
-        // Canvas
-        PCanvas canvas = new PCanvas();
-        canvas.getLayer().addChild( instructionsNode );
-        canvas.getLayer().addChild( cyanNode );
-        canvas.getLayer().addChild( blueNode );
-        canvas.getLayer().addChild( yellowNode );
-        canvas.getLayer().addChild( redNode );
-        canvas.getLayer().addChild( greenNode );
-        canvas.getLayer().addChild( grayNode );
-        canvas.getLayer().addChild( blackNode );
-        canvas.getLayer().addChild( cyanToolTip );
-        canvas.getLayer().addChild( blueToolTipNode );
-        canvas.getLayer().addChild( yellowToolTipNode );
-        canvas.getLayer().addChild( redToolTipNode );
-        canvas.getLayer().addChild( greenToolTipNode );
-        canvas.getLayer().addChild( grayToolTipNode );
-        canvas.getLayer().addChild( blackToolTipNode );
+        // one row of nodes
+        for ( int i = 0; i < testNodes.size(); i++ ) {
+            PNode currentNode = (PNode) testNodes.get( i );
+            currentNode.addInputEventListener( new CursorHandler() ); // hand cursor
+            rootNode.addChild( currentNode );
+            if ( previousNode == null ) {
+                currentNode.setOffset( margin, instructionsNode.getFullBoundsReference().getMaxY() + spacing );
+            }
+            else {
+                currentNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
+            }
+            previousNode = currentNode;
+        }
+
+        // Add tool tips to scenegraph after test nodes, so they'll be on top
+        for ( int i = 0; i < toolTips.size(); i++ ) {
+            rootNode.addChild( (ToolTipNode) toolTips.get( i ) );
+        }
         
         // Frame
+        final int frameWidth = (int)( rootNode.getFullBoundsReference().getWidth() + margin );
+        final int frameHeight = (int)( rootNode.getFullBoundsReference().getHeight() + 150 );
         JFrame frame = new JFrame( "ToolTipNode test" );
         frame.setContentPane( canvas );
-        frame.setSize( (int)frameWidth, 300 );
+        frame.setSize( frameWidth, frameHeight );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
