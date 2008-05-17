@@ -137,7 +137,7 @@ public class ToolTipNode extends PComposite {
         addChild( toolTipTextNode );
         toolTipTextNode.setOffset( margin, margin );
 
-        _locationStrategy = new CenterToolTipAboveMouseCursor();
+        _locationStrategy = new CenteredAboveMouseCursor();
         
         associatedNode.addInputEventListener( new PBasicInputEventHandler() {
             
@@ -225,25 +225,40 @@ public class ToolTipNode extends PComposite {
     /**
      * Tool tip is centered about the mouse cursor.
      */
-    public static class CenterToolTipAboveMouseCursor implements IToolTipLocationStrategy {
+    public static class CenteredAboveMouseCursor implements IToolTipLocationStrategy {
         public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event ) {
             Point2D pGlobal = event.getPosition();
             Point2D pLocal = toolTipNode.getParent().globalToLocal( pGlobal );
             double xOffset = pLocal.getX() - ( toolTipNode.getFullBoundsReference().getWidth() / 2 );
-            double yOffset = pLocal.getY() - toolTipNode.getFullBoundsReference().getHeight() - 5;
+            double yOffset = pLocal.getY() - toolTipNode.getFullBoundsReference().getHeight();
             toolTipNode.setOffset( xOffset, yOffset );
         }
     }
     
     /**
      * Tool tip is left-aligned about the mouse cursor.
+     * Useful when the associated node is at the left edge of the play area.
      */
-    public static class LeftAlignToolTipAboveMouseCursor implements IToolTipLocationStrategy {
+    public static class LeftAlignedAboveMouseCursor implements IToolTipLocationStrategy {
         public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event ) {
             Point2D pGlobal = event.getPosition();
             Point2D pLocal = toolTipNode.getParent().globalToLocal( pGlobal );
             double xOffset = pLocal.getX();
-            double yOffset = pLocal.getY() - toolTipNode.getFullBoundsReference().getHeight() - 5;
+            double yOffset = pLocal.getY() - toolTipNode.getFullBoundsReference().getHeight();
+            toolTipNode.setOffset( xOffset, yOffset );
+        }
+    }
+    
+    /**
+     * Tool tip is right-aligned about the mouse cursor.
+     * Useful when the associated node is at the right edge of the play area.
+     */
+    public static class RightAlignedAboveMouseCursor implements IToolTipLocationStrategy {
+        public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event ) {
+            Point2D pGlobal = event.getPosition();
+            Point2D pLocal = toolTipNode.getParent().globalToLocal( pGlobal );
+            double xOffset = pLocal.getX() - toolTipNode.getFullBoundsReference().getWidth();
+            double yOffset = pLocal.getY() - toolTipNode.getFullBoundsReference().getHeight();
             toolTipNode.setOffset( xOffset, yOffset );
         }
     }
@@ -251,11 +266,39 @@ public class ToolTipNode extends PComposite {
     /**
      * Tool tip is centered below its associated node.
      */
-    public static class CenterToolTipUnderAssociatedNode implements IToolTipLocationStrategy {
+    public static class CenteredBelowAssociatedNode implements IToolTipLocationStrategy {
         public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event ) {
             PBounds bGlobal = associatedNode.getGlobalFullBounds();
             Point2D pLocal = toolTipNode.getParent().globalToLocal( new Point2D.Double( bGlobal.getX(), bGlobal.getMaxY() ) );
             double xOffset = pLocal.getX() + ( associatedNode.getFullBoundsReference().getWidth() - toolTipNode.getFullBoundsReference().getWidth() ) / 2;
+            double yOffset = pLocal.getY() + 5;
+            toolTipNode.setOffset( xOffset, yOffset );
+        }
+    }
+    
+    /**
+     * Tool tip is left-aligned below its associated node.
+     * Useful when the associated node is at the left edge of the play area.
+     */
+    public static class LeftAlignedBelowAssociatedNode implements IToolTipLocationStrategy {
+        public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event ) {
+            PBounds bGlobal = associatedNode.getGlobalFullBounds();
+            Point2D pLocal = toolTipNode.getParent().globalToLocal( new Point2D.Double( bGlobal.getX(), bGlobal.getMaxY() ) );
+            double xOffset = pLocal.getX();
+            double yOffset = pLocal.getY() + 5;
+            toolTipNode.setOffset( xOffset, yOffset );
+        }
+    }
+    
+    /**
+     * Tool tip is right-aligned below its associated node.
+     * Useful when the associated node is at the right edge of the play area.
+     */
+    public static class RightAlignedBelowAssociatedNode implements IToolTipLocationStrategy {
+        public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event ) {
+            PBounds bGlobal = associatedNode.getGlobalFullBounds();
+            Point2D pLocal = toolTipNode.getParent().globalToLocal( new Point2D.Double( bGlobal.getX(), bGlobal.getMaxY() ) );
+            double xOffset = pLocal.getX() + ( associatedNode.getFullBoundsReference().getWidth() - toolTipNode.getFullBoundsReference().getWidth() );
             double yOffset = pLocal.getY() + 5;
             toolTipNode.setOffset( xOffset, yOffset );
         }
@@ -271,12 +314,12 @@ public class ToolTipNode extends PComposite {
         PText instructionsNode = new PText( "Place mouse over a square to see its tool tip." );
         instructionsNode.setFont( new PhetFont( 14 ) );
 
-        // Orange Square
-        PPath orangeNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
-        orangeNode.setPaint( Color.ORANGE );
-        orangeNode.addInputEventListener( new CursorHandler() );
-        ToolTipNode orangeToolTipNode = new ToolTipNode( "left-aligned above mouse cursor", orangeNode );
-        orangeToolTipNode.setLocationStrategy( new LeftAlignToolTipAboveMouseCursor() );
+        // Cyan Square
+        PPath cyanNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
+        cyanNode.setPaint( Color.CYAN );
+        cyanNode.addInputEventListener( new CursorHandler() );
+        ToolTipNode cyanToolTip = new ToolTipNode( "left-aligned above mouse cursor", cyanNode );
+        cyanToolTip.setLocationStrategy( new LeftAlignedAboveMouseCursor() );
         
         // Blue Square
         PPath blueNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
@@ -284,42 +327,81 @@ public class ToolTipNode extends PComposite {
         blueNode.addInputEventListener( new CursorHandler() );
         ToolTipNode blueToolTipNode = new ToolTipNode( "centered above mouse cursor", blueNode );
         
+        // Yellow Square
+        PPath yellowNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
+        yellowNode.setPaint( Color.YELLOW );
+        yellowNode.addInputEventListener( new CursorHandler() );
+        ToolTipNode yellowToolTipNode = new ToolTipNode( "right-aligned above mouse cursor", yellowNode );
+        yellowToolTipNode.setLocationStrategy( new RightAlignedAboveMouseCursor() );
+        
         // Red Square
         PPath redNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         redNode.setPaint( Color.RED );
         redNode.addInputEventListener( new CursorHandler() );
         ToolTipNode redToolTipNode = new ToolTipNode( "centered below node", redNode );
-        redToolTipNode.setLocationStrategy( new CenterToolTipUnderAssociatedNode() );
+        redToolTipNode.setLocationStrategy( new CenteredBelowAssociatedNode() );
 
         // Green Square
         PPath greenNode = new PPath( new Rectangle( 0, 0, 100, 50 ) );
         greenNode.setPaint( Color.GREEN );
         greenNode.addInputEventListener( new CursorHandler() );
-        ToolTipNode greenToolTipNode = new ToolTipNode( "<html><center>HTML<br><b>centered</b><br>below<br>node</center></html>", greenNode );
-        greenToolTipNode.setLocationStrategy( new CenterToolTipUnderAssociatedNode() );
+        ToolTipNode greenToolTipNode = new ToolTipNode( "<html><center><b>centered</b><br>below<br>node<br>(HTML)</center></html>", greenNode );
+        greenToolTipNode.setLocationStrategy( new CenteredBelowAssociatedNode() );
+        
+        // Gray Square
+        PPath grayNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
+        grayNode.setPaint( Color.GRAY );
+        grayNode.addInputEventListener( new CursorHandler() );
+        ToolTipNode grayToolTipNode = new ToolTipNode( "left-aligned below node", grayNode );
+        grayToolTipNode.setLocationStrategy( new LeftAlignedBelowAssociatedNode() );
+        
+        // Black Square
+        PPath blackNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
+        blackNode.setPaint( Color.BLACK );
+        blackNode.addInputEventListener( new CursorHandler() );
+        ToolTipNode blackToolTipNode = new ToolTipNode( "right-aligned below node", blackNode );
+        blackToolTipNode.setLocationStrategy( new RightAlignedBelowAssociatedNode() );
         
         // Layout
         final int margin = 50;
         final int spacing = 50;
+        PNode previousNode = null;
         instructionsNode.setOffset( margin, margin );
-        orangeNode.setOffset( margin, instructionsNode.getFullBoundsReference().getMaxY() + spacing );
-        blueNode.setOffset( orangeNode.getFullBoundsReference().getMaxX() + spacing, orangeNode.getFullBoundsReference().getY() );
-        redNode.setOffset( blueNode.getFullBoundsReference().getMaxX() + spacing, blueNode.getFullBoundsReference().getY() );
-        greenNode.setOffset( redNode.getFullBoundsReference().getMaxX() + spacing, redNode.getFullBoundsReference().getY() );
-        final double frameWidth = greenNode.getFullBoundsReference().getMaxX() + margin;
+        previousNode = instructionsNode;
+        cyanNode.setOffset( margin, previousNode.getFullBoundsReference().getMaxY() + spacing );
+        previousNode = cyanNode;
+        blueNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
+        previousNode = blueNode;
+        yellowNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
+        previousNode = yellowNode;
+        redNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
+        previousNode = redNode;
+        greenNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
+        previousNode = greenNode;
+        grayNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
+        previousNode = grayNode;
+        blackNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + spacing, previousNode.getFullBoundsReference().getY() );
+        previousNode = blackNode;
+        final double frameWidth = previousNode.getFullBoundsReference().getMaxX() + margin;
         
         // Canvas
         PCanvas canvas = new PCanvas();
         canvas.getLayer().addChild( instructionsNode );
-        canvas.getLayer().addChild( orangeNode );
+        canvas.getLayer().addChild( cyanNode );
         canvas.getLayer().addChild( blueNode );
+        canvas.getLayer().addChild( yellowNode );
         canvas.getLayer().addChild( redNode );
         canvas.getLayer().addChild( greenNode );
-        canvas.getLayer().addChild( orangeToolTipNode );
+        canvas.getLayer().addChild( grayNode );
+        canvas.getLayer().addChild( blackNode );
+        canvas.getLayer().addChild( cyanToolTip );
+        canvas.getLayer().addChild( blueToolTipNode );
+        canvas.getLayer().addChild( yellowToolTipNode );
         canvas.getLayer().addChild( redToolTipNode );
         canvas.getLayer().addChild( greenToolTipNode );
-        canvas.getLayer().addChild( blueToolTipNode );
-
+        canvas.getLayer().addChild( grayToolTipNode );
+        canvas.getLayer().addChild( blackToolTipNode );
+        
         // Frame
         JFrame frame = new JFrame( "ToolTipNode test" );
         frame.setContentPane( canvas );
