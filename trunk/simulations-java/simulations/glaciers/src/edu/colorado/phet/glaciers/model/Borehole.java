@@ -28,9 +28,9 @@ public class Borehole extends ClockAdapter {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Glacier _glacier;
-    private ArrayList _points;
-    private ArrayList _listeners;
+    private final Glacier _glacier;
+    private final ArrayList _points;
+    private final ArrayList _listeners;
     
     //----------------------------------------------------------------------------
     // Constructors

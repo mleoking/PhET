@@ -41,7 +41,7 @@ public class Climate {
     private double _snowfall; // snow accumulation (meters/year)
     private double _snowfallReferenceElevation; // reference elevation for snowfall (meters)
     private double _ela; // equilibrium line altitude, elevation where glacial budget is zero (meters)
-    private ArrayList _listeners; // list of ClimateListener
+    private final ArrayList _listeners; // list of ClimateListener
     
     //----------------------------------------------------------------------------
     // Constructors

@@ -22,7 +22,7 @@ public abstract class AbstractTool extends Movable implements ClockListener {
     //----------------------------------------------------------------------------
     
     private boolean _dragging;
-    private ArrayList _listeners;
+    private final ArrayList _listeners;
     
     //----------------------------------------------------------------------------
     // Constructor

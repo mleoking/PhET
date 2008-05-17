@@ -18,9 +18,9 @@ public class Viewport {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private String _id;
+    private final String _id;
     private Rectangle2D _bounds;
-    private ArrayList _listeners; // list of ViewportListener
+    private final ArrayList _listeners; // list of ViewportListener
     
     //----------------------------------------------------------------------------
     // Constructors
