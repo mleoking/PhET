@@ -42,6 +42,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
     //------------------------------------------------------------------------
     private LinearValueControl _u235AmountControl;
     private LinearValueControl _u238AmountControl;
+    private JCheckBox          _enableContainmentVesselCheckBox;
     private JTextField         _percentFissioned;
     private ChainReactionModel _model;
     private boolean            _ignoreStateChanges;
@@ -59,7 +60,8 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _model.addListener( new ChainReactionModel.Adapter(){
             public void resetOccurred(){
                 _u235AmountControl.setValue( _model.getNumU235Nuclei() );
-                _u238AmountControl.setValue( _model.getNumU238Nuclei() );                
+                _u238AmountControl.setValue( _model.getNumU238Nuclei() );
+                _enableContainmentVesselCheckBox.setSelected( _model.getContainmentVessel().getIsEnabled() );
             }
             public void percentageU235FissionedChanged(double percentU235Fissioned){
                 DecimalFormat formatter = new DecimalFormat( "##0.00" );
@@ -79,16 +81,15 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         setBorder( titledBorder );
         
         // Add the check box for the containment vessel.
-        final JCheckBox enableContainmentVesselCheckBox = new JCheckBox( NuclearPhysics2Strings.CONTAINMENT_VESSEL_CHECK_BOX );
-        enableContainmentVesselCheckBox.setSelected( _model.getContainmentVessel().getIsEnabled() );
-        enableContainmentVesselCheckBox.addChangeListener( new ChangeListener() {
-            
+        _enableContainmentVesselCheckBox = new JCheckBox( NuclearPhysics2Strings.CONTAINMENT_VESSEL_CHECK_BOX );
+        _enableContainmentVesselCheckBox.setSelected( _model.getContainmentVessel().getIsEnabled() );
+        _enableContainmentVesselCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _model.getContainmentVessel().setIsEnabled( enableContainmentVesselCheckBox.isSelected() );
+                _model.getContainmentVessel().setIsEnabled( _enableContainmentVesselCheckBox.isSelected() );
             }
         } );
-        enableContainmentVesselCheckBox.setBorder( BorderFactory.createEtchedBorder() );
-        add(enableContainmentVesselCheckBox);
+        _enableContainmentVesselCheckBox.setBorder( BorderFactory.createEtchedBorder() );
+        add(_enableContainmentVesselCheckBox);
         
         // Add a little spacing in order to make the controls easier to spot.
         JPanel spacePanel = new JPanel();
