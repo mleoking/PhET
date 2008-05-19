@@ -98,10 +98,6 @@ public class ApplicationView {
         return this.phetFrame;
     }
 
-    public void toggleFullScreen() {
-        basicPhetPanel.toggleFullScreen();
-    }
-
     private class ControlAndMonitorSwapper implements ModuleObserver {
         BasicPhetPanel bpp;
         ModuleManager mm;
