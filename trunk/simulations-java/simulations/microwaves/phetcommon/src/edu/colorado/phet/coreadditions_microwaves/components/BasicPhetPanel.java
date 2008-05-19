@@ -80,17 +80,7 @@ public class BasicPhetPanel extends JPanel {
             final JDialog buttonDlg = new JDialog();
             buttonDlg.setTitle( SimStrings.get( "BasicPhetPanel.ReturnButton" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
-            ImageIcon logo = new ImageIcon( new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" ) );
-            JButton logoButton = new JButton( logo );
-            logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
-            logoButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    toggleFullScreen();
-                    buttonDlg.setVisible( false );
-                }
-            } );
             buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
-            buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();
             buttonDlg.pack();
             buttonDlg.setLocation( (int)( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
