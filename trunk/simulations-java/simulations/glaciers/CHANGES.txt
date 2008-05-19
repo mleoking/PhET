@@ -50,6 +50,8 @@ LOW PRIORITY:
 - should "Glacial Budget vs Elevation" chart show negative ablation?
 - add rocks falling off mountains onto glacier surface?
 - do we want to show values or relative ranges (cold-to-hot) for climate controls?
+- add license info for borehole drill image to images/LICENSE.txt
+- add assets/LICENSE.txt
 
 PERFORMANCE OPTIMIZATIONS:
 - Valley.getX uses divide-and-conquer
