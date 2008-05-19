@@ -1,5 +1,11 @@
 package edu.colorado.phet.distanceladder;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.util.Random;
+
+import javax.swing.*;
+
 import edu.colorado.phet.distanceladder.common.application.Module;
 import edu.colorado.phet.distanceladder.common.model.clock.SwingTimerClock;
 import edu.colorado.phet.distanceladder.common.view.ApplicationDescriptor;
@@ -16,11 +22,6 @@ import edu.colorado.phet.distanceladder.model.NormalStar;
 import edu.colorado.phet.distanceladder.model.Star;
 import edu.colorado.phet.distanceladder.model.StarField;
 import edu.colorado.phet.distanceladder.model.UniverseModel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.Random;
 
 /**
  * Class: edu.colorado.phet.distanceladder.CockpitModuleTest
@@ -53,7 +54,7 @@ public class DistanceLadderApplication {
 
         Star star = null;
         Random random = new Random();
-        for( int i = 0; i < 200; i++ ) {
+        for ( int i = 0; i < 200; i++ ) {
             double x = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
             double y = random.nextDouble() * Config.universeWidth - Config.universeWidth * 0.5;
             int colorIdx = random.nextInt( colors.length );
@@ -91,13 +92,13 @@ public class DistanceLadderApplication {
 
 
     private void displayMessage( Message message ) {
-        if( noInfoMessages != Message.GO_TO_GAME ) {
+        if ( noInfoMessages != Message.GO_TO_GAME ) {
             noInfoMessages = message.display();
         }
     }
 
     private void doLevel( Exercise level ) {
-        while( !level.doIt() ) {
+        while ( !level.doIt() ) {
             JOptionPane.showMessageDialog( null, "Sorry, wrong answer.", "Results",
                                            JOptionPane.ERROR_MESSAGE );
         }
@@ -106,12 +107,16 @@ public class DistanceLadderApplication {
     }
 
     public static void main( String[] args ) {
-        String desc = GraphicsUtil.formatMessage( "A game for learning how to\nmeasure interstellar distances." );
-        appDesc = new ApplicationDescriptor( "Lost In Space",
-                                             desc,
-                                             "0.1",
-                                             new MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ) );
-        DistanceLadderApplication test = new DistanceLadderApplication();
-        test.test1();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                String desc = GraphicsUtil.formatMessage( "A game for learning how to\nmeasure interstellar distances." );
+                appDesc = new ApplicationDescriptor( "Lost In Space",
+                                                     desc,
+                                                     "0.1",
+                                                     new MaxExtentFrameSetup( new FrameCenterer( 100, 100 ) ) );
+                DistanceLadderApplication test = new DistanceLadderApplication();
+                test.test1();
+            }
+        } );
     }
 }
