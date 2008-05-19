@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.model.AbstractTool.ToolAdapter;
@@ -14,6 +15,7 @@ import edu.colorado.phet.glaciers.model.AbstractTool.ToolListener;
 import edu.colorado.phet.glaciers.model.Borehole.BoreholeAdapter;
 import edu.colorado.phet.glaciers.model.Borehole.BoreholeListener;
 import edu.colorado.phet.glaciers.model.BoreholeDrill.BoreholeDrillListener;
+import edu.colorado.phet.glaciers.model.Debris.DebrisAdapter;
 import edu.colorado.phet.glaciers.model.Debris.DebrisListener;
 
 
@@ -52,7 +54,8 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     private final DebrisListener _debrisSelfDeletionListener;
 
     private int _timeSinceLastDebrisGenerated;
-    private Random _randomDebrisX, _randomDebrisY;
+    private Random _randomDebrisX, _randomDebrisY, _randomDebrisZ;
+    private Point3D _pDebrisModel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -76,6 +79,8 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         _timeSinceLastDebrisGenerated = 0;
         _randomDebrisX = new Random();
         _randomDebrisY = new Random();
+        _randomDebrisZ = new Random();
+        _pDebrisModel = new Point3D.Double();
         
         // create a borehole when the drill is pressed
         _boreholeDrillListener = new BoreholeDrillListener() {
@@ -99,7 +104,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         };
         
         // debris deletes itself
-        _debrisSelfDeletionListener = new DebrisListener() {
+        _debrisSelfDeletionListener = new DebrisAdapter() {
             public void deleteMe( Debris debris ) {
                 removeDebris( debris );
             }
@@ -301,7 +306,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     // IDebrisProducer
     //----------------------------------------------------------------------------
     
-    public Debris addDebris( Point2D position ) {
+    public Debris addDebris( Point3D position ) {
         if ( ENABLE_DEBUG_OUTPUT ) {
             System.out.println( "AbstractModel.addDebris" );
         }
@@ -360,6 +365,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     private void generateRandomDebris() {
         if ( _glacier.getLength() > 0 ) {
             
+            // x - distance from valley headwall
             final double minX = _glacier.getValley().getHeadwallPositionReference().getX();
             Point2D surfaceAtSteadyStateELA = _glacier.getSurfaceAtSteadyStateELAReference();
             double maxX = 0;
@@ -371,11 +377,17 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
             }
             final double x = minX + _randomDebrisX.nextDouble() * ( maxX - minX );
             
+            // y - elevation
             final double minY = _glacier.getValley().getElevation( x ) + 1;
             final double maxY = _glacier.getSurfaceElevation( x ) - 1;
             final double y = minY + _randomDebrisY.nextDouble() * ( maxY - minY );
             
-            addDebris( new Point2D.Double( x, y ) );
+            // z - distance across the width of the valley floor
+            final double valleyWidth = _glacier.getValley().getWidth( x );
+            final double z = _randomDebrisZ.nextDouble() * valleyWidth;
+            
+            _pDebrisModel.setLocation( x, y, z );
+            addDebris( _pDebrisModel );
         }
     }
 

@@ -74,6 +74,8 @@ CLEANUP:
 
 
 DONE:
+5/19/08 - add 3rd dimension to debris model
+5/19/08 - add Point3D to phetcommon
 5/19/08 - deposit rocks at terminus to create moraine
 5/19/08 - delete rocks on valley floor when covered by an advancing glacier
 5/19/08 - first pass at adding debris, only appears in the cross-section
