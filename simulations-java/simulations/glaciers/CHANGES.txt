@@ -12,7 +12,6 @@ HIGH PRIORITY:
 - refactor model listener class hierarchy
 
 MEDIUM PRIORITY:
-- borehole drill's position doesn't line up with tip of drill image
 - visual representation of snowfall
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
@@ -26,6 +25,8 @@ MEDIUM PRIORITY:
 - main control panel should be the same height in all modules
 - PlayArea class is too big, refactor
 - AbstractModel class is too big, refactor
+- make borehole drill bigger
+- rescale image for borehole drill button so that no node scaling is required
 
 LOW PRIORITY:
 - right edge of ice thickness tool icon is clipped (see Unfuddle #558)
@@ -73,6 +74,8 @@ CLEANUP:
 
 
 DONE:
+5/19/08 - add a drag offset to tool framework, so that borehole drill will be dragged out of toolbox by its handle
+5/19/08 - line up tip of borehole drill's bit with it origin
 5/19/08 - factor debris generation out of AbstractModel and into DebrisGenerator
 5/19/08 - add 3rd dimesion to debris view
 5/19/08 - add 3rd dimension to debris model

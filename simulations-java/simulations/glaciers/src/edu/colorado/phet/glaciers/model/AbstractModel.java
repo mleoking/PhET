@@ -306,9 +306,6 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     //----------------------------------------------------------------------------
     
     public Debris addDebris( Point3D position ) {
-        if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( "AbstractModel.addDebris" );
-        }
         Debris debris = new Debris( position, _glacier );
         debris.addDebrisListener( _debrisSelfDeletionListener );
         _debris.add( debris );
@@ -318,9 +315,6 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     }
     
     public void removeDebris( Debris debris ) {
-        if ( ENABLE_DEBUG_OUTPUT ) {
-            System.out.println( "AbstractModel.removeDebris" );
-        }
         if ( !_debris.contains( debris ) ) {
             throw new IllegalStateException( "attempted to remove debris that doesn't exist" );
         }
