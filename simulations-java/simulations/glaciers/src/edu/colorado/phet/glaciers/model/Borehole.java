@@ -25,18 +25,18 @@ public class Borehole extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     private static final double DZ = 10; // distance between points (meters)
-    private static final DoubleRange FILL_IN_STARTS_RANGE = new DoubleRange( 1500, 2500 );
-    private static final DoubleRange FILL_IN_ENDS_RANGE = new DoubleRange( 500, 1000 );
+    private static final double FILL_IN_BEGINS = 40; // when the borehole starts to fill in, relative to when it was created (years)
+    private static final double FILL_IN_DURATION = 40; // how long it takes for the borehole to completely fill in (years)
         
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private final Glacier _glacier;
-    private final ArrayList _points; // points that approximate the borehole
-    private double _percentFilledIn;
-    private final double _fillInStartsX; // x coordinate where the borehole starts to fill in
-    private final double _fillInEndsX; // x coordinate where the borehole is completely filled in
+    private ArrayList _points; // points that approximate the borehole
+    private double _percentFilledIn; // percentage of the borehole that is filled in (0.0-1.0)
+    private double _fillInStartTime; // absolute time at which the borehole will start to fill in (years)
+    private double _fillInEndTime; // absolute time at which the borehole will be completely filled in (years)
     private final ArrayList _listeners;
 
     //----------------------------------------------------------------------------
@@ -48,8 +48,7 @@ public class Borehole extends ClockAdapter {
         _glacier = glacier;
         _points = createPoints( position, glacier );
         _percentFilledIn = 0;
-        _fillInStartsX = position.getX() + FILL_IN_STARTS_RANGE.getMin();
-        _fillInEndsX = _fillInStartsX + FILL_IN_ENDS_RANGE.getMin();
+        _fillInStartTime = _fillInEndTime = -1; // undefined until first clock tick
         _listeners = new ArrayList();
     }
     
@@ -109,72 +108,106 @@ public class Borehole extends ClockAdapter {
     }
     
     /**
-     * Gets the percentage of the borehole that has been filled in by ice.
+     * Gets the percentage of the borehole that has been filled in.
      * 
-     * @return 0 to 1
+     * @return 0.0 to 1.0
      */
     public double getPercentFilledIn() {
         return _percentFilledIn;
     }
-    
+
     //----------------------------------------------------------------------------
     // ClockListener implementation
     //----------------------------------------------------------------------------
-    
+
+    /*
+     * Evolves the model when the clock ticks.
+     */
     public void simulationTimeChanged( ClockEvent clockEvent ) {
 
         if ( _points != null ) {
+
+            final double t = clockEvent.getSimulationTime();
             
-            final double dt = clockEvent.getSimulationTimeChange();
-            final double terminusX = _glacier.getTerminusX();
-
-            ArrayList pointsCopy = new ArrayList( _points ); // iterate on a copy, since we may delete points from the original
-            Point2D currentPoint = null;
-            boolean previousPointIsOnGlacierSurface = false;
-            Iterator i = pointsCopy.iterator();
-            while ( i.hasNext() ) {
-
-                currentPoint = (Point2D) i.next();
-
-                // distance = velocity * dt
-                Vector2D velocity = _glacier.getIceVelocity( currentPoint.getX(), currentPoint.getY() );
-                double newX = currentPoint.getX() + ( velocity.getX() * dt );
-                double newY = currentPoint.getY() + ( velocity.getY() * dt );
-
-                // constrain x to terminus
-                if ( newX > terminusX ) {
-                    newX = terminusX;
-                }
-
-                // constrain elevation to the surface of the glacier.
-                // prune points so that at most one point is on the surface.
-                double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
-                if ( newY > newGlacierSurfaceElevation ) {
-                    if ( previousPointIsOnGlacierSurface ) {
-                        _points.remove( currentPoint );
-                    }
-                    else {
-                        previousPointIsOnGlacierSurface = true;
-                        newY = newGlacierSurfaceElevation;
-                    }
-                }
-                else {
-                    previousPointIsOnGlacierSurface = false;
-                }
-
-                currentPoint.setLocation( newX, newY );
+            // initialize "fill in" model
+            if ( _fillInStartTime == -1 ) {
+                _fillInStartTime = t + FILL_IN_BEGINS;
+                _fillInEndTime = _fillInStartTime + FILL_IN_DURATION;
             }
-
-            // evolve or delete?
-            Point2D pointOnValleyFloor = (Point2D) pointsCopy.get( 0 );
-            if ( _points.size() < 2 || pointOnValleyFloor.getX() >= terminusX ) {
-                _percentFilledIn = 1;
-                notifyDeleteMe();
+            
+            if ( t >= _fillInEndTime ) {
+                // borehole is completely filled in
+                deleteMe();
             }
             else {
-                notifyEvolved();
+                
+                // calculate how much of the borehole is filled in
+                if ( t < _fillInStartTime ) {
+                    _percentFilledIn = 0;
+                }
+                else {
+                    _percentFilledIn = 1 - ( ( _fillInEndTime - t ) / ( _fillInEndTime - _fillInStartTime ) );
+                }
+
+                // evolve the points
+                final double dt = clockEvent.getSimulationTimeChange();
+                final double terminusX = _glacier.getTerminusX();
+                ArrayList pointsCopy = new ArrayList( _points ); // iterate on a copy, since we may delete points from the original
+                Point2D currentPoint = null;
+                boolean previousPointIsOnGlacierSurface = false;
+                Iterator i = pointsCopy.iterator();
+                while ( i.hasNext() ) {
+
+                    currentPoint = (Point2D) i.next();
+
+                    // distance = velocity * dt
+                    Vector2D velocity = _glacier.getIceVelocity( currentPoint.getX(), currentPoint.getY() );
+                    double newX = currentPoint.getX() + ( velocity.getX() * dt );
+                    double newY = currentPoint.getY() + ( velocity.getY() * dt );
+
+                    // constrain x to terminus
+                    if ( newX > terminusX ) {
+                        newX = terminusX;
+                    }
+
+                    // constrain elevation to the surface of the glacier.
+                    // prune points so that at most one point is on the surface.
+                    double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
+                    if ( newY > newGlacierSurfaceElevation ) {
+                        if ( previousPointIsOnGlacierSurface ) {
+                            _points.remove( currentPoint );
+                        }
+                        else {
+                            previousPointIsOnGlacierSurface = true;
+                            newY = newGlacierSurfaceElevation;
+                        }
+                    }
+                    else {
+                        previousPointIsOnGlacierSurface = false;
+                    }
+
+                    currentPoint.setLocation( newX, newY );
+                }
+
+                // evolve or delete?
+                Point2D pointOnValleyFloor = (Point2D) pointsCopy.get( 0 );
+                if ( _points.size() < 2 || pointOnValleyFloor.getX() >= terminusX ) {
+                    deleteMe();
+                }
+                else {
+                    notifyEvolved();
+                }
             }
         }
+    }
+    
+    /*
+     * Borehole deletes itself.
+     */
+    private void deleteMe() {
+        _percentFilledIn = 1;
+        _points = null;
+        notifyDeleteMe();
     }
     
     //----------------------------------------------------------------------------
