@@ -6,6 +6,7 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.glaciers.model.Borehole;
 import edu.colorado.phet.glaciers.model.Borehole.BoreholeAdapter;
 import edu.colorado.phet.glaciers.model.Borehole.BoreholeListener;
@@ -88,5 +89,7 @@ public class BoreholeNode extends PComposite {
             }
         }
         _pathNode.setPathTo( _path );
+        int alpha = (int)( 255 * ( 1 - _borehole.getPercentFilledIn() ) );
+        _pathNode.setStrokePaint( ColorUtils.createColor( STROKE_COLOR, alpha ) );
     }
 }
