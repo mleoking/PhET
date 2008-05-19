@@ -23,7 +23,7 @@ public class ContainmentVessel {
     private static final double APERTURE_HEIGHT = 18;    // In femtometers.
     private static final double APERTURE_WIDTH = CONTAINMENT_RANGE * 2.0;  // In femtometers.
     private static final double MINIMUM_RADIUS = 15;
-    private static final int    CONTAINMENT_EXPLOSION_THRESHOLD = 400;
+    private static final int    CONTAINMENT_EXPLOSION_THRESHOLD = 200;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -73,6 +73,10 @@ public class ContainmentVessel {
         return _enabled;
     }
     
+    public boolean getIsExploded(){
+        return _exploded;
+    }
+    
     public void setIsEnabled(boolean isEnabled){
         _enabled = isEnabled;
         notifiyEnableStateChanged();
@@ -98,8 +102,9 @@ public class ContainmentVessel {
      * Set the size back to the original size at which it was created.
      */
     public void reset(){
-        _radius = _originalRadius;
+        setRadius( _originalRadius );
         notifiyRadiusChanged();
+        setIsEnabled( false );
         _exploded = false;
         _totalImpacts = 0;
     }
