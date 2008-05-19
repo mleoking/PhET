@@ -24,6 +24,8 @@ MEDIUM PRIORITY:
 - add Help menu option to show pictures of real glaciers
 - make mercury in thermometers move as temperature changes
 - main control panel should be the same height in all modules
+- PlayArea class is too big, refactor
+- AbstractModel class is too big, refactor
 
 LOW PRIORITY:
 - right edge of ice thickness tool icon is clipped (see Unfuddle #558)
