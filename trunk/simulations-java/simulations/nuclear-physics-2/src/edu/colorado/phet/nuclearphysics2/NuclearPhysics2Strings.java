@@ -13,11 +13,6 @@ public class NuclearPhysics2Strings {
     /* not intended for instantiation */
     private NuclearPhysics2Strings() {}
     
-    public static final String LABEL_POSITION = NuclearPhysics2Resources.getString( "label.position");
-    public static final String LABEL_ORIENTATION = NuclearPhysics2Resources.getString( "label.orientation");
-    
-    public static final String TITLE_EXAMPLE_MODULE = NuclearPhysics2Resources.getString( "title.exampleModule" );
-    
     public static final String TITLE_ALPHA_RADIATION_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.AlphaDecayModule" );
     public static final String TITLE_FISSION_ONE_NUCLEUS_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.SingleNucleusFissionModule" );
     public static final String TITLE_CHAIN_REACTION_MODULE = NuclearPhysics2Resources.getString( "ModuleTitle.MultipleNucleusFissionModule" );
@@ -26,9 +21,6 @@ public class NuclearPhysics2Strings {
     public static final String NEUTRON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.NeutronLabel" );
     public static final String PROTON_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
     public static final String ALPHA_PARTICLE_LEGEND_LABEL = NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.AlphaParticleLabel" );
-
-    public static final String UNITS_ORIENTATION = NuclearPhysics2Resources.getString( "units.orientation");
-    public static final String UNITS_TIME = NuclearPhysics2Resources.getString( "units.time" );
 
     public static final String URANIUM_235_CHEMICAL_SYMBOL = NuclearPhysics2Resources.getString( "Uranium235Graphic.Symbol" );
     public static final String URANIUM_235_ISOTOPE_NUMBER = NuclearPhysics2Resources.getString( "Uranium235Graphic.Number" );
@@ -76,4 +68,8 @@ public class NuclearPhysics2Strings {
     public static final String ENERGY_GRAPHS_CHECK_BOX = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.EnergyGraphControl" );
     public static final String FIRE_NEUTRONS_BUTTON_LABEL = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.FireButton" );
     public static final String CONTROL_ROD_ADJUSTER_LABEL = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.ControlRodAdjuster" );
+    public static final String ENERGY_GRAPH_LABEL = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.EnergyGraphLabel" );
+    public static final String ENERGY_GRAPH_UNITS = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.EnergyGraphUnits" );
+    public static final String POWER_GRAPH_LABEL = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.PowerGraphLabel" );
+    public static final String POWER_GRAPH_UNITS = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.PowerGraphUnits" );
 }
