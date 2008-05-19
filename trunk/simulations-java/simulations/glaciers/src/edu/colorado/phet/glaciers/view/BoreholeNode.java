@@ -44,6 +44,8 @@ public class BoreholeNode extends PComposite {
     
     public BoreholeNode( Borehole borehole, ModelViewTransform mvt ) {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
         
         _borehole = borehole;
         _mvt = mvt;
