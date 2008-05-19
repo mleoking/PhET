@@ -71,6 +71,7 @@ CLEANUP:
 
 
 DONE:
+5/19/08 - organize imports
 5/19/08 - use alpha channel to visually represent filling in of borehole
 5/19/08 - start to fill in borehole after 40 years, 20 years to fill in completely
 5/19/08 - add model debug output for add/remove model elements
