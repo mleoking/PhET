@@ -23,11 +23,9 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ScrollArrowNode;
 import edu.colorado.phet.glaciers.control.ScrollArrowNode.LeftScrollArrowNode;
 import edu.colorado.phet.glaciers.control.ScrollArrowNode.RightScrollArrowNode;
-import edu.colorado.phet.glaciers.model.AbstractModel;
-import edu.colorado.phet.glaciers.model.AbstractTool;
-import edu.colorado.phet.glaciers.model.Borehole;
-import edu.colorado.phet.glaciers.model.Viewport;
+import edu.colorado.phet.glaciers.model.*;
 import edu.colorado.phet.glaciers.model.IBoreholeProducer.IBoreholeProducerListener;
+import edu.colorado.phet.glaciers.model.IDebrisProducer.IDebrisProducerListener;
 import edu.colorado.phet.glaciers.model.IToolProducer.IToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolNode;
@@ -54,7 +52,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener {
+public class PlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener {
     
     //----------------------------------------------------------------------------
     // Debug
@@ -99,7 +97,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     
     // View
     private final PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private final PLayer _backgroundLayer, _iceLayer, _velocityLayer, _boreholeLayer;
+    private final PLayer _backgroundLayer, _iceLayer, _debrisLayer, _velocityLayer, _boreholeLayer;
     private final PLayer _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
     private final IceFlowNode _iceFlowNode;
     private final ToolboxNode _toolboxNode;
@@ -112,6 +110,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     private final ModelViewTransform _mvt;
     private final ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
     private final HashMap _boreholesMap; // key=Borehole, value=BoreholeNode, used for removing borehole nodes when their model elements are deleted
+    private final HashMap _debrisMap; // key=Debris, value=DebrisNode, used for removing debris nodes when their model elements are deleted
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -127,8 +126,13 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _model = model;
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
         _model.addBoreholeProducerListener( this ); // manage nodes when boreholes are added/removed
-        
+        _model.addDebrisProducerListener( this ); // manage nodes when debris is added/removed
+
         _mvt = mvt;
+        
+        _toolsMap = new HashMap();
+        _boreholesMap = new HashMap();
+        _debrisMap = new HashMap();
         
         // headwall position
         Point2D headwallPosition = _model.getValley().getHeadwallPositionReference();
@@ -199,6 +203,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         // Layers, back to front
         _backgroundLayer = new PLayer();
         _iceLayer = new PLayer();
+        _debrisLayer = new PLayer();
         _boreholeLayer = new PLayer();
         _coordinatesLayer = new PLayer();
         _velocityLayer = new PLayer();
@@ -208,6 +213,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _debugLayer = new PLayer();
         addToBothViews( _backgroundLayer );
         addToBothViews( _iceLayer );
+        addToZoomedView( _debrisLayer );
         addToZoomedView( _boreholeLayer );
         addToZoomedView( _velocityLayer );
         addToZoomedView( _coordinatesLayer );
@@ -267,8 +273,6 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _iceLayer.addChild( _equilibriumLineNode );
         
         // Toolbox
-        _toolsMap = new HashMap();
-        _boreholesMap = new HashMap();
         _toolboxNode = new ToolboxNode( _model, _mvt );
         _toolboxLayer.addChild( _toolboxNode );
         
@@ -556,7 +560,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     //----------------------------------------------------------------------------
     
     /**
-     * When a borehole is added from the model, add a corresponding node.
+     * When a borehole is added to the model, add a corresponding node.
      * 
      * @param borehole
      */
@@ -576,6 +580,34 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _boreholeLayer.removeChild( boreholeNode );
         _boreholesMap.remove( borehole );
         boreholeNode.cleanup();
+    }
+    
+    //----------------------------------------------------------------------------
+    // IDebrisProducerListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * When debris is added to the model, add a corresponding node.
+     * 
+     * @param debris
+     */
+    public void debrisAdded( Debris debris ) {
+        DebrisNode debrisNode = new DebrisNode( debris, _mvt );
+        _debrisLayer.addChild( debrisNode );
+        _debrisMap.put( debris, debrisNode );
+    }
+    
+    /**
+     * When debris is removed from the model, remove its corresponding node.
+     * 
+     * @param debris
+     */
+    public void debrisRemoved( Debris debris ) {
+        DebrisNode debrisNode = (DebrisNode)_debrisMap.get( debris );
+        assert( debrisNode != null );
+        _debrisLayer.removeChild( debrisNode );
+        _debrisMap.remove( debris );
+        debrisNode.cleanup();
     }
     
     //----------------------------------------------------------------------------
