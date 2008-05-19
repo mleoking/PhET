@@ -32,6 +32,21 @@ public class UnfuddleEmailNotifier {
     private final JFrame running;
     private final JTextField minutes;
     private final boolean sendMail;
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
+
+    public static interface Listener {
+        void batchComplete();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyBatchComplete() {
+        for ( Listener listener : listeners ) {
+            listener.batchComplete();
+        }
+    }
 
     public UnfuddleEmailNotifier( ProgramArgs args )
             throws IOException, SAXException, ParserConfigurationException {
@@ -200,19 +215,23 @@ public class UnfuddleEmailNotifier {
                 System.out.println( "Skipping unknown type: " + auditTrail.getTextContent( "summary" ) );
             }
         }
-        System.out.println( "Finished update at " + new Date() + ", number of messages handled=" + results.size() + ", elapsed time=" + ( System.currentTimeMillis() - startTime ) / 1000.0 + " sec" );
+
         for ( int i = 0; i < results.size(); i++ ) {
             System.out.println( "Result[" + i + "]: " + results.get( i ) );
         }
+        System.out.println( "Finished update at " + new Date() + ", number of messages handled=" + results.size() + ", elapsed time=" + ( System.currentTimeMillis() - startTime ) / 1000.0 + " sec.  See results above." );
+        notifyBatchComplete();
     }
 
-    public static void main( String[] args ) throws IOException {
+    public static void main( final String[] args ) throws IOException {
         final ProgramArgs programArgs = new ProgramArgs( args );
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 try {
-                    new UnfuddleEmailNotifier( programArgs ).start();
+                    UnfuddleEmailNotifier emailNotifier = new UnfuddleEmailNotifier( programArgs );
+                    emailNotifier.start();
+                    new UnfuddleCrashWorkaround( args, emailNotifier ).start();
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -225,5 +244,46 @@ public class UnfuddleEmailNotifier {
                 }
             }
         } );
+
+    }
+
+    private static class UnfuddleCrashWorkaround {
+        private String[] args;
+        private UnfuddleEmailNotifier emailNotifier;
+        private long lastBatchCompleteTime = System.currentTimeMillis();
+
+        public UnfuddleCrashWorkaround( String[] args, final UnfuddleEmailNotifier emailNotifier ) {
+            this.args = args;
+            this.emailNotifier = emailNotifier;
+            emailNotifier.addListener( new Listener() {
+                public void batchComplete() {
+                    lastBatchCompleteTime = System.currentTimeMillis();
+                }
+            } );
+            Thread thread = new Thread( new Runnable() {
+                public void run() {
+                    while ( true ) {
+                        try {
+                            Thread.sleep( 10000 );
+                        }
+                        catch( InterruptedException e ) {
+                            e.printStackTrace();
+                        }
+                        long timeSinceLastBatch = System.currentTimeMillis() - lastBatchCompleteTime;
+                        System.out.println( "Minutes since last batch complete: " + timeSinceLastBatch/1000.0/60.0 );
+                        if ( timeSinceLastBatch > emailNotifier.getTimerDelay() * 2.5 ) {//missed 2 or so
+                            System.out.println( "It's been a long time since the email notifier finished a batch; perhaps it has halted" );
+                            System.out.println( "Shutting down the process" );
+                            System.exit( 0 );
+                        }
+                    }
+                }
+            } );
+            thread.start();
+        }
+
+        public void start() {
+            System.out.println( "Started Unfuddle Crash Workaround" );
+        }
     }
 }
