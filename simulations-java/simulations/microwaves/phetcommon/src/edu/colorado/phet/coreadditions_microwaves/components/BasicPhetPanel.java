@@ -70,27 +70,4 @@ public class BasicPhetPanel extends JPanel {
         repaint();
     }
 
-
-    public void toggleFullScreen() {
-        if( east.isVisible() ) {
-            east.setVisible( false );
-            north.setVisible( false );
-            south.setVisible( false );
-
-            final JDialog buttonDlg = new JDialog();
-            buttonDlg.setTitle( SimStrings.get( "BasicPhetPanel.ReturnButton" ) );
-            buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
-            buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
-            Rectangle thisBounds = this.getBounds();
-            buttonDlg.pack();
-            buttonDlg.setLocation( (int)( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
-                                   (int)( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
-            buttonDlg.setVisible( true );
-        }
-        else {
-            east.setVisible( true );
-            north.setVisible( true );
-            south.setVisible( true );
-        }
-    }
 }
