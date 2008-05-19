@@ -72,6 +72,7 @@ CLEANUP:
 
 
 DONE:
+5/19/08 - make tracer flags on the valley floor ignore clock ticks
 ******* 0.00.22 (21499)
 5/19/08 - simplify borehole, prune any point that breaches the glacier's surface
 5/19/08 - organize imports

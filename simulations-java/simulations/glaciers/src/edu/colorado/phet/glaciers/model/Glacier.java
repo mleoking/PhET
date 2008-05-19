@@ -560,7 +560,8 @@ public class Glacier extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     private void notifyIceThicknessChanged() {
-        Iterator i = _listeners.iterator();
+        ArrayList listenersCopy = new ArrayList( _listeners ); // iterate on a copy to avoid ConcurrentModificationException
+        Iterator i = listenersCopy.iterator();
         while ( i.hasNext() ) {
             ( ( GlacierListener ) i.next() ).iceThicknessChanged();
         }

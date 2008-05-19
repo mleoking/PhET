@@ -70,10 +70,14 @@ public class TracerFlag extends AbstractTool {
         if ( getY() == _glacier.getValley().getElevation( getX() ) ) {
             _onValleyFloor = true;
         }
+        else {
+            _onValleyFloor = false;
+        }
     }
     
     public void simulationTimeChanged( ClockEvent clockEvent ) {
-        if ( !isDragging() ) {
+        
+        if ( !isDragging() && !_onValleyFloor ) {
             
             // distance = velocity * dt
             Vector2D velocity = _glacier.getIceVelocity( getX(), getElevation() );
