@@ -5,7 +5,6 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -31,8 +30,8 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     //----------------------------------------------------------------------------
     
     private static final boolean ENABLE_DEBUG_OUTPUT = true;
-    private static final int YEARS_PER_DEBRIS_GENERATED = 10; // debris is generated this many years apart
-    
+    private static final int YEARS_PER_DEBRIS_GENERATED = 1; // debris is generated this many years apart
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -52,10 +51,10 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     private final ArrayList _debris; // array of Debris
     private final ArrayList _debrisProducerListeners; // array of DebrisProducerListener
     private final DebrisListener _debrisSelfDeletionListener;
+    private final DebrisGenerator _debrisGenerator;
+    private final Point3D _pDebris;
 
     private int _timeSinceLastDebrisGenerated;
-    private Random _randomDebrisX, _randomDebrisY, _randomDebrisZ;
-    private Point3D _pDebrisModel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -76,11 +75,10 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         _debris = new ArrayList();
         _debrisProducerListeners = new ArrayList();
         
+        _debrisGenerator = new DebrisGenerator( glacier );
+        _pDebris = new Point3D.Double();
+        
         _timeSinceLastDebrisGenerated = 0;
-        _randomDebrisX = new Random();
-        _randomDebrisY = new Random();
-        _randomDebrisZ = new Random();
-        _pDebrisModel = new Point3D.Double();
         
         // create a borehole when the drill is pressed
         _boreholeDrillListener = new BoreholeDrillListener() {
@@ -114,7 +112,8 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 _timeSinceLastDebrisGenerated += clockEvent.getSimulationTimeChange();
                 if ( _timeSinceLastDebrisGenerated >= YEARS_PER_DEBRIS_GENERATED ) {
-                    generateRandomDebris();
+                    _debrisGenerator.generateDebrisPosition( _pDebris /* output */ );
+                    addDebris( _pDebris );
                     _timeSinceLastDebrisGenerated = 0;
                 }
             }
@@ -361,34 +360,4 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
             ((IDebrisProducerListener)i.next()).debrisRemoved( debris );
         }
     }
-    
-    private void generateRandomDebris() {
-        if ( _glacier.getLength() > 0 ) {
-            
-            // x - distance from valley headwall
-            final double minX = _glacier.getValley().getHeadwallPositionReference().getX();
-            Point2D surfaceAtSteadyStateELA = _glacier.getSurfaceAtSteadyStateELAReference();
-            double maxX = 0;
-            if ( surfaceAtSteadyStateELA != null ) {
-                maxX = _glacier.getSurfaceAtSteadyStateELAReference().getX();
-            }
-            else {
-                maxX = _glacier.getTerminusX();
-            }
-            final double x = minX + _randomDebrisX.nextDouble() * ( maxX - minX );
-            
-            // y - elevation
-            final double minY = _glacier.getValley().getElevation( x ) + 1;
-            final double maxY = _glacier.getSurfaceElevation( x ) - 1;
-            final double y = minY + _randomDebrisY.nextDouble() * ( maxY - minY );
-            
-            // z - distance across the width of the valley floor
-            final double valleyWidth = _glacier.getValley().getWidth( x );
-            final double z = _randomDebrisZ.nextDouble() * valleyWidth;
-            
-            _pDebrisModel.setLocation( x, y, z );
-            addDebris( _pDebrisModel );
-        }
-    }
-
 }
