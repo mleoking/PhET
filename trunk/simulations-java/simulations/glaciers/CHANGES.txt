@@ -70,7 +70,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.22 (?)
+******* 0.00.22 (21499)
 5/19/08 - simplify borehole, prune any point that breaches the glacier's surface
 5/19/08 - organize imports
 5/19/08 - use alpha channel to visually represent filling in of borehole
