@@ -21,7 +21,7 @@ MEDIUM PRIORITY:
 - implement Save/Load feature
 - close & reopen graph windows when switching modules
 - add button to show a picture of a real glacier
-- make mercury in thermometers move as temperature changes
+- make mercury in thermometer move as temperature changes
 - main control panel should be the same height in all modules
 - PlayArea class is too big, refactor
 - AbstractModel class is too big, refactor
@@ -33,7 +33,6 @@ LOW PRIORITY:
 - make flags fall over (with somewhat random orientation?) when they hit the valley floor
 - remove registration points from mountains image
 - creating a tool and dragging it straight to the trash doesn't work because we're in the middle of an event sequence
-- developer controls for ice velocity "look"?
 - make mountains image big enough so that all we see is sky when the birds-eye view is made very wide
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 - cleanup duplicate boilerplate code in ToolboxNode constructor
@@ -521,6 +520,7 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+5/19/08 - developer controls for ice velocity "look"? (it's a lot of work, no one has asked for it)
 5/15/08 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
 (could not reproduce)
 5/12/08 - move "dragging" property out of tool model (necessary and consistent with model of tools)
