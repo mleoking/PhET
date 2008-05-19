@@ -99,7 +99,7 @@ public class UnfuddleEmailNotifier {
 
     private int getTimerDelay() {
         final double v = Double.parseDouble( minutes.getText() );
-        System.out.println( "changed delay to = " + v + " minutes" );
+//        System.out.println( "changed delay to = " + v + " minutes" );
         return (int) ( 60 * 1000 * v );
     }
 
