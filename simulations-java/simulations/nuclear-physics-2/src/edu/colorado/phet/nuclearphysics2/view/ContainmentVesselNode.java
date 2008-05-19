@@ -77,7 +77,7 @@ public class ContainmentVesselNode extends PNode {
         _resizing = false;
         
         // Register as a listener to the containment vessel.
-        _containmentVessel.addListener( new ContainmentVessel.Listener(){
+        _containmentVessel.addListener( new ContainmentVessel.Adapter(){
             public void radiusChanged(double newRadius){
                 setVesselNodeSizeAndPosition();
                 _canvas.repaint();

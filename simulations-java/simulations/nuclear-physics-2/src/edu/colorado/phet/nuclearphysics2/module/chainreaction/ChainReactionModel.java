@@ -72,6 +72,7 @@ public class ChainReactionModel {
     private ArrayList _daughterNuclei = new ArrayList();
     private ArrayList _inactiveNuclei = new ArrayList();
     private ArrayList _freeNeutrons = new ArrayList();
+    private ArrayList _containedElements = new ArrayList();
     private Random _rand = new Random();
     private NeutronSource _neutronSource;
     private ContainmentVessel _containmentVessel;
@@ -432,10 +433,11 @@ public class ChainReactionModel {
                 _freeNeutrons.remove( i );
                 notifyModelElementRemoved( freeNucleon );
             }
-            else if ((_containmentVessel.getIsEnabled() && 
-                    _containmentVessel.isPositionContained( freeNucleon.getPositionReference() ))){
+            else if (_containmentVessel.isPositionContained( freeNucleon.getPositionReference() )){
                 // This particle is contained by the containment vessel, so freeze it where it is.
                 freeNucleon.setVelocity( 0, 0 );
+                _containedElements.add( freeNucleon );
+                _containmentVessel.recordImpact();
             }
         }
         
@@ -496,8 +498,8 @@ public class ChainReactionModel {
     }
 
     /**
-     * Checks an array of nuclei for coming in contact with the containment
-     * vessel and "freezes" any that have.
+     * Checks an array of nuclei to see if any of them have come into contact
+     * with the containment vessel and "freezes" any that have.
      * 
      * @param nuclei
      */
@@ -512,6 +514,8 @@ public class ChainReactionModel {
                 nuke.setAcceleration( ZERO_ACCELERATION );
                 nuke.setVelocity( 0, 0 );
                 nuke.setPosition( _containmentVessel.getNearestContainmentPoint( nuke.getPositionReference() ));
+                _containedElements.add( nuke );
+                _containmentVessel.recordImpact();
             }
         }
     }

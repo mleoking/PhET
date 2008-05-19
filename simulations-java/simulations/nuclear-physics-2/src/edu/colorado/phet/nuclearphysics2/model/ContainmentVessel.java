@@ -23,6 +23,7 @@ public class ContainmentVessel {
     private static final double APERTURE_HEIGHT = 18;    // In femtometers.
     private static final double APERTURE_WIDTH = CONTAINMENT_RANGE * 2.0;  // In femtometers.
     private static final double MINIMUM_RADIUS = 15;
+    private static final int    CONTAINMENT_EXPLOSION_THRESHOLD = 400;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -41,6 +42,12 @@ public class ContainmentVessel {
     // List of listeners.
     ArrayList _listeners;
     
+    // Number of impacts that have occurred, used to decide whether to explode.
+    int _totalImpacts;
+    
+    // State variable that tracks if explosion has occurred.
+    boolean _exploded;
+    
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
@@ -51,6 +58,7 @@ public class ContainmentVessel {
         _radius = radius;
         _originalRadius = _radius;
         _enabled = false;
+        _exploded = false;
         
         _listeners = new ArrayList();
         _apertureRect = new Rectangle2D.Double();
@@ -92,6 +100,8 @@ public class ContainmentVessel {
     public void reset(){
         _radius = _originalRadius;
         notifiyRadiusChanged();
+        _exploded = false;
+        _totalImpacts = 0;
     }
     
     /**
@@ -104,18 +114,7 @@ public class ContainmentVessel {
      */
     public boolean isPositionContained(Point2D position){
      
-        boolean contained = false;
-        
-        if (_enabled){
-            if ((position.distance( 0, 0 ) >= _radius) &&
-                (position.distance( 0, 0 ) < _radius + CONTAINMENT_RANGE) &&
-                (!_apertureRect.contains( position ))){
-                
-                contained = true;
-            }
-        }
-        
-        return contained;
+        return isPositionContained(position.getX(), position.getY());
     }
     
     /**
@@ -134,7 +133,7 @@ public class ContainmentVessel {
         
         position.setLocation( xPos, yPos );
         
-        if (_enabled){
+        if (_enabled && !_exploded){
             if ((position.distance( 0, 0 ) >= _radius) &&
                 (position.distance( 0, 0 ) < _radius + CONTAINMENT_RANGE) &&
                 (!_apertureRect.contains( position ))){
@@ -144,6 +143,21 @@ public class ContainmentVessel {
         }
         
         return contained;
+    }
+    
+    /**
+     * Records the impact of a nucleus or nucleon with the containment vessel.
+     * If enough impacts occur, the containment vessel explodes.
+     */
+    public void recordImpact(){
+        
+        _totalImpacts++;
+        
+        if (!_exploded && (_totalImpacts > CONTAINMENT_EXPLOSION_THRESHOLD)){
+            // Time to explode!
+            _exploded = true;
+            notifiyExplosionOccurred();
+        }
     }
     
     /**
@@ -194,11 +208,26 @@ public class ContainmentVessel {
         }
     }
 
+    private void notifiyExplosionOccurred(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((ContainmentVessel.Listener)_listeners.get( i )).explosionOccurred();
+        }
+    }
+
     //------------------------------------------------------------------------
-    // Inner Listener
+    // Listener Support
     //------------------------------------------------------------------------
+    
     public static interface Listener {
         void radiusChanged(double radius);
         void enableStateChanged(boolean isEnabled);
+        void explosionOccurred();
+    }
+    
+    public static class Adapter implements Listener {
+        public void radiusChanged(double radius){};
+        public void enableStateChanged(boolean isEnabled){};
+        public void explosionOccurred(){};
+        
     }
 }
