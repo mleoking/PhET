@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.ContainmentVessel;
+import edu.colorado.phet.nuclearphysics2.model.DaughterNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
@@ -127,6 +128,13 @@ public class ChainReactionModel {
         
         // Add the containment vessel to the model.
         _containmentVessel = new ContainmentVessel(INITIAL_CONTAINMENT_VESSEL_RADIUS);
+        
+        // Register for notifications of explosions from the containment vessel.
+        _containmentVessel.addListener( new ContainmentVessel.Adapter(){
+            public void explosionOccurred(){
+                handleContainmentVesselExplosion();
+            }
+        });
     }
     
     //------------------------------------------------------------------------
@@ -269,6 +277,13 @@ public class ChainReactionModel {
         }
         _daughterNuclei.clear();
         
+        // Remove any contained elements.  These will have already been
+        // removed from the view.
+        _containedElements.clear();
+        
+        // Reset the containment vessel.
+        _containmentVessel.reset();
+        
         // Set ourself back to the original state, which is with a single u235
         // nucleus in the center.
         setNumU235Nuclei( 1 );
@@ -318,7 +333,7 @@ public class ChainReactionModel {
                     public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons,
                             ArrayList byProducts){
                         // Handle a potential fission event.
-                        handleU235AtomicWeightChange(nucleus, numProtons, numNeutrons, byProducts);
+                        handleAtomicWeightChange(nucleus, numProtons, numNeutrons, byProducts);
                     }
                 });
             }
@@ -370,6 +385,13 @@ public class ChainReactionModel {
                 nucleus.setDynamic( false );
                 _u238Nuclei.add(nucleus);
                 notifyModelElementAdded( nucleus );
+                nucleus.addListener( new AtomicNucleus.Adapter(){
+                    public void atomicWeightChanged(AtomicNucleus nucleus, int numProtons, int numNeutrons,
+                            ArrayList byProducts){
+                        // Handle a potential fission event.
+                        handleAtomicWeightChange(nucleus, numProtons, numNeutrons, byProducts);
+                    }
+                });
             }
         }
         else{
@@ -433,7 +455,8 @@ public class ChainReactionModel {
                 _freeNeutrons.remove( i );
                 notifyModelElementRemoved( freeNucleon );
             }
-            else if (_containmentVessel.isPositionContained( freeNucleon.getPositionReference() )){
+            else if (!_containedElements.contains( freeNucleon ) &&
+                     _containmentVessel.isPositionContained( freeNucleon.getPositionReference() )){
                 // This particle is contained by the containment vessel, so freeze it where it is.
                 freeNucleon.setVelocity( 0, 0 );
                 _containedElements.add( freeNucleon );
@@ -516,6 +539,41 @@ public class ChainReactionModel {
                 nuke.setPosition( _containmentVessel.getNearestContainmentPoint( nuke.getPositionReference() ));
                 _containedElements.add( nuke );
                 _containmentVessel.recordImpact();
+                if (_containmentVessel.getIsExploded()){
+                    // The last impacted caused the vessel to explode, so stop
+                    // checking if nuclei are contained.
+                    break;
+                }
+            }
+        }
+    }
+    
+    private void handleContainmentVesselExplosion(){
+        // Remove all the nuclei that had been contained by the containment
+        // vessel from the model.
+        int numContainedElements = _containedElements.size();
+        for ( int i = numContainedElements - 1; i >= 0; i-- ) {
+            
+            Object modelElement = _containedElements.get( i );
+            
+            _containedElements.remove( i );
+            notifyModelElementRemoved( modelElement );
+            
+            if (modelElement instanceof Neutron){
+                _freeNeutrons.remove( modelElement );
+            }
+            else if (modelElement instanceof Uranium235Nucleus){
+                if (!_u235Nuclei.remove( modelElement )){
+                    _daughterNuclei.remove( modelElement );
+                }
+            }
+            else if (modelElement instanceof DaughterNucleus){
+                _daughterNuclei.remove( modelElement );
+            }
+            else{
+                // This shouldn't happen, debug it if it does.
+                System.err.println("Error: Unexpected model element type contained by containment vessel.");
+                assert false;
             }
         }
     }
@@ -562,14 +620,14 @@ public class ChainReactionModel {
     }
     
     /**
-     * Handle a change in atomic weight signaled by a U235 nucleus, which
+     * Handle a change in atomic weight signaled by a U235 or U238 nucleus, which
      * may indicate that fission has occurred.
      * 
      * @param numProtons
      * @param numNeutrons
      * @param byProducts
      */
-    private void handleU235AtomicWeightChange(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
+    private void handleAtomicWeightChange(AtomicNucleus nucleus, int numProtons, int numNeutrons, 
             ArrayList byProducts){
         
         if (byProducts != null){
@@ -595,6 +653,7 @@ public class ChainReactionModel {
                     // Save the new daughter and let any listeners
                     // know that it exists.
                     AtomicNucleus daughterNucleus = (AtomicNucleus)byProduct;
+                    _daughterNuclei.add( daughterNucleus );
                     notifyModelElementAdded( daughterNucleus );
 
                     // Set random but opposite directions for the produced
@@ -608,9 +667,6 @@ public class ChainReactionModel {
                     nucleus.setAcceleration( xAcc, yAcc );
                     daughterNucleus.setVelocity( -xVel, -yVel );
                     daughterNucleus.setAcceleration( -xAcc, -yAcc );
-                    
-                    // Add the daughter nucleus to our collection.
-                    _daughterNuclei.add( daughterNucleus );
                     
                     // Move the 'parent' nucleus to the list of daughter
                     // nuclei so that it doesn't continue to be involved in
