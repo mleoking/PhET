@@ -6,8 +6,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- add 3rd dimension to Debris model
-- add 3rd dimension to DebrisNode
+- debris is reaching the surface above ELA
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
 - refactor model listener class hierarchy
@@ -74,6 +73,8 @@ CLEANUP:
 
 
 DONE:
+5/19/08 - factor debris generation out of AbstractModel and into DebrisGenerator
+5/19/08 - add 3rd dimesion to debris view
 5/19/08 - add 3rd dimension to debris model
 5/19/08 - add Point3D to phetcommon
 5/19/08 - deposit rocks at terminus to create moraine

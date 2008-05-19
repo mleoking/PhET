@@ -592,7 +592,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
      * @param debris
      */
     public void debrisAdded( Debris debris ) {
-        DebrisNode debrisNode = new DebrisNode( debris, _mvt );
+        DebrisNode debrisNode = new DebrisNode( debris, _model.getGlacier(), _mvt );
         _debrisLayer.addChild( debrisNode );
         _debrisMap.put( debris, debrisNode );
     }
