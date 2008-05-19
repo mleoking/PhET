@@ -100,9 +100,12 @@ public class TracerFlag extends AbstractTool {
     }
     
     //----------------------------------------------------------------------------
-    // 
+    // Self deletion
     //----------------------------------------------------------------------------
     
+    /*
+     * Deletes itself if covered by an advancing glacier.
+     */
     private void checkForDeletion() {
         if ( _onValleyFloor ) {
             double iceThicknessAtFlag = _glacier.getIceThickness( getX() );
