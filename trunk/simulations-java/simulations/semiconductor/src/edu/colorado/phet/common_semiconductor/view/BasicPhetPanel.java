@@ -19,19 +19,8 @@ public class BasicPhetPanel extends JPanel {
     private JComponent east;
     private JComponent north;
     private JComponent south;
-    private static Image phetLogo;
     private JDialog buttonDlg;
     private boolean fullScreen = false;
-
-    static {
-        try {
-//            SimStrings.setStrings( "localization/SemiConductorPCStrings" );
-            phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();  //To change body of catch statement use Options | File Templates.
-        }
-    }
 
     public BasicPhetPanel( JComponent apparatusPanelContainer, JComponent controlPanel, JComponent monitorPanel, JComponent appControl ) {
         this.setLayout( new BorderLayout() );
@@ -117,18 +106,7 @@ public class BasicPhetPanel extends JPanel {
             buttonDlg = new JDialog();
             buttonDlg.setTitle( SimStrings.get( "BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
-            ImageIcon logo = new ImageIcon( phetLogo );
-            JButton logoButton = new JButton( logo );
-            logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
-            logoButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    setFullScreen( false );
-                    buttonDlg.setVisible( false );
-                }
-            } );
-            logoButton.setToolTipText( SimStrings.get( "BasicPhetPanel.LogoButtonToolTipText" ) );
             buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
-//            buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();
             buttonDlg.pack();
             buttonDlg.setLocation( (int)( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
