@@ -29,17 +29,6 @@ import edu.colorado.phet.common_force1d.application.PhetApplication;
  */
 public class ContentPanel extends JPanel {
 
-//    private static Image phetLogo;
-//
-//    static {
-//        try {
-//            phetLogo = new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" );
-//        }
-//        catch( IOException e ) {
-//            e.printStackTrace();
-//        }
-//    }
-
     private JComponent apparatusPanel;
     private JComponent controlPanel;
     private JComponent monitorPanel;
