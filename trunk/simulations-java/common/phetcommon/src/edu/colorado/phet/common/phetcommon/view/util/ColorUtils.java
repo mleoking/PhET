@@ -24,7 +24,7 @@ public class ColorUtils {
      * @param alpha
      * @return Color
      */
-    public Color createColor( Color c, int alpha ) {
+    public static Color createColor( Color c, int alpha ) {
         return new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
     }
 
