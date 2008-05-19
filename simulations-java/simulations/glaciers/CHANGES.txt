@@ -6,7 +6,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- delete borehole points on surface and at terminus? (prune the line)
 - start to fade borehole after surface point has traveled 2km, fade to nothing over 1km
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
@@ -72,6 +71,8 @@ CLEANUP:
 
 
 DONE:
+5/19/08 - add model debug output for add/remove model elements
+5/19/08 - prune borehole points so that at most one point is on the glacier surface
 5/17/08 - add direction arrows to value display in GPS receiver tool
 5/17/08 - use same layout manager for displaying values in all tools, so they look similar
 5/17/08 - get common font and border for all tools from base class
