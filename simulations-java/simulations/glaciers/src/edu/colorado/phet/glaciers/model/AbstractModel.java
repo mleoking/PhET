@@ -5,12 +5,16 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.model.AbstractTool.ToolAdapter;
 import edu.colorado.phet.glaciers.model.AbstractTool.ToolListener;
 import edu.colorado.phet.glaciers.model.Borehole.BoreholeAdapter;
 import edu.colorado.phet.glaciers.model.Borehole.BoreholeListener;
 import edu.colorado.phet.glaciers.model.BoreholeDrill.BoreholeDrillListener;
+import edu.colorado.phet.glaciers.model.Debris.DebrisListener;
 
 
 /**
@@ -18,13 +22,14 @@ import edu.colorado.phet.glaciers.model.BoreholeDrill.BoreholeDrillListener;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractModel implements IToolProducer, IBoreholeProducer {
+public abstract class AbstractModel implements IToolProducer, IBoreholeProducer, IDebrisProducer {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
     private static final boolean ENABLE_DEBUG_OUTPUT = true;
+    private static final int YEARS_PER_DEBRIS_GENERATED = 10; // debris is generated this many years apart
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -32,13 +37,22 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
     
     private final GlaciersClock _clock;
     private final Glacier _glacier;
+    
     private final ArrayList _tools; // array of AbstractTool
     private final ArrayList _toolProducerListeners; // array of ToolProducerListener
+    private final ToolListener _toolSelfDeletionListener;
+    private final BoreholeDrillListener _boreholeDrillListener;
+    private final BoreholeListener _boreholeSelfDeletionListener;
+    
     private final ArrayList _boreholes; // array of Borehole
     private final ArrayList _boreholeProducerListeners; // array of BoreholeProducerListener
-    private final BoreholeDrillListener _boreholeDrillListener;
-    private final BoreholeListener _boreholeListener;
-    private final ToolListener _toolSelfDeletionListener;
+    
+    private final ArrayList _debris; // array of Debris
+    private final ArrayList _debrisProducerListeners; // array of DebrisProducerListener
+    private final DebrisListener _debrisSelfDeletionListener;
+
+    private int _timeSinceLastDebrisGenerated;
+    private Random _randomDebrisX, _randomDebrisY;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,13 +60,22 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
     
     public AbstractModel( GlaciersClock clock, Glacier glacier ) {
         super();
+        
         _clock = clock;
         _glacier = glacier;
+        
         _clock.addClockListener( glacier );
+        
         _tools = new ArrayList();
         _toolProducerListeners = new ArrayList();
         _boreholes = new ArrayList();
         _boreholeProducerListeners = new ArrayList();
+        _debris = new ArrayList();
+        _debrisProducerListeners = new ArrayList();
+        
+        _timeSinceLastDebrisGenerated = 0;
+        _randomDebrisX = new Random();
+        _randomDebrisY = new Random();
         
         // create a borehole when the drill is pressed
         _boreholeDrillListener = new BoreholeDrillListener() {
@@ -61,8 +84,8 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
             }
         };
         
-        // deletes a borehole
-        _boreholeListener = new BoreholeAdapter() {
+        // borehole deletes itself
+        _boreholeSelfDeletionListener = new BoreholeAdapter() {
             public void deleteMe( Borehole borehole ) {
                 removeBorehole( borehole );
             }
@@ -74,6 +97,23 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
                 removeTool( tool );
             }
         };
+        
+        // debris deletes itself
+        _debrisSelfDeletionListener = new DebrisListener() {
+            public void deleteMe( Debris debris ) {
+                removeDebris( debris );
+            }
+        };
+        
+        _clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                _timeSinceLastDebrisGenerated += clockEvent.getSimulationTimeChange();
+                if ( _timeSinceLastDebrisGenerated >= YEARS_PER_DEBRIS_GENERATED ) {
+                    generateRandomDebris();
+                    _timeSinceLastDebrisGenerated = 0;
+                }
+            }
+        });
     }
     
     //----------------------------------------------------------------------------
@@ -206,7 +246,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
             System.out.println( "AbstractModel.addBorehole" );
         }
         Borehole borehole = new Borehole( _glacier, position );
-        borehole.addBoreholeListener( _boreholeListener );
+        borehole.addBoreholeListener( _boreholeSelfDeletionListener );
         _boreholes.add( borehole );
         _clock.addClockListener( borehole );
         notifyBoreholeAdded( borehole );
@@ -220,7 +260,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
         if ( !_boreholes.contains( borehole ) ) {
             throw new IllegalStateException( "attempted to remove a borehole that doesn't exist" );
         }
-        borehole.removeBoreholeListener( _boreholeListener );
+        borehole.removeBoreholeListener( _boreholeSelfDeletionListener );
         _boreholes.remove( borehole );
         _clock.removeClockListener( borehole );
         notifyBoreholeRemoved( borehole );
@@ -256,4 +296,87 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
             ((IBoreholeProducerListener)i.next()).boreholeRemoved( borehole );
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // IDebrisProducer
+    //----------------------------------------------------------------------------
+    
+    public Debris addDebris( Point2D position ) {
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.addDebris" );
+        }
+        Debris debris = new Debris( position, _glacier );
+        debris.addDebrisListener( _debrisSelfDeletionListener );
+        _debris.add( debris );
+        _clock.addClockListener( debris );
+        notifyDebrisAdded( debris );
+        return debris;
+    }
+    
+    public void removeDebris( Debris debris ) {
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.removeDebris" );
+        }
+        if ( !_debris.contains( debris ) ) {
+            throw new IllegalStateException( "attempted to remove debris that doesn't exist" );
+        }
+        debris.removeDebrisListener( _debrisSelfDeletionListener );
+        _debris.remove( debris );
+        _clock.removeClockListener( debris );
+        notifyDebrisRemoved( debris );
+        debris.cleanup();
+    }
+    
+    public void removeAllDebris() {
+        ArrayList debrisCopy = new ArrayList( _debris ); // iterate on a copy of the array
+        Iterator i = debrisCopy.iterator();
+        while ( i.hasNext() ) {
+            removeDebris( (Debris) i.next() );
+        }
+    }
+    
+    public void addDebrisProducerListener( IDebrisProducerListener listener ) {
+        _debrisProducerListeners.add( listener );
+    }
+    
+    public void removeDebrisProducerListener( IDebrisProducerListener listener ) {
+        _debrisProducerListeners.remove( listener );
+    }
+    
+    private void notifyDebrisAdded( Debris debris ) {
+        Iterator i = _debrisProducerListeners.iterator();
+        while ( i.hasNext() ) {
+            ((IDebrisProducerListener)i.next()).debrisAdded( debris );
+        }
+    }
+    
+    private void notifyDebrisRemoved( Debris debris ) {
+        Iterator i = _debrisProducerListeners.iterator();
+        while ( i.hasNext() ) {
+            ((IDebrisProducerListener)i.next()).debrisRemoved( debris );
+        }
+    }
+    
+    private void generateRandomDebris() {
+        if ( _glacier.getLength() > 0 ) {
+            
+            final double minX = _glacier.getValley().getHeadwallPositionReference().getX();
+            Point2D surfaceAtSteadyStateELA = _glacier.getSurfaceAtSteadyStateELAReference();
+            double maxX = 0;
+            if ( surfaceAtSteadyStateELA != null ) {
+                maxX = _glacier.getSurfaceAtSteadyStateELAReference().getX();
+            }
+            else {
+                maxX = _glacier.getTerminusX();
+            }
+            final double x = minX + _randomDebrisX.nextDouble() * ( maxX - minX );
+            
+            final double minY = _glacier.getValley().getElevation( x ) + 1;
+            final double maxY = _glacier.getSurfaceElevation( x ) - 1;
+            final double y = minY + _randomDebrisY.nextDouble() * ( maxY - minY );
+            
+            addDebris( new Point2D.Double( x, y ) );
+        }
+    }
+
 }
