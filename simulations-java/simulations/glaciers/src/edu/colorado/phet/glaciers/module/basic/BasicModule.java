@@ -138,8 +138,6 @@ public class BasicModule extends PiccoloModule {
         
         super.reset();
         
-        System.out.println( "BasicModule.resetAll" );//XXX
-
         // Model ---------------------------------------------
         
         // Clock
