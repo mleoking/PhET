@@ -10,6 +10,8 @@ boreholdDrillOffButton.png source=PhET author=Chris Malley
 
 glacialBudgetMeter.png source=PhET author=Archie Paulson
 
+gpsReceiver.png source=PhET author=Archie Paulson
+
 mountains.png source=PhET author=Archie Paulson
 
 penguin.png source=http://openclipart.org author=jesusfreak210 license=http://creativecommons.org:81/licenses/publicdomain/
