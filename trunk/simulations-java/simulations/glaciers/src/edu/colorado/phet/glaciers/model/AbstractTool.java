@@ -106,7 +106,7 @@ public abstract class AbstractTool extends Movable implements ClockListener {
     }
     
     private void notifyDeleteMe() {
-        ArrayList listenersCopy = new ArrayList( _listeners ); // iterate on a copy, deleteMe causes a call to removeToolListener
+        ArrayList listenersCopy = new ArrayList( _listeners ); // iterate on a copy to avoid ConcurrentModificationException
         Iterator i = listenersCopy.iterator();
         while ( i.hasNext() ) {
             ( (ToolListener) i.next() ).deleteMe( this );
