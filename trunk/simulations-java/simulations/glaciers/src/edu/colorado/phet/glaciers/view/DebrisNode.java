@@ -8,8 +8,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.model.Debris;
-import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
-import edu.colorado.phet.glaciers.model.Movable.MovableListener;
+import edu.colorado.phet.glaciers.model.Debris.DebrisAdapter;
+import edu.colorado.phet.glaciers.model.Debris.DebrisListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -31,9 +31,9 @@ public class DebrisNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private final Debris _debris;
-    private final MovableListener _movableListener;
+    private final DebrisListener _debrisListener;
     private final ModelViewTransform _mvt;
-    private final Point2D _pView;
+    private final Point2D _pModel, _pView;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -45,22 +45,23 @@ public class DebrisNode extends PComposite {
         _debris = debris;
         _mvt = mvt;
         
-        _movableListener = new MovableAdapter() {
+        _debrisListener = new DebrisAdapter() {
             public void positionChanged() {
                 updatePosition();
             }
         };
-        _debris.addMovableListener( _movableListener );
+        _debris.addDebrisListener( _debrisListener );
         
         BoulderNode boulderNode = new BoulderNode( BOULDER_RADIUS );
         addChild( boulderNode );
         
+        _pModel = new Point2D.Double();
         _pView = new Point2D.Double();
         updatePosition();
     }
     
     public void cleanup() {
-        _debris.removeMovableListener( _movableListener );
+        _debris.removeDebrisListener( _debrisListener );
     }
 
     //----------------------------------------------------------------------------
@@ -68,7 +69,8 @@ public class DebrisNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private void updatePosition() {
-        _mvt.modelToView( _debris.getPositionReference(), _pView );
+        _pModel.setLocation( _debris.getX(), _debris.getY() );
+        _mvt.modelToView( _pModel, _pView );
         setOffset( _pView );
     }
     

@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.glaciers.model;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
+
 
 /**
  * IDebrisProducer is the interface implemented by objects that create Debris model elements.
@@ -13,10 +14,10 @@ public interface IDebrisProducer {
 
     /**
      * Adds debris as a specified position.
-     * @param position position (meters)
+     * @param position 3D position (meters)
      * @return
      */
-    public Debris addDebris( Point2D position );
+    public Debris addDebris( Point3D position );
     
     /**
      * Removes the specified debris.

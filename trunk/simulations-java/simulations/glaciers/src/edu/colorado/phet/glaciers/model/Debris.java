@@ -2,13 +2,13 @@
 
 package edu.colorado.phet.glaciers.model;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 
@@ -19,12 +19,13 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Debris extends Movable implements ClockListener {
+public class Debris extends ClockAdapter {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Point3D _position;
     private Glacier _glacier;
     private GlacierListener _glacierListener;
     private boolean _onValleyFloor;
@@ -35,8 +36,11 @@ public class Debris extends Movable implements ClockListener {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Debris( Point2D position, Glacier glacier ) {
-        super( position );
+    public Debris( Point3D position, Glacier glacier ) {
+        super();
+        
+        _position = new Point3D.Double( position );
+        
         _glacier = glacier;
         _onValleyFloor = false;
         _glacierListener = new GlacierAdapter() {
@@ -53,6 +57,48 @@ public class Debris extends Movable implements ClockListener {
         _glacier.removeGlacierListener( _glacierListener );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    private void setPosition( double x, double y, double z ) {
+        if ( x != getX() || y != getY() || z != getZ() ) {
+            _position.setLocation( x, y, z );
+            notifyPositionChanged();
+        }
+    }
+    
+    /**
+     * Gets the position in 3D space.  The axes are as follows:
+     * x = distance downvalley from valley headwall
+     * y = elevation
+     * z = distance across the valley (+ into the screen)
+     * 
+     * @return position (meters)
+     */
+    public Point3D getPositionReference() {
+        return _position;
+    }
+    
+    public double getX() {
+        return _position.getX();
+    }
+    
+    public double getY() {
+        return _position.getY();
+    }
+    
+    public double getZ() {
+        return _position.getZ();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Self deletion
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Deletes itself if covered by an advancing glacier.
+     */
     private void checkForDeletion() {
         if ( _onValleyFloor ) {
             double iceThicknessAtFlag = _glacier.getIceThickness( getX() );
@@ -87,24 +133,22 @@ public class Debris extends Movable implements ClockListener {
                 _onValleyFloor = true;
             }
 
-            setPosition( newX, newY );
+            setPosition( newX, newY, getZ() ); // z doesn't change
         }
     }
-    
-    public void clockPaused( ClockEvent clockEvent ) {}
-
-    public void clockStarted( ClockEvent clockEvent ) {}
-
-    public void clockTicked( ClockEvent clockEvent ) {}
-
-    public void simulationTimeReset( ClockEvent clockEvent ) {}
     
     //----------------------------------------------------------------------------
     // Listener
     //----------------------------------------------------------------------------
     
     public interface DebrisListener {
+        public void positionChanged();
         public void deleteMe( Debris debris );
+    }
+    
+    public static class DebrisAdapter implements DebrisListener {
+        public void positionChanged() {}
+        public void deleteMe( Debris debris ){}
     }
     
     public void addDebrisListener( DebrisListener listener ) {
@@ -113,6 +157,13 @@ public class Debris extends Movable implements ClockListener {
     
     public void removeDebrisListener( DebrisListener listener ) {
         _listeners.remove( listener );
+    }
+    
+    private void notifyPositionChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (DebrisListener) i.next() ).positionChanged();
+        }
     }
     
     private void notifyDeleteMe() {
