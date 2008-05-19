@@ -153,7 +153,6 @@ public class Borehole extends ClockAdapter {
                 final double terminusX = _glacier.getTerminusX();
                 ArrayList pointsCopy = new ArrayList( _points ); // iterate on a copy, since we may delete points from the original
                 Point2D currentPoint = null;
-                boolean previousPointIsOnGlacierSurface = false;
                 Iterator i = pointsCopy.iterator();
                 while ( i.hasNext() ) {
 
@@ -169,22 +168,12 @@ public class Borehole extends ClockAdapter {
                         newX = terminusX;
                     }
 
-                    // constrain elevation to the surface of the glacier.
-                    // prune points so that at most one point is on the surface.
+                    // prune points that breach the glacier's surface
                     double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
                     if ( newY > newGlacierSurfaceElevation ) {
-                        if ( previousPointIsOnGlacierSurface ) {
-                            _points.remove( currentPoint );
-                        }
-                        else {
-                            previousPointIsOnGlacierSurface = true;
-                            newY = newGlacierSurfaceElevation;
-                        }
+                        _points.remove( currentPoint );
                     }
-                    else {
-                        previousPointIsOnGlacierSurface = false;
-                    }
-
+                        
                     currentPoint.setLocation( newX, newY );
                 }
 
