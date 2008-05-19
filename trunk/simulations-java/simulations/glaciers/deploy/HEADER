@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.21
+glaciers 0.00.22
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,32 +12,29 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>ice thickness tool resizes its caliper
-<li>ice thickness tool displays "?" while dragging
-<li>thermometer tool displays "?" when in an invalid drop location, or when ice intersects its locations
-<li>remove jitter from tool drag handlers (don't call super.drag)
-<li>PSwing worksaround to make tools display their values properly
-<li>add a button to borehole drill, press it to drill a borehole
-<li>add model and view for borehole
-<li>use solid colors for ice (delete textures)
+<li>make boreholes start to fill in after 40 years, fully filled in after 60 years
+<li>flags that are on the valley floor are deleted by an advancing glacier
+<li>borehole drill remains on glacier's surface as the glacier evolves
+<li>make GPS a permanent tool (it was "developer only"), add a nice image and value display
+<li>remove labels on tools in toolbox, replace with "tool tips" that appear after a short delay
+<li>add horizontal space between trash can and other tools in toolbox to differentiate it slightly
+<li>fix ice thickness tool so that it doesn't fall apart when you drag it
+<li>use the same font, border and layout in all tools that display values
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>borehole model behavior isn't quite right
-<li>tracer flags are not crushed by advancing glacier
 <li>tools can be lost by dragging them outside the birds-eye view
 </ul>
 <p>
 <b>Not implemented:</b>
 <ul>
-<li>ice texture doesn't move
+<li>no debris/rocks moving in the ice
+<li>ice doesn't appear to move
 <li>snowfall is not visible
-<li>Advanced panel is hidden; what you see is the Basic panel.
 <li>time-based graphs are not implemented
-<li>zoomed viewport doesn't automatically scroll to follow terminus
+<li>Advanced panel is hidden; what you see is the Basic panel
 <li>no Help menu option to show pictures of real glaciers
-<li>no textures or debris moving in the ice
 </ul>
 <p>
 <b>Remaining work:</b>
