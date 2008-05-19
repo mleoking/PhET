@@ -13,15 +13,31 @@ import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * DebrisNode is the visual representation of debris moving in and on the glacier ice.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class DebrisNode extends PComposite {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final double BOULDER_RADIUS = 1; // pixels
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final Debris _debris;
     private final MovableListener _movableListener;
     private final ModelViewTransform _mvt;
     private final Point2D _pView;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public DebrisNode( Debris debris, ModelViewTransform mvt ) {
         super();
@@ -47,11 +63,22 @@ public class DebrisNode extends PComposite {
         _debris.removeMovableListener( _movableListener );
     }
 
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
     private void updatePosition() {
         _mvt.modelToView( _debris.getPositionReference(), _pView );
         setOffset( _pView );
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * A very simple boulder.
+     */
     private static class BoulderNode extends PPath {
         
         private static final Color FILL_COLOR = Color.BLACK;

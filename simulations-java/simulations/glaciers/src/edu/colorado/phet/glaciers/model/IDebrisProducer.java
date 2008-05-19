@@ -30,7 +30,7 @@ public interface IDebrisProducer {
     public void removeAllDebris();
     
     /**
-     * DebrisProducerListener is the interface implemented by all parties
+     * IDebrisProducerListener is the interface implemented by all parties
      * that are interested in debris creation and deletion.
      */
     public interface IDebrisProducerListener {
@@ -39,13 +39,13 @@ public interface IDebrisProducer {
     }
     
     /**
-     * Adds a DebrisProducerListener.
+     * Adds an IDebrisProducerListener.
      * @param listener
      */
     public void addDebrisProducerListener( IDebrisProducerListener listener );
     
     /**
-     * Removes a DebrisProducerListener.
+     * Removes an IDebrisProducerListener.
      * @param listener
      */
     public void removeDebrisProducerListener( IDebrisProducerListener listener );

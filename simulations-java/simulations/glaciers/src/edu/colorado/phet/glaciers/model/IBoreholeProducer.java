@@ -39,13 +39,13 @@ public interface IBoreholeProducer {
     }
     
     /**
-     * Adds a BoreholeProducerListener.
+     * Adds an IBoreholeProducerListener.
      * @param listener
      */
     public void addBoreholeProducerListener( IBoreholeProducerListener listener );
     
     /**
-     * Removes a BoreholeProducerListener.
+     * Removes an IBoreholeProducerListener.
      * @param listener
      */
     public void removeBoreholeProducerListener( IBoreholeProducerListener listener );

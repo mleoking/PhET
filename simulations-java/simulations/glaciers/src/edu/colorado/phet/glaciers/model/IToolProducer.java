@@ -44,13 +44,13 @@ public interface IToolProducer {
     }
     
     /**
-     * Add a ToolProducerListener, who will be notified when tools are added or removed.
+     * Adds an IToolProducerListener, who will be notified when tools are added or removed.
      * @param listener
      */
     public void addToolProducerListener( IToolProducerListener listener );
     
     /**
-     * Removes a ToolProducerListener.
+     * Removes an IToolProducerListener.
      * @param listener
      */
     public void removeToolProducerListener( IToolProducerListener listener );
