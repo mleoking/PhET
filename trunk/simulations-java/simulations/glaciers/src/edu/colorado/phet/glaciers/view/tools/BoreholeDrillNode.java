@@ -30,12 +30,17 @@ public class BoreholeDrillNode extends AbstractToolNode {
         
         PNode drillNode = new DrillNode();
         addChild( drillNode );
-        drillNode.setOffset( 0, -drillNode.getFullBoundsReference().getHeight() ); // lower left
         
         ButtonNode buttonNode = new ButtonNode();
         buttonNode.scale( 0.4 ); //XXX compute this based on image width
         addChild( buttonNode );
-        buttonNode.setOffset( 0, -drillNode.getFullBoundsReference().getHeight() + 10 );
+        
+        /*
+         * NOTE! These offsets were tweaked to line up with specific images.
+         * If you change the images, you will need to re-tweak these values.
+         */
+        drillNode.setOffset( -6, -drillNode.getFullBoundsReference().getHeight() ); // tip of drill bit
+        buttonNode.setOffset( -6, -drillNode.getFullBoundsReference().getHeight() + 10 );
         
         buttonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {

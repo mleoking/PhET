@@ -39,6 +39,7 @@ public abstract class AbstractToolIconNode extends PNode {
     private static final int VERTICAL_SPACING = 2; // vertical space between a tool's icon and label
     private static final Font LABEL_FONT = new PhetFont( 12 );
     private static final Color LABEL_COLOR = Color.BLACK;
+    private static final Point2D DEFAULT_DRAG_OFFSET = new Point2D.Double( 0, 0 );
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -145,6 +146,8 @@ public abstract class AbstractToolIconNode extends PNode {
                 /* When the drag starts, create the new tool. */
                 protected void startDrag( PInputEvent event ) {
                     _mvt.viewToModel( event.getPosition(), _pModel );
+                    Point2D offset = getDragOffsetReference();
+                    _pModel.setLocation( _pModel.getX() + offset.getX(), _pModel.getY() + offset.getY() );
                     _tool = createTool( _pModel );
                     _tool.setDragging( true );
                     super.startDrag( event );
@@ -153,6 +156,8 @@ public abstract class AbstractToolIconNode extends PNode {
                 /* During the drag, set the position of the new tool. */
                 protected void drag( PInputEvent event ) {
                     _mvt.viewToModel( event.getPosition(), _pModel );
+                    Point2D offset = getDragOffsetReference();
+                    _pModel.setLocation( _pModel.getX() + offset.getX(), _pModel.getY() + offset.getY() );
                     _tool.setPosition( _pModel );
                     // do not call super.drag, or the icon in the toolbox will move!
                 }
@@ -180,5 +185,18 @@ public abstract class AbstractToolIconNode extends PNode {
          * @param position position in model coordinates
          */
         protected abstract AbstractTool createTool( Point2D position );
+        
+        /*
+         * This hook is provided to allow subclasses to specify a drag offset.
+         * This is useful when the part of the icon that the user should be "holding"
+         * is not at the tool's origin.  For example, for the borehole drill, the
+         * origin is at the tip of the bit, but we want the user to drag the drill
+         * out of the toolbox by its handle.
+         * <p>
+         * The default behavior is to drag the tool from its origin.
+         */
+        protected Point2D getDragOffsetReference() {
+            return DEFAULT_DRAG_OFFSET;
+        }
     }
 }
