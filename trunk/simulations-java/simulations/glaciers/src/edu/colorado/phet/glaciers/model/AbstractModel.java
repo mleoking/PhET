@@ -21,6 +21,12 @@ import edu.colorado.phet.glaciers.model.BoreholeDrill.BoreholeDrillListener;
 public abstract class AbstractModel implements IToolProducer, IBoreholeProducer {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final boolean ENABLE_DEBUG_OUTPUT = true;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -140,6 +146,9 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
     }
     
     private void addTool( AbstractTool tool ) {
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.addTool " + tool.getClass().getName() );
+        }
         if ( _tools.contains( tool ) ) {
             throw new IllegalStateException( "attempted to add tool twice: " + tool.getClass().getName() );
         }
@@ -150,6 +159,9 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
     }
     
     public void removeTool( AbstractTool tool ) {
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.removeTool " + tool.getClass().getName() );
+        }
         if ( !_tools.contains( tool ) ) {
             throw new IllegalStateException( "attempted to remove a tool that doesn't exist: " + tool.getClass().getName() );
         }
@@ -190,6 +202,9 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
     //----------------------------------------------------------------------------
     
     public Borehole addBorehole( Point2D position ) {
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.addBorehole" );
+        }
         Borehole borehole = new Borehole( _glacier, position );
         borehole.addBoreholeListener( _boreholeListener );
         _boreholes.add( borehole );
@@ -199,6 +214,9 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer 
     }
     
     public void removeBorehole( Borehole borehole ) {
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.removeBorehole" );
+        }
         if ( !_boreholes.contains( borehole ) ) {
             throw new IllegalStateException( "attempted to remove a borehole that doesn't exist" );
         }
