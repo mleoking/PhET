@@ -10,6 +10,7 @@ HIGH PRIORITY:
 - add 3rd dimension to DebrisNode
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
+- refactor model listener class hierarchy
 
 MEDIUM PRIORITY:
 - borehole drill's position doesn't line up with tip of drill image
