@@ -25,16 +25,7 @@ public class PhetFrame extends JFrame {
         this.app = app;
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = ( new HelpMenu( app.getApplicationDescriptor().getWindowTitle(),
-                                        app.getApplicationDescriptor().getDescription(),
-                                        app.getApplicationDescriptor().getVersion() ) );
-        JMenu controlMenu = new JMenu( SimStrings.get( "PhetFrame.ControlMenu" ) );
-        JMenuItem showClockDialog = new JMenuItem( SimStrings.get( "PhetFrame.ControlMenuItem" ) );
-        showClockDialog.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-//                clockDialog.setVisible(true);
-            }
-        } );
+        this.helpMenu = ( new HelpMenu(this ) );
 
         defaultFileMenu = new PhetFileMenu();
         menuBar.add( defaultFileMenu );
