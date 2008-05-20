@@ -35,7 +35,6 @@ LOW PRIORITY:
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 - cleanup duplicate boilerplate code in ToolboxNode constructor
 - confirm that titles and axes on graphs are as desired
-- fancy animation when a tool is dropped in the trash
 - constrain tools to dragging in birds-eye bounds (necessary? tools are inexpensive)
 - refactor common module functionality into a base class
 - fix layout problems with main control panel
@@ -49,7 +48,6 @@ LOW PRIORITY:
 - should "Glacial Budget vs Elevation" chart show negative ablation?
 - add rocks falling off mountains onto glacier surface?
 - do we want to show values or relative ranges (cold-to-hot) for climate controls?
-- add license info for borehole drill image to images/LICENSE.txt
 - add assets/LICENSE.txt
 
 PERFORMANCE OPTIMIZATIONS:
@@ -71,6 +69,7 @@ CLEANUP:
 
 
 DONE:
+5/19/08 - add license info for borehole drill image to images/LICENSE.txt
 5/19/08 - make flags fall over (at random orientation) when they reach the valley floor
 5/19/08 - add a drag offset to tool framework, so that borehole drill will be dragged out of toolbox by its handle
 5/19/08 - line up tip of borehole drill's bit with it origin
