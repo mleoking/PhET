@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class ELAValueNode extends PText {
 
     private static final Font FONT = new PhetFont( 14 );
-    private static final Color TEXT_COLOR = Color.BLACK;
+    private static final Color TEXT_COLOR = Color.WHITE;
     private static final NumberFormat NUMBER_FORMAT = new DefaultDecimalFormat( "0" );
     
     private final Climate _climate;
