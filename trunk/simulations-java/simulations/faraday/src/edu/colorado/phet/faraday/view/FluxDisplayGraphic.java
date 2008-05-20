@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.faraday.model.PickupCoil;
@@ -27,7 +28,7 @@ public class FluxDisplayGraphic extends GraphicLayerSet implements SimpleObserve
     
     private static final String PHI = "\u03a6";
     private static final String DELTA = "\u0394";
-    private static final Font FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+    private static final Font FONT = new PhetFont( 15 );
     private static final DecimalFormat FORMAT = new DefaultDecimalFormat( "0" );
     
     //----------------------------------------------------------------------------

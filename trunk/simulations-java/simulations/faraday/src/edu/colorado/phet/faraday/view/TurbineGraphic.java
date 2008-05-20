@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
@@ -46,8 +47,8 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
     private static final double RPM_LAYER = 7;
     
     private static final Color RPM_COLOR = Color.GREEN;
-    private static final Font RPM_VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
-    private static final Font RPM_UNITS_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
+    private static final Font RPM_VALUE_FONT = new PhetFont( 15 );
+    private static final Font RPM_UNITS_FONT = new PhetFont( 12 );
     
     private static final double MAX_WATER_WIDTH = 40.0;
     private static final Color WATER_COLOR = new Color( 194, 234, 255, 180 );

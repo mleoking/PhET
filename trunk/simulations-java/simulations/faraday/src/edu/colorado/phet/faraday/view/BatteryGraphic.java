@@ -13,6 +13,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
@@ -39,7 +40,7 @@ public class BatteryGraphic extends GraphicLayerSet implements SimpleObserver {
     private static final double SLIDER_LAYER = 2;
     private static final double VALUE_LAYER = 3;
     
-    private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+    private static final Font VALUE_FONT = new PhetFont( 15 );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Point VALUE_POSITIVE_LOCATION = new Point( 158, 83 );
     private static final Point VALUE_NEGATIVE_LOCATION = new Point( 55, 83 );
