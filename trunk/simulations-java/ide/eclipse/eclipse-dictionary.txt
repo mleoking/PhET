@@ -25,6 +25,7 @@ max
 min
 misc
 moraine
+neutron
 nuclei
 nucleon
 nucleus
@@ -33,6 +34,7 @@ Piccolo
 pixelzoom
 python
 Python
+radian
 refactor
 rescale
 rescaled
