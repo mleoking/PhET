@@ -24,8 +24,6 @@ MEDIUM PRIORITY:
 - main control panel should be the same height in all modules
 - PlayArea class is too big, refactor
 - AbstractModel class is too big, refactor
-- make borehole drill bigger
-- rescale image for borehole drill button so that no node scaling is required
 
 LOW PRIORITY:
 - refactor model listener class hierarchy
@@ -70,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+5/19/08 - make borehole drill bigger
 5/19/08 - add license info for borehole drill image to images/LICENSE.txt
 5/19/08 - make flags fall over (at random orientation) when they reach the valley floor
 5/19/08 - add a drag offset to tool framework, so that borehole drill will be dragged out of toolbox by its handle
