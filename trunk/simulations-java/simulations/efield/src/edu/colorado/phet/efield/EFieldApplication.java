@@ -1,8 +1,18 @@
 package edu.colorado.phet.efield;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Locale;
+import java.util.Vector;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.core.RandomSystemFactory;
+import edu.colorado.phet.efield.electron.electricField.*;
 import edu.colorado.phet.efield.electron.gui.*;
 import edu.colorado.phet.efield.electron.gui.addRemove.AddRemove;
 import edu.colorado.phet.efield.electron.gui.addRemove.PanelAdapter;
@@ -24,14 +34,6 @@ import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
 import edu.colorado.phet.efield.electron.utils.ResourceLoader;
-import edu.colorado.phet.efield.electron.electricField.*;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.Locale;
-import java.util.Vector;
 
 public class EFieldApplication extends JApplet {
     // Localization
@@ -39,15 +41,15 @@ public class EFieldApplication extends JApplet {
     private String applicationLocale = null;
 
     public void init() {
-        if( applicationLocale == null ) {
+        if ( applicationLocale == null ) {
             applicationLocale = Toolkit.getDefaultToolkit().getProperty( "javaws.phet.locale", null );
-            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
+            if ( applicationLocale != null && !applicationLocale.equals( "" ) ) {
                 SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
             }
         }
         SimStrings.setStrings( localizedStringsPath );
 
-        if( args == null ) {
+        if ( args == null ) {
             args = new String[]{"10"};
         }
         int num = 0;
@@ -118,9 +120,9 @@ public class EFieldApplication extends JApplet {
         SystemAdapter sa = new SystemAdapter( sys );
         ar.add( sa );
 
-        for( int i = 0; i < sys.numLaws(); i++ ) {
-            if( sys.lawAt( i ) instanceof ParticleContainer ) {
-                ar.add( (ParticleContainer)sys.lawAt( i ) );
+        for ( int i = 0; i < sys.numLaws(); i++ ) {
+            if ( sys.lawAt( i ) instanceof ParticleContainer ) {
+                ar.add( (ParticleContainer) sys.lawAt( i ) );
             }
         }
 
@@ -184,38 +186,44 @@ public class EFieldApplication extends JApplet {
 
     static String[] args = null;
 
-    public static void main( String[] argx ) {
-        SimStrings.getInstance().init( argx, localizedStringsPath );
+    public static void main( final String[] argx ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+                phetLookAndFeel.initLookAndFeel();
+                SimStrings.getInstance().init( argx, localizedStringsPath );
 
-        EFieldApplication j = new EFieldApplication();
-        j.setSize( new Dimension( 600, 600 ) );
+                EFieldApplication j = new EFieldApplication();
+                j.setSize( new Dimension( 600, 600 ) );
 
-        String argsKey = "user.language=";
-        for( int i = 0; i < argx.length; i++ ) {
-            if( argx[i].startsWith( argsKey ) ) {
-                args = new String[argx.length - 1];
-                break;
-            }
-        }
-        if( args == null ) {
-            args = argx;
-        }
-        else {
-            int k = 0;
-            for( int i = 0; i < argx.length; i++ ) {
-                if( !argx[i].startsWith( argsKey ) ) {
-                    args[k++] = argx[i];
+                String argsKey = "user.language=";
+                for ( int i = 0; i < argx.length; i++ ) {
+                    if ( argx[i].startsWith( argsKey ) ) {
+                        args = new String[argx.length - 1];
+                        break;
+                    }
                 }
+                if ( args == null ) {
+                    args = argx;
+                }
+                else {
+                    int k = 0;
+                    for ( int i = 0; i < argx.length; i++ ) {
+                        if ( !argx[i].startsWith( argsKey ) ) {
+                            args[k++] = argx[i];
+                        }
+                    }
+                }
+
+                j.init();
+
+                JFrame f = new JFrame( SimStrings.get( "EFieldApplication.title" ) );
+                f.setContentPane( j );
+                f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                f.setSize( new Dimension( 500, 600 ) );
+                //f.pack();
+                f.setVisible( true );
             }
-        }
-
-        j.init();
-
-        JFrame f = new JFrame( SimStrings.get( "EFieldApplication.title" ) );
-        f.setContentPane( j );
-        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        f.setSize( new Dimension( 500, 600 ) );
-        //f.pack();
-        f.setVisible( true );
+        } );
     }
 }
