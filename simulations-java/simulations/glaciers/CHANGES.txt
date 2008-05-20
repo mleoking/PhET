@@ -68,7 +68,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.23 (?)
+******* 0.00.23 (21544)
 5/19/08 - make borehole drill bigger
 5/19/08 - add license info for borehole drill image to images/LICENSE.txt
 5/19/08 - make flags fall over (at random orientation) when they reach the valley floor
