@@ -14,10 +14,8 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.phys2d.laws.Validate;
 
-//import edu.colorado.phet.util.ExitOnClose;
 
 public class SignalCircuitApplication extends JApplet {
     // Localization
