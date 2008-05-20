@@ -14,6 +14,8 @@ package edu.colorado.phet.colorvision;
 import java.awt.Color;
 import java.awt.Font;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
 /**
  * ColorVisionConstants contains global configuration constants.
  * 
@@ -50,5 +52,5 @@ public class ColorVisionConstants {
     public static final Color LABEL_COLOR = Color.WHITE;
 
     // Fonts
-    public static final Font LABEL_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
+    public static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 18 );
 }

@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.colorvision.ColorVisionStrings;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 
 /**
@@ -26,7 +27,7 @@ public class IntensitySliderWiggleMe extends WiggleMe {
 
     private static final Dimension DEFAULT_WIGGLE_SIZE = new Dimension( 30, 30 );
     private static final int DEFAULT_CYCLE_LENGTH = 20;
-    private static final Font DEFAULT_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
+    private static final Font DEFAULT_FONT = new PhetFont( 18 );
     private static final Color DEFAULT_COLOR = Color.YELLOW;
 
     //----------------------------------------------------------------------------

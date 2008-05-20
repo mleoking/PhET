@@ -16,6 +16,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.ColorVisionStrings;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * SingleBulbControlPanel is the control panel for the "Single Bulb" simulation module.
@@ -76,8 +77,7 @@ public class SingleBulbControlPanel extends ControlPanel implements ActionListen
         {
             // Titled border with a larger font.
             TitledBorder border = new TitledBorder( ColorVisionStrings.BULB_TYPE_TITLE );
-            Font defaultFont = bulbPanel.getFont();
-            Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
+            Font font = new PhetFont( PhetFont.getDefaultFontSize() + 4 );
             border.setTitleFont( font );
 
             bulbPanel.setBorder( border );
@@ -100,8 +100,7 @@ public class SingleBulbControlPanel extends ControlPanel implements ActionListen
         {
             // Titled border with a larger font.
             TitledBorder border = new TitledBorder( ColorVisionStrings.BEAM_TYPE_TITLE );
-            Font defaultFont = bulbPanel.getFont();
-            Font font = new Font( defaultFont.getName(), defaultFont.getStyle(), defaultFont.getSize() + 4 );
+            Font font = new PhetFont( PhetFont.getDefaultFontSize() + 4 );
             border.setTitleFont( font );
 
             beamPanel.setBorder( border );
