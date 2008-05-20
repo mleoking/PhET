@@ -58,9 +58,12 @@ public abstract class AbstractToolNode extends PNode {
         _mvt = mvt;
         _trashCanIconNode = trashCanIconNode;
         
-        _movableListener = new MovableAdapter() {
+        _movableListener = new MovableListener() {
             public void positionChanged() {
                 updatePosition();
+            }
+            public void orientationChanged() {
+                updateOrientation();
             }
         };
         
@@ -72,6 +75,7 @@ public abstract class AbstractToolNode extends PNode {
             private double _xOffset, _yOffset; // distance between mouse press and model origin, in view coordinates
             
             protected void startDrag( PInputEvent event ) {
+                AbstractToolNode.this.startDrag();
                 getTool().setDragging( true );
                 _mvt.modelToView( _tool.getPosition(), _pView );
                 _xOffset = event.getPosition().getX() - _pView.getX();
@@ -95,11 +99,22 @@ public abstract class AbstractToolNode extends PNode {
                     getTool().setDragging( false );
                 }
                 super.endDrag( event );
+                AbstractToolNode.this.endDrag();
             }
         } );
 
         updatePosition();
     }
+    
+    /*
+     * Hook for subclasses to do something when dragging starts.
+     */
+    protected void startDrag() {}
+    
+    /*
+     * Hook for subclasses to do something when dragging ends.
+     */
+    protected void endDrag() {}
     
     /**
      * Call this before releasing all references to an object of this type.
@@ -130,6 +145,12 @@ public abstract class AbstractToolNode extends PNode {
         _mvt.modelToView( _tool.getPositionReference(), _pView );
         setOffset( _pView );
     }
+    
+    /*
+     * Update the node's orientation to match the tool.
+     * Default behavior is to do nothing.
+     */
+    protected void updateOrientation() {}
     
     protected static Font getValueFont() {
         return FONT;
