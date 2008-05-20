@@ -17,9 +17,6 @@ public class LecturePhetLookAndFeel implements PhetLookAndFeel {
     Color buttonBackground = new Color( 60, 60, 100 );
     Color controlTextColor = new Color( 230, 230, 230 );
     Font controlFont = new Font( "SansSerif", Font.BOLD, 16 );
-    String smallIconPath = "images/Phet-logo-16x16.gif";
-    Icon smallIcon;
-    Image smallIconImage;
 
     static String[] controlTypes = new String[]{
             "Menu",
@@ -32,9 +29,6 @@ public class LecturePhetLookAndFeel implements PhetLookAndFeel {
 
 
     public LecturePhetLookAndFeel() {
-
-        smallIconImage = new ImageLoader().loadImage( smallIconPath );
-        smallIcon = new ImageIcon( smallIconImage );
 
         UIManager.put( "Panel.background", background );
         UIManager.put( "Menu.background", background );
@@ -67,27 +61,4 @@ public class LecturePhetLookAndFeel implements PhetLookAndFeel {
         this.buttonBackground = buttonBackground;
     }
 
-    public String getSmallIconPath() {
-        return smallIconPath;
-    }
-
-    public void setSmallIconPath( String smallIconPath ) {
-        this.smallIconPath = smallIconPath;
-    }
-
-    public Icon getSmallIcon() {
-        return smallIcon;
-    }
-
-    public void setSmallIcon( Icon smallIcon ) {
-        this.smallIcon = smallIcon;
-    }
-
-    public Image getSmallIconImage() {
-        return smallIconImage;
-    }
-
-    public void setSmallIconImage( Image smallIconImage ) {
-        this.smallIconImage = smallIconImage;
-    }
 }

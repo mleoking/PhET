@@ -102,7 +102,7 @@ public class MicrowavesApplication {
 //        frame.addMenu( new ViewMenu() );
         frame.addMenu( new MicrowaveModule.ControlMenu() );
         frame.setDefaultLookAndFeelDecorated( true );
-        frame.setIconImage( lookAndFeel.getSmallIconImage() );
+//        frame.setIconImage( lookAndFeel.getSmallIconImage() );
 
 //        s_application.startApplication( manyMoleculesModule );
         s_application.startApplication( singleLineOfMoleculesModule2 );

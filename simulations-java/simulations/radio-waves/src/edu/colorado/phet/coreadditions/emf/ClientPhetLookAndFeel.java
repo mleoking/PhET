@@ -18,10 +18,7 @@ public class ClientPhetLookAndFeel implements PhetLookAndFeel {
     //    Color background = new Color( 220, 250, 220 );
     Color buttonBackground = new Color( 200, 200, 255 );
     //    Color buttonBackground = new Color( 210, 200, 250 );
-    String smallIconPath = "radio-waves/images/Phet-logo-16x16.gif";
     Color controlTextColor = new Color( 20, 0, 80 );
-    Icon smallIcon;
-    Image smallIconImage;
 
     static String[] controlTypes = new String[]{
             "Menu",
@@ -35,13 +32,6 @@ public class ClientPhetLookAndFeel implements PhetLookAndFeel {
 
     public ClientPhetLookAndFeel() {
 
-        try {
-            smallIconImage = new ImageLoader().loadImage( smallIconPath );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        smallIcon = new ImageIcon( smallIconImage );
 
         UIManager.put( "Panel.background", background );
         UIManager.put( "Menu.background", background );
@@ -74,27 +64,4 @@ public class ClientPhetLookAndFeel implements PhetLookAndFeel {
         this.buttonBackground = buttonBackground;
     }
 
-    public String getSmallIconPath() {
-        return smallIconPath;
-    }
-
-    public void setSmallIconPath( String smallIconPath ) {
-        this.smallIconPath = smallIconPath;
-    }
-
-    public Icon getSmallIcon() {
-        return smallIcon;
-    }
-
-    public void setSmallIcon( Icon smallIcon ) {
-        this.smallIcon = smallIcon;
-    }
-
-    public Image getSmallIconImage() {
-        return smallIconImage;
-    }
-
-    public void setSmallIconImage( Image smallIconImage ) {
-        this.smallIconImage = smallIconImage;
-    }
 }
