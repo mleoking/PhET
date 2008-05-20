@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2008, University of Colorado */
 
 package edu.colorado.phet.boundstates;
 
@@ -26,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * BSConstants is a collection of constants.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BSConstants {
 
@@ -69,14 +59,13 @@ public class BSConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final String FONT_NAME = PhetFont.getDefaultFontName();
-    public static final Font AXIS_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 20 );
-    public static final Font AXIS_TICK_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 14 );
-    public static final Font HILITE_ENERGY_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
-    public static final Font WAVE_FUNCTION_EQUATION_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 22 );
-    public static final Font TIME_DISPLAY_FONT = new Font( BSConstants.FONT_NAME, Font.BOLD, 22 );
-    public static final Font TIME_UNITS_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 22 );
-    public static final Font DRAG_HANDLE_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
+    public static final Font AXIS_LABEL_FONT = new PhetFont( Font.PLAIN, 20 );
+    public static final Font AXIS_TICK_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
+    public static final Font HILITE_ENERGY_FONT = new PhetFont( Font.PLAIN, 16 );
+    public static final Font WAVE_FUNCTION_EQUATION_FONT = new PhetFont( Font.PLAIN, 22 );
+    public static final Font TIME_DISPLAY_FONT = new PhetFont( Font.BOLD, 22 );
+    public static final Font TIME_UNITS_FONT = new PhetFont( Font.PLAIN, 22 );
+    public static final Font DRAG_HANDLE_FONT = new PhetFont( Font.PLAIN, 16 );
     
     //----------------------------------------------------------------------------
     // Special characters
