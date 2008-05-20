@@ -102,6 +102,8 @@
 	<classpathentry kind="src" path="simulations/optical-quantum-control/data"/>
 	<classpathentry kind="src" path="simulations/optical-tweezers/src"/>
 	<classpathentry kind="src" path="simulations/optical-tweezers/data"/>
+	<classpathentry kind="src" path="simulations/ph-scale/src"/>
+	<classpathentry kind="src" path="simulations/ph-scale/data"/>
 	<classpathentry kind="src" path="simulations/phetgraphics-demo/src"/>
 	<classpathentry kind="src" path="simulations/phetgraphics-demo/data"/>
 	<classpathentry kind="src" path="simulations/photoelectric/src"/>
