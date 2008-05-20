@@ -25,6 +25,7 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
@@ -67,13 +68,13 @@ public class AmplitudeSlider extends GraphicLayerSet implements SimpleObserver {
     private static final double VALUE_STEP = 0.01;
     private static final String VALUE_FORMAT = "0.00";
     private static final int VALUE_COLUMNS = 3;
-    private static final Font VALUE_FONT = new Font( OQCConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final int VALUE_Y_OFFSET = 17; // above the maximum height of the slider track
     
     // Label parameters
     private static final Color LABEL_COLOR = Color.BLACK;
-    private static final Font LABEL_FONT = new Font( OQCConstants.FONT_NAME, Font.PLAIN, 12 );
-    private static final Font LABEL_SUBSCRIPT_FONT = new Font( OQCConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
+    private static final Font LABEL_SUBSCRIPT_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final int LABEL_Y_OFFSET = VALUE_Y_OFFSET + 18; // above the maximum height of the slider track
 
     // Knob parameters

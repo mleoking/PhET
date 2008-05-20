@@ -19,11 +19,12 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.Observer;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -63,7 +64,7 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
     
     // State label properties
     protected static final String LABEL_FORMAT = "n={0}";
-    protected static final Font LABEL_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    protected static final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 );
     protected static final Color LABEL_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
@@ -133,10 +134,10 @@ public abstract class AbstractEnergyDiagram extends PhetPNode implements Observe
         
         // Fonts
         int axisFontSize = HAResources.getInt( AXIS_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
-        Font axisFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, axisFontSize );
+        Font axisFont = new PhetFont( HAConstants.DEFAULT_FONT_STYLE, axisFontSize );
         
         int titleFontSize = HAResources.getInt( TITLE_FONT_SIZE_RESOURCE, HAConstants.DEFAULT_FONT_SIZE );
-        Font titleFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, titleFontSize );
+        Font titleFont = new PhetFont( HAConstants.DEFAULT_FONT_STYLE, titleFontSize );
         
         // Title bar, with title & close button
         PText titleNode = new PText( HAResources.getString( "title.energyDiagram" ) );

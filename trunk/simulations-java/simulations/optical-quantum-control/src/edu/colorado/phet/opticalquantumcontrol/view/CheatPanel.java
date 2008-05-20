@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 
@@ -43,8 +43,8 @@ public class CheatPanel extends GraphicLayerSet implements SimpleObserver {
     //----------------------------------------------------------------------------
     
     private static final DecimalFormat CHEAT_FORMAT = new DecimalFormat( "0.00" );
-    private static final Font TITLE_FONT = new Font( OQCConstants.FONT_NAME, Font.BOLD, 14 );
-    private static final Font VALUES_FONT = new Font( OQCConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 14 );
+    private static final Font VALUES_FONT = new PhetFont( Font.PLAIN, 12 );
     
     //----------------------------------------------------------------------------
     // Instance data

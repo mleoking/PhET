@@ -26,8 +26,8 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.control.SpinnerControl;
 import edu.colorado.phet.hydrogenatom.energydiagrams.AbstractEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.hacks.GunWavelengthControl;
@@ -80,7 +80,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private static final Color COLOR_CHIP_BORDER_COLOR = Color.BLACK;
 
     private static final Color TITLE_COLOR = Color.RED;
-    private static final Font TITLE_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 14 );
 
     //----------------------------------------------------------------------------
     // Instance data

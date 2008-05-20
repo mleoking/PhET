@@ -85,7 +85,6 @@ public class HAConstants {
     // NOTE: font sizes are configurable in the localization file!
     
     // Default font properties
-    public static final String DEFAULT_FONT_NAME = PhetFont.getDefaultFontName();
     public static final int DEFAULT_FONT_STYLE = Font.BOLD;
     public static final int DEFAULT_FONT_SIZE = 16;
     

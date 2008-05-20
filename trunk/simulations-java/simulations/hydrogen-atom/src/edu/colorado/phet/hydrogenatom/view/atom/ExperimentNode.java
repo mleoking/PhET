@@ -16,17 +16,17 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.hydrogenatom.model.ExperimentModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class ExperimentNode extends PhetPNode implements Observer {
 
-    private static final Font FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 100 );
+    private static final Font FONT = new PhetFont( Font.PLAIN, 100 );
     private static final Color TEXT_COLOR = Color.WHITE;
     private static final Color BOX_FILL_COLOR = new Color( 20, 20, 20 );
     private static final Color BOX_STROKE_COLOR = Color.WHITE;

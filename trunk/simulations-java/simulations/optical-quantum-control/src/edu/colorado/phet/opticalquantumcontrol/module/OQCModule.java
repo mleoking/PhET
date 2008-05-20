@@ -24,8 +24,9 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -154,7 +155,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
 
             HTMLGraphic inputMirrorLabel = new HTMLGraphic( apparatusPanel );
             inputMirrorLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            inputMirrorLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            inputMirrorLabel.setFont( new PhetFont( Font.PLAIN, 18 ) );
             inputMirrorLabel.setColor( Color.BLACK );
             inputMirrorLabel.setHTML( OQCResources.MIRROR );
             inputMirrorLabel.setLocation( 55, 15 );
@@ -170,7 +171,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
 
             HTMLGraphic outputMirrorLabel = new HTMLGraphic( apparatusPanel );
             outputMirrorLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            outputMirrorLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            outputMirrorLabel.setFont( new PhetFont( Font.PLAIN, 18 ) );
             outputMirrorLabel.setColor( Color.BLACK );
             outputMirrorLabel.setHTML( OQCResources.MIRROR );
             outputMirrorLabel.setLocation( 55, 655 );
@@ -194,7 +195,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
 
             HTMLGraphic gratingsLabel = new HTMLGraphic( apparatusPanel );
             gratingsLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            gratingsLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            gratingsLabel.setFont( new PhetFont( Font.PLAIN, 18 ) );
             gratingsLabel.setColor( Color.LIGHT_GRAY );
             gratingsLabel.setHTML( OQCResources.DIFFRACTION_GRATING );
             gratingsLabel.setLocation( 400, 325 );
@@ -248,7 +249,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
         {
             HTMLGraphic maskLabel = new HTMLGraphic( apparatusPanel );
             maskLabel.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-            maskLabel.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
+            maskLabel.setFont( new PhetFont( Font.PLAIN, 18 ) );
             maskLabel.setColor( Color.LIGHT_GRAY );
             maskLabel.setHTML( OQCResources.MASK );
             maskLabel.setLocation( 10, 535 );
@@ -294,7 +295,7 @@ public class OQCModule extends AbstractModule implements ActionListener {
         HTMLGraphic instructions = new HTMLGraphic( apparatusPanel );
         instructions.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         instructions.setHTML( OQCResources.INSTRUCTIONS );
-        instructions.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
+        instructions.setFont( new PhetFont( Font.PLAIN, 18 ) );
         instructions.setColor( OQCConstants.OUTPUT_PULSE_COLOR );
         instructions.setRegistrationPoint( 0, instructions.getHeight()/2 ); // left center
         instructions.setLocation( 790, 350 );

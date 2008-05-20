@@ -22,10 +22,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.HAResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PInputEventListener;
@@ -78,9 +79,9 @@ public class ModeSwitch extends PhetPNode {
         
         // Font size 
         int bigFontSize = HAResources.getInt( "modeSwitch.big.font.size", HAConstants.DEFAULT_FONT_SIZE );
-        Font bigFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, bigFontSize );
+        Font bigFont = new PhetFont( Font.BOLD, bigFontSize );
         int smallFontSize = HAResources.getInt( "modeSwitch.small.font.size", HAConstants.DEFAULT_FONT_SIZE );
-        Font smallFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, smallFontSize );
+        Font smallFont = new PhetFont( Font.PLAIN, smallFontSize );
         
         PImage panel = HAResources.getImageNode( HAConstants.IMAGE_MODE_PANEL );
         _switchUpNode = new PhetPNode( HAResources.getImageNode( HAConstants.IMAGE_MODE_SWITCH_UP ) );

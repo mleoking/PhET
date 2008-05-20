@@ -3,6 +3,7 @@ Change history for optical-quantum-control
 ===============================================================================
 
 DONE:
+5/20/08 - replace Font with PhetFont
 4/28/08 - add PhetLookAndFeel to main
 1/7/08 - replace "Lucida Sans" with PhetDefaultFont
 11/9/07 - move about.credits property to localization file

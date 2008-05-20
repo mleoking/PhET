@@ -17,6 +17,7 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.Range2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 
@@ -36,7 +37,7 @@ public class PulseChart extends Chart {
     // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
-    private static final Font AXIS_TITLE_FONT = new Font( OQCConstants.FONT_NAME, Font.BOLD, 16 );
+    private static final Font AXIS_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
     // Range labels
@@ -45,7 +46,7 @@ public class PulseChart extends Chart {
     
     // Tick Mark parameter
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font MAJOR_TICK_FONT = new Font( OQCConstants.FONT_NAME, Font.BOLD, 12 );
+    private static final Font MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
     private static final Color MAJOR_TICK_COLOR = Color.BLACK;
     private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
     private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;

@@ -16,6 +16,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -50,7 +51,7 @@ public class OutputPulseView extends GraphicLayerSet implements SimpleObserver {
     private static final Color BACKGROUND_COLOR = OQCConstants.COMMON_GRAY;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( OQCConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLACK;
     
     // Chart parameters

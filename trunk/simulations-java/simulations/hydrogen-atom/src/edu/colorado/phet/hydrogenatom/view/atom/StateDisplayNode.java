@@ -15,7 +15,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class StateDisplayNode extends PText {
 
-    private static final Font FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
+    private static final Font FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color COLOR = Color.WHITE;
     
     private static final String N_FORMAT = "n = {0}";
