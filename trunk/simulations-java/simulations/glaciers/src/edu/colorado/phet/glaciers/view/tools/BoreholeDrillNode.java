@@ -29,18 +29,19 @@ public class BoreholeDrillNode extends AbstractToolNode {
         super( boreholeDrill, mvt, trashCanIconNode );
         
         PNode drillNode = new DrillNode();
+        drillNode.scale( 0.75 ); //XXX
         addChild( drillNode );
         
         ButtonNode buttonNode = new ButtonNode();
-        buttonNode.scale( 0.4 ); //XXX compute this based on image width
+        buttonNode.scale( 0.7 ); //XXX compute this based on image width
         addChild( buttonNode );
         
         /*
          * NOTE! These offsets were tweaked to line up with specific images.
          * If you change the images, you will need to re-tweak these values.
          */
-        drillNode.setOffset( -6, -drillNode.getFullBoundsReference().getHeight() ); // tip of drill bit
-        buttonNode.setOffset( -6, -drillNode.getFullBoundsReference().getHeight() + 10 );
+        drillNode.setOffset( -8, -drillNode.getFullBoundsReference().getHeight() ); // tip of drill bit
+        buttonNode.setOffset( -11, -drillNode.getFullBoundsReference().getHeight() + 8 );
         
         buttonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -72,7 +73,9 @@ public class BoreholeDrillNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     public static Image createImage() {
+        PImage imageNode = new PImage( GlaciersImages.BOREHOLE_DRILL );
+        imageNode.scale( 0.5 );
         //TODO add button
-        return GlaciersImages.BOREHOLE_DRILL;
+        return imageNode.toImage();
     }
 }
