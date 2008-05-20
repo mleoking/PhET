@@ -1,25 +1,14 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.common.charts.test;
 
-import java.awt.BasicStroke;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -62,12 +51,11 @@ public class TestSinePlotPerformance {
     private static final Range2D CHART_RANGE = new Range2D( -0.5, -1, 0.5, 1 ); // xMin, yMin, xMax, yMax
     private static final Dimension CHART_SIZE = new Dimension( 650, 160 );
     private static final Point CHART_LOCATION = new Point( 50, 200 );
-    private static final String CHART_FONT_NAME = PhetFont.getDefaultFontName();
 
     // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
-    private static final Font AXIS_TITLE_FONT = new Font( CHART_FONT_NAME, Font.BOLD, 16 );
+    private static final Font AXIS_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
 
     // Tick Mark parameter
@@ -75,7 +63,7 @@ public class TestSinePlotPerformance {
     private static final double X_MINOR_TICK_SPACING = ( L / 8 );
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font MAJOR_TICK_FONT = new Font( CHART_FONT_NAME, Font.BOLD, 12 );
+    private static final Font MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
     private static final Color MAJOR_TICK_COLOR = Color.BLACK;
     private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
     private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
