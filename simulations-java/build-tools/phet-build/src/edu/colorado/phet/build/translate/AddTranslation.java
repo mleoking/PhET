@@ -115,7 +115,12 @@ public class AddTranslation {
 
                 //poke the website to make sure it regenerates pages with the new info
                 try {
-                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear-all.php", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
+
+                    //Note from Dano on 5/18/2008
+                    //Line #118
+                    //the web file referenced should be "cache-clear.php?cache=all" instead of "cache-clear-all.php"
+
+                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
                     System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
                     System.out.println( "Finished deploy" );
                 }
