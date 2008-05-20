@@ -2,13 +2,14 @@
 
 package edu.colorado.phet.phetgraphicsdemo;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-
 import java.io.IOException;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+
 /**
- * PhetgraphicsDemoApplication demonstrates how registration point, location 
+ * PhetgraphicsDemoApplication demonstrates how registration point, location
  * and transforms can be combined to create "self-contained behaviors" that
  * can be combined in composite graphics.
  *
@@ -21,9 +22,9 @@ public class PhetgraphicsDemoApplication extends PhetApplication {
         TestModule module = new TestModule();
         addModule( module );
     }
-    
-    public static void main( String[] args ) throws IOException {
 
+    public static void main( String[] args ) throws IOException {
+        new PhetLookAndFeel().initLookAndFeel();
         String title = "Phetgraphics Demo Application";
         String description = "demonstrates semantics of location and registration point";
         String version = "0.00.01";
