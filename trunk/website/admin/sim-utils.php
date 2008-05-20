@@ -791,16 +791,16 @@
 
         if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
             // Try local first
-            $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
+            $link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.swf";
             if (!file_exists($link)) {
-                $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}.swf";
+                $link = "http://phet.colorado.edu/sims-offline/{$dirname}/{$flavorname}.swf";
             }
         }
         else {
             // Try local first
-            $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jar";
+            $link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.jar";
             if (!file_exists($link)) {
-                $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}.jar";
+                $link = "http://phet.colorado.edu/sims-offline/{$dirname}/{$flavorname}.jar";
             }
         }
 
