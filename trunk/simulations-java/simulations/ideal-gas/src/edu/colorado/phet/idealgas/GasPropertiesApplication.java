@@ -10,16 +10,18 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.model.SimulationClock;
-import edu.colorado.phet.idealgas.view.IdealGasLandF;
 import edu.colorado.phet.idealgas.view.WiggleMeGraphic;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.Locale;
 
 public class GasPropertiesApplication extends PhetApplication {
 
@@ -80,14 +82,10 @@ IdealGasConfig.FRAME_SETUP );
     }
 
     public static void main( final String[] args ) {
+                        DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                try {
-                    UIManager.setLookAndFeel( new IdealGasLandF() );
-                }
-                catch( UnsupportedLookAndFeelException e ) {
-                    e.printStackTrace();
-                }
+                new IdealGasLookAndFeel().initLookAndFeel();
                 new GasPropertiesApplication( args );
             }
         } );

@@ -11,14 +11,15 @@ package edu.colorado.phet.idealgas;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
 import edu.colorado.phet.idealgas.model.SimulationClock;
-import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Locale;
 
 public class ReversibleReactionsApplication extends PhetApplication {
     private MovableWallsModule wallsModule;
@@ -59,16 +60,9 @@ IdealGasConfig.FRAME_SETUP );
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                try {
-                    UIManager.setLookAndFeel( new IdealGasLandF() );
-                }
-                catch( UnsupportedLookAndFeelException e ) {
-                    e.printStackTrace();
-                }
-
+                new IdealGasLookAndFeel().initLookAndFeel();
                 ReversibleReactionsApplication reversibleReactionsApplication = new ReversibleReactionsApplication( args );
                 reversibleReactionsApplication.startApplication();
-//        reversibleReactionsApplication.wallsModule.pumpGasMolecules( 1, HeavySpecies.class );
             }
         } );
     }
