@@ -45,7 +45,6 @@ import edu.colorado.phet.common.bernoulli.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 
 /**
  * User: Sam Reid

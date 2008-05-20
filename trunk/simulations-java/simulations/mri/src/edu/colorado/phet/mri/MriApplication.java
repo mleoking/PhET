@@ -17,15 +17,12 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.mri.controller.HeadModule;
 import edu.colorado.phet.mri.controller.NmrModule;
 import edu.colorado.phet.mri.controller.OptionMenu;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.Locale;
 
 /**
  * MriApplication

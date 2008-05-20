@@ -13,7 +13,6 @@ package edu.colorado.phet.reactionsandrates;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.reactionsandrates.modules.ComplexModule;
 import edu.colorado.phet.reactionsandrates.modules.RateExperimentsModule;
@@ -21,7 +20,6 @@ import edu.colorado.phet.reactionsandrates.modules.SimpleModule;
 
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Locale;
 
 /**
  *
