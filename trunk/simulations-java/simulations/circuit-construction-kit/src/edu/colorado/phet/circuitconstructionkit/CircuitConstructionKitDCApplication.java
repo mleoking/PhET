@@ -89,7 +89,7 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
         CCKUtil.setupLanguagesForSwingComponents();
 
-        SwingUtilities.invokeAndWait( new Runnable() {
+        SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new CCKPhetLookAndFeel().initLookAndFeel();
                 try {
