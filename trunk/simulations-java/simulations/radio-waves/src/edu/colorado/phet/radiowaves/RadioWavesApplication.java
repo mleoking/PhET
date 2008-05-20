@@ -67,7 +67,6 @@ public class RadioWavesApplication {
         PhetApplication application = new PhetApplication( appDescriptor );
         PhetFrame frame = application.getApplicationView().getPhetFrame();
         PhetFrame.setDefaultLookAndFeelDecorated( true );
-        frame.setIconImage( lookAndFeel.getSmallIconImage() );
 
         if( args.length > 0 ) {
             for( int i = 0; i < args.length; i++ ) {

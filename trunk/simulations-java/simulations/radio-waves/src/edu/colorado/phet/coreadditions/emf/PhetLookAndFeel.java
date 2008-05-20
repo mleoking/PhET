@@ -9,5 +9,4 @@ package edu.colorado.phet.coreadditions.emf;
 import java.awt.*;
 
 public interface PhetLookAndFeel {
-    public Image getSmallIconImage();
 }

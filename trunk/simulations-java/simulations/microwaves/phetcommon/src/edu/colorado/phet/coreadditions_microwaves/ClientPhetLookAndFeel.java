@@ -15,14 +15,8 @@ public class ClientPhetLookAndFeel implements PhetLookAndFeel {
 
     Color background = new Color( 220, 255, 220 );
     Color buttonBackground = new Color( 220, 220, 240 );
-    String smallIconPath = "images/Phet-logo-16x16.gif";
-    Icon smallIcon;
-    Image smallIconImage;
 
     public ClientPhetLookAndFeel() {
-
-        smallIconImage = new ImageLoader().loadImage( smallIconPath );
-        smallIcon = new ImageIcon( smallIconImage );
 
         UIManager.put( "Panel.background", background );
         UIManager.put( "Menu.background", background );
@@ -50,27 +44,4 @@ public class ClientPhetLookAndFeel implements PhetLookAndFeel {
         this.buttonBackground = buttonBackground;
     }
 
-    public String getSmallIconPath() {
-        return smallIconPath;
-    }
-
-    public void setSmallIconPath( String smallIconPath ) {
-        this.smallIconPath = smallIconPath;
-    }
-
-    public Icon getSmallIcon() {
-        return smallIcon;
-    }
-
-    public void setSmallIcon( Icon smallIcon ) {
-        this.smallIcon = smallIcon;
-    }
-
-    public Image getSmallIconImage() {
-        return smallIconImage;
-    }
-
-    public void setSmallIconImage( Image smallIconImage ) {
-        this.smallIconImage = smallIconImage;
-    }
 }

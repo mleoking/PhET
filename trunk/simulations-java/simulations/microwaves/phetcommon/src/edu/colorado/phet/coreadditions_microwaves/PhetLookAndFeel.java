@@ -6,8 +6,5 @@
  */
 package edu.colorado.phet.coreadditions_microwaves;
 
-import java.awt.*;
-
 public interface PhetLookAndFeel {
-    public Image getSmallIconImage();
 }
