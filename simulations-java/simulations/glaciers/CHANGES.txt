@@ -6,9 +6,10 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- debris is reaching the surface above ELA
+- bug: debris is reaching the surface above ELA
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
+- glacier advances too fast, get model fix from Archie [550]
 
 MEDIUM PRIORITY:
 - visual representation of snowfall
