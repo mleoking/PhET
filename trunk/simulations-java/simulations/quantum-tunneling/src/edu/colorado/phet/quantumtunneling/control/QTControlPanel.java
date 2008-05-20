@@ -51,7 +51,7 @@ public class QTControlPanel extends QTAbstractControlPanel {
     //----------------------------------------------------------------------------
     
     private static final int INDENTATION = 0; // pixels
-    private static final int SUBPANEL_SPACING = 5; // pixels
+    private static final int SUBPANEL_SPACING = 0; // pixels
     private static final double WIDTH_TICK_SPACING = 1.0; // nm
     private static final double CENTER_TICK_SPACING = 4.0; // nm
     
