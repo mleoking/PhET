@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
  * May 13, 2008 at 9:02:34 PM
  */
 public class CaptureScreenshot {
-    private static File parentDir = new File( "C:/Users/Sam/Desktop/sim-out-test-3/" );
+    private static File parentDir = new File( "C:/Users/Sam/Desktop/sim-out-test-ar/" );
 
     public static void main( String[] args ) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InterruptedException, AWTException {
         final String project = args[0];
@@ -29,8 +29,8 @@ public class CaptureScreenshot {
         PhetProject phetProject = new PhetProject( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" ), project );
         final PhetProjectFlavor flavor = phetProject.getFlavor( sim );
 
-        DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
-//        DummyConstantStringTester.setTestScenario( new Locale( "ar" ), "\u0627\u0646\u062A\u0632\u0639" );
+//        DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
+        DummyConstantStringTester.setTestScenario( new Locale( "ar" ), "\u0627\u0646\u062A\u0632\u0639" );
 
 
         SwingUtilities.invokeAndWait( new Runnable() {
