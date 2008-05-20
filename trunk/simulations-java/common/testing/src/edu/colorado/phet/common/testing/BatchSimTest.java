@@ -16,8 +16,8 @@ public class BatchSimTest {
     }
 
     public static void main( String[] args ) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException, InterruptedException {
-//        new BatchSimTest().testAllSims( CaptureScreenshot.class );
-        new BatchSimTest().testAllSims( TestPhetApplicationUsage.class );
+        new BatchSimTest().testAllSims( CaptureScreenshot.class );
+//        new BatchSimTest().testAllSims( TestPhetApplicationUsage.class );
     }
 
     int count = 0;
@@ -39,9 +39,12 @@ public class BatchSimTest {
             String command = "C:\\j2sdk1.4.2_15\\bin\\java -Dsun.java2d.noddraw=true -classpath \"" + cp + "\" " + mainClass.getName() + " " + phetProject.getName() + " " + phetProjectFlavor.getFlavorName();
             System.out.println( "command = " + command );
 
-            if ( count >= 55 ) {
-
+//            if ( count >= 55 ) {
+            if ( count >= 0) {
+                System.out.println( "count="+count );
                 Process p = Runtime.getRuntime().exec( command );
+                new StreamGobbler( p.getErrorStream(), "err_"+phetProjectFlavor.getFlavorName()).start();
+                new StreamGobbler( p.getInputStream(), "out_"+phetProjectFlavor.getFlavorName()).start();
                 int val = p.waitFor();
                 System.out.println( "Finished exec." );
             }
@@ -49,4 +52,5 @@ public class BatchSimTest {
 //            System.out.println( "val = " + val );
         }
     }
+
 }
