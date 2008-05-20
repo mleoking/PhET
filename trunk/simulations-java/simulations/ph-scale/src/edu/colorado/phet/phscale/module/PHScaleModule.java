@@ -3,7 +3,6 @@
 package edu.colorado.phet.phscale.module;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.simtemplate.SimTemplateStrings;
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
 
 /**
@@ -25,7 +24,7 @@ public class PHScaleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public PHScaleModule() {
-        super( SimTemplateStrings.TITLE_EXAMPLE_MODULE, ExampleDefaults.CLOCK );
+        super( "", ExampleDefaults.CLOCK );
 
         // Model
         _model = new PHScaleModel();
