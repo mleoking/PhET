@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.22
+glaciers 0.00.23
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,24 +12,22 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>make boreholes start to fill in after 40 years, fully filled in after 60 years
-<li>flags that are on the valley floor are deleted by an advancing glacier
-<li>borehole drill remains on glacier's surface as the glacier evolves
-<li>make GPS a permanent tool (it was "developer only"), add a nice image and value display
-<li>remove labels on tools in toolbox, replace with "tool tips" that appear after a short delay
-<li>add horizontal space between trash can and other tools in toolbox to differentiate it slightly
-<li>fix ice thickness tool so that it doesn't fall apart when you drag it
-<li>use the same font, border and layout in all tools that display values
+<li>added 3D model of debris, appear at random 3D locations in ice cross-section above the ELA
+<li>added visualize of debris (small boulders)
+<li>debris forms a moraine at the terminus
+<li>delete debris that is covered by advancing glacier
+<li>borehole drill is larger, aligned so that boreholes are drilled at the tip of the drill bit
+<li>drag borehole drill out of the toolbox by its handle
+<li>tracer flags fall over at random angles when they reach the valley floor
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>tools can be lost by dragging them outside the birds-eye view
+<li>debris is appearing on the glacier's surface above the ELA
 </ul>
 <p>
 <b>Not implemented:</b>
 <ul>
-<li>no debris/rocks moving in the ice
 <li>ice doesn't appear to move
 <li>snowfall is not visible
 <li>time-based graphs are not implemented
