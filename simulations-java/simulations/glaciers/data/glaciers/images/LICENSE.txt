@@ -2,7 +2,7 @@
 License information for image files 
 =============================================================================
 
-boreholeDrill.png source=? author=? license=?
+boreholeDrill.png source=http://openclipart.org author=Machovka license=http://creativecommons.org
 
 boreholdDrillOnButton.png source=PhET author=Chris Malley
 
@@ -14,12 +14,12 @@ gpsReceiver.png source=PhET author=Archie Paulson
 
 mountains.png source=PhET author=Archie Paulson
 
-penguin.png source=http://openclipart.org author=jesusfreak210 license=http://creativecommons.org:81/licenses/publicdomain/
+penguin.png source=http://openclipart.org author=jesusfreak210 license=http://creativecommons.org
 
 thermometer.png source=PhET author=Archie Paulson
 
 tracerFlag.png source=PHET author=Archie Paulson
 
-trashCan.png source=http://openclipart.org author=? license=http://creativecommons.org:81/licenses/publicdomain/
+trashCan.png source=http://openclipart.org author=? license=http://creativecommons.org
 
 =============================================================================
