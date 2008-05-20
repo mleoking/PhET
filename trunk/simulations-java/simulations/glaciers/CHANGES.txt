@@ -70,6 +70,7 @@ CLEANUP:
 
 
 DONE:
+5/20/08 - fix title on Graphs control panel
 ******* 0.00.23 (21544)
 5/19/08 - make borehole drill bigger
 5/19/08 - add license info for borehole drill image to images/LICENSE.txt
