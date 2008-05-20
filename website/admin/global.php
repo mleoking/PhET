@@ -15,6 +15,7 @@
     }
 
     if (!debug_is_on()) {
+        // Not sure why E_ERROR is on, it was like this when I got here, not touching it for now
         error_reporting(E_ERROR);
         assert_options(ASSERT_ACTIVE, 0);
     }
@@ -30,6 +31,9 @@
     if (!defined("CACHE_DIRNAME")) {
         define("CACHE_DIRNAME", "webcache");
     }
+
+    define("PHET_DOMAIN_NAME", "phet2.colorado.edu");
+    define("PHET_HELP_EMAIL", "phethelp@phet.colorado.edu");
 
     /**
      * This constant is used so that included scripts can reference the files 

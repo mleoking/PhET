@@ -14,6 +14,8 @@ class WorkshopsPage extends SitePage {
 
         $portal_root = PORTAL_ROOT;
 
+        $phet_domain_name = PHET_DOMAIN_NAME;
+
         print <<<EOT
         <h2>Upcoming Workshops</h2>
 
@@ -59,7 +61,7 @@ class WorkshopsPage extends SitePage {
         <div class="workshop-description">
             <h3>Description</h3>
             <p>
-            The <a href="http://phet.colorado.edu/">Physics Education Technology Group, PhET</a>, at <a href="http://www.colorado.edu">CU Boulder</a> has developed a free 
+            The <a href="http://{$phet_domain_name}/">Physics Education Technology Group, PhET</a>, at <a href="http://www.colorado.edu">CU Boulder</a> has developed a free 
 website to help with science teaching. This award-winning site has over sixty interactive 
 simulations that provide opportunities for student explorations and virtual labs. Many of 
 these are helpful with topics in chemistry.

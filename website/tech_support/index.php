@@ -14,8 +14,10 @@ class TroubleshootingPage extends SitePage {
 
         $no_mac = SIM_NO_MAC_IMAGE_HTML;
 
+        $phet_help_email = PHET_HELP_EMAIL;
+
         print <<<EOT
-            <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu?Subject=Help"><span class="red">phethelp@colorado.edu</span></a>.</p>
+            <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:{$phet_help_email}?Subject=Help"><span class="red">{$phet_help_email}</span></a>.</p>
 
             <ul class="content-points">
                 <li><a href="support-java.php">Java Installation and Troubleshooting</a></li>
@@ -124,7 +126,7 @@ class TroubleshootingPage extends SitePage {
             <p>It has come to our attention that some of our users are unable to use our Flash-based simulations due to a compatibility issue between Apple Computer's QuickTime&trade; and the Flash&trade; player. Some users have reported that uninstalling QuickTime resolves the issue.
             </p>
 
-            <p>We are aware that this is not an acceptable solution and are working to resolve this issue. If you are experiencing this problem, please contact us at at <a href="mailto:phethelp@colorado.edu?Subject=Flash%20Simulations">phethelp@colorado.edu</a> and regularly check back here for more information.</p>
+            <p>We are aware that this is not an acceptable solution and are working to resolve this issue. If you are experiencing this problem, please contact us at at <a href="mailto:{$phet_help_email}?Subject=Flash%20Simulations">{$phet_help_email}</a> and regularly check back here for more information.</p>
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
@@ -171,7 +173,7 @@ class TroubleshootingPage extends SitePage {
 
             <p>Java-based simulations should now function properly.</p>
 
-            <p>Please contact us by email at <a href="mailto:phethelp@colorado.edu?Subject=Windows%202000%20Issues">phethelp@colorado.edu</a> if you have any further difficulties.</p>
+            <p>Please contact us by email at <a href="mailto:{$phet_help_email}?Subject=Windows%202000%20Issues">{$phet_help_email}</a> if you have any further difficulties.</p>
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
@@ -179,13 +181,13 @@ class TroubleshootingPage extends SitePage {
 
                 <p>On some laptop computers, simulations may appear to run much slower than anticipated and/or exhibit unexpected graphics problems. This may be due to power management settings that affect how the computer's graphics system runs and can be corrected by either a) changing the computer's power management configuration, or b) using the laptop computer while plugged in to an AC power source.</p>
 
-                <p>Many laptop computers are configured to reduce the amount of battery power used by the graphics/video system while the computer is running on battery power. If you must use the laptop while it is not plugged in, we suggest changing your computer's power management settings to "maximize performance" while unplugged. This should ensure that the graphics system runs at its peak speed. The location of this setting varies from one manufacturer to the next and we suggest contacting your computer vendor if you have difficulty locating it. Please contact us at <a href="mailto:phethelp@colorado.edu?Subject=Laptop%20Performance%20Issues">phethelp@colorado.edu</a> if you continue to encounter problems.</p>
+                <p>Many laptop computers are configured to reduce the amount of battery power used by the graphics/video system while the computer is running on battery power. If you must use the laptop while it is not plugged in, we suggest changing your computer's power management settings to "maximize performance" while unplugged. This should ensure that the graphics system runs at its peak speed. The location of this setting varies from one manufacturer to the next and we suggest contacting your computer vendor if you have difficulty locating it. Please contact us at <a href="mailto:{$phet_help_email}?Subject=Laptop%20Performance%20Issues">{$phet_help_email}</a> if you continue to encounter problems.</p>
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
             <h3 id="q9" >Why does my computer crash when I run one of the simulations that has sound?</h3>
 
-            <p>Simulations that use sound can be unstable when run on computers using old device driver software. If you are encountering crashes or other undesirable behavior with any of our simulations that use sound, we advise updating your sound drivers, as this may solve the problem. For assistance with updating your sound drivers, contact your computer vendor or audio hardware manufacturer. Contact us at <a href="mailto:phethelp@colorado.edu?Subject=Sound%20Issues">phethelp@colorado.edu</a> if you continue to encounter difficulty. </p>
+            <p>Simulations that use sound can be unstable when run on computers using old device driver software. If you are encountering crashes or other undesirable behavior with any of our simulations that use sound, we advise updating your sound drivers, as this may solve the problem. For assistance with updating your sound drivers, contact your computer vendor or audio hardware manufacturer. Contact us at <a href="mailto:{$phet_help_email}?Subject=Sound%20Issues">{$phet_help_email}</a> if you continue to encounter difficulty. </p>
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 

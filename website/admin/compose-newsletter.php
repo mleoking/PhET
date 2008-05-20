@@ -14,6 +14,8 @@ class ComposeNewsletterPage extends SitePage {
 
         $contributor_email = $this->user["contributor_email"];
 
+        $unsubscribe_link = "http://".PHET_DOMAIN_NAME."/new/teacher_ideas/user-edit-profile.php";
+
         print <<<EOT
             <p>
                 Using the form below, you can send email to everyone who has a PhET account
@@ -68,7 +70,7 @@ The PhET Team
 
 ----
 
-If you would like to unsubscribe from the PhET mailing list, please visit http://phet.colorado.edu/new/teacher_ideas/user-edit-profile.php
+If you would like to unsubscribe from the PhET mailing list, please visit {$unsubscribe_link}
 
 </textarea>
                         </span>

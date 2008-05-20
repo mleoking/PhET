@@ -12,6 +12,8 @@ class ContributePage extends SitePage {
             return $result;
         }
 
+        $phet_help_email = PHET_HELP_EMAIL;
+
         print <<<EOT
             <h2>Academic Contributions</h2>
 
@@ -19,11 +21,11 @@ class ContributePage extends SitePage {
 
             <h3>Suggest a Simulation</h3>
 
-            <p>If you have an idea for a PhET simulation, please <a href="mailto:phethelp@colorado.edu?Subject=Simulation%20Suggestion&amp;Body=I%20would%20like%20to%20suggest%20the%20following%20simulation:">let us know</a>.</p>
+            <p>If you have an idea for a PhET simulation, please <a href="mailto:{$phet_help_email}?Subject=Simulation%20Suggestion&amp;Body=I%20would%20like%20to%20suggest%20the%20following%20simulation:">let us know</a>.</p>
 
             <h2>Financial Contributions</h2>
 
-            <p>Our philosophy is to make PhET simulations freely available to all users around the world. They have now been run millions of times from our web site, and the full PhET suite has been installed on thousands of computers. But while the simulations may be free to users, they are expensive for us to create, test and maintain, and our financial support is limited. If you would like to help make it possible for us to develop more and better simulations, please contact Mindy Gratny at <a href="mailto:phethelp@colorado.edu?Subject=Financial%20Contribution&amp;Body=Dear%20Sir%20or%20Madam:%20I%20would%20like%20to%20make%20a%20generous%20donation%20to%20PhET.">phethelp@colorado.edu</a> or phone (303-492-4367) to find out how you can make a tax deductible contribution.</p>
+            <p>Our philosophy is to make PhET simulations freely available to all users around the world. They have now been run millions of times from our web site, and the full PhET suite has been installed on thousands of computers. But while the simulations may be free to users, they are expensive for us to create, test and maintain, and our financial support is limited. If you would like to help make it possible for us to develop more and better simulations, please contact Mindy Gratny at <a href="mailto:{$phet_help_email}?Subject=Financial%20Contribution&amp;Body=Dear%20Sir%20or%20Madam:%20I%20would%20like%20to%20make%20a%20generous%20donation%20to%20PhET.">{$phet_help_email}</a> or phone (303-492-4367) to find out how you can make a tax deductible contribution.</p>
 
             <p>PhET would like to thank <a href="{$this->prefix}sponsors/index.php">our sponsors</a>, and <a href="http://www.royalinteractive.com/">Royal Interactive</a> for original site design and layout.</p>
 

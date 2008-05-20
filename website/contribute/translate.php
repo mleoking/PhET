@@ -11,6 +11,10 @@ class TranslationInstructionsPage extends SitePage {
             return $result;
         }
 
+        $example_sim = "http://".PHET_DOMAIN_NAME."/new/simulations/sims.php?sim=Models_of_the_Hydrogen_Atom";
+
+        $phet_help_email = PHET_HELP_EMAIL;
+
         print <<<EOT
             <p>
                 This is a beta version of the PhET Translation Utility. PLEASE READ THIS PAGE COMPLETELY.
@@ -39,7 +43,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Select the language that you're translating from the option menu. If your language is not listed in the menu, contact <a href="mailto:phethelp@colorado.edu?subject=Translation%20Utility">phethelp@colorado.edu</a> to request a custom language code. When you receive your custom language code, select CUSTOM from the option menu (the last option in the menu) and enter your customer language code in the text box that appears.
+                    Select the language that you're translating from the option menu. If your language is not listed in the menu, contact <a href="mailto:{$phet_help_email}?subject=Translation%20Utility"><span class="red">{$phet_help_email}</span></a> to request a custom language code. When you receive your custom language code, select CUSTOM from the option menu (the last option in the menu) and enter your customer language code in the text box that appears.
                 </li>
 
                 <li>
@@ -81,7 +85,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Go <a href="http://phet.colorado.edu/new/simulations/sims.php?sim=Models_of_the_Hydrogen_Atom" >here</a> and click the "Run Offline" button. This will download hydrogen-atom.jar.
+                    Go <a href="{$example_sim}" >here</a> and click the "Run Offline" button. This will download hydrogen-atom.jar.
                 </li>
 
                 <li>
@@ -117,7 +121,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Email hydrogen-atom-strings_fr.properties to phethelp@colorado.edu
+                    Email hydrogen-atom-strings_fr.properties to <a href="mailto:{$phet_help_email}?Subject=Simulation%20Translation"><span class="red">{$phet_help_email}</span></a>
                 </li>
             </ol>
 
@@ -152,7 +156,7 @@ class TranslationInstructionsPage extends SitePage {
             </h2>
 
             <p>
-                Report bugs to <a href="mailto:phethelp@colorado.edu?subject=Translation%20Utility">phethelp@colorado.edu</a>. Please include the version number (shown in the title bar) in your correspondence.
+                Report bugs to <a href="mailto:{$phet_help_email}?subject=Translation%20Utility"><span class="red">{$phet_help_email}</span></a>. Please include the version number (shown in the title bar) in your correspondence.
             </p>
 
 EOT;

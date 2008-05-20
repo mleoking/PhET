@@ -2361,7 +2361,7 @@ EOT;
                  "\n".
                  "The PhET Team \n",
 
-                 "From: The PhET Team <phethelp@colorado.edu>");
+                 "From: The PhET Team <".PHET_HELP_EMAL.">");
         }
     }
 

@@ -206,7 +206,7 @@ EOT;
                         $slashed_sim_name = addslashes($sim_name);
                         $slashed_sim_desc = addslashes($sim_desc);
 
-                        $url        = urlencode("http://phet.colorado.edu/".$_SERVER['REQUEST_URI']);
+                        $url        = urlencode("http://".PHET_DOMAIN_NAME."/".$_SERVER['REQUEST_URI']);
                         $title      = urlencode(html_entity_decode($sim_name)." - Interactive Physics Simulation");
 
                         $digg_body  = urlencode(html_entity_decode($sim_desc));
