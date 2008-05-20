@@ -27,29 +27,21 @@ public class MazeGameApplication {
     }
 
     public static void main( final String[] args ) {
-        try {
-            SwingUtilities.invokeAndWait( new Runnable() {
-                public void run() {
-                    new PhetLookAndFeel().initLookAndFeel();
-                    SimStrings.getInstance().init( args, localizedStringsPath );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new PhetLookAndFeel().initLookAndFeel();
+                SimStrings.getInstance().init( args, localizedStringsPath );
 
-                    JFrame f = new JFrame( "Maze Game (" + version + ")" );
-                    MazeGameApplet mg = new MazeGameApplet();
-                    f.setContentPane( mg );
-                    mg.init();
-                    f.setSize( 700, 500 );
-                    centerFrameOnScreen( f );
-                    f.setVisible( true );
-                    f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                }
-            } );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
-        catch( InvocationTargetException e ) {
-            e.printStackTrace();
-        }
+                JFrame f = new JFrame( "Maze Game (" + version + ")" );
+                MazeGameApplet mg = new MazeGameApplet();
+                f.setContentPane( mg );
+                mg.init();
+                f.setSize( 700, 500 );
+                centerFrameOnScreen( f );
+                f.setVisible( true );
+                f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+            }
+        } );
     }
 
 }
