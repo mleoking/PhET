@@ -107,6 +107,10 @@ public class DistanceLadderApplication {
     }
 
     public static void main( String[] args ) {
+        /**
+         * This application is not properly threaded; if main() is run in swing thread, then it
+         * will be blocked by application code.
+         */
         new RuntimeException( "Starting up in non-swing thread...: " ).printStackTrace();
         Thread thread = new Thread( new Runnable() {
             public void run() {
