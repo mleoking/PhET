@@ -3,6 +3,7 @@ package edu.colorado.phet.mazegame;
 //Helper class for Maze Game.  Maintains controller arrow
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -64,7 +65,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         trace = new GeneralPath();
         traceStarted = false;
 
-        arrowFont = new Font( "Serif", Font.PLAIN, 40 );
+        arrowFont = new PhetFont( 40 );
         fontColor = new Color( 255, 0, 0 );
 
         rButton = new JRadioButton( SimStrings.getInstance().getString( "ControlBoxPanel.PositionRadioButton" ), true );
