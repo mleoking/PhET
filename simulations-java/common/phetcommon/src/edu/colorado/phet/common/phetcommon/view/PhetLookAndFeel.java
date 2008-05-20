@@ -236,7 +236,9 @@ public class PhetLookAndFeel {
 
         // These types require some special modifications.
         add( keyValuePairs, "TitledBorder", "font", new FontUIResource( titledBorderFont ) );
-        
+        add( keyValuePairs, "OptionPane", "messageFont", new FontUIResource( font ) );
+        add( keyValuePairs, "OptionPane", "buttonFont", new FontUIResource( font ) );
+
         if ( textFieldBackgroundResource != null ) {
             add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
         }
