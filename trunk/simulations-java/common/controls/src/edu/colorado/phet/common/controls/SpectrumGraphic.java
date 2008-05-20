@@ -31,7 +31,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
  * @version $Revision$
  */
 public class SpectrumGraphic extends CompositePhetGraphic {
-    public static final Font DEFAULT_CONTROL_FONT = new PhetFont( Font.BOLD, 10 );
     //    private static Color invisibleColor = new Color( 0, 0, 0 );
     private static Color invisibleColor = new Color( 64, 64, 64 );
 
@@ -50,9 +49,7 @@ public class SpectrumGraphic extends CompositePhetGraphic {
         double irBandwith = maxWavelength - VisibleColor.MAX_WAVELENGTH;
         int uvGraphicWidth = (int) ( ( uvBandwidth / visibleBandwidth ) * visibleGraphic.getWidth() );
         int irGraphicWidth = (int) ( ( irBandwith / visibleBandwidth ) * visibleGraphic.getWidth() );
-        Font font = new Font( DEFAULT_CONTROL_FONT.getName(),
-                              DEFAULT_CONTROL_FONT.getStyle(),
-                              DEFAULT_CONTROL_FONT.getSize() + 4 );
+        Font font = new PhetFont( Font.BOLD, 14 );
 
         if ( uvGraphicWidth > 0 ) {
             PhetShapeGraphic uvGraphicBackground = new PhetShapeGraphic( component,
