@@ -75,8 +75,10 @@ public class PhetLookAndFeel {
     private Font tabFont = new PhetFont();
     private Color foregroundColor;
     private Color backgroundColor;
+    private Color buttonBackgroundColor;
     private Color textFieldBackgroundColor = Color.white;//necessary to get white textfields on webstart under 1.5?
     private Insets insets;
+
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -238,6 +240,10 @@ public class PhetLookAndFeel {
         add( keyValuePairs, "TitledBorder", "font", new FontUIResource( titledBorderFont ) );
         add( keyValuePairs, "OptionPane", "messageFont", new FontUIResource( font ) );
         add( keyValuePairs, "OptionPane", "buttonFont", new FontUIResource( font ) );
+
+        if (buttonBackgroundColor!=null){
+            add(keyValuePairs,"Button","background",new ColorUIResource( buttonBackgroundColor ));
+        }
 
         if ( textFieldBackgroundResource != null ) {
             add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
@@ -412,5 +418,9 @@ public class PhetLookAndFeel {
             Object value = uidefs.get( key );
             System.out.println( key + ": " + value );
         }
+    }
+
+    public void setButtonBackgroundColor( Color buttonBackgroundColor ) {
+        this.buttonBackgroundColor=buttonBackgroundColor;
     }
 }
