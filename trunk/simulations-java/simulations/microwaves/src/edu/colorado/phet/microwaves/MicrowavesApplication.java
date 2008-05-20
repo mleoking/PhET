@@ -6,21 +6,21 @@
  */
 package edu.colorado.phet.microwaves;
 
+import java.util.Locale;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
-import edu.colorado.phet.coreadditions_microwaves.ClientPhetLookAndFeel;
-import edu.colorado.phet.coreadditions_microwaves.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions_microwaves.MessageFormatter;
-import edu.colorado.phet.coreadditions_microwaves.PhetLookAndFeel;
 import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
 import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
-
-import javax.swing.*;
-import java.util.logging.Logger;
 
 public class MicrowavesApplication {
 
@@ -45,45 +45,14 @@ public class MicrowavesApplication {
     }
 
     private static void runApplication( String[] args ) {
+        new PhetLookAndFeel().initLookAndFeel();
         SimStrings.getInstance().init( args, localizedStringsPath );
 
-        // Get a logger; the logger is automatically created if
-        // it doesn't already exist
-        Logger logger = Logger.getLogger( "edu.colorado.phet.PhetLogger" );
-
-        // Web Start doesn't seem to let you specify a logging level. It
-        // just logs everything.
-//        ConsoleHandler logHandler = new ConsoleHandler();
-//        logHandler.setLevel( Level.INFO );
-//        logger.setLevel( Level.INFO );
-//        logger.addHandler( logHandler );
-
-        // Log a few message at different severity levels
-        PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel();
-
-//        PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel( new PhetLookAndFeelSpec() {
-//            public Color background = new Color( 220, 250, 220 );
-//            public Color buttonBackground = new Color( 210, 200, 250 );
-//            public Color controlTextColor = new Color( 20, 0, 80 );
-//        } );
-
-        if( args.length > 0 ) {
-            for( int i = 0; i < args.length; i++ ) {
-                if( args[i].toLowerCase().equals( "-p" ) ) {
-                    lookAndFeel = new LecturePhetLookAndFeel();
-                }
-            }
-        }
-
         Module oneMoleculesModule = new OneMoleculeModule();
-        Module twoMoleculesModule = new TwoMoleculesModule();
-        Module singleLineOfMoleculesModule = new SingleLineOfMoleculesModuleNoCollisions();
         Module singleLineOfMoleculesModule2 = new SingleLineOfMoleculesModule2();
         Module manyMoleculesModule = new ManyMoleculesModule();
         Module coffeeModule = new CoffeeModule();
         Module[] modules = new Module[]{
-//            twoMoleculesModule,
-//            singleLineOfMoleculesModule,
                 oneMoleculesModule,
                 singleLineOfMoleculesModule2,
                 manyMoleculesModule,
