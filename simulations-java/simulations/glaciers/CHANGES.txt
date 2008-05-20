@@ -25,6 +25,7 @@ MEDIUM PRIORITY:
 - PlayArea class is too big, refactor
 - AbstractModel class is too big, refactor
 - combine "snowfall" and "snowfall reference elevation" into 1 slider?
+- tweak alignment of mountains image
 
 LOW PRIORITY:
 - refactor model listener class hierarchy
