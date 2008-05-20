@@ -47,6 +47,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     private final JCheckBox _equilibriumLineCheckBox;
     private final JCheckBox _iceFlowCheckBox;
     private final JCheckBox _coordinatesCheckBox;
+    private final JCheckBox _glacierPictureCheckBox;
     private ArrayList _listeners; // list of ViewControlPanelListener
     
     //----------------------------------------------------------------------------
@@ -109,6 +110,21 @@ public class ViewControlPanel extends AbstractSubPanel {
             coordinatesPanel.add( coordinatesIcon );
         }
         
+        JPanel glacierPicturePanel = new JPanel();
+        {
+            _glacierPictureCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_GLACIER_PICTURE );
+            _glacierPictureCheckBox.setFont( CONTROL_FONT );
+            _glacierPictureCheckBox.setForeground( CONTROL_COLOR );
+            _glacierPictureCheckBox.addActionListener( new ActionListener() {
+
+                public void actionPerformed( ActionEvent e ) {
+                    notifyGlacierPictureChanged();
+                }
+            } );
+            
+            glacierPicturePanel.add( _glacierPictureCheckBox );
+        }
+        
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
@@ -117,6 +133,7 @@ public class ViewControlPanel extends AbstractSubPanel {
         layout.addComponent( equilibriumLinePanel, row++, column );
         layout.addComponent( iceFlowPanel, row++, column );
         layout.addComponent( coordinatesPanel, row++, column );
+        layout.addComponent( glacierPicturePanel, row++, column );
         
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* excludedClasses */, false /* processContentsOfExcludedContainers */ );
     }
@@ -158,6 +175,17 @@ public class ViewControlPanel extends AbstractSubPanel {
         return _coordinatesCheckBox.isSelected();
     }
     
+    public void setGlacierPictureSelected( boolean selected ) {
+        if ( selected != isGlacierPictureSelected() ) {
+            _glacierPictureCheckBox.setSelected( selected );
+            notifyGlacierPictureChanged();
+        }
+    }
+    
+    public boolean isGlacierPictureSelected() {
+        return _glacierPictureCheckBox.isSelected();
+    }
+    
     //----------------------------------------------------------------------------
     // Listener
     //----------------------------------------------------------------------------
@@ -169,12 +197,14 @@ public class ViewControlPanel extends AbstractSubPanel {
         public void equilibriumLineChanged( boolean b );
         public void iceFlowChanged( boolean b );
         public void coordinatesChanged( boolean b );
+        public void glacierPictureChanged( boolean b );
     }
     
     public static class ViewControlPanelAdapter implements ViewControlPanelListener {
         public void equilibriumLineChanged( boolean b ) {};
         public void iceFlowChanged( boolean b ) {};
         public void coordinatesChanged( boolean b ) {};
+        public void glacierPictureChanged( boolean b ) {}
     }
     
     public void addViewControlPanelListener( ViewControlPanelListener listener ) {
@@ -210,6 +240,14 @@ public class ViewControlPanel extends AbstractSubPanel {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ViewControlPanelListener) i.next() ).coordinatesChanged( b );
+        }
+    }
+    
+    private void notifyGlacierPictureChanged() {
+        boolean b = isGlacierPictureSelected();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ViewControlPanelListener) i.next() ).glacierPictureChanged( b );
         }
     }
 }
