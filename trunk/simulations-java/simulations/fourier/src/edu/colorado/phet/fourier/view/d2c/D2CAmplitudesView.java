@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.charts.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -57,7 +58,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     
     // Chart parameters
@@ -78,7 +79,7 @@ public class D2CAmplitudesView extends GraphicLayerSet implements SimpleObserver
     private static final Stroke ENVELOPE_STROKE = new BasicStroke( 4f );
     
     // Math equation
-    private static final Font MATH_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font MATH_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color MATH_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------

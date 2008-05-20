@@ -16,6 +16,7 @@ import java.awt.*;
 import edu.colorado.phet.common.charts.DataSetGraphic;
 import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl.ZoomEvent;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl.ZoomListener;
@@ -61,14 +62,14 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
     
     // Message parameters
-    private static final Font CANNOT_SHOW_MESSAGE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 16 );
+    private static final Font CANNOT_SHOW_MESSAGE_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color CANNOT_SHOW_MESSAGE_COLOR = Color.RED;
-    private static final Font MINIMIZE_MESSAGE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font MINIMIZE_MESSAGE_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final Color MINIMIZE_MESSAGE_COLOR = Color.RED;
     
     // Chart parameters

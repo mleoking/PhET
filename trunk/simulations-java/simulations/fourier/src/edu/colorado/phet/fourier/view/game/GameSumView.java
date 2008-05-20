@@ -15,6 +15,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
@@ -49,12 +50,12 @@ public class GameSumView extends GraphicLayerSet implements SimpleObserver {
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 135 );
     
     // Instruction parameters
-    private static final Font INSTRUCTIONS_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 22 );
+    private static final Font INSTRUCTIONS_FONT = new PhetFont( Font.PLAIN, 22 );
     private static final Color INSTRUCTIONS_COLOR = Color.MAGENTA;
     private static final Point INSTRUCTIONS_LOCATION = new Point( 85, 10 );
     

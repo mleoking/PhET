@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.Range2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -58,7 +59,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
 
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
 

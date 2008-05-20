@@ -20,9 +20,9 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
@@ -50,7 +50,7 @@ public class WidthPlot extends AbstractPointPlot {
     private static final double LABEL_LAYER = 3;
 
     // The label
-    private static final Font LABEL_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 16 );
+    private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
 
     // Label background

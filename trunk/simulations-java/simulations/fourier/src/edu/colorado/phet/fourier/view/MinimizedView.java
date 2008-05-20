@@ -13,6 +13,7 @@ package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -44,7 +45,7 @@ public class MinimizedView extends GraphicLayerSet {
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     
     //----------------------------------------------------------------------------

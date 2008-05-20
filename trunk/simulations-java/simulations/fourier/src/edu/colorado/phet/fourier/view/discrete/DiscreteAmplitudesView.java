@@ -20,10 +20,11 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.charts.FlattenedChart;
@@ -61,7 +62,7 @@ public class DiscreteAmplitudesView extends GraphicLayerSet implements SimpleObs
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     
     // Chart parameters
