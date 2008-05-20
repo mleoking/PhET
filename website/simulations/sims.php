@@ -49,7 +49,7 @@ class IndividualSimulationPage extends SitePage {
             $this->sim_rating_html = "";
         }
 
-        if ($sim_type == SIM_TYPE_FLASH) {
+        if ($this->sim_type == SIM_TYPE_FLASH) {
             $gen_flash_page = "{$this->prefix}admin/gen-flash-page.php?flash={$this->sim_launch_url}&amp;title={$sim_name}";
 
             $this->on_click_html = 'onclick="javascript:open_limited_window(\''.$gen_flash_page.'\',\'simwindow\'); return false;"';
