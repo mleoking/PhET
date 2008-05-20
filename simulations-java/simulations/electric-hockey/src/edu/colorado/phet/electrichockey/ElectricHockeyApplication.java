@@ -2,19 +2,21 @@ package edu.colorado.phet.electrichockey;
 
 //Mediator applet for Electric edu.colorado.phet.ehockey.HockeyModule
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.electrichockey.common.SwingUtils;
-
-import javax.swing.*;
 import java.applet.AudioClip;
 import java.awt.*;
 import java.util.Locale;
 
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.electrichockey.common.SwingUtils;
+
 //Need File class
 
 public class ElectricHockeyApplication extends JApplet implements Runnable {
-    static boolean isApplet = true;
     private int width;
     private int height;
     private PlayingField playingField;
@@ -33,14 +35,6 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
     public void init() {
         width = 700;
         height = 600;
-
-        if( isApplet ) {
-            String applicationLocale = Toolkit.getProperty( "javaws.phet.locale", null );
-            if( applicationLocale != null && !applicationLocale.equals( "" ) ) {
-                SimStrings.getInstance().setLocale( new Locale( applicationLocale ) );
-            }
-            SimStrings.getInstance().addStrings( HockeyConfig.localizedStringPath );
-        }
 
         barrierList = new BarrierList( this );
         model = new Model( width, height, this );
@@ -95,31 +89,6 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
         return controlPanel;
     }
 
-    public static void main( String[] args ) {
-        SimStrings.getInstance().init( args, HockeyConfig.localizedStringPath );
-
-        isApplet = false;
-
-        JFrame frame = new JFrame( SimStrings.getInstance().getString( "HockeyApplication.Title" ) + " (" + PhetApplicationConfig.getVersion( "electric-hockey" ).formatForTitleBar() + ")" );
-        ElectricHockeyApplication electricHockeyApplication = new ElectricHockeyApplication();
-        frame.setContentPane( electricHockeyApplication );
-        frame.setSize( 800, 750 );
-
-        electricHockeyApplication.init();
-
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//        frame.addWindowListener( new Exit() );
-
-        SwingUtils.centerWindowOnScreen( frame );
-        frame.setVisible( true );
-
-        frame.invalidate();
-        frame.repaint();
-        frame.validate();
-        //frame.update();
-        frame.repaint();
-    }
-
     public void run() {
         tada = getAudioClip( mcl, "electric-hockey/audio/tada.WAV" );
         cork = getAudioClip( mcl, "electric-hockey/audio/cork.au" );
@@ -128,4 +97,35 @@ public class ElectricHockeyApplication extends JApplet implements Runnable {
     public boolean isAntialias() {
         return fieldGrid.isAntialias();
     }
+
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+//                DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
+                SimStrings.getInstance().init( args, HockeyConfig.localizedStringPath );
+                new PhetLookAndFeel().initLookAndFeel();
+
+
+
+                JFrame frame = new JFrame( SimStrings.getInstance().getString( "HockeyApplication.Title" ) + " (" + PhetApplicationConfig.getVersion( "electric-hockey" ).formatForTitleBar() + ")" );
+                ElectricHockeyApplication electricHockeyApplication = new ElectricHockeyApplication();
+                frame.setContentPane( electricHockeyApplication );
+                frame.setSize( 800, 750 );
+
+                electricHockeyApplication.init();
+
+                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+                SwingUtils.centerWindowOnScreen( frame );
+                frame.setVisible( true );
+
+                frame.invalidate();
+                frame.repaint();
+                frame.validate();
+                frame.repaint();
+                new PhetLookAndFeel().initLookAndFeel();
+            }
+        } );
+    }
+
 }

@@ -1,14 +1,16 @@
 package edu.colorado.phet.electrichockey;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 //contains Vector class
 
@@ -50,7 +52,7 @@ public class PlayingField extends JPanel {
         setBackground( fieldColor );
         barrierColor = new Color( 100, 100, 250 );
 
-        fieldFont = new Font( "serif", Font.PLAIN, 50 );
+        fieldFont = new PhetFont( 50 );
 
         bagWidth = fieldWidth / 15;
         plusBag = new Rectangle( 8 * fieldWidth / 10, 10, bagWidth, bagWidth );
@@ -75,22 +77,22 @@ public class PlayingField extends JPanel {
 
     class FieldMouseListener extends MouseAdapter {
         public void mousePressed( MouseEvent mevt ) {
-            if( plusBag.contains( mevt.getPoint() ) ) {
+            if ( plusBag.contains( mevt.getPoint() ) ) {
                 prt( "Plus bag selected." );
                 newChargeIsGrabbed = true;
                 grabbedCharge = new Charge( mevt.getPoint(), Charge.POSITIVE );
                 grabbedChargeForce = new Force( grabbedCharge, electricHockeyApplication.getModel().getPuck() );
             }
-            else if( minusBag.contains( mevt.getPoint() ) ) {
+            else if ( minusBag.contains( mevt.getPoint() ) ) {
                 prt( "Minus bag selected." );
                 newChargeIsGrabbed = true;
                 grabbedCharge = new Charge( mevt.getPoint(), Charge.NEGATIVE );
                 grabbedChargeForce = new Force( grabbedCharge, electricHockeyApplication.getModel().getPuck() );
             }
             else {
-                for( int i = 0; i < electricHockeyApplication.getModel().getChargeListSize(); i++ ) {
+                for ( int i = 0; i < electricHockeyApplication.getModel().getChargeListSize(); i++ ) {
                     Charge chargeI = electricHockeyApplication.getModel().getChargeAt( i ); //(edu.colorado.phet.ehockey.Charge)chargeList.elementAt(i);
-                    if( chargeI.contains( mevt.getPoint() ) ) {
+                    if ( chargeI.contains( mevt.getPoint() ) ) {
                         oldChargeIsGrabbed = true;
                         grabbedChargeIndex = i;
                         grabbedCharge = chargeI;
@@ -100,11 +102,11 @@ public class PlayingField extends JPanel {
         }//end of mousePressed()
 
         public void mouseReleased( MouseEvent mevt ) {
-            if( newChargeIsGrabbed ) {
+            if ( newChargeIsGrabbed ) {
                 newChargeIsGrabbed = false;
                 //repaint();
 
-                if( !chargeBag.contains( mevt.getPoint() ) ) {
+                if ( !chargeBag.contains( mevt.getPoint() ) ) {
 
                     electricHockeyApplication.getModel().addCharge( grabbedCharge ); //chargeList.addElement(grabbedCharge);
                     //hockeyModule.getModel().updateForceList();
@@ -113,9 +115,9 @@ public class PlayingField extends JPanel {
                     electricHockeyApplication.getControlPanel().setNbrChargesLbl( electricHockeyApplication.getModel().getChargeListSize() );
                 }
             }
-            if( oldChargeIsGrabbed ) {
+            if ( oldChargeIsGrabbed ) {
                 oldChargeIsGrabbed = false;
-                if( chargeBag.contains( mevt.getPoint() ) ) {
+                if ( chargeBag.contains( mevt.getPoint() ) ) {
                     //chargeList.removeElementAt(grabbedChargeIndex);
                     electricHockeyApplication.getModel().removeChargeAt( grabbedChargeIndex );
                     //hockeyModule.getModel().updateForceList();
@@ -136,7 +138,7 @@ public class PlayingField extends JPanel {
 
     public void updateBufferedImage() {
 
-        Graphics2D g2D = (Graphics2D)fieldLinesImage.getGraphics();
+        Graphics2D g2D = (Graphics2D) fieldLinesImage.getGraphics();
 
         electricHockeyApplication.getFieldGrid().paint( g2D );
 
@@ -144,14 +146,14 @@ public class PlayingField extends JPanel {
 
     class FieldMouseMotionListener extends MouseMotionAdapter {
         public void mouseDragged( MouseEvent mevt ) {
-            if( newChargeIsGrabbed || oldChargeIsGrabbed ) {
+            if ( newChargeIsGrabbed || oldChargeIsGrabbed ) {
                 grabbedCharge.setPosition( mevt.getPoint() );
                 grabbedChargeForce = new Force( grabbedCharge, electricHockeyApplication.getModel().getPuck() );
 
 
             }
 
-            if( oldChargeIsGrabbed ) {
+            if ( oldChargeIsGrabbed ) {
                 electricHockeyApplication.getModel().getChargeList().setElementAt( grabbedCharge, grabbedChargeIndex );
                 Charge puck = electricHockeyApplication.getModel().getPuck();
                 Force grabbedChargeForce = new Force( grabbedCharge, puck );
@@ -159,7 +161,7 @@ public class PlayingField extends JPanel {
                 electricHockeyApplication.getFieldGrid().updateGridForceArray();
                 //hockeyModule.getModel().updateForceList();
             }
-            Graphics2D g2D = (Graphics2D)fieldLinesImage.getGraphics();
+            Graphics2D g2D = (Graphics2D) fieldLinesImage.getGraphics();
             electricHockeyApplication.getFieldGrid().paint( g2D );
 
             repaint();
@@ -179,11 +181,11 @@ public class PlayingField extends JPanel {
 
     public void paintComponent( Graphics g ) {
         super.paintComponent( g );    //necessary for painting background
-        g2D = (Graphics2D)g;
-        if( electricHockeyApplication.isAntialias() ) {
+        g2D = (Graphics2D) g;
+        if ( electricHockeyApplication.isAntialias() ) {
             g2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         }
-        if( electricHockeyApplication.getControlPanel().getShowField() && electricHockeyApplication.getModel().getChargeListSize() != 0 ) {
+        if ( electricHockeyApplication.getControlPanel().getShowField() && electricHockeyApplication.getModel().getChargeListSize() != 0 ) {
             //nbrPaintsCurrentlySkipped += 1;
 
             //if(nbrPaintsCurrentlySkipped > nbrPaintsToSkip){
@@ -199,14 +201,14 @@ public class PlayingField extends JPanel {
         g2D.setColor( Color.black );
         g2D.drawRect( minusBag.x, minusBag.y, minusBag.width, minusBag.height );
 
-        if( newChargeIsGrabbed ) {
+        if ( newChargeIsGrabbed ) {
             grabbedCharge.paint( g2D );
             grabbedChargeForce.paint( g2D );
         }
         //draw barriers
         g2D.setColor( barrierColor );
         barrierState = electricHockeyApplication.getControlPanel().getLevelState();
-        for( int i = 0; i < BarrierList.currentRectArray[barrierState].length; i++ ) {
+        for ( int i = 0; i < BarrierList.currentRectArray[barrierState].length; i++ ) {
             int x = BarrierList.currentRectArray[barrierState][i].x;
             int y = BarrierList.currentRectArray[barrierState][i].y;
             int w = BarrierList.currentRectArray[barrierState][i].width;
@@ -215,13 +217,13 @@ public class PlayingField extends JPanel {
         }
 
         //paint charges and forces
-        for( int i = 0; i < electricHockeyApplication.getModel().getChargeListSize(); i++ ) {
+        for ( int i = 0; i < electricHockeyApplication.getModel().getChargeListSize(); i++ ) {
             Charge chargeI = electricHockeyApplication.getModel().getChargeAt( i );//(edu.colorado.phet.ehockey.Charge)(chargeList.elementAt(i));
 
-            if( chargeI.getSign() == Charge.NEGATIVE ) {
+            if ( chargeI.getSign() == Charge.NEGATIVE ) {
                 g2D.drawImage( electricHockeyApplication.minusDisk, chargeI.getPosition().x - chargeI.radius, chargeI.getPosition().y - chargeI.radius, this );
             }
-            else if( chargeI.getSign() == Charge.POSITIVE ) {
+            else if ( chargeI.getSign() == Charge.POSITIVE ) {
                 g2D.drawImage( electricHockeyApplication.plusDisk, chargeI.getPosition().x - chargeI.radius, chargeI.getPosition().y - chargeI.radius, this );
             }
             //chargeI.paint(g2D);
@@ -233,7 +235,7 @@ public class PlayingField extends JPanel {
         //draw positivePuckImage
         //hockeyModule.getModel().getPuck().paint(g2D);
         Charge chargeP = electricHockeyApplication.getModel().getPuck();
-        if( chargeP.getSign() == Charge.POSITIVE ) {
+        if ( chargeP.getSign() == Charge.POSITIVE ) {
             g2D.drawImage( electricHockeyApplication.positivePuckImage, chargeP.getPosition().x - chargeP.radius, chargeP.getPosition().y - chargeP.radius, this );
         }
         else {
@@ -242,20 +244,20 @@ public class PlayingField extends JPanel {
 
         //draw collision and goal announcements
         g2D.setFont( fieldFont );
-        if( electricHockeyApplication.getModel().getGoalState() ) {
+        if ( electricHockeyApplication.getModel().getGoalState() ) {
             g2D.setColor( new Color( 0, 125, 0 ) );
-            g2D.setFont( new Font( "serif", Font.PLAIN, 110 ) );
+            g2D.setFont( new PhetFont( 110 ) );
             g2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g2D.drawString( SimStrings.getInstance().getString( "HockeyPlayingField.Goal" ), 3 * fieldWidth / 10, fieldHeight / 5 );
         }
-        if( electricHockeyApplication.getModel().getCollisionState() && !electricHockeyApplication.getModel().getGoalState() ) {
+        if ( electricHockeyApplication.getModel().getCollisionState() && !electricHockeyApplication.getModel().getGoalState() ) {
             g2D.setColor( Color.red );
             g2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             g2D.drawString( SimStrings.getInstance().getString( "HockeyPlayingField.Collision" ), 2 * fieldWidth / 5, fieldHeight / 10 );
         }
 
         //drawPath
-        if( electricHockeyApplication.getControlPanel().getTraceState() ) {
+        if ( electricHockeyApplication.getControlPanel().getTraceState() ) {
             g2D.setColor( Color.black );
             Stroke origStroke = g2D.getStroke();
             g2D.setStroke( pathStroke );
