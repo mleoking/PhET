@@ -4,16 +4,20 @@
 
 package edu.colorado.phet.batteryvoltage;
 
+import java.awt.*;
+import java.util.Random;
+import java.util.Locale;
+
+import javax.swing.*;
+
 import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
 import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
 import edu.colorado.phet.batteryvoltage.common.phys2d.gui.Range;
 import edu.colorado.phet.batteryvoltage.common.phys2d.gui.SystemRunnerControl;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Random;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 
 public class BatteryVoltageApplication extends JApplet {
     private SystemRunnerControl timeControls;
@@ -50,12 +54,18 @@ public class BatteryVoltageApplication extends JApplet {
         new Thread( sr ).start();
     }
 
-    public static void main( String[] args ) {
-        PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( args, new FrameSetup.NoOp(), BatteryVoltageResources.getResourceLoader() );
-        JFrame f = new JFrame( phetApplicationConfig.getName() + " (" + phetApplicationConfig.getVersion().formatForTitleBar() + ")" );
-        f.setContentPane( new BatteryVoltageApplication() );
-        f.setSize( new Dimension( 850, 525 ) );
-        f.setVisible( true );
-        f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                PhetLookAndFeel phetLookAndFeel=new PhetLookAndFeel();
+                phetLookAndFeel.initLookAndFeel();
+                PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( args, new FrameSetup.NoOp(), BatteryVoltageResources.getResourceLoader() );
+                JFrame f = new JFrame( phetApplicationConfig.getName() + " (" + phetApplicationConfig.getVersion().formatForTitleBar() + ")" );
+                f.setContentPane( new BatteryVoltageApplication() );
+                f.setSize( new Dimension( 850, 525 ) );
+                f.setVisible( true );
+                f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+            }
+        } );
     }
 }
