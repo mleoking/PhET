@@ -11,6 +11,7 @@
 package edu.colorado.phet.reactionsandrates.view;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -65,8 +66,7 @@ public class AxisNode extends PNode {
             arrowNodeWidth = addArrowNode( length, color, textVerticalAlignment );
         }
 
-        Font defaultFont = UIManager.getFont( "Label.font" );
-        axisFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
+        axisFont = new PhetFont( PhetFont.getDefaultFontSize()+1,true );
         PText labelNode = new PText( label );
         labelNode.setFont( axisFont );
         labelNode.setTextPaint( color );
