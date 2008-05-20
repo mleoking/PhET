@@ -15,7 +15,7 @@ import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import edu.colorado.phet.opticaltweezers.OTConstants;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.opticaltweezers.OTResources;
 
 /**
@@ -34,7 +34,7 @@ public class PotentialEnergyPlot extends XYPlot {
     private static final Color BACKGROUND_COLOR = new Color( 0, 0, 0, 0 ); // transparent
     private static final Color PLOT_COLOR = new Color( 178, 25, 205 ); // purple
     private static final Stroke PLOT_STROKE = new BasicStroke( 2f );
-    private static final Font AXIS_LABEL_FONT = new Font( OTConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
+    private static final Font AXIS_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
     
     //----------------------------------------------------------------------------
     // Instance data

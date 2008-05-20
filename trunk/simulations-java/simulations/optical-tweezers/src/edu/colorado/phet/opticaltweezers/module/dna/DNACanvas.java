@@ -15,6 +15,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
@@ -136,7 +137,7 @@ public class DNACanvas extends OTAbstractCanvas {
         
         // "Return Bead" button
         JButton returnBeadButton = new JButton( OTResources.getString( "button.returnBead" ) );
-        Font font = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
+        Font font = new PhetFont( Font.BOLD, 18 );
         returnBeadButton.setFont( font );
         returnBeadButton.setOpaque( false );
         returnBeadButton.addActionListener( new ActionListener() {
