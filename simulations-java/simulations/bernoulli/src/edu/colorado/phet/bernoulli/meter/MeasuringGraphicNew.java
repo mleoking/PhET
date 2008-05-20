@@ -11,6 +11,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
 public class MeasuringGraphicNew {
 
     Shape bounds;
@@ -21,7 +23,7 @@ public class MeasuringGraphicNew {
     Point location = new Point();
     public int width = crosshairRadius * 2 + readoutWidth + 30;
     public int height = readoutHeight + 20;
-    private Font font = new Font( "dialog", Font.BOLD, 14 );
+    private Font font = new PhetFont( 14,true );
     //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0#" );
     private Stroke crossHairStroke = new BasicStroke( 1f );
     private Stroke holeStroke = new BasicStroke( 3f );
