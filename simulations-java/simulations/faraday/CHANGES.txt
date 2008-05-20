@@ -4,6 +4,7 @@ Changes for faraday
 
 
 DONE:
+5/20/08 - replace new Font("Sans Serif",...) with new PhetFont(...)
 5/8/08 - fix translations (ar,es,lt) that were using obsolete MessageFormat syntax
 ********* version 2.01.00 (21052)
 ********* version 2.00.04 (21033)

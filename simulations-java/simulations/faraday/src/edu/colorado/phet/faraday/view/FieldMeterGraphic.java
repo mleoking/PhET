@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
@@ -56,10 +57,10 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     private static final Color FIELD_COLOR = Color.WHITE;
     
     // Title font
-    private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+    private static final Font TITLE_FONT = new PhetFont( 15 );
     
     // Field font
-    private static final Font FIELD_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+    private static final Font FIELD_FONT = new PhetFont( 15 );
     
     // Field format
     private static final String MAGNITUDE_FORMAT = "###0.00";

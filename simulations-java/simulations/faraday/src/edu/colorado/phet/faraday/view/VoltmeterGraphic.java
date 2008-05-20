@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
@@ -159,7 +160,7 @@ public class VoltmeterGraphic extends CompositePhetGraphic implements SimpleObse
         private static final Stroke GUAGE_STROKE = new BasicStroke( 1f );
         
         // Title
-        private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 14 );
+        private static final Font TITLE_FONT = new PhetFont( 14 );
         private static final Color TITLE_COLOR = Color.WHITE;
         
         // Tick marks

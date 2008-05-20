@@ -7,6 +7,8 @@ import java.awt.Font;
 
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
 
 /**
  * FaradayPanel is the base class for all panels used for all sub-panels 
@@ -39,8 +41,7 @@ public class FaradayPanel extends JPanel {
      */
     public FaradayPanel() {
         super();
-        Font defaultFont = super.getFont();
-        _titleFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 2 );
+        _titleFont = new PhetFont( Font.BOLD, PhetFont.getDefaultFontSize() + 2 );
     }
     
     //----------------------------------------------------------------------------
