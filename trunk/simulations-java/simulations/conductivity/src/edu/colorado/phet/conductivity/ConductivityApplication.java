@@ -4,6 +4,18 @@
 
 package edu.colorado.phet.conductivity;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.GeneralPath;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Locale;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.conductivity.application.Module;
 import edu.colorado.phet.common.conductivity.application.PhetApplication;
 import edu.colorado.phet.common.conductivity.model.BaseModel;
@@ -26,30 +38,18 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.conductivity.Flashlight;
-import edu.colorado.phet.conductivity.FlashlightGraphic;
-import edu.colorado.phet.conductivity.Photon;
-import edu.colorado.phet.conductivity.PhotonArrowGraphic;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
+import edu.colorado.phet.conductivity.macro.BandSetGraphic;
+import edu.colorado.phet.conductivity.macro.EnergyTextGraphic;
+import edu.colorado.phet.conductivity.macro.MacroControlPanel;
+import edu.colorado.phet.conductivity.macro.MacroSystem;
 import edu.colorado.phet.conductivity.macro.bands.DefaultBandSet;
 import edu.colorado.phet.conductivity.macro.battery.BatterySpinner;
 import edu.colorado.phet.conductivity.macro.circuit.MacroCircuit;
 import edu.colorado.phet.conductivity.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.conductivity.macro.particles.WireParticle;
 import edu.colorado.phet.conductivity.macro.particles.WireParticleGraphic;
-import edu.colorado.phet.conductivity.macro.MacroSystem;
-import edu.colorado.phet.conductivity.macro.MacroControlPanel;
-import edu.colorado.phet.conductivity.macro.EnergyTextGraphic;
-import edu.colorado.phet.conductivity.macro.BandSetGraphic;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.GeneralPath;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Hashtable;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro:
 //            MacroControlPanel, MacroSystem, EnergyTextGraphic, BandSetGraphic
@@ -105,7 +105,7 @@ public class ConductivityApplication extends Module {
         model = new MacroSystem( minVolts, maxVolts, particleWidth );
         circuit = model.getCircuit();
         circuitGraphic = new MacroCircuitGraphic( circuit, transform );
-        for( int i = 0; i < circuitGraphic.numWireGraphics(); i++ ) {
+        for ( int i = 0; i < circuitGraphic.numWireGraphics(); i++ ) {
             getApparatusPanel().addGraphic( circuitGraphic.wireGraphicAt( i ), 0.0D );
         }
 
@@ -114,9 +114,9 @@ public class ConductivityApplication extends Module {
         getModel().addModelElement( model );
         double d1 = 0.050000000000000003D;
         double d2 = circuit.getLength();
-        int j = (int)( d2 / d1 + 1.0D );
+        int j = (int) ( d2 / d1 + 1.0D );
         double d3 = 0.0D;
-        for( int k = 0; k < j; k++ ) {
+        for ( int k = 0; k < j; k++ ) {
             WireParticle wireparticle = new WireParticle( d3, circuit );
             getModel().addModelElement( wireparticle );
             model.particles.add( wireparticle );
@@ -172,7 +172,7 @@ public class ConductivityApplication extends Module {
         ModelElement modelelement = new ModelElement() {
 
             public void stepInTime( double d ) {
-                if( timeSinceFire > timeBetweenFires && lightOn ) {
+                if ( timeSinceFire > timeBetweenFires && lightOn ) {
                     firePhoton();
                     timeSinceFire = 0.0D;
                 }
@@ -187,14 +187,14 @@ public class ConductivityApplication extends Module {
 
             public void stepInTime( double d ) {
                 AbstractVector2D resistorCenter = getResistorCenter();
-                for( int i = 0; i < photons.size(); i++ ) {
-                    Photon photon = (Photon)photons.get( i );
+                for ( int i = 0; i < photons.size(); i++ ) {
+                    Photon photon = (Photon) photons.get( i );
                     photon.stepInTime( d );
                     double distToCenter = photon.getPosition().getSubtractedInstance( resistorCenter ).getMagnitude();
                     int DIST_FUDGE_FACTOR = 5;//introduced when switched from arrow to image.
-                    if( distToCenter <= photon.getSpeed() * d * DIST_FUDGE_FACTOR ) {
+                    if ( distToCenter <= photon.getSpeed() * d * DIST_FUDGE_FACTOR ) {
                         photons.remove( i );
-                        Graphic graphic = (Graphic)photonGraphicTable.get( photon );
+                        Graphic graphic = (Graphic) photonGraphicTable.get( photon );
                         getApparatusPanel().removeGraphic( graphic );
                         model.photonHit();
                     }
@@ -225,12 +225,12 @@ public class ConductivityApplication extends Module {
     private void addCableGraphic() {
         java.awt.geom.Rectangle2D.Double double1 = model.getBandSet().getBounds();
         final GeneralPath cablePath = new GeneralPath();
-        cablePath.moveTo( (float)double1.getX() + (float)double1.getWidth() / 2.0F, (float)double1.getY() );
+        cablePath.moveTo( (float) double1.getX() + (float) double1.getWidth() / 2.0F, (float) double1.getY() );
         MacroCircuit macrocircuit = model.getCircuit();
         AbstractVector2D phetvector = macrocircuit.getResistor().getLocation( macrocircuit.getResistor().getLength() / 2D );
         Vector2D.Double phetvector1 = new Vector2D.Double( double1.getX() + 0.29999999999999999D, double1.getY() - 0.20000000000000001D );
         AbstractVector2D phetvector2 = phetvector.getSubtractedInstance( 0.0D, 0.10000000000000001D );
-        cablePath.curveTo( (float)phetvector1.getX(), (float)phetvector1.getY(), (float)phetvector2.getX(), (float)phetvector2.getY(), (float)phetvector.getX(), (float)phetvector.getY() );
+        cablePath.curveTo( (float) phetvector1.getX(), (float) phetvector1.getY(), (float) phetvector2.getX(), (float) phetvector2.getY(), (float) phetvector.getX(), (float) phetvector.getY() );
         final ShapeGraphic curveShape = new ShapeGraphic( cablePath, Color.black, new BasicStroke( 2.0F ) );
         transform.addTransformListener( new TransformListener() {
 
@@ -272,58 +272,72 @@ public class ConductivityApplication extends Module {
         getApparatusPanel().repaint();
     }
 
-    public static void main( String args[] ) throws IOException {
-        SimStrings.getInstance().init( args, localizedStringsPath );
+    public static void main( final String args[] ) throws IOException {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                new PhetLookAndFeel().initLookAndFeel();
+                
+                SimStrings.getInstance().init( args, localizedStringsPath );
 
-        SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
-        final ConductivityApplication module = new ConductivityApplication( swingtimerclock );
-        String version = PhetApplicationConfig.getVersion( "conductivity" ).formatForTitleBar();
-        ApplicationDescriptor ad = new ApplicationDescriptor(
-                SimStrings.get( "ConductivityApplication.title" ) + " " + version,
-                SimStrings.get( "ConductivityApplication.description" ), version,
-                new FrameSetup.CenteredWithInsets( 100, 100 ) );
-        ad.setName( "conductivity" );
-        PhetApplication phetapplication = new PhetApplication( ad, module, swingtimerclock );
-        phetapplication.startApplication( module );
-        swingtimerclock.addClockTickListener( new ClockTickListener() {
+                SwingTimerClock swingtimerclock = new SwingTimerClock( 1.0D, 30, true );
+                ConductivityApplication module = null;
+                try {
+                    module = new ConductivityApplication( swingtimerclock );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                String version = PhetApplicationConfig.getVersion( "conductivity" ).formatForTitleBar();
+                ApplicationDescriptor ad = new ApplicationDescriptor(
+                        SimStrings.get( "ConductivityApplication.title" ) + " " + version,
+                        SimStrings.get( "ConductivityApplication.description" ), version,
+                        new FrameSetup.CenteredWithInsets( 100, 100 ) );
+                ad.setName( "conductivity" );
+                PhetApplication phetapplication = new PhetApplication( ad, module, swingtimerclock );
+                phetapplication.startApplication( module );
+                final ConductivityApplication module1 = module;
+                swingtimerclock.addClockTickListener( new ClockTickListener() {
 
-            public void clockTicked( AbstractClock abstractclock, double d ) {
+                    public void clockTicked( AbstractClock abstractclock, double d ) {
+                        module1.getApparatusPanel().repaint();
+                    }
+
+                } );
+                module.getApparatusPanel().invalidate();
+                module.getApparatusPanel().validate();
                 module.getApparatusPanel().repaint();
-            }
+                ClockTickListener clockticklistener = new ClockTickListener() {
 
-        } );
-        module.getApparatusPanel().invalidate();
-        module.getApparatusPanel().validate();
-        module.getApparatusPanel().repaint();
-        ClockTickListener clockticklistener = new ClockTickListener() {
+                    public void clockTicked( AbstractClock abstractclock, double d ) {
+                        if ( abstractclock.getRunningTime() > abstractclock.getDt() * 20D ) {
+                            module1.getApparatusPanel().invalidate();
+                            module1.getApparatusPanel().revalidate();
+                            module1.getApparatusPanel().repaint();
+                            System.out.println( "Revalidating." );
+                            abstractclock.removeClockTickListener( this );
+                        }
+                    }
 
-            public void clockTicked( AbstractClock abstractclock, double d ) {
-                if( abstractclock.getRunningTime() > abstractclock.getDt() * 20D ) {
-                    module.getApparatusPanel().invalidate();
-                    module.getApparatusPanel().revalidate();
-                    module.getApparatusPanel().repaint();
-                    System.out.println( "Revalidating." );
-                    abstractclock.removeClockTickListener( this );
+                };
+                swingtimerclock.addClockTickListener( clockticklistener );
+                phetapplication.getApplicationView().getBasicPhetPanel().setBackground( new Color( 245, 245, 255 ) );
+                edu.colorado.phet.common.conductivity.view.apparatuspanelcontainment.ApparatusPanelContainer apparatuspanelcontainer = phetapplication.getApplicationView().getApparatusPanelContainer();
+                if ( apparatuspanelcontainer instanceof SingleApparatusPanelContainer ) {
+                    SingleApparatusPanelContainer singleapparatuspanelcontainer = (SingleApparatusPanelContainer) apparatuspanelcontainer;
+                    singleapparatuspanelcontainer.getComponent().setLayout( new AspectRatioLayout( module.getApparatusPanel(), 10, 10, 0.75D ) );
+                    phetapplication.getApplicationView().getBasicPhetPanel().invalidate();
+                    phetapplication.getApplicationView().getBasicPhetPanel().validate();
+                    phetapplication.getApplicationView().getBasicPhetPanel().repaint();
                 }
             }
+        } );
 
-        };
-        swingtimerclock.addClockTickListener( clockticklistener );
-        phetapplication.getApplicationView().getBasicPhetPanel().setBackground( new Color( 245, 245, 255 ) );
-        edu.colorado.phet.common.conductivity.view.apparatuspanelcontainment.ApparatusPanelContainer apparatuspanelcontainer = phetapplication.getApplicationView().getApparatusPanelContainer();
-        if( apparatuspanelcontainer instanceof SingleApparatusPanelContainer ) {
-            SingleApparatusPanelContainer singleapparatuspanelcontainer = (SingleApparatusPanelContainer)apparatuspanelcontainer;
-            singleapparatuspanelcontainer.getComponent().setLayout( new AspectRatioLayout( module.getApparatusPanel(), 10, 10, 0.75D ) );
-            phetapplication.getApplicationView().getBasicPhetPanel().invalidate();
-            phetapplication.getApplicationView().getBasicPhetPanel().validate();
-            phetapplication.getApplicationView().getBasicPhetPanel().repaint();
-        }
     }
 
     public void setBandSet( DefaultBandSet defaultbandset ) {
         DefaultBandSet defaultbandset1 = model.getBandSet();
-        BandSetGraphic bandsetgraphic = (BandSetGraphic)bandSetGraphicTable.get( defaultbandset1 );
-        if( bandsetgraphic != null ) {
+        BandSetGraphic bandsetgraphic = (BandSetGraphic) bandSetGraphicTable.get( defaultbandset1 );
+        if ( bandsetgraphic != null ) {
             getApparatusPanel().removeGraphic( bandsetgraphic );
         }
         BandSetGraphic bandsetgraphic1 = getBandSetGraphic( defaultbandset );
@@ -334,8 +348,8 @@ public class ConductivityApplication extends Module {
     }
 
     private BandSetGraphic getBandSetGraphic( DefaultBandSet defaultbandset ) {
-        BandSetGraphic bandsetgraphic = (BandSetGraphic)bandSetGraphicTable.get( defaultbandset );
-        if( bandsetgraphic == null ) {
+        BandSetGraphic bandsetgraphic = (BandSetGraphic) bandSetGraphicTable.get( defaultbandset );
+        if ( bandsetgraphic == null ) {
             bandsetgraphic = new BandSetGraphic( transform, defaultbandset.getBounds(), defaultbandset );
             defaultbandset.addBandParticleObserver( bandsetgraphic );
             bandSetGraphicTable.put( defaultbandset, bandsetgraphic );
