@@ -4,6 +4,8 @@ package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
@@ -83,8 +85,8 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         // Add the check box for the containment vessel.
         _enableContainmentVesselCheckBox = new JCheckBox( NuclearPhysics2Strings.CONTAINMENT_VESSEL_CHECK_BOX );
         _enableContainmentVesselCheckBox.setSelected( _model.getContainmentVessel().getIsEnabled() );
-        _enableContainmentVesselCheckBox.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+        _enableContainmentVesselCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 _model.getContainmentVessel().setIsEnabled( _enableContainmentVesselCheckBox.isSelected() );
             }
         } );

@@ -160,9 +160,7 @@ public class ContainmentVessel {
         _totalImpacts++;
         
         if (!_exploded && (_totalImpacts > CONTAINMENT_EXPLOSION_THRESHOLD)){
-            // Time to explode!
-            _exploded = true;
-            notifiyExplosionOccurred();
+            explode();
         }
     }
     
@@ -191,6 +189,11 @@ public class ContainmentVessel {
     //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
+    
+    private void explode(){
+        _exploded = true;
+        notifiyExplosionOccurred();
+    }
     
     /**
      * Update the location of the aperture based on the radius of the vessel.

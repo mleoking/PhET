@@ -161,7 +161,7 @@ public class ContainmentVesselNode extends PNode {
         _mainVesselNode.setVisible( _containmentVessel.getIsEnabled() );
         _mainVesselNode.setPickable( true );
         addChild(_mainVesselNode);
-
+        
         // Set the initial size and position for the container.
         setVesselNodeSizeAndPosition();
     }

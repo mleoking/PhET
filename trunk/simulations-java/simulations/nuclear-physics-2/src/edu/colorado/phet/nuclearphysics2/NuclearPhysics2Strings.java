@@ -64,6 +64,7 @@ public class NuclearPhysics2Strings {
     public static final String CONTAINMENT_VESSEL_CHECK_BOX = NuclearPhysics2Resources.getString( "MultipleNucleusFissionControlPanel.ContainmentCheckBox" );
     public static final String CONTROLS_BORDER = NuclearPhysics2Resources.getString( "MultipleNucleusFissionControlPanel.ControlBorder" );
     public static final String RESET_BUTTON_LABEL = NuclearPhysics2Resources.getString( "MultipleNucleusFissionControlPanel.ResetButton" );
+    public static final String EXPLOSION_LABEL = NuclearPhysics2Resources.getString( "MultipleNucleusFissionControlPanel.ExplosionLabel" );
 
     public static final String ENERGY_GRAPHS_CHECK_BOX = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.EnergyGraphControl" );
     public static final String FIRE_NEUTRONS_BUTTON_LABEL = NuclearPhysics2Resources.getString( "ControlledFissionControlPanel.FireButton" );
