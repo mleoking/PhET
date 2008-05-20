@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.phscale.module;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
 
 /**
  * PHScaleModule is the sole module for this sim.
@@ -24,7 +24,7 @@ public class PHScaleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public PHScaleModule() {
-        super( "", ExampleDefaults.CLOCK );
+        super( "", new ConstantDtClock( 1000, 1 ), true /* startsPaused */ );
 
         // Model
         _model = new PHScaleModel();
