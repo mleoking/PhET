@@ -8,6 +8,7 @@ package edu.colorado.phet.radiowaves;
 
 import edu.colorado.phet.command.AddTransmittingElectronCmd;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common_1200.application.Module;
 import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.model.Command;
@@ -185,10 +186,7 @@ public class EmfModule extends Module {
             Point2D.Double start = new Point2D.Double( 0, 0 );
             Point2D.Double stop = new Point2D.Double( origin.getX() - 100, origin.getY() - 10 );
             Point2D.Double current = new Point2D.Double( start.getX(), start.getY() );
-            String family = "Sans Serif";
-            int style = Font.BOLD;
-            int size = 16;
-            Font font = new Font( family, style, size );
+            Font font = new PhetFont( 16,true );
 
             public void paint( Graphics2D g ) {
                 AffineTransform orgTx = g.getTransform();
