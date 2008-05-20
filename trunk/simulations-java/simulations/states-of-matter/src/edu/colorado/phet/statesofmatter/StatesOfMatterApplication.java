@@ -3,6 +3,7 @@ package edu.colorado.phet.statesofmatter;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetSimLauncher;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 public class StatesOfMatterApplication extends PiccoloPhetApplication implements IProguardKeepClass {
@@ -15,6 +16,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     }
 
     public static void main(final String[] args) {
+        new PhetLookAndFeel().initLookAndFeel();
         PhetSimLauncher.launchSim(args, StatesOfMatterApplication.class);
     }
 }
