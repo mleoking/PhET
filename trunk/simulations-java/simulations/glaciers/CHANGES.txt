@@ -6,6 +6,8 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- prune debris at moraine so we don't end up with a huge number of debris that slows things down
+- make sure that debris on valley floor isn't doing any work
 - bug: debris is reaching the surface above ELA
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
