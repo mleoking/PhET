@@ -94,8 +94,7 @@ public class GameControlPanel extends FourierAbstractControlPanel implements Sim
         _gameManager.getRandomFourierSeries().addObserver( this );
         
         // Set the control panel's minimum width.
-        String widthString = FourierResources.getString( "GameControlPanel.width" );
-        int width = Integer.parseInt( widthString );
+        int width = FourierResources.getInt( "GameControlPanel.width" ,275);
         setMinimumWidth( width );
         
         // Game controls panel
