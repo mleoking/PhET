@@ -19,13 +19,14 @@ import java.awt.image.BufferedImage;
 import java.util.Observable;
 import java.util.Observer;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.ProtonNode;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -243,7 +244,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         private static final double ARROW_HEAD_WIDTH = 10;
         private static final double ARROW_TAIL_WIDTH = 1;
         
-        private static final Font LABEL_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN, 14 );
+        private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
         private static final Color LABEL_COLOR = Color.WHITE;
         private static final double LABEL_SPACING = 5;
         

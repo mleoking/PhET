@@ -25,18 +25,18 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
 import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.event.PhotonEmittedListener;
 import edu.colorado.phet.hydrogenatom.model.Photon;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -98,9 +98,9 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private static final double MINOR_TICK_LENGTH = 2;
     private static final Color TICK_COLOR = Color.WHITE;
     private static final Stroke TICK_STROKE = new BasicStroke( 1f );
-    private static final Font TICK_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    private static final Font TICK_FONT = new PhetFont( Font.BOLD, 14 );
     private static final double TICK_LABEL_SPACING = 2;
-    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
+    private static final Font UV_IR_FONT = new PhetFont( Font.BOLD, 18 );
     
     /* Color key is a think horizontal strip at the bottom of the display area, above tick marks */
     private static final double COLOR_KEY_HEIGHT = 2;

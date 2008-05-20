@@ -24,6 +24,9 @@ import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.HAResources;
@@ -32,8 +35,6 @@ import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.hacks.GunWavelengthControl;
 import edu.colorado.phet.hydrogenatom.model.Gun;
 import edu.colorado.phet.hydrogenatom.view.TracesNode;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -55,7 +56,6 @@ public class GunControlPanel extends PhetPNode implements Observer {
     private static final boolean SHOW_LIGHT_INTENSITY_CONTROL = false;
     private static final boolean SHOW_ALPHA_PARTICLES_INTENSITY_CONTROL = false;
     
-    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
     private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
     private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
     private static final String FONT_SIZE_RESOURCE = "gunControls.font.size";
@@ -104,12 +104,12 @@ public class GunControlPanel extends PhetPNode implements Observer {
         
         // Font
         int fontSize = HAResources.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
-        Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
+        Font font = new PhetFont( FONT_STYLE, fontSize );
         
         PImage panel = HAResources.getImageNode( HAConstants.IMAGE_GUN_PANEL );
         
         JLabel lightControlsLabel = new JLabel( HAResources.getString( "label.lightControls" ) );
-        Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize+2 );
+        Font labelFont = new PhetFont( FONT_STYLE, fontSize+2 );
         lightControlsLabel.setFont( labelFont );
         PSwing lightControlsLabelWrapper = new PSwing(lightControlsLabel );
         

@@ -3,6 +3,7 @@ Change history for hydrogen-atom
 ===============================================================================
 
 DONE:
+5/20/08 - replace Font with PhetFont
 ***** 1.07.00 (21248)
 ***** 1.06.01 (21223)
 5/7/08 - pickup PhetDefaultFont support for Japanese preferred fonts [543]

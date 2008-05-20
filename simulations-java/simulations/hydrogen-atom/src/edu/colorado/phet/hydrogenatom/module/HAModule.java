@@ -26,6 +26,7 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -133,9 +134,9 @@ public class HAModule extends PiccoloModule {
 
         // Fonts
         int jComponentFontSize = HAResources.getInt( "jcomponent.font.size", HAConstants.DEFAULT_FONT_SIZE );
-        Font jComponentFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, jComponentFontSize );
+        Font jComponentFont = new PhetFont( HAConstants.DEFAULT_FONT_STYLE, jComponentFontSize );
         int spectrometerFontSize = HAResources.getInt( "spectrometer.font.size", HAConstants.DEFAULT_FONT_SIZE );
-        _spectrometerFont = new Font( HAConstants.DEFAULT_FONT_NAME, HAConstants.DEFAULT_FONT_STYLE, spectrometerFontSize );
+        _spectrometerFont = new PhetFont( HAConstants.DEFAULT_FONT_STYLE, spectrometerFontSize );
         
         //----------------------------------------------------------------------------
         // Model

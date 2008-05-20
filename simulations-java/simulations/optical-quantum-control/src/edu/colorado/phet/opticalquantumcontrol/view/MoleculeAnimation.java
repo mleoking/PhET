@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
@@ -206,7 +207,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         // The read-out that shows how "close" we are to matching the output pulse.
         _closenessGraphic = new HTMLGraphic( component );
         _closenessGraphic.setColor( Color.BLACK );
-        _closenessGraphic.setFont( new Font( OQCConstants.FONT_NAME, Font.PLAIN, 18 ) );
+        _closenessGraphic.setFont( new PhetFont( Font.PLAIN, 18 ) );
         _closenessFormat = OQCResources.CLOSENESS_READOUT;
         Object[] args = { "-000" };
         String text = MessageFormat.format( _closenessFormat, args );

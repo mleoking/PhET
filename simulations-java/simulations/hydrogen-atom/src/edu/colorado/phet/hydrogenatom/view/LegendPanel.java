@@ -19,6 +19,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
@@ -50,7 +51,6 @@ public class LegendPanel extends JPanel {
     private static final Color PANEL_COLOR = Color.BLACK;
     private static final Color LABEL_COLOR = Color.WHITE;
 
-    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
     private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
     private static final int DEFAULT_FONT_SIZE = 18;
     private static final String FONT_SIZE_RESOURCE = "legend.font.size";
@@ -66,7 +66,7 @@ public class LegendPanel extends JPanel {
         super();
 
         int fontSize = HAResources.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
-        Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
+        Font font = new PhetFont( FONT_STYLE, fontSize );
 
         JLabel photonImage = toJLabel( PhotonImageFactory.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH, PhotonNode.DIAMETER ) );
         JLabel photonText = new JLabel( HAResources.getString( "label.photon" ) );

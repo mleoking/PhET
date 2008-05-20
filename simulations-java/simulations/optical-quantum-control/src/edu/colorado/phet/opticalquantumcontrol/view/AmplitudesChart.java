@@ -17,8 +17,8 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.Range2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
-import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 
 
 /**
@@ -32,7 +32,7 @@ public class AmplitudesChart extends Chart {
     // Axis parameters
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
-    private static final Font AXIS_TITLE_FONT = new Font( OQCConstants.FONT_NAME, Font.BOLD, 16 );
+    private static final Font AXIS_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
     // X axis
@@ -43,7 +43,7 @@ public class AmplitudesChart extends Chart {
     private static final double Y_MINOR_TICK_SPACING = 0.1;
     private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Font Y_MAJOR_TICK_FONT = new Font( OQCConstants.FONT_NAME, Font.BOLD, 12 );
+    private static final Font Y_MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
     
     // Gridlines
     private static final boolean MAJOR_GRIDLINES_ENABLED = true;

@@ -17,9 +17,10 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -52,7 +53,6 @@ public class BoxOfHydrogenNode extends PImage {
     private static final float BACK_DEPTH = 10f;
     private static final float BACK_OFFSET = 0.15f;
     
-    private static final String FONT_NAME = HAConstants.DEFAULT_FONT_NAME;
     private static final int FONT_STYLE = Font.BOLD;
     private static final int DEFAULT_FONT_SIZE = 16;
     
@@ -119,7 +119,7 @@ public class BoxOfHydrogenNode extends PImage {
         labelNode.setHTML( HAResources.getString( "label.boxOfHydrogen" ) );
         labelNode.setHTMLColor( HAConstants.CANVAS_LABELS_COLOR );
         int fontSize = HAResources.getInt( "boxOfHydrogen.font.size", DEFAULT_FONT_SIZE );
-        Font labelFont = new Font( FONT_NAME, FONT_STYLE, fontSize );
+        Font labelFont = new PhetFont( FONT_STYLE, fontSize );
         labelNode.setFont( labelFont );
         
         // Parent node for everything

@@ -23,12 +23,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.HAResources;
-import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
+import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -106,11 +107,11 @@ public class AtomicModelSelector extends PhetPNode {
         ArrayList heightNodes = new ArrayList();
         
         // Fonts
-        Font titleFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD,
+        Font titleFont = new PhetFont( Font.BOLD,
                 HAResources.getInt( "atomicModelSelector.title.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
-        Font continuumFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.PLAIN,
+        Font continuumFont = new PhetFont( Font.PLAIN,
                 HAResources.getInt( "atomicModelSelector.continuum.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
-        Font buttonFont = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD,
+        Font buttonFont = new PhetFont( Font.BOLD,
                 HAResources.getInt( "atomicModelSelector.button.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
         
         // Panel
