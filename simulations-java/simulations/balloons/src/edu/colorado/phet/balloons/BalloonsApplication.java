@@ -384,8 +384,6 @@ public class BalloonsApplication extends JApplet implements IHelp {
     public static void main( final String[] args ) throws UnsupportedLookAndFeelException, IOException {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-//                PhetResources.setFontRenderTest("ja","\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316");
-//                Locale.setDefault( new Locale( "ja" ) );
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.setBackgroundColor( new Color( 200, 240, 200 ) );
                 laf.initLookAndFeel();
