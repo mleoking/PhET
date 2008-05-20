@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
 public class ClockPanel extends JPanel {
     private Timer myTimer1;
     public static final int TENTH_SEC = 100;
@@ -36,7 +38,7 @@ public class ClockPanel extends JPanel {
         clockTime = ( (double)clockTick ) / 10.0;
 
         clockTimeString = new Double( clockTime ).toString();
-        myClockFont = new Font( "Serif", Font.PLAIN, 25 );
+        myClockFont = new PhetFont( 25 );
 
         timeLbl = new JLabel();
         timeLbl.setBackground( Color.white );

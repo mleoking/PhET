@@ -3,6 +3,7 @@ package edu.colorado.phet.mazegame;
 //Driver class for MazeGame. Contains main thread.
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -40,7 +41,7 @@ public class ParticleArena extends JPanel
     private double aTimeStep = (double)( 0.0010 * timeStep ); //timeStep for acceleration update
 
     private Border raisedBevel, loweredBevel, compound2;
-    private Font arenaFont = new Font( "serif", Font.BOLD, 25 );
+    private Font arenaFont = new PhetFont( 25,true);
 
 
     public ParticleArena( MazeGameApplet mazeGUI1 ) {
@@ -282,7 +283,7 @@ public class ParticleArena extends JPanel
 
         //Draw goal
         g.fillOval( goalX - radius, goalY - radius, 2 * radius, 2 * radius );
-        g.setFont( new Font( "serif", Font.BOLD, 15 ) );
+        g.setFont( new PhetFont( 15,true ) );
         g.drawString( SimStrings.getInstance().getString( "ParticleArena.FinishText" ), goalX - 2 * radius, goalY + 25 );
 
         //draw particle
