@@ -44,8 +44,6 @@
 	<classpathentry kind="src" path="simulations/conductivity/data"/>
 	<classpathentry kind="src" path="simulations/conductivity/phetcommon/src"/>
 	<classpathentry kind="src" path="simulations/conductivity/phetcommon/data"/>
-	<classpathentry kind="src" path="simulations/curve-fitting/src"/>
-	<classpathentry kind="src" path="simulations/curve-fitting/data"/>
 	<classpathentry kind="src" path="simulations/discharge-lamps/src"/>
 	<classpathentry kind="src" path="simulations/discharge-lamps/data"/>
 	<classpathentry kind="src" path="simulations/distance-ladder/src"/>
