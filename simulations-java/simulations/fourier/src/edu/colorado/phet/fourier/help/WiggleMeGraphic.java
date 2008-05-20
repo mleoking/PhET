@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -62,7 +63,7 @@ public class WiggleMeGraphic extends GraphicLayerSet implements ClockListener {
     private static final double ARROW_FRACTIONAL_HEAD_HEIGHT = 100;
     
     // Fonts and Colors
-    private static final Font DEFAULT_TEXT_FONT = new Font( "SansSerif", Font.PLAIN, 18 );
+    private static final Font DEFAULT_TEXT_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final Color DEFAULT_TEXT_COLOR = Color.YELLOW;
     private static final Color DEFAULT_ARROW_FILL_COLOR = Color.YELLOW;
     private static final Color DEFAULT_ARROW_BORDER_COLOR = Color.BLACK;

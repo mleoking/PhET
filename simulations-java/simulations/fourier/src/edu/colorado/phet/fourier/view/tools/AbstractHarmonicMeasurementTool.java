@@ -18,7 +18,7 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.charts.Chart;
-import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeEvent;
 import edu.colorado.phet.fourier.event.HarmonicColorChangeListener;
 import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
@@ -47,7 +47,7 @@ implements Chart.Listener, HarmonicColorChangeListener {
     
     // The label
     private static final Color LABEL_COLOR = Color.BLACK;
-    private static final Font LABEL_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 16 );
+    private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 16 );
 
     // The bar
     private static final Stroke BAR_STROKE = new BasicStroke( 1f );

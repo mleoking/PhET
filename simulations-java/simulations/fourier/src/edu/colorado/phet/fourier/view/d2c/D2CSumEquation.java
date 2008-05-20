@@ -16,10 +16,10 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.RenderingHints;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.enums.WaveType;
@@ -46,11 +46,11 @@ public class D2CSumEquation extends CompositePhetGraphic {
     
     // Fonts and colors
     private static final Color EQUATION_COLOR = Color.BLACK;
-    private static final Font LHS_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font LHS_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Font RHS_FONT = LHS_FONT;
-    private static final Font SUMMATION_SYMBOL_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 30 );
+    private static final Font SUMMATION_SYMBOL_FONT = new PhetFont( Font.PLAIN, 30 );
     private static final Font INTEGRAL_SYMBOL_FONT = SUMMATION_SYMBOL_FONT;
-    private static final Font RANGE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 12 );
+    private static final Font RANGE_FONT = new PhetFont( Font.PLAIN, 12 );
 
     //----------------------------------------------------------------------------
     // Instance data

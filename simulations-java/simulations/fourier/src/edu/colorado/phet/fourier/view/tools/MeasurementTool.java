@@ -15,11 +15,11 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.event.FourierDragHandler;
 
 
@@ -47,7 +47,7 @@ public class MeasurementTool extends CompositePhetGraphic implements ApparatusPa
     private static final float LINE_HEIGHT = 4; // must be < END_HEIGHT !
 
     // The label
-    private static final Font LABEL_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 16 );
+    private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
 
     // label background

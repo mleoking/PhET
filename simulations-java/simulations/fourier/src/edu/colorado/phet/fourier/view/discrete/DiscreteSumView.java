@@ -20,6 +20,7 @@ import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.charts.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl.ZoomEvent;
@@ -65,7 +66,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
     
     // Title parameters
-    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 20 );
+    private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 135 );
     
@@ -91,7 +92,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private static final Color PRESET_COLOR = Color.LIGHT_GRAY;
     
     // Math parameters
-    private static final Font MATH_FONT = new Font( FourierConstants.FONT_NAME, Font.PLAIN, 18 );
+    private static final Font MATH_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final Color MATH_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------

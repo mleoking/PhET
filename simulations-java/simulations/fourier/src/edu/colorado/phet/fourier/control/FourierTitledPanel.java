@@ -17,7 +17,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.fourier.FourierConstants;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 /**
@@ -29,7 +29,7 @@ import edu.colorado.phet.fourier.FourierConstants;
  */
 public class FourierTitledPanel extends JPanel {
 
-    private static final Font TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.ITALIC, 13 );
+    private static final Font TITLE_FONT = new PhetFont( Font.ITALIC, 13 );
     private static final Color BORDER_COLOR = new Color( 175, 175, 175 );
     
     public FourierTitledPanel( String title ) {

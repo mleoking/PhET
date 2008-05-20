@@ -18,8 +18,8 @@ import java.text.NumberFormat;
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.charts.StringLabelTable;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
-import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.MathStrings;
 
 
@@ -38,7 +38,7 @@ public class D2CAmplitudesChart extends Chart {
     // Axis parameters
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
-    private static final Font AXIS_TITLE_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 12 );
+    private static final Font AXIS_TITLE_FONT = new PhetFont( Font.BOLD, 12 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
     
     // X axis 
@@ -46,14 +46,14 @@ public class D2CAmplitudesChart extends Chart {
     private static final double X_MINOR_TICK_SPACING = Math.PI / 2;
     private static final Stroke X_MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Stroke X_MINOR_TICK_STROKE = new BasicStroke( 0.5f );
-    private static final Font X_MAJOR_TICK_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 12 );
+    private static final Font X_MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
     
     // Y axis
     private static final double Y_MAJOR_TICK_SPACING = 0.2;
     private static final double Y_MINOR_TICK_SPACING = 0.1;
     private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 0.5f );
-    private static final Font Y_MAJOR_TICK_FONT = new Font( FourierConstants.FONT_NAME, Font.BOLD, 12 );
+    private static final Font Y_MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
     
     // Gridlines
     private static final boolean MAJOR_GRIDLINES_ENABLED = true;
