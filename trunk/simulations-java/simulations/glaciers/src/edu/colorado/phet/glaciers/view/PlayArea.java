@@ -498,13 +498,11 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     }
     
     /*
-     * Moves the ELA value display to the lower-right corner of the zoomed viewport
+     * Moves the ELA value display to the lower-right of the toolbox
      */
     private void updateELAValuePosition() {
-        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
-        Rectangle2D rView = _mvt.modelToView( rModel );
         double xOffset = _toolboxNode.getFullBoundsReference().getMaxX() + 5;
-        double yOffset = rView.getMaxY() - _elaValueNode.getFullBoundsReference().getHeight() - 5;
+        double yOffset = _toolboxNode.getFullBoundsReference().getMaxY() - _elaValueNode.getFullBoundsReference().getHeight();
         _elaValueNode.setOffset( xOffset, yOffset );
     }
     
