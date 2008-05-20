@@ -139,8 +139,7 @@ public class DiscreteControlPanel extends FourierAbstractControlPanel implements
         _animationCycleController = animationCycleController;
 
         // Set the control panel's minimum width.
-        String widthString = FourierResources.getString( "DiscreteControlPanel.width" );
-        int width = Integer.parseInt( widthString );
+        int width = FourierResources.getInt( "DiscreteControlPanel.width",275 );
         setMinimumWidth( width );
 
         // Preset Controls panel
