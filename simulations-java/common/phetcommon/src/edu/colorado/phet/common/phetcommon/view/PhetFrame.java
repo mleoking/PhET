@@ -37,8 +37,6 @@ public class PhetFrame extends JFrame {
     private Container contentPanel;
     private Module lastAdded;
 
-    public static final String PHET_LOGO_WINDOW_ICON = "images/phet-logo-24x24.jpg";
-
     /**
      * Constructs a PhetFrame for the specified PhetApplication.
      *
