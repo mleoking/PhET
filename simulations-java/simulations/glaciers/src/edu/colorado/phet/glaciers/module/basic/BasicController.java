@@ -96,6 +96,11 @@ public class BasicController {
             public void iceFlowChanged( boolean b ) {
                 playArea.setIceFlowVisible( b );
             };
+            
+            public void glacierPictureChanged( boolean b ) {
+                System.out.println( "BasicController.glacierPictureChanged " + b );//XXX
+                //TODO open or close window showing glacier picture
+            }
         });
         
         // "Climate" controls

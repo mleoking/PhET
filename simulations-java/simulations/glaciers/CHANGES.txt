@@ -18,10 +18,10 @@ MEDIUM PRIORITY:
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - remove yaw from mountains image perspective
-- add Advanced panel
+- distribute features between Basic and Advanced panels
 - implement Save/Load feature
 - close & reopen graph windows when switching modules
-- add button to show a picture of a real glacier
+- add View check box to show a picture of a real glacier
 - make mercury in thermometer move as temperature changes
 - main control panel should be the same height in all modules
 - PlayArea class is too big, refactor
@@ -70,6 +70,8 @@ CLEANUP:
 
 
 DONE:
+5/20/08 - add "glacier picture" checkbox to View control panel, add stub in controller
+5/20/08 - make ELAValueNode look a little better
 5/20/08 - fix title on Graphs control panel
 ******* 0.00.23 (21544)
 5/19/08 - make borehole drill bigger
