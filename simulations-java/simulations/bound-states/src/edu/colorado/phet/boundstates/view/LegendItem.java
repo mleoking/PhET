@@ -1,20 +1,11 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2008, University of Colorado */
 
 package edu.colorado.phet.boundstates.view;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.boundstates.BSConstants;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -26,7 +17,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  * The line is positioned to the left of the label.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class LegendItem extends PNode {
     
@@ -35,7 +25,7 @@ public class LegendItem extends PNode {
     //----------------------------------------------------------------------------
     
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
-    private static final Font DEFAULT_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 14 );
+    private static final Font DEFAULT_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final Stroke DEFAULT_LINE_STROKE = new BasicStroke( 3f );
     private static final float DEFAUT_LINE_LENGTH = 15f;
     

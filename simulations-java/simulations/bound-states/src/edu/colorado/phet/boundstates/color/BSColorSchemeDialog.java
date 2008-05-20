@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2008, University of Colorado */
 
 package edu.colorado.phet.boundstates.color;
 
@@ -27,6 +18,7 @@ import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 /**
@@ -42,7 +34,6 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.Listener {
 
@@ -140,12 +131,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         int row = 0;
 
         // Font used for titles
-        Font titleFont = null;
-        {
-            JLabel label = new JLabel();
-            Font defaultFont = label.getFont();
-            titleFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() );
-        }
+        Font titleFont = new PhetFont( Font.BOLD, PhetFont.getDefaultFontSize() );
 
         // Chart section
         {
@@ -502,7 +488,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
 
         closeColorChooser();
         _colorChooserDialog = ColorChooserFactory.createDialog( title, _parent, initialColor, this );
-        _colorChooserDialog.show();
+        _colorChooserDialog.setVisible( true );
     }
 
     /*
