@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +14,7 @@ import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
+import edu.colorado.phet.nuclearphysics2.view.AtomicBombGraphicNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics2.view.ContainmentVesselNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
@@ -46,6 +50,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
     private HashMap _modelElementToNodeMap = new HashMap();
     private PNode _nucleusLayer;
     private NeutronSourceNode _neutronSourceNode;
+    AtomicBombGraphicNode _atomicBombGraphicNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -91,6 +96,19 @@ public class ChainReactionCanvas extends PhetPCanvas {
         // Add the neutron source to the canvas.
         _neutronSourceNode = new NeutronSourceNode(_chainReactionModel.getNeutronSource(), 55);
         addWorldChild( _neutronSourceNode );
+        
+        // Add the node that will portray the atomic bomb explosion to the canvas.
+        _atomicBombGraphicNode = 
+            new AtomicBombGraphicNode(_chainReactionModel.getContainmentVessel(), _chainReactionModel.getClock());
+        updateAtomicBombGraphicLocation();
+        addScreenChild(_atomicBombGraphicNode);
+        
+        // Listen for resizing.
+        addComponentListener( new ComponentAdapter(){
+            public void componentResized(ComponentEvent e){
+                updateAtomicBombGraphicLocation();
+            }
+        });
         
         // Add the initial nucleus or nuclei to the canvas.
         ArrayList nuclei = _chainReactionModel.getNuclei();
@@ -156,5 +174,9 @@ public class ChainReactionCanvas extends PhetPCanvas {
         else{
             System.err.println("Error: Problem encountered removing node from canvas.");
         }
+    }
+    
+    private void updateAtomicBombGraphicLocation(){
+        _atomicBombGraphicNode.setContainerSize(getWidth(), getHeight());
     }
 }
