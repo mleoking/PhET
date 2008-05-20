@@ -82,7 +82,6 @@ IdealGasConfig.FRAME_SETUP );
     }
 
     public static void main( final String[] args ) {
-                        DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new IdealGasLookAndFeel().initLookAndFeel();
