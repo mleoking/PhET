@@ -14,6 +14,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common_semiconductor.application.Module;
 import edu.colorado.phet.common_semiconductor.application.PhetApplication;
 import edu.colorado.phet.common_semiconductor.math.DoubleSeries;
@@ -333,6 +334,7 @@ public class SemiconductorApplication extends Module implements Graphic {
     public static void main( final String[] args ) throws IOException, UnsupportedLookAndFeelException {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                new PhetLookAndFeel().initLookAndFeel();
                 SimStrings.getInstance().init( args, localizedStringsPath );
 
 //        UIManager.setLookAndFeel(new SemiconductorLookAndFeel());

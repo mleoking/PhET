@@ -5,6 +5,7 @@ import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -25,7 +26,7 @@ public class ColumnDebugGraphic implements Graphic {
     }
 
     Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER );
-    Font font = new Font( "dialog", 0, 16 );
+    Font font = new PhetFont( 16);
 
     public void paint( Graphics2D g ) {
         if( visible ) {

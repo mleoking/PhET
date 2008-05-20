@@ -1,6 +1,7 @@
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
@@ -62,7 +63,7 @@ public class BandGraphic implements Graphic {
             //Paint cell owners as debug
             if( debugCells ) {
                 graphics2D.setColor( Color.black );
-                graphics2D.setFont( new Font( "dialog", 0, 12 ) );
+                graphics2D.setFont( new PhetFont( 12) );
                 for( int k = 0; k < el.numCells(); k++ ) {
                     EnergyCell cell = el.cellAt( k );
                     Point pt = transform.modelToView( cell.getPosition() );
