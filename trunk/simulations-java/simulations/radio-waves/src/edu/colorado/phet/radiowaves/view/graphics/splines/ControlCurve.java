@@ -16,6 +16,8 @@ package edu.colorado.phet.radiowaves.view.graphics.splines;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
 /**
  * This class represents a curve defined by a sequence of control points
  */
@@ -28,7 +30,7 @@ public class ControlCurve {
         pts = new Polygon();
     }
 
-    static Font f = new Font( "Courier", Font.PLAIN, 12 );
+    static Font f = new PhetFont( 12);
 
     /**
      * Clears the points so we can reuse the curve.

@@ -8,6 +8,7 @@ package edu.colorado.phet.coreadditions.emf;
 
 
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +19,7 @@ public class LecturePhetLookAndFeel implements PhetLookAndFeel {
     Color background = new Color( 60, 80, 60 );
     Color buttonBackground = new Color( 60, 60, 100 );
     Color controlTextColor = new Color( 230, 230, 230 );
-    Font controlFont = new Font( "SansSerif", Font.BOLD, 16 );
+    Font controlFont = new PhetFont( 16,true);
 
     static String[] controlTypes = new String[]{
             "Menu",
