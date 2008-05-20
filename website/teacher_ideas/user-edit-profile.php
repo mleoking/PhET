@@ -17,7 +17,7 @@ class EditProfilePage extends SitePage {
 
 }
 
-$page = new EditProfilePage("Edit Profile", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER);
+$page = new EditProfilePage("Edit Profile", NAV_TEACHER_IDEAS, get_referrer(), AUTHLEVEL_USER, false);
 $page->update();
 $page->render();
 
