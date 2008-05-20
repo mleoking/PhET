@@ -16,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.mri.controller.HeadModule;
 import edu.colorado.phet.mri.controller.NmrModule;
@@ -23,6 +25,7 @@ import edu.colorado.phet.mri.controller.OptionMenu;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Locale;
 
 /**
  * MriApplication
@@ -83,16 +86,10 @@ public class MriApplication extends PiccoloPhetApplication {
             public void run() {
                 SimStrings.getInstance().init( args, MriConfig.STRINGS_BUNDLE_NAME );
 
-                // Set the look and feel. Make the fonts a bit stronger
-                PhetLookAndFeel.setLookAndFeel();
-                PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
-                Font orgFont = UIManager.getFont( "Label.font" );
-                Font newFont = new Font( orgFont.getName(), Font.BOLD, orgFont.getSize() );
-                lookAndFeel.setFont( newFont );
-                lookAndFeel.setTitledBorderFont( newFont );
-                Color background = UIManager.getColor( "Panel.background" );
-                lookAndFeel.setBackgroundColor( background );
-                lookAndFeel.apply();
+                PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
+                phetLookAndFeel.setFont( new PhetFont( new PhetFont( ).getSize(),true) );
+                phetLookAndFeel.setTitledBorderFont( new PhetFont( new PhetFont( ).getSize(),true) );
+                phetLookAndFeel.initLookAndFeel();
 
                 PhetApplication app = new MriApplication( args );
                 app.startApplication();
