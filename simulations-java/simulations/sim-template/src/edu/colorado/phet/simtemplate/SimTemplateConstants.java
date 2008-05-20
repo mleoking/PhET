@@ -33,6 +33,8 @@ public class SimTemplateConstants {
     // Application
     //----------------------------------------------------------------------------
     
+    public static final String PROJECT_NAME = "sim-template";
+    
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
