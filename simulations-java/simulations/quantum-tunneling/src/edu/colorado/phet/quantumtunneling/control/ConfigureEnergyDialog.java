@@ -36,6 +36,7 @@ import org.jfree.ui.TextAnchor;
 
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
@@ -73,9 +74,9 @@ public class ConfigureEnergyDialog extends JDialog {
      */
     private static final double SPINNER_MAX = Double.MAX_VALUE;
 
-    private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
-    private static final Font AXIS_TICK_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
-    private static final Font ANNOTATION_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 14 );
+    private static final Font AXIS_LABEL_FONT = new PhetFont( Font.PLAIN, 16 );
+    private static final Font AXIS_TICK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
+    private static final Font ANNOTATION_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final Dimension SPINNER_SIZE = new Dimension( 65, 25 );
     
     /* How close the annotations are to the top and bottom of the chart */

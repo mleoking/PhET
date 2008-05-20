@@ -62,11 +62,10 @@ public class QTConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final String FONT_NAME = PhetFont.getDefaultFontName();
-    public static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 16 );
-    public static final Font DRAG_HANDLE_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 12 );
-    public static final Font TIME_DISPLAY_FONT = new Font( QTConstants.FONT_NAME, Font.BOLD, 22 );
-    public static final Font TIME_UNITS_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 22 );
+    public static final Font AXIS_LABEL_FONT = new PhetFont( Font.PLAIN, 16 );
+    public static final Font DRAG_HANDLE_FONT = new PhetFont( Font.PLAIN, 12 );
+    public static final Font TIME_DISPLAY_FONT = new PhetFont( Font.BOLD, 22 );
+    public static final Font TIME_UNITS_FONT = new PhetFont( Font.PLAIN, 22 );
     
     //----------------------------------------------------------------------------
     // Greek characters

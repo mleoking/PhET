@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.quantumtunneling.QTConstants;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.model.AbstractWave;
@@ -48,7 +48,7 @@ public abstract class AbstractProbabilityNode extends PText implements Observer 
     
     private static final DecimalFormat FORMAT = new DecimalFormat( "0.00" );
     private static final Color DEFAULT_COLOR = Color.BLACK;
-    private static final Font FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 18 );
+    private static final Font FONT = new PhetFont( Font.PLAIN, 18 );
     
     //----------------------------------------------------------------------------
     // Instance data
