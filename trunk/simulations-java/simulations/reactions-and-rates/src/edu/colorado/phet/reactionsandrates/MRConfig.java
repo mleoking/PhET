@@ -1,11 +1,11 @@
 package edu.colorado.phet.reactionsandrates;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.reactionsandrates.model.EnergyProfile;
 import edu.colorado.phet.reactionsandrates.model.MoleculeA;
-
-import javax.swing.*;
-import java.awt.*;
 
 /*
  * CVS Info -
@@ -97,9 +97,7 @@ public class MRConfig {
     //--------------------------------------------------------------------------------------------------
     // Fonts
     //--------------------------------------------------------------------------------------------------
-    public static final Font CHART_TITLE_FONT = UIManager.getFont( "InternalFrame.titleFont" );
-    public static final Font CONTROL_FONT = new Font( UIManager.getFont( "Panel.font" ).getName(),
-                                                      Font.BOLD,
-                                                      UIManager.getFont( "Panel.font" ).getSize() );
-    public static final Font LABEL_FONT = UIManager.getFont( "Label.font" );
+    public static final Font CHART_TITLE_FONT = new PhetFont( PhetFont.getDefaultFontSize(), true );
+    public static final Font CONTROL_FONT = new PhetFont( PhetFont.getDefaultFontSize(), true );
+    public static final Font LABEL_FONT = new PhetFont( PhetFont.getDefaultFontSize(), true );
 }

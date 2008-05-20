@@ -4,6 +4,7 @@ package edu.colorado.phet.reactionsandrates.view.energy;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.EnergyProfile;
@@ -90,8 +91,7 @@ class EnergyProfileGraphic extends PNode {
         createMouseIndicatorArrows();
 
         // Legends
-        Font defaultFont = MRConfig.LABEL_FONT;
-        Font labelFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() + 1 );
+        Font labelFont = new PhetFont( PhetFont.getDefaultFontSize()+1,true );
 
         potentialEnergyLegend = new PText( MRConfig.RESOURCES.getLocalizedString( "EnergyView.Legend.potentialEnergy" ) );
         potentialEnergyLegend.setFont( labelFont );
