@@ -4,6 +4,7 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -21,7 +22,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private Sine sine;
     private double time = 0;
     private Point2D.Double current;
-    private Font font = new Font( "Sans Serif", Font.BOLD, 16 );
+    private Font font = new PhetFont( 16,true);
     private AbstractVector2D oscillationVector;
     private Point2D startPt;
     private PhetShadowTextGraphic textGraphic;
