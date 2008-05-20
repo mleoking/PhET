@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
@@ -41,7 +42,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
     private static final double CURSOR_LAYER = 5;
 
     // Amplitude & frequency values
-    private static final Font VALUE_FONT = new Font( "SansSerif", Font.PLAIN, 12 );
+    private static final Font VALUE_FONT = new PhetFont( 12 );
     private static final Color VALUE_COLOR = Color.GREEN;
     private static final String AMPLITUDE_FORMAT = "{0}%";
     private static final String FREQUENCY_FORMAT = "{0}%";
@@ -409,7 +410,7 @@ public class ACPowerSupplyGraphic extends GraphicLayerSet implements SimpleObser
         private static final double TICK_LAYER = 4;
         
         // Title
-        private static final Font TITLE_FONT = new Font( "SansSerif", Font.PLAIN, 15 );
+        private static final Font TITLE_FONT = new PhetFont( 15 );
         private static final Color TITLE_COLOR = Color.WHITE;
         
         // Axes

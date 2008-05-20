@@ -1,0 +1,31 @@
+================================================================================
+Change history for ph-scale
+================================================================================
+
+DESIGN ISSUES:
+
+HIGH PRIORITY:
+
+MEDIUM PRIORITY:
+
+LOW PRIORITY:
+
+PERFORMANCE OPTIMIZATIONS:
+
+MIGRATE TO PHETCOMMON:
+
+CLEANUP:
+- setPickable(false) on non-interactive nodes
+- rescale image files to minimize file size
+- disable all debug output
+- optimize memory management by reusing mutable objects
+
+
+DONE:
+5/20/08 - set up simulation skeleton, check in to SVN
+
+REJECTED:
+
+
+===============================================================================
+end of file
