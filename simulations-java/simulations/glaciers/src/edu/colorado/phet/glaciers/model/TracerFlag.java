@@ -3,6 +3,7 @@
 package edu.colorado.phet.glaciers.model;
 
 import java.awt.geom.Point2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -18,6 +19,14 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
  */
 public class TracerFlag extends AbstractTool {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------    
+    
+    private static final double MIN_FALLOVER_ANGLE = Math.toRadians( 45 );
+    private static final double MAX_FALLOVER_ANGLE = Math.toRadians( 90 );
+    private static final Random RANDOM_FALLOVER = new Random();
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -56,23 +65,21 @@ public class TracerFlag extends AbstractTool {
      * If there is no ice, the tool will snap to the valley floor.
      */
     protected void constrainDrop() {
-        double surfaceElevation = _glacier.getSurfaceElevation( getX() );
+        
+        final double surfaceElevation = _glacier.getSurfaceElevation( getX() );
+        final double valleyElevation = _glacier.getValley().getElevation( getX() );
+        
         if ( getY() > surfaceElevation ) {
+            // snap to ice surface
             setPosition( getX(), surfaceElevation );
         }
-        else {
-            double valleyElevation = _glacier.getValley().getElevation( getX() );
-            if ( getY() < valleyElevation ) {
-                setPosition( getX(), valleyElevation );
-            }
+        else if ( getY() < valleyElevation ) {
+            // snap to valley floor
+            setPosition( getX(), valleyElevation );
         }
         
-        if ( getY() == _glacier.getValley().getElevation( getX() ) ) {
-            _onValleyFloor = true;
-        }
-        else {
-            _onValleyFloor = false;
-        }
+        // dropped where there is no ice?
+        _onValleyFloor = ( surfaceElevation - valleyElevation == 0 );
     }
     
     public void simulationTimeChanged( ClockEvent clockEvent ) {
@@ -93,10 +100,19 @@ public class TracerFlag extends AbstractTool {
             
             if ( newY == _glacier.getValley().getElevation( newX ) ) {
                 _onValleyFloor = true;
+                // flags "fall over" when they reach the valley floor
+                setOrientation( calculateRandomFalloverAngle() );
             }
             
             setPosition( newX, newY );
         }
+    }
+    
+    /*
+     * Calculates a random angle for the flag to "fall over".
+     */
+    private static double calculateRandomFalloverAngle() {
+        return MIN_FALLOVER_ANGLE + ( RANDOM_FALLOVER.nextDouble() * ( MAX_FALLOVER_ANGLE - MIN_FALLOVER_ANGLE ) );
     }
     
     //----------------------------------------------------------------------------

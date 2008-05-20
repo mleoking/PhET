@@ -16,15 +16,30 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class TracerFlagNode extends AbstractToolNode {
 
+    private TracerFlag _tracerFlag;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public TracerFlagNode( TracerFlag tracerFlag, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
         super( tracerFlag, mvt, trashCanIconNode );
+        _tracerFlag = tracerFlag;
         PImage imageNode = new PImage( GlaciersImages.TRACER_FLAG );
         addChild( imageNode );
         imageNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() ); // lower left corner
+    }
+    
+    //----------------------------------------------------------------------------
+    // AbstractToolNode overrides
+    //----------------------------------------------------------------------------
+    
+    protected void startDrag() {
+        _tracerFlag.setOrientation( 0 );
+    }
+    
+    protected void updateOrientation() {
+        setRotation( _tracerFlag.getOrientation() );
     }
     
     //----------------------------------------------------------------------------
