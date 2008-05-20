@@ -1,5 +1,10 @@
 package edu.colorado.phet.bernoulli.pipe;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.bernoulli.BernoulliResources;
 import edu.colorado.phet.bernoulli.common.*;
 import edu.colorado.phet.bernoulli.spline.segments.Segment;
@@ -10,11 +15,7 @@ import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.Transform
 import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * User: Sam Reid
@@ -55,11 +56,11 @@ public class VolumeGraphic implements Graphic, SimpleObserver, TransformListener
     }
 
     public void paint( Graphics2D g ) {
-        if( shape != null ) {
+        if ( shape != null ) {
             g.setPaint( texturePaint );
             g.fill( shape );
         }
-        if( showDebuggingGraphics ) {
+        if ( showDebuggingGraphics ) {
             cg.paint( g );
             bottom.paint( g );
 
@@ -76,16 +77,16 @@ public class VolumeGraphic implements Graphic, SimpleObserver, TransformListener
                                 topSeg.getFinishPoint().getX(), topSeg.getFinishPoint().getY(),
                                 Color.yellow, new BasicStroke( 10 ) ).paint( g );
             Point2D.Double topIntersection = volume.getTopIntersection();
-            if( topIntersection != null ) {
+            if ( topIntersection != null ) {
                 new CircleGraphic( topIntersection, .3, Color.cyan, transform ).paint( g );
             }
             else {
                 g.setColor( Color.black );
-                g.setFont( new Font( "Dialog", 0, 30 ) );
+                g.setFont( new PhetFont( 30, true ) );
                 g.drawString( "Null top intersection point.", 100, 100 );
             }
         }
-        if( showWidthAndHeight ) {
+        if ( showWidthAndHeight ) {
             showWidthAndHeight( g );
         }
     }
@@ -95,7 +96,7 @@ public class VolumeGraphic implements Graphic, SimpleObserver, TransformListener
         Segment topSeg = volume.getTopIntersectionSegment();
         Point2D.Double topIntersection = volume.getTopIntersection();
         Point2D.Double bottomIntersection = volume.getBottomIntersection();
-        if( topIntersection == null || bottomIntersection == null ) {
+        if ( topIntersection == null || bottomIntersection == null ) {
             return;
         }
 
@@ -110,7 +111,7 @@ public class VolumeGraphic implements Graphic, SimpleObserver, TransformListener
         new ArrowGraphicTransform( a, toBase.getX(), toBase.getY(),
                                    endpoint.getX(), endpoint.getY(), transform ).paint( g );
         Point middle = transform.modelToView( topSeg.getStartPoint().getX(), topSeg.getStartPoint().getY() );
-        Font font = ( new Font( BernoulliResources.getString( "dialog" ), Font.BOLD, 38 ) );
+        Font font = new PhetFont( 38, true );
         g.setFont( font );
 
         g.setColor( Color.yellow );
@@ -130,11 +131,11 @@ public class VolumeGraphic implements Graphic, SimpleObserver, TransformListener
     public void update() {
         shape = transform.toAffineTransform().createTransformedShape( volume.getVolume() );
         Point2D.Double topIntersection = volume.getTopIntersection();
-        if( topIntersection != null ) {
+        if ( topIntersection != null ) {
             cg.setLocation( topIntersection );
         }
         Point2D.Double bottomIntersection = volume.getBottomIntersection();
-        if( bottomIntersection != null ) {
+        if ( bottomIntersection != null ) {
             bottom.setLocation( bottomIntersection );
         }
         repainter.update();

@@ -1,12 +1,6 @@
 package edu.colorado.phet.bernoulli;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -14,22 +8,15 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Locale;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.bernoulli.common.FakeClock;
 import edu.colorado.phet.bernoulli.common.RepaintManager;
 import edu.colorado.phet.bernoulli.meter.Barometer;
 import edu.colorado.phet.bernoulli.meter.BarometerView;
-import edu.colorado.phet.bernoulli.pump.AutoPump;
-import edu.colorado.phet.bernoulli.pump.Piston;
-import edu.colorado.phet.bernoulli.pump.PistonGraphic;
-import edu.colorado.phet.bernoulli.pump.Pump;
-import edu.colorado.phet.bernoulli.pump.PumpControlPanel;
-import edu.colorado.phet.bernoulli.pump.RectangleGraphic;
+import edu.colorado.phet.bernoulli.pump.*;
 import edu.colorado.phet.bernoulli.tube.Tube;
 import edu.colorado.phet.bernoulli.tube.TubeGraphic;
 import edu.colorado.phet.bernoulli.valves.VerticalValveGraphic;
@@ -57,6 +44,8 @@ import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 
 /**
  * User: Sam Reid
@@ -187,7 +176,7 @@ public class BernoulliApplication extends Module {
 
     public void resize() {
         Rectangle bounds = getApparatusPanel().getBounds();
-        if( bounds.width > 100 && bounds.height > 100 ) {
+        if ( bounds.width > 100 && bounds.height > 100 ) {
             transform.setViewBounds( getApparatusPanel().getBounds() );
         }
     }
@@ -297,7 +286,7 @@ public class BernoulliApplication extends Module {
         jb.setFont( new PhetFont( Font.BOLD, 14 ) );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( jb.getText().equals( BernoulliResources.getString( "on" ) ) ) {
+                if ( jb.getText().equals( BernoulliResources.getString( "on" ) ) ) {
                     jb.setText( BernoulliResources.getString( "off" ) );
                     AutoPump.active = true;
                 }
@@ -356,7 +345,7 @@ public class BernoulliApplication extends Module {
         getApparatusPanel().setBackground( backgroundColor );
         getApparatusPanel().addGraphic( new Graphic() {
             public void paint( Graphics2D g ) {
-                if( antialias ) {
+                if ( antialias ) {
                     g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 }
                 else {
@@ -395,72 +384,70 @@ public class BernoulliApplication extends Module {
     //
     //
     public static void main( String[] args ) {
-//        System.out.println(
-// System.getProperties()
-//        );
-        SwingTimerClock clock = new SwingTimerClock( 40 );
-//        ThreadClock clock=new ThreadClock(30,200,Thread.MIN_PRIORITY);
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                PhetLookAndFeel phetLookAndFeel=new PhetLookAndFeel();
+                phetLookAndFeel.initLookAndFeel();
+                SwingTimerClock clock = new SwingTimerClock( 40 );
 
-        defaultClock = new DefaultClock( clock, new IdentityTimeConverter() );
+                defaultClock = new DefaultClock( clock, new IdentityTimeConverter() );
 
-        FakeClock fc = new FakeClock();
-        final BernoulliApplication application = new BernoulliApplication( defaultClock );
-        final PipeModule pipeModule = new PipeModule( defaultClock );
-        final FirefighterModule firefighterModule = new FirefighterModule( defaultClock );
-        String title = BernoulliResources.getString( "bernoulli.s.fountain" ) + VERSION + ")";
-        String desc = BernoulliResources.getString( "simulation.description" );
-        final PhetApplication app = new PhetApplication( new ApplicationDescriptor( title, desc, VERSION, new FrameSetup() {
-            public void initialize( JFrame frame ) {
-                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-                frame.setSize( dim.width - 100, dim.height - 100 );
-                frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
-            }
-        } ), new Module[]{application,
-                pipeModule,
-                firefighterModule},
-             fc );
+                FakeClock fc = new FakeClock();
+                final BernoulliApplication application = new BernoulliApplication( defaultClock );
+                final PipeModule pipeModule = new PipeModule( defaultClock );
+                final FirefighterModule firefighterModule = new FirefighterModule( defaultClock );
+                String title = BernoulliResources.getString( "bernoulli.s.fountain" ) + VERSION + ")";
+                String desc = BernoulliResources.getString( "simulation.description" );
+                final PhetApplication app = new PhetApplication( new ApplicationDescriptor( title, desc, VERSION, new FrameSetup() {
+                    public void initialize( JFrame frame ) {
+                        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                        frame.setSize( dim.width - 100, dim.height - 100 );
+                        frame.setExtendedState( JFrame.MAXIMIZED_BOTH );
+                    }
+                } ), new Module[]{application,
+                        pipeModule,
+                        firefighterModule},
+                     fc );
 
-        activeModule = pipeModule;
-        defaultClock.addSimulationTimeListener( new SimulationTimeListener() {
-            public void simulationTimeIncreased( double dt ) {
-                activeModule.getModel().stepInTime( dt );
-//                pipeModule.getModel().stepInTime( dt );
-            }
-        } );
+                activeModule = pipeModule;
+                defaultClock.addSimulationTimeListener( new SimulationTimeListener() {
+                    public void simulationTimeIncreased( double dt ) {
+                        activeModule.getModel().stepInTime( dt );
+                    }
+                } );
 
-        DefaultClockStatePanel dcsp = new DefaultClockStatePanel( defaultClock );
-        final JCheckBox jcb = new JCheckBox( "Identity Time", true );
-        jcb.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if( jcb.isSelected() ) {
-                    defaultClock.setWallToSimulationTimeConverter( new IdentityTimeConverter() );
-                }
-                else {
-                    defaultClock.setWallToSimulationTimeConverter( new WallToSimulationTimeConverter() {
-                        public double toSimulationTime( long l ) {
-                            return defaultClock.getRequestedDelay() / 2;
+                DefaultClockStatePanel dcsp = new DefaultClockStatePanel( defaultClock );
+                final JCheckBox jcb = new JCheckBox( "Identity Time", true );
+                jcb.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        if ( jcb.isSelected() ) {
+                            defaultClock.setWallToSimulationTimeConverter( new IdentityTimeConverter() );
                         }
-                    } );
-                }
+                        else {
+                            defaultClock.setWallToSimulationTimeConverter( new WallToSimulationTimeConverter() {
+                                public double toSimulationTime( long l ) {
+                                    return defaultClock.getRequestedDelay() / 2;
+                                }
+                            } );
+                        }
+                    }
+                } );
+                dcsp.add( jcb );
+                clockControlFrame = new JFrame( "Clock controls" );
+                clockControlFrame.setLocation( 400, 20 );
+                clockControlFrame.setContentPane( dcsp );
+                clockControlFrame.pack();
+
+                JMenu versionMenu = new JMenu( "Version" );
+                app.getApplicationView().getPhetFrame().getJMenuBar().add( versionMenu );
+
+                app.getApplicationView().getBasicPhetPanel().setAppControlPanel( null );
+                application.activate( app );
+                app.startApplication( application );
+
+                defaultClock.start();
             }
         } );
-        dcsp.add( jcb );
-        clockControlFrame = new JFrame( "Clock controls" );
-        clockControlFrame.setLocation( 400, 20 );
-        clockControlFrame.setContentPane( dcsp );
-        clockControlFrame.pack();
-//        clockControlFrame.setVisible( true );
-//        clockControlFrame.setVisible( true );
-
-        JMenu versionMenu = new JMenu( "Version" );
-        app.getApplicationView().getPhetFrame().getJMenuBar().add( versionMenu );
-
-//        module.activate( app );
-        app.getApplicationView().getBasicPhetPanel().setAppControlPanel( null );
-        application.activate( app );
-        app.startApplication( application );
-
-        defaultClock.start();
     }
 }
 
