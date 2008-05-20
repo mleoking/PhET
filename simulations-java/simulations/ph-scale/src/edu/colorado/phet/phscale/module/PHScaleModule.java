@@ -1,4 +1,4 @@
-/* Copyright 2007-2008, University of Colorado */
+/* Copyright 2008, University of Colorado */
 
 package edu.colorado.phet.phscale.module;
 
