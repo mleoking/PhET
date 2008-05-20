@@ -21,11 +21,11 @@ MEDIUM PRIORITY:
 - distribute features between Basic and Advanced panels
 - implement Save/Load feature
 - close & reopen graph windows when switching modules
-- add View check box to show a picture of a real glacier
 - make mercury in thermometer move as temperature changes
 - main control panel should be the same height in all modules
 - PlayArea class is too big, refactor
 - AbstractModel class is too big, refactor
+- combine "snowfall" and "snowfall reference elevation" into 1 slider?
 
 LOW PRIORITY:
 - refactor model listener class hierarchy
@@ -70,6 +70,7 @@ CLEANUP:
 
 
 DONE:
+5/20/08 - implement GlacierPictureDialog
 5/20/08 - add "glacier picture" checkbox to View control panel, add stub in controller
 5/20/08 - make ELAValueNode look a little better
 5/20/08 - fix title on Graphs control panel

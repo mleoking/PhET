@@ -23,6 +23,7 @@ import edu.colorado.phet.glaciers.control.ClimateControlPanel.ClimateControlPane
 import edu.colorado.phet.glaciers.control.GraphsControlPanel.GraphsControlPanelListener;
 import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
 import edu.colorado.phet.glaciers.control.ViewControlPanel.ViewControlPanelListener;
+import edu.colorado.phet.glaciers.dialog.GlacierPictureDialog;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -45,6 +46,7 @@ public class BasicController {
     private JDialog _equilibriumLineAltitudeVersusTimeChart;
     private JDialog _glacialBudgetVersusElevationChart;
     private JDialog _temperatureVersusElevationChart;
+    private JDialog _glacierPictureDialog;
     
     public BasicController( final BasicModel model, final PlayArea playArea, final BasicControlPanel controlPanel ) {
         
@@ -97,9 +99,22 @@ public class BasicController {
                 playArea.setIceFlowVisible( b );
             };
             
-            public void glacierPictureChanged( boolean b ) {
-                System.out.println( "BasicController.glacierPictureChanged " + b );//XXX
-                //TODO open or close window showing glacier picture
+            public void glacierPictureChanged( boolean selected ) {
+                if ( selected ) {
+                    _glacierPictureDialog = new GlacierPictureDialog( DIALOG_OWNER );
+                    _glacierPictureDialog.addWindowListener( new WindowAdapter() {
+                        // called when the close button in the dialog's window dressing is clicked
+                        public void windowClosing( WindowEvent e ) {
+                            viewControlPanel.setGlacierPictureSelected( false );
+                        }
+                    } );
+                    SwingUtils.centerDialogInParent( _glacierPictureDialog );
+                    _glacierPictureDialog.setVisible( true );
+                }
+                else {
+                    _glacierPictureDialog.dispose();
+                    _glacierPictureDialog = null;
+                }
             }
         });
         

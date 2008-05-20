@@ -64,6 +64,8 @@ public class GlaciersStrings {
     public static final String TOOLTIP_GPS_RECEIVER = GlaciersResources.getString( "tooltip.gpsReceiver" );
     public static final String TOOLTIP_TRASH_CAN = GlaciersResources.getString( "tooltip.trashCan" );
     
+    public static final String TEXT_GLACIER_PICTURE = GlaciersResources.getString( "text.glacierPicture" );
+    
     public static final String TITLE_ADVANCED = GlaciersResources.getString( "title.advanced" );
     public static final String TITLE_BASIC = GlaciersResources.getString( "title.basic" );
     public static final String TITLE_CLIMATE_CONTROLS = GlaciersResources.getString( "title.climateControls" );
@@ -75,6 +77,7 @@ public class GlaciersStrings {
     public static final String TITLE_TEMPERATURE_VERSUS_ELEVATION = GlaciersResources.getString( "title.temperatureVersusElevation" );
     public static final String TITLE_TOOLBOX = GlaciersResources.getString( "title.toolbox" );
     public static final String TITLE_VIEW_CONTROLS = GlaciersResources.getString( "title.viewControls" );
+    public static final String TITLE_GLACIER_PICTURE = GlaciersResources.getString( "title.glacierPicture" );
     
     public static final String UNITS_ABLATION = GlaciersResources.getString( "units.ablation" );
     public static final String UNITS_ACCUMULATION = GlaciersResources.getString( "units.accumulation" );
