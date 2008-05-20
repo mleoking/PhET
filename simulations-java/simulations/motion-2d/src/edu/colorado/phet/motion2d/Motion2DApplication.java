@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,37 +20,29 @@ public class Motion2DApplication {
     public static final String localizedStringsPath = "motion-2d/localization/motion-2d-strings";
 
     public static void main( final String[] args ) {
-        try {
-            SwingUtilities.invokeAndWait( new Runnable() {
-                public void run() {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
 
-                    SimStrings.getInstance().init( args, localizedStringsPath );
-                    new PhetLookAndFeel().initLookAndFeel();
+                SimStrings.getInstance().init( args, localizedStringsPath );
+                new PhetLookAndFeel().initLookAndFeel();
 
-                    Motion2DApplet ja = new Motion2DApplet();
-                    ja.init();
+                Motion2DApplet ja = new Motion2DApplet();
+                ja.init();
 
-                    JFrame f = new JFrame( SimStrings.getInstance().getString( "Motion2dApplication.title" ) + " (" + PhetApplicationConfig.getVersion( "motion-2d" ).formatForTitleBar() + ")" );
+                JFrame f = new JFrame( SimStrings.getInstance().getString( "Motion2dApplication.title" ) + " (" + PhetApplicationConfig.getVersion( "motion-2d" ).formatForTitleBar() + ")" );
 
-                    f.setContentPane( ja );
+                f.setContentPane( ja );
 
-                    f.setSize( 800, 500 );
-                    centerFrameOnScreen( f );
+                f.setSize( 800, 500 );
+                centerFrameOnScreen( f );
 
-                    f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-                    f.repaint();
-                    SwingUtilities.invokeLater( new Repaint( ja ) );
+                f.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                f.repaint();
+                SwingUtilities.invokeLater( new Repaint( ja ) );
 
-                    f.setVisible( true );
-                }
-            } );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
-        catch( InvocationTargetException e ) {
-            e.printStackTrace();
-        }
+                f.setVisible( true );
+            }
+        } );
     }
 
     private static void centerFrameOnScreen( JFrame f ) {
