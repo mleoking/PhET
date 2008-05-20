@@ -107,7 +107,8 @@ public class DistanceLadderApplication {
     }
 
     public static void main( String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
+        new RuntimeException( "Starting up in non-swing thread...: " ).printStackTrace();
+        Thread thread = new Thread( new Runnable() {
             public void run() {
                 String desc = GraphicsUtil.formatMessage( "A game for learning how to\nmeasure interstellar distances." );
                 appDesc = new ApplicationDescriptor( "Lost In Space",
@@ -118,5 +119,6 @@ public class DistanceLadderApplication {
                 test.test1();
             }
         } );
+        thread.start();
     }
 }

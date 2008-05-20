@@ -22,7 +22,6 @@ public class ApplicationModelControlPanel extends JPanel {
     JButton pause;
     JButton step;
     AbstractClock clock;
-    private JButton logoButton;
 
     public ApplicationModelControlPanel( AbstractClock runner ) throws IOException {
         this( runner, null );
@@ -78,27 +77,8 @@ public class ApplicationModelControlPanel extends JPanel {
         buttonPanel.add( step );
         this.add( buttonPanel, BorderLayout.CENTER );
 
-        ImageIcon logo = new ImageIcon( new ImageLoader().loadImage( "images/Phet-logo-48x48.gif" ) );
-        logoButton = new JButton( logo );
-        logoButton.setToolTipText( "Full Frame" );
-        logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
-        this.add( logoButton, BorderLayout.EAST );
-        logoButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                // Get the frame
-                Component c = (Component)e.getSource();
-                Component frame = SwingUtilities.getRoot( c );
-                PhetFrame phetFrame = (PhetFrame)frame;
-                ApplicationView view = phetFrame.getApp().getApplicationView();
-                view.setFullScreen( true );
-            }
-        } );
-
         play.setEnabled( false );
         pause.setEnabled( true );
     }
 
-    public JButton getLogoButton() {
-        return logoButton;
-    }
 }
