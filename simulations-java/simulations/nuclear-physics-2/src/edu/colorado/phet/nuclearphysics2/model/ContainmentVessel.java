@@ -6,6 +6,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+
 /**
  * This class is meant to represent a vessel in which nuclear reactions can
  * be contained.  It is intended to be a part of the model, and have a
@@ -51,7 +53,6 @@ public class ContainmentVessel {
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
-    
     
     public ContainmentVessel(double radius) {
         
@@ -103,10 +104,10 @@ public class ContainmentVessel {
      */
     public void reset(){
         setRadius( _originalRadius );
-        notifiyRadiusChanged();
         setIsEnabled( false );
         _exploded = false;
         _totalImpacts = 0;
+        notifiyResetOccurred();
     }
     
     /**
@@ -219,6 +220,12 @@ public class ContainmentVessel {
         }
     }
 
+    private void notifiyResetOccurred(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((ContainmentVessel.Listener)_listeners.get( i )).resetOccurred();
+        }
+    }
+
     //------------------------------------------------------------------------
     // Listener Support
     //------------------------------------------------------------------------
@@ -227,12 +234,13 @@ public class ContainmentVessel {
         void radiusChanged(double radius);
         void enableStateChanged(boolean isEnabled);
         void explosionOccurred();
+        void resetOccurred();
     }
     
     public static class Adapter implements Listener {
         public void radiusChanged(double radius){};
         public void enableStateChanged(boolean isEnabled){};
         public void explosionOccurred(){};
-        
+        public void resetOccurred(){};
     }
 }
