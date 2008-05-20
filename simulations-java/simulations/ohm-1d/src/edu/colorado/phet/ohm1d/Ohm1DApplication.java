@@ -4,7 +4,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.ohm1d.collisions.Collider;
 import edu.colorado.phet.ohm1d.collisions.DefaultCollisionEvent;
 import edu.colorado.phet.ohm1d.common.math.functions.Transform;

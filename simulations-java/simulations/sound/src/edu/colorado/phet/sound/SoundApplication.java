@@ -10,7 +10,6 @@ import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common_sound.application.Module;
 import edu.colorado.phet.common_sound.application.PhetApplication;
 import edu.colorado.phet.common_sound.view.util.FrameSetup;

@@ -17,7 +17,6 @@ import edu.colorado.phet.batteryvoltage.common.phys2d.gui.SystemRunnerControl;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 
 public class BatteryVoltageApplication extends JApplet {
     private SystemRunnerControl timeControls;

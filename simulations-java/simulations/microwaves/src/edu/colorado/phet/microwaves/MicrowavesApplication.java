@@ -6,12 +6,10 @@
  */
 package edu.colorado.phet.microwaves;
 
-import java.util.Locale;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common_microwaves.application.Module;

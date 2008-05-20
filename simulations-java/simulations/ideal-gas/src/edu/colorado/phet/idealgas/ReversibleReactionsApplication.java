@@ -10,8 +10,6 @@ package edu.colorado.phet.idealgas;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
@@ -19,7 +17,6 @@ import edu.colorado.phet.idealgas.model.SimulationClock;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Locale;
 
 public class ReversibleReactionsApplication extends PhetApplication {
     private MovableWallsModule wallsModule;
