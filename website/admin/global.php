@@ -1,5 +1,7 @@
 <?php
 
+    assert(defined("SITE_ROOT"));
+
     @include_once("local-debug-settings.php");
     include_once("referring-page-tracker.php");
 
@@ -17,8 +19,27 @@
         assert_options(ASSERT_ACTIVE, 0);
     }
 
-    assert(defined("SITE_ROOT"));
-    define("PORTAL_ROOT", SITE_ROOT."../");
+    if (!defined("PORTAL_ROOT")) {
+        define("PORTAL_ROOT", SITE_ROOT);
+    }
+
+    if (!defined("CACHE_ROOT")) {
+        define("CACHE_ROOT", SITE_ROOT);
+    }
+
+    if (!defined("CACHE_DIRNAME")) {
+        define("CACHE_DIRNAME", "webcache");
+    }
+
+    /**
+     * This constant is used so that included scripts can reference the files 
+     * they require using an absolute path, which seems to be required due to
+     * odd behavior of require/include functions.
+     */     
+     
+    if (!defined("SITE_ROOT")) {
+        define("SITE_ROOT", "../");
+    }
 
     ini_set("session.gc_maxlifetime", "999999999"); 
     ini_set("session.cache_expire",   "999999999");
@@ -34,16 +55,6 @@
             strstr($browser, 'MSIE 6.0')) {
             session_cache_limiter('must-revalidate');
         }
-    }
-
-    /**
-     * This constant is used so that included scripts can reference the files 
-     * they require using an absolute path, which seems to be required due to
-     * odd behavior of require/include functions.
-     */     
-     
-    if (!defined("SITE_ROOT")) {
-        define("SITE_ROOT", "../");
     }
 
      // Set the timezone for stricter compliance
