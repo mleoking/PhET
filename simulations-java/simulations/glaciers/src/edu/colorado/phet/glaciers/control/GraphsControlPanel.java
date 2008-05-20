@@ -28,7 +28,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
     //----------------------------------------------------------------------------
 
     private static final Color BACKGROUND_COLOR = GlaciersConstants.SUBPANEL_BACKGROUND_COLOR;
-    private static final String TITLE_STRING = GlaciersStrings.TITLE_VIEW_CONTROLS;
+    private static final String TITLE_STRING = GlaciersStrings.TITLE_GRAPH_CONTROLS;
     private static final Color TITLE_COLOR = GlaciersConstants.SUBPANEL_TITLE_COLOR;
     private static final Font TITLE_FONT = GlaciersConstants.SUBPANEL_TITLE_FONT;
     private static final Font CONTROL_FONT = GlaciersConstants.SUBPANEL_CONTROL_FONT;
