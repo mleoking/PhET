@@ -26,8 +26,8 @@ import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -198,33 +198,6 @@ public class LasersApplication extends PiccoloPhetApplication {
         optionMenu.add( profileOption );
     }
 
-    private static void setLAF() {
-        // Install the look and feel. If we're not on Windows,
-        // then use the native L&F
-        if ( !PhetUtilities.isWindows() ) {
-            // Get the native look and feel class name
-            try {
-                UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName() );
-            }
-            catch( InstantiationException e ) {
-            }
-            catch( ClassNotFoundException e ) {
-            }
-            catch( UnsupportedLookAndFeelException e ) {
-            }
-            catch( IllegalAccessException e ) {
-            }
-        }
-        else {
-            try {
-                UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
-            }
-            catch( UnsupportedLookAndFeelException e ) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void setBackgroundColor( Color backgroundColor ) {
         singleAtomModule.setBackgroundColor( backgroundColor );
         multipleAtomModule.setBackgroundColor( backgroundColor );
@@ -252,7 +225,10 @@ public class LasersApplication extends PiccoloPhetApplication {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                setLAF();
+                PhetLookAndFeel feel = new PhetLookAndFeel();
+                feel.setBackgroundColor( new Color( 138, 156, 148 ) );
+                feel.setButtonBackgroundColor( new Color( 255, 255, 214 ) );
+                feel.initLookAndFeel();
                 SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
 
                 if ( Arrays.asList( args ).indexOf( "-selectspeed" ) >= 0 ) {
