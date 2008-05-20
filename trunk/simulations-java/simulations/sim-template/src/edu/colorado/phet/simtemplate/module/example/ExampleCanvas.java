@@ -73,7 +73,7 @@ public class ExampleCanvas extends PhetPCanvas {
             return;
         }
         else if ( SimTemplateConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "PhysicsCanvas.updateLayout worldSize=" + worldSize );//XXX
+            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
         
         //XXX lay out nodes
