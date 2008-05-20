@@ -2,6 +2,7 @@
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
@@ -19,7 +20,7 @@ public class ChargeCountGraphic implements Graphic {
     private EnergySection es;
     private BandSet bandSet;
     private ModelViewTransform2D transform;
-    private Font font = new Font( "dialog", Font.BOLD, 20 );
+    private Font font = new PhetFont( 20);
     Color color = Color.black;
     BandSetGraphic bsg;
     boolean visible = false;

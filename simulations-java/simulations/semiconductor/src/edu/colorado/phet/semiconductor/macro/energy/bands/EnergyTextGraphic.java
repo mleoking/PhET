@@ -33,7 +33,7 @@ public class EnergyTextGraphic extends TransformGraphic {
         this.loc = loc;
         text = SimStrings.get( "EnergyTextGraphic.EnergyText" );
         font = new PhetFont( Font.PLAIN, 36 );
-        smallFont = new Font( "Dialog", 0, 18 );
+        smallFont = new PhetFont( 18);
     }
 
     public void paint( Graphics2D graphics2D ) {

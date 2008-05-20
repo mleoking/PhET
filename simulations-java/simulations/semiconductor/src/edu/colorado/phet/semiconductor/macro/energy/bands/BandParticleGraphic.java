@@ -21,7 +21,7 @@ public class BandParticleGraphic extends TransformGraphic {
     BandParticle bandParticle;
     SimpleBufferedImageGraphic graphic;
     private static boolean showExclaim = true;
-    private Font msgFont = new Font( "dialog", 0, 12 );
+    private Font msgFont = new PhetFont( 12);
 
     public BandParticleGraphic( BandParticle bandParticle, ModelViewTransform2D transform, BufferedImage image ) {
         super( transform );
