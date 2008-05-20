@@ -12,6 +12,8 @@ class LicensingPage extends SitePage {
             return $result;
         }
 
+        $phet_help_email = PHET_HELP_EMAIL;
+
         print <<<EOT
             <p>All PhET software is Copyright (c) The University of Colorado, under the GNU General Public License (GPL). Anyone can have access to the source code and make changes in it. According to the GPL, the source code for any changes someone makes to the software must, in turn, be made publicly available by the party that makes the changes.</p>
 
@@ -21,7 +23,7 @@ class LicensingPage extends SitePage {
 
             <p>This program is distributed in the hope that it will be useful, but <strong>WITHOUT ANY WARRANTY</strong>; without even the implied warranty of <strong>MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE</strong>. See the GNU General Public License for more details.</p>
 
-            <p>For additional licensing options, please contact PhET at <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.</p>
+            <p>For additional licensing options, please contact PhET at <a href="mailto:{$phet_help_email}">{$phet_help_email}</a>.</p>
 
             <h1>Source Code</h1>
 

@@ -12,6 +12,8 @@ class JavaScriptTroubleshootingPage extends SitePage {
             return $result;
         }
 
+        $phet_help_email = PHET_HELP_EMAIL;
+
         print <<<EOT
             <p>JavaScript is a programming language that is mostly used in web pages, usually to add features
             that make the web page more interactive.  JavaScript is required to submit information to PhET.</p>
@@ -19,7 +21,7 @@ class JavaScriptTroubleshootingPage extends SitePage {
             <p>JavaScript is completely different than Sun Microsystems' Java Web Start that we use on our
             simulations.  For assistance with Sun Microsystems' Java, <a href="support-java.php">go here</a>.</p>
 
-            <p>If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a></p>
+            <p>If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:{$phet_help_email}"><span class="red">{$phet_help_email}</span></a></p>
 
 
             <h2 id="faq_top">FAQ's</h2>

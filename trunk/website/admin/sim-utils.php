@@ -793,14 +793,14 @@
             // Try local first
             $link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.swf";
             if (!file_exists($link)) {
-                $link = "http://phet.colorado.edu/sims-offline/{$dirname}/{$flavorname}.swf";
+                $link = "http://".PHET_DOMAIN_NAME."/sims-offline/{$dirname}/{$flavorname}.swf";
             }
         }
         else {
             // Try local first
             $link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.jar";
             if (!file_exists($link)) {
-                $link = "http://phet.colorado.edu/sims-offline/{$dirname}/{$flavorname}.jar";
+                $link = "http://".PHET_DOMAIN_NAME."/sims-offline/{$dirname}/{$flavorname}.jar";
             }
         }
 
@@ -824,14 +824,14 @@
             // Try local first
             $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
             if (!file_exists($link)) {
-                $link = "http://phet.colorado.edu/sims/$dirname/$flavorname.swf";
+                $link = "http://".PHET_DOMAIN_NAME."/sims/$dirname/$flavorname.swf";
             }
         }
         else {
             // Try local first
             $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jnlp";
             if (!file_exists($link)) {
-                $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}.jnlp";
+                $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}.jnlp";
             }
         }
 
@@ -853,7 +853,7 @@
         // Try local first
         $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-screenshot.png";
         if (!file_exists($link)) {
-            $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}-screenshot.png";
+            $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}-screenshot.png";
         }
 
         return $link;
@@ -866,7 +866,7 @@
         // Try local first
         $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-screenshot.gif";
         if (!file_exists($link)) {
-            $link = "http://phet.colorado.edu/sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
+            $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}-animated-screenshot.gif";
         }
 
         return $link;
@@ -885,7 +885,7 @@
     }
 
     function sim_get_file_contents($resource) {
-        $new_resource = str_replace('http://phet.colorado.edu/sims/', PORTAL_ROOT.'sims/', $resource);
+        $new_resource = str_replace('http://'.PHET_DOMAIN_NAME.'/sims/', PORTAL_ROOT.'sims/', $resource);
 
         if (file_exists($new_resource)) return file_get_contents($new_resource);
 

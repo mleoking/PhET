@@ -14,8 +14,10 @@ class FAQPage extends SitePage {
 
         $no_mac = SIM_NO_MAC_IMAGE_HTML;
 
+        $phet_help_email = PHET_HELP_EMAIL;
+
         print <<<EOT
-            <p>This page contains commonly asked questions and answers. If you can't answer your question here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu?Subject=Help"><span class="red">phethelp@colorado.edu</span></a>.</p>
+            <p>This page contains commonly asked questions and answers. If you can't answer your question here, please notify us by email at the following address: <a href="mailto:{$phet_help_email}?Subject=Help"><span class="red">{$phet_help_email}</span></a>.</p>
 
             <div id="faq">
                 <ul id="nav">

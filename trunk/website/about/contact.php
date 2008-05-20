@@ -12,6 +12,8 @@ class ContactPage extends SitePage {
             return $result;
         }
 
+        $phet_help_email = PHET_HELP_EMAIL;
+
         print <<<EOT
         <div>
             <h2 style="margin-bottom: -10px;">The PhET Project:</h2>
@@ -26,7 +28,7 @@ class ContactPage extends SitePage {
 
             <h2 style="margin-bottom: -10px;">Email:</h2>
 
-            <p style="margin-left:0px;">Please address all electronic correspondence to: <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a> Information on contributing to PhET can be found <a href="{$this->prefix}contribute/index.php"><em>here.</em></a></p>
+            <p style="margin-left:0px;">Please address all electronic correspondence to: <a href="mailto:{$phet_help_email}">{$phet_help_email}</a> Information on contributing to PhET can be found <a href="{$this->prefix}contribute/index.php"><em>here.</em></a></p>
         </div>
 
 EOT;

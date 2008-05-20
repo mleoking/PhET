@@ -12,8 +12,10 @@ class JavaSupportPage extends SitePage {
             return $result;
         }
 
+        $phet_help_email = PHET_HELP_EMAIL;
+
         print <<<EOT
-            <p>PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.</p>
+            <p>PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:{$phet_help_email}"><span class="red">{$phet_help_email}</span></a>.</p>
 
             <h2 id="faq_top">FAQ's</h2>
 
@@ -49,7 +51,7 @@ class JavaSupportPage extends SitePage {
 
             <h3 id="q2" >Why do you use Java Web Start instead of Java?</h3>
 
-            <p>We use Java Web Start technology rather than Java Applets. Java Web Start, which is a free mechanism from Sun, is a more robust way of launching Java programs over the Web than applets. If you have had problems running applets in the past, you may well find that Java Web Start works much better. If you should have any problems, we will be happy to help you solve them. If the information on this page doesnít help, just send us email at <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.</p>
+            <p>We use Java Web Start technology rather than Java Applets. Java Web Start, which is a free mechanism from Sun, is a more robust way of launching Java programs over the Web than applets. If you have had problems running applets in the past, you may well find that Java Web Start works much better. If you should have any problems, we will be happy to help you solve them. If the information on this page doesnít help, just send us email at <a href="mailto:{$phet_help_email}">{$phet_help_email}</a>.</p>
 
             <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 

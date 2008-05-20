@@ -38,8 +38,9 @@
     }
 
     function showerror($errortext) {
+        $phet_help_email = PHET_HELP_EMAIL;
     	echo "<br>==========================";
-    	echo "<p>We're very sorry, but there appears to have been an error. We would appreciate it if you would report this to us, so that we can fix the problem and serve you better. Please direct all correspondence to <a href='mailto:phethelp@phet.colorado.edu'>phethelp@phet.colorado.edu</a>.</p>";
+    	echo "<p>We're very sorry, but there appears to have been an error. We would appreciate it if you would report this to us, so that we can fix the problem and serve you better. Please direct all correspondence to <a href='mailto:{$phet_help_email}'>{$phet_help_email}</a>.</p>";
     	echo $errortext;
     	echo "<p>Error#: ". mysql_errno().", Error Description: ".mysql_error().".</p>";
     	echo "==========================<br>";
