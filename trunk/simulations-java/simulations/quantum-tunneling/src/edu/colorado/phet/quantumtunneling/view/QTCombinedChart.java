@@ -20,6 +20,7 @@ import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 
@@ -49,8 +50,8 @@ public class QTCombinedChart extends JFreeChart {
     private static final boolean CREATE_LEGEND = false;
     private static final double CHART_SPACING = 25.0;
     
-    private static final Font AXIS_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 20 );
-    private static final Font AXIS_TICK_LABEL_FONT = new Font( QTConstants.FONT_NAME, Font.PLAIN, 14 );
+    private static final Font AXIS_LABEL_FONT = new PhetFont( Font.PLAIN, 20 );
+    private static final Font AXIS_TICK_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
     
     //----------------------------------------------------------------------------
     // Instance data

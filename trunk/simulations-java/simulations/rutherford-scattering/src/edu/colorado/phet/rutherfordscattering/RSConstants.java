@@ -58,13 +58,12 @@ public class RSConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final String DEFAULT_FONT_NAME = PhetFont.getDefaultFontName();
     public static final int DEFAULT_FONT_STYLE = Font.BOLD;
     public static final int DEFAULT_FONT_SIZE = 16;
-    public static final Font DEFAULT_FONT = new Font( DEFAULT_FONT_NAME, DEFAULT_FONT_STYLE, DEFAULT_FONT_SIZE );
+    public static final Font DEFAULT_FONT = new PhetFont( DEFAULT_FONT_STYLE, DEFAULT_FONT_SIZE );
     
-    public static final Font TITLE_FONT = new Font( DEFAULT_FONT_NAME, Font.BOLD, 14 );
-    public static final Font CONTROL_FONT = new Font( DEFAULT_FONT_NAME, Font.BOLD, 14 );
+    public static final Font TITLE_FONT = new PhetFont( Font.BOLD, 14 );
+    public static final Font CONTROL_FONT = new PhetFont( Font.BOLD, 14 );
     
     //----------------------------------------------------------------------------
     // Borders
