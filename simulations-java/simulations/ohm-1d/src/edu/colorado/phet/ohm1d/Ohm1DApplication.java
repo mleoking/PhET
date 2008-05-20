@@ -3,6 +3,8 @@ package edu.colorado.phet.ohm1d;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.ohm1d.collisions.Collider;
 import edu.colorado.phet.ohm1d.collisions.DefaultCollisionEvent;
 import edu.colorado.phet.ohm1d.common.math.functions.Transform;
@@ -173,7 +175,7 @@ public class Ohm1DApplication extends JApplet {
         float yhot = 30 + yOffsetForSpct;
         float xcold = 360;
         float ycold = yhot;
-        Font heatFont = new Font( null, -1, 19 );
+        Font heatFont = new PhetFont( 19 );
         cp.addPainter( new TextPainter( SimStrings.get( "Ohm1dModule.Hot" ), xhot, yhot, heatFont, Color.black ) );
         cp.addPainter( new TextPainter( SimStrings.get( "Ohm1dModule.Cold" ), xcold, ycold, heatFont, Color.white ) );
         cp.addPainter( filament );
@@ -496,7 +498,7 @@ public class Ohm1DApplication extends JApplet {
         //o.O.bottomRightWirePoint(leftOval2);
         vp.addPainter( leftOval2 );
 
-        Font font = new Font( null, -1, 19 );
+        Font font = new PhetFont( 19 );
         Color textColor = Color.black;
         int subTextX = 150;
         int subTextY = 170;
@@ -617,11 +619,6 @@ public class Ohm1DApplication extends JApplet {
         }
     }
 
-    public static void main( String[] args ) throws Throwable {
-        SimStrings.getInstance().init( args, localizedStringsPath );
-        new Ohm1DApplication().mainBAK();
-    }
-
     class MediaHandler {
         JButton playButton;
         JButton pauseButton;
@@ -652,5 +649,11 @@ public class Ohm1DApplication extends JApplet {
             }
 
         }
+    }
+
+    public static void main( String[] args ) throws Throwable {
+        new PhetLookAndFeel().initLookAndFeel();
+        SimStrings.getInstance().init( args, localizedStringsPath );
+        new Ohm1DApplication().mainBAK();
     }
 }
