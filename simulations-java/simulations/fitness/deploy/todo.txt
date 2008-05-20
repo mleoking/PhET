@@ -1,3 +1,12 @@
+Comments from Bill on 5-20-2008:
+
+1. Percent body fat should change as body weight changes. This change probably be based upon the concept that one pound of fat gain/loss requires a gain/loss of about 3500 calories. It should be noted that weight loss by diet only, results in a loss of both fat (75%) and lean tissue (25%) whereas weight loss via diet and exercise results in a maintenance of lean tissue and a loss of only fat.
+2. I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical to go beyond a year especially since most of the current data only follows folks for weeks and months.
+3. I am not sure that I entirely agree with your calorie expenditures for physical activity. They seem a bit high and in many cases are absolute values. The total caloric cost for weight bearing activities should be based upon a per body weight value. What was your source for this information?
+4. I would also limit the age range to the young to middle aged adult since resting metabolic rate changes relative to lean mass outside this range.
+5. It might also be fun to include the thermic effect of food intake as part of the daily energy expenditure i.e. when we eat a meal metabolic rate increases to process it. The value varies depending on the composition of the meal but you could just use a value of 15% of the ingested calories.
+
+_______
 Fitness sim is very nice in many respects, but I really miss the drag and drop contributions to diet and exercise.  The “edit” boxes seem much less fun to play with.  Is this design set in stone?  Tossing a couple of hamburgers and a banana split on there and seeing what happens, or taking them off is just a lot more fun and gives more immediate response.
     I was thinking you could bring the drag and drop food and exercise and then have a button for extended diet and exercise options since the list is soooo long. What do you think?
 
