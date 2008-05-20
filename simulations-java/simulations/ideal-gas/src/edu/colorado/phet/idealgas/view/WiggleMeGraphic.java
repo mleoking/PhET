@@ -9,6 +9,7 @@ package edu.colorado.phet.idealgas.view;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -21,10 +22,7 @@ import java.awt.geom.Point2D;
 public class WiggleMeGraphic extends CompositePhetGraphic {
 
     private BaseModel model;
-    String family = "Sans Serif";
-    int style = Font.BOLD;
-    int size = 16;
-    Font font = new Font( family, style, size );
+    Font font = new PhetFont( 16,true);
     private Color color = IdealGasConfig.HELP_COLOR;
     private ModelElement wiggleMeModelElement;
 

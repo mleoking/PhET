@@ -17,7 +17,6 @@ import edu.colorado.phet.idealgas.controller.HotAirBalloonModule;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
 import edu.colorado.phet.idealgas.controller.RigidHollowSphereModule;
 import edu.colorado.phet.idealgas.model.SimulationClock;
-import edu.colorado.phet.idealgas.view.IdealGasLandF;
 import edu.colorado.phet.idealgas.view.WiggleMeGraphic;
 
 import javax.swing.*;
@@ -90,13 +89,7 @@ IdealGasConfig.FRAME_SETUP );
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                try {
-                    UIManager.setLookAndFeel( new IdealGasLandF() );
-                }
-                catch( UnsupportedLookAndFeelException e ) {
-                    e.printStackTrace();
-                }
-
+                new IdealGasLookAndFeel().initLookAndFeel();
                 new BalloonsAndBuoyancyApplication( args ).startApplication();
             }
         } );

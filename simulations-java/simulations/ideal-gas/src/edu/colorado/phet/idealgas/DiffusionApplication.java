@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.model.SimulationClock;
-import edu.colorado.phet.idealgas.view.IdealGasLandF;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,13 +52,7 @@ IdealGasConfig.FRAME_SETUP );
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                try {
-                    UIManager.setLookAndFeel( new IdealGasLandF() );
-                }
-                catch( UnsupportedLookAndFeelException e ) {
-                    e.printStackTrace();
-                }
-
+                new IdealGasLookAndFeel().initLookAndFeel();
                 new DiffusionApplication( args ).startApplication();
             }
         } );

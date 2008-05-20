@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,7 +70,7 @@ public class StopwatchPanel extends JPanel implements ClockListener, ModelElemen
         setBorder( BorderFactory.createRaisedBevelBorder() );
         clockTF = new JTextField( 5 );
         Font clockFont = clockTF.getFont();
-        clockTF.setFont( new Font( clockFont.getName(), Font.BOLD, 16 ) );
+        clockTF.setFont( new PhetFont( 16,true) );
         clockTF.setEditable( false );
         clockTF.setHorizontalAlignment( JTextField.RIGHT );
 
