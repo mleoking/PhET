@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -54,7 +55,7 @@ public class MVCExampleApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
-                
+                new PhetLookAndFeel().initLookAndFeel();
                 FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
 
                 PhetApplicationConfig config = new PhetApplicationConfig( args, FRAME_SETUP, RESOURCE_LOADER );
