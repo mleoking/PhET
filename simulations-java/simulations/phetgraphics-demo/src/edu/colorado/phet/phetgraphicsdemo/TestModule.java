@@ -2,8 +2,13 @@
 
 package edu.colorado.phet.phetgraphicsdemo;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.RenderingHints;
+
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -12,8 +17,6 @@ import edu.colorado.phet.phetgraphicsdemo.control.TestControlPanel;
 import edu.colorado.phet.phetgraphicsdemo.model.CarModelElement;
 import edu.colorado.phet.phetgraphicsdemo.model.WindmillModelElement;
 import edu.colorado.phet.phetgraphicsdemo.view.*;
-
-import java.awt.*;
 
 /**
  * TestModule is a module that demonstrates proposed changes
@@ -140,7 +143,7 @@ public class TestModule extends PhetGraphicsModule {
                 "Translate by dragging with the LEFT mouse button.", 
                 "Rotate by dragging horizontally with the RIGHT mouse button.",
                 "Use the control panel to change the visibility of bounds & registration points." };
-        Font font = new Font( "Serif", Font.PLAIN, 18 );
+        Font font = new PhetFont( Font.PLAIN, 18 );
         PhetMultiLineTextGraphic mlt = new PhetMultiLineTextGraphic( apparatusPanel, lines, font, 100, 30, Color.RED );
         mlt.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
         apparatusPanel.addGraphic( mlt, HELP_LAYER );

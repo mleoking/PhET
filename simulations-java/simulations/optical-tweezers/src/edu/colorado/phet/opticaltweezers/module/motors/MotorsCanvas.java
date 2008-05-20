@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
@@ -136,7 +137,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         
         // "Reset DNA" button
         JButton resetDNAButton = new JButton( OTResources.getString( "button.resetDNA" ) );
-        Font font = new Font( OTConstants.DEFAULT_FONT_NAME, Font.BOLD, 18 );
+        Font font = new PhetFont( Font.BOLD, 18 );
         resetDNAButton.setFont( font );
         resetDNAButton.setOpaque( false );
         resetDNAButton.addActionListener( new ActionListener() {

@@ -3,6 +3,7 @@ Change history for optical-tweezers
 ================================================================================
 
 DONE:
+5/20/08 - replace Font with PhetFont
 ********* version 2.01.00 (21029)
 4/28/08 - add PhetLookAndFeel to main
 4/28/08 - pick up fix to PhetDefaultFont so that preferred fonts are derived properly
