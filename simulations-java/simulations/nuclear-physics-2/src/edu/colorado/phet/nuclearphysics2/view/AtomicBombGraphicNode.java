@@ -19,7 +19,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 /**
  * This class represents a Piccolo PNode that can display a textual message
  * and a graphical image that depicts an atomic bomb explosion.  The image
- * enlarges to fill the screen to give the overall impression of an explosion.
+ * enlarges over time to fill the screen to give the overall impression of an
+ * explosion.
  *
  * @author John Blanco
  */
@@ -61,6 +62,13 @@ public class AtomicBombGraphicNode extends PNode {
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
+   
+    /**
+     * Constructor for this node.
+     * 
+     *  @param containmentVessel - The containment vessel within the model.
+     *  @param clock - The clock that is driving the simulation.
+     */
     public AtomicBombGraphicNode(ContainmentVessel containmentVessel, SwingClock clock){
         
         _clock = clock;
@@ -107,6 +115,11 @@ public class AtomicBombGraphicNode extends PNode {
     // Public Methods
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the size of the container in which this node resides.  This is
+     * used by this object to size itself correctly so that the graphic can
+     * fill the screen.
+     */
     public void setContainerSize(double width, double height){
         
         _containerWidth = width;
@@ -115,6 +128,10 @@ public class AtomicBombGraphicNode extends PNode {
         updateLayout();
     }
     
+    /**
+     * Update the size and position of the various subnodes that make up this
+     * node.
+     */
     public void updateLayout(){
         
         if (_explodingState == STATE_EXPLODED){
@@ -148,7 +165,7 @@ public class AtomicBombGraphicNode extends PNode {
             if (_explosionGraphic.getFullBounds().getHeight() < _containerHeight){
                 // Expand the explosion graphic.
                 _explosionGraphic.setScale( _explosionGraphic.getScale() + 0.20 );
-                setContainerSize( _containerWidth, _containerHeight );
+                updateLayout();
             }
             else{
                 // We have finished the expansion.
