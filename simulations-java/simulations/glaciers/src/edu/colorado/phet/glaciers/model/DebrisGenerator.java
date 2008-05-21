@@ -48,8 +48,8 @@ public class DebrisGenerator {
             final double x = minX + _randomDebrisX.nextDouble() * ( maxX - minX );
             
             // y - elevation
-            final double minY = _glacier.getValley().getElevation( x ) + 1;
-            final double maxY = _glacier.getSurfaceElevation( x ) - 1;
+            final double minY = _glacier.getValley().getElevation( x ) + 1; // 1 meter above valley floor
+            final double maxY = _glacier.getSurfaceElevation( x ) - 1; // 1 meter below glacier's surface
             final double y = minY + _randomDebrisY.nextDouble() * ( maxY - minY );
             
             // z - distance across the width of the valley floor
