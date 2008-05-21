@@ -9,14 +9,14 @@ import edu.colorado.phet.fitness.FitnessResources;
 public class Activity {
     private String name;
     private double activityLevel;
-    public static final Activity DEFAULT_ACTIVITY_LEVEL = new Activity( FitnessResources.getString( "moderate.activity" ), 1.5 );
+    public static final Activity DEFAULT_ACTIVITY_LEVEL = new Activity( FitnessResources.getString( "activity.moderate" ), 1.5 );
 
     public static final Activity[] DEFAULT_ACTIVITY_LEVELS = {
-            new Activity( FitnessResources.getString( "very.sedentary" ), 1.3 ),
-            new Activity( FitnessResources.getString( "sedentary" ), 1.4 ),
+            new Activity( FitnessResources.getString( "activity.very-sedentary" ), 1.3 ),
+            new Activity( FitnessResources.getString( "activity.sedentary" ), 1.4 ),
             DEFAULT_ACTIVITY_LEVEL,
-            new Activity( FitnessResources.getString( "very.active" ), 1.6 ),
-            new Activity( FitnessResources.getString( "athletic.lifestyle" ), 1.7 )
+            new Activity( FitnessResources.getString( "activity.active" ), 1.6 ),
+            new Activity( FitnessResources.getString( "activity.athletic" ), 1.7 )
     };
 
 

@@ -44,7 +44,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), FitnessResources.getString( "age" ), FitnessStrings.AGE_FORMAT.toPattern(), FitnessResources.getString( "years" ) );
+        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), FitnessResources.getString( "age" ), FitnessStrings.AGE_FORMAT.toPattern(), FitnessResources.getString( "units.years" ) );
         add( age );
 
         age.addChangeListener( new ChangeListener() {
@@ -194,7 +194,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //
 //   add( fatFreeMassPercent );
 
-        final HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), FitnessResources.getString( "bmi" ), "0.0", FitnessResources.getString( "kg.m.2" ) );
+        final HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), FitnessResources.getString( "bmi" ), "0.0", FitnessResources.getString( "units.bmi" ) );
         human.addListener( new Human.Adapter() {
             public void bmiChanged() {
                 bmiSlider.setValue( human.getBMI() );
@@ -329,14 +329,14 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private class GenderControl extends JPanel {
         public GenderControl( final Human human ) {
             setLayout( new FlowLayout() );
-            final JRadioButton femaleButton = new JRadioButton( FitnessResources.getString( "female1" ), human.getGender() == Human.Gender.FEMALE );
+            final JRadioButton femaleButton = new JRadioButton( FitnessResources.getString( "gender.female" ), human.getGender() == Human.Gender.FEMALE );
             femaleButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     human.setGender( Human.Gender.FEMALE );
                 }
             } );
             add( femaleButton );
-            final JRadioButton maleButton = new JRadioButton( FitnessResources.getString( "male1" ), human.getGender() == Human.Gender.MALE );
+            final JRadioButton maleButton = new JRadioButton( FitnessResources.getString( "gender.male" ), human.getGender() == Human.Gender.MALE );
             maleButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     human.setGender( Human.Gender.MALE );

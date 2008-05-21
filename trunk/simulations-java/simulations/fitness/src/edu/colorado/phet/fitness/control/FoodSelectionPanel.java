@@ -36,10 +36,10 @@ public class FoodSelectionPanel extends JPanel implements ICalorieSelectionPanel
 
     private class ActivityLevelsPanel extends JPanel {
         private ActivityLevelsPanel() {
-            setBorder( CalorieSelectionPanel.createTitledBorder( FitnessResources.getString( "base.diet" ) ) );
+            setBorder( CalorieSelectionPanel.createTitledBorder( FitnessResources.getString( "diet.base" ) ) );
             ButtonGroup bg = new ButtonGroup();
             final CaloricFoodItem[] baseDiets = new CaloricFoodItem[]{
-                    new CaloricFoodItem( FitnessResources.getString( "nothing" ), null, 0, 0, 0, 0, false ),
+                    new CaloricFoodItem( FitnessResources.getString( "diet.nothing" ), null, 0, 0, 0, 0, false ),
                     human.getDefaultIntake(),
             };
             for ( int i = 0; i < baseDiets.length; i++ ) {
