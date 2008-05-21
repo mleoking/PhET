@@ -6,8 +6,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-
 /**
  * This class is meant to represent a vessel in which nuclear reactions can
  * be contained.  It is intended to be a part of the model, and have a

@@ -4,7 +4,6 @@ package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -24,7 +23,6 @@ import edu.colorado.phet.nuclearphysics2.util.MovingImageNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 

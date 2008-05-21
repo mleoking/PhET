@@ -2,12 +2,10 @@
 
 package edu.colorado.phet.nuclearphysics2.module.nuclearreactor;
 
-import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class represents the control panel that presents the legend and allows
@@ -20,10 +18,6 @@ public class NuclearReactorControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-    
-    // Using a fixed constant for this, but there may be a better way to do it
-    // more dynamically.
-    private static final int ENERGY_GRAPH_PANEL_HEIGHT = 300;
     
     //----------------------------------------------------------------------------
     // Instance Data
