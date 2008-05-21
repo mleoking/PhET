@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
 
 import javax.swing.*;
 
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.fitness.developer.DeveloperMenu;
@@ -231,7 +233,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
-
+                DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                 phetLookAndFeel.setFont( new PhetFont( 14, true ) );
                 phetLookAndFeel.setBackgroundColor( FitnessColorScheme.getBackgroundColor() );

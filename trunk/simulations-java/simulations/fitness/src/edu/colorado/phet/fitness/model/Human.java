@@ -11,6 +11,7 @@ import edu.colorado.phet.fitness.control.CaloricItem;
 import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.colorado.phet.fitness.module.fitness.FoodCalorieSet;
+import edu.colorado.phet.fitness.resourceBundle;
 
 /**
  * Created by: Sam
@@ -105,7 +106,7 @@ public class Human {
         foodItems.clear();
         exerciseItems.clear();
         if ( defaultIntake == null ) {//todo: change to single instance so that view/controller can observe it
-            defaultIntake = new CaloricFoodItem( "healthy diet", "balanced.png", initialDiet.getTotal(), initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
+            defaultIntake = new CaloricFoodItem( resourceBundle.getString( "healthy.diet" ), "balanced.png", initialDiet.getTotal(), initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
         }
         foodItems.addItem( defaultIntake );//todo: standardize constructor units
         updateIntake();
@@ -387,8 +388,8 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( "male", 4, 40 );
-        public static Gender FEMALE = new Gender( "female", 10, 40 );
+        public static Gender MALE = new Gender( resourceBundle.getString( "male" ), 4, 40 );
+        public static Gender FEMALE = new Gender( resourceBundle.getString( "female" ), 10, 40 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;

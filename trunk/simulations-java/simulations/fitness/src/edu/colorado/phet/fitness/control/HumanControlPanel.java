@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLay
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fitness.FitnessStrings;
+import edu.colorado.phet.fitness.resourceBundle;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
@@ -43,7 +44,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), "Age", FitnessStrings.AGE_FORMAT.toPattern(), "years" );
+        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), resourceBundle.getString( "age" ), FitnessStrings.AGE_FORMAT.toPattern(), resourceBundle.getString( "years" ) );
         add( age );
 
         age.addChangeListener( new ChangeListener() {
@@ -92,7 +93,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         //todo: factor out slider that accommodates units
         final double minHeight = 1;
         final double maxHeight = 2.72;
-        final HumanSlider heightControl = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ), model.getUnits().modelToViewDistance( human.getHeight() ), "Height", "0.00", model.getUnits().getDistanceUnit() );
+        final HumanSlider heightControl = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ), model.getUnits().modelToViewDistance( human.getHeight() ), resourceBundle.getString( "height" ), "0.00", model.getUnits().getDistanceUnit() );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setHeight( model.getUnits().viewToModelDistance( heightControl.getValue() ) );
@@ -126,7 +127,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         final double minWeight = 0;
         final double maxWeight = 300;
-        final HumanSlider weightControl = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), "Weight", FitnessStrings.WEIGHT_FORMAT.toPattern(), model.getUnits().getMassUnit() );
+        final HumanSlider weightControl = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), resourceBundle.getString( "weight" ), FitnessStrings.WEIGHT_FORMAT.toPattern(), model.getUnits().getMassUnit() );
 //        weightControl.setColumns( 5 );
         weightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -193,7 +194,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //
 //   add( fatFreeMassPercent );
 
-        final HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), "BMI", "0.0", "kg/m^2" );
+        final HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), resourceBundle.getString( "bmi" ), "0.0", resourceBundle.getString( "kg.m.2" ) );
         human.addListener( new Human.Adapter() {
             public void bmiChanged() {
                 bmiSlider.setValue( human.getBMI() );
@@ -203,7 +204,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         bmiSlider.getSlider().setVisible( false );
         add( bmiSlider );
 
-        bodyFat = new HumanSlider( 0, 100, human.getFatMassPercent(), "Body Fat", "0.0", "%" );
+        bodyFat = new HumanSlider( 0, 100, human.getFatMassPercent(), resourceBundle.getString( "body.fat" ), "0.0", "%" );
         bodyFat.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setFatMassPercent( bodyFat.getValue() );
@@ -250,8 +251,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private void updateBodyFatSlider() {
         bodyFat.setRange( 0, human.getGender().getMaxFatMassPercent() );
         Hashtable table = new Hashtable();
-        table.put( new Double( 4 ), new JLabel( "muscular" ) );
-        table.put( new Double( human.getGender().getMaxFatMassPercent() ), new JLabel( "non" ) );
+        table.put( new Double( 4 ), new JLabel( resourceBundle.getString( "muscular" ) ) );
+        table.put( new Double( human.getGender().getMaxFatMassPercent() ), new JLabel( resourceBundle.getString( "non" ) ) );
 //        table.put( new Integer( 40 ), new JLabel("non") );
         bodyFat.setTickLabels( table );
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
@@ -328,14 +329,14 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private class GenderControl extends JPanel {
         public GenderControl( final Human human ) {
             setLayout( new FlowLayout() );
-            final JRadioButton femaleButton = new JRadioButton( "Female", human.getGender() == Human.Gender.FEMALE );
+            final JRadioButton femaleButton = new JRadioButton( resourceBundle.getString( "female1" ), human.getGender() == Human.Gender.FEMALE );
             femaleButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     human.setGender( Human.Gender.FEMALE );
                 }
             } );
             add( femaleButton );
-            final JRadioButton maleButton = new JRadioButton( "Male", human.getGender() == Human.Gender.MALE );
+            final JRadioButton maleButton = new JRadioButton( resourceBundle.getString( "male1" ), human.getGender() == Human.Gender.MALE );
             maleButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     human.setGender( Human.Gender.MALE );

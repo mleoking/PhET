@@ -11,6 +11,7 @@ import edu.colorado.phet.fitness.model.Diet;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.util.FileParser;
+import edu.colorado.phet.fitness.resourceBundle;
 
 /**
  * FitnessModel is the model for FitnessModule.
@@ -18,7 +19,7 @@ import edu.colorado.phet.fitness.util.FileParser;
 public class FitnessModel {
 
     public static class Units {
-        public static final Units ENGLISH = new Units( "English", "lbs", "feet/in" ) {
+        public static final Units ENGLISH = new Units( resourceBundle.getString( "english" ), "lbs", resourceBundle.getString( "feet.in" ) ) {
             public double modelToViewMass( double mass ) {
                 return FitnessUnits.kgToPounds( mass );
             }
@@ -35,7 +36,7 @@ public class FitnessModel {
                 return FitnessUnits.feetToMeters( value );
             }
         };
-        public static final Units METRIC = new Units( "Metric", "kg", "meters" );
+        public static final Units METRIC = new Units( resourceBundle.getString( "metric" ), "kg", "meters" );
         private String shortName;
         private String massUnit;
         private String distanceUnit;
@@ -94,8 +95,8 @@ public class FitnessModel {
     public static final CalorieSet availableExercise = new CalorieSet( FileParser.getExerciseItems() );
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
-    public static final Diet BALANCED_DIET = new Diet( "Balanced Diet", 870, 1583, 432 );
-    public static final Diet FAST_FOOD_ONLY = new Diet( "Fast Food Only", 3000, 300, 150 );
+    public static final Diet BALANCED_DIET = new Diet( resourceBundle.getString( "balanced.diet" ), 870, 1583, 432 );
+    public static final Diet FAST_FOOD_ONLY = new Diet( resourceBundle.getString( "fast.food.only" ), 3000, 300, 150 );
     public static final Diet[] availableDiets = new Diet[]{
             BALANCED_DIET,
             FAST_FOOD_ONLY
@@ -158,7 +159,7 @@ public class FitnessModel {
                 return availableDiet;
             }
         }
-        return new Diet( "User Specified", lipids, carbs, proteins );
+        return new Diet( resourceBundle.getString( "user.specified" ), lipids, carbs, proteins );
     }
 
     //Todo: remove this workaround for performance/graphics problems

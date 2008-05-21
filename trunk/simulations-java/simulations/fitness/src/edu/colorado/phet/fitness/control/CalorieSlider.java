@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fitness.resourceBundle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -50,10 +51,10 @@ public class CalorieSlider extends PNode {
         borderNode.setOffset( 0, titleNode.getHeight() );
         arrowNode.setOffset( 0, titleNode.getHeight() );
 
-        PText low = new PText( "None" );
+        PText low = new PText( resourceBundle.getString( "none" ) );
         addChild( low );
         low.setOffset( -low.getFullBounds().getWidth(), borderNode.getFullBounds().getCenterY() - low.getFullBounds().getHeight() / 2 );
-        PText lots = new PText( "Lots" );
+        PText lots = new PText( resourceBundle.getString( "lots" ) );
         addChild( lots );
         lots.setOffset( borderNode.getFullBounds().getWidth(), borderNode.getFullBounds().getCenterY() - low.getFullBounds().getHeight() / 2 );
 

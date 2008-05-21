@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessStrings;
+import edu.colorado.phet.fitness.resourceBundle;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
@@ -88,28 +89,28 @@ public class ChartNode extends PNode {
             }
         } );
 
-        final ControlGraphSeries weightSeries = new ControlGraphSeries( "Weight", Color.blue, "weight", "lbs", "", massVar );
+        final ControlGraphSeries weightSeries = new ControlGraphSeries( resourceBundle.getString( "weight" ), Color.blue, "weight", resourceBundle.getString( "lbs" ), "", massVar );
         weightSeries.setDecimalFormat( new DefaultDecimalFormat( "0" ) );
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
                 weightSeries.setUnits( model.getUnits().getMassUnit() );
             }
         } );
-        weightGraph = new FitnessControlGraph( phetPCanvas, weightSeries, "Weight", 0, 250, tsm );
+        weightGraph = new FitnessControlGraph( phetPCanvas, weightSeries, resourceBundle.getString( "weight" ), 0, 250, tsm );
 
         weightGraph.setEditable( false );
 //        weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().setLabel( "Label" );//takes up too much vertical space
         updateWeightMassLabel();
-        weightChart = new MinimizableControlGraph( "Weight", weightGraph );
+        weightChart = new MinimizableControlGraph( resourceBundle.getString( "weight" ), weightGraph );
         weightChart.setAvailableBounds( 600, 125 );
 
-        ControlGraphSeries intakeSeries = new ControlGraphSeries( "Intake", Color.green, "Intake", FitnessStrings.KCAL_PER_DAY, new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calIntakeVar );
+        ControlGraphSeries intakeSeries = new ControlGraphSeries( resourceBundle.getString( "intake" ), Color.green, resourceBundle.getString( "intake" ), FitnessStrings.KCAL_PER_DAY, new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calIntakeVar );
         intakeSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
-        ControlGraphSeries burnSeries = new ControlGraphSeries( "Burned", Color.red, "Burned", FitnessStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
+        ControlGraphSeries burnSeries = new ControlGraphSeries( resourceBundle.getString( "burned" ), Color.red, resourceBundle.getString( "burned" ), FitnessStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
         burnSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
 
-        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, "Calories", 0, 6000, tsm );
-        calorieGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( "Calories per day" );
+        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, resourceBundle.getString( "calories" ), 0, 6000, tsm );
+        calorieGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( resourceBundle.getString( "calories.per.day" ) );
         calorieGraph.addSeries( burnSeries );
         updateGraphDomains( DEFAULT_RANGE_YEARS );
         calorieGraph.setEditable( false );
@@ -118,7 +119,7 @@ public class ChartNode extends PNode {
                 calorieGraph.forceUpdateAll();
             }
         } );
-        calorieChart = new MinimizableControlGraph( "Calories", calorieGraph );
+        calorieChart = new MinimizableControlGraph( resourceBundle.getString( "calories" ), calorieGraph );
         calorieChart.setAvailableBounds( 600, 125 );
 
         calorieGraph.addListener( new ControlGraph.Adapter() {
@@ -154,7 +155,8 @@ public class ChartNode extends PNode {
     }
 
     private void updateWeightMassLabel() {
-        weightGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( "Weight (" + model.getUnits().getMassUnit() + ")" );
+        String weight= resourceBundle.getString( "weight" );
+        weightGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( weight+" (" + model.getUnits().getMassUnit() + ")" );
     }
 
     private void syncVerticalRanges() {
@@ -259,7 +261,7 @@ public class ChartNode extends PNode {
 
         public FitnessControlGraph( PhetPCanvas canvas, ControlGraphSeries series, String title, int minY, int maxY, TimeSeriesModel timeSeriesModel ) {
             super( canvas, series, title, minY, maxY, timeSeriesModel );
-            gradientButtonNode = new GradientButtonNode( "Reset", 12, Color.green );
+            gradientButtonNode = new GradientButtonNode( resourceBundle.getString( "reset" ), 12, Color.green );
             gradientButtonNode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     resetChartArea();
@@ -268,7 +270,7 @@ public class ChartNode extends PNode {
             addChild( gradientButtonNode );
 
             axisLabel = new PNode();
-            PText text = new PText( "Time (years)" );
+            PText text = new PText( resourceBundle.getString( "time.years" ) );
             axisLabel.addChild( text );
             axisLabel.addChild( new PhetPPath( new Arrow( new Point2D.Double( text.getFullBounds().getMaxX(), text.getFullBounds().getCenterY() ),
                                                           new Vector2D.Double( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );
