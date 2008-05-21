@@ -277,6 +277,12 @@ public class ChainReactionModel {
         }
         _daughterNuclei.clear();
         
+        for (i = 0; i < _inactiveNuclei.size(); i++){
+            notifyModelElementRemoved( _inactiveNuclei.get( i ) );
+            ((AtomicNucleus)_inactiveNuclei.get( i )).removedFromModel();
+        }
+        _inactiveNuclei.clear();
+        
         // Remove any contained elements.  These will have already been
         // removed from the view.
         _containedElements.clear();
