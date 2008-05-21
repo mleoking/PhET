@@ -89,7 +89,7 @@ public class ChartNode extends PNode {
             }
         } );
 
-        final ControlGraphSeries weightSeries = new ControlGraphSeries( FitnessResources.getString( "weight" ), Color.blue, "weight", FitnessResources.getString( "lbs" ), "", massVar );
+        final ControlGraphSeries weightSeries = new ControlGraphSeries( FitnessResources.getString( "weight" ), Color.blue, "weight", FitnessResources.getString( "units.lbs" ), "", massVar );
         weightSeries.setDecimalFormat( new DefaultDecimalFormat( "0" ) );
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
@@ -104,13 +104,13 @@ public class ChartNode extends PNode {
         weightChart = new MinimizableControlGraph( FitnessResources.getString( "weight" ), weightGraph );
         weightChart.setAvailableBounds( 600, 125 );
 
-        ControlGraphSeries intakeSeries = new ControlGraphSeries( FitnessResources.getString( "intake" ), Color.green, FitnessResources.getString( "intake" ), FitnessStrings.KCAL_PER_DAY, new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calIntakeVar );
+        ControlGraphSeries intakeSeries = new ControlGraphSeries( FitnessResources.getString( "calories.intake" ), Color.green, FitnessResources.getString( "calories.intake" ), FitnessStrings.KCAL_PER_DAY, new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calIntakeVar );
         intakeSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
-        ControlGraphSeries burnSeries = new ControlGraphSeries( FitnessResources.getString( "burned" ), Color.red, FitnessResources.getString( "burned" ), FitnessStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
+        ControlGraphSeries burnSeries = new ControlGraphSeries( FitnessResources.getString( "calories.burned" ), Color.red, FitnessResources.getString( "calories.burned" ), FitnessStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
         burnSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
 
-        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, FitnessResources.getString( "calories" ), 0, 6000, tsm );
-        calorieGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( FitnessResources.getString( "calories.per.day" ) );
+        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, FitnessResources.getString( "units.calories" ), 0, 6000, tsm );
+        calorieGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( FitnessResources.getString( "units.cal-day" ) );
         calorieGraph.addSeries( burnSeries );
         updateGraphDomains( DEFAULT_RANGE_YEARS );
         calorieGraph.setEditable( false );
@@ -119,7 +119,7 @@ public class ChartNode extends PNode {
                 calorieGraph.forceUpdateAll();
             }
         } );
-        calorieChart = new MinimizableControlGraph( FitnessResources.getString( "calories" ), calorieGraph );
+        calorieChart = new MinimizableControlGraph( FitnessResources.getString( "units.calories" ), calorieGraph );
         calorieChart.setAvailableBounds( 600, 125 );
 
         calorieGraph.addListener( new ControlGraph.Adapter() {
@@ -261,7 +261,7 @@ public class ChartNode extends PNode {
 
         public FitnessControlGraph( PhetPCanvas canvas, ControlGraphSeries series, String title, int minY, int maxY, TimeSeriesModel timeSeriesModel ) {
             super( canvas, series, title, minY, maxY, timeSeriesModel );
-            gradientButtonNode = new GradientButtonNode( FitnessResources.getString( "reset" ), 12, Color.green );
+            gradientButtonNode = new GradientButtonNode( FitnessResources.getString( "time.reset" ), 12, Color.green );
             gradientButtonNode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     resetChartArea();
@@ -270,7 +270,7 @@ public class ChartNode extends PNode {
             addChild( gradientButtonNode );
 
             axisLabel = new PNode();
-            PText text = new PText( FitnessResources.getString( "time.years" ) );
+            PText text = new PText( FitnessResources.getString( "units.time.yrs" ) );
             axisLabel.addChild( text );
             axisLabel.addChild( new PhetPPath( new Arrow( new Point2D.Double( text.getFullBounds().getMaxX(), text.getFullBounds().getCenterY() ),
                                                           new Vector2D.Double( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );

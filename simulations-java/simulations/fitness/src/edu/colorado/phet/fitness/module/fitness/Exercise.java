@@ -24,7 +24,7 @@ public class Exercise {
     }
 
     public String toString() {
-        String calPerDay = FitnessResources.getString( "calories.day" );
+        String calPerDay = FitnessResources.getString( "units.cal-per-day" );
         return name + ": " + calories + " " + calPerDay;
     }
 }

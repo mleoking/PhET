@@ -23,13 +23,13 @@ public class BMIHelpButtonNode extends GradientButtonNode {
         this.human = human;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                String currentBMI = FitnessResources.getString( "current.bmi" );
-                String line1 = FitnessResources.getString( "bmi.table.for.adults.20.and.over.n.n" );
-                String line2 = FitnessResources.getString( "bmi.tweight.status.n" );
-                String line3 = FitnessResources.getString( "0.18.5.tunderweight.n" );
-                String line4 = FitnessResources.getString( "18.5.24.9.tnormal.n" );
-                String line5 = FitnessResources.getString( "25.0.29.9.toverweight.n" );
-                String line6 = FitnessResources.getString( "30.0.tobese" );
+                String currentBMI = FitnessResources.getString( "bmi.current" );
+                String line1 = FitnessResources.getString( "bmi.table" );
+                String line2 = FitnessResources.getString( "bmi.columns" );
+                String line3 = FitnessResources.getString( "bmi.underweight" );
+                String line4 = FitnessResources.getString( "bmi.normal" );
+                String line5 = FitnessResources.getString( "bmi.overweight" );
+                String line6 = FitnessResources.getString( "bmi.obese" );
                 JOptionPane.showMessageDialog( parentComponent, currentBMI + new DecimalFormat( "0.0" ).format( human.getBMI() ) + "\n\n" +
                                                                 line1 +
                                                                 line2 +

@@ -19,7 +19,7 @@ import edu.colorado.phet.fitness.FitnessResources;
 public class FitnessModel {
 
     public static class Units {
-        public static final Units ENGLISH = new Units( FitnessResources.getString( "english" ), "lbs", FitnessResources.getString( "feet.in" ) ) {
+        public static final Units ENGLISH = new Units( FitnessResources.getString( "units.english" ), "units.lbs", FitnessResources.getString( "units.feet.in" ) ) {
             public double modelToViewMass( double mass ) {
                 return FitnessUnits.kgToPounds( mass );
             }
@@ -36,7 +36,7 @@ public class FitnessModel {
                 return FitnessUnits.feetToMeters( value );
             }
         };
-        public static final Units METRIC = new Units( FitnessResources.getString( "metric" ), "kg", "meters" );
+        public static final Units METRIC = new Units( FitnessResources.getString( "units.metric" ), "kg", "meters" );
         private String shortName;
         private String massUnit;
         private String distanceUnit;
@@ -95,8 +95,8 @@ public class FitnessModel {
     public static final CalorieSet availableExercise = new CalorieSet( FileParser.getExerciseItems() );
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
-    public static final Diet BALANCED_DIET = new Diet( FitnessResources.getString( "balanced.diet" ), 870, 1583, 432 );
-    public static final Diet FAST_FOOD_ONLY = new Diet( FitnessResources.getString( "fast.food.only" ), 3000, 300, 150 );
+    public static final Diet BALANCED_DIET = new Diet( FitnessResources.getString( "diet.balanced" ), 870, 1583, 432 );
+    public static final Diet FAST_FOOD_ONLY = new Diet( FitnessResources.getString( "diet.fast-food" ), 3000, 300, 150 );
     public static final Diet[] availableDiets = new Diet[]{
             BALANCED_DIET,
             FAST_FOOD_ONLY
@@ -159,7 +159,7 @@ public class FitnessModel {
                 return availableDiet;
             }
         }
-        return new Diet( FitnessResources.getString( "user.specified" ), lipids, carbs, proteins );
+        return new Diet( FitnessResources.getString( "diet.user-specified" ), lipids, carbs, proteins );
     }
 
     //Todo: remove this workaround for performance/graphics problems

@@ -35,7 +35,7 @@ public class ExerciseSelectionPanel extends JPanel implements ICalorieSelectionP
 
     private class ActivityLevelsPanel extends JPanel {
         private ActivityLevelsPanel() {
-            setBorder( CalorieSelectionPanel.createTitledBorder( FitnessResources.getString( "lifestyle" ) ) );
+            setBorder( CalorieSelectionPanel.createTitledBorder( FitnessResources.getString( "exercise.lifestyle" ) ) );
             ButtonGroup bg = new ButtonGroup();
             for ( int i = 0; i < Activity.DEFAULT_ACTIVITY_LEVELS.length; i++ ) {
                 JRadioButton jRadioButton = new JRadioButton( Activity.DEFAULT_ACTIVITY_LEVELS[i].toString(),

@@ -22,7 +22,7 @@ public class FitnessWiggleMe extends DefaultWiggleMe {
     private PCanvas canvas;
 
     public FitnessWiggleMe( final PCanvas canvas, PNode target ) {
-        super( canvas, FitnessResources.getString( "choose.a.diet" ) );
+        super( canvas, FitnessResources.getString( "diet.choose" ) );
         this.target = target;
         this.canvas = canvas;
 
