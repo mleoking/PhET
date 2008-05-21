@@ -67,9 +67,6 @@
                             <origin>../../temp/website/phet.colorado.edu/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet.colorado.edu/physics</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
                             <origin>../../temp/website/phet.colorado.edu/Design</origin>
                         </distributionDirectory>
                         <distributionFile>
