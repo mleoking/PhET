@@ -1,24 +1,35 @@
 #!/bin/sh
 
-#
-# This script is intended to be run from the PhET website server (currently tigercat).
-# Paths are currently hard coded to this system.
-# 
+#############################################################################
+# This is the main control script for the installer builder.  It is intended
+# to be run from the PhET website server (currently tigercat), and paths are
+# currently hard coded to this system.
+#############################################################################
 
-# Make sure we're in the proper directory
-cd /web/htdocs/phet/installer-builder/
-
+#----------------------------------------------------------------------------
 # Subroutine for sending email notification of results.
+#----------------------------------------------------------------------------
 function send_email_notification {
-   EMAIL_ADDR="john.blanco@colorado.edu"
+
+   # Email distribution list - this controls who receives notifications of the
+   # result of the build process.
+   EMAIL_ADDR="john.blanco@colorado.edu cmalley@pixelzoom.com wendy.adams@colorado.edu daniel.mckagan@gmail.com reids@colorado.edu"
+
    EMAIL_MSG="/tmp/phet_build_email_msg.txt"
    LINES_TO_SEND=30
-   echo "Below are the final $LINES_TO_SEND lines excerpted from the log file:"> $EMAIL_MSG
+   echo "Below are the final $LINES_TO_SEND lines from the installer build log file:"> $EMAIL_MSG
    echo "">> $EMAIL_MSG
    tail -n $LINES_TO_SEND ./installer-builder-log.txt >> $EMAIL_MSG
    EMAIL_SUBJECT="Result of nightly installer build: $1"
    /bin/mail -s "$EMAIL_SUBJECT" "$EMAIL_ADDR" < $EMAIL_MSG
 }
+
+#----------------------------------------------------------------------------
+# Main body of this script.
+#----------------------------------------------------------------------------
+
+# Make sure we're in the proper directory
+cd /web/htdocs/phet/installer-builder/
 
 echo "================================================================" | tee --append installer-builder-log.txt
 echo " Installer opreation performed on: " | tee --append installer-builder-log.txt
