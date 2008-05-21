@@ -157,14 +157,16 @@ public class NeutronSourceNode extends PNode{
         _origWidth              = getFullBounds().width;
         _origHeight             = getFullBounds().height;
         
+        // Set up the absolute, or compensated, values needed for determining
+        // desired rotation angle and for rotating the image.
+        _absoluteRotationPointX = _neutronSource.getPosition().getX() - 
+                (_origWidth/2) * Math.cos( _neutronSource.getFiringAngle() );
+        _absoluteRotationPointY = _neutronSource.getPosition().getY() -
+                (_origWidth/2) * Math.sin( _neutronSource.getFiringAngle() );
+
         // Set our initial rotation and position.
         rotateToMatchNeutronSource();
         translateToMatchNeutronSource();
-
-        // Set up the absolute, or compensated, values needed for determining
-        // desired rotation angle and for rotating the image.
-        _absoluteRotationPointX = getFullBounds().x + _relativeRotationPointX;
-        _absoluteRotationPointY = getFullBounds().y + _relativeRotationPointY;
     }
     
     //------------------------------------------------------------------------
