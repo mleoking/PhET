@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.fitness.FitnessResources;
-import edu.colorado.phet.fitness.resourceBundle;
+import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
@@ -36,7 +36,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
 
         for ( int i = 0; i < available.getItemCount(); i++ ) {
             DietComponent dietComponent = new DietComponent( available.getItem( i ), true );
-            JButton addButton = new JButton( resourceBundle.getString( "add" ) );
+            JButton addButton = new JButton( FitnessResources.getString( "add" ) );
             dietComponent.add( addButton );
             final int i1 = i;
             addButton.addActionListener( new ActionListener() {
@@ -89,7 +89,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
                 }
             }
         } );
-        JButton button = new JButton( resourceBundle.getString( "done" ) );
+        JButton button = new JButton( FitnessResources.getString( "done" ) );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyDonePressed();
@@ -125,7 +125,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( new CalorieSelectionPanel( FitnessModel.availableFoods, new CalorieSet(), resourceBundle.getString( "grocery.store" ), resourceBundle.getString( "diet" ) ) );
+        frame.setContentPane( new CalorieSelectionPanel( FitnessModel.availableFoods, new CalorieSet(), FitnessResources.getString( "grocery.store" ), FitnessResources.getString( "diet" ) ) );
         frame.pack();
         frame.setSize( 800, 600 );
         frame.setVisible( true );
@@ -182,7 +182,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
             this.item = item;
             boolean removableFood = item instanceof CaloricFoodItem && ( (CaloricFoodItem) item ).isRemovable();
             if ( removableFood || !( item instanceof CaloricFoodItem ) ) {
-                JButton button = new JButton( resourceBundle.getString( "remove" ) );
+                JButton button = new JButton( FitnessResources.getString( "remove" ) );
                 button.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         set.removeItem( item );

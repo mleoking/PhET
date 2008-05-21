@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
-import edu.colorado.phet.fitness.resourceBundle;
+import edu.colorado.phet.fitness.FitnessResources;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -22,7 +22,7 @@ public class FitnessWiggleMe extends DefaultWiggleMe {
     private PCanvas canvas;
 
     public FitnessWiggleMe( final PCanvas canvas, PNode target ) {
-        super( canvas, resourceBundle.getString( "choose.a.diet" ) );
+        super( canvas, FitnessResources.getString( "choose.a.diet" ) );
         this.target = target;
         this.canvas = canvas;
 

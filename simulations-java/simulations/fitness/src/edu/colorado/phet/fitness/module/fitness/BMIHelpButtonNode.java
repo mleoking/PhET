@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.fitness.model.Human;
-import edu.colorado.phet.fitness.resourceBundle;
+import edu.colorado.phet.fitness.FitnessResources;
 
 /**
  * Created by: Sam
@@ -23,13 +23,13 @@ public class BMIHelpButtonNode extends GradientButtonNode {
         this.human = human;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                String currentBMI = resourceBundle.getString( "current.bmi" );
-                String line1 = resourceBundle.getString( "bmi.table.for.adults.20.and.over.n.n" );
-                String line2 = resourceBundle.getString( "bmi.tweight.status.n" );
-                String line3 = resourceBundle.getString( "0.18.5.tunderweight.n" );
-                String line4 = resourceBundle.getString( "18.5.24.9.tnormal.n" );
-                String line5 = resourceBundle.getString( "25.0.29.9.toverweight.n" );
-                String line6 = resourceBundle.getString( "30.0.tobese" );
+                String currentBMI = FitnessResources.getString( "current.bmi" );
+                String line1 = FitnessResources.getString( "bmi.table.for.adults.20.and.over.n.n" );
+                String line2 = FitnessResources.getString( "bmi.tweight.status.n" );
+                String line3 = FitnessResources.getString( "0.18.5.tunderweight.n" );
+                String line4 = FitnessResources.getString( "18.5.24.9.tnormal.n" );
+                String line5 = FitnessResources.getString( "25.0.29.9.toverweight.n" );
+                String line6 = FitnessResources.getString( "30.0.tobese" );
                 JOptionPane.showMessageDialog( parentComponent, currentBMI + new DecimalFormat( "0.0" ).format( human.getBMI() ) + "\n\n" +
                                                                 line1 +
                                                                 line2 +

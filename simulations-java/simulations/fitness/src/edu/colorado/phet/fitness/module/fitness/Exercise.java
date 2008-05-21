@@ -1,6 +1,6 @@
 package edu.colorado.phet.fitness.module.fitness;
 
-import edu.colorado.phet.fitness.resourceBundle;
+import edu.colorado.phet.fitness.FitnessResources;
 
 /**
  * Created by: Sam
@@ -24,7 +24,7 @@ public class Exercise {
     }
 
     public String toString() {
-        String calPerDay = resourceBundle.getString( "calories.day" );
+        String calPerDay = FitnessResources.getString( "calories.day" );
         return name + ": " + calories + " " + calPerDay;
     }
 }

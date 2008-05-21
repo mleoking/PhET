@@ -78,9 +78,9 @@ public class FitnessModule extends PiccoloModule {
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         _clockControlPanel.setRestartButtonVisible( false );
-        _clockControlPanel.setStepButtonText( resourceBundle.getString( "next.month" ) );
+        _clockControlPanel.setStepButtonText( FitnessResources.getString( "next.month" ) );
         _clockControlPanel.setTimeFormat( "0.0" );
-        JButton button = new JButton( resourceBundle.getString( "reset.all" ) );
+        JButton button = new JButton( FitnessResources.getString( "reset.all" ) );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 _model.resetAll();
@@ -88,7 +88,7 @@ public class FitnessModule extends PiccoloModule {
             }
         } );
 
-        JButton disclaimerButton = new JButton( resourceBundle.getString( "disclaimer" ) );
+        JButton disclaimerButton = new JButton( FitnessResources.getString( "disclaimer" ) );
         disclaimerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JOptionPane.showMessageDialog( parentFrame, FitnessStrings.DISCLAIMER );
@@ -109,7 +109,7 @@ public class FitnessModule extends PiccoloModule {
 
     private void activateStartButtonWiggleMe() {
         if ( !inited && !everStarted ) {
-            final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, resourceBundle.getString( "start.the.simulation" ) );
+            final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, FitnessResources.getString( "start.the.simulation" ) );
             fitnessClock.addClockListener( new ClockAdapter() {
                 public void clockStarted( ClockEvent clockEvent ) {
                     if ( getDefaultHelpPane().getLayer().indexOfChild( motionHelpBalloon ) >= 0 ) {
