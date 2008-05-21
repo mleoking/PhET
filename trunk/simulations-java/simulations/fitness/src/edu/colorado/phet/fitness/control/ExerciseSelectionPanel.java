@@ -9,7 +9,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Human;
-import edu.colorado.phet.fitness.resourceBundle;
+import edu.colorado.phet.fitness.FitnessResources;
 
 /**
  * Created by: Sam
@@ -35,7 +35,7 @@ public class ExerciseSelectionPanel extends JPanel implements ICalorieSelectionP
 
     private class ActivityLevelsPanel extends JPanel {
         private ActivityLevelsPanel() {
-            setBorder( CalorieSelectionPanel.createTitledBorder( resourceBundle.getString( "lifestyle" ) ) );
+            setBorder( CalorieSelectionPanel.createTitledBorder( FitnessResources.getString( "lifestyle" ) ) );
             ButtonGroup bg = new ButtonGroup();
             for ( int i = 0; i < Activity.DEFAULT_ACTIVITY_LEVELS.length; i++ ) {
                 JRadioButton jRadioButton = new JRadioButton( Activity.DEFAULT_ACTIVITY_LEVELS[i].toString(),

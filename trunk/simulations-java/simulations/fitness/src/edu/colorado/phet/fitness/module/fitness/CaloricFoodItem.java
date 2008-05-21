@@ -1,7 +1,7 @@
 package edu.colorado.phet.fitness.module.fitness;
 
 import edu.colorado.phet.fitness.FitnessStrings;
-import edu.colorado.phet.fitness.resourceBundle;
+import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.control.CaloricItem;
 
 /**
@@ -64,8 +64,8 @@ public class CaloricFoodItem extends CaloricItem {
     }
 
     public String getLabelText() {
-        String one= resourceBundle.getString( "one" );
-        String perDay= resourceBundle.getString( "per.day" );
+        String one= FitnessResources.getString( "one" );
+        String perDay= FitnessResources.getString( "per.day" );
         return "<html>"+one+" " + getName() + " "+perDay+"<br>(" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY + ")</html>";
     }
 }

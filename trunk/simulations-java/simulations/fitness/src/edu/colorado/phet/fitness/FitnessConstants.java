@@ -32,21 +32,6 @@ public class FitnessConstants {
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
 
     //----------------------------------------------------------------------------
-    // Fonts
-    //----------------------------------------------------------------------------
-
-    // Default font properties
-    public static final String DEFAULT_FONT_NAME = PhetFont.getDefaultFontName();
-    public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
-    public static final int DEFAULT_FONT_SIZE = 16;
-
-    public static final Font CONTROL_PANEL_TITLE_FONT = new Font( FitnessConstants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
-    public static final Font CONTROL_PANEL_CONTROL_FONT = new Font( FitnessConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
-
-    public static final Font PLAY_AREA_TITLE_FONT = new Font( FitnessConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
-    public static final Font PLAY_AREA_CONTROL_FONT = new Font( FitnessConstants.DEFAULT_FONT_NAME, Font.PLAIN, 16 );
-
-    //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------
 
