@@ -3,6 +3,7 @@ package edu.colorado.phet.fitness.control;
 import javax.swing.*;
 
 import edu.colorado.phet.fitness.model.Human;
+import edu.colorado.phet.fitness.resourceBundle;
 
 /**
  * Created by: Sam
@@ -12,7 +13,7 @@ public class NamePanel extends JPanel {
     public NamePanel( Human human ) {
 
         JPanel namePanel = new JPanel();
-        namePanel.add( new JLabel( "Name: " ) );
+        namePanel.add( new JLabel( resourceBundle.getString( "name" ) ) );
         JTextField name = new JTextField( human.getName() );
         name.setColumns( 10 );
         namePanel.add( name );

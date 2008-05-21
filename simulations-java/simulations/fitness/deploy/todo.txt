@@ -11,11 +11,11 @@ Fitness sim is very nice in many respects, but I really miss the drag and drop c
     I was thinking you could bring the drag and drop food and exercise and then have a button for extended diet and exercise options since the list is soooo long. What do you think?
 
 Get better simulation name:
+Food and Exercise
 Exercise & Eats
 Calorie/Fitness
 Diet and Exercise
 Exercise and Diet
-Food and Exercise
 Calories in Food and Exercise
 Exercise and Foods
 Eating and Working Out

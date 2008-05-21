@@ -24,16 +24,17 @@ public class FitnessStrings {
 
     public static final String UNITS_DISTANCE = FitnessResources.getString( "units.distance" );
     public static final String UNITS_ORIENTATION = FitnessResources.getString( "units.orientation" );
-    public static final String UNITS_TIME = "years";
+    public static final String UNITS_TIME = resourceBundle.getString( "years" );
 
-    public static final String KCAL = "Cal";
-    public static final String KCAL_PER_DAY = KCAL + "/day";
+    public static final String KCAL = resourceBundle.getString( "cal" );
+    public static final String day="day";
+    public static final String KCAL_PER_DAY = KCAL + "/"+day;
     public static final String FATS = "Fats";
 
     public static final DecimalFormat KCAL_PER_DAY_FORMAT = new DecimalFormat( "0" );
     public static final DecimalFormat WEIGHT_FORMAT = new DecimalFormat( "0" );
     public static final DecimalFormat AGE_FORMAT = new DecimalFormat( "0.0" );
 
-    public static final String DISCLAIMER = "This simulation depicts behavior under ideal circumstances and a variety of assumptions.\nIt is not intended as a replacement for medical advice.";
+    public static final String DISCLAIMER = resourceBundle.getString( "this.simulation.depicts.behavior.under.ideal.circumstances.and.a.variety.of.assumptions.nit.is.not.intended.as.a.replacement.for.medical.advice" );
 
 }

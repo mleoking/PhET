@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.fitness.model.Human;
+import edu.colorado.phet.fitness.resourceBundle;
 
 /**
  * Created by: Sam
@@ -22,13 +23,20 @@ public class BMIHelpButtonNode extends GradientButtonNode {
         this.human = human;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( parentComponent, "Current BMI: " + new DecimalFormat("0.0").format( human.getBMI() )+ "\n\n" +
-                                                                "BMI table for adults (20 and over)\n\n" +
-                                                                "BMI             \tWeight Status\n" +
-                                                                "0-18.5          \tUnderweight\n" +
-                                                                "18.5 – 24.9     \tNormal\n" +
-                                                                "25.0 – 29.9     \tOverweight\n" +
-                                                                "30.0+           \tObese" );
+                String currentBMI = resourceBundle.getString( "current.bmi" );
+                String line1 = resourceBundle.getString( "bmi.table.for.adults.20.and.over.n.n" );
+                String line2 = resourceBundle.getString( "bmi.tweight.status.n" );
+                String line3 = resourceBundle.getString( "0.18.5.tunderweight.n" );
+                String line4 = resourceBundle.getString( "18.5.24.9.tnormal.n" );
+                String line5 = resourceBundle.getString( "25.0.29.9.toverweight.n" );
+                String line6 = resourceBundle.getString( "30.0.tobese" );
+                JOptionPane.showMessageDialog( parentComponent, currentBMI + new DecimalFormat( "0.0" ).format( human.getBMI() ) + "\n\n" +
+                                                                line1 +
+                                                                line2 +
+                                                                line3 +
+                                                                line4 +
+                                                                line5 +
+                                                                line6 );
             }
         } );
     }

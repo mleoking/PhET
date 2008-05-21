@@ -41,31 +41,31 @@ public class CaloriePanel extends PNode {
         } );
 
         Function.LinearFunction transform = new Function.LinearFunction( 0, 3000, 0, 250 );
-        stackedBarChart = new StackedBarChartNode( transform, "Calories/Day", 10, 250, 1000, 8000 );
+        stackedBarChart = new StackedBarChartNode( transform, FitnessResources.getString( "calories.day" ), 10, 250, 1000, 8000 );
 
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         Color labelColor = Color.black;
         intakeBars.addElement( new BarChartElementAdapter( FitnessStrings.FATS, FitnessColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif", labelColor ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( "Carbs", FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png", labelColor ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( "Proteins", FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "carbs" ), FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "proteins" ), FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif", labelColor ), StackedBarNode.NONE );
 
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
-        exerciseBars.addElement( new BarChartElementAdapter( "<html>Resting<br>(BMR)</html>", FitnessColorScheme.BMR, model.getHuman().getBmr(), "heart2.png" ), StackedBarNode.NONE );
-        exerciseBars.addElement( new BarChartElementAdapter( "Lifestyle", FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(), "j0417518.png" ), StackedBarNode.NONE );
-        exerciseBars.addElement( new BarChartElementAdapter( "Exercise", FitnessColorScheme.EXERCISE, model.getHuman().getExercise(), "road_biker.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "html.resting.br.bmr.html" ), FitnessColorScheme.BMR, model.getHuman().getBmr(), "heart2.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "lifestyle" ), FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(), "j0417518.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "exercise" ), FitnessColorScheme.EXERCISE, model.getHuman().getExercise(), "road_biker.png" ), StackedBarNode.NONE );
 
         stackedBarChart.addStackedBarNode( intakeBars );
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        foodNode = new CalorieNode( parentFrame, "Edit Diet", new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), "Grocery Store & Restaurants", "Diet" ) {
+        foodNode = new CalorieNode( parentFrame, FitnessResources.getString( "edit.diet" ), new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), FitnessResources.getString( "grocery.store.restaurants" ), FitnessResources.getString( "diet" ) ) {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new FoodSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }
         };
         addChild( foodNode );
 
-        exerciseNode = new CalorieNode( parentFrame, "Edit Exercise", Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), "Options", "Daily Exercise" ) {
+        exerciseNode = new CalorieNode( parentFrame, FitnessResources.getString( "edit.exercise" ), Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), FitnessResources.getString( "options" ), FitnessResources.getString( "daily.exercise" ) ) {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new ExerciseSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }

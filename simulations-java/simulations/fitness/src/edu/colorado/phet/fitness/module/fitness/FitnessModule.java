@@ -15,10 +15,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
-import edu.colorado.phet.fitness.FitnessApplication;
-import edu.colorado.phet.fitness.FitnessConstants;
-import edu.colorado.phet.fitness.FitnessResources;
-import edu.colorado.phet.fitness.FitnessStrings;
+import edu.colorado.phet.fitness.*;
 import edu.colorado.phet.fitness.defaults.ExampleDefaults;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
@@ -81,9 +78,9 @@ public class FitnessModule extends PiccoloModule {
         _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         _clockControlPanel.setRestartButtonVisible( false );
-        _clockControlPanel.setStepButtonText( "Next Month" );
+        _clockControlPanel.setStepButtonText( resourceBundle.getString( "next.month" ) );
         _clockControlPanel.setTimeFormat( "0.0" );
-        JButton button = new JButton( "Reset All" );
+        JButton button = new JButton( resourceBundle.getString( "reset.all" ) );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 _model.resetAll();
@@ -91,7 +88,7 @@ public class FitnessModule extends PiccoloModule {
             }
         } );
 
-        JButton disclaimerButton = new JButton( "Disclaimer" );
+        JButton disclaimerButton = new JButton( resourceBundle.getString( "disclaimer" ) );
         disclaimerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JOptionPane.showMessageDialog( parentFrame, FitnessStrings.DISCLAIMER );
@@ -112,7 +109,7 @@ public class FitnessModule extends PiccoloModule {
 
     private void activateStartButtonWiggleMe() {
         if ( !inited && !everStarted ) {
-            final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, "Start the simulation" );
+            final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, resourceBundle.getString( "start.the.simulation" ) );
             fitnessClock.addClockListener( new ClockAdapter() {
                 public void clockStarted( ClockEvent clockEvent ) {
                     if ( getDefaultHelpPane().getLayer().indexOfChild( motionHelpBalloon ) >= 0 ) {

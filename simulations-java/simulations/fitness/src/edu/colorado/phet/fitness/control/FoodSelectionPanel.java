@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
+import edu.colorado.phet.fitness.resourceBundle;
 
 /**
  * Created by: Sam
@@ -35,10 +36,10 @@ public class FoodSelectionPanel extends JPanel implements ICalorieSelectionPanel
 
     private class ActivityLevelsPanel extends JPanel {
         private ActivityLevelsPanel() {
-            setBorder( CalorieSelectionPanel.createTitledBorder( "Base Diet" ) );
+            setBorder( CalorieSelectionPanel.createTitledBorder( resourceBundle.getString( "base.diet" ) ) );
             ButtonGroup bg = new ButtonGroup();
             final CaloricFoodItem[] baseDiets = new CaloricFoodItem[]{
-                    new CaloricFoodItem( "Nothing", null, 0, 0, 0, 0, false ),
+                    new CaloricFoodItem( resourceBundle.getString( "nothing" ), null, 0, 0, 0, 0, false ),
                     human.getDefaultIntake(),
             };
             for ( int i = 0; i < baseDiets.length; i++ ) {
