@@ -6,9 +6,10 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- make sure that x location of flags and debris doesn't go past terminus (handle large dt properly)
+- make glacial budget meter snap to surface, display "?" while dragging
 - prune debris at moraine so we don't end up with a huge number of debris that slows things down
-- make sure that debris on valley floor isn't doing any work
-- bug: debris is reaching the surface above ELA
+- debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate 
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
 - glacier advances too fast, get model fix from Archie [550]
@@ -20,7 +21,7 @@ MEDIUM PRIORITY:
 - distribute features between Basic and Advanced panels
 - implement Save/Load feature
 - close & reopen graph windows when switching modules
-- make mercury in thermometer move as temperature changes
+- make mercury in thermometer move as temperature changes (ask first)
 - main control panel should be the same height in all modules
 - PlayArea class is too big, refactor
 - AbstractModel class is too big, refactor
