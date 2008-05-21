@@ -36,15 +36,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" afterPath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.ipr" afterPath="$PROJECT_DIR$/intellij-idea-all.ipr" />
     </list>
-    <list name="rotation-render" comment="" />
+    <list name="rotation-render" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
+    </list>
     <list name="build-12-7-2007" comment="" />
     <list name="bsp" comment="" />
     <list name="IWS" comment="" />
-    <list name="iws" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
-    </list>
+    <list name="ipr" comment="" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="Commander">
@@ -147,6 +147,32 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/electric-hockey/src/edu/colorado/phet/electrichockey/ElectricHockeyApplication.java" line="104" class="Class at ElectricHockeyApplication.java:104" package="edu.colorado.phet.electrichockey">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/greenhouse/src/edu/colorado/phet/greenhouse/BaseGreenhouseModule.java" line="354" class="edu.colorado.phet.greenhouse.BaseGreenhouseModule.Zoomer" package="edu.colorado.phet.greenhouse">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
     </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
@@ -219,56 +245,60 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="bitrock-installer-template.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../build-tools/phet-build/templates/bitrock-installer-template.xml">
+      <file leaf-file-name="StackedBarNode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/StackedBarNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="37" selection-start="428" selection-end="428" vertical-scroll-proportion="0.0">
+            <state line="415" column="26" selection-start="16097" selection-end="16097" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="intellij-idea-all.iws" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/intellij-idea-all.iws">
+      <file leaf-file-name="StackedBarChartAxisNode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/StackedBarChartAxisNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1509" column="1" selection-start="87163" selection-end="87163" vertical-scroll-proportion="0.0">
+            <state line="76" column="34" selection-start="3108" selection-end="3108" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScaleNode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/ScaleNode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="66" column="28" selection-start="2509" selection-end="2509" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CCKControlPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/CCKControlPanel.java">
+      <file leaf-file-name="SummaryNode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/SummaryNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="51" column="105" selection-start="2265" selection-end="2265" vertical-scroll-proportion="0.0">
+            <state line="59" column="33" selection-start="2150" selection-end="2150" vertical-scroll-proportion="0.29037037">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhetLookAndFeel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/PhetLookAndFeel.java">
+      <file leaf-file-name="ChartNode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/ChartNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="57" selection-start="1633" selection-end="1633" vertical-scroll-proportion="0.0">
+            <state line="273" column="29" selection-start="12289" selection-end="12289" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ControlPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/ControlPanel.java">
+      <file leaf-file-name="FitnessPText.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessPText.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="86" selection-start="2028" selection-end="2028" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ApplicationModelControlPanel.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../simulations/semiconductor/src/edu/colorado/phet/common_semiconductor/view/ApplicationModelControlPanel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="30" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0720339">
-              <folding />
+            <state line="16" column="31" selection-start="407" selection-end="407" vertical-scroll-proportion="0.3942029">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -276,17 +306,10 @@
       <file leaf-file-name="FitnessApplication.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="92" selection-start="1348" selection-end="1348" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EFieldApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/efield/src/edu/colorado/phet/efield/EFieldApplication.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="188" column="15" selection-start="8376" selection-end="8376" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="99" column="48" selection-start="3652" selection-end="3652" vertical-scroll-proportion="0.2637037">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -294,16 +317,25 @@
       <file leaf-file-name="todo.txt" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../../simulations/fitness/deploy/todo.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="30" selection-start="388" selection-end="388" vertical-scroll-proportion="0.0">
+            <state line="7" column="8" selection-start="1010" selection-end="1010" vertical-scroll-proportion="0.1762963">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ControlPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/moving-man/src/edu/colorado/phet/movingman/force1d_orig/common_force1d/view/ControlPanel.java">
+      <file leaf-file-name="build-ancillary.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../build-ancillary.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="86" selection-start="2120" selection-end="2120" vertical-scroll-proportion="0.0">
+            <state line="40" column="18" selection-start="1906" selection-end="1906" vertical-scroll-proportion="0.39184397">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../build.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="67" column="74" selection-start="3245" selection-end="3245" vertical-scroll-proportion="-8.952381">
               <folding />
             </state>
           </provider>
@@ -367,6 +399,60 @@
         <PATH_ELEMENT>
           <option name="myItemId" value="intellij-idea-all" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="build-tools" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="build-tools" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="phet-build" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
     </subPane>
@@ -449,18 +535,127 @@
       <recent name="edu.colorado.phet.circuitconstructionkit.model.CCKDefaults" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="edu.colorado.phet.idealgas" />
       <recent name="edu.colorado.phet.common.phetcommon.resources" />
       <recent name="edu.colorado.phet.fitness.control" />
       <recent name="edu.colorado.phet.common.phetcommon.view.controls.valuecontrol" />
       <recent name="edu.colorado.phet.fitness.module.fitness" />
-      <recent name="edu.colorado.phet.fitness.model" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="edu.colorado.phet.common.phetgraphics.test" />
       <recent name="edu.colorado.phet" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RadioWavesApplication">
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="5/20/08 7:32 PM" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+          <PATH>C:\reid\phet\svn\trunk\simulations-java\contrib\piccolo\extras\edu\umd\cs\piccolox\nodes\PComposite.java</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
+  </component>
+  <component name="RunManager" selected="Application.FitnessApplication">
+    <tempConfiguration default="false" name="TestPSwingBounds" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+      <option name="MAIN_CLASS_NAME" value="edu.umd.cs.piccolox.pswing.tests.TestPSwingBounds" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </tempConfiguration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -651,12 +846,18 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="intellij-idea-all" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="50595" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="JProfiler">
         <option name="WINDOW" value="false" />
         <option name="JVMPI" value="false" />
         <option name="INTERPRETED" value="false" />
       </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="JProfiler" />
       <ConfigurationWrapper RunnerId="Run" />
       <method>
@@ -1165,7 +1366,7 @@
     <configuration default="false" name="CaptureScreenshot" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
       <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.common.testing.CaptureScreenshot" />
       <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
-      <option name="PROGRAM_PARAMETERS" value="ideal-gas gas-properties" />
+      <option name="PROGRAM_PARAMETERS" value="rotation rotation" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -1202,31 +1403,6 @@
         <option name="JVMPI" value="false" />
         <option name="INTERPRETED" value="false" />
       </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="false" name="ZBasalMetabolicRateTester.testBMR" type="JUnit" factoryName="JUnit" enabled="false" merge="false" runner="emma">
-      <pattern value="edu.colorado.phet.fitness.model.*" />
-      <module name="intellij-idea-all" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="edu.colorado.phet.fitness.model" />
-      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.fitness.model.ZBasalMetabolicRateTester" />
-      <option name="METHOD_NAME" value="testBMR" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <envs />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method>
@@ -1286,7 +1462,74 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <list size="31">
+    <configuration default="false" name="FaradayApplication" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.faraday.FaradayApplication" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib -Djavaws.phet.locale=ja" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="50522" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="ZBasalMetabolicRateTester.testBMR" type="JUnit" factoryName="JUnit" enabled="false" merge="false" runner="emma">
+      <pattern value="edu.colorado.phet.fitness.model.*" />
+      <module name="intellij-idea-all" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="edu.colorado.phet.fitness.model" />
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.fitness.model.ZBasalMetabolicRateTester" />
+      <option name="METHOD_NAME" value="testBMR" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="SemiconductorApplication" type="Application" factoryName="Application" enabled="false" merge="false" runner="emma">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.semiconductor.SemiconductorApplication" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <list size="34">
       <item index="0" class="java.lang.String" itemvalue="Application.PhetFont" />
       <item index="1" class="java.lang.String" itemvalue="Application.HumanAreaNode" />
       <item index="2" class="java.lang.String" itemvalue="Application.FitnessApplication" />
@@ -1315,9 +1558,12 @@
       <item index="25" class="java.lang.String" itemvalue="Application.BatchSimTest" />
       <item index="26" class="java.lang.String" itemvalue="Application.CaptureScreenshot" />
       <item index="27" class="java.lang.String" itemvalue="Application.TestPhetApplicationUsage" />
-      <item index="28" class="java.lang.String" itemvalue="JUnit.ZBasalMetabolicRateTester.testBMR" />
-      <item index="29" class="java.lang.String" itemvalue="Application.DistanceLadderApplication" />
-      <item index="30" class="java.lang.String" itemvalue="Application.RadioWavesApplication" />
+      <item index="28" class="java.lang.String" itemvalue="Application.DistanceLadderApplication" />
+      <item index="29" class="java.lang.String" itemvalue="Application.RadioWavesApplication" />
+      <item index="30" class="java.lang.String" itemvalue="Application.FaradayApplication" />
+      <item index="31" class="java.lang.String" itemvalue="JUnit.ZBasalMetabolicRateTester.testBMR" />
+      <item index="32" class="java.lang.String" itemvalue="Application.SemiconductorApplication" />
+      <item index="33" class="java.lang.String" itemvalue="Application.TestPSwingBounds" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -1411,8 +1657,8 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998997" order="12" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="-1" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17707662" order="1" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33801404" order="1" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2446877" order="1" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33801404" order="1" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3099298" order="4" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="15" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
@@ -1424,10 +1670,10 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39987123" order="0" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296845" order="5" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20734063" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15904701" order="0" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6018054" order="11" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39919758" order="6" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13393432" order="2" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16162266" order="2" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="13" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24774323" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
@@ -1457,7 +1703,7 @@
     <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="upgraded to new intellij" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed empty package" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -1468,31 +1714,31 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="added test for usage of phetcommon" />
-    <MESSAGE value="improved" />
-    <MESSAGE value="improved testing for lauch all" />
+    <MESSAGE value="updated to use phetlookandfeel to support ja etc" />
+    <MESSAGE value="remove unused main class" />
+    <MESSAGE value="removed unused imports" />
+    <MESSAGE value="converted to use phetfont" />
+    <MESSAGE value="converted to use phetlookandfeel" />
+    <MESSAGE value="removed test code" />
+    <MESSAGE value="removed unused test imports" />
+    <MESSAGE value="improved error handling" />
+    <MESSAGE value="switched to invokelater instead of invokeandwait" />
+    <MESSAGE value="converted parse(getString()) to getInt() to make compatible with coarse test harness" />
+    <MESSAGE value="converted to use phetfont and phetlookandfeel" />
+    <MESSAGE value="prepare for ar test run" />
+    <MESSAGE value="updated link to cache system" />
     <MESSAGE value="added to-do's" />
-    <MESSAGE value="removed phet-logo-48x48 from conductivity sim" />
-    <MESSAGE value="removed phet-logo-48x48 from radio-waves sim" />
-    <MESSAGE value="removed phet-logo-48x48 from moving-man sim" />
-    <MESSAGE value="removed phet-logo-48x48 from semiconductor sim" />
-    <MESSAGE value="removed phet-logo-48x48 from sound &amp; semiconductor sim" />
-    <MESSAGE value="removed phet-logo-48x48 from greenhouse sim" />
-    <MESSAGE value="removed empty packages" />
-    <MESSAGE value="removed phet-logo-48x48 from microwaves sim" />
-    <MESSAGE value="removed unused code" />
-    <MESSAGE value="updated to use common about dialog; cleanup" />
-    <MESSAGE value="moved main to swing thread" />
+    <MESSAGE value="see unfuddle ticket #557:&#10;https://phet.unfuddle.com/projects/9404/tickets/by_number/557" />
+    <MESSAGE value="reverted to old cache-clear location; this change will be made around June 1" />
+    <MESSAGE value="added notes" />
+    <MESSAGE value="added translation submissions" />
+    <MESSAGE value="updated header file" />
+    <MESSAGE value="added possible sim names" />
+    <MESSAGE value="internationalizing (in progress)" />
+    <MESSAGE value="fixed ptext to use phetfont in fitness sim" />
+    <MESSAGE value="finished internationalization" />
+    <MESSAGE value="docs" />
     <MESSAGE value="removed empty package" />
-    <MESSAGE value="removed phet logo from distance" />
-    <MESSAGE value="removed phet logo from distance ladder, moved main to new thread" />
-    <MESSAGE value="docs: This application is not properly threaded; if main() is run in swing thread, then it&#10;         * will be blocked by application code." />
-    <MESSAGE value="removed instances of the jframe icon" />
-    <MESSAGE value="removed unused frame icons" />
-    <MESSAGE value="removed unused icons" />
-    <MESSAGE value="removed curve-fitting sim stub; will be done in flash." />
-    <MESSAGE value="moved main to swing thread; updated to use phetlookandfeel to support ja etc" />
-    <MESSAGE value="upgraded to new intellij" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1607,122 +1853,166 @@
     <option name="myLastEditedConfigurable" value="find-deprecated" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../simulations/radio-waves/src/edu/colorado/phet/coreadditions/emf/ClientPhetLookAndFeel.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/model/Human.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="46" selection-start="351" selection-end="351" vertical-scroll-proportion="0.25331125">
+        <state line="391" column="109" selection-start="13039" selection-end="13039" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1211388122683" expanded="true" signature="5749:5786" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="5835:5863" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="5921:5966" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="6022:6065" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="6113:6150" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="6195:6524" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="6558:6753" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="6789:6859" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="6902:6935" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="6981:7018" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="7061:7234" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="7262:7366" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="7405:7608" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="7639:7941" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="7981:8048" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="8054:8416" placeholder="/**...*/" />
+            <marker date="1211388122683" expanded="true" signature="8448:8532" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="8561:8623" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="8662:8706" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="8745:8791" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="8821:8849" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="8890:8923" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="9339:9516" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="9564:9744" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="9980:10083" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="10119:10225" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="10268:10441" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="10487:10627" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="10676:10706" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="10754:10783" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="10834:10866" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="10912:10939" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="10990:11022" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="11073:11105" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="11176:11898" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="11944:12015" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="12057:12139" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="12183:12265" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="12302:12329" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="12369:12425" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="12469:12518" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="12570:12714" placeholder="{...}" />
+            <marker date="1211388122683" expanded="true" signature="12748:12777" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/data/fitness/localization/fitness-strings.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="0" selection-start="1545" selection-end="1545" vertical-scroll-proportion="1.0957265">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/module/fitness/FitnessModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="55" selection-start="680" selection-end="680" vertical-scroll-proportion="0.30427352">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessStrings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="31" selection-start="1407" selection-end="1407" vertical-scroll-proportion="0.85">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/ExerciseItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="153" selection-start="677" selection-end="677" vertical-scroll-proportion="0.4940171">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/microwaves/phetcommon/src/edu/colorado/phet/coreadditions_microwaves/LecturePhetLookAndFeel.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/CalorieSlider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="15" selection-start="1893" selection-end="1893" vertical-scroll-proportion="1.3725165">
+        <state line="29" column="25" selection-start="1002" selection-end="1002" vertical-scroll-proportion="0.33106962">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/ChartNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="273" column="29" selection-start="12289" selection-end="12289" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/StackedBarNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="415" column="26" selection-start="16097" selection-end="16097" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/StackedBarChartAxisNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="34" selection-start="3108" selection-end="3108" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/radio-waves/src/edu/colorado/phet/radiowaves/RadioWavesApplication.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/view/ScaleNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="17" selection-start="2549" selection-end="2549" vertical-scroll-proportion="0.10927153">
+        <state line="66" column="28" selection-start="2509" selection-end="2509" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/distance-ladder/src/edu/colorado/phet/distanceladder/exercise/ExerciseView.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/control/SummaryNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="24" selection-start="1400" selection-end="1400" vertical-scroll-proportion="0.3184438">
+        <state line="59" column="33" selection-start="2150" selection-end="2150" vertical-scroll-proportion="0.29037037">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessPText.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="31" selection-start="407" selection-end="407" vertical-scroll-proportion="0.3942029">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/PhetFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="45" selection-start="1411" selection-end="1411" vertical-scroll-proportion="0.47350994">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/distance-ladder/src/edu/colorado/phet/distanceladder/DistanceLadderApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="110" column="11" selection-start="5087" selection-end="5219" vertical-scroll-proportion="0.89134127">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../build-tools/phet-build/templates/bitrock-installer-template.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="37" selection-start="428" selection-end="428" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/intellij-idea-all.iws">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1509" column="1" selection-start="87163" selection-end="87163" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/circuit-construction-kit/src/edu/colorado/phet/circuitconstructionkit/CCKControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="105" selection-start="2265" selection-end="2265" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../common/phetcommon/src/edu/colorado/phet/common/phetcommon/view/PhetLookAndFeel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="57" selection-start="1633" selection-end="1633" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/ControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="86" selection-start="2028" selection-end="2028" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/deploy/todo.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="30" selection-start="388" selection-end="388" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/moving-man/src/edu/colorado/phet/movingman/force1d_orig/common_force1d/view/ControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="86" selection-start="2120" selection-end="2120" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/efield/src/edu/colorado/phet/efield/EFieldApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="188" column="15" selection-start="8376" selection-end="8376" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/fitness/src/edu/colorado/phet/fitness/FitnessApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="92" selection-start="1348" selection-end="1348" vertical-scroll-proportion="0.0">
+        <state line="99" column="48" selection-start="3652" selection-end="3652" vertical-scroll-proportion="0.2637037">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/fitness/deploy/todo.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="8" selection-start="1010" selection-end="1010" vertical-scroll-proportion="0.1762963">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/semiconductor/src/edu/colorado/phet/common_semiconductor/view/ApplicationModelControlPanel.java">
+    <entry file="file://$PROJECT_DIR$/../../build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="30" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0720339">
+        <state line="67" column="74" selection-start="3245" selection-end="3245" vertical-scroll-proportion="-8.952381">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../build-ancillary.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="18" selection-start="1906" selection-end="1906" vertical-scroll-proportion="0.39184397">
           <folding />
         </state>
       </provider>
