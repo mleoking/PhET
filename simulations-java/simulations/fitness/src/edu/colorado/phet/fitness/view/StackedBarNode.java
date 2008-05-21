@@ -25,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.FitnessStrings;
+import edu.colorado.phet.fitness.FitnessPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -411,7 +412,7 @@ public class StackedBarNode extends PNode {
         private PText child;
 
         private ReadoutNode() {
-            child = new PText( "Text" );
+            child = new FitnessPText( "Text" );
             addChild( child );
         }
 

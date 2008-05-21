@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -26,7 +27,7 @@ public class CalorieSlider extends PNode {
     private PhetPPath borderNode;
 
     public CalorieSlider( String title, Color color, boolean arrowDown ) {
-        titleNode = new PText( title );
+        titleNode = new FitnessPText( title );
         addChild( titleNode );
         borderNode = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT ), new BasicStroke( 1.5f ), Color.black );
         addChild( borderNode );
@@ -51,10 +52,10 @@ public class CalorieSlider extends PNode {
         borderNode.setOffset( 0, titleNode.getHeight() );
         arrowNode.setOffset( 0, titleNode.getHeight() );
 
-        PText low = new PText( FitnessResources.getString( "none" ) );
+        PText low = new FitnessPText( FitnessResources.getString( "none" ) );
         addChild( low );
         low.setOffset( -low.getFullBounds().getWidth(), borderNode.getFullBounds().getCenterY() - low.getFullBounds().getHeight() / 2 );
-        PText lots = new PText( FitnessResources.getString( "lots" ) );
+        PText lots = new FitnessPText( FitnessResources.getString( "lots" ) );
         addChild( lots );
         lots.setOffset( borderNode.getFullBounds().getWidth(), borderNode.getFullBounds().getCenterY() - low.getFullBounds().getHeight() / 2 );
 

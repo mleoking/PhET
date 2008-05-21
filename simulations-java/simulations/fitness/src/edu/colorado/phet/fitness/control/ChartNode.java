@@ -25,6 +25,7 @@ import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessPText;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
@@ -141,7 +142,7 @@ public class ChartNode extends PNode {
         addChild( weightChart );
         addChild( calorieChart );
 
-//        PNode chartAxisLabel = new PText( "label" );
+//        PNode chartAxisLabel = new FitnessPText( "label" );
 //        addChild( chartAxisLabel );
 //        chartAxisLabel.setOffset( weightChart.getFullBounds().getWidth()/2, weightChart.getFullBounds().getHeight()/2);
 //        System.out.println( "a.getFullBounds() = " + weightChart.getFullBounds() );
@@ -270,7 +271,7 @@ public class ChartNode extends PNode {
             addChild( gradientButtonNode );
 
             axisLabel = new PNode();
-            PText text = new PText( FitnessResources.getString( "units.time.yrs" ) );
+            PText text = new FitnessPText( FitnessResources.getString( "units.time.yrs" ) );
             axisLabel.addChild( text );
             axisLabel.addChild( new PhetPPath( new Arrow( new Point2D.Double( text.getFullBounds().getMaxX(), text.getFullBounds().getCenterY() ),
                                                           new Vector2D.Double( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );

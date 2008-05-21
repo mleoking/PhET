@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fitness.FitnessStrings;
+import edu.colorado.phet.fitness.FitnessPText;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
@@ -63,12 +64,12 @@ public class ScaleNode extends PNode {
                 updateWeightReadout();
             }
         } );
-        weightReadout = new PText( "??" );
+        weightReadout = new FitnessPText( "??" );
         double TEXT_SCALE = 1.0 / 175.0;
         weightReadout.scale( TEXT_SCALE );
         addChild( weightReadout );
 
-//        bmiReadout = new PText( "??" );
+//        bmiReadout = new FitnessPText( "??" );
 //        bmiReadout.scale( TEXT_SCALE );
 //        addChild( bmiReadout );
         updateWeightReadout();
