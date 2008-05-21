@@ -22,7 +22,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
-import edu.colorado.phet.nuclearphysics2.model.AlphaParticle.Listener;
 
 /**
  * This class defines a subpanel that goes on the main control panel for the

@@ -4,7 +4,6 @@ package edu.colorado.phet.nuclearphysics2.module.chainreaction;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.HashMap;
