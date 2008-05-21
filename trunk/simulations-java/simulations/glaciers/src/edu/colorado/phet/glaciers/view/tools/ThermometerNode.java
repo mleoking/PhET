@@ -91,7 +91,7 @@ public class ThermometerNode extends AbstractToolNode {
         
         PNode glassNode = new GlassNode();
         addChild( glassNode );
-        glassNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 2, -glassNode.getFullBoundsReference().getHeight() );
+        glassNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 2, -glassNode.getFullBoundsReference().getHeight() +  ( arrowNode.getFullBoundsReference().getHeight() / 2 ) );
         
         _valueNode = new ValueNode( getValueFont(), getValueBorder() );
         addChild( _valueNode );
