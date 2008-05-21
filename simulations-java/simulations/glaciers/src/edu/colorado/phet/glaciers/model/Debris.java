@@ -30,7 +30,7 @@ public class Debris extends ClockAdapter {
     private GlacierListener _glacierListener;
     private boolean _onValleyFloor;
     private ArrayList _listeners;
-    private boolean _enabled;
+    private boolean _deletedSelf;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,7 +50,7 @@ public class Debris extends ClockAdapter {
         };
         _glacier.addGlacierListener( _glacierListener );
         _listeners = new ArrayList();
-        _enabled = true;
+        _deletedSelf = false;
     }
     
     public void cleanup() {
@@ -60,6 +60,10 @@ public class Debris extends ClockAdapter {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
+    
+    public boolean isOnValleyFloor() {
+        return _onValleyFloor;
+    }
     
     private void setPosition( double x, double y, double z ) {
         if ( x != getX() || y != getY() || z != getZ() ) {
@@ -103,7 +107,7 @@ public class Debris extends ClockAdapter {
         if ( _onValleyFloor ) {
             double iceThicknessAtFlag = _glacier.getIceThickness( getX() );
             if ( iceThicknessAtFlag > 0 ) {
-                _enabled = false;
+                _deletedSelf = true;
                 notifyDeleteMe();
             }
         }
@@ -115,7 +119,7 @@ public class Debris extends ClockAdapter {
     
     public void simulationTimeChanged( ClockEvent clockEvent ) {
 
-        if ( _enabled && !_onValleyFloor ) {
+        if ( !_deletedSelf && !_onValleyFloor ) {
             
             // distance = velocity * dt
             Vector2D velocity = _glacier.getIceVelocity( getX(), getY() );
@@ -128,7 +132,7 @@ public class Debris extends ClockAdapter {
             if ( newY > newGlacierSurfaceElevation ) {
                 newY = newGlacierSurfaceElevation;
             }
-
+            
             if ( newY == _glacier.getValley().getElevation( newX ) ) {
                 _onValleyFloor = true;
             }
