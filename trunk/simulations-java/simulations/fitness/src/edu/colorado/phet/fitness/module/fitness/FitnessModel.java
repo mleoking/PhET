@@ -19,7 +19,7 @@ import edu.colorado.phet.fitness.FitnessResources;
 public class FitnessModel {
 
     public static class Units {
-        public static final Units ENGLISH = new Units( FitnessResources.getString( "units.english" ), "units.lbs", FitnessResources.getString( "units.feet.in" ) ) {
+        public static final Units ENGLISH = new Units( FitnessResources.getString( "units.english" ), FitnessResources.getString( "units.lbs" ), FitnessResources.getString( "units.feet.in" ) ) {
             public double modelToViewMass( double mass ) {
                 return FitnessUnits.kgToPounds( mass );
             }
