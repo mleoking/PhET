@@ -70,6 +70,7 @@ CLEANUP:
 
 
 DONE:
+5/20/08 - cleanup 3D debug code in DebrisNode
 5/20/08 - new mountains.svg image from Archie, removes yaw from perspective
 5/20/08 - implement GlacierPictureDialog
 5/20/08 - add "glacier picture" checkbox to View control panel, add stub in controller

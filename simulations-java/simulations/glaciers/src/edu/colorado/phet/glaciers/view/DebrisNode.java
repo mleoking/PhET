@@ -25,10 +25,9 @@ public class DebrisNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_3D = false;
+    private static final boolean DEBUG_3D = false;  // see debug3D method
     
     private static final double BOULDER_RADIUS = 1; // pixels
-    private static final double BUCKET_WIDTH = 40; // meters
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -36,6 +35,7 @@ public class DebrisNode extends PComposite {
     
     private final Debris _debris;
     private final Glacier _glacier;
+    private BoulderNode _boulderNode;
     private final DebrisListener _debrisListener;
     private final ModelViewTransform _mvt;
     private final Point2D _pModel, _pView;
@@ -58,18 +58,12 @@ public class DebrisNode extends PComposite {
         };
         _debris.addDebrisListener( _debrisListener );
         
-        BoulderNode boulderNode = new BoulderNode( BOULDER_RADIUS );
-        addChild( boulderNode );
-        
-        if ( DEBUG_3D ) {
-            if ( _debris.getZ() >= BUCKET_WIDTH ) {
-                boulderNode.setPaint( Color.RED );
-            }
-        }
-        else {
-            setVisible( _debris.getZ() < BUCKET_WIDTH );
-        }
-        
+        _boulderNode = new BoulderNode( BOULDER_RADIUS );
+        addChild( _boulderNode );
+
+        // only debris in the cross-section is initially visible
+        setVisible( _debris.getZ() == 0 );
+
         _pModel = new Point2D.Double();
         _pView = new Point2D.Double();
         updatePosition();
@@ -86,18 +80,32 @@ public class DebrisNode extends PComposite {
     private void updatePosition() {
         
         final double surfaceElevation = _glacier.getSurfaceElevation( _debris.getX() );
-        if ( _debris.getY() < surfaceElevation ) {
-            _pModel.setLocation( _debris.getX(), _debris.getY() );
-            if ( !DEBUG_3D ) {
-                setVisible( _debris.getZ() == 0 );
-            }
-        }
-        else {
+        if ( _debris.getY() >= surfaceElevation ) {
+            // when debris comes to the surface, add perspective to its position and make it visible
             _pModel.setLocation( _debris.getX(), _debris.getY() + _debris.getZ() );
             setVisible( true );
         }
+        else {
+            _pModel.setLocation( _debris.getX(), _debris.getY() );
+            setVisible( _debris.getZ() == 0 );
+        }
         _mvt.modelToView( _pModel, _pView );
         setOffset( _pView );
+        
+        if ( DEBUG_3D) {
+            debug3D();
+        }
+    }
+    
+    /*
+     * In debug mode, debris is always visible.
+     * Any debris with a non-zero z coordinate is shown in red.
+     */
+    private void debug3D() {
+        setVisible( true );
+        if ( _debris.getZ() > 0 ) {
+            _boulderNode.setPaint( Color.RED );
+        }
     }
     
     //----------------------------------------------------------------------------
