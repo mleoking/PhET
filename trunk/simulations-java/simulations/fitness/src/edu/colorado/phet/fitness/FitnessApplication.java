@@ -97,29 +97,6 @@ public class FitnessApplication extends PiccoloPhetApplication {
             _persistenceManager = new XMLPersistenceManager( frame );
         }
 
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( FitnessResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( FitnessResources.getChar( "menu.file.save.mnemonic", 'S' ) );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( FitnessResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( FitnessResources.getChar( "menu.file.load.mnemonic", 'L' ) );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
-        }
-
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu();
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
@@ -233,7 +210,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
 
             public void run() {
-                DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
+//                DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                 phetLookAndFeel.setFont( new PhetFont( 14, true ) );
                 phetLookAndFeel.setBackgroundColor( FitnessColorScheme.getBackgroundColor() );
