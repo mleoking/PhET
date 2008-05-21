@@ -7,7 +7,6 @@ DESIGN ISSUES (user interface):
 
 HIGH PRIORITY:
 - make sure that x location of flags and debris doesn't go past terminus (handle large dt properly)
-- make glacial budget meter snap to surface, display "?" while dragging
 - prune debris at moraine so we don't end up with a huge number of debris that slows things down
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate 
 - increase zoom on vertical axis by 2x
@@ -15,6 +14,7 @@ HIGH PRIORITY:
 - glacier advances too fast, get model fix from Archie [550]
 
 MEDIUM PRIORITY:
+- make it easy to drag glacial budget meter along surface of glacier?
 - visual representation of snowfall
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
@@ -71,7 +71,8 @@ CLEANUP:
 
 
 DONE:
-5/20/08 - cleanup 3D debug code in DebrisNode
+5/21/08 - make glacial budget meter snap to surface of glacier/valley, display "?" while dragging
+5/21/08 - cleanup 3D debug code in DebrisNode
 5/20/08 - new mountains.svg image from Archie, removes yaw from perspective
 5/20/08 - implement GlacierPictureDialog
 5/20/08 - add "glacier picture" checkbox to View control panel, add stub in controller

@@ -64,20 +64,20 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         
         _glacialBudgetMeterListener = new GlacialBudgetMeterListener() {
             public void accumulationChanged() {
-                updateAccumulation();
+                update();
             }
             public void ablationChanged() {
-                updateAblation();
+                update();
             }
             public void glacialBudgetChanged() {
-                updateGlacialBudget();
+                update();
             }
         };
         _glacialBudgetMeter.addGlacialBudgetMeterListener( _glacialBudgetMeterListener );
         
         _movableListener = new MovableAdapter() {
             public void positionChanged() {
-                updateElevation();
+                update();
             }
         };
         _glacialBudgetMeter.addMovableListener( _movableListener );
@@ -95,10 +95,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         _valueNode.setOffset( meterNode.getFullBounds().getMaxX() + 2, -_valueNode.getFullBounds().getHeight() / 2 );
         
         // initial state
-        updateElevation();
-        updateAccumulation();
-        updateAblation();
-        updateGlacialBudget();
+        _valueNode.setValuesUnknown();
     }
     
     public void cleanup() {
@@ -183,27 +180,20 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
             addChild( _pswing );
         }
         
-        public void setElevation( double elevation ) {
-            String text = ELEVATION_FORMAT.format( elevation ) + " " + GlaciersStrings.UNITS_ELEVATION;
-            _elevationLabel.setText( text );
+        public void setValues( double elevation, double accumulation, double ablation, double glacialBudget ) {
+            _elevationLabel.setText( ELEVATION_FORMAT.format( elevation ) + " " + GlaciersStrings.UNITS_ELEVATION );
+            _accumulationLabel.setText( ACCUMULATION_FORMAT.format( accumulation ) + " " + GlaciersStrings.UNITS_ACCUMULATION );
+            _ablationLabel.setText( ABLATION_FORMAT.format( ablation ) + " " + GlaciersStrings.UNITS_ABLATION );
+            _glacialBudgetLabel.setText( GLACIAL_BUDGET_FORMAT.format( glacialBudget )  + " " + GlaciersStrings.UNITS_GLACIAL_BUDGET );
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
-        
-        public void setAccumulation( double accumulation ) {
-            String text = ACCUMULATION_FORMAT.format( accumulation ) + " " + GlaciersStrings.UNITS_ACCUMULATION;
-            _accumulationLabel.setText( text );
-            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
-        }
-        
-        public void setAblation( double ablation ) {
-            String text = ABLATION_FORMAT.format( ablation ) + " " + GlaciersStrings.UNITS_ABLATION;
-            _ablationLabel.setText( text );
-            _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
-        }
-        
-        public void setGlacialBudget( double glacialBudget ) {
-            String text = GLACIAL_BUDGET_FORMAT.format( glacialBudget )  + " " + GlaciersStrings.UNITS_GLACIAL_BUDGET;
-            _glacialBudgetLabel.setText( text );
+
+        public void setValuesUnknown() {
+            final String unknownValue = "?";
+            _elevationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_ELEVATION );
+            _accumulationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_ACCUMULATION );
+            _ablationLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_ABLATION );
+            _glacialBudgetLabel.setText( unknownValue + " " + GlaciersStrings.UNITS_GLACIAL_BUDGET );
             _pswing.computeBounds(); //WORKAROUND: PSwing doesn't handle changing size of a JPanel properly
         }
     }
@@ -213,31 +203,20 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     /*
-     * Updates the elevation display to match the model.
+     * Updates the display to match the model.
+     * While the glacial budget meter is being dragged, display "?" for all values.
      */
-    private void updateElevation() {
-        _valueNode.setElevation( _glacialBudgetMeter.getPosition().getY() );
-    }
-    
-    /*
-     * Updates the accumulation display to match the model.
-     */
-    private void updateAccumulation() {
-        _valueNode.setAccumulation( _glacialBudgetMeter.getAccumulation() );
-    }
-    
-    /*
-     * Updates the ablation display to match the model.
-     */
-    private void updateAblation() {
-        _valueNode.setAblation( _glacialBudgetMeter.getAblation() );
-    }
-    
-    /*
-     * Updates the "glacial budget" display to match the model.
-     */
-    private void updateGlacialBudget() {
-        _valueNode.setGlacialBudget( _glacialBudgetMeter.getGlacialBudget() );
+    private void update() {
+        if ( _glacialBudgetMeter.isDragging() ) {
+            _valueNode.setValuesUnknown();
+        }
+        else {
+            _valueNode.setValues( 
+                _glacialBudgetMeter.getPosition().getY(),
+                _glacialBudgetMeter.getAccumulation(),
+                _glacialBudgetMeter.getAblation(),
+                _glacialBudgetMeter.getGlacialBudget() );
+        }
     }
     
     //----------------------------------------------------------------------------
