@@ -37,9 +37,24 @@
 	<property name="dev.server.name"    value="spot.colorado.edu"/>
 	<property name="prod.server.name"   value="tigercat.colorado.edu"/>
 
-	<!-- deploy output -->
-	<property name="dev.server.path"    value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev"/>
-	<property name="dev.server.url"     value="http://www.colorado.edu/physics/phet/dev"/>
+    <!--Optional properties for performing a batch deploy to a subdirectory on dev
+    see build-and-deploy-all-dev
+
+    Step 1. Set these properties
+    Step 2. Create a directory on spot with the directory name you specified
+    Step 3. Run build-and-deploy-all-dev
+
+    For example:
+    <property name="dev.server.dir" value="/temp/build-5-21-2008"/>
+    <property name="increment.versions" value="false"/>
+
+    -->
+    <property name="dev.server.dir" value=""/>
+    <property name="increment.versions" value="true"/>
+
+    <!-- deploy output -->
+	<property name="dev.server.path"    value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev${dev.server.dir}"/>
+	<property name="dev.server.url"     value="http://www.colorado.edu/physics/phet/dev${dev.server.dir}"/>
 	<property name="prod.server.path"   value="/web/htdocs/phet/sims"/>
 	<property name="prod.server.url"    value="http://phet.colorado.edu/sims"/>
 
@@ -122,7 +137,7 @@
 	</target>
 
 	<!-- builds and deploys all sims to the development server -->
-	<target name="build-and-deploy-all-dev" depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _clean-all, _list-sims">
+	<target name="build-and-deploy-all-dev" depends="_init, _prompt-for-dev-login, _clean-all, _list-sims">
 		<foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
 	</target>
 
@@ -372,13 +387,19 @@
 
 	<!-- *************************************BEGIN BUILD NUMBERS************************************* -->
 
-	<target name="_inc-sim-dev-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
-		<echo message="Incrementing the simulation development version number in property file ${file.project.properties}" />
+    <target name="_inc-sim-dev-version-number" description="Increments the development version number"
+            depends="_define-sim-properties-file">
+        <if>
+            <equals arg1="${increment.versions}" arg2="true"/>
+            <then>
+                <echo message="Incrementing the simulation development version number in property file ${file.project.properties}"/>
 
-		<propertyfile file="${file.project.properties}">
-			<entry key="version.dev" type="int" operation="+" value="1" pattern="00"/>
-		</propertyfile>
-	</target>
+                <propertyfile file="${file.project.properties}">
+                    <entry key="version.dev" type="int" operation="+" value="1" pattern="00"/>
+                </propertyfile>
+            </then>
+        </if>
+    </target>
 
 	<target name="_reset-sim-dev-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
 		<echo message="Resetting the simulation development version number in property file ${file.project.properties}" />
@@ -511,7 +532,7 @@
 
 		<echo message="logging in to ${ssh-host} (deploy to dev=${deploy.to.dev}) with username: ${deploy.username}"/>
 		<maverick-ssh host="${ssh-host}" username="${deploy.username}" password="${deploy.password}" version="2">
-			<sftp action="mkdir" remotedir="${sim.deploy.dir.parent}"/>
+            <sftp action="mkdir" remotedir="${sim.deploy.dir.parent}"/>
 			<sftp action="mkdir" remotedir="${sim.deploy.dir}"/>
 			<sftp action="put" remotedir="${sim.deploy.dir}" verbose="true">
 				<fileset dir="simulations/${sim.name}/deploy" />
@@ -534,36 +555,43 @@
 	<!-- This task builds and deploys; assumes all required properties have been previously defined -->
 	<target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
 
-	<!-- generates the SVN revision number in the project properties file -->
-	<target name="_generate-svn-revision-number" depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-svn-login, _prompt-for-sim-name, _define-sim-properties-file, _define-sim-version">
+    <!-- generates the SVN revision number in the project properties file -->
+    <target name="_generate-svn-revision-number"
+            depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-svn-login, _prompt-for-sim-name, _define-sim-properties-file, _define-sim-version">
+        <if>
+            <equals arg1="${increment.versions}" arg2="true"/>
+            <then>
+                <!-- request the current SVN revision number -->
+                <exec executable="svn" outputproperty="svn.status.output">
+                    <arg line="status -u"/>
+                </exec>
 
-		<!-- request the current SVN revision number -->
-		<exec executable="svn" outputproperty="svn.status.output">
-			<arg line="status -u" />
-		</exec>
+                <!-- parse the SVN revision number -->
+                <propertyregex property="number.subversion.revision" override="true" input="${svn.status.output}"
+                               regexp="revision:  *(\d+)"
+                               select="\1" casesensitive="false"/>
+                <echo message="Current revision number is ${number.subversion.revision}"/>
 
-		<!-- parse the SVN revision number -->
-		<propertyregex property="number.subversion.revision" override="true" input="${svn.status.output}" regexp="revision:  *(\d+)"
-            select="\1" casesensitive="false" />
-		<echo message="Current revision number is ${number.subversion.revision}" />
-		
-		<!-- add 1 to the current revision number -->
-		<math result="new.revision" operand1="${number.subversion.revision}" operation="+" operand2="1" datatype="int"/>
-		<echo message="New revision number is ${new.revision}" />
-		
-		<!-- set revision number in project properties file to new revision number -->
-		<propertyfile file="${file.project.properties}">
-			<entry key="version.revision" type="string" operation="=" value="${new.revision}"/>
-		</propertyfile>
+                <!-- add 1 to the current revision number -->
+                <math result="new.revision" operand1="${number.subversion.revision}" operation="+" operand2="1"
+                      datatype="int"/>
+                <echo message="New revision number is ${new.revision}"/>
 
-		<!-- commit the updated project properties file -->
-		<echo message="Committing ${file.project.properties}" />
-		<exec executable="svn">
-			<arg line="commit --username ${svn.username} --password ${svn.password} --message &quot;${sim.name}: deployed version ${sim.version}&quot; &quot;${file.project.properties}&quot;" />
-		</exec>
-		
-		<!-- TODO: verify that SVN repository revision number now matches what we wrote to the project properties file -->
-	</target>
+                <!-- set revision number in project properties file to new revision number -->
+                <propertyfile file="${file.project.properties}">
+                    <entry key="version.revision" type="string" operation="=" value="${new.revision}"/>
+                </propertyfile>
+
+                <!-- commit the updated project properties file -->
+                <echo message="Committing ${file.project.properties}"/>
+                <exec executable="svn">
+                    <arg line="commit --username ${svn.username} --password ${svn.password} --message &quot;${sim.name}: deployed version ${sim.version}&quot; &quot;${file.project.properties}&quot;"/>
+                </exec>
+
+                <!-- TODO: verify that SVN repository revision number now matches what we wrote to the project properties file -->
+            </then>
+        </if>
+    </target>
 
 	<!-- Deploy production version -->
 	<target name="_build-and-deploy-only-prod" depends="_generate-svn-revision-number, _define-sim-version">
