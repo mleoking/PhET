@@ -120,6 +120,13 @@ public class AddTranslation {
                     //Line #118
                     //the web file referenced should be "cache-clear.php?cache=all" instead of "cache-clear-all.php"
 
+                    /**
+                     * Quick question:
+//                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
+
+                    todo: Does the 2nd "cache-clear-all.php" need to change?
+                     */
+
 //                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
                     FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear-all.php", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
                     System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
