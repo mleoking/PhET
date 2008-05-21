@@ -14,6 +14,7 @@ Get better simulation name:
 Exercise & Eats
 Calorie/Fitness
 Diet and Exercise
+Exercise and Diet
 Food and Exercise
 Calories in Food and Exercise
 Exercise and Foods
