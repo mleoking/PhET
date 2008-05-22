@@ -77,7 +77,6 @@ public class GlaciersStrings {
     public static final String TITLE_TEMPERATURE_VERSUS_ELEVATION = GlaciersResources.getString( "title.temperatureVersusElevation" );
     public static final String TITLE_TOOLBOX = GlaciersResources.getString( "title.toolbox" );
     public static final String TITLE_VIEW_CONTROLS = GlaciersResources.getString( "title.viewControls" );
-    public static final String TITLE_GLACIER_PICTURE = GlaciersResources.getString( "title.glacierPicture" );
     
     public static final String UNITS_ABLATION = GlaciersResources.getString( "units.ablation" );
     public static final String UNITS_ACCUMULATION = GlaciersResources.getString( "units.accumulation" );

@@ -6,6 +6,9 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments (dropped?)
 
 HIGH PRIORITY:
+- fix layout problems with GlacierPictureDialog
+- fix text in GlacierPictureDialog
+- add yaw to fake 3D perspective (terminus, ELA, etc)
 - prune debris at moraine so we don't end up with a huge number of debris that slows things down
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate 
 - increase zoom on vertical axis by 2x
@@ -14,6 +17,10 @@ HIGH PRIORITY:
 - make fastest speed faster (will need to switch to clock to vary dt, large dt values will cause problems)
 
 MEDIUM PRIORITY:
+- "steady state" button needs to create a morain
+- "steady state" button needs to advance clock to future time
+- "steady state" button needs to fill in missing data in time-dependent graphs
+- add depth cues to background image (shading, etc)
 - combine "snowfall" and "snowfall reference elevation" into 1 slider (?)
 - switch entire user-interface between English and metric units (?)
 - make it easy to drag glacial budget meter along surface of glacier (?)
@@ -74,6 +81,7 @@ CLEANUP:
 
 
 DONE:
+5/21/08 - new image file and text for "glacier picture" feature
 ******* 0.00.24 (21673)
 5/21/08 - prepare TracerFlag and Debris for handling large dt, constrain maximum x to the terminus
 5/21/08 - implement clockTicked instead of simulationTimeChanged in all model code that cares about clock ticks

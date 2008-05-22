@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.glaciers.dialog;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Frame;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
@@ -37,12 +40,12 @@ public class GlacierPictureDialog extends JDialog {
     public GlacierPictureDialog( Frame owner ) {
         super( owner, false /* nonmodal */);
         
-        setTitle( GlaciersStrings.TITLE_GLACIER_PICTURE );
         setResizable( false );
 
         // picture
         BufferedImage image = GlaciersResources.getImage( "glacierPicture.png" );
         JLabel picture = new JLabel( new ImageIcon( image ) );
+        picture.setSize( (int)image.getWidth(), (int)image.getHeight() );
         
         // text
         JTextArea text = new JTextArea( GlaciersStrings.TEXT_GLACIER_PICTURE );
@@ -53,14 +56,13 @@ public class GlacierPictureDialog extends JDialog {
         text.setEditable( false );
         text.setOpaque( false );
         JPanel textPanel = new JPanel();
-        textPanel.setBorder( BorderFactory.createEmptyBorder( 15, 0, 0, 0 ) ); // top, left, bottom, right
         textPanel.add( text );
         
         // panel
         JPanel panel = new JPanel( new BorderLayout() );
-        panel.setBorder( BorderFactory.createEmptyBorder( 15, 15, 15, 15 ) ); // top, left, bottom, right
-        panel.add( picture, BorderLayout.CENTER );
-        panel.add( textPanel, BorderLayout.SOUTH  );
+        panel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) ); // top, left, bottom, right
+        panel.add( picture, BorderLayout.NORTH );
+        panel.add( textPanel, BorderLayout.CENTER  );
         Dimension preferredSize = panel.getPreferredSize();
 
         // Add to the dialog
