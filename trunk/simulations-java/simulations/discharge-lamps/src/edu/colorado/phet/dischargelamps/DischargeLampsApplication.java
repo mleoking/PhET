@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
@@ -36,7 +37,7 @@ import java.awt.event.ActionListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DischargeLampsApplication extends PhetApplication {
+public class DischargeLampsApplication extends PiccoloPhetApplication {
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
     /**
