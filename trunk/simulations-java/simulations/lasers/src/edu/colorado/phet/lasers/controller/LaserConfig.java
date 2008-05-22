@@ -42,9 +42,7 @@ public class LaserConfig {
 
     // Spontaneous emission times, in milliseconds
     public static final int MAXIMUM_STATE_LIFETIME = 400;
-    public static final int MIDDLE_ENERGY_STATE_MAX_LIFETIME = MAXIMUM_STATE_LIFETIME;
-
-    public static int MINIMUM_GROUND_STATE_LIFETIME = 200;
+    public static final int MINIMUM_GROUND_STATE_LIFETIME = 200;
 
     // Angle within which a photon is considered to be moving horizontally. This is used by the
     // mirrors to "cheat" photons into lasing, and by the wave graphic to determine its amplitude
