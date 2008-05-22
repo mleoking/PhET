@@ -225,6 +225,7 @@ public class LasersApplication extends PiccoloPhetApplication {
             public void run() {
                 PhetLookAndFeel feel = new PhetLookAndFeel();
                 feel.setFont(new PhetFont(PhetFont.getDefaultFontSize(),true));
+                feel.setTitledBorderFont(new PhetFont(PhetFont.getDefaultFontSize(),true));
                 feel.setBackgroundColor( new Color( 138, 156, 148 ) );
                 feel.setButtonBackgroundColor( new Color( 255, 255, 214 ) );
                 feel.initLookAndFeel();
