@@ -29,10 +29,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.*;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -226,6 +223,7 @@ public class LasersApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 PhetLookAndFeel feel = new PhetLookAndFeel();
+                feel.setFont(new PhetFont(PhetFont.getDefaultFontSize(),true));
                 feel.setBackgroundColor( new Color( 138, 156, 148 ) );
                 feel.setButtonBackgroundColor( new Color( 255, 255, 214 ) );
                 feel.initLookAndFeel();

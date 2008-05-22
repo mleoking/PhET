@@ -207,7 +207,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                 new EnergyMatchDetector( model, state, model.getSeedBeam(), elg );
                 new EnergyMatchDetector( model, state, model.getPumpingBeam(), elg );
             }
-            displayDebugInfoIntermittently( lifetimeSliders );
+//            displayDebugInfoIntermittently( lifetimeSliders );
 
             // Add an icon to the level. This requires a dummy atom in the state the icon is to represent
             // Create copies of the states to assign to the dummy atom, and give them max lifetimes so they

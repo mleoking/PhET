@@ -51,7 +51,9 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         sliderWidth = Math.min( sliderWidth, maxSliderWidth );
         setValue( maxLifetime / 2 );
         setMajorTickSpacing( maxLifetime );
-        setMinorTickSpacing( maxLifetime / 10 );
+        setMinorTickSpacing( maxLifetime );
+        setPaintTicks(true);
+//        setPaintTicks();
         this.graphic = graphic;
 
         setLayout( new GridBagLayout() );
