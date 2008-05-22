@@ -60,6 +60,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
     private LevelIcon levelIcon;
 
+    public static boolean showLifetimeLabelText=true;//see Unfuddle #431
+
     /*
      * @param isAdjustable      Determines if the graphic can be moved up and down with the mouse
      */
@@ -315,8 +317,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
         void setLevelIcon( LevelIcon levelIcon ) {
             this.levelIcon = levelIcon;
             addGraphic( levelIcon );
-            boolean showLifetime = false;
-            if ( isAdjustable && showLifetime ) {
+            if ( isAdjustable && showLifetimeLabelText ) {
                 textGraphic = new PhetTextGraphic2( getComponent(), new PhetFont(), "Lifetime", Color.black );
                 addGraphic( textGraphic );
             }
