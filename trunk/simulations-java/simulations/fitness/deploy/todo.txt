@@ -62,8 +62,6 @@ etc.
 
 Move BMI readout to near the heart
 
-Didn't crash on 1.5.0_13 for 0.00.29 on Mac OS X 10.5.2
-
 Lighten up proteins, fats, lipids for projector
 
 Try dark gray color for bar chart text color (not black)
@@ -71,6 +69,7 @@ Try dark gray color for bar chart text color (not black)
 Weight gain goes into fat% to keep BMR basically constant.
 
 Mass slider thumb in the wrong spot on Mac, see malley's machine.
+>>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
 
 "?" icon should move with the heart
 
