@@ -192,11 +192,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
 //                displayDebugInfoIntermittently( i, slider );
 
-                lifetimeSliders[i] = new EnergyLifetimeSlider( state,
-                                                               elg,
-                                                               LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
-                                                               minLifetime,
-                                                               this );
+                lifetimeSliders[i] = new EnergyLifetimeSlider( state, elg, LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
+                                                               minLifetime, this );
                 this.add( lifetimeSliders[i] );
                 lifetimeSliders[i].setValue( (int) Math.max( minLifetime, state.getMeanLifeTime() ) );
                 defaultLifetimes.put( lifetimeSliders[i], new Integer( lifetimeSliders[i].getValue() ) );
