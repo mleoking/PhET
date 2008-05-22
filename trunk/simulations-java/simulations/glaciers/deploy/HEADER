@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.23
+glaciers 0.00.24
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,18 +12,17 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>added 3D model of debris, appear at random 3D locations in ice cross-section above the ELA
-<li>added visualize of debris (small boulders)
-<li>debris forms a moraine at the terminus
-<li>delete debris that is covered by advancing glacier
-<li>borehole drill is larger, aligned so that boreholes are drilled at the tip of the drill bit
-<li>drag borehole drill out of the toolbox by its handle
-<li>tracer flags fall over at random angles when they reach the valley floor
+<li>add "glacier picture" check box to View control panel
+<li>integrate new background image with proper perspective
+<li>change drop constraints for Glacial Budget Meter, snap to surface of glacier or valley, display "?" while dragging
+<li>fix so that debris continues to be generated after Restart or Reset All
+<li>fix title on "Graphs" control panel
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>debris is appearing on the glacier's surface above the ELA
+<li>debris is appearing on the glacier's surface above the ELA, model problem
+<li>glacier advances too rapidly, model problem
 </ul>
 <p>
 <b>Not implemented:</b>
