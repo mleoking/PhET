@@ -124,20 +124,30 @@ public class Debris extends ClockAdapter {
             // distance = velocity * dt
             Vector2D velocity = _glacier.getIceVelocity( getX(), getY() );
             final double dt = clockEvent.getSimulationTimeChange();
-            final double newX = getX() + ( velocity.getX() * dt );
+            double newX = getX() + ( velocity.getX() * dt );
             double newY = getY() + ( velocity.getY() * dt );
 
-            // constrain to the surface of the glacier (or valley floor)
+            // constrain x to 1 meter beyond the terminus
+            final double maxX = _glacier.getTerminusX() + 1;
+            if ( newX > maxX ) {
+                newX = maxX;
+            }
+            
+            // constrain y to the surface of the glacier (or valley floor)
             double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
             if ( newY > newGlacierSurfaceElevation ) {
                 newY = newGlacierSurfaceElevation;
             }
             
+            // z doesn't change in this model, not realistic, but acceptable here
+            final double newZ = getZ();
+            
+            // are we on the valley floor?
             if ( newY == _glacier.getValley().getElevation( newX ) ) {
                 _onValleyFloor = true;
             }
 
-            setPosition( newX, newY, getZ() ); // z doesn't change
+            setPosition( newX, newY, newZ );
         }
     }
     
