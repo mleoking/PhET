@@ -74,12 +74,13 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.24 (?)
+******* 0.00.24 (21673)
 5/21/08 - prepare TracerFlag and Debris for handling large dt, constrain maximum x to the terminus
 5/21/08 - implement clockTicked instead of simulationTimeChanged in all model code that cares about clock ticks
 5/21/08 - bugfix: debris is not generated after Reset All
 5/21/08 - make glacial budget meter snap to surface of glacier/valley, display "?" while dragging
 5/21/08 - cleanup 3D debug code in DebrisNode
+5/21/08 - move origin indicator on thermometer to be vertically aligned with center of bulb
 5/20/08 - new mountains.svg image from Archie, removes yaw from perspective
 5/20/08 - implement GlacierPictureDialog
 5/20/08 - add "glacier picture" checkbox to View control panel, add stub in controller
