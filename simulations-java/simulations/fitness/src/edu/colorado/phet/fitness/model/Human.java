@@ -466,8 +466,10 @@ public class Human {
     }
 
     public void setMass( double weight ) {
+        double originalBmr = getBmr().getValue();
         this.mass.setValue( Math.max( weight, 0 ) );
-        updateBMR();
+        setFatMassPercent( 100 - ((originalBmr - 392) / 21.8) * (100 / weight) );
+        notifyFatPercentChanged();
         notifyWeightChanged();
         notifyBMIChanged();
     }
