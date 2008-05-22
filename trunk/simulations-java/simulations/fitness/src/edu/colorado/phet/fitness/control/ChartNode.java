@@ -90,7 +90,7 @@ public class ChartNode extends PNode {
             }
         } );
 
-        final ControlGraphSeries weightSeries = new ControlGraphSeries( FitnessResources.getString( "weight" ), Color.blue, "weight", FitnessResources.getString( "units.lbs" ), "", massVar );
+        final ControlGraphSeries weightSeries = new ControlGraphSeries( FitnessResources.getString( "weight" ), Color.blue, FitnessResources.getString( "weight" ), FitnessResources.getString( "units.lbs" ), "", massVar );
         weightSeries.setDecimalFormat( new DefaultDecimalFormat( "0" ) );
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
