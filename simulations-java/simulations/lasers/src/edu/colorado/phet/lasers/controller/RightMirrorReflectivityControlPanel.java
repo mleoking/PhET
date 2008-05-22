@@ -10,14 +10,15 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.lasers.model.mirror.PartialMirror;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 /**
  * A panel that provides a control for the reflectivity of the laser's right mirror
@@ -52,7 +53,7 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
         reflectivitySlider.setMajorTickSpacing( 10 );
         reflectivitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                mirror.setReflectivity( ( (double)reflectivitySlider.getValue() ) / 100 );
+                mirror.setReflectivity( ( (double) reflectivitySlider.getValue() ) / 100 );
                 reflectivityTF.setText( Double.toString( reflectivitySlider.getValue() ) );
             }
         } );
@@ -78,8 +79,8 @@ public class RightMirrorReflectivityControlPanel extends JPanel implements Simpl
     }
 
     public void update() {
-        int reflectivity = (int)( mirror.getReflectivity() * 100 );
-        if( reflectivitySlider.getValue() != reflectivity ) {
+        int reflectivity = (int) ( mirror.getReflectivity() * 100 );
+        if ( reflectivitySlider.getValue() != reflectivity ) {
             reflectivityTF.setText( Integer.toString( reflectivity ) );
             reflectivitySlider.setValue( reflectivity );
 

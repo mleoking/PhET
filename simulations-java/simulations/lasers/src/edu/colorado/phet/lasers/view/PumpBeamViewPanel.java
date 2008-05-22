@@ -10,15 +10,16 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-
-import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 /**
  * PumpBeamViewPanel
@@ -77,11 +78,11 @@ public class PumpBeamViewPanel extends JPanel {
     private class PumpPhotonRBListener implements ActionListener {
         public void actionPerformed( ActionEvent e ) {
             JRadioButton selection = SwingUtils.getSelection( pumpPhotonBG );
-            if( selection == pumpPhotonViewRB ) {
+            if ( selection == pumpPhotonViewRB ) {
                 PhotonGraphic.setAllVisible( true, module.getPumpingBeam().getWavelength() );
                 module.setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
             }
-            if( selection == pumpCurtainViewRB ) {
+            if ( selection == pumpCurtainViewRB ) {
                 PhotonGraphic.setAllVisible( false, module.getPumpingBeam().getWavelength() );
                 module.setPumpingPhotonView( BaseLaserModule.PHOTON_CURTAIN );
             }

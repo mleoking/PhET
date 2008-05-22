@@ -10,6 +10,13 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+import java.util.EventListener;
+import java.util.EventObject;
+
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -17,13 +24,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGrap
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.quantum.model.Beam;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
-import java.util.EventListener;
-import java.util.EventObject;
 
 
 /**
@@ -74,7 +74,7 @@ lensWidth, lensHeight );
     }
 
     private void update() {
-        if( currWavelength != beam.getWavelength() ) {
+        if ( currWavelength != beam.getWavelength() ) {
             currWavelength = beam.getWavelength();
             Color color = VisibleColor.wavelengthToColor( currWavelength );
             color = getDuotone( color );
@@ -114,12 +114,12 @@ lensWidth, lensHeight );
         }
 
         public LampGraphic getLampGraphic() {
-            return (LampGraphic)getSource();
+            return (LampGraphic) getSource();
         }
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );

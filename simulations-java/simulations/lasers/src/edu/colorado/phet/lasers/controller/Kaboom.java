@@ -10,15 +10,13 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -129,8 +127,8 @@ public class Kaboom implements ModelElement {
         panel.revalidate();
     }
 
-    public void reset( ) {
-        ApparatusPanel apparatusPanel=module.getApparatusPanel();
+    public void reset() {
+        ApparatusPanel apparatusPanel = module.getApparatusPanel();
         List kaboomGraphics = getKaboomGraphics();
         for ( int i = 0; i < kaboomGraphics.size(); i++ ) {
             PhetGraphic graphic = (PhetGraphic) kaboomGraphics.get( i );

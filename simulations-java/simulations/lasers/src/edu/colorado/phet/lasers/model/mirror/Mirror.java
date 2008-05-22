@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.common.collision.Wall;
-import edu.colorado.phet.common.quantum.model.Photon;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.collision.Wall;
+import edu.colorado.phet.common.quantum.model.Photon;
 
 /**
  * This class represents various sorts of mirrors. The mirror is conditioned
@@ -55,8 +55,8 @@ public class Mirror extends Wall {
      */
     public boolean reflects( Photon photon ) {
         boolean result = true;
-        for( int i = 0; i < reflectionStrategies.size() && result == true; i++ ) {
-            ReflectionStrategy reflectionStrategy = (ReflectionStrategy)reflectionStrategies.get( i );
+        for ( int i = 0; i < reflectionStrategies.size() && result == true; i++ ) {
+            ReflectionStrategy reflectionStrategy = (ReflectionStrategy) reflectionStrategies.get( i );
             result &= reflectionStrategy.reflects( photon );
         }
         return result;

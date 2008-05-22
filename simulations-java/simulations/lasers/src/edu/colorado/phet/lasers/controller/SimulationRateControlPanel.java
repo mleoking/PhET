@@ -11,17 +11,18 @@
 
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * A panel that provides control over the clock rate
@@ -75,6 +76,6 @@ public class SimulationRateControlPanel extends JPanel {
     }
 
     private void updateSimulationRate( double time ) {
-        ( (Clock)clock ).setTimingStrategy( new TimingStrategy.Constant( time ) );
+        ( (Clock) clock ).setTimingStrategy( new TimingStrategy.Constant( time ) );
     }
 }

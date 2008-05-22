@@ -1,8 +1,8 @@
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.quantum.model.Atom;
-
 import java.awt.*;
+
+import edu.colorado.phet.common.quantum.model.Atom;
 
 /**
  * Author: Sam Reid

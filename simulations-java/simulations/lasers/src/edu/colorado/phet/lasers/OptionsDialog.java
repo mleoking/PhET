@@ -1,18 +1,19 @@
 package edu.colorado.phet.lasers;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.quantum.model.StimulatedPhoton;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Author: Sam Reid
@@ -51,7 +52,7 @@ public class OptionsDialog extends JDialog {
         photonSize.setValue( laserApplication.getPhotonSize() );
         photonSize.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                laserApplication.setPhotonSize( (int)photonSize.getValue() );
+                laserApplication.setPhotonSize( (int) photonSize.getValue() );
             }
         } );
         getContentPane().add( photonSize );

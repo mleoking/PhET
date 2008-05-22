@@ -33,7 +33,7 @@ public class Partial implements ReflectionStrategy {
      * @param reflectivity
      */
     public void setReflectivity( double reflectivity ) {
-        if( reflectivity < 0 || reflectivity > 1 ) {
+        if ( reflectivity < 0 || reflectivity > 1 ) {
             throw new IllegalArgumentException( "Reflectivity not between 0 and 1.0" );
         }
         this.reflectivity = reflectivity;
@@ -41,15 +41,15 @@ public class Partial implements ReflectionStrategy {
 
     public boolean reflects( Photon photon ) {
         boolean result = false;
-        if( reflectivity == 0.0 ) {
+        if ( reflectivity == 0.0 ) {
             result = false;
         }
-        else if( reflectivity == 1.0 ) {
+        else if ( reflectivity == 1.0 ) {
             result = true;
         }
         else {
             double r = Math.random();
-            if( r < reflectivity ) {
+            if ( r < reflectivity ) {
                 result = true;
             }
         }

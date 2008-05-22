@@ -10,13 +10,14 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 /**
  * HighLevelEmissionControlPanel

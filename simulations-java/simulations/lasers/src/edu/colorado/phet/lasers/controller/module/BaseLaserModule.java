@@ -120,7 +120,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
         getApparatusPanel().addGraphic( powerMeter, Double.MAX_VALUE );
         powerMeter.setVisible( true );
 
-
         // Add a kaboom element
         kaboom = new Kaboom( this );
         getModel().addModelElement( kaboom );
@@ -206,10 +205,10 @@ public class BaseLaserModule extends PhetGraphicsModule {
     protected void createMirrors() {
 
         // If there already mirrors in the model, get rid of them
-        if( rightMirror != null ) {
+        if ( rightMirror != null ) {
             getModel().removeModelElement( rightMirror );
         }
-        if( leftMirror != null ) {
+        if ( leftMirror != null ) {
             getModel().removeModelElement( leftMirror );
         }
 
@@ -239,9 +238,9 @@ public class BaseLaserModule extends PhetGraphicsModule {
         JPanel reflectivityControl = new RightMirrorReflectivityControlPanel( rightMirror );
         reflectivityControlPanel = new JPanel();
         Dimension dim = reflectivityControl.getPreferredSize();
-        reflectivityControlPanel.setBounds( (int)rightMirror.getPosition().getX(),
-                                            (int)( rightMirror.getPosition().getY() + rightMirror.getBounds().getHeight() ),
-                                            (int)dim.getWidth() + 10, (int)dim.getHeight() + 10 );
+        reflectivityControlPanel.setBounds( (int) rightMirror.getPosition().getX(),
+                                            (int) ( rightMirror.getPosition().getY() + rightMirror.getBounds().getHeight() ),
+                                            (int) dim.getWidth() + 10, (int) dim.getHeight() + 10 );
         reflectivityControlPanel.add( reflectivityControl );
         reflectivityControl.setBorder( new BevelBorder( BevelBorder.RAISED ) );
         reflectivityControlPanel.setOpaque( false );
@@ -255,8 +254,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private void addLasingGraphics() {
         double internalLaserCurtainOpacity = .7;
         final double externalLaserCurtainOpacity = .7;
-        Rectangle cavityBounds = new Rectangle( (int)cavity.getBounds().getX(), (int)cavity.getBounds().getY(),
-                                                (int)cavity.getBounds().getWidth(), (int)cavity.getBounds().getHeight() );
+        Rectangle cavityBounds = new Rectangle( (int) cavity.getBounds().getX(), (int) cavity.getBounds().getY(),
+                                                (int) cavity.getBounds().getWidth(), (int) cavity.getBounds().getHeight() );
         Shape mirrorFace = new Ellipse2D.Double( cavityBounds.getMaxX() - LaserConfig.MIRROR_THICKNESS / 2,
                                                  cavityBounds.getMinY(),
                                                  LaserConfig.MIRROR_THICKNESS,
@@ -274,9 +273,9 @@ public class BaseLaserModule extends PhetGraphicsModule {
         addGraphic( internalLaserCurtainGraphic, LaserConfig.LEFT_MIRROR_LAYER - 1 );
 
         // TODO: put this on a listener that responds to apparatus panel resizings, rather than using a hard-coded number
-        Rectangle externalBounds = new Rectangle( (int)cavity.getBounds().getMaxX(), (int)cavity.getBounds().getY(),
+        Rectangle externalBounds = new Rectangle( (int) cavity.getBounds().getMaxX(), (int) cavity.getBounds().getY(),
                                                   500,
-                                                  (int)cavity.getBounds().getHeight() );
+                                                  (int) cavity.getBounds().getHeight() );
         final LaserCurtainGraphic externalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                          externalBounds, laserModel,
                                                                                          new AtomicState[]{
@@ -331,14 +330,14 @@ public class BaseLaserModule extends PhetGraphicsModule {
         this.lasingPhotonView = lasingPhotonView;
         switch( lasingPhotonView ) {
             case PHOTON_DISCRETE:
-                if( waveGraphic != null ) {
+                if ( waveGraphic != null ) {
                     waveGraphic.setVisible( false );
                 }
                 break;
             case PHOTON_WAVE:
                 AtomicState[] states = new AtomicState[]{getLaserModel().getGroundState(),
                         getLaserModel().getMiddleEnergyState()};
-                if( waveGraphic == null ) {
+                if ( waveGraphic == null ) {
                     waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
                                                         rightMirror, this, states );
                 }
@@ -362,7 +361,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                 PhotonGraphic.setAllVisible( true, getPumpingBeam().getWavelength() );
                 break;
             case PHOTON_CURTAIN:
-                if( beamCurtainGraphic == null ) {
+                if ( beamCurtainGraphic == null ) {
                     beamCurtainGraphic = new BeamCurtainGraphic( getApparatusPanel(), pumpingBeam );
                 }
                 addGraphic( beamCurtainGraphic, 1 );
@@ -386,7 +385,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     }
 
     public LaserModel getLaserModel() {
-        return (LaserModel)getModel();
+        return (LaserModel) getModel();
     }
 
     public PartialMirror getRightMirror() {
@@ -410,7 +409,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     }
 
     public void setEnergyLevelsAveragingPeriod( double value ) {
-        laserEnergyLevelsMonitorPanel.setAveragingPeriod( (long)value );
+        laserEnergyLevelsMonitorPanel.setAveragingPeriod( (long) value );
     }
 
     public double getEnerglyLevelsAveragingPeriod() {
@@ -452,7 +451,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         // Show/hide the reflectivity slider
         reflectivityControlPanel.setVisible( mirrorsEnabled );
 
-        if( mirrorsEnabled ) {
+        if ( mirrorsEnabled ) {
             getModel().addModelElement( leftMirror );
             getModel().addModelElement( rightMirror );
             getApparatusPanel().addGraphic( leftMirrorGraphic, LaserConfig.LEFT_MIRROR_LAYER );
@@ -502,7 +501,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         laserModel.reset();
 
         // Reset the mirror's reflectivity
-        if( rightMirror != null ) {
+        if ( rightMirror != null ) {
             rightMirror.setReflectivity( 1.0 );
         }
 
@@ -517,7 +516,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
 
         // Clear the old kaboom stuff off the apparatus panel and out of the model
         getModel().removeModelElement( kaboom );
-        kaboom.reset( );
+        kaboom.reset();
 
         // Make a new kaboom, ready for firing
         kaboom = new Kaboom( this );
@@ -547,17 +546,17 @@ public class BaseLaserModule extends PhetGraphicsModule {
             Object source = event.getSource();
 
             // Was the photon emitted by an atom?
-            if( source instanceof Atom ) {
-                Atom atom = (Atom)source;
+            if ( source instanceof Atom ) {
+                Atom atom = (Atom) source;
                 // Don't show certain photons
-                if( atom.getStates().length > 2 && atom.getCurrState() == atom.getStates()[2]
-                    && !displayHighLevelEmissions ) {
+                if ( atom.getStates().length > 2 && atom.getCurrState() == atom.getStates()[2]
+                     && !displayHighLevelEmissions ) {
                     isPhotonGraphicVisible = false;
                 }
                 else {
                     double energyLevelDiff = laserModel.getMiddleEnergyState().getEnergyLevel() -
                                              laserModel.getGroundState().getEnergyLevel();
-                    if( Math.abs( photon.getEnergy() - energyLevelDiff ) <= QuantumConfig.ENERGY_TOLERANCE ) {
+                    if ( Math.abs( photon.getEnergy() - energyLevelDiff ) <= QuantumConfig.ENERGY_TOLERANCE ) {
 //                    if( Math.abs( photon.getEnergy() - energyLevelDiff ) <= LaserConfig.ENERGY_TOLERANCE ) {
                         isPhotonGraphicVisible = lasingPhotonView == PHOTON_DISCRETE;
                     }
@@ -565,12 +564,12 @@ public class BaseLaserModule extends PhetGraphicsModule {
             }
 
             // Is it a photon from the seed beam?
-            if( source == seedBeam ) {
+            if ( source == seedBeam ) {
                 isPhotonGraphicVisible = true;
             }
 
             // Is it a pumping beam photon, and are we viewing discrete photons?
-            if( source == pumpingBeam ) {
+            if ( source == pumpingBeam ) {
                 isPhotonGraphicVisible = ( pumpingPhotonView == PHOTON_DISCRETE );
             }
 

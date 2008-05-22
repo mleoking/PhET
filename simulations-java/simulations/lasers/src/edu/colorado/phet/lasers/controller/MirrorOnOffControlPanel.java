@@ -10,13 +10,14 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 /**
  * MirrorOnOffControlPanel
@@ -34,7 +35,7 @@ public class MirrorOnOffControlPanel extends JPanel {
         final JCheckBox mirrorCB = new JCheckBox( addMirrorsStr );
         mirrorCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( mirrorCB.isSelected() ) {
+                if ( mirrorCB.isSelected() ) {
                     module.setMirrorsEnabled( true );
                 }
                 else {

@@ -47,7 +47,7 @@ public class EnergyMatchDetector implements AtomicState.Listener, Beam.Wavelengt
 
     private void checkForMatch() {
         MatchState matchState = getMatch();
-        if( listener != null ) {
+        if ( listener != null ) {
             listener.putMatch( beam, matchState );
         }
     }

@@ -30,7 +30,7 @@ public abstract class LaserElementProperties extends ElementProperties {
 
         // Set the mean lifetimes of the states
         AtomicState[] states = getStates();
-        for( int i = 1; i < states.length; i++ ) {
+        for ( int i = 1; i < states.length; i++ ) {
             AtomicState state = states[i];
             state.setMeanLifetime( LaserConfig.MAXIMUM_STATE_LIFETIME / 2 );
         }

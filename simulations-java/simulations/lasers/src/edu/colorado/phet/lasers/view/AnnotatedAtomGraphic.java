@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * AnnotatedAtomGraphic
@@ -79,7 +79,7 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
         this.atom = atom;
 
         // Initialize image graphics for energy level indicators
-        for( int i = 0; i < characters.length; i++ ) {
+        for ( int i = 0; i < characters.length; i++ ) {
             characterGraphics[i] = new PhetImageGraphic( component, characters[i] );
             characterGraphics[i].setRegistrationPoint( characters[i].getWidth() / 2, characters[i].getHeight() / 2 );
         }
@@ -114,8 +114,8 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
      * the energy rep.
      */
     public void update() {
-        setLocation( (int)( getAtom().getPosition().getX() ),
-                     (int)( getAtom().getPosition().getY() ) );
+        setLocation( (int) ( getAtom().getPosition().getX() ),
+                     (int) ( getAtom().getPosition().getY() ) );
         setBoundsDirty();
         repaint();
     }

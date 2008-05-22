@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -17,8 +19,6 @@ import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-
-import java.awt.*;
 
 /**
  * LaserCurtainGraphic
@@ -83,7 +83,7 @@ public class LaserCurtainGraphic extends PhetShapeGraphic implements AtomicState
     }
 
     public void paint( Graphics2D g2 ) {
-        if( alpha > 0 ) {
+        if ( alpha > 0 ) {
             saveGraphicsState( g2 );
             GraphicsUtil.setAlpha( g2, alpha );
             super.paint( g2 );

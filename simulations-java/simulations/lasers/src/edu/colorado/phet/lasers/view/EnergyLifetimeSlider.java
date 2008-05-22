@@ -10,15 +10,16 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.quantum.model.AtomicState;
-import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+
+import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.view.util.DefaultGridBagConstraints;
 
 /**
  * EnergyLifetimeSlider
@@ -54,7 +55,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         atomicState.addListener( this );
         setMinimum( minLifetime );
         setMaximum( maxLifetime );
-        sliderWidth = (int)( (double)( maxSliderWidth - sliderWidthPadding ) * ( (double)getMaximum() / LaserConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
+        sliderWidth = (int) ( (double) ( maxSliderWidth - sliderWidthPadding ) * ( (double) getMaximum() / LaserConfig.MAXIMUM_STATE_LIFETIME ) ) + sliderWidthPadding;
         sliderWidth = Math.min( sliderWidth, maxSliderWidth );
         setValue( maxLifetime / 2 );
         setMajorTickSpacing( maxLifetime );
@@ -68,7 +69,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         GridBagConstraints gbc = new DefaultGridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTH;
 //        this.add( new JLabel( SimStrings.getInstance().getString( "EnergyLevelMonitorPanel.sliderLabel" ), JLabel.CENTER ), gbc );
-        setValue( (int)atomicState.getMeanLifeTime() );
+        setValue( (int) atomicState.getMeanLifeTime() );
 
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -86,7 +87,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
      */
     public void update() {
         this.setBounds( container.getWidth() - maxSliderWidth,
-                        (int)graphic.getPosition().getY(),
+                        (int) graphic.getPosition().getY(),
                         sliderWidth, sliderHeight );
     }
 
@@ -95,7 +96,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
     }
 
     protected void fireStateChanged() {
-        if( enableNotification ) {
+        if ( enableNotification ) {
             super.fireStateChanged();
         }
     }
@@ -111,13 +112,13 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
 
     public void meanLifetimechanged( AtomicState.Event event ) {
         enableNotification = false;
-        this.setValue( (int)event.getMeanLifetime() );
+        this.setValue( (int) event.getMeanLifetime() );
         enableNotification = true;
     }
 
     public void meanLifetimeChanged( AtomicState.MeanLifetimeChangeEvent event ) {
         enableNotification = false;
-        this.setValue( (int)event.getMeanLifetime() );
+        this.setValue( (int) event.getMeanLifetime() );
         enableNotification = true;
     }
 }

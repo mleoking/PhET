@@ -6,6 +6,9 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -15,9 +18,6 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * A graphic that shows a standing wave whose amplitude is proportional to the number of photons
@@ -79,7 +79,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
         double dTheta = 20;
         double dy = cavity.getHeight() / numNonLasingExternalWaveGraphics;
         int j = numNonLasingExternalWaveGraphics / 2;
-        for( int i = 0; i < numNonLasingExternalWaveGraphics; i++ ) {
+        for ( int i = 0; i < numNonLasingExternalWaveGraphics; i++ ) {
             double theta = ( i - j ) * dTheta;
             double yOffset = ( i - j ) * dy;
             Point2D nonLasingWaveOrigin = new Point2D.Double( cavity.getMinX() + cavity.getWidth(),
@@ -93,7 +93,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
 
         apparatusPanel.addGraphic( internalStandingWaveGraphic, LaserConfig.LEFT_MIRROR_LAYER - 1 );
         apparatusPanel.addGraphic( externalTravelingWaveGraphic, LaserConfig.RIGHT_MIRROR_LAYER - 1 );
-        for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
+        for ( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             apparatusPanel.addGraphic( nonLasingExternalWaveGraphics[i], LaserConfig.RIGHT_MIRROR_LAYER - 1 );
         }
 
@@ -127,12 +127,12 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
     private void determineColor( AtomicState[] atomicStates ) {
         double wavelength = PhysicsUtil.energyToWavelength( atomicStates[1].getEnergyLevel() - atomicStates[0].getEnergyLevel() );
         Color color = VisibleColor.wavelengthToColor( wavelength );
-        if( color.getAlpha() == 0 ) {
+        if ( color.getAlpha() == 0 ) {
             color = Color.gray;
         }
         externalTravelingWaveGraphic.setColor( color );
         internalStandingWaveGraphic.setColor( color );
-        for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
+        for ( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             WaveGraphic nonLasingExternalWaveGraphic = nonLasingExternalWaveGraphics[i];
             nonLasingExternalWaveGraphic.setColor( color );
         }
@@ -141,7 +141,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
     public void setVisible( boolean isVisible ) {
         internalStandingWaveGraphic.setVisible( isVisible );
         externalTravelingWaveGraphic.setVisible( isVisible );
-        for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
+        for ( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             nonLasingExternalWaveGraphics[i].setVisible( isVisible );
         }
     }
@@ -156,7 +156,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
 
     private double getExternalAmplitude() {
         double n = getInternalAmplitude();
-        if( mirror != null ) {
+        if ( mirror != null ) {
             return n * Math.sqrt( 1 - mirror.getReflectivity() );
         }
         else {
@@ -184,7 +184,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
         externalTravelingWaveGraphic.setAmplitude( getExternalAmplitude() );
 
         // Update the non-lasing wave graphics. Reduce the amplitude by a large factor
-        for( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
+        for ( int i = 0; i < nonLasingExternalWaveGraphics.length; i++ ) {
             WaveGraphic waveGraphic = nonLasingExternalWaveGraphics[i];
             int amp = getNumLasingPhotons() > LaserConfig.LASING_THRESHOLD ? 0 : ( getNumLasingPhotons() / 6 );
             waveGraphic.setAmplitude( amp );
@@ -197,7 +197,7 @@ public class LaserWaveGraphic implements LaserModel.ChangeListener {
 
     public void lasingPopulationChanged( LaserModel.ChangeEvent event ) {
         int newNum = event.getLasingPopulation();
-        if( newNum != numLasingPhotons ) {
+        if ( newNum != numLasingPhotons ) {
             numLasingPhotons = newNum;
             update();
         }
