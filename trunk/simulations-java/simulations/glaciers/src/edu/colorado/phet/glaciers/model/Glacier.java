@@ -512,7 +512,7 @@ public class Glacier extends ClockAdapter {
     // ClockAdapter overrides
     //----------------------------------------------------------------------------
     
-    public void simulationTimeChanged( ClockEvent event ) {
+    public void clockTicked( ClockEvent event ) {
         
         if ( !isSteadyState() ) {
             

@@ -82,7 +82,7 @@ public class TracerFlag extends AbstractTool {
         _onValleyFloor = ( surfaceElevation - valleyElevation == 0 );
     }
     
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    public void clockTicked( ClockEvent clockEvent ) {
         
         if ( !isDragging() && !_onValleyFloor ) {
             

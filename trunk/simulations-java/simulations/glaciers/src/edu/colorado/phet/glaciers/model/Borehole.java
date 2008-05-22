@@ -124,7 +124,7 @@ public class Borehole extends ClockAdapter {
     /*
      * Evolves the model when the clock ticks.
      */
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    public void clockTicked( ClockEvent clockEvent ) {
 
         if ( _points != null ) {
 

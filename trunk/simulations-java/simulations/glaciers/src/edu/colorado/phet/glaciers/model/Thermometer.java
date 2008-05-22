@@ -23,7 +23,7 @@ public class Thermometer extends AbstractTool {
     
     private final Glacier _glacier;
     private final ClimateListener _climateListener;
-    private double _temperature; // units=Celcius
+    private double _temperature; // units=Celsius
     private final ArrayList _listeners; // list of ThermometerListener
     
     //----------------------------------------------------------------------------

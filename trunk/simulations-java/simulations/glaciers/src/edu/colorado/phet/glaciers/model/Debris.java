@@ -117,7 +117,7 @@ public class Debris extends ClockAdapter {
     // ClockListener interface
     //----------------------------------------------------------------------------
     
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    public void clockTicked( ClockEvent clockEvent ) {
 
         if ( !_deletedSelf && !_onValleyFloor ) {
             
