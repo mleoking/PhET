@@ -190,12 +190,16 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                 // Set the minimum lifetime to be two clock ticks, so we will always see an energy halo.
                 int minLifetime = (int) clock.getSimulationTimeChange() * 2;
 
-//                displayDebugInfoIntermittently( i, slider );
+                // See Unfuddle #444
+                int maxLifetime = i==1?LaserConfig.MAXIMUM_STATE_LIFETIME:LaserConfig.MAXIMUM_STATE_LIFETIME/4;
+//                int maxLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME;
+                state.setMeanLifetime( maxLifetime );
 
-                lifetimeSliders[i] = new EnergyLifetimeSlider( state, elg, LaserConfig.MAXIMUM_STATE_LIFETIME, 
-                                                               minLifetime, this );
+                lifetimeSliders[i] = new EnergyLifetimeSlider( state, elg, maxLifetime, minLifetime, this );
+                System.out.println( "Constructed: modelvalue" + state.getMeanLifeTime() + ", slidermax=" + lifetimeSliders[i].getValue() );
+//                lifetimeSliders[i].setValue( (int) Math.max( minLifetime, state.getMeanLifeTime() ) );
+//                lifetimeSliders[i].setValue( maxLifetime );
                 this.add( lifetimeSliders[i] );
-                lifetimeSliders[i].setValue( (int) Math.max( minLifetime, state.getMeanLifeTime() ) );
                 defaultLifetimes.put( lifetimeSliders[i], new Integer( lifetimeSliders[i].getValue() ) );
 
                 // Add a listener that will flash the line when it matches the wavelength of
@@ -203,6 +207,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                 new EnergyMatchDetector( model, state, model.getSeedBeam(), elg );
                 new EnergyMatchDetector( model, state, model.getPumpingBeam(), elg );
             }
+            displayDebugInfoIntermittently( lifetimeSliders );
 
             // Add an icon to the level. This requires a dummy atom in the state the icon is to represent
             // Create copies of the states to assign to the dummy atom, and give them max lifetimes so they
@@ -220,12 +225,17 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         adjustPanel();
     }
 
-    private void displayDebugInfoIntermittently( int i, final EnergyLifetimeSlider slider ) {
-        final int i1 = i;
+    private void displayDebugInfoIntermittently( final EnergyLifetimeSlider[] slider ) {
         new Thread( new Runnable() {
             public void run() {
                 while ( true ) {
-                    System.out.println( "i=" + i1 + ", slider.getMin=" + slider.getMinimum() + ", max=" + slider.getMaximum() );
+                    System.out.println( "###" );
+                    for ( int i = 0; i < slider.length; i++ ) {
+                        if ( slider[i] != null ) {
+                            System.out.println( "i=" + i + ", slider.getMin=" + slider[i].getMinimum() + ", max=" + slider[i].getMaximum() + ", value=" + slider[i].getValue() + ", slider.modelvalue=" + slider[i].getModelValue() );
+                        }
+                    }
+
                     try {
                         Thread.sleep( 1000 );
                     }

@@ -79,8 +79,9 @@ public class BaseLaserModule extends PhetGraphicsModule {
     //    protected boolean threeEnergyLevels;
     private boolean mirrorsEnabled;
 
-    private double middleStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 2;
-    private double highStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 2;
+//    See Unfuddle #444
+    private double middleStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME ;
+    private double highStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 4;
     private HelpManager energyLevelsPanelHelpManager;
     private Kaboom kaboom;
     private double photonSpeed;
