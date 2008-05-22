@@ -6,7 +6,6 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments (dropped?)
 
 HIGH PRIORITY:
-- make sure that x location of flags and debris doesn't go past terminus (handle large dt properly)
 - prune debris at moraine so we don't end up with a huge number of debris that slows things down
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate 
 - increase zoom on vertical axis by 2x
@@ -54,6 +53,7 @@ LOW PRIORITY:
 - add rocks falling off mountains onto glacier surface?
 - do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for climate controls?
 - add assets/LICENSE.txt
+- Spanish translation (?)
 
 PERFORMANCE OPTIMIZATIONS:
 - Valley.getX uses divide-and-conquer
@@ -74,6 +74,7 @@ CLEANUP:
 
 
 DONE:
+5/21/08 - prepare TracerFlag and Debris for handling large dt, constrain maximum x to the terminus
 5/21/08 - implement clockTicked instead of simulationTimeChanged in all model code that cares about clock ticks
 5/21/08 - bugfix: debris is not generated after Reset All
 5/21/08 - make glacial budget meter snap to surface of glacier/valley, display "?" while dragging
