@@ -22,6 +22,7 @@ function send_email_notification {
    tail -n $LINES_TO_SEND ./installer-builder-log.txt >> $EMAIL_MSG
    EMAIL_SUBJECT="Result of nightly installer build: $1"
    /bin/mail -s "$EMAIL_SUBJECT" "$EMAIL_ADDR" < $EMAIL_MSG
+   rm $EMAIL_MSG
 }
 
 #----------------------------------------------------------------------------
