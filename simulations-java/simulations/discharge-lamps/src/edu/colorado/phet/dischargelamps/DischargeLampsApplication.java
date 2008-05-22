@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -100,6 +101,7 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
      * @param args
      */
     public static void main( final String[] args ) {
+        EnergyLevelGraphic.showLifetimeLabelText=false;//see Unfuddle #431
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
 
