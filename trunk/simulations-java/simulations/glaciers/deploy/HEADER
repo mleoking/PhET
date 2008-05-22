@@ -17,6 +17,7 @@ Click to launch English version:
 <li>change drop constraints for Glacial Budget Meter, snap to surface of glacier or valley, display "?" while dragging
 <li>fix so that debris continues to be generated after Restart or Reset All
 <li>fix title on "Graphs" control panel
+<li>move origin indicator on thermometer to be vertically aligned with center of bulb
 </ul>
 <p>
 <b>Known problems:</b>
