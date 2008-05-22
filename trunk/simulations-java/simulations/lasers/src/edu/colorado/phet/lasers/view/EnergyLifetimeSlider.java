@@ -40,8 +40,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
     private Container container;
     private boolean enableNotification = true;
 
-    public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic,
-                                 int maxLifetime, int minLifetime, Container container ) {
+    public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic, int maxLifetime, int minLifetime, Container container ) {
         this.container = container;
         atomicState.addListener( this );
         setMinimum( minLifetime );
@@ -72,13 +71,8 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
      * Positions the slider on the screen
      */
     public void update() {
-        this.setBounds( container.getWidth() - maxSliderWidth,
-                        (int) graphic.getPosition().getY(),
+        this.setBounds( container.getWidth() - maxSliderWidth, (int) graphic.getPosition().getY(),
                         sliderWidth, sliderHeight );
-    }
-
-    public void setValue( int n ) {
-        super.setValue( n );
     }
 
     protected void fireStateChanged() {
