@@ -189,18 +189,17 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             if ( i > 0 ) {
                 // Set the minimum lifetime to be two clock ticks, so we will always see an energy halo.
                 int minLifetime = (int) clock.getSimulationTimeChange() * 2;
-                final EnergyLifetimeSlider slider = new EnergyLifetimeSlider( state,
-                                                                              elg,
-                                                                              LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
-                                                                              minLifetime,
-                                                                              this );
 
 //                displayDebugInfoIntermittently( i, slider );
 
-                lifetimeSliders[i] = slider;
-                this.add( slider );
-                slider.setValue( (int) Math.max( minLifetime, state.getMeanLifeTime() ) );
-                defaultLifetimes.put( slider, new Integer( slider.getValue() ) );
+                lifetimeSliders[i] = new EnergyLifetimeSlider( state,
+                                                               elg,
+                                                               LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
+                                                               minLifetime,
+                                                               this );
+                this.add( lifetimeSliders[i] );
+                lifetimeSliders[i].setValue( (int) Math.max( minLifetime, state.getMeanLifeTime() ) );
+                defaultLifetimes.put( lifetimeSliders[i], new Integer( lifetimeSliders[i].getValue() ) );
 
                 // Add a listener that will flash the line when it matches the wavelength of
                 // either of the beams
