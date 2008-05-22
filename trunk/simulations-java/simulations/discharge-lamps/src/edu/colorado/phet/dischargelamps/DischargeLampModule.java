@@ -410,7 +410,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
                 photoWindow.setVisible( true );
             }
         } );
-        getClockControlPanel().add( realLampsBtn, BorderLayout.WEST );
+        getClockControlPanel().addToLeft( realLampsBtn);
     }
 
     /**
