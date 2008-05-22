@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

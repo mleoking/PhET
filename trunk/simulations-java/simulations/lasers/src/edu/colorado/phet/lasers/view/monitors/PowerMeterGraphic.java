@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.lasers.view.monitors;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 /**
  * PowerMeter
@@ -51,7 +51,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
                                                      meterWindowSize,
                                                      Meter.HORIZONTAL );
         outsideMeter.setLocation( leftInset,
-                                  (int)( cavityMeter.getLocation().getY() + meterWindowSize.getHeight() + middleInset ) );
+                                  (int) ( cavityMeter.getLocation().getY() + meterWindowSize.getHeight() + middleInset ) );
         addGraphic( outsideMeter );
 
 
@@ -91,15 +91,15 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             super( component );
 
             boolean validOrientation = false;
-            if( orientation == VERTICAL ) {
+            if ( orientation == VERTICAL ) {
                 validOrientation = true;
                 insets = new Insets( 0, 5, 0, 5 );
             }
-            if( orientation == HORIZONTAL ) {
+            if ( orientation == HORIZONTAL ) {
                 validOrientation = true;
                 insets = new Insets( 5, 0, 5, 0 );
             }
-            if( validOrientation ) {
+            if ( validOrientation ) {
                 this.orientation = orientation;
             }
             else {
@@ -115,9 +115,9 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             scale = LaserConfig.KABOOM_THRESHOLD / background.getWidth();
 
             // Create the segments
-            int numSegments = (int)( background.getWidth() / ( segmentWidth + interSegmentSpace ) );
+            int numSegments = (int) ( background.getWidth() / ( segmentWidth + interSegmentSpace ) );
             segments = new PhetShapeGraphic[numSegments];
-            for( int i = 0; i < segments.length; i++ ) {
+            for ( int i = 0; i < segments.length; i++ ) {
                 RoundRectangle2D rr = new RoundRectangle2D.Double( background.getX() + i * ( segmentWidth + interSegmentSpace ),
                                                                    background.getY() + insets.top,
                                                                    segmentWidth,
@@ -134,7 +134,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
         }
 
         public void update( double value ) {
-            for( int i = 0; i < segments.length; i++ ) {
+            for ( int i = 0; i < segments.length; i++ ) {
                 PhetShapeGraphic segment = segments[i];
                 double segmentValue = i * ( segmentWidth + interSegmentSpace ) * scale;
                 boolean isSegmentLit = value > segmentValue;
@@ -150,7 +150,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             super( component, size, orientation );
 
             // Color the segments
-            for( int i = 0; i < segments.length; i++ ) {
+            for ( int i = 0; i < segments.length; i++ ) {
                 segments[i].setPaint( Color.white );
             }
         }
@@ -161,17 +161,17 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             super( component, size, orientation );
 
             // Color the segments
-            for( int i = 0; i < segments.length; i++ ) {
+            for ( int i = 0; i < segments.length; i++ ) {
                 double segmentValue = i * ( segmentWidth + interSegmentSpace ) * scale;
                 Paint paint = null;
-                if( segmentValue < LaserConfig.LASING_THRESHOLD ) {
+                if ( segmentValue < LaserConfig.LASING_THRESHOLD ) {
                     paint = belowLasingPaint;
                 }
-                else if( segmentValue >= LaserConfig.LASING_THRESHOLD
-                         && segmentValue < dangerThreshold ) {
+                else if ( segmentValue >= LaserConfig.LASING_THRESHOLD
+                          && segmentValue < dangerThreshold ) {
                     paint = lasingPaint;
                 }
-                else if( segmentValue >= dangerThreshold ) {
+                else if ( segmentValue >= dangerThreshold ) {
                     paint = aboveLasingPaint;
                 }
                 else {
@@ -181,7 +181,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             }
 
             // Add threshold lines to the bezel
-            int lasingThresholdLocX = (int)( LaserConfig.LASING_THRESHOLD / scale );
+            int lasingThresholdLocX = (int) ( LaserConfig.LASING_THRESHOLD / scale );
             Rectangle2D.Double rect = new Rectangle2D.Double( 0, background.getHeight(), 2, 15 );
             PhetShapeGraphic lasingThresholdIndicator = new PhetShapeGraphic( component,
                                                                               rect,
@@ -192,7 +192,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             PhetShapeGraphic dangerThresholdIndicator = new PhetShapeGraphic( component,
                                                                               rect,
                                                                               new Color( 255, 255, 255 ) );
-            int dangerThresholdLocX = (int)( dangerThreshold / scale );
+            int dangerThresholdLocX = (int) ( dangerThreshold / scale );
             dangerThresholdIndicator.setLocation( dangerThresholdLocX, 0 );
             addGraphic( dangerThresholdIndicator );
 
@@ -206,7 +206,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             lasingAnnotation.setText( lasingStr );
             lasingAnnotation.setColor( Color.green );
             lasingAnnotation.setLocation( ( lasingThresholdLocX + dangerThresholdLocX ) / 2,
-                                          (int)background.getHeight() + 15 );
+                                          (int) background.getHeight() + 15 );
             addGraphic( lasingAnnotation );
 
             String dangerStr = SimStrings.getInstance().getString( "PowerMeter.Danger" );
@@ -216,8 +216,8 @@ public class PowerMeterGraphic extends GraphicLayerSet {
             dangerAnnotation.setJustification( PhetTextGraphic.SOUTH );
             dangerAnnotation.setText( dangerStr );
             dangerAnnotation.setColor( Color.red );
-            dangerAnnotation.setLocation( (int)( dangerThresholdLocX + background.getWidth() ) / 2 + 10,
-                                          (int)background.getHeight() + 15 );
+            dangerAnnotation.setLocation( (int) ( dangerThresholdLocX + background.getWidth() ) / 2 + 10,
+                                          (int) background.getHeight() + 15 );
             addGraphic( dangerAnnotation );
         }
     }

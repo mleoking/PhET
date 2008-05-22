@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.quantum.model.Atom;
-
-import java.awt.*;
 
 /**
  * LevelIcon
@@ -43,7 +43,7 @@ public class LevelIcon extends CompositePhetGraphic {
         // model so that it will detect hits by photons on it's energy halo. We need
         // to reset the radius to its original value, or the atom grows in size
         atom.setRadius( 5 );
-        atomGraphic.setRegistrationPoint( (int)atom.getRadius() / 2, 0 );
+        atomGraphic.setRegistrationPoint( (int) atom.getRadius() / 2, 0 );
         atomGraphic.stateChanged( null );
     }
 

@@ -6,15 +6,15 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 
 public class MonitorPanel extends ApparatusPanel {
 
@@ -39,7 +39,7 @@ public class MonitorPanel extends ApparatusPanel {
     }
 
     protected void paintComponent( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         GraphicsState gs = new GraphicsState( g2 );
 
         super.paintComponent( g );
@@ -57,7 +57,7 @@ public class MonitorPanel extends ApparatusPanel {
         AffineTransform strTx = rotateInPlace( atx, -Math.PI / 2, strLoc.getX(), strLoc.getY() );
         g2.transform( strTx );
         GraphicsUtil.setAntiAliasingOn( g2 );
-        g2.drawString( yAxisLabel, (int)strLoc.getX(), (int)strLoc.getY() );
+        g2.drawString( yAxisLabel, (int) strLoc.getX(), (int) strLoc.getY() );
         gs.restoreGraphics();
 
 //        super.paintComponent( g );

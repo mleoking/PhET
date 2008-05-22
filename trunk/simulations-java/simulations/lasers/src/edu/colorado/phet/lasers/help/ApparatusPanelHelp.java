@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.lasers.help;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * SingleAtomModuleHelp

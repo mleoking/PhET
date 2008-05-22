@@ -11,6 +11,10 @@
 
 package edu.colorado.phet.lasers.model;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.*;
+
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollisionExpert;
 import edu.colorado.phet.common.collision.SphereBoxExpert;
@@ -31,10 +35,6 @@ import edu.colorado.phet.lasers.model.mirror.Mirror;
 import edu.colorado.phet.lasers.view.EnergyMatchDetector;
 import edu.colorado.phet.lasers.view.MatchState;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.*;
-
 public class LaserModel extends QuantumModel {
 //public class  LaserModel extends BaseModel implements Photon.LeftSystemEventListener {
 
@@ -45,8 +45,8 @@ public class LaserModel extends QuantumModel {
     static public Point2D ORIGIN = new Point2D.Double( 100, 300 );
     static private int width = 800;
     static private int height = 800;
-    static private int minX = (int)LaserConfig.ORIGIN.getX() - 50;
-    static private int minY = (int)LaserConfig.ORIGIN.getY() - height / 2;
+    static private int minX = (int) LaserConfig.ORIGIN.getX() - 50;
+    static private int minY = (int) LaserConfig.ORIGIN.getY() - height / 2;
 
     //----------------------------------------------------------------
     // Instance fields and methods
@@ -80,7 +80,7 @@ public class LaserModel extends QuantumModel {
 
     // Replacement for behavior that was previously built into BaseModel
     private SimpleObservable observable = new SimpleObservable();
-    private boolean modelPaused =false;
+    private boolean modelPaused = false;
 
     public boolean isModelPaused() {
         return modelPaused;
@@ -90,8 +90,8 @@ public class LaserModel extends QuantumModel {
         this.modelPaused = modelPaused;
     }
 
-    public LaserModel(double photonSpeedScale) {
-        super(photonSpeedScale);
+    public LaserModel( double photonSpeedScale ) {
+        super( photonSpeedScale );
 
         setCurrentElementProperties( twoLevelProperties );
 
@@ -107,27 +107,27 @@ public class LaserModel extends QuantumModel {
 
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
-        if( modelElement instanceof Collidable ) {
+        if ( modelElement instanceof Collidable ) {
             bodies.add( modelElement );
         }
-        if( modelElement instanceof Photon ) {
+        if ( modelElement instanceof Photon ) {
             addPhoton( modelElement );
 
         }
-        if( modelElement instanceof Atom ) {
+        if ( modelElement instanceof Atom ) {
             addAtom( modelElement );
         }
-        if( modelElement instanceof Mirror ) {
+        if ( modelElement instanceof Mirror ) {
             mirrors.add( modelElement );
         }
-        if( modelElement instanceof Tube ) {
-            this.tube = (Tube)modelElement;
+        if ( modelElement instanceof Tube ) {
+            this.tube = (Tube) modelElement;
         }
     }
 
     private void addAtom( ModelElement modelElement ) {
         atoms.add( modelElement );
-        Atom atom = (Atom)modelElement;
+        Atom atom = (Atom) modelElement;
         atom.addChangeListener( new AtomChangeListener() );
     }
 
@@ -135,12 +135,12 @@ public class LaserModel extends QuantumModel {
         photons.add( modelElement );
         // we have to listen for photons leaving the system when they
         // are absorbed by atoms
-        Photon photon = (Photon)modelElement;
-        ( (Photon)modelElement ).addLeftSystemListener( this );
+        Photon photon = (Photon) modelElement;
+        ( (Photon) modelElement ).addLeftSystemListener( this );
 
         // If the photon is moving nearly horizontally and is equal in energy to the transition between the
         // middle and ground states, consider it to be lasing
-        if( isLasingPhoton( photon ) ) {
+        if ( isLasingPhoton( photon ) ) {
             lasingPhotons.add( photon );
             changeListenerProxy.lasingPopulationChanged( new ChangeEvent( this ) );
         }
@@ -158,16 +158,16 @@ public class LaserModel extends QuantumModel {
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
-        if( modelElement instanceof Collidable ) {
+        if ( modelElement instanceof Collidable ) {
             bodies.remove( modelElement );
         }
-        if( modelElement instanceof Atom ) {
+        if ( modelElement instanceof Atom ) {
             atoms.remove( modelElement );
         }
-        if( modelElement instanceof Photon ) {
+        if ( modelElement instanceof Photon ) {
             photons.remove( modelElement );
         }
-        if( modelElement instanceof Mirror ) {
+        if ( modelElement instanceof Mirror ) {
             mirrors.remove( modelElement );
         }
     }
@@ -175,16 +175,16 @@ public class LaserModel extends QuantumModel {
     public void reset() {
         getPumpingBeam().setPhotonsPerSecond( 0 );
         getSeedBeam().setPhotonsPerSecond( 0 );
-        for( Iterator iterator = bodies.iterator(); iterator.hasNext(); ) {
+        for ( Iterator iterator = bodies.iterator(); iterator.hasNext(); ) {
             Object obj = iterator.next();
-            if( obj instanceof Atom ) {
-                Atom atom = (Atom)obj;
+            if ( obj instanceof Atom ) {
+                Atom atom = (Atom) obj;
                 atom.setCurrState( getGroundState() );
             }
         }
         Photon photon;
-        while( !photons.isEmpty() ) {
-            photon = (Photon)photons.get( 0 );
+        while ( !photons.isEmpty() ) {
+            photon = (Photon) photons.get( 0 );
             photon.removeFromSystem();
         }
         numPhotons = 0;
@@ -196,26 +196,26 @@ public class LaserModel extends QuantumModel {
 
 
     public void update( ClockEvent event ) {
-        if (!modelPaused ){
-        super.update( event );
+        if ( !modelPaused ) {
+            super.update( event );
 
-        // Check to see if any photons need to be taken out of the system
-        numPhotons = 0;
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Object obj = bodies.get( i );
-            if( obj instanceof Photon ) {
-                numPhotons++;
-                Photon photon = (Photon)obj;
-                Point2D position = photon.getPosition();
-                if( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
-                    // We don't need to remove the element right now. The photon will
-                    // fire an event that we will catch
-                    photon.removeFromSystem();
+            // Check to see if any photons need to be taken out of the system
+            numPhotons = 0;
+            for ( int i = 0; i < bodies.size(); i++ ) {
+                Object obj = bodies.get( i );
+                if ( obj instanceof Photon ) {
+                    numPhotons++;
+                    Photon photon = (Photon) obj;
+                    Point2D position = photon.getPosition();
+                    if ( !boundingRectangle.contains( position.getX(), position.getY() ) ) {
+                        // We don't need to remove the element right now. The photon will
+                        // fire an event that we will catch
+                        photon.removeFromSystem();
+                    }
                 }
             }
-        }
 
-        observable.notifyObservers();
+            observable.notifyObservers();
         }
     }
 
@@ -249,8 +249,8 @@ public class LaserModel extends QuantumModel {
                 throw new RuntimeException( "Invalid number of levels" );
         }
         // Set the available states of all the atoms
-        for( int i = 0; i < atoms.size(); i++ ) {
-            Atom atom = (Atom)atoms.get( i );
+        for ( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom) atoms.get( i );
             atom.setStates( getCurrentElementProperties().getStates() );
         }
 
@@ -258,16 +258,16 @@ public class LaserModel extends QuantumModel {
         numGroundStateAtoms = 0;
         numMiddleStateAtoms = 0;
         numHighStateAtoms = 0;
-        LaserElementProperties elementProperties = (LaserElementProperties)getCurrentElementProperties();
-        for( int i = 0; i < atoms.size(); i++ ) {
-            Atom atom = (Atom)atoms.get( i );
-            if( atom.getCurrState() == elementProperties.getGroundState() ) {
+        LaserElementProperties elementProperties = (LaserElementProperties) getCurrentElementProperties();
+        for ( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom) atoms.get( i );
+            if ( atom.getCurrState() == elementProperties.getGroundState() ) {
                 numGroundStateAtoms++;
             }
-            if( atom.getCurrState() == elementProperties.getMiddleEnergyState() ) {
+            if ( atom.getCurrState() == elementProperties.getMiddleEnergyState() ) {
                 numMiddleStateAtoms++;
             }
-            if( atom.getCurrState() == elementProperties.getHighEnergyState() ) {
+            if ( atom.getCurrState() == elementProperties.getHighEnergyState() ) {
                 numHighStateAtoms++;
             }
         }
@@ -287,7 +287,7 @@ public class LaserModel extends QuantumModel {
     }
 
     public void setStimulatingBeam( Beam stimulatingBeam ) {
-        if( stimulatingBeam != null ) {
+        if ( stimulatingBeam != null ) {
             removeModelElement( stimulatingBeam );
         }
         addModelElement( stimulatingBeam );
@@ -299,7 +299,7 @@ public class LaserModel extends QuantumModel {
     }
 
     public void setPumpingBeam( Beam pumpingBeam ) {
-        if( pumpingBeam != null ) {
+        if ( pumpingBeam != null ) {
             removeModelElement( pumpingBeam );
         }
         addModelElement( pumpingBeam );
@@ -345,7 +345,7 @@ public class LaserModel extends QuantumModel {
     }
 
     public AtomicState getHighEnergyState() {
-        return ( (LaserElementProperties)getCurrentElementProperties() ).getHighEnergyState();
+        return ( (LaserElementProperties) getCurrentElementProperties() ).getHighEnergyState();
     }
 
     public AtomicState[] getStates() {
@@ -361,11 +361,11 @@ public class LaserModel extends QuantumModel {
      */
     public MatchState getMatch( Beam beam ) {
         AtomicState[] states = getStates();
-        for( int i = 0; i < states.length; i++ ) {
+        for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
             EnergyMatchDetector matchDetector = new EnergyMatchDetector( this, state, beam );
             MatchState matchState = matchDetector.getMatch();
-            if( matchState.isMatch() ) {
+            if ( matchState.isMatch() ) {
                 return matchState;
             }
         }
@@ -390,18 +390,18 @@ public class LaserModel extends QuantumModel {
          * Detects and computes collisions between the items in two lists of collidable objects
          */
         void doIt( List collidablesA, List collidablesB ) {
-            for( int i = 0; i < collidablesA.size(); i++ ) {
-                Collidable collidable1 = (Collidable)collidablesA.get( i );
-                if( !( collidable1 instanceof Photon )
-                    || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
-                    || ( tube.getBounds().contains( collidable1.getPositionPrev() ) ) ) {
-                    for( int j = 0; j < collidablesB.size(); j++ ) {
-                        Collidable collidable2 = (Collidable)collidablesB.get( j );
-                        if( collidable1 != collidable2
-                            && ( !( collidable2 instanceof Photon )
-                                 || ( tube.getBounds().contains( ( (Photon)collidable2 ).getPosition() ) ) ) ) {
-                            for( int k = 0; k < collisionExperts.size(); k++ ) {
-                                CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
+            for ( int i = 0; i < collidablesA.size(); i++ ) {
+                Collidable collidable1 = (Collidable) collidablesA.get( i );
+                if ( !( collidable1 instanceof Photon )
+                     || ( tube.getBounds().contains( ( (Photon) collidable1 ).getPosition() ) )
+                     || ( tube.getBounds().contains( collidable1.getPositionPrev() ) ) ) {
+                    for ( int j = 0; j < collidablesB.size(); j++ ) {
+                        Collidable collidable2 = (Collidable) collidablesB.get( j );
+                        if ( collidable1 != collidable2
+                             && ( !( collidable2 instanceof Photon )
+                                  || ( tube.getBounds().contains( ( (Photon) collidable2 ).getPosition() ) ) ) ) {
+                            for ( int k = 0; k < collisionExperts.size(); k++ ) {
+                                CollisionExpert collisionExpert = (CollisionExpert) collisionExperts.get( k );
                                 collisionExpert.detectAndDoCollision( collidable1, collidable2 );
                             }
                         }
@@ -415,13 +415,13 @@ public class LaserModel extends QuantumModel {
          * collidable.
          */
         void doIt( List collidablesA, Collidable body ) {
-            for( int i = 0; i < collidablesA.size(); i++ ) {
-                Collidable collidable1 = (Collidable)collidablesA.get( i );
-                if( !( collidable1 instanceof Photon )
-                    || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
-                    || ( tube.getBounds().contains( collidable1.getPositionPrev() ) ) ) {
-                    for( int k = 0; k < collisionExperts.size(); k++ ) {
-                        CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
+            for ( int i = 0; i < collidablesA.size(); i++ ) {
+                Collidable collidable1 = (Collidable) collidablesA.get( i );
+                if ( !( collidable1 instanceof Photon )
+                     || ( tube.getBounds().contains( ( (Photon) collidable1 ).getPosition() ) )
+                     || ( tube.getBounds().contains( collidable1.getPositionPrev() ) ) ) {
+                    for ( int k = 0; k < collisionExperts.size(); k++ ) {
+                        CollisionExpert collisionExpert = (CollisionExpert) collisionExperts.get( k );
                         collisionExpert.detectAndDoCollision( collidable1, body );
                     }
                 }
@@ -441,18 +441,18 @@ public class LaserModel extends QuantumModel {
         public void stepInTime( double dt ) {
 
             // Test each photon against the atoms in the section the photon is in
-            for( int i = 0; i < photons.size(); i++ ) {
-                Photon photon = (Photon)photons.get( i );
-                if( !( photon instanceof Photon )
-                    || ( tube.getBounds().contains( photon.getPosition() ) )
-                    || ( tube.getBounds().contains( photon.getPositionPrev() ) ) ) {
+            for ( int i = 0; i < photons.size(); i++ ) {
+                Photon photon = (Photon) photons.get( i );
+                if ( !( photon instanceof Photon )
+                     || ( tube.getBounds().contains( photon.getPosition() ) )
+                     || ( tube.getBounds().contains( photon.getPositionPrev() ) ) ) {
 
-                    for( int j = 0; j < atoms.size(); j++ ) {
-                        Atom atom = (Atom)atoms.get( j );
+                    for ( int j = 0; j < atoms.size(); j++ ) {
+                        Atom atom = (Atom) atoms.get( j );
                         AtomicState s1 = atom.getCurrState();
                         photonAtomExpert.detectAndDoCollision( photon, atom );
                         AtomicState s2 = atom.getCurrState();
-                        if( s1 != s2 ) {
+                        if ( s1 != s2 ) {
                             break;
                         }
                     }
@@ -468,7 +468,7 @@ public class LaserModel extends QuantumModel {
     //----------------------------------------------------------------
 
     private EventChannel laserEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)laserEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) laserEventChannel.getListenerProxy();
 
     public void addLaserListener( ChangeListener listener ) {
         laserEventChannel.addListener( listener );
@@ -484,7 +484,7 @@ public class LaserModel extends QuantumModel {
         }
 
         public LaserModel getLaserModel() {
-            return (LaserModel)getSource();
+            return (LaserModel) getSource();
         }
 
         public int getLasingPopulation() {
@@ -508,7 +508,7 @@ public class LaserModel extends QuantumModel {
 
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         Photon photon = event.getPhoton();
-        if( lasingPhotons.contains( photon ) ) {
+        if ( lasingPhotons.contains( photon ) ) {
             lasingPhotons.remove( photon );
             changeListenerProxy.lasingPopulationChanged( new ChangeEvent( this ) );
         }
@@ -528,23 +528,23 @@ public class LaserModel extends QuantumModel {
         public void stateChanged( Atom.ChangeEvent event ) {
             AtomicState prevState = event.getPrevState();
             AtomicState currState = event.getCurrState();
-            LaserElementProperties elementProperties = (LaserElementProperties)getCurrentElementProperties();
-            if( prevState == elementProperties.getGroundState() ) {
+            LaserElementProperties elementProperties = (LaserElementProperties) getCurrentElementProperties();
+            if ( prevState == elementProperties.getGroundState() ) {
                 numGroundStateAtoms--;
             }
-            if( prevState == elementProperties.getMiddleEnergyState() ) {
+            if ( prevState == elementProperties.getMiddleEnergyState() ) {
                 numMiddleStateAtoms--;
             }
-            if( prevState == elementProperties.getHighEnergyState() ) {
+            if ( prevState == elementProperties.getHighEnergyState() ) {
                 numHighStateAtoms--;
             }
-            if( currState == elementProperties.getGroundState() ) {
+            if ( currState == elementProperties.getGroundState() ) {
                 numGroundStateAtoms++;
             }
-            if( currState == elementProperties.getMiddleEnergyState() ) {
+            if ( currState == elementProperties.getMiddleEnergyState() ) {
                 numMiddleStateAtoms++;
             }
-            if( currState == elementProperties.getHighEnergyState() ) {
+            if ( currState == elementProperties.getHighEnergyState() ) {
                 numHighStateAtoms++;
             }
         }

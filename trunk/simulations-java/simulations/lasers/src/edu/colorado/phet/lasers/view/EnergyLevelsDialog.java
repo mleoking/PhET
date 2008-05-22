@@ -8,12 +8,13 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 public class EnergyLevelsDialog extends JDialog {
 

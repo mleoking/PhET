@@ -11,18 +11,19 @@
 
 package edu.colorado.phet.lasers.controller;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.PumpBeamViewPanel;
 import edu.colorado.phet.lasers.view.util.ViewUtils;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Class: UniversalLaserControlPanel
@@ -107,7 +108,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
             public void actionPerformed( ActionEvent e ) {
                 int choice = JOptionPane.showConfirmDialog( PhetApplication.instance().getPhetFrame(),
                                                             SimStrings.getInstance().getString( "ResetAll.confirmationMessage" ) );
-                if( choice == JOptionPane.OK_OPTION ) {
+                if ( choice == JOptionPane.OK_OPTION ) {
                     module.reset();
                 }
             }
@@ -117,7 +118,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         super.addControl( resetBtnPanel );
 
         this.doLayout();
-        this.setPreferredSize( new Dimension( 340, (int)this.getSize().getHeight() ) );
+        this.setPreferredSize( new Dimension( 340, (int) this.getSize().getHeight() ) );
 
         // Add a listener to the pumping beam graphic that will make the pump beam view control panel
         // visible when the graphic is visible, and vice versa

@@ -8,15 +8,15 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-import edu.colorado.phet.lasers.model.LaserModel;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
  * NonLasingWaveGraphic
@@ -70,17 +70,17 @@ public class NonLasingWaveGraphic extends WaveGraphic {
         wavePath.reset();
         double phase = random.nextDouble() * Math.PI;
         Point2D origin = getOrigin();
-        wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
-        for( int i = 0; i < getNumPts(); i += 3 ) {
+        wavePath.moveTo( (float) origin.getX(), (float) origin.getY() );
+        for ( int i = 0; i < getNumPts(); i += 3 ) {
             double x = getDx() * i;
             double y = getAmplitude() * ( Math.sin( phase + ( x / getLambda() ) * Math.PI ) );
             p1.setLocation( x, y );
             rtx.transform( p1, p2 );
-            if( i == 0 ) {
-                wavePath.moveTo( (float)( p2.x + origin.getX() ), (float)( p2.y + origin.getY() ) );
+            if ( i == 0 ) {
+                wavePath.moveTo( (float) ( p2.x + origin.getX() ), (float) ( p2.y + origin.getY() ) );
             }
             else {
-                wavePath.lineTo( (float)( p2.x + origin.getX() ), (float)( p2.y + origin.getY() ) );
+                wavePath.lineTo( (float) ( p2.x + origin.getX() ), (float) ( p2.y + origin.getY() ) );
             }
         }
         update();
@@ -90,7 +90,7 @@ public class NonLasingWaveGraphic extends WaveGraphic {
     public void paint( Graphics2D g2 ) {
         super.saveGraphicsState( g2 );
         double alpha = Math.min( getAmplitude() / 20, 1 );
-        if( module.isMirrorsEnabled() ) {
+        if ( module.isMirrorsEnabled() ) {
             alpha *= 1 - module.getRightMirror().getReflectivity();
         }
         GraphicsUtil.setAlpha( g2, alpha );

@@ -8,11 +8,11 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.lasers.model.LaserModel;
-
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
  * StandingWave
@@ -36,11 +36,11 @@ public class StandingWaveGraphic extends WaveGraphic {
         wavePath.reset();
         double a = Math.sin( ( getElapsedTime() / getPeriod() ) * Math.PI );
         Point2D origin = getOrigin();
-        wavePath.moveTo( (float)origin.getX(), (float)origin.getY() );
-        for( int i = 0; i < getNumPts(); i += 3 ) {
+        wavePath.moveTo( (float) origin.getX(), (float) origin.getY() );
+        for ( int i = 0; i < getNumPts(); i += 3 ) {
             double x = getDx() * i;
             double y = getAmplitude() * ( a * Math.sin( ( x / getLambda() ) * Math.PI ) );
-            wavePath.lineTo( (float)( x + origin.getX() ), (float)( y + origin.getY() ) );
+            wavePath.lineTo( (float) ( x + origin.getX() ), (float) ( y + origin.getY() ) );
         }
         update();
     }

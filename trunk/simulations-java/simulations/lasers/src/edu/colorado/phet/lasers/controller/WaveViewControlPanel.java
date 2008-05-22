@@ -10,17 +10,18 @@
  */
 package edu.colorado.phet.lasers.controller;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.util.ViewUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Class: WaveViewControlPanel
@@ -69,10 +70,10 @@ public class WaveViewControlPanel extends JPanel {
 
     public void setUpperTransitionView( int viewType ) {
         module.setPumpingPhotonView( viewType );
-        if( viewType == BaseLaserModule.PHOTON_DISCRETE ) {
+        if ( viewType == BaseLaserModule.PHOTON_DISCRETE ) {
             PhotonGraphic.setAllVisible( true, module.getPumpingBeam().getWavelength() );
         }
-        if( viewType == BaseLaserModule.PHOTON_CURTAIN ) {
+        if ( viewType == BaseLaserModule.PHOTON_CURTAIN ) {
             PhotonGraphic.setAllVisible( false, module.getPumpingBeam().getWavelength() );
         }
     }
@@ -82,11 +83,11 @@ public class WaveViewControlPanel extends JPanel {
             JRadioButton selection = SwingUtils.getSelection( lasingPhotonBG );
             double de = module.getLaserModel().getMiddleEnergyState().getEnergyLevel()
                         - module.getLaserModel().getGroundState().getEnergyLevel();
-            if( selection == lasingPhotonViewRB ) {
+            if ( selection == lasingPhotonViewRB ) {
                 PhotonGraphic.setAllVisible( true, PhysicsUtil.energyToWavelength( de ) );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
             }
-            if( selection == lasingWaveViewRB ) {
+            if ( selection == lasingWaveViewRB ) {
                 PhotonGraphic.setAllVisible( false, PhysicsUtil.energyToWavelength( de ) );
                 module.setLasingPhotonView( BaseLaserModule.PHOTON_WAVE );
             }

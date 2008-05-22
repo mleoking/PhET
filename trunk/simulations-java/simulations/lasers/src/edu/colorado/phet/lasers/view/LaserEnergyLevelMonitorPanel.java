@@ -11,6 +11,21 @@
 
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
@@ -32,20 +47,6 @@ import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.model.LaserModel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
@@ -127,7 +128,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         JLabel dummyLabel = new JLabel( "foo" );
         Font font = dummyLabel.getFont();
         String header = null;
-        if( module instanceof MultipleAtomModule ) {
+        if ( module instanceof MultipleAtomModule ) {
             header = SimStrings.getInstance().getString( "EnergyMonitorPanel.header.plural" );
         }
         else {
@@ -152,13 +153,13 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private void createEnergyLevelReps() {
 
         // Clear any existing graphics and controls
-        for( int i = 0; i < levelGraphics.length; i++ ) {
+        for ( int i = 0; i < levelGraphics.length; i++ ) {
             EnergyLevelGraphic levelGraphic = levelGraphics[i];
             removeGraphic( levelGraphic );
         }
-        for( int i = 0; i < lifetimeSliders.length; i++ ) {
+        for ( int i = 0; i < lifetimeSliders.length; i++ ) {
             EnergyLifetimeSlider lifetimeSlider = lifetimeSliders[i];
-            if( lifetimeSlider != null ) {
+            if ( lifetimeSlider != null ) {
                 remove( lifetimeSlider );
             }
         }
@@ -166,7 +167,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         lifetimeSliders = new EnergyLifetimeSlider[3];
 
         AtomicState[] states = model.getStates();
-        for( int i = 0; i < states.length; i++ ) {
+        for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
             double xIndent = ( states.length - i ) * 12;
             xIndent = 5;
@@ -185,20 +186,20 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             levelGraphics[i] = elg;
 
             // Don't add a lifetime adjustment slider for the ground state,
-            if( i > 0 ) {
+            if ( i > 0 ) {
                 // Set the minimum lifetime to be two clock ticks, so we will always see an energy halo.
-                int minLifetime = (int)clock.getSimulationTimeChange() * 2;
+                int minLifetime = (int) clock.getSimulationTimeChange() * 2;
                 final EnergyLifetimeSlider slider = new EnergyLifetimeSlider( state,
-                                                                        elg,
-                                                                        LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
-                                                                        minLifetime,
-                                                                        this );
+                                                                              elg,
+                                                                              LaserConfig.MIDDLE_ENERGY_STATE_MAX_LIFETIME,
+                                                                              minLifetime,
+                                                                              this );
 
 //                displayDebugInfoIntermittently( i, slider );
-                
+
                 lifetimeSliders[i] = slider;
                 this.add( slider );
-                slider.setValue( (int)Math.max( minLifetime, state.getMeanLifeTime() ) );
+                slider.setValue( (int) Math.max( minLifetime, state.getMeanLifeTime() ) );
                 defaultLifetimes.put( slider, new Integer( slider.getValue() ) );
 
                 // Add a listener that will flash the line when it matches the wavelength of
@@ -212,7 +213,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             // don't time out and change
             Atom atom = new Atom( model, levelGraphics.length, true );
             AtomicState[] newStates = new AtomicState[states.length];
-            for( int j = 0; j < states.length; j++ ) {
+            for ( int j = 0; j < states.length; j++ ) {
                 newStates[j] = new AtomicState( states[j] );
                 newStates[j].setMeanLifetime( Double.MAX_VALUE );
             }
@@ -227,17 +228,17 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         final int i1 = i;
         new Thread( new Runnable() {
             public void run() {
-                while(true){
-                    System.out.println( "i="+ i1 +", slider.getMin="+slider.getMinimum()+", max="+slider.getMaximum() );
+                while ( true ) {
+                    System.out.println( "i=" + i1 + ", slider.getMin=" + slider.getMinimum() + ", max=" + slider.getMaximum() );
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep( 1000 );
                     }
                     catch( InterruptedException e ) {
                         e.printStackTrace();
                     }
                 }
             }
-        }).start();
+        } ).start();
     }
 
     /**
@@ -250,10 +251,10 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         double groundStateEnergy = model.getGroundState().getEnergyLevel();
         energyYTx = new ModelViewTransform1D( groundStateEnergy + PhysicsUtil.wavelengthToEnergy( VisibleColor.MIN_WAVELENGTH ),
                                               groundStateEnergy,
-                                              (int)bounds.getBounds().getMinY() + headerOffsetY,
-                                              (int)bounds.getBounds().getMaxY() - footerOffsetY );
-        for( int i = 0; i < levelGraphics.length; i++ ) {
-            if( levelGraphics[i] != null ) {
+                                              (int) bounds.getBounds().getMinY() + headerOffsetY,
+                                              (int) bounds.getBounds().getMaxY() - footerOffsetY );
+        for ( int i = 0; i < levelGraphics.length; i++ ) {
+            if ( levelGraphics[i] != null ) {
                 levelGraphics[i].update( energyYTx );
             }
         }
@@ -268,7 +269,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     public void setNumLevels( int numLevels ) {
         this.numLevels = numLevels;
         createEnergyLevelReps();
-        setPreferredSize( new Dimension( (int)panelWidth, (int)panelHeight ) );
+        setPreferredSize( new Dimension( (int) panelWidth, (int) panelHeight ) );
         revalidate();
         repaint();
     }
@@ -278,9 +279,9 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
      */
     public void reset() {
         Set sliders = defaultLifetimes.keySet();
-        for( Iterator iterator = sliders.iterator(); iterator.hasNext(); ) {
-            EnergyLifetimeSlider slider = (EnergyLifetimeSlider)iterator.next();
-            slider.setValue( ( (Integer)defaultLifetimes.get( slider ) ).intValue() );
+        for ( Iterator iterator = sliders.iterator(); iterator.hasNext(); ) {
+            EnergyLifetimeSlider slider = (EnergyLifetimeSlider) iterator.next();
+            slider.setValue( ( (Integer) defaultLifetimes.get( slider ) ).intValue() );
         }
     }
 
@@ -293,19 +294,19 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         atomCntAccums[2] += model.getNumHighStateAtoms();
 
         // todo: these two line might be able to go somewhere they aren't called as often
-        for( int i = 1; i < numLevels; i++ ) {
-            if( lifetimeSliders[i] != null ) {
+        for ( int i = 1; i < numLevels; i++ ) {
+            if ( lifetimeSliders[i] != null ) {
                 lifetimeSliders[i].update();
             }
         }
 
         numUpdatesToAverage++;
         long currTime = System.currentTimeMillis();
-        if( currTime - lastPaintTime >= averagingPeriod ) {
+        if ( currTime - lastPaintTime >= averagingPeriod ) {
             // Compute the average number of atoms in each state. Take care to round off rather than truncate.
-            numAtomsInLevel[0] = (int)( 0.5 + (double)atomCntAccums[0] / numUpdatesToAverage );
-            numAtomsInLevel[1] = (int)( 0.5 + (double)atomCntAccums[1] / numUpdatesToAverage );
-            numAtomsInLevel[2] = (int)( 0.5 + (double)atomCntAccums[2] / numUpdatesToAverage );
+            numAtomsInLevel[0] = (int) ( 0.5 + (double) atomCntAccums[0] / numUpdatesToAverage );
+            numAtomsInLevel[1] = (int) ( 0.5 + (double) atomCntAccums[1] / numUpdatesToAverage );
+            numAtomsInLevel[2] = (int) ( 0.5 + (double) atomCntAccums[2] / numUpdatesToAverage );
             atomCntAccums[0] = 0;
             atomCntAccums[1] = 0;
             atomCntAccums[2] = 0;
@@ -326,16 +327,16 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         double y2 = energyYTx.modelToView( groundStateEnergy + pumpBeamEnergy );
 
         // Build the images for the squiggles that represent the energies of the stimulating and pumping beam
-        if( y0 > y1 ) {
+        if ( y0 > y1 ) {
             double squiggleOffsetX = squiggleHeight;
-            stimSquiggle = computeSquiggleImage( model.getSeedBeam(), 0, (int)( y0 - y1 ), squiggleHeight );
+            stimSquiggle = computeSquiggleImage( model.getSeedBeam(), 0, (int) ( y0 - y1 ), squiggleHeight );
             stimSquiggleTx = AffineTransform.getTranslateInstance( levelGraphics[1].getPosition().getX() + squiggleOffsetX,
                                                                    energyYTx.modelToView( module.getLaserModel().getGroundState().getEnergyLevel() ) );
             stimSquiggleTx.rotate( -Math.PI / 2 );
         }
 
-        if( y0 > y2 ) {
-            pumpSquiggle = computeSquiggleImage( model.getPumpingBeam(), 0, (int)( y0 - y2 ), squiggleHeight );
+        if ( y0 > y2 ) {
+            pumpSquiggle = computeSquiggleImage( model.getPumpingBeam(), 0, (int) ( y0 - y2 ), squiggleHeight );
 
             // Which level graphic we use to set the x location of the pump beam's squiggle depends on how many
             // levels are being displayed.
@@ -370,10 +371,10 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         int iPrev = 0;
         Color c = VisibleColor.wavelengthToColor( wavelength );
         double freqFactor = 15 * wavelength / 680;
-        for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
-            int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
-            for( int j = 0; j < height; j++ ) {
-                if( j == k ) {
+        for ( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
+            int k = (int) ( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
+            for ( int j = 0; j < height; j++ ) {
+                if ( j == k ) {
                     g2d.setColor( c );
                     g2d.drawLine( iPrev + arrowHeight, kPrev, i + arrowHeight, k );
                     iPrev = i;
@@ -407,23 +408,23 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     protected void paintComponent( Graphics graphics ) {
         super.paintComponent( graphics );
 
-        Graphics2D g2 = (Graphics2D)graphics;
+        Graphics2D g2 = (Graphics2D) graphics;
         GraphicsState gs = new GraphicsState( g2 );
         GraphicsUtil.setAntiAliasingOn( g2 );
 
         // Draw the atoms on each of the levels
-        for( int i = 0; i < numLevels; i++ ) {
+        for ( int i = 0; i < numLevels; i++ ) {
             EnergyLevelGraphic levelGraphic = levelGraphics[i];
             drawAtomsInLevel( g2, Color.darkGray, levelGraphic, numAtomsInLevel[i] );
         }
 
         // Draw squiggles showing what energy photons the beams are putting out
-        if( stimSquiggle != null && model.getSeedBeam().isEnabled() ) {
+        if ( stimSquiggle != null && model.getSeedBeam().isEnabled() ) {
             double intensity = model.getSeedBeam().getPhotonsPerSecond() / model.getSeedBeam().getMaxPhotonsPerSecond();
             GraphicsUtil.setAlpha( g2, Math.pow( intensity, 0.5 ) );
             g2.drawRenderedImage( stimSquiggle, stimSquiggleTx );
         }
-        if( pumpSquiggle != null && model.getPumpingBeam().isEnabled() ) {
+        if ( pumpSquiggle != null && model.getPumpingBeam().isEnabled() ) {
             double intensity = model.getPumpingBeam().getPhotonsPerSecond() / model.getPumpingBeam().getMaxPhotonsPerSecond();
             GraphicsUtil.setAlpha( g2, Math.sqrt( intensity ) );
             g2.drawRenderedImage( pumpSquiggle, pumpSquiggleTx );
@@ -434,7 +435,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
     private void drawAtomsInLevel( Graphics2D g2, Color color, EnergyLevelGraphic line, int numInLevel ) {
         BufferedImage bi = getAtomImage( color );
-        double scale = (double)atomDiam / bi.getWidth();
+        double scale = (double) atomDiam / bi.getWidth();
         AffineTransform atx = new AffineTransform();
         double offsetX = squiggleHeight * 2;
         atx.translate( line.getLinePosition().getX() + offsetX - atomDiam / 2,
@@ -442,7 +443,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 //        atx.translate( line.getLinePosition().getX() - atomDiam / 2,
 //                       line.getLinePosition().getY() - atomDiam );
         atx.scale( scale, scale );
-        for( int i = 0; i < numInLevel; i++ ) {
+        for ( int i = 0; i < numInLevel; i++ ) {
             atx.translate( atomDiam * 0.7 / scale, 0 );
             g2.drawRenderedImage( bi, atx );
         }
@@ -451,7 +452,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     private Map colorToAtomImage = new HashMap();
 
     private BufferedImage getAtomImage( Color color ) {
-        if( baseSphereImg == null ) {
+        if ( baseSphereImg == null ) {
             try {
                 baseSphereImg = ImageLoader.loadBufferedImage( "lasers/images/particle-red-lrg.gif" );
             }
@@ -460,8 +461,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             }
         }
         // Look for the image in the cache
-        BufferedImage atomImg = (BufferedImage)colorToAtomImage.get( color );
-        if( atomImg == null ) {
+        BufferedImage atomImg = (BufferedImage) colorToAtomImage.get( color );
+        if ( atomImg == null ) {
             atomImg = new BufferedImage( baseSphereImg.getWidth(), baseSphereImg.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
             MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
             op.filter( baseSphereImg, atomImg );
@@ -475,12 +476,12 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     //----------------------------------------------------------------
 
     public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
-        Beam beam = (Beam)event.getSource();
-        if( beam == model.getPumpingBeam() ) {
+        Beam beam = (Beam) event.getSource();
+        if ( beam == model.getPumpingBeam() ) {
             double pumpBeamWavelength = beam.getWavelength();
             pumpBeamEnergy = PhysicsUtil.wavelengthToEnergy( pumpBeamWavelength );
         }
-        if( beam == model.getSeedBeam() ) {
+        if ( beam == model.getSeedBeam() ) {
             double seedBeamWavelength = beam.getWavelength();
             seedBeamEnergy = PhysicsUtil.wavelengthToEnergy( seedBeamWavelength );
         }

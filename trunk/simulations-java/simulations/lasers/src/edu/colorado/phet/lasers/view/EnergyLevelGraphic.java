@@ -22,8 +22,8 @@ import java.util.Set;
 
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -60,7 +60,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
     private LevelIcon levelIcon;
 
-    public static boolean showLifetimeLabelText=true;//see Unfuddle #431
+    public static boolean showLifetimeLabelText = true;//see Unfuddle #431
 
     /*
      * @param isAdjustable      Determines if the graphic can be moved up and down with the mouse
@@ -202,7 +202,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             final double upperBound = atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference;
             final double lowerBound = atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference;
             final double desiredValue = atomicState.getEnergyLevel() + energyChange;
-            double newEnergy= MathUtil.clamp( lowerBound, desiredValue, upperBound );
+            double newEnergy = MathUtil.clamp( lowerBound, desiredValue, upperBound );
 //            double newEnergy= desiredValue;
 //            double newEnergy = Math.max( Math.min( upperBound, desiredValue ), lowerBound );
 

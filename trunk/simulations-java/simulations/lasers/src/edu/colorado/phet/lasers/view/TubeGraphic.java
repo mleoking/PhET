@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 
 public class TubeGraphic extends CompositePhetGraphic implements Tube.ChangeListener {
 

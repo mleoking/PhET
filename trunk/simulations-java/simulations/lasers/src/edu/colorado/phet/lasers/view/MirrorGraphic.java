@@ -11,17 +11,17 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.model.mirror.PartialMirror;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.lasers.controller.LaserConfig;
+import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 
 public class MirrorGraphic extends PhetGraphic implements PartialMirror.Listener {
 
@@ -75,11 +75,11 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Listener
         // Set the basic color based on the reflectivity of the mirror
         int maxGray = 100;
         int minGray = 220;
-        int gray = minGray - (int)( reflectivity * ( minGray - maxGray ) );
+        int gray = minGray - (int) ( reflectivity * ( minGray - maxGray ) );
         mirrorColor = new Color( gray, gray, gray );
 
-        bounds.setFrame( (int)( mirror.getPosition().getX() - thickness + xOffset ),
-                         (int)mirror.getPosition().getY(),
+        bounds.setFrame( (int) ( mirror.getPosition().getX() - thickness + xOffset ),
+                         (int) mirror.getPosition().getY(),
                          thickness * 2 + outlineStrokeWidth, mirror.getBounds().getHeight() );
         face1 = new Ellipse2D.Double( thickness, 0, thickness, bounds.getHeight() );
         face2 = new Ellipse2D.Double( 0, 0, thickness, bounds.getHeight() );
@@ -98,9 +98,9 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Listener
         mirrorPaint2 = new GradientPaint( p3, new Color( 0, 0, 0, 0 ),
                                           p4, mirrorColor, false );
 
-        mirrorBI = new BufferedImage( (int)bounds.getWidth(), (int)( bounds.getHeight() + outlineStrokeWidth ),
+        mirrorBI = new BufferedImage( (int) bounds.getWidth(), (int) ( bounds.getHeight() + outlineStrokeWidth ),
                                       BufferedImage.TYPE_INT_ARGB_PRE );
-        Graphics2D g = (Graphics2D)mirrorBI.getGraphics();
+        Graphics2D g = (Graphics2D) mirrorBI.getGraphics();
         GraphicsUtil.setAntiAliasingOn( g );
         g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
         g.setColor( mirrorColor );
@@ -128,8 +128,8 @@ public class MirrorGraphic extends PhetGraphic implements PartialMirror.Listener
     public void paint( Graphics2D g ) {
         saveGraphicsState( g );
         g.drawImage( mirrorBI,
-                     (int)( mirror.getPosition().getX() - ( thickness / 2 ) + xOffset ),
-                     (int)mirror.getPosition().getY(), null );
+                     (int) ( mirror.getPosition().getX() - ( thickness / 2 ) + xOffset ),
+                     (int) mirror.getPosition().getY(), null );
         restoreGraphicsState();
     }
 }

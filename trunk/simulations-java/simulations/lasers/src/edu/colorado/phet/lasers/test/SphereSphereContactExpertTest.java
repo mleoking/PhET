@@ -6,9 +6,10 @@
  */
 package edu.colorado.phet.lasers.test;
 
+import junit.framework.TestCase;
+
 import edu.colorado.phet.common.collision.SphereSphereContactDetector;
 import edu.colorado.phet.common.collision.SphericalBody;
-import junit.framework.TestCase;
 
 public class SphereSphereContactExpertTest extends TestCase {
 

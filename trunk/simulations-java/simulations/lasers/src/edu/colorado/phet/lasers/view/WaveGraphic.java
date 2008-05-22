@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 
 /**
  * WaveGraphic
@@ -65,7 +65,7 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement {
         this.amplitude = amplitude;
         this.cavity = cavity;
         this.color = color;
-        numPts = (int)( extent / dx ) + 1;
+        numPts = (int) ( extent / dx ) + 1;
     }
 
     public Point2D getOrigin() {
@@ -126,7 +126,7 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement {
 
     public void paint( Graphics2D g2 ) {
         saveGraphicsState( g2 );
-        if( amplitude > 0 && isVisible() ) {
+        if ( amplitude > 0 && isVisible() ) {
             g2.setStroke( stroke );
             g2.setColor( color );
             g2.draw( wavePath );
@@ -155,7 +155,7 @@ public abstract class WaveGraphic extends PhetGraphic implements ModelElement {
         minLevel = 150;
         // The power function here controls the ramp-up of actualColor intensity
         rampUpExponent = .5;
-        level = Math.max( minLevel, 255 - (int)( ( 255 - minLevel ) * Math.pow( ( getAmplitude() / getMaxInternalAmplitude() ), rampUpExponent ) ) );
+        level = Math.max( minLevel, 255 - (int) ( ( 255 - minLevel ) * Math.pow( ( getAmplitude() / getMaxInternalAmplitude() ), rampUpExponent ) ) );
         level = Math.min( level, 255 );
         curtainBounds.setRect( wavePath.getBounds().getMinX(), cavity.getBounds().getMinY(),
                                wavePath.getBounds().getWidth(), cavity.getBounds().getHeight() );

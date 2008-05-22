@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.lasers.model.mirror;
 
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 
 /**
@@ -41,11 +41,11 @@ public class PartialMirror extends Mirror {
 
     public void addReflectionStrategy( ReflectionStrategy reflectionStrategy ) {
         // If the strategy being added is a reflecting strategy, remove the old one
-        if( reflectionStrategy instanceof Partial ) {
-            partialStrategy = (Partial)reflectionStrategy;
-            for( int i = 0; i < reflectionStrategies.size(); i++ ) {
-                ReflectionStrategy strategy = (ReflectionStrategy)reflectionStrategies.get( i );
-                if( strategy instanceof Partial ) {
+        if ( reflectionStrategy instanceof Partial ) {
+            partialStrategy = (Partial) reflectionStrategy;
+            for ( int i = 0; i < reflectionStrategies.size(); i++ ) {
+                ReflectionStrategy strategy = (ReflectionStrategy) reflectionStrategies.get( i );
+                if ( strategy instanceof Partial ) {
                     reflectionStrategies.remove( strategy );
                     break;
                 }
@@ -59,7 +59,7 @@ public class PartialMirror extends Mirror {
     //----------------------------------------------------------------
 
     private EventChannel eventChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+    private Listener listenerProxy = (Listener) eventChannel.getListenerProxy();
 
     public interface Listener extends EventListener {
         void reflectivityChanged( ReflectivityChangedEvent event );
@@ -71,7 +71,7 @@ public class PartialMirror extends Mirror {
         }
 
         public double getReflectivity() {
-            return ( (PartialMirror)source ).getReflectivity();
+            return ( (PartialMirror) source ).getReflectivity();
         }
     }
 

@@ -6,6 +6,17 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -19,16 +30,6 @@ import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Represents an atom with an image of a sphere, surrounded by a "halo" that represents its energy state. The halo
@@ -53,8 +54,8 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
 
     public static void setEnergyRepColorStrategy( EnergyRepColorStrategy strategy ) {
         energyRepColorStrategy = strategy;
-        for( int i = 0; i < changeListenerList.size(); i++ ) {
-            ChangeListener changeListener = (ChangeListener)changeListenerList.get( i );
+        for ( int i = 0; i < changeListenerList.size(); i++ ) {
+            ChangeListener changeListener = (ChangeListener) changeListenerList.get( i );
 //            changeListener.stateChanged( new ChangeEvent( AtomGraphic.class ) );
         }
 //        changeListenerProxy.stateChanged( new ChangeEvent( AtomGraphic.class ) );
@@ -119,8 +120,8 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
      */
     public void update() {
         determineEnergyRadiusAndColor();
-        setLocation( (int)( atom.getPosition().getX() ),
-                     (int)( atom.getPosition().getY() ) );
+        setLocation( (int) ( atom.getPosition().getX() ),
+                     (int) ( atom.getPosition().getY() ) );
         setBoundsDirty();
         repaint();
     }
@@ -166,12 +167,12 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         super.paint( g2 );
 
         // Debug: draws a dot at the center of the atom
-        if( DEBUG ) {
+        if ( DEBUG ) {
             g2.setColor( Color.GREEN );
-            g2.fillArc( (int)getLocation().getX() - 2,
-                        (int)getLocation().getY() - 2, 4, 4, 0, 360 );
+            g2.fillArc( (int) getLocation().getX() - 2,
+                        (int) getLocation().getY() - 2, 4, 4, 0, 360 );
             g2.setColor( Color.RED );
-            g2.drawArc( (int)atom.getPosition().getX() - 2, (int)atom.getPosition().getY() - 2, 4, 4, 0, 360 );
+            g2.drawArc( (int) atom.getPosition().getX() - 2, (int) atom.getPosition().getY() - 2, 4, 4, 0, 360 );
         }
 
         restoreGraphicsState();
@@ -190,7 +191,7 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
      */
     public void setIsMouseable( boolean isMouseable, final Rectangle2D bounds ) {
         setIgnoreMouse( !isMouseable );
-        if( isMouseable ) {
+        if ( isMouseable ) {
             this.addTranslationListener( new TranslationListener() {
 
                 /**
@@ -271,14 +272,14 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         private Color[] grayScale = new Color[240];
 
         public GrayScaleStrategy() {
-            for( int i = 0; i < grayScale.length; i++ ) {
+            for ( int i = 0; i < grayScale.length; i++ ) {
                 grayScale[i] = new Color( i, i, i );
             }
         }
 
         public Color getColor( Atom atom ) {
-            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) /
-                                                  ( atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) ) );
+            int idx = (int) ( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) /
+                                                   ( atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) ) );
             idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
             return grayScale[idx];
         }

@@ -11,6 +11,14 @@
 
 package edu.colorado.phet.lasers.controller.module;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -22,6 +30,7 @@ import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.quantum.model.Photon;
+import edu.colorado.phet.lasers.LasersApplication;
 import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
@@ -29,15 +38,6 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.LaserAtom;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.view.LampGraphic;
-import edu.colorado.phet.lasers.LasersApplication;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * Class: SingleAtomBaseModule
@@ -55,7 +55,7 @@ public class SingleAtomModule extends BaseLaserModule {
     public SingleAtomModule( IClock clock ) {
 //        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock , Photon.DEFAULT_SPEED*0.65 );
 //        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * 0.5 );
-        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.ONE_ATOM_MODULE_SPEED);
+        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.ONE_ATOM_MODULE_SPEED );
         init();
     }
 
@@ -75,7 +75,7 @@ public class SingleAtomModule extends BaseLaserModule {
         // Reset the energy levels
         TwoLevelElementProperties props = new TwoLevelElementProperties();
         AtomicState[] states = atom.getStates();
-        for( int i = 0; i < states.length; i++ ) {
+        for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
             // If we do this before we call activate(), we only have to call it once, but it doesn't look good. (The
             // slider comes up twice in different places). By doing it this way, it looks better
@@ -88,7 +88,7 @@ public class SingleAtomModule extends BaseLaserModule {
         //Set up the seed beam
         Point2D beamOrigin = new Point2D.Double( getCavity().getBounds().getX() - 100,
                                                  getCavity().getBounds().getY() + getCavity().getBounds().getHeight() / 2 );
-        final Beam seedBeam = ( (LaserModel)getModel() ).getSeedBeam();
+        final Beam seedBeam = ( (LaserModel) getModel() ).getSeedBeam();
         seedBeam.setPosition( beamOrigin );
         seedBeam.setBeamWidth( 0.5 );
         seedBeam.setDirection( new Vector2D.Double( 1, 0 ) );
@@ -98,7 +98,7 @@ public class SingleAtomModule extends BaseLaserModule {
         seedBeam.setPhotonsPerSecond( 1 );
 
         // Set up the pump beam
-        final Beam pumpingBeam = ( (LaserModel)getModel() ).getPumpingBeam();
+        final Beam pumpingBeam = ( (LaserModel) getModel() ).getPumpingBeam();
         Point2D pumpingBeamOrigin = new Point2D.Double( getCavity().getBounds().getX() + getCavity().getBounds().getWidth() / 2,
                                                         getCavity().getBounds().getY() - 100 );
         pumpingBeam.setDirection( new Vector2D.Double( 0, 1 ) );
@@ -108,15 +108,15 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Start with the pumping beam turned down all the way
         pumpingBeam.setPhotonsPerSecond( 0 );
-        pumpingBeam.setMaxPhotonsPerSecond( (int)pumpingBeam.getMaxPhotonsPerSecond() / 2 );
+        pumpingBeam.setMaxPhotonsPerSecond( (int) pumpingBeam.getMaxPhotonsPerSecond() / 2 );
 
         // Enable only the stimulating beam to start with
         seedBeam.setEnabled( true );
         pumpingBeam.setEnabled( false );
 
         // Add the graphics for beams
-        Rectangle2D allocatedBounds = new Rectangle2D.Double( (int)seedBeam.getPosition().getX() - 55,
-                                                              (int)( seedBeam.getPosition().getY() + seedBeam.getBeamWidth() / 2 - 25 ),
+        Rectangle2D allocatedBounds = new Rectangle2D.Double( (int) seedBeam.getPosition().getX() - 55,
+                                                              (int) ( seedBeam.getPosition().getY() + seedBeam.getBeamWidth() / 2 - 25 ),
                                                               100, 50 );
         BufferedImage gunBI = null;
         try {
@@ -144,8 +144,8 @@ public class SingleAtomModule extends BaseLaserModule {
             wireGraphic.setImage( BufferedImageUtils.getRotatedImage( wireGraphic.getImage(), -Math.PI / 2 ) );
             wireGraphic.setLocation( 50, 250 );
             getApparatusPanel().addGraphic( wireGraphic );
-            Point controlLocation = new Point( (int)seedBeam.getPosition().getX() + 40,
-                                               (int)seedBeam.getPosition().getY() + 70 );
+            Point controlLocation = new Point( (int) seedBeam.getPosition().getX() + 40,
+                                               (int) seedBeam.getPosition().getY() + 70 );
             seedBeamControl = new BeamControl( getApparatusPanel(),
                                                this,
                                                controlLocation,
@@ -172,10 +172,10 @@ public class SingleAtomModule extends BaseLaserModule {
             AffineTransform atx = AffineTransform.getScaleInstance( 0.6, 1 );
             AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
             wireGraphic.setImage( atxOp.filter( wireGraphic.getImage(), null ) );
-            wireGraphic.setLocation( (int)pumpingBeam.getPosition().getX(),
-                                     (int)( pumpingBeam.getPosition().getY() - 20 ) );
-            Point pumpControlLocation = new Point( (int)( pumpingBeam.getPosition().getX() + 170 ),
-                                                   (int)( pumpingBeam.getPosition().getY() - 90 ) );
+            wireGraphic.setLocation( (int) pumpingBeam.getPosition().getX(),
+                                     (int) ( pumpingBeam.getPosition().getY() - 20 ) );
+            Point pumpControlLocation = new Point( (int) ( pumpingBeam.getPosition().getX() + 170 ),
+                                                   (int) ( pumpingBeam.getPosition().getY() - 90 ) );
             pumpBeamControl = new BeamControl( getApparatusPanel(),
                                                this,
                                                pumpControlLocation,
@@ -227,13 +227,13 @@ public class SingleAtomModule extends BaseLaserModule {
      */
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
         super.setThreeEnergyLevels( threeEnergyLevels );
-        if( pumpingLampGraphic != null ) {
+        if ( pumpingLampGraphic != null ) {
             pumpingLampGraphic.setVisible( threeEnergyLevels );
             pumpBeamControl.setVisible( threeEnergyLevels );
             getLaserModel().getPumpingBeam().setEnabled( threeEnergyLevels );
         }
 
-        if( getBeamCurtainGraphic() != null ) {
+        if ( getBeamCurtainGraphic() != null ) {
             getBeamCurtainGraphic().setVisible( threeEnergyLevels );
         }
     }

@@ -10,20 +10,21 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 
 public class LaserControlPanel extends ControlPanel {
     private GridBagConstraints gbc;
@@ -123,7 +124,7 @@ public class LaserControlPanel extends ControlPanel {
             lasingThresholdSlider.setPaintTicks( false );
             lasingThresholdSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    LaserConfig.LASING_THRESHOLD = (int)lasingThresholdSlider.getValue();
+                    LaserConfig.LASING_THRESHOLD = (int) lasingThresholdSlider.getValue();
                 }
             } );
             panel.add( lasingThresholdSlider, gbc );
@@ -131,7 +132,7 @@ public class LaserControlPanel extends ControlPanel {
             final JTextField numPhotonsTF = new JTextField( 15 );
             module.getModel().addModelElement( new ModelElement() {
                 public void stepInTime( double dt ) {
-                    numPhotonsTF.setText( Integer.toString( ( (BaseLaserModule)module ).getNumPhotons() ) );
+                    numPhotonsTF.setText( Integer.toString( ( (BaseLaserModule) module ).getNumPhotons() ) );
                 }
             } );
             panel.add( new JLabel( "Number of Photons" ), gbc );
@@ -152,7 +153,7 @@ public class LaserControlPanel extends ControlPanel {
             final ModelSlider kaboomThresholdSlider = new ModelSlider( "Meltdown threshold", "Photons", 0, 500, LaserConfig.KABOOM_THRESHOLD );
             kaboomThresholdSlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    LaserConfig.KABOOM_THRESHOLD = (int)kaboomThresholdSlider.getValue();
+                    LaserConfig.KABOOM_THRESHOLD = (int) kaboomThresholdSlider.getValue();
                 }
             } );
             panel.add( kaboomThresholdSlider, gbc );

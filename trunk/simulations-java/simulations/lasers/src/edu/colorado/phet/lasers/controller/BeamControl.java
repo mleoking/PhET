@@ -10,6 +10,13 @@
  */
 package edu.colorado.phet.lasers.controller;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
@@ -20,12 +27,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.MatchState;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 /**
  * BeamControl
@@ -69,8 +70,8 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
 
         intensitySliderLoc = new Point( location.x + intensitySliderRelLoc.x,
                                         location.y + intensitySliderRelLoc.y );
-        spectrumSliderLoc = new Point( (int)spectrumSliderRelLoc.getX(),
-                                       (int)spectrumSliderRelLoc.getY() );
+        spectrumSliderLoc = new Point( (int) spectrumSliderRelLoc.getX(),
+                                       (int) spectrumSliderRelLoc.getY() );
 
         addWavelengthSlider( beam, minWavelength, maxWavelength );
         addIntensitySlider( beam, beam.getMaxPhotonsPerSecond() );
@@ -88,7 +89,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         wavelengthSlider.setKnobSize( new Dimension( 15, 12 ) ); // default is (20,30)
         wavelengthSlider.setSpectrumSize( spectrumSize ); // default is (200,25)
         addGraphic( wavelengthSlider, LaserConfig.CONTROL_LAYER );
-        wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
+        wavelengthSlider.setValue( (int) ( beam.getWavelength() ) );
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int value = wavelengthSlider.getValue();
@@ -101,12 +102,12 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
                 handleMatch();
             }
         } );
-        wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
+        wavelengthSlider.setValue( (int) ( beam.getWavelength() ) );
     }
 
     private void handleMatch() {
         MatchState match = baseLaserModule.getMatch( beam );
-        if( match != null ) {
+        if ( match != null ) {
             //match the state
             double exactTransitionEnergy = match.getTransitionEnergy();
             double wavelength = PhysicsUtil.energyToWavelength( Math.abs( exactTransitionEnergy ) );
@@ -124,9 +125,9 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     private void addIntensitySlider( final Beam beam, double maximumRate ) {
         intensitySlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
                                                IntensitySlider.HORIZONTAL, intensitySliderSize );
-        intensitySlider.setMaximum( (int)maximumRate );
-        intensitySlider.setLocation( (int)( intensitySliderLoc.getX() - getRegistrationPoint().getX() ),
-                                     (int)( intensitySliderLoc.getY() - getRegistrationPoint().getY() ) );
+        intensitySlider.setMaximum( (int) maximumRate );
+        intensitySlider.setLocation( (int) ( intensitySliderLoc.getX() - getRegistrationPoint().getX() ),
+                                     (int) ( intensitySliderLoc.getY() - getRegistrationPoint().getY() ) );
         apparatusPanel.add( intensitySlider );
         intensitySlider.setValue( 0 );
         intensitySlider.addChangeListener( new ChangeListener() {
@@ -144,8 +145,8 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     public class WavelengthChangeListener implements Beam.WavelengthChangeListener {
         public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
             intensitySlider.setColor( VisibleColor.wavelengthToColor( event.getWavelength() ) );
-            if( wavelengthSlider.getValue() != (int)( event.getWavelength() ) ) {
-                wavelengthSlider.setValue( (int)( event.getWavelength() ) );
+            if ( wavelengthSlider.getValue() != (int) ( event.getWavelength() ) ) {
+                wavelengthSlider.setValue( (int) ( event.getWavelength() ) );
             }
         }
     }
@@ -156,7 +157,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     }
 
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
-        intensitySlider.setValue( (int)event.getRate() );
+        intensitySlider.setValue( (int) event.getRate() );
     }
 
     public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {

@@ -30,7 +30,7 @@ public class LaserAtom extends PropertiesBasedAtom {
 
     public void collideWithPhoton( Photon photon ) {
         boolean canCollide = false;
-        if( getCurrState() != getGroundState() ) {
+        if ( getCurrState() != getGroundState() ) {
             canCollide = true;
         }
         else {
@@ -39,24 +39,24 @@ public class LaserAtom extends PropertiesBasedAtom {
             }
         }
 
-        if( canCollide ) {
+        if ( canCollide ) {
             super.collideWithPhoton( photon );
         }
     }
 
     public void setCurrState( AtomicState newState ) {
         super.setCurrState( newState );
-        if( newState == getGroundState() && canCollideInGroundState != null ) {
+        if ( newState == getGroundState() && canCollideInGroundState != null ) {
             new MinLifetimeTimer().start();
         }
     }
 
     public void setStates( AtomicState[] states ) {
         super.setStates( states );
-        states[1] = ( (LaserModel)getModel() ).getMiddleEnergyState();
-        if( states.length == 3 ) {
+        states[1] = ( (LaserModel) getModel() ).getMiddleEnergyState();
+        if ( states.length == 3 ) {
 //        if( numEnergyLevels == 3 ) {
-            states[2] = ( (LaserModel)getModel() ).getHighEnergyState();
+            states[2] = ( (LaserModel) getModel() ).getHighEnergyState();
         }
     }
 

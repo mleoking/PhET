@@ -1,10 +1,5 @@
 package edu.colorado.phet.lasers.test;
 
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.quantum.QuantumConfig;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
@@ -12,6 +7,12 @@ import java.awt.geom.Point2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.quantum.QuantumConfig;
 
 /*
  * CVS Info -
@@ -49,9 +50,9 @@ public class GraphicTest {
         //        pg4.setPosition( 200, 200 );
         //        ap.addGraphic( pg4 );
 
-        for( double a = 0; a <= 360; a += 45 ) {
+        for ( double a = 0; a <= 360; a += 45 ) {
             TestGraphic pg5 = new TestGraphic( ap, QuantumConfig.PHOTON_IMAGE_FILE, Math.toRadians( a ), "D" );
-            pg5.setLocation( (int)( a * 2 ), (int)( a * 2 ) );
+            pg5.setLocation( (int) ( a * 2 ), (int) ( a * 2 ) );
             ap.addGraphic( pg5 );
         }
 
@@ -82,24 +83,24 @@ public class GraphicTest {
         double dy = 0;
 
         // I
-        if( theta >= 0 && theta <= Math.PI / 2 ) {
+        if ( theta >= 0 && theta <= Math.PI / 2 ) {
             dx = h * Math.sin( theta );
             dy = 0;
         }
         // II
-        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+        if ( theta > Math.PI / 2 && theta <= Math.PI ) {
             double beta = Math.PI - theta;
             dy = h * Math.cos( beta );
             dx = w * Math.cos( beta ) + h * Math.sin( beta );
         }
         // III
-        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+        if ( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
             double beta = theta - Math.PI;
             dy = h * Math.cos( beta ) + w * Math.sin( beta );
             dx = w * Math.cos( beta );
         }
         // IV
-        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+        if ( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
             double beta = Math.PI * 2 - theta;
             dy = w * Math.sin( beta );
             dx = 0;
@@ -116,18 +117,18 @@ public class GraphicTest {
         pr = new Point2D.Double();
         // Normalize theta to be between 0 and PI*2
         theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
-        if( theta >= 0 && theta <= Math.PI / 2 ) {
+        if ( theta >= 0 && theta <= Math.PI / 2 ) {
             //            pr.setLocation( bImage.getWidth()/ 2 , bImage.getHeight( )/ 2 );
             pr.setLocation( 0, bImage.getHeight() );
         }
-        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+        if ( theta > Math.PI / 2 && theta <= Math.PI ) {
             pr.setLocation( bImage.getWidth(), bImage.getHeight() );
         }
-        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+        if ( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
             pr.setLocation( bImage.getWidth(), 0 );
             //            pr.setLocation( bImage.getWidth(), bImage.getHeight() );
         }
-        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+        if ( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
             pr.setLocation( bImage.getWidth(), bImage.getHeight() );
         }
         AffineTransform tx = AffineTransform.getTranslateInstance( pr.getX() /* + bImage.getWidth()*/,
