@@ -29,11 +29,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bernoulli/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/bound-states/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/circuit-construction-kit/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/color-vision/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/color-vision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/conductivity/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/conductivity/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/curve-fitting/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/discharge-lamps/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/distance-ladder/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/distance-ladder/src" isTestSource="false" />
@@ -63,6 +61,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/ohm-1d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/optical-quantum-control/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/optical-tweezers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/ph-scale/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/phetgraphics-demo/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/photoelectric/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/quantum-tunneling/src" isTestSource="false" />
