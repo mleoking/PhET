@@ -109,7 +109,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         };
         
         _clock.addClockListener( new ClockAdapter() {
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
+            public void clockTicked( ClockEvent clockEvent ) {
                 _timeSinceLastDebrisGenerated += clockEvent.getSimulationTimeChange();
                 if ( _timeSinceLastDebrisGenerated >= YEARS_PER_DEBRIS_GENERATED ) {
                     _debrisGenerator.generateDebrisPosition( _pDebris /* output */ );
