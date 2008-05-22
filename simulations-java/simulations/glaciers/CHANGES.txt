@@ -74,6 +74,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.24 (?)
 5/21/08 - prepare TracerFlag and Debris for handling large dt, constrain maximum x to the terminus
 5/21/08 - implement clockTicked instead of simulationTimeChanged in all model code that cares about clock ticks
 5/21/08 - bugfix: debris is not generated after Reset All
