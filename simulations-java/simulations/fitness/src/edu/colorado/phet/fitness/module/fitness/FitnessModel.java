@@ -36,7 +36,7 @@ public class FitnessModel {
                 return FitnessUnits.feetToMeters( value );
             }
         };
-        public static final Units METRIC = new Units( FitnessResources.getString( "units.metric" ), "kg", "meters" );
+        public static final Units METRIC = new Units( FitnessResources.getString( "units.metric" ), FitnessResources.getString( "units.kg" ), FitnessResources.getString( "units.meters" ) );
         private String shortName;
         private String massUnit;
         private String distanceUnit;
