@@ -10,18 +10,16 @@ HIGH PRIORITY:
 - prune debris at moraine so we don't end up with a huge number of debris that slows things down
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate 
 - increase zoom on vertical axis by 2x
-- add moving glyphs to ice surface to show motion
 - glacier advances too fast, get model fix from Archie [550]
+- combine "snowfall" and "snowfall reference elevation" into 1 slider (?)
+- switch entire user-interface between English and metric units (?)
 
 MEDIUM PRIORITY:
+- start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 - "steady state" button needs to create a moraine
 - "steady state" button needs to advance clock to future time
 - "steady state" button needs to fill in missing data in time-dependent graphs
 - add depth cues to background image (shading, etc)
-- combine "snowfall" and "snowfall reference elevation" into 1 slider (?)
-- switch entire user-interface between English and metric units (?)
-- make mercury in thermometer move as temperature changes (?)
-- support very long experiment times (how?)
 - visual representation of snowfall
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
@@ -34,6 +32,8 @@ MEDIUM PRIORITY:
 - tweak alignment of mountains image, perspective is a little off at headwall
 
 LOW PRIORITY:
+- replace MountainsAndValleyNode.getPerspectiveHeight with something cleaner, put it in the model (since Debris uses it)
+- make mercury in thermometer move as temperature changes (?)
 - refactor model listener class hierarchy
 - right edge of ice thickness tool icon is clipped (see Unfuddle #558)
 - remove registration points from mountains image
@@ -76,6 +76,7 @@ CLEANUP:
 
 
 DONE:
+5/23/08 - add ripple to ice surface
 5/23/08 - keep glacial budget meter on surface as glacier evolves
 5/23/08 - make glacial budget meter display "?" when it's not on the surface
 5/23/08 - make it easy to drag glacial budget meter along surface of glacier, 200m "band" where it stays snapped to surface
@@ -546,6 +547,7 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+5/22/08 - support very long experiment times (use the "steady state" button to jump to end of long experiments)
 5/22/08 - make fastest speed faster, vary dt instead of framerate (both approaches have problems, use steady state button for long experiements)
 5/19/08 - extruded portion of ice jiggles at headwall while it's evolving (problem disappeared)
 5/19/08 - developer controls for ice velocity "look"? (it's a lot of work, no one has asked for it)
