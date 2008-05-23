@@ -135,7 +135,7 @@ public class Debris extends ClockAdapter {
 
             // constrain x to 1 meter beyond the terminus
             final double maxX = _glacier.getTerminusX() + 1;
-            if ( newX > maxX ) {
+            if ( getX() < maxX && newX > maxX ) {
                 newX = maxX;
             }
             
