@@ -7,13 +7,13 @@ DESIGN ISSUES (user interface):
 
 HIGH PRIORITY:
 - improve "look" of ripples
-- add yaw to fake 3D perspective (terminus, ELA, etc)
 - prune debris at moraine so we don't end up with a huge number of debris that slows things down
-- debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate 
 - increase zoom on vertical axis by 2x
+- switch user-interface between English and metric units
 - glacier advances too fast, get model fix from Archie [550]
+- debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate
 - combine "snowfall" and "snowfall reference elevation" into 1 slider (?)
-- switch entire user-interface between English and metric units (?)
+- add yaw to fake 3D perspective (terminus, ELA, etc) 
 
 MEDIUM PRIORITY:
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
@@ -77,7 +77,7 @@ CLEANUP:
 
 
 DONE:
-5/23/08 - add ripple to ice surface
+5/23/08 - add ripples to ice surface
 5/23/08 - keep glacial budget meter on surface as glacier evolves
 5/23/08 - make glacial budget meter display "?" when it's not on the surface
 5/23/08 - make it easy to drag glacial budget meter along surface of glacier, 200m "band" where it stays snapped to surface
