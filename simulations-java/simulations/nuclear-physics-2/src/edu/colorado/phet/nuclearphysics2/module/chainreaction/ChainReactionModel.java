@@ -136,7 +136,10 @@ public class ChainReactionModel {
             }
             public void enableStateChanged(boolean isEnabled){
                 handleContainmentVesselStateChange(isEnabled);
-            }; 
+            };
+            public void radiusChanged(double radius){
+                handleContainmentVesselRadiusChanged(radius);
+            }
         });
     }
     
@@ -485,10 +488,11 @@ public class ChainReactionModel {
             }
             else if (!_containedElements.contains( freeNucleon ) &&
                      _containmentVessel.isPositionContained( freeNucleon.getPositionReference() )){
-                // This particle is contained by the containment vessel, so freeze it where it is.
-                freeNucleon.setVelocity( 0, 0 );
-                _containedElements.add( freeNucleon );
+                // This particle is contained by the containment vessel, so we
+                // remove it from the model, since it is no longer significant.
                 _containmentVessel.recordImpact();
+                _freeNeutrons.remove( i );
+                notifyModelElementRemoved( freeNucleon );
             }
         }
         
@@ -579,31 +583,7 @@ public class ChainReactionModel {
     private void handleContainmentVesselExplosion(){
         // Remove all the nuclei that had been contained by the containment
         // vessel from the model.
-        int numContainedElements = _containedElements.size();
-        for ( int i = numContainedElements - 1; i >= 0; i-- ) {
-            
-            Object modelElement = _containedElements.get( i );
-            
-            _containedElements.remove( i );
-            notifyModelElementRemoved( modelElement );
-            
-            if (modelElement instanceof Neutron){
-                _freeNeutrons.remove( modelElement );
-            }
-            else if (modelElement instanceof Uranium235Nucleus){
-                if (!_u235Nuclei.remove( modelElement )){
-                    _daughterNuclei.remove( modelElement );
-                }
-            }
-            else if (modelElement instanceof DaughterNucleus){
-                _daughterNuclei.remove( modelElement );
-            }
-            else{
-                // This shouldn't happen, debug it if it does.
-                System.err.println("Error: Unexpected model element type contained by containment vessel.");
-                assert false;
-            }
-        }
+        removeContainedParticles();
     }
     
     public void handleContainmentVesselStateChange(boolean isEnabled){
@@ -613,6 +593,17 @@ public class ChainReactionModel {
             removeNucleiOutsideContainmentVessel( _u235Nuclei );
             removeNucleiOutsideContainmentVessel( _u238Nuclei );
         }
+    }
+    
+    public void handleContainmentVesselRadiusChanged(double newRadius){
+
+        // Remove any nuclei that might now be outside the containment vessel.
+        removeNucleiOutsideContainmentVessel( _u235Nuclei );
+        removeNucleiOutsideContainmentVessel( _u238Nuclei );
+        
+        // Remove any particles or nuclei that might have been captured (i.e.
+        // contained) by the containment vessel.
+        removeContainedParticles();
     }
     
     /**
@@ -637,6 +628,35 @@ public class ChainReactionModel {
                 notifyModelElementRemoved( nucleus );
                 nucleus.removedFromModel();
                 nucleiList.remove( i );
+            }
+        }
+    }
+    
+    /**
+     * Removed any nuclei or free nucleons that have been contained by the
+     * containment vessel.
+     */
+    private void removeContainedParticles(){
+        int numContainedElements = _containedElements.size();
+        for ( int i = numContainedElements - 1; i >= 0; i-- ) {
+            
+            Object modelElement = _containedElements.get( i );
+            
+            _containedElements.remove( i );
+            notifyModelElementRemoved( modelElement );
+            
+            if (modelElement instanceof Uranium235Nucleus){
+                if (!_u235Nuclei.remove( modelElement )){
+                    _daughterNuclei.remove( modelElement );
+                }
+            }
+            else if (modelElement instanceof DaughterNucleus){
+                _daughterNuclei.remove( modelElement );
+            }
+            else{
+                // This shouldn't happen, debug it if it does.
+                System.err.println("Error: Unexpected model element type contained by containment vessel.");
+                assert false;
             }
         }
     }
