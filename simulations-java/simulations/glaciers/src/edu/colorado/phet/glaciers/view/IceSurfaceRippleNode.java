@@ -17,12 +17,16 @@ import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleAdapter
 import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-
+/**
+ * IceSurfaceRippleNode is the visual representation of a "ripple" on the surface of the ice.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class IceSurfaceRippleNode extends PPath {
     
     private static final Stroke STROKE = new BasicStroke( 1f );
-    private static final Color COLOR_ABOVE_ELA = Color.RED;//XXX
-    private static final Color COLOR_BELOW_ELA = Color.BLUE;//XXX
+    private static final Color COLOR_ABOVE_ELA = new Color( 230, 230, 230 );
+    private static final Color COLOR_BELOW_ELA = new Color( 200, 200, 200 );
     
     private final Glacier _glacier;
     private final IceSurfaceRipple _ripple;
@@ -71,12 +75,11 @@ public class IceSurfaceRippleNode extends PPath {
     }
     
     private static Shape createPath( double height ) {
-        return new Line2D.Double( 0, 0, 0, height );
+        double margin = 0.2 * height;
+        return new Line2D.Double( 0, margin, 0, height - margin );
     }
     
     private void update() {
-        
-        System.out.println( "IceSurfaceRippleNode.update " + _ripple.getPositionReference() );//XXX
         
         // use different colors above and below ELA
         final Point2D surfaceAtELA = _glacier.getSurfaceAtSteadyStateELAReference();
