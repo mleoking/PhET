@@ -12,17 +12,15 @@ HIGH PRIORITY:
 - increase zoom on vertical axis by 2x
 - add moving glyphs to ice surface to show motion
 - glacier advances too fast, get model fix from Archie [550]
-- make fastest speed faster (will need to switch to clock to vary dt, large dt values will cause problems)
 
 MEDIUM PRIORITY:
-- "steady state" button needs to create a morain
+- "steady state" button needs to create a moraine
 - "steady state" button needs to advance clock to future time
 - "steady state" button needs to fill in missing data in time-dependent graphs
 - add depth cues to background image (shading, etc)
 - combine "snowfall" and "snowfall reference elevation" into 1 slider (?)
 - switch entire user-interface between English and metric units (?)
 - make it easy to drag glacial budget meter along surface of glacier (?)
-- remove "elevation" from glacial budget meter tool (?)
 - make mercury in thermometer move as temperature changes (?)
 - support very long experiment times (how?)
 - visual representation of snowfall
@@ -79,6 +77,7 @@ CLEANUP:
 
 
 DONE:
+5/23/08 - add a flag to hide "elevation" in glacial budget meter tool
 5/23/08 - change text in GlacierPictureDialog
 5/23/08 - fix layout of GlacierPictureDialog
 5/22/08 - new image file and text for "glacier picture" feature
@@ -217,7 +216,7 @@ DONE:
 4/14/08 - add debug code for model problem that results in negative ice thickness 
 4/14/08 - fix computation of ice thickness samples when glacier length == 0
 4/14/08 - add ELA value display for debugging range of Climate parameters
-4/14/08 - increase precision of temperature textfield
+4/14/08 - increase precision of temperature text field
 4/14/08 - remove obsolete Climate.setMaxSnowfall, make getMaxSnowfall private
 4/14/08 - rename EquilibriumLineAltitude to ELA throughout Climate model
 4/14/08 - fix for negative values in Glaciers.getMaxThickness
@@ -304,7 +303,7 @@ DONE:
 2/19/08 - disable ELA slider and wire it to the model, so we can see ELA range without domain mapping problems
 2/19/08 - rewrite EquilibriumLineNode to show a dashed horizontal line at ELA
 2/19/08 - move ELA model into Climate, delete EquilibriumLine class
-2/19/08 - wire up Mass Balanace max snowfall control, stub out wiring for ELA control
+2/19/08 - wire up Mass Balance max snowfall control, stub out wiring for ELA control
 2/19/08 - cleanup Climate model and associated javadoc
 2/19/08 - clean up controller for Basic module
 2/19/08 - show snowfall reference elevation in meters with integer precision
@@ -545,6 +544,7 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+5/22/08 - make fastest speed faster, vary dt instead of framerate (both approaches have problems, use steady state button for long experiements)
 5/19/08 - extruded portion of ice jiggles at headwall while it's evolving (problem disappeared)
 5/19/08 - developer controls for ice velocity "look"? (it's a lot of work, no one has asked for it)
 5/15/08 - Archie reports flags behaving strangely, similar positions moving at different rates, occurs when dropped close to valley floor? 
