@@ -6,6 +6,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments (dropped?)
 
 HIGH PRIORITY:
+- improve "look" of ripples
 - add yaw to fake 3D perspective (terminus, ELA, etc)
 - prune debris at moraine so we don't end up with a huge number of debris that slows things down
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate 

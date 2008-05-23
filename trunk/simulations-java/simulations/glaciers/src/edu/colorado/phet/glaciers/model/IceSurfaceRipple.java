@@ -12,7 +12,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 
-
+/**
+ * IceSurfaceRipple is the model of a "ripple" on the surface of the ice.
+ * Ripples are used to show that the ice is moving.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class IceSurfaceRipple extends ClockAdapter {
     
     //----------------------------------------------------------------------------
@@ -62,7 +67,6 @@ public class IceSurfaceRipple extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     private void setPosition( double x, double y ) {
-        System.out.println( "IceSurfaceRipple.setPosition " + x + " " + y );//XXX
         if ( x != _position.getX() || y != _position.getY() ) {
             _position.setLocation( x, y );
             notifyPositionChanged();
