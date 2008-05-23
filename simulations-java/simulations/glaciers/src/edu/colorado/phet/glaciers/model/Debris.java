@@ -105,8 +105,8 @@ public class Debris extends ClockAdapter {
      */
     private void checkForDeletion() {
         if ( _onValleyFloor ) {
-            double iceThicknessAtFlag = _glacier.getIceThickness( getX() );
-            if ( iceThicknessAtFlag > 0 ) {
+            double iceThickness = _glacier.getIceThickness( getX() );
+            if ( iceThickness > 0 ) {
                 _deletedSelf = true;
                 notifyDeleteMe();
             }
