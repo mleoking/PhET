@@ -76,6 +76,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.25 (?)
 5/23/08 - only constrain debris x value to terminus if previous x value was < terminus
 5/23/08 - don't bother to attempt generation of debris or ripples for zero-length glacier
 5/23/08 - improve "look" of ripples, patterned after ripples in design doc

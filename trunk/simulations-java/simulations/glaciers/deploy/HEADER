@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.24
+glaciers 0.00.25
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,12 +12,12 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>add "glacier picture" check box to View control panel
-<li>integrate new background image with proper perspective
-<li>change drop constraints for Glacial Budget Meter, snap to surface of glacier or valley, display "?" while dragging
-<li>fix so that debris continues to be generated after Restart or Reset All
-<li>fix title on "Graphs" control panel
-<li>move origin indicator on thermometer to be vertically aligned with center of bulb
+<li>when dragging glacier, it will remain "stuck" to the surface of the glacier or valley floor if the mouse is 100m above or below the surface. Outside this range, you can drag it around freely.
+<li>glacial budget meter displays "?" when its not on the surface of the glacier or valley floor
+<li>if glacial budget meter is stuck to the surface of the glacier, it will remain on the surface as the glacier evolves
+<li>remove "elevation" from glacial budget meter
+<li>integrate new image and text into "glacier picture" feature
+<li>add moving "ripples" to glacier surface, ala design document
 </ul>
 <p>
 <b>Known problems:</b>
