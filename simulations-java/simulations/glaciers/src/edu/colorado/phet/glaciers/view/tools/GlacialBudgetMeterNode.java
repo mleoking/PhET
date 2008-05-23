@@ -39,6 +39,8 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final boolean SHOW_ELEVATION = false;
+    
     private static final NumberFormat ELEVATION_FORMAT = new DefaultDecimalFormat( "0" );
     private static final NumberFormat ACCUMULATION_FORMAT = new DefaultDecimalFormat( "0.00" );
     private static final NumberFormat ABLATION_FORMAT = new DefaultDecimalFormat( "0.00" );
@@ -164,9 +166,11 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
             displayPanel.setLayout( layout );
             int row = 0;
             int column = 0;
-            layout.addAnchoredComponent( elevationLabel, row, column++, GridBagConstraints.EAST );
-            layout.addAnchoredComponent( _elevationLabel, row++, column++, GridBagConstraints.WEST );
-            column = 0;
+            if ( SHOW_ELEVATION ) {
+                layout.addAnchoredComponent( elevationLabel, row, column++, GridBagConstraints.EAST );
+                layout.addAnchoredComponent( _elevationLabel, row++, column++, GridBagConstraints.WEST );
+                column = 0;
+            }
             layout.addAnchoredComponent( accumulationLabel, row, column++, GridBagConstraints.EAST );
             layout.addAnchoredComponent( _accumulationLabel, row++, column++, GridBagConstraints.WEST );
             column = 0;
