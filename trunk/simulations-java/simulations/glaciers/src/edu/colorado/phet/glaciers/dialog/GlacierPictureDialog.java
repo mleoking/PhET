@@ -2,14 +2,14 @@
 
 package edu.colorado.phet.glaciers.dialog;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
@@ -21,13 +21,6 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  */
 public class GlacierPictureDialog extends JDialog {
 
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    /* Space for the "Java Application Window" label that Web Start puts on the bottom of dialogs. */
-    private static final int JAVA_APP_WINDOW_HEIGHT = 50;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -49,33 +42,31 @@ public class GlacierPictureDialog extends JDialog {
         
         // text
         JTextArea text = new JTextArea( GlaciersStrings.TEXT_GLACIER_PICTURE );
-        int columns = getTextColumns( image.getWidth(), text );
-        text.setColumns( columns );
+        text.setColumns( 50 );
         text.setLineWrap( true );
         text.setWrapStyleWord( true );
         text.setEditable( false );
         text.setOpaque( false );
-        JPanel textPanel = new JPanel();
-        textPanel.add( text );
-        
+
         // panel
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) ); // top, left, bottom, right
-        panel.add( picture, BorderLayout.NORTH );
-        panel.add( textPanel, BorderLayout.CENTER  );
-        Dimension preferredSize = panel.getPreferredSize();
+        JPanel panel = new JPanel();
+        panel.setBorder( BorderFactory.createEmptyBorder( 10, 15, 10, 15 ) ); // top, left, bottom, right
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        layout.setInsets( new Insets( 5, 0, 5, 0 ) ); // top, left, bottom, right
+        layout.setAnchor( GridBagConstraints.CENTER );
+        panel.setLayout( layout );
+        layout.addComponent( picture, 0, 0 );
+        layout.addComponent( text, 1, 0 );
 
         // Add to the dialog
         getContentPane().add( panel );
-        setSize( (int)preferredSize.getWidth(), (int)( preferredSize.getHeight() + JAVA_APP_WINDOW_HEIGHT ) );
+        pack();
     }
     
-    /*
-     * Uses font metrics to determine how to map pixels to text columns. 
-     */
-    private static int getTextColumns( int pixelWidth, JComponent component ) {
-        FontMetrics fontMetrics = component.getFontMetrics( component.getFont() );
-        int charWidth = fontMetrics.charWidth( 'W' );
-        return pixelWidth / charWidth;
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
+        if ( visible ) {
+            pack(); // pack after making visible because this dialog contains a JTextArea
+        }
     }
 }
