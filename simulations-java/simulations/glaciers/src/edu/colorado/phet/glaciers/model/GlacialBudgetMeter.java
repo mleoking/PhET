@@ -65,7 +65,7 @@ public class GlacialBudgetMeter extends AbstractTool {
         
         _glacierListener = new GlacierAdapter() {
             public void iceThicknessChanged() {
-                // keep drill on glacier surface as the glacier evolves
+                // keep meter on glacier surface as the glacier evolves
                 if ( !isDragging() && _onSurface ) {
                     snapToGlacierSurface();
                 }
