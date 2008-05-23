@@ -442,7 +442,7 @@ public class ChainReactionModel {
     // Private Methods
     //------------------------------------------------------------------------
     
-    private void handleClockTicked(ClockEvent clockEvent){
+    private void handleClockTicked(ClockEvent clockEvent){cd .
 
         // Move any free particles that exist.
         for (int i = 0; i < _freeNeutrons.size(); i++){
@@ -629,7 +629,7 @@ public class ChainReactionModel {
         int i, numElements;
         
         numElements = nucleiList.size();
-        for (i = numElements - 1; i > 0; i--){
+        for (i = numElements - 1; i >= 0; i--){
             AtomicNucleus nucleus = (AtomicNucleus)nucleiList.get( i );
             if (nucleus.getPositionReference().distance( 0, 0 ) > 
                     _containmentVessel.getRadius() - CONTAINMENT_VESSEL_MARGIN){
