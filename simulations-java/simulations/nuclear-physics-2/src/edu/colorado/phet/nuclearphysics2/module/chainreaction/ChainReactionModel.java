@@ -442,7 +442,7 @@ public class ChainReactionModel {
     // Private Methods
     //------------------------------------------------------------------------
     
-    private void handleClockTicked(ClockEvent clockEvent){cd .
+    private void handleClockTicked(ClockEvent clockEvent) {
 
         // Move any free particles that exist.
         for (int i = 0; i < _freeNeutrons.size(); i++){
