@@ -26,6 +26,7 @@ import edu.colorado.phet.glaciers.control.ScrollArrowNode.RightScrollArrowNode;
 import edu.colorado.phet.glaciers.model.*;
 import edu.colorado.phet.glaciers.model.IBoreholeProducer.IBoreholeProducerListener;
 import edu.colorado.phet.glaciers.model.IDebrisProducer.IDebrisProducerListener;
+import edu.colorado.phet.glaciers.model.IIceSurfaceRippleProducer.IIceSurfaceRippleProducerListener;
 import edu.colorado.phet.glaciers.model.IToolProducer.IToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolNode;
@@ -52,7 +53,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener {
+public class PlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener, IIceSurfaceRippleProducerListener {
     
     //----------------------------------------------------------------------------
     // Debug
@@ -97,7 +98,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     
     // View
     private final PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private final PLayer _backgroundLayer, _iceLayer, _debrisLayer, _velocityLayer, _boreholeLayer;
+    private final PLayer _backgroundLayer, _iceLayer, _ripplesLayer, _debrisLayer, _velocityLayer, _boreholeLayer;
     private final PLayer _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
     private final IceFlowNode _iceFlowNode;
     private final ToolboxNode _toolboxNode;
@@ -111,6 +112,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     private final ScrollArrowNode _leftScrollArrowNode, _rightScrollArrowNode;
     private final HashMap _boreholesMap; // key=Borehole, value=BoreholeNode, used for removing borehole nodes when their model elements are deleted
     private final HashMap _debrisMap; // key=Debris, value=DebrisNode, used for removing debris nodes when their model elements are deleted
+    private final HashMap _ripplesMap; // key=IceSurfaceRipple, value=IceSurfaceRippleNode, used for removing ripple nodes when their model elements are deleted
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -127,12 +129,14 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
         _model.addBoreholeProducerListener( this ); // manage nodes when boreholes are added/removed
         _model.addDebrisProducerListener( this ); // manage nodes when debris is added/removed
+        _model.addIceSurfaceRippleProducerListener( this ); // manage nodes when ripples are added/removed
 
         _mvt = mvt;
         
         _toolsMap = new HashMap();
         _boreholesMap = new HashMap();
         _debrisMap = new HashMap();
+        _ripplesMap = new HashMap();
         
         // headwall position
         Point2D headwallPosition = _model.getValley().getHeadwallPositionReference();
@@ -203,6 +207,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         // Layers, back to front
         _backgroundLayer = new PLayer();
         _iceLayer = new PLayer();
+        _ripplesLayer = new PLayer();
         _debrisLayer = new PLayer();
         _boreholeLayer = new PLayer();
         _coordinatesLayer = new PLayer();
@@ -213,6 +218,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _debugLayer = new PLayer();
         addToBothViews( _backgroundLayer );
         addToBothViews( _iceLayer );
+        addToZoomedView( _ripplesLayer );
         addToZoomedView( _debrisLayer );
         addToZoomedView( _boreholeLayer );
         addToZoomedView( _velocityLayer );
@@ -606,6 +612,25 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _debrisLayer.removeChild( debrisNode );
         _debrisMap.remove( debris );
         debrisNode.cleanup();
+    }
+    
+    
+    //----------------------------------------------------------------------------
+    // IIceSurfaceRippleProducerListener implementation
+    //----------------------------------------------------------------------------
+    
+    public void rippleAdded( IceSurfaceRipple ripple ) {
+        IceSurfaceRippleNode rippleNode = new IceSurfaceRippleNode( ripple, _model.getGlacier(), _mvt );
+        _ripplesLayer.addChild( rippleNode );
+        _ripplesMap.put( ripple, rippleNode );
+    }
+    
+    public void rippleRemoved( IceSurfaceRipple ripple ) {
+        IceSurfaceRippleNode rippleNode = (IceSurfaceRippleNode) _ripplesMap.get( ripple );
+        assert ( rippleNode != null );
+        _ripplesLayer.removeChild( rippleNode );
+        _ripplesMap.remove( ripple );
+        rippleNode.cleanup();
     }
     
     //----------------------------------------------------------------------------

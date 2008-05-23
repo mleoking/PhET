@@ -22,6 +22,7 @@ public abstract class AbstractTool extends Movable implements ClockListener {
     //----------------------------------------------------------------------------
     
     private boolean _dragging;
+    private boolean _deletedSelf;
     private final ArrayList _listeners;
     
     //----------------------------------------------------------------------------
@@ -37,6 +38,13 @@ public abstract class AbstractTool extends Movable implements ClockListener {
                 handlePositionChanged();
             }
         });
+    }
+    
+    protected void deleteSelf() {
+        if ( !_deletedSelf ) {
+            _deletedSelf = true;
+            notifyDeleteMe();
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -68,8 +76,8 @@ public abstract class AbstractTool extends Movable implements ClockListener {
         return _dragging;
     }
     
-    protected void deleteMe() {
-        notifyDeleteMe();
+    protected boolean isDeletedSelf() {
+        return _deletedSelf;
     }
     
     //----------------------------------------------------------------------------

@@ -2,55 +2,48 @@
 
 package edu.colorado.phet.glaciers.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 
-/**
- * Debris is the model of debris that is moving in the ice.
- * Debris could include rocks, trees, dead animals, etc.
- * In this model, motion ignores the mass of the debris.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- */
-public class Debris extends ClockAdapter {
 
+public class IceSurfaceRipple extends ClockAdapter {
+    
     //----------------------------------------------------------------------------
-    // Instance data
+    //  Instance data
     //----------------------------------------------------------------------------
     
-    private Point3D _position;
-    private Glacier _glacier;
-    private GlacierListener _glacierListener;
-    private boolean _onValleyFloor;
-    private ArrayList _listeners;
+    private final Point2D _position;
+    private final Glacier _glacier;
+    private final GlacierListener _glacierListener;
     private boolean _deletedSelf;
+    private ArrayList _listeners;
     
     //----------------------------------------------------------------------------
-    // Constructors
+    //  Constructors
     //----------------------------------------------------------------------------
     
-    public Debris( Point3D position, Glacier glacier ) {
+    public IceSurfaceRipple( double x, Glacier glacier ) {
         super();
         
-        _position = new Point3D.Double( position );
-        
+        _position = new Point2D.Double( x, glacier.getSurfaceElevation( x ) );
         _glacier = glacier;
-        _onValleyFloor = false;
+        
         _glacierListener = new GlacierAdapter() {
             public void iceThicknessChanged() {
                 checkForDeletion();
             }
         };
         _glacier.addGlacierListener( _glacierListener );
-        _listeners = new ArrayList();
+        
         _deletedSelf = false;
+        _listeners = new ArrayList();
     }
     
     public void cleanup() {
@@ -65,29 +58,18 @@ public class Debris extends ClockAdapter {
     }
     
     //----------------------------------------------------------------------------
-    // Setters and getters
+    //  Setters and getters
     //----------------------------------------------------------------------------
     
-    public boolean isOnValleyFloor() {
-        return _onValleyFloor;
-    }
-    
-    private void setPosition( double x, double y, double z ) {
-        if ( x != getX() || y != getY() || z != getZ() ) {
-            _position.setLocation( x, y, z );
+    private void setPosition( double x, double y ) {
+        System.out.println( "IceSurfaceRipple.setPosition " + x + " " + y );//XXX
+        if ( x != _position.getX() || y != _position.getY() ) {
+            _position.setLocation( x, y );
             notifyPositionChanged();
         }
     }
     
-    /**
-     * Gets the position in 3D space.  The axes are as follows:
-     * x = distance downvalley from valley headwall
-     * y = elevation
-     * z = distance across the valley (+ into the screen)
-     * 
-     * @return position (meters)
-     */
-    public Point3D getPositionReference() {
+    public Point2D getPositionReference() {
         return _position;
     }
     
@@ -99,61 +81,47 @@ public class Debris extends ClockAdapter {
         return _position.getY();
     }
     
-    public double getZ() {
-        return _position.getZ();
-    }
-    
     //----------------------------------------------------------------------------
     // Self deletion
     //----------------------------------------------------------------------------
     
     /*
-     * Deletes itself if covered by an advancing glacier.
+     * Deletes itself when it hits the terminus.
      */
     private void checkForDeletion() {
-        if ( _onValleyFloor && !_deletedSelf ) {
-            double iceThickness = _glacier.getIceThickness( getX() );
-            if ( iceThickness > 0 ) {
+        if ( !_deletedSelf ) {
+            final double iceThickness = _glacier.getIceThickness( getX() );
+            if ( iceThickness == 0 ) {
                 deleteSelf();
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // ClockListener interface
     //----------------------------------------------------------------------------
-    
+
     public void clockTicked( ClockEvent clockEvent ) {
 
-        if ( !_deletedSelf && !_onValleyFloor ) {
+        if ( !_deletedSelf ) {
             
+            final double surfaceElevation = _glacier.getSurfaceElevation( getX() );
+
             // distance = velocity * dt
-            Vector2D velocity = _glacier.getIceVelocity( getX(), getY() );
+            Vector2D velocity = _glacier.getIceVelocity( getX(), surfaceElevation );
             final double dt = clockEvent.getSimulationTimeChange();
-            double newX = getX() + ( velocity.getX() * dt );
-            double newY = getY() + ( velocity.getY() * dt );
-
-            // constrain x to 1 meter beyond the terminus
-            final double maxX = _glacier.getTerminusX() + 1;
-            if ( newX > maxX ) {
-                newX = maxX;
-            }
+            final double newX = getX() + ( velocity.getX() * dt );
             
-            // constrain y to the surface of the glacier (or valley floor)
-            double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
-            if ( newY > newGlacierSurfaceElevation ) {
-                newY = newGlacierSurfaceElevation;
-            }
+            // y is always on the surface
+            final double newY = _glacier.getSurfaceElevation( newX );
             
-            // z doesn't change in this model, not realistic, but acceptable here
-            final double newZ = getZ();
-            
-            // are we on the valley floor?
-            if ( newY == _glacier.getValley().getElevation( newX ) ) {
-                _onValleyFloor = true;
+            // delete or move?
+            if ( newX >= _glacier.getTerminusX() ) {
+                deleteSelf();
             }
-
-            setPosition( newX, newY, newZ );
+            else {
+                setPosition( newX, newY );
+            }
         }
     }
     
@@ -161,28 +129,28 @@ public class Debris extends ClockAdapter {
     // Listener
     //----------------------------------------------------------------------------
     
-    public interface DebrisListener {
+    public interface IceSurfaceRippleListener {
         public void positionChanged();
-        public void deleteMe( Debris debris );
+        public void deleteMe( IceSurfaceRipple ripple );
     }
     
-    public static class DebrisAdapter implements DebrisListener {
+    public static class IceSurfaceRippleAdapter implements IceSurfaceRippleListener {
         public void positionChanged() {}
-        public void deleteMe( Debris debris ){}
+        public void deleteMe( IceSurfaceRipple ripple ) {}
     }
     
-    public void addDebrisListener( DebrisListener listener ) {
+    public void addIceSurfaceRippleListener( IceSurfaceRippleListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeDebrisListener( DebrisListener listener ) {
+    public void removeIceSurfaceRippleListener( IceSurfaceRippleListener listener ) {
         _listeners.remove( listener );
     }
     
     private void notifyPositionChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (DebrisListener) i.next() ).positionChanged();
+            ( (IceSurfaceRippleListener) i.next() ).positionChanged();
         }
     }
     
@@ -190,7 +158,7 @@ public class Debris extends ClockAdapter {
         ArrayList listenersCopy = new ArrayList( _listeners );
         Iterator i = listenersCopy.iterator(); // iterate on a copy to avoid ConcurrentModificationException
         while ( i.hasNext() ) {
-            ( (DebrisListener) i.next() ).deleteMe( this );
+            ( (IceSurfaceRippleListener) i.next() ).deleteMe( this );
         }
     }
 }

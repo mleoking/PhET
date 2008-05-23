@@ -16,6 +16,8 @@ import edu.colorado.phet.glaciers.model.Borehole.BoreholeListener;
 import edu.colorado.phet.glaciers.model.BoreholeDrill.BoreholeDrillListener;
 import edu.colorado.phet.glaciers.model.Debris.DebrisAdapter;
 import edu.colorado.phet.glaciers.model.Debris.DebrisListener;
+import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleAdapter;
+import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleListener;
 
 
 /**
@@ -23,14 +25,15 @@ import edu.colorado.phet.glaciers.model.Debris.DebrisListener;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractModel implements IToolProducer, IBoreholeProducer, IDebrisProducer {
+public abstract class AbstractModel implements IToolProducer, IBoreholeProducer, IDebrisProducer, IIceSurfaceRippleProducer {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
     private static final boolean ENABLE_DEBUG_OUTPUT = true;
-    private static final int YEARS_PER_DEBRIS_GENERATED = 1; // debris is generated this many years apart
+    private static final double YEARS_PER_DEBRIS_GENERATED = 1; // debris is generated this many years apart
+    private static final double YEARS_PER_RIPPLE_GENERATED = 35; // ripples are generated this many years apart
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -39,22 +42,26 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     private final GlaciersClock _clock;
     private final Glacier _glacier;
     
-    private final ArrayList _tools; // array of AbstractTool
-    private final ArrayList _toolProducerListeners; // array of ToolProducerListener
+    private final ArrayList _tools; // list of AbstractTool
+    private final ArrayList _toolProducerListeners; // list of ToolProducerListener
     private final ToolListener _toolSelfDeletionListener;
     private final BoreholeDrillListener _boreholeDrillListener;
     private final BoreholeListener _boreholeSelfDeletionListener;
     
-    private final ArrayList _boreholes; // array of Borehole
-    private final ArrayList _boreholeProducerListeners; // array of BoreholeProducerListener
+    private final ArrayList _boreholes; // list of Borehole
+    private final ArrayList _boreholeProducerListeners; // list of BoreholeProducerListener
     
-    private final ArrayList _debris; // array of Debris
-    private final ArrayList _debrisProducerListeners; // array of DebrisProducerListener
+    private final ArrayList _debris; // list of Debris
+    private final ArrayList _debrisProducerListeners; // list of DebrisProducerListener
     private final DebrisListener _debrisSelfDeletionListener;
     private final DebrisGenerator _debrisGenerator;
     private final Point3D _pDebris;
-
-    private int _timeSinceLastDebrisGenerated;
+    private double _timeSinceLastDebrisGenerated;
+    
+    private final ArrayList _ripples; // list of IceSurfaceRipple
+    private final ArrayList _rippleProducerListeners; // list of IceSurfaceRippleProducerListeners
+    private final IceSurfaceRippleListener _rippleSelfDeletionListener;
+    private double _timeSinceLastRippleGenerated;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,15 +77,19 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         
         _tools = new ArrayList();
         _toolProducerListeners = new ArrayList();
+        
         _boreholes = new ArrayList();
         _boreholeProducerListeners = new ArrayList();
+        
         _debris = new ArrayList();
         _debrisProducerListeners = new ArrayList();
-        
         _debrisGenerator = new DebrisGenerator( glacier );
         _pDebris = new Point3D.Double();
+        _timeSinceLastDebrisGenerated = YEARS_PER_DEBRIS_GENERATED; // generate one on first clock tick
         
-        _timeSinceLastDebrisGenerated = 0;
+        _ripples = new ArrayList();
+        _rippleProducerListeners = new ArrayList();
+        _timeSinceLastRippleGenerated = YEARS_PER_RIPPLE_GENERATED; // generate one on first clock tick
         
         // create a borehole when the drill is pressed
         _boreholeDrillListener = new BoreholeDrillListener() {
@@ -87,35 +98,38 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
             }
         };
         
-        // borehole deletes itself
+        // boreholes delete themselves
         _boreholeSelfDeletionListener = new BoreholeAdapter() {
             public void deleteMe( Borehole borehole ) {
                 removeBorehole( borehole );
             }
         };
         
-        // tool deletes itself
+        // tools deletes themselves
         _toolSelfDeletionListener = new ToolAdapter() {
             public void deleteMe( AbstractTool tool ) {
                 removeTool( tool );
             }
         };
         
-        // debris deletes itself
+        // debris deletes themselves
         _debrisSelfDeletionListener = new DebrisAdapter() {
             public void deleteMe( Debris debris ) {
                 removeDebris( debris );
             }
         };
         
+        // ripples delete themselves
+        _rippleSelfDeletionListener = new IceSurfaceRippleAdapter() {
+            public void deleteMe( IceSurfaceRipple ripple ) {
+                removeIceSurfaceRipple( ripple );
+            }
+        };
+        
         _clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
-                _timeSinceLastDebrisGenerated += clockEvent.getSimulationTimeChange();
-                if ( _timeSinceLastDebrisGenerated >= YEARS_PER_DEBRIS_GENERATED ) {
-                    _debrisGenerator.generateDebrisPosition( _pDebris /* output */ );
-                    addDebris( _pDebris );
-                    _timeSinceLastDebrisGenerated = 0;
-                }
+                generateDebris( clockEvent );
+                generateRipple( clockEvent );
             }
         });
     }
@@ -352,6 +366,83 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         Iterator i = _debrisProducerListeners.iterator();
         while ( i.hasNext() ) {
             ((IDebrisProducerListener)i.next()).debrisRemoved( debris );
+        }
+    }
+    
+    private void generateDebris( ClockEvent clockEvent ) {
+        _timeSinceLastDebrisGenerated += clockEvent.getSimulationTimeChange();
+        if ( _timeSinceLastDebrisGenerated >= YEARS_PER_DEBRIS_GENERATED ) {
+            _debrisGenerator.generateDebrisPosition( _pDebris /* output */ );
+            addDebris( _pDebris );
+            _timeSinceLastDebrisGenerated = 0;
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // IIceSurfaceRippleProducer
+    //----------------------------------------------------------------------------
+    
+    public IceSurfaceRipple addIceSurfaceRipple( double x ) {
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.addIceSurfaceRipple " + x );
+        }
+        IceSurfaceRipple ripple = new IceSurfaceRipple( x, _glacier );
+        ripple.addIceSurfaceRippleListener( _rippleSelfDeletionListener );
+        _ripples.add( ripple );
+        _clock.addClockListener( ripple );
+        notifyIceSurfaceRippleAdded( ripple );
+        return ripple;
+    }
+    
+    public void removeIceSurfaceRipple( IceSurfaceRipple ripple ) {
+        if ( ENABLE_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.removeIceSurfaceRipple " );
+        }
+        if ( !_ripples.contains( ripple ) ) {
+            throw new IllegalStateException( "attempted to remove ripple that doesn't exist" );
+        }
+        ripple.removeIceSurfaceRippleListener( _rippleSelfDeletionListener );
+        _ripples.remove( ripple );
+        _clock.removeClockListener( ripple );
+        notifyIceSurfaceRippleRemoved( ripple );
+        ripple.cleanup();
+    }
+    
+    public void removeAllIceSurfaceRipples() {
+        ArrayList ripplesCopy = new ArrayList( _ripples ); // iterate on a copy of the array
+        Iterator i = ripplesCopy.iterator();
+        while ( i.hasNext() ) {
+            removeIceSurfaceRipple( (IceSurfaceRipple) i.next() );
+        }
+    }
+    
+    public void addIceSurfaceRippleProducerListener( IIceSurfaceRippleProducerListener listener ) {
+        _rippleProducerListeners.add( listener );
+    }
+    
+    public void removeIceSurfaceRippleProducerListener( IIceSurfaceRippleProducerListener listener ) {
+        _rippleProducerListeners.remove( listener );
+    }
+    
+    private void notifyIceSurfaceRippleAdded( IceSurfaceRipple ripple ) {
+        Iterator i = _rippleProducerListeners.iterator();
+        while ( i.hasNext() ) {
+            ((IIceSurfaceRippleProducerListener)i.next()).rippleAdded( ripple );
+        }
+    }
+    
+    private void notifyIceSurfaceRippleRemoved( IceSurfaceRipple ripple ) {
+        Iterator i = _rippleProducerListeners.iterator();
+        while ( i.hasNext() ) {
+            ((IIceSurfaceRippleProducerListener)i.next()).rippleRemoved( ripple );
+        }
+    }
+    
+    private void generateRipple( ClockEvent clockEvent ) {
+        _timeSinceLastRippleGenerated += clockEvent.getSimulationTimeChange();
+        if ( _timeSinceLastRippleGenerated >= YEARS_PER_RIPPLE_GENERATED ) {
+            addIceSurfaceRipple( _glacier.getHeadwallX() + 1 );
+            _timeSinceLastRippleGenerated = 0;
         }
     }
 }
