@@ -19,7 +19,11 @@ import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.HorizontalAlignment;
+import org.jfree.ui.RectangleEdge;
+import org.jfree.ui.VerticalAlignment;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
@@ -41,8 +45,8 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
     // Constants that control the ranges for the graph.  These were set up by
     // trial and error, but it may make sense to coordinate them with the
     // nuclear reactor model eventually.
-    private static final double TOTAL_ENERGY_GRAPH_RANGE = 0.11E-7;
-    private static final double ENERGY_PER_SECOND_GRAPH_RANGE = TOTAL_ENERGY_GRAPH_RANGE / 8;
+    private static final double TOTAL_ENERGY_GRAPH_RANGE = 1.1E-8;
+    private static final double ENERGY_PER_SECOND_GRAPH_RANGE = 2.5E-9;
     
     // Keys for creating and manipulating data sets for charts.
     private static final String TOTAL_ENERGY_ROW_KEY         = new String("Total");
@@ -52,6 +56,7 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
     
     // Fonts for the graphs.
     private static final Font LABEL_FONT = new PhetFont(Font.BOLD, 14);
+    private static final Font TITLE_FONT = new PhetFont(Font.BOLD, 16);
     
     // Initial size for charts.
     private static final int INITIAL_CHART_WIDTH = 100;
@@ -143,15 +148,23 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         plot.setBackgroundPaint( Color.darkGray );
         plot.setRangeGridlinePaint(Color.white);
         
+        // Set up the title.
+        TextTitle title = new TextTitle(NuclearPhysics2Strings.POWER_GRAPH_LABEL);
+        title.setHorizontalAlignment( HorizontalAlignment.CENTER );
+        title.setFont( TITLE_FONT );
+        title.setPosition( RectangleEdge.BOTTOM );
+        chart.setTitle( title );
+        
         // Set the range for the Y axis.
         ValueAxis rangeAxis = plot.getRangeAxis();
         rangeAxis.setRange( 0, ENERGY_PER_SECOND_GRAPH_RANGE );
         rangeAxis.setTickLabelsVisible( false );
         rangeAxis.setLabelFont( LABEL_FONT );
         
-        // Set the font for the X axis.
+        // Hide the X axis label, since we're using the title here (simply
+        // because it looks better).
         CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setTickLabelFont( LABEL_FONT );
+        domainAxis.setTickLabelsVisible( false );
         
         // Disable bar outlines.
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -173,12 +186,20 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         
         _totalEnergyDataSet.setValue(TOTAL_ENERGY_GRAPH_RANGE, TOTAL_ENERGY_ROW_KEY, TOTAL_ENERGY_COLUMN_KEY);
         
-        JFreeChart chart = ChartFactory.createBarChart(null, null, NuclearPhysics2Strings.ENERGY_GRAPH_UNITS, 
-                _totalEnergyDataSet, PlotOrientation.VERTICAL, false, false, false);
+        JFreeChart chart = ChartFactory.createBarChart(NuclearPhysics2Strings.ENERGY_GRAPH_LABEL, null, 
+                NuclearPhysics2Strings.ENERGY_GRAPH_UNITS, _totalEnergyDataSet, PlotOrientation.VERTICAL, false, false,
+                false);
         chart.setBackgroundPaint( NuclearPhysics2Constants.CONTROL_PANEL_COLOR );
         CategoryPlot plot = (CategoryPlot)chart.getPlot();
         plot.setBackgroundPaint( Color.DARK_GRAY );
         plot.setRangeGridlinePaint(Color.white);
+        
+        // Set up the title.
+        TextTitle title = new TextTitle(NuclearPhysics2Strings.ENERGY_GRAPH_LABEL);
+        title.setHorizontalAlignment( HorizontalAlignment.CENTER );
+        title.setFont( TITLE_FONT );
+        title.setPosition( RectangleEdge.BOTTOM );
+        chart.setTitle( title );
         
         // Set the range for the Y axis.
         ValueAxis rangeAxis = plot.getRangeAxis();
@@ -186,9 +207,10 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         rangeAxis.setTickLabelsVisible( false );
         rangeAxis.setLabelFont( LABEL_FONT );
         
-        // Set the font for the X axis.
+        // Hide the X axis label, since we're using the title here (simply
+        // because it looks better).
         CategoryAxis domainAxis = plot.getDomainAxis();
-        domainAxis.setTickLabelFont( LABEL_FONT );
+        domainAxis.setTickLabelsVisible( false );
         
         // Disable bar outlines.
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
