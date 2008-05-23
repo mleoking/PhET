@@ -222,7 +222,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     
     /*
      * Updates the display to match the model.
-     * While the glacial budget meter is being dragged, display "?" for all values.
+     * When the meter is not on the surface, display "?" for all values.
      */
     private void update() {
         double glacierSurfaceY = _glacier.getSurfaceElevation( _glacialBudgetMeter.getX() );
