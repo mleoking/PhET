@@ -80,8 +80,8 @@ public class IceSurfaceRippleNode extends PComposite {
         _bottomArcNode = new PPath( bottomArc );
         _bottomArcNode.setStroke( STROKE );
         
-        _bottomArcNode.setOffset( 0, -( _bottomArcNode.getFullBoundsReference().getHeight() + margin ) );
-        _topArcNode.setOffset( 0, -( _topArcNode.getFullBoundsReference().getHeight() + _bottomArcNode.getFullBoundsReference().getHeight() + margin ) );
+        _bottomArcNode.setOffset( -arcWidth/2, -( _bottomArcNode.getFullBoundsReference().getHeight() + margin ) );
+        _topArcNode.setOffset( -arcWidth/2, -( _topArcNode.getFullBoundsReference().getHeight() + _bottomArcNode.getFullBoundsReference().getHeight() + margin ) );
         addChild( _topArcNode );
         addChild( _bottomArcNode );
         
