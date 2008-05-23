@@ -129,11 +129,14 @@ public class ChainReactionModel {
         // Add the containment vessel to the model.
         _containmentVessel = new ContainmentVessel(INITIAL_CONTAINMENT_VESSEL_RADIUS);
         
-        // Register for notifications of explosions from the containment vessel.
+        // Register for notifications from the containment vessel.
         _containmentVessel.addListener( new ContainmentVessel.Adapter(){
             public void explosionOccurred(){
                 handleContainmentVesselExplosion();
             }
+            public void enableStateChanged(boolean isEnabled){
+                handleContainmentVesselStateChange(isEnabled);
+            }; 
         });
     }
     
@@ -166,11 +169,30 @@ public class ChainReactionModel {
     }
     
     public int getNumU235Nuclei(){
-        return _u235Nuclei.size();
+        // It is possible that some of these nuclei have become daughters as
+        // the result of a fission event.
+        int total = _u235Nuclei.size();
+        int numElements = _daughterNuclei.size();
+        for (int i = 0; i < numElements; i++){
+            if (_daughterNuclei.get( i ) instanceof Uranium235Nucleus){
+                total++;
+            }
+        }
+        return total;
     }
     
     public int getNumU238Nuclei(){
-        return _u238Nuclei.size();
+        // It is possible that some of these nuclei have been moved to the
+        // list of inactive nuclei in order to save CPU cycles, so the total
+        // has to be calculated.
+        int total = _u238Nuclei.size();
+        int numElements = _inactiveNuclei.size();
+        for (int i = 0; i < numElements; i++){
+            if (_inactiveNuclei.get( i ) instanceof Uranium238Nucleus){
+                total++;
+            }
+        }
+        return total;
     }
     
     public ArrayList getNuclei(){
@@ -580,6 +602,41 @@ public class ChainReactionModel {
                 // This shouldn't happen, debug it if it does.
                 System.err.println("Error: Unexpected model element type contained by containment vessel.");
                 assert false;
+            }
+        }
+    }
+    
+    public void handleContainmentVesselStateChange(boolean isEnabled){
+        if (isEnabled){
+            // The containment vessel was just enabled, so we need to remove
+            // any nuclei that are outside of it.
+            removeNucleiOutsideContainmentVessel( _u235Nuclei );
+            removeNucleiOutsideContainmentVessel( _u238Nuclei );
+        }
+    }
+    
+    /**
+     * Remove any nuclei on the supplied list that are outside of the
+     * containment vessel.  This is generally used if and when the user
+     * enables the containment vessel after having already added some nuclei.
+     * 
+     * @param nucleiList - List of the nuclei to be checked and possibly
+     * removed.
+     */
+    
+    private void removeNucleiOutsideContainmentVessel(ArrayList nucleiList){
+        
+        int i, numElements;
+        
+        numElements = nucleiList.size();
+        for (i = numElements - 1; i > 0; i--){
+            AtomicNucleus nucleus = (AtomicNucleus)nucleiList.get( i );
+            if (nucleus.getPositionReference().distance( 0, 0 ) > 
+                    _containmentVessel.getRadius() - CONTAINMENT_VESSEL_MARGIN){
+                // Remove this nucleus.
+                notifyModelElementRemoved( nucleus );
+                nucleus.removedFromModel();
+                nucleiList.remove( i );
             }
         }
     }

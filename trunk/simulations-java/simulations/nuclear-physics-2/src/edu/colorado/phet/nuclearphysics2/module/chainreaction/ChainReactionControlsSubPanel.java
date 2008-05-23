@@ -88,6 +88,10 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _enableContainmentVesselCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 _model.getContainmentVessel().setIsEnabled( _enableContainmentVesselCheckBox.isSelected() );
+                // Update the sliders, since the number of nuclei may have
+                // changed.
+                _u235AmountControl.setValue( _model.getNumU235Nuclei() );
+                _u238AmountControl.setValue( _model.getNumU238Nuclei() );
             }
         } );
         _enableContainmentVesselCheckBox.setBorder( BorderFactory.createEtchedBorder() );
