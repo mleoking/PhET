@@ -179,6 +179,7 @@ public class ThermometerNode extends AbstractToolNode {
     
     /*
      * Updates the temperature display to match the model.
+     * Display "?" when the thermometer is below the ice surface.
      */
     private void updateTemperature() {
         double glacierSurfaceY = _glacier.getSurfaceElevation( _thermometer.getX() );

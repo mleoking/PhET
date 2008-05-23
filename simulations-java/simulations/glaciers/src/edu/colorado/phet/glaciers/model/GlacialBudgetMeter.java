@@ -19,12 +19,20 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 public class GlacialBudgetMeter extends AbstractTool {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // when the position is this close or closer to the ice or valley surface, snap to the surface
+    private static final double SNAP_TO_SURFACE_THRESHOLD = 100; // meters
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private final Glacier _glacier;
     private final GlacierListener _glacierListener;
     private final ClimateListener _climateListener;
+    private boolean _onSurface;
     private double _accumulation;
     private double _ablation;
     private double _glacialBudget;
@@ -38,6 +46,7 @@ public class GlacialBudgetMeter extends AbstractTool {
         super( position );
         
         _glacier = glacier;
+        _onSurface = false;
         
         _climateListener = new ClimateListener() {
             public void temperatureChanged() {
@@ -57,7 +66,7 @@ public class GlacialBudgetMeter extends AbstractTool {
         _glacierListener = new GlacierAdapter() {
             public void iceThicknessChanged() {
                 // keep drill on glacier surface as the glacier evolves
-                if ( !isDragging() ) {
+                if ( !isDragging() && _onSurface ) {
                     snapToGlacierSurface();
                 }
             }
@@ -117,11 +126,23 @@ public class GlacialBudgetMeter extends AbstractTool {
     // AbstractTool overrides
     //----------------------------------------------------------------------------
     
-    /*
-     * Always snap to the ice surface.
+    /**
+     * If the position is within some range above/below the ice surface,
+     * snap the position to the surface.
+     * 
+     * @param x
+     * @param y
      */
-    protected void constrainDrop() {
-        snapToGlacierSurface();
+    public void setPosition( double x, double y ) {
+        double surfaceElevation = _glacier.getSurfaceElevation( x );
+        if ( Math.abs( y - surfaceElevation ) < SNAP_TO_SURFACE_THRESHOLD ) {
+            _onSurface = true;
+            super.setPosition( x, surfaceElevation );
+        }
+        else {
+            _onSurface = false;
+            super.setPosition( x, y );
+        }
     }
     
     private void snapToGlacierSurface() {

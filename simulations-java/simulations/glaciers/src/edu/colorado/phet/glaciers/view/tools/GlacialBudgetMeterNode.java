@@ -18,7 +18,10 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GlacialBudgetMeter;
+import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlacialBudgetMeter.GlacialBudgetMeterListener;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
@@ -51,7 +54,9 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     private final GlacialBudgetMeter _glacialBudgetMeter;
+    private final Glacier _glacier;
     private final GlacialBudgetMeterListener _glacialBudgetMeterListener;
+    private final GlacierListener _glacierListener;
     private final MovableListener _movableListener;
     private final ValueNode _valueNode;
     
@@ -59,10 +64,11 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, Glacier glacier, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
         super( glacialBudgetMeter, mvt, trashCanIconNode );
         
         _glacialBudgetMeter = glacialBudgetMeter;
+        _glacier = glacier;
         
         _glacialBudgetMeterListener = new GlacialBudgetMeterListener() {
             public void accumulationChanged() {
@@ -84,6 +90,13 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         };
         _glacialBudgetMeter.addMovableListener( _movableListener );
         
+        _glacierListener = new GlacierAdapter() {
+            public void iceThicknessChanged() {
+                update();
+            }
+        };
+        _glacier.addGlacierListener( _glacierListener );
+        
         PNode arrowNode = new LeftToolOriginNode();
         addChild( arrowNode );
         arrowNode.setOffset( 0, 0 ); // this node identifies the origin
@@ -103,6 +116,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     public void cleanup() {
         _glacialBudgetMeter.removeGlacialBudgetMeterListener( _glacialBudgetMeterListener );
         _glacialBudgetMeter.removeMovableListener( _movableListener );
+        _glacier.removeGlacierListener( _glacierListener );
         super.cleanup();
     }
     
@@ -211,15 +225,16 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
      * While the glacial budget meter is being dragged, display "?" for all values.
      */
     private void update() {
-        if ( _glacialBudgetMeter.isDragging() ) {
-            _valueNode.setValuesUnknown();
-        }
-        else {
+        double glacierSurfaceY = _glacier.getSurfaceElevation( _glacialBudgetMeter.getX() );
+        if ( _glacialBudgetMeter.getY() == glacierSurfaceY ) {
             _valueNode.setValues( 
                 _glacialBudgetMeter.getPosition().getY(),
                 _glacialBudgetMeter.getAccumulation(),
                 _glacialBudgetMeter.getAblation(),
                 _glacialBudgetMeter.getGlacialBudget() );
+        }
+        else {
+            _valueNode.setValuesUnknown();
         }
     }
     

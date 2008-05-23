@@ -28,7 +28,7 @@ public class ToolNodeFactory {
             node = new ThermometerNode( (Thermometer) tool, model.getGlacier(), mvt, trashCanIconNode );
         }
         else if ( tool instanceof GlacialBudgetMeter ) {
-            node = new GlacialBudgetMeterNode( (GlacialBudgetMeter) tool, mvt, trashCanIconNode );
+            node = new GlacialBudgetMeterNode( (GlacialBudgetMeter) tool,  model.getGlacier(), mvt, trashCanIconNode );
         }
         else if ( tool instanceof TracerFlag ) {
             node = new TracerFlagNode( (TracerFlag) tool, mvt, trashCanIconNode );
