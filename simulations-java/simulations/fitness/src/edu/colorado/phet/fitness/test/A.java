@@ -17,12 +17,17 @@ class AObserver {
     AObserver( A a ) {
         this.a = a;
         a.addObserver( this );
-        aChanged();
+        updateA();
+    }
+
+    private void updateA() {
+
     }
 
     //synchronize state with model object
     void aChanged() {
         //update self
+        updateA();
     }
 }
 
@@ -32,11 +37,15 @@ class AObserver2 extends AObserver {
     AObserver2( A a, Object state ) {
         super( a );
         this.state = state;
-        aChanged();
+        updateB();
     }
 
     void aChanged() {
         super.aChanged();
+        updateB();
+    }
+
+    private void updateB() {
         state.toString();//throws nullpointerexception when called from AObserver() constructor
     }
 }
