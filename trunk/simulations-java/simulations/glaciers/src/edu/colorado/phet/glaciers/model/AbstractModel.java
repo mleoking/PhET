@@ -368,13 +368,15 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
             ((IDebrisProducerListener)i.next()).debrisRemoved( debris );
         }
     }
-    
+
     private void generateDebris( ClockEvent clockEvent ) {
-        _timeSinceLastDebrisGenerated += clockEvent.getSimulationTimeChange();
-        if ( _timeSinceLastDebrisGenerated >= YEARS_PER_DEBRIS_GENERATED ) {
-            _debrisGenerator.generateDebrisPosition( _pDebris /* output */ );
-            addDebris( _pDebris );
-            _timeSinceLastDebrisGenerated = 0;
+        if ( _glacier.getLength() > 0 ) {
+            _timeSinceLastDebrisGenerated += clockEvent.getSimulationTimeChange();
+            if ( _timeSinceLastDebrisGenerated >= YEARS_PER_DEBRIS_GENERATED ) {
+                _debrisGenerator.generateDebrisPosition( _pDebris /* output */);
+                addDebris( _pDebris );
+                _timeSinceLastDebrisGenerated = 0;
+            }
         }
     }
     
@@ -439,10 +441,12 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     }
     
     private void generateRipple( ClockEvent clockEvent ) {
-        _timeSinceLastRippleGenerated += clockEvent.getSimulationTimeChange();
-        if ( _timeSinceLastRippleGenerated >= YEARS_PER_RIPPLE_GENERATED ) {
-            addIceSurfaceRipple( _glacier.getHeadwallX() + 1 );
-            _timeSinceLastRippleGenerated = 0;
+        if ( _glacier.getLength() > 0 ) {
+            _timeSinceLastRippleGenerated += clockEvent.getSimulationTimeChange();
+            if ( _timeSinceLastRippleGenerated >= YEARS_PER_RIPPLE_GENERATED ) {
+                addIceSurfaceRipple( _glacier.getHeadwallX() + 1 );
+                _timeSinceLastRippleGenerated = 0;
+            }
         }
     }
 }
