@@ -105,8 +105,8 @@ public class PhetFont extends Font {
     private static Font createDefaultFont() {
 
         Font defaultFont = FALLBACK_FONT;
-//        String languageCode = PhetResources.readLocale().getLanguage().toLowerCase();
-        String languageCode="ar";//temporary code to test localization coverage
+        String languageCode = PhetResources.readLocale().getLanguage().toLowerCase();
+//        String languageCode="ar";//temporary code to test localization coverage
         String[] preferredFonts = PhetCommonResources.getPreferredFontNames( languageCode );
         if ( preferredFonts != null ) {
             defaultFont = getPreferredFont( preferredFonts, FALLBACK_FONT );
