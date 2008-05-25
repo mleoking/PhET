@@ -78,7 +78,7 @@ public abstract class Module implements Resettable {
         setModel( new BaseModel() );
 
         this.modulePanel = new ModulePanel();
-        setClockControlPanel( new ClockControlPanel( clock ) );
+        setClockControlPanel( createClockControlPanel(clock) );
         setLogoPanel( new LogoPanel() );
         setHelpPanel( new HelpPanel( this ) );
 
@@ -89,6 +89,10 @@ public abstract class Module implements Resettable {
         };
         clock.addClockListener( moduleRunner );
         this.clockRunningWhenActive = !startsPaused;
+    }
+
+    protected JComponent createClockControlPanel( IClock clock ) {
+        return new ClockControlPanel( clock );
     }
 
     //----------------------------------------------------------------------------
@@ -233,13 +237,8 @@ public abstract class Module implements Resettable {
      *
      * @return ClockControlPanel
      */
-    public ClockControlPanel getClockControlPanel() {
-        ClockControlPanel clockControlPanel = null;
-        JComponent panel = modulePanel.getClockControlPanel();
-        if ( panel != null && panel instanceof ClockControlPanel ) {
-            clockControlPanel = (ClockControlPanel) panel;
-        }
-        return clockControlPanel;
+    public JComponent getClockControlPanel() {
+        return modulePanel.getClockControlPanel();
     }
 
     /**
