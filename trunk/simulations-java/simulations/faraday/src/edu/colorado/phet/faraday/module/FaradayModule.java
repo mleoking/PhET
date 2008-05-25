@@ -5,6 +5,8 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
@@ -72,7 +74,7 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      * @param visible
      */
     public void setClockControlPanelVisible( boolean visible ) {
-        ClockControlPanel panel = getClockControlPanel();
+        JComponent panel = getClockControlPanel();
         if ( panel != null ) {
             panel.setVisible( visible );
         }
