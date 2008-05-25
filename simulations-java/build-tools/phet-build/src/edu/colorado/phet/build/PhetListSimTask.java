@@ -1,5 +1,7 @@
 package edu.colorado.phet.build;
 
+import java.util.ArrayList;
+
 import org.apache.tools.ant.BuildException;
 
 /**
@@ -9,8 +11,23 @@ public class PhetListSimTask extends PhetAllSimTask implements PropertyTask {
     private String property = "phet.simlist";
 
     public final void execute() throws BuildException {
-        buildList( PhetProject.getSimNames( getBaseDir() ) );
-//        getProject().setProperty( "phet.simlist","my simulation list");
+        String[] simNames = PhetProject.getSimNames( getBaseDir() );
+        simNames = subsample( simNames );
+        buildList( simNames );
+    }
+
+    private String[] subsample( String[] simNames ) {
+//        return simNames;
+        
+        ArrayList a=new ArrayList( );
+        for ( int i = 0; i < simNames.length; i++ ) {
+            String simName = simNames[i];
+            if (simName.compareToIgnoreCase( "nuclear-physics-2" )>=0){
+                a.add(simName);
+            }
+        }
+        simNames= (String[]) a.toArray( new String[0] );
+        return simNames;
     }
 
     public void buildList( String[] simNames ) {
