@@ -177,8 +177,10 @@ EOT;
 
                 <dd>
                     <a class="nolink" href="simulations/index.php">
+
 EOT;
                             display_slideshow(sim_get_static_previews(), "150", "110");
+
                         print <<<EOT
                     </a>
                 </dd>
