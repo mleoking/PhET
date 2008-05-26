@@ -3,7 +3,6 @@
 package edu.colorado.phet.simtemplate.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
 
 /**
  * TemplateConfig describes a configuration of this simulation.
