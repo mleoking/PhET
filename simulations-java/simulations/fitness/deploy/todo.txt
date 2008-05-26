@@ -1,5 +1,14 @@
 Internationalize food and exercise repository by moving keys to food/exercise files and translatable strings to fitness-strings.properties file
 
+Resize panel after "start sim" wiggle me is showing
+java.lang.NullPointerException
+	at edu.colorado.phet.fitness.control.FitnessWiggleMe.updateWiggleMeTarget(FitnessWiggleMe.java:46)
+	at edu.colorado.phet.fitness.control.CaloriePanel.relayout(CaloriePanel.java:133)
+	at edu.colorado.phet.fitness.control.CaloriePanel.access$000(CaloriePanel.java:24)
+	at edu.colorado.phet.fitness.control.CaloriePanel$1.componentResized(CaloriePanel.java:39)
+	at java.awt.AWTEventMulticaster.componentResized(AWTEventMulticaster.java:102)
+	at java.awt.AWTEventMulticaster.componentResized(AWTEventMulticaster.java:101)
+
 Comments from Bill on 5-20-2008:
 
 1. Percent body fat should change as body weight changes. This change probably be based upon the concept
