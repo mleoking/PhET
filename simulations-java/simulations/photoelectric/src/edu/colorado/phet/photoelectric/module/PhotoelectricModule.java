@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -32,6 +33,7 @@ import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.view.BeamCurtainGraphic;
 import edu.colorado.phet.lasers.view.LampGraphic;
 import edu.colorado.phet.lasers.view.TubeGraphic;
+import edu.colorado.phet.lasers.ShowActualButton;
 import edu.colorado.phet.photoelectric.PhotoelectricApplication;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
@@ -276,6 +278,10 @@ public class PhotoelectricModule extends BaseLaserModule {
                                                                      Color.red );
             getApparatusPanel().addGraphic( cathodIndicator, 10000 );
         }
+    }
+
+    protected JComponent createClockControlPanel( IClock clock ) {
+        return new ClockControlPanel( clock );
     }
 
     /**
