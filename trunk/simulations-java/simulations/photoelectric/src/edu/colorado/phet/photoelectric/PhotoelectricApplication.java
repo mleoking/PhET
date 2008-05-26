@@ -62,7 +62,7 @@ public class PhotoelectricApplication extends PhetApplication {
         // Get a reference to the Options menu. The module will need it
         optionsMenu = new JMenu( SimStrings.getInstance().getString( "Menu.Options" ) );
 
-        final PhotoelectricModule photoelectricModule = new PhotoelectricModule( this );
+        final PhotoelectricModule photoelectricModule = new PhotoelectricModule( getPhetFrame(), this );
         setModules( new Module[]{photoelectricModule} );
 
         // Add an option to show photons

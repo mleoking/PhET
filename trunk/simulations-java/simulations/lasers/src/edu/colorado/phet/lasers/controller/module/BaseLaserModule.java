@@ -41,6 +41,7 @@ import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
+import edu.colorado.phet.lasers.ShowActualButton;
 
 /**
  *
@@ -84,10 +85,12 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private double highStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 4;
     private HelpManager energyLevelsPanelHelpManager;
     private Kaboom kaboom;
+    private PhetFrame frame;
     private double photonSpeed;
 
-    public BaseLaserModule( String title, IClock clock, double photonSpeed ) {
+    public BaseLaserModule( PhetFrame frame,String title, IClock clock, double photonSpeed ) {
         super( title, clock );
+        this.frame = frame;
         this.photonSpeed = photonSpeed;
 
         // Create the model
@@ -129,6 +132,16 @@ public class BaseLaserModule extends PhetGraphicsModule {
         createHelp();
     }
 
+    protected JComponent createClockControlPanel( IClock clock ) {
+        JComponent superpanel=super.createClockControlPanel( clock );
+        JPanel newPanel=new JPanel( );
+        newPanel.setLayout( new BorderLayout( ) );
+        newPanel.add(superpanel,BorderLayout.CENTER);
+        JPanel leftPanel=new JPanel(new FlowLayout( FlowLayout.CENTER) );
+        leftPanel.add(new ShowActualButton());
+        newPanel.add(leftPanel,BorderLayout.WEST);
+        return newPanel;
+    }
 
     public double getPhotonSpeed() {
         return photonSpeed;
