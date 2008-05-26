@@ -10,6 +10,14 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -21,23 +29,14 @@ import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
 import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-/**
- * Legend
- *
+/*
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class Legend extends JPanel {
-    Icon electronIcon = null;
-    Icon photonIcon = null;
-    Icon atomIcon = null;
+    private Icon electronIcon = null;
+    private Icon photonIcon = null;
+    private Icon atomIcon = null;
 
     public Legend() {
         super( new GridBagLayout() );
@@ -89,7 +88,7 @@ public class Legend extends JPanel {
         AnnotatedAtomGraphic atomGraphic = new AnnotatedAtomGraphic( this, atom );
         BufferedImage atomBI = new BufferedImage( atomGraphic.getWidth(), atomGraphic.getHeight(),
                                                   BufferedImage.TYPE_INT_ARGB_PRE );
-        Graphics2D g2BI = (Graphics2D)atomBI.getGraphics();
+        Graphics2D g2BI = (Graphics2D) atomBI.getGraphics();
         g2BI.translate( atomGraphic.getWidth() / 2, atomGraphic.getHeight() / 2 );
         g2BI.scale( .8, .8 );
         atomGraphic.paint( g2BI );
