@@ -11,6 +11,7 @@
 package edu.colorado.phet.lasers.view;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -63,9 +64,31 @@ public class AbstractLegend extends JPanel {
     }
 
     public void add3PhotonLegendItems() {
-        addLegendItem( getPhotonImage( 680 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.red" ) + ")" );
-        addLegendItem( getPhotonImage( 470 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.blue" ) + ")" );
-        addLegendItem( getPhotonImage( 800 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.ir" ) + ")" );
+//        addLegendItem( getPhotonImage( 680 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.red" ) + ")" );
+//        addLegendItem( getPhotonImage( 470 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.blue" ) + ")" );
+//        addLegendItem( getPhotonImage( 800 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.ir" ) + ")" );
+
+        addLegendItem( append( new BufferedImage[]{getPhotonImage( 680 ), getPhotonImage( 470 ), getPhotonImage( 800 )} ), SimStrings.getInstance().getString( "Legend.photon" ) );
+    }
+
+    private BufferedImage append( BufferedImage[] images ) {
+        int width = 0;
+        int height = 0;
+        for ( int i = 0; i < images.length; i++ ) {
+            BufferedImage image = images[i];
+            width += image.getWidth();
+            height = Math.max( height, image.getHeight() );
+        }
+        BufferedImage bufferedImage = new BufferedImage( width, height, images[0].getType() );
+        Graphics2D g2 = bufferedImage.createGraphics();
+        int x = 0;
+
+
+        for ( int i = 0; i < images.length; i++ ) {
+            g2.drawRenderedImage( images[i], AffineTransform.getTranslateInstance( x, 0 ) );
+            x += images[i].getWidth();
+        }
+        return bufferedImage;
     }
 
     protected BufferedImage getAtomImage() {
