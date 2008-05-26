@@ -34,6 +34,7 @@ import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.TubeGraphic;
+import edu.colorado.phet.lasers.*;
 import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
 import edu.colorado.phet.dischargelamps.quantum.model.Plate;
 import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
@@ -68,7 +69,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
     private static final double SPECTROMETER_LAYER = 1000;
     private static double VOLTAGE_VALUE_LAYER = DischargeLampsConfig.CIRCUIT_LAYER + 1;
     private static final double DEFAULT_VOLTAGE = 23.0 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
-    private static PhotoWindow photoWindow;
+
 
     //----------------------------------------------------------------
     // Instance data
@@ -384,38 +385,22 @@ public class DischargeLampModule extends PhetGraphicsModule {
             optionsPanel.add( squiggleCB, gbc );
             optionsPanel.add( new SlowMotionCheckBox( (Clock)getClock() ), gbc );
             controlPanel.addControlFullWidth( optionsPanel );
-
-            // Add a button to the clock control panel that will pop up an image of real lamps
-            createRealPictureControl();
         }
     }
 
-    /**
+     /**
      * Adds a button to the clock control panel that will pop up an image of real lamps
      */
-    private void createRealPictureControl() {
-        JButton realLampsBtn = new JButton( SimStrings.getInstance().getString( "Misc.ActualPixBtn.label" ) );
-        realLampsBtn.addActionListener( new ActionListener() {
+    protected JComponent createClockControlPanel( IClock clock ) {
+        JComponent superpanel=super.createClockControlPanel( clock );
+        JPanel newPanel=new JPanel( );
+        newPanel.setLayout( new BorderLayout( ) );
+        newPanel.add(superpanel,BorderLayout.CENTER);
+        JPanel leftPanel=new JPanel(new FlowLayout( FlowLayout.CENTER) );
+        leftPanel.add(new ShowActualButton());
+        newPanel.add(leftPanel,BorderLayout.WEST);
+        return newPanel;
 
-            public void actionPerformed( ActionEvent e ) {
-                if( photoWindow == null ) {
-                    try {
-                        BufferedImage bi = ImageLoader.loadBufferedImage( "discharge-lamps/images/actual-lamps.jpg" );
-                        photoWindow = new PhotoWindow( PhetUtilities.getPhetFrame(), bi );
-                    }
-                    catch( IOException e1 ) {
-                        e1.printStackTrace();
-                    }
-                }
-                photoWindow.setVisible( true );
-            }
-        } );
-//BROKEN (missing cast?)       getClockControlPanel().addToLeft( realLampsBtn);
-        JComponent clockControlPanel = getClockControlPanel();
-        JPanel newClockControlPanel = new JPanel( new BorderLayout() );
-        newClockControlPanel.add( realLampsBtn, BorderLayout.WEST );
-        newClockControlPanel.add( clockControlPanel, BorderLayout.CENTER );
-        setClockControlPanel( newClockControlPanel );
     }
 
     /**

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.lasers;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -45,7 +45,7 @@ public class LasersApplication extends PiccoloPhetApplication {
     private SingleAtomModule singleAtomModule;
     private MultipleAtomModule multipleAtomModule;
 
-    private JDialog photoDlg;
+    
     private static final String VERSION = PhetApplicationConfig.getVersion( "lasers" ).formatForTitleBar();
 
     public SingleAtomModule getSingleAtomModule() {
@@ -69,29 +69,13 @@ public class LasersApplication extends PiccoloPhetApplication {
         // Set the default representation strategy for energy levels
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
 
-        singleAtomModule = new SingleAtomModule( new ConstantDtClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
-        multipleAtomModule = new MultipleAtomModule( new ConstantDtClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
+        singleAtomModule = new SingleAtomModule( getPhetFrame(), new ConstantDtClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
+        multipleAtomModule = new MultipleAtomModule( getPhetFrame(), new ConstantDtClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
         Module[] modules = new Module[]{
                 singleAtomModule,
                 multipleAtomModule
         };
         setModules( modules );
-
-
-        for ( int i = 0; i < modules.length; i++ ) {
-            JButton photoBtn = new JButton( SimStrings.getInstance().getString( "LaserPhotoButtonLabel" ) );
-            photoBtn.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    if ( photoDlg == null ) {
-                        photoDlg = new PhotoWindow( getPhetFrame() );
-                    }
-                    photoDlg.setVisible( true );
-                }
-            } );
-            Module module = modules[i];
-//            module.getClockControlPanel().add( photoBtn, BorderLayout.WEST );
-//BROKEN            module.getClockControlPanel().addToLeft( photoBtn);
-        }
 
         // Options menu
         addMenuItems();
