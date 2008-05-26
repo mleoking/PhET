@@ -90,7 +90,7 @@ public class LasersApplication extends PiccoloPhetApplication {
             } );
             Module module = modules[i];
 //            module.getClockControlPanel().add( photoBtn, BorderLayout.WEST );
-            module.getClockControlPanel().addToLeft( photoBtn);
+//BROKEN            module.getClockControlPanel().addToLeft( photoBtn);
         }
 
         // Options menu
