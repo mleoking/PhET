@@ -34,64 +34,59 @@ import edu.colorado.phet.lasers.view.PhotonGraphic;
  * @version $Revision$
  */
 public class Legend extends JPanel {
-    private Icon electronIcon = null;
-    private Icon photonIcon = null;
-    private Icon atomIcon = null;
+    private GridBagConstraints iconGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
+                                                                 1, 1, 1, 1,
+                                                                 GridBagConstraints.CENTER,
+                                                                 GridBagConstraints.NONE,
+                                                                 new Insets( 0, 60, 5, 10 ),
+                                                                 0, 0 );
+    private GridBagConstraints labelGbc = new GridBagConstraints( 1, GridBagConstraints.RELATIVE,
+                                                                  1, 1, 1, 1,
+                                                                  GridBagConstraints.WEST,
+                                                                  GridBagConstraints.NONE,
+                                                                  new Insets( 0, 0, 5, 10 ),
+                                                                  0, 0 );
 
     public Legend() {
         super( new GridBagLayout() );
         setBorder( new TitledBorder( SimStrings.getInstance().getString( "Legend.title" ) ) );
-        createIcons();
-        layoutPanel();
+
+        add( getAtomImage(), "Legend.atom" );
+        add( getElectronImage(), "Legend.electron" );
+        add( getPhotonImage(), "Legend.photon" );
     }
 
-    private void layoutPanel() {
-        GridBagConstraints iconGbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
-                                                             1, 1, 1, 1,
-                                                             GridBagConstraints.CENTER,
-                                                             GridBagConstraints.NONE,
-                                                             new Insets( 0, 60, 5, 10 ),
-                                                             0, 0 );
-        GridBagConstraints labelGbc = new GridBagConstraints( 1, GridBagConstraints.RELATIVE,
-                                                              1, 1, 1, 1,
-                                                              GridBagConstraints.WEST,
-                                                              GridBagConstraints.NONE,
-                                                              new Insets( 0, 0, 5, 10 ),
-                                                              0, 0 );
-        add( new JLabel( atomIcon ), iconGbc );
-        add( new JLabel( SimStrings.getInstance().getString( "Legend.atom" ) ), labelGbc );
-        add( new JLabel( electronIcon ), iconGbc );
-        add( new JLabel( SimStrings.getInstance().getString( "Legend.electron" ) ), labelGbc );
-        add( new JLabel( photonIcon ), iconGbc );
-        add( new JLabel( SimStrings.getInstance().getString( "Legend.photon" ) ), labelGbc );
-    }
-
-    private void createIcons() {
-
-        // Make the electron icon
+    private BufferedImage getElectronImage() {
+        BufferedImage electronImage = null;
         try {
-            BufferedImage electronImage = ImageLoader.loadBufferedImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
-            electronIcon = new ImageIcon( electronImage );
+            electronImage = ImageLoader.loadBufferedImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
+        return electronImage;
+    }
 
-        // Make the photon icon
+    private BufferedImage getPhotonImage() {
         Photon photon = new Photon( 400, new Point2D.Double(), new Vector2D.Double() );
         BufferedImage photonImage = PhotonGraphic.getInstance( this, photon ).getImage();
-        photonIcon = new ImageIcon( photonImage );
+        return photonImage;
+    }
 
-        // Make the atom icon
-        DischargeLampAtom atom = new DischargeLampAtom( new DischargeLampModel(),
-                                                        new HydrogenProperties() );
+    private BufferedImage getAtomImage() {
+        DischargeLampAtom atom = new DischargeLampAtom( new DischargeLampModel(), new HydrogenProperties() );
         AnnotatedAtomGraphic atomGraphic = new AnnotatedAtomGraphic( this, atom );
-        BufferedImage atomBI = new BufferedImage( atomGraphic.getWidth(), atomGraphic.getHeight(),
-                                                  BufferedImage.TYPE_INT_ARGB_PRE );
+        BufferedImage atomBI = new BufferedImage( atomGraphic.getWidth(), atomGraphic.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D g2BI = (Graphics2D) atomBI.getGraphics();
         g2BI.translate( atomGraphic.getWidth() / 2, atomGraphic.getHeight() / 2 );
         g2BI.scale( .8, .8 );
         atomGraphic.paint( g2BI );
-        atomIcon = new ImageIcon( atomBI );
+        return atomBI;
     }
+
+    public void add( Image image, String key ) {
+        add( new JLabel( new ImageIcon( image ) ), iconGbc );
+        add( new JLabel( SimStrings.getInstance().getString( key ) ), labelGbc );
+    }
+
 }
