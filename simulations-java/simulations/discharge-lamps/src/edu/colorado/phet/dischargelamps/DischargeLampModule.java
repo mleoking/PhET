@@ -410,7 +410,12 @@ public class DischargeLampModule extends PhetGraphicsModule {
                 photoWindow.setVisible( true );
             }
         } );
-//BROKEN        getClockControlPanel().addToLeft( realLampsBtn);
+//BROKEN (missing cast?)       getClockControlPanel().addToLeft( realLampsBtn);
+        JComponent clockControlPanel = getClockControlPanel();
+        JPanel newClockControlPanel = new JPanel( new BorderLayout() );
+        newClockControlPanel.add( realLampsBtn, BorderLayout.WEST );
+        newClockControlPanel.add( clockControlPanel, BorderLayout.CENTER );
+        setClockControlPanel( newClockControlPanel );
     }
 
     /**
