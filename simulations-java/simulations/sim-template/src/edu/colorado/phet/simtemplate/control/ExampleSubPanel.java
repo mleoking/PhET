@@ -119,7 +119,7 @@ public class ExampleSubPanel extends JPanel {
     }
     
     public static class ExampleSubPanelAdapter implements ExampleSubPanelListener {
-        public void orientationChanged() {};
+        public void orientationChanged() {}
     }
     
     public void addExampleSubPanelListener( ExampleSubPanelListener listener ) {
