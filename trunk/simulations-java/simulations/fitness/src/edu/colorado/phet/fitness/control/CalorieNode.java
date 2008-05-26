@@ -56,7 +56,7 @@ public class CalorieNode extends PNode {
         plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( "platter.png" ), 40 ) );
         addChild( plateImage );
 
-        CalorieDragStrip calorieDragStrip=new CalorieDragStrip();
+        CalorieDragStrip calorieDragStrip=new CalorieDragStrip(available);
         addChild( calorieDragStrip );
 
         SummaryNode summaryNode = new SummaryNode( calorieSet );
