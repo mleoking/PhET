@@ -13,19 +13,16 @@ package edu.colorado.phet.lasers.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Photon;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 /*
  * @author Ron LeMaster
@@ -50,31 +47,9 @@ public class AbstractLegend extends JPanel {
         setBorder( new TitledBorder( SimStrings.getInstance().getString( "Legend.title" ) ) );
     }
 
-    protected BufferedImage getElectronImage() {
-        BufferedImage electronImage = null;
-        try {
-            electronImage = ImageLoader.loadBufferedImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        return electronImage;
-    }
-
     protected BufferedImage getPhotonImage( double wavelength ) {
         Photon photon = new Photon( wavelength, new Point2D.Double(), new Vector2D.Double() );
         return PhotonGraphic.getInstance( this, photon ).getImage();
-    }
-
-    protected BufferedImage getAtomImage() {
-        DischargeLampAtom atom = new DischargeLampAtom( new DischargeLampModel(), new HydrogenProperties() );
-        AnnotatedAtomGraphic atomGraphic = new AnnotatedAtomGraphic( this, atom );
-        BufferedImage atomBI = new BufferedImage( atomGraphic.getWidth(), atomGraphic.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
-        Graphics2D g2BI = (Graphics2D) atomBI.getGraphics();
-        g2BI.translate( atomGraphic.getWidth() / 2, atomGraphic.getHeight() / 2 );
-        g2BI.scale( .8, .8 );
-        atomGraphic.paint( g2BI );
-        return atomBI;
     }
 
     public void addForKey( Image image, String key ) {
@@ -91,5 +66,23 @@ public class AbstractLegend extends JPanel {
         addLegendItem( getPhotonImage( 680 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.red" ) + ")" );
         addLegendItem( getPhotonImage( 470 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.blue" ) + ")" );
         addLegendItem( getPhotonImage( 800 ), SimStrings.getInstance().getString( "Legend.photon" ) + " (" + SimStrings.getInstance().getString( "Color.ir" ) + ")" );
+    }
+
+    protected BufferedImage getAtomImage() {
+        LaserModel quantumModel = new LaserModel( 1 );
+        Atom atom = new Atom( quantumModel, 3 );
+        atom.setStates( new AtomicState[]{
+                quantumModel.getGroundState(),
+                quantumModel.getMiddleEnergyState(),
+                quantumModel.getHighEnergyState()
+        } );
+        atom.setCurrState( quantumModel.getGroundState() );
+        AnnotatedAtomGraphic atomGraphic = new AnnotatedAtomGraphic( this, atom );
+        BufferedImage atomBI = new BufferedImage( atomGraphic.getWidth(), atomGraphic.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+        Graphics2D g2BI = (Graphics2D) atomBI.getGraphics();
+        g2BI.translate( atomGraphic.getWidth() / 2, atomGraphic.getHeight() / 2 );
+        g2BI.scale( .8, .8 );
+        atomGraphic.paint( g2BI );
+        return atomBI;
     }
 }

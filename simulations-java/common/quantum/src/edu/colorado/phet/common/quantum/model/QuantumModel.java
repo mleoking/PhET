@@ -43,7 +43,7 @@ public class QuantumModel extends BaseModel implements Photon.LeftSystemEventLis
         return currentElementProperties;
     }
 
-    protected void setCurrentElementProperties( ElementProperties currentElementProperties ) {
+    public void setCurrentElementProperties( ElementProperties currentElementProperties ) {
         this.currentElementProperties = currentElementProperties;
     }
 }
