@@ -9,9 +9,12 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Created by: Sam
@@ -25,7 +28,9 @@ public class CalorieNode extends PNode {
     private String selectedTitle;
     private String availableTitle;
     private GradientButtonNode editButton;
-    private ArrayList closedListeners=new ArrayList( );
+    private ArrayList closedListeners = new ArrayList();
+    private double maxY;
+    private PImage plateImage;
 
     public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle ) {
         this.parentFrame = parentFrame;
@@ -45,7 +50,14 @@ public class CalorieNode extends PNode {
                 panel.paintImmediately( 0, 0, panel.getWidth(), panel.getHeight() );
             }
         } );
+        editButton.setOffset( 0, 10 );
         addChild( editButton );
+
+        plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( "platter.png" ), 40 ) );
+        addChild( plateImage );
+
+        CalorieDragStrip calorieDragStrip=new CalorieDragStrip();
+        addChild( calorieDragStrip );
 
         SummaryNode summaryNode = new SummaryNode( calorieSet );
         addChild( summaryNode );
@@ -62,6 +74,7 @@ public class CalorieNode extends PNode {
             }
         } );
         updatePlusNodeVisible();
+        relayout();
     }
 
     protected void createDialog() {
@@ -78,7 +91,7 @@ public class CalorieNode extends PNode {
                 notifyClosing();
             }
         } );
-        dialog.setContentPane( (JPanel)panel );//todo: remove need for cast
+        dialog.setContentPane( (JPanel) panel );//todo: remove need for cast
         dialog.pack();
         dialog.setSize( 1024, 400 );
 
@@ -92,7 +105,7 @@ public class CalorieNode extends PNode {
 
     private void notifyClosing() {
         for ( int i = 0; i < closedListeners.size(); i++ ) {
-            ((ActionListener) closedListeners.get( i )).actionPerformed( null );
+            ( (ActionListener) closedListeners.get( i ) ).actionPerformed( null );
         }
     }
 
@@ -125,6 +138,16 @@ public class CalorieNode extends PNode {
     }
 
     public void addEditorClosedListener( final ActionListener actionListener ) {
-        closedListeners.add(actionListener);
+        closedListeners.add( actionListener );
+    }
+
+    public void setMaxY( double maxY ) {
+        this.maxY = maxY;
+        relayout();
+    }
+
+    private void relayout() {
+        editButton.setOffset( 0, maxY - editButton.getFullBounds().getHeight() );
+        plateImage.setOffset( 0, editButton.getFullBounds().getY() - plateImage.getFullBounds().getHeight() );
     }
 }

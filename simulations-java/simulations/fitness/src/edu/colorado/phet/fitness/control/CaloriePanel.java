@@ -1,9 +1,9 @@
 package edu.colorado.phet.fitness.control;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
@@ -91,8 +91,8 @@ public class CaloriePanel extends PNode {
     }
 
     public void addEditorClosedListener( ActionListener actionListener ) {
-        foodNode.addEditorClosedListener(actionListener);
-        exerciseNode.addEditorClosedListener(actionListener);
+        foodNode.addEditorClosedListener( actionListener );
+        exerciseNode.addEditorClosedListener( actionListener );
     }
 
     public void clearAndResetDomains() {
@@ -124,14 +124,15 @@ public class CaloriePanel extends PNode {
 
     private void relayout() {
         chartNode.relayout( phetPCanvas.getWidth(), phetPCanvas.getHeight() );
+        foodNode.setMaxY( chartNode.getFullBounds().getY() );
+        exerciseNode.setMaxY( chartNode.getFullBounds().getY() );
         double width = phetPCanvas.getWidth() - getOffset().getX();
         stackedBarChart.setOffset( width / 2 - stackedBarChart.getFullBounds().getWidth() / 2, chartNode.getFullBounds().getY() );
-        foodNode.setOffset( stackedBarChart.getFullBounds().getX() - foodNode.getFullBounds().getWidth() - 5, 10 );
-        exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 20, 10 );
+        foodNode.setOffset( stackedBarChart.getFullBounds().getX() - foodNode.getFullBounds().getWidth() - 5, 0 );
+        exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 20, 0 );
 
         if ( fitnessWiggleMe != null ) {
             fitnessWiggleMe.updateWiggleMeTarget();
         }
     }
-
 }
