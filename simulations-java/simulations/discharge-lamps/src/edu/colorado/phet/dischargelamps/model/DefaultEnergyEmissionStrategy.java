@@ -28,9 +28,9 @@ public class DefaultEnergyEmissionStrategy implements EnergyEmissionStrategy {
     public AtomicState emitEnergy( Atom atom ) {
         AtomicState newState = null;
         AtomicState[] states = atom.getStates();
-        for( int i = 0; i < states.length; i++ ) {
+        for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
-            if( state instanceof GroundState ) {
+            if ( state instanceof GroundState ) {
                 newState = state;
             }
         }

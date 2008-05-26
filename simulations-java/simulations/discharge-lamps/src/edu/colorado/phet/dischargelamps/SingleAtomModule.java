@@ -10,9 +10,14 @@
  */
 package edu.colorado.phet.dischargelamps;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.Tube;
@@ -22,10 +27,6 @@ import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
 import edu.colorado.phet.dischargelamps.view.DischargeLampEnergyMonitorPanel2;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.view.AtomGraphic;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * SingleAtomModule
@@ -95,7 +96,7 @@ public class SingleAtomModule extends DischargeLampModule {
 
         // Add text that labels the ground state
         PhetTextGraphic2 groundStateTextGraphic = new PhetTextGraphic2( elmp.getElmp(),
-                                                                        new PhetFont( 12,true),
+                                                                        new PhetFont( 12, true ),
                                                                         SimStrings.getInstance().getString( "Misc.groundState" ),
                                                                         Color.black,
                                                                         110,
@@ -114,7 +115,7 @@ public class SingleAtomModule extends DischargeLampModule {
     private void addAtom( Tube tube ) {
         Rectangle2D tubeBounds = tube.getBounds();
 
-        atom = new DischargeLampAtom( (LaserModel)getModel(), getDischargeLampModel().getElementProperties() );
+        atom = new DischargeLampAtom( (LaserModel) getModel(), getDischargeLampModel().getElementProperties() );
         atom.setPosition( tubeBounds.getX() + tubeBounds.getWidth() / 2,
                           tubeBounds.getY() + tubeBounds.getHeight() / 2 );
         AtomGraphic atomGraphic = addAtom( atom );

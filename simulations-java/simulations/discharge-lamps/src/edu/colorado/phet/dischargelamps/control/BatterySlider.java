@@ -11,15 +11,16 @@
 
 package edu.colorado.phet.dischargelamps.control;
 
+import java.awt.*;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.Battery;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
 
 
 /**
@@ -97,7 +98,7 @@ public class BatterySlider extends GraphicSlider {
         model.addChangeListener( new Battery.ChangeListener() {
             public void voltageChanged( Battery.ChangeEvent event ) {
                 double voltage = ( event.getVoltageSource().getVoltage() );
-                if( getValue() != voltage ) {
+                if ( getValue() != voltage ) {
                     setValue( voltage * BatterySlider.this.voltageCalibrationFactor );
                 }
             }
@@ -126,7 +127,7 @@ public class BatterySlider extends GraphicSlider {
          * @param event the event
          */
         public void stateChanged( ChangeEvent event ) {
-            if( event.getSource() == BatterySlider.this ) {
+            if ( event.getSource() == BatterySlider.this ) {
                 // Read the value.
                 double voltage = getValue();
 

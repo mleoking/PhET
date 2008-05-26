@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.dischargelamps.quantum.model;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
-
-import java.awt.geom.Point2D;
 
 /**
  * Plate

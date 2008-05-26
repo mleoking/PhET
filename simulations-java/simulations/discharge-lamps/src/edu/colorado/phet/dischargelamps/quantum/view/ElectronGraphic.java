@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.dischargelamps.quantum.view;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.quantum.model.Electron;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * ElectronGraphic
@@ -53,12 +53,12 @@ public class ElectronGraphic extends PhetImageGraphic implements SimpleObserver 
         this.electron = electron;
         electron.addObserver( this );
         setImage( IMAGE );
-        setRegistrationPoint( (int)( IMAGE.getWidth() / 2 ), (int)( IMAGE.getWidth() / 2 ) );
+        setRegistrationPoint( (int) ( IMAGE.getWidth() / 2 ), (int) ( IMAGE.getWidth() / 2 ) );
         update();
     }
 
     public void update() {
-        this.setLocation( (int)electron.getPosition().getX(), (int)electron.getPosition().getY() );
+        this.setLocation( (int) electron.getPosition().getX(), (int) electron.getPosition().getY() );
         setBoundsDirty();
         repaint();
     }

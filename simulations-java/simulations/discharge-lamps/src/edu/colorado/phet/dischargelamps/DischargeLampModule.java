@@ -10,11 +10,22 @@
  */
 package edu.colorado.phet.dischargelamps;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -26,31 +37,16 @@ import edu.colorado.phet.dischargelamps.control.BatterySlider;
 import edu.colorado.phet.dischargelamps.control.ElectronProductionControl;
 import edu.colorado.phet.dischargelamps.control.SlowMotionCheckBox;
 import edu.colorado.phet.dischargelamps.model.*;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
+import edu.colorado.phet.dischargelamps.quantum.model.Plate;
+import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.TubeGraphic;
-import edu.colorado.phet.lasers.*;
-import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
-import edu.colorado.phet.dischargelamps.quantum.model.Plate;
-import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * DischargeLampModule
@@ -69,7 +65,6 @@ public class DischargeLampModule extends PhetGraphicsModule {
     private static final double SPECTROMETER_LAYER = 1000;
     private static double VOLTAGE_VALUE_LAYER = DischargeLampsConfig.CIRCUIT_LAYER + 1;
     private static final double DEFAULT_VOLTAGE = 23.0 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
-
 
     //----------------------------------------------------------------
     // Instance data
@@ -169,18 +164,18 @@ public class DischargeLampModule extends PhetGraphicsModule {
         Battery battery = model.getBattery();
         final BatterySlider bSl = new BatterySlider( getApparatusPanel(), 80 /* track length */, battery,
                                                      DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR );
-        bSl.setMinimum( (int)-( battery.getMaxVoltage() ) );
-        bSl.setMaximum( (int)( battery.getMaxVoltage() ) );
-        bSl.setValue( (int)( DEFAULT_VOLTAGE ) );
+        bSl.setMinimum( (int) -( battery.getMaxVoltage() ) );
+        bSl.setMaximum( (int) ( battery.getMaxVoltage() ) );
+        bSl.setValue( (int) ( DEFAULT_VOLTAGE ) );
         bSl.addTick( bSl.getMinimum() );
         bSl.addTick( bSl.getMaximum() );
         bSl.addTick( 0 );
-        bSl.setLocation( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 174, 60 );
+        bSl.setLocation( (int) DischargeLampsConfig.CATHODE_LOCATION.getX() + 174, 60 );
         getApparatusPanel().addGraphic( bSl, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
 
         final PhetGraphic batteryReadout = new BatteryReadout( getApparatusPanel(),
                                                                battery,
-                                                               new Point( (int)DischargeLampsConfig.CATHODE_LOCATION.getX() + 194,
+                                                               new Point( (int) DischargeLampsConfig.CATHODE_LOCATION.getX() + 194,
                                                                           78 ),
                                                                35 );
         addGraphic( batteryReadout, VOLTAGE_VALUE_LAYER );
@@ -194,15 +189,15 @@ public class DischargeLampModule extends PhetGraphicsModule {
         int xOffset = 45;
         HeatingElementGraphic leftHeatingElementGraphic = new HeatingElementGraphic( getApparatusPanel(), true );
         getApparatusPanel().addGraphic( leftHeatingElementGraphic );
-        Point leftHandGraphicLocation = new Point( (int)model.getLeftHandHeatingElement().getPosition().getX()
+        Point leftHandGraphicLocation = new Point( (int) model.getLeftHandHeatingElement().getPosition().getX()
                                                    - leftHeatingElementGraphic.getImage().getWidth() + xOffset,
-                                                   (int)model.getLeftHandHeatingElement().getPosition().getY() + yOffset );
+                                                   (int) model.getLeftHandHeatingElement().getPosition().getY() + yOffset );
         leftHeatingElementGraphic.setLocation( leftHandGraphicLocation );
 
         HeatingElementGraphic rightHeatingElementGraphic = new HeatingElementGraphic( getApparatusPanel(), false );
         getApparatusPanel().addGraphic( rightHeatingElementGraphic );
-        Point rightHandGraphicLocation = new Point( (int)model.getRightHandHeatingElement().getPosition().getX() - xOffset,
-                                                    (int)model.getRightHandHeatingElement().getPosition().getY() + yOffset );
+        Point rightHandGraphicLocation = new Point( (int) model.getRightHandHeatingElement().getPosition().getX() - xOffset,
+                                                    (int) model.getRightHandHeatingElement().getPosition().getY() + yOffset );
         rightHeatingElementGraphic.setLocation( rightHandGraphicLocation );
         heatingElementGraphics[0] = leftHeatingElementGraphic;
         heatingElementGraphics[1] = rightHeatingElementGraphic;
@@ -232,9 +227,9 @@ public class DischargeLampModule extends PhetGraphicsModule {
     private void addAnodeGraphic( ApparatusPanel apparatusPanel ) {
         PlateGraphic anodeGraphic = new PlateGraphic( getApparatusPanel(), DischargeLampsConfig.CATHODE_LENGTH );
         model.getRightHandHeatingElement().addChangeListener( anodeGraphic );
-        anodeGraphic.setRegistrationPoint( (int)anodeGraphic.getBounds().getWidth(),
-                                           (int)anodeGraphic.getBounds().getHeight() / 2 );
-        anodeGraphic.setRegistrationPoint( 0, (int)anodeGraphic.getBounds().getHeight() / 2 );
+        anodeGraphic.setRegistrationPoint( (int) anodeGraphic.getBounds().getWidth(),
+                                           (int) anodeGraphic.getBounds().getHeight() / 2 );
+        anodeGraphic.setRegistrationPoint( 0, (int) anodeGraphic.getBounds().getHeight() / 2 );
         anodeGraphic.setLocation( DischargeLampsConfig.ANODE_LOCATION );
         apparatusPanel.addGraphic( anodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
     }
@@ -245,8 +240,8 @@ public class DischargeLampModule extends PhetGraphicsModule {
     private void addCathodeGraphic( ApparatusPanel apparatusPanel ) {
         PlateGraphic cathodeGraphic = new PlateGraphic( getApparatusPanel(), DischargeLampsConfig.CATHODE_LENGTH );
         model.getLeftHandHeatingElement().addChangeListener( cathodeGraphic );
-        cathodeGraphic.setRegistrationPoint( (int)cathodeGraphic.getBounds().getWidth(),
-                                             (int)cathodeGraphic.getBounds().getHeight() / 2 );
+        cathodeGraphic.setRegistrationPoint( (int) cathodeGraphic.getBounds().getWidth(),
+                                             (int) cathodeGraphic.getBounds().getHeight() / 2 );
         cathodeGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
         apparatusPanel.addGraphic( cathodeGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
     }
@@ -257,7 +252,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
     private void addCircuitGraphic( ApparatusPanel apparatusPanel ) {
         CircuitGraphic circuitGraphic = new CircuitGraphic( apparatusPanel, getExternalGraphicScaleOp() );
         model.addChangeListener( circuitGraphic );
-        circuitGraphic.setRegistrationPoint( (int)( 124 * externalGraphicsScale ), (int)( 340 * externalGraphicsScale ) );
+        circuitGraphic.setRegistrationPoint( (int) ( 124 * externalGraphicsScale ), (int) ( 340 * externalGraphicsScale ) );
         circuitGraphic.setLocation( DischargeLampsConfig.CATHODE_LOCATION );
         apparatusPanel.addGraphic( circuitGraphic, DischargeLampsConfig.CIRCUIT_LAYER );
     }
@@ -280,7 +275,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
      * @return
      */
     private AffineTransformOp getExternalGraphicScaleOp() {
-        if( externalGraphicScaleOp == null ) {
+        if ( externalGraphicScaleOp == null ) {
             int cathodeAnodeScreenDistance = 550;
             determineExternalGraphicScale( DischargeLampsConfig.ANODE_LOCATION,
                                            DischargeLampsConfig.CATHODE_LOCATION,
@@ -383,22 +378,22 @@ public class DischargeLampModule extends PhetGraphicsModule {
 
             optionsPanel.add( spectrometerCB, gbc );
             optionsPanel.add( squiggleCB, gbc );
-            optionsPanel.add( new SlowMotionCheckBox( (Clock)getClock() ), gbc );
+            optionsPanel.add( new SlowMotionCheckBox( (Clock) getClock() ), gbc );
             controlPanel.addControlFullWidth( optionsPanel );
         }
     }
 
-     /**
+    /**
      * Adds a button to the clock control panel that will pop up an image of real lamps
      */
     protected JComponent createClockControlPanel( IClock clock ) {
-        JComponent superpanel=super.createClockControlPanel( clock );
-        JPanel newPanel=new JPanel( );
-        newPanel.setLayout( new BorderLayout( ) );
-        newPanel.add(superpanel,BorderLayout.CENTER);
-        JPanel leftPanel=new JPanel(new FlowLayout( FlowLayout.CENTER) );
-        leftPanel.add(new ShowActualButton());
-        newPanel.add(leftPanel,BorderLayout.WEST);
+        JComponent superpanel = super.createClockControlPanel( clock );
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout( new BorderLayout() );
+        newPanel.add( superpanel, BorderLayout.CENTER );
+        JPanel leftPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        leftPanel.add( new ShowActualButton() );
+        newPanel.add( leftPanel, BorderLayout.WEST );
         return newPanel;
 
     }
@@ -416,13 +411,13 @@ public class DischargeLampModule extends PhetGraphicsModule {
 
         AtomicState[] atomicStates = model.getAtomicStates();
 
-        for( int i = 0; i < numAtoms; i++ ) {
-            atom = new DischargeLampAtom( (LaserModel)getModel(), getDischargeLampModel().getElementProperties() );
+        for ( int i = 0; i < numAtoms; i++ ) {
+            atom = new DischargeLampAtom( (LaserModel) getModel(), getDischargeLampModel().getElementProperties() );
 //            atom = new DischargeLampAtom( (LaserModel)getModel(), atomicStates );
             atom.setPosition( ( tubeBounds.getX() + ( Math.random() ) * ( tubeBounds.getWidth() - atom.getRadius() * 4 ) + atom.getRadius() * 2 ),
                               ( tubeBounds.getY() + ( Math.random() ) * ( tubeBounds.getHeight() - atom.getRadius() * 4 ) ) + atom.getRadius() * 2 );
-            atom.setVelocity( (float)( Math.random() - 0.5 ) * maxSpeed,
-                              (float)( Math.random() - 0.5 ) * maxSpeed );
+            atom.setVelocity( (float) ( Math.random() - 0.5 ) * maxSpeed,
+                              (float) ( Math.random() - 0.5 ) * maxSpeed );
             atoms.add( atom );
             addAtom( atom );
         }
@@ -447,7 +442,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
 
         // Put some of the atoms in a layer above the circuit, and some below
         getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.CIRCUIT_LAYER - 1 );
-        if( random.nextBoolean() ) {
+        if ( random.nextBoolean() ) {
             getApparatusPanel().removeGraphic( graphic );
             getApparatusPanel().addGraphic( graphic, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
         }
@@ -474,7 +469,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
      * Returns a typed reference to the model
      */
     protected DischargeLampModel getDischargeLampModel() {
-        return (DischargeLampModel)getModel();
+        return (DischargeLampModel) getModel();
     }
 
     /**
@@ -500,10 +495,10 @@ public class DischargeLampModule extends PhetGraphicsModule {
     }
 
     public void setProductionType( ElectronProductionControl.ProductionMode type ) {
-        if( type == ElectronProductionControl.CONTINUOUS ) {
+        if ( type == ElectronProductionControl.CONTINUOUS ) {
             getEneregyLevelsMonitorPanel().setShowElectrons( false );
         }
-        if( type == ElectronProductionControl.SINGLE_SHOT ) {
+        if ( type == ElectronProductionControl.SINGLE_SHOT ) {
             getEneregyLevelsMonitorPanel().setShowElectrons( true );
         }
     }

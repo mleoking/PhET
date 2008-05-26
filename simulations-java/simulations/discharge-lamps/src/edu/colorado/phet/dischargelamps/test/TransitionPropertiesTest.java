@@ -9,16 +9,17 @@ package edu.colorado.phet.dischargelamps.test;/* Copyright 2003-2004, University
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.quantum.model.AtomicState;
-import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
-import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
-import edu.colorado.phet.lasers.model.LaserModel;
 import junit.framework.TestCase;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
+import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
  * TransitionPropertiesTest
@@ -50,126 +51,126 @@ public class TransitionPropertiesTest {
 
         public void testB() {
             Map results = new HashMap();
-            for( int i = 0; i < 1000; i++ ) {
+            for ( int i = 0; i < 1000; i++ ) {
                 atom.setCurrState( atom.getHighestEnergyState() );
                 AtomicState stateF = atom.getEnergyStateAfterEmission();
 
-                Integer cnt = (Integer)results.get( stateF );
-                if( cnt == null ) {
+                Integer cnt = (Integer) results.get( stateF );
+                if ( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
                 results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 5" );
-            for( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
+            for ( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
                 Object o = iterator.next();
-                Integer cnt = (Integer)results.get( o );
+                Integer cnt = (Integer) results.get( o );
                 System.out.println( "o = " + o + "\tcnt = " + cnt );
             }
         }
 
         public void testC() {
             Map results = new HashMap();
-            for( int i = 0; i < 1000; i++ ) {
+            for ( int i = 0; i < 1000; i++ ) {
                 atom.setCurrState( atom.getStates()[4] );
                 AtomicState stateF = atom.getEnergyStateAfterEmission();
 
-                Integer cnt = (Integer)results.get( stateF );
-                if( cnt == null ) {
+                Integer cnt = (Integer) results.get( stateF );
+                if ( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
                 results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 4" );
-            for( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
+            for ( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
                 Object o = iterator.next();
-                Integer cnt = (Integer)results.get( o );
+                Integer cnt = (Integer) results.get( o );
                 System.out.println( "o = " + o + "\tcnt = " + cnt );
             }
         }
 
         public void testD() {
             Map results = new HashMap();
-            for( int i = 0; i < 1000; i++ ) {
+            for ( int i = 0; i < 1000; i++ ) {
                 atom.setCurrState( atom.getStates()[3] );
                 AtomicState stateF = atom.getEnergyStateAfterEmission();
 
-                Integer cnt = (Integer)results.get( stateF );
-                if( cnt == null ) {
+                Integer cnt = (Integer) results.get( stateF );
+                if ( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
                 results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 3" );
-            for( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
+            for ( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
                 Object o = iterator.next();
-                Integer cnt = (Integer)results.get( o );
+                Integer cnt = (Integer) results.get( o );
                 System.out.println( "o = " + o + "\tcnt = " + cnt );
             }
         }
 
         public void testE() {
             Map results = new HashMap();
-            for( int i = 0; i < 1000; i++ ) {
+            for ( int i = 0; i < 1000; i++ ) {
                 atom.setCurrState( atom.getStates()[2] );
                 AtomicState stateF = atom.getEnergyStateAfterEmission();
 
-                Integer cnt = (Integer)results.get( stateF );
-                if( cnt == null ) {
+                Integer cnt = (Integer) results.get( stateF );
+                if ( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
                 results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 2" );
-            for( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
+            for ( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
                 Object o = iterator.next();
-                Integer cnt = (Integer)results.get( o );
+                Integer cnt = (Integer) results.get( o );
                 System.out.println( "o = " + o + "\tcnt = " + cnt );
             }
         }
 
         public void testF() {
             Map results = new HashMap();
-            for( int i = 0; i < 1000; i++ ) {
+            for ( int i = 0; i < 1000; i++ ) {
                 atom.setCurrState( atom.getStates()[1] );
                 AtomicState stateF = atom.getEnergyStateAfterEmission();
 
-                Integer cnt = (Integer)results.get( stateF );
-                if( cnt == null ) {
+                Integer cnt = (Integer) results.get( stateF );
+                if ( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
                 results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 1" );
-            for( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
+            for ( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
                 Object o = iterator.next();
-                Integer cnt = (Integer)results.get( o );
+                Integer cnt = (Integer) results.get( o );
                 System.out.println( "o = " + o + "\tcnt = " + cnt );
             }
         }
 
         public void testG() {
             Map results = new HashMap();
-            for( int i = 0; i < 1000; i++ ) {
+            for ( int i = 0; i < 1000; i++ ) {
                 atom.setCurrState( atom.getStates()[0] );
                 AtomicState stateF = atom.getEnergyStateAfterEmission();
 
-                Integer cnt = (Integer)results.get( stateF );
-                if( cnt == null ) {
+                Integer cnt = (Integer) results.get( stateF );
+                if ( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
                 results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 0" );
-            for( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
+            for ( Iterator iterator = results.keySet().iterator(); iterator.hasNext(); ) {
                 Object o = iterator.next();
-                Integer cnt = (Integer)results.get( o );
+                Integer cnt = (Integer) results.get( o );
                 System.out.println( "o = " + o + "\tcnt = " + cnt );
             }
         }

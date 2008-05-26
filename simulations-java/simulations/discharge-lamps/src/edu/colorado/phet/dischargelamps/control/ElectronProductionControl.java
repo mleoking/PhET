@@ -10,21 +10,22 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.ElectronPulser;
 import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 
 /**
  * ElectronProductionControl
@@ -65,7 +66,7 @@ public class ElectronProductionControl extends JPanel {
     public ElectronProductionControl( DischargeLampModule module, double maxCurrent ) {
         this.module = module;
         this.maxCurrent = maxCurrent;
-        this.model = ( (DischargeLampModel)module.getModel() );
+        this.model = ( (DischargeLampModel) module.getModel() );
         fireElectronButton = createFireElectronBtn();
         heaterControl = createHeaterControl();
         modeSelectorControl = createModeSelectorControl();
@@ -90,14 +91,14 @@ public class ElectronProductionControl extends JPanel {
      * @param mode
      */
     public void setProductionMode( ElectronProductionControl.ProductionMode mode ) {
-        if( mode == CONTINUOUS ) {
+        if ( mode == CONTINUOUS ) {
             continuousModeRB.setSelected( true );
             heaterControl.setVisible( true );
             fireElectronButton.setVisible( false );
             model.setElectronProductionMode( ElectronSource.CONTINUOUS_MODE );
             model.setCurrent( continuousCurrent, currentDisplayFactor );
         }
-        if( mode == SINGLE_SHOT ) {
+        if ( mode == SINGLE_SHOT ) {
             // Save the current current
             continuousCurrent = model.getCurrent() / currentDisplayFactor;
             singleShotModeRB.setSelected( true );
@@ -168,12 +169,12 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
         readout.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 String txt = readout.getText();
-                if( txt.indexOf( '%' ) >= 0 ) {
+                if ( txt.indexOf( '%' ) >= 0 ) {
                     txt = txt.substring( 0, txt.indexOf( '%' ) );
                 }
                 try {
                     double value = Double.parseDouble( txt );
-                    if( value < 0 || value > 100 ) {
+                    if ( value < 0 || value > 100 ) {
                         throw new NumberFormatException();
                     }
                     model.setCurrent( value * maxCurrent / 100, currentDisplayFactor );
@@ -195,7 +196,7 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
 
         model.addChangeListener( new DischargeLampModel.ChangeListenerAdapter() {
             public void currentChanged( DischargeLampModel.ChangeEvent event ) {
-                heaterControlSlider.setValue( (int)( model.getCurrent() / currentDisplayFactor ) );
+                heaterControlSlider.setValue( (int) ( model.getCurrent() / currentDisplayFactor ) );
                 double displayNumber = heaterControlSlider.getPctMax();
                 readout.setText( format.format( displayNumber ) );
             }

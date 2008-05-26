@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-
 import java.awt.*;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 
 /**
  * CircuitGraphic
@@ -57,15 +57,15 @@ public class CircuitGraphic extends PhetImageGraphic implements DischargeLampMod
     }
 
     public void voltageChanged( DischargeLampModel.ChangeEvent event ) {
-        if( event.getDischargeLampModel().getVoltage() > 0
-            && currImage != positiveVoltageImage ) {
+        if ( event.getDischargeLampModel().getVoltage() > 0
+             && currImage != positiveVoltageImage ) {
             currImage = positiveVoltageImage;
             setImage( currImage );
             setBoundsDirty();
             repaint();
         }
-        if( event.getDischargeLampModel().getVoltage() < 0
-            && currImage != negativeVoltageImage ) {
+        if ( event.getDischargeLampModel().getVoltage() < 0
+             && currImage != negativeVoltageImage ) {
             currImage = negativeVoltageImage;
             setImage( currImage );
             setBoundsDirty();

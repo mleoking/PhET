@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import java.util.Random;
+
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
-
-import java.util.Random;
 
 /**
  * NextLowestEnergyEmissionStrategy
@@ -33,14 +33,14 @@ public class ConfigurableAtomEnergyEmissionStrategy implements EnergyEmissionStr
         AtomicState[] states = atom.getStates();
         // Find the current state
         int currStateIdx = 0;
-        for( int i = 0; i < states.length; i++ ) {
+        for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
-            if( state.equals( atom.getCurrState() ) ) {
+            if ( state.equals( atom.getCurrState() ) ) {
                 currStateIdx = i;
             }
         }
         int nextStateIdx;
-        if( random.nextBoolean() || currStateIdx == 1 ) {
+        if ( random.nextBoolean() || currStateIdx == 1 ) {
             nextStateIdx = Math.max( currStateIdx - 1, 0 );
         }
         else {

@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import java.util.EventListener;
+import java.util.EventObject;
+
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-
-import java.util.EventListener;
-import java.util.EventObject;
 
 /**
  * Battery
@@ -36,7 +36,7 @@ public class Battery extends SimpleObservable {
     private double minVoltage;
     private double maxVoltage;
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public Battery() {
     }
@@ -59,7 +59,7 @@ public class Battery extends SimpleObservable {
     }
 
     public void setVoltage( double voltage ) {
-        if( voltage == 0 ) {
+        if ( voltage == 0 ) {
             voltage = 0.004 * DischargeLampsConfig.VOLTAGE_CALIBRATION_FACTOR;
         }
         this.voltage = voltage;
@@ -97,7 +97,7 @@ public class Battery extends SimpleObservable {
         }
 
         public Battery getVoltageSource() {
-            return (Battery)getSource();
+            return (Battery) getSource();
         }
     }
 

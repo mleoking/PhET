@@ -10,8 +10,9 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * CurrentSlider
@@ -25,7 +26,7 @@ public class CurrentSlider extends JSlider {
     JSlider slider;
 
     public CurrentSlider( double maxCurrent ) {
-        super( 0, (int)maxCurrent, 0 );
+        super( 0, (int) maxCurrent, 0 );
         this.maxCurrent = maxCurrent;
 
         setMajorTickSpacing( 25 );

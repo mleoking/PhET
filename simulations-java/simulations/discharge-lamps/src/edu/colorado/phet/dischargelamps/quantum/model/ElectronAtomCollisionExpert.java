@@ -11,15 +11,15 @@
 
 package edu.colorado.phet.dischargelamps.quantum.model;
 
-import edu.colorado.phet.common.collision.Collidable;
-import edu.colorado.phet.common.collision.CollisionExpert;
-import edu.colorado.phet.common.collision.CollisionUtil;
-import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
-
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.colorado.phet.common.collision.Collidable;
+import edu.colorado.phet.common.collision.CollisionExpert;
+import edu.colorado.phet.common.collision.CollisionUtil;
+import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 
 /**
  *
@@ -48,15 +48,15 @@ public class ElectronAtomCollisionExpert implements CollisionExpert {
         bodies[0] = body1;
         bodies[1] = body2;
         CollisionUtil.classifyBodies( bodies, classes, classifiedBodies );
-        DischargeLampAtom atom = (DischargeLampAtom)classifiedBodies.get( DischargeLampAtom.class );
-        Electron electron = (Electron)classifiedBodies.get( Electron.class );
-        if( atom != null && electron != null ) {
+        DischargeLampAtom atom = (DischargeLampAtom) classifiedBodies.get( DischargeLampAtom.class );
+        Electron electron = (Electron) classifiedBodies.get( Electron.class );
+        if ( atom != null && electron != null ) {
 
             // Do simple check
             double prevDistSq = electron.getPositionPrev().distanceSq( atom.getPosition() );
             double distSq = electron.getPosition().distanceSq( atom.getPosition() );
             double atomRadSq = ( atom.getRadius() + electron.getRadius() ) * ( atom.getRadius() + electron.getRadius() );
-            if( distSq <= atomRadSq && prevDistSq > atomRadSq ) {
+            if ( distSq <= atomRadSq && prevDistSq > atomRadSq ) {
                 atom.collideWithElectron( electron );
                 return false;
             }
@@ -71,7 +71,7 @@ public class ElectronAtomCollisionExpert implements CollisionExpert {
                                   electron.getPositionPrev().getY(),
                                   electron.getPosition().getX() - electron.getPositionPrev().getX(),
                                   1 );
-            if( atomArea.intersects( electronPath ) ) {
+            if ( atomArea.intersects( electronPath ) ) {
                 atom.collideWithElectron( electron );
                 return false;
             }

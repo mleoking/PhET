@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import java.util.*;
+
 import edu.colorado.phet.common.phetcommon.math.ProbabilisticChooser;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
-
-import java.util.*;
 
 /**
  * LevelSpecificEnergyEmissionStrategy
@@ -39,13 +39,13 @@ public class LevelSpecificEnergyEmissionStrategy implements EnergyEmissionStrate
     }
 
     public AtomicState emitEnergy( Atom atom ) {
-        AtomicState newState = (AtomicState)getTargetState( atom.getCurrState() );
+        AtomicState newState = (AtomicState) getTargetState( atom.getCurrState() );
         return newState;
     }
 
     public Object getTargetState( Object originState ) {
-        ProbabilisticChooser targetMap = (ProbabilisticChooser)originStateToTargetStates.get( originState );
-        if( targetMap == null ) {
+        ProbabilisticChooser targetMap = (ProbabilisticChooser) originStateToTargetStates.get( originState );
+        if ( targetMap == null ) {
             System.out.println( "LevelSpecificEnergyEmissionStrategy.getTargetState" );
         }
         Object targetState = targetMap.get( random.nextDouble() );
@@ -60,19 +60,19 @@ public class LevelSpecificEnergyEmissionStrategy implements EnergyEmissionStrate
      */
     public void setStates( AtomicState[] states ) {
         statesSet = true;
-        for( int i = 0; i < states.length; i++ ) {
+        for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
             List mapEntries = new ArrayList();
-            for( int j = 0; j < teA.length; j++ ) {
+            for ( int j = 0; j < teA.length; j++ ) {
                 DischargeLampElementProperties.TransitionEntry te = teA[j];
-                if( i == te.getSourceStateIdx() ) {
+                if ( i == te.getSourceStateIdx() ) {
                     ProbabilisticChooser.Entry pmEntry = new ProbabilisticChooser.Entry( states[teA[j].getTargetStateIdx()],
                                                                                          te.getTxStrength() );
                     mapEntries.add( pmEntry );
                 }
                 ;
             }
-            originStateToTargetStates.put( state, new ProbabilisticChooser( (ProbabilisticChooser.Entry[])mapEntries.toArray( new ProbabilisticChooser.Entry[mapEntries.size()] ) ) );
+            originStateToTargetStates.put( state, new ProbabilisticChooser( (ProbabilisticChooser.Entry[]) mapEntries.toArray( new ProbabilisticChooser.Entry[mapEntries.size()] ) ) );
         }
     }
 }

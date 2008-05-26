@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
-import edu.colorado.phet.common.quantum.model.PhotonEmissionListener;
-import edu.colorado.phet.common.quantum.model.PhotonEmittedEvent;
-
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
+import edu.colorado.phet.common.quantum.model.PhotonEmissionListener;
+import edu.colorado.phet.common.quantum.model.PhotonEmittedEvent;
 
 /**
  * Spectrometer
@@ -33,7 +33,7 @@ public class Spectrometer implements PhotonEmissionListener {
     private boolean isRunning = false;
 
     private double getCountAtWavelength( double wavelength ) {
-        Integer count = (Integer)wavelengthToPhotonNumberMap.get( new Double( wavelength ) );
+        Integer count = (Integer) wavelengthToPhotonNumberMap.get( new Double( wavelength ) );
         return ( count != null ? count.intValue() : 0 );
     }
 
@@ -67,11 +67,11 @@ public class Spectrometer implements PhotonEmissionListener {
      * @param event
      */
     public void photonEmitted( PhotonEmittedEvent event ) {
-        if( isRunning ) {
+        if ( isRunning ) {
             Double wavelength = new Double( event.getPhoton().getWavelength() );
-            Integer photonCount = (Integer)wavelengthToPhotonNumberMap.get( wavelength );
+            Integer photonCount = (Integer) wavelengthToPhotonNumberMap.get( wavelength );
             int cnt = 0;
-            if( photonCount != null ) {
+            if ( photonCount != null ) {
                 cnt = photonCount.intValue();
             }
             cnt++;
@@ -84,7 +84,7 @@ public class Spectrometer implements PhotonEmissionListener {
     // Listener and event definitions
     //----------------------------------------------------------------
     private EventChannel changeListenerChannel = new ModelEventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeListenerChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeListenerChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeListenerChannel.addListener( listener );
@@ -117,7 +117,7 @@ public class Spectrometer implements PhotonEmissionListener {
         }
 
         public double getPhotonCount() {
-            return ( (Spectrometer)getSource() ).getCountAtWavelength( wavelength );
+            return ( (Spectrometer) getSource() ).getCountAtWavelength( wavelength );
         }
     }
 
@@ -127,7 +127,7 @@ public class Spectrometer implements PhotonEmissionListener {
         }
 
         public Spectrometer getSpectrometer() {
-            return (Spectrometer)getSource();
+            return (Spectrometer) getSource();
         }
     }
 }

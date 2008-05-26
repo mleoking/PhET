@@ -10,6 +10,13 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
@@ -17,12 +24,6 @@ import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.quantum.model.Electron;
 import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
-
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
 
 /**
  * DischargeLampEnergyMonitorPanel2
@@ -67,14 +68,14 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
         // Listen to the plates to for when electrons are emitted
         model.getLeftHandPlate().addElectronProductionListener( new ElectronSource.ElectronProductionListener() {
             public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
-                if( showElectrons ) {
+                if ( showElectrons ) {
                     addElectron( event.getElectron() );
                 }
             }
         } );
         model.getRightHandPlate().addElectronProductionListener( new ElectronSource.ElectronProductionListener() {
             public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
-                if( showElectrons ) {
+                if ( showElectrons ) {
                     addElectron( event.getElectron() );
                 }
             }
@@ -97,7 +98,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
         // to all the existing atoms
         numLevelsSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int numLevels = ( (Integer)numLevelsSpinner.getValue() ).intValue();
+                int numLevels = ( (Integer) numLevelsSpinner.getValue() ).intValue();
                 configurableElement.setNumEnergyLevels( numLevels );
                 model.setElementProperties( configurableElement );
             }
@@ -147,7 +148,7 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     }
 
     private void setSpinnerVisibility( DischargeLampModel model ) {
-        if( model.getElementProperties() instanceof ConfigurableElementProperties ) {
+        if ( model.getElementProperties() instanceof ConfigurableElementProperties ) {
             spinnerPanel.setVisible( true );
         }
         else {

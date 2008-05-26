@@ -39,7 +39,7 @@ public class AtomicStateFactory {
         states[1].setNextLowerEnergyState( states[0] );
         states[1].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
         dE = maxVisibleEnergy - states[1].getEnergyLevel() / 4;
-        for( int i = 2; i < states.length && i < DischargeLampModel.MAX_STATES; i++ ) {
+        for ( int i = 2; i < states.length && i < DischargeLampModel.MAX_STATES; i++ ) {
             states[i] = new AtomicState();
             states[i].setMeanLifetime( DischargeLampAtom.DEFAULT_STATE_LIFETIME );
             states[i].setEnergyLevel( states[i - 1].getEnergyLevel() + dE );
@@ -61,7 +61,7 @@ public class AtomicStateFactory {
     public AtomicState[] createAtomicStates( int numEnergyLevels, AtomicState[] existingStates ) {
         double maxVisibleEnergy = -0.3;
 
-        if( existingStates.length < 2 ) {
+        if ( existingStates.length < 2 ) {
             return createAtomicStates( numEnergyLevels );
         }
         else {
@@ -69,8 +69,8 @@ public class AtomicStateFactory {
             AtomicState[] newStates = new AtomicState[numEnergyLevels];
             double dE = ( maxVisibleEnergy - existingStates[existingStates.length - 1].getEnergyLevel() )
                         / ( DischargeLampModel.MAX_STATES - existingStates.length );
-            for( int i = 0; i < newStates.length; i++ ) {
-                if( i < existingStates.length ) {
+            for ( int i = 0; i < newStates.length; i++ ) {
+                if ( i < existingStates.length ) {
                     newStates[i] = existingStates[i];
                 }
                 else {

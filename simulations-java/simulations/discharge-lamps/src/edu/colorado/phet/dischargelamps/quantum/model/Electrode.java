@@ -11,12 +11,12 @@
 
 package edu.colorado.phet.dischargelamps.quantum.model;
 
-import edu.colorado.phet.common.phetcommon.model.Particle;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.model.Particle;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * Electrode
@@ -74,7 +74,7 @@ public abstract class Electrode extends Particle {
     // Event and listener definitions
     //-----------------------------------------------------------------
     private EventChannel stateChangeEventChannel = new EventChannel( StateChangeListener.class );
-    private StateChangeListener stateChangeListenerProxy = (StateChangeListener)stateChangeEventChannel.getListenerProxy();
+    private StateChangeListener stateChangeListenerProxy = (StateChangeListener) stateChangeEventChannel.getListenerProxy();
 
     public void addStateChangeListener( StateChangeListener listener ) {
         stateChangeEventChannel.addListener( listener );
@@ -90,7 +90,7 @@ public abstract class Electrode extends Particle {
         }
 
         public Electrode getElectrode() {
-            return (Electrode)getSource();
+            return (Electrode) getSource();
         }
     }
 

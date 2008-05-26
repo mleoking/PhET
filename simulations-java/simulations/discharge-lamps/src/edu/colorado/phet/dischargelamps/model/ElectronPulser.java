@@ -32,13 +32,13 @@ public class ElectronPulser implements ModelElement {
 
     public void stepInTime( double dt ) {
         elapsedTime += dt;
-        if( elapsedTime >= duration ) {
+        if ( elapsedTime >= duration ) {
             model.setCurrent( 0 );
             model.removeModelElement( this );
-            if( model.getVoltage() > 0 ) {
+            if ( model.getVoltage() > 0 ) {
                 model.getLeftHandPlate().produceElectron();
             }
-            else if( model.getVoltage() < 0 ) {
+            else if ( model.getVoltage() < 0 ) {
                 model.getRightHandPlate().produceElectron();
             }
         }

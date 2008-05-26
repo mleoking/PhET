@@ -43,7 +43,7 @@ public class ConfigurableElementProperties extends DischargeLampElementPropertie
         AtomicState[] states = null;
         states = new AtomicStateFactory().createAtomicStates( numEnergyLevels, getStates() );
         double[] newEnergyLevels = new double[numEnergyLevels];
-        for( int i = 0; i < newEnergyLevels.length; i++ ) {
+        for ( int i = 0; i < newEnergyLevels.length; i++ ) {
             newEnergyLevels[i] = states[i].getEnergyLevel();
         }
         setEnergyLevels( newEnergyLevels );
@@ -53,10 +53,10 @@ public class ConfigurableElementProperties extends DischargeLampElementPropertie
 
     private class LevelChangeHandler extends DischargeLampModel.ChangeListenerAdapter {
         public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
-            if( event.getDischargeLampModel().getElementProperties() == ConfigurableElementProperties.this ) {
+            if ( event.getDischargeLampModel().getElementProperties() == ConfigurableElementProperties.this ) {
                 AtomicState[] states = event.getDischargeLampModel().getAtomicStates();
                 double[] newEnergyLevels = new double[states.length];
-                for( int i = 0; i < states.length; i++ ) {
+                for ( int i = 0; i < states.length; i++ ) {
                     newEnergyLevels[i] = states[i].getEnergyLevel();
                 }
                 setEnergyLevels( newEnergyLevels );

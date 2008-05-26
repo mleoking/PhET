@@ -10,6 +10,11 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
@@ -25,11 +30,6 @@ import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.quantum.model.Electron;
 import edu.colorado.phet.dischargelamps.quantum.model.Plate;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * CollisionEnergyIndicator
@@ -72,7 +72,7 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
 
         // Create the electron graphic
         PhetImageGraphic electronGraphic = new PhetImageGraphic( elmp, DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME );
-        electronGraphic.setLocation( (int)line.getBounds().getMaxX() + 5, -3 );
+        electronGraphic.setLocation( (int) line.getBounds().getMaxX() + 5, -3 );
         addGraphic( electronGraphic );
 
         // Create the text
@@ -81,13 +81,13 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
                                                                              new String[]{SimStrings.getInstance().getString( "Misc.energyAt" ),
                                                                                      SimStrings.getInstance().getString( "Misc.collision" )},
                                                                              Color.black );
-        textGraphic.setLocation( (int)electronGraphic.getBounds().getMaxX() + 5, -8 );
+        textGraphic.setLocation( (int) electronGraphic.getBounds().getMaxX() + 5, -8 );
         addGraphic( textGraphic );
 
         // Attach a listener to the model that moves the graphic when the model-view tranform changes
-        model = (DischargeLampModel)module.getModel();
+        model = (DischargeLampModel) module.getModel();
         model.addChangeListener( new ModelChangeListener() );
-        atom = (DischargeLampAtom)module.getAtom();
+        atom = (DischargeLampAtom) module.getAtom();
         atom.addChangeListener( new AtomChangeListener() );
         this.energyYTx = elmp.getEnergyYTx();
         elmp.addChangeListener( new DischargeLampEnergyLevelMonitorPanel.ChangeListener() {
@@ -118,7 +118,7 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         double plateToPlateDist = model.getLeftHandPlate().getPosition().distance( model.getRightHandPlate().getPosition() ) - Electron.ELECTRON_RADIUS;
         double plateToAtomDist = 0;
         Plate emittingPlate = null;
-        if( voltage > 0 ) {
+        if ( voltage > 0 ) {
             emittingPlate = model.getLeftHandPlate();
         }
         else {
@@ -165,14 +165,14 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
 
         this.setVisible( false );
         double dUpper = Double.POSITIVE_INFINITY;
-        if( paUpper[0] != null && paUpper[1] != null ) {
+        if ( paUpper[0] != null && paUpper[1] != null ) {
             this.setVisible( true );
             double d1 = Math.abs( emittingPlate.getPosition().getX() - paUpper[0].getX() );
             double d2 = Math.abs( emittingPlate.getPosition().getX() - paUpper[1].getX() );
             dUpper = Math.min( d1, d2 ) - Electron.ELECTRON_RADIUS;
         }
         double dLower = Double.POSITIVE_INFINITY;
-        if( paLower[0] != null && paLower[1] != null ) {
+        if ( paLower[0] != null && paLower[1] != null ) {
             this.setVisible( true );
             double d1 = Math.abs( emittingPlate.getPosition().getX() - paLower[0].getX() );
             double d2 = Math.abs( emittingPlate.getPosition().getX() - paLower[1].getX() );
@@ -192,7 +192,7 @@ public class CollisionEnergyIndicator extends CompositePhetGraphic {
         setBoundsDirty();
         repaint();
 
-        if( !isEnabled ) {
+        if ( !isEnabled ) {
             setVisible( false );
         }
     }

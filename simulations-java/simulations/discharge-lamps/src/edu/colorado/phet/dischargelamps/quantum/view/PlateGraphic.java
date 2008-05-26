@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.dischargelamps.quantum.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.dischargelamps.model.HeatingElement;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.dischargelamps.model.HeatingElement;
 
 /**
  * PlateGraphic
@@ -44,11 +44,11 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
     private LookupOp temperatureOp = new LookupOp( table, null );
 
     static {
-        for( int i = 0; i < 256; i++ ) {
-            redLut[i] = (short)i;
-            greenLut[i] = (short)i;
-            blueLut[i] = (short)i;
-            alphaLut[i] = (short)i;
+        for ( int i = 0; i < 256; i++ ) {
+            redLut[i] = (short) i;
+            greenLut[i] = (short) i;
+            blueLut[i] = (short) i;
+            alphaLut[i] = (short) i;
         }
     }
 
@@ -105,8 +105,8 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
 
         // Compute the thermal image. Red is full-on, and the alpha is proportional
         // to the temperature.
-        for( int i = 0; i < 256; i++ ) {
-            alphaLut[i] = (short)temperature;
+        for ( int i = 0; i < 256; i++ ) {
+            alphaLut[i] = (short) temperature;
             redLut[i] = 255;
         }
         BufferedImage newImg = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
@@ -117,11 +117,11 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
         // new image that are less transparent than their corresponding pixels in the original image,
         // reduce the alpha in the new image to that level.
         ColorModel cm = newImg.getColorModel();
-        for( int x = 0; x < newImg.getWidth(); x++ ) {
-            for( int y = 0; y < newImg.getHeight(); y++ ) {
+        for ( int x = 0; x < newImg.getWidth(); x++ ) {
+            for ( int y = 0; y < newImg.getHeight(); y++ ) {
                 int rgbOrg = image.getRGB( x, y );
                 int rgbNew = newImg.getRGB( x, y );
-                short alpha = (short)Math.min( cm.getAlpha( rgbOrg ), cm.getAlpha( rgbNew ) );
+                short alpha = (short) Math.min( cm.getAlpha( rgbOrg ), cm.getAlpha( rgbNew ) );
                 int newPixel = ( rgbNew & 0x00FFFFFF ) | ( alpha * 0x01000000 );
                 newImg.setRGB( x, y, newPixel );
             }

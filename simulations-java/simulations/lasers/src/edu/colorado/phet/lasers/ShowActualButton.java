@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.lasers.controller.PhotoWindow;
 
 /**
