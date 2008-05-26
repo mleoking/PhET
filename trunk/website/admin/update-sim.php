@@ -6,6 +6,50 @@ include_once(SITE_ROOT."page_templates/SitePage.php");
 
 class UpdateSimulationPage extends SitePage {
 
+    function handle_teachers_guide($sim_id) {
+        //
+        // Teacher's guide
+
+        // Check the radio button value
+        if (!isset($_REQUEST["radio_teachers_guide_action"])) {
+            return false;
+        }
+
+        if ($_REQUEST["radio_teachers_guide_action"] == 'no_change') {
+            // Nothing to do
+            return true;
+        }
+        else if ($_REQUEST["radio_teachers_guide_action"] == 'remove') {
+            // Remove the teacher's guide
+            sim_remove_teachers_guide($sim_id);
+            return true;
+        }
+        else if ($_REQUEST["radio_teachers_guide_action"] != 'upload') {
+            // If here, the request should be to upload.  If not, something is whacked
+            return false;
+        }
+
+        // See if there is a file uploaded
+        $file_key = "sim_teachers_guide_file_upload";
+        if (isset($_FILES[$file_key])) {
+            $file_user_name = $_FILES[$file_key]["name"];
+            $file_tmp_name = $_FILES[$file_key]["tmp_name"];
+            $file_size = $_FILES[$file_key]["size"];
+            $file_error = $_FILES[$file_key]["error"];
+            if (($file_size > 0) &&
+                (!empty($file_tmp_name)) &&
+                ($file_error == UPLOAD_ERR_OK)) {
+                // All good, do file stuff
+
+                // If there is a file, drop any associations with it
+                sim_remove_teachers_guide($sim_id);
+
+                $file_content = file_get_contents($file_tmp_name);
+                sim_set_teachers_guide($sim_id, $file_user_name, $file_size, $file_content);
+            }
+        }
+    }
+
     function update() {
         $result = parent::update();
         if (!$result) {
@@ -18,18 +62,11 @@ class UpdateSimulationPage extends SitePage {
         // which starts with 'sim_':
         foreach($_REQUEST as $key => $value) {
             if (preg_match('/sim_.*/', $key) == 1) {
-                if (preg_match('/^sim_.+_url$/', $key) == 1) {
-                    // Maybe the user uploaded something instead of specifying a url:
-                    $value = process_url_upload_control($key, $value);
-                }
-                else {
-                    // Get rid of escape characters:
-                    $value = str_replace('\\', '', $value);
-                }
-
                 $simulation[$key] = $value;
             }
         }
+
+        $this->handle_teachers_guide($simulation["sim_id"]);
 
         $this->sim_name = $simulation["sim_name"];
         $sim_id = $simulation["sim_id"];

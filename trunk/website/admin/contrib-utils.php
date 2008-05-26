@@ -79,7 +79,7 @@
 
                 $kb = format_string_for_html(ceil($contribution_file_size / 1024));
 
-                $files_html .= "<li><a href=\"{$prefix}admin/get-upload.php?contribution_file_id=$contribution_file_id\">".
+                $files_html .= "<li><a href=\"{$prefix}admin/get-contribution-file.php?contribution_file_id=$contribution_file_id\">".
                                "$contribution_file_name</a>".
                                " - $kb KB</li>";
             }

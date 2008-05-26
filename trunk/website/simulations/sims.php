@@ -139,7 +139,7 @@ EOT;
         $sim_desc = $this->simulation["sim_desc"];
         $sim_keywords = $this->simulation["sim_keywords"];
         $sim_system_req = $this->simulation["sim_system_req"];
-        $sim_teachers_guide_url = $this->simulation["sim_teachers_guide_url"];
+        $sim_teachers_guide_id = $this->simulation["sim_teachers_guide_id"];
         $sim_main_topics = $this->simulation["sim_main_topics"];
         $sim_design_team = $this->simulation["sim_design_team"];
         $sim_libraries = $this->simulation["sim_libraries"];
@@ -292,11 +292,11 @@ EOT;
 
         print_comma_list_as_bulleted_list($sim_sample_goals);
 
-        $guide = resolve_url_upload($sim_teachers_guide_url);
+        $teachers_guide = sim_get_teachers_guide($sim_teachers_guide_id);
 
-        if (file_or_url_exists($guide)) {
+        if ($teachers_guide) {
             $guide_html = <<<EOT
-                The <a href="{$this->prefix}admin/get-upload.php?url={$sim_teachers_guide_url}">teacher's guide</a> contains tips for teachers created by the PhET team (PDF).
+                The <a href="{$this->prefix}admin/get-teachers-guide.php?teachers_guide_id={$teachers_guide["teachers_guide_id"]}">teacher's guide</a> contains tips for teachers created by the PhET team (PDF).
 
 EOT;
         }

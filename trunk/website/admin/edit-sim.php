@@ -64,6 +64,25 @@ class EditSimPage extends SitePage {
         print "<input name=\"sim_type\" type=\"radio\" value=\"$type\" $check_status /> $image_html";
     }
 
+    function print_teachers_guide($sim_id) {
+        $teachers_guide = sim_get_teachers_guide_by_sim_id($sim_id);
+        print "<p>\n";
+        print "Teachers Guide options:<br />";
+        if ($teachers_guide) {
+            print "Current teacher's guide: <em><a href=\"{$this->prefix}admin/get-teachers-guide.php?teachers_guide_id={$teachers_guide["teachers_guide_id"]}\">{$teachers_guide["teachers_guide_filename"]}</a></em><br />\n";
+        }
+        else {
+            print "This sim has no teacher's guide<br />\n";
+        }
+        print "<input type=\"radio\" name=\"radio_teachers_guide_action\" value=\"no_change\" id=\"rtga1\" checked=\"checked\" />Keep as is<br />\n";
+        print "<input type=\"radio\" name=\"radio_teachers_guide_action\" value=\"remove\" id=\"rtga2\" />Remove the guide<br />\n";
+        print "<input type=\"radio\" name=\"radio_teachers_guide_action\" value=\"upload\" id=\"rtga3\" />Upload a new guide: \n";
+        // JS nicety: if the user uploads a file, automatically select the "upload" radio button
+        print "<input name=\"sim_teachers_guide_file_upload\" type=\"file\" id=\"rtga4\" ".
+            "onclick=\"if (document.getElementById('rtga4').value != '') { document.getElementById('rtga3').checked = true;}\" />";
+        print "</p>\n";
+    }
+
     function render_content() {
         $result = parent::render_content();
         if (!$result) {
@@ -96,7 +115,7 @@ class EditSimPage extends SitePage {
         $sim_desc = $simulation["sim_desc"];
         $sim_keywords = $simulation["sim_keywords"];
         $sim_system_req = $simulation["sim_system_req"];
-        $sim_teachers_guide_url = $simulation["sim_teachers_guide_url"];
+        $sim_teachers_guide_id = $simulation["sim_teachers_guide_id"];
         $sim_main_topics = $simulation["sim_main_topics"];
         $sim_design_team = $simulation["sim_design_team"];
         $sim_libraries = $simulation["sim_libraries"];
@@ -119,9 +138,6 @@ EOT;
         print_captioned_editable_area("Specify the <em>dir-name</em> of the simulation", "sim_dirname", $sim_dirname, "1");
 
         print_captioned_editable_area("Specify the <em>flavor-name</em> of the simulation", "sim_flavorname", $sim_flavorname,      "1");
-
-        print_captioned_url_upload_control("Specify the URL of the animated GIF preview",
-                                           "sim_animated_image_url", $sim_animated_image_url, "2");
 
         print <<<EOT
     <div>Please select a rating for this simulation</div>
@@ -165,7 +181,7 @@ EOT;
         print_captioned_editable_area("Enter the libraries used by the simulation*",         "sim_libraries",       $sim_libraries,   "4");
         print_captioned_editable_area("Enter the 'thanks to' for the simulation*",           "sim_thanks_to",       $sim_thanks_to,   "4");
 
-        print_captioned_url_upload_control("Enter the URL for the teacher's guide PDF", "sim_teachers_guide_url", $sim_teachers_guide_url, "2");
+        $this->print_teachers_guide($sim_id);
 
         print_captioned_editable_area("Enter the main topics*",                              "sim_main_topics",     $sim_main_topics, "4");
 

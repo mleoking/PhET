@@ -1,7 +1,5 @@
 <?php
 
-    // Called from sims.php to get the teacher guides, which are stored in the uploads directory
-
     // Legacy: Not sure why error reporting isn't off by default
     error_reporting(0);
 
@@ -16,14 +14,5 @@
 
         send_file_to_browser($contribution_file['contribution_file_name'], base64_decode($contribution_file['contribution_file_contents']));
     }
-    else {
-        $url = resolve_url_upload($_REQUEST["url"]);
 
-        if (isset($_REQUEST['mime_type'])) {
-            send_file_to_browser($url, null, $_REQUEST['mime_type']);
-        }
-        else {
-            send_file_to_browser($url);
-        }
-    }
 ?>

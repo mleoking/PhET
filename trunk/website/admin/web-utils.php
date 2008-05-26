@@ -295,15 +295,15 @@
 
     function print_editable_area($control_name, $contents, $rows = "20", $cols = "40") {
         $formatted_contents = format_string_for_html($contents);
-        print("<textarea name=\"$control_name\" rows=\"$rows\" cols=\"$cols\">$formatted_contents</textarea>");
+        print("<textarea name=\"$control_name\" rows=\"$rows\" cols=\"$cols\">$formatted_contents</textarea>\n");
     }
 
     function print_captioned_editable_area($caption, $control_name, $contents, $rows = "20", $cols = "40") {
-        print("<p>$caption</p><p>");
+        print("<p>$caption</p>\n<p>");
 
         print_editable_area($control_name, $contents, $rows, $cols);
 
-        print("</p>");
+        print("</p>\n");
     }
 
     function print_text_input($control_name, $control_value, $width = 20) {
@@ -341,44 +341,6 @@ EO_PRINT_HIDDEN_INPUT;
         return $path_prefix;
     }
 
-    function print_captioned_url_upload_control($caption, $control_name, $contents, $rows = "20", $cols = "40") {
-        print("<p>$caption</p>\n");
-
-        print "<p>\n";
-        print_editable_area($control_name, $contents, $rows, $cols);
-        print "Or upload a file: <input name=\"${control_name}_file_upload\" type=\"file\" />";
-        print "</p>\n";
-    }
-
-    function process_url_upload_control($control_name, $value) {
-        $files_key = "${control_name}_file_upload";
-
-        if (isset($_FILES[$files_key])) {
-            //print ("User uploading for $control_name");
-
-            $upload_path_prefix = get_upload_path_prefix_from_name($control_name);
-
-            $file_user_name = $_FILES[$files_key]['name'];
-            $file_tmp_name  = $_FILES[$files_key]['tmp_name'];
-
-            // If the user uploads a file, generate a URL relative to this directory:
-            $target_name = basename($file_user_name);
-            $target_dir  = dirname(__FILE__)."/uploads/$upload_path_prefix";
-            $target_path = "${target_dir}/${target_name}";
-
-            if ($target_name !== "" && $target_name !== null) {
-                mkdirs($target_dir);
-
-                //print("\nTarget name = $target_name; target path = $target_path\n");
-
-                if (move_uploaded_file($file_tmp_name, $target_path)) {
-                    return "$upload_path_prefix/$target_name";
-                }
-            }
-        }
-
-        return $value;
-    }
 
     function remove_script_param_from_url($param_name, $url) {
         $param_name = preg_quote($param_name);
@@ -397,25 +359,6 @@ EO_PRINT_HIDDEN_INPUT;
         $string = preg_replace('/[^\\w_\\d]+/',  '',     $string);
 
         return $string;
-    }
-
-    function resolve_url_upload($url) {
-        if ($url == null || trim($url) == '') return '';
-
-        if (preg_match('/http.*/i', $url) == 1) {
-            // URL is absolute:
-            return $url;
-        }
-        else {
-            // URL is relative to this directory:
-
-            // Can't allow user to access files outside /uploads/ directory:
-            $url = preg_replace('/\.+/', '.', $url);
-
-            $resolved_path = dirname(__FILE__)."/uploads/${url}";
-
-            return $resolved_path;
-        }
     }
 
     /**
