@@ -52,6 +52,7 @@ public class SingleAtomModule extends BaseLaserModule {
     private UniversalLaserControlPanel laserControlPanel;
     private BeamControl pumpBeamControl;
     private BeamControl seedBeamControl;
+    private static final boolean SHOW_LEGEND = true;
 
     public SingleAtomModule( PhetFrame frame, IClock clock ) {
 //        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock , Photon.DEFAULT_SPEED*0.65 );
@@ -64,7 +65,7 @@ public class SingleAtomModule extends BaseLaserModule {
         super.reset();
         deactivate();
         setThreeEnergyLevels( false );
-        laserControlPanel = new UniversalLaserControlPanel( this );
+        laserControlPanel = new UniversalLaserControlPanel( this,SHOW_LEGEND );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
         setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
@@ -203,7 +204,7 @@ public class SingleAtomModule extends BaseLaserModule {
         addAtom( atom );
 
         // Set up the control panel, and start off with two energy levels
-        laserControlPanel = new UniversalLaserControlPanel( this );
+        laserControlPanel = new UniversalLaserControlPanel( this,SHOW_LEGEND );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
         setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );

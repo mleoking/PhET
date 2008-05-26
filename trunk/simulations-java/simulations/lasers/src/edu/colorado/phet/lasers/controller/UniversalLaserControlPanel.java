@@ -26,36 +26,26 @@ import edu.colorado.phet.lasers.view.PumpBeamViewPanel;
 import edu.colorado.phet.lasers.view.util.ViewUtils;
 
 /**
- * Class: UniversalLaserControlPanel
- * Package: edu.colorado.phet.lasers.controller
- * Author: Another Guy
- * Date: Nov 23, 2004
- * <p/>
  * This is the control panel for all modules
- * CVS Info:
- * Current revision:   $Revision$
- * On branch:          $Name$
- * Latest change by:   $Author$
- * On date:            $Date$
  */
 public class UniversalLaserControlPanel extends LaserControlPanel {
-    private boolean threeEnergyLevels;
     private BaseLaserModule laserModule;
     private WaveViewControlPanel waveViewControlPanel;
     private BasicOptionsPanel basicBasicOptionsPanel;
     private HighLevelEmissionControlPanel highLevelEmissionControlPanel;
     private PumpBeamViewPanel pumpBeamViewPanel;
 
-    /**
-     * @param module
-     */
-    public UniversalLaserControlPanel( final BaseLaserModule module ) {
+    public UniversalLaserControlPanel( final BaseLaserModule module,boolean showLegend ) {
         super( module );
         this.laserModule = module;
 
         // Add the energy levels panel. Note that it must be wrapped in another JPanel, because
         // it has a null layout manager
         addControl( module.getEnergyLevelsMonitorPanel() );
+
+        if (showLegend){
+            addControl( new LasersLegend() );
+        }
 
         waveViewControlPanel = new WaveViewControlPanel( module );
         highLevelEmissionControlPanel = new HighLevelEmissionControlPanel( module );
@@ -142,7 +132,6 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
      * @param threeEnergyLevels
      */
     public void setThreeEnergyLevels( boolean threeEnergyLevels ) {
-        this.threeEnergyLevels = threeEnergyLevels;
         laserModule.setThreeEnergyLevels( threeEnergyLevels );
         waveViewControlPanel.setVisible( threeEnergyLevels );
         highLevelEmissionControlPanel.setVisible( threeEnergyLevels );
