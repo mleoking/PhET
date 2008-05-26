@@ -5,9 +5,7 @@ package edu.colorado.phet.simtemplate.defaults;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.simtemplate.defaults.GlobalDefaults;
 import edu.colorado.phet.simtemplate.model.SimTemplateClock;
-
 
 /**
  * ExampleDefaults contains default settings for ExampleModule.
