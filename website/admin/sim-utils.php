@@ -987,4 +987,54 @@ bool imagecopyresampled ( resource $dst_image, resource $src_image, int $dst_x, 
         return cache_get_file_location(SIM_THUMBNAILS_CACHE, $sim_image_resource);
     }
 
+    function sim_remove_teachers_guide($sim_id) {
+        $sim = sim_get_sim_by_id($sim_id);
+        if (!$sim || !isset($sim["sim_teachers_guide_id"])) {
+            return false;
+        }
+
+        db_delete_row("teachers_guide", array("teachers_guide_id" => $sim["sim_teachers_guide_id"]));
+        db_update_table("simulation", array("sim_teachers_guide_id" => 0), "sim_id", $sim_id);
+    }
+
+    function sim_set_teachers_guide($sim_id, $filename, $size, $contents) {
+        sim_remove_teachers_guide($sim_id);
+
+        $encoded_data = base64_encode($contents);
+
+        $new_id = db_insert_row(
+                "teachers_guide",
+                array(
+                    "teachers_guide_filename" => $filename,
+                    "teachers_guide_size" => $size,
+                    "teachers_guide_contents" => $encoded_data
+                )
+            );
+
+        assert($new_id);
+        db_update_table("simulation", array("sim_teachers_guide_id" => $new_id), "sim_id", $sim_id);
+    }
+
+    function sim_get_teachers_guide_by_sim_id($sim_id, $decode_contents = false) {
+        $sim = sim_get_sim_by_id($sim_id);
+        if (!$sim) {
+            return false;
+        }
+
+        return sim_get_teachers_guide($sim["sim_teachers_guide_id"], $decode_contents);
+    }
+
+    function sim_get_teachers_guide($teachers_guide_id, $decode_contents = false) {
+        // Get the row
+        $teachers_guide = db_get_row_by_condition("teachers_guide", array("teachers_guide_id" => $teachers_guide_id));
+
+        // Decode the contents
+        if ($decode_contents) {
+            $encoded_contents = $teachers_guide["teachers_guide_contents"];
+            $teachers_guide["teachers_guide_contents"] = base64_decode($encoded_contents);
+        }
+
+        return $teachers_guide;
+    }
+
 ?>
