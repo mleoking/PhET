@@ -45,19 +45,10 @@ public class Atom extends SolidSphere {
     private AtomicState[] states;
     private boolean isStateLifetimeFixed = false;
 
-    /**
-     * @param model
-     * @param numStates
-     */
     public Atom( QuantumModel model, int numStates ) {
         this( model, numStates, false );
     }
 
-    /**
-     * @param model
-     * @param numStates
-     * @param isStateLifetimeFixed
-     */
     public Atom( QuantumModel model, int numStates, boolean isStateLifetimeFixed ) {
         super( s_radius );
         this.model = model;

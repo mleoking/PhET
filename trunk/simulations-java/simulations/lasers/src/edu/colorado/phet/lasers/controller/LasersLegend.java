@@ -10,6 +10,6 @@ public class LasersLegend extends AbstractLegend {
     public LasersLegend() {
         addForKey( getAtomImage(), "Legend.atom" );
 //        add( getElectronImage(), "Legend.electron" );
-super.add3PhotonLegendItems();
+        super.add3PhotonLegendItems();
     }
 }

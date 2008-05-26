@@ -212,16 +212,10 @@ public class AtomGraphic extends CompositePhetGraphic implements Atom.ChangeList
         }
     }
 
-    /**
-     * @return
-     */
     protected PhetShapeGraphic getEnergyGraphic() {
         return energyGraphic;
     }
 
-    /**
-     * @return
-     */
     protected Atom getAtom() {
         return atom;
     }
