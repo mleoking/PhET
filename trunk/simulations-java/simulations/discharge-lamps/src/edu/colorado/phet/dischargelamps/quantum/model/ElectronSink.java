@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.dischargelamps.quantum.model;
 
-import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.*;
+
+import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * ElectronSource
@@ -52,17 +52,17 @@ public class ElectronSink implements ModelElement, ElectronSource.ElectronProduc
     public void stepInTime( double dt ) {
 
         // Look for electrons that should be absorbed
-        for( int i = 0; i < electrons.size(); i++ ) {
-            Electron electron = (Electron)electrons.get( i );
-            if( line.intersectsLine( electron.getPosition().getX(), electron.getPosition().getY(),
-                                     electron.getPositionPrev().getX(), electron.getPositionPrev().getY() ) ) {
+        for ( int i = 0; i < electrons.size(); i++ ) {
+            Electron electron = (Electron) electrons.get( i );
+            if ( line.intersectsLine( electron.getPosition().getX(), electron.getPosition().getY(),
+                                      electron.getPositionPrev().getX(), electron.getPositionPrev().getY() ) ) {
                 model.removeModelElement( electron );
                 electronAbsorptionListenerProxy.electronAbsorbed( new ElectronAbsorptionEvent( this, electron ) );
                 removeList.add( electron );
             }
         }
-        for( Iterator iterator = removeList.iterator(); iterator.hasNext(); ) {
-            Electron electron = (Electron)iterator.next();
+        for ( Iterator iterator = removeList.iterator(); iterator.hasNext(); ) {
+            Electron electron = (Electron) iterator.next();
             electron.leaveSystem();
         }
         electrons.removeAll( removeList );
@@ -73,7 +73,7 @@ public class ElectronSink implements ModelElement, ElectronSource.ElectronProduc
     // Events and listeners
     //----------------------------------------------------------------
     private EventChannel listenerChannel = new EventChannel( ElectronAbsorptionListener.class );
-    private ElectronAbsorptionListener electronAbsorptionListenerProxy = (ElectronAbsorptionListener)listenerChannel.getListenerProxy();
+    private ElectronAbsorptionListener electronAbsorptionListenerProxy = (ElectronAbsorptionListener) listenerChannel.getListenerProxy();
 
     public interface ElectronAbsorptionListener extends EventListener {
         void electronAbsorbed( ElectronAbsorptionEvent event );

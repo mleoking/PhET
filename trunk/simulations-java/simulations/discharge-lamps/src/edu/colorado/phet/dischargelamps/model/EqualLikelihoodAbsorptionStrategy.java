@@ -7,11 +7,11 @@
 
 package edu.colorado.phet.dischargelamps.model;
 
+import java.util.Random;
+
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.dischargelamps.quantum.model.Electron;
-
-import java.util.Random;
 
 /**
  * EqualLikelihoodAbsorptionStrategy
@@ -40,12 +40,12 @@ public class EqualLikelihoodAbsorptionStrategy extends EnergyAbsorptionStrategy 
     public void collideWithElectron( Atom atom, Electron electron ) {
         AtomicState[] states = atom.getStates();
         AtomicState currState = atom.getCurrState();
-        double electronEnergy = getElectronEnergyAtCollision( (DischargeLampAtom)atom, electron );
+        double electronEnergy = getElectronEnergyAtCollision( (DischargeLampAtom) atom, electron );
 
         // Find the index of the current state
         int currStateIdx = 0;
-        for( ; currStateIdx < states.length; currStateIdx++ ) {
-            if( states[currStateIdx] == currState ) {
+        for ( ; currStateIdx < states.length; currStateIdx++ ) {
+            if ( states[currStateIdx] == currState ) {
                 break;
             }
         }
@@ -53,8 +53,8 @@ public class EqualLikelihoodAbsorptionStrategy extends EnergyAbsorptionStrategy 
         // Find the index of the highest energy state whose energy is not higher than that of the current state
         // by more than the energy of the electron
         int highestPossibleNewStateIdx = currStateIdx + 1;
-        for( ; highestPossibleNewStateIdx < states.length; highestPossibleNewStateIdx++ ) {
-            if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electronEnergy ) {
+        for ( ; highestPossibleNewStateIdx < states.length; highestPossibleNewStateIdx++ ) {
+            if ( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electronEnergy ) {
                 break;
             }
         }
@@ -63,7 +63,7 @@ public class EqualLikelihoodAbsorptionStrategy extends EnergyAbsorptionStrategy 
         // Pick a state between that of the next higher energy state and the highest energy state
         // we found in the preceding block. The highest state has a 50% chance of being picked, and
         // all other states have equal probablity within the remaining 50%
-        if( highestPossibleNewStateIdx > currStateIdx ) {
+        if ( highestPossibleNewStateIdx > currStateIdx ) {
             int rand = EqualLikelihoodAbsorptionStrategy.random.nextInt( highestPossibleNewStateIdx - currStateIdx ) + 1;
             int newStateIdx = rand + currStateIdx;
             AtomicState newState = states[newStateIdx];

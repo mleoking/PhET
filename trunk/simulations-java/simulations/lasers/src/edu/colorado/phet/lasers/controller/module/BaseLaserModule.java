@@ -30,6 +30,7 @@ import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.*;
+import edu.colorado.phet.lasers.ShowActualButton;
 import edu.colorado.phet.lasers.controller.Kaboom;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.RightMirrorReflectivityControlPanel;
@@ -41,7 +42,6 @@ import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
-import edu.colorado.phet.lasers.ShowActualButton;
 
 /**
  *
@@ -80,15 +80,15 @@ public class BaseLaserModule extends PhetGraphicsModule {
     //    protected boolean threeEnergyLevels;
     private boolean mirrorsEnabled;
 
-//    See Unfuddle #444
-    private double middleStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME ;
+    //    See Unfuddle #444
+    private double middleStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME;
     private double highStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 4;
     private HelpManager energyLevelsPanelHelpManager;
     private Kaboom kaboom;
     private PhetFrame frame;
     private double photonSpeed;
 
-    public BaseLaserModule( PhetFrame frame,String title, IClock clock, double photonSpeed ) {
+    public BaseLaserModule( PhetFrame frame, String title, IClock clock, double photonSpeed ) {
         super( title, clock );
         this.frame = frame;
         this.photonSpeed = photonSpeed;
@@ -133,13 +133,13 @@ public class BaseLaserModule extends PhetGraphicsModule {
     }
 
     protected JComponent createClockControlPanel( IClock clock ) {
-        JComponent superpanel=super.createClockControlPanel( clock );
-        JPanel newPanel=new JPanel( );
-        newPanel.setLayout( new BorderLayout( ) );
-        newPanel.add(superpanel,BorderLayout.CENTER);
-        JPanel leftPanel=new JPanel(new FlowLayout( FlowLayout.CENTER) );
-        leftPanel.add(new ShowActualButton());
-        newPanel.add(leftPanel,BorderLayout.WEST);
+        JComponent superpanel = super.createClockControlPanel( clock );
+        JPanel newPanel = new JPanel();
+        newPanel.setLayout( new BorderLayout() );
+        newPanel.add( superpanel, BorderLayout.CENTER );
+        JPanel leftPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
+        leftPanel.add( new ShowActualButton() );
+        newPanel.add( leftPanel, BorderLayout.WEST );
         return newPanel;
     }
 

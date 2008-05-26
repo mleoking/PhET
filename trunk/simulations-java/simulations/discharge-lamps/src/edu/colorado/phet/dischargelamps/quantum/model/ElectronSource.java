@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.dischargelamps.quantum.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
-
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.HashSet;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
 
 /**
  * ElectronSource
@@ -85,7 +85,7 @@ public class ElectronSource implements ModelElement {
         // electrons produced if the electronsPerSecond is suddently increased, especially
         // if it had been 0.
         double period = 1 / electronsPerSecond;
-        if( timeSincelastElectronEmitted > period && electronProductionMode == CONTINUOUS_MODE ) {
+        if ( timeSincelastElectronEmitted > period && electronProductionMode == CONTINUOUS_MODE ) {
             timeSincelastElectronEmitted = 0;
             produceElectron();
         }
@@ -99,14 +99,14 @@ public class ElectronSource implements ModelElement {
      */
     public Electron produceElectron() {
         Electron electron = null;
-        if( plate.getPotential() > 0 ) {
+        if ( plate.getPotential() > 0 ) {
             electron = new Electron();
 
             // Determine where the electron will be emitted from
             double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
             double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
             Vector2D direction = new Vector2D.Double( emf.getElectronAcceleration() );
-            if( direction.getMagnitude() > 0 ) {
+            if ( direction.getMagnitude() > 0 ) {
                 direction.normalize().scale( Electron.ELECTRON_RADIUS );
             }
             electron.setPosition( x + direction.getX(), y + direction.getY() );
@@ -150,7 +150,7 @@ public class ElectronSource implements ModelElement {
      * @param electronProductionMode
      */
     public void setElectronProductionMode( Object electronProductionMode ) {
-        if( !electronProductionModes.contains( electronProductionMode ) ) {
+        if ( !electronProductionModes.contains( electronProductionMode ) ) {
             throw new RuntimeException( "Invalid parameter " );
         }
         this.electronProductionMode = electronProductionMode;
@@ -160,7 +160,7 @@ public class ElectronSource implements ModelElement {
     // Event handling
     //----------------------------------------------------------------
     private EventChannel listenerChannel = new EventChannel( ElectronProductionListener.class );
-    private ElectronProductionListener electronProductionListenerProxy = (ElectronProductionListener)listenerChannel.getListenerProxy();
+    private ElectronProductionListener electronProductionListenerProxy = (ElectronProductionListener) listenerChannel.getListenerProxy();
 
     public ElectronProductionListener getElectronProductionListenerProxy() {
         return electronProductionListenerProxy;

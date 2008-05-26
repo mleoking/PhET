@@ -33,7 +33,6 @@ import edu.colorado.phet.common.phetcommon.view.util.*;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
-import edu.colorado.phet.lasers.controller.PhotoWindow;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 import edu.colorado.phet.lasers.view.AtomGraphic;
@@ -45,7 +44,7 @@ public class LasersApplication extends PiccoloPhetApplication {
     private SingleAtomModule singleAtomModule;
     private MultipleAtomModule multipleAtomModule;
 
-    
+
     private static final String VERSION = PhetApplicationConfig.getVersion( "lasers" ).formatForTitleBar();
 
     public SingleAtomModule getSingleAtomModule() {
@@ -208,8 +207,8 @@ public class LasersApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 PhetLookAndFeel feel = new PhetLookAndFeel();
-                feel.setFont(new PhetFont(PhetFont.getDefaultFontSize(),true));
-                feel.setTitledBorderFont(new PhetFont(PhetFont.getDefaultFontSize(),true));
+                feel.setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
+                feel.setTitledBorderFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
                 feel.setBackgroundColor( new Color( 138, 156, 148 ) );
                 feel.setButtonBackgroundColor( new Color( 255, 255, 214 ) );
                 feel.initLookAndFeel();

@@ -10,6 +10,13 @@
  */
 package edu.colorado.phet.dischargelamps;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -17,20 +24,14 @@ import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * DischargeLampsApp
@@ -73,7 +74,7 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
             public void actionPerformed( ActionEvent e ) {
                 final IClock clock = PhetApplication.instance().getActiveModule().getClock();
                 double dt = clock.getSimulationTimeChange();
-                final JSlider clockTickSlider = new JSlider( 1, 15, (int)DischargeLampsConfig.DT );
+                final JSlider clockTickSlider = new JSlider( 1, 15, (int) DischargeLampsConfig.DT );
                 clockTickSlider.setMajorTickSpacing( 2 );
                 clockTickSlider.setMinorTickSpacing( 1 );
                 clockTickSlider.setPaintTicks( true );
@@ -82,14 +83,14 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
                 clockTickSlider.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         DischargeLampsConfig.DT = clockTickSlider.getValue();
-                        ( (Clock)clock ).setTimingStrategy( new TimingStrategy.Constant( clockTickSlider.getValue() ) );
+                        ( (Clock) clock ).setTimingStrategy( new TimingStrategy.Constant( clockTickSlider.getValue() ) );
                     }
                 } );
                 int confirm = JOptionPane.showConfirmDialog( getPhetFrame(), clockTickSlider, "Simulation speed",
                                                              JOptionPane.OK_CANCEL_OPTION );
                 // If the user canceled, reset the clock to its original value
-                if( confirm == JOptionPane.CANCEL_OPTION ) {
-                    ( (Clock)clock ).setTimingStrategy( new TimingStrategy.Constant( dt ) );
+                if ( confirm == JOptionPane.CANCEL_OPTION ) {
+                    ( (Clock) clock ).setTimingStrategy( new TimingStrategy.Constant( dt ) );
                 }
             }
         } );
@@ -101,7 +102,7 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
      * @param args
      */
     public static void main( final String[] args ) {
-        EnergyLevelGraphic.showLifetimeLabelText=false;//see Unfuddle #431
+        EnergyLevelGraphic.showLifetimeLabelText = false;//see Unfuddle #431
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
 

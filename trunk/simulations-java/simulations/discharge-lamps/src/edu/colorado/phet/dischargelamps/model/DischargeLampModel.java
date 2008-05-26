@@ -10,6 +10,12 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -19,14 +25,8 @@ import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
 import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.dischargelamps.quantum.model.*;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
-import java.util.List;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
  * DischargeLampModel
@@ -136,10 +136,10 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         super.update( event );
 
         // Check for collisions between electrons and atoms
-        for( int i = 0; i < atoms.size(); i++ ) {
-            Atom atom = (Atom)atoms.get( i );
-            for( int j = 0; j < electrons.size(); j++ ) {
-                Electron electron = (Electron)electrons.get( j );
+        for ( int i = 0; i < atoms.size(); i++ ) {
+            Atom atom = (Atom) atoms.get( i );
+            for ( int j = 0; j < electrons.size(); j++ ) {
+                Electron electron = (Electron) electrons.get( j );
                 electronAtomCollisionExpert.detectAndDoCollision( atom, electron );
             }
         }
@@ -154,31 +154,31 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
      */
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
-        if( modelElement instanceof Atom ) {
-            Atom atom = (Atom)modelElement;
+        if ( modelElement instanceof Atom ) {
+            Atom atom = (Atom) modelElement;
             atoms.add( atom );
             atom.addPhotonEmittedListener( getSpectrometer() );
         }
-        if( modelElement instanceof Electron ) {
-            Electron electron = (Electron)modelElement;
+        if ( modelElement instanceof Electron ) {
+            Electron electron = (Electron) modelElement;
             electron.setAcceleration( getElectronAcceleration() );
             electrons.add( electron );
         }
 
-        if( modelElement instanceof ElectronSink ) {
-            ElectronSink sink = (ElectronSink)modelElement;
+        if ( modelElement instanceof ElectronSink ) {
+            ElectronSink sink = (ElectronSink) modelElement;
             electronSinks.add( sink );
-            for( int i = 0; i < electronSources.size(); i++ ) {
-                ElectronSource source = (ElectronSource)electronSources.get( i );
+            for ( int i = 0; i < electronSources.size(); i++ ) {
+                ElectronSource source = (ElectronSource) electronSources.get( i );
                 source.addListener( sink );
             }
         }
 
-        if( modelElement instanceof ElectronSource ) {
-            ElectronSource source = (ElectronSource)modelElement;
+        if ( modelElement instanceof ElectronSource ) {
+            ElectronSource source = (ElectronSource) modelElement;
             electronSources.add( source );
-            for( int i = 0; i < electronSinks.size(); i++ ) {
-                ElectronSink sink = (ElectronSink)electronSinks.get( i );
+            for ( int i = 0; i < electronSinks.size(); i++ ) {
+                ElectronSink sink = (ElectronSink) electronSinks.get( i );
                 source.addListener( sink );
             }
         }
@@ -192,10 +192,10 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
      */
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
-        if( modelElement instanceof Atom ) {
+        if ( modelElement instanceof Atom ) {
             atoms.remove( modelElement );
         }
-        if( modelElement instanceof Electron ) {
+        if ( modelElement instanceof Electron ) {
             electrons.remove( modelElement );
         }
     }
@@ -206,8 +206,8 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
 
     public void setElementProperties( DischargeLampElementProperties elementProperties ) {
         this.elementProperties = elementProperties;
-        for( int i = 0; i < atoms.size(); i++ ) {
-            DischargeLampAtom atom = (DischargeLampAtom)atoms.get( i );
+        for ( int i = 0; i < atoms.size(); i++ ) {
+            DischargeLampAtom atom = (DischargeLampAtom) atoms.get( i );
             atom.setElementProperties( elementProperties );
         }
         changeListenerProxy.energyLevelsChanged( new ChangeEvent( this ) );
@@ -264,7 +264,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         // exactly why it's needed.
 
         // Set the current of the appropriate plate, and the temperature of the appropriate heating element
-        if( leftHandPlate.getPotential() > rightHandPlate.getPotential() ) {
+        if ( leftHandPlate.getPotential() > rightHandPlate.getPotential() ) {
             leftHandPlate.setCurrent( value );
             rightHandPlate.setCurrent( 0 );
             leftHandHeatingElement.setTemperature( temperature );
@@ -321,8 +321,8 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
      * @param electronProductionMode
      */
     public void setElectronProductionMode( Object electronProductionMode ) {
-        for( int i = 0; i < electronSources.size(); i++ ) {
-            ElectronSource electronSource = (ElectronSource)electronSources.get( i );
+        for ( int i = 0; i < electronSources.size(); i++ ) {
+            ElectronSource electronSource = (ElectronSource) electronSources.get( i );
             electronSource.setElectronProductionMode( electronProductionMode );
         }
         setHeatingElementsEnabled( electronProductionMode == ElectronSource.CONTINUOUS_MODE );
@@ -331,7 +331,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
     public void setVoltage( double voltage ) {
 
         // Set the potential of the plates
-        if( voltage > 0 ) {
+        if ( voltage > 0 ) {
             leftHandPlate.setPotential( voltage );
             rightHandPlate.setPotential( 0 );
         }
@@ -360,8 +360,8 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
             // Determine the acceleration that electrons will experience
             setElectronAcceleration( potentialDiff * DischargeLampsConfig.ELECTRON_ACCELERATION_CALIBRATION_FACTOR, leftHandPlate.getPosition().distance( rightHandPlate.getPosition() ) );
 //            setElectronAcceleration( potentialDiff, leftHandPlate.getPosition().distance( rightHandPlate.getPosition() ) );
-            for( int i = 0; i < electrons.size(); i++ ) {
-                Electron electron = (Electron)electrons.get( i );
+            for ( int i = 0; i < electrons.size(); i++ ) {
+                Electron electron = (Electron) electrons.get( i );
                 electron.setAcceleration( getElectronAcceleration() );
             }
 
@@ -380,7 +380,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         }
 
         public DischargeLampModel getDischargeLampModel() {
-            return (DischargeLampModel)getSource();
+            return (DischargeLampModel) getSource();
         }
     }
 
@@ -404,7 +404,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );

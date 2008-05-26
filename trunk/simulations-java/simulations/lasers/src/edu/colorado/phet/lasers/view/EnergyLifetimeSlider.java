@@ -42,7 +42,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
 
     public EnergyLifetimeSlider( final AtomicState atomicState, EnergyLevelGraphic graphic, int maxLifetime, int minLifetime, Container container ) {
         this.container = container;
-        this.atomicState=atomicState;
+        this.atomicState = atomicState;
         atomicState.addListener( this );
         setMinimum( minLifetime );
         setMaximum( maxLifetime );
@@ -52,7 +52,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         setValue( maxLifetime / 2 );
         setMajorTickSpacing( maxLifetime );
         setMinorTickSpacing( maxLifetime );
-        setPaintTicks(true);
+        setPaintTicks( true );
 //        setPaintTicks();
         this.graphic = graphic;
 
@@ -63,7 +63,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
 
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setModelValue( );
+                setModelValue();
             }
         } );
         setModelValue();
@@ -72,7 +72,7 @@ public class EnergyLifetimeSlider extends JSlider implements AtomicState.Listene
         update();
     }
 
-    private void setModelValue( ) {
+    private void setModelValue() {
         atomicState.setMeanLifetime( this.getValue() );
     }
 

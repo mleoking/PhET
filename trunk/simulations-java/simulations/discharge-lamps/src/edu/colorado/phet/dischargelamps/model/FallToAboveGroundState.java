@@ -34,14 +34,14 @@ public class FallToAboveGroundState implements EnergyEmissionStrategy {
         AtomicState[] states = atom.getStates();
         // Find the current state
         int currStateIdx = 0;
-        for( int i = 0; i < states.length; i++ ) {
+        for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
-            if( state.equals( atom.getCurrState() ) ) {
+            if ( state.equals( atom.getCurrState() ) ) {
                 currStateIdx = i;
                 break;
             }
         }
-        if( currStateIdx > 1 ) {
+        if ( currStateIdx > 1 ) {
             newState = states[1];
         }
         else {

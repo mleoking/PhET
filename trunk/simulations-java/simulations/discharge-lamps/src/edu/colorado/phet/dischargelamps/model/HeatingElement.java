@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.phetcommon.model.Particle;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.model.Particle;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * HeatingElement
@@ -49,7 +49,7 @@ public class HeatingElement extends Particle {
     //----------------------------------------------------------------
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public class ChangeEvent extends EventObject {
         public ChangeEvent( Object source ) {
@@ -57,7 +57,7 @@ public class HeatingElement extends Particle {
         }
 
         public HeatingElement getHeatingElement() {
-            return (HeatingElement)getSource();
+            return (HeatingElement) getSource();
         }
     }
 

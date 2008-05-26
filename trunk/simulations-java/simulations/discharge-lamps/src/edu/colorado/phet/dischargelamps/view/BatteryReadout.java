@@ -10,20 +10,21 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.Battery;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.Battery;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 
 /**
  * BatteryReadout
@@ -51,7 +52,7 @@ public class BatteryReadout extends GraphicLayerSet {
         } );
         readout.addFocusListener( new FocusAdapter() {
             public void focusLost( FocusEvent e ) {
-                if( !focusLossTemporary ) {
+                if ( !focusLossTemporary ) {
                     setBatteryVoltage( battery, component );
                 }
             }
@@ -76,7 +77,7 @@ public class BatteryReadout extends GraphicLayerSet {
             text = vLoc >= 0 ? readout.getText().substring( 0, vLoc ) : text;
             voltage = Double.parseDouble( text );
             double maxVoltage = DischargeLampModel.MAX_VOLTAGE;
-            if( voltage >= -maxVoltage && voltage <= maxVoltage ) {
+            if ( voltage >= -maxVoltage && voltage <= maxVoltage ) {
                 battery.setVoltage( voltage );
             }
             else {
@@ -96,7 +97,7 @@ public class BatteryReadout extends GraphicLayerSet {
 
     private void update( double voltage ) {
         updateText( voltage );
-        readoutGraphic.setLocation( (int)centerPoint.getX(), (int)centerPoint.getY() );
+        readoutGraphic.setLocation( (int) centerPoint.getX(), (int) centerPoint.getY() );
         readoutGraphic.setBoundsDirty();
         readoutGraphic.repaint();
     }

@@ -10,16 +10,17 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.quantum.model.ElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * AtomTypeChooser
@@ -40,14 +41,14 @@ public class AtomTypeChooser extends JPanel {
         JComboBox comboBox = new JComboBox( elementProperties );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JComboBox cb = (JComboBox)e.getSource();
+                JComboBox cb = (JComboBox) e.getSource();
                 // Get the selected item and tell it to do its thing
-                DischargeLampElementProperties selection = (DischargeLampElementProperties)cb.getSelectedItem();
+                DischargeLampElementProperties selection = (DischargeLampElementProperties) cb.getSelectedItem();
                 model.setElementProperties( selection );
                 model.getSpectrometer().reset();
             }
         } );
-        DischargeLampElementProperties selection = (DischargeLampElementProperties)comboBox.getSelectedItem();
+        DischargeLampElementProperties selection = (DischargeLampElementProperties) comboBox.getSelectedItem();
         model.setElementProperties( selection );
         this.add( comboBox, gbc );
     }

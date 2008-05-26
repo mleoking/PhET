@@ -21,9 +21,9 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.*;
@@ -52,9 +52,9 @@ public class MultipleAtomModule extends BaseLaserModule {
     /**
      *
      */
-    public MultipleAtomModule( PhetFrame frame,IClock clock ) {
+    public MultipleAtomModule( PhetFrame frame, IClock clock ) {
 //        super( SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock ,Photon.DEFAULT_SPEED );
-        super( frame,SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.MULTI_ATOM_MODULE_SPEED );
+        super( frame, SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.MULTI_ATOM_MODULE_SPEED );
 
         // Set the size of the cavity
         Tube cavity = getCavity();

@@ -10,15 +10,6 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
-import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetButton;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.Spectrometer;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +21,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetButton;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.Spectrometer;
 
 /**
  * SpectrometerGraphic
@@ -73,7 +73,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         }
 
         // Scale the bezel image so it is the width we want it to be on the screen
-        double scaleX = (double)displayWidth / imageDisplayWidth;
+        double scaleX = (double) displayWidth / imageDisplayWidth;
         AffineTransformOp op = new AffineTransformOp( AffineTransform.getScaleInstance( scaleX, 1 ),
                                                       new RenderingHints( RenderingHints.KEY_INTERPOLATION,
                                                                           RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
@@ -91,7 +91,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         setCursorHand();
         addTranslationListener( new DefaultTranslator( this ) );
 
-        if( spectrometer.isRunning() ) {
+        if ( spectrometer.isRunning() ) {
             started( null );
         }
         else {
@@ -105,26 +105,26 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         Line2D majorTickMarkShape = new Line2D.Double( 0, 0, 0, 5 );
         double minorTickSpacing = 10;
         double majorTickSpacing = 100;
-        for( double wavelength = minWavelength; wavelength <= maxWavelength; wavelength += minorTickSpacing ) {
+        for ( double wavelength = minWavelength; wavelength <= maxWavelength; wavelength += minorTickSpacing ) {
             double xLoc = xLocForWavelength( wavelength ) + displayOrigin.getX() + PhotonMarker.indicatorWidth / 2;
             Line2D tickMarkShape = minorTickMarkShape;
 
             // Is this a major tick mark?
-            if( (int)wavelength % (int)majorTickSpacing == 0 ) {
+            if ( (int) wavelength % (int) majorTickSpacing == 0 ) {
                 String label = wavelengthFormat.format( wavelength );
                 PhetTextGraphic labelGraphic = new PhetTextGraphic( getComponent(),
                                                                     DischargeLampsConfig.DEFAULT_CONTROL_FONT,
                                                                     label,
                                                                     Color.white,
-                                                                    (int)( xLoc - 10 ),
-                                                                    (int)( displayOrigin.getY() + 15 ) );
+                                                                    (int) ( xLoc - 10 ),
+                                                                    (int) ( displayOrigin.getY() + 15 ) );
                 addGraphic( labelGraphic );
                 labelGraphic.setIgnoreMouse( true );
                 tickMarkShape = majorTickMarkShape;
             }
 
             PhetShapeGraphic tickMark = new PhetShapeGraphic( getComponent(), tickMarkShape, Color.white, new BasicStroke( 1 ), Color.white );
-            tickMark.setLocation( (int)xLoc, (int)( displayOrigin.getY() + 4 ) );
+            tickMark.setLocation( (int) xLoc, (int) ( displayOrigin.getY() + 4 ) );
             tickMark.setIgnoreMouse( true );
             addGraphic( tickMark );
 
@@ -138,8 +138,8 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                             DischargeLampsConfig.DEFAULT_CONTROL_FONT,
                                                             units,
                                                             Color.white,
-                                                            (int)xLoc,
-                                                            (int)( displayOrigin.getY() + 30 ) );
+                                                            (int) xLoc,
+                                                            (int) ( displayOrigin.getY() + 30 ) );
         unitsGraphic.setIgnoreMouse( true );
         addGraphic( unitsGraphic );
     }
@@ -154,8 +154,8 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                       DischargeLampsConfig.DEFAULT_CONTROL_FONT,
                                                       "<- far UV",
                                                       Color.white,
-                                                      (int)( xLocUv - 80 ),
-                                                      (int)( displayOrigin.getY() + 15 ) );
+                                                      (int) ( xLocUv - 80 ),
+                                                      (int) ( displayOrigin.getY() + 15 ) );
         uvText.setIgnoreMouse( true );
         addGraphic( uvText );
 
@@ -168,8 +168,8 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
                                                       DischargeLampsConfig.DEFAULT_CONTROL_FONT,
                                                       "far IR ->",
                                                       Color.white,
-                                                      (int)( xLocIr + 30 ),
-                                                      (int)( displayOrigin.getY() + 15 ) );
+                                                      (int) ( xLocIr + 30 ),
+                                                      (int) ( displayOrigin.getY() + 15 ) );
         irText.setIgnoreMouse( true );
         addGraphic( irText );
 
@@ -182,7 +182,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         startStopBtn.addActionListener( new ActionListener() {
 
             public void actionPerformed( ActionEvent e ) {
-                if( start ) {
+                if ( start ) {
                     spectrometer.start();
                 }
                 else {
@@ -192,7 +192,7 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         } );
         addGraphic( startStopBtn );
         int xLocStartButton = 40;
-        startStopBtn.setLocation( xLocStartButton, (int)( backgroundPanel.getSize().height ) );
+        startStopBtn.setLocation( xLocStartButton, (int) ( backgroundPanel.getSize().height ) );
         startStopBtn.setRegistrationPoint( 0, startStopBtn.getHeight() );
 
         // Add reset button
@@ -205,21 +205,21 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
             }
         } );
         addGraphic( resetBtn );
-        resetBtn.setLocation( xLocStartButton + startStopBtn.getWidth() + 10, (int)( backgroundPanel.getSize().height ) );
+        resetBtn.setLocation( xLocStartButton + startStopBtn.getWidth() + 10, (int) ( backgroundPanel.getSize().height ) );
         resetBtn.setRegistrationPoint( 0, resetBtn.getHeight() );
     }
 
     private int xLocForWavelength( double wavelength ) {
         double orgWavelength = wavelength;
         wavelength = Math.max( Math.min( wavelength, maxWavelength ), minWavelength );
-        int wavelengthLoc = (int)( ( wavelength - minWavelength )
-                                   / ( maxWavelength - minWavelength ) * ( displayWidth - horizontalDisplayMargin * 2 )
-                                   + horizontalDisplayMargin );
+        int wavelengthLoc = (int) ( ( wavelength - minWavelength )
+                                    / ( maxWavelength - minWavelength ) * ( displayWidth - horizontalDisplayMargin * 2 )
+                                    + horizontalDisplayMargin );
 
-        if( orgWavelength < minWavelength ) {
+        if ( orgWavelength < minWavelength ) {
             wavelengthLoc -= horizontalDisplayMargin * ( minWavelength - orgWavelength ) / minWavelength;
         }
-        if( orgWavelength > maxWavelength ) {
+        if ( orgWavelength > maxWavelength ) {
             wavelengthLoc += horizontalDisplayMargin * ( orgWavelength - maxWavelength ) / orgWavelength;
         }
         return wavelengthLoc;
@@ -236,15 +236,15 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
         // Min wavelength displays on the left
         int wavelengthLoc = xLocForWavelength( wavelength );
         double indicatorRadius = 1.5;
-        int indicatorLoc = (int)( -( eventCount.getPhotonCount() - 1 ) * indicatorRadius * 2 );
+        int indicatorLoc = (int) ( -( eventCount.getPhotonCount() - 1 ) * indicatorRadius * 2 );
 
         // If we haven't filled the height of the display with indicators, add one
-        if( -indicatorLoc <= displayHeight - indicatorRadius ) {
+        if ( -indicatorLoc <= displayHeight - indicatorRadius ) {
             // Create a graphic for the photon
             Ellipse2D.Double shape = new PhotonMarker( wavelengthLoc + displayOrigin.getX(),
                                                        indicatorLoc + displayOrigin.getY() );
             Color color = VisibleColor.wavelengthToColor( wavelength );
-            if( color.getRed() == 0 && color.getGreen() == 0 & color.getBlue() == 0 ) {
+            if ( color.getRed() == 0 && color.getGreen() == 0 & color.getBlue() == 0 ) {
                 color = UV_COLOR;
             }
 
@@ -268,8 +268,8 @@ public class SpectrometerGraphic extends GraphicLayerSet implements Spectrometer
     }
 
     public void reset( Spectrometer.StateChangeEvent eventCount ) {
-        while( !photonMarkers.isEmpty() ) {
-            PhetGraphic graphic = (PhetGraphic)photonMarkers.get( 0 );
+        while ( !photonMarkers.isEmpty() ) {
+            PhetGraphic graphic = (PhetGraphic) photonMarkers.get( 0 );
             removeGraphic( graphic );
             photonMarkers.remove( 0 );
         }

@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.dischargelamps.quantum.model;
 
+import java.util.EventListener;
+import java.util.EventObject;
+
 import edu.colorado.phet.common.collision.SphericalBody;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-
-import java.util.EventListener;
-import java.util.EventObject;
 
 /**
  * Electron
@@ -55,14 +55,14 @@ public class Electron extends SphericalBody {
 
     public void setVelocity( Vector2D velocity ) {
         super.setVelocity( velocity );
-        if( changeListenerProxy != null ) {
+        if ( changeListenerProxy != null ) {
             changeListenerProxy.energyChanged( new ChangeEvent( this ) );
         }
     }
 
     public void setVelocity( double vx, double vy ) {
         super.setVelocity( vx, vy );
-        if( changeListenerProxy != null ) {
+        if ( changeListenerProxy != null ) {
             changeListenerProxy.energyChanged( new ChangeEvent( this ) );
         }
     }
@@ -106,7 +106,7 @@ public class Electron extends SphericalBody {
         }
 
         public Electron getElectron() {
-            return (Electron)getSource();
+            return (Electron) getSource();
         }
     }
 
@@ -125,7 +125,7 @@ public class Electron extends SphericalBody {
     }
 
     private EventChannel listenerChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)listenerChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) listenerChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener changeListener ) {
         listenerChannel.addListener( changeListener );

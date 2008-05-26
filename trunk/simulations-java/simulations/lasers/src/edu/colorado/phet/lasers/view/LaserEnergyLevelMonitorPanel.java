@@ -191,7 +191,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                 int minLifetime = (int) clock.getSimulationTimeChange() * 2;
 
                 // See Unfuddle #444
-                int maxLifetime = i==1?LaserConfig.MAXIMUM_STATE_LIFETIME:LaserConfig.MAXIMUM_STATE_LIFETIME/4;
+                int maxLifetime = i == 1 ? LaserConfig.MAXIMUM_STATE_LIFETIME : LaserConfig.MAXIMUM_STATE_LIFETIME / 4;
 //                int maxLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME;
                 state.setMeanLifetime( maxLifetime );
 

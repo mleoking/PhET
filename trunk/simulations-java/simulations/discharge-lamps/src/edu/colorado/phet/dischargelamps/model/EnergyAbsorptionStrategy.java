@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import java.util.Random;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.quantum.model.Electron;
-
-import java.util.Random;
 
 /**
  * EnergyAbsorptionStrategy
@@ -51,7 +51,7 @@ public abstract class EnergyAbsorptionStrategy {
         double c = -collisionDist;
         double[] roots = MathUtil.quadraticRoots( a, b, c );
         double t = roots[0] >= 0 ? roots[0] : roots[1];
-        if( t < 0 || Double.isNaN( t ) || Double.isInfinite( t ) ) {
+        if ( t < 0 || Double.isNaN( t ) || Double.isInfinite( t ) ) {
             energy = 0;
         }
         else {

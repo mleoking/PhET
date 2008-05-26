@@ -11,21 +11,22 @@
 
 package edu.colorado.phet.dischargelamps.control;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * GraphicSlider is a PhetGraphic UI component that is similar to a JSlider.
@@ -108,13 +109,13 @@ public class GraphicSlider extends GraphicLayerSet {
      * @param knob the knob graphic
      */
     public void setKnob( PhetGraphic knob ) {
-        if( _knob != null ) {
+        if ( _knob != null ) {
             removeGraphic( _knob );
             _knob.removeCursor();
             _knob.removeAllMouseInputListeners();
         }
         _knob = knob;
-        if( _knob != null ) {
+        if ( _knob != null ) {
             addGraphic( knob, KNOB_LAYER );
             _knob.setCursorHand();
             _knob.addMouseInputListener( _knobListener );
@@ -137,11 +138,11 @@ public class GraphicSlider extends GraphicLayerSet {
      * @param knobHighlight the knob highlight graphic
      */
     public void setKnobHighlight( PhetGraphic knobHighlight ) {
-        if( _knobHighlight != null ) {
+        if ( _knobHighlight != null ) {
             removeGraphic( _knobHighlight );
         }
         _knobHighlight = knobHighlight;
-        if( _knobHighlight != null ) {
+        if ( _knobHighlight != null ) {
             addGraphic( knobHighlight, KNOB_HIGHLIGHT_LAYER );
             _knobHighlight.setVisible( false );
             _knobHighlight.setCursorHand();
@@ -165,15 +166,15 @@ public class GraphicSlider extends GraphicLayerSet {
      * @param track the track graphic
      */
     public void setTrack( PhetGraphic track ) {
-        if( _track != null ) {
+        if ( _track != null ) {
             removeGraphic( track );
         }
         _track = track;
         _dragBounds.setBounds( 0, 0, 0, 0 );
-        if( _track != null ) {
+        if ( _track != null ) {
             addGraphic( track, TRACK_LAYER );
             track.setRegistrationPoint( 0, 0 ); // upper left
-            if( _background == null ) {
+            if ( _background == null ) {
                 track.setLocation( 0, 0 );
             }
             else {
@@ -201,11 +202,11 @@ public class GraphicSlider extends GraphicLayerSet {
      * @param background the background graphic
      */
     public void setBackground( PhetGraphic background ) {
-        if( _background != null ) {
+        if ( _background != null ) {
             removeGraphic( _background );
         }
         _background = background;
-        if( background != null ) {
+        if ( background != null ) {
             addGraphic( background, BACKGROUND_LAYER );
             background.setRegistrationPoint( 0, 0 ); // upper left
             background.setLocation( 0, 0 );
@@ -228,7 +229,7 @@ public class GraphicSlider extends GraphicLayerSet {
      * @param value the value, silently clamped to the slider's range (ala JSlider)
      */
     public void setValue( double value ) {
-        if( value != _value ) {
+        if ( value != _value ) {
 
             // Silently clamp the value to the allowed range.
             _value = MathUtil.clamp( _minimum, value, _maximum );
@@ -295,7 +296,7 @@ public class GraphicSlider extends GraphicLayerSet {
      * @param tickSize the tick size
      */
     public void setTickSize( Dimension tickSize ) {
-        if( tickSize != null ) {
+        if ( tickSize != null ) {
             _tickSize.setSize( tickSize );
         }
     }
@@ -317,16 +318,16 @@ public class GraphicSlider extends GraphicLayerSet {
      * @param tickValue the tick value
      */
     public void addTick( double tickValue ) {
-        if( _track != null && tickValue >= _minimum && tickValue <= _maximum ) {
+        if ( _track != null && tickValue >= _minimum && tickValue <= _maximum ) {
 
             Shape shape = new Line2D.Double( 0, 0, 0, _tickSize.height );
             PhetShapeGraphic tick = new PhetShapeGraphic( getComponent() );
             tick.setShape( shape );
             tick.setBorderColor( Color.BLACK );
-            tick.setStroke( new BasicStroke( (float)_tickSize.width ) );
+            tick.setStroke( new BasicStroke( (float) _tickSize.width ) );
 
-            double percent = ( tickValue - _minimum ) / (double)( _maximum - _minimum );
-            int x = _dragBounds.x + (int)( percent * _dragBounds.width );
+            double percent = ( tickValue - _minimum ) / (double) ( _maximum - _minimum );
+            int x = _dragBounds.x + (int) ( percent * _dragBounds.width );
             int y = _dragBounds.y;
             tick.setLocation( x, y );
 
@@ -344,15 +345,15 @@ public class GraphicSlider extends GraphicLayerSet {
 
     private void update() {
         // Set the knob's location based on the value.
-        double percent = ( _value - _minimum ) / (double)( _maximum - _minimum );
-        int x = _dragBounds.x + (int)( percent * _dragBounds.width );
+        double percent = ( _value - _minimum ) / (double) ( _maximum - _minimum );
+        int x = _dragBounds.x + (int) ( percent * _dragBounds.width );
         int y = _dragBounds.y;
 
-        if( _knob != null ) {
+        if ( _knob != null ) {
             _knob.setLocation( x, y );
         }
 
-        if( _knobHighlight != null ) {
+        if ( _knobHighlight != null ) {
             _knobHighlight.setLocation( x, y );
         }
 
@@ -389,9 +390,9 @@ public class GraphicSlider extends GraphicLayerSet {
      */
     private void fireChangeEvent( ChangeEvent event ) {
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
-                ( (ChangeListener)listeners[i + 1] ).stateChanged( event );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ChangeListener.class ) {
+                ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
             }
         }
     }
@@ -422,8 +423,8 @@ public class GraphicSlider extends GraphicLayerSet {
         public void mousePressed( MouseEvent e ) {
             AffineTransform transform = getNetTransform();
             try {
-                Point knobLocation = new Point( (int)( _knob.getLocation().getX() + GraphicSlider.this.getLocation().getX() ),
-                                                (int)( _knob.getLocation().getY() + GraphicSlider.this.getLocation().getY() ) );
+                Point knobLocation = new Point( (int) ( _knob.getLocation().getX() + GraphicSlider.this.getLocation().getX() ),
+                                                (int) ( _knob.getLocation().getY() + GraphicSlider.this.getLocation().getY() ) );
                 transform.inverseTransform( knobLocation, _knobStartPoint );
                 transform.inverseTransform( e.getPoint(), _dragStartPoint );
             }
@@ -459,7 +460,7 @@ public class GraphicSlider extends GraphicLayerSet {
             double x = Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, knobX ) );
 
             // Determine the value that corresponds to the constrained location.
-            double percent = ( x - _dragBounds.x ) / (double)( _dragBounds.width );
+            double percent = ( x - _dragBounds.x ) / (double) ( _dragBounds.width );
             double value = ( percent * ( _maximum - _minimum ) ) + _minimum;
 
             // Set the new value.
@@ -472,7 +473,7 @@ public class GraphicSlider extends GraphicLayerSet {
          * @param event the MouseEvent
          */
         public void mouseEntered( MouseEvent event ) {
-            if( _knob != null && _knobHighlight != null && _knob.getBounds().contains( event.getPoint() ) ) {
+            if ( _knob != null && _knobHighlight != null && _knob.getBounds().contains( event.getPoint() ) ) {
                 _knobHighlight.setVisible( true );
             }
         }
@@ -483,7 +484,7 @@ public class GraphicSlider extends GraphicLayerSet {
          * @param event the MouseEvent
          */
         public void mouseExited( MouseEvent event ) {
-            if( _knob != null && _knobHighlight != null && !_knobHighlight.getBounds().contains( event.getPoint() ) ) {
+            if ( _knob != null && _knobHighlight != null && !_knobHighlight.getBounds().contains( event.getPoint() ) ) {
                 _knobHighlight.setVisible( false );
             }
         }

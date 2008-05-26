@@ -10,9 +10,7 @@
  */
 package edu.colorado.phet.dischargelamps;
 
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 

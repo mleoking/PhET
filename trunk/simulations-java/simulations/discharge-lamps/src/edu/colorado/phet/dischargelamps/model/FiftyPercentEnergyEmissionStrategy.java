@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
+import java.util.Random;
+
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
-
-import java.util.Random;
 
 /**
  * DefaultEnergyEmissionStrategy
@@ -36,19 +36,19 @@ public class FiftyPercentEnergyEmissionStrategy implements EnergyEmissionStrateg
 
         // find index of atom's current state
         int currStateIdx = 0;
-        for( int i = 0; i < states.length; i++ ) {
-            if( states[i] == atom.getCurrState() ) {
+        for ( int i = 0; i < states.length; i++ ) {
+            if ( states[i] == atom.getCurrState() ) {
                 currStateIdx = i;
                 break;
             }
         }
-        if( random.nextBoolean() || currStateIdx < 2 ) {
+        if ( random.nextBoolean() || currStateIdx < 2 ) {
             nextStateIdx = 0;
         }
         else {
             do {
                 nextStateIdx = random.nextInt( currStateIdx );
-            } while( nextStateIdx == 0 );
+            } while ( nextStateIdx == 0 );
         }
         return states[nextStateIdx];
     }
