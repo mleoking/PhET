@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
@@ -52,7 +51,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     /**
      * Sole constructor.
      *
-     * @param args command line arguments
+     * @param config the configuration for this application
      */
     public SimTemplateApplication( PhetApplicationConfig config )
     {
@@ -168,7 +167,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     }
 
     public Color getControlPanelBackground() {
-        return ( (Module) getModule( 0 ) ).getControlPanel().getBackground();
+        return getModule( 0 ).getControlPanel().getBackground();
     }
 
     //----------------------------------------------------------------------------
@@ -224,8 +223,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
      * Main entry point.
      *
      * @param args command line arguments
-     * @throws InvocationTargetException
-     * @throws InterruptedException
      */
     public static void main( final String[] args ) {
 
