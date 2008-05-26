@@ -5,7 +5,6 @@ package edu.colorado.phet.simtemplate.module.example;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.simtemplate.module.example.ExampleModule;
 import edu.colorado.phet.simtemplate.SimTemplateResources;
 import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
 
