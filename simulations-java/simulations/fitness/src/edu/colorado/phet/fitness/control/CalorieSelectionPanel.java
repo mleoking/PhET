@@ -124,7 +124,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( new CalorieSelectionPanel( FitnessModel.availableFoods, new CalorieSet(), FitnessResources.getString( "food.source" ), FitnessResources.getString( "diet" ) ) );
+        frame.setContentPane( new CalorieSelectionPanel( FitnessModel.availableFoods, new CalorieSet(), "Grocery store", FitnessResources.getString( "diet" ) ) );
         frame.pack();
         frame.setSize( 800, 600 );
         frame.setVisible( true );
