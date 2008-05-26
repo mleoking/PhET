@@ -48,12 +48,9 @@ public class MultipleAtomModule extends BaseLaserModule {
     private ArrayList atoms;
     private UniversalLaserControlPanel laserControlPanel;
     private BeamControl pumpBeamControl;
+    private static final boolean SHOW_LEGEND = false;
 
-    /**
-     *
-     */
     public MultipleAtomModule( PhetFrame frame, IClock clock ) {
-//        super( SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock ,Photon.DEFAULT_SPEED );
         super( frame, SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock, Photon.DEFAULT_SPEED * LasersApplication.MULTI_ATOM_MODULE_SPEED );
 
         // Set the size of the cavity
@@ -139,7 +136,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
 
         // Set the control panel
-        laserControlPanel = new UniversalLaserControlPanel( this );
+        laserControlPanel = new UniversalLaserControlPanel( this,SHOW_LEGEND );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
     }
@@ -149,7 +146,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         deactivate();
         setThreeEnergyLevels( true );
         setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
-        laserControlPanel = new UniversalLaserControlPanel( this );
+        laserControlPanel = new UniversalLaserControlPanel( this,SHOW_LEGEND );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
         laserControlPanel.setThreeEnergyLevels( true );

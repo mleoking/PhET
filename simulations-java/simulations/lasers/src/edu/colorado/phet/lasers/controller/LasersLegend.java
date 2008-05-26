@@ -8,8 +8,8 @@ import edu.colorado.phet.lasers.view.AbstractLegend;
  */
 public class LasersLegend extends AbstractLegend {
     public LasersLegend() {
-        add( getAtomImage(), "Legend.atom" );
+        addForKey( getAtomImage(), "Legend.atom" );
 //        add( getElectronImage(), "Legend.electron" );
-        add( getPhotonImage( 400 ), "Legend.photon" );
+super.add3PhotonLegendItems();
     }
 }
