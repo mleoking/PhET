@@ -46,6 +46,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
     private double groundStateEnergy;
     private boolean isAdjustable;
     private double iconLocX;
+    private boolean clampTopWorkaround;
     private Color color;
     private double x;
     private double width;
@@ -66,13 +67,16 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
      * @param isAdjustable      Determines if the graphic can be moved up and down with the mouse
      */
     public EnergyLevelGraphic( Component component, AtomicState atomicState, double groundStateEnergy, double xLoc, double width,
-                               boolean isAdjustable, double iconLocX ) {
+                               boolean isAdjustable, double iconLocX,boolean clampTopWorkaround ) {
         super( null );
 
         this.atomicState = atomicState;
         this.groundStateEnergy = groundStateEnergy;
         this.isAdjustable = isAdjustable;
         this.iconLocX = iconLocX;
+
+        //workaround for Unfuddle #571 https://phet.unfuddle.com/projects/9404/tickets/by_number/571
+        this.clampTopWorkaround = clampTopWorkaround;
 
         // Add a listener that will track changes in the atomic state
         atomicState.addListener( new AtomicStateChangeListener() );
@@ -205,9 +209,14 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             final double desiredValue = atomicState.getEnergyLevel() + energyChange;
             double newEnergy = MathUtil.clamp( lowerBound, desiredValue, upperBound );
 
+            double screenTop = PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy;
+//            System.out.println( "newEnergy = " + newEnergy +", des="+desiredValue+", upperbound="+upperBound+" screenTop="+screenTop);
+
             //prevent the energy level from being dragged off the top of the page
-            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy );
-            
+            //necessary in lasers, causes problems in discharge lamps
+            if ( clampTopWorkaround ) {
+                newEnergy = Math.min( newEnergy, screenTop );
+            }
             setEnergy( newEnergy );
         }
 
