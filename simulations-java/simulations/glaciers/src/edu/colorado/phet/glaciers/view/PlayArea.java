@@ -234,7 +234,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _viewportLayer.addChild( viewportNode );
         
         // Background image (mountains & valley)
-        PNode mountainsAndValleyNode = new MountainsAndValleyNode( _mvt );
+        PNode mountainsAndValleyNode = new MountainsAndValleyNode( _model.getValley(), _mvt );
         _backgroundLayer.addChild( mountainsAndValleyNode );
         
         /*

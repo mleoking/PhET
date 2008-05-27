@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.GlaciersImages;
+import edu.colorado.phet.glaciers.model.Valley;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
@@ -20,7 +21,11 @@ public class MountainsAndValleyNode extends PImage {
     // 2D elevation change between foreground and background valley width boundaries
     private static final double PERSPECTIVE_HEIGHT = 250; // meters
     
-    public MountainsAndValleyNode( ModelViewTransform mvt ) {
+    // These are absolute x,y coordinates of the markers in the image file
+    private static final Point2D F_0 = new Point2D.Double( 312, 122 );
+    private static final Point2D F_70000 = new Point2D.Double( 5252, 323 );
+    
+    public MountainsAndValleyNode( Valley valley, ModelViewTransform mvt ) {
         super( GlaciersImages.MOUNTAINS );
         setPickable( false );
         setChildrenPickable( false );
@@ -42,9 +47,20 @@ public class MountainsAndValleyNode extends PImage {
          * to these same locations. The image is properly aligned when the blue circles
          * fall inside the red rings.
          */
+        
+        final double viewDistanceX = mvt.modelToView( 70000, 0 ).getX();
+        final double imageDistanceX = ( F_70000.getX() - F_0.getX() );
+        final double scaleX = viewDistanceX / imageDistanceX;
+        
+        final double viewDistanceY = mvt.modelToView( 0, valley.getElevation( 70000 ) - valley.getElevation( 0 ) ).getY();
+        final double imageDistanceY = ( F_70000.getY() - F_0.getY() );
+        final double scaleY = viewDistanceY / imageDistanceY;
+        System.out.println( "scaleX=" + scaleX + " scaleY=" + scaleY );//XXX
+        
         PAffineTransform transform = getTransformReference( true );
-        transform.scale( 70000./79677., 1.42 );
+        transform.scale( scaleX, scaleY );
         Point2D offset = mvt.modelToView( -5044, 4400 );
+        System.out.println( "offset=" + offset );//XXX
         transform.translate( offset.getX(), offset.getY() );
     }
     
