@@ -46,6 +46,9 @@ public class Valley {
     
     private static final double X_EQUALITY_THREHOLD = 1; // meters
     
+    // 2D elevation change between foreground and background boundaries of the valley, used to draw pseudo-3D perspective
+    private static final double PERSPECTIVE_HEIGHT = 250; // meters
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -63,6 +66,14 @@ public class Valley {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the height of the pseudo-3D perspective, in meters.
+     * @return
+     */
+    public static double getPerspectiveHeight() {
+        return PERSPECTIVE_HEIGHT;
+    }
     
     /**
      * Gets a reference to the position where the headwall starts (the top of the headwall).

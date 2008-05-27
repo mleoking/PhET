@@ -30,9 +30,6 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
  */
 public class MountainsAndValleyNode extends PImage {
 
-    // 2D elevation change between foreground and background valley width boundaries
-    private static final double PERSPECTIVE_HEIGHT = 250; // meters
-    
     // These are absolute x,y coordinates of the markers in the image file
     private static final Point2D F_0 = new Point2D.Double( 312, 122 );   // marker at x=0, y=F(0)
     private static final Point2D F_70000 = new Point2D.Double( 5252, 323 ); // marker at x=70000, y=F(70000)
@@ -59,13 +56,5 @@ public class MountainsAndValleyNode extends PImage {
         PAffineTransform transform = getTransformReference( true );
         transform.scale( scaleX, scaleY );
         transform.translate( offsetX, offsetY );
-    }
-    
-    /**
-     * Gets the height of the pseudo-3D perspective, in meters.
-     * @return
-     */
-    public static double getPerspectiveHeight() {
-        return PERSPECTIVE_HEIGHT;
     }
 }

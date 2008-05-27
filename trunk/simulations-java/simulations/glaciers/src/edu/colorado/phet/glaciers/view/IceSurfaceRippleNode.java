@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.IceSurfaceRipple;
+import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleAdapter;
@@ -68,7 +69,7 @@ public class IceSurfaceRippleNode extends PComposite {
         mvt.modelToView( pModel, _pView );
         final double rippleWidth = Math.abs( _pView.getX() );
         final double arcWidth = 2 * rippleWidth;
-        pModel = new Point2D.Double( 0, MountainsAndValleyNode.getPerspectiveHeight() );
+        pModel = new Point2D.Double( 0, Valley.getPerspectiveHeight() );
         mvt.modelToView( pModel, _pView );
         final double surfaceHeight = Math.abs( _pView.getY() );
         final double margin = MARGIN_PERCENTAGE * surfaceHeight;

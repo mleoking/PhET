@@ -33,7 +33,6 @@ MEDIUM PRIORITY:
 - improve performance on slower machines
 
 LOW PRIORITY:
-- replace MountainsAndValleyNode.getPerspectiveHeight with something cleaner, put it in the model (since Debris uses it)
 - make mercury in thermometer move as temperature changes (?)
 - refactor model listener class hierarchy
 - right edge of ice thickness tool icon is clipped (see Unfuddle #558)
@@ -77,6 +76,7 @@ CLEANUP:
 
 
 DONE:
+5/27/08 - move "perspective height" to Valley model
 5/27/08 - calculate offset of background image based on location of markers in image file
 5/27/08 - calculate scale of background image based on location of markers in image file
 5/27/08 - add EndMoraine to model, prunes debris to prevent infinite accumulation in steady state
