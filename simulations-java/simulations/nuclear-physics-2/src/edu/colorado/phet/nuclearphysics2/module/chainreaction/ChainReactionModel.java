@@ -558,6 +558,12 @@ public class ChainReactionModel {
                     pointAvailable = false;
                 }
             }
+            for (int j = 0; (j < _inactiveNuclei.size()) && (pointAvailable == true); j++){
+                if (position.distance( ((AtomicNucleus)_inactiveNuclei.get(j)).getPositionReference()) < INTER_NUCLEUS_PROXIMITRY_LIMIT){
+                    // This point is taken.
+                    pointAvailable = false;
+                }
+            }
             
             if (pointAvailable == true){
                 // We have found a usable location.  Return it.
