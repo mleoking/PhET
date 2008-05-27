@@ -169,8 +169,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         AtomicState[] states = model.getStates();
         for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
-            double xIndent = ( states.length - i ) * 12;
-            xIndent = 5;
+            double xIndent= 5;
             double xLoc = levelLineOriginX + xIndent;
 
             boolean isAdjustable = i == 0 ? false : true;
