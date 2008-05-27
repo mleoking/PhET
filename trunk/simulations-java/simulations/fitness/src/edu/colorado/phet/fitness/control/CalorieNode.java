@@ -31,6 +31,7 @@ public class CalorieNode extends PNode {
     private ArrayList closedListeners = new ArrayList();
     private double maxY;
     private PImage plateImage;
+    private PlateTopSummaryNode plateTopSummaryNode;
 
     public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle ) {
         this.parentFrame = parentFrame;
@@ -56,22 +57,24 @@ public class CalorieNode extends PNode {
         plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( "platter.png" ), 40 ) );
         addChild( plateImage );
 
+        plateTopSummaryNode = new PlateTopSummaryNode( calorieSet, plateImage );
+//        plateTopSummaryNode.setOffset( 0, editButton.getFullBounds().getMaxY() );
+        addChild( plateTopSummaryNode );
+
         CalorieDragStrip calorieDragStrip = new CalorieDragStrip( available );
         calorieDragStrip.addListener( new CalorieDragStrip.Listener() {
             public void nodeDropped( CalorieDragStrip.DragNode droppedNode ) {
-                System.out.println( "CalorieNode.nodeDropped" );
                 if ( plateImage.getGlobalFullBounds().intersects( droppedNode.getPNode().getGlobalFullBounds() ) ) {
-                    System.out.println( "intersects" );
                     calorieSet.addItem( droppedNode.getItem() );
                 }
             }
         } );
         addChild( calorieDragStrip );
 
-        SummaryNode summaryNode = new SummaryNode( calorieSet );
-        addChild( summaryNode );
+//        SummaryNode summaryNode = new SummaryNode( calorieSet );
+//        summaryNode.setOffset( 0, editButton.getFullBounds().getMaxY() );
+//        addChild( summaryNode );
 
-        summaryNode.setOffset( 0, editButton.getFullBounds().getMaxY() );
 
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
@@ -158,5 +161,6 @@ public class CalorieNode extends PNode {
     private void relayout() {
         editButton.setOffset( 0, maxY - editButton.getFullBounds().getHeight() );
         plateImage.setOffset( 0, editButton.getFullBounds().getY() - plateImage.getFullBounds().getHeight() );
+        plateTopSummaryNode.relayout();
     }
 }
