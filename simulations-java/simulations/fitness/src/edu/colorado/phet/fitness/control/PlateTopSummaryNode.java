@@ -1,8 +1,5 @@
 package edu.colorado.phet.fitness.control;
 
-import javax.swing.*;
-
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
 
@@ -10,12 +7,14 @@ import edu.umd.cs.piccolo.PNode;
  * Created by: Sam
  * Apr 23, 2008 at 11:35:09 AM
  */
-public class SummaryNode extends PNode {
+public class PlateTopSummaryNode extends PNode {
     private PNode layer = new PNode();
     private CalorieSet calorieSet;
+    private PNode plate;
 
-    public SummaryNode( CalorieSet calorieSet ) {
+    public PlateTopSummaryNode( CalorieSet calorieSet, PNode plate ) {
         this.calorieSet = calorieSet;
+        this.plate = plate;
         addChild( layer );
         for ( int i = 0; i < calorieSet.size(); i++ ) {
             addItem( calorieSet.getItem( i ) );
@@ -28,7 +27,7 @@ public class SummaryNode extends PNode {
             public void itemRemoved( CaloricItem item ) {
                 for ( int i = 0; i < layer.getChildrenCount(); i++ ) {
                     SummaryItemNode child = (SummaryItemNode) layer.getChild( i );
-                    if ( child.getItem()== item ) {
+                    if ( child.getItem() == item ) {
                         layer.removeChild( child );
                         break;//remove first match
                     }
@@ -45,30 +44,15 @@ public class SummaryNode extends PNode {
         relayout();
     }
 
-    private void relayout() {
+    public void relayout() {
         if ( layer.getChildrenCount() > 0 ) {
-            layer.getChild( 0 ).setOffset( 0, 0 );
+            layer.getChild( 0 ).setOffset( plate.getFullBounds().getX(), plate.getFullBounds().getY()-layer.getChild( 0 ).getFullBounds().getHeight());
             for ( int i = 1; i < layer.getChildrenCount(); i++ ) {
                 PNode prevNode = layer.getChild( i - 1 );
-                layer.getChild( i ).setOffset( prevNode.getOffset().getX(), prevNode.getFullBounds().getMaxY() );
+                layer.getChild( i ).setOffset( prevNode.getOffset().getX(), prevNode.getFullBounds().getMinY()-layer.getChild( i ).getFullBounds().getHeight());
             }
         }
 
-    }
-
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        PhetPCanvas contentPane = new PhetPCanvas();
-        SummaryNode node = new SummaryNode( new CalorieSet() );
-        node.addItem( new ExerciseItem( "banana split", "bananasplit.png", 100 ) );
-        node.addItem( new ExerciseItem( "burger", "burger.png", 100 ) );
-        node.addItem( new ExerciseItem( "strawberry", "strawberry.png", 100 ) );
-        contentPane.addScreenChild( node );
-        node.setOffset( 100, 100 );
-        frame.setContentPane( contentPane );
-        frame.setSize( 800, 600 );
-        frame.setVisible( true );
     }
 
 }
