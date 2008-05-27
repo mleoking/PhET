@@ -17,6 +17,7 @@ import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics2.model.Nucleon;
@@ -123,7 +124,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         
         // Get the nucleus from the model and then get the constituents
         // and create a visible node for each.
-        AtomicNucleus atomicNucleus = _fissionOneNucleusModel.getAtomicNucleus();
+        CompositeAtomicNucleus atomicNucleus = _fissionOneNucleusModel.getAtomicNucleus();
         ArrayList nucleusConstituents = atomicNucleus.getConstituents();
         
         // Add a node for each particle that comprises the nucleus.

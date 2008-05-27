@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics2.model.AlphaRadiationNucleus;
+import edu.colorado.phet.nuclearphysics2.model.Polonium211CompositeNucleus;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 
@@ -29,7 +29,7 @@ public class AlphaRadiationModel {
     // Instance data
     //------------------------------------------------------------------------
     
-    private AlphaRadiationNucleus _atomicNucleus;
+    private Polonium211CompositeNucleus _atomicNucleus;
     private AlphaParticle _tunneledAlpha;
     private ConstantDtClock _clock;
     private ArrayList _listeners = new ArrayList();
@@ -62,7 +62,7 @@ public class AlphaRadiationModel {
         });
 
         // Create the nucleus that will demonstrate alpha radiation.
-        _atomicNucleus = new AlphaRadiationNucleus(clock, new Point2D.Double(0, 0));
+        _atomicNucleus = new Polonium211CompositeNucleus(clock, new Point2D.Double(0, 0));
         
         // Register as a listener for the nucleus so we can handle the
         // particles thrown off by alpha decay.
@@ -105,7 +105,7 @@ public class AlphaRadiationModel {
      * 
      * @return - Reference to the nucleus model element.
      */
-    public AlphaRadiationNucleus getAtomNucleus()
+    public Polonium211CompositeNucleus getAtomNucleus()
     {
         return _atomicNucleus;
     }

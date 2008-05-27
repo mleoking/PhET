@@ -246,7 +246,7 @@ public class ChainReactionModel {
         }
         
         if (totalU235Nuclei == 0){
-            // There are no U235 nuclei present, to return 0 and thereby
+            // There are no U235 nuclei present, so return 0 and thereby
             // avoid any divide-by-zero issues.
             return 0;
         }
@@ -357,7 +357,6 @@ public class ChainReactionModel {
                     continue;
                 }
                 AtomicNucleus nucleus = new Uranium235Nucleus(_clock, position, 0);
-                nucleus.setDynamic( false );
                 _u235Nuclei.add(nucleus);
                 notifyModelElementAdded( nucleus );
                 nucleus.addListener( new AtomicNucleus.Adapter(){
@@ -413,7 +412,6 @@ public class ChainReactionModel {
                     continue;
                 }
                 AtomicNucleus nucleus = new Uranium238Nucleus(_clock, position);
-                nucleus.setDynamic( false );
                 _u238Nuclei.add(nucleus);
                 notifyModelElementAdded( nucleus );
                 nucleus.addListener( new AtomicNucleus.Adapter(){
@@ -448,7 +446,8 @@ public class ChainReactionModel {
     private void handleClockTicked(ClockEvent clockEvent) {
 
         // Move any free particles that exist.
-        for (int i = 0; i < _freeNeutrons.size(); i++){
+        int numFreeNeutrons = _freeNeutrons.size();
+        for (int i = numFreeNeutrons - 1; i >= 0; i--){
             Nucleon freeNucleon = (Nucleon)_freeNeutrons.get( i );
             assert freeNucleon instanceof Nucleon;
             freeNucleon.translate();
@@ -723,7 +722,7 @@ public class ChainReactionModel {
                     // separately in the model.
                     notifyModelElementAdded(byProduct);
                     
-                    // Set a direction and velocity for this neutron.
+                    // Set a direction and velocity for this element.
                     double angle = (_rand.nextDouble() * Math.PI * 2);
                     double xVel = Math.sin( angle ) * FREED_NEUTRON_VELOCITY;
                     double yVel = Math.cos( angle ) * FREED_NEUTRON_VELOCITY;

@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
-import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
+import edu.colorado.phet.nuclearphysics2.model.Uranium235CompositeNucleus;
 import edu.colorado.phet.nuclearphysics2.view.AtomicBombGraphicNode;
 import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics2.view.ContainmentVesselNode;
@@ -116,7 +116,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
             // since one such nucleus at the center is the generally expected
             // reset state.  If that ever changes, this code should be extended
             // to handle whatever is needed.
-            if (nuclei.get( i ) instanceof Uranium235Nucleus){
+            if (nuclei.get( i ) instanceof Uranium235CompositeNucleus){
                 handleModelElementAdded(nuclei.get( i ));
             }
         }
