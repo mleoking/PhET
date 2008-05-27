@@ -29,6 +29,7 @@ MEDIUM PRIORITY:
 - PlayArea class is too big, refactor
 - AbstractModel class is too big, refactor
 - tweak alignment of mountains image, perspective is a little off at headwall
+- improve performance on slower machines
 
 LOW PRIORITY:
 - replace MountainsAndValleyNode.getPerspectiveHeight with something cleaner, put it in the model (since Debris uses it)
