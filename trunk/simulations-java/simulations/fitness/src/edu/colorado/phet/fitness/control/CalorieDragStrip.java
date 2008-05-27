@@ -6,6 +6,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
@@ -20,19 +21,20 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class CalorieDragStrip extends PNode {
     private static Random random = new Random();
     private ArrayList listeners = new ArrayList();
+    private static final int HEIGHT = 22;
 
     public CalorieDragStrip( final CalorieSet available ) {
         ArrayList nodes = new ArrayList();
-        for ( int i = 0; i < 5; i++ ) {
+        for ( int i = 0; i < 4; i++ ) {
             final PNode node = createNode( available.getItem( i ) );
             final int i1 = i;
             node.addInputEventListener( new PDragSequenceEventHandler() {
-                DragNode createdNode = null;
-//                private PNode createdNode = null;
+                private DefaultDragNode createdNode = null;
 
                 protected void startDrag( PInputEvent e ) {
                     super.startDrag( e );
                     createdNode = createNode( available.getItem( i1 ) );
+                    createdNode.addDragHandler();
                     createdNode.getPNode().setOffset( node.getOffset() );
                     addChild( createdNode.getPNode() );
                 }
@@ -61,12 +63,28 @@ public class CalorieDragStrip extends PNode {
         }
     }
 
-    private static class DefaultDragNode extends PNode implements DragNode {
+    private class DefaultDragNode extends PNode implements DragNode {
         private CaloricItem item;
+        private PNode node;
 
         public DefaultDragNode( PNode node, CaloricItem item ) {
             this.item = item;
+            this.node=node;
             addChild( node );
+            node.addInputEventListener( new CursorHandler( ) );
+        }
+
+        public void addDragHandler( ) {
+            node.addInputEventListener( new PDragSequenceEventHandler(){
+                protected void drag( PInputEvent event ) {
+                    super.drag( event );
+                    getPNode().translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
+                }
+
+                protected void endDrag( PInputEvent e ) {
+                    notifyDropped( DefaultDragNode.this);
+                }
+            });
         }
 
         public PNode getPNode() {
@@ -80,7 +98,7 @@ public class CalorieDragStrip extends PNode {
 
     private DefaultDragNode createNode( CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
-            return new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), 30 ) ), item );
+            return new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
         }
         else {
             final Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
