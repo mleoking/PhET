@@ -175,28 +175,34 @@ public class ChainReactionModel {
     public ContainmentVessel getContainmentVessel(){
         return _containmentVessel;
     }
-    
+
+    /**
+     * Get the number of U235 nuclei currently present.  Note that this does
+     * NOT include nuclei that started out as U235 but that have undergone
+     * fission.
+     * 
+     * @return
+     */
     public int getNumU235Nuclei(){
-        // It is possible that some of these nuclei have become daughters as
-        // the result of a fission event.
-        int total = _u235Nuclei.size();
-        int numElements = _daughterNuclei.size();
-        for (int i = 0; i < numElements; i++){
-            if (_daughterNuclei.get( i ) instanceof Uranium235Nucleus){
-                total++;
-            }
-        }
-        return total;
+        return _u235Nuclei.size();
     }
-    
+
+    /**
+     * Gets the number of U238 nuclei present in the model.  Note that this
+     * does NOT count nuclei that may have started off as U238 but have
+     * absorbed a neutron.
+     * 
+     * @return
+     */
     public int getNumU238Nuclei(){
-        // It is possible that some of these nuclei have been moved to the
-        // list of inactive nuclei in order to save CPU cycles, so the total
-        // has to be calculated.
-        int total = _u238Nuclei.size();
-        int numElements = _inactiveNuclei.size();
-        for (int i = 0; i < numElements; i++){
-            if (_inactiveNuclei.get( i ) instanceof Uranium238Nucleus){
+
+        int total = 0;
+        
+        int numNuclei = _u238Nuclei.size();
+        for (int i = 0; i < numNuclei; i++){
+            Uranium238Nucleus nucleus = (Uranium238Nucleus)_u238Nuclei.get(i);
+            if (nucleus.getNumNeutrons() == Uranium238Nucleus.ORIGINAL_NUM_NEUTRONS){
+                // This one counts.
                 total++;
             }
         }
@@ -204,7 +210,8 @@ public class ChainReactionModel {
     }
     
     public ArrayList getNuclei(){
-        ArrayList nucleiList = new ArrayList(_u235Nuclei.size() + _u238Nuclei.size() + _daughterNuclei.size());
+        ArrayList nucleiList = new ArrayList(_u235Nuclei.size() + _u238Nuclei.size() + _daughterNuclei.size() + 
+                _inactiveNuclei.size());
         nucleiList.addAll( _u235Nuclei );
         nucleiList.addAll( _u238Nuclei );
         nucleiList.addAll( _daughterNuclei );
@@ -371,6 +378,7 @@ public class ChainReactionModel {
                         handleAtomicWeightChange(nucleus, numProtons, numNeutrons, byProducts);
                     }
                 });
+                notifyReativeNucleiNumberChanged();
             }
         }
         else{
@@ -382,6 +390,7 @@ public class ChainReactionModel {
                     Object nucleus = _u235Nuclei.get( _u235Nuclei.size() - 1 );
                     _u235Nuclei.remove( nucleus );
                     notifyModelElementRemoved( nucleus );
+                    notifyReativeNucleiNumberChanged();
                 }
             }
         }
@@ -426,6 +435,7 @@ public class ChainReactionModel {
                         handleAtomicWeightChange(nucleus, numProtons, numNeutrons, byProducts);
                     }
                 });
+                notifyReativeNucleiNumberChanged();
             }
         }
         else{
@@ -437,6 +447,7 @@ public class ChainReactionModel {
                     Object nucleus = _u238Nuclei.get( _u238Nuclei.size() - 1 );
                     _u238Nuclei.remove( nucleus );
                     notifyModelElementRemoved( nucleus );
+                    notifyReativeNucleiNumberChanged();
                 }
             }
         }
@@ -508,6 +519,9 @@ public class ChainReactionModel {
             checkContainment(_u235Nuclei);
             checkContainment(_daughterNuclei);
         }
+        
+        // Check for model elements that have moved out of the simulation scope.
+        removeOutOfRangeElements();
     }
     
     /**
@@ -580,6 +594,45 @@ public class ChainReactionModel {
                     // checking if nuclei are contained.
                     break;
                 }
+            }
+        }
+    }
+    
+    /**
+     * Remove any model elements that have moved outside the range of the
+     * simulation and have thus become irrelevant.
+     */
+    private void removeOutOfRangeElements(){
+        
+        int i, numElements;
+        
+        // NOTE: There is an important assumption built into the code below.
+        // The assumption is that only neutrons and daughter nuclei move.  It
+        // would be safer to test all collections of nuclei, but it would be
+        // far less efficient, which is why this is done.  If the other
+        // portions of this class are ever changed such that this assumption
+        // becomes invalid, this code must be changed.
+        
+        numElements = _freeNeutrons.size();
+        for (i = numElements - 1; i >= 0; i--){
+            Neutron neutron = (Neutron)_freeNeutrons.get( i );
+            if ( Math.abs( neutron.getPositionReference().getX() ) > (MAX_NUCLEUS_RANGE_X / 2) ||
+                 Math.abs( neutron.getPositionReference().getY() ) > (MAX_NUCLEUS_RANGE_Y / 2)){
+                // Get rid of this element.
+                _freeNeutrons.remove( i );
+                notifyModelElementRemoved( neutron );
+            }
+        }
+        
+        numElements = _daughterNuclei.size();
+        for (i = numElements - 1; i >= 0; i--){
+            AtomicNucleus nucleus = (AtomicNucleus)_daughterNuclei.get( i );
+            if ( Math.abs( nucleus.getPositionReference().getX() ) > (MAX_NUCLEUS_RANGE_X / 2) ||
+                 Math.abs( nucleus.getPositionReference().getY() ) > (MAX_NUCLEUS_RANGE_Y / 2)){
+                // Get rid of this element.
+                _daughterNuclei.remove( i );
+                nucleus.removedFromModel();
+                notifyModelElementRemoved( nucleus );
             }
         }
     }
@@ -698,6 +751,16 @@ public class ChainReactionModel {
     }
     
     /**
+     * Notify listeners that the number of nuclei that are capable of interacting
+     * with neutrons has changed.
+     */
+    private void notifyReativeNucleiNumberChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).reactiveNucleiNumberChanged();
+        }
+    }
+    
+    /**
      * Notify listeners that the model has been reset.
      */
     private void notifyResetOccurred(){
@@ -719,7 +782,7 @@ public class ChainReactionModel {
         
         if (byProducts != null){
             // There are some byproducts of this event that need to be
-            // managed by this object.
+            // managed by this model.
             for (int i = 0; i < byProducts.size(); i++){
                 Object byProduct = byProducts.get( i );
                 if ((byProduct instanceof Neutron) || (byProduct instanceof Proton)){
@@ -765,6 +828,10 @@ public class ChainReactionModel {
                     // Signal any listeners that the percentage of fissioned
                     // U235 nuclei has probably changed.
                     notifyPercentFissionedChanged();
+                    
+                    // Signal any listeners that the number of reactive
+                    // nuclei has changed.
+                    notifyReativeNucleiNumberChanged();
                 }
                 else {
                     // We should never get here, debug it if it does.
@@ -781,6 +848,7 @@ public class ChainReactionModel {
             if (nucleus.getNumNeutrons() == Uranium238Nucleus.ORIGINAL_NUM_NEUTRONS + 1){
                 _u238Nuclei.remove( nucleus );
                 _inactiveNuclei.add( nucleus );
+                notifyReativeNucleiNumberChanged();
             }
         }
     }
@@ -810,6 +878,12 @@ public class ChainReactionModel {
         public void modelElementRemoved(Object modelElement);
         
         /**
+         * This is invoked when the number of reactive nuclei (i.e. those that
+         * can interact with neutrons) has changed. 
+         */
+        public void reactiveNucleiNumberChanged();
+        
+        /**
          * This is invoked to signal that the model has been reset.
          * 
          */
@@ -830,7 +904,8 @@ public class ChainReactionModel {
     public static class Adapter implements Listener {
         public void modelElementAdded(Object modelElement){}
         public void modelElementRemoved(Object modelElement){}
-        public void resetOccurred(){}
+        public void reactiveNucleiNumberChanged(){}
         public void percentageU235FissionedChanged(double percentU235Fissioned){}
+        public void resetOccurred(){}
     }
 }
