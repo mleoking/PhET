@@ -8,30 +8,30 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
- * This class is used to model the atomic nucleus in the "Fission: One
- * Nucleus" tab.
+ * This class represents a non-composite Uranium235 nucleus.  In other words,
+ * this nucleus does not create or keep track of any constituent nucleons.
  *
  * @author John Blanco
  */
-public class Uranium235Nucleus extends AtomicNucleus{
-
+public class Uranium235Nucleus extends AtomicNucleus {
+    
     //------------------------------------------------------------------------
-    // Class data
+    // Class Data
     //------------------------------------------------------------------------
 
     // Number of neutrons and protons in the nucleus upon construction.  The
     // values below are for Uranium-235.
     public static final int ORIGINAL_NUM_PROTONS = 92;
     public static final int ORIGINAL_NUM_NEUTRONS = 143;
-
-    // The "agitation factor" for the various types of nucleus.  The amount of
-    // agitation controls how dynamic the nucleus looks on the canvas.  Values
-    // must be in the range 0-9.
-    private static final int URANIUM_235_AGITATION_FACTOR = 6;
-    private static final int URANIUM_236_AGITATION_FACTOR = 9;
+    
+    // Number of neutrons and protons in the daughter nucleus that is produced
+    // if and when this nucleus fissions.  This nucleus represents Krypton-92.
+    public static final int DAUGHTER_NUCLEUS_PROTONS = 36;
+    public static final int DAUGHTER_NUCLEUS_NEUTRONS = 56;
+    
     
     //------------------------------------------------------------------------
-    // Instance data
+    // Instance Data
     //------------------------------------------------------------------------
 
     // Interval from the time a neutron capture occurs until fission occurs.
@@ -39,24 +39,20 @@ public class Uranium235Nucleus extends AtomicNucleus{
     
     // Time at which fission will occur.
     private double _fissionTime = 0;
-    
+
     //------------------------------------------------------------------------
-    // Constructor
+    // Constructor(s)
     //------------------------------------------------------------------------
     
     public Uranium235Nucleus(NuclearPhysics2Clock clock, Point2D position, double fissionInterval){
+
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         _fissionInterval = fissionInterval;
-        
-        // Set the tunneling region to be more confined than in some of the
-        // other panels, since having a bunch of alpha particles flying around
-        // the nucleus will like be distracting.
-        setTunnelingRegionRadius( (getDiameter() / 2) * 1.1 );
     }
     
     //------------------------------------------------------------------------
-    // Public Methods
+    // Accessor Methods
     //------------------------------------------------------------------------
     
     public double getFissionTime(){
@@ -67,8 +63,14 @@ public class Uranium235Nucleus extends AtomicNucleus{
         return _fissionInterval;
     }
     
+    //------------------------------------------------------------------------
+    // Other Public Methods
+    //------------------------------------------------------------------------
+    
     /**
-     * Capture a free particle if the nucleus is able to.
+     * Returns true if the particle can be captured by this nucleus, false if
+     * not.  Note that the particle itself is unaffected, and it is up to the
+     * caller to remove the captured particle from the model if desired.
      * 
      * @param freeParticle - The free particle that could potentially be
      * captured.
@@ -78,18 +80,11 @@ public class Uranium235Nucleus extends AtomicNucleus{
 
         boolean retval = false;
         
-        int totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
-        if (totalNumNeutrons == ORIGINAL_NUM_NEUTRONS){
-            // We can capture this neutron.
-            if (_dynamic){
-                freeParticle.setTunnelingEnabled( true );
-            }
-            freeParticle.setPosition( getPositionReference() );
-            freeParticle.setVelocity( 0, 0 );
-            _constituents.add( freeParticle );
-            _numFreeNeutrons++;
-            updateAgitationFactor();
-
+        if ((freeParticle instanceof Neutron) && (_numNeutrons == ORIGINAL_NUM_NEUTRONS)){
+            
+            // Increase our neutron count.
+            _numNeutrons++;
+            
             // Let the listeners know that the atomic weight has changed.
             notifyAtomicWeightChanged(null);
             
@@ -107,7 +102,7 @@ public class Uranium235Nucleus extends AtomicNucleus{
      * Resets the nucleus to its original state, before any fission has
      * occurred.
      */
-    public void reset(ArrayList freeNeutrons, AtomicNucleus daughterNucleus){
+    public void reset(){
         
         // Reset the fission time to 0, indicating that it shouldn't occur
         // until something changes.
@@ -118,89 +113,25 @@ public class Uranium235Nucleus extends AtomicNucleus{
         setVelocity( 0, 0 );
         setAcceleration( 0, 0 );
         
-        int totalNumNeutrons = _numFreeNeutrons + _numAlphas * 2;
-        
-        if (totalNumNeutrons < ORIGINAL_NUM_NEUTRONS){
-            // Fission has occurred, so we need to reabsorb the daughter
-            // nucleus and two of the free neutrons.
-            if (freeNeutrons != null){
-                for (int i = 0; i < 2; i++){
-                    if ( freeNeutrons.size() >= 2 ){
-                        Neutron neutron = (Neutron)freeNeutrons.get( freeNeutrons.size() - 1 - i );
-                        neutron.setVelocity( 0, 0 );
-                        neutron.setPosition( _position );
-                        neutron.setTunnelingEnabled( true );
-                        _constituents.add(neutron);
-                        _numFreeNeutrons++;
-                        freeNeutrons.remove( neutron );
-                    }
-                    else{
-                        // This should never occur, debug it if it does.
-                        System.out.println("Error: Unexpected number of free neutrons on reset.");
-                        assert false;
-                    }
-                }
-            }
+        if ((_numNeutrons != ORIGINAL_NUM_NEUTRONS) || (_numProtons != ORIGINAL_NUM_PROTONS)){
+            // Fission or absorption has occurred.
+            _numNeutrons = ORIGINAL_NUM_NEUTRONS;
+            _numProtons = ORIGINAL_NUM_PROTONS;
             
-            if (daughterNucleus != null){
-                
-                ArrayList daughterConstituents = daughterNucleus.getConstituents();
-                
-                for (int i = 0; i < daughterConstituents.size(); i++){
-                    
-                    Object constituent = daughterConstituents.get( i );
-                    
-                    if (constituent instanceof AlphaParticle){
-                        _numAlphas++;
-                    }
-                    else if (constituent instanceof Neutron){
-                        _numFreeNeutrons++;
-                    }
-                    else if (constituent instanceof Proton){
-                        _numFreeProtons++;
-                    }
-                    else{
-                        // This should never happen, and needs to be debugged if
-                        // it does.
-                        assert false;
-                    }
-                        
-                    _constituents.add(constituent);
-                }
-            }
+            // Notify all listeners of the change to our atomic weight.
+            notifyAtomicWeightChanged(null);
         }
-        else if (totalNumNeutrons == ORIGINAL_NUM_NEUTRONS + 1){
-            // We have been reset after having absorbed a neutron but before
-            // fissioning.  Free a neutron to get back to our original state.
-            for (int i = 0; i < _constituents.size(); i++){
-                if (_constituents.get( i ) instanceof Neutron){
-                    // This one will do.
-                    freeNeutrons.add( _constituents.get(i) );
-                    _constituents.remove(i);
-                    _numFreeNeutrons--;
-                    break;
-                }
-            }
-        }
-        
-        // Update our agitation level.
-        updateAgitationFactor();
-        
+
         // Notify all listeners of the potential position change.
-        notifyPositionChanged();        
-        
-        // Notify all listeners of the change to our atomic weight.
-        notifyAtomicWeightChanged(null);
+        notifyPositionChanged();
     }
     
     //------------------------------------------------------------------------
     // Private and Protected Methods
     //------------------------------------------------------------------------
-    
     /**
      * This method lets this model element know that the clock has ticked.  In
-     * response, the nucleus generally 'agitates' a bit, may also perform some
-     * sort of decay, and may move.
+     * response we check if it is time to fission.
      */
     protected void handleClockTicked(ClockEvent clockEvent)
     {
@@ -209,64 +140,24 @@ public class Uranium235Nucleus extends AtomicNucleus{
         // See if fission should occur.
         if ((_fissionTime != 0) && (clockEvent.getSimulationTime() >= _fissionTime ))
         {
-            // Fission the nucleus.  First pull out three neutrons as 
-            // byproducts of this decay event.
+            // Fission the nucleus.  First create three neutrons as byproducts 
+            // of this decay event.
             ArrayList byProducts = new ArrayList();
-            int neutronByProductCount = 0;
-            for (int i = 0; i < _constituents.size() && neutronByProductCount < 3; i++){
-                if (_constituents.get( i ) instanceof Neutron){
-                    Object newlyFreedNeutron = _constituents.get( i );
-                    byProducts.add( newlyFreedNeutron );
-                    neutronByProductCount++;
-                    _numFreeNeutrons--;
-                }
+            for (int i = 0; i < 3; i++){
+                byProducts.add( new Neutron(_position.getX(), _position.getY(), false) );
             }
-            
-            _constituents.removeAll( byProducts );
-            
-            // Now pull out the needed number of protons, neutrons, and alphas
-            // to create the appropriate daughter nucleus.  The daughter
-            // nucleus created is Krypton-92, so the number of particles
-            // needed is calculated for this particular isotope.
-            int numAlphasNeeded = 12;
-            int numProtonsNeeded = 12;
-            int numNeutronsNeeded = 32;
-                
-            ArrayList daughterNucleusConstituents = new ArrayList(numAlphasNeeded + numProtonsNeeded + numNeutronsNeeded);
-            
-            for (int i = 0; i < _constituents.size(); i++){
-                Object constituent = _constituents.get( i );
-                
-                if ((numNeutronsNeeded > 0) && (constituent instanceof Neutron)){
-                    daughterNucleusConstituents.add( constituent );
-                    numNeutronsNeeded--;
-                    _numFreeNeutrons--;
-                }
-                else if ((numProtonsNeeded > 0) && (constituent instanceof Proton)){
-                    daughterNucleusConstituents.add( constituent );
-                    numProtonsNeeded--;
-                    _numFreeProtons--;
-                }
-                if ((numAlphasNeeded > 0) && (constituent instanceof AlphaParticle)){
-                    daughterNucleusConstituents.add( constituent );
-                    numAlphasNeeded--;
-                    _numAlphas--;
-                }
-                
-                if ((numNeutronsNeeded == 0) && (numProtonsNeeded == 0) && (numAlphasNeeded == 0)){
-                    // We've got all that we need.
-                    break;
-                }
-            }
-            
-            _constituents.removeAll( daughterNucleusConstituents );
-            
+
+            // Now create the appropriate daughter nucleus and add it to the
+            // list of byproducts.
             Point2D location = new Point2D.Double();
             location.setLocation( _position );
-            DaughterNucleus daughterNucleus = new DaughterNucleus(_clock, location, daughterNucleusConstituents);
-            
-            // Consolidate all of the byproducts.
+            DaughterNucleus daughterNucleus = 
+                new DaughterNucleus(_clock, location, DAUGHTER_NUCLEUS_PROTONS, DAUGHTER_NUCLEUS_NEUTRONS);
             byProducts.add( daughterNucleus );
+            
+            // Reduce our constituent particles appropriately.
+            _numProtons -= DAUGHTER_NUCLEUS_PROTONS;
+            _numNeutrons -= DAUGHTER_NUCLEUS_NEUTRONS;
             
             // Send out the decay event to all listeners.
             notifyAtomicWeightChanged(byProducts);
@@ -275,34 +166,5 @@ public class Uranium235Nucleus extends AtomicNucleus{
             // should occur.
             _fissionTime = 0;
         }
-    }
-    
-    protected void updateAgitationFactor() {
-        
-        // Determine the amount of agitation that should be exhibited by this
-        // particular nucleus.  This obviously doesn't handle every possible
-        // nucleus, so add more if and when they are needed.
-        
-        int _totalNumProtons = _numFreeProtons + (_numAlphas * 2);
-        int _totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
-        
-        switch (_totalNumProtons){
-        
-        case 92:
-            // Uranium.
-            if (_totalNumNeutrons == 143){
-                // Uranium 235.
-                _agitationFactor = URANIUM_235_AGITATION_FACTOR;
-            }
-            else if (_totalNumNeutrons == 144){
-                // Uranium 236.
-                _agitationFactor = URANIUM_236_AGITATION_FACTOR;
-            }
-            break;
-            
-        default:
-            _agitationFactor = DEFAULT_AGITATION_FACTOR;
-            break;
-        }        
     }
 }

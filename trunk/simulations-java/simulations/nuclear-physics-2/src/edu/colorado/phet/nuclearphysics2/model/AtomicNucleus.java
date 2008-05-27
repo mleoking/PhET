@@ -4,7 +4,6 @@ package edu.colorado.phet.nuclearphysics2.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -20,9 +19,6 @@ public abstract class AtomicNucleus {
     // Radius at which the repulsive electrical force overwhelms the strong
     // force.
     public static final double DEFAULT_TUNNELING_REGION_RADIUS = 15; 
-    
-    // Default value for agitation.
-    protected static final int DEFAULT_AGITATION_FACTOR = 5;
     
     //------------------------------------------------------------------------
     // Instance data
@@ -47,30 +43,10 @@ public abstract class AtomicNucleus {
     // Acceleration of this nucleus.
     protected double _xAcceleration = 0;
     protected double _yAcceleration = 0;
-    
-    // List of the constituent particles that comprise this nucleus.
-    protected ArrayList _constituents;
-    
-    // Numbers of various particles.  The "free" neutrons and protons are not
-    // bound up in an alpha particle.
-    protected int _numAlphas;
-    protected int _numFreeProtons;
-    protected int _numFreeNeutrons;
-    
-    // Boolean value that controls whether the nucleus is dynamic, meaning
-    // that it moves the constituent particles around ("agitates") or is
-    // static and does not move the particles around.
-    boolean _dynamic = true;
-    
-    // Used to implement the 'agitation' behavior, i.e. to make the nucleus
-    // appear to be in constant dynamic motion.
-    private int _agitationCount = 0;
-    
-    // Amount of agitation exhibited by nucleus, from 0 to 9.
-    protected int _agitationFactor = DEFAULT_AGITATION_FACTOR;
-    
-    // Used for various random calculations.
-    protected Random _rand = new Random();
+
+    // Number of neutrons and protons in this nucleus.
+    protected int _numNeutrons;
+    protected int _numProtons;
     
     // Used for deciding where particles tunnel to and how far they need
     // to go to tunnel out.
@@ -91,6 +67,8 @@ public abstract class AtomicNucleus {
     public AtomicNucleus(NuclearPhysics2Clock clock, Point2D position, int numProtons, int numNeutrons)
     {
         _clock = clock;
+        _numProtons = numProtons;
+        _numNeutrons = numNeutrons;
 
         addClockListener();
         
@@ -98,77 +76,8 @@ public abstract class AtomicNucleus {
         _origPosition.setLocation( position );
         _position.setLocation( position );
         
-        // Figure out the proportions of various particles.
-        _numAlphas    = ((numProtons + numNeutrons) / 2) / 4;  // Assume half of all particles are tied up in alphas.
-        _numFreeProtons   = numProtons - (_numAlphas * 2);
-        _numFreeNeutrons  = numNeutrons - (_numAlphas * 2);
-
-        // Add the particles.  We do this in such a way that the particles
-        // are interspersed in the list, particularly towards the end of the
-        // list, since this works out better for the view.
-        _constituents = new ArrayList();
-        int maxParticles = Math.max( _numFreeProtons, _numFreeNeutrons );
-        maxParticles = Math.max( maxParticles, _numAlphas);
-        for (int i = (maxParticles - 1); i >= 0; i--){
-            if (i < _numAlphas){
-                _constituents.add( new AlphaParticle(0, 0) );
-            }
-            if (i < _numFreeProtons){
-                _constituents.add( new Proton(0, 0, true) );
-            }
-            if (i < _numFreeNeutrons){
-                _constituents.add( new Neutron(0, 0, true) );
-            }
-        }
-        
         // Calculate our diameter.
         updateDiameter();
-        
-        // Set the initial agitation factor.
-        updateAgitationFactor();
-    }
-    
-    
-    /**
-     * This constructor is used to create a nucleus when the constituents of
-     * the nucleus (i.e. protons, neutrons, and alpha particles) already exist.
-     * This is generally used to create a "daughter nucleus" when an existing
-     * nucleus splits.
-     */
-    public AtomicNucleus(NuclearPhysics2Clock clock, Point2D position, ArrayList constituents)
-    {
-        // Create an empty nucleus.
-        this(clock, position, 0, 0);
-
-        // Figure out the makeup of the constituents.
-        _numAlphas = 0;
-        _numFreeNeutrons = 0;
-        _numFreeProtons = 0;
-        for (int i = 0; i < constituents.size(); i++){
-            if (constituents.get( i ) instanceof AlphaParticle){
-                _numAlphas++;
-            }
-            else if (constituents.get( i ) instanceof Neutron){
-                _numFreeNeutrons++;
-            }
-            else if (constituents.get( i ) instanceof Proton){
-                _numFreeProtons++;
-            }
-            else{
-                // Should never happen, debug if it does.
-                assert false;
-                System.err.println("Error: Unexpected nucleus constituent type.");
-            }
-        }
-        
-        // Keep the array of constituents.
-        _constituents = constituents;
-        
-        // recalculate our diameter.
-        updateDiameter();
-        
-        // Update our agitation factor.
-        updateAgitationFactor();
     }
     
     //------------------------------------------------------------------------
@@ -211,20 +120,16 @@ public abstract class AtomicNucleus {
         return new Vector2D.Double(_xVelocity, _yVelocity);
     }
     
-    public ArrayList getConstituents(){
-        return _constituents;
-    }
-    
     public int getAtomicWeight(){
-        return _numFreeNeutrons + _numFreeProtons + (_numAlphas * 4);
+        return _numNeutrons + _numProtons;
     }
     
     public int getNumProtons(){
-        return _numFreeProtons + (_numAlphas * 2);
+        return _numProtons;
     }
     
     public int getNumNeutrons(){
-        return _numFreeNeutrons + (_numAlphas * 2);
+        return _numNeutrons;
     }
     
     /**
@@ -236,8 +141,12 @@ public abstract class AtomicNucleus {
         return _diameter;
     }
     
-    private void updateDiameter(){
-        // This calculation is based on an empirically derived function that
+    /**
+     * Recalculate the diameter of this nucleus based on the number of protons
+     * and neutrons that comprise it.
+     */
+    protected void updateDiameter(){
+        // This calculation is based on an empirically derived formulat that
         // seems to give pretty reasonable values.
         _diameter = (1.6 * Math.pow( (double)getAtomicWeight(), 0.362));        
     }
@@ -252,34 +161,6 @@ public abstract class AtomicNucleus {
     
     public double getTunnelingRegionRadius(){
         return _tunnelingRegionRadius;
-    }
-    
-    public void setDynamic(boolean dynamic){
-        if ((_dynamic == true)  && (dynamic == false)){
-            // Randomize the locations of the constituent particles so that 
-            // they are not all in once place, which would look lame.
-            double nucleusRadius = getDiameter() / 2;
-            for (int i = 0; i < _constituents.size(); i++){
-                double angle = (_rand.nextDouble() * Math.PI * 2);
-                double multiplier = _rand.nextDouble();
-                if (multiplier > 0.8){
-                    // Cause the distribution to tail off in the outer regions
-                    // of the nucleus.  This makes the center of the nucleus
-                    // look more concentrated.
-                    multiplier = _rand.nextDouble() * _rand.nextDouble();
-                }
-                double radius = nucleusRadius * multiplier;
-                double xPos = Math.sin( angle ) * radius + _position.getX();
-                double yPos = Math.cos( angle ) * radius + _position.getY();
-                AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
-                constituent.setPosition( new Point2D.Double(xPos, yPos) );
-            }
-        }
-        _dynamic = dynamic;
-    }
-    
-    public boolean getDynamic(){
-        return _dynamic;
     }
     
     //------------------------------------------------------------------------
@@ -340,39 +221,6 @@ public abstract class AtomicNucleus {
             
             // Notify listeners of the position change.
             notifyPositionChanged();
-            
-            // Move the constituent particles by the velocity amount.
-            int numConstituents = _constituents.size();
-            AtomicNucleusConstituent constituent = null;
-            for (int i = 0; i < numConstituents; i++){
-                constituent = (AtomicNucleusConstituent)_constituents.get(i);
-                newPosX = constituent.getPositionReference().x + _xVelocity; 
-                newPosY = constituent.getPositionReference().y + _yVelocity;
-                constituent.setPosition( newPosX, newPosY );
-            }
-        }
-        
-        // Move the constituent particles to create the visual effect of a
-        // very dynamic nucleus.  In order to allow different levels of
-        // agitation, we don't necessarily move all particles every time.
-        if ((_agitationFactor > 0) && (_dynamic)){
-            
-            // Calculate the increment to be used for creating the agitation
-            // effect.
-            
-            int agitationIncrement = 20 - (2 * _agitationFactor);
-            assert agitationIncrement > 0;
-            
-            if (agitationIncrement <= 0){
-                agitationIncrement = 5;
-            }
-                
-            for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
-            {
-                AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
-                constituent.tunnel( _position, 0, getDiameter()/2, _tunnelingRegionRadius );
-            }
-            _agitationCount = (_agitationCount + 1) % agitationIncrement;
         }
     }
     
@@ -384,10 +232,6 @@ public abstract class AtomicNucleus {
          */
         public void clockTicked(ClockEvent clockEvent){
             handleClockTicked(clockEvent);
-        }
-        
-        public void simulationTimeReset(ClockEvent clockEvent){
-            // Ignore this reset and count on the main model to reset us.
         }
     };
     
@@ -403,13 +247,6 @@ public abstract class AtomicNucleus {
     }
 
     /**
-     * Updates the "agitation factor", which controls how agitated and dynamic
-     * the nucleus will appear to be.  This is generally called at construction
-     * or when something changes about the nucleus, such as a decay event.
-     */
-    protected abstract void updateAgitationFactor();
-    
-    /**
      * Notify all listeners that our atomic weight has changed.
      */
     protected void notifyAtomicWeightChanged(ArrayList byProducts){
@@ -418,10 +255,8 @@ public abstract class AtomicNucleus {
         updateDiameter();
         
         // Do the notification.
-        int totalNumProtons = _numFreeProtons + _numAlphas * 2;
-        int totalNumNeutrons= _numFreeNeutrons + _numAlphas * 2;
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).atomicWeightChanged( this, totalNumProtons, totalNumNeutrons, byProducts);
+            ((Listener)_listeners.get( i )).atomicWeightChanged( this, _numProtons, _numNeutrons, byProducts);
         }
     }
     
@@ -451,8 +286,6 @@ public abstract class AtomicNucleus {
          * @param byProducts - By products of the change, which may include
          * protons, neutrons, alpha particles, or daughter nuclei.  May be
          * null if no byproducts were produced.
-         * @param atomicNucleus TODO
-         * @param newParam TODO
          */
         void atomicWeightChanged(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, ArrayList byProducts);
     }

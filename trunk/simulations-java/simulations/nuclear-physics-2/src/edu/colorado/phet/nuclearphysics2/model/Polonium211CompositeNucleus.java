@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
- * This class defines the behavior of the nucleus that is used to demonstrate
- * alpha radiation behavior.
+ * This class defines the behavior of the nucleus of Polonium 211, which
+ * exhibits alpha radiation behavior.
  *
  * @author John Blanco
  */
-public class AlphaRadiationNucleus extends AtomicNucleus {
+public class Polonium211CompositeNucleus extends CompositeAtomicNucleus {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
@@ -40,7 +40,7 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
     // Constructor
     //------------------------------------------------------------------------
     
-    public AlphaRadiationNucleus(NuclearPhysics2Clock clock, Point2D position){
+    public Polonium211CompositeNucleus(NuclearPhysics2Clock clock, Point2D position){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         // Decide when alpha decay will occur.
@@ -74,6 +74,8 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
             // Add the tunneled particle back to our list.
             _constituents.add( 0, alpha );
             _numAlphas++;
+            _numNeutrons += 2;
+            _numProtons += 2;
             alpha.resetTunneling();
 
             // Update our agitation level.
@@ -109,6 +111,8 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
                     AlphaParticle tunnelingParticle = (AlphaParticle)_constituents.get( i );
                     _constituents.remove( i );
                     _numAlphas--;
+                    _numProtons -= 2;
+                    _numNeutrons -= 2;
                     tunnelingParticle.tunnelOut( _position, _tunnelingRegionRadius + 1.0 );
                     
                     // Update our agitation factor.
@@ -133,14 +137,11 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
         // particular nucleus.  This obviously doesn't handle every possible
         // nucleus, so add more if and when they are needed.
         
-        int _totalNumProtons = _numFreeProtons + (_numAlphas * 2);
-        int _totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
-        
-        switch (_totalNumProtons){
+        switch (_numProtons){
         
         case 84:
             // Polonium.
-            if (_totalNumNeutrons == 127){
+            if (_numNeutrons == 127){
                 // Polonium 211.
                 _agitationFactor = POLONIUM_211_AGITATION_FACTOR;
             }
@@ -148,12 +149,17 @@ public class AlphaRadiationNucleus extends AtomicNucleus {
             
         case 82:
             // Lead
-            if (_totalNumNeutrons == 125){
+            if (_numNeutrons == 125){
                 // Lead 207
                 _agitationFactor = LEAD_207_AGITATION_FACTOR;
             }
             break;
-
+            
+        default:
+            // If we reach this point in the code, there is a problem
+            // somewhere that should be debugged.
+            System.err.println("Error: Unexpected atomic weight in alpha radiation nucleus.");
+            assert(false);
         }        
     }
     

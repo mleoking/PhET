@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics2.model.DaughterNucleus;
+import edu.colorado.phet.nuclearphysics2.model.DaughterCompositeNucleus;
 import edu.colorado.phet.nuclearphysics2.module.fissiononenucleus.FissionOneNucleusModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -115,7 +115,7 @@ public class FissionEnergyChart extends PComposite {
     Random _rand = new Random();
     
     // Reference to the daughter nucleus that exists after fission occurs.
-    DaughterNucleus _daughterNucleus;
+    DaughterCompositeNucleus _daughterNucleus;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -152,8 +152,8 @@ public class FissionEnergyChart extends PComposite {
                     ArrayList byProducts){
                 if (byProducts != null){
                     for (int i = 0; i < byProducts.size(); i++){
-                        if (byProducts.get( i ) instanceof DaughterNucleus){
-                            _daughterNucleus = (DaughterNucleus)byProducts.get(i);
+                        if (byProducts.get( i ) instanceof DaughterCompositeNucleus){
+                            _daughterNucleus = (DaughterCompositeNucleus)byProducts.get(i);
                         }
                     }
                     assert _daughterNucleus != null;

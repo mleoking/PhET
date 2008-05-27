@@ -3,34 +3,28 @@
 package edu.colorado.phet.nuclearphysics2.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 
 public class Uranium238Nucleus extends AtomicNucleus {
     //------------------------------------------------------------------------
-    // Class data
+    // Class Data
     //------------------------------------------------------------------------
 
     // Number of neutrons and protons in the nucleus upon construction.  The
     // values below are for Uranium-238.
     public static final int ORIGINAL_NUM_PROTONS = 92;
     public static final int ORIGINAL_NUM_NEUTRONS = 146;
-
-    // The "agitation factor" for the various types of nucleus.  The amount of
-    // agitation controls how dynamic the nucleus looks on the canvas.  Values
-    // must be in the range 0-9.
-    private static final int URANIUM_238_AGITATION_FACTOR = 6;
-    private static final int URANIUM_239_AGITATION_FACTOR = 6;
     
     //------------------------------------------------------------------------
-    // Instance data
+    // Instance Data
     //------------------------------------------------------------------------
 
     //------------------------------------------------------------------------
-    // Constructor
+    // Constructor(s)
     //------------------------------------------------------------------------
     
     public Uranium238Nucleus(NuclearPhysics2Clock clock, Point2D position){
+
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
     }
     
@@ -39,7 +33,9 @@ public class Uranium238Nucleus extends AtomicNucleus {
     //------------------------------------------------------------------------
     
     /**
-     * Capture a free particle if the nucleus is able to.
+     * Returns true if the particle can be captured by this nucleus, false if
+     * not.  Note that the particle itself is unaffected, and it is up to the
+     * caller to remove the captured particle from the model if desired.
      * 
      * @param freeParticle - The free particle that could potentially be
      * captured.
@@ -48,99 +44,43 @@ public class Uranium238Nucleus extends AtomicNucleus {
     public boolean captureParticle(Nucleon freeParticle){
 
         boolean retval = false;
-
-        if (_position.distance( freeParticle.getPositionReference() ) <= getDiameter() / 2){
+        
+        if ((freeParticle instanceof Neutron) && (_numNeutrons == ORIGINAL_NUM_NEUTRONS)){
             
-            int totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
-            if (totalNumNeutrons == ORIGINAL_NUM_NEUTRONS){
-                // We can capture this neutron.
-                freeParticle.setPosition( _position );
-                if (_dynamic == true){
-                    freeParticle.setTunnelingEnabled( true );
-                }
-                freeParticle.setVelocity( _xVelocity, _yVelocity );
-                _constituents.add( freeParticle );
-                _numFreeNeutrons++;
-                updateAgitationFactor();
-    
-                // Let the listeners know that the atomic weight has changed.
-                notifyAtomicWeightChanged(null);
-                
-                // Indicate that the nucleus was captured.
-                retval = true;
-            }
+            // Increase our neutron count.
+            _numNeutrons++;
+            
+            // Let the listeners know that the atomic weight has changed.
+            notifyAtomicWeightChanged(null);
+            
+            // Indicate that the nucleus was captured.
+            retval = true;
         }
         
         return retval;
     }
     
     /**
-     * Resets the nucleus to its original state, before any fission has
+     * Resets the nucleus to its original state, before any neutron absorption has
      * occurred.
      */
-    public void reset(ArrayList freeNeutrons){
+    public void reset(){
         
         // Set acceleration, velocity, and position back to 0.
-        setPosition( _origPosition );
+        setPosition( new Point2D.Double(0, 0) );
         setVelocity( 0, 0 );
         setAcceleration( 0, 0 );
         
-        int totalNumNeutrons = _numFreeNeutrons + _numAlphas * 2;
-        
-        if (totalNumNeutrons == ORIGINAL_NUM_NEUTRONS + 1){
-            // We absorbed a neutron, so we need to release it to get back to
-            // our original state.
-            for (int i = _constituents.size(); i >= 0; i++){
-                if (_constituents.get( i ) instanceof Neutron){
-                    // This one will do.
-                    freeNeutrons.add( _constituents.get(i) );
-                    _constituents.remove(i);
-                    _numFreeNeutrons--;
-                    break;
-                }
-            }
-        }
-        
-        // Update our agitation level.
-        updateAgitationFactor();
-        
-        // Notify all listeners of the potential position change.
-        notifyPositionChanged();        
-        
-        // Notify all listeners of the change to our atomic weight.
-        notifyAtomicWeightChanged(null);
-    }
-    
-    //------------------------------------------------------------------------
-    // Private and Protected Methods
-    //------------------------------------------------------------------------
-    
-    protected void updateAgitationFactor() {
-        
-        // Determine the amount of agitation that should be exhibited by this
-        // particular nucleus.  This obviously doesn't handle every possible
-        // nucleus, so add more if and when they are needed.
-        
-        int _totalNumProtons = _numFreeProtons + (_numAlphas * 2);
-        int _totalNumNeutrons = _numFreeNeutrons + (_numAlphas * 2);
-        
-        switch (_totalNumProtons){
-        
-        case 92:
-            // Uranium.
-            if (_totalNumNeutrons == 146){
-                // Uranium 238.
-                _agitationFactor = URANIUM_238_AGITATION_FACTOR;
-            }
-            else if (_totalNumNeutrons == 147){
-                // Uranium 236.
-                _agitationFactor = URANIUM_239_AGITATION_FACTOR;
-            }
-            break;
+        if ((_numNeutrons != ORIGINAL_NUM_NEUTRONS) || (_numProtons != ORIGINAL_NUM_PROTONS)){
+            // Fission or absorption has occurred.
+            _numNeutrons = ORIGINAL_NUM_NEUTRONS;
+            _numProtons = ORIGINAL_NUM_PROTONS;
             
-        default:
-            _agitationFactor = DEFAULT_AGITATION_FACTOR;
-            break;
-        }        
+            // Notify all listeners of the change to our atomic weight.
+            notifyAtomicWeightChanged(null);
+        }
+
+        // Notify all listeners of the potential position change.
+        notifyPositionChanged();
     }
 }

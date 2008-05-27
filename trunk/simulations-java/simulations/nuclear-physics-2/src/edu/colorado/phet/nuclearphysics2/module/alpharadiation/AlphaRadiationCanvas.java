@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics2.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Proton;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
@@ -87,7 +87,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         
         // Get the nucleus from the model and then get the constituents
         // and create a visible node for each.
-        AtomicNucleus atomicNucleus = alphaRadiationModel.getAtomNucleus();
+        CompositeAtomicNucleus atomicNucleus = alphaRadiationModel.getAtomNucleus();
         ArrayList nucleusConstituents = atomicNucleus.getConstituents();
         
         // Create a parent node where we will display the nucleus.  This is
