@@ -6,14 +6,14 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments (dropped?)
 
 HIGH PRIORITY:
-- visual representation of snowfall
-- increase zoom on vertical axis by 2x
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
+- increase zoom on vertical axis by 2x
 - switch user-interface between English and metric units
 - glacier advances too fast, get model fix from Archie [550]
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate
 - combine "snowfall" and "snowfall reference elevation" into 1 slider (?)
 - add yaw to fake 3D perspective (terminus, ELA, etc) 
+- visual representation of snowfall
 
 MEDIUM PRIORITY:
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
