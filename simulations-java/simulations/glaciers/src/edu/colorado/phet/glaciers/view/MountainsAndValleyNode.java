@@ -13,6 +13,18 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
  * MountainsNode is a background image of the mountains and valley.
  * This image was created for a specific valley profile, as described
  * by the Valley class.
+ * <p>
+ * HOW TO ALIGN THE IMAGE:
+ * The original SVG image file (glaciers/assets/mountains.svg) contains small
+ * red rings that mark these positions on the valley floor: F(0), F(10000) and F(70000).
+ * Create a PNG file with these rings visible, and put it in data/glaciers/images/mountains.png.
+ * Open the PNG file in Photoshop (or other similar program), note the exact locations
+ * of the F(0) and F(70000) markers in the file, and set constants F_O and F_70000 to those values.
+ * <p>
+ * TO VERIFY ALIGNMENT:
+ * In the PlayArea, set DEBUG_BACKGROUND_IMAGE_ALIGNMENT=true to draw blue circles
+ * to these same locations. The image is properly aligned when the blue circles
+ * fall inside the red rings.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -30,41 +42,23 @@ public class MountainsAndValleyNode extends PImage {
         setPickable( false );
         setChildrenPickable( false );
         
-        /*
-         * ABOUT THIS HACK:
-         * The artist was unable to tell me what scale was used to create the image, 
-         * or where the origin was relative to the upper-left corner of the image.
-         * And there are other scaling factor (eg, ModelViewTransform, camera transforms)
-         * that make computation of the proper alignment difficult.  And the image 
-         * kept changing.  So after much fiddling, I found that it was easier to 
-         * simply align this image via trail-&-error.
-         * 
-         * HOW TO ALIGN THE IMAGE:
-         * The original SVG image file (glaciers/assets/mountains.svg) contains small
-         * red rings that mark these positions on the valley floor: F(0), F(10000) and F(70000).
-         * Create a PNG file with these rings visible, and put it in data/glaciers/images/mountains.png.
-         * In the PlayArea, set DEBUG_BACKGROUND_IMAGE_ALIGNMENT=true to draw blue circles
-         * to these same locations. The image is properly aligned when the blue circles
-         * fall inside the red rings.
-         */
-        
+        // x scale
         final double viewDistanceX = mvt.modelToView( 70000, 0 ).getX();
         final double imageDistanceX = ( F_70000.getX() - F_0.getX() );
         final double scaleX = viewDistanceX / imageDistanceX;
         
+        // y scale
         final double viewDistanceY = mvt.modelToView( 0, valley.getElevation( 70000 ) - valley.getElevation( 0 ) ).getY();
         final double imageDistanceY = ( F_70000.getY() - F_0.getY() );
         final double scaleY = viewDistanceY / imageDistanceY;
-        System.out.println( "scaleX=" + scaleX + " scaleY=" + scaleY );//XXX
         
+        // x & y offset
         final double offsetX = -F_0.getX();
         final double offsetY = ( mvt.modelToView( 0, valley.getElevation( 0 ) ).getY() / scaleY ) - F_0.getY();
-        System.out.println( "viewUpperLeftX=" + offsetX + " viewUpperLeftY=" + offsetY );//XXX
 
         PAffineTransform transform = getTransformReference( true );
         transform.scale( scaleX, scaleY );
         transform.translate( offsetX, offsetY );
-//        System.out.println( "fullBounds=" + getFullBoundsReference() );//XXX
     }
     
     /**
