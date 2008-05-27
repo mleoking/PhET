@@ -192,6 +192,7 @@ public class Glacier extends ClockAdapter {
     
     /**
      * Gets a reference to the terminus position.
+     * If the glacier has zero length, this is the same as the headwall position.
      * 
      * @return
      */
