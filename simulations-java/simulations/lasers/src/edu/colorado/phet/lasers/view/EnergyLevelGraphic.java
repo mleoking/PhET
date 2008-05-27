@@ -190,24 +190,24 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
     }
 
     /**
-     * Inner class that handles translation of the graphic
+     * Handles translation of the graphic
      */
     private class EnergyLevelTranslator implements TranslationListener {
 
         public void translationOccurred( TranslationEvent translationEvent ) {
             int dy = translationEvent.getDy();
             double energyChange = energyYTx.viewToModelDifferential( dy );
+
             // Don't let one level get closer than a certain number of pixels to the one above or below
             double minEnergyDifference = energyYTx.viewToModelDifferential( -minPixelsBetweenLevels );
             final double upperBound = atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference;
             final double lowerBound = atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference;
             final double desiredValue = atomicState.getEnergyLevel() + energyChange;
             double newEnergy = MathUtil.clamp( lowerBound, desiredValue, upperBound );
-//            double newEnergy= desiredValue;
-//            double newEnergy = Math.max( Math.min( upperBound, desiredValue ), lowerBound );
 
-            //todo: Commented out by Sam Reid on 3-7-2008: what was the point of this line?
-//            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy );
+            //prevent the energy level from being dragged off the top of the page
+            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy );
+            
             setEnergy( newEnergy );
         }
 
