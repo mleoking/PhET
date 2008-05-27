@@ -8,6 +8,7 @@ DESIGN ISSUES (user interface):
 HIGH PRIORITY:
 - visual representation of snowfall
 - increase zoom on vertical axis by 2x
+- BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
 - switch user-interface between English and metric units
 - glacier advances too fast, get model fix from Archie [550]
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate
