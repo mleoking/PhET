@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -19,24 +19,35 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class CalorieDragStrip extends PNode {
     private static Random random = new Random();
+    private ArrayList listeners = new ArrayList();
 
     public CalorieDragStrip( final CalorieSet available ) {
         ArrayList nodes = new ArrayList();
         for ( int i = 0; i < 5; i++ ) {
             final PNode node = createNode( available.getItem( i ) );
             final int i1 = i;
-            node.addInputEventListener( new PBasicInputEventHandler() {
-                private PNode createdNode = null;
+            node.addInputEventListener( new PDragSequenceEventHandler() {
+                DragNode createdNode = null;
+//                private PNode createdNode = null;
 
-                public void mouseDragged( PInputEvent event ) {
-                    if ( createdNode == null ) {
-                        createdNode = createNode( available.getItem( i1 ) );
-                        createdNode.setOffset( node.getOffset() );
-                        addChild( createdNode );
-                    }
-                    createdNode.translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
+                protected void startDrag( PInputEvent e ) {
+                    super.startDrag( e );
+                    createdNode = createNode( available.getItem( i1 ) );
+                    createdNode.getPNode().setOffset( node.getOffset() );
+                    addChild( createdNode.getPNode() );
+                }
+
+                protected void drag( PInputEvent event ) {
+                    super.drag( event );
+                    createdNode.getPNode().translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
+                }
+
+                protected void endDrag( PInputEvent e ) {
+                    super.endDrag( e );
+                    notifyDropped( createdNode );
                 }
             } );
+
             nodes.add( node );
         }
         for ( int i = 1; i < nodes.size(); i++ ) {
@@ -50,13 +61,50 @@ public class CalorieDragStrip extends PNode {
         }
     }
 
-    private PNode createNode( CaloricItem item ) {
+    private static class DefaultDragNode extends PNode implements DragNode {
+        private CaloricItem item;
+
+        public DefaultDragNode( PNode node, CaloricItem item ) {
+            this.item = item;
+            addChild( node );
+        }
+
+        public PNode getPNode() {
+            return this;
+        }
+
+        public CaloricItem getItem() {
+            return item;
+        }
+    }
+
+    private DefaultDragNode createNode( CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
-            return new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), 30 ) );
+            return new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), 30 ) ), item );
         }
         else {
             final Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
-            return new PhetPPath( new Rectangle( 0, 0, 10, 10 ), color );
+            return new DefaultDragNode( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), color ), item );
+        }
+    }
+
+    public static interface DragNode {
+        PNode getPNode();
+
+        CaloricItem getItem();
+    }
+
+    public static interface Listener {
+        void nodeDropped( DragNode node );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyDropped( DragNode createdNode ) {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).nodeDropped( createdNode );
         }
     }
 }
