@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.glaciers.model.Glacier;
+import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -112,7 +113,7 @@ public class EquilibriumLineNode extends PhetPNode {
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 
                 // draw a vertical line across the surface of the ice
-                _pModel.setLocation( surfaceAtSteadyStateELA.getX(), ela + MountainsAndValleyNode.getPerspectiveHeight() );
+                _pModel.setLocation( surfaceAtSteadyStateELA.getX(), ela + Valley.getPerspectiveHeight() );
                 _mvt.modelToView( _pModel, _pView );
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
@@ -126,7 +127,7 @@ public class EquilibriumLineNode extends PhetPNode {
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 
                 // draw a vertical line across the valley floor
-                _pModel.setLocation( x, ela + MountainsAndValleyNode.getPerspectiveHeight() );
+                _pModel.setLocation( x, ela + Valley.getPerspectiveHeight() );
                 _mvt.modelToView( _pModel, _pView );
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }

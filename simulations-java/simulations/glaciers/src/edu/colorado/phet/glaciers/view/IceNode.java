@@ -7,6 +7,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.model.Glacier;
+import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -104,7 +105,7 @@ public class IceNode extends PComposite {
             final double xHeadwall = _glacier.getHeadwallX();
             final double xTerminus = _glacier.getTerminusX();
             final Point2D surfaceAtELA = _glacier.getSurfaceAtSteadyStateELAReference();
-            final double perspectiveHeight = MountainsAndValleyNode.getPerspectiveHeight();
+            final double perspectiveHeight = Valley.getPerspectiveHeight();
             
             // variables
             double elevation = 0;

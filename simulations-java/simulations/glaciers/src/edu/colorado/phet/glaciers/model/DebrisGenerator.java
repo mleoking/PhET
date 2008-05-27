@@ -56,8 +56,8 @@ public class DebrisGenerator {
             double z = 0; // in the cross-section
             if ( _count % DEBRIS_CROSS_SECTION_RATIO != 0 ) {
                 // not in the cross-section
-                final double valleyWidth = MountainsAndValleyNode.getPerspectiveHeight();
-                z = _randomDebrisZ.nextDouble() * valleyWidth;
+                final double perspectiveHeight = Valley.getPerspectiveHeight();
+                z = _randomDebrisZ.nextDouble() * perspectiveHeight;
             }
             pOutput.setLocation( x, y, z );
             
