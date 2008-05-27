@@ -58,6 +58,11 @@ public class ChainReactionModel {
     private static final double INITIAL_DAUGHTER_NUCLEUS_VELOCITY = 0;
     private static final double DAUGHTER_NUCLEUS_ACCELERATION = 0.2;
     
+    // Constants for impact of collisions with containment vessel, arbitrary
+    // values empirically determined.
+    private static final double NEUTRON_COLLISION_IMPACT = 1;
+    private static final double NUCLEUS_COLLISION_IMPACT = 10;
+    
     // Constants for convenience and optimization.
     private static final Vector2D ZERO_ACCELERATION = new Vector2D.Double(0, 0);
     private static final double INITIAL_NEUTRON_SOURCE_ANGLE = -0.07;
@@ -489,7 +494,7 @@ public class ChainReactionModel {
                      _containmentVessel.isPositionContained( freeNucleon.getPositionReference() )){
                 // This particle is contained by the containment vessel, so we
                 // remove it from the model, since it is no longer significant.
-                _containmentVessel.recordImpact();
+                _containmentVessel.recordImpact(NEUTRON_COLLISION_IMPACT);
                 _freeNeutrons.remove( i );
                 notifyModelElementRemoved( freeNucleon );
             }
@@ -569,7 +574,7 @@ public class ChainReactionModel {
                 nuke.setVelocity( 0, 0 );
                 nuke.setPosition( _containmentVessel.getNearestContainmentPoint( nuke.getPositionReference() ));
                 _containedElements.add( nuke );
-                _containmentVessel.recordImpact();
+                _containmentVessel.recordImpact(NUCLEUS_COLLISION_IMPACT);
                 if (_containmentVessel.getIsExploded()){
                     // The last impacted caused the vessel to explode, so stop
                     // checking if nuclei are contained.
