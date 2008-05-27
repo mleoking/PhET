@@ -57,7 +57,7 @@ public class Debris extends ClockAdapter {
         _glacier.removeGlacierListener( _glacierListener );
     }
     
-    private void deleteSelf() {
+    public void deleteSelf() {
         if ( !_deletedSelf ) {
             _deletedSelf = true;
             notifyDeleteMe();
@@ -70,6 +70,13 @@ public class Debris extends ClockAdapter {
     
     public boolean isOnValleyFloor() {
         return _onValleyFloor;
+    }
+    
+    private void setOnValleyFloor( boolean b ) {
+        if ( b != _onValleyFloor ) {
+            _onValleyFloor = b;
+            notifyOnValleyFloorChanged();
+        }
     }
     
     private void setPosition( double x, double y, double z ) {
@@ -125,7 +132,7 @@ public class Debris extends ClockAdapter {
     
     public void clockTicked( ClockEvent clockEvent ) {
 
-        if ( !_deletedSelf && !_onValleyFloor ) {
+        if ( !_onValleyFloor && !_deletedSelf ) {
             
             // distance = velocity * dt
             Vector2D velocity = _glacier.getIceVelocity( getX(), getY() );
@@ -133,8 +140,8 @@ public class Debris extends ClockAdapter {
             double newX = getX() + ( velocity.getX() * dt );
             double newY = getY() + ( velocity.getY() * dt );
 
-            // constrain x to 1 meter beyond the terminus
-            final double maxX = _glacier.getTerminusX() + 1;
+            // constrain x to the terminus
+            final double maxX = _glacier.getTerminusX();
             if ( getX() < maxX && newX > maxX ) {
                 newX = maxX;
             }
@@ -150,7 +157,7 @@ public class Debris extends ClockAdapter {
             
             // are we on the valley floor?
             if ( newY == _glacier.getValley().getElevation( newX ) ) {
-                _onValleyFloor = true;
+                setOnValleyFloor( true );
             }
 
             setPosition( newX, newY, newZ );
@@ -163,11 +170,13 @@ public class Debris extends ClockAdapter {
     
     public interface DebrisListener {
         public void positionChanged();
+        public void onValleyFloorChanged( Debris debris );
         public void deleteMe( Debris debris );
     }
     
     public static class DebrisAdapter implements DebrisListener {
         public void positionChanged() {}
+        public void onValleyFloorChanged( Debris debris ) {};
         public void deleteMe( Debris debris ){}
     }
     
@@ -183,6 +192,14 @@ public class Debris extends ClockAdapter {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (DebrisListener) i.next() ).positionChanged();
+        }
+    }
+    
+    private void notifyOnValleyFloorChanged() {
+        ArrayList listenersCopy = new ArrayList( _listeners );
+        Iterator i = listenersCopy.iterator(); // iterate on a copy to avoid ConcurrentModificationException
+        while ( i.hasNext() ) {
+            ( (DebrisListener) i.next() ).onValleyFloorChanged( this );
         }
     }
     
