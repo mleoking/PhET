@@ -22,8 +22,8 @@ public class MountainsAndValleyNode extends PImage {
     private static final double PERSPECTIVE_HEIGHT = 250; // meters
     
     // These are absolute x,y coordinates of the markers in the image file
-    private static final Point2D F_0 = new Point2D.Double( 312, 122 );
-    private static final Point2D F_70000 = new Point2D.Double( 5252, 323 );
+    private static final Point2D F_0 = new Point2D.Double( 312, 122 );   // marker at x=0, y=F(0)
+    private static final Point2D F_70000 = new Point2D.Double( 5252, 323 ); // marker at x=70000, y=F(70000)
     
     public MountainsAndValleyNode( Valley valley, ModelViewTransform mvt ) {
         super( GlaciersImages.MOUNTAINS );
@@ -57,11 +57,14 @@ public class MountainsAndValleyNode extends PImage {
         final double scaleY = viewDistanceY / imageDistanceY;
         System.out.println( "scaleX=" + scaleX + " scaleY=" + scaleY );//XXX
         
+        final double offsetX = -F_0.getX();
+        final double offsetY = ( mvt.modelToView( 0, valley.getElevation( 0 ) ).getY() / scaleY ) - F_0.getY();
+        System.out.println( "viewUpperLeftX=" + offsetX + " viewUpperLeftY=" + offsetY );//XXX
+
         PAffineTransform transform = getTransformReference( true );
         transform.scale( scaleX, scaleY );
-        Point2D offset = mvt.modelToView( -5044, 4400 );
-        System.out.println( "offset=" + offset );//XXX
-        transform.translate( offset.getX(), offset.getY() );
+        transform.translate( offsetX, offsetY );
+//        System.out.println( "fullBounds=" + getFullBoundsReference() );//XXX
     }
     
     /**
