@@ -31,7 +31,11 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean ENABLE_DEBUG_OUTPUT = true;
+    private static final boolean ENABLE_TOOL_DEBUG_OUTPUT = false;
+    private static final boolean ENABLE_BOREHOLE_DEBUG_OUTPUT = false;
+    private static final boolean ENABLE_DEBRIS_DEBUG_OUTPUT = false;
+    private static final boolean ENABLE_RIPPLE_DEBUG_OUTPUT = false;
+    
     private static final double YEARS_PER_DEBRIS_GENERATED = 1; // debris is generated this many years apart
     private static final double YEARS_PER_RIPPLE_GENERATED = 35; // ripples are generated this many years apart
 
@@ -51,6 +55,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     private final ArrayList _boreholes; // list of Borehole
     private final ArrayList _boreholeProducerListeners; // list of BoreholeProducerListener
     
+    private final EndMoraine _endMoraine;
     private final ArrayList _debris; // list of Debris
     private final ArrayList _debrisProducerListeners; // list of DebrisProducerListener
     private final DebrisListener _debrisSelfDeletionListener;
@@ -81,6 +86,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         _boreholes = new ArrayList();
         _boreholeProducerListeners = new ArrayList();
         
+        _endMoraine = new EndMoraine( glacier );
         _debris = new ArrayList();
         _debrisProducerListeners = new ArrayList();
         _debrisGenerator = new DebrisGenerator( glacier );
@@ -112,10 +118,17 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
             }
         };
         
-        // debris deletes themselves
+        // debris deletes themselves & pile up on valley floor to form an end moranine
         _debrisSelfDeletionListener = new DebrisAdapter() {
+
             public void deleteMe( Debris debris ) {
                 removeDebris( debris );
+            }
+            
+            public void onValleyFloorChanged( Debris debris ) {
+                if ( debris.isOnValleyFloor() ) {
+                    _endMoraine.addDebris( debris );
+                }
             }
         };
         
@@ -204,7 +217,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     }
     
     private void addTool( AbstractTool tool ) {
-        if ( ENABLE_DEBUG_OUTPUT ) {
+        if ( ENABLE_TOOL_DEBUG_OUTPUT ) {
             System.out.println( "AbstractModel.addTool " + tool.getClass().getName() );
         }
         if ( _tools.contains( tool ) ) {
@@ -217,7 +230,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     }
     
     public void removeTool( AbstractTool tool ) {
-        if ( ENABLE_DEBUG_OUTPUT ) {
+        if ( ENABLE_TOOL_DEBUG_OUTPUT ) {
             System.out.println( "AbstractModel.removeTool " + tool.getClass().getName() );
         }
         if ( !_tools.contains( tool ) ) {
@@ -260,7 +273,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     //----------------------------------------------------------------------------
     
     public Borehole addBorehole( Point2D position ) {
-        if ( ENABLE_DEBUG_OUTPUT ) {
+        if ( ENABLE_BOREHOLE_DEBUG_OUTPUT ) {
             System.out.println( "AbstractModel.addBorehole" );
         }
         Borehole borehole = new Borehole( _glacier, position );
@@ -272,7 +285,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     }
     
     public void removeBorehole( Borehole borehole ) {
-        if ( ENABLE_DEBUG_OUTPUT ) {
+        if ( ENABLE_BOREHOLE_DEBUG_OUTPUT ) {
             System.out.println( "AbstractModel.removeBorehole" );
         }
         if ( !_boreholes.contains( borehole ) ) {
@@ -320,6 +333,9 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     //----------------------------------------------------------------------------
     
     public Debris addDebris( Point3D position ) {
+        if ( ENABLE_DEBRIS_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.addDebris" );
+        }
         Debris debris = new Debris( position, _glacier );
         debris.addDebrisListener( _debrisSelfDeletionListener );
         _debris.add( debris );
@@ -329,6 +345,9 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     }
     
     public void removeDebris( Debris debris ) {
+        if ( ENABLE_DEBRIS_DEBUG_OUTPUT ) {
+            System.out.println( "AbstractModel.removeDebris" );
+        }
         if ( !_debris.contains( debris ) ) {
             throw new IllegalStateException( "attempted to remove debris that doesn't exist" );
         }
@@ -345,6 +364,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         while ( i.hasNext() ) {
             removeDebris( (Debris) i.next() );
         }
+        _endMoraine.removeAllDebris();
     }
     
     public void addDebrisProducerListener( IDebrisProducerListener listener ) {
@@ -385,7 +405,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     //----------------------------------------------------------------------------
     
     public IceSurfaceRipple addIceSurfaceRipple( double x ) {
-        if ( ENABLE_DEBUG_OUTPUT ) {
+        if ( ENABLE_RIPPLE_DEBUG_OUTPUT ) {
             System.out.println( "AbstractModel.addIceSurfaceRipple " + x );
         }
         IceSurfaceRipple ripple = new IceSurfaceRipple( x, _glacier );
@@ -397,7 +417,7 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     }
     
     public void removeIceSurfaceRipple( IceSurfaceRipple ripple ) {
-        if ( ENABLE_DEBUG_OUTPUT ) {
+        if ( ENABLE_RIPPLE_DEBUG_OUTPUT ) {
             System.out.println( "AbstractModel.removeIceSurfaceRipple " );
         }
         if ( !_ripples.contains( ripple ) ) {
