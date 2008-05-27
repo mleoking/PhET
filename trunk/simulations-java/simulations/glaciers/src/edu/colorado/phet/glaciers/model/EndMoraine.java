@@ -27,7 +27,7 @@ public class EndMoraine {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_OUTPUT_PRUNING = true;
+    private static final boolean DEBUG_OUTPUT_PRUNING = false;
     
     private static final double Z_OVERLAP_THRESHOLD = 1; // meters, see overlaps()
     private static final double MORAINE_LENGTH = 10; // meters
