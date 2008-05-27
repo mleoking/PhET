@@ -23,7 +23,7 @@ public class ContainmentVessel {
     private static final double APERTURE_HEIGHT = 18;    // In femtometers.
     private static final double APERTURE_WIDTH = CONTAINMENT_RANGE * 2.0;  // In femtometers.
     private static final double MINIMUM_RADIUS = 15;
-    private static final int    CONTAINMENT_EXPLOSION_THRESHOLD = 200;
+    private static final double CONTAINMENT_EXPLOSION_THRESHOLD = 400;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -43,7 +43,7 @@ public class ContainmentVessel {
     ArrayList _listeners;
     
     // Number of impacts that have occurred, used to decide whether to explode.
-    int _totalImpacts;
+    int _cumulativeImpactAmount;
     
     // State variable that tracks if explosion has occurred.
     boolean _exploded;
@@ -104,7 +104,7 @@ public class ContainmentVessel {
         setRadius( _originalRadius );
         setIsEnabled( false );
         _exploded = false;
-        _totalImpacts = 0;
+        _cumulativeImpactAmount = 0;
         notifiyResetOccurred();
     }
     
@@ -153,11 +153,11 @@ public class ContainmentVessel {
      * Records the impact of a nucleus or nucleon with the containment vessel.
      * If enough impacts occur, the containment vessel explodes.
      */
-    public void recordImpact(){
+    public void recordImpact(double impact){
         
-        _totalImpacts++;
+        _cumulativeImpactAmount += impact;
         
-        if (!_exploded && (_totalImpacts > CONTAINMENT_EXPLOSION_THRESHOLD)){
+        if (!_exploded && (_cumulativeImpactAmount > CONTAINMENT_EXPLOSION_THRESHOLD)){
             explode();
         }
     }
