@@ -56,7 +56,16 @@ public class CalorieNode extends PNode {
         plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( "platter.png" ), 40 ) );
         addChild( plateImage );
 
-        CalorieDragStrip calorieDragStrip=new CalorieDragStrip(available);
+        CalorieDragStrip calorieDragStrip = new CalorieDragStrip( available );
+        calorieDragStrip.addListener( new CalorieDragStrip.Listener() {
+            public void nodeDropped( CalorieDragStrip.DragNode droppedNode ) {
+                System.out.println( "CalorieNode.nodeDropped" );
+                if ( plateImage.getGlobalFullBounds().intersects( droppedNode.getPNode().getGlobalFullBounds() ) ) {
+                    System.out.println( "intersects" );
+                    calorieSet.addItem( droppedNode.getItem() );
+                }
+            }
+        } );
         addChild( calorieDragStrip );
 
         SummaryNode summaryNode = new SummaryNode( calorieSet );
