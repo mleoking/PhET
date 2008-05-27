@@ -180,7 +180,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                                                              xLoc,
                                                              levelLineLength - levelLineOriginX,
                                                              isAdjustable,
-                                                             levelLineOriginX + levelLineLength - 25 );
+                                                             levelLineOriginX + levelLineLength - 25,true );
             addGraphic( elg, LEVEL_GRAPHIC_LEVEL );
             levelGraphics[i] = elg;
 
