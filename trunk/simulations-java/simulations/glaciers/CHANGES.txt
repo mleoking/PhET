@@ -77,6 +77,7 @@ CLEANUP:
 
 
 DONE:
+5/27/08 - calculate scale of background image based on location of markers in image file
 5/27/08 - add EndMoraine to model, prunes debris to prevent infinite accumulation in steady state
 5/27/08 - extend debris listener interface to include notification of when debris hits the valley floor
 5/27/08 - modify debris motion model so that x value is constrained to the glacier's terminus
