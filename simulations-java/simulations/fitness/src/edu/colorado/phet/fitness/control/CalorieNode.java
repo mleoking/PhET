@@ -61,11 +61,12 @@ public class CalorieNode extends PNode {
 //        plateTopSummaryNode.setOffset( 0, editButton.getFullBounds().getMaxY() );
         addChild( plateTopSummaryNode );
 
-        CalorieDragStrip calorieDragStrip = new CalorieDragStrip( available );
+        final CalorieDragStrip calorieDragStrip = new CalorieDragStrip( available );
         calorieDragStrip.addListener( new CalorieDragStrip.Listener() {
             public void nodeDropped( CalorieDragStrip.DragNode droppedNode ) {
                 if ( plateImage.getGlobalFullBounds().intersects( droppedNode.getPNode().getGlobalFullBounds() ) ) {
                     calorieSet.addItem( droppedNode.getItem() );
+                    calorieDragStrip.removeChild( droppedNode.getPNode() );
                 }
             }
         } );

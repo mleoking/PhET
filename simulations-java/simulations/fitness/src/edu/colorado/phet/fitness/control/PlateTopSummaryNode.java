@@ -2,6 +2,8 @@ package edu.colorado.phet.fitness.control;
 
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Created by: Sam
@@ -38,18 +40,23 @@ public class PlateTopSummaryNode extends PNode {
         relayout();
     }
 
-    public void addItem( CaloricItem item ) {
+    public void addItem( final CaloricItem item ) {
         SummaryItemNode summaryItemNode = new SummaryItemNode( item, 1 );
+        summaryItemNode.addInputEventListener( new PBasicInputEventHandler(){
+            public void mousePressed( PInputEvent event ) {
+                calorieSet.removeItem( item );
+            }
+        } );
         layer.addChild( summaryItemNode );
         relayout();
     }
 
     public void relayout() {
         if ( layer.getChildrenCount() > 0 ) {
-            layer.getChild( 0 ).setOffset( plate.getFullBounds().getX(), plate.getFullBounds().getY()-layer.getChild( 0 ).getFullBounds().getHeight());
+            layer.getChild( 0 ).setOffset( plate.getFullBounds().getX(), plate.getFullBounds().getY() - layer.getChild( 0 ).getFullBounds().getHeight() );
             for ( int i = 1; i < layer.getChildrenCount(); i++ ) {
                 PNode prevNode = layer.getChild( i - 1 );
-                layer.getChild( i ).setOffset( prevNode.getOffset().getX(), prevNode.getFullBounds().getMinY()-layer.getChild( i ).getFullBounds().getHeight());
+                layer.getChild( i ).setOffset( prevNode.getOffset().getX(), prevNode.getFullBounds().getMinY() - layer.getChild( i ).getFullBounds().getHeight() );
             }
         }
 
