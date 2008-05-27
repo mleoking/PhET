@@ -69,6 +69,10 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
                 DecimalFormat formatter = new DecimalFormat( "##0.00" );
                 _percentFissioned.setText( new String (formatter.format(percentU235Fissioned) + "%" ));
             }
+            public void reactiveNucleiNumberChanged(){
+                _u235AmountControl.setValue( _model.getNumU235Nuclei() );
+                _u238AmountControl.setValue( _model.getNumU238Nuclei() );
+            }
         });
         
         // Add the border around the sub panel.
@@ -117,7 +121,8 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
             public void stateChanged( ChangeEvent e ) {
                 if (_ignoreStateChanges == false){
                     int num = _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
-                    _u235AmountControl.setValue( (double )num );
+                    // JPB TBD.
+//                    _u235AmountControl.setValue( (double )num );
                 }
             }
         });        
@@ -161,7 +166,8 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
             public void stateChanged( ChangeEvent e ) {
                 if (_ignoreStateChanges == false){
                     int num = _model.setNumU238Nuclei( (int)Math.round(_u238AmountControl.getValue()) );
-                    _u238AmountControl.setValue( (double )num );
+                    // JPB TBD
+//                    _u238AmountControl.setValue( (double )num );
                 }
             }
         } );
