@@ -92,4 +92,8 @@ public abstract class Point3D {
         }
         return super.equals( obj );
     }
+    
+    public String toString() {
+        return ( getClass().getName() + "[x=" + getX() + ",y=" + getY() + ",z=" + getZ() + "]" );
+    }
 }
