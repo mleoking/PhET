@@ -120,6 +120,7 @@ public class ThermometerNode extends AbstractToolNode {
             super();
             PImage imageNode = new PImage( GlaciersImages.THERMOMETER );
             addChild( imageNode );
+//            addChild( new ThermometerGlassNode( new PDimension( 20, 80 ) ) );
         }
     }
     
