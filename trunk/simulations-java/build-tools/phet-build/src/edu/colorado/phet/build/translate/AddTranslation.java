@@ -122,9 +122,13 @@ public class AddTranslation {
 
                     /**
                      * Quick question:
-//                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
+//                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache-all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
 
                     todo: Does the 2nd "cache-clear-all.php" need to change?
+
+                    Dano's version:
+                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache-all", new File( getTempProjectDir( phetProject ), "cache-clear.php?cache-all" ) );
+
                      */
 
 //                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
