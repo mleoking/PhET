@@ -92,7 +92,7 @@ public abstract class AbstractToolNode extends PNode {
             }
             
             protected void endDrag( PInputEvent event ) {
-                if ( _trashCanIconNode.isInTrash( AbstractToolNode.this ) ) {
+                if ( _trashCanIconNode.isInTrash( event.getPosition() ) ) {
                     _trashCanIconNode.delete( AbstractToolNode.this );
                 }
                 else {

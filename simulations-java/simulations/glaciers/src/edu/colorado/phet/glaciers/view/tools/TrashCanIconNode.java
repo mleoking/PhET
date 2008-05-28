@@ -29,9 +29,20 @@ public class TrashCanIconNode extends AbstractToolIconNode {
      * Is the specified tool in the trash can?
      * A tool node is in the trash if its bounds intersect the bounds of the trash can.
      * @return true or false
+     * @deprecated
      */
     public boolean isInTrash( AbstractToolNode toolNode ) {
         return toolNode.getGlobalFullBounds().intersects( getGlobalFullBounds() );
+    }
+    
+    /**
+     * Is a point in the trash?
+     * 
+     * @param p a position transformed through the view transform of the bottom camera
+     * @return
+     */
+    public boolean isInTrash( Point2D p ) {
+        return getGlobalFullBounds().contains( p ); 
     }
     
     /**
