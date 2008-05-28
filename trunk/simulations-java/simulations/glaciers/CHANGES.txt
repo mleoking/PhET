@@ -9,7 +9,7 @@ HIGH PRIORITY:
 - thermometer looks lousy while dragging
 - thermometer repaints when clock ticks on Mac OS 10.4
 - move origin to upper left of ThermometerGlassNode
-- fix constructive geometery in ThermometerGlassNode
+- fix constructive geometry in ThermometerGlassNode
 - fix layout of ThermometerNode
 - add ticks and inside margin to ThermometerGlassNode
 - rename and move ThermometerGlassNode to piccolo-phet?
