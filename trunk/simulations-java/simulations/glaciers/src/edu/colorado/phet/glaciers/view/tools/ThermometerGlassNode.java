@@ -20,11 +20,12 @@ public class ThermometerGlassNode extends PComposite {
     private static final double SHAFT_WIDTH_PROPORTION = 0.5; 
     
     private static final Color LIQUID_COLOR = Color.RED; 
-    private static final Stroke GLASS_STROKE = new BasicStroke( 2f );
+    private static final Stroke GLASS_STROKE = new BasicStroke( 1f );
     private static final Color GLASS_STROKE_COLOR = Color.BLACK;
     private static final Color GLASS_FILL_COLOR = Color.WHITE;
     
     private final PDimension _size;
+    private final double _bulbDiameter;
     private final Rectangle2D _liquidShape;
     private final PPath _liquidNode;
     
@@ -37,11 +38,11 @@ public class ThermometerGlassNode extends PComposite {
         
         _size = new PDimension( size );
         
-        final double bulbDiameter = size.getWidth();
+        _bulbDiameter = size.getWidth();
         final double shaftWidth = size.getWidth() * SHAFT_WIDTH_PROPORTION;
-        final double shaftHeight = size.getHeight() - bulbDiameter;
-        Shape shaftShape = new RoundRectangle2D.Double( -shaftWidth/2, -shaftHeight, shaftWidth, shaftHeight + bulbDiameter, bulbDiameter/2, bulbDiameter/2 );
-        Shape bulbShape = new Ellipse2D.Double( -bulbDiameter/2, 0, bulbDiameter, bulbDiameter );
+        final double shaftHeight = size.getHeight() - _bulbDiameter;
+        Shape shaftShape = new RoundRectangle2D.Double( -shaftWidth/2, -shaftHeight, shaftWidth, shaftHeight + _bulbDiameter, _bulbDiameter/2, _bulbDiameter/2 );
+        Shape bulbShape = new Ellipse2D.Double( -_bulbDiameter/2, 0, _bulbDiameter, _bulbDiameter );
         Area area = new Area( shaftShape );
         area.add( new Area( bulbShape ) );
         
@@ -59,10 +60,14 @@ public class ThermometerGlassNode extends PComposite {
         glassOutlineNode.setStroke( GLASS_STROKE );
         glassOutlineNode.setStrokePaint( GLASS_STROKE_COLOR );
         glassOutlineNode.setPaint( null );
-        glassOutlineNode.addChild( _liquidNode );
+        glassOutlineNode.addChild( _liquidNode ); // add liquid to this PClip so that it's clipped to the thermometer shape
         
         addChild( glassFillNode );
         addChild( glassOutlineNode );
+    }
+    
+    public double getBulbDiameter() {
+        return _bulbDiameter;
     }
     
     public void setTemperature( double percent ) {
