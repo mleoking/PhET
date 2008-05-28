@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AlphaParticle;
@@ -62,6 +63,8 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private static final double  LEGEND_HEIGHT = 80.0d;
     private static final double  ALPHA_PARTICLE_SCALE_FACTOR = 0.075;
     private static final int     MAX_ALPHA_PARTICLES_DISPLAYED = 6;
+    private static final double  ARROW_HEAD_HEIGHT = 10;
+    private static final double  ARROW_HEAD_WIDTH = 8;
     
     // TODO: JPB TBD - Need to revisit these values and see if they make
     // sense as they are, or should be converted to units, and/or should be
@@ -96,7 +99,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private PLine _totalEnergyLine;
     private PPath _potentialEnergyWell;
     private DoubleArrowNode _xAxisOfGraph;
-    private DoubleArrowNode _yAxisOfGraph;
+    private ArrowNode _yAxisOfGraph;
     private PText _yAxisLabel1;
     private PText _yAxisLabel2;
     private PText _xAxisLabel;
@@ -186,13 +189,13 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         // real sizes and positions will be set when the bounds are updated.
 
         _xAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
-                10, 8, AXES_LINE_WIDTH);
+                ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, AXES_LINE_WIDTH);
         _xAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _xAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         addChild( _xAxisOfGraph);
         
-        _yAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
-                10, 8, AXES_LINE_WIDTH);
+        _yAxisOfGraph = new ArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
+                ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, AXES_LINE_WIDTH);
         _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         addChild( _yAxisOfGraph);
@@ -364,7 +367,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _yAxisLabel2.setOffset( _graphOriginX - (1.5 * _yAxisLabel2.getFont().getSize()), 
                 _graphOriginY + (0.5 * (yAxisTipPt.getY() - _graphOriginY + _yAxisLabel2.getWidth())));
 
-        _xAxisLabel.setOffset( xAxisTipPt.getX() - _xAxisLabel.getWidth() - _xAxisOfGraph.getHeadHeight() - 10,
+        _xAxisLabel.setOffset( xAxisTipPt.getX() - _xAxisLabel.getWidth() - ARROW_HEAD_HEIGHT - 10,
                 _graphOriginY + 5);
 
         
