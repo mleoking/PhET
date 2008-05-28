@@ -5,9 +5,13 @@
 
 $ONLY_SEND_TO = "formv09@yahoo.com";
 
+include_once("Mail/Queue.php");
+
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
+include_once(SITE_ROOT."admin/newsletter-utils.php");
+include_once(SITE_ROOT."admin/newsletter-config.php");
 
 class DispatchNewsletterPage extends SitePage {
 
@@ -42,19 +46,31 @@ class DispatchNewsletterPage extends SitePage {
         $no_contributor['contributor_name'] = 'PhET User';
 
         newsletter_create(
-            replace_jokers($newsletter_subject, $no_contributor),
-            replace_jokers($newsletter_body,    $no_contributor)
+            $this->replace_jokers($newsletter_subject, $no_contributor),
+            $this->replace_jokers($newsletter_body,    $no_contributor)
         );
 
-        foreach(contributor_get_all_contributors() as $contributor) {
-            $subs_newsletter_subject = replace_jokers($newsletter_subject, $contributor);
-            $subs_newsletter_body    = replace_jokers($newsletter_body,    $contributor);
+        global $news_db_options, $news_mail_options;
+        $mail_queue =& new Mail_Queue($news_db_options, $news_mail_options);
 
-            if (($contributor['contributor_receive_email'] == 1) && ($contributor['contributor_email'] == $ONLY_SEND_TO)) {
-                mail($contributor['contributor_email'],
-                     $subs_newsletter_subject,
-                     $subs_newsletter_body,
-                     "From: $newsletter_from");
+        // Get all contributors with a UNIQUE email address
+        foreach(contributor_get_all_contributors(true) as $contributor_email => $contributor) {
+            if ($contributor['contributor_receive_email'] == 1) {
+                // Replace the jokers
+                $subs_newsletter_subject = $this->replace_jokers($newsletter_subject, $contributor);
+                $subs_newsletter_body    = $this->replace_jokers($newsletter_body,    $contributor);
+
+                // Create a mime container for the email
+                $hdrs = array('From' => $newsletter_from,
+                            'To' => $contributor_email,
+                            'Subject' => $subs_newsletter_subject);
+                $mime =& new Mail_mime();
+                $mime->setTXTBody($subs_newsletter_body);
+                $body = $mime->get();
+                $hdrs = $mime->headers($hdrs);
+
+                // Put message to queue
+                $mail_queue->put( $newsletter_from, $contributor_email, $hdrs, $body );
             }
         }
     }

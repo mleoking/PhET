@@ -1,8 +1,11 @@
 <?php
 
+include_once("Mail/Queue.php");
+
 if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
 include_once(SITE_ROOT."admin/global.php");
 include_once(SITE_ROOT."page_templates/SitePage.php");
+include_once(SITE_ROOT."admin/newsletter-config.php");
 
 class ComposeNewsletterPage extends SitePage {
 
@@ -48,7 +51,7 @@ class ComposeNewsletterPage extends SitePage {
 
                     <div class="field">
                         <span class="label_content">
-                            <input type="text" size="40" name="newsletter_subject" value="Important Announcement from PhET"/>
+                            <input type="text" size="40" name="newsletter_subject" value="Announcement from PhET"/>
                         </span>
 
                         <span class="label">
@@ -62,7 +65,7 @@ class ComposeNewsletterPage extends SitePage {
 
 Dear \$NAME\$,
 
-    Today is \$DATE\$.
+PhET is great!
 
 Regards,
 
