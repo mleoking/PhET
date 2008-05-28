@@ -87,6 +87,11 @@ public class BasicController {
         // "View" controls
         viewControlPanel.addViewControlPanelListener( new ViewControlPanelListener() {
             
+            public void unitsChanged() {
+                System.out.println( "BasicController.unitsChanged" );//XXX
+                //TODO: implement
+            }
+            
             public void equilibriumLineChanged( boolean b ) {
                 playArea.setEquilibriumLineVisible( b );
             }

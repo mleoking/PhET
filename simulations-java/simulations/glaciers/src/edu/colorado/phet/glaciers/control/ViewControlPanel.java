@@ -10,9 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -44,6 +42,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private final JRadioButton _englishUnitsButton, _metricUnitsButton;
     private final JCheckBox _equilibriumLineCheckBox;
     private final JCheckBox _iceFlowCheckBox;
     private final JCheckBox _coordinatesCheckBox;
@@ -58,6 +57,30 @@ public class ViewControlPanel extends AbstractSubPanel {
         super( TITLE_STRING, TITLE_COLOR, TITLE_FONT );
         
         _listeners = new ArrayList();
+        
+        JPanel unitsPanel = new JPanel();
+        {
+            JLabel unitsLabel = new JLabel( GlaciersStrings.LABEL_UNITS );
+            unitsLabel.setFont( CONTROL_FONT );
+            unitsLabel.setForeground( CONTROL_COLOR );
+            
+            _englishUnitsButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_ENGLISH_UNITS );
+            _englishUnitsButton.setFont( CONTROL_FONT );
+            _englishUnitsButton.setForeground( CONTROL_COLOR );
+            
+            _metricUnitsButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_METRIC_UNITS );
+            _metricUnitsButton.setFont( CONTROL_FONT );
+            _metricUnitsButton.setForeground( CONTROL_COLOR );
+            
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( _englishUnitsButton );
+            buttonGroup.add( _metricUnitsButton );
+            _englishUnitsButton.setSelected( true );
+            
+            unitsPanel.add( unitsLabel );
+            unitsPanel.add( _englishUnitsButton );
+            unitsPanel.add( _metricUnitsButton );
+        }
         
         JPanel equilibriumLinePanel = new JPanel();
         {
@@ -130,6 +153,7 @@ public class ViewControlPanel extends AbstractSubPanel {
         int row = 0;
         int column = 0;
         layout.setAnchor( GridBagConstraints.WEST );
+        layout.addComponent( unitsPanel, row++, column );
         layout.addComponent( equilibriumLinePanel, row++, column );
         layout.addComponent( iceFlowPanel, row++, column );
         layout.addComponent( coordinatesPanel, row++, column );
@@ -141,6 +165,25 @@ public class ViewControlPanel extends AbstractSubPanel {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
+    
+    public void setEnglishUnitsSelected( boolean selected ) {
+        if ( selected != isEnglishUnitsSelected() ) {
+            _englishUnitsButton.setSelected( selected );
+            notifyUnitsChanged();
+        }
+    }
+    
+    public boolean isEnglishUnitsSelected() {
+        return _englishUnitsButton.isSelected();
+    }
+    
+    public void setMetricUnitsSelected( boolean selected ) {
+        setEnglishUnitsSelected( !selected );
+    }
+    
+    public boolean isMetricUnitsSelected() {
+        return _metricUnitsButton.isSelected();
+    }
     
     public void setEquilibriumLineSelected( boolean selected ) {
         if ( selected != isEquilibriumLineSelected() ) {
@@ -194,6 +237,7 @@ public class ViewControlPanel extends AbstractSubPanel {
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
     public interface ViewControlPanelListener {
+        public void unitsChanged();
         public void equilibriumLineChanged( boolean b );
         public void iceFlowChanged( boolean b );
         public void coordinatesChanged( boolean b );
@@ -201,9 +245,10 @@ public class ViewControlPanel extends AbstractSubPanel {
     }
     
     public static class ViewControlPanelAdapter implements ViewControlPanelListener {
-        public void equilibriumLineChanged( boolean b ) {};
-        public void iceFlowChanged( boolean b ) {};
-        public void coordinatesChanged( boolean b ) {};
+        public void unitsChanged() {}
+        public void equilibriumLineChanged( boolean b ) {}
+        public void iceFlowChanged( boolean b ) {}
+        public void coordinatesChanged( boolean b ) {}
         public void glacierPictureChanged( boolean b ) {}
     }
     
@@ -218,6 +263,13 @@ public class ViewControlPanel extends AbstractSubPanel {
     //----------------------------------------------------------------------------
     // Notification
     //----------------------------------------------------------------------------
+    
+    private void notifyUnitsChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ViewControlPanelListener) i.next() ).unitsChanged();
+        }
+    }
     
     private void notifyEquilibriumLineChanged() {
         boolean b = isEquilibriumLineSelected();
