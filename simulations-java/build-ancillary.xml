@@ -642,7 +642,7 @@
 
 		<!-- check the working copy's status -->
 		<exec executable="svn" outputproperty="svn.output" failonerror="true">
-			<arg line="status -u ${phet.dependslist}" />
+			<arg line="status ${phet.dependslist}" />
 		</exec>
 
 		<!-- fail if svn returned anything -->
