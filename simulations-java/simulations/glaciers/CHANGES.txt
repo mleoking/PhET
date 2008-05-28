@@ -6,6 +6,10 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments (dropped?)
 
 HIGH PRIORITY:
+- move origin to upper left of ThermometerGlassNode
+- fix constructive geometery in ThermometerGlassNode
+- fix layout of ThermometerNode
+- move ThermometerGlassNode to piccolo-phet?
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
 - increase zoom on vertical axis by 2x
 - switch user-interface between English and metric units
