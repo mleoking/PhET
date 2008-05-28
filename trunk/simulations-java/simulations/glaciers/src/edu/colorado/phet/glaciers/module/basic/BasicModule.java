@@ -164,6 +164,7 @@ public class BasicModule extends PiccoloModule {
         // Controls ---------------------------------------------
 
         ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
+        viewControlPanel.setEnglishUnitsSelected( true );
         viewControlPanel.setEquilibriumLineSelected( false );
         viewControlPanel.setIceFlowSelected( false );
         viewControlPanel.setCoordinatesSelected( false );

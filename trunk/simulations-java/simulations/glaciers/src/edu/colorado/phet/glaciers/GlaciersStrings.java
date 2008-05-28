@@ -40,6 +40,7 @@ public class GlaciersStrings {
     public static final String LABEL_ELEVATION = GlaciersResources.getString( "label.elevation" );
     public static final String LABEL_GLACIAL_BUDGET = GlaciersResources.getString( "label.glacialBudget" );
     public static final String LABEL_DISTANCE = GlaciersResources.getString( "label.distance" );
+    public static final String LABEL_UNITS = GlaciersResources.getString( "label.units" );
     
     public static final String MENU_FILE_LOAD = GlaciersResources.getString( "menu.file.load" );
     public static final char MENU_FILE_LOAD_MNEMONIC = GlaciersResources.getChar( "menu.file.load.mnemonic", 'L' );
@@ -49,6 +50,9 @@ public class GlaciersStrings {
     public static final char MENU_OPTIONS_MNEMONIC = GlaciersResources.getChar( "menu.options.mnemonic", 'O' );
     
     public static final String MESSAGE_NOT_A_CONFIG_FILE = GlaciersResources.getString( "message.notAConfigFile" );
+    
+    public static final String RADIO_BUTTON_ENGLISH_UNITS = GlaciersResources.getString( "radioButton.englishUnits" );
+    public static final String RADIO_BUTTON_METRIC_UNITS = GlaciersResources.getString( "radioButton.metricUnits" );
     
     public static final String SLIDER_CLOCK_SLOW = GlaciersResources.getString( "slider.clock.slow" );
     public static final String SLIDER_CLOCK_FAST = GlaciersResources.getString( "slider.clock.fast" );
