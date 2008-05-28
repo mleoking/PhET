@@ -98,7 +98,7 @@ public class ThermometerNode extends AbstractToolNode {
         addChild( _valueNode );
         
         arrowNode.setOffset( 0, 0 ); // this node identifies the origin
-        _glassNode.setOffset( arrowNode.getFullBoundsReference().getWidth() + _glassNode.getFullBoundsReference().getWidth() / 2, -THERMOMETER_SIZE.getWidth()/2 );//XXX bad
+        _glassNode.setOffset( arrowNode.getFullBoundsReference().getWidth() + _glassNode.getFullBoundsReference().getWidth() / 2, -_glassNode.getBulbDiameter()/2 );
         _valueNode.setOffset( _glassNode.getFullBoundsReference().getMaxX() + 2, -_valueNode.getFullBoundsReference().getHeight() );
         
         // initial state
