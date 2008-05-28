@@ -13,6 +13,7 @@ HIGH PRIORITY:
 - fix layout of ThermometerNode
 - add ticks and inside margin to ThermometerGlassNode
 - rename and move ThermometerGlassNode to piccolo-phet?
+- delete thermometer image and asset
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
 - increase zoom on vertical axis by 2x
 - switch user-interface between English and metric units
