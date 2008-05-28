@@ -60,7 +60,7 @@ public class ThermometerNode extends PNode {
         // Register as a listener to the nuclear reactor so that we get
         // notified of temperature changes.
         _nuclearReactorModel.addListener( new NuclearReactorModel.Adapter(){
-            public void energyChanged(){
+            public void temperatureChanged(){
                 setTemperature(_nuclearReactorModel.getTemperature());
             }
         });

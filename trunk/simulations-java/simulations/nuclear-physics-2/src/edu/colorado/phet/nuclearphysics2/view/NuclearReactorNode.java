@@ -91,7 +91,7 @@ public class NuclearReactorNode extends PNode {
             public void resetOccurred(){
                 handleReactorReset();
             }
-            public void energyChanged(){
+            public void temperatureChanged(){
                 setInternalReactorColor();
             }
         });
