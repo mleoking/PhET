@@ -1,0 +1,504 @@
+Buildfile: build.xml
+
+_build-phet-build:
+
+_clean-phet-build:
+   [delete] Deleting directory C:\Documents and Settings\John\workspace\simulations-java\ant_output\phetbuild\classes
+
+_compile-phet-build:
+    [mkdir] Created dir: C:\Documents and Settings\John\workspace\simulations-java\ant_output\phetbuild\classes
+    [javac] Compiling 67 source files to C:\Documents and Settings\John\workspace\simulations-java\ant_output\phetbuild\classes
+
+_declare-phet-build-tasks:
+
+_init:
+
+_prompt-for-sim-name:
+
+clean-sim:
+
+_fail-if-working-copy-is-not-synchronized:
+[PhetListDependsTask] Building nuclear-physics-2...
+
+_prompt-for-dev-login:
+     [echo] Requesting login info for Development server
+
+_define-sim-properties-file:
+
+_inc-sim-dev-version-number:
+     [echo] Incrementing the simulation development version number in property file C:\Documents and Settings\John\workspace\simulations-java/simulations/nuclear-physics-2/data/nuclear-physics-2/nuclear-physics-2.properties
+[propertyfile] Updating property file: C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\data\nuclear-physics-2\nuclear-physics-2.properties
+
+_prompt-for-svn-login:
+     [echo] Requesting login info for SVN server
+
+_define-sim-version:
+
+_generate-svn-revision-number:
+     [echo] Current revision number is 21788
+     [echo] New revision number is 21789
+[propertyfile] Updating property file: C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\data\nuclear-physics-2\nuclear-physics-2.properties
+     [echo] Committing C:\Documents and Settings\John\workspace\simulations-java/simulations/nuclear-physics-2/data/nuclear-physics-2/nuclear-physics-2.properties
+     [exec] Sending        simulations\nuclear-physics-2\data\nuclear-physics-2\nuclear-physics-2.properties
+     [exec] Transmitting file data .
+     [exec] Committed revision 21789.
+
+build-and-deploy-dev:
+
+_build-phet-build:
+
+_declare-phet-build-tasks:
+
+_init:
+
+_prompt-for-sim-name:
+
+_build-jar:
+[PhetBuildTask] Building nuclear-physics-2...
+     [null] Deleting directory C:\Documents and Settings\John\workspace\simulations-java\.\ant_output\projects\nuclear-physics-2
+[PhetBuildCommand] Compiling nuclear-physics-2.
+     [null] Compiling 473 source files to .\ant_output\projects\nuclear-physics-2\classes
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:15: package org.jfree.chart does not exist
+[phet-build] import org.jfree.chart.ChartFactory;
+[phet-build]                        ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:16: package org.jfree.chart does not exist
+[phet-build] import org.jfree.chart.JFreeChart;
+[phet-build]                        ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:17: package org.jfree.chart.axis does not exist
+[phet-build] import org.jfree.chart.axis.CategoryAxis;
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:18: package org.jfree.chart.axis does not exist
+[phet-build] import org.jfree.chart.axis.ValueAxis;
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:19: package org.jfree.chart.plot does not exist
+[phet-build] import org.jfree.chart.plot.CategoryPlot;
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:20: package org.jfree.chart.plot does not exist
+[phet-build] import org.jfree.chart.plot.PlotOrientation;
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:21: package org.jfree.chart.renderer.category does not exist
+[phet-build] import org.jfree.chart.renderer.category.BarRenderer;
+[phet-build]                                          ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:22: package org.jfree.chart.title does not exist
+[phet-build] import org.jfree.chart.title.TextTitle;
+[phet-build]                              ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:23: package org.jfree.data.category does not exist
+[phet-build] import org.jfree.data.category.DefaultCategoryDataset;
+[phet-build]                                ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:24: package org.jfree.ui does not exist
+[phet-build] import org.jfree.ui.HorizontalAlignment;
+[phet-build]                     ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:25: package org.jfree.ui does not exist
+[phet-build] import org.jfree.ui.RectangleEdge;
+[phet-build]                     ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:69: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]     private DefaultCategoryDataset _energyPerSecondDataSet;
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:70: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]     private DefaultCategoryDataset _totalEnergyDataSet;
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:71: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]     private JFreeChart             _energyPerSecondChart;
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:72: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]     private JFreeChart             _totalEnergyChart;
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:138: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]     private JFreeChart createEnergyPerSecondChart(){
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:184: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]     private JFreeChart createTotalEnergyChart(){
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:19: package org.jfree.chart does not exist
+[phet-build] import org.jfree.chart.ChartFactory;
+[phet-build]                        ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:20: package org.jfree.chart does not exist
+[phet-build] import org.jfree.chart.ChartPanel;
+[phet-build]                        ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:21: package org.jfree.chart does not exist
+[phet-build] import org.jfree.chart.JFreeChart;
+[phet-build]                        ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:22: package org.jfree.chart.axis does not exist
+[phet-build] import org.jfree.chart.axis.CategoryAxis;
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:23: package org.jfree.chart.axis does not exist
+[phet-build] import org.jfree.chart.axis.CategoryLabelPositions;
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:24: package org.jfree.chart.axis does not exist
+[phet-build] import org.jfree.chart.axis.NumberAxis;
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:25: package org.jfree.chart.plot does not exist
+[phet-build] import org.jfree.chart.plot.CategoryPlot;
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:26: package org.jfree.chart.plot does not exist
+[phet-build] import org.jfree.chart.plot.PlotOrientation;
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:27: package org.jfree.chart.renderer.category does not exist
+[phet-build] import org.jfree.chart.renderer.category.BarRenderer;
+[phet-build]                                          ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:28: package org.jfree.data.category does not exist
+[phet-build] import org.jfree.data.category.CategoryDataset;
+[phet-build]                                ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:29: package org.jfree.data.category does not exist
+[phet-build] import org.jfree.data.category.DefaultCategoryDataset;
+[phet-build]                                ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:30: package org.jfree.ui does not exist
+[phet-build] import org.jfree.ui.ApplicationFrame;
+[phet-build]                     ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:31: package org.jfree.ui does not exist
+[phet-build] import org.jfree.ui.RefineryUtilities;
+[phet-build]                     ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:37: cannot resolve symbol
+[phet-build] symbol  : class ApplicationFrame 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build] public class BarChartDemo10 extends ApplicationFrame {
+[phet-build]                                     ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:56: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]     private static DefaultCategoryDataset createDataset() {
+[phet-build]                    ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:102: cannot resolve symbol
+[phet-build] symbol  : class CategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]     private static JFreeChart createChart(CategoryDataset dataset) {
+[phet-build]                                           ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:102: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]     private static JFreeChart createChart(CategoryDataset dataset) {
+[phet-build]                    ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:198: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.Animator
+[phet-build]     private DefaultCategoryDataset dataset;
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:205: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.Animator
+[phet-build]     Animator(DefaultCategoryDataset dataset) {
+[phet-build]              ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\util\SimpleChartPanel.java:5: package org.jfree.chart does not exist
+[phet-build] import org.jfree.chart.ChartPanel;
+[phet-build]                        ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\util\SimpleChartPanel.java:6: package org.jfree.chart does not exist
+[phet-build] import org.jfree.chart.JFreeChart;
+[phet-build]                        ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\util\SimpleChartPanel.java:14: cannot resolve symbol
+[phet-build] symbol  : class ChartPanel 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.util.SimpleChartPanel
+[phet-build] public class SimpleChartPanel extends ChartPanel {
+[phet-build]                                       ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\util\SimpleChartPanel.java:16: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.util.SimpleChartPanel
+[phet-build]     public SimpleChartPanel(JFreeChart chart, int width, int height){
+[phet-build]                             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:83: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         _energyPerSecondDataSet = new DefaultCategoryDataset();
+[phet-build]                                       ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:84: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         _totalEnergyDataSet     = new DefaultCategoryDataset();
+[phet-build]                                       ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:111: reference to add is ambiguous, both method add(java.awt.PopupMenu) in java.awt.Component and method add(java.awt.Component) in java.awt.Container match
+[phet-build]         add(energyPerSecondChartPanel);
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:116: reference to add is ambiguous, both method add(java.awt.PopupMenu) in java.awt.Component and method add(java.awt.Component) in java.awt.Container match
+[phet-build]         add(totalEnergyChartPanel);
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:143: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         JFreeChart chart = ChartFactory.createBarChart(null, null, NuclearPhysics2Strings.POWER_GRAPH_UNITS, 
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:144: cannot resolve symbol
+[phet-build] symbol  : variable PlotOrientation 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]                 _energyPerSecondDataSet, PlotOrientation.VERTICAL, false, false, false);
+[phet-build]                                          ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:143: cannot resolve symbol
+[phet-build] symbol  : variable ChartFactory 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         JFreeChart chart = ChartFactory.createBarChart(null, null, NuclearPhysics2Strings.POWER_GRAPH_UNITS, 
+[phet-build]                            ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:146: cannot resolve symbol
+[phet-build] symbol  : class CategoryPlot 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         CategoryPlot plot = (CategoryPlot)chart.getPlot();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:146: cannot resolve symbol
+[phet-build] symbol  : class CategoryPlot 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         CategoryPlot plot = (CategoryPlot)chart.getPlot();
+[phet-build]                              ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:151: cannot resolve symbol
+[phet-build] symbol  : class TextTitle 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         TextTitle title = new TextTitle(NuclearPhysics2Strings.POWER_GRAPH_LABEL);
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:151: cannot resolve symbol
+[phet-build] symbol  : class TextTitle 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         TextTitle title = new TextTitle(NuclearPhysics2Strings.POWER_GRAPH_LABEL);
+[phet-build]                               ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:152: cannot resolve symbol
+[phet-build] symbol  : variable HorizontalAlignment 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         title.setHorizontalAlignment( HorizontalAlignment.CENTER );
+[phet-build]                                       ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:154: cannot resolve symbol
+[phet-build] symbol  : variable RectangleEdge 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         title.setPosition( RectangleEdge.BOTTOM );
+[phet-build]                            ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:158: cannot resolve symbol
+[phet-build] symbol  : class ValueAxis 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         ValueAxis rangeAxis = plot.getRangeAxis();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:165: cannot resolve symbol
+[phet-build] symbol  : class CategoryAxis 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         CategoryAxis domainAxis = plot.getDomainAxis();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:169: cannot resolve symbol
+[phet-build] symbol  : class BarRenderer 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         BarRenderer renderer = (BarRenderer) plot.getRenderer();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:169: cannot resolve symbol
+[phet-build] symbol  : class BarRenderer 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         BarRenderer renderer = (BarRenderer) plot.getRenderer();
+[phet-build]                                 ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:188: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         JFreeChart chart = ChartFactory.createBarChart(NuclearPhysics2Strings.ENERGY_GRAPH_LABEL, null, 
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:189: cannot resolve symbol
+[phet-build] symbol  : variable PlotOrientation 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]                 NuclearPhysics2Strings.ENERGY_GRAPH_UNITS, _totalEnergyDataSet, PlotOrientation.VERTICAL, false, false,
+[phet-build]                                                                                 ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:188: cannot resolve symbol
+[phet-build] symbol  : variable ChartFactory 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         JFreeChart chart = ChartFactory.createBarChart(NuclearPhysics2Strings.ENERGY_GRAPH_LABEL, null, 
+[phet-build]                            ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:192: cannot resolve symbol
+[phet-build] symbol  : class CategoryPlot 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         CategoryPlot plot = (CategoryPlot)chart.getPlot();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:192: cannot resolve symbol
+[phet-build] symbol  : class CategoryPlot 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         CategoryPlot plot = (CategoryPlot)chart.getPlot();
+[phet-build]                              ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:197: cannot resolve symbol
+[phet-build] symbol  : class TextTitle 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         TextTitle title = new TextTitle(NuclearPhysics2Strings.ENERGY_GRAPH_LABEL);
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:197: cannot resolve symbol
+[phet-build] symbol  : class TextTitle 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         TextTitle title = new TextTitle(NuclearPhysics2Strings.ENERGY_GRAPH_LABEL);
+[phet-build]                               ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:198: cannot resolve symbol
+[phet-build] symbol  : variable HorizontalAlignment 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         title.setHorizontalAlignment( HorizontalAlignment.CENTER );
+[phet-build]                                       ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:200: cannot resolve symbol
+[phet-build] symbol  : variable RectangleEdge 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         title.setPosition( RectangleEdge.BOTTOM );
+[phet-build]                            ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:204: cannot resolve symbol
+[phet-build] symbol  : class ValueAxis 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         ValueAxis rangeAxis = plot.getRangeAxis();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:211: cannot resolve symbol
+[phet-build] symbol  : class CategoryAxis 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         CategoryAxis domainAxis = plot.getDomainAxis();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:215: cannot resolve symbol
+[phet-build] symbol  : class BarRenderer 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         BarRenderer renderer = (BarRenderer) plot.getRenderer();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\module\nuclearreactor\NuclearReactorEnergyGraphPanel.java:215: cannot resolve symbol
+[phet-build] symbol  : class BarRenderer 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.module.nuclearreactor.NuclearReactorEnergyGraphPanel
+[phet-build]         BarRenderer renderer = (BarRenderer) plot.getRenderer();
+[phet-build]                                 ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:48: cannot resolve symbol
+[phet-build] symbol  : method setContentPane (javax.swing.JPanel)
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         setContentPane(chartPanel);
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:71: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:71: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+[phet-build]                                              ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:105: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         JFreeChart chart = ChartFactory.createBarChart(
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:110: cannot resolve symbol
+[phet-build] symbol  : variable PlotOrientation 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]             PlotOrientation.VERTICAL, // orientation
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:105: cannot resolve symbol
+[phet-build] symbol  : variable ChartFactory 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         JFreeChart chart = ChartFactory.createBarChart(
+[phet-build]                            ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:122: cannot resolve symbol
+[phet-build] symbol  : class CategoryPlot 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         CategoryPlot plot = (CategoryPlot) chart.getPlot();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:122: cannot resolve symbol
+[phet-build] symbol  : class CategoryPlot 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         CategoryPlot plot = (CategoryPlot) chart.getPlot();
+[phet-build]                              ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:129: cannot resolve symbol
+[phet-build] symbol  : class NumberAxis 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:129: cannot resolve symbol
+[phet-build] symbol  : class NumberAxis 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+[phet-build]                                 ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:130: cannot resolve symbol
+[phet-build] symbol  : variable NumberAxis 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+[phet-build]                                        ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:133: cannot resolve symbol
+[phet-build] symbol  : class BarRenderer 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         BarRenderer renderer = (BarRenderer) plot.getRenderer();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:133: cannot resolve symbol
+[phet-build] symbol  : class BarRenderer 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         BarRenderer renderer = (BarRenderer) plot.getRenderer();
+[phet-build]                                 ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:153: cannot resolve symbol
+[phet-build] symbol  : class CategoryAxis 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         CategoryAxis domainAxis = plot.getDomainAxis();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:155: cannot resolve symbol
+[phet-build] symbol  : variable CategoryLabelPositions 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]             CategoryLabelPositions.createUpRotationLabelPositions(Math.PI / 6.0)
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:169: cannot resolve symbol
+[phet-build] symbol  : class DefaultCategoryDataset 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         DefaultCategoryDataset dataset = createDataset();
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:170: cannot resolve symbol
+[phet-build] symbol  : class JFreeChart 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         JFreeChart chart = createChart(dataset);
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:173: cannot resolve symbol
+[phet-build] symbol  : class ChartPanel 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         return new ChartPanel(chart);
+[phet-build]                    ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:184: cannot resolve symbol
+[phet-build] symbol  : method pack ()
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         demo.pack();
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:185: cannot resolve symbol
+[phet-build] symbol  : variable RefineryUtilities 
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         RefineryUtilities.centerFrameOnScreen(demo);
+[phet-build]         ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:186: cannot resolve symbol
+[phet-build] symbol  : method setVisible (boolean)
+[phet-build] location: class edu.colorado.phet.nuclearphysics2.test.BarChartDemo10
+[phet-build]         demo.setVisible(true);
+[phet-build]             ^
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\simulations\nuclear-physics-2\src\edu\colorado\phet\nuclearphysics2\test\BarChartDemo10.java:222: cannot resolve symbol
+[phet-build] symbol  : method max (int,java.lang.String)
+[phet-build] location: class java.lang.Math
+[phet-build]         dataset.setValue(Math.max(0, this.dataset.getValue(r, c).doubleValue() + change), 
+[phet-build]                              ^
+[phet-build] Note: Some input files use or override a deprecated API.
+[phet-build] Note: Recompile with -deprecation for details.
+[phet-build] 92 errors
+[phet-build] C:\Documents and Settings\John\workspace\simulations-java\build-ancillary.xml:244: Compile failed; see the compiler error output for details.
+[phet-build] 	at org.apache.tools.ant.taskdefs.Javac.compile(Javac.java:999)
+[phet-build] 	at org.apache.tools.ant.taskdefs.Javac.execute(Javac.java:820)
+[phet-build] 	at edu.colorado.phet.build.AbstractPhetTask.runTask(AbstractPhetTask.java:18)
+[phet-build] 	at edu.colorado.phet.build.PhetBuildCommand.compile(PhetBuildCommand.java:70)
+[phet-build] 	at edu.colorado.phet.build.PhetBuildCommand.execute(PhetBuildCommand.java:38)
+[phet-build] 	at edu.colorado.phet.build.PhetBuildTask.executeImpl(PhetBuildTask.java:22)
+[phet-build] 	at edu.colorado.phet.build.AbstractPhetBuildTask.execute(AbstractPhetBuildTask.java:20)
+[phet-build] 	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+[phet-build] 	at sun.reflect.GeneratedMethodAccessor12.invoke(Unknown Source)
+[phet-build] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+[phet-build] 	at java.lang.reflect.Method.invoke(Method.java:324)
+[phet-build] 	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+[phet-build] 	at org.apache.tools.ant.Task.perform(Task.java:348)
+[phet-build] 	at org.apache.tools.ant.Target.execute(Target.java:357)
+[phet-build] 	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+[phet-build] 	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+[phet-build] 	at org.apache.tools.ant.helper.SingleCheckExecutor.executeTargets(SingleCheckExecutor.java:38)
+[phet-build] 	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+[phet-build] 	at org.apache.tools.ant.taskdefs.Ant.execute(Ant.java:416)
+[phet-build] 	at org.apache.tools.ant.taskdefs.CallTarget.execute(CallTarget.java:105)
+[phet-build] 	at org.apache.tools.ant.UnknownElement.execute(UnknownElement.java:288)
+[phet-build] 	at sun.reflect.GeneratedMethodAccessor12.invoke(Unknown Source)
+[phet-build] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+[phet-build] 	at java.lang.reflect.Method.invoke(Method.java:324)
+[phet-build] 	at org.apache.tools.ant.dispatch.DispatchUtils.execute(DispatchUtils.java:105)
+[phet-build] 	at org.apache.tools.ant.Task.perform(Task.java:348)
+[phet-build] 	at org.apache.tools.ant.Target.execute(Target.java:357)
+[phet-build] 	at org.apache.tools.ant.Target.performTasks(Target.java:385)
+[phet-build] 	at org.apache.tools.ant.Project.executeSortedTargets(Project.java:1329)
+[phet-build] 	at org.apache.tools.ant.Project.executeTarget(Project.java:1298)
+[phet-build] 	at org.apache.tools.ant.helper.DefaultExecutor.executeTargets(DefaultExecutor.java:41)
+[phet-build] 	at org.apache.tools.ant.Project.executeTargets(Project.java:1181)
+[phet-build] 	at org.apache.tools.ant.Main.runBuild(Main.java:698)
+[phet-build] 	at org.apache.tools.ant.Main.startAnt(Main.java:199)
+[phet-build] 	at org.apache.tools.ant.launch.Launcher.run(Launcher.java:257)
+[phet-build] 	at org.apache.tools.ant.launch.Launcher.main(Launcher.java:104)

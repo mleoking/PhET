@@ -533,6 +533,11 @@ public class NuclearReactorModel {
         _fissionEventBins[_currentBin] = _u235FissionEventCount;
         _currentBin = (_currentBin + 1) % _clockTicksPerSecond;
         
+        // Clear out any accumulated errors.
+        if (energyPerSecond < JOULES_PER_FISSION_EVENT){
+            energyPerSecond = 0;
+        }
+        
         // Reset the fission event counter.
         _u235FissionEventCount = 0;
         
@@ -550,17 +555,15 @@ public class NuclearReactorModel {
             else{
                 _currentTemperature -= MAX_TEMP_CHANGE_PER_TICK;
             }
-            notifyEnergyChanged();
+            notifyTemperatureChanged();
         }
         
-        // Send change notification if needed.
         if ((energyPerSecond != _energyReleasedPerSecond) || (totalEnergyReleased != _totalEnergyReleased)){
+            // Update our energy-related variables.
+            _energyReleasedPerSecond = energyPerSecond;
+            _totalEnergyReleased = totalEnergyReleased;
             notifyEnergyChanged();
         }
-        
-        // Update our energy-related variables.
-        _energyReleasedPerSecond = energyPerSecond;
-        _totalEnergyReleased = totalEnergyReleased;
     }
     
     /**
@@ -594,11 +597,20 @@ public class NuclearReactorModel {
     }
     
     /**
-     * Notify listeners that the temperature has changed.
+     * Notify listeners that the energy output has changed.
      */
     private void notifyEnergyChanged(){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get(i)).energyChanged();
+        }
+    }
+    
+    /**
+     * Notify listeners that the internal temperature has changed.
+     */
+    private void notifyTemperatureChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get(i)).temperatureChanged();
         }
     }
     
@@ -709,6 +721,12 @@ public class NuclearReactorModel {
          * internal reactor temperature.
          */
         public void energyChanged();
+        
+        /**
+         * This signals that the internal temperature of the reactor has
+         * changed.
+         */
+        public void temperatureChanged();
     }
     
     /**
@@ -721,5 +739,6 @@ public class NuclearReactorModel {
         public void modelElementRemoved(Object modelElement){}
         public void resetOccurred(){}
         public void energyChanged(){}
+        public void temperatureChanged(){}
     }
 }
