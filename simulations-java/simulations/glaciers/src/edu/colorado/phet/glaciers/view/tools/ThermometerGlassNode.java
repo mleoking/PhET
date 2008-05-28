@@ -40,7 +40,7 @@ public class ThermometerGlassNode extends PComposite {
         final double bulbDiameter = size.getWidth();
         final double shaftWidth = size.getWidth() * SHAFT_WIDTH_PROPORTION;
         final double shaftHeight = size.getHeight() - bulbDiameter;
-        RoundRectangle2D shaftShape = new RoundRectangle2D.Double( -shaftWidth/2, -shaftHeight, shaftWidth, shaftHeight + bulbDiameter, bulbDiameter/2, bulbDiameter/2 );
+        Shape shaftShape = new RoundRectangle2D.Double( -shaftWidth/2, -shaftHeight, shaftWidth, shaftHeight + bulbDiameter, bulbDiameter/2, bulbDiameter/2 );
         Shape bulbShape = new Ellipse2D.Double( -bulbDiameter/2, 0, bulbDiameter, bulbDiameter );
         Area area = new Area( shaftShape );
         area.add( new Area( bulbShape ) );
@@ -49,26 +49,20 @@ public class ThermometerGlassNode extends PComposite {
         glassFillNode.setStroke( null );
         glassFillNode.setPaint( GLASS_FILL_COLOR );
         
-        PPath glassOutlineNode = new PPath( area );
-        glassOutlineNode.setStroke( GLASS_STROKE );
-        glassOutlineNode.setStrokePaint( GLASS_STROKE_COLOR );
-        glassOutlineNode.setPaint( null );
-        
         _liquidShape = new Rectangle2D.Double();
         _liquidNode = new PPath();
         _liquidNode.setPaint( LIQUID_COLOR );
         _liquidNode.setStroke( null );
         
-        PClip clipNode = new PClip();
-        clipNode.setPathTo( area );
-        clipNode.setStroke( null );
-        clipNode.addChild( _liquidNode );
+        PClip glassOutlineNode = new PClip();
+        glassOutlineNode.setPathTo( area );
+        glassOutlineNode.setStroke( GLASS_STROKE );
+        glassOutlineNode.setStrokePaint( GLASS_STROKE_COLOR );
+        glassOutlineNode.setPaint( null );
+        glassOutlineNode.addChild( _liquidNode );
         
         addChild( glassFillNode );
-        addChild( clipNode );
         addChild( glassOutlineNode );
-        
-        setTemperature( 0.5 );
     }
     
     public void setTemperature( double percent ) {

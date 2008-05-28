@@ -14,7 +14,6 @@ import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Thermometer;
@@ -26,7 +25,7 @@ import edu.colorado.phet.glaciers.model.Thermometer.ThermometerListener;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.tools.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -41,6 +40,9 @@ public class ThermometerNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final double MAX_TEMPERATURE = 5; // C
+    private static final double MIN_TEMPERATURE = -20; // C
+    private static final PDimension THERMOMETER_SIZE = new PDimension( 15, 60 );
     private static final NumberFormat TEMPERATURE_FORMAT = new DefaultDecimalFormat( "0.0" );
     
     //----------------------------------------------------------------------------
@@ -52,6 +54,7 @@ public class ThermometerNode extends AbstractToolNode {
     private final ThermometerListener _thermometerListener;
     private final MovableListener _movableListener;
     private final GlacierListener _glacierListener;
+    private final ThermometerGlassNode _glassNode;
     private final ValueNode _valueNode;
     
     //----------------------------------------------------------------------------
@@ -87,15 +90,16 @@ public class ThermometerNode extends AbstractToolNode {
         
         PNode arrowNode = new LeftToolOriginNode();
         addChild( arrowNode );
-        arrowNode.setOffset( 0, 0 ); // this node identifies the origin
         
-        PNode glassNode = new GlassNode();
-        addChild( glassNode );
-        glassNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 2, -glassNode.getFullBoundsReference().getHeight() +  ( arrowNode.getFullBoundsReference().getHeight() / 2 ) );
+        _glassNode = new ThermometerGlassNode( THERMOMETER_SIZE );
+        addChild( _glassNode );
         
         _valueNode = new ValueNode( getValueFont(), getValueBorder() );
         addChild( _valueNode );
-        _valueNode.setOffset( glassNode.getFullBoundsReference().getMaxX() + 2, -_valueNode.getFullBoundsReference().getHeight() );
+        
+        arrowNode.setOffset( 0, 0 ); // this node identifies the origin
+        _glassNode.setOffset( arrowNode.getFullBoundsReference().getWidth() + _glassNode.getFullBoundsReference().getWidth() / 2, -THERMOMETER_SIZE.getWidth()/2 );//XXX bad
+        _valueNode.setOffset( _glassNode.getFullBoundsReference().getMaxX() + 2, -_valueNode.getFullBoundsReference().getHeight() );
         
         // initial state
         _valueNode.setTemperatureUnknown();
@@ -111,18 +115,6 @@ public class ThermometerNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
-    /*
-     * The thermometer's glass bottle.
-     */
-    private static class GlassNode extends PComposite {
-        public GlassNode() {
-            super();
-            PImage imageNode = new PImage( GlaciersImages.THERMOMETER );
-            addChild( imageNode );
-//            addChild( new ThermometerGlassNode( new PDimension( 20, 80 ) ) );
-        }
-    }
     
     /*
      * Displays the temperature value.
@@ -185,9 +177,19 @@ public class ThermometerNode extends AbstractToolNode {
     private void updateTemperature() {
         double glacierSurfaceY = _glacier.getSurfaceElevation( _thermometer.getX() );
         if ( _thermometer.getY() > glacierSurfaceY ) {
-            _valueNode.setTemperature( _thermometer.getTemperature() ); 
+            final double temperature = _thermometer.getTemperature();
+            double percent = 1 - ( MAX_TEMPERATURE - temperature ) / ( MAX_TEMPERATURE - MIN_TEMPERATURE );
+            if ( percent < 0 ) {
+                percent = 0;
+            }
+            else if ( percent > 1 ) {
+                percent = 1;
+            }
+            _glassNode.setTemperature( percent );
+            _valueNode.setTemperature( temperature ); 
         }
         else {
+            _glassNode.setTemperature( 0 );
             _valueNode.setTemperatureUnknown();
         }
     }
@@ -197,6 +199,8 @@ public class ThermometerNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     public static Image createImage() {
-        return GlaciersImages.THERMOMETER;
+        ThermometerGlassNode node = new ThermometerGlassNode( THERMOMETER_SIZE );
+        node.setTemperature( 0.5 );
+        return node.toImage();
     }
 }
