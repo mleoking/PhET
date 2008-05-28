@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
@@ -62,6 +63,9 @@ public class FissionEnergyChart extends PComposite {
     private static final double  LEGEND_SIZE_X = 190.0;
     private static final double  LEGEND_SIZE_Y = 65.0;
     private static final double  NUCLEI_SCALING_FACTOR = 0.15;
+    private static final double  ARROW_HEAD_HEIGHT = 9;
+    private static final double  ARROW_HEAD_WIDTH = 7;
+
     
     // Possible state values for tracking the relevant state of the model.
     private static final int STATE_IDLE = 0;
@@ -77,7 +81,7 @@ public class FissionEnergyChart extends PComposite {
     private PLine _totalEnergyLine;
     private PPath _potentialEnergyWell;
     private DoubleArrowNode _xAxisOfGraph;
-    private DoubleArrowNode _yAxisOfGraph;
+    private ArrowNode _yAxisOfGraph;
     private PText _yAxisLabelHigh;
     private PText _yAxisLabelLow;
     private PText _xAxisLabel;
@@ -200,13 +204,13 @@ public class FissionEnergyChart extends PComposite {
         // real sizes and positions will be set when the bounds are updated.
 
         _xAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
-                9, 7, AXES_LINE_WIDTH);
+                ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, AXES_LINE_WIDTH);
         _xAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _xAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         addChild( _xAxisOfGraph);
         
-        _yAxisOfGraph = new DoubleArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
-                9, 7, AXES_LINE_WIDTH);
+        _yAxisOfGraph = new ArrowNode( new Point2D.Double( 0, 0), new Point2D.Double( 100, 100), 
+                ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, AXES_LINE_WIDTH);
         _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
         _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
         addChild( _yAxisOfGraph);
