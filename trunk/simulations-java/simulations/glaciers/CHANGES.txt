@@ -76,6 +76,7 @@ CLEANUP:
 
 
 DONE:
+5/28/08 - started working on thermometer node with dynamic mercury
 5/28/08 - add units control to View control panel, does nothing
 5/27/08 - trash tools if mouse cursor intersects the trash can icon
 5/27/08 - move "perspective height" to Valley model
