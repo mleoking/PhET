@@ -29,7 +29,7 @@ MEDIUM PRIORITY:
 - main control panel should be the same height in all modules
 - PlayArea class is too big, refactor
 - AbstractModel class is too big, refactor
-- tweak alignment of mountains image, perspective is a little off at headwall
+- tweak alignment of mountains image, perspective (or image?) is a little off at headwall
 - improve performance on slower machines
 
 LOW PRIORITY:
@@ -55,7 +55,7 @@ LOW PRIORITY:
 - add rocks falling off mountains onto glacier surface?
 - do we want to show values or relative ranges (temperature=cold-to-hot,snowfall=none-to-lots) for climate controls?
 - add assets/LICENSE.txt
-- Spanish translation (?)
+- Spanish translation
 
 PERFORMANCE OPTIMIZATIONS:
 - Valley.getX uses divide-and-conquer
