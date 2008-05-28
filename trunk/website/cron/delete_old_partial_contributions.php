@@ -1,8 +1,8 @@
 <?php
 
-
-include_once("../admin/contrib-utils.php");
-include_once("../admin/db-utils.php");
+if (!defined("SITE_ROOT")) define("SITE_ROOT", "../");
+include_once(SITE_ROOT."admin/contrib-utils.php");
+include_once(SITE_ROOT."admin/db-utils.php");
 
 DEFINE("LOG_FILENAME", "delete_old_partial_contributions_log.txt");
 DEFINE("TOO_OLD_IN_SECS", 60 * 60 * 24);
