@@ -34,7 +34,9 @@ public class TestThermometerArea extends JFrame {
     private static final double BULB_DIAMETER = THERMOMETER_SIZE.getWidth();
     private static final double TUBE_WIDTH = 0.5 * THERMOMETER_SIZE.getWidth();
     private static final double TUBE_HEIGHT = THERMOMETER_SIZE.getHeight() - BULB_DIAMETER;
-    
+    private PPath pathNode;
+    private JLabel valueDisplay;
+
     public TestThermometerArea() {
         super( "TestThermometerArea" );
         
@@ -47,8 +49,8 @@ public class TestThermometerArea extends JFrame {
         area.add( new Area( bulbShape ) );
         
         // Draw the outline of the area
-        final PPath pathNode = new PPath( area );
-        pathNode.setStroke( new BasicStroke( DEFAULT_STROKE_WIDTH ) );
+        pathNode = new PPath( area );
+
         pathNode.setStrokePaint( Color.BLACK );
         pathNode.setOffset( 150, 50 );
         
@@ -57,16 +59,16 @@ public class TestThermometerArea extends JFrame {
         
         // slider control for changing stroke width
         JLabel label = new JLabel( "stroke width:" );
-        final JLabel valueDisplay = new JLabel( String.valueOf( DEFAULT_STROKE_WIDTH ) );
+        valueDisplay = new JLabel( String.valueOf( DEFAULT_STROKE_WIDTH ) );
         final JSlider slider = new JSlider( 1, 10 );
         slider.setValue( DEFAULT_STROKE_WIDTH );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                final int width = slider.getValue();
-                pathNode.setStroke( new BasicStroke( width ) );
-                valueDisplay.setText( String.valueOf( width ) );
+                updateStrokeWidth( slider.getValue() );
             }
         } );
+
+        updateStrokeWidth( DEFAULT_STROKE_WIDTH );
         
         JPanel controlPanel = new JPanel();
         controlPanel.add( label );
@@ -78,7 +80,12 @@ public class TestThermometerArea extends JFrame {
         mainPanel.add( controlPanel, BorderLayout.SOUTH );
         getContentPane().add( mainPanel );
     }
-    
+
+    private void updateStrokeWidth( int width ) {
+        pathNode.setStroke( new BasicStroke( width , BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND) );
+        valueDisplay.setText( String.valueOf( width ) );
+    }
+
     public static void main( String args[] ) {
         TestThermometerArea frame = new TestThermometerArea();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
