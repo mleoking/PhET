@@ -231,6 +231,44 @@ public class FileUtils {
         }
     }
 
+    public static void zip(File[]filenames,File dest){
+        // These are the files to include in the ZIP file
+//        String[] filenames = new String[]{"filename1", "filename2"};
+
+        // Create a buffer for reading the files
+        byte[] buf = new byte[1024];
+
+        try {
+            // Create the ZIP file
+//            String outFilename = "outfile.zip";
+            ZipOutputStream out = new ZipOutputStream(new FileOutputStream(dest));
+
+            // Compress the files
+            for (int i=0; i<filenames.length; i++) {
+                FileInputStream in = new FileInputStream(filenames[i]);
+
+                // Add ZIP entry to output stream.
+                out.putNextEntry(new ZipEntry(filenames[i].getName()));//flattens packages
+
+                // Transfer bytes from the file to the ZIP file
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+
+                // Complete the entry
+                out.closeEntry();
+                in.close();
+            }
+
+            // Complete the ZIP file
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace(  );
+        }
+
+    }
+
     public static void jar( File dir, File dest ) throws IOException {
 //        System.out.println( "FileUtils.zip: dir=" + dir.getAbsolutePath() + ", dest=" + dest.getAbsolutePath() );
 //        JarOutputStream jarOutputStream = new JarOutputStream( new BufferedOutputStream( new FileOutputStream( dest ) ) ,new Manifest( new FileInputStream( new File( dir,"META-INF/MANIFEST.MF") ) ) );
