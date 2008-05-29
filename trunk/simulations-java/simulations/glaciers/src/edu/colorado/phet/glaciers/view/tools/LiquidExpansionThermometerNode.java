@@ -4,8 +4,14 @@ package edu.colorado.phet.glaciers.view.tools;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.text.DecimalFormat;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -63,6 +69,7 @@ public class LiquidExpansionThermometerNode extends PComposite {
     private final double _bulbDiameter;
     private final double _tubeWidth, _tubeHeight;
     private final double _tubeMinX;
+    private float _innerWallWidth;
     
     private final Rectangle2D _liquidShape;
     private final PPath _liquidNode;
@@ -118,9 +125,9 @@ public class LiquidExpansionThermometerNode extends PComposite {
         area.add( new Area( tubeShape ) );
         
         // inner wall of the tube
-        final double tubeInnerWallWidth = _bulbDiameter * INNER_WALL_PROPORTION;
+        _innerWallWidth = (float)( _bulbDiameter * INNER_WALL_PROPORTION );
         _innerWallNode = new PPath( area );
-        _innerWallNode.setStroke( createAreaStroke( (float) tubeInnerWallWidth ) );
+        _innerWallNode.setStroke( createAreaStroke( _innerWallWidth ) );
         _innerWallNode.setStrokePaint( INNER_WALL_COLOR );
         _innerWallNode.setPaint( null );
         
@@ -155,9 +162,13 @@ public class LiquidExpansionThermometerNode extends PComposite {
     
     /**
      * Sets the height of the liquid in the tube.  
-     * This is expressed as a percent the tube that is filled with liquid.
+     * This is expressed as a percent of the tube that is filled with liquid.
      * At zero, the bulb is full but there is no liquid in the tube.  
      * At 1, the entire tube is full.
+     * <p>
+     * NOTE: We attempt to compensate for the stroke width of the inner wall.
+     * If we don't do this, then as the stroke width increases, the liquid
+     * will appear to be further up the tube when percent=0.
      * 
      * @param percent 0.0 to 1.0
      * @throws IllegalArgumentException if percent is out of range
@@ -166,9 +177,10 @@ public class LiquidExpansionThermometerNode extends PComposite {
         if ( percent < 0 || percent > 1 ) {
             throw new IllegalArgumentException( "percent out of range: " + percent );
         }
+        final double fudgeFactor = ( _innerWallNode.getVisible() ? _innerWallWidth : 0 );
         final double liquidWidth = _bulbDiameter;
-        final double liquidHeight = _bulbDiameter + ( percent * _tubeHeight );
-        _liquidShape.setRect( 0, _bulbDiameter + _tubeHeight - liquidHeight, liquidWidth, liquidHeight );
+        final double liquidHeight = _bulbDiameter + ( percent * ( _tubeHeight  + fudgeFactor ) );
+        _liquidShape.setRect( 0, _bulbDiameter + _tubeHeight - liquidHeight + fudgeFactor, liquidWidth, liquidHeight );
         _liquidNode.setPathTo( _liquidShape );
     }
     
@@ -205,6 +217,7 @@ public class LiquidExpansionThermometerNode extends PComposite {
     }
     
     public void setInnerWallWidth( float width ) {
+        _innerWallWidth = width;
         _innerWallNode.setStroke( createAreaStroke( width ) );
     }
     
@@ -254,18 +267,16 @@ public class LiquidExpansionThermometerNode extends PComposite {
     
     public static void main( String args[] ) {
         
-        LiquidExpansionThermometerNode t1 = new LiquidExpansionThermometerNode( new PDimension( 25, 120 ) );
+        final LiquidExpansionThermometerNode t1 = new LiquidExpansionThermometerNode( new PDimension( 25, 120 ) );
 
-        LiquidExpansionThermometerNode t2 = new LiquidExpansionThermometerNode( new PDimension( 50, 150 ) );
+        final LiquidExpansionThermometerNode t2 = new LiquidExpansionThermometerNode( new PDimension( 50, 150 ) );
         
-        LiquidExpansionThermometerNode t3 = new LiquidExpansionThermometerNode( new PDimension( 25, 120 ) );
+        final LiquidExpansionThermometerNode t3 = new LiquidExpansionThermometerNode( new PDimension( 25, 120 ) );
         t3.setTicksVisible( false );
         t3.setInnerWallVisible( false );
-        t3.setLiquidHeight( 0.5 );
         
         // a highly-customized thermometer
-        LiquidExpansionThermometerNode t4 = new LiquidExpansionThermometerNode( 75, 25, 100 );
-        t4.setLiquidHeight( 0.75 );
+        final LiquidExpansionThermometerNode t4 = new LiquidExpansionThermometerNode( 75, 25, 100 );
         t4.setTubeColor( Color.ORANGE );
         t4.setLiquidPaint( Color.GREEN );
         t4.setInnerWallPaint( Color.YELLOW );
@@ -273,23 +284,53 @@ public class LiquidExpansionThermometerNode extends PComposite {
         t4.setOutlinePaint( Color.CYAN );
         t4.setOutlineStrokeWidth( 4 );
         t4.setTicks( 5, Color.RED, 2 );
-
+        
         PCanvas canvas = new PCanvas();
+        canvas.removeInputEventListener( canvas.getZoomEventHandler() );
+        canvas.removeInputEventListener( canvas.getPanEventHandler() );
         canvas.setBackground( Color.LIGHT_GRAY );
         canvas.getLayer().addChild( t1 );
         canvas.getLayer().addChild( t2 );
         canvas.getLayer().addChild( t3 );
         canvas.getLayer().addChild( t4 );
         
-        t1.setOffset( 20, 20 );
-        t2.setOffset( t1.getFullBoundsReference().getMaxX() + 10, 20 );
-        t3.setOffset( t2.getFullBoundsReference().getMaxX() + 10, 20 );
-        t4.setOffset( t3.getFullBoundsReference().getMaxX() + 10, 20 );
+        final double xSpacing = 10;
+        final double yOffset = 20;
+        t1.setOffset( 50, yOffset );
+        t2.setOffset( t1.getFullBoundsReference().getMaxX() + xSpacing, yOffset );
+        t3.setOffset( t2.getFullBoundsReference().getMaxX() + xSpacing, yOffset );
+        t4.setOffset( t3.getFullBoundsReference().getMaxX() + xSpacing, yOffset );
+        
+        // slider control for changing liquid height
+        final DecimalFormat format = new DecimalFormat( "0.0" );
+        JLabel label = new JLabel( "liquid height:" );
+        final JSlider slider = new JSlider( 0, 100 );
+        slider.setValue( 0 );
+        final JLabel valueDisplay = new JLabel( format.format( 0 ) );
+        slider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                final double percent = 0.01 * slider.getValue();
+                valueDisplay.setText( format.format( percent ) );
+                t1.setLiquidHeight( percent );
+                t2.setLiquidHeight( percent );
+                t3.setLiquidHeight( percent );
+                t4.setLiquidHeight( percent );
+            }
+        } );
+        
+        JPanel controlPanel = new JPanel();
+        controlPanel.add( label );
+        controlPanel.add( slider );
+        controlPanel.add( valueDisplay );
+        
+        JPanel mainPanel = new JPanel( new BorderLayout() );
+        mainPanel.add( canvas, BorderLayout.CENTER );
+        mainPanel.add( controlPanel, BorderLayout.SOUTH );
         
         JFrame frame = new JFrame();
-        frame.getContentPane().add( canvas );
+        frame.getContentPane().add( mainPanel );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setSize( new Dimension( 250, 250 ) );
+        frame.setSize( new Dimension( 400, 300 ) );
         frame.setVisible( true );
     }
 }
