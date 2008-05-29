@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="clearAll" value="Effacer tous" />
+  <string key="noFit" value="Rien" /> 
+  <string key="linear" value="Linéaire" /> 
+  <string key="quadratic" value="Quadratique" /> 
+  <string key="bestFit" value="Meiller Fit" /> 
+  <string key="adjustableFit" value="Ajustable Fit" /> 
+  <string key="bestFit2" value="Meiller Fit:" /> 
+</SimStrings>
