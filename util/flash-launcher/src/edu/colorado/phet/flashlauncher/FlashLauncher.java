@@ -6,6 +6,8 @@ import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import javax.swing.*;
+
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 
 /**
@@ -13,49 +15,59 @@ import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
  * May 29, 2008 at 7:53:28 AM
  */
 public class FlashLauncher {
-    private String[] args;
     private String sim;
     private String language;
+    private static JTextArea jTextArea;
 
-    public FlashLauncher( String[] args ) throws IOException {
-        this.args = args;
+    public FlashLauncher() throws IOException {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "args.txt" );
         BufferedReader bu = new BufferedReader( new InputStreamReader( inputStream ) );
         String line = bu.readLine();
         StringTokenizer stringTokenizer = new StringTokenizer( line, " " );
-        System.out.println( "line = " + line );
+        println( "line = " + line );
         this.sim = stringTokenizer.nextToken();
         this.language = stringTokenizer.nextToken();
+        if ( stringTokenizer.hasMoreTokens() && stringTokenizer.nextToken().equals( "-dev" ) ) {
+            println( "FlashLauncher.FlashLauncher dev" );
+            JFrame frame = new JFrame( "Text" );
+            jTextArea = new JTextArea( 10, 50 );
+            frame.setContentPane( new JScrollPane( jTextArea ) );
+            frame.setVisible( true );
+            frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+            frame.setSize( 800, 600 );
+        }
+    }
+
+    public static void println( String string ) {
+        System.out.println( string );
+        if ( jTextArea != null ) {
+            jTextArea.append( string + "\n" );
+        }
     }
 
     public static void main( String[] args ) throws IOException {
 //        JOptionPane.showMessageDialog( null, System.getProperty( "java.class.path" ) );
-        new FlashLauncher( args ).start();
+        new FlashLauncher().start();
     }
 
     private void start() throws IOException {
-        System.out.println( "FlashLauncher.start" );
-        System.out.println( "System.getProperty( \"user.dir\" ) = " + System.getProperty( "user.dir" ) );
+        println( "FlashLauncher.start" );
+        println( "System.getProperty( \"user.dir\" ) = " + System.getProperty( "user.dir" ) );
         File currentDir = new File( System.getProperty( "user.dir" ) );
         File tempDir = new File( currentDir, "flash-launcher-temp" );
         File jarfile = getJARFile();
-        System.out.println( "jarfile = " + jarfile );
-        System.out.println( "Starting unzip" );
-        unzip( new File( currentDir, jarfile.getName() ), tempDir );
-        System.out.println( "Finished unzip" );
+        println( "jarfile = " + jarfile );
+        println( "Starting unzip jarfile=" + jarfile + ", tempDir=" + tempDir );
+        unzip( jarfile, tempDir );
+        println( "Finished unzip" );
 
-        System.out.println( "Starting openurl" );
+        println( "Starting openurl" );
         BareBonesBrowserLaunch.openURL( "file://" + new File( tempDir, sim + "_" + language + ".html" ).getAbsolutePath() );
     }
 
     private File getJARFile() {
         return new File( FlashLauncher.class.getProtectionDomain().getCodeSource().getLocation().getFile() );
     }
-
-    private File getJARFileORIG() {
-        return new File( System.getProperty( "java.class.path" ) );
-    }
-
 
     //todo: the following utility functions were copied from FileUtils so that we didn't have to
     //todo: gather all lib dependencies from FileUtils

@@ -17,24 +17,26 @@ import java.lang.reflect.Method;
 
 import javax.swing.*;
 
+import edu.colorado.phet.flashlauncher.FlashLauncher;
+
 public class BareBonesBrowserLaunch {
 
     private static final String errMsg = "Error attempting to launch web browser";
 
     public static void openURL( String url ) {
         String osName = System.getProperty( "os.name" );
-        System.out.println( "osName = " + osName );
+        FlashLauncher.println( "osName = " + osName );
         try {
             if ( osName.startsWith( "Mac OS" ) ) {
-                System.out.println( "Mac" );
+                FlashLauncher.println( "Mac" );
                 Class fileMgr = Class.forName( "com.apple.eio.FileManager" );
-                System.out.println( "fileMgr = " + fileMgr );
+                FlashLauncher.println( "fileMgr = " + fileMgr );
                 Method openURL = fileMgr.getDeclaredMethod( "openURL",
                                                             new Class[]{String.class} );
-                System.out.println( "openURL = " + openURL );
-                System.out.println( "url = " + url );
+                FlashLauncher.println( "openURL = " + openURL );
+                FlashLauncher.println( "url = " + url );
                 openURL.invoke( null, new Object[]{url} );
-                System.out.println( "invocation finished" );
+                FlashLauncher.println( "invocation finished" );
             }
             else if ( osName.startsWith( "Windows" ) ) {
                 Runtime.getRuntime().exec( "rundll32 url.dll,FileProtocolHandler " + url );
