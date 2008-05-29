@@ -168,6 +168,28 @@ class Model{
 		this.setReducedChiSquare();
 	}
 	
+	function getFitAtPoint(xPos:Number):Number{
+		var value:Number;
+		return value;
+	}
+	
+	function getRSquared():Number{
+		var RSquared:Number = 0;
+		var yMean:Number = 0; 
+		var sumDeviationsOfPoints:Number = 0;
+		var sumDeviationsOfFit:Number = 0;
+		var N:Number = this.points_arr.length;
+		for(var i = 0; i < N; i++){
+			yMean += this.points_arr[i].yPos;
+		}
+		for(var i = 0; i < N; i++){
+			var deviationPt:Number = this.points_arr[i].yPos - yMean;
+			sumDeviationsOfPoints +=  deviationPt*deviationPt;
+			//var deviationFit:Number = this.points_arr[i].xPos - yMean;
+		}
+		return RSquared;
+	}
+	
 	function registerGraphView(view:Object):Void{
 		this.graphView = view;
 	}

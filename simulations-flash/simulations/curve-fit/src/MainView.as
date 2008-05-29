@@ -17,6 +17,8 @@ class MainView{
 	var clearButton:ControlButton;
 	
 	function MainView(model:Object){
+		//Stage.scaleMode = "showAll";
+		//Stage.align = "";
 		this.model = model;
 		this.model.registerMainView(this);
 		this.stageH = Util.STAGEH;
