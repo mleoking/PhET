@@ -16,20 +16,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/flash-launcher.ipr" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado/phet" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado/phet/flashlauncher" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/flash-launcher.iws" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado/phet/flashlauncher/util" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/ide" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/src/edu" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/intellij.iml" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado/phet/flashlauncher/FlashLauncher.java" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/src" />
-      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado/phet/flashlauncher/util/BareBonesBrowserLaunch.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/flash-launcher.iws" afterPath="$PROJECT_DIR$/flash-launcher.iws" />
+      <change type="NEW" beforePath="" afterPath="C:/reid/phet/svn/trunk/util/flash-launcher/build.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/flash-launcher.ipr" afterPath="$PROJECT_DIR$/flash-launcher.ipr" />
     </list>
     <ignored path="flash-launcher.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -92,10 +81,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="FlashLauncher.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="FlashLauncher.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado/phet/flashlauncher/FlashLauncher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="24" selection-start="503" selection-end="503" vertical-scroll-proportion="0.56666666">
+            <state line="0" column="24" selection-start="8" selection-end="39" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://C:/reid/phet/svn/trunk/util/flash-launcher/build.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="33" selection-start="283" selection-end="283" vertical-scroll-proportion="0.25757575">
               <folding />
             </state>
           </provider>
@@ -104,7 +102,7 @@
       <file leaf-file-name="BareBonesBrowserLaunch.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado/phet/flashlauncher/util/BareBonesBrowserLaunch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="44" selection-start="91" selection-end="91" vertical-scroll-proportion="-0.35079366">
+            <state line="2" column="44" selection-start="91" selection-end="91" vertical-scroll-proportion="-0.031746034">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -166,14 +164,6 @@
           <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\util\flash-launcher" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\util\flash-launcher\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\util\flash-launcher\src\edu\colorado\phet\flashlauncher" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
       </PATH>
       <PATH>
         <PATH_ELEMENT>
@@ -189,29 +179,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\util\flash-launcher\src" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\util\flash-launcher\src\edu\colorado\phet\flashlauncher" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\util\flash-launcher\src\edu\colorado\phet\flashlauncher\util" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="flash-launcher" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="intellij" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\util\flash-launcher" />
+          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\util\flash-launcher\dist" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -382,13 +350,13 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="-1" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="-1" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="-1" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" order="1" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="1" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="3" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="-1" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="-1" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="-1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="-1" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998997" order="-1" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
@@ -409,13 +377,13 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="PERFORM_UPDATE_IN_BACKGROUND" value="false" />
     <option name="PERFORM_COMMIT_IN_BACKGROUND" value="false" />
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <option name="LAST_COMMIT_MESSAGE" value="added stubs and utilities for flash launcher" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -426,6 +394,7 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <MESSAGE value="added stubs and utilities for flash launcher" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -464,11 +433,19 @@
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
+    <buildFile url="file://C:/reid/phet/svn/trunk/util/flash-launcher/build.xml">
+      <antCommandLine value="" />
+      <runInBackground value="true" />
+      <targetFilters />
+      <treeView value="true" />
+      <verbose value="true" />
+      <viewClosedWhenNoErrors value="false" />
+    </buildFile>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado/phet/flashlauncher/util/BareBonesBrowserLaunch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="44" selection-start="91" selection-end="91" vertical-scroll-proportion="-0.35079366">
+        <state line="2" column="44" selection-start="91" selection-end="91" vertical-scroll-proportion="-0.031746034">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -477,7 +454,14 @@
     </entry>
     <entry file="file://C:/reid/phet/svn/trunk/util/flash-launcher/src/edu/colorado/phet/flashlauncher/FlashLauncher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="24" selection-start="503" selection-end="503" vertical-scroll-proportion="0.56666666">
+        <state line="0" column="24" selection-start="8" selection-end="39" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/reid/phet/svn/trunk/util/flash-launcher/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="33" selection-start="283" selection-end="283" vertical-scroll-proportion="0.25757575">
           <folding />
         </state>
       </provider>
