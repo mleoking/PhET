@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
@@ -25,7 +25,7 @@ public class CalorieDragStrip extends PNode {
 
     public CalorieDragStrip( final CalorieSet available ) {
         ArrayList nodes = new ArrayList();
-        for ( int i = 0; i < 4; i++ ) {
+        for ( int i = 0; i < 20; i++ ) {
             final PNode node = createNode( available.getItem( i ) );
             final int i1 = i;
             node.addInputEventListener( new PDragSequenceEventHandler() {
@@ -53,14 +53,20 @@ public class CalorieDragStrip extends PNode {
             nodes.add( node );
         }
         for ( int i = 1; i < nodes.size(); i++ ) {
+            int row=i/4;
+            int col=i%4;
             PNode pNode = (PNode) nodes.get( i );
             PNode prev = (PNode) nodes.get( i - 1 );
-            pNode.setOffset( 0, prev.getFullBounds().getMaxY() );
+            pNode.setOffset( col==0?0:prev.getFullBounds().getMaxX(), row*prev.getFullBounds().getHeight() );
+
         }
         for ( int i = 0; i < nodes.size(); i++ ) {
-            PNode pNode = (PNode) nodes.get( i );
-            addChild( pNode );
+            addChild( (PNode) nodes.get( i ) );
         }
+    }
+
+    public void removeItem( DragNode droppedNode ) {
+        removeChild( droppedNode.getPNode() );
     }
 
     private class DefaultDragNode extends PNode implements DragNode {
@@ -69,22 +75,22 @@ public class CalorieDragStrip extends PNode {
 
         public DefaultDragNode( PNode node, CaloricItem item ) {
             this.item = item;
-            this.node=node;
+            this.node = node;
             addChild( node );
-            node.addInputEventListener( new CursorHandler( ) );
+            node.addInputEventListener( new CursorHandler() );
         }
 
-        public void addDragHandler( ) {
-            node.addInputEventListener( new PDragSequenceEventHandler(){
+        public void addDragHandler() {
+            node.addInputEventListener( new PDragSequenceEventHandler() {
                 protected void drag( PInputEvent event ) {
                     super.drag( event );
                     getPNode().translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
                 }
 
                 protected void endDrag( PInputEvent e ) {
-                    notifyDropped( DefaultDragNode.this);
+                    notifyDropped( DefaultDragNode.this );
                 }
-            });
+            } );
         }
 
         public PNode getPNode() {
