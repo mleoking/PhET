@@ -1,5 +1,10 @@
 package edu.colorado.phet.flashlauncher;
 
+import java.io.*;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 
 /**
@@ -13,12 +18,84 @@ public class FlashLauncher {
         this.args = args;
     }
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
         new FlashLauncher( args ).start();
     }
 
-    private void start() {
+    private void start() throws IOException {
         System.out.println( "FlashLauncher.start" );
-        BareBonesBrowserLaunch.openURL( "http://www.google.com" );
+        System.out.println( "System.getProperty( \"user.dir\" ) = " + System.getProperty( "user.dir" ) );
+        File currentDir = new File( System.getProperty( "user.dir" ) );
+        File tempDir = new File( currentDir, "flash-launcher-temp" );
+        unzip( new File( currentDir, "flash-launcher.jar" ), tempDir );
+        BareBonesBrowserLaunch.openURL( new File( tempDir, "curve-fit_en.html" ).getAbsolutePath() );
     }
+
+
+    //todo: the following utility functions were copied from FileUtils so that we didn't have to
+    //todo: gather all lib dependencies from FileUtils
+    public static void unzip( File zipFileName, File targetDir ) throws IOException {
+        unzip( zipFileName, targetDir, new FileFilter() {
+            public boolean accept( File file ) {
+                return true;
+            }
+        } );
+    }
+
+    public static void unzip( File zipFileName, File targetDir, FileFilter filter ) throws IOException {
+        ZipFile zipFile = new ZipFile( zipFileName );
+
+        Enumeration enumeration = zipFile.entries();
+
+        while ( enumeration.hasMoreElements() ) {
+            ZipEntry entry = (ZipEntry) enumeration.nextElement();
+
+            String name = entry.getName();
+
+            if ( filter.accept( new File( targetDir, name ) ) ) {
+                if ( entry.isDirectory() ) {
+                    new File( targetDir, name ).mkdirs();
+                }
+                else {
+                    File targetFile = new File( targetDir, name );
+
+                    targetFile.getParentFile().mkdirs();
+
+                    InputStream source = zipFile.getInputStream( entry );
+                    FileOutputStream fileOutputStream = new FileOutputStream( targetFile );
+
+                    copyAndClose( source, fileOutputStream, false );
+                }
+            }
+        }
+        zipFile.close();
+    }
+
+    public static void copyTo( File source, File dest ) throws IOException {
+        copyAndClose( new FileInputStream( source ), new FileOutputStream( dest ), true );
+    }
+
+    public static void copy( InputStream source, OutputStream dest, boolean buffered ) throws IOException {
+        //todo: buffering is disabled until file truncation issue is resolved
+        buffered = false;
+        if ( buffered ) {
+            source = new BufferedInputStream( source );
+            dest = new BufferedOutputStream( dest );
+        }
+
+        int bytesRead;
+
+        byte[] buffer = new byte[1024];
+
+        while ( ( bytesRead = source.read( buffer ) ) >= 0 ) {
+            dest.write( buffer, 0, bytesRead );
+        }
+    }
+
+    public static void copyAndClose( InputStream source, OutputStream dest, boolean buffered ) throws IOException {
+        copy( source, dest, buffered );
+        source.close();
+        dest.close();
+    }
+
 }
