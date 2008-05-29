@@ -23,12 +23,18 @@ public class BareBonesBrowserLaunch {
 
     public static void openURL( String url ) {
         String osName = System.getProperty( "os.name" );
+        System.out.println( "osName = " + osName );
         try {
             if ( osName.startsWith( "Mac OS" ) ) {
+                System.out.println( "Mac" );
                 Class fileMgr = Class.forName( "com.apple.eio.FileManager" );
+                System.out.println( "fileMgr = " + fileMgr );
                 Method openURL = fileMgr.getDeclaredMethod( "openURL",
                                                             new Class[]{String.class} );
+                System.out.println( "openURL = " + openURL );
+                System.out.println( "url = " + url );
                 openURL.invoke( null, new Object[]{url} );
+                System.out.println( "invocation finished" );
             }
             else if ( osName.startsWith( "Windows" ) ) {
                 Runtime.getRuntime().exec( "rundll32 url.dll,FileProtocolHandler " + url );

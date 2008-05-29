@@ -6,8 +6,6 @@ import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import javax.swing.*;
-
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 
 /**
@@ -43,8 +41,12 @@ public class FlashLauncher {
         String x = System.getProperty( "java.class.path" );
         File f = new File( x );
         System.out.println( "x = " + x );
+        System.out.println( "Starting unzip" );
         unzip( new File( currentDir, f.getName() ), tempDir );
-        BareBonesBrowserLaunch.openURL( new File( tempDir, sim + "_" + language + ".html" ).getAbsolutePath() );
+        System.out.println( "Finished unzip" );
+
+        System.out.println( "Starting openurl" );
+        BareBonesBrowserLaunch.openURL( "file://" + new File( tempDir, sim + "_" + language + ".html" ).getAbsolutePath() );
     }
 
 
