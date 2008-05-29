@@ -2,8 +2,11 @@ package edu.colorado.phet.flashlauncher;
 
 import java.io.*;
 import java.util.Enumeration;
+import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import javax.swing.*;
 
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 
@@ -13,12 +16,22 @@ import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
  */
 public class FlashLauncher {
     private String[] args;
+    private String sim;
+    private String language;
 
-    public FlashLauncher( String[] args ) {
+    public FlashLauncher( String[] args ) throws IOException {
         this.args = args;
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "args.txt" );
+        BufferedReader bu = new BufferedReader( new InputStreamReader( inputStream ) );
+        String line = bu.readLine();
+        StringTokenizer stringTokenizer = new StringTokenizer( line, " " );
+        System.out.println( "line = " + line );
+        this.sim = stringTokenizer.nextToken();
+        this.language = stringTokenizer.nextToken();
     }
 
     public static void main( String[] args ) throws IOException {
+//        JOptionPane.showMessageDialog( null, System.getProperty( "java.class.path" ) );
         new FlashLauncher( args ).start();
     }
 
@@ -27,8 +40,11 @@ public class FlashLauncher {
         System.out.println( "System.getProperty( \"user.dir\" ) = " + System.getProperty( "user.dir" ) );
         File currentDir = new File( System.getProperty( "user.dir" ) );
         File tempDir = new File( currentDir, "flash-launcher-temp" );
-        unzip( new File( currentDir, "flash-launcher.jar" ), tempDir );
-        BareBonesBrowserLaunch.openURL( new File( tempDir, "curve-fit_en.html" ).getAbsolutePath() );
+        String x = System.getProperty( "java.class.path" );
+        File f = new File( x );
+        System.out.println( "x = " + x );
+        unzip( new File( currentDir, f.getName() ), tempDir );
+        BareBonesBrowserLaunch.openURL( new File( tempDir, sim + "_" + language + ".html" ).getAbsolutePath() );
     }
 
 

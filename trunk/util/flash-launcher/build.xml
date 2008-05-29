@@ -2,6 +2,8 @@
     <property name="src" location="src"/>
     <property name="build" location="build"/>
     <property name="dist" location="dist"/>
+    <property name="lang" value="fr"/>
+    <property name="sim" value="curve-fit"/>
 
     <target name="init">
         <tstamp/>
@@ -11,15 +13,20 @@
         <mkdir dir="${build}"/>
         <javac srcdir="${src}" destdir="${build}"/>
         <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit.swf" todir="${build}"/>
-        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\strings_en.xml" todir="${build}"/>
-        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\strings_fr.xml" todir="${build}"/>
-        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit_en.html" todir="${build}"/>
-        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit_fr.html" todir="${build}"/>
+        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\strings_en.xml"
+              todir="${build}"/>
+        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\strings_fr.xml"
+              todir="${build}"/>
+        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit_en.html"
+              todir="${build}"/>
+        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit_fr.html"
+              todir="${build}"/>
+        <echo file="${build}\args.txt" message="${sim} ${lang}"/>
     </target>
 
     <target name="dist" depends="compile">
         <mkdir dir="${dist}"/>
-        <jar jarfile="${dist}/flash-launcher.jar" basedir="${build}">
+        <jar jarfile="${dist}/${sim}_${lang}.jar" basedir="${build}">
             <manifest>
                 <attribute name="Main-Class" value="edu.colorado.phet.flashlauncher.FlashLauncher"/>
             </manifest>
