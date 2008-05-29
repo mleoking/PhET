@@ -8,7 +8,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics2.model.Neutron;
 import edu.colorado.phet.nuclearphysics2.model.Uranium235Nucleus;
@@ -45,7 +47,6 @@ public class NuclearReactorNode extends PNode {
     private static final double       THERMOMETER_WIDTH_PROPORTION = 0.05;
     private static final double       THERMOMETER_HEIGHT_PROPORTION = 0.40;
     
-    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -66,6 +67,8 @@ public class NuclearReactorNode extends PNode {
     
     // A map for tracking model element to node relationships.
     HashMap _modelElementToNodeMap;
+    
+    LiquidExpansionThermometerNode _thermometerNode;
     
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -134,14 +137,21 @@ public class NuclearReactorNode extends PNode {
         addNucleusNodes();
         
         // Add the thermometer.
-        PNode thermometerNode = new ThermometerNode(_nuclearReactorModel,
-                new PDimension(THERMOMETER_WIDTH_PROPORTION * reactorRect.getWidth(), 
-                        THERMOMETER_HEIGHT_PROPORTION * reactorRect.getHeight()), MAX_TEMPERATURE);
-        addChild(thermometerNode);
-        thermometerNode.setOffset( 
+        _thermometerNode = new LiquidExpansionThermometerNode( 
+              new PDimension( reactorRect.getWidth() * THERMOMETER_WIDTH_PROPORTION, 
+                      reactorRect.getHeight() * THERMOMETER_HEIGHT_PROPORTION ) );
+        addChild(_thermometerNode);
+        _thermometerNode.setOffset( 
                 reactorRect.getX() + (reactorRect.getWidth() * THERMOMETER_PROPORTION_FROM_LEFT_SIDE),
                 reactorRect.getY() - (reactorRect.getHeight() * THERMOMETER_PROPORTION_ABOVE));
         
+        updateThermometerTemperature();
+        
+        _nuclearReactorModel.addListener( new NuclearReactorModel.Adapter(){
+            public void temperatureChanged(){
+                updateThermometerTemperature();
+            }
+        });
     }
     
     //------------------------------------------------------------------------
@@ -264,5 +274,9 @@ public class NuclearReactorNode extends PNode {
                 System.err.println("Error: Problem encountered removing node from canvas.");
             }
         }
+    }
+    
+    private void updateThermometerTemperature(){
+        _thermometerNode.setLiquidHeight( MathUtil.clamp(0, _nuclearReactorModel.getTemperature() / MAX_TEMPERATURE, 1.0) );
     }
 }
