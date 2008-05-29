@@ -23,7 +23,12 @@ public class ContainmentVessel {
     private static final double APERTURE_HEIGHT = 18;    // In femtometers.
     private static final double APERTURE_WIDTH = CONTAINMENT_RANGE * 2.0;  // In femtometers.
     private static final double MINIMUM_RADIUS = 15;
-    private static final double CONTAINMENT_EXPLOSION_THRESHOLD = 400;
+    
+    // The following value controls how many impacts must occur to cause the
+    // containment vessel to explode.  The goal, as prescribed by the educators,
+    // is that explosion won't occur unless the containment vessel is enlarged
+    // somewhat.
+    private static final double CONTAINMENT_EXPLOSION_THRESHOLD = 1200;
     
     //------------------------------------------------------------------------
     // Instance Data
