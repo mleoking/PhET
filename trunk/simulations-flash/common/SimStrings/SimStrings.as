@@ -1,4 +1,4 @@
-/* SimStrings.as */
+﻿/* SimStrings.as */
 
 /**
  * SimStrings provides a mapping between string "keys" and their
@@ -97,7 +97,8 @@ class SimStrings
    */
   public function get( key:String ):String
   {  
-    var value:String = key;
+    //var value:String = key;  //Original code, deleted by Dubson
+	var value:String = "keyNotFound"; //Dubson code
     var nodes:Array = mDocument.firstChild.childNodes; // array of XMLNode
     var node:XMLNode = null;
     for ( var i = 0; i < nodes.length; i++ )
