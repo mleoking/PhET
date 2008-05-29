@@ -20,7 +20,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * TestThermometerArea tests the constructive area geometry used to form the shape for a thermometer.
- * As the stroke with is increased, the place where the bulb and tube join looks more wrong.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
