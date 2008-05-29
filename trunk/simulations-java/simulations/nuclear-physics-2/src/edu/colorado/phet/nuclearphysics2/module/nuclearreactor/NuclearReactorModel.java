@@ -412,8 +412,10 @@ public class NuclearReactorModel {
             }
         }
         
-        // Let listeners know that a reset has occurred.
+        // Let listeners know that things have been reset.
         notifyResetOccurred();
+        notifyTemperatureChanged();
+        notifyEnergyChanged();
     }
     
     /**
