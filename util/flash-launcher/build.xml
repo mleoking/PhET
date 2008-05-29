@@ -2,8 +2,9 @@
     <property name="src" location="src"/>
     <property name="build" location="build"/>
     <property name="dist" location="dist"/>
-    <property name="lang" value="fr"/>
+    <property name="lang" value="en"/>
     <property name="sim" value="curve-fit"/>
+    <property name="trunk" value="../.."/>
 
     <target name="init">
         <tstamp/>
@@ -12,15 +13,11 @@
     <target name="compile" depends="init">
         <mkdir dir="${build}"/>
         <javac srcdir="${src}" destdir="${build}"/>
-        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit.swf" todir="${build}"/>
-        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\strings_en.xml"
-              todir="${build}"/>
-        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\strings_fr.xml"
-              todir="${build}"/>
-        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit_en.html"
-              todir="${build}"/>
-        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit_fr.html"
-              todir="${build}"/>
+        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curve-fit.swf" todir="${build}"/>
+        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curveFitStrings_en.xml" todir="${build}"/>
+        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curveFitStrings_fr.xml" todir="${build}"/>
+        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curve-fit_en.html" todir="${build}"/>
+        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curve-fit_fr.html" todir="${build}"/>
         <echo file="${build}\args.txt" message="${sim} ${lang}"/>
     </target>
 
