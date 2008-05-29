@@ -2,15 +2,17 @@
 
 package edu.colorado.phet.glaciers.test;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -18,12 +20,15 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * TestThermometerArea tests the constructive area geometry used to form the shape for a thermometer.
+ * As the stroke with is increased, the place where the bulb and tube join looks more wrong.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestThermometerArea extends JFrame {
     
+    // dimensions of the thermometer, not accounting for stroke width
     private static final PDimension THERMOMETER_SIZE = new PDimension( 50, 200 );
+    private static final int DEFAULT_STROKE_WIDTH = 5;
     
     // derived constants
     private static final double BULB_DIAMETER = THERMOMETER_SIZE.getWidth();
@@ -33,22 +38,45 @@ public class TestThermometerArea extends JFrame {
     public TestThermometerArea() {
         super( "TestThermometerArea" );
         
-        PCanvas canvas = new PCanvas();
-        getContentPane().add( canvas );
-        
-        // take the union of a circle and a rounded rectangle
+        // Take the union of a circle and a rounded rectangle.
+        // Origin is at upper-left corner of the area's bounding rectangle.
         final double tubeMinX = ( THERMOMETER_SIZE.getWidth() - TUBE_WIDTH ) / 2;
         Shape tubeShape = new RoundRectangle2D.Double( tubeMinX, 0, TUBE_WIDTH, THERMOMETER_SIZE.getHeight(), TUBE_WIDTH, TUBE_WIDTH );
         Shape bulbShape = new Ellipse2D.Double( 0, TUBE_HEIGHT, BULB_DIAMETER, BULB_DIAMETER );
-        Area area = new Area();
+        Area area = new Area( tubeShape );
         area.add( new Area( bulbShape ) );
-        area.add( new Area( tubeShape ) );
         
-        PPath pathNode = new PPath( area );
-        pathNode.setStroke( new BasicStroke( 2f ) );
+        // Draw the outline of the area
+        final PPath pathNode = new PPath( area );
+        pathNode.setStroke( new BasicStroke( DEFAULT_STROKE_WIDTH ) );
         pathNode.setStrokePaint( Color.BLACK );
-        pathNode.setOffset( 100, 100 );
+        pathNode.setOffset( 150, 50 );
+        
+        PCanvas canvas = new PCanvas();
         canvas.getLayer().addChild( pathNode );
+        
+        // slider control for changing stroke width
+        JLabel label = new JLabel( "stroke width:" );
+        final JLabel valueDisplay = new JLabel( String.valueOf( DEFAULT_STROKE_WIDTH ) );
+        final JSlider slider = new JSlider( 1, 10 );
+        slider.setValue( DEFAULT_STROKE_WIDTH );
+        slider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                final int width = slider.getValue();
+                pathNode.setStroke( new BasicStroke( width ) );
+                valueDisplay.setText( String.valueOf( width ) );
+            }
+        } );
+        
+        JPanel controlPanel = new JPanel();
+        controlPanel.add( label );
+        controlPanel.add( slider );
+        controlPanel.add( valueDisplay );
+        
+        JPanel mainPanel = new JPanel( new BorderLayout() );
+        mainPanel.add( canvas, BorderLayout.CENTER );
+        mainPanel.add( controlPanel, BorderLayout.SOUTH );
+        getContentPane().add( mainPanel );
     }
     
     public static void main( String args[] ) {
