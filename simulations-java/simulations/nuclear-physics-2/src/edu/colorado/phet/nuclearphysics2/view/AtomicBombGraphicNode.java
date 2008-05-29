@@ -105,10 +105,6 @@ public class AtomicBombGraphicNode extends PNode {
         _explosionLabel = new ShadowPText(NuclearPhysics2Strings.EXPLOSION_LABEL, LABEL_COLOR, LABEL_FONT);
         _explosionLabel.setVisible( false );
         addChild(_explosionLabel);
-        
-        // Make sure we don't intercept any mouse clicks.
-        setPickable( false );
-        setChildrenPickable( false );
     }
     
     //----------------------------------------------------------------------------
