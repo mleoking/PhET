@@ -38,15 +38,22 @@ public class FlashLauncher {
         System.out.println( "System.getProperty( \"user.dir\" ) = " + System.getProperty( "user.dir" ) );
         File currentDir = new File( System.getProperty( "user.dir" ) );
         File tempDir = new File( currentDir, "flash-launcher-temp" );
-        String x = System.getProperty( "java.class.path" );
-        File f = new File( x );
-        System.out.println( "x = " + x );
+        File jarfile = getJARFile();
+        System.out.println( "jarfile = " + jarfile );
         System.out.println( "Starting unzip" );
-        unzip( new File( currentDir, f.getName() ), tempDir );
+        unzip( new File( currentDir, jarfile.getName() ), tempDir );
         System.out.println( "Finished unzip" );
 
         System.out.println( "Starting openurl" );
         BareBonesBrowserLaunch.openURL( "file://" + new File( tempDir, sim + "_" + language + ".html" ).getAbsolutePath() );
+    }
+
+    private File getJARFile() {
+        return new File( FlashLauncher.class.getProtectionDomain().getCodeSource().getLocation().getFile() );
+    }
+
+    private File getJARFileORIG() {
+        return new File( System.getProperty( "java.class.path" ) );
     }
 
 
