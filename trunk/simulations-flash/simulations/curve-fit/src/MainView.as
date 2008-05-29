@@ -9,6 +9,7 @@ class MainView{
 	private var chiScale:MovieClip;	//chi-square display
 	private var equationDisplay:MovieClip;
 	private var nbrPointsCreated:Number; 
+	private var fitDescription:String;  //"none" "best" or "adjustable"
 	private var scale:Number; //scale factor: xGraph = scale*xPixels
 	var stageH:Number; //height of stage in pixels
 	var stageW:Number;
@@ -69,7 +70,7 @@ class MainView{
 			this.value_txt.text = value; 
 			modelRef.setA(value);
 			//trace("update called. value is "+ value);
-			updateAfterEvent();
+			//updateAfterEvent();
 		}
 		aSlider.value_txt.onChanged = function(changedField){
 			var value = Number(changedField.text);
@@ -94,7 +95,7 @@ class MainView{
 			var bParam = Math.tan(theta);
 			this.value_txt.text = 0.01*Math.round(100*bParam); 
 			modelRef.setB(bParam);
-			updateAfterEvent();
+			//updateAfterEvent();
 		}
 		
 		bSlider.value_txt.onChanged = function(changedField){
@@ -125,7 +126,7 @@ class MainView{
 			var value =Math.sin(theta)/(radius*cosTheta*cosTheta);
 			this.value_txt.text = 0.001*Math.round(1000*value); 
 			modelRef.setC(value);
-			updateAfterEvent();
+			//updateAfterEvent();
 		}
 		
 		cSlider.value_txt.onChanged = function(changedField){
@@ -156,26 +157,35 @@ class MainView{
 	
 	function setOrderOfFit(fitType:Number):Void{
 		//trace("fit type is "+fitType);
-		this.model.setOrderOfFit(fitType);
+		if(this.fitDescription == "best"){
+			this.model.setOrderOfFit(fitType);
+		}else if(this.fitDescription == "adjustable"){
+			this.setFitOrNot(2);
+		}
 	}
 	
 	function setFitOrNot(fitOrNot:Number):Void{
 		if(fitOrNot == 1){  //fitOrNot == 1 means best fit
+			this.fitDescription = "best";
 			this.panel.sliders_mc._visible = false;
 			//this.panel.sliders_mc.aSlider._visible = false;
 			//this.panel.sliders_mc.bSlider._visible = false;
 			//this.panel.sliders_mc.cSlider._visible = false;
 			this.model.setFitOn(true);
 			this.model.makeFit();
-		}else{	//else adjustable fit
+		}else if(fitOrNot == 2){	//else adjustable fit
+			this.fitDescription = "adjustable";
 			this.panel.sliders_mc._visible = true;
-			//this.panel.sliders_mc.aSlider._visible = true;
-			//this.panel.sliders_mc.bSlider._visible = true;
+			this.panel.sliders_mc.aSlider.update();
+			this.panel.sliders_mc.bSlider.update();
 			this.model.setFitOn(false);
 			if(this.model.orderOfFit == 1){
 				this.panel.sliders_mc.cSlider._visible = false;
-			}else{
+				//this.panel.sliders_mc.cSlider.init(); //set c = 0
+				//this.panel.sliders_mc.cSlider.update();
+			}else if(this.model.orderOfFit == 2){
 				this.panel.sliders_mc.cSlider._visible = true;
+				this.panel.sliders_mc.cSlider.update();
 			}
 		}
 	}

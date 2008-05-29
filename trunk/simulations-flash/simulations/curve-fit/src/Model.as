@@ -5,7 +5,7 @@ class Model{
 	//Views
 	var points_arr:Array; 	 			//array of data points
 	private var nbrPoints:Number;  		//number of points on the graph
-	private var fitOn:Boolean;			
+	private var fitOn:Boolean;	
 	private var LFit:LinearFit;
 	private var QFit:QuadraticFit;
 	var fitParameters:Array;			//coefficients a, b, c of polynomial fit. If OrderOfFit = 1, ignore c
@@ -19,6 +19,7 @@ class Model{
 		this.points_arr = new Array();
 		this.orderOfFit = 1;
 		this.fitOn = true;
+		//this.curveType = "best";
 		//this.linearFit_arr = new Array(2);  //2 elements in array are a, b: y = a + b*x
 		this.LFit = new LinearFit(this);
 		this.QFit = new QuadraticFit(this);
@@ -57,6 +58,7 @@ class Model{
 		}
 		this.points_arr.length = 0;
 		this.nbrPoints = 0;
+		this.setReducedChiSquare();
 		this.clearFit();
 	}
 	

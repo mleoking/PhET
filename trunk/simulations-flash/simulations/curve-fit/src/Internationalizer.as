@@ -1,5 +1,5 @@
 ﻿//All internationalizable string collected here
-
+//All strings must default 
 class Internationalizer{
 	private var simStrings:SimStrings;
 	
@@ -21,32 +21,36 @@ class Internationalizer{
 	
 	_root.controlPanel_mc.fitOrNotRadioGroup.bestFit_txt
 	_root.controlPanel_mc.fitOrNotRadioGroup.adjustableFit_txt
+	
+	_root.equation_mc.bestFit_mc
 	*/
+	
 	
 	function initialize(){
 		//myLabel.text = simStrings.get( "myLabel" );
-		//trace("noFit_txt.text:" + _root.controlPanel_mc.fitTypeRadioGroup.noFit_txt.text);
-		//trace("simStrings.get( noFit ) is " + this.simStrings.get( "noFit" ));
-		_root.controlPanel_mc.clearButton_mc.label_txt.text = this.simStrings.get( "clearAll" );
+		this.setString(_root.controlPanel_mc.clearButton_mc.label_txt, "clearAll", "center");
 		
-		_root.controlPanel_mc.fitTypeRadioGroup.noFit_txt.text = this.simStrings.get( "noFit" );
-		_root.controlPanel_mc.fitTypeRadioGroup.linear_txt.text = this.simStrings.get( "linear" );
-		_root.controlPanel_mc.fitTypeRadioGroup.quadratic_txt.text = this.simStrings.get( "quadratic" );
+		this.setString(_root.controlPanel_mc.fitTypeRadioGroup.noFit_txt, "noFit", "left");
+		this.setString(_root.controlPanel_mc.fitTypeRadioGroup.linear_txt, "linear", "left");
+		this.setString(_root.controlPanel_mc.fitTypeRadioGroup.quadratic_txt, "quadratic", "left");
 		
-		_root.controlPanel_mc.fitOrNotRadioGroup.bestFit_txt.text = this.simStrings.get( "bestFit" );
-		_root.controlPanel_mc.fitOrNotRadioGroup.adjustableFit_txt.text = this.simStrings.get( "adjustableFit" );
+		this.setString(_root.controlPanel_mc.fitOrNotRadioGroup.bestFit_txt, "bestFit", "left");
+		this.setString(_root.controlPanel_mc.fitOrNotRadioGroup.adjustableFit_txt, "adjustableFit", "left");
 		
-		this.reSizeText(_root.controlPanel_mc.clearButton_mc.label_txt, "center");
-		
-		this.reSizeText(_root.controlPanel_mc.fitTypeRadioGroup.noFit_txt, "left");
-		this.reSizeText(_root.controlPanel_mc.fitTypeRadioGroup.linear_txt, "left");
-		this.reSizeText(_root.controlPanel_mc.fitTypeRadioGroup.quadratic_txt, "left");
-		
-		this.reSizeText(_root.controlPanel_mc.fitOrNotRadioGroup.bestFit_txt, "left");
-		this.reSizeText(_root.controlPanel_mc.fitOrNotRadioGroup.adjustableFit_txt, "left");
+		this.setString(_root.equation_mc.bestFit_txt, "bestFit2", "left");
 	}
 	
-	function reSizeText(txtField:Object, alignment:String):Void{  //get an error when Object = textField
+	function setString(field:TextField, key:String, alignment:String){
+		var stringValue:String = this.simStrings.get( key );
+		if(stringValue == "keyNotFound"){
+		   //Do nothing.  String will default to English
+		}else{
+			field.text = stringValue;
+			this.resizeText(field, alignment);
+		}
+	}
+	
+	function resizeText(txtField:Object, alignment:String):Void{  //get an error when Object = textField
 		var mTextField:Object = txtField;
 		var mTextFormat:TextFormat = txtField.getTextFormat();
 		var alignment:String = alignment;
