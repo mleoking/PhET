@@ -42,7 +42,7 @@ public class ThermometerNode extends AbstractToolNode {
     
     private static final double MAX_TEMPERATURE = 10; // C
     private static final double MIN_TEMPERATURE = -20; // C
-    private static final PDimension THERMOMETER_SIZE = new PDimension( 30, 120 );//15, 60 );
+    private static final PDimension THERMOMETER_SIZE = new PDimension( 15, 60 );
     private static final NumberFormat TEMPERATURE_FORMAT = new DefaultDecimalFormat( "0.0" );
     
     //----------------------------------------------------------------------------
@@ -54,7 +54,7 @@ public class ThermometerNode extends AbstractToolNode {
     private final ThermometerListener _thermometerListener;
     private final MovableListener _movableListener;
     private final GlacierListener _glacierListener;
-    private final ThermometerGlassNode _glassNode;
+    private final GlassNode _glassNode;
     private final ValueNode _valueNode;
     
     //----------------------------------------------------------------------------
@@ -91,7 +91,7 @@ public class ThermometerNode extends AbstractToolNode {
         PNode arrowNode = new LeftToolOriginNode();
         addChild( arrowNode );
         
-        _glassNode = new ThermometerGlassNode( THERMOMETER_SIZE );
+        _glassNode = new GlassNode( THERMOMETER_SIZE );
         addChild( _glassNode );
         
         _valueNode = new ValueNode( getValueFont(), getValueBorder() );
@@ -115,6 +115,16 @@ public class ThermometerNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
+    
+    /*
+     * The glass thermometer.
+     */
+    private static class GlassNode extends LiquidExpansionThermometerNode {
+        public GlassNode( PDimension size ) {
+            super( size );
+            setInnerWallVisible( false );
+        }
+    }
     
     /*
      * Displays the temperature value.
@@ -199,8 +209,8 @@ public class ThermometerNode extends AbstractToolNode {
     //----------------------------------------------------------------------------
     
     public static Image createImage() {
-        ThermometerGlassNode node = new ThermometerGlassNode( THERMOMETER_SIZE );
-        node.setLiquidHeight( 0.5 );
-        return node.toImage();
+        GlassNode glassNode = new GlassNode( THERMOMETER_SIZE );
+        glassNode.setLiquidHeight( 0.5 );
+        return glassNode.toImage();
     }
 }
