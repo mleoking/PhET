@@ -154,9 +154,10 @@ public class LiquidExpansionThermometerNode extends PComposite {
     //----------------------------------------------------------------------------
     
     /**
-     * Sets the height of the liquid in the thermometer.  This is expressed as a percent 
-     * of the total possible height of the liquid.  At zero, the bulb is full but there
-     * is no liquid in the neck.  At 1, the entire neck is full.
+     * Sets the height of the liquid in the tube.  
+     * This is expressed as a percent the tube that is filled with liquid.
+     * At zero, the bulb is full but there is no liquid in the tube.  
+     * At 1, the entire tube is full.
      * 
      * @param percent 0.0 to 1.0
      * @throws IllegalArgumentException if percent is out of range
