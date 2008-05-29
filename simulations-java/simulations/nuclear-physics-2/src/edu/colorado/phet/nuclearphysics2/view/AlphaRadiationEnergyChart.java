@@ -5,10 +5,10 @@ package edu.colorado.phet.nuclearphysics2.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Stroke;
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
@@ -25,6 +25,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.nodes.PLine;
 
@@ -52,7 +53,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private static final double  ORIGIN_PROPORTION_X = 0.1d;
     private static final double  ORIGIN_PROPORTION_Y = 0.33d;
     private static final float   ENERGY_LINE_STROKE_WIDTH = 2f;
-    private static final Stroke  ENERGY_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH );
+    private static final Stroke  ENERGY_LINE_STROKE = new BasicStroke( ENERGY_LINE_STROKE_WIDTH, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
     private static final Color   TOTAL_ENERGY_LINE_COLOR = Color.ORANGE;
     private static final Color   POTENTIAL_ENERGY_LINE_COLOR = Color.BLUE;
     private static final Color   LEGEND_BORDER_COLOR = Color.GRAY;
@@ -74,6 +75,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private static final double ALPHA_PARTICLE_POST_DECAY_ENERGY = -10.0;
     private static final double PRE_DECAY_WELL_ENERGY = -40.0;
     private static final double POST_DECAY_WELL_ENERGY = -55.0;
+    private static final double POTENTIAL_ENERGY_CURVE_SCALE_FACTOR = 11.0;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -209,7 +211,17 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         
         // Initialize attributes of the curve that shows the potential energy well.
         
-        _potentialEnergyLine = new PPath();
+        _potentialEnergyLine = new PPath(){
+            // Override the rendering hints so that the segmented line can be
+            // drawn smoothly.
+            public void paint(PPaintContext paintContext){
+                Graphics2D g2 = paintContext.getGraphics();
+                RenderingHints oldHints = g2.getRenderingHints();
+                g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
+                super.paint( paintContext );
+                g2.setRenderingHints( oldHints );
+            }
+        };
         _potentialEnergyLine.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
         _potentialEnergyLine.setStroke( ENERGY_LINE_STROKE );
         addChild( _potentialEnergyLine);
@@ -371,57 +383,25 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
                 _graphOriginY + 5);
 
         
-        // Position the line that represents the total energy.
-        
-        _totalEnergyLine.removeAllPoints();
-        _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, 
-                _graphOriginY - convertEnergyToScreenUnits(TOTAL_ENERGY) );
-        _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, 
-                _graphOriginY - convertEnergyToScreenUnits(TOTAL_ENERGY) );
-            
-
         // Position the curve that represents the potential energy.
 
         _potentialEnergyLine.reset();
         double centerX = _usableAreaOriginX + (_usableWidth/2);
+        double multiplier = _usableHeight * POTENTIAL_ENERGY_CURVE_SCALE_FACTOR;
+        double xScreenPos;
         
-        Point2D leftPeakOfEnergyWell = new Point2D.Double(centerX - (_energyWellWidth/2),
-                _graphOriginY - (0.20 * _usableHeight));
-        double bottomOfEnergyWell = _decayOccurred ? POST_DECAY_WELL_ENERGY : PRE_DECAY_WELL_ENERGY;
-        Point2D leftBottomOfEnergyWell = new Point2D.Double(centerX - (_energyWellWidth/2), 
-                _graphOriginY - convertEnergyToScreenUnits( bottomOfEnergyWell ));
-        Point2D rightBottomOfEnergyWell = new Point2D.Double(centerX + (_energyWellWidth/2),
-                _graphOriginY - convertEnergyToScreenUnits( bottomOfEnergyWell ));
-        Point2D rightPeakOfEnergyWell = new Point2D.Double(centerX + (_energyWellWidth/2),
-                _graphOriginY - (0.20 * _usableHeight));
-        
-        _potentialEnergyLine.append( new QuadCurve2D.Double(_usableAreaOriginX + 3 * BORDER_STROKE_WIDTH, 
-                _graphOriginY - (0.03 * _usableHeight), (_usableAreaOriginX + (_usableWidth/2)) * 0.8,
-                _graphOriginY - (0.05 * _usableHeight), leftPeakOfEnergyWell.getX(), leftPeakOfEnergyWell.getY()), 
-                false );
-        _potentialEnergyLine.append( new Line2D.Double(leftPeakOfEnergyWell, leftBottomOfEnergyWell), false);
-        _potentialEnergyLine.append( new Line2D.Double(leftBottomOfEnergyWell, rightBottomOfEnergyWell), false);
-        _potentialEnergyLine.append( new Line2D.Double(rightBottomOfEnergyWell, rightPeakOfEnergyWell), false);
-        _potentialEnergyLine.append( new QuadCurve2D.Double(rightPeakOfEnergyWell.getX(),
-                rightPeakOfEnergyWell.getY(), (_usableAreaOriginX + (_usableWidth/2)) * 1.2,
-                _graphOriginY - (0.05 * _usableHeight),
-                _usableAreaOriginX + _usableWidth - 3 * BORDER_STROKE_WIDTH,
-                _graphOriginY - (0.03 * _usableHeight)), false );
-        
-        /*
-         * This is an alternative way for calculating the potential energy line
-         * that is somewhat more 'real', since it make the line a function of
-         * 1/r.  Keep for now until we work out which method is preferred.
-         * jblanco, 5/29/2008.
-        double multiplier = _usableHeight * 11; // JPB TBD - Make mult factor constant if I use this.
         _potentialEnergyLine.moveTo( (float)_usableAreaOriginX + 3*BORDER_STROKE_WIDTH, 
                 (float)(_graphOriginY - (multiplier * (1/(centerX - _usableAreaOriginX)))));
-        double xScreenPos;
         for (xScreenPos = _usableAreaOriginX + (3 * BORDER_STROKE_WIDTH);
-             xScreenPos < centerX - (_energyWellWidth / 2); 
-             xScreenPos++){
-            
+             xScreenPos < centerX - (_energyWellWidth / 2); ){
+
             _potentialEnergyLine.lineTo( (float)xScreenPos, (float)(_graphOriginY - (multiplier * (1/(centerX - xScreenPos)))));
+            if (xScreenPos < (centerX - (_energyWellWidth / 2)-5)){
+                xScreenPos+=5;
+            }else{
+                // Use finer resolution as we get closer to the peak so that we don't miss it.
+                xScreenPos++;
+            }
         }
 
         double bottomOfEnergyWell = _decayOccurred ? POST_DECAY_WELL_ENERGY : PRE_DECAY_WELL_ENERGY;
@@ -430,27 +410,24 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _potentialEnergyLine.lineTo( (float)xScreenPos, (float)(_graphOriginY - convertEnergyToScreenUnits(bottomOfEnergyWell)));
 
         for (xScreenPos = xScreenPos + 1; 
-             xScreenPos < _usableAreaOriginX + _usableWidth - (3*BORDER_STROKE_WIDTH); 
-             xScreenPos++){
+             xScreenPos < _usableAreaOriginX + _usableWidth - (3*BORDER_STROKE_WIDTH); xScreenPos+=5){
+            
             _potentialEnergyLine.lineTo( (float)xScreenPos, (float)(_graphOriginY - (multiplier * (1/(xScreenPos - centerX)))));
         }
-        
-        // Get the tunneling region radius and convert it to screen
-        // coordinates so that we can position the total energy line
-        // correctly.
+
+        // Position the line that represents the total energy.  To do this, we
+        // need to get the tunneling region radius and convert it to screen
+        // coordinates and calculate the intersection with the potential
+        // energy line.
         double tunnelingRegionRadius = _model.getAtomNucleus().getTunnelingRegionRadius();
         PDimension tunnelingRegionDim = new PDimension(tunnelingRegionRadius, tunnelingRegionRadius);
         _canvas.getPhetRootNode().worldToScreen( tunnelingRegionDim );
         double tunnelingRegionRadiusScreen = tunnelingRegionDim.getWidth();
-
         double totalEnergyLineYPos = _graphOriginY - (multiplier * (1 / tunnelingRegionRadiusScreen));
 
         _totalEnergyLine.removeAllPoints();
         _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
         _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, totalEnergyLineYPos );
-        // JPB TBD - End of alternative calculation for potential energy line.
-         */
-            
         
         // Lay out the legend.
         
