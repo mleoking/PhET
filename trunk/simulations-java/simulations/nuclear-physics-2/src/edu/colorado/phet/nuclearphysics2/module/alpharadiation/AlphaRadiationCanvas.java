@@ -30,6 +30,7 @@ import edu.colorado.phet.nuclearphysics2.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics2.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics2.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -72,7 +73,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     public AlphaRadiationCanvas(AlphaRadiationModel alphaRadiationModel) {
-
+        
         _alphaRadiationModel = alphaRadiationModel;
         
         // Set the transform strategy in such a way that the center of the
