@@ -16,7 +16,7 @@ public class TestDecode {
         File file = new File( fileName );
         fileName=URLDecoder.decode( fileName,"UTF-8" );
         System.out.println( "file.getAbsolutePath(); = " + file.getAbsolutePath() );
-        URL url=n
-        URI uri=new URI( );
+//        URL url=n
+//        URI uri=new URI( );
     }
 }

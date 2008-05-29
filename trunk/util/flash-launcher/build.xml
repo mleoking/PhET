@@ -2,7 +2,7 @@
     <property name="src" location="src"/>
     <property name="build" location="build"/>
     <property name="dist" location="dist"/>
-    <property name="lang" value="en"/>
+    <property name="lang" value="fr"/>
     <property name="sim" value="curve-fit"/>
     <property name="trunk" value="../.."/>
 
