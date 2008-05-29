@@ -10,6 +10,11 @@
     <target name="compile" depends="init">
         <mkdir dir="${build}"/>
         <javac srcdir="${src}" destdir="${build}"/>
+        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit.swf" todir="${build}"/>
+        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\strings_en.xml" todir="${build}"/>
+        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\strings_fr.xml" todir="${build}"/>
+        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit_en.html" todir="${build}"/>
+        <copy file="C:\reid\phet\svn\trunk\simulations-flash\simulations\curve-fit\src\curve-fit_fr.html" todir="${build}"/>
     </target>
 
     <target name="dist" depends="compile">
