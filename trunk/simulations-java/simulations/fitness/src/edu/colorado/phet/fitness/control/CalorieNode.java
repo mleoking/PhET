@@ -66,7 +66,9 @@ public class CalorieNode extends PNode {
             public void nodeDropped( CalorieDragStrip.DragNode droppedNode ) {
                 if ( plateImage.getGlobalFullBounds().intersects( droppedNode.getPNode().getGlobalFullBounds() ) ) {
                     calorieSet.addItem( droppedNode.getItem() );
-                    calorieDragStrip.removeChild( droppedNode.getPNode() );
+                    if ( plateTopSummaryNode.isShowItems() ) {
+                        calorieDragStrip.removeItem( droppedNode );
+                    }
                 }
             }
         } );

@@ -13,6 +13,11 @@ public class PlateTopSummaryNode extends PNode {
     private PNode layer = new PNode();
     private CalorieSet calorieSet;
     private PNode plate;
+    private boolean showItems = false;
+
+    public boolean isShowItems() {
+        return showItems;
+    }
 
     public PlateTopSummaryNode( CalorieSet calorieSet, PNode plate ) {
         this.calorieSet = calorieSet;
@@ -41,13 +46,15 @@ public class PlateTopSummaryNode extends PNode {
     }
 
     public void addItem( final CaloricItem item ) {
-        SummaryItemNode summaryItemNode = new SummaryItemNode( item, 1 );
-        summaryItemNode.addInputEventListener( new PBasicInputEventHandler(){
-            public void mousePressed( PInputEvent event ) {
-                calorieSet.removeItem( item );
-            }
-        } );
-        layer.addChild( summaryItemNode );
+        if ( showItems ) {
+            SummaryItemNode summaryItemNode = new SummaryItemNode( item, 1 );
+            summaryItemNode.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    calorieSet.removeItem( item );
+                }
+            } );
+            layer.addChild( summaryItemNode );
+        }
         relayout();
     }
 
