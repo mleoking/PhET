@@ -8,7 +8,6 @@ DESIGN ISSUES (user interface):
 HIGH PRIORITY:
 - thermometer looks lousy while dragging
 - thermometer repaints strangely while clock ticks on Mac OS 10.4
-- move LiquidExpansionThermometerNode to piccolo-phet
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
 - increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
 - switch user-interface between English and metric units
@@ -36,7 +35,6 @@ MEDIUM PRIORITY:
 - improve performance on slower machines
 
 LOW PRIORITY:
-- make mercury in thermometer move as temperature changes (?)
 - refactor model listener class hierarchy
 - right edge of ice thickness tool icon is clipped (see Unfuddle #558)
 - remove registration points from mountains image
@@ -79,6 +77,7 @@ CLEANUP:
 
 
 DONE:
+5/28/08 - move LiquidExpansionThermometerNode to piccolo-phet
 5/28/08 - delete thermometer image and asset
 5/28/08 - thermometer node: add scale marks, add inner wall of tube, move origin to upper left
 5/28/08 - started working on thermometer node with dynamic mercury
