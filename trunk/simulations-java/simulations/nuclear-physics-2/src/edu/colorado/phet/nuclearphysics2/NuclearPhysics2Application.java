@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
+import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -176,7 +177,7 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
      * @throws InterruptedException
      */
     public static void main( final String[] args ) {
-
+        final QuickProfiler profiler=new QuickProfiler( "Nuclear Physics 2 Startup Time");
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
@@ -200,6 +201,7 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
 
                 // Start the application.
                 app.startApplication();
+                System.out.println( "profiler = " + profiler );
             }
         } );
     }
