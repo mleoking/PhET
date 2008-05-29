@@ -35,7 +35,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
     private HighLevelEmissionControlPanel highLevelEmissionControlPanel;
     private PumpBeamViewPanel pumpBeamViewPanel;
 
-    public UniversalLaserControlPanel( final BaseLaserModule module,boolean showLegend ) {
+    public UniversalLaserControlPanel( final BaseLaserModule module, boolean showLegend ) {
         super( module );
         this.laserModule = module;
 
@@ -43,7 +43,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         // it has a null layout manager
         addControl( module.getEnergyLevelsMonitorPanel() );
 
-        if (showLegend){
+        if ( showLegend ) {
             addControl( new LasersLegend() );
         }
 

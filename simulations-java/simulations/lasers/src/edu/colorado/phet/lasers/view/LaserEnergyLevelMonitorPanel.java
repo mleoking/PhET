@@ -169,7 +169,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         AtomicState[] states = model.getStates();
         for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
-            double xIndent= 5;
+            double xIndent = 5;
             double xLoc = levelLineOriginX + xIndent;
 
             boolean isAdjustable = i == 0 ? false : true;
@@ -180,7 +180,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                                                              xLoc,
                                                              levelLineLength - levelLineOriginX,
                                                              isAdjustable,
-                                                             levelLineOriginX + levelLineLength - 25,true );
+                                                             levelLineOriginX + levelLineLength - 25, true );
             addGraphic( elg, LEVEL_GRAPHIC_LEVEL );
             levelGraphics[i] = elg;
 
