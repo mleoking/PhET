@@ -40,9 +40,9 @@ public class ThermometerNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double MAX_TEMPERATURE = 5; // C
+    private static final double MAX_TEMPERATURE = 10; // C
     private static final double MIN_TEMPERATURE = -20; // C
-    private static final PDimension THERMOMETER_SIZE = new PDimension( 15, 60 );
+    private static final PDimension THERMOMETER_SIZE = new PDimension( 30, 120 );//15, 60 );
     private static final NumberFormat TEMPERATURE_FORMAT = new DefaultDecimalFormat( "0.0" );
     
     //----------------------------------------------------------------------------
@@ -98,7 +98,7 @@ public class ThermometerNode extends AbstractToolNode {
         addChild( _valueNode );
         
         arrowNode.setOffset( 0, 0 ); // this node identifies the origin
-        _glassNode.setOffset( arrowNode.getFullBoundsReference().getWidth() + _glassNode.getFullBoundsReference().getWidth() / 2, -_glassNode.getBulbDiameter()/2 );
+        _glassNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 2, -_glassNode.getFullBoundsReference().getHeight() + _glassNode.getBulbDiameter()/2 );
         _valueNode.setOffset( _glassNode.getFullBoundsReference().getMaxX() + 2, -_valueNode.getFullBoundsReference().getHeight() );
         
         // initial state
@@ -185,11 +185,11 @@ public class ThermometerNode extends AbstractToolNode {
             else if ( percent > 1 ) {
                 percent = 1;
             }
-            _glassNode.setTemperature( percent );
+            _glassNode.setLiquidHeight( percent );
             _valueNode.setTemperature( temperature ); 
         }
         else {
-            _glassNode.setTemperature( 0 );
+            _glassNode.setLiquidHeight( 0 );
             _valueNode.setTemperatureUnknown();
         }
     }
@@ -200,7 +200,7 @@ public class ThermometerNode extends AbstractToolNode {
     
     public static Image createImage() {
         ThermometerGlassNode node = new ThermometerGlassNode( THERMOMETER_SIZE );
-        node.setTemperature( 0.5 );
+        node.setLiquidHeight( 0.5 );
         return node.toImage();
     }
 }

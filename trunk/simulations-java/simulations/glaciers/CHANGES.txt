@@ -7,15 +7,12 @@ DESIGN ISSUES (user interface):
 
 HIGH PRIORITY:
 - thermometer looks lousy while dragging
-- thermometer repaints when clock ticks on Mac OS 10.4
-- move origin to upper left of ThermometerGlassNode
+- thermometer repaints strangely while clock ticks on Mac OS 10.4
 - fix constructive geometry in ThermometerGlassNode
-- fix layout of ThermometerNode
-- add ticks and inside margin to ThermometerGlassNode
 - rename and move ThermometerGlassNode to piccolo-phet?
 - delete thermometer image and asset
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
-- increase zoom on vertical axis by 2x
+- increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
 - switch user-interface between English and metric units
 - glacier advances too fast, get model fix from Archie [550]
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate
@@ -84,6 +81,7 @@ CLEANUP:
 
 
 DONE:
+5/28/08 - thermometer node: add scale marks, add inner wall of tube, move origin to upper left
 5/28/08 - started working on thermometer node with dynamic mercury
 5/28/08 - add units control to View control panel, does nothing
 5/27/08 - trash tools if mouse cursor intersects the trash can icon
