@@ -1,3 +1,5 @@
+5-28-2008: Lasers (4.05) - changed numbering of energy levels, changed look of photons, improved legend, changed default settings of lifetimes to make it easier to lase
+5-28-2008: Neon Light & Other Discharge Lamps (1.05) - changed numbering of energy levels, changed look of photons, added legend, fixed bug in mercury spectrum, user interface improvements
 5-21-2008: The Greenhouse Effect (2.04) - changed "ppm" to "ppb" where appropriate
 5-7-2008: Wave Interference (1.05) - fixes for translation support
 5-7-2008: Salts & Solubility (1.04) - fixes for translation support
