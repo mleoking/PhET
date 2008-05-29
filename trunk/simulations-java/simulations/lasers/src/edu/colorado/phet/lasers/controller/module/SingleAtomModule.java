@@ -65,7 +65,7 @@ public class SingleAtomModule extends BaseLaserModule {
         super.reset();
         deactivate();
         setThreeEnergyLevels( false );
-        laserControlPanel = new UniversalLaserControlPanel( this,SHOW_LEGEND );
+        laserControlPanel = new UniversalLaserControlPanel( this, SHOW_LEGEND );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
         setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );
@@ -204,7 +204,7 @@ public class SingleAtomModule extends BaseLaserModule {
         addAtom( atom );
 
         // Set up the control panel, and start off with two energy levels
-        laserControlPanel = new UniversalLaserControlPanel( this,SHOW_LEGEND );
+        laserControlPanel = new UniversalLaserControlPanel( this, SHOW_LEGEND );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_DISCRETE );
         setPumpingPhotonView( BaseLaserModule.PHOTON_DISCRETE );

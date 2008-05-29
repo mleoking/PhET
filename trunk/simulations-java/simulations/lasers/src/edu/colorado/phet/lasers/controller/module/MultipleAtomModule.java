@@ -136,7 +136,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
 
         // Set the control panel
-        laserControlPanel = new UniversalLaserControlPanel( this,SHOW_LEGEND );
+        laserControlPanel = new UniversalLaserControlPanel( this, SHOW_LEGEND );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
     }
@@ -146,7 +146,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         deactivate();
         setThreeEnergyLevels( true );
         setEnergyLevelsAveragingPeriod( LaserConfig.ENERGY_LEVEL_MONITOR_AVERAGING_PERIOD );
-        laserControlPanel = new UniversalLaserControlPanel( this,SHOW_LEGEND );
+        laserControlPanel = new UniversalLaserControlPanel( this, SHOW_LEGEND );
         setControlPanel( laserControlPanel );
         laserControlPanel.setUpperTransitionView( BaseLaserModule.PHOTON_CURTAIN );
         laserControlPanel.setThreeEnergyLevels( true );
