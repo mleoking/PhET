@@ -1,6 +1,9 @@
 package edu.colorado.phet.flashlauncher;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
@@ -66,7 +69,15 @@ public class FlashLauncher {
     }
 
     private File getJARFile() {
-        return new File( FlashLauncher.class.getProtectionDomain().getCodeSource().getLocation().getFile() );
+        URL url = FlashLauncher.class.getProtectionDomain().getCodeSource().getLocation();
+        try {
+            URI uri = new URI( url.toString() );
+            return new File( uri.getPath() );
+        }
+        catch( URISyntaxException e ) {
+            println( e.getMessage() );
+            e.printStackTrace();
+        }
     }
 
     //todo: the following utility functions were copied from FileUtils so that we didn't have to
