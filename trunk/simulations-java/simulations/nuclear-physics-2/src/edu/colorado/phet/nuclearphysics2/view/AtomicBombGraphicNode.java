@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
@@ -24,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author John Blanco
  */
-public class AtomicBombGraphicNode extends PNode {
+public class AtomicBombGraphicNode extends PhetPNode {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -88,22 +89,22 @@ public class AtomicBombGraphicNode extends PNode {
         containmentVessel.addListener( new ContainmentVessel.Adapter(){
             public void explosionOccurred(){
                 _explodingState = STATE_EXPLODING;
-                _explosionLabel.setVisible( true );
-                _explosionGraphic.setVisible( true );
+                AtomicBombGraphicNode.this.setVisible( true );
             }
             public void resetOccurred(){
                 handleResetOccurred();
             }
         });
         
+        // Make ourself initially invisible.
+        setVisible( false );
+        
         // Create the node with the graphic of the bomb.
         _explosionGraphic = new PImage(NuclearPhysics2Resources.getImage( "mushroom_cloud.jpg" ));
-        _explosionGraphic.setVisible( false );
         addChild(_explosionGraphic);
         
         // Create the node with textual label but don't make it visible yet.
         _explosionLabel = new ShadowPText(NuclearPhysics2Strings.EXPLOSION_LABEL, LABEL_COLOR, LABEL_FONT);
-        _explosionLabel.setVisible( false );
         addChild(_explosionLabel);
     }
     
@@ -172,8 +173,7 @@ public class AtomicBombGraphicNode extends PNode {
     
     private void handleResetOccurred(){
         _explodingState = STATE_IDLE;
-        _explosionLabel.setVisible( false );
-        _explosionGraphic.setVisible( false );
+        setVisible( false );
         _explosionGraphic.setScale( 1.0 );
         updateLayout();
     }
