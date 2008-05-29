@@ -77,6 +77,7 @@ public class FlashLauncher {
         catch( URISyntaxException e ) {
             println( e.getMessage() );
             e.printStackTrace();
+            throw new RuntimeException( e );
         }
     }
 
