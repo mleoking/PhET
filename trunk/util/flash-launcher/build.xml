@@ -18,7 +18,7 @@
         <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curveFitStrings_fr.xml" todir="${build}"/>
         <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curve-fit_en.html" todir="${build}"/>
         <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curve-fit_fr.html" todir="${build}"/>
-        <echo file="${build}\args.txt" message="${sim} ${lang}"/>
+        <echo file="${build}\args.txt" message="${sim} ${lang} -dev"/>
     </target>
 
     <target name="dist" depends="compile">
