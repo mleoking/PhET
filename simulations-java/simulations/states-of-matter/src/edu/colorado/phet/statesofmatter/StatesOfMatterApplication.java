@@ -15,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.menu.OptionsMenu;
+import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
 
 public class StatesOfMatterApplication extends PiccoloPhetApplication implements IProguardKeepClass {
 
