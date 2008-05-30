@@ -1,27 +1,27 @@
 package edu.colorado.phet.statesofmatter.model;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyMeasurer;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-import junit.framework.TestCase;
-
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+
+import junit.framework.TestCase;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyMeasurer;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class ZMultipleParticleModelTester extends TestCase {
     private volatile MultipleParticleModel model;
     private volatile ConstantDtClock clock;
 
     public void setUp() {
-        this.clock = new ConstantDtClock(1, StatesOfMatterConfig.DELTA_T);
+        this.clock = new ConstantDtClock(1, StatesOfMatterConstants.DELTA_T);
         this.model = new MultipleParticleModel(clock);
     }
 
     public void testThatNewlyConstructedModelContainsDefaultParticles() {
         List particleList = model.getParticles();
 
-        assertTrue(particleList.size() > 0 && particleList.size() <= StatesOfMatterConfig.INITIAL_MAX_PARTICLE_COUNT);
+        assertTrue(particleList.size() > 0 && particleList.size() <= StatesOfMatterConstants.INITIAL_MAX_PARTICLE_COUNT);
     }
 
     public void testThatInitializeResetsParticleList() {
@@ -29,7 +29,7 @@ public class ZMultipleParticleModelTester extends TestCase {
 
         List particleList = model.getParticles();
 
-        assertTrue(particleList.size() > 0 && particleList.size() <= StatesOfMatterConfig.INITIAL_MAX_PARTICLE_COUNT);
+        assertTrue(particleList.size() > 0 && particleList.size() <= StatesOfMatterConstants.INITIAL_MAX_PARTICLE_COUNT);
     }
 
     public void testThatParticleListIsUnmodifiable() {
@@ -49,7 +49,7 @@ public class ZMultipleParticleModelTester extends TestCase {
     }
 
     public void testThatParticleContainerIsInitiallySetToDefaultBounds() {
-        assertEquals(StatesOfMatterConfig.CONTAINER_BOUNDS.getBounds2D(), model.getParticleContainer().getShape().getBounds2D());
+        assertEquals(StatesOfMatterConstants.CONTAINER_BOUNDS.getBounds2D(), model.getParticleContainer().getShape().getBounds2D());
     }
 
     public void testThatParticlesDoNotLeaveContainerWhenClockRunning() {
@@ -77,13 +77,13 @@ public class ZMultipleParticleModelTester extends TestCase {
             for (int j = 0; j < model.getNumParticles(); j++) {
                 StatesOfMatterParticle p = model.getParticle(j);
 
-                assertTrue("Particle " + p + " has kinetic energy " + p.getKineticEnergy(), p.getKineticEnergy() <= StatesOfMatterConfig.PARTICLE_MAX_KE + 0.00001);
+                assertTrue("Particle " + p + " has kinetic energy " + p.getKineticEnergy(), p.getKineticEnergy() <= StatesOfMatterConstants.PARTICLE_MAX_KE + 0.00001);
             }
         }
     }
 
     public void testInitialTotalEnergyIsDefault() {
-        assertEquals(StatesOfMatterConfig.INITIAL_TOTAL_ENERGY_PER_PARTICLE * model.getNumParticles(), model.getTotalEnergy(), 0.00001);
+        assertEquals(StatesOfMatterConstants.INITIAL_TOTAL_ENERGY_PER_PARTICLE * model.getNumParticles(), model.getTotalEnergy(), 0.00001);
     }
 
     public void testKineticEnergyCorrectlyReported() {

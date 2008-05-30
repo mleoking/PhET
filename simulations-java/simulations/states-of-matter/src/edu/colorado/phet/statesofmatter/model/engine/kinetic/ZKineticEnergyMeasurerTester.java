@@ -1,9 +1,9 @@
 package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-import junit.framework.TestCase;
-
 import java.util.Arrays;
+
+import junit.framework.TestCase;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class ZKineticEnergyMeasurerTester extends TestCase {
     private static final StatesOfMatterParticle P1 = new StatesOfMatterParticle(0, 2, 3, 4);

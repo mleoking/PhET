@@ -1,10 +1,10 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 
 public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParticleCreationStrategyTester {
     protected double cushion = 0.05;
@@ -12,7 +12,7 @@ public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParti
 
     public void setUp() {
         particles = new ArrayList();
-        strategy  = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, PARTICLE_MASS, PARTICLE_RADIUS, cushion, particles);
+        strategy  = new NonOverlappingParticleCreationStrategy(StatesOfMatterConstants.CONTAINER_BOUNDS, PARTICLE_MASS, PARTICLE_RADIUS, cushion, particles);
     }
 
     public void testThatParticlesDoNotOverlap() {

@@ -1,16 +1,16 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+
 public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlappingParticleCreationStrategyTester {
-    private static final Rectangle2D.Double B = StatesOfMatterConfig.CONTAINER_BOUNDS;
+    private static final Rectangle2D.Double B = StatesOfMatterConstants.CONTAINER_BOUNDS;
     private static final Shape ICE_CUBE = new Rectangle2D.Double(B.getX() + 1, B.getY() + 1, B.getWidth() - 1, B.getHeight() - 1);
     private static final double DIST_FROM_BOTTOM = 1.1 * PARTICLE_RADIUS;
     private static final double MARGIN = PARTICLE_RADIUS * 4.0;

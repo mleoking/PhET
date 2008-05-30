@@ -1,8 +1,8 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.util.Arrays;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class ZLennardJonesForceTester extends ZAbstractLennardJonesFunctionTester {
     private volatile LennardJonesForce ljf;

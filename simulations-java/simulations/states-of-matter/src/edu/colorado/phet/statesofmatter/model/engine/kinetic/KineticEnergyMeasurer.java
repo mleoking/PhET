@@ -1,9 +1,9 @@
 package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 
+import java.util.List;
+
 import edu.colorado.phet.statesofmatter.model.engine.Measurable;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-
-import java.util.List;
 
 public class KineticEnergyMeasurer implements Measurable {
     private final List particles;

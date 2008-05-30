@@ -1,13 +1,13 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCreationStrategy;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-import junit.framework.TestCase;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import junit.framework.TestCase;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCreationStrategy;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class ZVerletForceEngineTester extends TestCase {
     private volatile ForceEngine engine;
@@ -16,7 +16,7 @@ public class ZVerletForceEngineTester extends TestCase {
     private ForceComputation computation;
 
     public void setUp() {
-        createParticles(StatesOfMatterConfig.INITIAL_MAX_PARTICLE_COUNT);
+        createParticles(StatesOfMatterConstants.INITIAL_MAX_PARTICLE_COUNT);
 
         performComputation(descriptor);
     }
@@ -85,7 +85,7 @@ public class ZVerletForceEngineTester extends TestCase {
         particles = new ArrayList();
         engine    = new VerletForceEngine();
 
-        NonOverlappingParticleCreationStrategy strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, StatesOfMatterConfig.PARTICLE_MASS, StatesOfMatterConfig.PARTICLE_RADIUS, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION, particles);
+        NonOverlappingParticleCreationStrategy strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConstants.CONTAINER_BOUNDS, StatesOfMatterConstants.PARTICLE_MASS, StatesOfMatterConstants.PARTICLE_RADIUS, StatesOfMatterConstants.PARTICLE_CREATION_CUSHION, particles);
 
         strategy.createParticles(particles, particleCount);
     }

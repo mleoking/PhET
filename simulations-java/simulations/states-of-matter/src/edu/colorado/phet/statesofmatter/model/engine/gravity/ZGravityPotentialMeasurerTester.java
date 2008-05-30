@@ -1,10 +1,10 @@
 package edu.colorado.phet.statesofmatter.model.engine.gravity;
 
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import junit.framework.TestCase;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class ZGravityPotentialMeasurerTester extends TestCase {
     private static final double FLOOR = -2.0;

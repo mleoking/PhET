@@ -1,15 +1,15 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-import junit.framework.TestCase;
-
 import java.awt.geom.Line2D;
 
+import junit.framework.TestCase;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+
 public class ZLennardJonesWallForceCalculatorTester extends TestCase {
-    private static final double RMIN    = StatesOfMatterConfig.RMIN;
-    private static final double EPSILON = StatesOfMatterConfig.EPSILON;
+    private static final double RMIN    = StatesOfMatterConstants.RMIN;
+    private static final double EPSILON = StatesOfMatterConstants.EPSILON;
     private static final double EQUALITY_EPS = 0.0000001;
 
     private static final Line2D.Double     WALL  = new Line2D.Double(1, 1, -1, -1);

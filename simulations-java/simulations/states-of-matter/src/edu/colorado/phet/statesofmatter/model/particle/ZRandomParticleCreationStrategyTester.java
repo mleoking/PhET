@@ -1,8 +1,8 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-import junit.framework.TestCase;
-
 import java.util.ArrayList;
+
+import junit.framework.TestCase;
 
 public class ZRandomParticleCreationStrategyTester extends TestCase {
     private volatile ParticleCreationStrategy strategy;

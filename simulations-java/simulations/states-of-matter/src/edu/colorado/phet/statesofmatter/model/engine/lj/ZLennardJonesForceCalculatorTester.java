@@ -1,15 +1,15 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.List;
 
+import junit.framework.TestCase;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+
 public class ZLennardJonesForceCalculatorTester extends TestCase {
-    static final double RMIN    = StatesOfMatterConfig.RMIN;
-    static final double EPSILON = StatesOfMatterConfig.EPSILON;
+    static final double RMIN    = StatesOfMatterConstants.RMIN;
+    static final double EPSILON = StatesOfMatterConstants.EPSILON;
 
     private static final LennardJonesForce LJF = new LennardJonesForce(EPSILON, RMIN);
 

@@ -1,9 +1,9 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-import edu.colorado.phet.common.phetcommon.util.testing.TestingUtils;
-import junit.framework.TestCase;
-
 import java.awt.geom.Point2D;
+
+import junit.framework.TestCase;
+import edu.colorado.phet.common.phetcommon.util.testing.TestingUtils;
 
 public class ZStatesOfMatterParticleTester extends TestCase {
     private static final StatesOfMatterParticle P              = new StatesOfMatterParticle(1, 2, 3, 4);

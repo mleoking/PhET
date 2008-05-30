@@ -1,10 +1,10 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
+import java.util.List;
+
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyMeasurer;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesPotential;
-
-import java.util.List;
 
 /**
  * A simple interface to the model engine, which feeds different components
@@ -29,7 +29,7 @@ public class EngineFacade {
      * @return The total potential energy.
      */
     public double measurePotentialEnergy() {
-        EnginePotentialEnergyMeasurer measurer = new EnginePotentialEnergyMeasurer(particles, StatesOfMatterConfig.CONTAINER_BOUNDS.getMaxY(), descriptor.gravity, ljp);
+        EnginePotentialEnergyMeasurer measurer = new EnginePotentialEnergyMeasurer(particles, StatesOfMatterConstants.CONTAINER_BOUNDS.getMaxY(), descriptor.gravity, ljp);
 
         return measurer.measure();
     }

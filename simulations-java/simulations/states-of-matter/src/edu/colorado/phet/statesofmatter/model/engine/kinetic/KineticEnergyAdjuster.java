@@ -1,8 +1,8 @@
 package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-
 import java.util.List;
+
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class KineticEnergyAdjuster {
     private static final double TARGET_PRECISION_EPS = 0.00000001;

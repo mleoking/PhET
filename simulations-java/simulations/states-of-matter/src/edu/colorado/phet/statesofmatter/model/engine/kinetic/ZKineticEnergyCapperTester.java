@@ -1,11 +1,11 @@
 package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import junit.framework.TestCase;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class ZKineticEnergyCapperTester extends TestCase {
     private List particles;
