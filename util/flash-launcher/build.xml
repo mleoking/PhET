@@ -14,7 +14,10 @@
         <mkdir dir="${build}"/>
         <javac srcdir="${src}" destdir="${build}"/>
         <copy file="${trunk}\simulations-flash\simulations\${sim}\deploy\${sim}.swf" todir="${build}"/>
+        <!--Todo: we should probably copy all string files as done in the java sims-->
         <copy file="${trunk}\simulations-flash\simulations\${sim}\deploy\${sim}-strings_${lang}.xml" todir="${build}"/>
+        <!--All sims need english in the jar-->
+        <copy file="${trunk}\simulations-flash\simulations\${sim}\deploy\${sim}-strings_en.xml" todir="${build}"/>
         <filter token="SIM" value="${sim}"/>
         <filter token="LOCALE" value="${lang}"/>
         <copy file="${trunk}\util\flash-launcher\templates\flash-template.html" tofile="${build}/${sim}_${lang}.html"
