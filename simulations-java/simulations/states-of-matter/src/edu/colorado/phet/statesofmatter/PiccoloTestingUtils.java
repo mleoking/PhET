@@ -1,17 +1,18 @@
 package edu.colorado.phet.statesofmatter;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import javax.swing.SwingUtilities;
+
+import junit.framework.TestCase;
 import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolo.util.PBounds;
-import junit.framework.TestCase;
-
-import javax.swing.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class PiccoloTestingUtils {
     private static final double SMALL_SIZE  = 1.0 / 3.0;
