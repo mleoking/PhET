@@ -18,6 +18,8 @@ mountains.png source=PhET author=Archie Paulson
 
 penguin.png source=http://openclipart.org author=jesusfreak210 license=http://creativecommons.org
 
+snowflake.png source=http://commons.wikimedia.org/wiki/Image:Snowflake.svg author=US DOT  license=public domain
+
 thermometer.png source=PhET author=Archie Paulson
 
 tracerFlag.png source=PHET author=Archie Paulson

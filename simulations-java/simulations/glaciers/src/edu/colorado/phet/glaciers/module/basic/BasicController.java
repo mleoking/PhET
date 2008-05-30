@@ -104,6 +104,10 @@ public class BasicController {
                 playArea.setIceFlowVisible( b );
             };
             
+            public void snowfallChanged( boolean b ) {
+                playArea.setSnowfallVisible( b );
+            }
+            
             public void glacierPictureChanged( boolean selected ) {
                 if ( selected ) {
                     _glacierPictureDialog = new GlacierPictureDialog( DIALOG_OWNER );

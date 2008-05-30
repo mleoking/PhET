@@ -159,7 +159,7 @@ public class IceFlowNode extends PComposite {
     public static Icon createIcon() {
         PNode parentNode = new PNode();
         VelocityVectorNode vectorNode;
-        final double ySpacing = 6;
+        final double ySpacing = 4;
 
         vectorNode = new VelocityVectorNode( 30, 0, 1 );
         vectorNode.setOffset( 0, 0 );

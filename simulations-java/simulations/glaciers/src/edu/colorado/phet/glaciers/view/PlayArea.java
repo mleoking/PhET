@@ -321,6 +321,10 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _iceFlowNode.setVisible( visible );
     }
     
+    public void setSnowfallVisible( boolean visible ) {
+        //TODO set visibility of snowfall node
+    }
+    
     public static Point2D getBirdsEyeViewportOffset() {
         return new Point2D.Double( BIRDS_EYE_VIEWPORT_OFFSET.getX(), BIRDS_EYE_VIEWPORT_OFFSET.getY() );
     }
