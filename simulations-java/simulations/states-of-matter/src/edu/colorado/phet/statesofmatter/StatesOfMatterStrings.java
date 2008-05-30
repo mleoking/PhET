@@ -16,4 +16,9 @@ public class StatesOfMatterStrings {
     
     public static final String TITLE_SOLID_LIQUID_GAS_MODULE = StatesOfMatterResources.getString( "ModuleTitle.SolidLiquidGasModule" );
 
+    public static final String MOLECULE_TYPE_SELECT_LABEL = StatesOfMatterResources.getString( "SolidLiquidGasControl.MoleculeSelectionLabel" );
+    public static final String OXYGEN_SELECTION_LABEL = StatesOfMatterResources.getString( "SolidLiquidGasControl.OxygenLabel" );
+    public static final String NITROGEN_SELECTION_LABEL = StatesOfMatterResources.getString( "SolidLiquidGasControl.NitrogenLabel" );
+    public static final String CARBON_DIOXIDE_SELECTION_LABEL = StatesOfMatterResources.getString( "SolidLiquidGasControl.CarbonDioxideLabel" );
+
 }
