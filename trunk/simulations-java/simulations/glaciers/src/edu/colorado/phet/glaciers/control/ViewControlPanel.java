@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.control;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.view.ElevationAxisNode;
 import edu.colorado.phet.glaciers.view.EquilibriumLineNode;
 import edu.colorado.phet.glaciers.view.IceFlowNode;
+import edu.colorado.phet.glaciers.view.SnowfallNode;
 
 /**
  * ViewControlPanel is the "View" control panel.
@@ -46,6 +48,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     private final JCheckBox _equilibriumLineCheckBox;
     private final JCheckBox _iceFlowCheckBox;
     private final JCheckBox _coordinatesCheckBox;
+    private final JCheckBox _snowfallCheckBox;
     private final JCheckBox _glacierPictureCheckBox;
     private ArrayList _listeners; // list of ViewControlPanelListener
     
@@ -133,13 +136,29 @@ public class ViewControlPanel extends AbstractSubPanel {
             coordinatesPanel.add( coordinatesIcon );
         }
         
+        JPanel snowfallPanel = new JPanel();
+        {
+            _snowfallCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_SNOWFALL );
+            _snowfallCheckBox.setFont( CONTROL_FONT );
+            _snowfallCheckBox.setForeground( CONTROL_COLOR );
+            _snowfallCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    notifySnowfallChanged();
+                }
+            } );
+            
+            JLabel snowfallIcon = new JLabel( SnowfallNode.createIcon() );
+            
+            snowfallPanel.add( _snowfallCheckBox );
+            snowfallPanel.add( snowfallIcon );
+        }
+        
         JPanel glacierPicturePanel = new JPanel();
         {
             _glacierPictureCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_GLACIER_PICTURE );
             _glacierPictureCheckBox.setFont( CONTROL_FONT );
             _glacierPictureCheckBox.setForeground( CONTROL_COLOR );
             _glacierPictureCheckBox.addActionListener( new ActionListener() {
-
                 public void actionPerformed( ActionEvent e ) {
                     notifyGlacierPictureChanged();
                 }
@@ -152,11 +171,13 @@ public class ViewControlPanel extends AbstractSubPanel {
         setLayout( layout );
         int row = 0;
         int column = 0;
+        layout.setInsets( new Insets( 0, 0, 0, 0 ) );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.addComponent( unitsPanel, row++, column );
         layout.addComponent( equilibriumLinePanel, row++, column );
         layout.addComponent( iceFlowPanel, row++, column );
         layout.addComponent( coordinatesPanel, row++, column );
+        layout.addComponent( snowfallPanel, row++, column );
         layout.addComponent( glacierPicturePanel, row++, column );
         
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* excludedClasses */, false /* processContentsOfExcludedContainers */ );
@@ -218,6 +239,17 @@ public class ViewControlPanel extends AbstractSubPanel {
         return _coordinatesCheckBox.isSelected();
     }
     
+    public void setSnowfallSelected( boolean selected ) {
+        if ( selected != isSnowfallSelected() ) {
+            _snowfallCheckBox.setSelected( selected );
+            notifySnowfallChanged();
+        }
+    }
+    
+    public boolean isSnowfallSelected() {
+        return _snowfallCheckBox.isSelected();
+    }
+    
     public void setGlacierPictureSelected( boolean selected ) {
         if ( selected != isGlacierPictureSelected() ) {
             _glacierPictureCheckBox.setSelected( selected );
@@ -241,6 +273,7 @@ public class ViewControlPanel extends AbstractSubPanel {
         public void equilibriumLineChanged( boolean b );
         public void iceFlowChanged( boolean b );
         public void coordinatesChanged( boolean b );
+        public void snowfallChanged( boolean b );
         public void glacierPictureChanged( boolean b );
     }
     
@@ -249,6 +282,7 @@ public class ViewControlPanel extends AbstractSubPanel {
         public void equilibriumLineChanged( boolean b ) {}
         public void iceFlowChanged( boolean b ) {}
         public void coordinatesChanged( boolean b ) {}
+        public void snowfallChanged( boolean b ) {}
         public void glacierPictureChanged( boolean b ) {}
     }
     
@@ -292,6 +326,14 @@ public class ViewControlPanel extends AbstractSubPanel {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ViewControlPanelListener) i.next() ).coordinatesChanged( b );
+        }
+    }
+    
+    private void notifySnowfallChanged() {
+        boolean b = isSnowfallSelected();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ViewControlPanelListener) i.next() ).snowfallChanged( b );
         }
     }
     
