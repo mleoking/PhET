@@ -1,9 +1,9 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
-
-import java.awt.geom.Point2D;
 
 public final class StatesOfMatterParticle implements PubliclyCloneable {
     public static final StatesOfMatterParticle TEST = new StatesOfMatterParticle(0.0, 0.0, 1.0, 1.0);

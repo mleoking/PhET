@@ -1,6 +1,6 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 /**

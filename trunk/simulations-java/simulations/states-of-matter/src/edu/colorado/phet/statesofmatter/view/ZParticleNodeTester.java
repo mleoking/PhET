@@ -1,10 +1,10 @@
 package edu.colorado.phet.statesofmatter.view;
 
+import junit.framework.TestCase;
 import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.util.PBounds;
-import junit.framework.TestCase;
 
 public class ZParticleNodeTester extends TestCase {
     private volatile ParticleNode node;

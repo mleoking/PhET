@@ -1,13 +1,13 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
+import java.util.Arrays;
+import java.util.Iterator;
+
+import junit.framework.TestCase;
 import edu.colorado.phet.statesofmatter.model.engine.gravity.GravityPotentialMeasurer;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LJPotentialEnergyMeasurer;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesPotential;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-import junit.framework.TestCase;
-
-import java.util.Arrays;
-import java.util.Iterator;
 
 public class ZEnginePotentialEnergyMeasurerTester extends TestCase {
     private static final double FLOOR = 0.0;

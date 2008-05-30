@@ -1,9 +1,9 @@
 package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-
 import java.util.Iterator;
 import java.util.List;
+
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class KineticEnergyCapper {
     private final List particles;

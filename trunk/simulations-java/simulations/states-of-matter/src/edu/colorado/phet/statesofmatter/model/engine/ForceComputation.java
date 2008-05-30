@@ -1,11 +1,11 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-
 import java.awt.geom.Point2D;
 import java.util.Collection;
 import java.util.Iterator;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class ForceComputation {
     private final Point2D.Double[] newPositions;

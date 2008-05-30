@@ -1,23 +1,23 @@
 package edu.colorado.phet.statesofmatter.model.container;
 
-import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-import junit.framework.TestCase;
-
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
+
+import junit.framework.TestCase;
+import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 
 public class ZRectangularParticleContainerTester extends TestCase {
     private volatile ParticleContainer container;
 
     public void setUp() {
-        container = new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS);
+        container = new RectangularParticleContainer(StatesOfMatterConstants.CONTAINER_BOUNDS);
     }
 
     public void testThatShapeIsRectangular() {
-        assertEquals(StatesOfMatterConfig.CONTAINER_BOUNDS, container.getShape());
+        assertEquals(StatesOfMatterConstants.CONTAINER_BOUNDS, container.getShape());
     }
 
     public void testThatNorthWallIsNorthOfSouthWall() {

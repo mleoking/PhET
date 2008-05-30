@@ -1,6 +1,6 @@
 package edu.colorado.phet.statesofmatter.model.container;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.Collection;
 

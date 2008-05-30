@@ -1,10 +1,10 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
-import edu.colorado.phet.statesofmatter.model.engine.Calculator;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-
 import java.util.Collection;
 import java.util.Iterator;
+
+import edu.colorado.phet.statesofmatter.model.engine.Calculator;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class LennardJonesForceCalculator implements Calculator {
     private final LennardJonesForce ljf;

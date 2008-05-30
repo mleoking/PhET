@@ -1,10 +1,10 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 public class CompositeCalculator implements Calculator {
     private final Collection calculators;

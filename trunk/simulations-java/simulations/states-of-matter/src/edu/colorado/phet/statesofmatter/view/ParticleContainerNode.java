@@ -1,16 +1,16 @@
 package edu.colorado.phet.statesofmatter.view;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.SVGNode;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
-import edu.umd.cs.piccolo.PNode;
-
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.SVGNode;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
+import edu.umd.cs.piccolo.PNode;
 
 public class ParticleContainerNode extends PhetPNode {
     private final ParticleContainer container;
@@ -27,9 +27,9 @@ public class ParticleContainerNode extends PhetPNode {
         super();
 
         this.container       = container;
-        this.containerWidth  = StatesOfMatterConfig.CONTAINER_BOUNDS.getWidth()  * CUP_OVERSIZE;
-        this.containerHeight = StatesOfMatterConfig.CONTAINER_BOUNDS.getHeight() * CUP_OVERSIZE;
-        this.svgNode         = new SVGNode(canvas, StatesOfMatterConfig.RESOURCES.getResourceAsStream("images/" + StatesOfMatterConfig.COFFEE_CUP_IMAGE), containerWidth, containerHeight);
+        this.containerWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth()  * CUP_OVERSIZE;
+        this.containerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight() * CUP_OVERSIZE;
+        this.svgNode         = new SVGNode(canvas, StatesOfMatterConstants.RESOURCES.getResourceAsStream("images/" + StatesOfMatterConstants.COFFEE_CUP_IMAGE), containerWidth, containerHeight);
 
         addChild(svgNode);
         addChild(particleLayer);

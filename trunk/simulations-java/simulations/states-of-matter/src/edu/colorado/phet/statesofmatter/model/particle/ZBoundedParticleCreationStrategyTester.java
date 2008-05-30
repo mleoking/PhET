@@ -1,12 +1,12 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-import junit.framework.TestCase;
-
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+
+import junit.framework.TestCase;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 
 public class ZBoundedParticleCreationStrategyTester extends TestCase {
     protected static final int NUM_PARTICLES_TO_TEST = 300;
@@ -18,11 +18,11 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
 
 
     public void setUp() {
-         this.strategy = new BoundedParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, PARTICLE_RADIUS, PARTICLE_MASS);
+         this.strategy = new BoundedParticleCreationStrategy(StatesOfMatterConstants.CONTAINER_BOUNDS, PARTICLE_RADIUS, PARTICLE_MASS);
     }
 
     public void testThatNoParticleCenterIsOutsideBounds() {
-        Rectangle2D.Double bounds = StatesOfMatterConfig.CONTAINER_BOUNDS;
+        Rectangle2D.Double bounds = StatesOfMatterConstants.CONTAINER_BOUNDS;
 
         Collection particles = new ArrayList();
 
@@ -36,7 +36,7 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
     }
 
     public void testThatNoPartOfParticleIsOutsideBounds() {
-        Rectangle2D.Double bounds = StatesOfMatterConfig.CONTAINER_BOUNDS;
+        Rectangle2D.Double bounds = StatesOfMatterConstants.CONTAINER_BOUNDS;
 
         Rectangle2D.Double narrow = new Rectangle2D.Double(bounds.x + PARTICLE_RADIUS,
                                                            bounds.y + PARTICLE_RADIUS,

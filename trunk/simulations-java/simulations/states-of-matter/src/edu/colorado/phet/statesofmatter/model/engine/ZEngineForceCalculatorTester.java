@@ -1,16 +1,16 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+import junit.framework.TestCase;
 import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
 import edu.colorado.phet.statesofmatter.model.engine.gravity.GravityForceCalculator;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForce;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForceCalculator;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesWallForceCalculator;
-import junit.framework.TestCase;
-
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 
 public class ZEngineForceCalculatorTester extends TestCase {
 

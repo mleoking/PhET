@@ -1,16 +1,17 @@
 package edu.colorado.phet.statesofmatter.view;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.IdentityHashMap;
+import java.util.Map;
+
+import javax.swing.SwingUtilities;
+
+import junit.framework.TestCase;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
-import junit.framework.TestCase;
-
-import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
-import java.util.IdentityHashMap;
-import java.util.Map;
 
 public class ZMultipleParticleSimulationPanelTester extends TestCase {
     private volatile MultipleParticleSimulationPanel panel;

@@ -1,14 +1,14 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
+import java.awt.geom.Point2D;
+import java.util.Collection;
+import java.util.Iterator;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.engine.integration.Integrator1D;
 import edu.colorado.phet.statesofmatter.model.engine.integration.VelocityVerletIntegrator1D;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForce;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-
-import java.awt.geom.Point2D;
-import java.util.Collection;
-import java.util.Iterator;
 
 public class VerletForceEngine implements ForceEngine {
     private Point2D.Double[] newPositions;

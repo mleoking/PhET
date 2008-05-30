@@ -1,11 +1,15 @@
 package edu.colorado.phet.statesofmatter.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
 import edu.colorado.phet.statesofmatter.model.engine.EngineConfig;
@@ -16,10 +20,6 @@ import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper
 import edu.colorado.phet.statesofmatter.model.particle.PackedHexagonalParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class MultipleParticleModel extends BaseModel implements ClockListener {
     private final List particles = new ArrayList();
@@ -36,15 +36,15 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public void initialize() {
-        ParticleCreationStrategy strategy = new PackedHexagonalParticleCreationStrategy(StatesOfMatterConfig.ICE_CUBE_BOUNDS, StatesOfMatterConfig.PARTICLE_MASS, StatesOfMatterConfig.PARTICLE_RADIUS, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION, StatesOfMatterConfig.ICE_CUBE_DIST_FROM_FLOOR);
+        ParticleCreationStrategy strategy = new PackedHexagonalParticleCreationStrategy(StatesOfMatterConstants.ICE_CUBE_BOUNDS, StatesOfMatterConstants.PARTICLE_MASS, StatesOfMatterConstants.PARTICLE_RADIUS, StatesOfMatterConstants.PARTICLE_CREATION_CUSHION, StatesOfMatterConstants.ICE_CUBE_DIST_FROM_FLOOR);
 
         particles.clear();
 
-        strategy.createParticles(particles, StatesOfMatterConfig.INITIAL_MAX_PARTICLE_COUNT);
+        strategy.createParticles(particles, StatesOfMatterConstants.INITIAL_MAX_PARTICLE_COUNT);
 
         engineFacade = new EngineFacade(particles, EngineConfig.TEST);
 
-        double targetKineticEnergy = StatesOfMatterConfig.INITIAL_TOTAL_ENERGY_PER_PARTICLE * getNumParticles() - engineFacade.measurePotentialEnergy();
+        double targetKineticEnergy = StatesOfMatterConstants.INITIAL_TOTAL_ENERGY_PER_PARTICLE * getNumParticles() - engineFacade.measurePotentialEnergy();
 
         KineticEnergyAdjuster adjuster = new KineticEnergyAdjuster();
 
@@ -66,7 +66,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public synchronized void clockTicked(ClockEvent clockEvent) {
-        for (int i = 0; i < StatesOfMatterConfig.COMPUTATIONS_PER_RENDER; i++) {
+        for (int i = 0; i < StatesOfMatterConstants.COMPUTATIONS_PER_RENDER; i++) {
             ForceComputation computation = engineFacade.step(clockEvent.getSimulationTimeChange());
 
             computation.apply(particles);
@@ -93,7 +93,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     private void capKineticEnergy() {
-        new KineticEnergyCapper(particles).cap(StatesOfMatterConfig.PARTICLE_MAX_KE);
+        new KineticEnergyCapper(particles).cap(StatesOfMatterConstants.PARTICLE_MAX_KE);
     }
 
     public void clockStarted(ClockEvent clockEvent) {
@@ -109,7 +109,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public ParticleContainer getParticleContainer() {
-        return new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS);
+        return new RectangularParticleContainer(StatesOfMatterConstants.CONTAINER_BOUNDS);
     }
 
     public synchronized double getKineticEnergy() {

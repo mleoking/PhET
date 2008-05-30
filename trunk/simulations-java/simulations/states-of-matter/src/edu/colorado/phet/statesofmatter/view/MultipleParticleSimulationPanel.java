@@ -1,5 +1,10 @@
 package edu.colorado.phet.statesofmatter.view;
 
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.Point2D;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -10,11 +15,6 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
-
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.geom.Point2D;
-import java.io.IOException;
 
 public class MultipleParticleSimulationPanel extends PhetPCanvas {
     public static final MultipleParticleSimulationPanel TEST = new MultipleParticleSimulationPanel(MultipleParticleModel.TEST, ConstantDtClock.TEST);

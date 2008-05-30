@@ -1,8 +1,8 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
-import junit.framework.TestCase;
-
 import java.util.Arrays;
+
+import junit.framework.TestCase;
 
 public class ZCompositeMeasurableTester extends TestCase {
     public void testSumOfOne() {

@@ -1,9 +1,9 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.List;
+
+import junit.framework.TestCase;
 
 public class ZCompositeCalculatorTester extends TestCase {
     private volatile double[] forces = new double[2];

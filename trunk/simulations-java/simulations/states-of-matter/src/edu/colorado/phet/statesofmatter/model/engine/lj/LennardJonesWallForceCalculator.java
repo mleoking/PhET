@@ -1,12 +1,12 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.engine.Calculator;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
-
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 public class LennardJonesWallForceCalculator implements Calculator {
     private final LennardJonesForce ljf;
