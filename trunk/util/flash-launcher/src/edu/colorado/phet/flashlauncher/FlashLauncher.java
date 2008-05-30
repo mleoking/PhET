@@ -57,7 +57,7 @@ public class FlashLauncher {
         println( "FlashLauncher.start" );
         println( "System.getProperty( \"user.dir\" ) = " + System.getProperty( "user.dir" ) );
         File currentDir = new File( System.getProperty( "user.dir" ) );
-        File tempDir = new File( currentDir, "flash-launcher-temp" );
+        File tempDir = new File( currentDir, "temp_phet-flash" );
         File jarfile = getJARFile();
         println( "jarfile = " + jarfile );
         println( "Starting unzip jarfile=" + jarfile + ", tempDir=" + tempDir );

@@ -13,11 +13,13 @@
     <target name="compile" depends="init">
         <mkdir dir="${build}"/>
         <javac srcdir="${src}" destdir="${build}"/>
-        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curve-fit.swf" todir="${build}"/>
-        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curveFitStrings_en.xml" todir="${build}"/>
-        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curveFitStrings_fr.xml" todir="${build}"/>
-        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curve-fit_en.html" todir="${build}"/>
-        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\curve-fit_fr.html" todir="${build}"/>
+        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\${sim}.swf" todir="${build}"/>
+        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\${sim}-strings_en.xml" todir="${build}"/>
+        <copy file="${trunk}\simulations-flash\simulations\curve-fit\deploy\${sim}-strings_fr.xml" todir="${build}"/>
+        <filter token="SIM" value="${sim}"/>
+        <filter token="LOCALE" value="${lang}"/>
+        <copy file="${trunk}\util\flash-launcher\templates\flash-template.html" tofile="${build}/${sim}_${lang}.html"
+              filtering="true"/>
         <echo file="${build}\args.txt" message="${sim} ${lang} -dev"/>
     </target>
 
