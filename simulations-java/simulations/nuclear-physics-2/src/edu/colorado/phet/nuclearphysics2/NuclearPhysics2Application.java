@@ -60,7 +60,7 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
     /**
      * Sole constructor.
      *
-     * @param args command line arguments
+     * @param config - The configuration for the application.
      */
     public NuclearPhysics2Application( PhetApplicationConfig config )
     {

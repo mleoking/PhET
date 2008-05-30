@@ -3,10 +3,10 @@
 package edu.colorado.phet.nuclearphysics2;
 
 /**
- * TemplateStrings is the collection of localized strings used by this simulations.
+ * NuclearPhysics2Strings is the collection of localized strings used by this simulations.
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco
  */
 public class NuclearPhysics2Strings {
     
