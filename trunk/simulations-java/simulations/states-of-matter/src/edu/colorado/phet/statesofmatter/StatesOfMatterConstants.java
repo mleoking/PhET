@@ -63,19 +63,19 @@ public class StatesOfMatterConstants {
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = new Color( 0xffffcc );
+    public static final Color CANVAS_BACKGROUND = Color.BLACK;
     
     // Color of labels placed directly on the play area
-    public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
+    public static final Color CANVAS_LABELS_COLOR = Color.WHITE;
     
     // Color of labels placed directly on the play area
-    public static final Color CONTROL_PANEL_COLOR = new Color( 0xfffacd );
+    public static final Color CONTROL_PANEL_COLOR = new Color( 0xeeeeee );
     
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
     // Default color for module tabs
-    public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
+    public static final Color SELECTED_TAB_COLOR = new Color(0xffff99);
 
     //----------------------------------------------------------------------------
     // Simulation Control

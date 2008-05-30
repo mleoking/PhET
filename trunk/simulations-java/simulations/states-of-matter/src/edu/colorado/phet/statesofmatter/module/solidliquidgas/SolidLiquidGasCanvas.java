@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
@@ -26,7 +27,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 2.0;
-    private final double HEIGHT_TRANSLATION_FACTOR = 4.0;
+    private final double HEIGHT_TRANSLATION_FACTOR = 2.0;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -54,7 +55,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         });
         
         // Set the background color.
-        setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
+        setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
         // Create the particle container.
         try {
