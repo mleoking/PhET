@@ -51,7 +51,7 @@ public class TestMicroscopeView extends JFrame {
     private static final int MIN_CONTROL_PANEL_WIDTH = 275;
     
     private static final DoubleRange PH_RANGE = new DoubleRange( 0, 14, 7 );
-    private static final double PH_DELTA = 1;
+    private static final double PH_DELTA = 0.1;
     private static final String PH_PATTERN = "0.0";
     
     private static final DoubleRange CIRCLE_DIAMETER_RANGE = new DoubleRange( 50, 500, 250 );
