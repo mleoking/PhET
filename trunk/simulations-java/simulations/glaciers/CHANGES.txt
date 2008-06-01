@@ -6,6 +6,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- Restart clock button does bad things while glacier is evolving, get rid of it?
 - thermometer looks lousy while dragging
 - thermometer repaints strangely while clock ticks on Mac OS 10.4
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
