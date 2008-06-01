@@ -22,6 +22,8 @@ CLEANUP:
 
 
 DONE:
+******* version 0.00.02 (?)
+6/1/08 - add color controls to TestMicroscopeView
 ******* version 0.00.01 (21895)
 5/31/08 - wrote TestMicroscopeView prototype for "microscope view" of H30 and OH concentrations
 5/20/08 - set up simulation skeleton, check in to SVN
