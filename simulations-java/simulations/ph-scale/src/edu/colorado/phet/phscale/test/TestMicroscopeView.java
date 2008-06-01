@@ -33,7 +33,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestZoomedView extends JFrame {
+public class TestMicroscopeView extends JFrame {
     
     private static final Color H3O_COLOR = Color.RED;
     private static final Color OH_COLOR = Color.BLUE;
@@ -47,8 +47,8 @@ public class TestZoomedView extends JFrame {
     private final PComposite _particlesParent;
     private final Random _randomDistance, _randomAngle;
     
-    public TestZoomedView() {
-        super( "TestZoomedView" );
+    public TestMicroscopeView() {
+        super( "ph-scale: Microscope View test" );
         
         _randomDistance = new Random();
         _randomAngle = new Random();
@@ -256,7 +256,7 @@ public class TestZoomedView extends JFrame {
     }
 
     public static void main( String args[] ) {
-        TestZoomedView frame = new TestZoomedView();
+        TestMicroscopeView frame = new TestMicroscopeView();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( new Dimension( 1024, 768 ) );
         frame.setVisible( true );
