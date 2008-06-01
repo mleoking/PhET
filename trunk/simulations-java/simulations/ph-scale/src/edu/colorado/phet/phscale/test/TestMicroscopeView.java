@@ -18,6 +18,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -42,8 +45,10 @@ public class TestMicroscopeView extends JFrame {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final Color H3O_COLOR = Color.RED;
-    private static final Color OH_COLOR = Color.BLUE;
+    private static final Color DEFAULT_CANVAS_COLOR = new Color( 220, 220, 220 );
+    private static final Color DEFAULT_H2O_COLOR= Color.WHITE;
+    private static final Color DEFAULT_H3O_COLOR = Color.RED;
+    private static final Color DEFAULT_OH_COLOR = Color.BLUE;
 
     private static final double ACID_PH_THRESHOLD = 6;
     private static final double BASE_PH_THRESHOLD = 8;
@@ -70,6 +75,10 @@ public class TestMicroscopeView extends JFrame {
     private static final double TRANSPARENCY_DELTA = 0.01;
     private static final String TRANSPARENCY_PATTERN = "0.00";
     
+    private static final String H2O_HTML = "H<sub>2</sub>O";
+    private static final String H3O_HTML = "H<sub>3</sub>O<sup>+</sup>";
+    private static final String OH_HTML = "OH<sup>-</sup>";
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -78,11 +87,15 @@ public class TestMicroscopeView extends JFrame {
     private final LinearValueControl _phControl, _circleDiameterControl,
             _particleTransparencyControl, _particleDiameterControl,
             _maxParticlesControl;
+    private final ColorControl _colorCanvasControl, _colorH2OControl, _colorH3OControl, _colorOHControl;
+    private final JPanel _countPanel;
 
+    private final PCanvas _canvas;
     private final PPath _circleNode;
     private final Ellipse2D _circlePath;
     private final PComposite _particlesParent;
     private final Random _randomDistance, _randomAngle;
+    private Color _colorH3O, _colorOH;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -93,6 +106,8 @@ public class TestMicroscopeView extends JFrame {
 
         _randomDistance = new Random();
         _randomAngle = new Random();
+        _colorH3O = DEFAULT_H3O_COLOR;
+        _colorOH = DEFAULT_OH_COLOR;
 
         ChangeListener globalUpdateListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -109,14 +124,15 @@ public class TestMicroscopeView extends JFrame {
         // count displays
         _countH30Label = new JLabel();
         _countH30Label.setFont( _countH30Label.getFont().deriveFont( Font.BOLD, 18 ) );
-        _countH30Label.setForeground( H3O_COLOR );
+        _countH30Label.setForeground( _colorH3O );
         _countOHLabel = new JLabel();
         _countOHLabel.setFont( _countOHLabel.getFont().deriveFont( Font.BOLD, 18 ) );
-        _countOHLabel.setForeground( OH_COLOR );
-        JPanel countPanel = new JPanel();
-        countPanel.setBorder( new TitledBorder( "particle counts" ) );
-        EasyGridBagLayout countPanelLayout = new EasyGridBagLayout( countPanel );
-        countPanel.setLayout( countPanelLayout );
+        _countOHLabel.setForeground( _colorOH );
+        _countPanel = new JPanel();
+        _countPanel.setBackground( DEFAULT_H2O_COLOR );
+        _countPanel.setBorder( new TitledBorder( "particle counts" ) );
+        EasyGridBagLayout countPanelLayout = new EasyGridBagLayout( _countPanel );
+        _countPanel.setLayout( countPanelLayout );
         int row = 0;
         int column = 0;
         countPanelLayout.addComponent( _countH30Label, row, column++ );
@@ -124,31 +140,31 @@ public class TestMicroscopeView extends JFrame {
         countPanelLayout.addComponent( _countOHLabel, row, column++ );
 
         // pH control
-        _phControl = new LinearValueControl( PH_RANGE.getMin(), PH_RANGE.getMax(), "pH:", PH_PATTERN, "" );
+        _phControl = new LinearValueControl( PH_RANGE.getMin(), PH_RANGE.getMax(), "pH:", PH_PATTERN, "", new TestLayoutStrategy() );
         _phControl.setValue( PH_RANGE.getDefault() );
         _phControl.setUpDownArrowDelta( PH_DELTA );
         _phControl.addChangeListener( globalUpdateListener );
 
         // circle diameter control
-        _circleDiameterControl = new LinearValueControl( CIRCLE_DIAMETER_RANGE.getMin(), CIRCLE_DIAMETER_RANGE.getMax(), "circle diameter:", CIRCLE_DIAMETER_PATTERN, "" );
+        _circleDiameterControl = new LinearValueControl( CIRCLE_DIAMETER_RANGE.getMin(), CIRCLE_DIAMETER_RANGE.getMax(), "circle diameter:", CIRCLE_DIAMETER_PATTERN, "", new TestLayoutStrategy() );
         _circleDiameterControl.setValue( CIRCLE_DIAMETER_RANGE.getDefault() );
         _circleDiameterControl.setUpDownArrowDelta( CIRCLE_DIAMETER_DELTA );
         _circleDiameterControl.addChangeListener( globalUpdateListener );
 
         // max particles
-        _maxParticlesControl = new LinearValueControl( MAX_PARTICLES_RANGE.getMin(), MAX_PARTICLES_RANGE.getMax(), "max # particles:", MAX_PARTICLES_PATTERN, "" );
+        _maxParticlesControl = new LinearValueControl( MAX_PARTICLES_RANGE.getMin(), MAX_PARTICLES_RANGE.getMax(), "max # particles:", MAX_PARTICLES_PATTERN, "", new TestLayoutStrategy() );
         _maxParticlesControl.setValue( MAX_PARTICLES_RANGE.getDefault() );
         _maxParticlesControl.setUpDownArrowDelta( MAX_PARTICLES_DELTA );
         _maxParticlesControl.addChangeListener( globalUpdateListener );
 
         // particle size
-        _particleDiameterControl = new LinearValueControl( PARTICLE_DIAMETER_RANGE.getMin(), PARTICLE_DIAMETER_RANGE.getMax(), "particle diameter:", PARTICLE_DIAMETER_PATTERN, "" );
+        _particleDiameterControl = new LinearValueControl( PARTICLE_DIAMETER_RANGE.getMin(), PARTICLE_DIAMETER_RANGE.getMax(), "particle diameter:", PARTICLE_DIAMETER_PATTERN, "", new TestLayoutStrategy() );
         _particleDiameterControl.setValue( PARTICLE_DIAMETER_RANGE.getDefault() );
         _particleDiameterControl.setUpDownArrowDelta( PARTICLE_DIAMETER_DELTA );
         _particleDiameterControl.addChangeListener( particleUpdateListener );
 
         // transparency
-        _particleTransparencyControl = new LinearValueControl( TRANSPARENCY_RANGE.getMin(), TRANSPARENCY_RANGE.getMax(), "particle transparency:", TRANSPARENCY_PATTERN, "" );
+        _particleTransparencyControl = new LinearValueControl( TRANSPARENCY_RANGE.getMin(), TRANSPARENCY_RANGE.getMax(), "particle transparency:", TRANSPARENCY_PATTERN, "", new TestLayoutStrategy() );
         _particleTransparencyControl.setValue( TRANSPARENCY_RANGE.getDefault() );
         _particleTransparencyControl.setUpDownArrowDelta( TRANSPARENCY_DELTA );
         _particleTransparencyControl.addChangeListener( particleUpdateListener );
@@ -156,6 +172,58 @@ public class TestMicroscopeView extends JFrame {
         labelTable.put( new Double( _particleTransparencyControl.getMinimum() ), new JLabel( "invisible" ) );
         labelTable.put( new Double( _particleTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
         _particleTransparencyControl.setTickLabels( labelTable );
+
+        // colors
+        JPanel colorsPanel = new JPanel();
+        {
+            _colorCanvasControl = new ColorControl( this, "play area color:", DEFAULT_CANVAS_COLOR );
+            _colorCanvasControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    _canvas.setBackground( _colorCanvasControl.getColor() );
+                }
+            } );
+
+            _colorH2OControl = new ColorControl( this, "<html>" + H2O_HTML + " color:</html>", DEFAULT_H2O_COLOR );
+            _colorH2OControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    Color colorH2O = _colorH2OControl.getColor();
+                    _countPanel.setBackground( colorH2O );
+                    _circleNode.setPaint( colorH2O );
+                }
+            } );
+
+            _colorH3OControl = new ColorControl( this, "<html>" + H3O_HTML + " color:</html>", _colorH3O );
+            _colorH3OControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    _colorH3O = _colorH3OControl.getColor();
+                    _countH30Label.setForeground( _colorH3O );
+                    updateParticles();
+                }
+            } );
+
+            _colorOHControl = new ColorControl( this, "<html>" + OH_HTML + " color:</html>", _colorOH );
+            _colorOHControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    _colorOH = _colorOHControl.getColor();
+                    _countOHLabel.setForeground( _colorOH );
+                    updateParticles();
+                }
+            } );
+            
+            EasyGridBagLayout colorsPanelLayout = new EasyGridBagLayout( colorsPanel );
+            colorsPanel.setLayout( colorsPanelLayout );
+            row = 0;
+            column = 0;
+            colorsPanelLayout.addComponent( _colorH3OControl, row, column++ );
+            colorsPanelLayout.addComponent( Box.createHorizontalStrut( 15 ), row, column++ );
+            colorsPanelLayout.addComponent( _colorOHControl, row, column++ );
+            row++;
+            column = 0;
+            colorsPanelLayout.addComponent( _colorH2OControl, row, column++ );
+            colorsPanelLayout.addComponent( Box.createHorizontalStrut( 15 ), row, column++ );
+            colorsPanelLayout.addComponent( _colorCanvasControl, row, column++ );
+        }
+
 
         // Reset All button
         JButton resetAllButton = new JButton( "Reset All" );
@@ -173,7 +241,7 @@ public class TestMicroscopeView extends JFrame {
         row = 0;
         column = 0;
         controlPanelLayout.addComponent( Box.createHorizontalStrut( MIN_CONTROL_PANEL_WIDTH ), row++, column );
-        controlPanelLayout.addFilledComponent( countPanel, row++, column, GridBagConstraints.HORIZONTAL );
+        controlPanelLayout.addFilledComponent( _countPanel, row++, column, GridBagConstraints.HORIZONTAL );
         controlPanelLayout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         controlPanelLayout.addComponent( _phControl, row++, column );
         controlPanelLayout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
@@ -185,11 +253,20 @@ public class TestMicroscopeView extends JFrame {
         controlPanelLayout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         controlPanelLayout.addComponent( _particleTransparencyControl, row++, column );
         controlPanelLayout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        controlPanelLayout.addComponent( colorsPanel, row++, column );
+        controlPanelLayout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         controlPanelLayout.addAnchoredComponent( resetAllButton, row++, column, GridBagConstraints.CENTER );
+        
+        // scroll bars
+        JPanel scrollPanel = new JPanel( new BorderLayout() );
+        JScrollPane scrollPane = new JScrollPane( controlPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        scrollPanel.add( scrollPane, BorderLayout.CENTER );
         
         // circle
         _circlePath = new Ellipse2D.Double();
         _circleNode = new PClip();
+        _circleNode.setPaint( DEFAULT_H2O_COLOR );
         _circleNode.setStroke( new BasicStroke( 2f ) );
         _circleNode.setOffset( _circleDiameterControl.getMaximum() / 2 + 50, _circleDiameterControl.getMaximum() / 2 + 50 );
 
@@ -197,12 +274,13 @@ public class TestMicroscopeView extends JFrame {
         _particlesParent = new PComposite();
         _circleNode.addChild( _particlesParent );
 
-        PCanvas canvas = new PCanvas();
-        canvas.getLayer().addChild( _circleNode );
+        _canvas = new PCanvas();
+        _canvas.getLayer().addChild( _circleNode );
+        _canvas.setBackground( DEFAULT_CANVAS_COLOR );
 
         JPanel mainPanel = new JPanel( new BorderLayout() );
-        mainPanel.add( canvas, BorderLayout.CENTER );
-        mainPanel.add( controlPanel, BorderLayout.EAST );
+        mainPanel.add( _canvas, BorderLayout.CENTER );
+        mainPanel.add( scrollPanel, BorderLayout.EAST );
         getContentPane().add( mainPanel );
 
         updateAll();
@@ -213,6 +291,18 @@ public class TestMicroscopeView extends JFrame {
     //----------------------------------------------------------------------------
 
     private void resetAll() {
+        
+        // colors
+        _colorCanvasControl.setColor( DEFAULT_CANVAS_COLOR );
+        _canvas.setBackground( DEFAULT_CANVAS_COLOR );
+        _colorH2OControl.setColor( DEFAULT_H2O_COLOR );
+        _circleNode.setPaint( DEFAULT_H2O_COLOR );
+        _colorH3OControl.setColor( DEFAULT_H3O_COLOR );
+        _colorH3O = DEFAULT_H3O_COLOR;
+        _colorOHControl.setColor( DEFAULT_OH_COLOR );
+        _colorOH = DEFAULT_OH_COLOR;
+        
+        // sliders
         _phControl.setValue( PH_RANGE.getDefault() );
         _circleDiameterControl.setValue( CIRCLE_DIAMETER_RANGE.getDefault() );
         _maxParticlesControl.setValue( MAX_PARTICLES_RANGE.getDefault() );
@@ -251,8 +341,8 @@ public class TestMicroscopeView extends JFrame {
             numH30 = (int) Math.max( 1, multiplier );
             numOH = (int) ( multiplier / ratio );
         }
-        _countH30Label.setText( "<html>H<sub>3</sub>O<sup>+</sup>=" + numH30 );
-        _countOHLabel.setText( "<html>OH<sup>-</sup>=" + numOH );
+        _countH30Label.setText( "<html>" + H3O_HTML + "=" + numH30 );
+        _countOHLabel.setText( "<html>" + OH_HTML + "=" + numOH );
 
         // create particles
         if ( numH30 > numOH ) {
@@ -297,7 +387,7 @@ public class TestMicroscopeView extends JFrame {
      */
     private Color getColorH3O() {
         final int alpha = (int) ( 255 * _particleTransparencyControl.getValue() );
-        return ColorUtils.createColor( H3O_COLOR, alpha );
+        return ColorUtils.createColor( _colorH3O, alpha );
     }
 
     /*
@@ -305,7 +395,7 @@ public class TestMicroscopeView extends JFrame {
      */
     private Color getColorOH() {
         final int alpha = (int) ( 255 * _particleTransparencyControl.getValue() );
-        return ColorUtils.createColor( OH_COLOR, alpha );
+        return ColorUtils.createColor( _colorOH, alpha );
     }
 
     /*
@@ -424,6 +514,28 @@ public class TestMicroscopeView extends JFrame {
         }
     }
 
+    /* layout all parts of value controls in a horizontal line */
+    public class TestLayoutStrategy implements ILayoutStrategy {
+
+        public TestLayoutStrategy() {}
+        
+        public void doLayout( AbstractValueControl valueControl ) {
+
+            // Get the components that will be part of the layout
+            JComponent slider = valueControl.getSlider();
+            JComponent textField = valueControl.getTextField();
+            JComponent valueLabel = valueControl.getValueLabel();
+            JComponent unitsLabel = valueControl.getUnitsLabel();
+
+            // Label - slider - textfield - units.
+            EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
+            valueControl.setLayout( layout );
+            layout.addComponent( valueLabel, 0, 0 );
+            layout.addFilledComponent( slider, 0, 1, GridBagConstraints.HORIZONTAL );
+            layout.addFilledComponent( textField, 0, 2, GridBagConstraints.HORIZONTAL );
+            layout.addComponent( unitsLabel, 0, 3 );
+        }
+    }
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
