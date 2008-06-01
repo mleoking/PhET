@@ -4,6 +4,7 @@ package edu.colorado.phet.phscale.test;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -33,8 +35,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class TestZoomedView extends JFrame {
     
-    private static final Color ACID_COLOR = Color.RED;
-    private static final Color BASE_COLOR = Color.BLUE;
+    private static final Color H3O_COLOR = Color.RED;
+    private static final Color OH_COLOR = Color.BLUE;
     
     private static final double ACID_PH_THRESHOLD = 6;
     private static final double BASE_PH_THRESHOLD = 8;
@@ -43,9 +45,13 @@ public class TestZoomedView extends JFrame {
     private final PPath _circleNode;
     private final Ellipse2D _circlePath;
     private final PComposite _particlesParent;
+    private final Random _randomDistance, _randomAngle;
     
     public TestZoomedView() {
         super( "TestZoomedView" );
+        
+        _randomDistance = new Random();
+        _randomAngle = new Random();
         
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -62,21 +68,25 @@ public class TestZoomedView extends JFrame {
         // circle diameter control
         _circleDiameterControl = new LinearValueControl( 50, 500, "circle diameter:", "###0", "", new HorizontalLayoutStrategy() );
         _circleDiameterControl.setValue( 250 );
+        _circleDiameterControl.setUpDownArrowDelta( 1 );
         _circleDiameterControl.addChangeListener( changeListener );
         
         // max particles
         _maxParticlesControl = new LinearValueControl( 1000, 10000,  "max # particles:", "####0", "", new HorizontalLayoutStrategy() );
         _maxParticlesControl.setValue( 5000 );
+        _maxParticlesControl.setUpDownArrowDelta( 1 );
         _maxParticlesControl.addChangeListener( changeListener );
         
         // particle size
         _particleDiameterControl = new LinearValueControl( 1, 25, "particle diameter:", "#0.0", "", new HorizontalLayoutStrategy() );
-        _particleDiameterControl.setValue( 10 );
+        _particleDiameterControl.setValue( 6 );
+        _particleDiameterControl.setUpDownArrowDelta( 0.1 );
         _particleDiameterControl.addChangeListener( changeListener );
         
         // transparency
         _particleTransparencyControl = new LinearValueControl( 0, 1, "particle transparency:", "0.00", "", new HorizontalLayoutStrategy() );
-        _particleTransparencyControl.setValue( 1 );
+        _particleTransparencyControl.setValue( 0.75 );
+        _particleTransparencyControl.setUpDownArrowDelta( 0.01 );
         _particleTransparencyControl.addChangeListener( changeListener );
         
         // control panel
@@ -123,31 +133,63 @@ public class TestZoomedView extends JFrame {
         _circlePath.setFrame( -circleDiameter/2, -circleDiameter/2, circleDiameter, circleDiameter );
         _circleNode.setPathTo( _circlePath );
         
-        // create particles
-        final double particleDiameter = _particleDiameterControl.getValue();
-        final int alpha = (int)( 255 * _particleTransparencyControl.getValue() );
-        Color acidColor = ColorUtils.createColor( ACID_COLOR, alpha );
-        Color baseColor = ColorUtils.createColor( BASE_COLOR, alpha );
-        
-        //XXX quick test of particle size & transparency
-        PNode acidNode = createParticle( particleDiameter, acidColor );
-        acidNode.setOffset( -( circleDiameter/4 - 10 ), 0 );
-        _particlesParent.addChild( acidNode );
-        PNode baseNode = createParticle( particleDiameter, baseColor );
-        baseNode.setOffset( +( circleDiameter/4 - 10 ), 0 );
-        _particlesParent.addChild( baseNode );
-        
+        // calculate the ratio of H30 to OH
         final double pH = _phControl.getValue();
-        int ratioH30 = ratioH30( pH );
-        int ratioOH = ratioOH( pH );
-        System.out.println( "pH=" + pH + " H30:OH = " + ratioH30 + ":" + ratioOH );//XXX
+        final double ratio = ratio_H30_to_OH( pH );
+        System.out.println( "pH=" + pH + " H30:OH = " + ratio + " OH:H3O = " + 1/ratio );//XXX
         
-//        //TODO create random distribution of particles based on pH and max # particles
-//        final double maxH30 = numH30( 0 );
-//        final double maxRatio = (int)_maxParticlesControl.getValue() / maxH30;
-//        numH30 = (int) Math.max( 1, numH30 * maxRatio );
-//        numOH = (int) Math.max( 1, numOH * maxRatio );
-//        System.out.println( "adjusted: " + " maxH30=" + maxH30 + " maxRatio=" + maxRatio + " H30=" + numH30 + " OH=" + numOH );//XXX
+        // calculate the number of H30 and OH particles
+        final double multiplier = (int) _maxParticlesControl.getValue() / ratio_H30_to_OH( 0 );
+        int numH30, numOH;
+        if ( ratio == 1 ) {
+            numH30 = numOH = (int) Math.max( 1, multiplier );
+        }
+        else if ( ratio > 1 ) {
+            numH30 = (int) ( multiplier * ratio );
+            numOH = (int) Math.max( 1, multiplier );
+        }
+        else {
+            numH30 = (int) Math.max( 1, multiplier );
+            numOH = (int) ( multiplier / ratio );
+        }
+        System.out.println( "pH=" + pH + " #H30= " + numH30 + " #OH= " + numOH );//XXX
+        
+        // create particles
+        _particlesParent.removeAllChildren();
+        if ( numH30 > numOH ) {
+            createH30( numH30 );
+            createOH( numOH );
+        }
+        else {
+            createOH( numOH );
+            createH30( numH30 );
+        }
+    }
+    
+    private void createH30( int count ) {
+        final int alpha = (int)( 255 * _particleTransparencyControl.getValue() );
+        Color color = ColorUtils.createColor( H3O_COLOR, alpha );
+        createParticles( count, color );
+    }
+    
+    private void createOH( int count ) {
+        final int alpha = (int)( 255 * _particleTransparencyControl.getValue() );
+        Color color = ColorUtils.createColor( OH_COLOR, alpha );
+        createParticles( count, color );
+    }
+    
+    private void createParticles( int count, Color color ) {
+        final double circleRadius = _circleDiameterControl.getValue() / 2;
+        final double particleDiameter = _particleDiameterControl.getValue();
+        for ( int i = 0; i < count; i++ ) {
+            double distance = _randomDistance.nextDouble() * circleRadius;
+            double angle = _randomAngle.nextDouble() * ( 2 * Math.PI );
+            double x = PolarCartesianConverter.getX( distance, angle );
+            double y = PolarCartesianConverter.getY( distance, angle );
+            PNode node = createParticle( particleDiameter, color );
+            node.setOffset( x, y );
+            _particlesParent.addChild( node );
+        }
     }
     
     /* creates a particle node given a diameter and color */
@@ -159,54 +201,23 @@ public class TestZoomedView extends JFrame {
         return pathNode;
     }
     
-    // Compute the ratio of H30.
+    // Compute the ratio of H30 to OH.
     // Between pH of 6 and 8, we use the actual log scale.
-    // Below 6 use a linear scale.
-    private static int ratioH30( double pH ) {
-        int ratioH30;
-        double multiplier = 1;
-        if ( pH == 7 ) {
-            ratioH30 = 1;
+    // Below 6 and above 8, use a linear scale.
+    private static double ratio_H30_to_OH( double pH ) {
+        double ratio;
+        if ( pH >= ACID_PH_THRESHOLD && pH <= BASE_PH_THRESHOLD ) {
+            ratio = concentrationH30( pH ) / concentrationOH( pH );
         }
-        else if ( pH < 7 ) {
-            final double pHThreshold = ACID_PH_THRESHOLD;
-            if ( pH >= pHThreshold ) {
-                ratioH30 = (int) ( concentrationH30( pH ) / concentrationOH( pH ) );
-            }
-            else {
-                multiplier = pHThreshold - pH + 1;
-                ratioH30 = (int) ( multiplier * concentrationH30(pHThreshold) / concentrationOH(pHThreshold) );
-            }
+        else if ( pH < ACID_PH_THRESHOLD ) {
+            double multiplier = ACID_PH_THRESHOLD - pH + 1;
+            ratio = multiplier * concentrationH30( ACID_PH_THRESHOLD ) / concentrationOH( ACID_PH_THRESHOLD );
         }
         else {
-            ratioH30 = 1;
+            double multiplier = 1 / ( pH - BASE_PH_THRESHOLD + 1 );
+            ratio = multiplier * concentrationH30( BASE_PH_THRESHOLD ) / concentrationOH( BASE_PH_THRESHOLD );
         }
-        return ratioH30;
-    }
-    
-    // Compute the ratio of OH.
-    // Between pH of 6 and 8, we use the actual log scale.
-    // Above 8 use a linear scale.
-    private static int ratioOH( double pH ) { 
-        int ratioOH;
-        double multiplier = 1;
-        if ( pH == 7 ) {
-            ratioOH = 1;
-        }
-        else if ( pH < 7 ) {
-            ratioOH = 1;
-        }
-        else {
-            final double pHThershold = BASE_PH_THRESHOLD;
-            if ( pH <= pHThershold ) {
-                ratioOH = (int) ( concentrationOH( pH ) / concentrationH30( pH ) );
-            }
-            else {
-                multiplier = pH - pHThershold + 1;
-                ratioOH = (int) ( multiplier * concentrationOH(pHThershold) / concentrationH30(pHThershold) );
-            }
-        }
-        return ratioOH;
+        return ratio;
     }
     
     private static double concentrationH30( double pH ) {
