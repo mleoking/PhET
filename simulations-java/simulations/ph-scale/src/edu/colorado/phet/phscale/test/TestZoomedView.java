@@ -36,6 +36,9 @@ public class TestZoomedView extends JFrame {
     private static final Color ACID_COLOR = Color.RED;
     private static final Color BASE_COLOR = Color.BLUE;
     
+    private static final double ACID_PH_THRESHOLD = 6;
+    private static final double BASE_PH_THRESHOLD = 8;
+    
     private final LinearValueControl _phControl, _circleDiameterControl, _particleTransparencyControl, _particleDiameterControl, _maxParticlesControl;
     private final PPath _circleNode;
     private final Ellipse2D _circlePath;
@@ -53,6 +56,7 @@ public class TestZoomedView extends JFrame {
         // pH control
         _phControl = new LinearValueControl( 0, 14, "pH:", "#0.0", "", new HorizontalLayoutStrategy() );
         _phControl.setValue( 7 );
+        _phControl.setUpDownArrowDelta( 1 );
         _phControl.addChangeListener( changeListener );
         
         // circle diameter control
@@ -61,7 +65,7 @@ public class TestZoomedView extends JFrame {
         _circleDiameterControl.addChangeListener( changeListener );
         
         // max particles
-        _maxParticlesControl = new LinearValueControl( 100, 10000,  "max # particles:", "####0", "", new HorizontalLayoutStrategy() );
+        _maxParticlesControl = new LinearValueControl( 1000, 10000,  "max # particles:", "####0", "", new HorizontalLayoutStrategy() );
         _maxParticlesControl.setValue( 5000 );
         _maxParticlesControl.addChangeListener( changeListener );
         
@@ -133,7 +137,17 @@ public class TestZoomedView extends JFrame {
         baseNode.setOffset( +( circleDiameter/4 - 10 ), 0 );
         _particlesParent.addChild( baseNode );
         
-        //TODO create random distribution of particles based on pH and max # particles
+        final double pH = _phControl.getValue();
+        int ratioH30 = ratioH30( pH );
+        int ratioOH = ratioOH( pH );
+        System.out.println( "pH=" + pH + " H30:OH = " + ratioH30 + ":" + ratioOH );//XXX
+        
+//        //TODO create random distribution of particles based on pH and max # particles
+//        final double maxH30 = numH30( 0 );
+//        final double maxRatio = (int)_maxParticlesControl.getValue() / maxH30;
+//        numH30 = (int) Math.max( 1, numH30 * maxRatio );
+//        numOH = (int) Math.max( 1, numOH * maxRatio );
+//        System.out.println( "adjusted: " + " maxH30=" + maxH30 + " maxRatio=" + maxRatio + " H30=" + numH30 + " OH=" + numOH );//XXX
     }
     
     /* creates a particle node given a diameter and color */
@@ -143,6 +157,68 @@ public class TestZoomedView extends JFrame {
         pathNode.setPaint( color );
         pathNode.setStroke( null );
         return pathNode;
+    }
+    
+    // Compute the ratio of H30.
+    // Between pH of 6 and 8, we use the actual log scale.
+    // Below 6 use a linear scale.
+    private static int ratioH30( double pH ) {
+        int ratioH30;
+        double multiplier = 1;
+        if ( pH == 7 ) {
+            ratioH30 = 1;
+        }
+        else if ( pH < 7 ) {
+            final double pHThreshold = ACID_PH_THRESHOLD;
+            if ( pH >= pHThreshold ) {
+                ratioH30 = (int) ( concentrationH30( pH ) / concentrationOH( pH ) );
+            }
+            else {
+                multiplier = pHThreshold - pH + 1;
+                ratioH30 = (int) ( multiplier * concentrationH30(pHThreshold) / concentrationOH(pHThreshold) );
+            }
+        }
+        else {
+            ratioH30 = 1;
+        }
+        return ratioH30;
+    }
+    
+    // Compute the ratio of OH.
+    // Between pH of 6 and 8, we use the actual log scale.
+    // Above 8 use a linear scale.
+    private static int ratioOH( double pH ) { 
+        int ratioOH;
+        double multiplier = 1;
+        if ( pH == 7 ) {
+            ratioOH = 1;
+        }
+        else if ( pH < 7 ) {
+            ratioOH = 1;
+        }
+        else {
+            final double pHThershold = BASE_PH_THRESHOLD;
+            if ( pH <= pHThershold ) {
+                ratioOH = (int) ( concentrationOH( pH ) / concentrationH30( pH ) );
+            }
+            else {
+                multiplier = pH - pHThershold + 1;
+                ratioOH = (int) ( multiplier * concentrationOH(pHThershold) / concentrationH30(pHThershold) );
+            }
+        }
+        return ratioOH;
+    }
+    
+    private static double concentrationH30( double pH ) {
+        return Math.pow( 10, -pH );
+    }
+    
+    private static double concentrationOH( double pH ) {
+        return Math.pow( 10, -pOH( pH ) );
+    }
+    
+    private static double pOH( double pH ) {
+        return 14 - pH;
     }
     
     /* Control layout strategy that puts all parts of the control in one row. */
