@@ -17,18 +17,18 @@ public class Climate {
     //----------------------------------------------------------------------------
     
     private static final double MODERN_TEMPERATURE = 20; // temperature at sea level in modern times (degrees C)
-    private static final double MODERN_SNOWFALL_REFERENCE_ELEVATION = 4000; // reference elevation for snowfall in modern times (meters)
+    private static final double TEMP_LAPSE_RATE = 6.5E-3; // C per meter
+    private static final double MELT_V_ELEV = 30;
+    private static final double MELT_Z0 = 1300; // min elevation used to scale ablation (meters)
+    private static final double MELT_Z1 = 4200; // max elevation used to scale ablation (meters)
+    private static final double MELT_V_TEMP = 200;
+    private static final double SNOW_MAX = 2.0;
+    private static final double SNOW_MIN_ELEV = 2500; // min elevation used to scale accumulation (meters)
+    private static final double SNOW_MAX_ELEV = 5000; // max elevation used to scale accumulation (meters)
+    private static final double SNOW_TRANSITION_WIDTH = 300;
     
-    private static final double MAX_SNOWFALL_MUTILPIER = 2; // snowfall is multiplied by this value to get max snowfall
-    private static final double SNOWFALL_TRANSITION_WIDTH = 300; // how wide the transition of the snowfall curve is (meters)
-     
-    private static final double ABLATION_SCALE_FACTOR = 30;
-    private static final double ABLATION_TEMPERATURE_SCALE_FACTOR = 200;
-    private static final double ABLATION_Z0 = 1300; // min elevation used to scale ablation (meters)
-    private static final double ABLATION_Z1 = 4200; // max elevation used to scale ablation (meters)
-
     private static final double ELA_MAX = 8000; // meters, this should be above the top of the birds-eye view
-    private static final double ELA_SEARCH_STARTING_ELEVATION = MODERN_SNOWFALL_REFERENCE_ELEVATION; // where to start searching for ELA (meters)
+    private static final double ELA_SEARCH_STARTING_ELEVATION = 4000; // where to start searching for ELA (meters)
     private static final double ELA_SEARCH_STARTING_DELTA = -1000; // initial elevation delta when searching for ELA (meters)
     private static final double ELA_SEARCH_MIN_DELTA = 1; // smallest elevation delta when searching for ELA (meters)
     private static final double ELA_SEARCH_ALMOST_ZERO_GLACIAL_BUDGET = 1E-5; // when searching for ELA, any budget <= this value is considered zero
@@ -38,8 +38,7 @@ public class Climate {
     //----------------------------------------------------------------------------
     
     private double _temperature; // temperature at sea level (degrees C)
-    private double _snowfall; // snow accumulation (meters/year)
-    private double _snowfallReferenceElevation; // reference elevation for snowfall (meters)
+    private double _snowfall; // average snow accumulation for the valley (meters/year)
     private double _ela; // equilibrium line altitude, elevation where glacial budget is zero (meters)
     private final ArrayList _listeners; // list of ClimateListener
     
@@ -51,13 +50,11 @@ public class Climate {
      * Constructor.
      * 
      * @param temperature temperature at sea level (degrees C)
-     * @param snowfall snowfall (meters/year)
-     * @param snowfallReferenceElevation reference elevation for snowfall (meters)
+     * @param snowfall average snowfall for the valley (meters/year)
      */
-    public Climate( double temperature, double snowfall, double snowfallReferenceElevation ) {
+    public Climate( double temperature, double snowfall ) {
         _temperature = temperature;
         _snowfall = snowfall;
-        _snowfallReferenceElevation = snowfallReferenceElevation;
         _listeners = new ArrayList();
         updateELA();
     }
@@ -86,7 +83,7 @@ public class Climate {
     
     /**
      * Gets the temperature at sea level.
-     * 
+     *  
      * @return degrees C
      */
     public double getTemperature() {
@@ -94,13 +91,13 @@ public class Climate {
     }
     
     /**
-     * Sets the snowfall.
-     * This much snowfall will occur at the snowfall reference elevation.
+     * Sets the average snowfall.
      * 
      * @param snowfall meters
      */
     public void setSnowfall( double snowfall ) {
         assert( snowfall >= 0 );
+        assert( snowfall <= SNOW_MAX );
         if ( snowfall != _snowfall ) {
             _snowfall = snowfall;
             updateELA();
@@ -109,46 +106,12 @@ public class Climate {
     }
     
     /**
-     * Gets the snowfall.
-     * This much snowfall will occur at the snowfall reference elevation.
+     * Gets the average snowfall.
      * 
      * @return meters
      */
     public double getSnowfall() {
         return _snowfall;
-    }
-    
-    /*
-     * Gets the maximum snowfall.
-     * As elevation approaches infinity, accumulation will approach this value.
-     * 
-     * @return meters
-     */
-    private double getMaximumSnowfall() {
-        return MAX_SNOWFALL_MUTILPIER * _snowfall;
-    }
-    
-    /**
-     * Sets the reference elevation for snowfall.
-     * 
-     * @param snowfallReferenceElevation meters
-     */
-    public void setSnowfallReferenceElevation( double snowfallReferenceElevation ) {
-        assert( snowfallReferenceElevation >= 0 );
-        if ( snowfallReferenceElevation != _snowfallReferenceElevation ) {
-            _snowfallReferenceElevation = snowfallReferenceElevation;
-            updateELA();
-            notifySnowfallReferenceElevationChanged();
-        }
-    }
-    
-    /**
-     * Gets the reference elevation for snowfall.
-     * 
-     * @return meters
-     */
-    public double getSnowfallReferenceElevation() {
-        return _snowfallReferenceElevation;
     }
     
     /**
@@ -159,20 +122,23 @@ public class Climate {
      */
     public double getTemperature( double elevation ) {
         assert( elevation >= 0 );
-        return _temperature - ( 6.5 * elevation / 1E3 );
+        return _temperature - ( TEMP_LAPSE_RATE * elevation );
     }
     
     /**
-     * Gets the accumulation at a specified elevation above sea level
+     * Gets the accumulation at a specified elevation above sea level.
      * 
      * @param elevation meters
      * @return meters/year
      */
     public double getAccumulation( double elevation ) {
         assert( elevation >= 0 );
-        double accumulation = getMaximumSnowfall() * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
+        final double p0 = SNOW_MAX_ELEV - ( ( SNOW_MAX_ELEV - SNOW_MIN_ELEV ) * ( _snowfall ) );
+        final double pMax = SNOW_MAX * _snowfall;
+        final double tmp = .5 + ( 1. / Math.PI ) * Math.atan( ( elevation - p0 ) / SNOW_TRANSITION_WIDTH );
+        final double accumulation = pMax * tmp;
         assert( accumulation >= 0 );
-        assert( accumulation <= getMaximumSnowfall() );
+        assert( accumulation <= SNOW_MAX );
         return accumulation;
     }
 
@@ -183,24 +149,16 @@ public class Climate {
      * @return meters/year
      */
     public double getAblation( double elevation ) {
-        assert( elevation >= 0 );
-        
+        assert ( elevation >= 0 );
         double ablation = 0;
-        double temperatureOffset = _temperature - MODERN_TEMPERATURE;
-        
-        // ablation remains zero above a threshold
-        double ablationThresholdElevation = ( temperatureOffset * ABLATION_TEMPERATURE_SCALE_FACTOR ) + ABLATION_Z1;
-        if ( elevation <= ablationThresholdElevation ) {
-            double term1 = ( elevation - ABLATION_Z0 - ( temperatureOffset * ABLATION_TEMPERATURE_SCALE_FACTOR ) );
-            double term2 = ( ABLATION_Z1 - ABLATION_Z0 ) * 2 / Math.PI;
-            ablation = ABLATION_SCALE_FACTOR * ( 1. - Math.sin( term1 / term2 ) );  
+        final double tempDiff = _temperature - MODERN_TEMPERATURE;
+        final double minAblationElevation = ( tempDiff * MELT_V_TEMP ) + MELT_Z1;
+        if ( elevation <= minAblationElevation ) {
+            ablation = MELT_V_ELEV * ( 1. - Math.sin( ( elevation - MELT_Z0 - ( tempDiff * MELT_V_TEMP ) ) / ( ( MELT_Z1 - MELT_Z0 ) * 2 / Math.PI ) ) );
+            final double offset = 1.5 * ( Math.atan( tempDiff / 2.5 ) / 3. + 0.5 );
+            ablation = ablation + offset;
         }
-        
-        // add an offset so that ablation is never zero
-        double offset = ( Math.atan( temperatureOffset / 2.5 ) / 3 ) + 0.5;
-        ablation += offset;
-        
-        assert( ablation >= 0 );
+        assert ( ablation >= 0 );
         return ablation;
     }
     
@@ -219,9 +177,18 @@ public class Climate {
         return getAccumulation( elevation ) - getAblation( elevation );
     }
     
+    /**
+     * Gets the ELA (equilibrium line altitude).
+     * 
+     * @return
+     */
     public double getELA() {
         return _ela;
     }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
     
     /*
      * Updates the equilibrium line altitude (ELA) by searching for the elevation where glacial budget = 0.
@@ -276,13 +243,11 @@ public class Climate {
     public interface ClimateListener {
         public void temperatureChanged();
         public void snowfallChanged();
-        public void snowfallReferenceElevationChanged();
     }
     
     public static class ClimateAdapter implements ClimateListener {
         public void temperatureChanged() {};
         public void snowfallChanged() {};
-        public void snowfallReferenceElevationChanged() {};
     }
     
     public void addClimateListener( ClimateListener listener ) {
@@ -308,13 +273,6 @@ public class Climate {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ClimateListener) i.next() ).snowfallChanged();
-        }
-    }
-    
-    private void notifySnowfallReferenceElevationChanged() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ClimateListener) i.next() ).snowfallReferenceElevationChanged();
         }
     }
 }

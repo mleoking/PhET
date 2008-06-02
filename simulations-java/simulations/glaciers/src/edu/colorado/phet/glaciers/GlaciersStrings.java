@@ -58,7 +58,6 @@ public class GlaciersStrings {
     public static final String SLIDER_CLOCK_SLOW = GlaciersResources.getString( "slider.clock.slow" );
     public static final String SLIDER_CLOCK_FAST = GlaciersResources.getString( "slider.clock.fast" );
     public static final String SLIDER_SNOWFALL = GlaciersResources.getString( "slider.snowfall" );
-    public static final String SLIDER_SNOWFALL_REFERENCE_ELEVATION = GlaciersResources.getString( "slider.snowfallReferenceElevation" );
     public static final String SLIDER_TEMPERATURE = GlaciersResources.getString( "slider.temperature" );
     
     public static final String TOOLTIP_THERMOMETER = GlaciersResources.getString( "tooltip.thermometer" );

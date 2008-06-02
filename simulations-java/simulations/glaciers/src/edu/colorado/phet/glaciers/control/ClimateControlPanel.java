@@ -49,7 +49,6 @@ public class ClimateControlPanel extends AbstractSubPanel {
     
     private final LinearValueControl _temperatureControl;
     private final LinearValueControl _snowfallControl;
-    private final LinearValueControl _snowfallReferenceElevationControl;
     
     private final ArrayList _listeners; // list of ClimateControlPanelListener
     
@@ -57,7 +56,7 @@ public class ClimateControlPanel extends AbstractSubPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ClimateControlPanel( DoubleRange snowfallRange, DoubleRange snowfallReferenceElevationRange, DoubleRange temperatureRange ) {
+    public ClimateControlPanel( DoubleRange temperatureRange, DoubleRange snowfallRange ) {
         super( TITLE_STRING, TITLE_COLOR, TITLE_FONT );
         
         _listeners = new ArrayList();
@@ -130,41 +129,6 @@ public class ClimateControlPanel extends AbstractSubPanel {
             }
         }
         
-        // snowfall reference elevation
-        JLabel snowfallReferenceElevationLabel = new JLabel( GlaciersStrings.SLIDER_SNOWFALL_REFERENCE_ELEVATION );        
-        {
-            double min = snowfallReferenceElevationRange.getMin();
-            double max = snowfallReferenceElevationRange.getMax();
-            String label = "";
-            String textfieldPattern = "###0";
-            String units = GlaciersStrings.UNITS_ELEVATION;
-            ILayoutStrategy layout = new HorizontalLayoutStrategy();
-            _snowfallReferenceElevationControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
-
-            _snowfallReferenceElevationControl.setUpDownArrowDelta( 1 );
-            _snowfallReferenceElevationControl.addChangeListener( new ChangeListener() { 
-                public void stateChanged( ChangeEvent event ) {
-                    if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallReferenceElevationControl.isAdjusting() ) {
-                        notifySnowfallReferenceElevationChanged();
-                    }
-                }
-            } );
-            
-            // fonts & colors
-            snowfallReferenceElevationLabel.setForeground( CONTROL_COLOR );
-            snowfallReferenceElevationLabel.setFont( CONTROL_FONT );
-            _snowfallReferenceElevationControl.setFont( CONTROL_FONT );
-            _snowfallReferenceElevationControl.getUnitsLabel().setForeground( CONTROL_COLOR );
-            Dictionary d = _snowfallReferenceElevationControl.getSlider().getLabelTable();
-            Enumeration e = d.elements();
-            while ( e.hasMoreElements() ) {
-                Object o = e.nextElement();
-                if ( o instanceof JComponent )
-                    ( (JComponent) o ).setForeground( CONTROL_COLOR );
-                    ( (JComponent) o ).setFont( CONTROL_FONT );
-            }
-        }
-        
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         layout.setInsets( new Insets( 0, 2, 0, 2 ) ); // top, left, bottom, right
         setLayout( layout );
@@ -175,9 +139,6 @@ public class ClimateControlPanel extends AbstractSubPanel {
         column = 0;
         layout.addAnchoredComponent( snowfallLabel, row, column++, GridBagConstraints.EAST );
         layout.addAnchoredComponent( _snowfallControl, row++, column, GridBagConstraints.WEST );
-        column = 0;
-        layout.addAnchoredComponent( snowfallReferenceElevationLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _snowfallReferenceElevationControl, row++, column, GridBagConstraints.WEST );
         
         Class[] excludedClasses = { JTextField.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
@@ -196,17 +157,6 @@ public class ClimateControlPanel extends AbstractSubPanel {
     
     public double getSnowfall() {
         return _snowfallControl.getValue();
-    }
-    
-    public void setSnowfallReferenceElevation( double snowfallReferenceElevation ) {
-        if ( snowfallReferenceElevation != getSnowfallReferenceElevation() ) {
-            _snowfallReferenceElevationControl.setValue( snowfallReferenceElevation );
-            notifySnowfallReferenceElevationChanged();
-        }
-    }
-    
-    public double getSnowfallReferenceElevation() {
-        return _snowfallReferenceElevationControl.getValue();
     }
     
     public void setTemperature( double temperature ) {
@@ -228,15 +178,13 @@ public class ClimateControlPanel extends AbstractSubPanel {
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
     public interface ClimateControlPanelListener {
-        public void snowfallChanged( double snowfall );
-        public void snowfallReferenceElevationChanged( double snowfallReferenceElevation );
         public void temperatureChanged( double temperature );
+        public void snowfallChanged( double snowfall );
     }
     
     public static class ClimateControlPanelAdapter implements ClimateControlPanelListener {
-        public void snowfallChanged( double snowfall ) {};
-        public void snowfallReferenceElevationChanged( double snowfallReferenceElevation ) {};
-        public void temperatureChanged( double temperature ) {};
+        public void temperatureChanged( double temperature ) {}
+        public void snowfallChanged( double snowfall ) {}
     }
     
     public void addClimateControlPanelListener( ClimateControlPanelListener listener ) {
@@ -256,14 +204,6 @@ public class ClimateControlPanel extends AbstractSubPanel {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ClimateControlPanelListener) i.next() ).snowfallChanged( value );
-        }
-    }
-    
-    private void notifySnowfallReferenceElevationChanged() {
-        double value = getSnowfallReferenceElevation();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ClimateControlPanelListener) i.next() ).snowfallReferenceElevationChanged( value );
         }
     }
     

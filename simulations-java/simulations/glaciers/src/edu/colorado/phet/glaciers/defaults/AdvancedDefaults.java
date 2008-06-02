@@ -29,6 +29,5 @@ public class AdvancedDefaults {
     
     // Climate
     public static final DoubleRange SNOWFALL_RANGE = GlobalDefaults.SNOWFALL_RANGE; 
-    public static final DoubleRange SNOWFALL_REFERENCE_ELEVATION_RANGE = GlobalDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE;
     public static final DoubleRange TEMPERATURE_RANGE = GlobalDefaults.TEMPERATURE_RANGE;
 }

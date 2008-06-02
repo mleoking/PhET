@@ -69,7 +69,7 @@ public class BasicModule extends PiccoloModule {
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
         Valley valley = new Valley();
-        Climate climate = new Climate( BasicDefaults.TEMPERATURE_RANGE.getDefault(), BasicDefaults.SNOWFALL_RANGE.getDefault(), BasicDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE.getDefault() );
+        Climate climate = new Climate( BasicDefaults.TEMPERATURE_RANGE.getDefault(), BasicDefaults.SNOWFALL_RANGE.getDefault() );
         Glacier glacier = new Glacier( valley, climate, clock );
         _model = new BasicModel( clock, glacier );
 
@@ -150,7 +150,6 @@ public class BasicModule extends PiccoloModule {
         Climate climate = _model.getClimate();
         climate.setTemperature( BasicDefaults.TEMPERATURE_RANGE.getDefault() );
         climate.setSnowfall( BasicDefaults.SNOWFALL_RANGE.getDefault() );
-        climate.setSnowfallReferenceElevation( BasicDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE.getDefault() );
 
         // Glacier
         Glacier glacier = _model.getGlacier();
@@ -167,11 +166,11 @@ public class BasicModule extends PiccoloModule {
         viewControlPanel.setEnglishUnitsSelected( true );
         viewControlPanel.setEquilibriumLineSelected( false );
         viewControlPanel.setIceFlowSelected( false );
+        viewControlPanel.setSnowfallSelected( true );
         viewControlPanel.setCoordinatesSelected( false );
         
         ClimateControlPanel climateControlPanel = _controlPanel.getClimateControlPanel();
         climateControlPanel.setSnowfall( climate.getSnowfall() );
-        climateControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
         climateControlPanel.setTemperature( climate.getTemperature() );
         
         GraphsControlPanel graphsControlPanel = _controlPanel.getGraphsControlPanel();

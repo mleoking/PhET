@@ -75,10 +75,6 @@ public class BasicController {
                 climateControlPanel.setSnowfall( climate.getSnowfall() );
             }
 
-            public void snowfallReferenceElevationChanged() {
-                climateControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
-            }
-
             public void temperatureChanged() {
                 climateControlPanel.setTemperature( climate.getTemperature() );
             }
@@ -130,16 +126,12 @@ public class BasicController {
         // "Climate" controls
         climateControlPanel.addClimateControlPanelListener( new ClimateControlPanelListener() {
 
-            public void snowfallChanged( double snowfall ) {
-                climate.setSnowfall( snowfall );
-            }
-
-            public void snowfallReferenceElevationChanged( double snowfallReferenceElevation ) {
-                climate.setSnowfallReferenceElevation( snowfallReferenceElevation );
-            }
-            
             public void temperatureChanged( double temperature ) {
                 climate.setTemperature( temperature );
+            }
+            
+            public void snowfallChanged( double snowfall ) {
+                climate.setSnowfall( snowfall );
             }
         });
         
