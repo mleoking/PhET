@@ -22,6 +22,8 @@ CLEANUP:
 
 
 DONE:
+******* version 0.00.03 (?)
+6/2/08 - fix uniform distribution of particles in circle, previous versions were denser towards the center (missing sqrt)
 ******* version 0.00.02 (21898)
 6/1/08 - add color controls to TestMicroscopeView
 ******* version 0.00.01 (21895)

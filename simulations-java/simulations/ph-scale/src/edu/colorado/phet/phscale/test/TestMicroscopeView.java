@@ -433,7 +433,7 @@ public class TestMicroscopeView extends JFrame {
      */
     private void getRandomPointInCircle( Point2D pOutput ) {
         double circleRadius = _circleDiameterControl.getValue() / 2;
-        double distance = _randomDistance.nextDouble() * circleRadius;
+        double distance = Math.sqrt( _randomDistance.nextDouble() ) * circleRadius;
         double angle = _randomAngle.nextDouble() * ( 2 * Math.PI );
         double x = PolarCartesianConverter.getX( distance, angle );
         double y = PolarCartesianConverter.getY( distance, angle );

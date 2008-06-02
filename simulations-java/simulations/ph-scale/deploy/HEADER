@@ -13,7 +13,7 @@ Click to launch English version:
 <p>
 <ul>
 <li>This is a prototype of the "microscope view", for evaluating the feasibility of this feature.
-<li>added color controls
+<li>fixed uniform distribution of particles inside circle, previous versions were denser towards the center
 </ul>
 <p>
 </html>
