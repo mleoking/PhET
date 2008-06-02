@@ -262,6 +262,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         }
         groundStateEnergy = min;
         maxEnergy = max;
+        //see Unfuddle #575
+        //https://phet.unfuddle.com/projects/9404/tickets/by_number/575?cycle=true
 
         // Max energy is 0, in all cases (requested by Sam M., 10/24/06)
 //        maxEnergy = DischargeLampsConfig.MAX_ENERGY_LEVEL;
