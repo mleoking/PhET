@@ -25,7 +25,7 @@ public class ZMultipleParticleModelTester extends TestCase {
     }
 
     public void testThatInitializeResetsParticleList() {
-        model.initialize();
+        model.reset();
 
         List particleList = model.getParticles();
 
