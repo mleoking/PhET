@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.25
+glaciers 0.00.26
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,12 +12,12 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>when dragging glacier, it will remain "stuck" to the surface of the glacier or valley floor if the mouse is 100m above or below the surface. Outside this range, you can drag it around freely.
-<li>glacial budget meter displays "?" when its not on the surface of the glacier or valley floor
-<li>if glacial budget meter is stuck to the surface of the glacier, it will remain on the surface as the glacier evolves
-<li>remove "elevation" from glacial budget meter
-<li>integrate new image and text into "glacier picture" feature
-<li>add moving "ripples" to glacier surface, ala design document
+<li>simplified and rewrote climate model (temperature and snowfall)
+<li>removed control for snowfall reference elevation
+<li>added end moraine model, prune debris that overlaps at the end moraine
+<li>liquid in thermometer changes based on temperature
+<li>added snowfall check box (not hooked up)
+<li>added English/metric units radio buttons (not hooked up)
 </ul>
 <p>
 <b>Known problems:</b>
@@ -28,11 +28,12 @@ Click to launch English version:
 <p>
 <b>Not implemented:</b>
 <ul>
-<li>ice doesn't appear to move
 <li>snowfall is not visible
+<li>can't switch between English and metric units
 <li>time-based graphs are not implemented
-<li>features need to be split into Basic and Advanced panels
-<li>no Help menu option to show pictures of real glaciers
+<li>"Steady State" button doesn't advance clock time
+<li>features need to be split into Basic, Advanced, and Experiments panels
+<li>interface for climate experiments in not implemented
 </ul>
 <p>
 <b>Remaining work:</b>
