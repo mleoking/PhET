@@ -6,7 +6,8 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- Restart clock button does bad things while glacier is evolving, get rid of it?
+- bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
+- bug: Restart clock button does bad things while glacier is evolving, get rid of it?
 - thermometer looks lousy while dragging
 - thermometer repaints strangely while clock ticks on Mac OS 10.4
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
@@ -78,6 +79,8 @@ CLEANUP:
 
 
 DONE:
+6/2/08 - implement new timescale model
+6/2/08 - add Valley.getMaxElevation convenience method
 6/2/08 - remove obsolete methods from anonymous ClimateChangeListeners
 6/2/08 - fix ablation model, new specification was wrong, need to always add offset
 ******* 0.00.26 (21920)
