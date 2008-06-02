@@ -27,6 +27,10 @@ public class ModelViewTransform1D {
         this.modelToView = new Function.LinearFunction( minModel, maxModel, minView, maxView );
     }
 
+    public String toString() {
+        return modelToView.toString();
+    }
+
     public ModelViewTransform1D( ModelViewTransform1D m ) {
         this( m.getMinModel(), m.getMaxModel(), m.getMinView(), m.getMaxView() );
     }
