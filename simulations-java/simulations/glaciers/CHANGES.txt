@@ -79,7 +79,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.26 (?)
+******* 0.00.26 (21920)
 6/2/08 - implement new climate model
 6/2/08 - delete "snowfall reference elevation" property and control for climate
 5/30/08 - add snowfall check box & icon to View control panel (not hooked up)
