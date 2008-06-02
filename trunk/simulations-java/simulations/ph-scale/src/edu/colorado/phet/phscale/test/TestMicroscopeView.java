@@ -67,11 +67,11 @@ public class TestMicroscopeView extends JFrame {
     private static final double MAX_PARTICLES_DELTA = 1;
     private static final String MAX_PARTICLES_PATTERN = "####0";
     
-    private static final DoubleRange PARTICLE_DIAMETER_RANGE = new DoubleRange( 1, 25, 6 );
+    private static final DoubleRange PARTICLE_DIAMETER_RANGE = new DoubleRange( 1, 25, 4 );
     private static final double PARTICLE_DIAMETER_DELTA = 0.1;
     private static final String PARTICLE_DIAMETER_PATTERN = "#0.0";
     
-    private static final DoubleRange TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.75 );
+    private static final DoubleRange TRANSPARENCY_RANGE = new DoubleRange( 0, 1, 0.5 );
     private static final double TRANSPARENCY_DELTA = 0.01;
     private static final String TRANSPARENCY_PATTERN = "0.00";
     

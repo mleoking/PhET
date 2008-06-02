@@ -23,9 +23,11 @@ CLEANUP:
 
 DONE:
 ******* version 0.00.03 (?)
-6/2/08 - fix uniform distribution of particles in circle, previous versions were denser towards the center (missing sqrt)
+6/2/08 - TestMicroscopeView: fix distribution of particles in circle, previous versions denser towards enter (missing sqrt)
+6/2/08 - TestMicroscopeView: set default particle size to 4
+6/2/08 - TestMicroscopeView: set default transparency to 0.5
 ******* version 0.00.02 (21898)
-6/1/08 - add color controls to TestMicroscopeView
+6/1/08 - TestMicroscopeView: add color controls
 ******* version 0.00.01 (21895)
 5/31/08 - wrote TestMicroscopeView prototype for "microscope view" of H30 and OH concentrations
 5/20/08 - set up simulation skeleton, check in to SVN
