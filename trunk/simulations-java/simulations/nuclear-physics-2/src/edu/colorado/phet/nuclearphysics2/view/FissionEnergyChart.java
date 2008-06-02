@@ -507,6 +507,14 @@ public class FissionEnergyChart extends PComposite {
             yPos = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight) - 
                 _unfissionedNucleusImage.getFullBounds().height / 2;
             _unfissionedNucleusImage.setOffset( xPos, yPos );
+            
+            // Position the total energy line, also at the bottom of the well.
+            _totalEnergyLine.removeAllPoints();
+            _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3 * BORDER_STROKE_WIDTH, yPos + 
+                    _unfissionedNucleusImage.getFullBounds().height / 2 );
+            _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3 * BORDER_STROKE_WIDTH, 
+                    yPos + _unfissionedNucleusImage.getFullBounds().height / 2);
+
             break;
         
         case STATE_FISSIONING:
@@ -514,6 +522,8 @@ public class FissionEnergyChart extends PComposite {
             // well.  Jitter it to create the impression of instability.
 
             xPos = _usableAreaOriginX/2 + _usableWidth/2 - _unfissionedNucleusImage.getFullBounds().width / 2;
+            /* JPB TBD - Removed the "rise" functionality as suggested by Archie Paulson, but leaving it
+             * here until other folks have confirmed that this is what we want.
             double nucleusBasePosY = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight);
             double nucleusTopPosY = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
             double proportionOfTimeRemaining = 1.0;
@@ -523,7 +533,10 @@ public class FissionEnergyChart extends PComposite {
             }
             yPos = (nucleusBasePosY * proportionOfTimeRemaining) + (nucleusTopPosY * (1 - proportionOfTimeRemaining)) -
                 _unfissionedNucleusImage.getFullBounds().height / 2;
-            xPos += xPos * (_rand.nextDouble() - 0.5) * 0.02;
+             */
+            yPos = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight - 
+                    (_unfissionedNucleusImage.getFullBounds().height / 2);
+            xPos += xPos * (_rand.nextDouble() - 0.5) * 0.05;
             _unfissionedNucleusImage.setOffset( xPos, yPos );
             
             // Move the total energy line up with the nucleus.
