@@ -76,19 +76,6 @@ public class Glacier extends ClockAdapter {
             public void snowfallChanged() {
                 handleClimateChange();
             }
-
-            public void snowfallReferenceElevationChanged() {
-                handleClimateChange();
-            }
-            
-            private void handleClimateChange() {
-                _climateChangedTime = _clock.getSimulationTime();
-                _previousELA = _currentELA;
-                if ( _steadyState ) {
-                    _steadyState = false;
-                    notifySteadyStateChanged();
-                }
-            }
         };
         _climate.addClimateListener( _climateListener );
         
@@ -106,6 +93,23 @@ public class Glacier extends ClockAdapter {
     
     public void cleanup() {
         _climate.removeClimateListener( _climateListener );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Climate change handler
+    //----------------------------------------------------------------------------
+    
+    /*
+     * When the climate changes, the glacier is no longer in steady state,
+     * and the ELA should continue to evolve from the ELA of the new climate.
+     */
+    private void handleClimateChange() {
+        _climateChangedTime = _clock.getSimulationTime();
+        _previousELA = _currentELA;
+        if ( _steadyState ) {
+            _steadyState = false;
+            notifySteadyStateChanged();
+        }
     }
     
     //----------------------------------------------------------------------------

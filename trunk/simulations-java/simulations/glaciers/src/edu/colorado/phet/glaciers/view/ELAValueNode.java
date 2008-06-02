@@ -43,10 +43,6 @@ public class ELAValueNode extends PText {
                 update();
             }
 
-            public void snowfallReferenceElevationChanged() {
-                update();
-            }
-
             public void temperatureChanged() {
                 update();
             }
