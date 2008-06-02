@@ -1,0 +1,187 @@
+****************************************************************
+
+This document outlines the mathematical model behind the glacier
+sim.  The calculations described are for a "Hollywood" model,
+which was derived from the results of a finite-element glacier
+model.  For that reason, the physical reasoning behind these
+calculations is not apparent.
+
+author: Archie Paulson
+last modified: Jun 1, 2008
+
+****************************************************************
+* variable names
+    - x, horizontal distance, x=0 at glacier head (meters, m)
+    - z, elevation (meters, m)
+    - F, elevation of the valley floor  (meters, m)
+    - H, thickness of the glacier (meters, m)
+    - ela, equilibrium line altitude, ie, elevation where
+      mass_balance=0 (m)
+    - qela, quasi-ela, like the ela except that it describes the
+      glacier, not the climate.  It is used for the
+      time-dependence of the glacier.
+    - elax, the x-position of the intersection of the glacier
+      surface and the ela
+    - temp, temperature at sea level (degrees Celcius, C)
+    - snow, average snowfall across whole valley (m/yr)
+    - abl, ablation as a function of elevation (m/yr)
+    - acc, accumulation as a function of elevation (m/yr)
+    - mass_balance, acc-abl (m/yr)
+    - xterm, x-position of glacier terminus, or length of glacier
+      (m)
+    - H_max, the maximum thickness of the glacier (m)
+    - timescale, the exponential relaxation time for an evolving
+      glacier (years)
+    - dt, the time interval between calculations for
+      time-dependence (years)
+    - q_advance_limit, a limit on the advance speed of the qela
+      (will be negative) (m/yr)
+    - ela_tolerance, a minimum advance speed that indicates no
+      further time evolution is necessary
+
+* constant names
+    - max_F                     max(F), or F(x=0)
+    - temp_lapse_rate           6.5e-3 C/m
+    - melt_v_elev               30 
+    - melt_z0                   1300
+    - melt_z1                   4200
+    - melt_v_temp               200
+    - modern_temp               20
+    - snow_max                  2.0
+    - snow_min_elev             2500
+    - snow_max_elev             5000
+    - snow_transition_width     300
+    - elax_b0                   138248
+    - elax_m0                   -55630/(max_F-2.7e3)
+    - elax_terminus             0.6
+    - hmax_scale                2.3
+
+****************************************************************
+A. mountain valley geometry
+
+   The glacier behavior was modelled for a mountain valley with a
+   particular geometry. Do not expect the models below to work
+   with a very different mountain.  This geometry is unchanged
+   from previous versions.
+
+****************************************************************
+B. climate model
+
+   The model's climate can be uniquely described with one value:
+   the ela, which is a function of two variables (temp and snow)
+   that are set by the user. The temp determines ablation, and
+   snow determines accumulation; their difference is the mass
+   balance. The elevation of zero mass balance is the ela.
+
+1. temp is controlled by the sim user, and can be any value
+   between 13 and 20
+
+2. snow is controlled by the sim user, and can be any value
+   between 0 and 1
+
+3. given temp, the temperature versus elevation is given by
+
+    temp - temp_lapse_rate*z
+
+4. given temp and z, ablation is calculated by
+
+     abl = 0.0
+     temp_diff=(temp-modern_temp)
+     min_ablation_elev= temp_diff*melt_v_temp + melt_z1
+     if z <= min_ablation_elev:
+         abl = melt_v_elev  * (1.-sin((z-melt_z0- temp_diff*melt_v_temp) 
+                               / ((melt_z1-melt_z0)*2/pi)) )
+         offset = 1.5*(arctan(temp_diff/2.5)/3.+0.5)
+         abl = abl + offset
+
+5. given snow and z, accumulation is calculated by
+
+    p0 = snow_max_elev 
+         - (snow_max_elev-snow_min_elev)*(snow)
+    pmax = snow_max*snow
+    tmp_ac = .5+(1./pi)* arctan((z-p0)/snow_transition_width)
+    acc = pmax*tmp_ac
+
+6. given abl and acc at any location, mass_balance is
+
+    mass_balance = acc - abl
+
+7. given mass_balance at all elevations, ela is given by the
+   elevation at which mass_balance=0 (or acc=abl)
+
+
+****************************************************************
+C. steady state glacier model
+
+   The glacier shape is described by its thickness as a function
+   of x-position, H(x).  The glacier shape can be uniquely
+   determined by a single value called the quasi-ela, qela.  The
+   glacier is in steady state when the qela=ela.  This section
+   describes how to compute H(x) for a given qela.
+   
+1. given qela, compute elax by
+
+    elax = elax_b0 + elax_m0*qela
+    minimum elax is 0.0
+   
+2. given elax, compute xterm (length of glacier) by
+
+    xterm =  elax / elax_terminus
+
+3. given elax, compute H_max (max thickness of glacier) by
+
+    H_max = hmax_scale * sqrt(elax)
+   
+4. given qela, xterm, and H_max, the thickness at any x (written
+   here as H(x)) is gvien by
+
+    x_peak = 0.5 * xterm
+    if x < x_peak: 
+        p = max(42-0.01*qela,1.5)
+        r = 1.5*x_peak
+        H(x) = sqrt(r**2 - (x-x_peak)**2) * H_max/r
+        H(x) = H(x) * ( x_peak**p - (abs(x-x_peak)**p))/ x_peak**p
+    else if x < xterm:
+        H(x) = sqrt(x_peak**2 - (x-x_peak)**2) * H_max/x_peak
+    else:
+        H(x) = 0.0
+ 
+
+****************************************************************
+D. ice velocities
+
+    For a given glacier thickness, H, the velocity of the ice
+    at that position can be determined.  This calculation is
+    unchanged from previous versions.
+
+
+****************************************************************
+E. time-evolution of glacier
+
+    If the ela is changed and does not coincide with the qela,
+    the qela will evolve toward the ela, as given here.  There
+    are some differences when the glacier is advancing (ela<qela)
+    and when its retreating (ela>qela).
+
+1. Set the timescale for evolution according to the ela:
+
+    if ela > qela: 
+        timescale =  -0.22*ela + 1026
+    else:                         
+        timescale =   0.35*ela - 1139
+    minimum timescale is 50
+    maximum timescale is 300
+
+2. Every timestep, if qela is not the same as ela (ie, the
+   glacier is out of equilibrium) change the qela by dqela.
+   (note the special treatment for an advancing glacier):
+
+    if (abs(qela-ela) > ela_tolerance):
+        dqela = (ela-qela)*( 1. - exp(-dt/timescale) )
+        if (ela<qela):
+            q_advance_limit = (-0.06*qela + 300) * elax_terminus / elax_m0
+            dqela = max( dqela, dt*q_advance_limit )
+        qela = qela + dqela
+
+
+****************************************************************
