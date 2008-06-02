@@ -30,7 +30,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     private final double HEIGHT_TRANSLATION_FACTOR = 2.0;
     
     //----------------------------------------------------------------------------
-    // Instance data
+    // Instance Data
     //----------------------------------------------------------------------------
     private MultipleParticleModel m_model;
     private HashMap m_mapParticlesToNodes = new HashMap();
