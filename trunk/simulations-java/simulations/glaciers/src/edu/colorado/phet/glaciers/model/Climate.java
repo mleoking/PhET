@@ -150,14 +150,16 @@ public class Climate {
      */
     public double getAblation( double elevation ) {
         assert ( elevation >= 0 );
+        // base ablation
         double ablation = 0;
         final double tempDiff = _temperature - MODERN_TEMPERATURE;
         final double minAblationElevation = ( tempDiff * MELT_V_TEMP ) + MELT_Z1;
         if ( elevation <= minAblationElevation ) {
             ablation = MELT_V_ELEV * ( 1. - Math.sin( ( elevation - MELT_Z0 - ( tempDiff * MELT_V_TEMP ) ) / ( ( MELT_Z1 - MELT_Z0 ) * 2 / Math.PI ) ) );
-            final double offset = 1.5 * ( Math.atan( tempDiff / 2.5 ) / 3. + 0.5 );
-            ablation = ablation + offset;
         }
+        // offset
+        final double offset = 1.5 * ( Math.atan( tempDiff / 2.5 ) / 3. + 0.5 );
+        ablation = ablation + offset;
         assert ( ablation >= 0 );
         return ablation;
     }
