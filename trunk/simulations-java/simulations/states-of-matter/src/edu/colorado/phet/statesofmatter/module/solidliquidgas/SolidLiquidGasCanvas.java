@@ -4,14 +4,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
-import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
-import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -22,7 +19,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 20; // TODO: JPB TBD - This is not correct yet, and is just set to a value that empirically looks good.
+    private final double CANVAS_WIDTH = 14400;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
@@ -33,7 +30,6 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     // Instance Data
     //----------------------------------------------------------------------------
     private MultipleParticleModel m_model;
-    private HashMap m_mapParticlesToNodes = new HashMap();
     private ParticleContainerNode m_particleContainer;
 
     //----------------------------------------------------------------------------
@@ -59,17 +55,17 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         
         // Create the particle container.
         try {
-            m_particleContainer = new ParticleContainerNode(this, m_model.getParticleContainer());
+            m_particleContainer = new ParticleContainerNode(this, m_model);
         }
         catch (IOException e) {
             throw new RuntimeException();
         }
-        addWorldChild(m_particleContainer);
         
-        // Add the individual particles to the particle container.
-        for ( int i = 0; i < m_model.getParticles().size(); i++ ) {
-            m_particleContainer.addParticleNode(new ParticleNode(m_model.getParticle(i)));
-        }
+        // Position the node to be centered on the canvas and then add it as
+        // a child.
+        m_particleContainer.setOffset( -(m_particleContainer.getFullBoundsReference().width/2), 
+                -(m_particleContainer.getFullBoundsReference().height/2));
+        addWorldChild(m_particleContainer);
         
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
@@ -89,6 +85,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     // Public Methods
     //----------------------------------------------------------------------------
     public void reset(){
-        // TODO: JPB TBD - Need to fill this in.
+        m_particleContainer.reset();
     }
+
 }

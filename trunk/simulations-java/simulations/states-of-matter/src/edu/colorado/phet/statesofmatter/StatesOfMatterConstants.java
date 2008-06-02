@@ -80,14 +80,19 @@ public class StatesOfMatterConstants {
     //----------------------------------------------------------------------------
     // Simulation Control
     //----------------------------------------------------------------------------
+    
+    // Dimensions of the container in which the particles will reside, in picometers.
+    private static double PARTICLE_CONTAINER_WIDTH = 5000;
+    private static double PARTICLE_CONTAINER_HEIGHT = 6000;
+    public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(0, -PARTICLE_CONTAINER_HEIGHT, 
+            PARTICLE_CONTAINER_WIDTH, PARTICLE_CONTAINER_HEIGHT);
+    
     // TODO: JPB TBD - Many of these constants will no longer be used once the
     // sim has been cleaned up, so remember to remove them.
     private static final String PROJECT_NAME = "states-of-matter";
     public static final PhetResources RESOURCES = new PhetResources(PROJECT_NAME);
     
     public static final int INITIAL_MAX_PARTICLE_COUNT = 600;
-    public static final Rectangle2D.Double CONTAINER_SIZE   = new Rectangle2D.Double(0, 0, 10, 8);
-    public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(-5, -4, CONTAINER_SIZE.getWidth(), CONTAINER_SIZE.getHeight());
     public static final Rectangle2D.Double ICE_CUBE_BOUNDS  = new Rectangle2D.Double(-1.5, 1, 3, 3);
     public static final double INITIAL_TOTAL_ENERGY_PER_PARTICLE = 225;
     public static final double PARTICLE_RADIUS = 0.2;
@@ -108,7 +113,7 @@ public class StatesOfMatterConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final String COFFEE_CUP_IMAGE = "coffee-cup-image.svg";
+    public static final String COFFEE_CUP_IMAGE = "coffee-cup-image.png";
     
     //----------------------------------------------------------------------------
     // Cursors
