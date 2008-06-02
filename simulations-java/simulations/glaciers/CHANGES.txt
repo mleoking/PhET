@@ -79,6 +79,7 @@ CLEANUP:
 
 
 DONE:
+6/2/08 - fix ablation model, new specification was wrong, need to always add offset
 ******* 0.00.26 (21920)
 6/2/08 - implement new climate model
 6/2/08 - delete "snowfall reference elevation" property and control for climate
