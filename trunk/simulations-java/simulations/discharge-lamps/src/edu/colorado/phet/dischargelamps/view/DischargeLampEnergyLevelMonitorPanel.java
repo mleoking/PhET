@@ -351,7 +351,7 @@ levelLineOriginX + levelLineLength + 20, false );
                                               (int) bounds.getBounds().getMinY() + headingOffsetY,
                                               (int) bounds.getBounds().getMaxY() - footerOffsetY );
         for ( int i = 0; levelGraphics != null && i < levelGraphics.length; i++ ) {
-            levelGraphics[i].update( energyYTx );
+            levelGraphics[i].setTransform( energyYTx );
             if ( i == 0 && groundStateTextGraphic != null ) {
                 int y = (int) energyYTx.modelToView( atomicStates[0].getEnergyLevel() );
                 groundStateTextGraphic.setLocation( (int) groundStateTextGraphic.getLocation().getX(),
@@ -573,7 +573,7 @@ levelLineOriginX + levelLineLength + 20, false );
         public void energyChanged( Electron.ChangeEvent changeEvent ) {
             // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
             // out why I need it
-            int yLoc = (int) energyYTx.modelToView( changeEvent.getElectron().getEnergy() + groundStateEnergy ) - 10;
+            int yLoc = energyYTx.modelToView( changeEvent.getElectron().getEnergy() + groundStateEnergy ) - 10;
             electronGraphic.setLocation( electronXLoc, yLoc );
             electronGraphic.setBoundsDirty();
             electronGraphic.repaint();

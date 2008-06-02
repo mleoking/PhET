@@ -110,7 +110,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
         }
     }
 
-    public void update( ModelViewTransform1D tx ) {
+    public void setTransform( ModelViewTransform1D tx ) {
         this.energyYTx = tx;
         energyLevelRep.update();
     }

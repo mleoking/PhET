@@ -117,7 +117,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         // Add a listener to the model that will adjust the panel if energy states change
         model.addLaserListener( new LaserModel.ChangeListenerAdapter() {
             public void atomicStatesChanged( LaserModel.ChangeEvent event ) {
-                adjustPanel();
+                relayout();
             }
         } );
 
@@ -221,7 +221,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
             atom.setCurrState( newStates[i] );
             levelGraphics[i].setLevelIcon( new edu.colorado.phet.lasers.view.LevelIcon( this, atom ) );
         }
-        adjustPanel();
+        relayout();
     }
 
     private void displayDebugInfoIntermittently( final EnergyLifetimeSlider[] slider ) {
@@ -249,7 +249,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
     /**
      * Adjusts the layout of the panel
      */
-    public void adjustPanel() {
+    public void relayout() {
         // The beamArea in which the energy levels will be displayed
         Rectangle2D bounds = new Rectangle2D.Double( getBounds().getMinX(), getBounds().getMinY() + 10,
                                                      getBounds().getWidth(), getBounds().getHeight() - 30 );
@@ -260,7 +260,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
                                               (int) bounds.getBounds().getMaxY() - footerOffsetY );
         for ( int i = 0; i < levelGraphics.length; i++ ) {
             if ( levelGraphics[i] != null ) {
-                levelGraphics[i].update( energyYTx );
+                levelGraphics[i].setTransform( energyYTx );
             }
         }
         updateSquiggles();
@@ -550,7 +550,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
      */
     private class PanelResizer extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
-            adjustPanel();
+            relayout();
         }
     }
 

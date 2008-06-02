@@ -151,7 +151,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         super.activate();
         StimulatedPhoton.setStimulationBounds( cavity.getBounds() );
         // Needed to make the energy levels panel get its model-view transform right
-        laserEnergyLevelsMonitorPanel.adjustPanel();
+        laserEnergyLevelsMonitorPanel.relayout();
         getLaserModel().getMiddleEnergyState().setMeanLifetime( middleStateMeanLifetime );
         getLaserModel().getHighEnergyState().setMeanLifetime( highStateMeanLifetime );
     }
