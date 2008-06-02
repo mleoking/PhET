@@ -31,13 +31,13 @@ public class FissionOneNucleusModel {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    private static final double MOVING_NUCLEUS_VELOCITY = 0.1;  // Femtometer per tick.
-    private static final double MOVING_NUCLEON_VELOCITY = 1.0;  // Femtometer per tick.
-    private static final double MOVING_NUCLEUS_ACCELERATION = 0.075;  // Femtometer per tick per tick.
+    private static final double MOVING_NUCLEUS_VELOCITY = 0.1;  // Femtometers per tick.
+    private static final double MOVING_NUCLEON_VELOCITY = 1.0;  // Femtometers per tick.
+    private static final double MOVING_NUCLEUS_ACCELERATION = 0.075;  // Femtometers per tick per tick.
     
     // Time, in sim milliseconds, from the capture of a neutron until fission
     // occurs.
-    public static final double FISSION_INTERVAL = 3000;
+    public static final double FISSION_INTERVAL = 2000;
     
     //------------------------------------------------------------------------
     // Instance data
