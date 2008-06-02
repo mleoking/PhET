@@ -163,6 +163,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
 
         // Set up the event handlers we need
         this.addComponentListener( new PanelResizer() );
+        relayout();
     }
 
     /**
@@ -247,16 +248,23 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
      * @param atomicStates
      */
     public void setEnergyLevels( AtomicState[] atomicStates ) {
+        //reset the groundStateEnergy so that computation below is correct (instead of taking min over previous value)
+//        groundStateEnergy=Double.MAX_VALUE;
 
+        double min = Double.MAX_VALUE;
+        double max = Double.MIN_VALUE;
         // Find the minimum and maximum energy levels
         for ( int i = 0; i < atomicStates.length; i++ ) {
-            AtomicState atomicState = atomicStates[i];
-            double energy = atomicState.getEnergyLevel();
-            groundStateEnergy = energy < groundStateEnergy ? energy : groundStateEnergy;
+            double energy = atomicStates[i].getEnergyLevel();
+//            groundStateEnergy = energy < groundStateEnergy ? energy : groundStateEnergy;
+            min = Math.min( min, energy );
+            max = Math.max( min, energy );
         }
+        groundStateEnergy = min;
+        maxEnergy = max;
 
-        // Max energy is 0, in all cases (requested by Sam M., 10/24/06
-        maxEnergy = DischargeLampsConfig.MAX_ENERGY_LEVEL;
+        // Max energy is 0, in all cases (requested by Sam M., 10/24/06)
+//        maxEnergy = DischargeLampsConfig.MAX_ENERGY_LEVEL;
 
         // Remove any energy level graphics we might have
         // Add the energy level lines to the panel
@@ -314,7 +322,7 @@ levelLineOriginX + levelLineLength + 20, false );
         setPanelSize( width, panelHeight, atomicStates );
 
         // Needed to set the energyYTx
-        adjustPanel();
+        relayout();
 
         // Set up the counters for the number of atoms in each state
         initializeStateCounters();
@@ -341,8 +349,9 @@ levelLineOriginX + levelLineLength + 20, false );
     /**
      * Adjusts the ModelViewTranform1D that maps energies to pixels, and updates all the level graphics
      * that use it
+     * //Todo: remove consolidate with duplicated code from LaserEnergyLevelMonitorPanel
      */
-    private void adjustPanel() {
+    private void relayout() {
         // The area in which the energy levels will be displayed
         Rectangle2D bounds = new Rectangle2D.Double( 0, 0, getPreferredSize().getWidth(), getPreferredSize().getHeight() );
 
@@ -350,10 +359,11 @@ levelLineOriginX + levelLineLength + 20, false );
         energyYTx = new ModelViewTransform1D( maxEnergy, groundStateEnergy,
                                               (int) bounds.getBounds().getMinY() + headingOffsetY,
                                               (int) bounds.getBounds().getMaxY() - footerOffsetY );
+        System.out.println( "energyYTx = " + energyYTx );
         for ( int i = 0; levelGraphics != null && i < levelGraphics.length; i++ ) {
             levelGraphics[i].setTransform( energyYTx );
             if ( i == 0 && groundStateTextGraphic != null ) {
-                int y = (int) energyYTx.modelToView( atomicStates[0].getEnergyLevel() );
+                int y = energyYTx.modelToView( atomicStates[0].getEnergyLevel() );
                 groundStateTextGraphic.setLocation( (int) groundStateTextGraphic.getLocation().getX(),
                                                     y - groundStateTextGraphic.getHeight() / 2 );
             }
@@ -543,7 +553,7 @@ levelLineOriginX + levelLineLength + 20, false );
      */
     private class PanelResizer extends ComponentAdapter {
         public void componentResized( ComponentEvent e ) {
-            adjustPanel();
+            relayout();
         }
     }
 
