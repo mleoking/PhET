@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.statesofmatter.view;
 
 import java.awt.geom.Rectangle2D;
@@ -9,50 +11,83 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.SVGNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
+/**
+ * This class is the "view" for the particle container.  This is where the
+ * information about the nature of the image that is used to depict the
+ * container is encapsulated.
+ *
+ * @author John Blanco
+ */
 public class ParticleContainerNode extends PhetPNode {
-    private final ParticleContainer container;
-    private PNode particleLayer = new PNode();
-    private SVGNode svgNode;
-    private double containerWidth;
-    private double containerHeight;
+    
+    //----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
+
+    //----------------------------------------------------------------------------
+    // Instance Data
+    //----------------------------------------------------------------------------
+    private final ParticleContainer m_container;
+    private PNode m_particleLayer = new PNode();
+    private PImage m_cupImage;
+    private double m_containerWidth;
+    private double m_containerHeight;
 
     private static final double CUP_OVERSIZE = 1.2;
     private static final double CUP_X_OFFSET = 1.6;
     private static final double CUP_Y_OFFSET = 0.6;
 
+    //----------------------------------------------------------------------------
+    // Constructor
+    //----------------------------------------------------------------------------
+    
     public ParticleContainerNode(PhetPCanvas canvas, ParticleContainer container) throws IOException {
         super();
 
-        this.container       = container;
-        this.containerWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth()  * CUP_OVERSIZE;
-        this.containerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight() * CUP_OVERSIZE;
-        this.svgNode         = new SVGNode(canvas, StatesOfMatterConstants.RESOURCES.getResourceAsStream("images/" + StatesOfMatterConstants.COFFEE_CUP_IMAGE), containerWidth, containerHeight);
+        m_container       = container;
+        m_containerWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth()  * CUP_OVERSIZE;
+        m_containerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight() * CUP_OVERSIZE;
+        m_cupImage        = StatesOfMatterResources.getImageNode("coffee-cup-image.png");
 
-        addChild(svgNode);
-        addChild(particleLayer);
+        addChild(m_cupImage);
+        addChild(m_particleLayer);
 
         update();
     }
 
-    public void update() {
-        Rectangle2D b = container.getShape().getBounds2D();
-
-        svgNode.resetTransformToIdentity();
-        svgNode.translate(-containerWidth / 2.0 + b.getCenterX() + CUP_X_OFFSET, -containerHeight / 2.0 + b.getCenterY() + CUP_Y_OFFSET);
-    }
-
+    //----------------------------------------------------------------------------
+    // Public Methods
+    //----------------------------------------------------------------------------
+    
     public List getParticleNodes() {
-        return Collections.unmodifiableList(particleLayer.getChildrenReference());
+        return Collections.unmodifiableList(m_particleLayer.getChildrenReference());
     }
 
     public ParticleNode getParticleNode(int i) {
-        return (ParticleNode)particleLayer.getChild(i);
+        return (ParticleNode)m_particleLayer.getChild(i);
     }
 
     public void addParticleNode(ParticleNode particleNode) {
-        particleLayer.addChild(particleNode);
+        m_particleLayer.addChild(particleNode);
+    }
+    
+    //----------------------------------------------------------------------------
+    // Private Methods
+    //----------------------------------------------------------------------------
+
+    private void update() {
+        Rectangle2D b = m_container.getShape().getBounds2D();
+        
+        // TODO: JPB TBD - May need to position or resize the container here, but not sure yet.
+        // These are currently just emirically determined constants to make things look somewhat
+        // reasonable.
+        m_cupImage.setOffset( -11, -4 );
+        m_cupImage.setScale( 0.03 );
+
     }
 }
