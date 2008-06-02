@@ -85,14 +85,13 @@ B. climate model
 
 4. given temp and z, ablation is calculated by
 
-     abl = 0.0
-     temp_diff=(temp-modern_temp)
-     min_ablation_elev= temp_diff*melt_v_temp + melt_z1
-     if z <= min_ablation_elev:
-         abl = melt_v_elev  * (1.-sin((z-melt_z0- temp_diff*melt_v_temp) 
-                               / ((melt_z1-melt_z0)*2/pi)) )
-         offset = 1.5*(arctan(temp_diff/2.5)/3.+0.5)
-         abl = abl + offset
+    temp_diff=(temp-modern_temp)
+    offset = 1.5*(arctan(temp_diff/2.5)/3.+0.5)
+    min_ablation_elev= temp_diff*melt_v_temp + melt_z1
+    if ( z > min_ablation_elev ):
+        abl = offset
+    else:
+        abl = offset + (melt_v_elev  * (1.-sin((z-melt_z0-temp_diff*melt_v_temp) / ((melt_z1-melt_z0)*2/pi)) ))
 
 5. given snow and z, accumulation is calculated by
 
