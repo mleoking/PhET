@@ -70,17 +70,16 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
         readoutGraphic = PhetJComponent.newInstance( component, readout );
         addGraphic( readoutGraphic, 1E9 );
 
-        update( 123 ); // dummy value
+        updateReadout(); // dummy value
     }
 
     private void update( final Component component, final Beam beam ) {
-        double photonsPerSecond = 0;
         try {
             String text = readout.getText().toLowerCase();
             int nmLoc = text.indexOf( "%" );
             text = nmLoc >= 0 ? readout.getText().substring( 0, nmLoc ) : text;
             double percent = MathUtil.clamp( 0, Double.parseDouble( text ), 100 );
-            photonsPerSecond = percent / 100 * this.beam.getMaxPhotonsPerSecond();
+            double photonsPerSecond = percent / 100 * this.beam.getMaxPhotonsPerSecond();
             this.beam.setPhotonsPerSecond( photonsPerSecond );
         }
         catch( NumberFormatException e1 ) {
@@ -89,7 +88,7 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
         }
     }
 
-    private void update( double photonsPerSecond ) {
+    private void updateReadout() {
         double value = beam.getPhotonsPerSecond() / beam.getMaxPhotonsPerSecond();
 
         // If the beam control is in INTENSITY mode, we need to make the readout value
@@ -100,12 +99,8 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
         readout.setText( format.format( value ) );
     }
 
-    void setValue( double wavelength ) {
-        update( wavelength );
-    }
-
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
-        update( event.getRate() );
+        updateReadout();
     }
 
     public void stateChanged( ChangeEvent e ) {
