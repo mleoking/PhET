@@ -43,7 +43,10 @@ import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
 import edu.colorado.phet.dischargelamps.view.*;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.lasers.view.*;
+import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
+import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
+import edu.colorado.phet.lasers.view.TubeGraphic;
 
 /**
  * DischargeLampModule
