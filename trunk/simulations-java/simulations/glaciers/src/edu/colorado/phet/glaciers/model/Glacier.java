@@ -31,9 +31,11 @@ public class Glacier extends ClockAdapter {
     private static final double ELA_EQUALITY_THRESHOLD = 1; // ELAs are considered equal if they are at least this close (meters)
     private static final double U_SLIDE = 20; // downvalley ice speed (meters/year)
     private static final double U_DEFORM = 20; // contribution of vertical deformation to ice speed (meters/year)
-    private static final double MIN_TIMESCALE = 20; // min value for climate change timescale
-    private static final double MAX_TIMESCALE = 50; // max value for climate change timescale
     
+    private static final double MIN_TIMESCALE = 50; // min value for evolution timescale
+    private static final double MAX_TIMESCALE = 300; // max value for evolution timescale
+    
+    private static final double ELAX_TERMINUS = 0.6;
     private static final double ELA_THRESHOLD = 4000; // x_term_alter_x in documentation (meters)
     
     //----------------------------------------------------------------------------
@@ -47,9 +49,8 @@ public class Glacier extends ClockAdapter {
     private final ClimateListener _climateListener;
     private final ArrayList _listeners; // list of GlacierListener
     
-    private double _climateChangedTime; // the time when the climate was last changed
-    private double _previousELA; // the ELA the last time the climate was changed (meters)
-    private double _currentELA; // current ELA at t=now (meters)
+    private double _quasiELA; // like the ELA, except is describes the state of the glacier's evolution, not the climate (meters)
+    private final double _elax_m0;
     private double _averageIceThicknessSquares; // average of the squares of the non-zero ice thickness samples
     private boolean _steadyState; // is the glacier in the steady state?
     private double[] _iceThicknessSamples; // ice thickness at t=now (meters)
@@ -65,6 +66,7 @@ public class Glacier extends ClockAdapter {
         super();
         
         _valley = valley;
+        _elax_m0 = -55630 / ( valley.getMaxElevation() - 2.7E3 );
         
         _climate = climate;
         _climateListener = new ClimateListener() {
@@ -86,8 +88,6 @@ public class Glacier extends ClockAdapter {
         _terminus = new Point2D.Double();
         _surfaceAtSteadyStateELA = null; // will be allocated as needed
 
-        _climateChangedTime = _clock.getSimulationTime();
-        _previousELA = _currentELA = _climate.getELA();
         setSteadyState();
     }
     
@@ -100,12 +100,9 @@ public class Glacier extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     /*
-     * When the climate changes, the glacier is no longer in steady state,
-     * and the ELA should continue to evolve from the ELA of the new climate.
+     * When the climate changes, the glacier is no longer in steady state.
      */
     private void handleClimateChange() {
-        _climateChangedTime = _clock.getSimulationTime();
-        _previousELA = _currentELA;
         if ( _steadyState ) {
             _steadyState = false;
             notifySteadyStateChanged();
@@ -160,8 +157,7 @@ public class Glacier extends ClockAdapter {
      */
     public void setSteadyState() {
         if ( !_steadyState ) {
-            final double steadyStateELA = _climate.getELA();
-            _previousELA = _currentELA = steadyStateELA;
+            _quasiELA = _climate.getELA();
             updateIce();
             _steadyState = true;
             notifySteadyStateChanged();
@@ -282,7 +278,7 @@ public class Glacier extends ClockAdapter {
         
         final double headwallX = _valley.getHeadwallPositionReference().getX();
         final double headwallY = _valley.getHeadwallPositionReference().getY();
-        final double glacierLength = computeLength( _currentELA, headwallY ); // x_terminus in documentation, but this is really length
+        final double glacierLength = computeLength( _quasiELA, headwallY ); // x_terminus in documentation, but this is really length
         
         if ( glacierLength == 0 ) {
             _iceThicknessSamples = null;
@@ -292,10 +288,10 @@ public class Glacier extends ClockAdapter {
         else {
             
             // compute constants used herein
-            final double maxThickness = computeMaxThickness( _currentELA, headwallY ); // H_max in documentation
+            final double maxThickness = computeMaxThickness( _quasiELA, headwallY ); // H_max in documentation
             final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
             final double xPeak = headwallX + ( 0.5 * glacierLength ); // midpoint of the ice
-            final double p = Math.max( 1.5, 42 - ( 0.01 * _currentELA ) );
+            final double p = Math.max( 1.5, 42 - ( 0.01 * _quasiELA ) );
             final double r = 1.5 * xPeak;
             final double xPeakPow = Math.pow( xPeak, p );
 
@@ -496,46 +492,68 @@ public class Glacier extends ClockAdapter {
     //  Timescale model
     //----------------------------------------------------------------------------
     
-    /* 
-     * Gets the climate change timescale for a specified ELA (equilibrium line altitude).
-     * 
-     * @param ela equilibrium line altitude (meters)
-     * @return timescale (units?)
+    /*
+     * When the clock ticks, evolve the model.
      */
-    private static double getClimateChangeTimescale( double ela ) {
-        double timescale = ( ( -37.5 / 300 ) * ela ) + 484.6;
-        if ( timescale < MIN_TIMESCALE ) {
-            timescale = MIN_TIMESCALE;
-        }
-        else if ( timescale > MAX_TIMESCALE ) {
-            timescale = MAX_TIMESCALE;
-        }
-        return timescale;
-    }
-    
-    //----------------------------------------------------------------------------
-    // ClockAdapter overrides
-    //----------------------------------------------------------------------------
-    
     public void clockTicked( ClockEvent event ) {
         
         if ( !isSteadyState() ) {
             
-            final double steadyStateELA = _climate.getELA();
+            final double dt = event.getSimulationTimeChange();
+            final double ela = _climate.getELA();
+            final double timescale = getTimescale();
             
-            // evolve the ELA
-            final double tElapsed = event.getSimulationTime() - _climateChangedTime;
-            final double climateChangeTimescale = getClimateChangeTimescale( steadyStateELA );
-            _currentELA = _previousELA + ( steadyStateELA - _previousELA ) * ( 1 - Math.exp( -tElapsed / climateChangeTimescale  ) );
+            // calculate the delta
+            double delta = ( ela - _quasiELA ) * ( 1 - Math.exp( -dt / timescale  ) );
+            
+            // limit the delta for an advancing glacier
+            if ( ela < _quasiELA ) {
+                
+                final double deltaLimit = dt * (-0.06*_quasiELA + 300) * ELAX_TERMINUS / _elax_m0;
+                delta = Math.max( delta, dt * deltaLimit );
+            }
+            
+            // evolve
+            _quasiELA += delta;
             
             // are we close enough to steady state?
-            if ( Math.abs( steadyStateELA - _currentELA ) <= ELA_EQUALITY_THRESHOLD ) {
+            if ( Math.abs( ela - _quasiELA ) <= ELA_EQUALITY_THRESHOLD ) {
                 setSteadyState();
             }
             else {
                 updateIce();
             }
         }
+    }
+    
+    /* 
+     * Gets the timescale for evolving the ice.
+     * 
+     * @return timescale (units?)
+     */
+    private double getTimescale() {
+        
+        // use a different timescale for receding vs advancing glacier
+        double timescale;
+        final double ela = _climate.getELA();
+        if ( ela > _quasiELA ) {
+            // receding
+            timescale = ( -0.22 * ela ) + 1026;
+        }
+        else {
+            // advancing
+            timescale = ( 0.35 * ela ) - 1139;
+        }
+        
+        // limit range
+        if ( timescale < MIN_TIMESCALE ) {
+            timescale = MIN_TIMESCALE;
+        }
+        else if ( timescale > MAX_TIMESCALE ) {
+            timescale = MAX_TIMESCALE;
+        }
+        
+        return timescale;
     }
     
     //----------------------------------------------------------------------------

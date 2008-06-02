@@ -108,6 +108,16 @@ public class Valley {
     }
     
     /**
+     * Convenience method for getting the maximum elevation.
+     * This is the elevation at the top of the headwall.
+     * 
+     * @return max elevation (meters)
+     */
+    public double getMaxElevation() {
+        return getElevation( _headwallPosition.getX() );
+    }
+    
+    /**
      * Gets the x value for a specified elevation.
      * This uses a divide-and-conquer algorithm and is expensive.
      * 
