@@ -14,7 +14,6 @@ HIGH PRIORITY:
 - switch user-interface between English and metric units
 - glacier advances too fast, get model fix from Archie [550]
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate
-- combine "snowfall" and "snowfall reference elevation" into 1 slider (?)
 - add yaw to fake 3D perspective (terminus, ELA, etc) 
 - visual representation of snowfall
 
@@ -79,6 +78,7 @@ CLEANUP:
 
 
 DONE:
+6/2/08 - remove obsolete methods from anonymous ClimateChangeListeners
 6/2/08 - fix ablation model, new specification was wrong, need to always add offset
 ******* 0.00.26 (21920)
 6/2/08 - implement new climate model

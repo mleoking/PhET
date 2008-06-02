@@ -56,10 +56,6 @@ public class GlacialBudgetMeter extends AbstractTool {
             public void snowfallChanged() {
                 updateAllValues();
             }
-            
-            public void snowfallReferenceElevationChanged() {
-                updateAllValues();
-            }
         };
         _glacier.getClimate().addClimateListener( _climateListener );
         

@@ -59,9 +59,7 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
             public void snowfallChanged() {
                 update();
             }
-            public void snowfallReferenceElevationChanged() {
-                update();
-            }
+
             public void temperatureChanged() {
                 update();
             }
