@@ -14,6 +14,8 @@ Click to launch English version:
 <ul>
 <li>This is a prototype of the "microscope view", for evaluating the feasibility of this feature.
 <li>fixed uniform distribution of particles inside circle, previous versions were denser towards the center
+<li>set default particle size to 4
+<li>set default transparency to 0.5
 </ul>
 <p>
 </html>
