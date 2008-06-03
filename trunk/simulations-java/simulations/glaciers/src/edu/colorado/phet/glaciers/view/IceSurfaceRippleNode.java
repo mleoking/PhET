@@ -97,7 +97,7 @@ public class IceSurfaceRippleNode extends PComposite {
     private void update() {
         
         // use different colors above and below ELA
-        final Point2D surfaceAtELA = _glacier.getSurfaceAtSteadyStateELAReference();
+        final Point2D surfaceAtELA = _glacier.getSurfaceAtELAReference();
         if ( surfaceAtELA != null && _ripple.getX() >= surfaceAtELA.getX() ) {
             _topArcNode.setStrokePaint( COLOR_BELOW_ELA );
             _bottomArcNode.setStrokePaint( COLOR_BELOW_ELA );
