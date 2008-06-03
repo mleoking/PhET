@@ -161,9 +161,8 @@ public class Climate {
      */
     public double getAccumulation( double elevation ) {
         assert( elevation >= 0 );
-        final double snow = Math.sqrt( _snowfall );
-        final double p0 = SNOW_MAX_ELEV - ( ( SNOW_MAX_ELEV - SNOW_MIN_ELEV ) * ( snow ) );
-        final double pMax = SNOW_MAX * snow;
+        final double p0 = SNOW_MAX_ELEV - ( ( SNOW_MAX_ELEV - SNOW_MIN_ELEV ) * ( _snowfall ) );
+        final double pMax = SNOW_MAX * _snowfall;
         final double tmp = .5 + ( 1. / Math.PI ) * Math.atan( ( elevation - p0 ) / SNOW_TRANSITION_WIDTH );
         final double accumulation = pMax * tmp;
         assert( accumulation >= 0 );
