@@ -244,8 +244,8 @@ public class Glacier extends ClockAdapter {
      */
     public double getIceThickness( final double x ) {
         double iceThickness = 0;
-        final double headwallX = _valley.getHeadwallPositionReference().getX();
         if ( _iceThicknessSamples != null ) {
+            final double headwallX = _valley.getHeadwallPositionReference().getX();
             final double xTerminus = _terminus.getX();
             if ( x >= headwallX && x <= xTerminus ) {
                 if ( x == xTerminus ) {
@@ -269,7 +269,6 @@ public class Glacier extends ClockAdapter {
      */
     private void updateIce() {
         
-        final double steadyStateELA = _climate.getELA();
         _surfaceAtELA = null;
         
         final double headwallX = _valley.getHeadwallPositionReference().getX();
@@ -283,7 +282,8 @@ public class Glacier extends ClockAdapter {
         }
         else {
             
-            // compute constants used herein
+            // constants
+            final double ela = _climate.getELA();
             final double maxThickness = computeMaxThickness( _quasiELA, headwallY ); // H_max in documentation
             final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
             final double xPeak = headwallX + ( 0.5 * glacierLength ); // midpoint of the ice
@@ -320,7 +320,7 @@ public class Glacier extends ClockAdapter {
                 // look for steady state ELA contour, this is approximate!
                 if ( _surfaceAtELA == null ) {
                     surfaceElevation = _valley.getElevation( x ) + thickness;
-                    if ( surfaceElevation <= steadyStateELA ) {
+                    if ( surfaceElevation <= ela ) {
                         _surfaceAtELA = new Point2D.Double( x, surfaceElevation );
                     }
                 }
@@ -504,9 +504,8 @@ public class Glacier extends ClockAdapter {
             
             // limit the delta for an advancing glacier
             if ( ela < _quasiELA ) {
-                
-                final double deltaLimit = dt * (-0.06*_quasiELA + 300) * ELAX_TERMINUS / _elax_m0;
-                delta = Math.max( delta, dt * deltaLimit );
+                final double q_advance_limit = ( ( -0.06 * _quasiELA ) + 300 ) * ELAX_TERMINUS / _elax_m0;
+                delta = Math.max( delta, dt * q_advance_limit );
             }
             
             // evolve
