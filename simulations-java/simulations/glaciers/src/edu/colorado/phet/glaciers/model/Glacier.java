@@ -206,8 +206,8 @@ public class Glacier extends ClockAdapter {
     }
     
     /**
-     * Gets a reference to the point where the steady-state ELA intersects the surface of the ice.
-     * This will be null unless ice exists at elevations lower than the steady-state ELA.
+     * Gets a reference to the point where the ELA intersects the surface of the ice.
+     * This will be null if the terminus is above the ELA.
      * 
      * @return
      */
