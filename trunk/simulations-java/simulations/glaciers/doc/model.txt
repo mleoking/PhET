@@ -21,7 +21,7 @@ last modified: Jun 1, 2008
       glacier, not the climate.  It is used for the
       time-dependence of the glacier.
     - elax, the x-position of the intersection of the glacier
-      surface and the ela
+      surface and the quasi-ela
     - temp, temperature at sea level (degrees Celcius, C)
     - snow, average snowfall across whole valley (m/yr)
     - abl, ablation as a function of elevation (m/yr)
@@ -44,7 +44,7 @@ last modified: Jun 1, 2008
     - temp_lapse_rate           6.5e-3 C/m
     - melt_v_elev               30 
     - melt_z0                   1300
-    - melt_z1                   4200
+    - melt_z1                   5200
     - melt_v_temp               200
     - modern_temp               20
     - snow_max                  2.0
@@ -91,7 +91,8 @@ B. climate model
     if ( z > min_ablation_elev ):
         abl = offset
     else:
-        abl = offset + (melt_v_elev  * (1.-sin((z-melt_z0-temp_diff*melt_v_temp) / ((melt_z1-melt_z0)*2/pi)) ))
+        abl = offset + (melt_v_elev  * (1.-sin((z-melt_z0- 
+              temp_diff*melt_v_temp) / ((melt_z1-melt_z0)*2/pi)) ))
 
 5. given snow and z, accumulation is calculated by
 
