@@ -127,30 +127,6 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
         return true;
     }
 
-    public int hashCode() {
-        int result;
-        long temp;
-        temp = getX() != +0.0d ? Double.doubleToLongBits(getX()) : 0L;
-        result = (int)(temp ^ (temp >>> 32));
-        temp = getY() != +0.0d ? Double.doubleToLongBits(getY()) : 0L;
-        result = 31 * result + (int)(temp ^ (temp >>> 32));
-        temp = radius != +0.0d ? Double.doubleToLongBits(radius) : 0L;
-        result = 31 * result + (int)(temp ^ (temp >>> 32));
-        temp = mass != +0.0d ? Double.doubleToLongBits(mass) : 0L;
-        result = 31 * result + (int)(temp ^ (temp >>> 32));
-        temp = getVx() != +0.0d ? Double.doubleToLongBits(getVx()) : 0L;
-        result = 31 * result + (int)(temp ^ (temp >>> 32));
-        temp = getAx() != +0.0d ? Double.doubleToLongBits(getAx()) : 0L;
-        result = 31 * result + (int)(temp ^ (temp >>> 32));
-        temp = getAy() != +0.0d ? Double.doubleToLongBits(getAy()) : 0L;
-        result = 31 * result + (int)(temp ^ (temp >>> 32));
-        temp = getVy() != +0.0d ? Double.doubleToLongBits(getVy()) : 0L;
-        result = 31 * result + (int)(temp ^ (temp >>> 32));
-        temp = inverseMass != +0.0d ? Double.doubleToLongBits(inverseMass) : 0L;
-        result = 31 * result + (int)(temp ^ (temp >>> 32));
-        return result;
-    }
-
     public Object clone() {
         try {
             StatesOfMatterParticle p = (StatesOfMatterParticle)super.clone();

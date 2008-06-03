@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -73,9 +74,9 @@ public class ParticleContainerNode extends PhetPNode {
         m_container           = model.getParticleContainer();
         
         // Internal initialization.
-        m_containmentAreaWidth      = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
-        m_containmentAreaHeight     = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
-        m_mapParticlesToNodes = new HashMap();
+        m_containmentAreaWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
+        m_containmentAreaHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
+        m_mapParticlesToNodes   = new HashMap();
 
         // Set up the image that will be used.
         m_cupImage = StatesOfMatterResources.getImageNode(StatesOfMatterConstants.COFFEE_CUP_IMAGE);
@@ -104,6 +105,9 @@ public class ParticleContainerNode extends PhetPNode {
                 // Update the positions of the particles.
                 updateParticleNodes();
             }
+            public void resetOccurred(){
+                reset();
+            }
         });
 
         addChild(m_cupImage);
@@ -114,7 +118,6 @@ public class ParticleContainerNode extends PhetPNode {
 //        containerRect.setStrokePaint( Color.RED );
 //        addChild(containerRect);
 
-        reset();
         update();
     }
 
@@ -134,6 +137,10 @@ public class ParticleContainerNode extends PhetPNode {
         m_particleArea.addChild(particleNode);
     }
     
+    /**
+     * Reset this not be getting rid of all current particle/node relationships
+     * and creating new ones based on the current state of the model.
+     */
     public void reset(){
         m_mapParticlesToNodes.clear();
         m_particleArea.removeAllChildren();
@@ -144,6 +151,7 @@ public class ParticleContainerNode extends PhetPNode {
             StatesOfMatterParticle particle = (StatesOfMatterParticle) iterator.next();
             ParticleNode particleNode = new ParticleNode(particle);
             m_mapParticlesToNodes.put( particle, particleNode );
+            System.out.println("Contains key yields: " + m_mapParticlesToNodes.containsKey( particle ));
             setParticleNodePosition(particle, particleNode);
             addParticleNode(particleNode);
         }
@@ -165,11 +173,21 @@ public class ParticleContainerNode extends PhetPNode {
         
         List particles = m_model.getParticles();
         
+        int numParticles = particles.size();
+        for (int i = 0; i < numParticles; i++){
+            Object testKey = particles.get( i );
+            System.out.println("Contains key yields: " + m_mapParticlesToNodes.containsKey( testKey ));
+        }
+        
         for ( Iterator iterator = particles.iterator(); iterator.hasNext(); ) {
             StatesOfMatterParticle particle = (StatesOfMatterParticle) iterator.next();
+            System.out.println("Contains key yields: " + m_mapParticlesToNodes.containsKey( particle ));
+            System.out.println("isEmpty yields: " + m_mapParticlesToNodes.isEmpty());
+            Set setOfKeys = m_mapParticlesToNodes.keySet();
+            System.out.println("setOfKeys = " + setOfKeys);
             ParticleNode particleNode = (ParticleNode)m_mapParticlesToNodes.get( particle );
             if (particleNode != null){
-                particleNode.setOffset( particle.getX() - particle.getRadius(), particle.getY() - particle.getRadius() );;
+                setParticleNodePosition( particle, particleNode );
             }
             else{
                 System.err.println("Unable to find corresponding particle node for particle in model.");
@@ -178,7 +196,9 @@ public class ParticleContainerNode extends PhetPNode {
     }
     
     private void setParticleNodePosition(StatesOfMatterParticle particle, ParticleNode particleNode){
-        double radius = particle.getRadius();
-        particleNode.setOffset( particle.getX() - radius, particle.getY() - radius );
+        // Note that particle positions assume that the origin (0,0) is at the
+        // lower left corner of the container, and PNodes assume that 0, 0 is
+        // the upper left, so translation must occur.
+        particleNode.setOffset( particle.getX(), m_containmentAreaHeight - particle.getY() );
     }
 }
