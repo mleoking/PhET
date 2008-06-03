@@ -143,6 +143,9 @@ public class MultipleParticleModel {
 
         m_totalEnergy = m_engineFacade.measureKineticEnergy() + m_engineFacade.measurePotentialEnergy();
         */
+        
+        // Let any listeners know that we have been reset.
+        notifyResetOccurred();
     }
     
     public void addListener(Listener listener){
@@ -167,11 +170,12 @@ public class MultipleParticleModel {
     private void handleClockTicked(ClockEvent clockEvent) {
         
         // TODO: JPB TBD - Temp computation for testing.
-//        for ( Iterator iterator = m_particles.iterator(); iterator.hasNext(); ) {
-//            StatesOfMatterParticle particle = (StatesOfMatterParticle) iterator.next();
-//            particle.setX(particle.getX() + particle.getVx());
-//            particle.setY(particle.getY() + particle.getVy());
-//        }
+        for ( Iterator iterator = m_particles.iterator(); iterator.hasNext(); ) {
+            StatesOfMatterParticle particle = (StatesOfMatterParticle) iterator.next();
+            particle.setX(particle.getX() + particle.getVx());
+            particle.setY(particle.getY() + particle.getVy());
+            notifyParticlesMoved();
+        }
         
         /*
         for (int i = 0; i < StatesOfMatterConstants.COMPUTATIONS_PER_RENDER; i++) {
@@ -186,6 +190,18 @@ public class MultipleParticleModel {
         // Readjust to conserve total energy:
         conserveTotalEnergy();
         */
+    }
+    
+    private void notifyParticlesMoved(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).particlesMoved();
+        }        
+    }
+
+    private void notifyResetOccurred(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).resetOccurred();
+        }        
     }
 
     private void conserveTotalEnergy() {
@@ -214,6 +230,11 @@ public class MultipleParticleModel {
         /**
          * Inform listeners that the positions of the particles have changed.
          */
-        void particlesMoved();
+        public void particlesMoved();
+        
+        /**
+         * Inform listeners that the model has been reset.
+         */
+        public void resetOccurred();
     }
 }

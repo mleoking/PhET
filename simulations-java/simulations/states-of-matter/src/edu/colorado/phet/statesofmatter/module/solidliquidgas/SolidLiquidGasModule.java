@@ -70,8 +70,5 @@ public class SolidLiquidGasModule extends Module {
         // Reset the clock, which ultimately resets the model too.
         getClock().resetSimulationTime();
         setClockRunningWhenActive( AlphaRadiationDefaults.CLOCK_RUNNING );
-        
-        // Reset the canvas and its sub-nodes.
-        m_canvas.reset();
     }
 }
