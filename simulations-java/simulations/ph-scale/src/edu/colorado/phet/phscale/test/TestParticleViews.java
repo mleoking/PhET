@@ -41,11 +41,13 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestBeakerView extends JFrame {
+public class TestParticleViews extends JFrame {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
+    
+    private static final String FRAME_TITLE = "ph Scale: test particle views";
 
     private static final Color DEFAULT_CANVAS_COLOR = new Color( 220, 220, 220 );
     private static final Color DEFAULT_H2O_COLOR= Color.WHITE;
@@ -118,8 +120,8 @@ public class TestBeakerView extends JFrame {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public TestBeakerView() {
-        super( "ph-scale: Microscope View test" );
+    public TestParticleViews() {
+        super( FRAME_TITLE );
 
         _randomX = new Random();
         _randomY = new Random();
@@ -878,7 +880,7 @@ public class TestBeakerView extends JFrame {
     //----------------------------------------------------------------------------
     
     public static void main( String args[] ) {
-        TestBeakerView frame = new TestBeakerView();
+        TestParticleViews frame = new TestParticleViews();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( new Dimension( 1024, 768 ) );
         frame.setVisible( true );
