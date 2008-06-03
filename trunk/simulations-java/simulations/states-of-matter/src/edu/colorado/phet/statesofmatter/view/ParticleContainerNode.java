@@ -2,9 +2,11 @@
 
 package edu.colorado.phet.statesofmatter.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Ellipse2D.Double;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,41 +42,61 @@ public class ParticleContainerNode extends PhetPNode {
     // particle container within the model.  The rest of the image is "fluff",
     // meaning that it provides visual cues to the user.  These constants
     // define where within the image the particle container should be mapped.
-    private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT   = 0.3;
-    private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_RIGHT  = 0.1;
+    private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT   = 0.35;
+    private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_RIGHT  = 0.05;
     private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_BOTTOM = 0.1;
-    private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_TOP    = 0.0;
+    private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_TOP    = 0.05;
 
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
     private final ParticleContainer m_container;
     private final MultipleParticleModel m_model;
-    private PNode m_particleLayer = new PNode();
+    private PPath m_particleArea;
     private PImage m_cupImage;
     private HashMap m_mapParticlesToNodes;
 
-    private double m_containerWidth;
-    private double m_containerHeight;
+    private double m_containmentAreaWidth;
+    private double m_containmentAreaHeight;
+    private double m_containmentAreaOffsetX;
+    private double m_containmentAreaOffsetY;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
     
     public ParticleContainerNode(PhetPCanvas canvas, MultipleParticleModel model) throws IOException {
+        
         super();
 
         m_model               = model;
         m_container           = model.getParticleContainer();
-        m_containerWidth      = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
-        m_containerHeight     = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
-        m_cupImage            = StatesOfMatterResources.getImageNode(StatesOfMatterConstants.COFFEE_CUP_IMAGE);
+        
+        // Internal initialization.
+        m_containmentAreaWidth      = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
+        m_containmentAreaHeight     = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
         m_mapParticlesToNodes = new HashMap();
+
+        // Set up the image that will be used.
+        m_cupImage = StatesOfMatterResources.getImageNode(StatesOfMatterConstants.COFFEE_CUP_IMAGE);
         
         // Scale the cup image based on the size of the container.
         double neededImageWidth = 
-            m_containerWidth / (1 - NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT - NON_CONTAINER_IMAGE_FRACTION_FROM_RIGHT);
+            m_containmentAreaWidth / (1 - NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT - NON_CONTAINER_IMAGE_FRACTION_FROM_RIGHT);
         m_cupImage.setScale( neededImageWidth / m_cupImage.getWidth() );
+        
+        // Calculate the offset for the area within the overall image where
+        // the particles will be contained.
+        m_containmentAreaOffsetX = neededImageWidth * NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT;
+        m_containmentAreaOffsetY = m_cupImage.getFullBounds().height * NON_CONTAINER_IMAGE_FRACTION_FROM_TOP;
+        
+        // Add the particle area, which is where the particles will be
+        // maintained, which is a rectangular area that matches the size of
+        // the container in the model.
+        m_particleArea = new PPath(new Rectangle2D.Double(0, 0, m_containmentAreaWidth, m_containmentAreaHeight));
+        m_particleArea.setOffset( m_containmentAreaOffsetX, m_containmentAreaOffsetY );
+        m_particleArea.setStrokePaint( Color.RED );
+        m_particleArea.setStroke( new BasicStroke(50) );
         
         // Register for notifications of particle changes from the model.
         model.addListener( new MultipleParticleModel.Listener(){
@@ -85,12 +107,12 @@ public class ParticleContainerNode extends PhetPNode {
         });
 
         addChild(m_cupImage);
-        addChild(m_particleLayer);
+        addChild(m_particleArea);
         
         // TODO: JPB TBD - For testing.
-//        PPath circle = new PPath(new Ellipse2D.Double(1000, 1000, 240, 240));
-//        circle.setPaint( Color.green );
-//        addChild(circle);
+//        PPath containerRect = new PPath(new Rectangle2D.Double(1000, 1000, 240, 240));
+//        containerRect.setStrokePaint( Color.RED );
+//        addChild(containerRect);
 
         reset();
         update();
@@ -101,20 +123,20 @@ public class ParticleContainerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     
     public List getParticleNodes() {
-        return Collections.unmodifiableList(m_particleLayer.getChildrenReference());
+        return Collections.unmodifiableList(m_particleArea.getChildrenReference());
     }
 
     public ParticleNode getParticleNode(int i) {
-        return (ParticleNode)m_particleLayer.getChild(i);
+        return (ParticleNode)m_particleArea.getChild(i);
     }
 
     public void addParticleNode(ParticleNode particleNode) {
-        m_particleLayer.addChild(particleNode);
+        m_particleArea.addChild(particleNode);
     }
     
     public void reset(){
         m_mapParticlesToNodes.clear();
-        m_particleLayer.removeAllChildren();
+        m_particleArea.removeAllChildren();
         
         List particles = m_model.getParticles();
         
@@ -123,7 +145,7 @@ public class ParticleContainerNode extends PhetPNode {
             ParticleNode particleNode = new ParticleNode(particle);
             m_mapParticlesToNodes.put( particle, particleNode );
             setParticleNodePosition(particle, particleNode);
-            addChild(particleNode);
+            addParticleNode(particleNode);
         }
     }
     
