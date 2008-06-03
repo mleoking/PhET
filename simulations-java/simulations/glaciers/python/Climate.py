@@ -65,7 +65,8 @@ class Climate:
         z is elevation in meters (can be scalar or array)
         uses current value of self.snow
         """
-        snow = sqrt(self.snow)
+        #snow = sqrt(self.snow)
+        snow = self.snow
         p0 = ( self.snow_max_elev - 
                 (self.snow_max_elev-self.snow_min_elev)*(snow))
         pmax = self.snow_max*snow
