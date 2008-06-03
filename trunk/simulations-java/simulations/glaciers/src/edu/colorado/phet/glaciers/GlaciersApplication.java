@@ -22,8 +22,10 @@ import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
 import edu.colorado.phet.glaciers.module.advanced.AdvancedModule;
 import edu.colorado.phet.glaciers.module.basic.BasicModule;
+import edu.colorado.phet.glaciers.module.experiments.ExperimentsModule;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
 import edu.colorado.phet.glaciers.persistence.BasicConfig;
+import edu.colorado.phet.glaciers.persistence.ExperimentsConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 
 /**
@@ -39,6 +41,7 @@ public class GlaciersApplication extends PiccoloPhetApplication {
 
     private BasicModule _basicModule;
     private AdvancedModule _advancedModule;
+    private ExperimentsModule _experimentsModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -92,8 +95,11 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         _basicModule = new BasicModule( parentFrame );
         addModule( _basicModule );
 
-//        _advancedModule = new AdvancedModule( parentFrame );
-//        addModule( _advancedModule );
+        _advancedModule = new AdvancedModule( parentFrame );
+        addModule( _advancedModule );
+        
+        _experimentsModule = new ExperimentsModule( parentFrame );
+        addModule( _experimentsModule );
     }
 
     /*
@@ -166,6 +172,9 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         AdvancedConfig advancedConfig = _advancedModule.save();
         appConfig.setAdvancedConfig( advancedConfig );
         
+        ExperimentsConfig experimentsConfig = _experimentsModule.save();
+        appConfig.setExperimentsConfig( experimentsConfig );
+        
         _persistenceManager.save( appConfig );
     }
 
@@ -185,6 +194,9 @@ public class GlaciersApplication extends PiccoloPhetApplication {
                 
                 AdvancedConfig advancedConfig = appConfig.getAdvancedConfig();
                 _advancedModule.load( advancedConfig );
+                
+                ExperimentsConfig experimentsConfig = appConfig.getExperimentsConfig();
+                _experimentsModule.load( experimentsConfig );
             }
             else {
                 DialogUtils.showErrorDialog( getPhetFrame(), GlaciersStrings.MESSAGE_NOT_A_CONFIG_FILE, GlaciersStrings.TITLE_ERROR );

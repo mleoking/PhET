@@ -21,6 +21,7 @@ HIGH PRIORITY:
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
+- change color of ice flow vectors so that they are different than debris color?
 - change snowfall visibility with snowfall checkbox
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 - "steady state" button needs to advance clock to the time at which the glacier would reach its steady state
@@ -82,6 +83,7 @@ CLEANUP:
 
 
 DONE:
+6/3/08 - add empty modules for Advanced and Climate Experiments, so we see the tabs
 6/3/08 - revised ice thickness model to match model.txt
 6/3/08 - rewrite Glacier timescale code to look more like model.txt
 6/3/08 - change snowfall default value
