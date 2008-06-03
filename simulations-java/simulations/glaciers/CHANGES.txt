@@ -81,6 +81,7 @@ CLEANUP:
 
 
 DONE:
+6/3/08 - revised ice thickness model to match model.txt
 6/3/08 - rewrite Glacier timescale code to look more like model.txt
 6/3/08 - change snowfall default value
 6/3/08 - remove sqrt(snowfall) in Climate accumulation model (error in python code)
