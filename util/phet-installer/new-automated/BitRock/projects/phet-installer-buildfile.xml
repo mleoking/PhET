@@ -66,9 +66,6 @@
                         <distributionDirectory>
                             <origin>../../temp/website/phet.colorado.edu/sims</origin>
                         </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet.colorado.edu/Design</origin>
-                        </distributionDirectory>
                         <distributionFile>
                             <origin>../../Installer-Resources/Install-Path/Phet-logo-48x48.gif</origin>
                         </distributionFile>
