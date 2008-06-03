@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
@@ -60,14 +61,18 @@ public class TestBeakerView extends JFrame {
     private static final double PH_DELTA = 0.1;
     private static final String PH_PATTERN = "0.0";
     
-    private static final DoubleRange BEAKER_WIDTH_RANGE = new DoubleRange( 100, 400, 200 );
+    private static final DoubleRange BEAKER_WIDTH_RANGE = new DoubleRange( 100, 400, 250 );
     private static final double BEAKER_WIDTH_DELTA = 1;
     private static final String BEAKER_WIDTH_PATTERN = "##0";
     
-    private static final DoubleRange BEAKER_HEIGHT_RANGE = new DoubleRange( 100, 400, 200 );
+    private static final DoubleRange BEAKER_HEIGHT_RANGE = new DoubleRange( 100, 400, 300 );
     private static final double BEAKER_HEIGHT_DELTA = 1;
     private static final String BEAKER_HEIGHT_PATTERN = "##0";
-        
+     
+    private static final DoubleRange LIQUID_FILL_RANGE = new DoubleRange( 0, 1, 0.5 );
+    private static final double LIQUID_FILL_DELTA = 0.01;
+    private static final String LIQUID_FILL_PATTERN = "0.00";
+    
     private static final DoubleRange MAX_PARTICLES_RANGE = new DoubleRange( 1000, 10000, 5000 );
     private static final double MAX_PARTICLES_DELTA = 1;
     private static final String MAX_PARTICLES_PATTERN = "####0";
@@ -90,15 +95,16 @@ public class TestBeakerView extends JFrame {
     
     private final JLabel _countH30Label, _countOHLabel;
     private final LinearValueControl _phControl, 
-             _beakerWidthControl, _beakerHeightControl,
+             _beakerWidthControl, _beakerHeightControl, _liquidFillControl,
             _particleTransparencyControl, _particleDiameterControl,
             _maxParticlesControl;
     private final ColorControl _colorCanvasControl, _colorH2OControl, _colorH3OControl, _colorOHControl;
     private final JPanel _countPanel;
 
     private final PCanvas _canvas;
-    private final PPath _beakerNode;
-    private final Rectangle2D _beakerPath;
+    private final PPath _beakerNode, _liquidNode;
+    private final GeneralPath _beakerPath; 
+    private final Rectangle2D _liquidPath;
     private final PComposite _particlesParent;
     private final Random _randomX, _randomY;
     private Color _colorH3O, _colorOH;
@@ -145,23 +151,38 @@ public class TestBeakerView extends JFrame {
         countPanelLayout.addComponent( Box.createHorizontalStrut( 15 ), row, column++ );
         countPanelLayout.addComponent( _countOHLabel, row, column++ );
 
-        // pH control
+        // pH
         _phControl = new LinearValueControl( PH_RANGE.getMin(), PH_RANGE.getMax(), "pH:", PH_PATTERN, "", new TestLayoutStrategy() );
         _phControl.setValue( PH_RANGE.getDefault() );
         _phControl.setUpDownArrowDelta( PH_DELTA );
         _phControl.addChangeListener( globalUpdateListener );
 
-        // beaker scale control
+        // beaker width
         _beakerWidthControl = new LinearValueControl( BEAKER_WIDTH_RANGE.getMin(), BEAKER_WIDTH_RANGE.getMax(), "beaker width:", BEAKER_WIDTH_PATTERN, "", new TestLayoutStrategy() );
         _beakerWidthControl.setValue( BEAKER_WIDTH_RANGE.getDefault() );
         _beakerWidthControl.setUpDownArrowDelta( BEAKER_WIDTH_DELTA );
         _beakerWidthControl.addChangeListener( globalUpdateListener );
         
+        // beaker height
         _beakerHeightControl = new LinearValueControl( BEAKER_HEIGHT_RANGE.getMin(), BEAKER_HEIGHT_RANGE.getMax(), "beaker height:", BEAKER_HEIGHT_PATTERN, "", new TestLayoutStrategy() );
         _beakerHeightControl.setValue( BEAKER_HEIGHT_RANGE.getDefault() );
         _beakerHeightControl.setUpDownArrowDelta( BEAKER_HEIGHT_DELTA );
         _beakerHeightControl.addChangeListener( globalUpdateListener );
 
+        // beaker fill
+        _liquidFillControl = new LinearValueControl( LIQUID_FILL_RANGE.getMin(), LIQUID_FILL_RANGE.getMax(), "fill beaker:", LIQUID_FILL_PATTERN, "", new TestLayoutStrategy() );
+        _liquidFillControl.setValue( LIQUID_FILL_RANGE.getDefault() );
+        _liquidFillControl.setUpDownArrowDelta( LIQUID_FILL_DELTA );
+        _liquidFillControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                updateLiquid();
+            }
+        });
+        Hashtable beakerFillLabelTable = new Hashtable();
+        beakerFillLabelTable.put( new Double( _liquidFillControl.getMinimum() ), new JLabel( "empty" ) );
+        beakerFillLabelTable.put( new Double( _liquidFillControl.getMaximum() ), new JLabel( "full" ) );
+        _liquidFillControl.setTickLabels( beakerFillLabelTable );
+        
         // max particles
         _maxParticlesControl = new LinearValueControl( MAX_PARTICLES_RANGE.getMin(), MAX_PARTICLES_RANGE.getMax(), "max # particles:", MAX_PARTICLES_PATTERN, "", new TestLayoutStrategy() );
         _maxParticlesControl.setValue( MAX_PARTICLES_RANGE.getDefault() );
@@ -179,10 +200,10 @@ public class TestBeakerView extends JFrame {
         _particleTransparencyControl.setValue( TRANSPARENCY_RANGE.getDefault() );
         _particleTransparencyControl.setUpDownArrowDelta( TRANSPARENCY_DELTA );
         _particleTransparencyControl.addChangeListener( particleUpdateListener );
-        Hashtable labelTable = new Hashtable();
-        labelTable.put( new Double( _particleTransparencyControl.getMinimum() ), new JLabel( "invisible" ) );
-        labelTable.put( new Double( _particleTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
-        _particleTransparencyControl.setTickLabels( labelTable );
+        Hashtable particleTransparencyLabelTable = new Hashtable();
+        particleTransparencyLabelTable.put( new Double( _particleTransparencyControl.getMinimum() ), new JLabel( "invisible" ) );
+        particleTransparencyLabelTable.put( new Double( _particleTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
+        _particleTransparencyControl.setTickLabels( particleTransparencyLabelTable );
 
         // colors
         JPanel colorsPanel = new JPanel();
@@ -259,6 +280,8 @@ public class TestBeakerView extends JFrame {
         controlPanelLayout.addComponent( _beakerWidthControl, row++, column );
         controlPanelLayout.addComponent( _beakerHeightControl, row++, column );
         controlPanelLayout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        controlPanelLayout.addComponent( _liquidFillControl, row++, column );
+        controlPanelLayout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         controlPanelLayout.addComponent( _maxParticlesControl, row++, column );
         controlPanelLayout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         controlPanelLayout.addComponent( _particleDiameterControl, row++, column );
@@ -275,18 +298,26 @@ public class TestBeakerView extends JFrame {
                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
         scrollPanel.add( scrollPane, BorderLayout.CENTER );
         
-        // circle
-        _beakerPath = new Rectangle2D.Double();
-        _beakerNode = new PClip();
-        _beakerNode.setPaint( DEFAULT_H2O_COLOR );
+        // beaker
+        _beakerPath = new GeneralPath();
+        _beakerNode = new PPath();
+        _beakerNode.setPaint( null );
         _beakerNode.setStroke( new BasicStroke( 2f ) );
         _beakerNode.setOffset( _beakerWidthControl.getMaximum() / 2 + 50, _beakerWidthControl.getMaximum() / 2 + 50 );
 
-        // parent for particles, clipped to circle
+        // liquid
+        _liquidPath = new Rectangle2D.Double();
+        _liquidNode = new PClip();
+        _liquidNode.setPaint( DEFAULT_H2O_COLOR );
+        _liquidNode.setStroke( null );
+        _liquidNode.setOffset( _beakerNode.getOffset() );
+        
+        // parent for particles, clipped to liquid
         _particlesParent = new PComposite();
-        _beakerNode.addChild( _particlesParent );
+        _liquidNode.addChild( _particlesParent );
 
         _canvas = new PCanvas();
+        _canvas.getLayer().addChild( _liquidNode );
         _canvas.getLayer().addChild( _beakerNode );
         _canvas.setBackground( DEFAULT_CANVAS_COLOR );
 
@@ -308,7 +339,7 @@ public class TestBeakerView extends JFrame {
         _colorCanvasControl.setColor( DEFAULT_CANVAS_COLOR );
         _canvas.setBackground( DEFAULT_CANVAS_COLOR );
         _colorH2OControl.setColor( DEFAULT_H2O_COLOR );
-        _beakerNode.setPaint( DEFAULT_H2O_COLOR );
+        _liquidNode.setPaint( DEFAULT_H2O_COLOR );
         _colorH3OControl.setColor( DEFAULT_H3O_COLOR );
         _colorH3O = DEFAULT_H3O_COLOR;
         _colorOHControl.setColor( DEFAULT_OH_COLOR );
@@ -318,6 +349,7 @@ public class TestBeakerView extends JFrame {
         _phControl.setValue( PH_RANGE.getDefault() );
         _beakerWidthControl.setValue( BEAKER_WIDTH_RANGE.getDefault() );
         _beakerHeightControl.setValue( BEAKER_HEIGHT_RANGE.getDefault() );
+        _liquidFillControl.setValue( LIQUID_FILL_RANGE.getDefault() );
         _maxParticlesControl.setValue( MAX_PARTICLES_RANGE.getDefault() );
         _particleDiameterControl.setValue( PARTICLE_DIAMETER_RANGE.getDefault() );
         _particleTransparencyControl.setValue( TRANSPARENCY_RANGE.getDefault() );
@@ -332,10 +364,10 @@ public class TestBeakerView extends JFrame {
         _particlesParent.removeAllChildren();
 
         // adjust beaker size
-        double beakerWidth = _beakerWidthControl.getValue();
-        double beakerHeight = _beakerHeightControl.getValue();
-        _beakerPath.setRect( -beakerWidth/2, -beakerHeight/2, beakerWidth, beakerHeight );
-        _beakerNode.setPathTo( _beakerPath );
+        updateBeaker();
+        
+        // adjust liquid fill
+        updateLiquid();
 
         // calculate the ratio of H30 to OH
         final double pH = _phControl.getValue();
@@ -369,6 +401,25 @@ public class TestBeakerView extends JFrame {
         }
         
 //        System.out.println( "pH=" + pH + " H30:OH=" + ratio + " OH:H3O=" + 1 / ratio + " #H30=" + numH30 + " #OH=" + numOH );//XXX
+    }
+    
+    private void updateBeaker() {
+        double beakerWidth = _beakerWidthControl.getValue();
+        double beakerHeight = _beakerHeightControl.getValue();
+        _beakerPath.reset();
+        _beakerPath.moveTo( (float) -beakerWidth/2, (float) -beakerHeight/2 );
+        _beakerPath.lineTo( (float) -beakerWidth/2, (float) +beakerHeight/2 );
+        _beakerPath.lineTo( (float) +beakerWidth/2, (float) +beakerHeight/2 );
+        _beakerPath.lineTo( (float) +beakerWidth/2, (float) -beakerHeight/2 );
+        _beakerNode.setPathTo( _beakerPath );
+    }
+    
+    private void updateLiquid() {
+        double beakerWidth = _beakerWidthControl.getValue();
+        double beakerHeight = _beakerHeightControl.getValue();
+        double liquidHeight = beakerHeight * _liquidFillControl.getValue();
+        _liquidPath.setRect( -beakerWidth/2, -beakerHeight/2 + (beakerHeight - liquidHeight ), beakerWidth, liquidHeight );
+        _liquidNode.setPathTo( _liquidPath );
     }
 
     /*
