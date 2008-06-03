@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.26
+glaciers 0.00.27
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,18 +12,18 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>simplified and rewrote climate model (temperature and snowfall)
-<li>removed control for snowfall reference elevation
-<li>added end moraine model, prune debris that overlaps at the end moraine
-<li>liquid in thermometer changes based on temperature
-<li>added snowfall check box (not hooked up)
-<li>added English/metric units radio buttons (not hooked up)
+<li>new timescale model
+<li>new ice thickness model
+<li>fixes to climate model (ablation and melt_z1 were wrong)
+<li>add empty panels for "Advance" and "Climate Experiments"
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>debris is appearing on the glacier's surface above the ELA, model problem
-<li>glacier advances too rapidly, model problem
+<li>problems with the new model, including:
+<li>at default climate settings, steady state glacier looks odd, ELA is very high
+<li>ELA is at the thickest part of the ice, so no debris ever reaches the surface
+<li>factor that limits the rate of glacier advancement has a problem that cause glacier to evolve in the wrong direction when ELA goes above the headwall
 </ul>
 <p>
 <b>Not implemented:</b>
@@ -32,8 +32,8 @@ Click to launch English version:
 <li>can't switch between English and metric units
 <li>time-based graphs are not implemented
 <li>"Steady State" button doesn't advance clock time
-<li>features need to be split into Basic, Advanced, and Experiments panels
-<li>interface for climate experiments in not implemented
+<li>features need to be split into Basic, Advanced, and Climate Experiments panels
+<li>interface for climate experiments is not implemented
 </ul>
 <p>
 <b>Remaining work:</b>

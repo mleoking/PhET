@@ -83,6 +83,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.27 (?)
 6/3/08 - add empty modules for Advanced and Climate Experiments, so we see the tabs
 6/3/08 - revised ice thickness model to match model.txt
 6/3/08 - rewrite Glacier timescale code to look more like model.txt
