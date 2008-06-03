@@ -7,6 +7,7 @@ DESIGN ISSUES (user interface):
 
 HIGH PRIORITY:
 ? how to add headwall x position to ice thickness model in model.txt
+- new model looks lousy
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 - bug: Restart clock button does bad things while glacier is evolving, get rid of it?
 - thermometer looks lousy while dragging
