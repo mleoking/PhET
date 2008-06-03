@@ -276,7 +276,6 @@ public class Glacier extends ClockAdapter {
         final double qelax = Math.max( 0, ELAX_B0 + _elax_m0 * _quasiELA );
 
         final double glacierLength = qelax / ELAX_TERMINUS;
-        System.out.println( "Glacier.updateIce glacierLength=" + glacierLength + " quasiELA=" + _quasiELA + " qelax=" + qelax );//XXX
             
         if ( glacierLength == 0 ) {
             _iceThicknessSamples = null;
