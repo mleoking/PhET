@@ -254,8 +254,8 @@ public class Climate {
     }
     
     public static class ClimateAdapter implements ClimateListener {
-        public void temperatureChanged() {};
-        public void snowfallChanged() {};
+        public void temperatureChanged() {}
+        public void snowfallChanged() {}
     }
     
     public void addClimateListener( ClimateListener listener ) {
