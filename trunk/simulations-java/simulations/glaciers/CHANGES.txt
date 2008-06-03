@@ -6,8 +6,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-? should Climate.MELT_Z1 = 4200 or 5200
-? should Climate.getAccumulation use _snowfall or sqrt(_snowfall)
+? how to add headwall x position to ice thickness model in model.txt
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 - bug: Restart clock button does bad things while glacier is evolving, get rid of it?
 - thermometer looks lousy while dragging
@@ -82,6 +81,7 @@ CLEANUP:
 
 
 DONE:
+6/3/08 - remove sqrt(snowfall) in Climate accumulation model (error in python code)
 6/3/08 - add missing sqrt(snowfall) to Climate accumulation model (error in model.txt)
 6/3/08 - change Climate.MELT_Z1 to 5200 (error in model.txt)
 6/3/08 - document climate model constants by reading Python code
