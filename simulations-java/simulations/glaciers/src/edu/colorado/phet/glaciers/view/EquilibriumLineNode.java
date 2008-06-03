@@ -103,7 +103,7 @@ public class EquilibriumLineNode extends PhetPNode {
             _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
         }
         else {
-            Point2D surfaceAtSteadyStateELA = _glacier.getSurfaceAtSteadyStateELAReference();
+            Point2D surfaceAtSteadyStateELA = _glacier.getSurfaceAtELAReference();
             if ( surfaceAtSteadyStateELA != null ) {
                 // terminus is below the ELA
                 

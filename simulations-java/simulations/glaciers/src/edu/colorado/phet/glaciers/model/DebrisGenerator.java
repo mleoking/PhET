@@ -37,10 +37,10 @@ public class DebrisGenerator {
             
             // x - distance between valley headwall and ELA (or terminus)
             final double minX = _glacier.getValley().getHeadwallPositionReference().getX();
-            Point2D surfaceAtSteadyStateELA = _glacier.getSurfaceAtSteadyStateELAReference();
+            Point2D surfaceAtSteadyStateELA = _glacier.getSurfaceAtELAReference();
             double maxX = 0;
             if ( surfaceAtSteadyStateELA != null ) {
-                maxX = _glacier.getSurfaceAtSteadyStateELAReference().getX();
+                maxX = _glacier.getSurfaceAtELAReference().getX();
             }
             else {
                 maxX = _glacier.getTerminusX();

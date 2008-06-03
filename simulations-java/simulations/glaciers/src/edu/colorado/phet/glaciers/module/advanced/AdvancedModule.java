@@ -42,7 +42,7 @@ public class AdvancedModule extends PiccoloModule {
         GlaciersClock clock = (GlaciersClock) getClock();
         Valley valley = new Valley();
         Climate climate = new Climate( AdvancedDefaults.TEMPERATURE_RANGE.getDefault(), AdvancedDefaults.SNOWFALL_RANGE.getDefault() );
-        Glacier glacier = new Glacier( valley, climate, clock );
+        Glacier glacier = new Glacier( valley, climate );
         _model = new AdvancedModel( clock, glacier );
 
         // Play Area
