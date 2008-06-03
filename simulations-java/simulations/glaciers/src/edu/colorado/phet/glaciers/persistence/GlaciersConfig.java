@@ -26,6 +26,7 @@ public class GlaciersConfig implements IProguardKeepClass {
     // Modules
     private BasicConfig _basicConfig;
     private AdvancedConfig _advancedConfig;
+    private ExperimentsConfig _experimentsConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -35,7 +36,9 @@ public class GlaciersConfig implements IProguardKeepClass {
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
     public GlaciersConfig() {
+        _basicConfig = new BasicConfig();
         _advancedConfig = new AdvancedConfig();
+        _experimentsConfig = new ExperimentsConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -101,4 +104,14 @@ public class GlaciersConfig implements IProguardKeepClass {
     public AdvancedConfig getAdvancedConfig() {
         return _advancedConfig;
     }
+    
+    public void setExperimentsConfig( ExperimentsConfig config ) {
+        _experimentsConfig = config;
+    }
+    
+    public ExperimentsConfig getExperimentsConfig() {
+        return _experimentsConfig;
+    }
+
+
 }

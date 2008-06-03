@@ -75,6 +75,7 @@ public class GlaciersStrings {
     public static final String TITLE_CLIMATE_CONTROLS = GlaciersResources.getString( "title.climateControls" );
     public static final String TITLE_EQUILIBRIUM_LINE_ALTITUDE_VERSUS_TIME = GlaciersResources.getString( "title.equilibriumLineAltitudeVersusTime" );
     public static final String TITLE_ERROR = GlaciersResources.getString( "title.error" );
+    public static final String TITLE_EXPERIMENTS = GlaciersResources.getString( "title.experiments" );
     public static final String TITLE_GRAPH_CONTROLS = GlaciersResources.getString( "title.graphControls" );
     public static final String TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION = GlaciersResources.getString( "title.glacialBudgetVersusElevation" );
     public static final String TITLE_GLACIER_LENGTH_VERSUS_TIME = GlaciersResources.getString( "title.glacierLengthVersusTime" );
