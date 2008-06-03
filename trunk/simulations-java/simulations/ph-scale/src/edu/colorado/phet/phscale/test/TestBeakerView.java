@@ -10,7 +10,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.*;
@@ -102,10 +101,7 @@ public class TestBeakerView extends JFrame {
     private final JPanel _countPanel;
 
     private final PCanvas _canvas;
-    private final PPath _beakerNode, _liquidNode;
-    private final GeneralPath _beakerPath; 
-    private final Rectangle2D _liquidPath;
-    private final PComposite _particlesParent;
+    private final BeakerNode _beakerNode;
     private final Random _randomX, _randomY;
     private Color _colorH3O, _colorOH;
 
@@ -175,7 +171,7 @@ public class TestBeakerView extends JFrame {
         _liquidFillControl.setUpDownArrowDelta( LIQUID_FILL_DELTA );
         _liquidFillControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                updateLiquid();
+                _beakerNode.setPercentFilled( _liquidFillControl.getValue() );
             }
         });
         Hashtable beakerFillLabelTable = new Hashtable();
@@ -299,25 +295,10 @@ public class TestBeakerView extends JFrame {
         scrollPanel.add( scrollPane, BorderLayout.CENTER );
         
         // beaker
-        _beakerPath = new GeneralPath();
-        _beakerNode = new PPath();
-        _beakerNode.setPaint( null );
-        _beakerNode.setStroke( new BasicStroke( 2f ) );
+        _beakerNode = new BeakerNode( BEAKER_WIDTH_RANGE.getDefault(), BEAKER_HEIGHT_RANGE.getDefault(), LIQUID_FILL_RANGE.getDefault(), DEFAULT_H2O_COLOR );
         _beakerNode.setOffset( _beakerWidthControl.getMaximum() / 2 + 50, _beakerWidthControl.getMaximum() / 2 + 50 );
 
-        // liquid
-        _liquidPath = new Rectangle2D.Double();
-        _liquidNode = new PClip();
-        _liquidNode.setPaint( DEFAULT_H2O_COLOR );
-        _liquidNode.setStroke( null );
-        _liquidNode.setOffset( _beakerNode.getOffset() );
-        
-        // parent for particles, clipped to liquid
-        _particlesParent = new PComposite();
-        _liquidNode.addChild( _particlesParent );
-
         _canvas = new PCanvas();
-        _canvas.getLayer().addChild( _liquidNode );
         _canvas.getLayer().addChild( _beakerNode );
         _canvas.setBackground( DEFAULT_CANVAS_COLOR );
 
@@ -336,10 +317,10 @@ public class TestBeakerView extends JFrame {
     private void resetAll() {
         
         // colors
+        _beakerNode.setLiquidColor( DEFAULT_H2O_COLOR );
         _colorCanvasControl.setColor( DEFAULT_CANVAS_COLOR );
         _canvas.setBackground( DEFAULT_CANVAS_COLOR );
         _colorH2OControl.setColor( DEFAULT_H2O_COLOR );
-        _liquidNode.setPaint( DEFAULT_H2O_COLOR );
         _colorH3OControl.setColor( DEFAULT_H3O_COLOR );
         _colorH3O = DEFAULT_H3O_COLOR;
         _colorOHControl.setColor( DEFAULT_OH_COLOR );
@@ -361,14 +342,12 @@ public class TestBeakerView extends JFrame {
     private void updateAll() {
 
         // clear particles
-        _particlesParent.removeAllChildren();
+        _beakerNode.removeAllParticles();
 
         // adjust beaker size
-        updateBeaker();
+        _beakerNode.setSize( _beakerWidthControl.getValue(), _beakerHeightControl.getValue() );
+        _beakerNode.setPercentFilled( _liquidFillControl.getValue() );
         
-        // adjust liquid fill
-        updateLiquid();
-
         // calculate the ratio of H30 to OH
         final double pH = _phControl.getValue();
         final double ratio = ratio_H30_to_OH( pH );
@@ -403,25 +382,6 @@ public class TestBeakerView extends JFrame {
 //        System.out.println( "pH=" + pH + " H30:OH=" + ratio + " OH:H3O=" + 1 / ratio + " #H30=" + numH30 + " #OH=" + numOH );//XXX
     }
     
-    private void updateBeaker() {
-        double beakerWidth = _beakerWidthControl.getValue();
-        double beakerHeight = _beakerHeightControl.getValue();
-        _beakerPath.reset();
-        _beakerPath.moveTo( (float) -beakerWidth/2, (float) -beakerHeight/2 );
-        _beakerPath.lineTo( (float) -beakerWidth/2, (float) +beakerHeight/2 );
-        _beakerPath.lineTo( (float) +beakerWidth/2, (float) +beakerHeight/2 );
-        _beakerPath.lineTo( (float) +beakerWidth/2, (float) -beakerHeight/2 );
-        _beakerNode.setPathTo( _beakerPath );
-    }
-    
-    private void updateLiquid() {
-        double beakerWidth = _beakerWidthControl.getValue();
-        double beakerHeight = _beakerHeightControl.getValue();
-        double liquidHeight = beakerHeight * _liquidFillControl.getValue();
-        _liquidPath.setRect( -beakerWidth/2, -beakerHeight/2 + (beakerHeight - liquidHeight ), beakerWidth, liquidHeight );
-        _liquidNode.setPathTo( _liquidPath );
-    }
-
     /*
      * Updates the diameter and color of all particles.
      */
@@ -431,9 +391,9 @@ public class TestBeakerView extends JFrame {
         Color colorOH = getColorOH();
         final double diameter = _particleDiameterControl.getValue();
 
-        Iterator i = _particlesParent.getChildrenIterator();
-        while ( i.hasNext() ) {
-            Object o = i.next();
+        ParticleNode[] nodes = _beakerNode.getParticleNodes();
+        for ( int i = 0; i < nodes.length; i++ ) {
+            Object o = nodes[i];
             if ( o instanceof H3ONode ) {
                 H3ONode node = (H3ONode) o;
                 node.setPaint( colorH3O );
@@ -472,9 +432,9 @@ public class TestBeakerView extends JFrame {
         Color color = getColorH3O();
         for ( int i = 0; i < count; i++ ) {
             getRandomPointInBeaker( pOffset );
-            PNode node = new H3ONode( particleDiameter, color );
+            ParticleNode node = new H3ONode( particleDiameter, color );
             node.setOffset( pOffset );
-            _particlesParent.addChild( node );
+            _beakerNode.addParticle( node );
         }
     }
 
@@ -487,9 +447,9 @@ public class TestBeakerView extends JFrame {
         Color color = getColorOH();
         for ( int i = 0; i < count; i++ ) {
             getRandomPointInBeaker( pOffset );
-            PNode node = new OHNode( particleDiameter, color );
+            ParticleNode node = new OHNode( particleDiameter, color );
             node.setOffset( pOffset );
-            _particlesParent.addChild( node );
+            _beakerNode.addParticle( node );
         }
     }
 
@@ -544,6 +504,100 @@ public class TestBeakerView extends JFrame {
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
+    
+    /* A beaker that contains a liquid */
+    private static class BeakerNode extends PComposite {
+        
+        private final PPath _beakerNode, _liquidNode;
+        private final GeneralPath _beakerPath; 
+        private final Rectangle2D _liquidPath;
+        private final PNode _particlesParent;
+        
+        private double _width, _height;
+        private double _percentFilled;
+        
+        public BeakerNode( double width, double height, double percentFilled, Color liquidColor ) {
+            super();
+            
+            _percentFilled = percentFilled;
+            
+            _liquidPath = new Rectangle2D.Double();
+            _liquidNode = new PClip();
+            _liquidNode.setPaint( liquidColor );
+            _liquidNode.setStroke( null );
+            addChild( _liquidNode );
+            
+            _beakerPath = new GeneralPath();
+            _beakerNode = new PPath();
+            _beakerNode.setPaint( null );
+            _beakerNode.setStroke( new BasicStroke( 2f ) );
+            addChild( _beakerNode );
+            
+            _particlesParent = new PComposite();
+            _liquidNode.addChild( _particlesParent ); // clip particles to liquid
+            
+            setSize( width, height );
+        }
+        
+        public void addParticle( ParticleNode particleNode ) {
+            _particlesParent.addChild( particleNode );
+        }
+        
+        public void removeAllParticles() {
+            _particlesParent.removeAllChildren();
+        }
+        
+        public ParticleNode[] getParticleNodes() {
+            final int count = _particlesParent.getChildrenCount();
+            ParticleNode[] nodes = new ParticleNode[ count ];
+            for ( int i = 0; i < count; i++ ) {
+                nodes[i] = (ParticleNode)_particlesParent.getChild( i );
+            }
+            return nodes;
+        }
+        
+        public void setLiquidColor( Color color ) {
+            _liquidNode.setPaint( color );
+        }
+        
+        private void setSize( double width, double height ) {
+            if ( width != _width || height != _height ) {
+                _width = width;
+                _height = height;
+                updateBeakerSize();
+            }
+            _beakerPath.reset();
+            _beakerPath.moveTo( (float) -width/2, (float) -height/2 );
+            _beakerPath.lineTo( (float) -width/2, (float) +height/2 );
+            _beakerPath.lineTo( (float) +width/2, (float) +height/2 );
+            _beakerPath.lineTo( (float) +width/2, (float) -height/2 );
+            _beakerNode.setPathTo( _beakerPath );
+            setPercentFilled( _percentFilled );
+        }
+        
+        public void setPercentFilled( double percentFilled ) {
+            if ( percentFilled != _percentFilled ) {
+            _percentFilled = percentFilled;
+            updateLiquid();
+            }
+        }
+      
+        private void updateBeakerSize() {
+            _beakerPath.reset();
+            _beakerPath.moveTo( (float) -_width/2, (float) -_height/2 );
+            _beakerPath.lineTo( (float) -_width/2, (float) +_height/2 );
+            _beakerPath.lineTo( (float) +_width/2, (float) +_height/2 );
+            _beakerPath.lineTo( (float) +_width/2, (float) -_height/2 );
+            _beakerNode.setPathTo( _beakerPath );
+            updateLiquid();
+        }
+        
+        private void updateLiquid() {
+            double liquidHeight = _percentFilled * _height;
+            _liquidPath.setRect( -_width/2, -_height/2 + (_height - liquidHeight ), _width, liquidHeight );
+            _liquidNode.setPathTo( _liquidPath );
+        }
+    }
 
     /* Base class for all particle nodes */
     private static abstract class ParticleNode extends PPath {
