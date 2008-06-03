@@ -22,7 +22,7 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.04 (?)
+******* version 0.00.04 (21953)
 6/3/08 - create TestParticleViews: combine "beaker view" and "microscope view" into 1 prototype
 6/3/08 - create TestBeakerView prototype for "beaker view" of H3O and OH concentrations in variable liquid volume
 ******* version 0.00.03 (21915)
