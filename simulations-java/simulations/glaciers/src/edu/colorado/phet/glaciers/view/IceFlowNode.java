@@ -29,8 +29,8 @@ public class IceFlowNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DX = 400;
-    private static final double DZ = 50;
+    private static final double DX = 400; // horizontal distance between velocity samples (meters)
+    private static final double DZ = 50; // elevation between velocity samples (meters)
     private static final double ICE_ROCK_MARGIN = 20; // meters
     private static final double ICE_AIR_MARGIN = 0; // meters
     
