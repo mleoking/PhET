@@ -128,18 +128,6 @@ public class TestBeakerView extends JFrame {
         _colorH3O = DEFAULT_H3O_COLOR;
         _colorOH = DEFAULT_OH_COLOR;
 
-        ChangeListener globalUpdateListener = new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                updateAll();
-            }
-        };
-
-        ChangeListener particleUpdateListener = new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                updateParticles();
-            }
-        };
-        
         // beaker or microscope radio buttons
         JPanel viewPanel = new JPanel();
         {
@@ -198,7 +186,11 @@ public class TestBeakerView extends JFrame {
         _phControl = new LinearValueControl( PH_RANGE.getMin(), PH_RANGE.getMax(), "pH:", PH_PATTERN, "", new TestLayoutStrategy() );
         _phControl.setValue( PH_RANGE.getDefault() );
         _phControl.setUpDownArrowDelta( PH_DELTA );
-        _phControl.addChangeListener( globalUpdateListener );
+        _phControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                generateParticles();
+            }
+        } );
         
         // microscope controls
         _microscopePanel = new JPanel();
@@ -206,7 +198,11 @@ public class TestBeakerView extends JFrame {
             _microscopeDiameterControl = new LinearValueControl( MICROSCOPE_DIAMETER_RANGE.getMin(), MICROSCOPE_DIAMETER_RANGE.getMax(), "microscope diameter:", MICROSCOPE_DIAMETER_PATTERN, "", new TestLayoutStrategy() );
             _microscopeDiameterControl.setValue( MICROSCOPE_DIAMETER_RANGE.getDefault() );
             _microscopeDiameterControl.setUpDownArrowDelta( MICROSCOPE_DIAMETER_DELTA );
-            _microscopeDiameterControl.addChangeListener( globalUpdateListener );
+            _microscopeDiameterControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    updateMicroscope();
+                }
+            });
             
             _microscopePanel.setBorder( new TitledBorder( "microscope controls" ) );
             EasyGridBagLayout microscopePanelLayout = new EasyGridBagLayout( _microscopePanel );
@@ -222,13 +218,21 @@ public class TestBeakerView extends JFrame {
             _beakerWidthControl = new LinearValueControl( BEAKER_WIDTH_RANGE.getMin(), BEAKER_WIDTH_RANGE.getMax(), "beaker width:", BEAKER_WIDTH_PATTERN, "", new TestLayoutStrategy() );
             _beakerWidthControl.setValue( BEAKER_WIDTH_RANGE.getDefault() );
             _beakerWidthControl.setUpDownArrowDelta( BEAKER_WIDTH_DELTA );
-            _beakerWidthControl.addChangeListener( globalUpdateListener );
+            _beakerWidthControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    updateBeaker();
+                }
+            });
 
             // beaker height
             _beakerHeightControl = new LinearValueControl( BEAKER_HEIGHT_RANGE.getMin(), BEAKER_HEIGHT_RANGE.getMax(), "beaker height:", BEAKER_HEIGHT_PATTERN, "", new TestLayoutStrategy() );
             _beakerHeightControl.setValue( BEAKER_HEIGHT_RANGE.getDefault() );
             _beakerHeightControl.setUpDownArrowDelta( BEAKER_HEIGHT_DELTA );
-            _beakerHeightControl.addChangeListener( globalUpdateListener );
+            _beakerHeightControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    updateBeaker();
+                }
+            });
 
             // beaker fill
             _liquidFillControl = new LinearValueControl( LIQUID_FILL_RANGE.getMin(), LIQUID_FILL_RANGE.getMax(), "fill beaker:", LIQUID_FILL_PATTERN, "", new TestLayoutStrategy() );
@@ -260,19 +264,31 @@ public class TestBeakerView extends JFrame {
             _maxParticlesControl = new LinearValueControl( MAX_PARTICLES_RANGE.getMin(), MAX_PARTICLES_RANGE.getMax(), "max # particles:", MAX_PARTICLES_PATTERN, "", new TestLayoutStrategy() );
             _maxParticlesControl.setValue( MAX_PARTICLES_RANGE.getDefault() );
             _maxParticlesControl.setUpDownArrowDelta( MAX_PARTICLES_DELTA );
-            _maxParticlesControl.addChangeListener( globalUpdateListener );
+            _maxParticlesControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    generateParticles();
+                }
+            });
 
             // particle size
             _particleDiameterControl = new LinearValueControl( PARTICLE_DIAMETER_RANGE.getMin(), PARTICLE_DIAMETER_RANGE.getMax(), "particle diameter:", PARTICLE_DIAMETER_PATTERN, "", new TestLayoutStrategy() );
             _particleDiameterControl.setValue( PARTICLE_DIAMETER_RANGE.getDefault() );
             _particleDiameterControl.setUpDownArrowDelta( PARTICLE_DIAMETER_DELTA );
-            _particleDiameterControl.addChangeListener( particleUpdateListener );
+            _particleDiameterControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    updateParticles();
+                }
+            });
 
             // transparency
             _particleTransparencyControl = new LinearValueControl( TRANSPARENCY_RANGE.getMin(), TRANSPARENCY_RANGE.getMax(), "particle transparency:", TRANSPARENCY_PATTERN, "", new TestLayoutStrategy() );
             _particleTransparencyControl.setValue( TRANSPARENCY_RANGE.getDefault() );
             _particleTransparencyControl.setUpDownArrowDelta( TRANSPARENCY_DELTA );
-            _particleTransparencyControl.addChangeListener( particleUpdateListener );
+            _particleTransparencyControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    updateParticles();
+                }
+            });
             Hashtable particleTransparencyLabelTable = new Hashtable();
             particleTransparencyLabelTable.put( new Double( _particleTransparencyControl.getMinimum() ), new JLabel( "invisible" ) );
             particleTransparencyLabelTable.put( new Double( _particleTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
@@ -291,23 +307,24 @@ public class TestBeakerView extends JFrame {
         // colors
         JPanel colorsPanel = new JPanel();
         {
-            _colorCanvasControl = new ColorControl( this, "play area color:", DEFAULT_CANVAS_COLOR );
+            _colorCanvasControl = new ColorControl( this, "play area:", DEFAULT_CANVAS_COLOR );
             _colorCanvasControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     _canvas.setBackground( _colorCanvasControl.getColor() );
                 }
             } );
 
-            _colorH2OControl = new ColorControl( this, "<html>" + H2O_HTML + " color:</html>", DEFAULT_H2O_COLOR );
+            _colorH2OControl = new ColorControl( this, "<html>" + H2O_HTML + ":</html>", DEFAULT_H2O_COLOR );
             _colorH2OControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     Color colorH2O = _colorH2OControl.getColor();
                     _countPanel.setBackground( colorH2O );
                     _beakerNode.setLiquidColor( colorH2O );
+                    _microscopeNode.setLiquidColor( colorH2O );
                 }
             } );
 
-            _colorH3OControl = new ColorControl( this, "<html>" + H3O_HTML + " color:</html>", _colorH3O );
+            _colorH3OControl = new ColorControl( this, "<html>" + H3O_HTML + ":</html>", _colorH3O );
             _colorH3OControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     _colorH3O = _colorH3OControl.getColor();
@@ -316,7 +333,7 @@ public class TestBeakerView extends JFrame {
                 }
             } );
 
-            _colorOHControl = new ColorControl( this, "<html>" + OH_HTML + " color:</html>", _colorOH );
+            _colorOHControl = new ColorControl( this, "<html>" + OH_HTML + ":</html>", _colorOH );
             _colorOHControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     _colorOH = _colorOHControl.getColor();
@@ -325,6 +342,7 @@ public class TestBeakerView extends JFrame {
                 }
             } );
             
+            colorsPanel.setBorder( new TitledBorder( "colors" ) );
             EasyGridBagLayout colorsPanelLayout = new EasyGridBagLayout( colorsPanel );
             colorsPanel.setLayout( colorsPanelLayout );
             int row = 0;
@@ -364,7 +382,6 @@ public class TestBeakerView extends JFrame {
             controlPanelLayout.addFilledComponent( _beakerPanel, row++, column, GridBagConstraints.HORIZONTAL );
             controlPanelLayout.addFilledComponent( _particlePanel, row++, column, GridBagConstraints.HORIZONTAL );
             controlPanelLayout.addFilledComponent( colorsPanel, row++, column, GridBagConstraints.HORIZONTAL );
-            controlPanelLayout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
             controlPanelLayout.addAnchoredComponent( resetAllButton, row++, column, GridBagConstraints.CENTER );
         }
         
@@ -393,7 +410,10 @@ public class TestBeakerView extends JFrame {
         getContentPane().add( mainPanel );
 
         updateView();
-        updateAll();
+        updateBeaker();
+        updateMicroscope();
+        updateParticles();
+        generateParticles();
     }
     
     //----------------------------------------------------------------------------
@@ -415,6 +435,7 @@ public class TestBeakerView extends JFrame {
         
         // controls
         _beakerRadioButton.setSelected( true );
+        updateView();
         _phControl.setValue( PH_RANGE.getDefault() );
         _microscopeDiameterControl.setValue( MICROSCOPE_DIAMETER_RANGE.getDefault() );
         _beakerWidthControl.setValue( BEAKER_WIDTH_RANGE.getDefault() );
@@ -425,6 +446,10 @@ public class TestBeakerView extends JFrame {
         _particleTransparencyControl.setValue( TRANSPARENCY_RANGE.getDefault() );
     }
     
+    /*
+     * Updates when the view is switched between beaker and microscope.
+     * Visibility of related nodes and controls is mutually exclusive.
+     */
     private void updateView() {
         
         boolean b = _beakerRadioButton.isSelected();
@@ -436,22 +461,26 @@ public class TestBeakerView extends JFrame {
         _microscopePanel.setVisible( !b );
     }
     
+    private void updateBeaker() {
+        _beakerNode.setSize( _beakerWidthControl.getValue(), _beakerHeightControl.getValue() );
+        _beakerNode.setPercentFilled( _liquidFillControl.getValue() );
+        generateParticles();
+    }
+    
+    private void updateMicroscope() {
+        _microscopeNode.setDiameter( _microscopeDiameterControl.getValue() );
+        generateParticles();
+    }
+    
     /*
-     * Updates everything.
+     * Generates particles in the beaker and microscope.
      */
-    private void updateAll() {
+    private void generateParticles() {
 
         // clear particles
         _beakerNode.removeAllParticles();
         _microscopeNode.removeAllParticles();
 
-        // adjust beaker size
-        _beakerNode.setSize( _beakerWidthControl.getValue(), _beakerHeightControl.getValue() );
-        _beakerNode.setPercentFilled( _liquidFillControl.getValue() );
-        
-        // adjust microscope diameter 
-        _microscopeNode.setDiameter( _microscopeDiameterControl.getValue() );
-        
         // calculate the ratio of H30 to OH
         final double pH = _phControl.getValue();
         final double ratio = ratio_H30_to_OH( pH );
@@ -495,27 +524,13 @@ public class TestBeakerView extends JFrame {
         Color colorH3O = getColorH3O();
         Color colorOH = getColorOH();
 
-        updateParticles( _beakerNode.getParticles(), diameter, colorH3O, colorOH );
-        updateParticles( _microscopeNode.getParticles(), diameter, colorH3O, colorOH );
-    }
-    
-    /*
-     * Updates diameter and colors for a collection of particles.
-     */
-    private static void updateParticles( ParticleNode[] nodes, double diameter, Color colorH3O, Color colorOH ) {
-        for ( int i = 0; i < nodes.length; i++ ) {
-            Object o = nodes[i];
-            if ( o instanceof H3ONode ) {
-                H3ONode node = (H3ONode) o;
-                node.setPaint( colorH3O );
-                node.setDiameter( diameter );
-            }
-            else if ( o instanceof OHNode ) {
-                OHNode node = (OHNode) o;
-                node.setPaint( colorOH );
-                node.setDiameter( diameter );
-            }
-        }
+        _beakerNode.setParticleDiameter( diameter );
+        _beakerNode.setH3OColor( colorH3O );
+        _beakerNode.setOHColor( colorOH );
+
+        _microscopeNode.setParticleDiameter( diameter );
+        _microscopeNode.setH3OColor( colorH3O );
+        _microscopeNode.setOHColor( colorOH );
     }
 
     /*
@@ -535,7 +550,7 @@ public class TestBeakerView extends JFrame {
     }
 
     /*
-     * Creates H3O nodes at random locations in the circle.
+     * Creates H3O nodes at random locations in the beaker and microscope.
      */
     private void createH3ONodes( int count ) {
         final double particleDiameter = _particleDiameterControl.getValue();
@@ -558,7 +573,7 @@ public class TestBeakerView extends JFrame {
     }
 
     /*
-     * Creates OH nodes at random locations in the circle.
+     * Creates OH nodes at random locations in the beaker and microscope.
      */
     private void createOHNodes( int count ) {
         final double particleDiameter = _particleDiameterControl.getValue();
@@ -644,6 +659,7 @@ public class TestBeakerView extends JFrame {
     // Inner classes
     //----------------------------------------------------------------------------
     
+    /* base class for anything node that contains particles */
     private static abstract class ParticleContainerNode extends PComposite {
         
         private final PNode _particlesParent;
@@ -665,16 +681,35 @@ public class TestBeakerView extends JFrame {
             _particlesParent.removeAllChildren();
         }
         
-        public ParticleNode[] getParticles() {
-            final int count = _particlesParent.getChildrenCount();
-            ParticleNode[] nodes = new ParticleNode[ count ];
+        public void setParticleDiameter( double diameter ) {
+            int count = _particlesParent.getChildrenCount();
             for ( int i = 0; i < count; i++ ) {
-                nodes[i] = (ParticleNode)_particlesParent.getChild( i );
+                ((ParticleNode)_particlesParent.getChild(i)).setDiameter( diameter );
             }
-            return nodes;
+        }
+        
+        public void setH3OColor( Color color ) {
+            int count = _particlesParent.getChildrenCount();
+            for ( int i = 0; i < count; i++ ) {
+                PNode node = _particlesParent.getChild( i );
+                if ( node instanceof H3ONode ) {
+                    node.setPaint( color );
+                }
+            }
+        }
+        
+        public void setOHColor( Color color ) {
+            int count = _particlesParent.getChildrenCount();
+            for ( int i = 0; i < count; i++ ) {
+                PNode node = _particlesParent.getChild( i );
+                if ( node instanceof OHNode ) {
+                    node.setPaint( color );
+                }
+            }
         }
     }
     
+    /* microscope view of a small area of some liquid */
     private static class MicroscopeNode extends ParticleContainerNode {
         
         private final PPath _circleNode;
@@ -708,14 +743,13 @@ public class TestBeakerView extends JFrame {
         }
         
         private void update() {
-            System.out.println( "MicroscopeNode.update diameter=" + _diameter );//XXX
             _circlePath.setFrame( -_diameter / 2, -_diameter / 2, _diameter, _diameter );
             _circleNode.setPathTo( _circlePath );
         }
         
     }
     
-    /* A beaker that contains a liquid */
+    /* a beaker that contains a liquid */
     private static class BeakerNode extends ParticleContainerNode {
         
         private final PPath _beakerNode, _liquidNode;
@@ -838,6 +872,7 @@ public class TestBeakerView extends JFrame {
             layout.addComponent( unitsLabel, 0, 3 );
         }
     }
+    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
