@@ -35,7 +35,8 @@ public class Glacier extends ClockAdapter {
     private static final double MAX_TIMESCALE = 300; // max value for evolution timescale
     
     private static final double ELAX_TERMINUS = 0.6;
-    private static final double ELA_THRESHOLD = 4000; // x_term_alter_x in documentation (meters)
+    private static final double ELAX_B0 = 138248;
+    private static final double MAX_THICKNESS_SCALE = 2.3;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -271,23 +272,27 @@ public class Glacier extends ClockAdapter {
         
         _surfaceAtELA = null;
         
-        final double headwallX = _valley.getHeadwallPositionReference().getX();
-        final double headwallY = _valley.getHeadwallPositionReference().getY();
-        final double glacierLength = computeLength( _quasiELA, headwallY ); // x_terminus in documentation, but this is really length
-        
+        // the x-position where the quasi-ELA intersects the ice surface
+        final double qelax = Math.max( 0, ELAX_B0 + _elax_m0 * _quasiELA );
+
+        final double glacierLength = qelax / ELAX_TERMINUS;
+        System.out.println( "Glacier.updateIce glacierLength=" + glacierLength + " quasiELA=" + _quasiELA + " qelax=" + qelax );//XXX
+            
         if ( glacierLength == 0 ) {
             _iceThicknessSamples = null;
             _averageIceThicknessSquares = 0;
             _terminus.setLocation( _valley.getHeadwallPositionReference() );
         }
         else {
-            
-            // constants
+            // compute constants
             final double ela = _climate.getELA();
-            final double maxThickness = computeMaxThickness( _quasiELA, headwallY ); // H_max in documentation
+            final double maxThickness = MAX_THICKNESS_SCALE * Math.sqrt( qelax );
+            final double headwallX = _valley.getHeadwallPositionReference().getX();
+            final double headwallY = _valley.getHeadwallPositionReference().getY();
             final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
+            
             final double xPeak = headwallX + ( 0.5 * glacierLength ); // midpoint of the ice
-            final double p = Math.max( 1.5, 42 - ( 0.01 * _quasiELA ) );
+            final double p = Math.max( 42 - ( 0.01 * _quasiELA ), 1.5 );
             final double r = 1.5 * xPeak;
             final double xPeakPow = Math.pow( xPeak, p );
 
@@ -297,7 +302,7 @@ public class Glacier extends ClockAdapter {
             double thickness = 0;
             double sumOfNonZeroSquares = 0;
             double countOfNonZeroSquares = 0;
-
+            
             _iceThicknessSamples = new double[numberOfSamples];
             for ( int i = 0; i < numberOfSamples; i++ ) {
 
@@ -340,72 +345,6 @@ public class Glacier extends ClockAdapter {
         }
 
         notifyIceThicknessChanged();
-    }
-    
-    /*
-     * Computes the length of the glacier.
-     * 
-     * The length is used in the computation of ice thickness samples.
-     * This is a "Hollywood" model, where were our algorithm was tweaked to fit a curve
-     * that corresponded to published data.  This algorithm work only with one specific
-     * Valley profile, so if you make any changes to the Valley model, this is sure 
-     * to break.
-     */
-    private static double computeLength( final double ela, final double maxElevation ) {
-        
-        assert( ELA_THRESHOLD < maxElevation );
-        
-        double length = 0;
-        if ( ela > maxElevation ) {
-            // above the top of the headwall, length is zero
-            length = 0;
-        }
-        else if ( ela > ELA_THRESHOLD ) {
-            // above this threshold, the data fits this curve
-            final double term0 = computeLength( ELA_THRESHOLD, maxElevation ); // recursive!
-            final double term1 = term0 / ( maxElevation - ELA_THRESHOLD );
-            length = term0 - ( ( ela - ELA_THRESHOLD ) * term1 );
-        }
-        else {
-            // at all other elevations, the data fits this curve
-            length = 170.5E3 - ( 41.8 *  ela );
-        }
-        
-        assert( length >= 0 );
-        return length;
-    }
-    
-    /* 
-     * Computes the maximum thickness of the glacier.
-     * 
-     * The maximum thickness is used in the computation of ice thickness samples.
-     * This is a "Hollywood" model, where were our algorithm was tweaked to fit a curve
-     * that corresponded to published data.  This algorithm work only with one specific
-     * Valley profile, so if you make any changes to the Valley model, this is sure 
-     * to break.
-     */
-    private static double computeMaxThickness( double ela, final double maxElevation ) {
-        
-        assert( ELA_THRESHOLD < maxElevation );
-        
-        double maxThickness = 0;
-        if ( ela > maxElevation ) {
-            // above the top of the headwall, max thickness is zero
-            maxThickness = 0;
-        }
-        else if ( ela > ELA_THRESHOLD ) {
-            // above this threshold, the data fits this curve
-            final double term0 = computeMaxThickness( ELA_THRESHOLD, maxElevation ); // recursive!
-            final double term1 = term0 / ( maxElevation - ELA_THRESHOLD );
-            maxThickness = term0 - ( ( ela - ELA_THRESHOLD ) * term1 );
-        }
-        else {
-            // at all other elevations, the data fits this curve
-            maxThickness = 400. - Math.pow( ( 1.04E-2 * ela ) - 23, 2 );
-        }
-        
-        assert( maxThickness >= 0 );
-        return maxThickness;
     }
     
     //----------------------------------------------------------------------------
