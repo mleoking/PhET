@@ -224,6 +224,16 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
     public boolean removeListener(Listener listener){
         return _listeners.remove( listener );
     }
+    
+    /**
+     * Notify the particle that it has been removed from the model so that it
+     * can get rid of any memory references (for garbage collection purposes)
+     * and can let any listeners know that is has been removed.
+     */
+    public void removedFromModel(){
+        notifyParticleRemoved();
+        _listeners.clear();
+    }
 
     //----------------------------------------------------------------------------
     // Private Methods

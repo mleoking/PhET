@@ -13,6 +13,7 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -36,6 +37,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     private MultipleParticleModel m_model;
     private ParticleContainerNode m_particleContainer;
+    private PNode m_particleLayer;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -48,7 +50,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void particleAdded(StatesOfMatterParticle particle){
-                addWorldChild(new ParticleNode(particle));
+                m_particleLayer.addChild( new ParticleNode(particle));
             }
         });
         
@@ -66,7 +68,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
-        // Create the particle container.
+        // Create and add the particle container.
         try {
             m_particleContainer = new ParticleContainerNode(this, m_model);
         }
@@ -75,6 +77,12 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         }
         
         addWorldChild(m_particleContainer);
+        
+        // Create and add the particle layer node.
+        m_particleLayer = new PNode();
+        m_particleLayer.setPickable( false );
+        m_particleLayer.setChildrenPickable( false );
+        addWorldChild( m_particleLayer );
         
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
