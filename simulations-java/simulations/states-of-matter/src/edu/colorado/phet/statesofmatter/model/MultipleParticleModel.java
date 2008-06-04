@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -28,8 +29,8 @@ import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 /**
- * This class represents the main class for the particle model.  It makes use
- * of several other classes to implement the overall model behavior.
+ * This class represents the main class for the model portion of the States of
+ * Matter simulation.
  *
  * @author John Blanco
  */
@@ -112,13 +113,24 @@ public class MultipleParticleModel {
     //----------------------------------------------------------------------------
     
     public void reset() {
-        // TODO: JPB TBD - Add a single oxygen particle.
+        // TODO: JPB TBD - Add a set of moving particles.
+        for ( Iterator iter = m_particles.iterator(); iter.hasNext(); ) {
+            StatesOfMatterParticle particle = (StatesOfMatterParticle) iter.next();
+            
+        }
         m_particles.clear();
-        StatesOfMatterParticle particle = new StatesOfMatterParticle(0, 0, OXYGEN_MOLECULE_DIAMETER, 10);
-        particle.setVx( 20 );
-        particle.setVy( 10 );
-        m_particles.add( particle );
-        notifyParticleAdded( particle );
+        Random rand = new Random();
+        for (int i=0; i<30; i++){
+            double xPos = rand.nextDouble() * StatesOfMatterConstants.CONTAINER_BOUNDS.width;
+            double yPos = -rand.nextDouble() * StatesOfMatterConstants.CONTAINER_BOUNDS.height;
+            double xVel = (rand.nextDouble() - 0.5) * 40;
+            double yVel = (rand.nextDouble() - 0.5) * 40;
+            StatesOfMatterParticle particle = new StatesOfMatterParticle(xPos, yPos, OXYGEN_MOLECULE_DIAMETER, 10);
+            particle.setVx( xVel );
+            particle.setVy( yVel );
+            m_particles.add( particle );
+            notifyParticleAdded( particle );
+        }
         
         /*
         ParticleCreationStrategy strategy = 
@@ -173,7 +185,26 @@ public class MultipleParticleModel {
         // TODO: JPB TBD - Temp computation for testing.
         for ( Iterator iterator = m_particles.iterator(); iterator.hasNext(); ) {
             StatesOfMatterParticle particle = (StatesOfMatterParticle) iterator.next();
-            particle.setPosition( particle.getX() + particle.getVx(), particle.getY() - particle.getVy());
+            
+            // Bounce the particle if needed.
+            if ((particle.getX() >= StatesOfMatterConstants.CONTAINER_BOUNDS.width) &&
+                (particle.getVx() > 0)){
+                particle.setVx( -particle.getVx() );
+            }
+            else if ((particle.getX() <= StatesOfMatterConstants.CONTAINER_BOUNDS.x) &&
+                     (particle.getVx() < 0)){
+                particle.setVx( -particle.getVx() );
+            }
+            if ((particle.getY() <= -StatesOfMatterConstants.CONTAINER_BOUNDS.height) &&
+                    (particle.getVy() < 0)){
+                    particle.setVy( -particle.getVy() );
+            }
+            else if ((particle.getY() >= StatesOfMatterConstants.CONTAINER_BOUNDS.y) &&
+                     (particle.getVy() > 0)){
+                particle.setVy( -particle.getVy() );
+            }
+                
+            particle.setPosition( particle.getX() + particle.getVx(), particle.getY() + particle.getVy());
         }
         
         /*
