@@ -63,7 +63,7 @@ public class StatesOfMatterConstants {
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = Color.BLACK;
+    public static final Color CANVAS_BACKGROUND = new Color(0x000077);
     
     // Color of labels placed directly on the play area
     public static final Color CANVAS_LABELS_COLOR = Color.WHITE;

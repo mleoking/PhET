@@ -45,7 +45,7 @@ public class ParticleContainerNode extends PhetPNode {
     // define where within the image the particle container should be mapped.
     private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT   = 0.35;
     private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_RIGHT  = 0.05;
-    private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_BOTTOM = 0.1;
+    private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_BOTTOM = 0.2;
     private static final double NON_CONTAINER_IMAGE_FRACTION_FROM_TOP    = 0.05;
 
     //----------------------------------------------------------------------------
@@ -55,7 +55,6 @@ public class ParticleContainerNode extends PhetPNode {
     private final MultipleParticleModel m_model;
     private PPath m_particleArea;
     private PImage m_cupImage;
-    private HashMap m_mapParticlesToNodes;
 
     private double m_containmentAreaWidth;
     private double m_containmentAreaHeight;
@@ -76,7 +75,6 @@ public class ParticleContainerNode extends PhetPNode {
         // Internal initialization.
         m_containmentAreaWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
         m_containmentAreaHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
-        m_mapParticlesToNodes   = new HashMap();
 
         // Set up the image that will be used.
         m_cupImage = StatesOfMatterResources.getImageNode(StatesOfMatterConstants.COFFEE_CUP_IMAGE);
@@ -99,24 +97,23 @@ public class ParticleContainerNode extends PhetPNode {
         m_particleArea.setStrokePaint( Color.RED );
         m_particleArea.setStroke( new BasicStroke(50) );
         
-        // Register for notifications of particle changes from the model.
-        model.addListener( new MultipleParticleModel.Listener(){
-            public void particlesMoved(){
-                // Update the positions of the particles.
-                updateParticleNodes();
-            }
-            public void resetOccurred(){
-                reset();
-            }
-        });
-
         addChild(m_cupImage);
         addChild(m_particleArea);
+        
+        // Position this node so that the origin of the canvas, i.e. position
+        // x=0, y=0, is at the lower left corner of the container.
+        double xPos = -m_cupImage.getFullBoundsReference().width * NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT;
+        double yPos = -m_cupImage.getFullBoundsReference().height * (1 - NON_CONTAINER_IMAGE_FRACTION_FROM_BOTTOM);
+        setOffset( xPos, yPos );
         
         // TODO: JPB TBD - For testing.
 //        PPath containerRect = new PPath(new Rectangle2D.Double(1000, 1000, 240, 240));
 //        containerRect.setStrokePaint( Color.RED );
 //        addChild(containerRect);
+        
+        // Set ourself to be non-pickable so that we don't get mouse events.
+        setPickable( false );
+        setChildrenPickable( false );
 
         update();
     }
@@ -137,24 +134,8 @@ public class ParticleContainerNode extends PhetPNode {
         m_particleArea.addChild(particleNode);
     }
     
-    /**
-     * Reset this not be getting rid of all current particle/node relationships
-     * and creating new ones based on the current state of the model.
-     */
     public void reset(){
-        m_mapParticlesToNodes.clear();
-        m_particleArea.removeAllChildren();
-        
-        List particles = m_model.getParticles();
-        
-        for ( Iterator iterator = particles.iterator(); iterator.hasNext(); ) {
-            StatesOfMatterParticle particle = (StatesOfMatterParticle) iterator.next();
-            ParticleNode particleNode = new ParticleNode(particle);
-            m_mapParticlesToNodes.put( particle, particleNode );
-            System.out.println("Contains key yields: " + m_mapParticlesToNodes.containsKey( particle ));
-            setParticleNodePosition(particle, particleNode);
-            addParticleNode(particleNode);
-        }
+        // TODO: JPB TBD.
     }
     
     //----------------------------------------------------------------------------
@@ -163,42 +144,5 @@ public class ParticleContainerNode extends PhetPNode {
 
     // TODO: JPB TBD - Is this needed?
     private void update() {
-    }
-    
-    /**
-     * Move the particle nodes to correspond with the positions of the
-     * particles within the model.
-     */
-    public void updateParticleNodes(){
-        
-        List particles = m_model.getParticles();
-        
-        int numParticles = particles.size();
-        for (int i = 0; i < numParticles; i++){
-            Object testKey = particles.get( i );
-            System.out.println("Contains key yields: " + m_mapParticlesToNodes.containsKey( testKey ));
-        }
-        
-        for ( Iterator iterator = particles.iterator(); iterator.hasNext(); ) {
-            StatesOfMatterParticle particle = (StatesOfMatterParticle) iterator.next();
-            System.out.println("Contains key yields: " + m_mapParticlesToNodes.containsKey( particle ));
-            System.out.println("isEmpty yields: " + m_mapParticlesToNodes.isEmpty());
-            Set setOfKeys = m_mapParticlesToNodes.keySet();
-            System.out.println("setOfKeys = " + setOfKeys);
-            ParticleNode particleNode = (ParticleNode)m_mapParticlesToNodes.get( particle );
-            if (particleNode != null){
-                setParticleNodePosition( particle, particleNode );
-            }
-            else{
-                System.err.println("Unable to find corresponding particle node for particle in model.");
-            }
-        }
-    }
-    
-    private void setParticleNodePosition(StatesOfMatterParticle particle, ParticleNode particleNode){
-        // Note that particle positions assume that the origin (0,0) is at the
-        // lower left corner of the container, and PNodes assume that 0, 0 is
-        // the upper left, so translation must occur.
-        particleNode.setOffset( particle.getX(), m_containmentAreaHeight - particle.getY() );
     }
 }
