@@ -2,10 +2,13 @@
 Change history for glaciers
 ================================================================================
 
-DESIGN ISSUES (user interface):
-- [159] user-interface design for climate experiments
-
 HIGH PRIORITY:
+- provide time estimate for climate experiments interface
+- make default speed 2 years per sec
+- go back to previous algorithm for trashing a tool? (when tool node overlaps trash can?)
+- verify that flags fall over at random angles when they hit the valley floor (drop below and above glacier)
+- bug: dragging to the drill to the trash while pressing button results in a borehole being drilled when dropped in trash
+- change color of ice surface below ELA to brownish grey as in real picture
 ? how to add headwall x position to ice thickness model in model.txt
 - bug: if ELA gets above headwall, Glacier q_advance_limit causes quasi-ELA to evolve in wrong direction forever
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
@@ -21,6 +24,10 @@ HIGH PRIORITY:
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
+- rename "Basic" tab to "Intro" or "Introduction" ?
+- more "cartoonish" view for Basic panel?
+- move steady state button to play area?
+- move trash can out of toolbox?
 - change color of ice flow vectors so that they are different than debris color?
 - change snowfall visibility with snowfall checkbox
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
