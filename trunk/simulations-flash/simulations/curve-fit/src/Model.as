@@ -6,11 +6,13 @@ class Model{
 	var points_arr:Array; 	 			//array of data points
 	private var nbrPoints:Number;  		//number of points on the graph
 	private var fitOn:Boolean;	
-	private var LFit:LinearFit;
-	private var QFit:QuadraticFit;
+	private var fitMaker:FitMaker;
+	//private var LFit:LinearFit;
+	//private var QFit:QuadraticFit;
 	var fitParameters:Array;			//coefficients a, b, c of polynomial fit. If OrderOfFit = 1, ignore c
 	var chiSquare:Number;				//value of reduced chi-squared
 	private var orderOfFit:Number;		//1 or 2 (linear or quadratic)
+	private var maxOrderOfFit:Number;
 	private var graphView:Object;		
 	var mainView:Object;
 	
@@ -18,12 +20,14 @@ class Model{
 		this.nbrPoints = 0;
 		this.points_arr = new Array();
 		this.orderOfFit = 1;
+		this.maxOrderOfFit = 4;
 		this.fitOn = true;
 		//this.curveType = "best";
 		//this.linearFit_arr = new Array(2);  //2 elements in array are a, b: y = a + b*x
-		this.LFit = new LinearFit(this);
-		this.QFit = new QuadraticFit(this);
-		this.fitParameters = new Array(3);  
+		//this.LFit = new LinearFit(this);
+		//this.QFit = new QuadraticFit(this);
+		this.fitMaker = new FitMaker(this);
+		this.fitParameters = new Array(this.maxOrderOfFit + 1);    //maximum 
 	}//end of constructor
 	
 	function addPoint(x:Number, y:Number, pointClip:MovieClip):Point{
@@ -68,11 +72,15 @@ class Model{
 	
 	function setOrderOfFit(fitType:Number):Void{
 		this.orderOfFit = fitType;
-		this.makeFit();
+		if(fitType == 0){
+			this.clearFit();
+			this.setReducedChiSquare();
+		}
+		if(this.fitOn){
+			this.makeFit();
+		}
 	}
-	function updateFit(pointIndex:Number):Void{
-		
-	}
+	
 	
 	function clearFit():Void{
 		this.graphView.clearFit();
@@ -82,25 +90,27 @@ class Model{
 		var a:Number = this.fitParameters[0];
 		var b:Number = this.fitParameters[1];
 		var c:Number = this.fitParameters[2];
+		var d:Number = this.fitParameters[3];
+		var e:Number = this.fitParameters[4];
 		var N:Number = this.nbrPoints;
 		var sum:Number = 0;
 		var pointsRef_arr = this.points_arr;
-		if(this.orderOfFit == 1  && N > 2){
-			c = 0;
-			sum = computeSum();
-		}else if(this.orderOfFit == 2  && N > 3){
+		if(orderOfFit == 0){
+			sum = 0;
+		}else if(N > this.orderOfFit +1){
 			sum = computeSum();
 		}else{
 			sum = 0;
 		}
-		
+				
 		function computeSum():Number{
 			sum = 0;
 			for(var i:Number = 0; i < N; i++){
 				var yi:Number = pointsRef_arr[i].yPos;
 				var xi:Number = pointsRef_arr[i].xPos;
+				var xiSq:Number = xi*xi;
 				var sigma:Number = pointsRef_arr[i].deltaY;
-				var yFit = a + b*xi + c*xi*xi;
+				var yFit = a + b*xi + c*xiSq + d*xi*xiSq + e*xiSq*xiSq ;
 				//trace("i:"+i+"   yi:"+yi+"   yFit:"+yFit+"   sigma"+sigma);
 				//trace("term:"+(yi - yFit)/sigma);
 				sum += ((yi - yFit)*(yi - yFit))/(sigma*sigma);
@@ -120,25 +130,11 @@ class Model{
 	}
 	
 	function makeFit():Void{
-		if (this.fitOn && this.orderOfFit == 1 && this.nbrPoints > 1) {
-			this.LFit.makeFit();
-			this.fitParameters[0]=this.LFit.LFit_arr[0];
-			this.fitParameters[1]=this.LFit.LFit_arr[1];
+		//trace("model.orderOfFit: "+this.orderOfFit);
+		if(this.fitOn && this.orderOfFit > 0){
+			this.fitParameters = this.fitMaker.getFit();
+			//trace("this.fitParameters:"+ this.fitParameters);
 			this.graphView.drawFit();
-			
-		}else if(this.fitOn && this.orderOfFit == 2 ){
-			if(this.nbrPoints == 2){
-				this.LFit.makeFit();
-				this.fitParameters[0]=this.LFit.LFit_arr[0];
-				this.fitParameters[1]=this.LFit.LFit_arr[1];
-				this.graphView.drawFit();
-			}else if(this.nbrPoints >2){
-				this.QFit.makeFit();
-				this.fitParameters[0]=this.QFit.QFit_arr[0];
-				this.fitParameters[1]=this.QFit.QFit_arr[1];
-				this.fitParameters[2]=this.QFit.QFit_arr[2];
-				this.graphView.drawFit();
-			}
 		}else if(this.orderOfFit == 0){
 			this.clearFit();
 			//No fit. Do nothing.
@@ -152,18 +148,31 @@ class Model{
 		
 	function setA(a:Number):Void{
 		this.fitParameters[0] = a;
-		this.graphView.drawCurve();
-		this.setReducedChiSquare();
+		this.updateDisplays();
 	}
 	
 	function setB(b:Number):Void{
 		this.fitParameters[1] = b;
-		this.graphView.drawCurve();
-		this.setReducedChiSquare();
+		this.updateDisplays();
 	}
 	
 	function setC(c:Number):Void{
 		this.fitParameters[2] = c;
+		this.updateDisplays();
+	}
+	
+	function setD(d:Number):Void{
+		this.fitParameters[3] = d;
+		this.updateDisplays();
+	}
+	
+	function setE(e:Number):Void{
+		this.fitParameters[4] = e;
+		this.updateDisplays();
+	}
+	
+	function updateDisplays():Void{
+		this.mainView.displayFit();
 		this.graphView.drawCurve();
 		this.setReducedChiSquare();
 	}

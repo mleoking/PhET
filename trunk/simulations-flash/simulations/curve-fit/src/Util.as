@@ -63,6 +63,28 @@ class Util{
 		return DEPTH;
 	}
 	
+	//converts a decimal number into exponential notation, base 10
+	public static function expNotation(x:Number):String{
+		var sign:Number = 1;
+		if(x < 0){
+			sign = -1;
+			x = -x;
+		}
+		if(x == 0){
+			return "0";
+			//break;
+		}
+		var power:Number = Math.floor(Math.LOG10E*Math.log(x));
+		var mantissa:Number = x/Math.pow(10, power);
+		//round mantissa to 2 decimal places
+		mantissa = 0.1*Math.round(mantissa*10);
+		var str:String = mantissa+"E"+power;
+		if(sign == -1){
+			str = "-"+str;
+		}
+		return str;
+	}
+	
 	
 	//binomial coefficient
 	public static function BC(N:Number, m:Number):Number{
