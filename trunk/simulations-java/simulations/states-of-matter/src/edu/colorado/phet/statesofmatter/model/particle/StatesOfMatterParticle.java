@@ -244,6 +244,11 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
         }        
     }
 
+    private void notifyParticleRemoved(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).particleRemoved( this );
+        }        
+    }
 
     //------------------------------------------------------------------------
     // Inner Interfaces and Adapters
@@ -255,5 +260,11 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
          * Inform listeners that the position of this particle has changed.
          */
         public void positionChanged();
+        
+        /**
+         * Inform listeners that this particle has been removed from the
+         * model.
+         */
+        public void particleRemoved(StatesOfMatterParticle particle);
     }
 }

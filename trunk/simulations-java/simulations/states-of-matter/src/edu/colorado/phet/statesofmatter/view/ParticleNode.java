@@ -43,6 +43,9 @@ public class ParticleNode extends PNode {
             public void positionChanged(){
                 updatePosition();
             }
+            public void particleRemoved(StatesOfMatterParticle particle){
+                // TODO: JPB TBD
+            }
         };
         particle.addListener( m_particleListener );
         
