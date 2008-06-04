@@ -25,6 +25,7 @@ DESIGN ISSUES
 - liquid label on pH slider looks draggable
 - remove H2O value in beaker
 - change "molecules" label to "icons" on counts in beaker
+- for liquids that have a range (eg, Human Saliva, 6.5-7.4) will we pick a specific pH or support the range? or maybe just skip these liquids?
 
 DESIGN ISSUES:
 
