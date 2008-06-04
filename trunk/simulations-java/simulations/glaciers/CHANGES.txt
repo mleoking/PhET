@@ -3,6 +3,10 @@ Change history for glaciers
 ================================================================================
 
 HIGH PRIORITY:
+- hide trash can, put tools away by dragging them back to tool box
+- Intro View panel: units, equil line, snowfall, picture
+- Advanced View panel: units, equil line, ice flow, coordinates, snowfall, picture
+- make shape of surface ripples look random
 - provide time estimate for climate experiments interface
 - make default speed 2 years per sec
 - go back to previous algorithm for trashing a tool? (when tool node overlaps trash can?)
@@ -24,7 +28,7 @@ HIGH PRIORITY:
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
-- rename "Basic" tab to "Intro" or "Introduction" ?
+- rename "Basic" tab to "Intro"
 - more "cartoonish" view for Basic panel?
 - move steady state button to play area?
 - move trash can out of toolbox?
