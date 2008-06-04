@@ -2,11 +2,29 @@
 Change history for ph-scale
 ================================================================================
 
-PROTOTYPE WISH LIST:
-- make minority species more opaque
-- in beaker with ph=6-8, make #particles change proportional to liquid volume
+DESIGN ISSUES
+- do we have a microscope mode?
+- what do we see in microscope when liquid is filled/drained?
+- make particles of minority species more opaque
+- Laurie's # (or ratio) of particles for pH=6=8:
+    pH      H3O+    OH-
+    8.0      5      500
+    7.5     16      160
+    7.0     50       50
+    6.5    160       16
+    6.0    500        5
+- in beaker with ph=6-8, calculate #particles proportional to liquid volume
 - in beaker, create particles only in liquid volume
-- address Kathy's problem on Java 1.4 
+- address Kathy's problem with prototype on Java 1.4
+- linear option for bar graph, with zoom & pan
+- draggable bar problems for zoomable linear graphs
+- label H20 concentration as "about 55" in bar graph
+- icons for each liquid?
+- where to position value in bar graph when bars are too small to contain them?
+- negative pH support?
+- liquid label on pH slider looks draggable
+- remove H2O value in beaker
+- change "molecules" label to "icons" on counts in beaker
 
 DESIGN ISSUES:
 
