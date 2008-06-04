@@ -63,7 +63,7 @@ public class ZMultipleParticleModelTester extends TestCase {
 
                 Rectangle2D particleContainer = model.getParticleContainer().getShape().getBounds2D();
 
-                assertTrue("Particle " + p + " has left container " + particleContainer, particleContainer.contains(p.getPosition()));
+                assertTrue("Particle " + p + " has left container " + particleContainer, particleContainer.contains(p.getPositionReference()));
             }
         }
     }
@@ -119,7 +119,7 @@ public class ZMultipleParticleModelTester extends TestCase {
 
         StatesOfMatterParticle originalP = (StatesOfMatterParticle)p.clone();
 
-        while (p.getPosition().equals(originalP.getPosition())) {
+        while (p.getPositionReference().equals(originalP.getPositionReference())) {
             if (clock.isPaused()) {
                 clock.stepClockWhilePaused();
             }

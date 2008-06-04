@@ -32,7 +32,7 @@ public class ZVerletForceEngineTester extends TestCase {
 
         performComputation(d);
 
-        assertEquals(computation.getNewPositions()[0], originalP.getPosition());
+        assertEquals(computation.getNewPositions()[0], originalP.getPositionReference());
     }
 
    public void testNoInfinitesWithGravityAndMultipleParticles() {
@@ -59,7 +59,7 @@ public class ZVerletForceEngineTester extends TestCase {
 
         performAndApplyComputation(d, 2);
 
-        Point2D oldPosition = originalP.getPosition();
+        Point2D oldPosition = originalP.getPositionReference();
         Point2D newPosition = computation.getNewPositions()[0];
 
         assertTrue("particle should be falling: new y = " + newPosition.getY() + ", old y = " + oldPosition.getY(), newPosition.getY() > oldPosition.getY());
