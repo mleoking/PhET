@@ -28,7 +28,7 @@ public class ParticleNode extends PNode {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private final StatesOfMatterParticle m_particle;
+    private StatesOfMatterParticle m_particle;
     private final StatesOfMatterParticle.Listener m_particleListener;
     
     //----------------------------------------------------------------------------
@@ -44,7 +44,7 @@ public class ParticleNode extends PNode {
                 updatePosition();
             }
             public void particleRemoved(StatesOfMatterParticle particle){
-                // TODO: JPB TBD
+                handleParticleRemoved(particle);
             }
         };
         particle.addListener( m_particleListener );
@@ -67,6 +67,31 @@ public class ParticleNode extends PNode {
     //----------------------------------------------------------------------------
     
     public void updatePosition() {
-        setOffset(m_particle.getX(), m_particle.getY());
+        if (m_particle != null){
+            setOffset(m_particle.getX(), m_particle.getY());
+        }
+    }
+
+    /**
+     * Handle the removal of the particle within the model that is being
+     * represented in the view by this particle.  This is done by removing
+     * ourself from the canvas and by cleaning up any memory references so
+     * that we can be garbage collected.
+     * 
+     * @param particle
+     */
+    private void handleParticleRemoved(StatesOfMatterParticle particle){
+        
+        // Remove ourself from the canvas.
+        PNode parent = getParent();
+        if (parent != null){
+            parent.removeChild( this );
+        }
+        
+        // Remove all children, since they have a reference to this object.
+        removeAllChildren();
+        
+        // Explicitly clear our reference to the particle in the model.
+        m_particle = null;
     }
 }

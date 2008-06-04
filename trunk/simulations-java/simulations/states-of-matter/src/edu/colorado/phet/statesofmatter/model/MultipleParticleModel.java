@@ -40,7 +40,6 @@ public class MultipleParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final MultipleParticleModel TEST = new MultipleParticleModel(ConstantDtClock.TEST);
     public static final double OXYGEN_MOLECULE_DIAMETER = 120;  // Picometers.
 
     //----------------------------------------------------------------------------
@@ -113,14 +112,19 @@ public class MultipleParticleModel {
     //----------------------------------------------------------------------------
     
     public void reset() {
-        // TODO: JPB TBD - Add a set of moving particles.
+        
+        // Get rid of any existing particles.
         for ( Iterator iter = m_particles.iterator(); iter.hasNext(); ) {
             StatesOfMatterParticle particle = (StatesOfMatterParticle) iter.next();
-            
+            // Tell the particle that it is being removed so that it can do
+            // any necessary cleanup.
+            particle.removedFromModel();
         }
         m_particles.clear();
+
+        // TODO: JPB TBD - Add a set of moving particles.
         Random rand = new Random();
-        for (int i=0; i<30; i++){
+        for (int i=0; i<4; i++){
             double xPos = rand.nextDouble() * StatesOfMatterConstants.CONTAINER_BOUNDS.width;
             double yPos = -rand.nextDouble() * StatesOfMatterConstants.CONTAINER_BOUNDS.height;
             double xVel = (rand.nextDouble() - 0.5) * 40;
