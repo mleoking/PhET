@@ -2,6 +2,12 @@
 Change history for ph-scale
 ================================================================================
 
+PROTOTYPE WISH LIST:
+- make minority species more opaque
+- in beaker with ph=6-8, make #particles change proportional to liquid volume
+- in beaker, create particles only in liquid volume
+- address Kathy's problem on Java 1.4 
+
 DESIGN ISSUES:
 
 HIGH PRIORITY:
