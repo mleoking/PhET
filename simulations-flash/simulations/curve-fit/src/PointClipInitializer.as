@@ -36,7 +36,7 @@ class PointClipInitializer{
 			clip.stopDrag();
 			clip.display_mc._visible = false;
 			clip.onMouseMove = undefined;
-			if(clip.dataPoint_mc.hitTest(theView.pointsBox)){
+			if(clip.dataPoint_mc.hitTest(theView.pointsBucket)){
 				model.deletePoint(currentPoint.getPositionInArray());  
 			}
 		}

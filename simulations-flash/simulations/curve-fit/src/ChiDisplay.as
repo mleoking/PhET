@@ -20,6 +20,8 @@ class ChiDisplay{
 		var grabMe:MovieClip = this.chiDisplay_mc.grabMe_mc;
 		Util.setXYPosition(grabMe, 50, 0.9*this.stageH);
 		grabMe._alpha = 0;
+		this.chiDisplay_mc.attachMovie("helpChiSquare","help_mc", this.chiDisplay_mc.getNextHighestDepth());
+		Util.setXYPosition(this.chiDisplay_mc.help_mc, 150, 0.7*this.stageH);
 		Util.makeParentClipDraggable(grabMe, undefined, -0.3*stageW, stageW, -0.2*stageH, 0.3*stageH);
 		this.chiDisplay_mc.attachMovie("chiBar", "bar_mc", this.chiDisplay_mc.getNextHighestDepth());
 		var bar_mc:MovieClip = this.chiDisplay_mc.bar_mc;
@@ -98,9 +100,11 @@ class ChiDisplay{
 		//name, depth, x, y, width, height
 		canvas.attachMovie("chiSqLabel","chiLabel_mc", this.chiDisplay_mc.getNextHighestDepth());
 		Util.setXYPosition(canvas.chiLabel_mc, leftEdge-33, bottomEdge);
-		canvas.createTextField("chi_txt", canvas.getNextHighestDepth(), leftEdge-10, bottomEdge + 4, 60, txtH);
+		canvas.createTextField("chi_txt", canvas.getNextHighestDepth(), leftEdge, bottomEdge + 4, 60, txtH);
 		this.myTextFormat.size = 18;
+		this.myTextFormat.align = "left";
 		canvas.chi_txt.setNewTextFormat(this.myTextFormat);
+		//canvas.chi_txt.border = true;
 		canvas.chi_txt.text = "300.5";
 	
 	}//end of drawAxis()

@@ -72,7 +72,9 @@ class GraphView{
 		var a:Number = this.myModel.fitParameters[0];
 		var b:Number = this.myModel.fitParameters[1];
 		var c:Number = this.myModel.fitParameters[2];
-		if(this.myModel.orderOfFit == 1 || this.myModel.nbrPoints == 2){
+		var d:Number = this.myModel.fitParameters[3];
+		var e:Number = this.myModel.fitParameters[4];
+		if(this.myModel.orderOfFit == 1){  // || this.myModel.nbrPoints == 2
 			with(this.curve_mc){
 				clear();
 				var lineWidth = 3;
@@ -82,8 +84,8 @@ class GraphView{
 				moveTo(xScreenBegin, this.screenY(a + b*(this.graphX(xScreenBegin))));
 				lineTo(xScreenEnd, this.screenY(a + b*(this.graphX(xScreenEnd))));
 			}//end of with()
-		}else if(this.myModel.orderOfFit == 2 && this.myModel.nbrPoints > 2){
-			var scaleFactor = this.scale
+		}else if(this.myModel.orderOfFit == 2){  // && this.myModel.nbrPoints > 2
+			var scaleFactor = this.scale;
 			with(this.curve_mc){
 				clear();
 				var lineWidth = 3;
@@ -92,15 +94,37 @@ class GraphView{
 				var yBegin = a + b*xBegin + c*xBegin*xBegin;
 				moveTo(this.screenX(xBegin),this.screenY(yBegin));
 				var delX = scaleFactor*1;
-				var count = 0;
+				//var count = 0;
 				for(var xG:Number = xBegin; xG < -1.3*xBegin; xG += delX){
 					delX = Math.min(scaleFactor*10,0.05*(1+(b+2*c*xG)*(b+2*c*xG))/Math.abs(2*c));
-					count++;
+					//count++;
 					//trace("count:"+count+"   delX: "+delX);
 					var yG = a + b*xG + c*xG*xG;
 				lineTo(this.screenX(xG), this.screenY(yG));
 				}//end of for
 			}//end of with()
+		}else if(this.myModel.orderOfFit > 2){  // && this.myModel.nbrPoints > 3
+			var scaleFactor = this.scale;
+			with(this.curve_mc){
+				clear();
+				var lineWidth = 3;
+				lineStyle(lineWidth, 0x0000FF, 100);
+				var xBegin = -scaleFactor*this.stageW/2;
+				var xBeginSq = xBegin*xBegin;
+				var yBegin = a + b*xBegin + c*xBeginSq + d*xBegin*xBeginSq + e*xBeginSq*xBeginSq;
+				moveTo(this.screenX(xBegin),this.screenY(yBegin));
+				var delX = scaleFactor*1;
+				//var count = 0;
+				for(var xG:Number = xBegin; xG < -1.3*xBegin; xG += delX){
+					delX = scaleFactor*10;//Math.min(scaleFactor*10,0.05*(1+(b+2*c*xG)*(b+2*c*xG))/Math.abs(2*c));
+					//count++;
+					//trace("count:"+count+"   delX: "+delX);
+					var yG = a + b*xG + c*xG*xG + d*xG*xG*xG  + e*xG*xG*xG*xG;
+				lineTo(this.screenX(xG), this.screenY(yG));
+				}//end of for
+			}//end of with()
+		}else if(this.myModel.orderOfFit == 0){
+			this.curve_mc.clear();
 		}//end of else if
 	}//end of drawCurve()
 	
