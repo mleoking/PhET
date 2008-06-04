@@ -3,30 +3,22 @@
 package edu.colorado.phet.fitness;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Locale;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.fitness.developer.DeveloperMenu;
 import edu.colorado.phet.fitness.menu.OptionsMenu;
 import edu.colorado.phet.fitness.module.fitness.FitnessModule;
-import edu.colorado.phet.fitness.persistence.FitnessConfig;
-import edu.colorado.phet.fitness.persistence.SimTemplateConfig;
 import edu.colorado.phet.fitness.view.FitnessColorScheme;
 
 public class FitnessApplication extends PiccoloPhetApplication {
@@ -82,7 +74,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
     * Initializes the modules.
     */
     private void initModules() {
-        fitnessModule = new FitnessModule( getPhetFrame());
+        fitnessModule = new FitnessModule( getPhetFrame() );
         addModule( fitnessModule );
     }
 
@@ -141,63 +133,6 @@ public class FitnessApplication extends PiccoloPhetApplication {
         return getModule( 0 ).getControlPanel().getBackground();
     }
 
-    //----------------------------------------------------------------------------
-    // Persistence
-    //----------------------------------------------------------------------------
-
-    /*
-     * Saves the simulation's configuration.
-     */
-
-    private void save() {
-
-        SimTemplateConfig appConfig = new SimTemplateConfig();
-
-        appConfig.setVersionString( getApplicationConfig().getVersion().toString() );
-        appConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
-        appConfig.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
-        appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
-        appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
-
-        FitnessConfig exampleConfig = fitnessModule.save();
-        appConfig.setExampleConfig( exampleConfig );
-
-        _persistenceManager.save( appConfig );
-    }
-
-    /*
-     * Loads the simulation's configuration.
-     */
-    private void load() {
-
-        Object object = _persistenceManager.load();
-        if ( object != null ) {
-
-            if ( object instanceof SimTemplateConfig ) {
-                SimTemplateConfig appConfig = (SimTemplateConfig) object;
-
-                FitnessConfig exampleConfig = appConfig.getExampleConfig();
-                fitnessModule.load( exampleConfig );
-            }
-            else {
-                String message = FitnessResources.getString( "message.notAConfigFile" );
-                String title = FitnessResources.getString( "title.error" );
-                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
-            }
-        }
-    }
-
-    //----------------------------------------------------------------------------
-    // main
-    //----------------------------------------------------------------------------
-
-    /**
-     * Main entry point.
-     *
-     * @param args command line arguments
-     * @throws InvocationTargetException
-     * @throws InterruptedException
-     */
     public static void main( final String[] args ) {
         /*
          * Wrap the body of main in invokeLater, so that all initialization occurs
