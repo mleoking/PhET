@@ -1,4 +1,5 @@
 Fixed: Resize panel after "start sim" wiggle me is showing causes exception
+Made food and exercise drag work by mouseover, not by release, to make it easier to see changes
 
 New in 0.00.33
 "Grocery Store & Restaurants" changed to "individual items"

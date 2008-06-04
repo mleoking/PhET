@@ -42,6 +42,7 @@ public class CalorieDragStrip extends PNode {
                 protected void drag( PInputEvent event ) {
                     super.drag( event );
                     createdNode.getPNode().translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
+                    notifyDragged( createdNode );
                 }
 
                 protected void endDrag( PInputEvent e ) {
@@ -53,11 +54,11 @@ public class CalorieDragStrip extends PNode {
             nodes.add( node );
         }
         for ( int i = 1; i < nodes.size(); i++ ) {
-            int row=i/4;
-            int col=i%4;
+            int row = i / 4;
+            int col = i % 4;
             PNode pNode = (PNode) nodes.get( i );
             PNode prev = (PNode) nodes.get( i - 1 );
-            pNode.setOffset( col==0?0:prev.getFullBounds().getMaxX(), row*prev.getFullBounds().getHeight() );
+            pNode.setOffset( col == 0 ? 0 : prev.getFullBounds().getMaxX(), row * prev.getFullBounds().getHeight() );
 
         }
         for ( int i = 0; i < nodes.size(); i++ ) {
@@ -120,6 +121,16 @@ public class CalorieDragStrip extends PNode {
 
     public static interface Listener {
         void nodeDropped( DragNode node );
+
+        void notifyDragged( DragNode createdNode );
+    }
+
+    public static class Adapter implements Listener {
+        public void nodeDropped( DragNode node ) {
+        }
+
+        public void notifyDragged( DragNode createdNode ) {
+        }
     }
 
     public void addListener( Listener listener ) {
@@ -129,6 +140,12 @@ public class CalorieDragStrip extends PNode {
     public void notifyDropped( DragNode createdNode ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).nodeDropped( createdNode );
+        }
+    }
+
+    public void notifyDragged( DragNode createdNode ) {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).notifyDragged( createdNode );
         }
     }
 }

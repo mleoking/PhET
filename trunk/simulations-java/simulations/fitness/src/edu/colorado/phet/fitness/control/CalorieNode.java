@@ -62,14 +62,24 @@ public class CalorieNode extends PNode {
         addChild( plateTopSummaryNode );
 
         final CalorieDragStrip calorieDragStrip = new CalorieDragStrip( available );
-        calorieDragStrip.addListener( new CalorieDragStrip.Listener() {
-            public void nodeDropped( CalorieDragStrip.DragNode droppedNode ) {
-                if ( plateImage.getGlobalFullBounds().intersects( droppedNode.getPNode().getGlobalFullBounds() ) ) {
-                    calorieSet.addItem( droppedNode.getItem() );
-                    if ( plateTopSummaryNode.isShowItems() ) {
-                        calorieDragStrip.removeItem( droppedNode );
-                    }
-                }
+        calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
+//            public void nodeDropped( CalorieDragStrip.DragNode droppedNode ) {
+//                if ( plateImage.getGlobalFullBounds().intersects( droppedNode.getPNode().getGlobalFullBounds() ) ) {
+//                    calorieSet.addItem( droppedNode.getItem() );
+//                    if ( plateTopSummaryNode.isShowItems() ) {
+//                        calorieDragStrip.removeItem( droppedNode );
+//                    }
+//                }
+//            }
+
+            public void notifyDragged( CalorieDragStrip.DragNode node ) {
+                setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) );
+//                if ( plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) ) {
+//                    calorieSet.addItem( node.getItem() );
+//                    if ( plateTopSummaryNode.isShowItems() ) {
+//                        calorieDragStrip.removeItem( node );
+//                    }
+//                }
             }
         } );
         addChild( calorieDragStrip );
@@ -90,6 +100,17 @@ public class CalorieNode extends PNode {
         } );
         updatePlusNodeVisible();
         relayout();
+    }
+
+    private void setContainsItem( CaloricItem item, boolean shouldContain ) {
+        if ( !calorieSet.contains( item ) && shouldContain ) {
+            calorieSet.addItem( item );
+        }
+        else if ( !shouldContain ) {
+            while ( calorieSet.contains( item ) ) {
+                calorieSet.removeItem( item );
+            }
+        }
     }
 
     protected void createDialog() {
