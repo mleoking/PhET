@@ -1,3 +1,5 @@
+Fixed: Resize panel after "start sim" wiggle me is showing causes exception
+
 New in 0.00.33
 "Grocery Store & Restaurants" changed to "individual items"
 

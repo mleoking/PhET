@@ -42,13 +42,16 @@ public class FitnessWiggleMe extends DefaultWiggleMe {
     }
 
     public void updateWiggleMeTarget() {
-        PBounds bounds = target.getGlobalFullBounds();
-        getParent().globalToLocal( bounds );
-        if ( activity != null ) {
-            activity.terminate();
-            setOffset( 800, 600 );
+        //todo: remove this workaround for when this wiggle me has been removed
+        if ( getParent() != null ) {
+            PBounds bounds = target.getGlobalFullBounds();
+            getParent().globalToLocal( bounds );
+            if ( activity != null ) {
+                activity.terminate();
+                setOffset( 800, 600 );
+            }
+            activity = animateTo( bounds.getCenterX(), bounds.getMaxY() );
         }
-        activity = animateTo( bounds.getCenterX(), bounds.getMaxY() );
     }
 
 }
