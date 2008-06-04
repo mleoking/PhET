@@ -37,8 +37,7 @@ public class ForceComputation {
         for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
             StatesOfMatterParticle p = (StatesOfMatterParticle)iterator.next();
 
-            p.setX(newPositions[i].getX());
-            p.setY(newPositions[i].getY());
+            p.setPosition(newPositions[i].getX(), newPositions[i].getY());
 
             p.setVx(newVelocities[i].getX());
             p.setVy(newVelocities[i].getY());

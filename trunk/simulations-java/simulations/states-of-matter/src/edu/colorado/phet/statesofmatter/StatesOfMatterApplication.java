@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.statesofmatter;
 
 import java.awt.Color;
@@ -17,6 +19,11 @@ import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.menu.OptionsMenu;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
 
+/**
+ * Main application class for the States of Matter simulation.
+ *
+ * @author John Blanco
+ */
 public class StatesOfMatterApplication extends PiccoloPhetApplication implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------

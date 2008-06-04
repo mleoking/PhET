@@ -1,14 +1,19 @@
 package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
+import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
+import edu.colorado.phet.statesofmatter.view.ParticleNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -23,8 +28,8 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 2.0;
-    private final double HEIGHT_TRANSLATION_FACTOR = 2.0;
+    private final double WIDTH_TRANSLATION_FACTOR = 2.5;
+    private final double HEIGHT_TRANSLATION_FACTOR = 1.5;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -40,8 +45,16 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         
         m_model = multipleParticleModel;
         
-        // Set the transform strategy in such a way that the center of the
-        // visible canvas will be at 0,0.
+        // Set ourself up as a listener to the model.
+        m_model.addListener( new MultipleParticleModel.Adapter(){
+            public void particleAdded(StatesOfMatterParticle particle){
+                addWorldChild(new ParticleNode(particle));
+            }
+        });
+        
+        // Set the transform strategy so that the particle container is in a
+        // reasonable place given that point (0,0) on the canvas represents
+        // the lower left corner of the particle container.
         setWorldTransformStrategy( new RenderingSizeStrategy(this, 
                 new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT) ){
             protected AffineTransform getPreprocessedTransform(){
@@ -61,10 +74,6 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
             throw new RuntimeException();
         }
         
-        // Position the node to be centered on the canvas and then add it as
-        // a child.
-        m_particleContainer.setOffset( -(m_particleContainer.getFullBoundsReference().width/2), 
-                -(m_particleContainer.getFullBoundsReference().height/2));
         addWorldChild(m_particleContainer);
         
         // Add a listener for when the canvas is resized.

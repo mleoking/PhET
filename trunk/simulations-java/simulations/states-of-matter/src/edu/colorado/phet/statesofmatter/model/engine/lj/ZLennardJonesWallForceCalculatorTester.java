@@ -61,8 +61,7 @@ public class ZLennardJonesWallForceCalculatorTester extends TestCase {
 
         double t = Math.random() * Math.sqrt(8) - Math.sqrt(8)/2.0;
 
-        p.setX(t + delta);
-        p.setY(t - delta);
+        p.setPosition( t + delta, t - delta );
 
         LennardJonesWallForceCalculator calculator = new LennardJonesWallForceCalculator(FORCE, WALL);
 

@@ -99,27 +99,18 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     public void testGetPositionReflectsSetPosition() {
         StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
 
-        p.setX(9923);
-        p.setY(9392);
+        p.setPosition( 9923, 9392);
 
-        assertEquals(new Point2D.Double(9923, 9392), p.getPosition());
+        assertEquals(new Point2D.Double(9923, 9392), p.getPositionReference());
     }
 
-    public void testCloneIsDeepForX() {
+    public void testCloneIsDeepForPos() {
         StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
         StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
 
-        p2.setX(2.0);
+        p2.setPosition( 2.0, 2.0 );
 
         assertEquals(1.0, p1.getX(), 0.0);
-    }
-
-    public void testCloneIsDeepForY() {
-        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
-        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
-
-        p2.setY(2.0);
-
         assertEquals(1.0, p1.getY(), 0.0);
     }
 

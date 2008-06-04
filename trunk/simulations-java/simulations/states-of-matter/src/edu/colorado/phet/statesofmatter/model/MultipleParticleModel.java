@@ -118,6 +118,7 @@ public class MultipleParticleModel {
         particle.setVx( 20 );
         particle.setVy( 10 );
         m_particles.add( particle );
+        notifyParticleAdded( particle );
         
         /*
         ParticleCreationStrategy strategy = 
@@ -172,9 +173,7 @@ public class MultipleParticleModel {
         // TODO: JPB TBD - Temp computation for testing.
         for ( Iterator iterator = m_particles.iterator(); iterator.hasNext(); ) {
             StatesOfMatterParticle particle = (StatesOfMatterParticle) iterator.next();
-            particle.setX(particle.getX() + particle.getVx());
-            particle.setY(particle.getY() + particle.getVy());
-            notifyParticlesMoved();
+            particle.setPosition( particle.getX() + particle.getVx(), particle.getY() - particle.getVy());
         }
         
         /*
@@ -192,15 +191,15 @@ public class MultipleParticleModel {
         */
     }
     
-    private void notifyParticlesMoved(){
-        for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).particlesMoved();
-        }        
-    }
-
     private void notifyResetOccurred(){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).resetOccurred();
+        }        
+    }
+
+    private void notifyParticleAdded(StatesOfMatterParticle particle){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).particleAdded( particle );
         }        
     }
 
@@ -228,13 +227,18 @@ public class MultipleParticleModel {
     public static interface Listener {
         
         /**
-         * Inform listeners that the positions of the particles have changed.
-         */
-        public void particlesMoved();
-        
-        /**
          * Inform listeners that the model has been reset.
          */
         public void resetOccurred();
+        
+        /**
+         * Inform listeners that a new particle has been added to the model.
+         */
+        public void particleAdded(StatesOfMatterParticle particle);
+    }
+    
+    public static class Adapter implements Listener {
+        public void resetOccurred(){}
+        public void particleAdded(StatesOfMatterParticle particle){}
     }
 }
