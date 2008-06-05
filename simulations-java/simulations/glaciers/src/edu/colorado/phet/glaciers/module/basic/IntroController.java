@@ -32,12 +32,12 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.view.PlayArea;
 
 /**
- * BasicController is the controller portion of the MVC architecture for the "Basic" module.
+ * Controller portion of the MVC architecture for the "Intro" module.
  * It handles all of the wiring between model, view, and controls.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BasicController {
+public class IntroController {
     
     private static Frame DIALOG_OWNER = GlaciersApplication.instance().getPhetFrame();
     private static Dimension CHART_SIZE = new Dimension( 900, 350 );
@@ -48,7 +48,7 @@ public class BasicController {
     private JDialog _temperatureVersusElevationChart;
     private JDialog _glacierPictureDialog;
     
-    public BasicController( final BasicModel model, final PlayArea playArea, final BasicControlPanel controlPanel ) {
+    public IntroController( final IntroModel model, final PlayArea playArea, final IntroControlPanel controlPanel ) {
         
         // Model
         final GlaciersClock clock = model.getClock();

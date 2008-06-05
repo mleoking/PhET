@@ -21,7 +21,7 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
 import edu.colorado.phet.glaciers.module.advanced.AdvancedModule;
-import edu.colorado.phet.glaciers.module.basic.BasicModule;
+import edu.colorado.phet.glaciers.module.basic.IntroModule;
 import edu.colorado.phet.glaciers.module.experiments.ExperimentsModule;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
 import edu.colorado.phet.glaciers.persistence.BasicConfig;
@@ -39,7 +39,7 @@ public class GlaciersApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private BasicModule _basicModule;
+    private IntroModule _introModule;
     private AdvancedModule _advancedModule;
     private ExperimentsModule _experimentsModule;
 
@@ -92,8 +92,8 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
         
-        _basicModule = new BasicModule( parentFrame );
-        addModule( _basicModule );
+        _introModule = new IntroModule( parentFrame );
+        addModule( _introModule );
 
         _advancedModule = new AdvancedModule( parentFrame );
         addModule( _advancedModule );
@@ -166,7 +166,7 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
         
-        BasicConfig basicConfig = _basicModule.save();
+        BasicConfig basicConfig = _introModule.save();
         appConfig.setBasicConfig( basicConfig );
         
         AdvancedConfig advancedConfig = _advancedModule.save();
@@ -190,7 +190,7 @@ public class GlaciersApplication extends PiccoloPhetApplication {
                 GlaciersConfig appConfig = (GlaciersConfig) object;
                 
                 BasicConfig basicConfig = appConfig.getBasicConfig();
-                _basicModule.load( basicConfig );
+                _introModule.load( basicConfig );
                 
                 AdvancedConfig advancedConfig = appConfig.getAdvancedConfig();
                 _advancedModule.load( advancedConfig );

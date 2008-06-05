@@ -14,7 +14,7 @@ import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
-import edu.colorado.phet.glaciers.defaults.BasicDefaults;
+import edu.colorado.phet.glaciers.defaults.IntroDefaults;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -24,11 +24,11 @@ import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.PlayArea;
 
 /**
- * BasicModule is the "Basic" module.
+ * This is the "Intro" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BasicModule extends PiccoloModule {
+public class IntroModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -46,17 +46,17 @@ public class BasicModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final BasicModel _model;
+    private final IntroModel _model;
     private final PlayArea _playArea;
-    private final BasicControlPanel _controlPanel;
-    private final BasicController _controller;
+    private final IntroControlPanel _controlPanel;
+    private final IntroController _controller;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public BasicModule( Frame parentFrame ) {
-        super( GlaciersStrings.TITLE_BASIC, BasicDefaults.CLOCK );
+    public IntroModule( Frame parentFrame ) {
+        super( GlaciersStrings.TITLE_INTRO, IntroDefaults.CLOCK );
         
         // we won't be using any of the standard subpanels
         setMonitorPanel( null );
@@ -69,9 +69,9 @@ public class BasicModule extends PiccoloModule {
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
         Valley valley = new Valley();
-        Climate climate = new Climate( BasicDefaults.TEMPERATURE_RANGE.getDefault(), BasicDefaults.SNOWFALL_RANGE.getDefault() );
+        Climate climate = new Climate( IntroDefaults.TEMPERATURE_RANGE.getDefault(), IntroDefaults.SNOWFALL_RANGE.getDefault() );
         Glacier glacier = new Glacier( valley, climate );
-        _model = new BasicModel( clock, glacier );
+        _model = new IntroModel( clock, glacier );
 
         // Play Area
         ModelViewTransform mvt = new ModelViewTransform( MVT_X_SCALE, MVT_Y_SCALE, MVT_X_OFFSET, MVT_Y_OFFSET, MVT_FLIP_SIGN_X, MVT_FLIP_SIGN_Y );
@@ -79,7 +79,7 @@ public class BasicModule extends PiccoloModule {
         setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
-        _controlPanel = new BasicControlPanel( clock );
+        _controlPanel = new IntroControlPanel( clock );
         setClockControlPanel( _controlPanel );
         _controlPanel.getMiscControlPanel().addMiscControlPanelListener( new MiscControlPanelAdapter() {
             public void resetAllButtonPressed() {
@@ -87,12 +87,12 @@ public class BasicModule extends PiccoloModule {
             }
             public void setHelpEnabled( boolean enabled ) {
                 System.out.println( "BasicModule.setHelpEnabled " + enabled );//XXX
-                BasicModule.this.setHelpEnabled( enabled );
+                IntroModule.this.setHelpEnabled( enabled );
             }
         });
         
         // Controller
-        _controller = new BasicController( _model, _playArea, _controlPanel );
+        _controller = new IntroController( _model, _playArea, _controlPanel );
 
         // Help
         if ( hasHelp() ) {
@@ -142,14 +142,14 @@ public class BasicModule extends PiccoloModule {
         
         // Clock
         GlaciersClock clock = _model.getClock();
-        clock.setFrameRate( BasicDefaults.CLOCK_FRAME_RATE_RANGE.getDefault() );
+        clock.setFrameRate( IntroDefaults.CLOCK_FRAME_RATE_RANGE.getDefault() );
         clock.resetSimulationTime();
-        setClockRunningWhenActive( BasicDefaults.CLOCK_RUNNING );
+        setClockRunningWhenActive( IntroDefaults.CLOCK_RUNNING );
 
         // Climate
         Climate climate = _model.getClimate();
-        climate.setTemperature( BasicDefaults.TEMPERATURE_RANGE.getDefault() );
-        climate.setSnowfall( BasicDefaults.SNOWFALL_RANGE.getDefault() );
+        climate.setTemperature( IntroDefaults.TEMPERATURE_RANGE.getDefault() );
+        climate.setSnowfall( IntroDefaults.SNOWFALL_RANGE.getDefault() );
 
         // Glacier
         Glacier glacier = _model.getGlacier();

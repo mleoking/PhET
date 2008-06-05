@@ -71,7 +71,7 @@ public class GlaciersStrings {
     public static final String TEXT_GLACIER_PICTURE = GlaciersResources.getString( "text.glacierPicture" );
     
     public static final String TITLE_ADVANCED = GlaciersResources.getString( "title.advanced" );
-    public static final String TITLE_BASIC = GlaciersResources.getString( "title.basic" );
+    public static final String TITLE_INTRO = GlaciersResources.getString( "title.introduction" );
     public static final String TITLE_CLIMATE_CONTROLS = GlaciersResources.getString( "title.climateControls" );
     public static final String TITLE_EQUILIBRIUM_LINE_ALTITUDE_VERSUS_TIME = GlaciersResources.getString( "title.equilibriumLineAltitudeVersusTime" );
     public static final String TITLE_ERROR = GlaciersResources.getString( "title.error" );

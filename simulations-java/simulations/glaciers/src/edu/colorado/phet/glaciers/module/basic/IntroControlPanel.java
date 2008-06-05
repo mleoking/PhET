@@ -13,15 +13,15 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.*;
-import edu.colorado.phet.glaciers.defaults.BasicDefaults;
+import edu.colorado.phet.glaciers.defaults.IntroDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
- * BasicControlPanel is the control panel for BasicModule.
+ * Control panel for the "Intro" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BasicControlPanel extends JPanel {
+public class IntroControlPanel extends JPanel {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -43,14 +43,14 @@ public class BasicControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BasicControlPanel( GlaciersClock clock ) {
+    public IntroControlPanel( GlaciersClock clock ) {
         super();
         
         _viewControlPanel = new ViewControlPanel();
-        _climateControlPanel = new ClimateControlPanel( BasicDefaults.TEMPERATURE_RANGE, BasicDefaults.SNOWFALL_RANGE );
+        _climateControlPanel = new ClimateControlPanel( IntroDefaults.TEMPERATURE_RANGE, IntroDefaults.SNOWFALL_RANGE );
         
         _graphsControlPanel = new GraphsControlPanel();
-        _clockControlPanel = new GlaciersClockControlPanel( clock, BasicDefaults.CLOCK_FRAME_RATE_RANGE, BasicDefaults.CLOCK_DISPLAY_FORMAT, BasicDefaults.CLOCK_DISPLAY_COLUMNS );
+        _clockControlPanel = new GlaciersClockControlPanel( clock, IntroDefaults.CLOCK_FRAME_RATE_RANGE, IntroDefaults.CLOCK_DISPLAY_FORMAT, IntroDefaults.CLOCK_DISPLAY_COLUMNS );
         _miscControlPanel = new MiscControlPanel();
         
         int row;

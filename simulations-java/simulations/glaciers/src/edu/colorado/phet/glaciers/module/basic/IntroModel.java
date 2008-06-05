@@ -7,11 +7,11 @@ import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
- * BasicModel is the model for BasicModule.
+ * Model for the "Intro" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BasicModel extends AbstractModel {
+public class IntroModel extends AbstractModel {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -21,7 +21,7 @@ public class BasicModel extends AbstractModel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BasicModel( GlaciersClock clock, Glacier glacier ) {
+    public IntroModel( GlaciersClock clock, Glacier glacier ) {
         super( clock, glacier );
     }
     
