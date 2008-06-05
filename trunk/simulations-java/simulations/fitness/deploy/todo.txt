@@ -1,6 +1,3 @@
-Internationalize food and exercise repository by moving keys to food/exercise files and translatable strings to fitness-strings.properties file
->>Can this job be reassigned?
-
 Comments from Bill on 5-20-2008:
 
 1. Percent body fat should change as body weight changes. This change probably be based upon the concept

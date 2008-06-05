@@ -16,16 +16,7 @@ import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
  * Created by: Sam
  * Apr 24, 2008 at 5:08:30 PM
  */
-public class FileParser {
-
-//    new CaloricFoodItem[]{
-//            new CaloricFoodItem( "hamburger", "burger.png", 279, 13.5, 27.3, 12.9 ),
-//            new CaloricFoodItem( "cup strawberries", "strawberry.png", 49, 0.5, 11.7, 1.0 ),
-//            new CaloricFoodItem( "banana split", "bananasplit.png", 894, 43, 121, 15 ),
-//            new CaloricFoodItem( "cup grapefruit", "grapefruit.png", 97, 0.3, 24.5, 1.8 ),
-//            new CaloricFoodItem( "large fries", "fries.png", 539, 28.8, 63.4, 6.4 ),
-//    }
-
+public class FitnessFileParser {
 
     public static CaloricFoodItem[] getFoodItems() {
         return (CaloricFoodItem[]) parse( "foods.properties", new FoodItemParser(), new CaloricFoodItem[0] );
@@ -66,7 +57,7 @@ public class FileParser {
             if ( st.hasMoreTokens() ) {
                 image = st.nextToken().trim();
             }
-            return new CaloricFoodItem( name, image, cal, lipids, carbs, proteins );
+            return new CaloricFoodItem( FitnessResources.getString( name ), image, cal, lipids, carbs, proteins );
         }
     }
 
@@ -84,7 +75,7 @@ public class FileParser {
             if ( st.hasMoreTokens() ) {
                 image = st.nextToken().trim();
             }
-            return new ExerciseItem( name, image, cal );
+            return new ExerciseItem( FitnessResources.getString( name ), image, cal );
         }
     }
 
@@ -95,12 +86,10 @@ public class FileParser {
                                 "###############" );
             iterateAll();
         }
-
-
     }
 
     private static void iterateAll() {
-        CaloricFoodItem[] c = FileParser.getFoodItems();
+        CaloricFoodItem[] c = FitnessFileParser.getFoodItems();
         for ( int i = 0; i < c.length; i++ ) {
             System.out.println( "i = " + i + ", c=" + c[i] );
             if ( c[i].getImage() != null && c[i].getImage().length() > 0 ) {
@@ -109,7 +98,7 @@ public class FileParser {
             }
         }
 
-        CaloricItem[] ex = FileParser.getExerciseItems();
+        CaloricItem[] ex = FitnessFileParser.getExerciseItems();
         for ( int i = 0; i < ex.length; i++ ) {
             CaloricItem caloricItem = ex[i];
             System.out.println( "caloricItem = " + caloricItem );
