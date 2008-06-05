@@ -60,6 +60,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     //----------------------------------------------------------------------------
     
     private static final boolean DEBUG_BACKGROUND_IMAGE_ALIGNMENT = true;
+    private static final boolean DEBUG_ELA_VALUE_VISIBLE = false;
     
     //----------------------------------------------------------------------------
     // Class data
@@ -284,7 +285,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         
         // ELA value display
         _elaValueNode = new ELAValueNode( _model.getClimate() );
-        _elaValueNode.setVisible( PhetApplication.instance().isDeveloperControlsEnabled() );
+        _elaValueNode.setVisible( DEBUG_ELA_VALUE_VISIBLE );
         _toolboxLayer.addChild( _elaValueNode );
         
         // Penguin is the control for moving the zoomed viewport
