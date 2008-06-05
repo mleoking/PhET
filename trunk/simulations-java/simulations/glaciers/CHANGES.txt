@@ -3,10 +3,11 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- debris forms at headwall while glacier is receding and ELA is above headwall
-- make shape of surface ripples look random
-- verify that flags fall over at random angles when they hit the valley floor (drop below and above glacier)
+- bug: debris forms at headwall while glacier is receding and ELA is above headwall
+- bug: flags get stuck on valley floor above the terminus (try a long glacier)
+- bug: flags don't fall over at random angles when they hit the valley floor (drop below and above glacier)
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
+- make shape of surface ripples look random
 
 HIGH PRIORITY:
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
