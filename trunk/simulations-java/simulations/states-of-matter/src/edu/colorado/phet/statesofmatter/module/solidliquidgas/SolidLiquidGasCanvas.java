@@ -1,26 +1,36 @@
 package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * This is the canvas that represents the play area for the "Solid, Liquid,
+ * Gas" tab of this simulation.
+ *
+ * @author John Blanco
+ */
 public class SolidLiquidGasCanvas extends PhetPCanvas {
+    
     //----------------------------------------------------------------------------
-    // Class data
+    // Class Data
     //----------------------------------------------------------------------------
 
     // Canvas size in pico meters, since this is a reasonable scale at which
@@ -35,9 +45,11 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+    
     private MultipleParticleModel m_model;
     private ParticleContainerNode m_particleContainer;
     private PNode m_particleLayer;
+    private ModelViewTransform m_mvt;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -47,12 +59,8 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         
         m_model = multipleParticleModel;
         
-        // Set ourself up as a listener to the model.
-        m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void particleAdded(StatesOfMatterParticle particle){
-                m_particleLayer.addChild( new ParticleNode(particle));
-            }
-        });
+        // Create the Model-View transform that we will be using.
+        m_mvt = new ModelViewTransform(1.0, 1.0, 0.0, 0.0, false, true);
         
         // Set the transform strategy so that the particle container is in a
         // reasonable place given that point (0,0) on the canvas represents
@@ -62,6 +70,13 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
             protected AffineTransform getPreprocessedTransform(){
                 return AffineTransform.getTranslateInstance( getWidth()/WIDTH_TRANSLATION_FACTOR, 
                         getHeight()/HEIGHT_TRANSLATION_FACTOR );
+            }
+        });
+        
+        // Set ourself up as a listener to the model.
+        m_model.addListener( new MultipleParticleModel.Adapter(){
+            public void particleAdded(StatesOfMatterParticle particle){
+                m_particleLayer.addChild( new ParticleNode(particle, m_mvt));
             }
         });
         
@@ -77,6 +92,20 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         }
         
         addWorldChild(m_particleContainer);
+        
+        // TODO: JPB TBD - Add a rectangle that represents the containment box
+        // so that I can calibrate the size of the cup.
+        ParticleContainer container = m_model.getParticleContainer();
+        Shape containerShape = container.getShape();
+        if (containerShape instanceof Rectangle2D){
+            containerShape = m_mvt.modelToView( (Rectangle2D)containerShape );
+        }
+        else{
+            System.err.println("Unexpected type for container shape.");
+        }
+        PPath tempContainerNode = new PPath(containerShape);
+        tempContainerNode.setStrokePaint( Color.red );
+        addWorldChild( tempContainerNode );
         
         // Create and add the particle layer node.
         m_particleLayer = new PNode();
@@ -104,5 +133,4 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     public void reset(){
         m_particleContainer.reset();
     }
-
 }

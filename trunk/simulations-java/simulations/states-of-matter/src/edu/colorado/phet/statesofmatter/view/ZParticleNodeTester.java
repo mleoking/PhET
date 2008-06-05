@@ -15,7 +15,7 @@ public class ZParticleNodeTester extends TestCase {
 
     protected void setUp() throws Exception {
         this.modelObject = new StatesOfMatterParticle(0.0, 0.0, 1.0, 1.0);
-        this.node        = new ParticleNode(modelObject);
+        this.node        = new ParticleNode(modelObject, new ModelViewTransform());
     }
 
     public void testParticleNodeBoundsExists(){
@@ -42,7 +42,7 @@ public class ZParticleNodeTester extends TestCase {
 
     public void testParticleNodesLocationIsSameAsModel() {
         modelObject = new StatesOfMatterParticle(3.0, 2.0, 1.0, 1.0);
-        node        = new ParticleNode(modelObject);
+        node        = new ParticleNode(modelObject, new ModelViewTransform());
 
         assertEquals(modelObject.getX(), node.getFullBounds().getCenterX(), 0);
         assertEquals(modelObject.getY(), node.getFullBounds().getCenterY(), 0);

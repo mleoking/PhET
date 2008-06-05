@@ -4,9 +4,8 @@ package edu.colorado.phet.statesofmatter.view;
 
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D.Double;
+import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
@@ -22,7 +21,7 @@ public class ParticleNode extends PNode {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final ParticleNode TEST = new ParticleNode(StatesOfMatterParticle.TEST);
+    public static final ParticleNode TEST = new ParticleNode(StatesOfMatterParticle.TEST, new ModelViewTransform());
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -30,13 +29,20 @@ public class ParticleNode extends PNode {
 
     private StatesOfMatterParticle m_particle;
     private final StatesOfMatterParticle.Listener m_particleListener;
+    private ModelViewTransform m_mvt;
+    Point2D.Double m_position;
     
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
     
-    public ParticleNode(StatesOfMatterParticle particle) {
+    public ParticleNode(StatesOfMatterParticle particle, ModelViewTransform mvt) {
+        
         m_particle = particle;
+        m_mvt = mvt;
+        
+        // Local initialization.
+        m_position = new Point2D.Double();
         
         // Set ourself up to listen to this particle.
         m_particleListener = new StatesOfMatterParticle.Listener(){
@@ -68,7 +74,8 @@ public class ParticleNode extends PNode {
     
     public void updatePosition() {
         if (m_particle != null){
-            setOffset(m_particle.getX(), m_particle.getY());
+            m_mvt.modelToView( m_particle.getPositionReference(), m_position );
+            setOffset( m_position );
         }
     }
 

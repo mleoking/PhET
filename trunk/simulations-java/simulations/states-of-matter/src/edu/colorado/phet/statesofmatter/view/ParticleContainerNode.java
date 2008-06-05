@@ -53,8 +53,7 @@ public class ParticleContainerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     private final ParticleContainer m_container;
     private final MultipleParticleModel m_model;
-    private PPath m_particleArea;
-    private PImage m_cupImage;
+    private PImage m_cupImageNode;
 
     private double m_containmentAreaWidth;
     private double m_containmentAreaHeight;
@@ -76,40 +75,28 @@ public class ParticleContainerNode extends PhetPNode {
         m_containmentAreaWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
         m_containmentAreaHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.getHeight();
 
-        // Set up the image that will be used.
-        m_cupImage = StatesOfMatterResources.getImageNode(StatesOfMatterConstants.COFFEE_CUP_IMAGE);
+        // Load the image that will be used.
+        m_cupImageNode = StatesOfMatterResources.getImageNode(StatesOfMatterConstants.COFFEE_CUP_IMAGE);
         
         // Scale the cup image based on the size of the container.
         double neededImageWidth = 
             m_containmentAreaWidth / (1 - NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT - NON_CONTAINER_IMAGE_FRACTION_FROM_RIGHT);
-        m_cupImage.setScale( neededImageWidth / m_cupImage.getWidth() );
+        m_cupImageNode.setScale( neededImageWidth / m_cupImageNode.getWidth() );
+        
+        // Add the cup image to this node.
+        addChild(m_cupImageNode);
         
         // Calculate the offset for the area within the overall image where
         // the particles will be contained.
         m_containmentAreaOffsetX = neededImageWidth * NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT;
-        m_containmentAreaOffsetY = m_cupImage.getFullBounds().height * NON_CONTAINER_IMAGE_FRACTION_FROM_TOP;
+        m_containmentAreaOffsetY = m_cupImageNode.getFullBounds().height * NON_CONTAINER_IMAGE_FRACTION_FROM_TOP;
         
-        // Add the particle area, which is where the particles will be
-        // maintained, which is a rectangular area that matches the size of
-        // the container in the model.
-        m_particleArea = new PPath(new Rectangle2D.Double(0, 0, m_containmentAreaWidth, m_containmentAreaHeight));
-        m_particleArea.setOffset( m_containmentAreaOffsetX, m_containmentAreaOffsetY );
-        m_particleArea.setStrokePaint( Color.RED );
-        m_particleArea.setStroke( new BasicStroke(50) );
-        
-        addChild(m_cupImage);
-        addChild(m_particleArea);
         
         // Position this node so that the origin of the canvas, i.e. position
         // x=0, y=0, is at the lower left corner of the container.
-        double xPos = -m_cupImage.getFullBoundsReference().width * NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT;
-        double yPos = -m_cupImage.getFullBoundsReference().height * (1 - NON_CONTAINER_IMAGE_FRACTION_FROM_BOTTOM);
+        double xPos = -m_cupImageNode.getFullBoundsReference().width * NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT;
+        double yPos = -m_cupImageNode.getFullBoundsReference().height * (1 - NON_CONTAINER_IMAGE_FRACTION_FROM_BOTTOM);
         setOffset( xPos, yPos );
-        
-        // TODO: JPB TBD - For testing.
-//        PPath containerRect = new PPath(new Rectangle2D.Double(1000, 1000, 240, 240));
-//        containerRect.setStrokePaint( Color.RED );
-//        addChild(containerRect);
         
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
@@ -121,18 +108,6 @@ public class ParticleContainerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Public Methods
     //----------------------------------------------------------------------------
-    
-    public List getParticleNodes() {
-        return Collections.unmodifiableList(m_particleArea.getChildrenReference());
-    }
-
-    public ParticleNode getParticleNode(int i) {
-        return (ParticleNode)m_particleArea.getChild(i);
-    }
-
-    public void addParticleNode(ParticleNode particleNode) {
-        m_particleArea.addChild(particleNode);
-    }
     
     public void reset(){
         // TODO: JPB TBD.
