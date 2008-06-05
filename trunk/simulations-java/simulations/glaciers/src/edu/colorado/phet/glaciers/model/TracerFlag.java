@@ -23,8 +23,8 @@ public class TracerFlag extends AbstractTool {
     // Class data
     //----------------------------------------------------------------------------    
     
-    private static final double MIN_FALLOVER_ANGLE = Math.toRadians( 45 );
-    private static final double MAX_FALLOVER_ANGLE = Math.toRadians( 90 );
+    private static final double MIN_FALLOVER_ANGLE = Math.toRadians( 30 );
+    private static final double MAX_FALLOVER_ANGLE = Math.toRadians( 80 );
     private static final Random RANDOM_FALLOVER = new Random();
     
     //----------------------------------------------------------------------------
@@ -69,17 +69,25 @@ public class TracerFlag extends AbstractTool {
         final double surfaceElevation = _glacier.getSurfaceElevation( getX() );
         final double valleyElevation = _glacier.getValley().getElevation( getX() );
         
+        // dropped where there is no ice?
+        _onValleyFloor = ( surfaceElevation == valleyElevation );
+        
         if ( getY() > surfaceElevation ) {
             // snap to ice surface
             setPosition( getX(), surfaceElevation );
         }
-        else if ( getY() < valleyElevation ) {
-            // snap to valley floor
-            setPosition( getX(), valleyElevation );
+        else if ( getY() <= valleyElevation ) {
+            if ( _onValleyFloor ) {
+                // snap to the valley floor
+                setPosition( getX(), valleyElevation );
+            }
+            else {
+                // snap to slightly above the valley floor
+                setPosition( getX(), valleyElevation + 1 );    
+            }
         }
         
-        // dropped where there is no ice?
-        _onValleyFloor = ( surfaceElevation - valleyElevation == 0 );
+
     }
     
     public void clockTicked( ClockEvent clockEvent ) {
@@ -99,15 +107,16 @@ public class TracerFlag extends AbstractTool {
             }
             
             // constrain y to the surface of the glacier or valley
-            double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
+            final double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
             if ( newY > newGlacierSurfaceElevation ) {
                 newY = newGlacierSurfaceElevation;
             }
             
-            // are we on the valley floor?
-            if ( newY == _glacier.getValley().getElevation( newX ) ) {
+            // are we at past the terminus?
+            final double newValleyElevation = _glacier.getValley().getElevation( newX );
+            if ( newGlacierSurfaceElevation == newValleyElevation ) {
                 _onValleyFloor = true;
-                // flags "fall over" when they reach the valley floor
+                // flags "fall over" when they are past the terminus
                 setOrientation( calculateRandomFalloverAngle() );
             }
             

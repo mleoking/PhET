@@ -3,10 +3,7 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- bug: flags get stuck on valley floor above the terminus (try a long glacier)
-- bug: flags don't fall over at random angles when they hit the valley floor (drop below and above glacier)
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
-- make shape of surface ripples look random
 
 HIGH PRIORITY:
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
@@ -18,6 +15,7 @@ HIGH PRIORITY:
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
+- make shape of surface ripples look random
 - reduce height of View panel to increase size of zoomed view
 - make default speed 2 years per sec
 - provide time estimate for climate experiments interface
@@ -30,7 +28,7 @@ MEDIUM PRIORITY:
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 - "steady state" button needs to advance clock to the time at which the glacier would reach its steady state
 - "steady state" button needs to fill in missing data in time-dependent graphs
-- "steady state" button needs to create an end moraine
+- "steady state" button needs to fill glacier with debris and surface ripples
 - add depth cues to background image (shading, etc)
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
@@ -87,9 +85,10 @@ CLEANUP:
 
 
 DONE:
+6/5/08 - bugfix: flags above the terminus can get created directly on the valley floor and then don't move
 6/5/08 - bugfix: debris gets created directly on valley floor and never moves
 6/5/08 - generate debris in entire cross-section, not just above ELA
-6/5/08 - disable dragging of borehole drill while its "fire" button is pressed
+6/5/08 - bugfix: disable dragging of borehole drill while its "fire" button is pressed
 6/5/08 - hide trash can, put tools away by dragging them back to tool box
 6/5/08 - create TrashCanDelegate, handles specifics of trashing tools independent of the node that represents the trash
 6/5/08 - rename "Basic" tab to "Intro"
