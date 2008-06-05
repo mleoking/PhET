@@ -10,7 +10,7 @@ import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Diet;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
-import edu.colorado.phet.fitness.util.FileParser;
+import edu.colorado.phet.fitness.util.FitnessFileParser;
 import edu.colorado.phet.fitness.FitnessResources;
 
 /**
@@ -91,8 +91,8 @@ public class FitnessModel {
     private final Human human = new Human();
 
     //http://www.calorie-count.com/calories/item/9316.html
-    public static final FoodCalorieSet availableFoods = new FoodCalorieSet( FileParser.getFoodItems() );
-    public static final CalorieSet availableExercise = new CalorieSet( FileParser.getExerciseItems() );
+    public static final FoodCalorieSet availableFoods = new FoodCalorieSet( FitnessFileParser.getFoodItems() );
+    public static final CalorieSet availableExercise = new CalorieSet( FitnessFileParser.getExerciseItems() );
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
     public static final Diet BALANCED_DIET = new Diet( FitnessResources.getString( "diet.balanced" ), 870, 1583, 432 );
