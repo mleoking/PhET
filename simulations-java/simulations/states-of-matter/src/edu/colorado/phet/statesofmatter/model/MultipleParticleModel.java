@@ -8,29 +8,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics2.model.AtomicNucleus.Listener;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
-import edu.colorado.phet.statesofmatter.model.engine.EngineConfig;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
-import edu.colorado.phet.statesofmatter.model.engine.ForceComputation;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
-import edu.colorado.phet.statesofmatter.model.particle.PackedHexagonalParticleCreationStrategy;
-import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 /**
- * This class represents the main class for the model portion of the States of
- * Matter simulation.
+ * This is the main class for the model portion of the "States of Matter"
+ * simulation.
  *
  * @author John Blanco
  */
@@ -111,6 +102,9 @@ public class MultipleParticleModel {
     // Other Public Methods
     //----------------------------------------------------------------------------
     
+    /**
+     * Reset the model.
+     */
     public void reset() {
         
         // Get rid of any existing particles.
@@ -124,9 +118,9 @@ public class MultipleParticleModel {
 
         // TODO: JPB TBD - Add a set of moving particles.
         Random rand = new Random();
-        for (int i=0; i<4; i++){
+        for (int i=0; i<15; i++){
             double xPos = rand.nextDouble() * StatesOfMatterConstants.CONTAINER_BOUNDS.width;
-            double yPos = -rand.nextDouble() * StatesOfMatterConstants.CONTAINER_BOUNDS.height;
+            double yPos = rand.nextDouble() * StatesOfMatterConstants.CONTAINER_BOUNDS.height;
             double xVel = (rand.nextDouble() - 0.5) * 40;
             double yVel = (rand.nextDouble() - 0.5) * 40;
             StatesOfMatterParticle particle = new StatesOfMatterParticle(xPos, yPos, OXYGEN_MOLECULE_DIAMETER, 10);
@@ -161,7 +155,7 @@ public class MultipleParticleModel {
         m_totalEnergy = m_engineFacade.measureKineticEnergy() + m_engineFacade.measurePotentialEnergy();
         */
         
-        // Let any listeners know that we have been reset.
+        // Let any listeners know that the model has been reset.
         notifyResetOccurred();
     }
     
@@ -199,12 +193,12 @@ public class MultipleParticleModel {
                      (particle.getVx() < 0)){
                 particle.setVx( -particle.getVx() );
             }
-            if ((particle.getY() <= -StatesOfMatterConstants.CONTAINER_BOUNDS.height) &&
-                    (particle.getVy() < 0)){
+            if ((particle.getY() >= StatesOfMatterConstants.CONTAINER_BOUNDS.height) &&
+                    (particle.getVy() > 0)){
                     particle.setVy( -particle.getVy() );
             }
-            else if ((particle.getY() >= StatesOfMatterConstants.CONTAINER_BOUNDS.y) &&
-                     (particle.getVy() > 0)){
+            else if ((particle.getY() <= StatesOfMatterConstants.CONTAINER_BOUNDS.y) &&
+                     (particle.getVy() < 0)){
                 particle.setVy( -particle.getVy() );
             }
                 

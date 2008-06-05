@@ -27,12 +27,12 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private Point2D.Double  position = new Point2D.Double();
-    private Vector2D.Double velocity = new Vector2D.Double();
-    private Vector2D.Double accel    = new Vector2D.Double();
-    private volatile double radius, mass;
-    private double inverseMass;
-    private ArrayList _listeners = new ArrayList();
+    private Point2D.Double  m_position = new Point2D.Double();
+    private Vector2D.Double m_velocity = new Vector2D.Double();
+    private Vector2D.Double m_accel    = new Vector2D.Double();
+    private volatile double m_radius, m_mass;
+    private double m_inverseMass;
+    private ArrayList m_listeners = new ArrayList();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -50,100 +50,100 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
     //----------------------------------------------------------------------------
 
     public double getX() {
-        return position.x;
+        return m_position.x;
     }
 
     public double getY() {
-        return position.y;
+        return m_position.y;
     }
     
     public void setPosition(double x, double y){
-        position.x = x;
-        position.y = y;
+        m_position.x = x;
+        m_position.y = y;
         notifyPositionChanged();
     }
 
     public double getVy() {
-        return velocity.getY();
+        return m_velocity.getY();
     }
 
     public void setVy(double vy) {
-        velocity.setY(vy);
+        m_velocity.setY(vy);
     }
 
     public double getVx() {
-        return velocity.getX();
+        return m_velocity.getX();
     }
 
     public void setVx(double vx) {
-        velocity.setX(vx);
+        m_velocity.setX(vx);
     }
 
     public double getAx() {
-        return accel.getX();
+        return m_accel.getX();
     }
 
     public double getAy() {
-        return accel.getY();
+        return m_accel.getY();
     }
 
     public void setAx(double ax) {
-        accel.setX(ax);
+        m_accel.setX(ax);
     }
 
     public void setAy(double ay) {
-        accel.setY(ay);
+        m_accel.setY(ay);
     }
 
     public double getMass() {
-        return mass;
+        return m_mass;
     }
 
     public double getRadius() {
-        return radius;
+        return m_radius;
     }
     
     public double getInverseMass() {
-        if (inverseMass == 0.0) {
-            inverseMass = mass == 0.0 ? Double.MAX_VALUE : 1.0 / mass;
+        if (m_inverseMass == 0.0) {
+            m_inverseMass = m_mass == 0.0 ? Double.MAX_VALUE : 1.0 / m_mass;
         }
 
-        return inverseMass;
+        return m_inverseMass;
     }
 
     public double getKineticEnergy() {
-        return 0.5 * mass * (getVx() * getVx() + getVy() * getVy());
+        return 0.5 * m_mass * (getVx() * getVx() + getVy() * getVy());
     }
 
     public void setKineticEnergy(double energy) {
         // KE = 0.5 * m * v^2 => v = sqrt(2 KE / m)
-        double mag = Math.sqrt(2.0 * energy / mass);
+        double mag = Math.sqrt(2.0 * energy / m_mass);
 
-        double curMag = velocity.getMagnitude();
+        double curMag = m_velocity.getMagnitude();
 
         if (curMag == 0.0) {
             double rad = Math.random() * Math.PI * 2.0;
 
-            velocity.setComponents(Math.cos(rad), Math.sin(rad));
+            m_velocity.setComponents(Math.cos(rad), Math.sin(rad));
 
             curMag = 1.0;
         }
         
         double scale = mag / curMag;
 
-        velocity.scale(scale);
+        m_velocity.scale(scale);
     }
 
     public Point2D getPositionReference() {
-        return position;
+        return m_position;
     }
     
     public Vector2D getVelocity() {
-        return velocity;
+        return m_velocity;
     }
 
     public Vector2D getAccel() {
-        return accel;
+        return m_accel;
     }
     
     //----------------------------------------------------------------------------
@@ -160,13 +160,13 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
 
         StatesOfMatterParticle that = (StatesOfMatterParticle)o;
 
-        if (Double.compare(that.inverseMass, inverseMass) != 0) {
+        if (Double.compare(that.m_inverseMass, m_inverseMass) != 0) {
             return false;
         }
-        if (Double.compare(that.mass, mass) != 0) {
+        if (Double.compare(that.m_mass, m_mass) != 0) {
             return false;
         }
-        if (Double.compare(that.radius, radius) != 0) {
+        if (Double.compare(that.m_radius, m_radius) != 0) {
             return false;
         }
         if (Double.compare(that.getVx(), getVx()) != 0) {
@@ -195,9 +195,9 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
         try {
             StatesOfMatterParticle p = (StatesOfMatterParticle)super.clone();
 
-            p.position = new Point2D.Double(getX(), getY());
-            p.velocity = new Vector2D.Double(getVx(), getVy());
-            p.accel    = new Vector2D.Double(getAx(), getAy());
+            p.m_position = new Point2D.Double(getX(), getY());
+            p.m_velocity = new Vector2D.Double(getVx(), getVy());
+            p.m_accel    = new Vector2D.Double(getAx(), getAy());
 
             return p;
         }
@@ -207,22 +207,22 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
     }
 
     public String toString() {
-        return getClass().getName() + "[x=" + getX() + ",y=" + getY() + ",radius=" + radius + ",mass=" + mass + ",vx=" + getVx() + ",vy=" + getVy() + ",ax=" + getAx() + ",ay=" + getAy() + "]";
+        return getClass().getName() + "[x=" + getX() + ",y=" + getY() + ",radius=" + m_radius + ",mass=" + m_mass + ",vx=" + getVx() + ",vy=" + getVy() + ",ax=" + getAx() + ",ay=" + getAy() + "]";
     }
     
     public void addListener(Listener listener){
         
-        if (_listeners.contains( listener ))
+        if (m_listeners.contains( listener ))
         {
             // Don't bother re-adding.
             return;
         }
         
-        _listeners.add( listener );
+        m_listeners.add( listener );
     }
     
     public boolean removeListener(Listener listener){
-        return _listeners.remove( listener );
+        return m_listeners.remove( listener );
     }
     
     /**
@@ -232,7 +232,7 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
      */
     public void removedFromModel(){
         notifyParticleRemoved();
-        _listeners.clear();
+        m_listeners.clear();
     }
 
     //----------------------------------------------------------------------------
@@ -240,23 +240,23 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
     //----------------------------------------------------------------------------
     
     private StatesOfMatterParticle(double x, double y, double radius, double mass, double vx, double vy, double ax, double ay) {
-        position.setLocation(x, y);
-        velocity.setComponents(vx, vy);
-        accel.setComponents(ax, ay);
+        m_position.setLocation(x, y);
+        m_velocity.setComponents(vx, vy);
+        m_accel.setComponents(ax, ay);
         
-        this.mass   = mass;
-        this.radius = radius;
+        this.m_mass   = mass;
+        this.m_radius = radius;
     }
 
     private void notifyPositionChanged(){
-        for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).positionChanged();
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).positionChanged();
         }        
     }
 
     private void notifyParticleRemoved(){
-        for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).particleRemoved( this );
+        for (int i = 0; i < m_listeners.size(); i++){
+            ((Listener)m_listeners.get( i )).particleRemoved( this );
         }        
     }
 
