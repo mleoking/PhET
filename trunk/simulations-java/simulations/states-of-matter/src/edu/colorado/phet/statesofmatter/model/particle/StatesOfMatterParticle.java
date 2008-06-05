@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel.Listener;
 
 /**
  * This class represents a particle in the model portion of the States of
