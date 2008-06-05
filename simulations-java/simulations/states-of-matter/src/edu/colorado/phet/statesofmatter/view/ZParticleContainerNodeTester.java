@@ -4,9 +4,7 @@ import junit.framework.TestCase;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
 
 public class ZParticleContainerNodeTester extends TestCase {
     private volatile ParticleContainerNode node;
