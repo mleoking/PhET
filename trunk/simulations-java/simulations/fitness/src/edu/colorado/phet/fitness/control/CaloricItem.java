@@ -4,7 +4,7 @@ package edu.colorado.phet.fitness.control;
  * Created by: Sam
  * Apr 23, 2008 at 1:34:08 PM
  */
-public abstract class CaloricItem {
+public abstract class CaloricItem implements Cloneable{
     private String name;
     private String image;
     private double cal;
@@ -32,4 +32,18 @@ public abstract class CaloricItem {
     }
 
     public abstract String getLabelText();
+
+    public Object clone() {
+        try {
+            CaloricItem item = (CaloricItem) super.clone();
+            item.name = name;
+            item.image = image;
+            item.cal = cal;
+            return item;
+        }
+        catch( CloneNotSupportedException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+    }
 }

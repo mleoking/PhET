@@ -1,5 +1,4 @@
 Comments from Bill on 5-20-2008:
-
 1. Percent body fat should change as body weight changes. This change probably be based upon the concept
     that one pound of fat gain/loss requires a gain/loss of about 3500 calories.
     It should be noted that weight loss by diet only, results in a loss of both fat (75%) and lean tissue (25%)
