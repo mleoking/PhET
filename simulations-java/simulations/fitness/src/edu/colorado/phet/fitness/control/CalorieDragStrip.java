@@ -21,11 +21,11 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class CalorieDragStrip extends PNode {
     private static Random random = new Random();
     private ArrayList listeners = new ArrayList();
-    private static final int HEIGHT = 22;
+    private static final int HEIGHT = 30;
 
     public CalorieDragStrip( final CalorieSet available ) {
         ArrayList nodes = new ArrayList();
-        for ( int i = 0; i < 20; i++ ) {
+        for ( int i = 0; i < 10; i++ ) {
             final PNode node = createNode( available.getItem( i ) );
             final int i1 = i;
             node.addInputEventListener( new PDragSequenceEventHandler() {
@@ -53,12 +53,14 @@ public class CalorieDragStrip extends PNode {
 
             nodes.add( node );
         }
+//        int ROWS = 4;
+        int COLS = 2;
         for ( int i = 1; i < nodes.size(); i++ ) {
-            int row = i / 4;
-            int col = i % 4;
+            int row = i / COLS;
+            int col = i % COLS;
             PNode pNode = (PNode) nodes.get( i );
             PNode prev = (PNode) nodes.get( i - 1 );
-            pNode.setOffset( col == 0 ? 0 : prev.getFullBounds().getMaxX(), row * prev.getFullBounds().getHeight() );
+            pNode.setOffset( col == 0 ? 0 : prev.getFullBounds().getMaxX(), row * HEIGHT );
 
         }
         for ( int i = 0; i < nodes.size(); i++ ) {
