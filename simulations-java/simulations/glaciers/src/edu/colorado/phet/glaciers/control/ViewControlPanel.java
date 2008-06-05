@@ -169,16 +169,14 @@ public class ViewControlPanel extends AbstractSubPanel {
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
-        int row = 0;
-        int column = 0;
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
         layout.setAnchor( GridBagConstraints.WEST );
-        layout.addComponent( unitsPanel, row++, column );
-        layout.addComponent( equilibriumLinePanel, row++, column );
-        layout.addComponent( iceFlowPanel, row++, column );
-        layout.addComponent( coordinatesPanel, row++, column );
-        layout.addComponent( snowfallPanel, row++, column );
-        layout.addComponent( glacierPicturePanel, row++, column );
+        layout.addComponent( unitsPanel, 0, 0, 2, 1 );
+        layout.addComponent( equilibriumLinePanel, 1, 0 );
+        layout.addComponent( snowfallPanel, 2, 0 );
+        layout.addComponent( glacierPicturePanel, 3, 0 );
+        layout.addComponent( iceFlowPanel, 2, 1 );
+        layout.addComponent( coordinatesPanel, 3, 1 );
         
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* excludedClasses */, false /* processContentsOfExcludedContainers */ );
     }
