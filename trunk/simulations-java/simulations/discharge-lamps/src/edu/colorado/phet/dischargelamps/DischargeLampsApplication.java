@@ -40,7 +40,7 @@ import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
  * @version $Revision$
  */
 public class DischargeLampsApplication extends PiccoloPhetApplication {
-    static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
+    static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 - 40 );
 
     /**
      * @param args
