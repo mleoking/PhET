@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.27
+glaciers 0.00.28
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,18 +12,23 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>new timescale model
-<li>new ice thickness model
-<li>fixes to climate model (ablation and melt_z1 were wrong)
-<li>add empty panels for "Advance" and "Climate Experiments"
+<li>trash can is no longer visible in the toolbox (easy to make it visible, if desired)
+<li>put tools away by dragging them back to the toolbox
+<li>change layout of View control panel so that more of Zoomed view is visible
+<li>fixed flags that we getting stuck on the valley floor
+<li>adjusted random "fall over" angle for flags
+<li>fixed debris that was getting created on the valley floor and thought it was at the moraine
+<li>borehole drill can no longer be dragged by its "fire" button
+<li>generate debris in the entire cross section, not just above ELA
+<li>workaround for q_advance_limit problem, to prevent qela from evolving towards higher elevations forever
+<li>renamed "Basic" panel to "Introduction"
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>problems with the new model, including:
 <li>at default climate settings, steady state glacier looks odd, ELA is very high
-<li>ELA is at the thickest part of the ice, so no debris ever reaches the surface
-<li>factor that limits the rate of glacier advancement has a problem that cause glacier to evolve in the wrong direction when ELA goes above the headwall
+<li>in general, ELA doesn't look right
+<li>when ELA is below terminus, the drawn ELA jumps around a bit when the terminus reaches the ELA
 </ul>
 <p>
 <b>Not implemented:</b>
@@ -32,7 +37,7 @@ Click to launch English version:
 <li>can't switch between English and metric units
 <li>time-based graphs are not implemented
 <li>"Steady State" button doesn't advance clock time
-<li>features need to be split into Basic, Advanced, and Climate Experiments panels
+<li>features need to be split into Intro, Advanced, and Climate Experiments panels
 <li>interface for climate experiments is not implemented
 </ul>
 <p>
