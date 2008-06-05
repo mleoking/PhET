@@ -86,6 +86,7 @@ public class CalorieDragStrip extends PNode {
                 protected void drag( PInputEvent event ) {
                     super.drag( event );
                     getPNode().translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
+                    notifyDragged( DefaultDragNode.this );
                 }
 
                 protected void endDrag( PInputEvent e ) {
