@@ -15,18 +15,17 @@ HIGH PRIORITY:
 - bug: Restart clock button does bad things while glacier is evolving, get rid of it?
 - increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
 - switch user-interface between English and metric units
-- debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate
 - add yaw to fake 3D perspective (terminus, ELA, etc) 
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
+- reduce height of View panel to increase size of zoomed view
 - make default speed 2 years per sec
 - provide time estimate for climate experiments interface
 - Intro View panel: units, equil line, snowfall, picture
 - Advanced View panel: units, equil line, ice flow, coordinates, snowfall, picture
 - more "cartoonish" view for Basic panel?
 - move steady state button to play area?
-- move trash can out of toolbox?
 - change color of ice flow vectors so that they are different than debris color?
 - change snowfall visibility with snowfall checkbox
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
@@ -36,7 +35,7 @@ MEDIUM PRIORITY:
 - add depth cues to background image (shading, etc)
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
-- distribute features between Basic and Advanced (and a third?) panels
+- distribute features between Intro. Advanced, and Experiments panels
 - implement Save/Load feature
 - close & reopen graph windows when switching modules
 - main control panel should be the same height in all modules
@@ -598,6 +597,7 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+6/4/08 - move trash can out of toolbox (hide trash can instead)
 5/22/08 - support very long experiment times (use the "steady state" button to jump to end of long experiments)
 5/22/08 - make fastest speed faster, vary dt instead of framerate (both approaches have problems, use steady state button for long experiements)
 5/19/08 - extruded portion of ice jiggles at headwall while it's evolving (problem disappeared)
