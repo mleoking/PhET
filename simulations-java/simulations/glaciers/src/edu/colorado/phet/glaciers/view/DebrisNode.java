@@ -26,7 +26,7 @@ public class DebrisNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private static final boolean DEBUG_3D = false;  // see debug3D method
-    private static final boolean DEBUG_ON_VALLEY_FLOOR = true; // see debugOnValleyFloor method
+    private static final boolean DEBUG_ON_VALLEY_FLOOR = false; // see debugOnValleyFloor method
     
     private static final double BOULDER_RADIUS = 1; // pixels
     
@@ -96,7 +96,7 @@ public class DebrisNode extends PComposite {
         if ( DEBUG_3D ) {
             debug3D();
         }
-        else if (DEBUG_ON_VALLEY_FLOOR ) {
+        if (DEBUG_ON_VALLEY_FLOOR ) {
             debugOnValleyFloor();
         }
     }
@@ -113,10 +113,11 @@ public class DebrisNode extends PComposite {
     }
     
     /*
-     * In debug mode, debris on valley floor is red.
+     * In debug mode, debris on valley floor is green.
      */
     private void debugOnValleyFloor() {
         if ( _debris.isOnValleyFloor() ) {
+            setVisible( true );
             _boulderNode.setPaint( Color.GREEN );
         }
     }
