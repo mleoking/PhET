@@ -2,11 +2,9 @@
 
 package edu.colorado.phet.glaciers.model;
 
-import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.glaciers.view.MountainsAndValleyNode;
 
 /**
  * DebrisGenerator generates a 3D position for debris, 
@@ -18,6 +16,8 @@ import edu.colorado.phet.glaciers.view.MountainsAndValleyNode;
 public class DebrisGenerator {
     
     private static final int DEBRIS_CROSS_SECTION_RATIO = 5; // 1 out of this many debris are created in the ice cross-section
+    private static final double MIN_GLACIER_LENGTH = 1; // meter
+    private static final double MIN_GLACIER_THICKNESS = 1; // meter
 
     private final Glacier _glacier;
     private final Random _randomDebrisX, _randomDebrisY, _randomDebrisZ;
@@ -33,35 +33,36 @@ public class DebrisGenerator {
     
     public void generateDebrisPosition( Point3D pOutput ) {
         
-        if ( _glacier.getLength() > 0 ) {
+        // glacier must have some minimum length...
+        if ( _glacier.getLength() > MIN_GLACIER_LENGTH ) {
             
-            // x - distance between valley headwall and ELA (or terminus)
-            final double minX = _glacier.getValley().getHeadwallPositionReference().getX();
-            Point2D surfaceAtSteadyStateELA = _glacier.getSurfaceAtELAReference();
-            double maxX = 0;
-            if ( surfaceAtSteadyStateELA != null ) {
-                maxX = _glacier.getSurfaceAtELAReference().getX();
-            }
-            else {
-                maxX = _glacier.getTerminusX();
-            }
+            // x - distance, between valley headwall terminus
+            final double minX = _glacier.getValley().getHeadwallPositionReference().getX() + ( 0.1 * MIN_GLACIER_LENGTH );
+            final double maxX = _glacier.getTerminusX() - ( 0.1 * MIN_GLACIER_LENGTH );
             final double x = minX + _randomDebrisX.nextDouble() * ( maxX - minX );
             
-            // y - elevation
-            final double minY = _glacier.getValley().getElevation( x ) + 1; // 1 meter above valley floor
-            final double maxY = _glacier.getSurfaceElevation( x ) - 1; // 1 meter below glacier's surface
-            final double y = minY + _randomDebrisY.nextDouble() * ( maxY - minY );
-            
-            // z - distance across the width of the valley floor
-            double z = 0; // in the cross-section
-            if ( _count % DEBRIS_CROSS_SECTION_RATIO != 0 ) {
-                // not in the cross-section
-                final double perspectiveHeight = Valley.getPerspectiveHeight();
-                z = _randomDebrisZ.nextDouble() * perspectiveHeight;
+            // if the ice is some minimum thickness at x ...
+            final double valleyElevation = _glacier.getValley().getElevation( x );
+            final double glacierSurfaceElevation = _glacier.getSurfaceElevation( x );
+            if ( glacierSurfaceElevation - valleyElevation > MIN_GLACIER_THICKNESS ) {
+                
+                // y - elevation, between valley floor and glacier surface
+                final double minY = valleyElevation + ( 0.1 * MIN_GLACIER_THICKNESS ); // slightly above valley floor
+                final double maxY = glacierSurfaceElevation - ( 0.1 * MIN_GLACIER_THICKNESS ); // slightly below glacier's surface
+                final double y = minY + _randomDebrisY.nextDouble() * ( maxY - minY );
+                assert ( y > valleyElevation && y < glacierSurfaceElevation );
+
+                // z - distance across the width of the valley floor
+                double z = 0; // in the cross-section
+                if ( _count % DEBRIS_CROSS_SECTION_RATIO != 0 ) {
+                    // not in the cross-section
+                    final double perspectiveHeight = Valley.getPerspectiveHeight();
+                    z = _randomDebrisZ.nextDouble() * perspectiveHeight;
+                }
+                pOutput.setLocation( x, y, z );
+
+                _count++;
             }
-            pOutput.setLocation( x, y, z );
-            
-            _count++;
         }
     }
 }
