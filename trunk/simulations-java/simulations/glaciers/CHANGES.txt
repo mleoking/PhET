@@ -3,7 +3,6 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- bug: debris forms at headwall while glacier is receding and ELA is above headwall
 - bug: flags get stuck on valley floor above the terminus (try a long glacier)
 - bug: flags don't fall over at random angles when they hit the valley floor (drop below and above glacier)
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
@@ -88,6 +87,8 @@ CLEANUP:
 
 
 DONE:
+6/5/08 - bugfix: debris gets created directly on valley floor and never moves
+6/5/08 - generate debris in entire cross-section, not just above ELA
 6/5/08 - disable dragging of borehole drill while its "fire" button is pressed
 6/5/08 - hide trash can, put tools away by dragging them back to tool box
 6/5/08 - create TrashCanDelegate, handles specifics of trashing tools independent of the node that represents the trash
