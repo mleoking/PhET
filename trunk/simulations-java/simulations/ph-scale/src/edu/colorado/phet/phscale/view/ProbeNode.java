@@ -16,24 +16,24 @@ import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 public class ProbeNode extends PComposite {
     
     private static final Color SHAFT_COLOR = Color.DARK_GRAY;
+    private static final double SHAFT_WIDTH = 10;
     
     private static final Color TIP_COLOR = PHScaleConstants.H3O_COLOR;
     
-    private static final Color BORDER_COLOR = SHAFT_COLOR;
-    private static final double BORDER_WIDTH = 3;
-    private static final double BORDER_MARGIN = 8;
+    private static final Color DISPLAY_BORDER_COLOR = SHAFT_COLOR;
+    private static final double DISPLAY_BORDER_WIDTH = 3;
+    private static final double DISPLAY_BORDER_MARGIN = 8;
     
-    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 18 );
-    private static final double SHAFT_WIDTH = 10;
-    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "#0.00" );
-    private static final double VALUE_SPACING = 8;
+    private static final Font DISPLAY_FONT = new PhetFont( Font.BOLD, 18 );
+    private static final DecimalFormat DISPLAY_FORMAT = new DecimalFormat( "#0.00" );
+    private static final double DISPLAY_X_SPACING = 8;
+    private static final Color DISPLAY_BACKGROUND = Color.LIGHT_GRAY;
 
     private final DisplayNode _displayNode;
     
@@ -57,7 +57,7 @@ public class ProbeNode extends PComposite {
         PBounds db = _displayNode.getFullBoundsReference();
         PBounds sb = shaftNode.getFullBoundsReference();
         _displayNode.setOffset( 0, 0 );
-        shaftNode.setOffset( ( db.getWidth() - sb.getWidth() ) / 4, db.getHeight() - 0.5 * BORDER_WIDTH );
+        shaftNode.setOffset( ( db.getWidth() - sb.getWidth() ) / 4, db.getHeight() - 0.5 * DISPLAY_BORDER_WIDTH );
         sb = shaftNode.getFullBoundsReference();
         PBounds tb = tipNode.getFullBoundsReference();
         tipNode.setOffset( sb.getX() + ( sb.getWidth() - tb.getWidth() ) / 2, sb.getY() + sb.getHeight() );
@@ -74,30 +74,30 @@ public class ProbeNode extends PComposite {
             super();
             
             PText labelNode = new PText( PHScaleStrings.LABEL_PH );
-            labelNode.setFont( VALUE_FONT );
+            labelNode.setFont( DISPLAY_FONT );
             
             _valueNode = new PText( "XXX.XX" );
-            _valueNode.setFont( VALUE_FONT );
+            _valueNode.setFont( DISPLAY_FONT );
             
             PComposite parentNode = new PComposite();
             parentNode.addChild( labelNode );
             parentNode.addChild( _valueNode );
             labelNode.setOffset( 0, 0 );
-            _valueNode.setOffset( labelNode.getFullBoundsReference().getWidth() + VALUE_SPACING, 0 );
+            _valueNode.setOffset( labelNode.getFullBoundsReference().getWidth() + DISPLAY_X_SPACING, 0 );
             
             PBounds pb = parentNode.getFullBoundsReference();
-            Shape outlineShape = new RoundRectangle2D.Double( 0, 0, pb.getWidth() + 2 * BORDER_MARGIN, pb.getHeight() + 2 * BORDER_MARGIN, 10, 10 );
-            PPath outlineNode = new PPath( outlineShape );
-            addChild( outlineNode );
-            outlineNode.setPaint( null );
-            outlineNode.setStroke( new BasicStroke( (float) BORDER_WIDTH ) );
-            outlineNode.setStrokePaint( BORDER_COLOR );
-            outlineNode.addChild( parentNode );
-            parentNode.setOffset( BORDER_MARGIN, BORDER_MARGIN );
+            Shape backgroundShape = new RoundRectangle2D.Double( 0, 0, pb.getWidth() + 2 * DISPLAY_BORDER_MARGIN, pb.getHeight() + 2 * DISPLAY_BORDER_MARGIN, 10, 10 );
+            PPath backgroundNode = new PPath( backgroundShape );
+            addChild( backgroundNode );
+            backgroundNode.setPaint( DISPLAY_BACKGROUND );
+            backgroundNode.setStroke( new BasicStroke( (float) DISPLAY_BORDER_WIDTH ) );
+            backgroundNode.setStrokePaint( DISPLAY_BORDER_COLOR );
+            backgroundNode.addChild( parentNode );
+            parentNode.setOffset( DISPLAY_BORDER_MARGIN, DISPLAY_BORDER_MARGIN );
         }
         
         public void setValue( double pH ) {
-            _valueNode.setText( VALUE_FORMAT.format( pH ) );
+            _valueNode.setText( DISPLAY_FORMAT.format( pH ) );
         }
     }
     

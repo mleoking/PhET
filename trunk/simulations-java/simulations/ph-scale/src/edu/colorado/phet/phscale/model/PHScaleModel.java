@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.module;
+package edu.colorado.phet.phscale.model;
 
 
 /**
@@ -14,6 +14,7 @@ public class PHScaleModel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private ILiquid _liquid;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -24,6 +25,14 @@ public class PHScaleModel {
     }
     
     //----------------------------------------------------------------------------
-    // Accessors
+    // Setters and getters
     //----------------------------------------------------------------------------
+    
+    public void setLiquid( ILiquid liquid ) {
+        _liquid = liquid;
+    }
+    
+    public ILiquid getLiquid() {
+        return _liquid;
+    }
 }
