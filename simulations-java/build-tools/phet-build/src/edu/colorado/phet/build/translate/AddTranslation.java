@@ -18,33 +18,33 @@ import com.jcraft.jsch.JSchException;
  * Jan 11, 2008 at 11:36:47 AM
  */
 public class AddTranslation {
-    
+
     private static final boolean DEPLOY_ENABLED = true; // can be turned off for local debugging
-    
+
     public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
-    
+
     private File basedir;
-    
+
     public static class AddTranslationReturnValue {
-        
+
         private final String simulation;
         private final String language;
         private final boolean success;
-        
+
         public AddTranslationReturnValue( String simulation, String language, boolean success ) {
             this.simulation = simulation;
             this.language = language;
             this.success = success;
         }
-        
+
         public String getSimulation() {
             return simulation;
         }
-        
+
         public String getLanguage() {
             return language;
         }
-        
+
         public boolean isSuccess() {
             return success;
         }
@@ -64,9 +64,9 @@ public class AddTranslation {
      * @throws IOException
      */
     public AddTranslationReturnValue addTranslation( String simulation, String language, String user, String password ) {
-        
+
         boolean success = true;
-        
+
         try {
             PhetProject phetProject = new PhetProject( new File( basedir, "simulations" ), simulation );
 
@@ -147,7 +147,7 @@ public class AddTranslation {
             e.printStackTrace();
             success = false;
         }
-            
+
         return new AddTranslationReturnValue( simulation, language, success );
     }
 
@@ -156,9 +156,18 @@ public class AddTranslation {
             //download JNLP from main site and use as template in case any changes in main-class
             final File localFile = new File( TRANSLATIONS_TEMP_DIR, "template-" + project.getName() + ".jnlp" );
             localFile.deleteOnExit();
-            FileUtils.download( "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getName() + ".jnlp", localFile );
+            try {
+                FileUtils.download( "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getName() + ".jnlp", localFile );
+            }
+            catch( FileNotFoundException e ) {//not all sims have a flavor name equal to project name
+                FileUtils.download( "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getFlavors()[0].getFlavorName() + ".jnlp", localFile );
+            }
             String desiredMainClass = getMainClass( localFile );
-            final File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getName() + "_" + language + ".jnlp" );
+
+            File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getName() + "_" + language + ".jnlp" );
+            if (!newJNLPFile.exists()){//not all sims have a flavor name equal to project name
+                newJNLPFile=new File( project.getDefaultDeployDir(), "" + project.getFlavors()[0].getFlavorName() + "_" + language + ".jnlp" );
+            }
             String repositoryMainClass = getMainClass( newJNLPFile );
             if ( !repositoryMainClass.equals( desiredMainClass ) ) {
                 System.out.println( "Mismatch of main classes for project: " + project.getName() );
@@ -249,8 +258,8 @@ public class AddTranslation {
      * Uploads the new JAR file to tigercat.
      *
      * @param phetProject
-     * @throws IOException 
-     * @throws JSchException 
+     * @throws IOException
+     * @throws JSchException
      */
     private void deployJAR( PhetProject phetProject, String jarBaseName, String user, String password ) throws JSchException, IOException {
         final String filename = getRemoteDirectory( phetProject ) + jarBaseName + ".jar";
