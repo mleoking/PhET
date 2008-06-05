@@ -7,9 +7,9 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.nuclearphysics2.defaults.AlphaRadiationDefaults;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.statesofmatter.defaults.SolidLiquidGasDefaults;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
@@ -69,6 +69,6 @@ public class SolidLiquidGasModule extends Module {
 
         // Reset the clock, which ultimately resets the model too.
         getClock().resetSimulationTime();
-        setClockRunningWhenActive( AlphaRadiationDefaults.CLOCK_RUNNING );
+        setClockRunningWhenActive( SolidLiquidGasDefaults.CLOCK_RUNNING );
     }
 }
