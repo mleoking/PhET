@@ -12,7 +12,6 @@ import javax.swing.border.Border;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.model.AbstractTool;
-import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
@@ -40,7 +39,7 @@ public abstract class AbstractToolNode extends PNode {
     
     private final AbstractTool _tool;
     private final ModelViewTransform _mvt;
-    private final TrashCanIconNode _trashCanIconNode;
+    private final TrashCanDelegate _trashCan;
     private final MovableListener _movableListener;
     private final Point2D _pModel, _pView; // reusable points
     
@@ -48,7 +47,7 @@ public abstract class AbstractToolNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractToolNode( AbstractTool tool, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+    public AbstractToolNode( AbstractTool tool, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
         super();
         
         _pModel = new Point2D.Double();
@@ -56,7 +55,7 @@ public abstract class AbstractToolNode extends PNode {
         
         _tool = tool;
         _mvt = mvt;
-        _trashCanIconNode = trashCanIconNode;
+        _trashCan = trashCan;
         
         _movableListener = new MovableListener() {
             public void positionChanged() {
@@ -92,8 +91,8 @@ public abstract class AbstractToolNode extends PNode {
             }
             
             protected void endDrag( PInputEvent event ) {
-                if ( _trashCanIconNode.isInTrash( event.getPosition() ) ) {
-                    _trashCanIconNode.delete( AbstractToolNode.this );
+                if ( _trashCan.isInTrash( event.getPosition() ) ) {
+                    _trashCan.delete( AbstractToolNode.this, event.getPosition() );
                 }
                 else {
                     getTool().setDragging( false );

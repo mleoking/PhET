@@ -22,8 +22,8 @@ public class TracerFlagNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public TracerFlagNode( TracerFlag tracerFlag, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
-        super( tracerFlag, mvt, trashCanIconNode );
+    public TracerFlagNode( TracerFlag tracerFlag, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+        super( tracerFlag, mvt, trashCan );
         _tracerFlag = tracerFlag;
         PImage imageNode = new PImage( GlaciersImages.TRACER_FLAG );
         addChild( imageNode );

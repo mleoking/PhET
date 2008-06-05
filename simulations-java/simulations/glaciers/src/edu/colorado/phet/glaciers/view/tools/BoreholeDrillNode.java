@@ -25,8 +25,8 @@ public class BoreholeDrillNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BoreholeDrillNode( final BoreholeDrill boreholeDrill, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
-        super( boreholeDrill, mvt, trashCanIconNode );
+    public BoreholeDrillNode( final BoreholeDrill boreholeDrill, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+        super( boreholeDrill, mvt, trashCan );
         
         PNode drillNode = new DrillNode();
         drillNode.scale( 0.75 ); //XXX

@@ -546,7 +546,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
      * @param tool
      */
     public void toolAdded( AbstractTool tool ) {
-        AbstractToolNode toolNode = ToolNodeFactory.createNode( tool, _model, _mvt, _toolboxNode.getTrashCan() );
+        AbstractToolNode toolNode = ToolNodeFactory.createNode( tool, _model, _mvt, _toolboxNode.getTrashCanDelegate() );
         _toolsLayer.addChild( toolNode );
         _toolsMap.put( tool, toolNode );
     }

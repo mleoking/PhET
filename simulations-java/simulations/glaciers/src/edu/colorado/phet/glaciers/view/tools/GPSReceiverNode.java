@@ -56,8 +56,8 @@ public class GPSReceiverNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GPSReceiverNode( GPSReceiver gps, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
-        super( gps, mvt, trashCanIconNode );
+    public GPSReceiverNode( GPSReceiver gps, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+        super( gps, mvt, trashCan );
         
         _gps = gps;
         _movableListener = new MovableAdapter() {

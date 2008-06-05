@@ -59,8 +59,8 @@ public class IceThicknessToolNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IceThicknessToolNode( IceThicknessTool iceThicknessTool, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
-        super( iceThicknessTool, mvt, trashCanIconNode );
+    public IceThicknessToolNode( IceThicknessTool iceThicknessTool, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+        super( iceThicknessTool, mvt, trashCan );
         
         _iceThicknessTool = iceThicknessTool;
         _iceThicknessToolListener = new IceThicknessToolListener() {

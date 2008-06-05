@@ -22,25 +22,25 @@ public class ToolNodeFactory {
      * @param mvt
      * @return
      */
-    public static AbstractToolNode createNode( AbstractTool tool, AbstractModel model, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
+    public static AbstractToolNode createNode( AbstractTool tool, AbstractModel model, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
         AbstractToolNode node = null;
         if ( tool instanceof Thermometer ) {
-            node = new ThermometerNode( (Thermometer) tool, model.getGlacier(), mvt, trashCanIconNode );
+            node = new ThermometerNode( (Thermometer) tool, model.getGlacier(), mvt, trashCan );
         }
         else if ( tool instanceof GlacialBudgetMeter ) {
-            node = new GlacialBudgetMeterNode( (GlacialBudgetMeter) tool,  model.getGlacier(), mvt, trashCanIconNode );
+            node = new GlacialBudgetMeterNode( (GlacialBudgetMeter) tool,  model.getGlacier(), mvt, trashCan );
         }
         else if ( tool instanceof TracerFlag ) {
-            node = new TracerFlagNode( (TracerFlag) tool, mvt, trashCanIconNode );
+            node = new TracerFlagNode( (TracerFlag) tool, mvt, trashCan );
         }
         else if ( tool instanceof IceThicknessTool ) {
-            node = new IceThicknessToolNode( (IceThicknessTool) tool, mvt, trashCanIconNode );
+            node = new IceThicknessToolNode( (IceThicknessTool) tool, mvt, trashCan );
         }
         else if ( tool instanceof BoreholeDrill ) {
-            node = new BoreholeDrillNode( (BoreholeDrill) tool, mvt, trashCanIconNode );
+            node = new BoreholeDrillNode( (BoreholeDrill) tool, mvt, trashCan );
         }
         else if ( tool instanceof GPSReceiver ) {
-            node = new GPSReceiverNode( (GPSReceiver) tool, mvt, trashCanIconNode );
+            node = new GPSReceiverNode( (GPSReceiver) tool, mvt, trashCan );
         }
         else {
             throw new UnsupportedOperationException( "no node for tool type " + tool.getClass() );
