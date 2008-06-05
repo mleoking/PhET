@@ -4,6 +4,7 @@ package edu.colorado.phet.phscale.module;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.phscale.model.PHScaleModel;
 
 /**
  * PHScaleModule is the sole module for this sim.
