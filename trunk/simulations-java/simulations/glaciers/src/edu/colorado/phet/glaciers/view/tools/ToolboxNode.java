@@ -35,6 +35,12 @@ public class ToolboxNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    /*
+     * true: show a trash can icon, dispose of tools by dragging them to this icon
+     * false: no trash can icon, dispose of tools by dragging them back to the toolbox
+     */
+    private static final boolean SHOW_TRASH_CAN = false;
+    
     // spacing properties
     private static final int HORIZONTAL_ICON_SPACING = 15; // horizontal space between icons
     private static final Insets BACKGROUND_INSETS = new Insets( 5, 15, 5, 15 ); // top, left, bottom, right
@@ -58,7 +64,8 @@ public class ToolboxNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final TrashCanIconNode _trashCanIconNode;
+    // handles the specifics of trashing tools, independent of the trash can representation
+    private final TrashCanDelegate _trashCanDelegate;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -119,17 +126,26 @@ public class ToolboxNode extends PNode {
             toolTipsParentNode.addChild( toolTipNode );
             layoutNodeList.add( toolNode );
             
-            // Spacer
-            PPath spacerNode = new PPath( new Rectangle( 0,0,20,5) );
-            spacerNode.setPaint( null );
-            spacerNode.setStroke( null );
-            layoutNodeList.add( spacerNode );
-            
-            // Trash Can
-            toolNode = _trashCanIconNode = new TrashCanIconNode( toolProducer );
-            toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLTIP_TRASH_CAN, toolNode );
-            toolTipsParentNode.addChild( toolTipNode );
-            layoutNodeList.add( toolNode );
+            if ( SHOW_TRASH_CAN ) {
+                // Spacer
+                PPath spacerNode = new PPath( new Rectangle( 0, 0, 20, 5 ) );
+                spacerNode.setPaint( null );
+                spacerNode.setStroke( null );
+                layoutNodeList.add( spacerNode );
+
+                // Trash Can icon
+                TrashCanIconNode trashCanNode = new TrashCanIconNode( toolProducer );
+                toolTipNode = new ToolboxToolTipNode( GlaciersStrings.TOOLTIP_TRASH_CAN, trashCanNode );
+                toolTipsParentNode.addChild( toolTipNode );
+                layoutNodeList.add( trashCanNode );
+                
+                // use the trash can icon's delegate, drop tools on the trash can icon to delete them
+                _trashCanDelegate = trashCanNode.getTrashCanDelegate();
+            }
+            else {
+                // use the toolbox's delegate, drop tools on the toolbox to delete them
+                _trashCanDelegate = new TrashCanDelegate( this, toolProducer );
+            }
             
             layoutNodes( layoutNodeList, iconsParentNode );
         }
@@ -220,8 +236,8 @@ public class ToolboxNode extends PNode {
         }
     }
     
-    public TrashCanIconNode getTrashCan() {
-        return _trashCanIconNode;
+    public TrashCanDelegate getTrashCanDelegate() {
+        return _trashCanDelegate;
     }
     
     private static final class ToolboxToolTipNode extends ToolTipNode {

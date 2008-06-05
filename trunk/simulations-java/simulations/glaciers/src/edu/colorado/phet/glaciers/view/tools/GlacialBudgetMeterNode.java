@@ -64,8 +64,8 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, Glacier glacier, ModelViewTransform mvt, TrashCanIconNode trashCanIconNode ) {
-        super( glacialBudgetMeter, mvt, trashCanIconNode );
+    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, Glacier glacier, ModelViewTransform mvt, TrashCanDelegate trashCan ) {
+        super( glacialBudgetMeter, mvt, trashCan );
         
         _glacialBudgetMeter = glacialBudgetMeter;
         _glacier = glacier;
