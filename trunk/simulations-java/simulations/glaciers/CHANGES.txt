@@ -86,7 +86,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.28 (?)
+******* 0.00.28 (22031)
 6/5/08 - hide ELAValueNode
 6/5/08 - change layout of View control panel to reduce its height, making more room for zoomed view
 6/5/08 - bugfix: flags above the terminus can get created directly on the valley floor and then don't move
