@@ -3,6 +3,7 @@ Change history for glaciers
 ================================================================================
 
 HIGH PRIORITY:
+- debris forms at headwall while glacier is receding and ELA is above headwall
 - hide trash can, put tools away by dragging them back to tool box
 - Intro View panel: units, equil line, snowfall, picture
 - Advanced View panel: units, equil line, ice flow, coordinates, snowfall, picture
@@ -14,7 +15,6 @@ HIGH PRIORITY:
 - bug: dragging to the drill to the trash while pressing button results in a borehole being drilled when dropped in trash
 - change color of ice surface below ELA to brownish grey as in real picture
 ? how to add headwall x position to ice thickness model in model.txt
-- bug: if ELA gets above headwall, Glacier q_advance_limit causes quasi-ELA to evolve in wrong direction forever
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 - bug: Restart clock button does bad things while glacier is evolving, get rid of it?
 - thermometer looks lousy while dragging
@@ -94,6 +94,7 @@ CLEANUP:
 
 
 DONE:
+6/4/08 - bugfix: if ELA gets above headwall, Glacier q_advance_limit causes quasi-ELA to evolve in wrong direction forever
 ******* 0.00.27 (21967)
 6/3/08 - add empty modules for Advanced and Climate Experiments, so we see the tabs
 6/3/08 - revised ice thickness model to match model.txt

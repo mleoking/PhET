@@ -433,6 +433,16 @@ public class Glacier extends ClockAdapter {
         
         if ( !isSteadyState() ) {
             
+            // If _quasiELA is above the top of the headwall, immediately jump to the top of the headwall.
+            // The main reason for doing this is a bug in q_advance_limit (see below). If the ELA goes above 
+            // the top of the headwall, q_advance_limit becomes positive when it should be negative, and it
+            // causes _quasiELA to evolves in the wrong direction (to higher elevations) forever.
+            // A secondary reason for doing this is so that we don't have to wait for a glacier to start
+            // forming when the climate is warmed.
+            if ( _quasiELA > _valley.getMaxElevation() ) {
+                _quasiELA = _valley.getMaxElevation();
+            }
+            
             final double dt = event.getSimulationTimeChange();
             final double ela = _climate.getELA();
             final double timescale = getTimescale();
