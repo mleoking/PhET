@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.fitness.developer.DeveloperMenu;
-import edu.colorado.phet.fitness.menu.OptionsMenu;
 import edu.colorado.phet.fitness.module.fitness.FitnessModule;
 import edu.colorado.phet.fitness.view.FitnessColorScheme;
 
@@ -87,12 +86,6 @@ public class FitnessApplication extends PiccoloPhetApplication {
 
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( frame );
-        }
-
-        // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
-        if ( optionsMenu.getMenuComponentCount() > 0 ) {
-            frame.addMenu( optionsMenu );
         }
 
         // Developer menu
