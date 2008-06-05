@@ -11,6 +11,8 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.BoreholeDrill;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -48,6 +50,15 @@ public class BoreholeDrillNode extends AbstractToolNode {
                 boreholeDrill.drill();
             }
         });
+        buttonNode.addInputEventListener( new PBasicInputEventHandler() {
+            // disable dragging while the button is pressed
+            public void mousePressed( PInputEvent event ) {
+                setDraggingEnabled( false );
+            }
+            public void mouseReleased( PInputEvent event ) {
+                setDraggingEnabled( true );
+            }
+        } );
     }
     
     //----------------------------------------------------------------------------

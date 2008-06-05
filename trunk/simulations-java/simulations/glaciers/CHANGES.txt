@@ -5,9 +5,7 @@ Change history for glaciers
 HIGHEST PRIORITY:
 - debris forms at headwall while glacier is receding and ELA is above headwall
 - make shape of surface ripples look random
-- go back to previous algorithm for trashing a tool? (when tool node overlaps trash can?)
 - verify that flags fall over at random angles when they hit the valley floor (drop below and above glacier)
-- bug: dragging to the drill to the trash while pressing button results in a borehole being drilled when dropped in trash
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 
 HIGH PRIORITY:
@@ -90,6 +88,7 @@ CLEANUP:
 
 
 DONE:
+6/5/08 - disable dragging of borehole drill while its "fire" button is pressed
 6/5/08 - hide trash can, put tools away by dragging them back to tool box
 6/5/08 - create TrashCanDelegate, handles specifics of trashing tools independent of the node that represents the trash
 6/5/08 - rename "Basic" tab to "Intro"

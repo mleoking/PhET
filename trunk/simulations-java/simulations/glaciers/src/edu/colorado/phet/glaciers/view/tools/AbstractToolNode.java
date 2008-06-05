@@ -42,6 +42,7 @@ public abstract class AbstractToolNode extends PNode {
     private final TrashCanDelegate _trashCan;
     private final MovableListener _movableListener;
     private final Point2D _pModel, _pView; // reusable points
+    private boolean _draggingEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,41 +69,52 @@ public abstract class AbstractToolNode extends PNode {
         
         _tool.addMovableListener( _movableListener );
         
+        _draggingEnabled = true;
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() {
             
             private double _xOffset, _yOffset; // distance between mouse press and model origin, in view coordinates
             
             protected void startDrag( PInputEvent event ) {
-                AbstractToolNode.this.startDrag();
-                getTool().setDragging( true );
-                _mvt.modelToView( _tool.getPosition(), _pView );
-                _xOffset = event.getPosition().getX() - _pView.getX();
-                _yOffset = event.getPosition().getY() - _pView.getY();
-                super.startDrag( event );
+                if ( _draggingEnabled ) {
+                    AbstractToolNode.this.startDrag();
+                    getTool().setDragging( true );
+                    _mvt.modelToView( _tool.getPosition(), _pView );
+                    _xOffset = event.getPosition().getX() - _pView.getX();
+                    _yOffset = event.getPosition().getY() - _pView.getY();
+                    super.startDrag( event );
+                }
             }
 
             protected void drag( PInputEvent event ) {
-                double x = event.getPosition().getX() - _xOffset;
-                double y = event.getPosition().getY() - _yOffset;
-                _mvt.viewToModel( x, y, _pModel );
-                _tool.setPosition( _pModel );
-                // do not call super.drag, or tool will wobble
+                if ( _draggingEnabled ) {
+                    double x = event.getPosition().getX() - _xOffset;
+                    double y = event.getPosition().getY() - _yOffset;
+                    _mvt.viewToModel( x, y, _pModel );
+                    _tool.setPosition( _pModel );
+                    // do not call super.drag, or tool will wobble
+                }
             }
             
             protected void endDrag( PInputEvent event ) {
-                if ( _trashCan.isInTrash( event.getPosition() ) ) {
-                    _trashCan.delete( AbstractToolNode.this, event.getPosition() );
+                if ( _draggingEnabled ) {
+                    if ( _trashCan.isInTrash( event.getPosition() ) ) {
+                        _trashCan.delete( AbstractToolNode.this, event.getPosition() );
+                    }
+                    else {
+                        getTool().setDragging( false );
+                    }
+                    super.endDrag( event );
+                    AbstractToolNode.this.endDrag();
                 }
-                else {
-                    getTool().setDragging( false );
-                }
-                super.endDrag( event );
-                AbstractToolNode.this.endDrag();
             }
         } );
 
         updatePosition();
+    }
+    
+    public void setDraggingEnabled( boolean draggingEnabled ) {
+        _draggingEnabled = draggingEnabled;
     }
     
     /*
