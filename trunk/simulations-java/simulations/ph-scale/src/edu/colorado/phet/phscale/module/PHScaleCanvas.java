@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.phscale.module;
 
+import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.phscale.PHScaleConstants;
+import edu.colorado.phet.phscale.view.ProbeNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -15,6 +17,12 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PHScaleCanvas extends PhetPCanvas {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Dimension RENDERING_SIZE = new Dimension( 1024, 768 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -31,6 +39,7 @@ public class PHScaleCanvas extends PhetPCanvas {
     
     public PHScaleCanvas( PHScaleModel model ) {
         super();
+        setWorldTransformStrategy( new RenderingSizeStrategy( this, RENDERING_SIZE ) );
         
         _model = model;
         
@@ -39,6 +48,10 @@ public class PHScaleCanvas extends PhetPCanvas {
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
+        
+        ProbeNode probeNode = new ProbeNode( 500 );
+        probeNode.setOffset( 100, 100 );//XXX
+        _rootNode.addChild( probeNode );
     }
     
 

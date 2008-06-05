@@ -25,6 +25,7 @@ public class PHScaleModule extends PiccoloModule {
 
     public PHScaleModule() {
         super( "", new ConstantDtClock( 1000, 1 ), true /* startsPaused */ );
+        setLogoPanelVisible( false );
 
         // Model
         _model = new PHScaleModel();

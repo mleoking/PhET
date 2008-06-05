@@ -41,6 +41,8 @@ CLEANUP:
 
 
 DONE:
+6/5/08 - create ProbeNode for pH probe
+6/5/08 - add all strings to localization file & PHScaleStrings
 ******* version 0.00.04 (21953)
 6/3/08 - create TestParticleViews: combine "beaker view" and "microscope view" into 1 prototype
 6/3/08 - create TestBeakerView prototype for "beaker view" of H3O and OH concentrations in variable liquid volume
