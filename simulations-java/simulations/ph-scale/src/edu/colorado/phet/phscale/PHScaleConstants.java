@@ -74,6 +74,10 @@ public class PHScaleConstants {
     // Default color for module tabs
     public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
     
+    public static final Color H2O_COLOR = new Color( 102, 242, 241 );
+    public static final Color H3O_COLOR = new Color( 242, 102, 101 );
+    public static final Color OH_COLOR = new Color( 102, 132, 242 );
+    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
