@@ -33,7 +33,9 @@ public class CalorieDragStrip extends PNode {
 
                 protected void startDrag( PInputEvent e ) {
                     super.startDrag( e );
-                    createdNode = createNode( available.getItem( i1 ) );
+                    CaloricItem caloricItem = (CaloricItem) available.getItem( i1 ).clone();
+
+                    createdNode = createNode( caloricItem );
                     createdNode.addDragHandler();
                     createdNode.getPNode().setOffset( node.getOffset() );
                     addChild( createdNode.getPNode() );
