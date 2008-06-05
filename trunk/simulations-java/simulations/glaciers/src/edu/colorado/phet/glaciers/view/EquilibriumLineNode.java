@@ -74,7 +74,7 @@ public class EquilibriumLineNode extends PhetPNode {
         _pathNode.setStrokePaint( STROKE_COLOR );
         addChild( _pathNode );
         
-        // intialize
+        // initialize
         update();
     }
     
@@ -103,17 +103,17 @@ public class EquilibriumLineNode extends PhetPNode {
             _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
         }
         else {
-            Point2D surfaceAtSteadyStateELA = _glacier.getSurfaceAtELAReference();
-            if ( surfaceAtSteadyStateELA != null ) {
-                // terminus is below the ELA
+            Point2D surfaceAtELA = _glacier.getSurfaceAtELAReference();
+            if ( surfaceAtELA != null ) {
+                // terminus is at or below the ELA
                 
                 // draw a line to the ice-air interface at the ELA
-                _pModel.setLocation( surfaceAtSteadyStateELA.getX(), ela );
+                _pModel.setLocation( surfaceAtELA.getX(), ela );
                 _mvt.modelToView( _pModel, _pView );
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 
                 // draw a vertical line across the surface of the ice
-                _pModel.setLocation( surfaceAtSteadyStateELA.getX(), ela + Valley.getPerspectiveHeight() );
+                _pModel.setLocation( surfaceAtELA.getX(), ela + Valley.getPerspectiveHeight() );
                 _mvt.modelToView( _pModel, _pView );
                 _path.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
