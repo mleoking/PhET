@@ -10,14 +10,14 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 
 /**
- * BasicDefaults contains default settings for BasicModule.
+ * Default settings for the "Intro" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BasicDefaults {
+public class IntroDefaults {
 
     /* Not intended for instantiation */
-    private BasicDefaults() {}
+    private IntroDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;

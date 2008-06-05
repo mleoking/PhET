@@ -2,33 +2,30 @@
 Change history for glaciers
 ================================================================================
 
-HIGH PRIORITY:
+HIGHEST PRIORITY:
 - debris forms at headwall while glacier is receding and ELA is above headwall
 - hide trash can, put tools away by dragging them back to tool box
-- Intro View panel: units, equil line, snowfall, picture
-- Advanced View panel: units, equil line, ice flow, coordinates, snowfall, picture
 - make shape of surface ripples look random
-- provide time estimate for climate experiments interface
-- make default speed 2 years per sec
 - go back to previous algorithm for trashing a tool? (when tool node overlaps trash can?)
 - verify that flags fall over at random angles when they hit the valley floor (drop below and above glacier)
 - bug: dragging to the drill to the trash while pressing button results in a borehole being drilled when dropped in trash
-- change color of ice surface below ELA to brownish grey as in real picture
-? how to add headwall x position to ice thickness model in model.txt
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
-- bug: Restart clock button does bad things while glacier is evolving, get rid of it?
-- thermometer looks lousy while dragging
-- thermometer repaints strangely while clock ticks on Mac OS 10.4
+
+HIGH PRIORITY:
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
+? how to add headwall x position to ice thickness model in model.txt
+- bug: Restart clock button does bad things while glacier is evolving, get rid of it?
 - increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
 - switch user-interface between English and metric units
-- glacier advances too fast, get model fix from Archie [550]
 - debris is reaching the surface above ELA because max thickness is where EL intersects valley floor, Archie will investigate
 - add yaw to fake 3D perspective (terminus, ELA, etc) 
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
-- rename "Basic" tab to "Intro"
+- make default speed 2 years per sec
+- provide time estimate for climate experiments interface
+- Intro View panel: units, equil line, snowfall, picture
+- Advanced View panel: units, equil line, ice flow, coordinates, snowfall, picture
 - more "cartoonish" view for Basic panel?
 - move steady state button to play area?
 - move trash can out of toolbox?
@@ -94,6 +91,7 @@ CLEANUP:
 
 
 DONE:
+6/5/08 - rename "Basic" tab to "Intro"
 6/4/08 - bugfix: if ELA gets above headwall, Glacier q_advance_limit causes quasi-ELA to evolve in wrong direction forever
 ******* 0.00.27 (21967)
 6/3/08 - add empty modules for Advanced and Climate Experiments, so we see the tabs
