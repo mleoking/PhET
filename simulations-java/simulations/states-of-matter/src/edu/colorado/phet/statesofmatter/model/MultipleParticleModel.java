@@ -37,15 +37,17 @@ public class MultipleParticleModel {
     // TODO: JPB TBD - These constants are here as a result of the first attempt
     // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
     // Eventually some or all of them will be moved.
-    public static final int NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL = 4;
+    public static final int NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL = 6;
     public static final int NUMBER_OF_PARTICLES = 
-        (2 * NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL) * (NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL - 1);
+        2 + (2 * NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL) * (NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL - 1);
     public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
     public static final double TIME_STEP = Math.pow( 0.5, 6.0 );  // 1/64
-    public static final double INITIAL_TEMPERATURE = 0.5;
+    public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
-    private static final double INTER_PARTICLE_DISTANCE_THRESHOLD = 2.5;
+    private static final double PARTICLE_INTERACTION_DISTANCE_THRESHOLD = 2.5;
+    private static final double TEMPERATURE = 0.20;
+    private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.07;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -230,7 +232,8 @@ public class MultipleParticleModel {
         // Execute the Verlet algorithm.
         for (int i = 0; i < 8; i++ ){
             verlet( NUMBER_OF_PARTICLES, m_particlePositions, m_particleVelocities, m_normalizedContainerWidth, 
-                    m_normalizedContainerHeight, 0.03, m_particleForces, TIME_STEP );
+                    m_normalizedContainerHeight, INITIAL_GRAVITATIONAL_ACCEL, m_particleForces, TIME_STEP, 
+                    TEMPERATURE );
         }
         syncParticlePositions();
         
@@ -322,7 +325,7 @@ public class MultipleParticleModel {
         int particlesPerLayer = (int)(numParticles / numLayers);
         double startingPosX = (normalizedContainerWidth / 2) - (double)(particlesPerLayer / 2) - 
                 ((particlesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
-        double startingPosY = 1.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
+        double startingPosY = 2.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
         
         int particlesPlaced = 0;
         for (int i = 0; particlesPlaced < numParticles; i++){ // One iteration per layer.
@@ -368,7 +371,7 @@ public class MultipleParticleModel {
      */
     private void verlet(int numParticles, Point2D [] particlePositions, Vector2D [] particleVelocities,
             double containerWidth, double containerHeight, double gravitationalForce, Vector2D [] particleForces, 
-            double timeStep){
+            double timeStep, double temperature){
          
         double kineticEnergy = 0;
         double potentialEnergy = 0;
@@ -413,7 +416,7 @@ public class MultipleParticleModel {
                 double dx = particlePositions[i].getX() - particlePositions[j].getX();
                 double dy = particlePositions[i].getY() - particlePositions[j].getY();
                 double distance = particlePositions[i].distance( particlePositions[j] );
-                if (distance < INTER_PARTICLE_DISTANCE_THRESHOLD){
+                if (distance < PARTICLE_INTERACTION_DISTANCE_THRESHOLD){
                     // This pair of particles is close enough to one another
                     // that we consider them in the calculation.
                     double r2inv = 1 / (distance * distance);
@@ -421,18 +424,10 @@ public class MultipleParticleModel {
                     double forceScaler = -48 * r2inv * r6inv * (r6inv - 0.5); // TODO: Double check this with Paul.
                                                                               // Seems to lead to 1/r^14 and
                                                                               // 1/r^8 terms.
-                    if (forceScaler > 5){
-                        System.err.println("Warning: Limiting force, forceScaler = " + forceScaler);
-                        forceScaler = 5;
-                    }
-                    else if (forceScaler < -5){
-                        System.err.println("Warning: Limiting force, forceScaler = " + forceScaler);
-                        forceScaler = -5;
-                    }
                     force.setX( dx * forceScaler );
                     force.setY( dy * forceScaler );
-                    nextParticleForces[i].add( force );
-                    nextParticleForces[j].subtract( force );
+                    nextParticleForces[i].subtract( force );
+                    nextParticleForces[j].add( force );
                 }
             }
         }
@@ -446,6 +441,24 @@ public class MultipleParticleModel {
             velocityIncrement.setX( timeStepHalf * (particleForces[i].getX() + nextParticleForces[i].getX()));
             velocityIncrement.setY( timeStepHalf * (particleForces[i].getY() + nextParticleForces[i].getY()));
             particleVelocities[i].add( velocityIncrement );
+            kineticEnergy += ((particleVelocities[i].getX() * particleVelocities[i].getX()) + 
+                    (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
+        }
+        
+        // Isokinetic thermostat
+        double temperatureScaleFactor;
+        if (temperature == 0){
+            temperatureScaleFactor = 0;
+        }
+        else{
+            temperatureScaleFactor = Math.sqrt( temperature * numParticles / kineticEnergy );
+        }
+        kineticEnergy = 0;
+        for (int i = 0; i < numParticles; i++){
+            particleVelocities[i].setComponents( particleVelocities[i].getX() * temperatureScaleFactor, 
+                    particleVelocities[i].getY() * temperatureScaleFactor );
+            kineticEnergy += ((particleVelocities[i].getX() * particleVelocities[i].getX()) + 
+                    (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
         }
     }
     
