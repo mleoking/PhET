@@ -5,8 +5,8 @@ import edu.colorado.phet.fitness.FitnessResources;
 /**
  * Created by: Sam
  * Apr 24, 2008 at 2:43:05 AM
-
-test comment
+ * <p/>
+ * test comment
  */
 public class Activity {
     private String name;

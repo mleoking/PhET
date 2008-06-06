@@ -19,8 +19,8 @@ public class FitnessStrings {
     public static final String UNITS_TIME = FitnessResources.getString( "units.years" );
 
     public static final String KCAL = FitnessResources.getString( "units.cal" );
-    public static final String day= FitnessResources.getString( "units.day" );
-    public static final String KCAL_PER_DAY = KCAL + "/"+day;
+    public static final String day = FitnessResources.getString( "units.day" );
+    public static final String KCAL_PER_DAY = KCAL + "/" + day;
     public static final String FATS = FitnessResources.getString( "food.fats" );
 
     public static final DecimalFormat KCAL_PER_DAY_FORMAT = new DecimalFormat( "0" );

@@ -133,7 +133,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     // Canvas layout
     //----------------------------------------------------------------------------
 
-    public PNode getEditDietButton(){
+    public PNode getEditDietButton() {
         return caloriePanel.getEditDietButton();
     }
 
@@ -172,6 +172,6 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     }
 
     public void addEditorClosedListener( ActionListener actionListener ) {
-        caloriePanel.addEditorClosedListener(actionListener);
+        caloriePanel.addEditorClosedListener( actionListener );
     }
 }

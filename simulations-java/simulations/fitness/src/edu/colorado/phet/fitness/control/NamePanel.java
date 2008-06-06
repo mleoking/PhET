@@ -2,8 +2,8 @@ package edu.colorado.phet.fitness.control;
 
 import javax.swing.*;
 
-import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.model.Human;
 
 /**
  * Created by: Sam

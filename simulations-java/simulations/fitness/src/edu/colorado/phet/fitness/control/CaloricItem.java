@@ -4,7 +4,7 @@ package edu.colorado.phet.fitness.control;
  * Created by: Sam
  * Apr 23, 2008 at 1:34:08 PM
  */
-public abstract class CaloricItem implements Cloneable{
+public abstract class CaloricItem implements Cloneable {
     private String name;
     private String image;
     private double cal;

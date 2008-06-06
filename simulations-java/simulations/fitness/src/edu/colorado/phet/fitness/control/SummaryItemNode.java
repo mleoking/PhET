@@ -1,17 +1,17 @@
 package edu.colorado.phet.fitness.control;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.fitness.FitnessPText;
+import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.fitness.FitnessResources;
-import edu.colorado.phet.fitness.FitnessPText;
-import edu.colorado.phet.fitness.FitnessStrings;
 
 /**
  * Created by: Sam
-* May 27, 2008 at 7:56:11 AM
-*/
+ * May 27, 2008 at 7:56:11 AM
+ */
 public class SummaryItemNode extends PNode {
     private CaloricItem item;
 

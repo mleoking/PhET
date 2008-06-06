@@ -23,9 +23,9 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.fitness.FitnessStrings;
-import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.FitnessPText;
+import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
@@ -156,8 +156,8 @@ public class ChartNode extends PNode {
     }
 
     private void updateWeightMassLabel() {
-        String weight= FitnessResources.getString( "weight" );
-        weightGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( weight+" (" + model.getUnits().getMassUnit() + ")" );
+        String weight = FitnessResources.getString( "weight" );
+        weightGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( weight + " (" + model.getUnits().getMassUnit() + ")" );
     }
 
     private void syncVerticalRanges() {

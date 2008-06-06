@@ -28,7 +28,7 @@ public class SummaryNode extends PNode {
             public void itemRemoved( CaloricItem item ) {
                 for ( int i = 0; i < layer.getChildrenCount(); i++ ) {
                     SummaryItemNode child = (SummaryItemNode) layer.getChild( i );
-                    if ( child.getItem()== item ) {
+                    if ( child.getItem() == item ) {
                         layer.removeChild( child );
                         break;//remove first match
                     }

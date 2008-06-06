@@ -33,7 +33,6 @@ public class CalorieDragStrip extends PNode {
 
             tooltipLayer.addChild( new ToolTipNode( available.getItem( i ).getName(), node ) );
 
-//            node.add
             final int i1 = i;
             node.addInputEventListener( new PDragSequenceEventHandler() {
                 private DefaultDragNode createdNode = null;
@@ -62,7 +61,6 @@ public class CalorieDragStrip extends PNode {
 
             nodes.add( node );
         }
-//        int ROWS = 4;
         int COLS = 2;
         for ( int i = 1; i < nodes.size(); i++ ) {
             int row = i / COLS;
@@ -75,7 +73,6 @@ public class CalorieDragStrip extends PNode {
         for ( int i = 0; i < nodes.size(); i++ ) {
             addChild( (PNode) nodes.get( i ) );
         }
-//        addChild( tooltipLayer );
     }
 
     //To be used in an external layer in order to simplify the layout code 

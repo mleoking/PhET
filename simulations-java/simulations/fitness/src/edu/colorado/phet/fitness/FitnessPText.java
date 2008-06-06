@@ -1,7 +1,7 @@
 package edu.colorado.phet.fitness;
 
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Created by: Sam
@@ -9,11 +9,11 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class FitnessPText extends PText {
     public FitnessPText() {
-        setFont( new PhetFont( ) );
+        setFont( new PhetFont() );
     }
 
     public FitnessPText( String aText ) {
         super( aText );
-        setFont( new PhetFont( ) );
+        setFont( new PhetFont() );
     }
 }

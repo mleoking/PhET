@@ -16,8 +16,6 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fitness.model.Human;
-import edu.colorado.phet.fitness.module.fitness.FitnessCanvas;
-import edu.colorado.phet.fitness.module.fitness.FitnessRenderingSizeStrategy;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;

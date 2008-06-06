@@ -8,8 +8,8 @@ import java.text.DecimalFormat;
 import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.model.Human;
 
 /**
  * Created by: Sam
