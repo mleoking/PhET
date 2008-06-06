@@ -42,22 +42,19 @@ I agree with Wendy that it doesn't make much sense to not have the percentage fa
     Obese                   32%+    25%+
     source: http://en.wikipedia.org/wiki/Body_fat_percentage
 
-When you get up to 300+ pounds and have a BMI over 30, you should be into the obese fat percentages, but as lower weights, your percentage should be more in the fit ranges. (The default 26% is quite high for a male so should change if you hit male instead of female.)
+When you get up to 300+ pounds and have a BMI over 30, you should be into the obese fat percentages,
+but as lower weights, your percentage should be more in the fit ranges.
+(The default 26% is quite high for a male so should change if you hit male instead of female.)
 
-It seems like when you increase the weight we should also increase the calories in the base diet because otherwise the 300 lb guy loses weight very fast ... normally a guy like that would eat a lot more to maintain his weight. Basically this would be his BMR plus Lifestyle calories. Then be able to add OR subtract from that base diet. This would get away from the unrealistic rapid weight loss by a very overweight person.
+It seems like when you increase the weight we should also increase the calories in the base diet
+ because otherwise the 300 lb guy loses weight very fast ... normally a guy like that would
+ eat a lot more to maintain his weight. Basically this would be his BMR plus Lifestyle calories.
+ Then be able to add OR subtract from that base diet.
+ This would get away from the unrealistic rapid weight loss by a very overweight person.
 
 I found this page somewhat helpful in thinking about the above.
 http://weightloss.about.com/od/eatsmart/a/blcalintake.htm
 ___
-
-rather than inventing a disclaimer, perhaps you should adapt one
-from a diet book, health website, or similar.
-
-For example:
-http://www.thehealthierlife.co.uk/page/191/health-disclaimer.html
-http://www.geneticalliance.org/ws_display.asp?filter=disclaimer
-http://www.sugarshock.com/healthdisclaimer.html
-etc.
 
 Move BMI readout to near the heart
 
