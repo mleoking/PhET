@@ -67,8 +67,6 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         setBackground( FitnessConstants.CANVAS_BACKGROUND );
         getCamera().addInputEventListener( new PBasicInputEventHandler(){
             public void mousePressed( PInputEvent aEvent) {
-                System.out.println( "aEvent.isLeftMouseButton() = " + aEvent.isLeftMouseButton() );
-                System.out.println( "aEvent.getPickedNode() = " + aEvent.getPickedNode() );
                 if ( aEvent.isLeftMouseButton() && aEvent.getPickedNode() instanceof PCamera ) {
                     ColorChooserFactory.showDialog( "background color", parentFrame, getBackground(), new ColorChooserFactory.Listener() {
                         public void colorChanged( Color color ) {

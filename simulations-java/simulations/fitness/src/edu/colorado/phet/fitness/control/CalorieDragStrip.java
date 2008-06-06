@@ -1,12 +1,15 @@
 package edu.colorado.phet.fitness.control;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
 import edu.colorado.phet.fitness.FitnessResources;
@@ -23,13 +26,74 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class CalorieDragStrip extends PNode {
     private static Random random = new Random();
     private ArrayList listeners = new ArrayList();
-    private static final int HEIGHT = 40;
-    private PNode tooltipLayer;
+    private static final int HEIGHT = 45;
+    private PNode tooltipLayer = new PNode();
+    private PNode stripPanel;
+    private int count = 5;
+    private ArrayList panels;
 
     public CalorieDragStrip( final CalorieSet available ) {
+        panels = new ArrayList();
+        for ( int i = 0; i < available.getItemCount(); i += count ) {
+            panels.add( getPanel( available, i, Math.min( i + count, available.getItemCount() ) ) );
+        }
+        stripPanel = (PNode) panels.get( 0 );
+        addChild( stripPanel );
+        {
+            GradientButtonNode gradientButtonNode = new GradientButtonNode( "<html>&gt;</html>", 13, Color.blue );
+            gradientButtonNode.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    nextPanel( +1 );
+                }
+            } );
+            addChild( gradientButtonNode );
+            gradientButtonNode.setOffset( maxMaxPanelWidth(), 100 );
+        }
+        {
+            GradientButtonNode gradientButtonNode = new GradientButtonNode( "<html>&lt;</html>", 13, Color.blue );
+            gradientButtonNode.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    nextPanel( -1 );
+                }
+            } );
+            addChild( gradientButtonNode );
+            gradientButtonNode.setOffset( -gradientButtonNode.getFullBounds().getWidth(), 100 );
+        }
+    }
+
+    private double maxMaxPanelWidth() {
+        double max = Double.NaN;
+        for ( int i = 0; i < panels.size(); i++ ) {
+            PNode pNode = (PNode) panels.get( i );
+            if ( Double.isNaN( max ) || pNode.getFullBounds().getWidth() > max ) {
+                max = pNode.getFullBounds().getWidth();
+            }
+        }
+        return max;
+    }
+
+    private void nextPanel( int increment ) {
+        removeChild( stripPanel );
+        stripPanel = (PNode) panels.get( nextIndex( increment ) );
+        addChild( stripPanel );
+    }
+
+    private int nextIndex( int increment ) {
+        int index = panels.indexOf( stripPanel );
+        int newIndex = index + increment;
+        if ( newIndex >= panels.size() ) {
+            newIndex = 0;
+        }
+        if ( newIndex < 0 ) {
+            newIndex = panels.size() - 1;
+        }
+        return newIndex;
+    }
+
+    private PNode getPanel( final CalorieSet available, int min, int max ) {
         ArrayList nodes = new ArrayList();
-        tooltipLayer = new PNode();
-        for ( int i = 0; i < 5; i++ ) {
+        PNode sourceLayer = new PNode();
+        for ( int i = min; i < max; i++ ) {
             final PNode node = createNode( available.getItem( i ) );
             final int i1 = i;
             node.addInputEventListener( new PDragSequenceEventHandler() {
@@ -69,8 +133,9 @@ public class CalorieDragStrip extends PNode {
 
         }
         for ( int i = 0; i < nodes.size(); i++ ) {
-            addChild( (PNode) nodes.get( i ) );
+            sourceLayer.addChild( (PNode) nodes.get( i ) );
         }
+        return sourceLayer;
     }
 
     //To be used in an external layer in order to simplify the layout code 
@@ -119,7 +184,7 @@ public class CalorieDragStrip extends PNode {
     private DefaultDragNode createNode( CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
             DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
-            ToolTipNode toolTipNode = new ToolTipNode( "<html>"+item.getName()+" ("+item.getCalories()+" "+FitnessResources.getString( "units.cal" )+")</html>", dragNode );
+            ToolTipNode toolTipNode = new ToolTipNode( "<html>" + item.getName() + " (" + item.getCalories() + " " + FitnessResources.getString( "units.cal" ) + ")</html>", dragNode );
             toolTipNode.setFont( new PhetFont( 16, true ) );
 
             tooltipLayer.addChild( toolTipNode );
