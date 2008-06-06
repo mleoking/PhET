@@ -1,31 +1,3 @@
-To emphasize the meaning of the bar charts, you might have big labels on
-    the left and right of the center line of the bar chart: 'Diet' on the
-    left and 'Exercise' on the right (perhaps with the 'edit' buttons below
-    the labels)
-
-Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
-    the learning goal seems too easy: to figure out "How long do you have to
-    bike/walk to burn a certain number of calories?", you just have to look
-    at the number of kcal/day in the text of the exercise type.
-        might be better to ask how long it would take to lose 10 lbs?
-
-Better values/more options for base diets
-
-Need more junk food for diet options: pizza, burrito, chips, cookies, tacos, etc
-    get rid of brussel sprouts?
-    twizzlers or candies
-    more junk
-    like actual student diets
-    sub sandwich
-    
-The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
-
-How is body fat calculated?  How would a student know their % body fat?
-
-Possibly visualize balance of caloric intake as scale
-
-Performance: consider profiling or changing clock rate
-
 Mac issues:
     -Dialog box shows n~ characters on mac, see email for screenshot
     -Mass slider thumb in the wrong spot on Mac, see malley's machine.
@@ -33,35 +5,12 @@ Mac issues:
 
 Base diet should be visualized on the plate
 
-Changing my guy from male to female didn't seem to change anything.
-    Perhaps this should just change the body fat percent to default for that gender
-
 Zoom in/out for bar graphs
     alternatively: Readouts by base of bar graph?
 
 Time readouts should be Years:Months, not years in decimal
 
-#######################################################################################
-# Edit Diet
-###################
-
-Add a legend for caloric breakdown pie chart
-
-Number of calories of healthy diet should be editable
-
-Add/Remove items from Edit Diet should be synchronized with Plate graphics
-
-I wanted to click on the food item or description rather than the add
-button. Can you change the interface to something like that.  That would
-clean up this box a bit as well.
-
-Add a done button at the top of the diet and exercise boxes.
-
-Editors for exercise (change time or intensity)
-
-Exercise Selection:
-    The exercise function is great. Two questions on this, would it be informative for students
-    to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
+Performance: consider profiling or changing clock rate
 
 #######################################################################################
 # To Discuss
@@ -139,6 +88,42 @@ As I add the exercise the graphs begin to change,
         >>Or perhaps the sim should start running as soon as the first item is dropped?
         >>Or perhaps a wiggle me should be used instead
 
+Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
+    the learning goal seems too easy: to figure out "How long do you have to
+    bike/walk to burn a certain number of calories?", you just have to look
+    at the number of kcal/day in the text of the exercise type.
+        might be better to ask how long it would take to lose 10 lbs?
+
+How is body fat calculated?  How would a student know their % body fat to put in the simulation?
+
+Better values/more options for base diets
+
+Need more junk food for diet options, like actual student diets: burrito, chips, cookies, tacos, sub sandwich, twizzlers or candies, etc
+
+#######################################################################################
+# Edit Diet
+###################
+
+Add a legend for caloric breakdown pie chart
+
+Number of calories of healthy diet should be editable
+
+Add/Remove items from Edit Diet should be synchronized with Plate graphics
+
+I wanted to click on the food item or description rather than the add
+button. Can you change the interface to something like that.  That would
+clean up this box a bit as well.
+
+Add a done button at the top of the diet and exercise boxes.
+
+Editors for exercise (change time or intensity)
+
+Would it be informative for students to see what 590kcals/day is equivalent to
+    (for example 1 hour of swimming, or 2 hours of pilates?)
+
+The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
+
+
 #######################################################################################
 # fat % issue
 #######################################################################################
@@ -197,8 +182,16 @@ check with fran, bill & kate regarding change in % fat
 KG gained per day should be a function of caloric distribution over lipids, carbs and protein
 
 #######################################################################################
-# Don't solve
+# Decided Against
 ###########################
 
 Remove unused column from food properties file (calories computed from fats, carbs, proteins)
     It might be good to keep these value for future usage
+
+To emphasize the meaning of the bar charts, you might have big labels on
+    the left and right of the center line of the bar chart: 'Diet' on the
+    left and 'Exercise' on the right (perhaps with the 'edit' buttons below
+    the labels)
+        >>I think this is clear from the items, bar chart composition and edit buttons
+
+Possibly visualize balance of caloric intake as scale
