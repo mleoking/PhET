@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -38,13 +37,15 @@ public class MultipleParticleModel {
     // TODO: JPB TBD - These constants are here as a result of the first attempt
     // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
     // Eventually some or all of them will be moved.
-    public static final int NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL = 6;
+    public static final int NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL = 4;
     public static final int NUMBER_OF_PARTICLES = 
         (2 * NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL) * (NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL - 1);
     public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
-    public static final double TIME_STEP = 0.5E6;
+    public static final double TIME_STEP = Math.pow( 0.5, 6.0 );  // 1/64
     public static final double INITIAL_TEMPERATURE = 0.5;
     public static final double TEMPERATURE_STEP = -0.1;
+    private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
+    private static final double INTER_PARTICLE_DISTANCE_THRESHOLD = 2.5;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -62,6 +63,8 @@ public class MultipleParticleModel {
     private Point2D [] m_particlePositions;
     private Vector2D [] m_particleVelocities;
     private Vector2D [] m_particleForces;
+    double m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / OXYGEN_MOLECULE_DIAMETER;
+    double m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / OXYGEN_MOLECULE_DIAMETER;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -154,21 +157,23 @@ public class MultipleParticleModel {
         
         // TODO: JPB TBD - First attempt to port Paul Beale's IDL code.
         m_particlePositions = new Point2D [NUMBER_OF_PARTICLES];
-        m_particleVelocities = null;
-        m_particleForces = null;
+        m_particleVelocities = new Vector2D [NUMBER_OF_PARTICLES];
+        m_particleForces = new Vector2D [NUMBER_OF_PARTICLES];
+        
         for (int i = 0; i < NUMBER_OF_PARTICLES; i++){
-            // Add particle to normalized set.
+            
+            // Add particle and its velocity and forces to normalized set.
             m_particlePositions[i] = new Point2D.Double();
+            m_particleVelocities[i] = new Vector2D.Double();
+            m_particleForces[i] = new Vector2D.Double();
             
             // Add particle to model set.
             StatesOfMatterParticle particle = new StatesOfMatterParticle(0, 0, OXYGEN_MOLECULE_DIAMETER/2, 10);
             m_particles.add( particle );
             notifyParticleAdded( particle );
         }
-        double normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / OXYGEN_MOLECULE_DIAMETER;
-        double normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / OXYGEN_MOLECULE_DIAMETER;
         insertCrystal( NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL, NUMBER_OF_PARTICLES, m_particlePositions,
-                normalizedContainerWidth, normalizedContainerHeight );
+                m_normalizedContainerWidth, m_normalizedContainerHeight );
         syncParticlePositions();
         
         
@@ -221,6 +226,13 @@ public class MultipleParticleModel {
     //----------------------------------------------------------------------------
     
     private void handleClockTicked(ClockEvent clockEvent) {
+        
+        // Execute the Verlet algorithm.
+        for (int i = 0; i < 8; i++ ){
+            verlet( NUMBER_OF_PARTICLES, m_particlePositions, m_particleVelocities, m_normalizedContainerWidth, 
+                    m_normalizedContainerHeight, 0.03, m_particleForces, TIME_STEP );
+        }
+        syncParticlePositions();
         
         /*
         // TODO: JPB TBD - Simple linear motion and bouncing algorithm for testing.
@@ -310,7 +322,7 @@ public class MultipleParticleModel {
         int particlesPerLayer = (int)(numParticles / numLayers);
         double startingPosX = (normalizedContainerWidth / 2) - (double)(particlesPerLayer / 2) - 
                 ((particlesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
-        double startingPosY = 0.5 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
+        double startingPosY = 1.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
         
         int particlesPlaced = 0;
         for (int i = 0; particlesPlaced < numParticles; i++){ // One iteration per layer.
@@ -339,6 +351,143 @@ public class MultipleParticleModel {
             ((StatesOfMatterParticle)m_particles.get( i )).setPosition( 
                     m_particlePositions[i].getX() * positionMultiplier, 
                     m_particlePositions[i].getY() * positionMultiplier);
+        }
+    }
+    
+    /**
+     * Runs one iteration of the Verlet implementation of the Lennard-Jones
+     * force calculation on a set of particles.
+     * 
+     * @param numParticles
+     * @param particlePositions
+     * @param particleVelocities
+     * @param containerWidth
+     * @param containerHeight
+     * @param time
+     * @param timeStep
+     */
+    private void verlet(int numParticles, Point2D [] particlePositions, Vector2D [] particleVelocities,
+            double containerWidth, double containerHeight, double gravitationalForce, Vector2D [] particleForces, 
+            double timeStep){
+         
+        double kineticEnergy = 0;
+        double potentialEnergy = 0;
+        Vector2D [] nextParticleForces = new Vector2D [numParticles];
+        
+        // TODO: JPB TBD - For the sake of efficiency, this allocation should
+        // be moved outside of this member function at some point, probably
+        // made into a member var of the object that does the calculation.
+        for (int i = 0; i < numParticles; i++){
+            nextParticleForces[i] = new Vector2D.Double();
+        }
+        
+        double timeStepSqrHalf = timeStep * timeStep * 0.5;
+        double timeStepHalf = timeStep / 2;
+        
+        // Update the positions of all particles based on their current
+        // velocities and the forces acting on them.
+        for (int i = 0; i < numParticles; i++){
+            double xPos = particlePositions[i].getX() + (timeStep * particleVelocities[i].getX()) + 
+                    (timeStepSqrHalf * particleForces[i].getX());
+            double yPos = particlePositions[i].getY() + (timeStep * particleVelocities[i].getY()) + 
+                    (timeStepSqrHalf * particleForces[i].getY());
+            particlePositions[i].setLocation( xPos, yPos );
+        }
+        
+        // Calculate the forces exerted on the particles by the container
+        // walls and by gravity.
+        for (int i = 0; i < numParticles; i++){
+            
+            // Get the force values caused by the container walls.
+            calculateWallForce(particlePositions[i], nextParticleForces[i], containerWidth, containerHeight);
+            
+            // Add in the effect of gravity.
+            nextParticleForces[i].setY( nextParticleForces[i].getY() - gravitationalForce );
+        }
+        
+        // Calculate the forces created through interactions with other
+        // particles.
+        Vector2D force = new Vector2D.Double();
+        for (int i = 0; i < numParticles; i++){
+            for (int j = i + 1; j < numParticles; j++){
+                double dx = particlePositions[i].getX() - particlePositions[j].getX();
+                double dy = particlePositions[i].getY() - particlePositions[j].getY();
+                double distance = particlePositions[i].distance( particlePositions[j] );
+                if (distance < INTER_PARTICLE_DISTANCE_THRESHOLD){
+                    // This pair of particles is close enough to one another
+                    // that we consider them in the calculation.
+                    double r2inv = 1 / (distance * distance);
+                    double r6inv = r2inv * r2inv * r2inv;
+                    double forceScaler = -48 * r2inv * r6inv * (r6inv - 0.5); // TODO: Double check this with Paul.
+                                                                              // Seems to lead to 1/r^14 and
+                                                                              // 1/r^8 terms.
+                    if (forceScaler > 5){
+                        System.err.println("Warning: Limiting force, forceScaler = " + forceScaler);
+                        forceScaler = 5;
+                    }
+                    else if (forceScaler < -5){
+                        System.err.println("Warning: Limiting force, forceScaler = " + forceScaler);
+                        forceScaler = -5;
+                    }
+                    force.setX( dx * forceScaler );
+                    force.setY( dy * forceScaler );
+                    nextParticleForces[i].add( force );
+                    nextParticleForces[j].subtract( force );
+                }
+            }
+        }
+        
+        // Calculate the new velocities.  For a smoother appearance, this is
+        // done based on the average of the previous forces and the newly
+        // calculated forces.  TODO: JPB TBD - Check that this comment is
+        // correct with Paul.
+        Vector2D.Double velocityIncrement = new Vector2D.Double();
+        for (int i = 0; i < numParticles; i++){
+            velocityIncrement.setX( timeStepHalf * (particleForces[i].getX() + nextParticleForces[i].getX()));
+            velocityIncrement.setY( timeStepHalf * (particleForces[i].getY() + nextParticleForces[i].getY()));
+            particleVelocities[i].add( velocityIncrement );
+        }
+    }
+    
+    /**
+     * Calculate the force exerted on a particle at the provided position by
+     * the walls of the container.  The result is returned in the provided
+     * vector.
+     * 
+     * @param position - Current position of the particle.
+     * @param resultantForce - Vector in which the resulting force is returned.
+     */
+    private void calculateWallForce(Point2D position, Vector2D resultantForce, double containerWidth,
+            double containerHeight){
+        
+        // Debug stuff - make sure this is being used correctly.
+        assert resultantForce != null;
+        assert position != null;
+        
+        // Non-debug run time check.
+        if ((resultantForce == null) || (position == null)){
+            return;
+        }
+        
+        // Calculate the force in the X direction.
+        if (position.getX() < WALL_DISTANCE_THRESHOLD){
+            // Close enough to the left wall to feel the force.
+            resultantForce.setX( (48/(Math.pow(position.getX(), 13))) - (24/(Math.pow( position.getX(), 7))) );
+        }
+        else if (containerWidth - position.getX() < WALL_DISTANCE_THRESHOLD){
+            // Close enough to the right wall to feel the force.
+            resultantForce.setX( -(48/(Math.pow(containerWidth - position.getX(), 13))) + 
+                    (24/(Math.pow( containerWidth - position.getX(), 7))) );
+        }
+        
+        // Calculate the force in the Y direction.
+        if (position.getY() < WALL_DISTANCE_THRESHOLD){
+            // Close enough to the bottom wall to feel the force.
+            resultantForce.setY( 48/(Math.pow(position.getY(), 13)) - (24/(Math.pow( position.getY(), 7))) );
+        }
+        else if (containerHeight - position.getY() < WALL_DISTANCE_THRESHOLD){
+            resultantForce.setY( -48/(Math.pow(containerHeight - position.getY(), 13)) +
+                    (24/(Math.pow( containerHeight - position.getY(), 7))) );
         }
     }
     
