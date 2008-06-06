@@ -1,7 +1,3 @@
-Add a legend for caloric breakdown pie chart
-
-Number of calories of healthy diet should be editable
-
 Zoom in/out for bar graphs
     alternatively: Readouts by base of bar graph?
 
@@ -49,8 +45,6 @@ Caloric intake changes resting metabolic rate
 
 Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
 
-Better values/more options for base diets
-
 KG gained per day should be a function of caloric distribution over lipids, carbs and protein
 
 Exercise Selection:
@@ -91,6 +85,8 @@ Satisfy learning goal: How long do you have to bike/walk to burn a certain numbe
     at the number of kcal/day in the text of the exercise type.
         might be better to ask how long it would take to lose 10 lbs?
 
+Better values/more options for base diets
+
 Need more junk food for diet options: pizza, burrito, chips, cookies, tacos, etc
     get rid of brussel sprouts?
     twizzlers or candies
@@ -108,6 +104,17 @@ Mass slider thumb in the wrong spot on Mac, see malley's machine.
 
 Base diet should be visualized on the plate
 
+Changing my guy from male to female didn't seem to change anything.
+    Perhaps this should just change the body fat percent to default for that gender
+
+#######################################################################################
+# Edit Diet
+###################
+
+Add a legend for caloric breakdown pie chart
+
+Number of calories of healthy diet should be editable
+
 Add/Remove items from Edit Diet should be synchronized with Plate graphics
 
 I wanted to click on the food item or description rather than the add
@@ -115,9 +122,6 @@ button. Can you change the interface to something like that.  That would
 clean up this box a bit as well.
 
 Add a done button at the top of the diet and exercise boxes.
-
-Changing my guy from male to female didn't seem to change anything.
-    Perhaps this should just change the body fat percent to default for that gender
 
 #######################################################################################
 # To Discuss
