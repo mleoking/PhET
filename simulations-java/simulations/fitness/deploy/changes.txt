@@ -1,3 +1,5 @@
+Added drag and drop
+Provide a few foods and exercise up front (in drag toolbox), but access to more via scrolling or Edit button
 Fixed: Resize panel after "start sim" wiggle me is showing causes exception
 Made food and exercise drag work by mouseover, not by release, to make it easier to see changes
 Internationalized food and exercise repository by moving keys to food/exercise files and translatable strings to fitness-strings.properties file
