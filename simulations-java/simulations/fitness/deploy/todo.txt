@@ -3,8 +3,6 @@ Zoom in/out for bar graphs
 
 Add description to sedentary, moderate activity, etc.
 
-Relabel 5.89 ft to 5' 9" etc.
-
 Food composition should lead to a change in the Fat Free Mass %
 
 check with fran, bill & kate regarding change in % fat
