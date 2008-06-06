@@ -14,11 +14,11 @@ public class CaloricFoodItem extends CaloricItem {
     private double protein;
     private boolean removable;
 
-    public CaloricFoodItem( String name, String image, double cal, double lipids, double carbs, double protein ) {
-        this( name, image, cal, lipids, carbs, protein, true );
+    public CaloricFoodItem( String name, String image, double lipids, double carbs, double protein ) {
+        this( name, image, lipids, carbs, protein, true );
     }
 
-    public CaloricFoodItem( String name, String image, double cal, double lipids, double carbs, double protein, boolean removable ) {
+    public CaloricFoodItem( String name, String image, double lipids, double carbs, double protein, boolean removable ) {
         super( name, image, lipids * 9 + carbs * 4 + protein * 4 );
         this.lipids = lipids;
         this.carbs = carbs;
