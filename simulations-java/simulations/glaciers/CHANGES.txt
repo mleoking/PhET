@@ -3,9 +3,11 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
+- BUG: sim hangs when you warm/cool climate so ELA goes above/below headwall (bug introduced in 22071)
 - BUG: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 
 HIGH PRIORITY:
+- change ELA graph range for new climate range?
 - equilibrium line doesn't move if climate is changed while clock is paused
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
 ? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
