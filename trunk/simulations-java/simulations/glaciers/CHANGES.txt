@@ -3,7 +3,6 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- BUG: sim hangs when climate is warmed/cooled to make ELA go above/below headwall (may take a couple of tries)
 - BUG: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 
 HIGH PRIORITY:
@@ -89,6 +88,7 @@ CLEANUP:
 
 
 DONE:
+6/6/08 - ensure that ice thickness algorithm is only used between headwall and terminus, otherwise it hangs the sim
 6/6/08 - compute a closer approximation of where the ELA intersects the ice surface
 6/6/08 - compute ice thickness on demand instead of trying to interpolate between pre-computed samples
 6/6/08 - when climate changes, compute several constants used in ice thickness model, reuse them elsewhere
