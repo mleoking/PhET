@@ -203,8 +203,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private void updateBodyFatSlider() {
         bodyFat.setRange( 0, human.getGender().getMaxFatMassPercent() );
         Hashtable table = new Hashtable();
-        table.put( new Double( 4 ), new JLabel( FitnessResources.getString( "muscular" ) ) );
-        table.put( new Double( human.getGender().getMaxFatMassPercent() ), new JLabel( FitnessResources.getString( "non" ) ) );
+        table.put( new Double( 10 ), new JLabel( FitnessResources.getString( "muscular" ) ) );
+        table.put( new Double( human.getGender().getMaxFatMassPercent() ), new JLabel( FitnessResources.getString( "non-muscular" ) ) );
         bodyFat.setTickLabels( table );
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
     }

@@ -1,11 +1,3 @@
-I wanted to click on the food item or description rather than the add
-button. Can you change the interface to something like that.  That would
-clean up this box a bit as well.
-
-Add a done button at the top of the diet and exercise boxes.
-
-The muscular scale says non on the right.  What should it say?
-
 Changing my guy from male to female didn't seem to change anything.
 
 Add a legend for caloric breakdown pie chart
@@ -119,6 +111,12 @@ Mass slider thumb in the wrong spot on Mac, see malley's machine.
 Base diet should be visualized on the plate
 
 Add/Remove items from Edit Diet should be synchronized with Plate graphics
+
+I wanted to click on the food item or description rather than the add
+button. Can you change the interface to something like that.  That would
+clean up this box a bit as well.
+
+Add a done button at the top of the diet and exercise boxes.
 
 #######################################################################################
 # To Discuss
