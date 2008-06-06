@@ -129,6 +129,9 @@ public class IceNode extends PComposite {
 
                 if ( surfaceAtELA != null && x >= surfaceAtELA.getX() ) {
                     if ( !initialzedSurfaceBelowELA ) {
+                        // start exactly at the point where the ELA intersects the surface of the ice
+                        _pModel.setLocation( surfaceAtELA );
+                        _mvt.modelToView( _pModel, _pView );
                         _surfaceBelowELAPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
                         initialzedSurfaceBelowELA = true;
                     }
@@ -136,9 +139,17 @@ public class IceNode extends PComposite {
                         _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                     }
                 }
+                
+                // Ensure that our last sample is exactly at the terminus, 
+                // in case the glacier's length isn't an integer multiple of dx.
+                double diff = xTerminus - x;
+                if ( diff > 0 && diff < dx ) {
+                    x = xTerminus - dx;
+                }
             }
 
             // moving upvalley...
+            boolean finishedSurfaceBelowELA = false;
             for ( double x = xTerminus; x >= xHeadwall; x -= dx ) {
 
                 // ice-rock boundary
@@ -152,8 +163,24 @@ public class IceNode extends PComposite {
                 _pModel.setLocation( x, elevation );
                 _mvt.modelToView( _pModel, _pView );
                 _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-                if ( surfaceAtELA != null && x >= surfaceAtELA.getX() ) {
-                    _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                if ( surfaceAtELA != null && !finishedSurfaceBelowELA ) {
+                    if ( x > surfaceAtELA.getX() ) {
+                        _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                    }
+                    else {
+                        // finish exactly at the point where the ELA intersects the surface of the ice
+                        _pModel.setLocation( surfaceAtELA.getX(), surfaceAtELA.getY() + perspectiveHeight );
+                        _mvt.modelToView( _pModel, _pView );
+                        _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                        finishedSurfaceBelowELA = true;
+                    }
+                }
+                
+                // Ensure that our last sample is exactly at the headwall, 
+                // in case the glacier's length isn't an integer multiple of dx.
+                double diff = x - xHeadwall;
+                if ( diff > 0 && diff < dx ) {
+                    x = xHeadwall + dx;
                 }
             }
 
