@@ -4,8 +4,6 @@ That is not what I expected to find next to the heart.
 Mass slider thumb in the wrong spot on Mac, see malley's machine.
 >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
 
-"?" icon should move with the heart
-
 #######################################################################################
 # fat % issue
 #######################################################################################
