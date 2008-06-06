@@ -1,5 +1,6 @@
 Moved BMI readout to near the heart
 Fixed: "?" icon should move with the heart
+Removed BMI readout from control panel (now near heart only)
 
 New in 0.00.36
 Added drag and drop
