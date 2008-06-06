@@ -2,6 +2,7 @@ package edu.colorado.phet.fitness.module.fitness;
 
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.Human;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -27,6 +28,6 @@ public class BMIReadout extends PNode {
     }
 
     private void updateReadout() {
-        pText.setText( "BMI: " + new DecimalFormat( "0.0" ).format( human.getBMI() ) );
+        pText.setText( "BMI: " + new DecimalFormat( "0.0" ).format( human.getBMI() ) + " " + FitnessResources.getString( "units.bmi" ) );
     }
 }

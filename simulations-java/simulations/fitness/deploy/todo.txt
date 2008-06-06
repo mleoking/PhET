@@ -1,54 +1,5 @@
-I'd put the question mark box about BMI next to the BMI readout down below.
-That is not what I expected to find next to the heart.
-
 Mass slider thumb in the wrong spot on Mac, see malley's machine.
->>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
-
-#######################################################################################
-# fat % issue
-#######################################################################################
-I'm having trouble making sense out of this. It appears that if I add weight
-my BMR increases tremendously.  I thought BMR does not increase unless
-muscle mass increases.  Then I see that adding to my weight does not change
-my body fat.  That seems very strange to me.  Shouldn't that be a
-calculation of my weight and height with a slight scaling due to the
-muscular slider? The way it's set up, adding to a person's weight
-immediately causes calorie burn to compensate and they get lose weight
-immediately. This does not match my understanding.
-
-Weight gain should go into fat% to keep BMR basically constant.
-
-My biggest concern is the body fat indicator not changing as your guy gets fatter or
-you set his weight really high.
-
-I agree with Wendy that it doesn't make much sense to not have the percentage fat linked up at all to the weight.
-    Description             Women   Men
-    Essential fat           12–15%  2–5%
-    Athletes                16–20%  6–13%
-    Fitness                 21–24%  14–17%
-    Acceptable              25–31%  18–25%
-    Obese                   32%+    25%+
-    source: http://en.wikipedia.org/wiki/Body_fat_percentage
-
-When you get up to 300+ pounds and have a BMI over 30, you should be into the obese fat percentages,
-but as lower weights, your percentage should be more in the fit ranges.
-(The default 26% is quite high for a male so should change if you hit male instead of female.)
-
-It seems like when you increase the weight we should also increase the calories in the base diet
- because otherwise the 300 lb guy loses weight very fast ... normally a guy like that would
- eat a lot more to maintain his weight. Basically this would be his BMR plus Lifestyle calories.
- Then be able to add OR subtract from that base diet.
- This would get away from the unrealistic rapid weight loss by a very overweight person.
-
-I found this page somewhat helpful in thinking about the above.
-http://weightloss.about.com/od/eatsmart/a/blcalintake.htm
-
-1. Percent body fat should change as body weight changes. This change probably be based upon the concept
-    that one pound of fat gain/loss requires a gain/loss of about 3500 calories.
-    It should be noted that weight loss by diet only, results in a loss of both fat (75%) and lean tissue (25%)
-    whereas weight loss via diet and exercise results in a maintenance of lean tissue and a loss of only fat.
-
-#######################################################################################
+    >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
 
 I think you can do without the per day label on all the foods.  One label
 for the box could say Base Diet per day. Then all the rest will be obvious.
@@ -205,3 +156,49 @@ Possible sim names:
 Rename directory to match new simulation name, once it is selected
 
 Clarify the meaning of "lifestyle" vs. other daily exercises
+
+#######################################################################################
+# fat % issue
+#######################################################################################
+I'm having trouble making sense out of this. It appears that if I add weight
+my BMR increases tremendously.  I thought BMR does not increase unless
+muscle mass increases.  Then I see that adding to my weight does not change
+my body fat.  That seems very strange to me.  Shouldn't that be a
+calculation of my weight and height with a slight scaling due to the
+muscular slider? The way it's set up, adding to a person's weight
+immediately causes calorie burn to compensate and they get lose weight
+immediately. This does not match my understanding.
+
+Weight gain should go into fat% to keep BMR basically constant.
+
+My biggest concern is the body fat indicator not changing as your guy gets fatter or
+you set his weight really high.
+
+I agree with Wendy that it doesn't make much sense to not have the percentage fat linked up at all to the weight.
+    Description             Women   Men
+    Essential fat           12–15%  2–5%
+    Athletes                16–20%  6–13%
+    Fitness                 21–24%  14–17%
+    Acceptable              25–31%  18–25%
+    Obese                   32%+    25%+
+    source: http://en.wikipedia.org/wiki/Body_fat_percentage
+
+When you get up to 300+ pounds and have a BMI over 30, you should be into the obese fat percentages,
+but as lower weights, your percentage should be more in the fit ranges.
+(The default 26% is quite high for a male so should change if you hit male instead of female.)
+
+It seems like when you increase the weight we should also increase the calories in the base diet
+ because otherwise the 300 lb guy loses weight very fast ... normally a guy like that would
+ eat a lot more to maintain his weight. Basically this would be his BMR plus Lifestyle calories.
+ Then be able to add OR subtract from that base diet.
+ This would get away from the unrealistic rapid weight loss by a very overweight person.
+
+I found this page somewhat helpful in thinking about the above.
+http://weightloss.about.com/od/eatsmart/a/blcalintake.htm
+
+1. Percent body fat should change as body weight changes. This change probably be based upon the concept
+    that one pound of fat gain/loss requires a gain/loss of about 3500 calories.
+    It should be noted that weight loss by diet only, results in a loss of both fat (75%) and lean tissue (25%)
+    whereas weight loss via diet and exercise results in a maintenance of lean tissue and a loss of only fat.
+
+#######################################################################################

@@ -148,15 +148,15 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( weightSlider );
 
-        final HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), FitnessResources.getString( "bmi" ), "0.0", FitnessResources.getString( "units.bmi" ) );
-        human.addListener( new Human.Adapter() {
-            public void bmiChanged() {
-                bmiSlider.setValue( human.getBMI() );
-            }
-        } );
-        bmiSlider.getTextField().setEditable( false );
-        bmiSlider.getSlider().setVisible( false );
-        add( bmiSlider );
+//        final HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), FitnessResources.getString( "bmi" ), "0.0", FitnessResources.getString( "units.bmi" ) );
+//        human.addListener( new Human.Adapter() {
+//            public void bmiChanged() {
+//                bmiSlider.setValue( human.getBMI() );
+//            }
+//        } );
+//        bmiSlider.getTextField().setEditable( false );
+//        bmiSlider.getSlider().setVisible( false );
+//        add( bmiSlider );
 
         bodyFat = new HumanSlider( 0, 100, human.getFatMassPercent(), FitnessResources.getString( "body.fat" ), "0.0", "%" );
         bodyFat.addChangeListener( new ChangeListener() {
@@ -183,7 +183,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( bodyFat );
 
-        hs = new LinearValueControl[]{age, heightControl, weightSlider, bmiSlider, bodyFat};
+//        hs = new LinearValueControl[]{age, heightControl, weightSlider, bmiSlider, bodyFat};
+        hs = new LinearValueControl[]{age, heightControl, weightSlider, bodyFat};
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
 
         updateBodyFatSlider();
