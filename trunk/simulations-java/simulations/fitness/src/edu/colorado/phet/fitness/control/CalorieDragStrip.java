@@ -156,6 +156,22 @@ public class CalorieDragStrip extends PNode {
         removeChild( droppedNode.getPNode() );
     }
 
+    public void itemRemoved( CaloricItem item ) {
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            PNode child = getChild( i );
+            if ( child instanceof DefaultDragNode ) {
+                if ( ( (DefaultDragNode) child ).getItem() == item ) {
+                    removeChild( child );
+                    i--;
+                }
+            }
+        }
+    }
+
+    public void itemAdded( CaloricItem item ) {
+        //should only handle events from sources other than this
+    }
+
     private class DefaultDragNode extends PNode implements DragNode {
         private CaloricItem item;
         private PNode node;

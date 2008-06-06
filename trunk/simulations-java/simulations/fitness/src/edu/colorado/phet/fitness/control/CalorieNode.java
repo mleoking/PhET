@@ -34,7 +34,7 @@ public class CalorieNode extends PNode {
     private PlateTopSummaryNode plateTopSummaryNode;
     private CalorieDragStrip calorieDragStrip;
 
-    public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle,String dropTargetIcon ) {
+    public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle, String dropTargetIcon ) {
         this.parentFrame = parentFrame;
         this.available = available;
         this.calorieSet = calorieSet;
@@ -55,7 +55,7 @@ public class CalorieNode extends PNode {
         editButton.setOffset( 0, 10 );
         addChild( editButton );
 
-        plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( dropTargetIcon ), 120) );
+        plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( dropTargetIcon ), 120 ) );
         addChild( plateImage );
 
         plateTopSummaryNode = new PlateTopSummaryNode( calorieSet, plateImage );
@@ -65,6 +65,15 @@ public class CalorieNode extends PNode {
         calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
             public void notifyDragged( CalorieDragStrip.DragNode node ) {
                 setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) );
+            }
+        } );
+        calorieSet.addListener( new CalorieSet.Listener() {
+            public void itemAdded( CaloricItem item ) {
+                calorieDragStrip.itemAdded( item );
+            }
+
+            public void itemRemoved( CaloricItem item ) {
+                calorieDragStrip.itemRemoved( item );
             }
         } );
         addChild( calorieDragStrip );

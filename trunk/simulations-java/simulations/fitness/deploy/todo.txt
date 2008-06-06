@@ -15,17 +15,6 @@ Comments from Bill on 5-20-2008:
     The value varies depending on the composition of the meal but you could just use a value of 15% of the ingested calories.
 
 _______
-Fitness sim is very nice in many respects, but I really miss the drag and drop contributions to diet and exercise.
-    The “edit” boxes seem much less fun to play with.  Is this design set in stone?
-    Tossing a couple of hamburgers and a banana split on there and seeing what happens, or taking them
-    off is just a lot more fun and gives more immediate response.
-I was thinking you could bring the drag and drop food and exercise and then have a button
-    for extended diet and exercise options since the list is soooo long. What do you think?
-
-At the meeting let's talk about the amount of exercises that are available.
-    I think maybe 6 -10 should be up front but then provide an advanced library
-    or something to access the rest. It's overwhelming right now.  Same thing
-    with the food.
 
 Get better simulation name:
     Food and Exercise
