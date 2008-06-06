@@ -57,7 +57,7 @@ public class FitnessFileParser {
             if ( st.hasMoreTokens() ) {
                 image = st.nextToken().trim();
             }
-            return new CaloricFoodItem( FitnessResources.getString( name ), image, cal, lipids, carbs, proteins );
+            return new CaloricFoodItem( FitnessResources.getString( name ), image, lipids, carbs, proteins );
         }
     }
 

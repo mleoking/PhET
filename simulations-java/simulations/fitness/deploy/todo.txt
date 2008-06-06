@@ -1,49 +1,7 @@
-We are still confused about a delay in weight loss if: all variables remained constant:
-    diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
-    -I think you should be able to do "step day", so you can see the effects of 1 hour activity
-
-Time readouts should be Years:Months, not years in decimal
-
-Dialog box shows n~ characters on mac, see email for screenshot
-
-Remove unused column from food properties file (calories computed from fats, carbs, proteins)
-
-Caloric intake changes resting metabolic rate
-    Extra carbs or protein can increase RMR (not agreed upon)
-
-Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
-
-Exercise Selection:
-    The exercise function is great. Two questions on this, would it be informative for students
-    to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
-
-Add foods/exercise
-    -The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
-    -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
-        submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
-        apple, banana or orange, a serving of vegetables, slice of pizza, ?
-
-3000 kcal/day wrong, should be 2000kcal/day
-    should this be exact?
-    can't force 2000kcal/day and prescribed ffm and have balanced calories
-
-Is it true that I can eat a hamburger per day above a 'healthy diet', and
-  have a steady weight (though a ~10 lb gain) after about three years?
-    - to see this, click 'reset all', wait until you're 23 years old, then
-      add a hamburger per day.
-
-As I add the exercise the graphs begin to change,
-    but I can't see whats happening from the getgo because it runs while the exercise window is open.
-    I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
-    >>To address this problem, I started the simulation paused; hopefully the user will be able to pause the simulation before
-    >>adding exercise/diet.  If not, we can either pause the sim when they bring up an editor, or add a control to the
-    >>diet selection panel
-
-Bar chart
-    To emphasize the meaning of the bar charts, you might have big labels on
-        the left and right of the center line of the bar chart: 'Diet' on the
-        left and 'Exercise' on the right (perhaps with the 'edit' buttons below
-        the labels)
+To emphasize the meaning of the bar charts, you might have big labels on
+    the left and right of the center line of the bar chart: 'Diet' on the
+    left and 'Exercise' on the right (perhaps with the 'edit' buttons below
+    the labels)
 
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
     the learning goal seems too easy: to figure out "How long do you have to
@@ -58,6 +16,9 @@ Need more junk food for diet options: pizza, burrito, chips, cookies, tacos, etc
     twizzlers or candies
     more junk
     like actual student diets
+    sub sandwich
+    
+The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
 
 How is body fat calculated?  How would a student know their % body fat?
 
@@ -65,8 +26,10 @@ Possibly visualize balance of caloric intake as scale
 
 Performance: consider profiling or changing clock rate
 
-Mass slider thumb in the wrong spot on Mac, see malley's machine.
-    >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
+Mac issues:
+    -Dialog box shows n~ characters on mac, see email for screenshot
+    -Mass slider thumb in the wrong spot on Mac, see malley's machine.
+        >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
 
 Base diet should be visualized on the plate
 
@@ -75,6 +38,8 @@ Changing my guy from male to female didn't seem to change anything.
 
 Zoom in/out for bar graphs
     alternatively: Readouts by base of bar graph?
+
+Time readouts should be Years:Months, not years in decimal
 
 #######################################################################################
 # Edit Diet
@@ -93,6 +58,10 @@ clean up this box a bit as well.
 Add a done button at the top of the diet and exercise boxes.
 
 Editors for exercise (change time or intensity)
+
+Exercise Selection:
+    The exercise function is great. Two questions on this, would it be informative for students
+    to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
 
 #######################################################################################
 # To Discuss
@@ -139,6 +108,36 @@ BMI:
     Are we accounting for sex affects on BMI and BMR?
     -Can we put a chart or weblink to compare healthy or unhealthy BMI?
     (see categories chart on national heart lung and blood institute bmi calculator page)
+
+We are still confused about a delay in weight loss if: all variables remained constant:
+    diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
+    -I think you should be able to do "step day", so you can see the effects of 1 hour activity.
+
+Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
+
+Caloric intake changes resting metabolic rate
+    Extra carbs or protein can increase RMR (not agreed upon in scientific community)
+
+Is it true that I can eat a hamburger per day above a 'healthy diet', and
+  have a steady weight (though a ~10 lb gain) after about three years?
+    - to see this, click 'reset all', wait until you're 23 years old, then
+      add a hamburger per day.
+        >>The behavior of this has changed since we started keeping BMR constant over weight change
+        >>Is the new behavior acceptable?
+
+3000 kcal/day wrong, should be 2000kcal/day
+    should this be exact?
+    can't force 2000kcal/day and prescribed ffm and have balanced calories
+
+As I add the exercise the graphs begin to change,
+    but I can't see whats happening from the getgo because it runs while the exercise window is open.
+    I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
+    >>To address this problem, I started the simulation paused; hopefully the user will be able to pause the simulation before
+    >>adding exercise/diet.  If not, we can either pause the sim when they bring up an editor, or add a control to the
+    >>diet selection panel
+        >>Now that the simulation has drag-and-drop for editing diet and exercise, perhaps it should start running?
+        >>Or perhaps the sim should start running as soon as the first item is dropped?
+        >>Or perhaps a wiggle me should be used instead
 
 #######################################################################################
 # fat % issue
@@ -198,3 +197,8 @@ check with fran, bill & kate regarding change in % fat
 KG gained per day should be a function of caloric distribution over lipids, carbs and protein
 
 #######################################################################################
+# Don't solve
+###########################
+
+Remove unused column from food properties file (calories computed from fats, carbs, proteins)
+    It might be good to keep these value for future usage
