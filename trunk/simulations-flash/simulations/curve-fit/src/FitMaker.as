@@ -62,16 +62,17 @@ class FitMaker{
 		//var A:Array = this.A
 		for(var varCol:Number = 0; varCol < this.m-1; varCol++){   //varCol = variable column = x, y  (if variables are x, y, and z)
 			//trace("variable column: "+varCol);
-			/*
+			
 			//pivot algorithm -- supposed to improve stability
+			/*
 			var maxPivotRow:Number = varCol;
 			for(var i:Number = varCol+1; i < this.m; i++){
 				if(Math.abs(A[i][varCol]) > Math.abs(A[maxPivotRow][varCol])){
 					maxPivotRow = i;
 				}
 			}
-			trace("maxPivotRow: "+maxPivotRow + "   varCol: "+varCol);
-			trace("Before matrix: ");
+			//trace("maxPivotRow: "+maxPivotRow + "   varCol: "+varCol);
+			//trace("Before matrix: ");
 			if(maxPivotRow != varCol){
 				this.displayMatrix();
 				var tempRow:Array = new Array(this.m+1);
@@ -80,10 +81,11 @@ class FitMaker{
 					A[varCol][j] = A[maxPivotRow][j];
 					A[maxPivotRow][j] = tempRow[j];
 				}
-				trace("After matrix: ");
+				//trace("After matrix: ");
 				this.displayMatrix();
 			}
 			*/
+			//end of pivot algorithm -- supposed to improve stability
 			
 			for(var i:Number = varCol+1; i < this.m; i++){  //loop thru rows below , starting with 2nd row: i = 1
 				var coeff:Number = A[i][varCol]/A[varCol][varCol];

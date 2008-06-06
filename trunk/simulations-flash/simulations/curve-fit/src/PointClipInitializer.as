@@ -26,8 +26,8 @@ class PointClipInitializer{
 				var xNow = scaleFactor*(clip._x - Util.ORIGINX);
 				var yNow = scaleFactor*(-clip._y + Util.ORIGINY);
 				currentPoint.setXY(xNow, yNow);
-				clip.display_mc.xDisplay_txt.text = xNow;
-				clip.display_mc.yDisplay_txt.text = yNow;
+				clip.display_mc.xDisplay_txt.text = 0.1*Math.round(10*xNow);
+				clip.display_mc.yDisplay_txt.text = 0.1*Math.round(10*yNow);
 				updateAfterEvent();
 			}
 		}
@@ -36,11 +36,18 @@ class PointClipInitializer{
 			clip.stopDrag();
 			clip.display_mc._visible = false;
 			clip.onMouseMove = undefined;
-			if(clip.dataPoint_mc.hitTest(theView.pointsBucket)){
+			if(clip.dataPoint_mc.hitTest(theView.pointsBucket.hitAreaPoints_mc)){
 				model.deletePoint(currentPoint.getPositionInArray());  
 			}
 		}
 		clip.dataPoint_mc.onReleaseOutside = clip.dataPoint_mc.onRelease;
+		
+		clip.dataPoint_mc.onRollOver = function(){
+			clip.display_mc._visible = true;
+		}
+		clip.dataPoint_mc.onRollOut = function(){
+			clip.display_mc._visible = false;
+		}
 		
 		clip.errorBar_mc.top_mc.onPress = function(){
 			clip.displayDelY_mc._visible = true;
@@ -52,7 +59,7 @@ class PointClipInitializer{
 					clip.errorBar_mc.middle_mc._height = -2*this._y;
 					var delY = -scaleFactor*this._y
 					currentPoint.setDeltaY(delY);
-					clip.displayDelY_mc.display_txt.text = delY;
+					clip.displayDelY_mc.display_txt.text = 0.1*Math.round(10*delY);
 					updateAfterEvent();
 				}
 				//trace("clip._ymouse:"+clip._ymouse);
@@ -80,7 +87,7 @@ class PointClipInitializer{
 					clip.errorBar_mc.middle_mc._height = 2*this._y;
 					var delY = scaleFactor*this._y;
 					currentPoint.setDeltaY(delY);
-					clip.displayDelY_mc.display_txt.text = delY;
+					clip.displayDelY_mc.display_txt.text = 0.1*Math.round(10*delY);
 					updateAfterEvent();
 				}
 				//trace("clip._ymouse:"+clip._ymouse);
@@ -97,5 +104,14 @@ class PointClipInitializer{
 			this.onMouseMove = undefined;
 		}
 		clip.errorBar_mc.bottom_mc.onReleaseOutside = clip.errorBar_mc.bottom_mc.onRelease ;
+		
+		clip.errorBar_mc.top_mc.onRollOver = function(){
+			clip.displayDelY_mc._visible = true;
+		}
+		clip.errorBar_mc.top_mc.onRollOut = function(){
+			clip.displayDelY_mc._visible = false;
+		}
+		clip.errorBar_mc.bottom_mc.onRollOver = clip.errorBar_mc.top_mc.onRollOver;
+		clip.errorBar_mc.bottom_mc.onRollOut = clip.errorBar_mc.top_mc.onRollOut
 	}//end of makePointDraggable()
 }//end of class

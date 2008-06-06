@@ -71,8 +71,8 @@ class MainView{
 		dSlider.label_txt.text = "d";
 		eSlider.label_txt.text = "e";
 		//arrange slider labels for visibility
-		bSlider.value_txt._y += 1.2*bSlider.value_txt._height;
-		dSlider.value_txt._y += 1.2*dSlider.value_txt._height;
+		//bSlider.value_txt._y += 1.2*bSlider.value_txt._height;
+		//dSlider.value_txt._y += 1.2*dSlider.value_txt._height;
 		//cSlider.value_txt._width *= 1.2;
 		dSlider.value_txt._width *= 1.1;
 		eSlider.value_txt._width *= 1.1;
@@ -99,6 +99,7 @@ class MainView{
 			//trace("update called. value is "+ value);
 			//updateAfterEvent();
 		}
+		/*
 		aSlider.value_txt.onChanged = function(changedField){
 			var value = Number(changedField.text);
 			var max = this._parent.max;
@@ -114,6 +115,7 @@ class MainView{
 				this._parent.puck_mc._y = (mid - value)*100/(max - min);
 			}
 		}//end of onChanged()
+		*/
 		
 		bSlider.update = function(){
 			var max = this.max;
@@ -124,7 +126,7 @@ class MainView{
 			modelRef.setB(bParam);
 			//updateAfterEvent();
 		}
-		
+		/*
 		bSlider.value_txt.onChanged = function(changedField){
 			var value = Number(changedField.text);
 			var sliderPos = Math.atan(value);
@@ -142,6 +144,7 @@ class MainView{
 				this._parent.puck_mc._y = (mid - sliderPos)*100/(max - min);
 			}
 		}//end of onChanged()
+		*/
 		
 		cSlider.update = function(){
 			var max = this.max;
@@ -155,7 +158,7 @@ class MainView{
 			modelRef.setC(value);
 			//updateAfterEvent();
 		}
-		
+		/*
 		cSlider.value_txt.onChanged = function(changedField){
 			var value = Number(changedField.text);
 			var max = this._parent.max;
@@ -171,6 +174,7 @@ class MainView{
 				this._parent.puck_mc._y = (mid - value)*100/(max - min);
 			}
 		}//end of onChanged()
+		*/
 		
 		dSlider.update = function(){
 			var max = this.max;
@@ -184,7 +188,7 @@ class MainView{
 			modelRef.setD(value);
 			//updateAfterEvent();
 		}
-		
+		/*
 		dSlider.value_txt.onChanged = function(changedField){
 			var value = Number(changedField.text);
 			var max = this._parent.max;
@@ -200,6 +204,7 @@ class MainView{
 				this._parent.puck_mc._y = (mid - value)*1000/(max - min);
 			}
 		}//end of onChanged()
+		*/
 		
 		eSlider.update = function(){
 			var max = this.max;
@@ -213,7 +218,7 @@ class MainView{
 			modelRef.setE(value);
 			//updateAfterEvent();
 		}
-		
+		/*
 		eSlider.value_txt.onChanged = function(changedField){
 			var value = Number(changedField.text);
 			var max = this._parent.max;
@@ -229,6 +234,7 @@ class MainView{
 				this._parent.puck_mc._y = (mid - value)*1000/(max - min);
 			}
 		}//end of onChanged()
+		*/
 	}//end of initializeControls()
 	
 	
@@ -392,6 +398,8 @@ class MainView{
 		this.equationDisplay.cDisplay_txt.text = Math.round(1000*c)/1000;
 		this.equationDisplay.dDisplay_txt.text = Util.expNotation(d);//Math.round(10000*d)/10000;
 		this.equationDisplay.eDisplay_txt.text = Util.expNotation(e);//Math.round(100000*e)/100000;
+		//if(isNaN(a)){this.equationDisplay.aDisplay_txt.text = "--";}
+		//if(isNaN(b)){this.equationDisplay.bDisplay_txt.text = "--";}
 	}
 	
 	function updateChiScaleDisplay():Void{
@@ -462,8 +470,8 @@ class MainView{
 			this.onMouseMove = function(){
 				var xNow = scaleFactor*(pointClip._x - Util.ORIGINX);
 				var yNow = scaleFactor*(-pointClip._y + Util.ORIGINY);
-				pointClip.display_mc.xDisplay_txt.text = xNow;
-				pointClip.display_mc.yDisplay_txt.text = yNow;
+				pointClip.display_mc.xDisplay_txt.text = 0.1*Math.round(10*xNow);
+				pointClip.display_mc.yDisplay_txt.text = 0.1*Math.round(10*yNow);
 				updateAfterEvent();
 			}
 		}

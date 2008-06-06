@@ -62,6 +62,8 @@ class Model{
 		}
 		this.points_arr.length = 0;
 		this.nbrPoints = 0;
+		this.fitParameters = this.fitMaker.getFit();
+		this.mainView.displayFit();
 		this.setReducedChiSquare();
 		this.clearFit();
 	}
@@ -130,8 +132,11 @@ class Model{
 	}
 	
 	function makeFit():Void{
-		//trace("model.orderOfFit: "+this.orderOfFit);
-		if(this.fitOn && this.orderOfFit > 0){
+		if(this.fitOn && this.nbrPoints == 0){
+			this.fitParameters = this.fitMaker.getFit();
+			//trace("model.makeFit called with fitOn and nbrPoints = 0  fitParameters: " +this.fitParameters  );
+			this.clearFit();
+		}else if(this.fitOn && this.orderOfFit > 0){
 			this.fitParameters = this.fitMaker.getFit();
 			//trace("this.fitParameters:"+ this.fitParameters);
 			this.graphView.drawFit();

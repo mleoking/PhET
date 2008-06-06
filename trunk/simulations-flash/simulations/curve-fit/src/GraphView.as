@@ -74,15 +74,22 @@ class GraphView{
 		var c:Number = this.myModel.fitParameters[2];
 		var d:Number = this.myModel.fitParameters[3];
 		var e:Number = this.myModel.fitParameters[4];
-		if(this.myModel.orderOfFit == 1){  // || this.myModel.nbrPoints == 2
+		if(this.myModel.orderOfFit == 1){  
 			with(this.curve_mc){
 				clear();
 				var lineWidth = 3;
-				lineStyle(lineWidth, 0x000099, 100);
+				lineStyle(lineWidth, 0x0000FF, 100);
+				if(Math.abs(b) <= 3 ){  //large slope lines must be handled separately
 				var xScreenBegin = -0.5*this.stageW; 
 				var xScreenEnd = 1.5*this.stageW;
 				moveTo(xScreenBegin, this.screenY(a + b*(this.graphX(xScreenBegin))));
 				lineTo(xScreenEnd, this.screenY(a + b*(this.graphX(xScreenEnd))));
+				}else{  //if slope is too large
+					var yScreenBegin = -0.3*this.stageH;
+					var yScreenEnd = 1.3*this.stageH;
+					moveTo( this.screenX((this.graphY(yScreenBegin) - a) / b), yScreenBegin);
+					lineTo( this.screenX((this.graphY(yScreenEnd) - a) / b), yScreenEnd);
+				}
 			}//end of with()
 		}else if(this.myModel.orderOfFit == 2){  // && this.myModel.nbrPoints > 2
 			var scaleFactor = this.scale;
@@ -123,12 +130,12 @@ class GraphView{
 				lineTo(this.screenX(xG), this.screenY(yG));
 				}//end of for
 			}//end of with()
-		}else if(this.myModel.orderOfFit == 0){
+		}else if(this.myModel.orderOfFit == 0 || (this.myModel.fitOn && this.myModel.nbrPoints == 0)){
 			this.curve_mc.clear();
 		}//end of else if
 	}//end of drawCurve()
 	
-
+	//convert graph coordinates into screen coordinates(pixels)
 	function screenY(graphY:Number):Number{
 		//Relation is: scale*(screenY - Util.ORIGINY) = - graphY
 		return (-graphY/this.scale + Util.ORIGINY); 
@@ -137,8 +144,13 @@ class GraphView{
 		//Relation is scale*(screenX - Util.ORIGINX) = graphX
 		return (graphX/this.scale + Util.ORIGINX);
 	}
+	//convert screen coordinates into graph coordinates
 	function graphX(screenX:Number):Number{
 		//Relation is scale*(screenX - Util.ORIGINX) = graphX
 		return (this.scale*(screenX - Util.ORIGINX));
+	}
+	function graphY(screenY:Number):Number{
+		//Relation is scale*(screenY - Util.ORIGINY) = -graphY
+		return (this.scale*(-1)*(screenY - Util.ORIGINY));
 	}
 }//end of class
