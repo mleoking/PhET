@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -17,7 +18,11 @@ import edu.colorado.phet.fitness.control.HumanControlPanel;
 import edu.colorado.phet.fitness.view.HumanAreaNode;
 import edu.colorado.phet.fitness.view.ScaleNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -51,7 +56,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessCanvas( final FitnessModel model, Frame parentFrame ) {
+    public FitnessCanvas( final FitnessModel model, final Frame parentFrame ) {
         super( new PDimension( 15, 15 ) );
 
         // Set the transform strategy in such a way that the center of the
@@ -60,7 +65,27 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         _model = model;
 
         setBackground( FitnessConstants.CANVAS_BACKGROUND );
+        getCamera().addInputEventListener( new PBasicInputEventHandler(){
+            public void mousePressed( PInputEvent aEvent) {
+                System.out.println( "aEvent.isLeftMouseButton() = " + aEvent.isLeftMouseButton() );
+                System.out.println( "aEvent.getPickedNode() = " + aEvent.getPickedNode() );
+                if ( aEvent.isLeftMouseButton() && aEvent.getPickedNode() instanceof PCamera ) {
+                    ColorChooserFactory.showDialog( "background color", parentFrame, getBackground(), new ColorChooserFactory.Listener() {
+                        public void colorChanged( Color color ) {
+                            setBackground( color );
+                        }
 
+                        public void ok( Color color ) {
+                            setBackground( color );
+                        }
+
+                        public void cancelled( Color originalColor ) {
+                            setBackground( originalColor );
+                        }
+                    }, true );
+                }
+            }
+        } );
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );

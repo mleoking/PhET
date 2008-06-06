@@ -119,7 +119,7 @@ public class CalorieDragStrip extends PNode {
     private DefaultDragNode createNode( CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
             DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
-            ToolTipNode toolTipNode = new ToolTipNode( item.getName(), dragNode );
+            ToolTipNode toolTipNode = new ToolTipNode( "<html>"+item.getName()+" ("+item.getCalories()+" "+FitnessResources.getString( "units.cal" )+")</html>", dragNode );
             toolTipNode.setFont( new PhetFont( 16, true ) );
 
             tooltipLayer.addChild( toolTipNode );
