@@ -3,7 +3,8 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
+- BUG: sim hangs when climate is warmed/cooled to make ELA go above/below headwall (may take a couple of tries)
+- BUG: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 
 HIGH PRIORITY:
 - equilibrium line doesn't move if climate is changed while clock is paused
