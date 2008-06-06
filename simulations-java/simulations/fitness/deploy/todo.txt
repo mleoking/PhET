@@ -58,8 +58,6 @@ ___
 
 Move BMI readout to near the heart
 
-Lighten up proteins, fats, lipids for projector
-
 Try dark gray color for bar chart text color (not black)
 
 Weight gain goes into fat% to keep BMR basically constant.
