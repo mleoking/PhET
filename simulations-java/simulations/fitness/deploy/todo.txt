@@ -143,14 +143,6 @@ Discussion:
 3000 kcal/day wrong, should be 2000kcal/day
     should this be exact?
     can't force 2000kcal/day and prescribed ffm and have balanced calories
--cauliflower fat content double check
-    confirmed this at: http://www.calorie-count.com/calories/item/11761.html
-Should fat/fat free composition change based on diet & exercise?
-    Check with bill
-    -emailed bill
-Should we allow option to show BMI in English units?
-    -it looks like the universal unit for this is metric kg/m^2
-    -Franny says we should only use SI
 Is it true that I can eat a hamburger per day above a 'healthy diet', and
   have a steady weight (though a ~10 lb gain) after about three years?
     - to see this, click 'reset all', wait until you're 23 years old, then
