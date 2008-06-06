@@ -1,3 +1,6 @@
+Moved BMI readout to near the heart
+
+New in 0.00.36
 Added drag and drop
 Provide a few foods and exercise up front (in drag toolbox), but access to more via scrolling or Edit button
 Fixed: Resize panel after "start sim" wiggle me is showing causes exception

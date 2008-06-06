@@ -157,15 +157,15 @@ public class CalorieDragStrip extends PNode {
     }
 
     public void itemRemoved( CaloricItem item ) {
-        for ( int i = 0; i < getChildrenCount(); i++ ) {
-            PNode child = getChild( i );
-            if ( child instanceof DefaultDragNode ) {
-                if ( ( (DefaultDragNode) child ).getItem() == item ) {
-                    removeChild( child );
-                    i--;
-                }
-            }
-        }
+//        for ( int i = 0; i < getChildrenCount(); i++ ) {
+//            PNode child = getChild( i );
+//            if ( child instanceof DefaultDragNode ) {
+//                if ( ( (DefaultDragNode) child ).getItem() == item ) {
+//                    removeChild( child );
+//                    i--;
+//                }
+//            }
+//        }
     }
 
     public void itemAdded( CaloricItem item ) {
