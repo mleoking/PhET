@@ -17,9 +17,15 @@ Performance: consider profiling or changing clock rate
 
 BMI readout is obscured when overlapping the human outline
 
+Pilates graphic is transparent in the middle
+
+Jumprope lady graphic is not cropped properly
+
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
+
+Foods should have correct relative sizes?
 
 I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
     to go beyond a year especially since most of the current data only follows folks for weeks and months.
