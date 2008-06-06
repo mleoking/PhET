@@ -1,9 +1,3 @@
-Mass slider thumb in the wrong spot on Mac, see malley's machine.
-    >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
-
-I think you can do without the per day label on all the foods.  One label
-for the box could say Base Diet per day. Then all the rest will be obvious.
-
 "Diet" could say "Food for the day" or something straight forward. Diet
 means eating less so you can lose weight to most people.
 
@@ -121,6 +115,13 @@ How is body fat calculated?  How would a student know their % body fat?
 Possibly visualize balance of caloric intake as scale
 
 Performance: consider profiling or changing clock rate
+
+Mass slider thumb in the wrong spot on Mac, see malley's machine.
+    >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
+
+Base diet should be visualized on the plate
+
+Add/Remove items from Edit Diet should be synchronized with Plate graphics
 
 #######################################################################################
 # To Discuss

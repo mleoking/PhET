@@ -120,7 +120,6 @@ public class CalorieNode extends PNode {
         dialog.pack();
         dialog.setSize( 1024, 400 );
 
-
         Rectangle parentBounds = parentFrame.getBounds();
         Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + parentBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
                                                 (int) ( parentBounds.getMaxY() - dialog.getHeight() ),
