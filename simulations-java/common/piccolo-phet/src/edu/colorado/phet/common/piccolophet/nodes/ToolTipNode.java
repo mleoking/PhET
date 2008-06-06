@@ -359,6 +359,7 @@ public class ToolTipNode extends PComposite {
         PPath blueNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         blueNode.setPaint( Color.BLUE );
         ToolTipNode blueToolTipNode = new ToolTipNode( "centered above mouse cursor", blueNode );
+        blueToolTipNode.setFont( new PhetFont( 24, true ) );
         testNodes.add( blueNode );
         toolTips.add( blueToolTipNode );
         
