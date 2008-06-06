@@ -32,6 +32,7 @@ public class CalorieNode extends PNode {
     private double maxY;
     private PImage plateImage;
     private PlateTopSummaryNode plateTopSummaryNode;
+    private CalorieDragStrip calorieDragStrip;
 
     public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle ) {
         this.parentFrame = parentFrame;
@@ -60,7 +61,7 @@ public class CalorieNode extends PNode {
         plateTopSummaryNode = new PlateTopSummaryNode( calorieSet, plateImage );
         addChild( plateTopSummaryNode );
 
-        final CalorieDragStrip calorieDragStrip = new CalorieDragStrip( available );
+        calorieDragStrip = new CalorieDragStrip( available );
         calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
             public void notifyDragged( CalorieDragStrip.DragNode node ) {
                 setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) );
@@ -165,5 +166,9 @@ public class CalorieNode extends PNode {
         editButton.setOffset( 0, maxY - editButton.getFullBounds().getHeight() );
         plateImage.setOffset( 0, editButton.getFullBounds().getY() - plateImage.getFullBounds().getHeight() );
         plateTopSummaryNode.relayout();
+    }
+
+    public PNode getTooltipLayer() {
+        return calorieDragStrip.getTooltipLayer();
     }
 }

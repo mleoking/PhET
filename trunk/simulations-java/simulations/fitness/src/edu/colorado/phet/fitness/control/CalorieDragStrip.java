@@ -23,10 +23,11 @@ public class CalorieDragStrip extends PNode {
     private static Random random = new Random();
     private ArrayList listeners = new ArrayList();
     private static final int HEIGHT = 30;
+    private PNode tooltipLayer;
 
     public CalorieDragStrip( final CalorieSet available ) {
         ArrayList nodes = new ArrayList();
-        PNode tooltipLayer=new PNode();
+        tooltipLayer = new PNode();
         for ( int i = 0; i < 10; i++ ) {
             final PNode node = createNode( available.getItem( i ) );
 
@@ -74,7 +75,12 @@ public class CalorieDragStrip extends PNode {
         for ( int i = 0; i < nodes.size(); i++ ) {
             addChild( (PNode) nodes.get( i ) );
         }
-        addChild( tooltipLayer );
+//        addChild( tooltipLayer );
+    }
+
+    //To be used in an external layer in order to simplify the layout code 
+    public PNode getTooltipLayer() {
+        return tooltipLayer;
     }
 
     public void removeItem( DragNode droppedNode ) {

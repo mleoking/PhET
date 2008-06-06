@@ -72,6 +72,9 @@ public class CaloriePanel extends PNode {
         };
         addChild( exerciseNode );
 
+        addChild( foodNode.getTooltipLayer() );
+        addChild( exerciseNode.getTooltipLayer() );
+
         relayout();
     }
 
