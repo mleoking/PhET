@@ -3,6 +3,7 @@ Provide a few foods and exercise up front (in drag toolbox), but access to more 
 Fixed: Resize panel after "start sim" wiggle me is showing causes exception
 Made food and exercise drag work by mouseover, not by release, to make it easier to see changes
 Internationalized food and exercise repository by moving keys to food/exercise files and translatable strings to fitness-strings.properties file
+Lightened up proteins, fats, lipids for projector
 
 New in 0.00.33
 "Grocery Store & Restaurants" changed to "individual items"
