@@ -27,7 +27,6 @@ import edu.colorado.phet.fitness.view.FitnessColorScheme;
  */
 public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPanel {
     private ArrayList listeners = new ArrayList();
-    private Random random = new Random();
 
     public CalorieSelectionPanel( final CalorieSet available, final CalorieSet selected, String availableTitle, String selectedTitle ) {
         setLayout( new GridBagLayout() );
@@ -121,15 +120,6 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
         };
     }
 
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( new CalorieSelectionPanel( FitnessModel.availableFoods, new CalorieSet(), "Grocery store", FitnessResources.getString( "diet" ) ) );
-        frame.pack();
-        frame.setSize( 800, 600 );
-        frame.setVisible( true );
-    }
-
     private class DietComponent extends JPanel {
         int maxImageW = 60;
 
@@ -191,4 +181,14 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
             }
         }
     }
+
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setContentPane( new CalorieSelectionPanel( FitnessModel.availableFoods, new CalorieSet(), "Grocery store", FitnessResources.getString( "diet" ) ) );
+        frame.pack();
+        frame.setSize( 800, 600 );
+        frame.setVisible( true );
+    }
+
 }

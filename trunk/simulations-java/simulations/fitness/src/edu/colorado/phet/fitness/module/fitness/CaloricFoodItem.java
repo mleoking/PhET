@@ -65,8 +65,9 @@ public class CaloricFoodItem extends CaloricItem {
 
     public String getLabelText() {
         String one = FitnessResources.getString( "one" );
-        String perDay = FitnessResources.getString( "per.day" );
-        return "<html>" + one + " " + getName() + " " + perDay + "<br>(" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY + ")</html>";
+        return "<html>" + one + " " + getName() + " <br>(" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY + ")</html>";
+//        String perDay = FitnessResources.getString( "per.day" );
+//        return "<html>" + one + " " + getName() + " " + perDay + "<br>(" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY + ")</html>";
     }
 
     public Object clone() {

@@ -1,6 +1,7 @@
 Moved BMI readout to near the heart
 Fixed: "?" icon should move with the heart
 Removed BMI readout from control panel (now near heart only)
+Fixed: I think you can do without the per day label on all the foods.  One label for the box could say Base Diet per day. Then all the rest will be obvious.
 
 New in 0.00.36
 Added drag and drop
