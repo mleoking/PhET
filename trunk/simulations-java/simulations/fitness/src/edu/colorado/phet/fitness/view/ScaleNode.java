@@ -3,7 +3,6 @@ package edu.colorado.phet.fitness.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -11,8 +10,8 @@ import javax.swing.border.BevelBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.FitnessPText;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
@@ -33,7 +32,7 @@ public class ScaleNode extends PNode {
     private double depthDX = 0.06;
     private double depthDY = 0.1;
     private float strokeWidth = 0.02f;
-//    private PText bmiReadout;
+    //    private PText bmiReadout;
     private PSwing unitsPSwing;
 
     public ScaleNode( final FitnessModel model, Human human ) {
@@ -119,7 +118,7 @@ public class ScaleNode extends PNode {
 
     private void updateTextLayout() {
 //        weightReadout.setOffset( -faceWidth / 2 + strokeWidth, faceY );
-        weightReadout.setOffset( 0-weightReadout.getFullBounds().getWidth()/2, faceY );
+        weightReadout.setOffset( 0 - weightReadout.getFullBounds().getWidth() / 2, faceY );
 //        bmiReadout.setOffset( faceWidth / 2 - strokeWidth - bmiReadout.getFullBounds().getWidth(), faceY );
     }
 }

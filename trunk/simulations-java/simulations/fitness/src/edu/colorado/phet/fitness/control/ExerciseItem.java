@@ -1,7 +1,7 @@
 package edu.colorado.phet.fitness.control;
 
-import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessStrings;
 
 /**
  * Created by: Sam
@@ -13,8 +13,8 @@ public class ExerciseItem extends CaloricItem {
     }
 
     public String getLabelText() {
-        String perday= FitnessResources.getString( "per.day" );
-        String onehour= FitnessResources.getString( "one.hour" );
-        return "<html>"+onehour+ " "+ getName() + " "+perday+"<br>(" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY+")</html>";
+        String perday = FitnessResources.getString( "per.day" );
+        String onehour = FitnessResources.getString( "one.hour" );
+        return "<html>" + onehour + " " + getName() + " " + perday + "<br>(" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY + ")</html>";
     }
 }

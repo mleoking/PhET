@@ -26,7 +26,7 @@ public class HumanNode extends PNode {
     public HumanNode( Human human ) {
         this.human = human;
 //        BasicStroke basicStroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 0.0001f );
-        BasicStroke basicStroke = new BasicStroke( 0.02f);
+        BasicStroke basicStroke = new BasicStroke( 0.02f );
         leftLeg = new PhetPPath( basicStroke, Color.black );
         rightLeg = new PhetPPath( basicStroke, Color.black );
 

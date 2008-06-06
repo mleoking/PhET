@@ -6,12 +6,12 @@ import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.control.Activity;
 import edu.colorado.phet.fitness.control.CaloricItem;
 import edu.colorado.phet.fitness.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
 import edu.colorado.phet.fitness.module.fitness.FoodCalorieSet;
-import edu.colorado.phet.fitness.FitnessResources;
 
 /**
  * Created by: Sam
@@ -388,8 +388,8 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( FitnessResources.getString( "gender.male" ).toLowerCase(  ), 4, 40 );
-        public static Gender FEMALE = new Gender( FitnessResources.getString( "gender.female" ).toLowerCase(  ), 10, 40 );
+        public static Gender MALE = new Gender( FitnessResources.getString( "gender.male" ).toLowerCase(), 4, 40 );
+        public static Gender FEMALE = new Gender( FitnessResources.getString( "gender.female" ).toLowerCase(), 10, 40 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
@@ -468,7 +468,7 @@ public class Human {
     public void setMass( double weight ) {
         double originalBmr = getBmr().getValue();
         this.mass.setValue( Math.max( weight, 0 ) );
-        setFatMassPercent( 100 - ((originalBmr - 392) / 21.8) * (100 / weight) );
+        setFatMassPercent( 100 - ( ( originalBmr - 392 ) / 21.8 ) * ( 100 / weight ) );
         notifyFatPercentChanged();
         notifyWeightChanged();
         notifyBMIChanged();

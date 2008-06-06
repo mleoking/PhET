@@ -53,7 +53,7 @@ public class CrashTest {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
 
-        imageFrame.setSize( 200,768 );
+        imageFrame.setSize( 200, 768 );
 
         test.add( new Test( "Test Button" ) {
             public boolean runTest() {
@@ -93,7 +93,6 @@ public class CrashTest {
 
 
     }
-
 
 
     public static void main( String[] args ) {

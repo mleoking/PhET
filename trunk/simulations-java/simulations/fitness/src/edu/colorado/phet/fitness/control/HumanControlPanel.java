@@ -15,8 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSli
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.module.fitness.FitnessModel;
@@ -65,7 +65,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 notifyAgeManuallyChanged();
             }
         } );
-        age.getTextField().addActionListener( new ActionListener(){
+        age.getTextField().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyAgeManuallyChanged();
             }
@@ -88,7 +88,6 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 notifyAgeManuallyChanged();
             }
         } );
-        
 
         //todo: factor out slider that accommodates units
         final double minHeight = 1;

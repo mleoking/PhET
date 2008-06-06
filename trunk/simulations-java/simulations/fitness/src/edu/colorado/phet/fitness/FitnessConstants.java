@@ -5,7 +5,6 @@ package edu.colorado.phet.fitness;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 
 /**
