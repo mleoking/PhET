@@ -55,7 +55,7 @@ public class CalorieNode extends PNode {
         editButton.setOffset( 0, 10 );
         addChild( editButton );
 
-        plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( "platter.png" ), 40 ) );
+        plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( "plate-2.png" ), 120) );
         addChild( plateImage );
 
         plateTopSummaryNode = new PlateTopSummaryNode( calorieSet, plateImage );
