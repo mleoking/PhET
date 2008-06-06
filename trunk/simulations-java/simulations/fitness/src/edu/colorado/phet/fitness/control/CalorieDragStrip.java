@@ -30,38 +30,47 @@ public class CalorieDragStrip extends PNode {
     private PNode tooltipLayer = new PNode();
     private PNode stripPanel;
     private int count = 5;
-    private ArrayList panels;
+    private ArrayList panels = new ArrayList();
+    private Color buttonColor = new Color( 128, 128, 255 );
 
     public CalorieDragStrip( final CalorieSet available ) {
-        panels = new ArrayList();
         for ( int i = 0; i < available.getItemCount(); i += count ) {
             panels.add( getPanel( available, i, Math.min( i + count, available.getItemCount() ) ) );
         }
         stripPanel = (PNode) panels.get( 0 );
         addChild( stripPanel );
-        {
-            GradientButtonNode gradientButtonNode = new GradientButtonNode( "<html>&gt;</html>", 13, Color.blue );
-            gradientButtonNode.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    nextPanel( +1 );
-                }
-            } );
-            addChild( gradientButtonNode );
-            gradientButtonNode.setOffset( maxMaxPanelWidth(), 100 );
-        }
-        {
-            GradientButtonNode gradientButtonNode = new GradientButtonNode( "<html>&lt;</html>", 13, Color.blue );
-            gradientButtonNode.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    nextPanel( -1 );
-                }
-            } );
-            addChild( gradientButtonNode );
-            gradientButtonNode.setOffset( -gradientButtonNode.getFullBounds().getWidth(), 100 );
-        }
+
+        GradientButtonNode leftButton = new GradientButtonNode( "<html>&gt;</html>", 13, buttonColor );
+        leftButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                nextPanel( +1 );
+            }
+        } );
+        addChild( leftButton );
+        leftButton.setOffset( getMaxPanelWidth(), getMaxPanelHeight() / 2 - leftButton.getFullBounds().getHeight() / 2 );
+
+        GradientButtonNode rightButton = new GradientButtonNode( "<html>&lt;</html>", 13, buttonColor );
+        rightButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                nextPanel( -1 );
+            }
+        } );
+        addChild( rightButton );
+        rightButton.setOffset( -rightButton.getFullBounds().getWidth(), getMaxPanelHeight() / 2 - rightButton.getFullBounds().getHeight() / 2 );
     }
 
-    private double maxMaxPanelWidth() {
+    private double getMaxPanelHeight() {
+        double max = Double.NaN;
+        for ( int i = 0; i < panels.size(); i++ ) {
+            PNode pNode = (PNode) panels.get( i );
+            if ( Double.isNaN( max ) || pNode.getFullBounds().getHeight() > max ) {
+                max = pNode.getFullBounds().getHeight();
+            }
+        }
+        return max;
+    }
+
+    private double getMaxPanelWidth() {
         double max = Double.NaN;
         for ( int i = 0; i < panels.size(); i++ ) {
             PNode pNode = (PNode) panels.get( i );
