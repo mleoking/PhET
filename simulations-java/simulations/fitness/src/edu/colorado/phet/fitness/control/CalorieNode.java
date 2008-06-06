@@ -58,36 +58,15 @@ public class CalorieNode extends PNode {
         addChild( plateImage );
 
         plateTopSummaryNode = new PlateTopSummaryNode( calorieSet, plateImage );
-//        plateTopSummaryNode.setOffset( 0, editButton.getFullBounds().getMaxY() );
         addChild( plateTopSummaryNode );
 
         final CalorieDragStrip calorieDragStrip = new CalorieDragStrip( available );
         calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
-//            public void nodeDropped( CalorieDragStrip.DragNode droppedNode ) {
-//                if ( plateImage.getGlobalFullBounds().intersects( droppedNode.getPNode().getGlobalFullBounds() ) ) {
-//                    calorieSet.addItem( droppedNode.getItem() );
-//                    if ( plateTopSummaryNode.isShowItems() ) {
-//                        calorieDragStrip.removeItem( droppedNode );
-//                    }
-//                }
-//            }
-
             public void notifyDragged( CalorieDragStrip.DragNode node ) {
                 setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) );
-//                if ( plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) ) {
-//                    calorieSet.addItem( node.getItem() );
-//                    if ( plateTopSummaryNode.isShowItems() ) {
-//                        calorieDragStrip.removeItem( node );
-//                    }
-//                }
             }
         } );
         addChild( calorieDragStrip );
-
-//        SummaryNode summaryNode = new SummaryNode( calorieSet );
-//        summaryNode.setOffset( 0, editButton.getFullBounds().getMaxY() );
-//        addChild( summaryNode );
-
 
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
