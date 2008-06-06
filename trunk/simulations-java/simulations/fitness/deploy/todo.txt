@@ -1,3 +1,6 @@
+#######################################################################################
+##############                    To Do                                  ##############
+#######################################################################################
 Mac issues:
     -Dialog box shows n~ characters on mac, see email for screenshot
     -Mass slider thumb in the wrong spot on Mac, see malley's machine.
@@ -13,8 +16,8 @@ Time readouts should be Years:Months, not years in decimal
 Performance: consider profiling or changing clock rate
 
 #######################################################################################
-# To Discuss
-###################
+##############                    To Discuss                             ##############
+#######################################################################################
 
 I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
     to go beyond a year especially since most of the current data only follows folks for weeks and months.
@@ -100,7 +103,7 @@ Better values/more options for base diets
 
 Need more junk food for diet options, like actual student diets: burrito, chips, cookies, tacos, sub sandwich, twizzlers or candies, etc
 
-#######################################################################################
+######################################
 # Edit Diet
 ###################
 
@@ -123,10 +126,10 @@ Would it be informative for students to see what 590kcals/day is equivalent to
 
 The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
 
+######################################
+# Fat % issue
+###################
 
-#######################################################################################
-# fat % issue
-#######################################################################################
 I'm having trouble making sense out of this. It appears that if I add weight
 my BMR increases tremendously.  I thought BMR does not increase unless
 muscle mass increases.  Then I see that adding to my weight does not change
@@ -182,8 +185,8 @@ check with fran, bill & kate regarding change in % fat
 KG gained per day should be a function of caloric distribution over lipids, carbs and protein
 
 #######################################################################################
-# Decided Against
-###########################
+##############                    Decided Against                        ##############
+#######################################################################################
 
 Remove unused column from food properties file (calories computed from fats, carbs, proteins)
     It might be good to keep these value for future usage
