@@ -88,6 +88,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.29 (?)
 6/6/08 - ensure that ice thickness algorithm is only used between headwall and terminus, otherwise it hangs the sim
 6/6/08 - compute a closer approximation of where the ELA intersects the ice surface
 6/6/08 - compute ice thickness on demand instead of trying to interpolate between pre-computed samples
