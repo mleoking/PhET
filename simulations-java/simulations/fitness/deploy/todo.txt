@@ -1,5 +1,3 @@
-Changing my guy from male to female didn't seem to change anything.
-
 Add a legend for caloric breakdown pie chart
 
 Number of calories of healthy diet should be editable
@@ -117,6 +115,9 @@ button. Can you change the interface to something like that.  That would
 clean up this box a bit as well.
 
 Add a done button at the top of the diet and exercise boxes.
+
+Changing my guy from male to female didn't seem to change anything.
+    Perhaps this should just change the body fat percent to default for that gender
 
 #######################################################################################
 # To Discuss
