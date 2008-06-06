@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
@@ -22,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class CalorieDragStrip extends PNode {
     private static Random random = new Random();
     private ArrayList listeners = new ArrayList();
-    private static final int HEIGHT = 30;
+    private static final int HEIGHT = 40;
     private PNode tooltipLayer;
 
     public CalorieDragStrip( final CalorieSet available ) {
@@ -31,7 +32,6 @@ public class CalorieDragStrip extends PNode {
         for ( int i = 0; i < 10; i++ ) {
             final PNode node = createNode( available.getItem( i ) );
 
-            tooltipLayer.addChild( new ToolTipNode( available.getItem( i ).getName(), node ) );
 
             final int i1 = i;
             node.addInputEventListener( new PDragSequenceEventHandler() {
@@ -120,11 +120,17 @@ public class CalorieDragStrip extends PNode {
 
     private DefaultDragNode createNode( CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
-            return new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
+            DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
+            ToolTipNode toolTipNode = new ToolTipNode( item.getName(), dragNode );
+            toolTipNode.setFont( new PhetFont( 16, true ) );
+
+            tooltipLayer.addChild( toolTipNode );
+            return dragNode;
         }
         else {
             final Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
-            return new DefaultDragNode( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), color ), item );
+            DefaultDragNode dragNode = new DefaultDragNode( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), color ), item );
+            return dragNode;
         }
     }
 
