@@ -86,6 +86,10 @@ CLEANUP:
 
 
 DONE:
+6/6/08 - compute ice thickness on demand instead of trying to interpolate between pre-computed samples
+6/6/08 - when climate changes, compute several constants used in ice thickness model, reuse them elsewhere
+6/6/08 - compute terminus location more accurately
+6/6/08 - improve precision of ice visualization, drawing of the terminus and ELA contour where slightly off
 ******* 0.00.28 (22031)
 6/5/08 - hide ELAValueNode
 6/5/08 - change layout of View control panel to reduce its height, making more room for zoomed view
