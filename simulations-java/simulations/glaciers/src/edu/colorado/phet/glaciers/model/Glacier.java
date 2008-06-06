@@ -243,22 +243,23 @@ public class Glacier extends ClockAdapter {
      */
     public double getIceThickness( final double x ) {
         
+        double thickness = 0;
         final double headwallX = _valley.getHeadwallPositionReference().getX();
-        final double xPeak = headwallX + ( 0.5 * _glacierLength ); // midpoint of the ice
-        final double p = Math.max( 42 - ( 0.01 * _quasiELA ), 1.5 );
-        final double r = 1.5 * xPeak;
-        final double xPeakPow = Math.pow( xPeak, p );
         
-        double thickness;
-        if ( x < xPeak ) {
-            thickness = Math.sqrt( ( r * r ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( _maxThickness / r );
-            thickness *= ( xPeakPow - Math.pow( Math.abs( x - xPeak ), p ) ) / xPeakPow;
-        }
-        else if ( x < _terminus.getX() ){
-            thickness = Math.sqrt( ( xPeak * xPeak ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( _maxThickness / xPeak );
-        }
-        else {
-            thickness = 0;
+        if ( x > headwallX && x < _terminus.getX() ) {
+            
+            final double xPeak = headwallX + ( 0.5 * _glacierLength ); // midpoint of the ice
+            final double p = Math.max( 42 - ( 0.01 * _quasiELA ), 1.5 );
+            final double r = 1.5 * xPeak;
+            final double xPeakPow = Math.pow( xPeak, p );
+            
+            if ( x < xPeak ) {
+                thickness = Math.sqrt( ( r * r ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( _maxThickness / r );
+                thickness *= ( xPeakPow - Math.pow( Math.abs( x - xPeak ), p ) ) / xPeakPow;
+            }
+            else if ( x < _terminus.getX() ) {
+                thickness = Math.sqrt( ( xPeak * xPeak ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( _maxThickness / xPeak );
+            }
         }
         assert ( thickness >= 0 );
         
