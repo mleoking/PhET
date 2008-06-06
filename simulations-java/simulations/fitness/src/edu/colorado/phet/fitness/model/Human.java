@@ -488,6 +488,7 @@ public class Human {
     public void setGender( Gender gender ) {
         if ( this.gender != gender ) {
             this.gender = gender;
+            setFatMassPercent( gender.getMinFatMassPercent() );
             notifyGenderChanged();
         }
     }
