@@ -6,6 +6,9 @@ class ChiDisplay{
 	var stageW:Number; 
 	var chiDisplay_mc:MovieClip;
 	var chiScale_mc:MovieClip;
+	var barColor:Color;
+	var lowerLimit:Number; //chi value of red zone
+	var upperLimit:Number; //chi value of green zone
 	var myTextFormat:TextFormat;
 	
 	function ChiDisplay(model:Object, target:MovieClip){
@@ -21,10 +24,14 @@ class ChiDisplay{
 		Util.setXYPosition(grabMe, 50, 0.9*this.stageH);
 		grabMe._alpha = 0;
 		this.chiDisplay_mc.attachMovie("helpChiSquare","help_mc", this.chiDisplay_mc.getNextHighestDepth());
-		Util.setXYPosition(this.chiDisplay_mc.help_mc, 150, 0.7*this.stageH);
+		Util.setXYPosition(this.chiDisplay_mc.help_mc, 100, 0.7*this.stageH);
 		Util.makeParentClipDraggable(grabMe, undefined, -0.3*stageW, stageW, -0.2*stageH, 0.3*stageH);
 		this.chiDisplay_mc.attachMovie("chiBar", "bar_mc", this.chiDisplay_mc.getNextHighestDepth());
 		var bar_mc:MovieClip = this.chiDisplay_mc.bar_mc;
+		barColor = new Color(bar_mc);
+		this.upperLimit = 2;
+		this.lowerLimit = 0.5;
+		barColor.setRGB(0xFF0000);
 		Util.setXYPosition(bar_mc, 50+0.5*bar_mc._width, 0.9*this.stageH);
 		this.chiScale_mc = this.chiDisplay_mc.createEmptyMovieClip("chiScale_mc", this.chiDisplay_mc.getNextHighestDepth());
 		this.drawAxis();
@@ -35,8 +42,26 @@ class ChiDisplay{
 		var chiValue:Number = this.model.getChiSquare()
 		if (chiValue <= 1){
 			bar._yscale = 100*chiValue;
+			if(chiValue > lowerLimit){
+				var green:Number = 255*(chiValue - lowerLimit)/(1 - lowerLimit);
+				var red:Number = 255 - green;
+				var blue:Number = 70
+				var RGB = (red<<16)|(green<<8)|(blue);
+				barColor.setRGB(RGB);
+			}else{
+				barColor.setRGB(0xFF0000);
+			}
 		}else{
 			bar._yscale = 100*(1+Math.log(chiValue));
+			if(chiValue < upperLimit){
+				var green:Number = 255*(upperLimit - chiValue)/(upperLimit - 1);
+				var red:Number = 255 - green;
+				var blue:Number = 70
+				var RGB = (red<<16)|(green<<8)|(blue);
+				barColor.setRGB(RGB);
+			}else{
+				barColor.setRGB(0xFF0000);
+			}
 			//trace("bar height in pixels: "+this.chiScale.chiBar_mc._height);
 		}
 		this.chiDisplay_mc.chi_txt.text = 0.01*Math.round(100*chiValue);

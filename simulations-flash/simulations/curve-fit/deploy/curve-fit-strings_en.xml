@@ -1,10 +1,24 @@
 <?xml version="1.0" ?>
 <SimStrings>
+  <string key="help" value="Help" />
+  <string key="hideHelp" value="Hide Help" />
   <string key="clearAll" value="Clear All" />
   <string key="noFit" value="No fit" /> 
   <string key="linear" value="Linear" /> 
   <string key="quadratic" value="Quadratic" /> 
+  <string key="cubic" value="Cubic" />
+  <string key="quartic" value="Quartic" />
   <string key="bestFit" value="Best Fit" /> 
   <string key="adjustableFit" value="Adjustable Fit" /> 
   <string key="bestFit2" value="Best Fit:" /> 
+  <string key="adjustableFit2" value="Adjustable Fit:" /> 
+  <string key="bucketLabel" value="Data Points" /> 
+  <string key="bucketHelp1" value="Get points.." /> 
+  <string key="bucketHelp2" value="or put back in" /> 
+  <string key="dataPointHelp" value="draggable error bars" /> 
+  <string key="chiSqHelp1" value="The reduced chi squared statistic is" /> 
+  <string key="chiSqHelp2" value="N = number of data points newline f = number of degrees of freedom in fit  newline ( f = 3 for a cubic fit )" />
+  <string key="chiSqHelp3" value=":   good fit    (range depends on N)" />
+  <string key="chiSqHelp4" value=":   poor fit bad dog!   " />
+  <string key="chiSqHelp5" value=":   fit too good   (error bars too small)" />
 </SimStrings>

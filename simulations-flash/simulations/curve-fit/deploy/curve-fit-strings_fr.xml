@@ -1,10 +1,24 @@
 <?xml version="1.0" ?>
 <SimStrings>
+  <string key="help" value="Secours" />
+  <string key="hideHelp" value="Masquer Aide" />
   <string key="clearAll" value="Effacer tous" />
   <string key="noFit" value="Rien" /> 
   <string key="linear" value="Linéaire" /> 
   <string key="quadratic" value="Quadratique" /> 
+  <string key="cubic" value="Le Trois" />
+  <string key="quartic" value="Le Quatre" />
   <string key="bestFit" value="Meiller Fit" /> 
   <string key="adjustableFit" value="Ajustable Fit" /> 
   <string key="bestFit2" value="Meiller Fit:" /> 
+  <string key="adjustableFit2" value="Ajustable Fit:" /> 
+  <string key="bucketLabel" value="Points données" /> 
+  <string key="bucketHelp1" value="	Obtenir points.." /> 
+  <string key="bucketHelp2" value="ou remis en" /> 
+  <string key="dataPointHelp" value="déplaçables barres d'erreur" /> 
+  <string key="chiSqHelp1" value="La réduction chi carré est" /> 
+  <string key="chiSqHelp2" value="N = nombre de points de données newline f = nombre de degrés de liberté newline ( f = 3 pour un cube forme )" />
+  <string key="chiSqHelp3" value=":   la bonne adéquation    (dépend N)" />  
+  <string key="chiSqHelp4" value=":   mauvais ajustement  " />
+  <string key="chiSqHelp5" value=":   en forme est trop belle newline(des barres trop petits)" />
 </SimStrings>
