@@ -7,6 +7,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
@@ -25,8 +26,13 @@ public class CalorieDragStrip extends PNode {
 
     public CalorieDragStrip( final CalorieSet available ) {
         ArrayList nodes = new ArrayList();
+        PNode tooltipLayer=new PNode();
         for ( int i = 0; i < 10; i++ ) {
             final PNode node = createNode( available.getItem( i ) );
+
+            tooltipLayer.addChild( new ToolTipNode( available.getItem( i ).getName(), node ) );
+
+//            node.add
             final int i1 = i;
             node.addInputEventListener( new PDragSequenceEventHandler() {
                 private DefaultDragNode createdNode = null;
@@ -68,6 +74,7 @@ public class CalorieDragStrip extends PNode {
         for ( int i = 0; i < nodes.size(); i++ ) {
             addChild( (PNode) nodes.get( i ) );
         }
+        addChild( tooltipLayer );
     }
 
     public void removeItem( DragNode droppedNode ) {
