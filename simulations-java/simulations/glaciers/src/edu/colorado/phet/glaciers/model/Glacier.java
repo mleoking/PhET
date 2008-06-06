@@ -50,12 +50,13 @@ public class Glacier extends ClockAdapter {
     
     private double _quasiELA; // like the ELA, except is describes the state of the glacier's evolution, not the climate (meters)
     private final double _elax_m0;
+    private double _qelax; // the x-position where the quasi-ELA intersects the ice surface (meters)
+    private double _glacierLength; // length of the ice (meters)
+    private double _maxThickness; // maximum ice thickness (meters)
     private double _averageIceThicknessSquares; // average of the squares of the non-zero ice thickness samples
     private boolean _steadyState; // is the glacier in the steady state?
-    private double[] _iceThicknessSamples; // ice thickness at t=now (meters)
-    
     private final Point2D _terminus; /// point at the terminus (downvalley end)
-    private Point2D _surfaceAtELA; // point where the steady state ELA intersects the ice surface
+    private Point2D _surfaceAtELA; // point where the ELA intersects the ice surface, null if ELA is below the terminus or above the headwall
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -233,87 +234,75 @@ public class Glacier extends ClockAdapter {
     
     /**
      * Gets the ice thickness at an x coordinate.
-     * <p>
-     * This method provides an approximate result, the accuracy of
-     * which is dependent on DX, the spacing between sample points.
-     * The x value specified will fall between 2 ice thickness samples.
-     * Locate the 2 samples, and do a linear interpolation between them 
-     * to determine the approximate ice thickness.
      * 
      * @param x
      * @return meters
      */
     public double getIceThickness( final double x ) {
-        double iceThickness = 0;
-        if ( _iceThicknessSamples != null ) {
-            final double headwallX = _valley.getHeadwallPositionReference().getX();
-            final double xTerminus = _terminus.getX();
-            if ( x >= headwallX && x <= xTerminus ) {
-                if ( x == xTerminus ) {
-                    iceThickness = _iceThicknessSamples[_iceThicknessSamples.length - 1];
-                }
-                else {
-                    int index = (int) ( ( x - headwallX ) / DX );
-                    double x1 = headwallX + ( index * DX );
-                    double t1 = _iceThicknessSamples[index];
-                    double t2 = _iceThicknessSamples[index + 1];
-                    iceThickness = t1 + ( ( ( x - x1 ) / DX ) * ( t2 - t1 ) ); // linear interpolation
-                }
-            }
+        
+        final double headwallX = _valley.getHeadwallPositionReference().getX();
+        final double xPeak = headwallX + ( 0.5 * _glacierLength ); // midpoint of the ice
+        final double p = Math.max( 42 - ( 0.01 * _quasiELA ), 1.5 );
+        final double r = 1.5 * xPeak;
+        final double xPeakPow = Math.pow( xPeak, p );
+        
+        double thickness;
+        if ( x < xPeak ) {
+            thickness = Math.sqrt( ( r * r ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( _maxThickness / r );
+            thickness *= ( xPeakPow - Math.pow( Math.abs( x - xPeak ), p ) ) / xPeakPow;
         }
-        assert ( iceThickness >= 0 );
-        return iceThickness;
+        else if ( x < _terminus.getX() ){
+            thickness = Math.sqrt( ( xPeak * xPeak ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( _maxThickness / xPeak );
+        }
+        else {
+            thickness = 0;
+        }
+        assert ( thickness >= 0 );
+        
+        return thickness;
     }
     
     /*
-     * Updates the ice for the current ELA.
+     * Updates the ice to match the current climate.
      */
     private void updateIce() {
         
         _surfaceAtELA = null;
         
-        // the x-position where the quasi-ELA intersects the ice surface
-        final double qelax = Math.max( 0, ELAX_B0 + _elax_m0 * _quasiELA );
-
-        final double glacierLength = qelax / ELAX_TERMINUS;
+        // constants used to compute ice thickness
+        _qelax = Math.max( 0, ELAX_B0 + _elax_m0 * _quasiELA );
+        _glacierLength = _qelax / ELAX_TERMINUS;
+        _maxThickness = MAX_THICKNESS_SCALE * Math.sqrt( _qelax );
             
-        if ( glacierLength == 0 ) {
-            _iceThicknessSamples = null;
-            _averageIceThicknessSquares = 0;
+        if ( _glacierLength == 0 ) {
             _terminus.setLocation( _valley.getHeadwallPositionReference() );
+            _averageIceThicknessSquares = 0;
         }
         else {
-            // compute constants
+            // constants
             final double ela = _climate.getELA();
-            final double maxThickness = MAX_THICKNESS_SCALE * Math.sqrt( qelax );
             final double headwallX = _valley.getHeadwallPositionReference().getX();
             final double headwallY = _valley.getHeadwallPositionReference().getY();
-            final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
             
-            final double xPeak = headwallX + ( 0.5 * glacierLength ); // midpoint of the ice
-            final double p = Math.max( 42 - ( 0.01 * _quasiELA ), 1.5 );
-            final double r = 1.5 * xPeak;
-            final double xPeakPow = Math.pow( xPeak, p );
-
+            // terminus
+            final double terminusX = headwallX + _glacierLength;
+            final double terminusY =  _valley.getElevation( terminusX );
+            _terminus.setLocation( terminusX, terminusY );
+            assert( _terminus.getX() >= headwallX );
+            assert( _terminus.getY() <= headwallY );
+            
             // initialize variables
-            double x = headwallX;
             double surfaceElevation = 0;
             double thickness = 0;
             double sumOfNonZeroSquares = 0;
             double countOfNonZeroSquares = 0;
             
-            _iceThicknessSamples = new double[numberOfSamples];
-            for ( int i = 0; i < numberOfSamples; i++ ) {
+            // Compute average ice thickness squares & intersection of ELA with surface.
+            // There is some error here if glacier length is not an integer multiple of DX.
+            for ( double x = headwallX; x <= terminusX; x += DX ) {
 
-                // compute thickness at sample point
-                if ( x < xPeak ) {
-                    thickness = Math.sqrt( ( r * r ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / r );
-                    thickness *= ( xPeakPow - Math.pow( Math.abs( x - xPeak ), p ) ) / xPeakPow;
-                }
-                else {
-                    thickness = Math.sqrt( ( xPeak * xPeak ) - ( ( x - xPeak ) * ( x - xPeak ) ) ) * ( maxThickness / xPeak );
-                }
-                assert ( thickness >= 0 );
+                // compute thickness
+                thickness = getIceThickness( x );
 
                 // accumulate squares
                 if ( thickness > 0 ) {
@@ -328,19 +317,10 @@ public class Glacier extends ClockAdapter {
                         _surfaceAtELA = new Point2D.Double( x, surfaceElevation );
                     }
                 }
-
-                _iceThicknessSamples[i] = thickness;
-                x += DX;
             }
-            x -= DX; // last sample was at this x value
 
             // compute average
             _averageIceThicknessSquares = sumOfNonZeroSquares / countOfNonZeroSquares;
-            
-            // terminus
-            _terminus.setLocation( x, _valley.getElevation( x ) );
-            assert( _terminus.getX() >= headwallX );
-            assert( _terminus.getY() <= headwallY );
         }
 
         notifyIceThicknessChanged();
