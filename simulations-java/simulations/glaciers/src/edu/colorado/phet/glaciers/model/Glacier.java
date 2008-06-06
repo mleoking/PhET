@@ -38,6 +38,9 @@ public class Glacier extends ClockAdapter {
     private static final double ELAX_B0 = 138248;
     private static final double MAX_THICKNESS_SCALE = 2.3;
     
+    private static final double SURFACE_ELA_SEARCH_DX = 1; // meters
+    private static final double SURFACE_ELA_EQUALITY_THRESHOLD = 1; // meters
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -156,7 +159,7 @@ public class Glacier extends ClockAdapter {
     public void setSteadyState() {
         if ( !_steadyState ) {
             _quasiELA = _climate.getELA();
-            updateIce();
+            updateIceThickness();
             _steadyState = true;
             notifySteadyStateChanged();
         }
@@ -263,9 +266,9 @@ public class Glacier extends ClockAdapter {
     }
     
     /*
-     * Updates the ice to match the current climate.
+     * Updates ice thickness parameters to match the current climate.
      */
-    private void updateIce() {
+    private void updateIceThickness() {
         
         _surfaceAtELA = null;
         
@@ -283,6 +286,7 @@ public class Glacier extends ClockAdapter {
             final double ela = _climate.getELA();
             final double headwallX = _valley.getHeadwallPositionReference().getX();
             final double headwallY = _valley.getHeadwallPositionReference().getY();
+            final double maxElevation = _valley.getMaxElevation();
             
             // terminus
             final double terminusX = headwallX + _glacierLength;
@@ -310,11 +314,12 @@ public class Glacier extends ClockAdapter {
                     countOfNonZeroSquares++;
                 }
                 
-                // look for steady state ELA contour, this is approximate!
-                if ( _surfaceAtELA == null ) {
+                // look for the place where the ELA intersects the ice surface
+                if ( _surfaceAtELA == null && x != headwallX && ela < maxElevation ) {
                     surfaceElevation = _valley.getElevation( x ) + thickness;
                     if ( surfaceElevation <= ela ) {
-                        _surfaceAtELA = new Point2D.Double( x, surfaceElevation );
+                        // search between previous and current samples
+                        _surfaceAtELA = findSurfaceAtELA( ela, x - DX, x );
                     }
                 }
             }
@@ -324,6 +329,58 @@ public class Glacier extends ClockAdapter {
         }
 
         notifyIceThicknessChanged();
+    }
+    
+    /*
+     * Finds the point where the ELA intersects the surface of the glacier.
+     * This method is specifically for use by updateIceThickness, and should not be 
+     * called unless you are certain that the point you're looking for is somewhere
+     * between startX and endX.
+     * 
+     * @param ela the ELA we're looking for
+     * @param startX start searching here
+     * @param endX stop searching here
+     */
+    private Point2D findSurfaceAtELA( double ela, double startX, double endX ) {
+        assert( startX < endX );
+        
+        Point2D p = null;
+        double currentSurfaceElevation;
+        double currentDiff;
+        double previousSurfaceElevation = -1;
+        double previousDiff = -1;
+        
+        for ( double x = startX; x <= endX && p == null; x += SURFACE_ELA_SEARCH_DX ) {
+            
+            currentSurfaceElevation = getSurfaceElevation( x );
+            currentDiff = currentSurfaceElevation - ela;
+            
+            if ( currentDiff <= SURFACE_ELA_EQUALITY_THRESHOLD ) {
+                // current sample is close enough
+                p = new Point2D.Double( x, currentSurfaceElevation );
+            }
+            else if ( currentDiff < 0 ) {
+                // we went too far, use closest of current and previous samples
+                if ( previousSurfaceElevation == -1 ) {
+                    // there is no previous, use current
+                    p = new Point2D.Double( x, currentSurfaceElevation );
+                }
+                else if ( currentDiff < previousDiff ) {
+                    // current is closer than previous
+                    p = new Point2D.Double( x, currentSurfaceElevation );
+                }
+                else {
+                    // previous is closer than current
+                    p = new Point2D.Double( x, previousSurfaceElevation );
+                }
+            }
+            
+            previousSurfaceElevation = currentSurfaceElevation;
+            previousDiff = currentDiff;
+        }
+        
+        assert( p != null );
+        return p;
     }
     
     //----------------------------------------------------------------------------
@@ -444,7 +501,7 @@ public class Glacier extends ClockAdapter {
                 setSteadyState();
             }
             else {
-                updateIce();
+                updateIceThickness();
             }
         }
     }

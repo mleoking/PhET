@@ -6,6 +6,7 @@ HIGHEST PRIORITY:
 - bug: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 
 HIGH PRIORITY:
+- equilibrium line doesn't move if climate is changed while clock is paused
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
 ? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
 - bug: Restart clock button does bad things while glacier is evolving, get rid of it?
@@ -15,6 +16,7 @@ HIGH PRIORITY:
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
+- make sure everything works properly when clock is paused
 - start with terminus at far right of zoomed viewport
 - new image with more to right of headwall and stretched elevation
 - make shape of surface ripples look random
@@ -86,6 +88,7 @@ CLEANUP:
 
 
 DONE:
+6/6/08 - compute a closer approximation of where the ELA intersects the ice surface
 6/6/08 - compute ice thickness on demand instead of trying to interpolate between pre-computed samples
 6/6/08 - when climate changes, compute several constants used in ice thickness model, reuse them elsewhere
 6/6/08 - compute terminus location more accurately
