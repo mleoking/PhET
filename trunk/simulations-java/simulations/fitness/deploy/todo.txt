@@ -100,96 +100,112 @@ The muscular scale says non on the right.  What should it say?
 
 Changing my guy from male to female didn't seem to change anything.
 
-Med Priority:
 Add a legend for caloric breakdown pie chart
+
 Number of calories of healthy diet should be editable
+
 Zoom in/out for bar graphs
     alternatively: Readouts by base of bar graph?
+
 Add description to sedentary, moderate activity, etc.
+
 Relabel 5.89 ft to 5' 9" etc.
+
 Food composition should lead to a change in the Fat Free Mass %
+
 check with fran, bill & kate regarding change in % fat
     http://sportsmedicine.about.com/od/fitnessevalandassessment/a/Body_Fat_Comp.htm
         Can I Change My Body Composition?
         Yes. To increase or decrease your percent of body fat you need to create the right balance between the calories in and calories out. The best way to do this is to decrease daily calories by about 500 and increase your exercise. Aerobic exercise along with strength training is ideal. If you are beginning a new exercise program, you are advised to first consult your physician.
+
 Will students know to push play?
     >>How to indicate this?
+
 Height
     Incorporate growth or height changes with weight?
         should we increase this?
         yes, look on web for height changes since BMI =f(height)
+
 BMI:
     Are we accounting for sex affects on BMI and BMR?
     -Can we put a chart or weblink to compare healthy or unhealthy BMI?
     (see categories chart on national heart lung and blood institute bmi calculator page)
+
 We are still confused about a delay in weight loss if: all variables remained constant:
     diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
     -I think you should be able to do "step day", so you can see the effects of 1 hour activity
+
 Time readouts should be Years:Months, not years in decimal
+
 Dialog box shows n~ characters on mac, see email for screenshot
+
 Remove unused column from food properties file (calories computed from fats, carbs, proteins)
 
-Low Priority:
-+Editors for exercise (change time or intensity)
-+Put BMI somewhere other than scale
-+Caloric intake changes resting metabolic rate
+Editors for exercise (change time or intensity)
+
+Put BMI somewhere other than scale
+
+Caloric intake changes resting metabolic rate
     Extra carbs or protein can increase RMR (not agreed upon)
-+Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
-+Better values/more options for base diets
-+KG gained per day should be a function of caloric distribution over lipids, carbs and protein
+
+Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
+
+Better values/more options for base diets
+
+KG gained per day should be a function of caloric distribution over lipids, carbs and protein
+
 Exercise Selection:
     The exercise function is great. Two questions on this, would it be informative for students
     to see what 590kcals/day is equivalent to (for example 1 hour of swimming, or 2 hours of pilates?)
+
 Add foods/exercise
     -The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
     -Suggested food bag:  Hamburger, large fries, large soda (not supersize),
         submarine sandwich, candy bar, icecream (as you have), a piece of fruit -
         apple, banana or orange, a serving of vegetables, slice of pizza, ?
 
-Discussion:
 3000 kcal/day wrong, should be 2000kcal/day
     should this be exact?
     can't force 2000kcal/day and prescribed ffm and have balanced calories
+
 Is it true that I can eat a hamburger per day above a 'healthy diet', and
   have a steady weight (though a ~10 lb gain) after about three years?
     - to see this, click 'reset all', wait until you're 23 years old, then
       add a hamburger per day.
+
 As I add the exercise the graphs begin to change,
     but I can't see whats happening from the getgo because it runs while the exercise window is open.
     I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
     >>To address this problem, I started the simulation paused; hopefully the user will be able to pause the simulation before
     >>adding exercise/diet.  If not, we can either pause the sim when they bring up an editor, or add a control to the
     >>diet selection panel
+
 Bar chart
     To emphasize the meaning of the bar charts, you might have big labels on
         the left and right of the center line of the bar chart: 'Diet' on the
         left and 'Exercise' on the right (perhaps with the 'edit' buttons below
         the labels)
+
 Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
     the learning goal seems too easy: to figure out "How long do you have to
     bike/walk to burn a certain number of calories?", you just have to look
     at the number of kcal/day in the text of the exercise type.
         might be better to ask how long it would take to lose 10 lbs?
--need more junk food for diet options: pizza, burrito, chips, cookies, tacos, etc
+
+Need more junk food for diet options: pizza, burrito, chips, cookies, tacos, etc
     get rid of brussel sprouts?
     twizzlers or candies
     more junk
     like actual student diets
-Reset all needs to clear graphs
-    click 'reset all', wait a couple seconds, then click 'restart': graph
-    lines are still there, but are drawn over
-    >>is this fixed?
-Performance: consider profiling or changing clock rate
-Removed units from interior of stacked bar chart
-    >>Not sure this looks better
+
 Fat Mass
     -Do we need fat mass% and non-fat mass percent? / -How is body fat calculated?  How would a student know their % body fat?
         can we remove this?
         can be default based on gender
         or buttons for "muscular or nonmuscular"
-Bug: top graph continued while bottom graph stopped, on McKagan's machine
-    >> Can't reproduce this
-Graphs need correct vertical and horizontal units
-    >> is this fixed, or should we add labels?
+
+Low Priority:
 
 Possibly visualize balance of caloric intake as scale
+
+Performance: consider profiling or changing clock rate
