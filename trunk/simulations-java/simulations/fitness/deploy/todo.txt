@@ -27,6 +27,7 @@ Get better simulation name:
     Eating and Working Out
     Eats and Exercise
     Calories and Fitness
+    Calories and Weight
 
 Rename directory to match new simulation name, once we have it
 
