@@ -58,6 +58,10 @@ public class ToolTipNode extends PComposite {
     private boolean _enabled;
     private Timer _showToolTipTimer;
     private IToolTipLocationStrategy _locationStrategy;
+    private PNode toolTipTextNode;
+    private PPath _backgroundNode;
+    private PPath _backgroundShadowNode;
+    private double _margin;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -103,10 +107,10 @@ public class ToolTipNode extends PComposite {
         setPickable( false );
         setChildrenPickable( false );
 
+        _margin=margin;
         _associatedNode = associatedNode;
         _enabled = true;
 
-        PNode toolTipTextNode = null;
         if ( BasicHTML.isHTMLString( toolTipText ) ) {
             HTMLNode htmlNode = new HTMLNode( toolTipText );
             htmlNode.setFont( font );
@@ -120,21 +124,20 @@ public class ToolTipNode extends PComposite {
             toolTipTextNode = ptextNode;
         }
 
-        PBounds b = toolTipTextNode.getFullBoundsReference();
-        final double w = b.getWidth() + ( 2 * margin );
-        final double h = b.getHeight() + ( 2 * margin );
-        PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, w, h ) );
-        backgroundNode.setStroke( backgroundStroke );
-        backgroundNode.setStrokePaint( backgroundStrokePaint );
-        backgroundNode.setPaint( backgroundPaint );
-        
-        PPath backgroundShadowNode = new PPath( new Rectangle2D.Double( 0, 0, w, h ) );
-        backgroundShadowNode.setStroke( null );
-        backgroundShadowNode.setPaint( backgroundShadowPaint );
-        backgroundShadowNode.setOffset( 2, 2 );
+        _backgroundNode = new PPath(  );
+        _backgroundNode.setStroke( backgroundStroke );
+        _backgroundNode.setStrokePaint( backgroundStrokePaint );
+        _backgroundNode.setPaint( backgroundPaint );
 
-        addChild( backgroundShadowNode );
-        addChild( backgroundNode );
+        _backgroundShadowNode = new PPath(  );
+        _backgroundShadowNode.setStroke( null );
+        _backgroundShadowNode.setPaint( backgroundShadowPaint );
+        _backgroundShadowNode.setOffset( 2, 2 );
+
+        updateBackgroundNodeShapes();
+
+        addChild( _backgroundShadowNode );
+        addChild( _backgroundNode );
         addChild( toolTipTextNode );
         toolTipTextNode.setOffset( margin, margin );
 
@@ -177,6 +180,14 @@ public class ToolTipNode extends PComposite {
         } );
     }
 
+    private void updateBackgroundNodeShapes() {
+        PBounds b = toolTipTextNode.getFullBoundsReference();
+        final double w = b.getWidth() + ( 2 * _margin );
+        final double h = b.getHeight() + ( 2 * _margin );
+        _backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, w, h ) );
+        _backgroundShadowNode.setPathTo( new Rectangle2D.Double( 0, 0, w, h ) );
+    }
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
@@ -197,7 +208,24 @@ public class ToolTipNode extends PComposite {
     public boolean isEnabled() {
         return _enabled;
     }
-    
+
+    /**
+     * Set the font for the text in this ToolTipNode.
+     * @param font the desired font
+     */
+    public void setFont( Font font ) {
+        if ( toolTipTextNode instanceof HTMLNode ) {
+            ( (HTMLNode) toolTipTextNode ).setFont( font );
+        }
+        else if ( toolTipTextNode instanceof PText ) {
+            ( (PText) toolTipTextNode ).setFont( font );
+        }
+        else {
+            throw new RuntimeException( "Illegal value for tooltipTextNode: " + toolTipTextNode );
+        }
+        updateBackgroundNodeShapes();
+    }
+
     /**
      * Sets the strategy for placing the tool tip (setting its location).
      * @param locationStrategy
