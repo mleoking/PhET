@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.28
+glaciers 0.00.29
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,16 +12,9 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>trash can is no longer visible in the toolbox (easy to make it visible, if desired)
-<li>put tools away by dragging them back to the toolbox
-<li>change layout of View control panel so that more of Zoomed view is visible
-<li>fixed flags that we getting stuck on the valley floor
-<li>adjusted random "fall over" angle for flags
-<li>fixed debris that was getting created on the valley floor and thought it was at the moraine
-<li>borehole drill can no longer be dragged by its "fire" button
-<li>generate debris in the entire cross section, not just above ELA
-<li>workaround for q_advance_limit problem, to prevent qela from evolving towards higher elevations forever
-<li>renamed "Basic" panel to "Introduction"
+<li>locate the terminus more precisely, instead of rounding to nearest dx
+<li>locate point where ELA intersects the ice surface more precisely, instead of rounding to nearest dx
+<li>compute ice thickness values on demand for specfic x values, instead of trying to interpolate between pre-computed samples; same performance, more precise results, simplified code
 </ul>
 <p>
 <b>Known problems:</b>
