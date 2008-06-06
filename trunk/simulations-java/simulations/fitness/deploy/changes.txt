@@ -1,4 +1,5 @@
 Moved BMI readout to near the heart
+Fixed: "?" icon should move with the heart
 
 New in 0.00.36
 Added drag and drop

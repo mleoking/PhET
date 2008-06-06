@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.fitness.FitnessConstants;
+import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.control.CaloriePanel;
 import edu.colorado.phet.fitness.control.HumanControlPanel;
 import edu.colorado.phet.fitness.view.HumanAreaNode;
@@ -101,6 +102,11 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         updateHeartHealthButtonNodeLayout();
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
+                updateHeartHealthButtonNodeLayout();
+            }
+        } );
+        model.getHuman().addListener( new Human.Adapter(){
+            public void heightChanged() {
                 updateHeartHealthButtonNodeLayout();
             }
         } );
