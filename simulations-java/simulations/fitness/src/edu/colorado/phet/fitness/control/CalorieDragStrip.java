@@ -29,10 +29,8 @@ public class CalorieDragStrip extends PNode {
     public CalorieDragStrip( final CalorieSet available ) {
         ArrayList nodes = new ArrayList();
         tooltipLayer = new PNode();
-        for ( int i = 0; i < 10; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             final PNode node = createNode( available.getItem( i ) );
-
-
             final int i1 = i;
             node.addInputEventListener( new PDragSequenceEventHandler() {
                 private DefaultDragNode createdNode = null;
@@ -61,7 +59,7 @@ public class CalorieDragStrip extends PNode {
 
             nodes.add( node );
         }
-        int COLS = 2;
+        int COLS = 1;
         for ( int i = 1; i < nodes.size(); i++ ) {
             int row = i / COLS;
             int col = i % COLS;
@@ -129,8 +127,7 @@ public class CalorieDragStrip extends PNode {
         }
         else {
             final Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
-            DefaultDragNode dragNode = new DefaultDragNode( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), color ), item );
-            return dragNode;
+            return new DefaultDragNode( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), color ), item );
         }
     }
 

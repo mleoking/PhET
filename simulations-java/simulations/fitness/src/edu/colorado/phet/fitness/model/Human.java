@@ -388,8 +388,8 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( FitnessResources.getString( "gender.male" ).toLowerCase(), 4, 40 );
-        public static Gender FEMALE = new Gender( FitnessResources.getString( "gender.female" ).toLowerCase(), 10, 40 );
+        public static Gender MALE = new Gender( FitnessResources.getString( "gender.male" ).toLowerCase(), 4, 80 );
+        public static Gender FEMALE = new Gender( FitnessResources.getString( "gender.female" ).toLowerCase(), 10, 80 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
