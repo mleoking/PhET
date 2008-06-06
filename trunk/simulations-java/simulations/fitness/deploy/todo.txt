@@ -14,9 +14,7 @@ Comments from Bill on 5-20-2008:
     energy expenditure i.e. when we eat a meal metabolic rate increases to process it.
     The value varies depending on the composition of the meal but you could just use a value of 15% of the ingested calories.
 
-_______
-
-Get better simulation name:
+Possible sim names:
     Food and Exercise
     Exercise & Eats
     Calorie/Fitness
@@ -32,6 +30,30 @@ Get better simulation name:
 Rename directory to match new simulation name, once we have it
 
 I am a bit confused about what encompasses the term lifestyle calories, so i will have to see how the simulation is demonstrating this.
+
+Move BMI readout to near the heart
+
+I'd put the question mark box about BMI next to the BMI readout down below.
+That is not what I expected to find next to the heart.
+
+Mass slider thumb in the wrong spot on Mac, see malley's machine.
+>>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
+
+"?" icon should move with the heart
+
+I'm having trouble making sense out of this. It appears that if I add weight
+my BMR increases tremendously.  I thought BMR does not increase unless
+muscle mass increases.  Then I see that adding to my weight does not change
+my body fat.  That seems very strange to me.  Shouldn't that be a
+calculation of my weight and height with a slight scaling due to the
+muscular slider? The way it's set up, adding to a person's weight
+immediately causes calorie burn to compensate and they get lose weight
+immediately. This does not match my understanding.
+
+Weight gain should go into fat% to keep BMR basically constant.
+
+My biggest concern is the body fat indicator not changing as your guy gets fatter or
+you set his weight really high.
 
 I agree with Wendy that it doesn't make much sense to not have the percentage fat linked up at all to the weight.
     Description             Women   Men
@@ -54,29 +76,6 @@ It seems like when you increase the weight we should also increase the calories 
 
 I found this page somewhat helpful in thinking about the above.
 http://weightloss.about.com/od/eatsmart/a/blcalintake.htm
-___
-
-Move BMI readout to near the heart
-
-Weight gain goes into fat% to keep BMR basically constant.
-
-Mass slider thumb in the wrong spot on Mac, see malley's machine.
->>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
-
-"?" icon should move with the heart
-
-I'm having trouble making sense out of this. It appears that if I add weight
-my BMR increases tremendously.  I thought BMR does not increase unless
-muscle mass increases.  Then I see that adding to my weight does not change
-my body fat.  That seems very strange to me.  Shouldn't that be a
-calculation of my weight and height with a slight scaling due to the
-muscular slider? The way it's set up, adding to a person's weight
-immediately causes calorie burn to compensate and they get lose weight
-immediately. This does not match my understanding.
-
-Ok, I'm starting to get to things that will take more time. My biggest
-concern is the body fat indicator not changing as your guy gets fatter or
-you set his weight really high.
 
 I think you can do without the per day label on all the foods.  One label
 for the box could say Base Diet per day. Then all the rest will be obvious.
@@ -91,9 +90,6 @@ clean up this box a bit as well.
 Add a done button at the top of the diet and exercise boxes.
 
 The muscular scale says non on the right.  What should it say?
-
-I'd put the question mark box about BMI next to the BMI readout down below.
-That is not what I expected to find next to the heart.
 
 Changing my guy from male to female didn't seem to change anything.
 
