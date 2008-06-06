@@ -19,29 +19,24 @@ import edu.colorado.phet.fitness.FitnessApplication;
 import edu.colorado.phet.fitness.FitnessConstants;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.FitnessStrings;
+import edu.colorado.phet.fitness.control.CaloricItem;
 import edu.colorado.phet.fitness.defaults.ExampleDefaults;
+import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.FitnessUnits;
 import edu.colorado.phet.fitness.model.Human;
 import edu.colorado.phet.fitness.persistence.FitnessConfig;
 
 public class FitnessModule extends PiccoloModule {
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
     private FitnessModel _model;
     private FitnessCanvas _canvas;
-    //    private FitnessControlPanel _controlPanel;
     private ClockControlPanel _clockControlPanel;
     private JFrame parentFrame;
     private boolean inited = false;
     private boolean everStarted = false;
     private FitnessClock fitnessClock;
 
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
+    private int numAddedItems = 0;
 
     public FitnessModule( final JFrame parentFrame ) {
         super( FitnessStrings.TITLE_FITNESS_MODULE, new FitnessClock(), FitnessDefaults.STARTS_PAUSED );
@@ -61,6 +56,23 @@ public class FitnessModule extends PiccoloModule {
         _canvas.addEditorClosedListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 activateStartButtonWiggleMe();
+            }
+        } );
+        _model.getHuman().getSelectedExercise().addListener( new CalorieSet.Listener() {
+            public void itemAdded( CaloricItem item ) {
+                incrementAddedItems();
+            }
+
+            public void itemRemoved( CaloricItem item ) {
+            }
+        } );
+
+        _model.getHuman().getSelectedFoods().addListener( new CalorieSet.Listener() {
+            public void itemAdded( CaloricItem item ) {
+                incrementAddedItems();
+            }
+
+            public void itemRemoved( CaloricItem item ) {
             }
         } );
         setSimulationPanel( _canvas );
@@ -101,13 +113,17 @@ public class FitnessModule extends PiccoloModule {
         _clockControlPanel.add( Box.createHorizontalStrut( 100 ), 1 );
         _clockControlPanel.add( button, 2 );
 
-//        JComponent timeSpeedSlider = createTimeSpeedSlider();
-
         setClockControlPanel( _clockControlPanel );
 
-        // Set initial state
         setHelpEnabled( true );
         reset();
+    }
+
+    private void incrementAddedItems() {
+        numAddedItems++;
+        if ( numAddedItems >= 3 ) {
+            activateStartButtonWiggleMe();
+        }
     }
 
     private void activateStartButtonWiggleMe() {
