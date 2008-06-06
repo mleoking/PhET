@@ -58,14 +58,14 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        foodNode = new CalorieNode( parentFrame, FitnessResources.getString( "edit.diet" ), new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), FitnessResources.getString( "food.sources" ), FitnessResources.getString( "diet" ) ) {
+        foodNode = new CalorieNode( parentFrame, FitnessResources.getString( "edit.diet" ), new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), FitnessResources.getString( "food.sources" ), FitnessResources.getString( "diet" ),"plate-2.png" ) {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new FoodSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }
         };
         addChild( foodNode );
 
-        exerciseNode = new CalorieNode( parentFrame, FitnessResources.getString( "exercise.edit" ), Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), FitnessResources.getString( "menu.options" ), FitnessResources.getString( "exercise.daily" ) ) {
+        exerciseNode = new CalorieNode( parentFrame, FitnessResources.getString( "exercise.edit" ), Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), FitnessResources.getString( "menu.options" ), FitnessResources.getString( "exercise.daily" ) ,"planner.png") {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new ExerciseSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }
