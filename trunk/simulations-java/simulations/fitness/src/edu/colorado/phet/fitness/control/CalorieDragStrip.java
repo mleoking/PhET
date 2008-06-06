@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
 import edu.colorado.phet.fitness.FitnessResources;
+import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -209,7 +210,7 @@ public class CalorieDragStrip extends PNode {
     private DefaultDragNode createNode( CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
             DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
-            ToolTipNode toolTipNode = new ToolTipNode( "<html>" + item.getName() + " (" + item.getCalories() + " " + FitnessResources.getString( "units.cal" ) + ")</html>", dragNode );
+            ToolTipNode toolTipNode = new ToolTipNode( "<html>" + item.getName() + " (" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + FitnessResources.getString( "units.cal" ) + ")</html>", dragNode );
             toolTipNode.setFont( new PhetFont( 16, true ) );
 
             tooltipLayer.addChild( toolTipNode );

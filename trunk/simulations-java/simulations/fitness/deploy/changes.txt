@@ -6,7 +6,8 @@ Renamed "Diet" to "Foods". Diet means eating less so you can lose weight to most
 Renamed "non" (from non-muscular) to "fat"
 Fixed "muscular" label so it doesn't disappear off the panel
 Changed "press play" help item to appear after adding 3 items to exercise or foods; works with new drag & drop interface
-Changing gender sets fat free mass percent to the typical minimum for that gender 
+Changing gender sets fat free mass percent to the typical minimum for that gender
+Fixed decimal format in tooltip readouts
 
 New in 0.00.36
 Added drag and drop
