@@ -17,12 +17,11 @@ import edu.colorado.phet.fitness.control.CaloriePanel;
 import edu.colorado.phet.fitness.control.HumanControlPanel;
 import edu.colorado.phet.fitness.view.HumanAreaNode;
 import edu.colorado.phet.fitness.view.ScaleNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.PCamera;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.event.PInputEventListener;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -51,6 +50,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     private HumanAreaNode humanAreaNode;
     private BMIHelpButtonNode heartHealthButtonNode;
     private CaloriePanel caloriePanel;
+    private BMIReadout bmiReadout;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -65,8 +65,8 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         _model = model;
 
         setBackground( FitnessConstants.CANVAS_BACKGROUND );
-        getCamera().addInputEventListener( new PBasicInputEventHandler(){
-            public void mousePressed( PInputEvent aEvent) {
+        getCamera().addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent aEvent ) {
                 if ( aEvent.isLeftMouseButton() && aEvent.getPickedNode() instanceof PCamera ) {
                     ColorChooserFactory.showDialog( "background color", parentFrame, getBackground(), new ColorChooserFactory.Listener() {
                         public void colorChanged( Color color ) {
@@ -91,8 +91,13 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
         _rootNode.addChild( new ScaleNode( model, model.getHuman() ) );
         humanAreaNode = new HumanAreaNode( model.getHuman() );
         _rootNode.addChild( humanAreaNode );
+
+        bmiReadout = new BMIReadout( model.getHuman() );
+        addScreenChild( bmiReadout );
+
         heartHealthButtonNode = new BMIHelpButtonNode( this, model.getHuman() );
         addScreenChild( heartHealthButtonNode );
+
         updateHeartHealthButtonNodeLayout();
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -131,8 +136,9 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
     private void updateHeartHealthButtonNodeLayout() {
         Point2D pt = humanAreaNode.getHeartNode().getGlobalFullBounds().getOrigin();
-        pt.setLocation( pt.getX() + humanAreaNode.getHeartNode().getGlobalFullBounds().getWidth(), pt.getY() );
-        heartHealthButtonNode.setOffset( pt );
+        pt.setLocation( pt.getX() + humanAreaNode.getHeartNode().getGlobalFullBounds().getWidth(), pt.getY() + 5 );
+        bmiReadout.setOffset( pt );
+        heartHealthButtonNode.setOffset( bmiReadout.getFullBounds().getX(), bmiReadout.getFullBounds().getMaxY() );
     }
 
     private RulerNode createRulerNode() {

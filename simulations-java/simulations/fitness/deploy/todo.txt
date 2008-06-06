@@ -1,36 +1,3 @@
-I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
-    to go beyond a year especially since most of the current data only follows folks for weeks and months.
-
-I am not sure that I entirely agree with your calorie expenditures for physical activity.
-    They seem a bit high and in many cases are absolute values. The total caloric cost for weight
-    bearing activities should be based upon a per body weight value. What was your source for this information?
-
-I would also limit the age range to the young to middle aged adult since resting metabolic rate
-    changes relative to lean mass outside this range.
-    
-It might also be fun to include the thermic effect of food intake as part of the daily
-    energy expenditure i.e. when we eat a meal metabolic rate increases to process it.
-    The value varies depending on the composition of the meal but you could just use a value of 15% of the ingested calories.
-
-Possible sim names:
-    Food and Exercise
-    Exercise & Eats
-    Calorie/Fitness
-    Diet and Exercise
-    Exercise and Diet
-    Calories in Food and Exercise
-    Exercise and Foods
-    Eating and Working Out
-    Eats and Exercise
-    Calories and Fitness
-    Calories and Weight
-
-Rename directory to match new simulation name, once we have it
-
-I am a bit confused about what encompasses the term lifestyle calories, so i will have to see how the simulation is demonstrating this.
-
-Move BMI readout to near the heart
-
 I'd put the question mark box about BMI next to the BMI readout down below.
 That is not what I expected to find next to the heart.
 
@@ -38,6 +5,7 @@ Mass slider thumb in the wrong spot on Mac, see malley's machine.
 >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
 
 "?" icon should move with the heart
+
 #######################################################################################
 # fat % issue
 #######################################################################################
@@ -116,7 +84,10 @@ Food composition should lead to a change in the Fat Free Mass %
 check with fran, bill & kate regarding change in % fat
     http://sportsmedicine.about.com/od/fitnessevalandassessment/a/Body_Fat_Comp.htm
         Can I Change My Body Composition?
-        Yes. To increase or decrease your percent of body fat you need to create the right balance between the calories in and calories out. The best way to do this is to decrease daily calories by about 500 and increase your exercise. Aerobic exercise along with strength training is ideal. If you are beginning a new exercise program, you are advised to first consult your physician.
+        Yes. To increase or decrease your percent of body fat you need to create the right balance between the
+        calories in and calories out. The best way to do this is to decrease daily calories by about 500 and
+        increase your exercise. Aerobic exercise along with strength training is ideal.
+        If you are beginning a new exercise program, you are advised to first consult your physician.
 
 Will students know to push play?
     >>How to indicate this?
@@ -142,8 +113,6 @@ Dialog box shows n~ characters on mac, see email for screenshot
 Remove unused column from food properties file (calories computed from fats, carbs, proteins)
 
 Editors for exercise (change time or intensity)
-
-Put BMI somewhere other than scale
 
 Caloric intake changes resting metabolic rate
     Extra carbs or protein can increase RMR (not agreed upon)
@@ -198,14 +167,43 @@ Need more junk food for diet options: pizza, burrito, chips, cookies, tacos, etc
     more junk
     like actual student diets
 
-Fat Mass
-    -Do we need fat mass% and non-fat mass percent? / -How is body fat calculated?  How would a student know their % body fat?
-        can we remove this?
-        can be default based on gender
-        or buttons for "muscular or nonmuscular"
-
-Low Priority:
+How is body fat calculated?  How would a student know their % body fat?
 
 Possibly visualize balance of caloric intake as scale
 
 Performance: consider profiling or changing clock rate
+
+#######################################################################################
+# To Discuss
+###################
+
+I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
+    to go beyond a year especially since most of the current data only follows folks for weeks and months.
+
+I am not sure that I entirely agree with your calorie expenditures for physical activity.
+    They seem a bit high and in many cases are absolute values. The total caloric cost for weight
+    bearing activities should be based upon a per body weight value. What was your source for this information?
+
+I would also limit the age range to the young to middle aged adult since resting metabolic rate
+    changes relative to lean mass outside this range.
+
+It might also be fun to include the thermic effect of food intake as part of the daily
+    energy expenditure i.e. when we eat a meal metabolic rate increases to process it.
+    The value varies depending on the composition of the meal but you could just use a value of 15% of the ingested calories.
+
+Possible sim names:
+    Food and Exercise
+    Exercise & Eats
+    Calorie/Fitness
+    Diet and Exercise
+    Exercise and Diet
+    Calories in Food and Exercise
+    Exercise and Foods
+    Eating and Working Out
+    Eats and Exercise
+    Calories and Fitness
+    Calories and Weight
+
+Rename directory to match new simulation name, once it is selected
+
+Clarify the meaning of "lifestyle" vs. other daily exercises
