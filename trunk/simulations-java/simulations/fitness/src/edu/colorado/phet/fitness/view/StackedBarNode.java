@@ -38,7 +38,7 @@ import edu.umd.cs.piccolox.nodes.PClip;
  * Apr 17, 2008 at 6:19:17 PM
  */
 public class StackedBarNode extends PNode {
-    private Function transform;
+    private Function function;
     private int barWidth;
     private PNode barChartElementNodeLayer = new PNode();
     private ReadoutNode readoutNode;
@@ -47,8 +47,8 @@ public class StackedBarNode extends PNode {
         this( new Function.IdentityFunction(), barWidth );
     }
 
-    public StackedBarNode( Function transform, int barWidth ) {
-        this.transform = transform;
+    public StackedBarNode( Function function, int barWidth ) {
+        this.function = function;
         this.barWidth = barWidth;
         addChild( barChartElementNodeLayer );
         readoutNode = new ReadoutNode();
@@ -99,11 +99,11 @@ public class StackedBarNode extends PNode {
     }
 
     private double modelToView( double model ) {
-        return transform.evaluate( model );
+        return function.evaluate( model );
     }
 
     private double viewToModel( double view ) {
-        return transform.createInverse().evaluate( view );
+        return function.createInverse().evaluate( view );
     }
 
     private double viewToModelDelta( double deltaView ) {//assumes linear
@@ -122,6 +122,15 @@ public class StackedBarNode extends PNode {
 
     public double getBarWidth() {
         return barWidth;
+    }
+
+    public void setFunction( Function function ) {
+        this.function = function;
+
+        for ( int i = 0; i < barChartElementNodeLayer.getChildrenCount(); i++ ) {
+            ( (BarChartElementNode) barChartElementNodeLayer.getChild( i ) ).updateShape();
+        }
+        relayout();
     }
 
     private class BarChartElementNode extends PNode {

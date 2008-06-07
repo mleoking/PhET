@@ -3,6 +3,8 @@ package edu.colorado.phet.fitness.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
@@ -20,13 +22,22 @@ import edu.umd.cs.piccolo.PNode;
 public class StackedBarChartNode extends PNode {
     private PNode barLayer = new PNode();
     private Function function;
+    private String title;
     private int spacing;
+    private double minorTickSpacing;
+    private double majorTickSpacing;
+    private double maxYValue;
     private StackedBarChartAxisNode axisNode;
     private GradientButtonNode zoomOut;
+    private GradientButtonNode zoomIn;
 
     public StackedBarChartNode( Function function, String title, int horizontalInset, double minorTickSpacing, double majorTickSpacing, double maxYValue ) {
         this.function = function;
+        this.title = title;
         this.spacing = horizontalInset;
+        this.minorTickSpacing = minorTickSpacing;
+        this.majorTickSpacing = majorTickSpacing;
+        this.maxYValue = maxYValue;
         addChild( barLayer );
 
         axisNode = new StackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
@@ -35,16 +46,71 @@ public class StackedBarChartNode extends PNode {
         zoomOut = new GradientButtonNode( "-", 14, Color.green );
         zoomOut.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
+                    Function.LinearFunction linearFunction = (Function.LinearFunction) StackedBarChartNode.this.function;
+                    setFunction( new Function.LinearFunction( linearFunction.getMinInput(), linearFunction.getMaxInput(),
+                                                              linearFunction.getMinOutput(), linearFunction.getMaxOutput() / 2 ) );
+                }
             }
         } );
+
+
+        zoomIn = new GradientButtonNode( "+", 14, Color.green );
+        zoomIn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( StackedBarChartNode.this.function instanceof Function.LinearFunction ) {
+                    Function.LinearFunction linearFunction = (Function.LinearFunction) StackedBarChartNode.this.function;
+                    setFunction( new Function.LinearFunction( linearFunction.getMinInput(), linearFunction.getMaxInput(),
+                                                              linearFunction.getMinOutput(), linearFunction.getMaxOutput() * 2 ) );
+                }
+            }
+        } );
+
         addChild( zoomOut );
+        addChild( zoomIn );
 
         updateLayout();
     }
 
-    public void addStackedBarNode( StackedBarNode node ) {
-        barLayer.addChild( node );
+    public void setFunction( Function function ) {
+        this.function = function;
+        removeChild( axisNode );
+
+        //todo: convert the following two lines to use axisNode.setFunction instead
+        axisNode = new StackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
+        addChild( indexOfChild( barLayer )+1,axisNode );
+
+        for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
+            PNode child = barLayer.getChild( i );
+            if ( child instanceof StackedBarNode ) {
+                ( (StackedBarNode) child ).setFunction( function );
+            }
+        }
+
         updateLayout();
+    }
+
+    public void addStackedBarNode( final StackedBarNode node ) {
+        barLayer.addChild( node );
+        node.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateZoomVisibility();
+            }
+        } );
+        updateLayout();
+    }
+
+    private void updateZoomVisibility() {
+        boolean visible = false;
+        for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
+            PNode node = barLayer.getChild( i );
+            if ( node instanceof StackedBarNode ) {
+                StackedBarNode stackedBarNode = (StackedBarNode) node;
+                visible = visible || stackedBarNode.getTotal() >= 4000;
+            }
+        }
+        zoomOut.setVisible( visible );
+        zoomIn.setVisible( visible );
     }
 
     //todo: convert to layout strategy pattern
@@ -54,7 +120,8 @@ public class StackedBarChartNode extends PNode {
             node.setOffset( 0, 0 );
             double dx = node.getFullBounds().getMaxX() - axisNode.getFullBounds().getX();
             axisNode.offset( dx + 2, 0 );
-            zoomOut.setOffset( axisNode.getFullBounds().getCenterX() + zoomOut.getFullBounds().getWidth() / 2, axisNode.getFullBounds().getMaxY() - zoomOut.getFullBounds().getHeight() );
+            zoomOut.setOffset( axisNode.getFullBounds().getCenterX() + zoomOut.getFullBounds().getWidth() / 2, axisNode.getFullBounds().getMaxY() - zoomOut.getFullBounds().getHeight() * 2 );
+            zoomIn.setOffset( zoomOut.getFullBounds().getX(), zoomOut.getFullBounds().getMaxY() );
 
             double xOffset = axisNode.getFullBounds().getMaxX() + 2;
             for ( int i = 1; i < barLayer.getChildrenCount(); i++ ) {
@@ -63,7 +130,7 @@ public class StackedBarChartNode extends PNode {
                 xOffset += ch.getBarWidth() + spacing;
             }
         }
-
+        updateZoomVisibility();
     }
 
     private void updateLayoutDefaultStrategy() {
