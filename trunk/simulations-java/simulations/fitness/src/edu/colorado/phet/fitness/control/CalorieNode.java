@@ -64,6 +64,7 @@ public class CalorieNode extends PNode {
         addChild( plateTopSummaryNode );
 
         calorieDragStrip = new CalorieDragStrip( available );
+        calorieDragStrip.setOffset( 0, 2 );
         calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
             public void notifyDragged( CalorieDragStrip.DragNode node ) {
                 setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) );

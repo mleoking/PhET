@@ -107,13 +107,18 @@ public class CalorieDragStrip extends PNode {
         return max;
     }
 
+    Timer timer = null;
+
     private void nextPanel( final int increment ) {
+        if ( timer != null && timer.isRunning() ) {
+            return;
+        }
         final PNode oldStripPanel = stripPanel;
         stripPanel = (PNode) panels.get( nextIndex( increment ) );
         stripPanelClip.addChild( stripPanel );
         stripPanel.setOffset( 100 * increment, 0 );
 
-        final Timer timer = new Timer( 30, null );
+        timer = new Timer( 30, null );
         timer.addActionListener( new ActionListener() {
             int count = 0;
 
