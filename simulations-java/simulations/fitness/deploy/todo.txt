@@ -10,8 +10,6 @@ Time readouts should be Years:Months, not years in decimal
 
 Performance: consider profiling or changing clock rate
 
-BMI readout is obscured when overlapping the human outline
-
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################

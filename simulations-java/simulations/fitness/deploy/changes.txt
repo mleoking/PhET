@@ -1,5 +1,6 @@
 New in 
 Fixed image cropping and transparency
+Fixed: BMI readout is obscured when overlapping the human outline
 
 New in 0.00.39
 Moved BMI readout to near the heart
