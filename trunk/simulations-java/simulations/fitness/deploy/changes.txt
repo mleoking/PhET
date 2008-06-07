@@ -2,6 +2,7 @@ New in
 Fixed image cropping and transparency
 Fixed: BMI readout is obscured when overlapping the human outline
 Added food pyramid, usable from drag and drop interface
+Fixed: Drag icons should move to the front when selected
 
 New in 0.00.39
 Moved BMI readout to near the heart
