@@ -6,8 +6,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -15,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.CalorieSet;
+import edu.colorado.phet.fitness.model.Human;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -219,11 +223,38 @@ public class CalorieDragStrip extends PNode {
         }
     }
 
-    private DefaultDragNode createNode( CaloricItem item ) {
+    private DefaultDragNode createNode( final CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
             DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
             ToolTipNode toolTipNode = new ToolTipNode( "<html>" + item.getName() + " (" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + FitnessResources.getString( "units.cal" ) + ")</html>", dragNode );
             toolTipNode.setFont( new PhetFont( 16, true ) );
+
+            if ( item.getImage().equals( Human.FOOD_PYRAMID ) ) {
+
+                final JDialog dialog = new JDialog();
+                JLabel contentPane = new JLabel( item.getLabelText(), new ImageIcon( FitnessResources.getImage( item.getImage() ) ), SwingConstants.CENTER ) {
+                    protected void paintComponent( Graphics g ) {
+                        Graphics2D g2 = (Graphics2D) g;
+                        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                        super.paintComponent( g );
+                    }
+                };
+
+                contentPane.setOpaque( true );
+                contentPane.setBackground( Color.white );
+                SwingUtils.centerWindowOnScreen( dialog );
+                dialog.setContentPane( contentPane );
+                dialog.pack();
+
+                GradientButtonNode gradientButtonNode = new GradientButtonNode( "?", 12, Color.red );
+                gradientButtonNode.addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        dialog.setVisible( true );
+                    }
+                } );
+                dragNode.addChild( gradientButtonNode );
+                gradientButtonNode.setOffset( dragNode.getFullBounds().getMaxX()-gradientButtonNode.getFullBounds().getWidth()/2, dragNode.getFullBounds().getY() );
+            }
 
             tooltipLayer.addChild( toolTipNode );
             return dragNode;

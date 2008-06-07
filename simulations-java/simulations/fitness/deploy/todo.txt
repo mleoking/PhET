@@ -8,6 +8,10 @@ Time readouts should be Years:Months, not years in decimal
 
 Performance: consider profiling or changing clock rate
 
+Need a way to get rid of or clean up icons
+
+Draggable icons should disappear on simulation reset or when removed from dialog
+
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
