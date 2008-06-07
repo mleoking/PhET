@@ -12,6 +12,8 @@ Need a way to get rid of or clean up icons
 
 Draggable icons should disappear on simulation reset or when removed from edit dialog
 
+Some exercise and food items are missing icons
+
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
