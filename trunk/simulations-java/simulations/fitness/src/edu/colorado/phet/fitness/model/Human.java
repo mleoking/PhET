@@ -46,6 +46,7 @@ public class Human {
     private ITemporalVariable caloricIntakeVariable = new DefaultTemporalVariable();
     private ITemporalVariable caloricBurnVariable = new DefaultTemporalVariable();
     private CaloricFoodItem defaultIntake;
+    public static final String FOOD_PYRAMID = "food-pyramid.png";
 
     public Human() {
         lipids.addListener( new IVariable.Listener() {
@@ -106,7 +107,7 @@ public class Human {
         foodItems.clear();
         exerciseItems.clear();
         if ( defaultIntake == null ) {//todo: change to single instance so that view/controller can observe it
-            defaultIntake = new CaloricFoodItem( FitnessResources.getString( "diet.healthy" ), "food-pyramid.png", initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
+            defaultIntake = new CaloricFoodItem( FitnessResources.getString( "diet.healthy" ), FOOD_PYRAMID, initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
         }
         foodItems.addItem( defaultIntake );//todo: standardize constructor units
         updateIntake();
