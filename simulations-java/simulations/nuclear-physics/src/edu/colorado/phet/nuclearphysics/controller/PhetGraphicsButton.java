@@ -62,14 +62,14 @@ public class PhetGraphicsButton extends CompositePhetGraphic {
     //--------------------------------------------------------------------------------------------------
     // ActionListener definition
     //--------------------------------------------------------------------------------------------------
-    EventChannel actionEventChannel = new EventChannel( ActionListener.class );
-    ActionListener actionListenerProxy = (ActionListener)actionEventChannel.getListenerProxy();
+    EventChannel actionEventChannel = new EventChannel( ButtonActionListener.class );
+    ButtonActionListener actionListenerProxy = (ButtonActionListener)actionEventChannel.getListenerProxy();
 
-    public void addActionListener( ActionListener listener ) {
+    public void addActionListener( ButtonActionListener listener ) {
         actionEventChannel.addListener( listener );
     }
 
-    public void removeActionListener( ActionListener listener ) {
+    public void removeActionListener( ButtonActionListener listener ) {
         actionEventChannel.removeListener( listener );
     }
 
@@ -79,7 +79,7 @@ public class PhetGraphicsButton extends CompositePhetGraphic {
         }
     }
 
-    public interface ActionListener extends EventListener {
+    public interface ButtonActionListener extends EventListener {
         void actionPerformed( ActionEvent event );
     }
 }

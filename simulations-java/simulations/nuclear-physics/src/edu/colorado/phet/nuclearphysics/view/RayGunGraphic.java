@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.nuclearphysics.controller.FireButton;
 import edu.colorado.phet.nuclearphysics.controller.NeutronGun;
+import edu.colorado.phet.nuclearphysics.controller.PhetGraphicsButton;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
@@ -42,7 +43,7 @@ public class RayGunGraphic extends GraphicLayerSet {
         final FireButton fireButton = new FireButton( component );
         fireButton.setLocation( -150, -15 );
         addGraphic( fireButton );
-        fireButton.addActionListener( new FireButton.ActionListener() {
+        fireButton.addActionListener( new PhetGraphicsButton.ButtonActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 gun.fireNeutron();
             }
