@@ -8,6 +8,7 @@ Fixed "muscular" label so it doesn't disappear off the panel
 Changed "press play" help item to appear after adding 3 items to exercise or foods; works with new drag & drop interface
 Changing gender sets fat free mass percent to the typical minimum for that gender
 Fixed decimal format in tooltip readouts
+Fixed image cropping and transparency
 
 New in 0.00.36
 Added drag and drop
