@@ -3,6 +3,7 @@ package edu.colorado.phet.fitness.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,6 +24,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
  * Created by: Sam
@@ -37,13 +39,17 @@ public class CalorieDragStrip extends PNode {
     private int count = 5;
     private ArrayList panels = new ArrayList();
     private Color buttonColor = new Color( 128, 128, 255 );
+    private PClip stripPanelClip;
 
     public CalorieDragStrip( final CalorieSet available ) {
         for ( int i = 0; i < available.getItemCount(); i += count ) {
             panels.add( getPanel( available, i, Math.min( i + count, available.getItemCount() ) ) );
         }
+        stripPanelClip = new PClip();
         stripPanel = (PNode) panels.get( 0 );
-        addChild( stripPanel );
+        stripPanelClip.addChild( stripPanel );
+
+        addChild( stripPanelClip );
 
         GradientButtonNode leftButton = new GradientButtonNode( "<html>&gt;</html>", 13, buttonColor );
         leftButton.addActionListener( new ActionListener() {
@@ -64,15 +70,16 @@ public class CalorieDragStrip extends PNode {
         rightButton.setOffset( -rightButton.getFullBounds().getWidth(), getMaxPanelHeight() / 2 - rightButton.getFullBounds().getHeight() / 2 );
 
         centerItems();
+        stripPanelClip.setPathTo( new Rectangle2D.Double( 0, 0, getMaxPanelWidth(), getMaxPanelHeight() ) );
     }
 
     private void centerItems() {
         for ( int i = 0; i < panels.size(); i++ ) {
             PNode pNode = (PNode) panels.get( i );
-            for (int k=0;k<pNode.getChildrenCount();k++){
-                PNode child=pNode.getChild( k );
-                if (child instanceof DefaultDragNode){
-                    child.setOffset( getMaxPanelWidth()/2-child.getFullBounds().getWidth()/2,child.getOffset().getY() );
+            for ( int k = 0; k < pNode.getChildrenCount(); k++ ) {
+                PNode child = pNode.getChild( k );
+                if ( child instanceof DefaultDragNode ) {
+                    child.setOffset( getMaxPanelWidth() / 2 - child.getFullBounds().getWidth() / 2, child.getOffset().getY() );
                 }
             }
         }
@@ -100,10 +107,27 @@ public class CalorieDragStrip extends PNode {
         return max;
     }
 
-    private void nextPanel( int increment ) {
-        removeChild( stripPanel );
+    private void nextPanel( final int increment ) {
+        final PNode oldStripPanel = stripPanel;
         stripPanel = (PNode) panels.get( nextIndex( increment ) );
-        addChild( stripPanel );
+        stripPanelClip.addChild( stripPanel );
+        stripPanel.setOffset( 100 * increment, 0 );
+
+        final Timer timer = new Timer( 30, null );
+        timer.addActionListener( new ActionListener() {
+            int count = 0;
+
+            public void actionPerformed( ActionEvent e ) {
+                oldStripPanel.translate( -10 * increment, 0 );
+                stripPanel.translate( -10 * increment, 0 );
+                count++;
+                if ( count >= 10 ) {
+                    stripPanelClip.removeChild( oldStripPanel );
+                    timer.stop();
+                }
+            }
+        } );
+        timer.start();
     }
 
     private int nextIndex( int increment ) {
