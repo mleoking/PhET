@@ -1,11 +1,6 @@
 #######################################################################################
 ##############                    To Do                                  ##############
 #######################################################################################
-Mac issues:
-    -Dialog box shows n~ characters on mac, see email for screenshot
-    -Mass slider thumb in the wrong spot on Mac, see malley's machine.
-        >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
-
 Base diet should be visualized on the plate
 
 Zoom in/out for bar graphs
@@ -206,3 +201,10 @@ To emphasize the meaning of the bar charts, you might have big labels on
         >>I think this is clear from the items, bar chart composition and edit buttons
 
 Possibly visualize balance of caloric intake as scale
+
+Mac issues:
+    -Dialog box shows n~ characters on mac, see email for screenshot
+    -Mass slider thumb in the wrong spot on Mac, see malley's machine.
+        >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
+
+        >>Not reproducible on mac mini
