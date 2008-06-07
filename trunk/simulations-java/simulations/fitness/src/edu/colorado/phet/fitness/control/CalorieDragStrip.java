@@ -62,6 +62,20 @@ public class CalorieDragStrip extends PNode {
         } );
         addChild( rightButton );
         rightButton.setOffset( -rightButton.getFullBounds().getWidth(), getMaxPanelHeight() / 2 - rightButton.getFullBounds().getHeight() / 2 );
+
+        centerItems();
+    }
+
+    private void centerItems() {
+        for ( int i = 0; i < panels.size(); i++ ) {
+            PNode pNode = (PNode) panels.get( i );
+            for (int k=0;k<pNode.getChildrenCount();k++){
+                PNode child=pNode.getChild( k );
+                if (child instanceof DefaultDragNode){
+                    child.setOffset( getMaxPanelWidth()/2-child.getFullBounds().getWidth()/2,child.getOffset().getY() );
+                }
+            }
+        }
     }
 
     private double getMaxPanelHeight() {
@@ -108,7 +122,7 @@ public class CalorieDragStrip extends PNode {
         ArrayList nodes = new ArrayList();
         PNode sourceLayer = new PNode();
         for ( int i = min; i < max; i++ ) {
-            final PNode node = createNode( available.getItem( i ) );
+            final DefaultDragNode node = createNode( available.getItem( i ) );
             final int i1 = i;
             node.addInputEventListener( new PDragSequenceEventHandler() {
                 private DefaultDragNode createdNode = null;
@@ -180,7 +194,7 @@ public class CalorieDragStrip extends PNode {
     public PNode addItemNode( CaloricItem item ) {
         final DefaultDragNode node = createNode( item );
         node.addDragHandler();
-        addChild( node.getPNode() );
+        addChild( node );
         return node.getPNode();
     }
 
@@ -230,32 +244,8 @@ public class CalorieDragStrip extends PNode {
             toolTipNode.setFont( new PhetFont( 16, true ) );
 
             if ( item.getImage().equals( Human.FOOD_PYRAMID ) ) {
-
-                final JDialog dialog = new JDialog();
-                JLabel contentPane = new JLabel( item.getLabelText(), new ImageIcon( FitnessResources.getImage( item.getImage() ) ), SwingConstants.CENTER ) {
-                    protected void paintComponent( Graphics g ) {
-                        Graphics2D g2 = (Graphics2D) g;
-                        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                        super.paintComponent( g );
-                    }
-                };
-
-                contentPane.setOpaque( true );
-                contentPane.setBackground( Color.white );
-                SwingUtils.centerWindowOnScreen( dialog );
-                dialog.setContentPane( contentPane );
-                dialog.pack();
-
-                GradientButtonNode gradientButtonNode = new GradientButtonNode( "?", 12, Color.red );
-                gradientButtonNode.addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        dialog.setVisible( true );
-                    }
-                } );
-                dragNode.addChild( gradientButtonNode );
-                gradientButtonNode.setOffset( dragNode.getFullBounds().getMaxX()-gradientButtonNode.getFullBounds().getWidth()/2, dragNode.getFullBounds().getY() );
+                handleFoodPyramid( item, dragNode );
             }
-
             tooltipLayer.addChild( toolTipNode );
             return dragNode;
         }
@@ -263,6 +253,32 @@ public class CalorieDragStrip extends PNode {
             final Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
             return new DefaultDragNode( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), color ), item );
         }
+    }
+
+    private void handleFoodPyramid( final CaloricItem item, DefaultDragNode dragNode ) {
+        final JDialog dialog = new JDialog();
+        JLabel contentPane = new JLabel( item.getLabelText(), new ImageIcon( FitnessResources.getImage( item.getImage() ) ), SwingConstants.CENTER ) {
+            protected void paintComponent( Graphics g ) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                super.paintComponent( g );
+            }
+        };
+
+        contentPane.setOpaque( true );
+        contentPane.setBackground( Color.white );
+        SwingUtils.centerWindowOnScreen( dialog );
+        dialog.setContentPane( contentPane );
+        dialog.pack();
+
+        GradientButtonNode gradientButtonNode = new GradientButtonNode( "?", 12, Color.red );
+        gradientButtonNode.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                dialog.setVisible( true );
+            }
+        } );
+        dragNode.addChild( gradientButtonNode );
+        gradientButtonNode.setOffset( dragNode.getFullBounds().getMaxX() - gradientButtonNode.getFullBounds().getWidth() / 2, dragNode.getFullBounds().getY() );
     }
 
     public static interface DragNode {
