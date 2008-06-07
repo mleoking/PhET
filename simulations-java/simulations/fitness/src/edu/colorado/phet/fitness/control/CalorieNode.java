@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.*;
 
@@ -67,6 +69,15 @@ public class CalorieNode extends PNode {
                 setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) );
             }
         } );
+        for ( int i = 0; i < calorieSet.getItemCount(); i++ ) {
+            final PNode node = calorieDragStrip.addItemNode( calorieSet.getItem( i ) );
+            plateImage.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    node.setOffset( plateImage.getFullBounds().getOrigin() );
+                }
+            } );
+            node.setOffset( plateImage.getFullBounds().getOrigin() );
+        }
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
                 calorieDragStrip.itemAdded( item );

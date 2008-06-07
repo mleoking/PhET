@@ -173,6 +173,13 @@ public class CalorieDragStrip extends PNode {
         //should only handle events from sources other than this
     }
 
+    public PNode addItemNode( CaloricItem item ) {
+        final DefaultDragNode node = createNode( item );
+        node.addDragHandler();
+        addChild( node.getPNode() );
+        return node.getPNode();
+    }
+
     private class DefaultDragNode extends PNode implements DragNode {
         private CaloricItem item;
         private PNode node;

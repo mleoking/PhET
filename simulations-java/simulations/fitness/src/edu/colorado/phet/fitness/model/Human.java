@@ -106,7 +106,7 @@ public class Human {
         foodItems.clear();
         exerciseItems.clear();
         if ( defaultIntake == null ) {//todo: change to single instance so that view/controller can observe it
-            defaultIntake = new CaloricFoodItem( FitnessResources.getString( "diet.healthy" ), "balanced.png", initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
+            defaultIntake = new CaloricFoodItem( FitnessResources.getString( "diet.healthy" ), "food-pyramid.png", initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
         }
         foodItems.addItem( defaultIntake );//todo: standardize constructor units
         updateIntake();
