@@ -8,8 +8,6 @@ Time readouts should be Years:Months, not years in decimal
 
 Performance: consider profiling or changing clock rate
 
-Drag icons should move to the front when selected
-
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################

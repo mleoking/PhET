@@ -193,6 +193,11 @@ public class CalorieDragStrip extends PNode {
 
         public void addDragHandler() {
             node.addInputEventListener( new PDragSequenceEventHandler() {
+                protected void startDrag( PInputEvent e ) {
+                    super.startDrag( e );
+                    moveToFront();
+                }
+
                 protected void drag( PInputEvent event ) {
                     super.drag( event );
                     getPNode().translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
