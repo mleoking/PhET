@@ -1,9 +1,6 @@
 #######################################################################################
 ##############                    To Do                                  ##############
 #######################################################################################
-Zoom in/out for bar graphs
-    alternatively: Readouts by base of bar graph?
-
 Time readouts should be Years:Months, not years in decimal
 
 Performance: consider profiling or changing clock rate

@@ -5,6 +5,7 @@ Added food pyramid, usable from drag and drop interface
 Fixed: Drag icons should move to the front when selected
 Added help icon for food pyramid
 Centered items in drag toolbox
+Added zoom buttons for bar chart, becomes available when bar chart becomes big enough
 
 New in 0.00.39
 Moved BMI readout to near the heart
