@@ -118,7 +118,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
         fireButton.setLocation( (int)gunMuzzelLocation.getX() + 285,
                                 (int)gunMuzzelLocation.getY() + 145 );
-        fireButton.addActionListener( new FireButton.ActionListener() {
+        fireButton.addActionListener( new PhetGraphicsButton.ButtonActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 fireNeutron();
             }
