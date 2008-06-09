@@ -21,7 +21,6 @@ import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Human;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -164,17 +163,20 @@ public class CalorieDragStrip extends PNode {
                     createdNode = createNode( caloricItem );
                     createdNode.addDragHandler();
                     createdNode.getPNode().setOffset( node.getOffset() );
+                    createdNode.setDragging( true );
                     addChild( createdNode.getPNode() );
                 }
 
                 protected void drag( PInputEvent event ) {
                     super.drag( event );
                     createdNode.getPNode().translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
+
                     notifyDragged( createdNode );
                 }
 
                 protected void endDrag( PInputEvent e ) {
                     super.endDrag( e );
+                    createdNode.setDragging( false );
                     notifyDropped( createdNode );
                 }
             } );
@@ -206,15 +208,17 @@ public class CalorieDragStrip extends PNode {
     }
 
     public void itemRemoved( CaloricItem item ) {
-//        for ( int i = 0; i < getChildrenCount(); i++ ) {
-//            PNode child = getChild( i );
-//            if ( child instanceof DefaultDragNode ) {
-//                if ( ( (DefaultDragNode) child ).getItem() == item ) {
-//                    removeChild( child );
-//                    i--;
-//                }
-//            }
-//        }
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            PNode child = getChild( i );
+            if ( child instanceof DefaultDragNode ) {
+                DefaultDragNode dragNode = (DefaultDragNode) child;
+                System.out.println( "dragNode = " + dragNode );
+                if ( !dragNode.isDragging() && dragNode.getItem() == item ) {
+                    removeChild( child );
+                    i--;
+                }
+            }
+        }
     }
 
     public void itemAdded( CaloricItem item ) {
@@ -235,6 +239,7 @@ public class CalorieDragStrip extends PNode {
     private class DefaultDragNode extends PNode implements DragNode {
         private CaloricItem item;
         private PNode node;
+        private boolean dragging = false;//todo: could coalesce with PDragSequenceEventHandler.isDragging
 
         public DefaultDragNode( PNode node, CaloricItem item ) {
             this.item = item;
@@ -247,19 +252,26 @@ public class CalorieDragStrip extends PNode {
             node.addInputEventListener( new PDragSequenceEventHandler() {
                 protected void startDrag( PInputEvent e ) {
                     super.startDrag( e );
+                    setDragging( true );
                     moveToFront();
                 }
 
                 protected void drag( PInputEvent event ) {
                     super.drag( event );
+                    setDragging( true );//todo: remove this workaround, which was necessary because setDragging(true) from startDrag wasn't being called at the right time
                     getPNode().translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
                     notifyDragged( DefaultDragNode.this );
                 }
 
                 protected void endDrag( PInputEvent e ) {
+                    setDragging( false );
                     notifyDropped( DefaultDragNode.this );
                 }
             } );
+        }
+
+        public boolean isDragging() {
+            return dragging;
         }
 
         public PNode getPNode() {
@@ -269,18 +281,16 @@ public class CalorieDragStrip extends PNode {
         public CaloricItem getItem() {
             return item;
         }
+
+        public void setDragging( boolean b ) {
+            this.dragging = b;
+//            System.out.println( "CalorieDragStrip$DefaultDragNode.setDragging: " + b );
+        }
     }
 
     private DefaultDragNode createNode( final CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
             final DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
-//            dragNode.addInputEventListener( new PBasicInputEventHandler() {
-//                public void mouseReleased( PInputEvent event ) {
-//                    if ( dragNode.getFullBounds().intersects( getFullBounds() ) ) {
-//                        dragNode.setVisible( false );
-//                    }
-//                }
-//            } );
             ToolTipNode toolTipNode = new ToolTipNode( "<html>" + item.getName() + " (" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + FitnessResources.getString( "units.cal" ) + ")</html>", dragNode );
             toolTipNode.setFont( new PhetFont( 16, true ) );
 
