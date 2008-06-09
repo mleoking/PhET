@@ -101,20 +101,10 @@ public class CalorieNode extends PNode {
 //        addChild( child );
 
 
-        for ( int i = 0; i < calorieSet.getItemCount(); i++ ) {
-            final PNode node = calorieDragStrip.addItemNode( calorieSet.getItem( i ) );
-            plateImage.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    node.setOffset( plateImage.getFullBounds().getCenterX() - node.getFullBounds().getWidth() / 2,
-                                    plateImage.getFullBounds().getCenterY() - node.getFullBounds().getHeight() / 2 );
-                }
-            } );
-            node.setOffset( plateImage.getFullBounds().getCenterX() - node.getFullBounds().getWidth() / 2,
-                            plateImage.getFullBounds().getCenterY() - node.getFullBounds().getHeight() / 2 );
-        }
+        addPreExistingItems();
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
-                calorieDragStrip.itemAdded( item );
+//                calorieDragStrip.itemAdded( item );
             }
 
             public void itemRemoved( CaloricItem item ) {
@@ -134,6 +124,20 @@ public class CalorieNode extends PNode {
         } );
         updatePlusNodeVisible();
         relayout();
+    }
+
+    private void addPreExistingItems() {
+        for ( int i = 0; i < calorieSet.getItemCount(); i++ ) {
+            final PNode node = calorieDragStrip.addItemNode( calorieSet.getItem( i ) );
+            plateImage.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    node.setOffset( plateImage.getFullBounds().getCenterX() - node.getFullBounds().getWidth() / 2,
+                                    plateImage.getFullBounds().getCenterY() - node.getFullBounds().getHeight() / 2 );
+                }
+            } );
+            node.setOffset( plateImage.getFullBounds().getCenterX() - node.getFullBounds().getWidth() / 2,
+                            plateImage.getFullBounds().getCenterY() - node.getFullBounds().getHeight() / 2 );
+        }
     }
 
     private void setContainsItem( CaloricItem item, boolean shouldContain ) {
@@ -223,5 +227,10 @@ public class CalorieNode extends PNode {
 
     public PNode getTooltipLayer() {
         return calorieDragStrip.getTooltipLayer();
+    }
+
+    public void resetAll() {
+        calorieDragStrip.resetAll();
+        addPreExistingItems();
     }
 }

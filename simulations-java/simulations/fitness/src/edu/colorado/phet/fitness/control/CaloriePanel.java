@@ -80,6 +80,8 @@ public class CaloriePanel extends PNode {
 
     public void resetAll() {
         chartNode.resetAll();
+        foodNode.resetAll();
+        exerciseNode.resetAll();
     }
 
     public PNode getEditDietButton() {
