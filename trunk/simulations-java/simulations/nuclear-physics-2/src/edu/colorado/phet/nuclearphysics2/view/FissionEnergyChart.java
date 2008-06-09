@@ -522,24 +522,7 @@ public class FissionEnergyChart extends PComposite {
             // well.  Jitter it to create the impression of instability.
 
             xPos = _usableAreaOriginX/2 + _usableWidth/2 - _unfissionedNucleusImage.getFullBounds().width / 2;
-            /* TODO: JPB TBD - Removed the "rise" functionality as suggested by Archie Paulson, but leaving it
-             * here until other folks have confirmed that this is what we want.
-            double nucleusBasePosY = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight);
-            double nucleusTopPosY = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
-            double proportionOfTimeRemaining = 1.0;
-            if (_model.getAtomicNucleus().getFissionTime() - _model.getClock().getSimulationTime() > 0){
-                proportionOfTimeRemaining = (_model.getAtomicNucleus().getFissionTime() - 
-                        _model.getClock().getSimulationTime()) / _model.getAtomicNucleus().getFissionInterval();
-            }
-            yPos = (nucleusBasePosY * proportionOfTimeRemaining) + (nucleusTopPosY * (1 - proportionOfTimeRemaining)) -
-                _unfissionedNucleusImage.getFullBounds().height / 2;
-             */
-            /* TODO: JPB TBD - Removed the instantaneous jump behavior, because the feedback
-             * was that it was too quick.  Leaving here in case it is ultimately chosen over
-             * the other options.
-            yPos = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight - 
-                    (_unfissionedNucleusImage.getFullBounds().height / 2);
-             */
+            
             // Cause the nucleus to move upward.
             double numUpwardSteps = 5; // TODO: JPB TBD - Make this constant if we end up using this.
             double nucleusBasePosY = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight);
