@@ -37,7 +37,7 @@ public class FissionOneNucleusModel {
     
     // Time, in sim milliseconds, from the capture of a neutron until fission
     // occurs.
-    public static final double FISSION_INTERVAL = 2000;
+    public static final double FISSION_INTERVAL = 1200;
     
     //------------------------------------------------------------------------
     // Instance data
