@@ -209,9 +209,15 @@ public class Human {
         }
     }
 
+    /*
+     * SR – According to Exercise Physiology 4th Ed. By McArdle, Katch & Katch, 1996, p154, the Resting Daily Energy Expenditure is:
+     RDEE (kcal) =370+21.6 * FFM (kg)
+     This equation is said to apply to males and females over a wide range of body weights, and is the equation recommended to us by the CU Integrated Physiologists
+     */
     private void updateBMR() {
 //        bmr.setValue( BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( getMass(), getHeight(), getAge(), gender ) );
 //        System.out.println( "value = " + value +", FFMP="+getFatFreeMassPercent());
+        //
         bmr.setValue( 392 + 21.8 * getFatFreeMassKG() );
         updateActivity();
     }
