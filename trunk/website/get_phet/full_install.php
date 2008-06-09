@@ -12,10 +12,28 @@ class FullInstallPage extends SitePage {
             return $result;
         }
 
-        $win = urlencode(PORTAL_ROOT.'phet-dist/PhET-1.0-windows-installer.exe');
-        $mac = urlencode(PORTAL_ROOT.'phet-dist/PhET-1.0-osx-installer.zip');
-        $lin = urlencode(PORTAL_ROOT.'phet-dist/PhET-1.0-linux-installer.bin');
-        $cd  = urlencode(PORTAL_ROOT.'phet-dist/PhET-1.0-CD-ROM.zip');
+        //
+        // Get the distribution files and their size
+
+        // Windows
+        $win_file = PORTAL_ROOT.'phet-dist/PhET-1.0-windows-installer.exe';
+        $win_url = urlencode($win_file);
+        $win_size = (file_exists($win_file)) ? (int) (filesize($win_file) / (1024 * 1024)) : "&lt;unknown&gt;";
+
+        // Mac
+        $mac_file = PORTAL_ROOT.'phet-dist/PhET-1.0-osx-installer.zip';
+        $mac_url = urlencode($mac_file);
+        $mac_size = (file_exists(($mac_file))) ? (int) (filesize($mac_file) / (1024 * 1024)) : "&lt;unknown&gt;";
+
+        // Linux
+        $lin_file = PORTAL_ROOT.'phet-dist/PhET-1.0-linux-installer.bin';
+        $lin_url = urlencode($lin_file);
+        $lin_size = (file_exists($lin_file)) ? (int) (filesize($lin_file) / (1024 * 1024)) : "&lt;unknown&gt;";
+
+        // CD-ROM
+        $cd_file = PORTAL_ROOT.'phet-dist/PhET-1.0-CD-ROM.zip';
+        $cd_url = urlencode($cd_file);
+        $cd_size = (file_exists($cd_file)) ? (int) (filesize($cd_file) / (1024 * 1024)) : "&lt;unknown&gt;";
 
         print <<<EOT
             <p>
@@ -27,11 +45,11 @@ class FullInstallPage extends SitePage {
             </p>
 
             <ul>
-                <li><a href="{$this->prefix}admin/get-member-file.php?file=$win">Download installer for Windows</a> - 55 MB</li>
+                <li><a href="{$this->prefix}admin/get-member-file.php?file={$win_url}">Download installer for Windows</a> - {$win_size} MB</li>
 
-                <li><a href="{$this->prefix}admin/get-member-file.php?file=$mac">Download installer for Mac OS X</a> - 39 MB</li>
+                <li><a href="{$this->prefix}admin/get-member-file.php?file={$mac_url}">Download installer for Mac OS X</a> - {$mac_size} MB</li>
 
-                <li><a href="{$this->prefix}admin/get-member-file.php?file=$lin">Download installer for Linux</a> - 39 MB</li>
+                <li><a href="{$this->prefix}admin/get-member-file.php?file={$lin_url}">Download installer for Linux</a> - {$lin_size} MB</li>
             </ul>
 
             <hr/>
@@ -53,7 +71,7 @@ class FullInstallPage extends SitePage {
             <p>Follow the instructions below:</p>
 
             <ul>
-                <li>Download the <a href="{$this->prefix}admin/get-member-file.php?file=$cd">PhET CD-ROM Distribution archive</a> onto your computer (89 MB).</li>
+                <li>Download the <a href="{$this->prefix}admin/get-member-file.php?file={$cd_url}">PhET CD-ROM Distribution archive</a> onto your computer ({$cd_size} MB).</li>
 
                 <li>Extract the contents of the archive (on most operating systems, this is done by double-clicking the downloaded file).</li>
 
