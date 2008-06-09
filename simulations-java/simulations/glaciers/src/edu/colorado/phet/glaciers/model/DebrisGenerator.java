@@ -16,14 +16,25 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 public class DebrisGenerator {
     
     private static final int DEBRIS_CROSS_SECTION_RATIO = 5; // 1 out of this many debris are created in the ice cross-section
-    private static final double MIN_GLACIER_LENGTH = 1; // meter
-    private static final double MIN_GLACIER_THICKNESS = 1; // meter
+    
+    private static final double MIN_GLACIER_LENGTH = 300; // meters
+    private static final double MIN_DISTANCE_DOWNVALLEY = 10; // meters
+    private static final double MIN_DISTANCE_FROM_TERMINUS = 1; // meters
+    
+    private static final double MIN_GLACIER_THICKNESS = 30; // meters
+    private static final double MIN_ELEVATION_ABOVE_VALLEY_FLOOR = 10; // meters
+    private static final double MIN_ELEVATION_BELOW_SURFACE = 1; // meters
 
     private final Glacier _glacier;
     private final Random _randomDebrisX, _randomDebrisY, _randomDebrisZ;
     private int _count;
     
     public DebrisGenerator( Glacier glacier ) {
+        
+        // sanity check on constants
+        assert( MIN_GLACIER_LENGTH > ( MIN_DISTANCE_DOWNVALLEY + MIN_DISTANCE_FROM_TERMINUS ) );
+        assert( MIN_GLACIER_THICKNESS > ( MIN_ELEVATION_ABOVE_VALLEY_FLOOR + MIN_ELEVATION_BELOW_SURFACE ) );
+        
         _glacier = glacier;
         _randomDebrisX = new Random();
         _randomDebrisY = new Random();
@@ -31,38 +42,48 @@ public class DebrisGenerator {
         _count = 0;
     }
     
-    public void generateDebrisPosition( Point3D pOutput ) {
+    public Point3D generateDebrisPosition( Point3D pOutput ) {
+        
+        Point3D p = null;
         
         // glacier must have some minimum length...
         if ( _glacier.getLength() > MIN_GLACIER_LENGTH ) {
             
-            // x - distance, between valley headwall terminus
-            final double minX = _glacier.getValley().getHeadwallPositionReference().getX() + ( 0.1 * MIN_GLACIER_LENGTH );
-            final double maxX = _glacier.getTerminusX() - ( 0.1 * MIN_GLACIER_LENGTH );
+            // x: distance, between valley headwall terminus
+            final double minX = _glacier.getHeadwallX() + MIN_DISTANCE_DOWNVALLEY;
+            final double maxX = _glacier.getTerminusX() - MIN_DISTANCE_FROM_TERMINUS;
+            assert( maxX > minX );
             final double x = minX + _randomDebrisX.nextDouble() * ( maxX - minX );
+            assert( x > minX && x < maxX );
             
             // if the ice is some minimum thickness at x ...
             final double valleyElevation = _glacier.getValley().getElevation( x );
             final double glacierSurfaceElevation = _glacier.getSurfaceElevation( x );
             if ( glacierSurfaceElevation - valleyElevation > MIN_GLACIER_THICKNESS ) {
                 
-                // y - elevation, between valley floor and glacier surface
-                final double minY = valleyElevation + ( 0.1 * MIN_GLACIER_THICKNESS ); // slightly above valley floor
-                final double maxY = glacierSurfaceElevation - ( 0.1 * MIN_GLACIER_THICKNESS ); // slightly below glacier's surface
-                final double y = minY + _randomDebrisY.nextDouble() * ( maxY - minY );
-                assert ( y > valleyElevation && y < glacierSurfaceElevation );
+                // y: elevation, between valley floor and glacier surface
+                final double minY = valleyElevation + MIN_ELEVATION_ABOVE_VALLEY_FLOOR; // slightly above valley floor
+                final double maxY = glacierSurfaceElevation - MIN_ELEVATION_BELOW_SURFACE; // slightly below glacier's surface
+                assert( maxY > minY );
+                final double y = minY + ( _randomDebrisY.nextDouble() * ( maxY - minY ) );
+                assert ( y > minY && y < maxY );
 
-                // z - distance across the width of the valley floor
+                // z: distance across the width of the valley floor
                 double z = 0; // in the cross-section
                 if ( _count % DEBRIS_CROSS_SECTION_RATIO != 0 ) {
                     // not in the cross-section
                     final double perspectiveHeight = Valley.getPerspectiveHeight();
                     z = _randomDebrisZ.nextDouble() * perspectiveHeight;
+                    assert( z >= 0 && z <= perspectiveHeight );
                 }
-                pOutput.setLocation( x, y, z );
+                
+                p = pOutput;
+                p.setLocation( x, y, z );
 
                 _count++;
             }
         }
+        
+        return p;
     }
 }

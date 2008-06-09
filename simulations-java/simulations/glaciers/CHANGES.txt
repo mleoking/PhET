@@ -3,7 +3,6 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- BUG: sim hangs when you warm/cool climate so ELA goes above/below headwall (bug introduced in 22071)
 - BUG: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 
 HIGH PRIORITY:
@@ -90,6 +89,7 @@ CLEANUP:
 
 
 DONE:
+6/9/08 - fix debris that was getting stuck on below the valley floor
 6/9/08 - more changes to climate and glacier model from Archie
 6/9/08 - fix infinite loop in IceNode that occurred when glacier length was less than DX
 ******* 0.00.29 (22088)
