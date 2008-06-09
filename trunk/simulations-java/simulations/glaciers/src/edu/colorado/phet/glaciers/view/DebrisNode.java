@@ -29,6 +29,7 @@ public class DebrisNode extends PComposite {
     private static final boolean DEBUG_ON_VALLEY_FLOOR = false; // see debugOnValleyFloor method
     
     private static final double BOULDER_RADIUS = 1; // pixels
+    private static final Color BOULDER_COLOR = Color.BLACK;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -131,14 +132,12 @@ public class DebrisNode extends PComposite {
      */
     private static class BoulderNode extends PPath {
         
-        private static final Color FILL_COLOR = Color.BLACK;
-        
         public BoulderNode( double radius ) {
             super();
             Shape shape = new Ellipse2D.Double( -radius, -radius, 2 * radius, 2 * radius );
             setPathTo( shape );
             setStroke( null );
-            setPaint( FILL_COLOR );
+            setPaint( BOULDER_COLOR );
         }
     }
 }
