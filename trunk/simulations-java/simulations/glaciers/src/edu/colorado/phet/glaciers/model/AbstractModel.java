@@ -393,9 +393,11 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         if ( _glacier.getLength() > 0 ) {
             _timeSinceLastDebrisGenerated += clockEvent.getSimulationTimeChange();
             if ( _timeSinceLastDebrisGenerated >= YEARS_PER_DEBRIS_GENERATED ) {
-                _debrisGenerator.generateDebrisPosition( _pDebris /* output */);
-                addDebris( _pDebris );
-                _timeSinceLastDebrisGenerated = 0;
+                Point3D p = _debrisGenerator.generateDebrisPosition( _pDebris /* output */);
+                if ( p != null ) {
+                    _timeSinceLastDebrisGenerated = 0;
+                    addDebris( _pDebris );
+                }
             }
         }
     }

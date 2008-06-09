@@ -39,6 +39,10 @@ public class Debris extends ClockAdapter {
     public Debris( Point3D position, Glacier glacier ) {
         super();
         
+        assert( position.getX() >= glacier.getHeadwallX() ); // downvalley from the headwall
+        assert( position.getY() < glacier.getSurfaceElevation( position.getX() ) ); // below glacier's surface
+        assert( position.getY() > glacier.getValley().getElevation( position.getX() ) ); // above valley floor
+        
         _position = new Point3D.Double( position );
         
         _glacier = glacier;
@@ -62,6 +66,10 @@ public class Debris extends ClockAdapter {
             _deletedSelf = true;
             notifyDeleteMe();
         }
+    }
+    
+    public boolean isDeletedSelf() {
+        return _deletedSelf;
     }
     
     //----------------------------------------------------------------------------
@@ -110,6 +118,10 @@ public class Debris extends ClockAdapter {
         return _position.getZ();
     }
     
+    public String toString() {
+        return getClass().getName() + "[position=" + _position + ", onValleyFloor=" + _onValleyFloor + ", deletedSelf=" + _deletedSelf + "]";
+    }
+    
     //----------------------------------------------------------------------------
     // Self deletion
     //----------------------------------------------------------------------------
@@ -141,21 +153,33 @@ public class Debris extends ClockAdapter {
             double newY = getY() + ( velocity.getY() * dt );
 
             // constrain x to the terminus
-            final double maxX = _glacier.getTerminusX();
-            if ( getX() < maxX && newX > maxX ) {
-                newX = maxX;
+            final double terminusX = _glacier.getTerminusX();
+            if ( getX() < terminusX && newX > terminusX ) {
+                newX = terminusX;
             }
-            
-            // constrain y to the surface of the glacier (or valley floor)
-            double newGlacierSurfaceElevation = _glacier.getSurfaceElevation( newX );
-            if ( newY > newGlacierSurfaceElevation ) {
-                newY = newGlacierSurfaceElevation;
+
+            // constrain y to the ice
+            double newIceThickness = _glacier.getIceThickness( newX );
+            double newValleyElevation = _glacier.getValley().getElevation( newX );
+            if ( newY > newValleyElevation + newIceThickness ) {
+                // constrain to the surface
+                newY = newValleyElevation + newIceThickness;
             }
-            
+            else if ( newY < newValleyElevation ) {
+                if ( newIceThickness == 0 ) {
+                    // constrain to the valley floor if there's no ice
+                    newY = newValleyElevation;
+                }
+                else {
+                    // constrain to just above the valley floor if there is ice
+                    newY = Math.min( newValleyElevation + 1, newValleyElevation + newIceThickness );
+                }
+            }
+
             // z doesn't change in this model, not realistic, but acceptable here
             final double newZ = getZ();
-            
-            // are we on the valley floor?
+
+            // have we moved to the valley floor?
             if ( newY == _glacier.getValley().getElevation( newX ) ) {
                 setOnValleyFloor( true );
             }
