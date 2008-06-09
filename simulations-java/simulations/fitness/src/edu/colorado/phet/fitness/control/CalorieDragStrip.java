@@ -212,7 +212,6 @@ public class CalorieDragStrip extends PNode {
             PNode child = getChild( i );
             if ( child instanceof DefaultDragNode ) {
                 DefaultDragNode dragNode = (DefaultDragNode) child;
-                System.out.println( "dragNode = " + dragNode );
                 if ( !dragNode.isDragging() && dragNode.getItem() == item ) {
                     removeChild( child );
                     i--;
