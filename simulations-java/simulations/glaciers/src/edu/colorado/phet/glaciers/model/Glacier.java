@@ -34,8 +34,16 @@ public class Glacier extends ClockAdapter {
     private static final double MIN_TIMESCALE = 50; // min value for evolution timescale
     private static final double MAX_TIMESCALE = 300; // max value for evolution timescale
     
+    private static final double ELAX_B0 = 157076;
+    private static final double ELAX_M0 = -37.57;
+    private static final double ELAX_M2 = -3.12489;
+    private static final double ELAX_B2 = 14118;
+    private static final double ELAX_X1 = 3800;
+    private static final double ELAX_X2 = 4150;
+    private static final double ELAX_Y1 = 14300;
+    private static final double ELAX_C3 = -0.098411;
+    private static final double ELAX_C4 = 0.000281185;
     private static final double ELAX_TERMINUS = 0.6;
-    private static final double ELAX_B0 = 138248;
     private static final double MAX_THICKNESS_SCALE = 2.3;
     
     private static final double SURFACE_ELA_SEARCH_DX = 1; // meters
@@ -51,9 +59,8 @@ public class Glacier extends ClockAdapter {
     private final ClimateListener _climateListener;
     private final ArrayList _listeners; // list of GlacierListener
     
-    private double _quasiELA; // like the ELA, except is describes the state of the glacier's evolution, not the climate (meters)
-    private final double _elax_m0;
-    private double _qelax; // the x-position where the quasi-ELA intersects the ice surface (meters)
+    private double _qela; // like the ELA, except is describes the state of the glacier's evolution, not the climate, never greater than top of headwall (meters)
+    private double _qelax; // the x-position where the quasi-ELA intersects the ice surface, never less than zero (meters)
     private double _glacierLength; // length of the ice (meters)
     private double _maxThickness; // maximum ice thickness (meters)
     private double _averageIceThicknessSquares; // average of the squares of the non-zero ice thickness samples
@@ -69,7 +76,7 @@ public class Glacier extends ClockAdapter {
         super();
         
         _valley = valley;
-        _elax_m0 = -55630 / ( valley.getMaxElevation() - 2.7E3 );
+        assert( _valley.getHeadwallPositionReference().getX() == 0 ); // x=0 required by this model
         
         _climate = climate;
         _climateListener = new ClimateListener() {
@@ -133,16 +140,6 @@ public class Glacier extends ClockAdapter {
     }
     
     /**
-     * Gets the spacing used between x-axis sample points.
-     * This is the optimal dx to use when requesting ice thickness values.
-     * 
-     * @return meters
-     */
-    public static double getDx() {
-        return DX;
-    }
-    
-    /**
      * Is the glacier currently in the steady state?
      * 
      * @return true or false
@@ -158,7 +155,7 @@ public class Glacier extends ClockAdapter {
      */
     public void setSteadyState() {
         if ( !_steadyState ) {
-            _quasiELA = _climate.getELA();
+            _qela = Math.min( _climate.getELA(), _valley.getMaxElevation() );
             updateIceThickness();
             _steadyState = true;
             notifySteadyStateChanged();
@@ -171,7 +168,7 @@ public class Glacier extends ClockAdapter {
      * @return length in meters
      */
     public double getLength() {
-        return getTerminusX() - getHeadwallX();
+        return _glacierLength;
     }
     
     /**
@@ -249,7 +246,7 @@ public class Glacier extends ClockAdapter {
         if ( x > headwallX && x < _terminus.getX() ) {
             
             final double xPeak = headwallX + ( 0.5 * _glacierLength ); // midpoint of the ice
-            final double p = Math.max( 42 - ( 0.01 * _quasiELA ), 1.5 );
+            final double p = Math.max( 42 - ( 0.01 * _qela ), 1.5 );
             final double r = 1.5 * xPeak;
             final double xPeakPow = Math.pow( xPeak, p );
             
@@ -272,15 +269,17 @@ public class Glacier extends ClockAdapter {
     private void updateIceThickness() {
         
         _surfaceAtELA = null;
+        _averageIceThicknessSquares = 0;
         
         // constants used to compute ice thickness
-        _qelax = Math.max( 0, ELAX_B0 + _elax_m0 * _quasiELA );
+        _qelax = computeQuasiELAX( _qela );
         _glacierLength = _qelax / ELAX_TERMINUS;
+        assert( _glacierLength >= 0 );
         _maxThickness = MAX_THICKNESS_SCALE * Math.sqrt( _qelax );
+        assert( _maxThickness >= 0 );
             
         if ( _glacierLength == 0 ) {
             _terminus.setLocation( _valley.getHeadwallPositionReference() );
-            _averageIceThicknessSquares = 0;
         }
         else {
             // constants
@@ -326,10 +325,37 @@ public class Glacier extends ClockAdapter {
             }
 
             // compute average
-            _averageIceThicknessSquares = sumOfNonZeroSquares / countOfNonZeroSquares;
+            if ( countOfNonZeroSquares > 0 ) {
+                _averageIceThicknessSquares = sumOfNonZeroSquares / countOfNonZeroSquares;
+            }
+            assert( _averageIceThicknessSquares >= 0 );
         }
 
         notifyIceThicknessChanged();
+    }
+    
+    /*
+     * Computes the x-position of the intersection of the glacier surface and the quasi-ELA.
+     */
+    private static double computeQuasiELAX( double quasiELA ) {
+        double qelax;
+        if ( quasiELA < ELAX_X1 ) {
+            qelax = ( quasiELA * ELAX_M0 ) + ELAX_B0;
+        }
+        else if ( quasiELA < ELAX_X2 ) {
+            final double x = quasiELA - ELAX_X1;
+            qelax = ELAX_Y1 + ( ELAX_M0 * x ) + ( ELAX_C3 * x * x ) + ( ELAX_C4 * x * x * x );
+        }
+        else {
+            qelax = ( quasiELA * ELAX_M2 ) + ELAX_B2;
+        }
+        
+        if ( qelax < 0 ) {
+            qelax = 0;
+        }
+        
+        assert( qelax >= 0 );
+        return qelax;
     }
     
     /*
@@ -443,6 +469,7 @@ public class Glacier extends ClockAdapter {
                 iceSpeed = U_SLIDE + ( u_deform_ave * 5. * ( zz - ( 1.5 * zz * zz ) + ( zz * zz * zz ) - ( 0.25 * zz * zz * zz * zz ) ) );
             }
         }
+        assert( iceSpeed >= 0 );
         return iceSpeed;
     }
     
@@ -457,7 +484,12 @@ public class Glacier extends ClockAdapter {
      * @return meters/year
      */
     private static double computeVerticallyAveragedDeformationIceSpeed( final double iceThickness, final double averageIceThicknessSquares ) {
-        return ( ( iceThickness * iceThickness ) * U_DEFORM / averageIceThicknessSquares );
+        double avg = 0;
+        if ( averageIceThicknessSquares != 0 ) {
+            avg = ( iceThickness * iceThickness ) * U_DEFORM / averageIceThicknessSquares;
+        }
+        assert( avg >= 0 );
+        return avg;
     }
     
     //----------------------------------------------------------------------------
@@ -471,39 +503,40 @@ public class Glacier extends ClockAdapter {
         
         if ( !isSteadyState() ) {
             
-            // If _quasiELA is above the top of the headwall, immediately jump to the top of the headwall.
-            // The main reason for doing this is a bug in q_advance_limit (see below). If the ELA goes above 
-            // the top of the headwall, q_advance_limit becomes positive when it should be negative, and it
-            // causes _quasiELA to evolves in the wrong direction (to higher elevations) forever.
-            // A secondary reason for doing this is so that we don't have to wait for a glacier to start
-            // forming when the climate is warmed.
-            if ( _quasiELA > _valley.getMaxElevation() ) {
-                _quasiELA = _valley.getMaxElevation();
-            }
-            
             final double dt = event.getSimulationTimeChange();
             final double ela = _climate.getELA();
             final double timescale = getTimescale();
+            final double maxElevation = _valley.getMaxElevation();
             
             // calculate the delta
-            double delta = ( ela - _quasiELA ) * ( 1 - Math.exp( -dt / timescale  ) );
+            double delta = ( ela - _qela ) * ( 1 - Math.exp( -dt / timescale  ) );
             
             // limit the delta for an advancing glacier
-            if ( ela < _quasiELA ) {
-                final double q_advance_limit = ( ( -0.06 * _quasiELA ) + 300 ) * ELAX_TERMINUS / _elax_m0;
+            if ( ela < _qela ) {
+                final double q_advance_limit = ( ( -0.06 * _qela ) + 300 ) * ELAX_TERMINUS / ELAX_M0;
                 delta = Math.max( delta, dt * q_advance_limit );
             }
             
-            // evolve
-            _quasiELA += delta;
+            // move the quasi-ELA
+            _qela += delta;
             
-            // are we close enough to steady state?
-            if ( Math.abs( ela - _quasiELA ) <= ELA_EQUALITY_THRESHOLD ) {
+            // make adjustments
+            if ( _qela > maxElevation ) {
+                _qela = maxElevation;
+                if ( ela > maxElevation ) {
+                    setSteadyState();
+                }
+            }
+            else if ( Math.abs( ela - _qela ) <= ELA_EQUALITY_THRESHOLD ) {
+                // are we close enough to steady state?
                 setSteadyState();
             }
             else {
+                // not in steady state, update the ice thickness
                 updateIceThickness();
             }
+            
+            assert( _qela <= maxElevation );
         }
     }
     
@@ -517,7 +550,7 @@ public class Glacier extends ClockAdapter {
         // use a different timescale for receding vs advancing glacier
         double timescale;
         final double ela = _climate.getELA();
-        if ( ela > _quasiELA ) {
+        if ( ela > _qela ) {
             // receding
             timescale = ( -0.22 * ela ) + 1026;
         }
