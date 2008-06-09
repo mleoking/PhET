@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.fitness.FitnessResources;
 import edu.colorado.phet.fitness.model.CalorieSet;
+import edu.colorado.phet.fitness.model.Human;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -71,7 +72,7 @@ public class CalorieNode extends PNode {
             }
 
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
-                if ( node.getPNode().getFullBounds().intersects( calorieDragStrip.getSourceBounds() ) ) {
+                if ( !node.getItem().getImage().equals( Human.FOOD_PYRAMID ) && node.getPNode().getFullBounds().intersects( calorieDragStrip.getSourceBounds() ) ) {
                     final Timer timer = new Timer( 30, null );
                     timer.addActionListener( new ActionListener() {
                         int count = 0;
@@ -80,8 +81,9 @@ public class CalorieNode extends PNode {
                             node.getPNode().scaleAboutPoint( 0.82, node.getPNode().getFullBounds().getWidth() / 2, node.getPNode().getFullBounds().getHeight() / 2 );
                             count++;
                             if ( count >= 20 ) {
-                                node.getPNode().getParent().removeChild( node.getPNode() );//todo: clean up this line, looks awkward
                                 timer.stop();
+                                setContainsItem( node.getItem(), false );
+                                node.getPNode().getParent().removeChild( node.getPNode() );//todo: clean up this line, looks awkward
                             }
                         }
                     } );
