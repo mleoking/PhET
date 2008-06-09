@@ -250,10 +250,16 @@ EOT;
                     'admin/organize-cats.php'       => 'Organize Categories',
                     'admin/organize-sims.php'       => 'Organize Simulations',
                     'admin/manage-contributors.php' => 'Manage Contributors',
+                    'admin/manage-comments.php'     => 'Manage Comments',
+                    'admin/manage-db.php'           => 'Manage Database',
                     'admin/compose-newsletter.php'  => 'Compose Newsletter',
                     'admin/view-statistics.php'     => 'View Statistics',
-                    'admin/manage-db.php'           => 'Manage Database'
-                )
+                    'cache-clear-sims.php'          => 'Clear the simulation cache',
+                    'admin/cache-clear-activitiesdb.php' => 'Clear the activities cache',
+                    'admin/cache-clear-base.php'    => 'Clear the base directory cache',
+                    'admin/cache-clear-admin.php'   => 'Clear the admin directory cache',
+                    'admin/cache-clear-all.php'     => 'Clear all the caches'
+                    )
             );
         }
 
