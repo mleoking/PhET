@@ -148,7 +148,7 @@
 
 
     function cache_clear_teacher_ideas() {
-        return cache_clear_dir("teacher_ideas");
+        return cache_clear("teacher_ideas");
     }
 
     /**
