@@ -92,7 +92,13 @@ class JavaScriptTroubleshootingPage extends SitePage {
 
             <h3 id="q5" >How do I enable JavaScript on Safari?</h3>
 
-            <p>Coming soon...</p>
+            <ol>
+                <li>Select Preferences from the Safari menu.</li>
+                <li>Click Security.</li>
+                <li>Check Enable JavaScript.</li>
+                <li>Close the window.</li>
+                <li>Click Reload.</li>
+            </ol>
 
             <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
