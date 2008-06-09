@@ -31,7 +31,7 @@ h2 {
     font-size: 16px;
 }
 
-p,* .p-indentation {
+p,*.p-indentation {
     line-height: 19px;
     color: #000;
     padding-left: 0;
@@ -71,7 +71,7 @@ input,textarea,select {
     clear: both;
 }
 
-* .example {
+*.example {
     font-size: smaller;
     font-style: italic;
 }
@@ -327,7 +327,7 @@ div.form_content {
     border-style: none;
 }
 
-* .field {
+*.field {
     clear: right;
     width: 100%;
     border: 0;
@@ -335,19 +335,18 @@ div.form_content {
     padding: 0.5ex 0 0.5ex 0;
 }
 
-* .field * .label {
+*.field *.label {
     width: 25%;
     font-weight: bold;
 }
 
-* .field * .label_content {
+*.field *.label_content {
     clear: right;
     float: right;
     width: 75%;
 }
 
-* .field * .label_content input,* .field * .label_content select,*
-    .field * .label_content textarea {
+*.field *.label_content input,*.field *.label_content select,*.field *.label_content textarea {
     position: relative;
     top: -1ex;
 }
@@ -581,7 +580,7 @@ div.horizontal_center {
     margin: 0;
 }
 
-#contributioneditform fieldset * .multiselector {
+#contributioneditform fieldset *.multiselector {
     margin-top: 0;
     margin-bottom: 1ex;
     margin-left: 0;
@@ -1287,7 +1286,7 @@ h1.indi-sim {
     width: 10%;
 }
 
-#content #keywords * .keywordlist {
+#content #keywords *.keywordlist {
     padding: 0;
     margin: 0;
 }
@@ -1301,14 +1300,14 @@ h1.indi-sim {
     text-align: right;
 }
 
-#content * .compact table {
+#content *.compact table {
     background-color: transparent;
     padding: 0;
     margin: 5px 10px 20px 10px;
     border-collapse: collapse;
 }
 
-#content * .compact table td {
+#content *.compact table td {
     background-color: transparent;
     padding: 0.25ex 0 1ex 2ex;
     margin: 0 0 0 0;
@@ -1316,16 +1315,16 @@ h1.indi-sim {
     vertical-align: top;
 }
 
-#content * .compact tbody td input {
+#content *.compact tbody td input {
     margin-top: 2ex;
 }
 
-#content * .compact table thead td {
+#content *.compact table thead td {
     font-weight: bold;
     border-bottom: 1px solid rgb(220, 220, 220);
 }
 
-#content * .compact table tbody td ul {
+#content *.compact table tbody td ul {
     padding: 0;
     margin: 0.5ex 0.5ex 0.5ex 1.5em;
 }
@@ -1790,3 +1789,4 @@ background-color: rgb(210, 210, 210);
 .workshop-description {
     
 }
+
