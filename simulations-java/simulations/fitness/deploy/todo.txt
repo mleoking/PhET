@@ -1,19 +1,24 @@
 #######################################################################################
 ##############                    To Do                                  ##############
 #######################################################################################
-Time readouts should be Years:Months, not years in decimal
-
-Performance: consider profiling or changing clock rate
-
-Need a way to get rid of or clean up icons
 
 Draggable icons should disappear on simulation reset or when removed from edit dialog
 
-Some exercise and food items are missing icons
+Performance: consider profiling or changing clock rate
 
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
+
+Some exercise and food items are missing icons
+    >>Should this taks be reassigned?
+
+Time readouts should be Years:Months, not years in decimal
+    >>What's the best input user interface for this?
+
+Need a way to get rid of or clean up icons
+    >>Dragging back to the toolbox removes the item
+    >>Could add a trash can as well
 
 Foods should have correct relative sizes?
 
