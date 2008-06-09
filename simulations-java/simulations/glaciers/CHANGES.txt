@@ -89,7 +89,7 @@ CLEANUP:
 
 
 DONE:
-******* 0.00.30 (?)
+******* 0.00.30 (22142)
 6/9/08 - fix debris that was getting stuck on below the valley floor
 6/9/08 - more changes to climate and glacier model from Archie
 6/9/08 - fix infinite loop in IceNode that occurred when glacier length was less than DX
