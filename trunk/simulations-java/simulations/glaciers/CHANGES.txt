@@ -90,6 +90,7 @@ CLEANUP:
 
 
 DONE:
+6/9/08 - more changes to climate and glacier model from Archie
 6/9/08 - fix infinite loop in IceNode that occurred when glacier length was less than DX
 ******* 0.00.29 (22088)
 6/6/08 - ensure that ice thickness algorithm is only used between headwall and terminus, otherwise it hangs the sim

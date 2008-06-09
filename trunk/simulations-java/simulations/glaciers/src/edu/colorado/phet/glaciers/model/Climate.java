@@ -17,19 +17,19 @@ public class Climate {
     //----------------------------------------------------------------------------
     
     // temperature
-    private static final double MODERN_TEMPERATURE = 20; // temperature at sea level in modern times (degrees C)
     private static final double TEMP_LAPSE_RATE = 6.5E-3; // C per meter
     
     // ablation
-    private static final double MELT_Z0 = 1300; // min elevation used to scale ablation (meters)
-    private static final double MELT_Z1 = 5200; // max elevation used to scale ablation (meters)
     private static final double MELT_V_ELEV = 30; // ablation rate per meter of elevation
-    private static final double MELT_V_TEMP = 200;  // ablation curve shift per degree Celcius
-    
+    private static final double MELT_Z0 = 1100; // min elevation used to scale ablation (meters)
+    private static final double MELT_Z1 = 4300; // max elevation used to scale ablation (meters)
+    private static final double MELT_V_TEMP = 80;  // ablation curve shift per degree Celcius
+    private static final double MODERN_TEMP = 21; // temperature at sea level in modern times (degrees C)
+
     // accumulation
     private static final double SNOW_MAX = 2.0; // maximum possible snowfall (meters)
-    private static final double SNOW_MIN_ELEV = 2500; // min elevation used to scale accumulation (meters)
-    private static final double SNOW_MAX_ELEV = 5000; // max elevation used to scale accumulation (meters)
+    private static final double SNOW_MIN_ELEV = 1800; // min elevation used to scale accumulation (meters)
+    private static final double SNOW_MAX_ELEV = 4600; // max elevation used to scale accumulation (meters)
     private static final double SNOW_TRANSITION_WIDTH = 300; // how wide the transition of the snowfall curve is (meters)
     
     // ELA
@@ -141,13 +141,13 @@ public class Climate {
         assert ( elevation >= 0 );
         // base ablation
         double ablation = 0;
-        final double tempDiff = _temperature - MODERN_TEMPERATURE;
+        final double tempDiff = _temperature - MODERN_TEMP;
         final double minAblationElevation = ( tempDiff * MELT_V_TEMP ) + MELT_Z1;
         if ( elevation <= minAblationElevation ) {
             ablation = MELT_V_ELEV * ( 1. - Math.sin( ( elevation - MELT_Z0 - ( tempDiff * MELT_V_TEMP ) ) / ( ( MELT_Z1 - MELT_Z0 ) * 2 / Math.PI ) ) );
         }
         // offset
-        final double offset = 1.5 * ( ( Math.atan( tempDiff / 2.5 ) / 3. ) + 0.5 );
+        final double offset = ( 5.5E-5 * Math.pow( tempDiff + 9, 5 ) ) + ( 0.01 * ( tempDiff - 9 ) ) + 0.3;
         ablation = ablation + offset;
         assert ( ablation >= 0 );
         return ablation;
@@ -161,8 +161,9 @@ public class Climate {
      */
     public double getAccumulation( double elevation ) {
         assert( elevation >= 0 );
-        final double p0 = SNOW_MAX_ELEV - ( ( SNOW_MAX_ELEV - SNOW_MIN_ELEV ) * ( _snowfall ) );
-        final double pMax = SNOW_MAX * _snowfall;
+        final double s = _snowfall / 1.5;
+        final double p0 = SNOW_MAX_ELEV - ( ( SNOW_MAX_ELEV - SNOW_MIN_ELEV ) * s );
+        final double pMax = SNOW_MAX * s;
         final double tmp = .5 + ( 1. / Math.PI ) * Math.atan( ( elevation - p0 ) / SNOW_TRANSITION_WIDTH );
         final double accumulation = pMax * tmp;
         assert( accumulation >= 0 );

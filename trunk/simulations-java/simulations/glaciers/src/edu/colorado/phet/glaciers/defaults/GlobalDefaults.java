@@ -31,5 +31,5 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     
     // Climate
     public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 13, 20, 19 );  // temperature at sea level (degrees C)
-    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 1, 0.8 ); // average snow accumulation (meters/year)
+    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 1.5, 0.95 ); // average snow accumulation (meters/year)
 }
