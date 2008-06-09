@@ -66,10 +66,39 @@ public class CalorieNode extends PNode {
         calorieDragStrip = new CalorieDragStrip( available );
         calorieDragStrip.setOffset( 0, 2 );
         calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
-            public void notifyDragged( CalorieDragStrip.DragNode node ) {
+            public void nodeDragged( CalorieDragStrip.DragNode node ) {
                 setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) );
             }
+
+            public void nodeDropped( final CalorieDragStrip.DragNode node ) {
+                if ( node.getPNode().getFullBounds().intersects( calorieDragStrip.getSourceBounds() ) ) {
+                    final Timer timer = new Timer( 30, null );
+                    timer.addActionListener( new ActionListener() {
+                        int count = 0;
+
+                        public void actionPerformed( ActionEvent e ) {
+                            node.getPNode().scaleAboutPoint( 0.82, node.getPNode().getFullBounds().getWidth() / 2, node.getPNode().getFullBounds().getHeight() / 2 );
+                            count++;
+                            if ( count >= 20 ) {
+                                node.getPNode().getParent().removeChild( node.getPNode() );//todo: clean up this line, looks awkward
+                                timer.stop();
+                            }
+                        }
+                    } );
+                    timer.start();
+                }
+            }
         } );
+
+//        final PhetPPath child = new PhetPPath( calorieDragStrip.getSourceBounds(), Color.green );
+//        calorieDragStrip.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                child.setPathTo( calorieDragStrip.getSourceBounds() );
+//            }
+//        } );
+//        addChild( child );
+
+
         for ( int i = 0; i < calorieSet.getItemCount(); i++ ) {
             final PNode node = calorieDragStrip.addItemNode( calorieSet.getItem( i ) );
             plateImage.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {

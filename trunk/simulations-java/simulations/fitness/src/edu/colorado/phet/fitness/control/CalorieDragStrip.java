@@ -21,6 +21,7 @@ import edu.colorado.phet.fitness.FitnessStrings;
 import edu.colorado.phet.fitness.model.CalorieSet;
 import edu.colorado.phet.fitness.model.Human;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -227,6 +228,10 @@ public class CalorieDragStrip extends PNode {
         return node.getPNode();
     }
 
+    public Rectangle2D getSourceBounds() {
+        return stripPanel.getFullBounds();
+    }
+
     private class DefaultDragNode extends PNode implements DragNode {
         private CaloricItem item;
         private PNode node;
@@ -268,7 +273,14 @@ public class CalorieDragStrip extends PNode {
 
     private DefaultDragNode createNode( final CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
-            DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
+            final DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), HEIGHT ) ), item );
+//            dragNode.addInputEventListener( new PBasicInputEventHandler() {
+//                public void mouseReleased( PInputEvent event ) {
+//                    if ( dragNode.getFullBounds().intersects( getFullBounds() ) ) {
+//                        dragNode.setVisible( false );
+//                    }
+//                }
+//            } );
             ToolTipNode toolTipNode = new ToolTipNode( "<html>" + item.getName() + " (" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + FitnessResources.getString( "units.cal" ) + ")</html>", dragNode );
             toolTipNode.setFont( new PhetFont( 16, true ) );
 
@@ -279,8 +291,7 @@ public class CalorieDragStrip extends PNode {
             return dragNode;
         }
         else {
-            final Color color = new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) );
-            return new DefaultDragNode( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), color ), item );
+            return new DefaultDragNode( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), new Color( random.nextInt( 255 ), random.nextInt( 255 ), random.nextInt( 255 ) ) ), item );
         }
     }
 
@@ -319,14 +330,14 @@ public class CalorieDragStrip extends PNode {
     public static interface Listener {
         void nodeDropped( DragNode node );
 
-        void notifyDragged( DragNode createdNode );
+        void nodeDragged( DragNode createdNode );
     }
 
     public static class Adapter implements Listener {
         public void nodeDropped( DragNode node ) {
         }
 
-        public void notifyDragged( DragNode createdNode ) {
+        public void nodeDragged( DragNode createdNode ) {
         }
     }
 
@@ -342,7 +353,7 @@ public class CalorieDragStrip extends PNode {
 
     public void notifyDragged( DragNode createdNode ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).notifyDragged( createdNode );
+            ( (Listener) listeners.get( i ) ).nodeDragged( createdNode );
         }
     }
 }

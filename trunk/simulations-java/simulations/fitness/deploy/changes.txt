@@ -1,4 +1,7 @@
-New in 0.00.41 
+New in 0.00.42
+Dragging an item back to the toolbox removes the item
+
+New in 0.00.41
 Fixed image cropping and transparency
 Fixed: BMI readout is obscured when overlapping the human outline
 Added food pyramid, usable from drag and drop interface
