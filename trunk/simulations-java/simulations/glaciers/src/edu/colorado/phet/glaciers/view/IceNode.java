@@ -24,6 +24,7 @@ public class IceNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final double DX = 80; // x distance between sample points (meters)
     private static final Color CROSS_SECTION_COLOR = new Color( 207, 255, 255 ); // ice blue
     private static final Color SURFACE_COLOR = Color.WHITE;
     private static final Color SURFACE_BELOW_ELA_COLOR = new Color( 230, 230, 230 );
@@ -98,10 +99,10 @@ public class IceNode extends PComposite {
         _surfacePath.reset();
         _surfaceBelowELAPath.reset();
 
-        if (  _glacier.getLength() > 0 ) {
+        final double glacierLength = _glacier.getLength();
+        if (  glacierLength > 0 ) {
 
             // constants
-            final double dx = Glacier.getDx();
             final double xHeadwall = _glacier.getHeadwallX();
             final double xTerminus = _glacier.getTerminusX();
             final Point2D surfaceAtELA = _glacier.getSurfaceAtELAReference();
@@ -112,7 +113,7 @@ public class IceNode extends PComposite {
             
             // move downvalley, the ice-air boundary is shared by all paths
             boolean initialzedSurfaceBelowELA = false;
-            for ( double x = xHeadwall; x <= xTerminus; x += dx ) {
+            for ( double x = xHeadwall; x <= xTerminus; x += DX ) {
 
                 elevation = _glacier.getSurfaceElevation( x );
                 _pModel.setLocation( x, elevation );
@@ -141,16 +142,18 @@ public class IceNode extends PComposite {
                 }
                 
                 // Ensure that our last sample is exactly at the terminus, 
-                // in case the glacier's length isn't an integer multiple of dx.
-                double diff = xTerminus - x;
-                if ( diff > 0 && diff < dx ) {
-                    x = xTerminus - dx;
+                // in case the glacier's length isn't an integer multiple of DX.
+                if ( glacierLength > DX ) {
+                    double diff = xTerminus - x;
+                    if ( diff > 0 && diff < DX ) {
+                        x = xTerminus - DX;
+                    }
                 }
             }
 
             // moving upvalley...
             boolean finishedSurfaceBelowELA = false;
-            for ( double x = xTerminus; x >= xHeadwall; x -= dx ) {
+            for ( double x = xTerminus; x >= xHeadwall; x -= DX ) {
 
                 // ice-rock boundary
                 elevation = _glacier.getValley().getElevation( x );
@@ -178,9 +181,11 @@ public class IceNode extends PComposite {
                 
                 // Ensure that our last sample is exactly at the headwall, 
                 // in case the glacier's length isn't an integer multiple of dx.
-                double diff = x - xHeadwall;
-                if ( diff > 0 && diff < dx ) {
-                    x = xHeadwall + dx;
+                if ( glacierLength > DX ) {
+                    double diff = x - xHeadwall;
+                    if ( diff > 0 && diff < DX ) {
+                        x = xHeadwall + DX;
+                    }
                 }
             }
 
