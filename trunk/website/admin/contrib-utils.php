@@ -485,6 +485,82 @@ EOT;
     }
 
     /**
+     * Print a small admin panel that has options to control a contribution
+     *
+     * @param $contribution_id int contribution number to operate on 
+     * @param $prefix string relative directory pointing to the web root
+     */
+    function print_contribution_admin_control_panel($contribution_id, $prefix) {
+        // Determine if this is displayed on a "view" or "edit" page
+        $view_panel = strpos($_SERVER["PHP_SELF"], "view-");
+        if (is_bool($view_panel) && !$view_panel) {
+            $view_panel = true;
+        }
+        else {
+            $view_panel = false;
+        }
+
+        // Get contribution info
+        $contribution = contribution_get_contribution_by_id($contribution_id);
+
+        // Build a refernce back to this page
+        $refer_here = "referrer={$prefix}teacher_ideas/edit-contribution.php?contribution_id={$contribution_id}";
+
+        // Build user options here
+        $options = array();
+
+        // Give the switch to view/edit option
+        if ($view_panel) {
+            $options[] = "<a href=\"{$prefix}teacher_ideas/view-contribution.php?contribution_id={$contribution_id}&amp;{$refer_here}\">View Contribution</a>";
+        }
+        else {
+            $options[] = "<a href=\"{$prefix}teacher_ideas/edit-contribution.php?contribution_id={$contribution_id}&amp;{$refer_here}\">Edit Contribution</a>";
+        }
+
+        // Get status and options based on approved status
+        $approved = $contribution["contribution_approved"];
+        $status_html = "Status: ";
+        if ($contribution["contribution_approved"]) {
+            $status_html .= "<span class=\"approved\">approved</span>";
+            $options[] = "<a href=\"{$prefix}teacher_ideas/unapprove-contribution.php?contribution_id={$contribution_id}&amp;{$refer_here}\">Unapprove</a>";
+        }
+        else {
+            $status_html .= "<span class=\"unapproved\">unapproved</span>";
+            $options[] .= "<a href=\"{$prefix}teacher_ideas/approve-contribution.php?contribution_id={$contribution_id}&amp;{$refer_here}\">Approve</a>";
+        }
+
+        // Option to delete the entry
+        $options[] .= "<a href=\"{$prefix}teacher_ideas/delete-contribution.php?contribution_id={$contribution_id}&amp;referrer={$prefix}teacher_ideas/manage-contributions.php\" onclick=\"return confirm('Are you sure you want to delete this contribution?');\">Delete</a>";
+
+        // "Render" the options
+        $options_html = "<li>".join("</li><li>", $options)."</li>";
+
+        // Print the panel
+        print <<<EOT
+        <div id="contribution_control_panel">
+            <fieldset>
+                <legend>Admin Quick Control Panel</legend>
+                <div id="contribution_status">
+                    <p>
+                    {$status_html}
+                    </p>
+                </div>
+                <div id="contribution_options">
+                    <p>
+                        <strong>Options:</strong>
+                        </p>
+                        <ul>
+                            {$options_html}
+                        </ul>
+                </div>
+                    <div class="clear"></div>
+            </fieldset>
+        </div>
+
+EOT;
+    }
+
+    /**
      * Looks through all the $REQUST key => value pairs and does one of 3 things:
      * 1. if the key is a multiselect control, make an association with the proper table (I assume this means levels etc)
      * 2. if the key is a "deletable_item", then add it to the files to keep list which will be returned (naming convention is confusing)

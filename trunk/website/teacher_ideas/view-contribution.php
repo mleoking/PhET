@@ -117,6 +117,10 @@ EOT;
             $download_zip_html = "";
         }
 
+        if ($this->authenticate_get_level() >= AUTHLEVEL_TEAM) {
+            print_contribution_admin_control_panel($contribution_id, $this->prefix);
+        }
+
         print <<<EOT
         <h2>$contribution_title</h2>
 

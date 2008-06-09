@@ -1790,3 +1790,34 @@ background-color: rgb(210, 210, 210);
     
 }
 
+/* Contribution admin control panel */
+#contribution_control_panel fieldset {
+    border: 2px solid red;
+    color: red;
+    font-weight: bold;
+}
+
+#contribution_control_panel fieldset #contribution_status {
+    float: left;
+    background-color: #eeeeee;
+}
+
+#contribution_control_panel fieldset #contribution_status .approved {
+    color: #44bb44;
+}
+
+#contribution_control_panel fieldset #contribution_status .unapproved {
+    color: #bb4444;
+}
+
+#contribution_control_panel fieldset #contribution_options {
+    float: left;
+}
+
+#contribution_control_panel fieldset #contribution_options p {
+    margin-bottom: 0px;
+}
+
+#contribution_control_panel fieldset #contribution_options ul {
+    margin-top: 0px;
+}

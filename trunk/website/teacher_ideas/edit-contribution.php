@@ -146,10 +146,16 @@ EOT;
                         $this->print_success();
                     }
                     else {
+                        if ($this->authenticate_get_level() >= AUTHLEVEL_TEAM) {
+                            print_contribution_admin_control_panel($contribution_id, $this->prefix);
+                        }
                         contribution_print_full_edit_form($contribution_id, "{$this->prefix}teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
                     }
                 }
                 else {
+                    if ($this->authenticate_get_level() >= AUTHLEVEL_TEAM) {
+                        print_contribution_admin_control_panel($contribution_id, $this->prefix);
+                    }
                     contribution_print_full_edit_form($contribution_id, "{$this->prefix}teacher_ideas/edit-contribution.php", $this->referrer, "Update", $this);
                 }
             }
