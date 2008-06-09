@@ -2,13 +2,13 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Reset all should clean up extra draggable icons
-
-Performance: consider profiling or changing clock rate
 
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
+
+Performance: consider profiling or changing clock rate
+    >>How severe is this problem?
 
 Some exercise and food items are missing icons
     >>Should this taks be reassigned?

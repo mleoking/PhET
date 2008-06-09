@@ -1,6 +1,7 @@
 New in 0.00.42
 Dragging an item back to the toolbox removes the item
 Fixed: Draggable icons should disappear on simulation reset or when removed from edit dialog
+Fixed: Reset all should clean up extra draggable icons
 
 New in 0.00.41
 Fixed image cropping and transparency

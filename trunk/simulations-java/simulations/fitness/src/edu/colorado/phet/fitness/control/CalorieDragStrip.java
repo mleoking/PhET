@@ -220,8 +220,20 @@ public class CalorieDragStrip extends PNode {
         }
     }
 
-    public void itemAdded( CaloricItem item ) {
+    public DefaultDragNode getNode( CaloricItem item ) {
         //should only handle events from sources other than this
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            PNode child = getChild( i );
+            if ( child instanceof DefaultDragNode ) {
+                DefaultDragNode dragNode = (DefaultDragNode) child;
+                if ( dragNode.getItem() == item ) {
+//                    removeChild( child );
+//                    i--;
+                    return (DefaultDragNode) child;
+                }
+            }
+        }
+        return null;
     }
 
     public PNode addItemNode( CaloricItem item ) {
@@ -233,6 +245,19 @@ public class CalorieDragStrip extends PNode {
 
     public Rectangle2D getSourceBounds() {
         return stripPanel.getFullBounds();
+    }
+
+    public void resetAll() {
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            PNode child = getChild( i );
+            if ( child instanceof DefaultDragNode ) {
+                DefaultDragNode dragNode = (DefaultDragNode) child;
+                if ( !dragNode.isDragging() ) {
+                    removeChild( child );
+                    i--;
+                }
+            }
+        }
     }
 
     private class DefaultDragNode extends PNode implements DragNode {
