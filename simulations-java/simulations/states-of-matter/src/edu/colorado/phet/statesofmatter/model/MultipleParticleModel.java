@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -39,15 +40,14 @@ public class MultipleParticleModel {
     // Eventually some or all of them will be moved.
     public static final int NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL = 6;
     public static final int NUMBER_OF_PARTICLES = 
-        2 + (2 * NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL) * (NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL - 1);
+        1 + (2 * NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL) * (NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL - 1);
     public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
-    public static final double TIME_STEP = Math.pow( 0.5, 6.0 );  // 1/64
+    public static final double TIME_STEP = Math.pow( 0.5, 7.0 );
     public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
-    private static final double PARTICLE_INTERACTION_DISTANCE_THRESHOLD = 2.5;
-    private static final double TEMPERATURE = 0.20;
-    private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.07;
+    private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
+    private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.0;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -67,7 +67,11 @@ public class MultipleParticleModel {
     private Vector2D [] m_particleForces;
     double m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / OXYGEN_MOLECULE_DIAMETER;
     double m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / OXYGEN_MOLECULE_DIAMETER;
-
+    double m_potentialEnergy;
+    Random m_rand = new Random();
+    double m_temperature;
+    double m_gravitationalAcceleration;
+    
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
@@ -122,6 +126,23 @@ public class MultipleParticleModel {
     public synchronized double getTotalEnergy() {
         return getKineticEnergy() + getPotentialEnergy();
     }
+    
+    public void setTemperature(double newTemperature){
+        m_temperature = newTemperature;
+    }
+
+    public double getTemperature(){
+        return m_temperature;
+    }
+    
+    public double getGravitationalAcceleration() {
+        return m_gravitationalAcceleration;
+    }
+
+    
+    public void setGravitationalAcceleration( double acceleration ) {
+        m_gravitationalAcceleration = acceleration;
+    }
 
     //----------------------------------------------------------------------------
     // Other Public Methods
@@ -157,6 +178,10 @@ public class MultipleParticleModel {
         }
         */
         
+        // Initialize the system parameters.
+        m_temperature = INITIAL_TEMPERATURE;
+        m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
+        
         // TODO: JPB TBD - First attempt to port Paul Beale's IDL code.
         m_particlePositions = new Point2D [NUMBER_OF_PARTICLES];
         m_particleVelocities = new Vector2D [NUMBER_OF_PARTICLES];
@@ -176,8 +201,14 @@ public class MultipleParticleModel {
         }
         insertCrystal( NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL, NUMBER_OF_PARTICLES, m_particlePositions,
                 m_normalizedContainerWidth, m_normalizedContainerHeight );
-        syncParticlePositions();
         
+        // Initialize particle velocities.
+        for (int i = 0; i < NUMBER_OF_PARTICLES; i++){
+            double temperatureSqrt = Math.sqrt( m_temperature );
+            m_particleVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian() , 
+                    temperatureSqrt * m_rand.nextGaussian() );
+        }
+        syncParticlePositions();
         
         /*
         ParticleCreationStrategy strategy = 
@@ -232,8 +263,8 @@ public class MultipleParticleModel {
         // Execute the Verlet algorithm.
         for (int i = 0; i < 8; i++ ){
             verlet( NUMBER_OF_PARTICLES, m_particlePositions, m_particleVelocities, m_normalizedContainerWidth, 
-                    m_normalizedContainerHeight, INITIAL_GRAVITATIONAL_ACCEL, m_particleForces, TIME_STEP, 
-                    TEMPERATURE );
+                    m_normalizedContainerHeight, m_gravitationalAcceleration, m_particleForces, TIME_STEP, 
+                    m_temperature );
         }
         syncParticlePositions();
         
@@ -372,9 +403,10 @@ public class MultipleParticleModel {
     private void verlet(int numParticles, Point2D [] particlePositions, Vector2D [] particleVelocities,
             double containerWidth, double containerHeight, double gravitationalForce, Vector2D [] particleForces, 
             double timeStep, double temperature){
+        
+//        System.out.println("=========== Entering Verlet ========================");
          
         double kineticEnergy = 0;
-        double potentialEnergy = 0;
         Vector2D [] nextParticleForces = new Vector2D [numParticles];
         
         // TODO: JPB TBD - For the sake of efficiency, this allocation should
@@ -395,7 +427,11 @@ public class MultipleParticleModel {
             double yPos = particlePositions[i].getY() + (timeStep * particleVelocities[i].getY()) + 
                     (timeStepSqrHalf * particleForces[i].getY());
             particlePositions[i].setLocation( xPos, yPos );
+//            System.out.println("Particle: " + i + ", position = " + particlePositions[i]);
         }
+        
+        // Zero out potential energy.
+        m_potentialEnergy = 0;
         
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
@@ -408,6 +444,8 @@ public class MultipleParticleModel {
             nextParticleForces[i].setY( nextParticleForces[i].getY() - gravitationalForce );
         }
         
+//        System.out.println("Total potential energy from walls = " + m_potentialEnergy);
+        
         // Calculate the forces created through interactions with other
         // particles.
         Vector2D force = new Vector2D.Double();
@@ -415,19 +453,23 @@ public class MultipleParticleModel {
             for (int j = i + 1; j < numParticles; j++){
                 double dx = particlePositions[i].getX() - particlePositions[j].getX();
                 double dy = particlePositions[i].getY() - particlePositions[j].getY();
-                double distance = particlePositions[i].distance( particlePositions[j] );
-                if (distance < PARTICLE_INTERACTION_DISTANCE_THRESHOLD){
+                double distanceSqrd = (dx * dx) + (dy * dy);
+                
+                if (distanceSqrd < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
                     // This pair of particles is close enough to one another
                     // that we consider them in the calculation.
-                    double r2inv = 1 / (distance * distance);
+                    double r2inv = 1 / distanceSqrd;
                     double r6inv = r2inv * r2inv * r2inv;
-                    double forceScaler = -48 * r2inv * r6inv * (r6inv - 0.5); // TODO: Double check this with Paul.
+                    double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5); // TODO: Double check this with Paul.
                                                                               // Seems to lead to 1/r^14 and
                                                                               // 1/r^8 terms.
                     force.setX( dx * forceScaler );
                     force.setY( dy * forceScaler );
-                    nextParticleForces[i].subtract( force );
-                    nextParticleForces[j].add( force );
+                    nextParticleForces[i].add( force );
+                    nextParticleForces[j].subtract( force );
+//                    System.out.println("Particle: " + i + ", nextParticleForces = " + nextParticleForces[i]);
+//                    System.out.println("Particle: " + j + ", nextParticleForces = " + nextParticleForces[j]);
+                    m_potentialEnergy += 4*r6inv*(r6inv-1) + 0.016316891136;
                 }
             }
         }
@@ -443,9 +485,19 @@ public class MultipleParticleModel {
             particleVelocities[i].add( velocityIncrement );
             kineticEnergy += ((particleVelocities[i].getX() * particleVelocities[i].getX()) + 
                     (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
+//            System.out.println("Particle: " + i + ", velocity = " + particleVelocities[i]);
         }
         
         // Isokinetic thermostat
+//        System.out.println("Total potential energy after inter-particle calcs = " + m_potentialEnergy);
+//        System.out.println("Kinetic energy per particle before thermostat = " + kineticEnergy/numParticles);
+        System.out.println("Total energy (ke + pe)= " + (kineticEnergy + m_potentialEnergy));
+        System.out.println("Total energy per particle = " + ((kineticEnergy + m_potentialEnergy)/numParticles));
+//        System.out.println("==>ke + pe/2 = " + (kineticEnergy + m_potentialEnergy/2));
+//        System.out.println("==>ke + pe*2 = " + (kineticEnergy + m_potentialEnergy*2));
+//        System.out.println("==>ke/2 + pe = " + (kineticEnergy/2 + m_potentialEnergy));
+//        System.out.println("==>ke*2 + pe = " + (kineticEnergy*2 + m_potentialEnergy));
+        
         double temperatureScaleFactor;
         if (temperature == 0){
             temperatureScaleFactor = 0;
@@ -460,6 +512,13 @@ public class MultipleParticleModel {
             kineticEnergy += ((particleVelocities[i].getX() * particleVelocities[i].getX()) + 
                     (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
         }
+        System.out.println("Kinetic energy per particle after thermostat = " + kineticEnergy/numParticles);
+        
+        // Replace the new forces with the old ones.
+        for (int i = 0; i < numParticles; i++){
+            particleForces[i] = nextParticleForces[i];
+        }
+//        System.out.println("~~~~~~~~~~~~~ Exiting Verlet ~~~~~~~~~~~~~~~~~~~~~~~~");
     }
     
     /**
@@ -486,21 +545,27 @@ public class MultipleParticleModel {
         if (position.getX() < WALL_DISTANCE_THRESHOLD){
             // Close enough to the left wall to feel the force.
             resultantForce.setX( (48/(Math.pow(position.getX(), 13))) - (24/(Math.pow( position.getX(), 7))) );
+            m_potentialEnergy += 4/(Math.pow(position.getX(), 12)) - 4/(Math.pow( position.getX(), 6)) + 1;
         }
         else if (containerWidth - position.getX() < WALL_DISTANCE_THRESHOLD){
             // Close enough to the right wall to feel the force.
             resultantForce.setX( -(48/(Math.pow(containerWidth - position.getX(), 13))) + 
                     (24/(Math.pow( containerWidth - position.getX(), 7))) );
+            m_potentialEnergy += 4/(Math.pow(containerWidth - position.getX(), 12)) - 
+                    4/(Math.pow( containerWidth - position.getX(), 6)) + 1;
         }
         
         // Calculate the force in the Y direction.
         if (position.getY() < WALL_DISTANCE_THRESHOLD){
             // Close enough to the bottom wall to feel the force.
             resultantForce.setY( 48/(Math.pow(position.getY(), 13)) - (24/(Math.pow( position.getY(), 7))) );
+            m_potentialEnergy += 4/(Math.pow(position.getY(), 12)) - 4/(Math.pow( position.getY(), 6)) + 1;
         }
         else if (containerHeight - position.getY() < WALL_DISTANCE_THRESHOLD){
             resultantForce.setY( -48/(Math.pow(containerHeight - position.getY(), 13)) +
                     (24/(Math.pow( containerHeight - position.getY(), 7))) );
+            m_potentialEnergy += 4/(Math.pow(containerHeight - position.getY(), 12)) - 
+                    4/(Math.pow( containerHeight - position.getY(), 6)) + 1;
         }
     }
     
