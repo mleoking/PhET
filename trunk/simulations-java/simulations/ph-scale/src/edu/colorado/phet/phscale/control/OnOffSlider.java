@@ -1,5 +1,9 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.phscale.control;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -17,6 +21,10 @@ public class OnOffSlider extends JSlider {
     private final ArrayList _listeners;
     
     public OnOffSlider() {
+        this( false /* on */ );
+    }
+    
+    public OnOffSlider( boolean on ) {
         super();
         _listeners = new ArrayList();
         addChangeListener( new ChangeListener() {
@@ -24,6 +32,12 @@ public class OnOffSlider extends JSlider {
                 handleSliderChange();
             }
         } );
+        addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                setOn( false );
+            }
+        } );
+        setValue( false );
     }
     
     private void handleSliderChange() {
@@ -41,9 +55,13 @@ public class OnOffSlider extends JSlider {
     public void setOn( boolean on ) {
         if ( on != _on ) {
             _on = on;
-            setValue( on ? ON_VALUE : OFF_VALUE );
+            setValue( on );
             notifyStateChanged();
         }
+    }
+    
+    private void setValue( boolean on ) {
+        setValue( on ? ON_VALUE : OFF_VALUE );
     }
     
     public interface OnOffSliderListener {
