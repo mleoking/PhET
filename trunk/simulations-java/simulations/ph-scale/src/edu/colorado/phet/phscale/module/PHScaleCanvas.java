@@ -8,8 +8,8 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.control.BeakerViewControlPanel;
-import edu.colorado.phet.phscale.control.FaucetControlNode;
 import edu.colorado.phet.phscale.control.LiquidControlNode;
+import edu.colorado.phet.phscale.control.WaterControlNode;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.view.ProbeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -70,6 +70,10 @@ public class PHScaleCanvas extends PhetPCanvas {
         LiquidControlNode liquidControlNode = new LiquidControlNode( this );
         liquidControlNode.setOffset( 200, 200 );//XXX
         _rootNode.addChild( liquidControlNode );
+        
+        WaterControlNode waterControlNode = new WaterControlNode();
+        waterControlNode.setOffset( 400, 200 );//XXX
+        _rootNode.addChild( waterControlNode );
     }
     
 
