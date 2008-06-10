@@ -42,7 +42,7 @@ CLEANUP:
 
 DONE:
 6/9/08 - FaucetControlNode
-6/9/08 - OnOffSlider
+6/9/08 - MomentarySlider
 6/9/08 - BeakerViewControlPanel
 6/5/08 - create ProbeNode for pH probe
 6/5/08 - add all strings to localization file & PHScaleStrings

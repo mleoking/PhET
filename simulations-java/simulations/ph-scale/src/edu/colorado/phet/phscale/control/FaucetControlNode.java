@@ -11,7 +11,7 @@ import javax.swing.SwingConstants;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.phscale.PHScaleImages;
-import edu.colorado.phet.phscale.control.OnOffSlider.OnOffSliderListener;
+import edu.colorado.phet.phscale.control.MomentarySlider.OnOffSliderListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -24,7 +24,7 @@ public class FaucetControlNode extends PNode {
     
     private static final int MARGIN = 15;
     
-    private final OnOffSlider _slider;
+    private final MomentarySlider _slider;
     private final ArrayList _listeners;
 
     public FaucetControlNode( int orientation ) {
@@ -42,7 +42,7 @@ public class FaucetControlNode extends PNode {
         PImage faucetImage = new PImage( image );
         faucetImage.scale( 0.15 );
         
-        _slider = new OnOffSlider();
+        _slider = new MomentarySlider();
         final int sliderWidth = (int) ( faucetImage.getFullBoundsReference().getWidth() - ( 2 * MARGIN ) );
         final int sliderHeight = (int) ( _slider.getPreferredSize().getHeight() );
         _slider.setPreferredSize( new Dimension( sliderWidth, sliderHeight ) );

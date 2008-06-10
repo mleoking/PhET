@@ -11,8 +11,14 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
-public class OnOffSlider extends JSlider {
+/**
+ * MomentarySlider is the slider equivalent of a momentary switch.
+ * It has 2 positions, on and off.
+ * When released, it returns to the off position.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class MomentarySlider extends JSlider {
     
     private static final int OFF_VALUE = 0;
     private static final int ON_VALUE = 100;
@@ -20,11 +26,11 @@ public class OnOffSlider extends JSlider {
     private boolean _on;
     private final ArrayList _listeners;
     
-    public OnOffSlider() {
+    public MomentarySlider() {
         this( false /* on */ );
     }
     
-    public OnOffSlider( boolean on ) {
+    public MomentarySlider( boolean on ) {
         super();
         _listeners = new ArrayList();
         addChangeListener( new ChangeListener() {
