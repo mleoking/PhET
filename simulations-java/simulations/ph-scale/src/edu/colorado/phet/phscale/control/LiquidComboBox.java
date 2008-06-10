@@ -7,14 +7,14 @@ import java.awt.Font;
 
 import javax.swing.BorderFactory;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.model.LiquidType;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 
 
 public class LiquidComboBox extends PComboBox {
     
-    public static final Font FONT = new PhetFont( 18 );
+    public static final Font FONT = PHScaleConstants.CONTROL_FONT;
     
     public LiquidComboBox() {
         super();
