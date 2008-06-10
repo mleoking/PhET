@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.control.BeakerViewControlPanel;
 import edu.colorado.phet.phscale.control.FaucetControlNode;
+import edu.colorado.phet.phscale.control.LiquidControlNode;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.view.ProbeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -66,9 +67,9 @@ public class PHScaleCanvas extends PhetPCanvas {
         _beakerViewControlPanelWrapper = new PSwing( _beakerViewControlPanel );
         _rootNode.addChild( _beakerViewControlPanelWrapper );
         
-        FaucetControlNode faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_RIGHT );
-        faucetControlNode.setOffset( 200, 200 );//XXX
-        _rootNode.addChild( faucetControlNode );
+        LiquidControlNode liquidControlNode = new LiquidControlNode( this );
+        liquidControlNode.setOffset( 200, 200 );//XXX
+        _rootNode.addChild( liquidControlNode );
     }
     
 

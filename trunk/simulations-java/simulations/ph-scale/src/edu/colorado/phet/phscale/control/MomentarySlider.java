@@ -50,7 +50,7 @@ public class MomentarySlider extends JSlider {
         final boolean on = ( getValue() != OFF_VALUE );
         if ( on != _on ) {
             _on = on;
-            notifyStateChanged();
+            notifyOnOffChanged();
         }
     }
     
@@ -62,7 +62,7 @@ public class MomentarySlider extends JSlider {
         if ( on != _on ) {
             _on = on;
             setValue( on );
-            notifyStateChanged();
+            notifyOnOffChanged();
         }
     }
     
@@ -71,7 +71,7 @@ public class MomentarySlider extends JSlider {
     }
     
     public interface OnOffSliderListener {
-        public void stateChanged( boolean on );
+        public void onOffChanged( boolean on );
     }
     
     public void addOnOffSliderListener( OnOffSliderListener listener ) {
@@ -83,11 +83,11 @@ public class MomentarySlider extends JSlider {
         _listeners.remove( listener );
     }
     
-    private void notifyStateChanged() {
+    private void notifyOnOffChanged() {
         final boolean on = isOn();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (OnOffSliderListener) i.next() ).stateChanged( on );
+            ( (OnOffSliderListener) i.next() ).onOffChanged( on );
         }
     }
 
