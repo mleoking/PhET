@@ -7,9 +7,12 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.phscale.PHScaleConstants;
+import edu.colorado.phet.phscale.control.BeakerViewControlPanel;
+import edu.colorado.phet.phscale.control.FaucetControlNode;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.view.ProbeNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * PHScaleCanvas is the canvas for PHScaleModule.
@@ -33,6 +36,11 @@ public class PHScaleCanvas extends PhetPCanvas {
     
     // View 
     private PNode _rootNode;
+    private ProbeNode _probeNode;
+    
+    // Control
+    private BeakerViewControlPanel _beakerViewControlPanel ;
+    private PSwing _beakerViewControlPanelWrapper;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,9 +58,16 @@ public class PHScaleCanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
         
-        ProbeNode probeNode = new ProbeNode( 500 );
-        probeNode.setOffset( 100, 100 );//XXX
-        _rootNode.addChild( probeNode );
+        _probeNode = new ProbeNode( 500 );
+        _rootNode.addChild( _probeNode );
+        
+        _beakerViewControlPanel = new BeakerViewControlPanel();
+        _beakerViewControlPanelWrapper = new PSwing( _beakerViewControlPanel );
+        _rootNode.addChild( _beakerViewControlPanelWrapper );
+        
+        FaucetControlNode faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_RIGHT );
+        faucetControlNode.setOffset( 200, 200 );//XXX
+        _rootNode.addChild( faucetControlNode );
     }
     
 
@@ -81,5 +96,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         }
         
         //XXX lay out nodes
+        _probeNode.setOffset( 100, 100 );//XXX
+        _beakerViewControlPanelWrapper.setOffset( 200, 400 );
     }
 }
