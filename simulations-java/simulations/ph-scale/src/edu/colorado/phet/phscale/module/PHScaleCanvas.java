@@ -13,6 +13,7 @@ import edu.colorado.phet.phscale.control.LiquidControlNode;
 import edu.colorado.phet.phscale.control.WaterControlNode;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.view.BeakerNode;
+import edu.colorado.phet.phscale.view.MoleculeCountNode;
 import edu.colorado.phet.phscale.view.ProbeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -78,6 +79,10 @@ public class PHScaleCanvas extends PhetPCanvas {
         BeakerNode beakerNode = new BeakerNode( 350, 400 );//XXX
         _rootNode.addChild( beakerNode );
         
+        MoleculeCountNode moleculeCountNode = new MoleculeCountNode();
+        _rootNode.addChild( moleculeCountNode );
+
+        
         //XXX layout, needs to be generalized
         beakerNode.setOffset( 75, 175 );//XXX
         liquidControlNode.setOffset( 25, 25 );//XXX
@@ -85,6 +90,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         drainControlNode.setOffset( 25, 600 );//XXX
         probeNode.setOffset( 175, 75 );//XXX
         beakerViewControlPanelWrapper.setOffset( 225, 600 );//XXX
+        moleculeCountNode.setOffset( 85, 275 );//XXX
     }
     
 

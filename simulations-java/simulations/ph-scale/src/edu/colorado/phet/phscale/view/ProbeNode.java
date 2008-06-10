@@ -59,7 +59,7 @@ public class ProbeNode extends PComposite {
         PBounds db = _displayNode.getFullBoundsReference();
         PBounds sb = shaftNode.getFullBoundsReference();
         _displayNode.setOffset( 0, 0 );
-        shaftNode.setOffset( ( db.getWidth() - sb.getWidth() ) / 4, db.getHeight() - 0.5 * DISPLAY_BORDER_WIDTH );
+        shaftNode.setOffset( 0.85 * ( db.getWidth() - sb.getWidth() ), db.getHeight() - 0.5 * DISPLAY_BORDER_WIDTH );
         sb = shaftNode.getFullBoundsReference();
         PBounds tb = tipNode.getFullBoundsReference();
         tipNode.setOffset( sb.getX() + ( sb.getWidth() - tb.getWidth() ) / 2, sb.getY() + sb.getHeight() );
