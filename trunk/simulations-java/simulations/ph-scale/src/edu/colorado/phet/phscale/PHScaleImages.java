@@ -14,5 +14,7 @@ public class PHScaleImages {
     private PHScaleImages() {}
     
     public static final BufferedImage FAUCET = PHScaleResources.getImage( "faucet.png" );
-    
+    public static final BufferedImage H2O = PHScaleResources.getImage( "H2O.png" );
+    public static final BufferedImage H3O = PHScaleResources.getImage( "H3O.png" );
+    public static final BufferedImage OH = PHScaleResources.getImage( "OH.png" );
 }
