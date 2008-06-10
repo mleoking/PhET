@@ -47,8 +47,8 @@ public class FaucetControlNode extends PNode {
         final int sliderHeight = (int) ( _slider.getPreferredSize().getHeight() );
         _slider.setPreferredSize( new Dimension( sliderWidth, sliderHeight ) );
         _slider.addOnOffSliderListener( new OnOffSliderListener() {
-            public void stateChanged( boolean on ) {
-                notifyStateChanged();
+            public void onOffChanged( boolean on ) {
+                notifyOnOffChanged();
             }
         });
         PSwing sliderWrapper = new PSwing( _slider );
@@ -68,7 +68,7 @@ public class FaucetControlNode extends PNode {
     }
     
     public interface FaucetControlListener {
-        public void stateChange();
+        public void onOffChanged( boolean on );
     }
     
     public void addFaucetControlListener( FaucetControlListener listener ) {
@@ -79,10 +79,11 @@ public class FaucetControlNode extends PNode {
         _listeners.remove( listener );
     }
     
-    private void notifyStateChanged() {
+    private void notifyOnOffChanged() {
+        final boolean b = _slider.isOn();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (FaucetControlListener) i.next() ).stateChange();
+            ( (FaucetControlListener) i.next() ).onOffChanged( b );
         }
     }
 }

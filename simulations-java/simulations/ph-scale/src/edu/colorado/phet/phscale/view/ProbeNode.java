@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.phscale.view;
 
 import java.awt.BasicStroke;
