@@ -33,7 +33,7 @@ function send_email_notification {
 cd /web/htdocs/phet/installer-builder/
 
 echo "================================================================" | tee --append installer-builder-log.txt
-echo " Installer opreation performed on: " | tee --append installer-builder-log.txt
+echo " Installer operation performed on: " | tee --append installer-builder-log.txt
 date  | tee --append installer-builder-log.txt
 echo "================================================================" | tee --append installer-builder-log.txt
 
