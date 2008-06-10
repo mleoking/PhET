@@ -59,6 +59,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         addWorldChild( _rootNode );
         
         _probeNode = new ProbeNode( 500 );
+        _probeNode.setPH( 10.3 );
         _rootNode.addChild( _probeNode );
         
         _beakerViewControlPanel = new BeakerViewControlPanel();

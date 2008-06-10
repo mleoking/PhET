@@ -63,6 +63,10 @@ public class ProbeNode extends PComposite {
         tipNode.setOffset( sb.getX() + ( sb.getWidth() - tb.getWidth() ) / 2, sb.getY() + sb.getHeight() );
     }
     
+    public void setPH( double pH ) {
+        _displayNode.setValue( pH );
+    }
+    
     /*
      * Read-out that displays the pH value.
      */
