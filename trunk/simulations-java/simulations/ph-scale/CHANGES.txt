@@ -41,6 +41,8 @@ CLEANUP:
 
 
 DONE:
+6/9/08 - quick-and-dirty layout of nodes
+6/9/08 - very basic BeakerNode
 6/9/08 - DrainControlNode
 6/9/08 - WaterControlNode
 6/9/08 - LiquidControlNode

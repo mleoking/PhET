@@ -39,9 +39,8 @@ public class BeakerViewControlPanel extends JPanel {
         this.setLayout( layout );
         int row = 0;
         int col = 0;
-        layout.addComponent( _countViewCheckBox, row, col++ );
-        layout.addComponent( Box.createHorizontalStrut( 15 ), row, col++ );
-        layout.addComponent( _ratioViewCheckBox, row, col++ );
+        layout.addComponent( _countViewCheckBox, row++, col );
+        layout.addComponent( _ratioViewCheckBox, row++, col );
     }
     
     public boolean isCountViewSelected() {

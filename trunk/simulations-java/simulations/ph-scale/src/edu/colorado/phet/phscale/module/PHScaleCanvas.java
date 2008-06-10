@@ -12,6 +12,7 @@ import edu.colorado.phet.phscale.control.DrainControlNode;
 import edu.colorado.phet.phscale.control.LiquidControlNode;
 import edu.colorado.phet.phscale.control.WaterControlNode;
 import edu.colorado.phet.phscale.model.PHScaleModel;
+import edu.colorado.phet.phscale.view.BeakerNode;
 import edu.colorado.phet.phscale.view.ProbeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -38,11 +39,8 @@ public class PHScaleCanvas extends PhetPCanvas {
     
     // View 
     private PNode _rootNode;
-    private ProbeNode _probeNode;
     
     // Control
-    private BeakerViewControlPanel _beakerViewControlPanel ;
-    private PSwing _beakerViewControlPanelWrapper;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,25 +58,33 @@ public class PHScaleCanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
         
-        _probeNode = new ProbeNode( 500 );
-        _probeNode.setPH( 10.3 );
-        _rootNode.addChild( _probeNode );
+        ProbeNode probeNode = new ProbeNode( 500 );//XXX
+        probeNode.setPH( 10.3 ); //XXX test
+        _rootNode.addChild( probeNode );
         
-        _beakerViewControlPanel = new BeakerViewControlPanel();
-        _beakerViewControlPanelWrapper = new PSwing( _beakerViewControlPanel );
-        _rootNode.addChild( _beakerViewControlPanelWrapper );
+        BeakerViewControlPanel beakerViewControlPanel = new BeakerViewControlPanel();
+        PSwing beakerViewControlPanelWrapper = new PSwing( beakerViewControlPanel );
+        _rootNode.addChild( beakerViewControlPanelWrapper );
         
         LiquidControlNode liquidControlNode = new LiquidControlNode( this );
-        liquidControlNode.setOffset( 200, 200 );//XXX
         _rootNode.addChild( liquidControlNode );
         
         WaterControlNode waterControlNode = new WaterControlNode();
-        waterControlNode.setOffset( 400, 200 );//XXX
         _rootNode.addChild( waterControlNode );
         
         DrainControlNode drainControlNode = new DrainControlNode();
-        drainControlNode.setOffset( 200, 500 );//XXX
         _rootNode.addChild( drainControlNode );
+        
+        BeakerNode beakerNode = new BeakerNode( 350, 400 );//XXX
+        _rootNode.addChild( beakerNode );
+        
+        //XXX layout, needs to be generalized
+        beakerNode.setOffset( 75, 175 );//XXX
+        liquidControlNode.setOffset( 25, 25 );//XXX
+        waterControlNode.setOffset( 400, 25 );//XXX
+        drainControlNode.setOffset( 25, 600 );//XXX
+        probeNode.setOffset( 175, 75 );//XXX
+        beakerViewControlPanelWrapper.setOffset( 225, 600 );//XXX
     }
     
 
@@ -107,7 +113,5 @@ public class PHScaleCanvas extends PhetPCanvas {
         }
         
         //XXX lay out nodes
-        _probeNode.setOffset( 100, 100 );//XXX
-        _beakerViewControlPanelWrapper.setOffset( 200, 400 );
     }
 }
