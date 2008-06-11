@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-import edu.colorado.phet.circuitconstructionkit.model.CompositeCircuitChangeListener;
-import edu.colorado.phet.circuitconstructionkit.model.VoltageCalculation;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;

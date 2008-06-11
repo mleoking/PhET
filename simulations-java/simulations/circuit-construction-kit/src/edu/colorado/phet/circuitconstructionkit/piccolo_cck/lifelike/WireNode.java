@@ -3,8 +3,8 @@ package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 import java.awt.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKLookAndFeel;
-import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
+import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.BranchNode;

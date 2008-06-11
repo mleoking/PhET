@@ -3,7 +3,6 @@ package edu.colorado.phet.circuitconstructionkit.model;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
 
-import edu.colorado.phet.circuitconstructionkit.model.SimpleObservableDebug;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 

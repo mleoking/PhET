@@ -2,9 +2,6 @@ package edu.colorado.phet.circuitconstructionkit.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.model.Circuit;
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.circuitconstructionkit.model.VoltageDifference;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 

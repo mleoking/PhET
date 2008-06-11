@@ -2,8 +2,6 @@ package edu.colorado.phet.circuitconstructionkit.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
-
 /**
  * User: Sam Reid
  * Date: Sep 27, 2006

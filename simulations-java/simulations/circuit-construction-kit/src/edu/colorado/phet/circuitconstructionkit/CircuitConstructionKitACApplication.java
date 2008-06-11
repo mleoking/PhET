@@ -12,6 +12,6 @@ public class CircuitConstructionKitACApplication {
     public static void main( String[] args ) throws InterruptedException, InvocationTargetException {
         ArrayList array = new ArrayList( Arrays.asList( args ) );
         array.add( CircuitConstructionKitDCApplication.AC_OPTION );
-        CircuitConstructionKitDCApplication.main( (String[]) array.toArray(new String[array.size()]));
+        CircuitConstructionKitDCApplication.main( (String[]) array.toArray( new String[array.size()] ) );
     }
 }
