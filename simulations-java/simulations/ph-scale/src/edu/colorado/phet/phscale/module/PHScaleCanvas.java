@@ -89,21 +89,11 @@ public class PHScaleCanvas extends PhetPCanvas {
         beakerViewControlPanelWrapper.setOffset( 225, 600 );//XXX
         moleculeCountNode.setOffset( 85, 275 );//XXX
         
-        GraphUnitsControlPanel graphUnitsControlPanel = new GraphUnitsControlPanel();
-        PSwing graphUnitsControlPanelWrapper = new PSwing( graphUnitsControlPanel );
-        addRootChild( graphUnitsControlPanelWrapper );
-        
         BarGraphNode barGraphNode = new BarGraphNode( 225, 400 );//XXX
         addRootChild( barGraphNode );
         
-        GraphScaleControlPanel graphScaleControlPanel = new GraphScaleControlPanel();
-        PSwing graphScaleControlPanelWrapper = new PSwing( graphScaleControlPanel );
-        addRootChild( graphScaleControlPanelWrapper );
-        
         //XXX layout, needs to be generalized
-        graphUnitsControlPanelWrapper.setOffset( 750, 50 );//XXX
-        barGraphNode.setOffset( 750, 125 );
-        graphScaleControlPanelWrapper.setOffset( 750, 640 );//XXX
+        barGraphNode.setOffset( 750, 25 );
     }
     
 
