@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
+package edu.colorado.phet.circuitconstructionkit.piccolo.lifelike;
 
 import javax.swing.*;
 
@@ -6,7 +6,7 @@ import edu.colorado.phet.circuitconstructionkit.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentImageNode;
+import edu.colorado.phet.circuitconstructionkit.piccolo.ComponentImageNode;
 
 /**
  * User: Sam Reid

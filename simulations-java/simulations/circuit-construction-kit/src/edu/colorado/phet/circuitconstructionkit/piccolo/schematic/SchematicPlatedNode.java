@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
+package edu.colorado.phet.circuitconstructionkit.piccolo.schematic;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -10,7 +10,7 @@ import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentNode;
+import edu.colorado.phet.circuitconstructionkit.piccolo.ComponentNode;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
+package edu.colorado.phet.circuitconstructionkit.piccolo.lifelike;
 
 import java.awt.image.BufferedImage;
 
@@ -8,7 +8,7 @@ import edu.colorado.phet.circuitconstructionkit.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentImageNode;
+import edu.colorado.phet.circuitconstructionkit.piccolo.ComponentImageNode;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 /**

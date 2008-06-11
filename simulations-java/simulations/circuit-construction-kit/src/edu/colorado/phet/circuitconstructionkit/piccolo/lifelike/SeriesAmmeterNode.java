@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
+package edu.colorado.phet.circuitconstructionkit.piccolo.lifelike;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -14,7 +14,7 @@ import edu.colorado.phet.circuitconstructionkit.common.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentNode;
+import edu.colorado.phet.circuitconstructionkit.piccolo.ComponentNode;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

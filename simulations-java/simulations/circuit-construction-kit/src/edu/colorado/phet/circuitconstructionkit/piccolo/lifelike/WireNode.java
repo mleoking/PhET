@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
+package edu.colorado.phet.circuitconstructionkit.piccolo.lifelike;
 
 import java.awt.*;
 
@@ -7,9 +7,9 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.BranchNode;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.CircuitInteractionModel;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.WirePopupMenu;
+import edu.colorado.phet.circuitconstructionkit.piccolo.BranchNode;
+import edu.colorado.phet.circuitconstructionkit.piccolo.CircuitInteractionModel;
+import edu.colorado.phet.circuitconstructionkit.piccolo.WirePopupMenu;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;

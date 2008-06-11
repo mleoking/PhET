@@ -1,10 +1,10 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
+package edu.colorado.phet.circuitconstructionkit.piccolo.schematic;
 
 import java.awt.*;
 
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike.WireNode;
+import edu.colorado.phet.circuitconstructionkit.piccolo.lifelike.WireNode;
 
 /**
  * User: Sam Reid
