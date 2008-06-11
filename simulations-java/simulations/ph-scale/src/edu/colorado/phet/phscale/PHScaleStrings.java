@@ -6,6 +6,8 @@ import java.text.MessageFormat;
 
 import javax.swing.plaf.basic.BasicHTML;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+
 
 /**
  * PHScaleStrings is the collection of localized strings used by this simulations.
@@ -17,6 +19,8 @@ public class PHScaleStrings {
 
     /* not intended for instantiation */
     private PHScaleStrings() {}
+    
+    public static final String BUTTON_RESET_ALL = PHScaleResources.getCommonString( PhetCommonResources.STRING_RESET_ALL );
 
     public static final String CHOICE_MILK = PHScaleResources.getString( "choice.milk" );
     public static final String CHOICE_BATTERY_ACID = PHScaleResources.getString( "choice.batteryAcid" );
