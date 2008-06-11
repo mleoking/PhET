@@ -72,7 +72,7 @@ input,textarea,select {
 }
 
 *.example {
-    font-size: smaller;
+    font-size: 10px;
     font-style: italic;
 }
 
@@ -413,7 +413,7 @@ table.form tr.error-message td p {
     margin: 0;
     padding-left: 1ex;
     font-style: italic;
-    font-size: smaller;
+    font-size: 11px;
     color: red;
     position: relative;
     top: -0.5ex;
@@ -1187,7 +1187,7 @@ h1.indi-sim {
 /* list of people -- e.g. contacts page */
 #people ul {
     margin-top: 10px;
-    font-size: larger;
+    font-size: 15px;
     padding: 0;
     margin-left: 2em;
     margin-right: 2em;
@@ -1207,7 +1207,7 @@ h1.indi-sim {
 
 #people ul li.hewlett,#people ul li.nsf,#people ul li.kavli,#people ul li.cu
     {
-    font-size: smaller;
+    font-size: 14px;
     position: relative;
     border-bottom: 1px solid #E3E3E3;
     background: none;
@@ -1439,7 +1439,7 @@ div.research .publication_htmllink {
 
 /* The list items */
 #localNav li.subnav,#localNav li.subnav-selected {
-    font-size: smaller;
+    font-size: 13px;
 }
 
 /* Links inside the list items */
@@ -1774,7 +1774,7 @@ background-color: rgb(210, 210, 210);
     padding-left: 0em;
     text-align: center;
     font-weight: bold;
-    font-size: medium;
+    font-size: 16px;
 }
 
 .workshop-date ul {
