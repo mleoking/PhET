@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.translationutility;
 
-import java.awt.Cursor;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -14,10 +12,6 @@ import java.net.*;
 import java.util.Properties;
 
 import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.event.HyperlinkEvent.EventType;
-import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -41,7 +35,9 @@ public class CheckForUpdates {
     private static final String CHECKING_DIALOG_MESSAGE = "Checking for updates...";
     
     private static final String UPDATE_DIALOG_TITLE = "Update";
-    private static final String UPDATE_DIALOG_MESSAGE = "<html><head><style type=\"text/css\">body { font-size: @FONT_SIZE@; font-family: @FONT_FAMILY@ }</style></head>" + "A newer version of PhET Translation Utility is available." + "<br><br>" + "Please use the latest version to create your translations." + "<br><br>" + "To download the lastest version, click here:" + "<br>" + "<a href=" + URL_HOME + ">" + URL_HOME + "</a>" + "<br><br>" + "</html>";
+    private static final String UPDATE_DIALOG_MESSAGE = 
+        "<html>A newer version of PhET Translation Utility is available." + "<br><br>" + 
+        "Please use the new version to create your translations." + "<br><br>" + "</html>";
 
     /* not intended for instantiation */
     private CheckForUpdates() {}
@@ -139,55 +135,30 @@ public class CheckForUpdates {
             setTitle( UPDATE_DIALOG_TITLE );
             setResizable( false );
 
-            // message with a hyperlink
-            JEditorPane messageLabel = new JEditorPane();
-            messageLabel.setEditorKit( new HTMLEditorKit() );
-            String html = UPDATE_DIALOG_MESSAGE;
-            html = html.replaceAll( "@FONT_SIZE@", new PhetFont().getSize() + "pt" );
-            html = html.replaceAll( "@FONT_FAMILY@", new PhetFont().getFamily() );
-            messageLabel.setText( html );
-            messageLabel.setEditable( false );
-            messageLabel.setBackground( new JLabel().getBackground() );
-            messageLabel.setFont( new PhetFont( Font.BOLD, 24 ) );
-            messageLabel.addHyperlinkListener( new HyperlinkListener() {
+            // message
+            JLabel messageLabel = new JLabel( UPDATE_DIALOG_MESSAGE );
+            messageLabel.setFont( new PhetFont( 14 ) );
 
-                public void hyperlinkUpdate( HyperlinkEvent e ) {
-                    final EventType type = e.getEventType();
-                    if ( type == HyperlinkEvent.EventType.ENTERED ) {
-                        setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-                    }
-                    else if ( type == HyperlinkEvent.EventType.EXITED ) {
-                        setCursor( Cursor.getDefaultCursor() );
-                    }
-                    else if ( type == HyperlinkEvent.EventType.ACTIVATED ) {
-                        PhetServiceManager.showWebPage( e.getURL() );
-                        // If the user clicked the link, assume they want to use the new version, so exit this version.
-                        System.exit( 0 );
-                    }
+            JButton getLatestButton = new JButton( "Get new version" );
+            getLatestButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    PhetServiceManager.showWebPage( URL_HOME );
+                    System.exit( 0 );
                 }
             } );
-
-            JButton continueButton = new JButton( "Continue" );
+            
+            JButton continueButton = new JButton( "Continue with old version" );
             continueButton.addActionListener( new ActionListener() {
-
                 public void actionPerformed( ActionEvent e ) {
                     dispose();
-                }
-            } );
-
-            JButton quitButton = new JButton( "Quit" );
-            quitButton.addActionListener( new ActionListener() {
-
-                public void actionPerformed( ActionEvent e ) {
-                    System.exit( 0 );
                 }
             } );
 
             JPanel buttonPanel = new JPanel();
             EasyGridBagLayout buttonPanelLayout = new EasyGridBagLayout( buttonPanel );
             buttonPanel.setLayout( buttonPanelLayout );
-            buttonPanelLayout.addComponent( continueButton, 0, 0 );
-            buttonPanelLayout.addComponent( quitButton, 0, 1 );
+            buttonPanelLayout.addComponent( getLatestButton, 0, 0 );
+            buttonPanelLayout.addComponent( continueButton, 0, 1 );
 
             JPanel mainPanel = new JPanel();
             final int margin = 15;
