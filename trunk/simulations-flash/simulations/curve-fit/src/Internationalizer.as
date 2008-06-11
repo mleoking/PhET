@@ -19,6 +19,10 @@ class Internationalizer{
 	
 	_root.controlPanel_mc.clearButton_mc.label_txt = "Clear All"
 	
+	
+	_root.controlPanel_mc.deviations_cb.label_txt;
+	
+	
 	_root.controlPanel_mc.fitTypeRadioGroup.noFit_txt
 	_root.controlPanel_mc.fitTypeRadioGroup.linear_txt
 	_root.controlPanel_mc.fitTypeRadioGroup.quadratic_txt
@@ -28,6 +32,18 @@ class Internationalizer{
 	
 	_root.equation_mc.bestFit_mc
 	_root.equation_mc.adjustableFit_mc
+	
+	Hiding textfields:
+	this.equationDisplay.equationDisplayTerms_mc.equation1_txt.background = true;
+	this.equationDisplay.equationDisplayTerms_mc.equation1_txt.backgroundColor = 0xFF0000;
+	this.equationDisplay.equationDisplayTerms_mc.equation1_txt
+	this.equationDisplay.equationDisplayTerms_mc.equation2_txt
+	
+	_root.equation_mc.aEquals_txt
+	_root.equation_mc.bEquals_txt
+	_root.equation_mc.cEquals_txt
+	_root.equation_mc.dEquals_txt
+	_root.equation_mc.eEquals_txt
 	
 	_root.pointsBucket_mc.bucketLabel_txt
 	_root.pointsBucket_mc.help_mc.help1_txt
@@ -50,6 +66,7 @@ class Internationalizer{
 		//trace("hideHelpLabel: "+this.mainView.helpViewMaker.hideHelpLabel);
 		
 		this.setString(_root.controlPanel_mc.clearButton_mc.label_txt, "clearAll", "center");
+		this.setString(_root.controlPanel_mc.deviations_cb.label_txt, "deviations", "left");
 		
 		this.setString(_root.controlPanel_mc.fitTypeRadioGroup.noFit_txt, "noFit", "left");
 		this.setString(_root.controlPanel_mc.fitTypeRadioGroup.linear_txt, "linear", "left");
@@ -62,6 +79,23 @@ class Internationalizer{
 		
 		this.setString(_root.equation_mc.bestFit_txt, "bestFit2", "left");
 		this.setString(_root.equation_mc.adjustableFit_txt, "adjustableFit2", "left");
+		
+		this.coverStaticString(_root.equation_mc.equationDisplayTerms_mc.equation1_txt, "equation1", "left");
+		_root.equation_mc.equationDisplayTerms_mc.gotoAndStop(2);
+		this.coverStaticString(_root.equation_mc.equationDisplayTerms_mc.equation2_txt, "equation2", "left");
+		_root.equation_mc.equationDisplayTerms_mc.gotoAndStop(3);
+		this.coverStaticString(_root.equation_mc.equationDisplayTerms_mc.equation3_txt, "equation3", "left");
+		_root.equation_mc.equationDisplayTerms_mc.gotoAndStop(4);
+		this.coverStaticString(_root.equation_mc.equationDisplayTerms_mc.equation4_txt, "equation4", "left");
+		
+		_root.equation_mc.equationDisplayTerms_mc.gotoAndStop(1);
+
+		
+		this.setString(_root.equation_mc.aEquals_txt, "aEquals", "right");
+		this.setString(_root.equation_mc.bEquals_txt, "bEquals", "right");
+		this.setString(_root.equation_mc.cEquals_txt, "cEquals", "right");
+		this.setString(_root.equation_mc.dEquals_txt, "dEquals", "right");
+		this.setString(_root.equation_mc.eEquals_txt, "eEquals", "right");
 		
 		_root.pointsBucket_mc.bucketLabel_txt.wordwrap = true;
 		this.setString(_root.pointsBucket_mc.bucketLabel_txt, "bucketLabel", "center");
@@ -76,12 +110,39 @@ class Internationalizer{
 		this.setString(_root.chiDisplay_mc.help_mc.help3_txt, "chiSqHelp3", "left");
 		this.setString(_root.chiDisplay_mc.help_mc.help4_txt, "chiSqHelp4", "left");
 		this.setString(_root.chiDisplay_mc.help_mc.help5_txt, "chiSqHelp5", "left");
+		this.setString(_root.equation_mc.help_mc.label_txt, "correlation", "left");
 	}
+	
+	
 	
 	function setString(field:TextField, key:String, alignment:String){
 		var stringValue:String = this.simStrings.get( key );
-		if(stringValue == "keyNotFound"){
+		if(stringValue == "keyNotFound"  || stringValue == ""){
 		   //Do nothing.  String will default to English
+		}else{
+			if(field.html){
+				field.htmlText = stringValue;
+			}else{
+				//search for "newline" 
+				var subString_arr:Array = stringValue.split('\\n');
+				if(subString_arr.length > 1){
+					var newStringValue:String = "";
+					for (var i:Number = 0; i < subString_arr.length; i++){
+						newStringValue += subString_arr[i]+newline;
+					}
+					stringValue = newStringValue;
+				}
+				field.text = stringValue;
+			}
+			this.resizeText(field, alignment);
+			//trace("key: "+key+"   stringValue:"+stringValue);
+		}
+	}//end of setString()
+	
+	function coverStaticString(field:TextField, key:String, alignment:String){
+		var stringValue:String = this.simStrings.get( key );
+		if(stringValue == "keyNotFound" || stringValue == ""){
+		   //trace("key = "+ key +  "   Do nothing.");  //String will default to English
 		}else{
 			if(field.html){
 				field.htmlText = stringValue;
@@ -95,13 +156,17 @@ class Internationalizer{
 					}
 					stringValue = newStringValue;
 				}
-				field.text = stringValue;
+				//set background to cover original string
+				field._parent.backgrdColorState = true;
+				field._parent.backgrdColor = 0xFFFF99
+				var frameNbr:Number = field._parent._currentframe;
+				field._parent["textString" + frameNbr] = stringValue;
+				//trace("frameNbr: "+frameNbr+"   textString_arr: "+ field._parent["textString" + frameNbr]);
 			}
 			this.resizeText(field, alignment);
 			//trace("key: "+key+"   stringValue:"+stringValue);
 		}
-	}
-	
+	}//end of coverStaticString
 	
 	function resizeText(txtField:Object, alignment:String):Void{  //get an error when Object = textField
 		//trace("name: "+txtField._name + "   multiline: "+txtField.multiline + "   wordwrap: "+txtField.wordwrap);

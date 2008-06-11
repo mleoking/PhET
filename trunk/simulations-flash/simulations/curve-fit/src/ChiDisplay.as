@@ -9,6 +9,9 @@ class ChiDisplay{
 	var barColor:Color;
 	var lowerLimit:Number; //chi value of red zone
 	var upperLimit:Number; //chi value of green zone
+	var lowerLimit_arr:Array;
+	var upperLimit_arr:Array;
+	var nu:Number;			//nu = number of degrees of freedom = nbrPoints - (nbr of fitting parameters)
 	var myTextFormat:TextFormat;
 	
 	function ChiDisplay(model:Object, target:MovieClip){
@@ -28,9 +31,11 @@ class ChiDisplay{
 		Util.makeParentClipDraggable(grabMe, undefined, -0.3*stageW, stageW, -0.2*stageH, 0.3*stageH);
 		this.chiDisplay_mc.attachMovie("chiBar", "bar_mc", this.chiDisplay_mc.getNextHighestDepth());
 		var bar_mc:MovieClip = this.chiDisplay_mc.bar_mc;
-		barColor = new Color(bar_mc);
-		this.upperLimit = 2;
-		this.lowerLimit = 0.5;
+		barColor = new Color(bar_mc.barBody_mc);
+		//this.upperLimit = 3;
+		//this.lowerLimit = 0.1;
+		this.lowerLimit_arr = new Array(0.004, 0.052, 0.118, 0.178, 0.23, 0.273, 0.310, 0.342, 0.369, 0.394, 0.545, 0.695, 0.779, 0.927);
+		this.upperLimit_arr = new Array(3.8, 3.0, 2.6, 2.37, 2.21, 2.10, 2.01, 1.94, 1.88, 1.83, 1.57, 1.35, 1.24, 1.07);
 		barColor.setRGB(0xFF0000);
 		Util.setXYPosition(bar_mc, 50+0.5*bar_mc._width, 0.9*this.stageH);
 		this.chiScale_mc = this.chiDisplay_mc.createEmptyMovieClip("chiScale_mc", this.chiDisplay_mc.getNextHighestDepth());
@@ -39,31 +44,70 @@ class ChiDisplay{
 	
 	function update():Void{
 		var bar:MovieClip = this.chiDisplay_mc.bar_mc;
-		var chiValue:Number = this.model.getChiSquare()
+		var chiValue:Number = this.model.getChiSquare();
+		this.nu = model.degOfFreedom;
 		if (chiValue <= 1){
 			bar._yscale = 100*chiValue;
-			if(chiValue > lowerLimit){
-				var green:Number = 255*(chiValue - lowerLimit)/(1 - lowerLimit);
-				var red:Number = 255 - green;
-				var blue:Number = 70
-				var RGB = (red<<16)|(green<<8)|(blue);
-				barColor.setRGB(RGB);
-			}else{
-				barColor.setRGB(0xFF0000);
-			}
 		}else{
 			bar._yscale = 100*(1+Math.log(chiValue));
-			if(chiValue < upperLimit){
-				var green:Number = 255*(upperLimit - chiValue)/(upperLimit - 1);
-				var red:Number = 255 - green;
-				var blue:Number = 70
-				var RGB = (red<<16)|(green<<8)|(blue);
-				barColor.setRGB(RGB);
-			}else{
-				barColor.setRGB(0xFF0000);
-			}
 			//trace("bar height in pixels: "+this.chiScale.chiBar_mc._height);
 		}
+		var green:Number;
+		var red:Number;
+		var blue:Number = 0;
+		var lowerLimit:Number;
+		var upperLimit:Number;
+		if(this.nu >= 1  && this.nu < 11){
+			lowerLimit = lowerLimit_arr[this.nu - 1];
+			upperLimit = upperLimit_arr[this.nu -1];
+			//trace("nu: "+this.nu+"   upperLimit: "+upperLimit+"   lowerLimit: "+lowerLimit);
+		}else if(this.nu >=11 || this.nu < 20){
+			lowerLimit = (lowerLimit_arr[9] + lowerLimit_arr[10])/2;
+			upperLimit = (upperLimit_arr[9] + upperLimit_arr[10])/2;
+		}else if(this.nu >= 20 || this.nu < 50){
+			lowerLimit = (lowerLimit_arr[10] + lowerLimit_arr[11])/2;
+			upperLimit = (upperLimit_arr[10] + upperLimit_arr[11])/2;
+		}else if(this.nu >= 50){
+			lowerLimit = lowerLimit_arr[12];
+			upperLimit = upperLimit_arr[12];
+			trace("nu: "+this.nu+"   upperLimit: "+upperLimit+"   lowerLimit: "+lowerLimit);
+		}
+		var upperGrn:Number = (1 + upperLimit)/2;
+		var lowerGrn:Number = (lowerLimit + 1)/2;
+		var upperMid:Number = (upperLimit + upperGrn)/2;
+		var lowerMid:Number = (lowerLimit + lowerGrn)/2;
+		if(chiValue < lowerLimit){
+			red = 0;
+			green = 0;
+			blue = 255;
+		}else if(chiValue >= lowerLimit && chiValue < lowerMid){
+			red = 0;
+			green = 255*(chiValue - lowerLimit)/(lowerMid - lowerLimit);
+			blue = 255;
+		}else if(chiValue >= lowerMid && chiValue < lowerGrn){
+			blue = 255*(lowerGrn - chiValue)/(lowerGrn - lowerMid);
+			green = 255;
+			red = 0;
+		}else if (chiValue >= lowerGrn && chiValue <= upperGrn){
+			red = 0;
+			green = 255;
+			blue = 0;
+		}else if (chiValue > upperGrn && chiValue < upperMid){
+			red = 255*(chiValue - upperGrn)/(upperMid - upperGrn);
+			green = 255;
+			blue = 0;
+		}else if(chiValue >= upperMid && chiValue < upperLimit){
+			red = 255;
+			green = 255*(upperLimit - chiValue)/(upperLimit - upperMid);
+			blue = 0;
+		}else if (chiValue >= upperLimit){
+			red = 255;
+			green = 0;
+			blue = 0;
+		}
+		var RGB = (red<<16)|(green<<8)|(blue);
+		barColor.setRGB(RGB);
+		
 		this.chiDisplay_mc.chi_txt.text = 0.01*Math.round(100*chiValue);
 		var value:Number = 0.01*Math.round(100*chiValue);
 		if(value%1 == 0){
@@ -71,9 +115,8 @@ class ChiDisplay{
 		}else if ((10*value)%1 == 0){
 			this.chiDisplay_mc.chi_txt.text = value + "0";
 		}
-			
 		//this.chiScale.chiValue_txt.text = String(Math.round(100*chiValue)/100);
-	}
+	}//end of update()
 	
 	function drawAxis():Void{
 		var maxW = this.stageW;
@@ -147,3 +190,42 @@ class ChiDisplay{
 		canvas[txtFieldName].text = String(nbr);
 	}
 }//end of class
+
+/*  //Obsolete code:
+		if (chiValue <= 1){
+			bar._yscale = 100*chiValue;
+			if(chiValue > lowerLimit){
+				var mid:Number = (1 - lowerLimit)/2;
+				if(chiValue > mid){
+					green = 255;
+					red = 255*(chiValue - 1)/(mid - 1);
+				}else{ //if chiValue <= mid
+					green = 255*(chiValue - lowerLimit)/(mid - lowerLimit);
+					red = 255;
+				}
+				var RGB = (red<<16)|(green<<8)|(blue);
+				barColor.setRGB(RGB);
+			}else{
+				
+				barColor.setRGB(0xFF0000);
+			}
+		}else{   //if ChiValue > 1
+			bar._yscale = 100*(1+Math.log(chiValue));
+			if(chiValue < upperLimit){
+				mid = upperLimit/2;
+				if(chiValue < mid){
+					green = 255;
+					red = 255*(chiValue - 1)/(mid - 1)
+				}else{
+					green = 255*(chiValue - upperLimit)/(mid - upperLimit);
+					red =255;
+				}
+			
+				var RGB = (red<<16)|(green<<8)|(blue);
+				barColor.setRGB(RGB);
+			}else{
+				barColor.setRGB(0xFF0000);
+			}
+			//trace("bar height in pixels: "+this.chiScale.chiBar_mc._height);
+		}
+*/

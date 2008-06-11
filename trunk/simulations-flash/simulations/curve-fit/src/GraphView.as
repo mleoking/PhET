@@ -3,9 +3,11 @@
 class GraphView{
 	var stageW:Number;
 	var stageH:Number;
-	private var myModel:Object;
+	var myModel:Object;
 	private var axes_mc:MovieClip;
 	private var curve_mc:MovieClip;
+	private var deviations_mc:MovieClip;
+	var showDeviations:Boolean;
 	private var scale:Number;
 	
 	function GraphView(model:Object){
@@ -16,6 +18,8 @@ class GraphView{
 		this.myModel.registerGraphView(this);
 		this.axes_mc = _root.createEmptyMovieClip("axes_mc", Util.getNextDepth());
 		this.curve_mc = _root.createEmptyMovieClip("curve_mc", Util.getNextDepth());
+		this.deviations_mc = _root.createEmptyMovieClip("deviations_mc", Util.getNextDepth());
+		this.showDeviations = false;
 		this.drawAxes();
 	}//end of constructor
 	
@@ -61,6 +65,7 @@ class GraphView{
 	
 	function clearFit():Void{
 		this.curve_mc.clear();
+		this.deviations_mc.clear();
 	}
 	
 	
@@ -134,6 +139,30 @@ class GraphView{
 			this.curve_mc.clear();
 		}//end of else if
 	}//end of drawCurve()
+	
+	
+	
+	function updateDeviations():Void{
+		this.deviations_mc.clear();
+		if(this.showDeviations && this.myModel.orderOfFit != 0){
+			with(this.deviations_mc){
+				var lineWidth = 3;
+				lineStyle(lineWidth, 0x000000, 100);
+				var pointRef_arr:Array = this.myModel.points_arr;
+				var curveRef_arr:Array = this.myModel.yOnCurve_arr;
+				var N:Number = pointRef_arr.length;
+				
+				for(var i:Number = 0; i < N; i++){
+					var xPoint:Number = pointRef_arr[i].xPos;
+					var yPoint:Number = pointRef_arr[i].yPos;
+					var yCurve:Number = curveRef_arr[i];
+					//trace("xPoint: " + xPoint + "   yCurve: "+ yCurve);
+					moveTo(this.screenX(xPoint), this.screenY(yPoint));
+					lineTo(this.screenX(xPoint), this.screenY(yCurve));
+				}//end of for loop
+			}//end of with()
+		}//end of if()
+	}//end of drawDeviations()
 	
 	//convert graph coordinates into screen coordinates(pixels)
 	function screenY(graphY:Number):Number{
