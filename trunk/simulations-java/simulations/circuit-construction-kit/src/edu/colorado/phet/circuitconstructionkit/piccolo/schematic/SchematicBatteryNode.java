@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
+package edu.colorado.phet.circuitconstructionkit.piccolo.schematic;
 
 import javax.swing.*;
 

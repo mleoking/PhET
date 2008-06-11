@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
+package edu.colorado.phet.circuitconstructionkit.piccolo.schematic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -10,7 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike.SwitchBodyRectangleNode;
+import edu.colorado.phet.circuitconstructionkit.piccolo.lifelike.SwitchBodyRectangleNode;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;

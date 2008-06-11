@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
+package edu.colorado.phet.circuitconstructionkit.piccolo.lifelike;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -11,9 +11,9 @@ import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.Capacitor3DShapeSet;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.CircuitInteractionModel;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentNode;
+import edu.colorado.phet.circuitconstructionkit.piccolo.Capacitor3DShapeSet;
+import edu.colorado.phet.circuitconstructionkit.piccolo.CircuitInteractionModel;
+import edu.colorado.phet.circuitconstructionkit.piccolo.ComponentNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;

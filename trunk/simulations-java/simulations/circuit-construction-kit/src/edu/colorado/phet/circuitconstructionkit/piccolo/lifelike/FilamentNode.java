@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
+package edu.colorado.phet.circuitconstructionkit.piccolo.lifelike;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -6,7 +6,7 @@ import java.awt.geom.Area;
 import edu.colorado.phet.circuitconstructionkit.model.CurrentVoltListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Filament;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.TotalBulbComponentNode;
+import edu.colorado.phet.circuitconstructionkit.piccolo.TotalBulbComponentNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;

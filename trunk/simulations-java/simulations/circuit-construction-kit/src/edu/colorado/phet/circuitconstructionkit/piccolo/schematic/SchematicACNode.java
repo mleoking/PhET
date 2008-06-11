@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
+package edu.colorado.phet.circuitconstructionkit.piccolo.schematic;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
