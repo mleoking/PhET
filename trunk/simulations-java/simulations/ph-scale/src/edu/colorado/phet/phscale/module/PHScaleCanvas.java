@@ -89,12 +89,16 @@ public class PHScaleCanvas extends PhetPCanvas {
         beakerViewControlPanelWrapper.setOffset( 225, 600 );//XXX
         moleculeCountNode.setOffset( 85, 275 );//XXX
         
+        PHSliderNode pHSliderNode = new PHSliderNode( 175, 625 ); //XXX
+        addRootChild( pHSliderNode );
+        
         ResetAllButton resetAllButton = new ResetAllButton();
         PSwing resetAllButtonWrapper = new PSwing( resetAllButton );
         addRootChild( resetAllButtonWrapper );
         
         //XXX layout, needs to be generalized
-        resetAllButtonWrapper.setOffset( 520, 675 );
+        pHSliderNode.setOffset( 520, 25 );
+        resetAllButtonWrapper.setOffset( 555, 675 );
         
         BarGraphNode barGraphNode = new BarGraphNode( 225, 400 );//XXX
         addRootChild( barGraphNode );
