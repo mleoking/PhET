@@ -41,6 +41,9 @@ CLEANUP:
 
 
 DONE:
+6/10/08 - very simplified BarGraphNode
+6/10/08 - fix HTMLNode in piccolo-phet
+6/10/08 - gray canvas background
 6/10/08 - GraphScaleControlPanel, GraphUnitsControlPanel
 6/9/08 - adjust probe's shaft position
 6/9/08 - MoleculeCountNode
