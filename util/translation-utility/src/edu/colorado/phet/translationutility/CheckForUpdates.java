@@ -32,12 +32,10 @@ public class CheckForUpdates {
     private static final String URL_HOME = "http://phet.colorado.edu/new/contribute/translate.php";
     private static final String URL_LATEST_VERSION_INFO = "http://phet.colorado.edu/new/contribute/translation-utility.properties";
 
-    private static final String CHECKING_DIALOG_MESSAGE = "Checking for updates...";
+    private static final String CHECKING_DIALOG_MESSAGE = TUResources.getString( "checkingDialog.message" );
     
-    private static final String UPDATE_DIALOG_TITLE = "Update";
-    private static final String UPDATE_DIALOG_MESSAGE = 
-        "<html>A newer version of PhET Translation Utility is available." + "<br><br>" + 
-        "Please use the new version to create your translations." + "<br><br>" + "</html>";
+    private static final String UPDATE_DIALOG_TITLE = TUResources.getString( "updateDialog.title" );
+    private static final String UPDATE_DIALOG_MESSAGE = TUResources.getString( "updateDialog.message" );
 
     /* not intended for instantiation */
     private CheckForUpdates() {}
@@ -139,15 +137,15 @@ public class CheckForUpdates {
             JLabel messageLabel = new JLabel( UPDATE_DIALOG_MESSAGE );
             messageLabel.setFont( new PhetFont( 14 ) );
 
-            JButton getLatestButton = new JButton( "Get new version" );
-            getLatestButton.addActionListener( new ActionListener() {
+            JButton getNewVersionButton = new JButton( TUResources.getString( "updateDialog.button.getNewVersion" ) );
+            getNewVersionButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     PhetServiceManager.showWebPage( URL_HOME );
                     System.exit( 0 );
                 }
             } );
             
-            JButton continueButton = new JButton( "Continue with old version" );
+            JButton continueButton = new JButton( TUResources.getString( "updateDialog.button.continue" ) );
             continueButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     dispose();
@@ -157,7 +155,7 @@ public class CheckForUpdates {
             JPanel buttonPanel = new JPanel();
             EasyGridBagLayout buttonPanelLayout = new EasyGridBagLayout( buttonPanel );
             buttonPanel.setLayout( buttonPanelLayout );
-            buttonPanelLayout.addComponent( getLatestButton, 0, 0 );
+            buttonPanelLayout.addComponent( getNewVersionButton, 0, 0 );
             buttonPanelLayout.addComponent( continueButton, 0, 1 );
 
             JPanel mainPanel = new JPanel();
