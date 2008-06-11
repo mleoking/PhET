@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+6/11/08 - check for updates and alert the user [537]
 ********* version 0.02.00 (21098)
 4/29/08 - delete test JAR on VM exit [98]
 4/29/08 - properties file header: add version number, shorten filename [256]

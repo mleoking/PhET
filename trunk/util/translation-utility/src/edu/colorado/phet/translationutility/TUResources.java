@@ -87,6 +87,10 @@ public class TUResources {
         return MessageFormat.format( "{0} : {1} {2}", titleFormatArgs );
     }
     
+    public static String getProjectProperty( String key ) {
+        return CONFIG.getProjectProperty( key );
+    }
+
     /**
      * Gets the names of all common projects in the PhET source code repository.
      * This includes any common projects that are used to build simulations, and that 
