@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.circuitconstructionkit.model.*;
-import edu.colorado.phet.circuitconstructionkit.phetgraphics.BulbComponentGraphic;
+import edu.colorado.phet.circuitconstructionkit.phetgraphics.LightBulbGraphic;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -179,7 +179,7 @@ public class Bulb extends CircuitComponent {
         if ( connectAtLeft ) {
             sign = 1;
         }
-        double tilt = BulbComponentGraphic.determineTilt();
+        double tilt = LightBulbGraphic.determineTilt();
         AbstractVector2D vector = getDirectionVector();
         vector = vector.getRotatedInstance( tilt * 2 * sign );
         Point2D target = vector.getDestination( getStartJunction().getPosition() );
