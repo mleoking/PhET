@@ -20,8 +20,9 @@ define("AUTHLEVEL_TEAM", 2);
 // Value types, used to verify that desired query string info is presentt
 define("VT_NONE", 0);       // Do not check this value
 define("VT_ISSET", 1);      // Only check if it is set, all further checks include this check
-define("VT_VALID_CONTRIBUTION_ID", 2);      // Only check if it is set, all further checks include this check
-define("VT_VALID_COMMENT_ID", 3);      // Only check if it is set, all further checks include this check
+define("VT_VALID_CONTRIBUTION_ID", 2);      // Check that the contribution_id is valid
+define("VT_VALID_COMMENT_ID", 3);      // Check that the comment_id is valid
+define("VT_VALID_EMAIL", 4);      // Check that the email address is valid
 
 class SitePage extends BasePage {
     protected $required_authentication_level;
@@ -174,11 +175,12 @@ EOT;
 
     /**
      * Check for the existance (and type) of the specified keys in the array
+     * TODO: redo this function, the $required option is silly and a kludge for one situation
      *
      * @param $vars array key => value_type
      */
-    function validate_array($check_array, $validation) {
-        if (is_null($check_array) || (count($check_array) ==0)) {
+    function validate_array($check_array, $validation, $required = true) {
+        if (is_null($check_array) || (count($check_array) == 0)) {
             // Nothing to check
             return true;
         }
@@ -189,7 +191,7 @@ EOT;
                 continue;
             }
             else if (!isset($check_array[$key])) {
-                $this->valid_info = false;
+                $this->valid_info = !$required;
                 return false;
 
                 if ($type == VT_ISSET) {
@@ -201,14 +203,22 @@ EOT;
             switch ($type) {
                 case VT_VALID_CONTRIBUTION_ID:
                     if (!contribution_get_contribution_by_id($check_array[$key])) {
-                        $this->valid_info = false;
+                        $this->valid_info = !$required;
                         return false;
                     }
                     break;
 
                 case VT_VALID_COMMENT_ID:
                     if (!comment_id_is_valid($check_array[$key])) {
-                        $this->valid_info = false;
+                        $this->valid_info = !$required;
+                        return false;
+                    }
+                    break;
+
+                case VT_VALID_EMAIL:
+                    $regex_result = preg_match("/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/", $check_array[$key]);
+                    if (!$regex_result) {
+                        $this->valid_info = !$required;
                         return false;
                     }
                     break;
