@@ -8,7 +8,7 @@ import edu.colorado.phet.circuitconstructionkit.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
-import edu.colorado.phet.circuitconstructionkit.phetgraphics.ResistorColors;
+import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ResistorColors;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentImageNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
