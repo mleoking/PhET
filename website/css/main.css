@@ -547,6 +547,7 @@ div.horizontal_center {
 #twofacelogin table.top td {
     margin: 0;
     padding: 0;
+    vertical-align: top;
 }
 
 #twofacelogin fieldset {
