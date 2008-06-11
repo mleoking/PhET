@@ -40,7 +40,7 @@ public class FaucetControlNode extends PNode {
             image = BufferedImageUtils.flipX( PHScaleImages.FAUCET );
         }
         PImage faucetImage = new PImage( image );
-        faucetImage.scale( 0.15 );
+        faucetImage.scale( 0.05 );//XXX
         
         _slider = new MomentarySlider();
         final int sliderWidth = (int) ( faucetImage.getFullBoundsReference().getWidth() - ( 2 * MARGIN ) );
@@ -56,7 +56,7 @@ public class FaucetControlNode extends PNode {
         addChild( faucetImage );
         addChild( sliderWrapper );
         
-        sliderWrapper.setOffset( MARGIN, 0.30 * faucetImage.getFullBoundsReference().getHeight() ); //XXX image specific
+        sliderWrapper.setOffset( MARGIN, 0.38 * faucetImage.getFullBoundsReference().getHeight() ); //XXX image specific
     }
     
     public void setOn( boolean on ) {
