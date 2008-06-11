@@ -170,13 +170,13 @@ public class DischargeLampModule extends PhetGraphicsModule {
         bSl.addTick( bSl.getMinimum() );
         bSl.addTick( bSl.getMaximum() );
         bSl.addTick( 0 );
-        bSl.setLocation( (int) DischargeLampsConfig.CATHODE_LOCATION.getX() + 174, 60 );
+        bSl.setLocation( (int) DischargeLampsConfig.CATHODE_LOCATION.getX() + 174, (int) DischargeLampsConfig.CATHODE_LOCATION.getY() - 240 );
         getApparatusPanel().addGraphic( bSl, DischargeLampsConfig.CIRCUIT_LAYER + 1 );
 
         final PhetGraphic batteryReadout = new BatteryReadout( getApparatusPanel(),
                                                                battery,
                                                                new Point( (int) DischargeLampsConfig.CATHODE_LOCATION.getX() + 194,
-                                                                          78 ),
+                                                                          (int) bSl.getY() + 17 ),
                                                                35 );
         addGraphic( batteryReadout, VOLTAGE_VALUE_LAYER );
     }
@@ -264,7 +264,8 @@ public class DischargeLampModule extends PhetGraphicsModule {
         spectrometerGraphic = new SpectrometerGraphic( getApparatusPanel(), model.getSpectrometer() );
         addGraphic( spectrometerGraphic, SPECTROMETER_LAYER );
         int centerX = ( DischargeLampsConfig.ANODE_LOCATION.x + DischargeLampsConfig.CATHODE_LOCATION.x ) / 2;
-        spectrometerGraphic.setLocation( centerX, 430 );
+        int centerY = DischargeLampsConfig.CATHODE_LOCATION.y + 125;
+        spectrometerGraphic.setLocation( centerX, centerY );
         spectrometerGraphic.setRegistrationPoint( spectrometerGraphic.getWidth() / 2, 0 );
     }
 
@@ -342,7 +343,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
             jd.setVisible( false );
             PhetUtilities.getPhetFrame().getLayeredPane().add( electronProductionControl, JLayeredPane.DRAG_LAYER );
             int x = DischargeLampsConfig.BEAM_CONTROL_CENTER_PT.x - electronProductionControl.getWidth() / 2;
-            int y = DischargeLampsConfig.BEAM_CONTROL_CENTER_PT.y - electronProductionControl.getHeight() / 2;
+            int y = DischargeLampsConfig.BEAM_CONTROL_CENTER_PT.y - electronProductionControl.getHeight() / 2 - 25;//XXX -25 needs to be generalized
             electronProductionControl.setLocation( x, y );
         }
 
