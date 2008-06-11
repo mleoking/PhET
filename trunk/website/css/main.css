@@ -419,6 +419,10 @@ table.form tr.error-message td p {
     top: -0.5ex;
 }
 
+table.form #forgot_password {
+    text-align: right;
+}
+
 #downloadspeeds {
     padding-left: 2em;
     padding-right: 2em;
