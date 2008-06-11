@@ -315,29 +315,6 @@ public class PhetLookAndFeel {
     }
 
     /**
-     * Sets the look and feel based on the operating system.
-     *
-     * @deprecated use initLookAndFeel
-     */
-    public static void setLookAndFeel() {
-        try {
-            UIManager.setLookAndFeel( new PhetLookAndFeel().getLookAndFeelClassName() );
-        }
-        catch( ClassNotFoundException e ) {
-            e.printStackTrace();
-        }
-        catch( InstantiationException e ) {
-            e.printStackTrace();
-        }
-        catch( IllegalAccessException e ) {
-            e.printStackTrace();
-        }
-        catch( UnsupportedLookAndFeelException e ) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Determines the look and feel class name that will be used by this PhetLookAndFeel.
      * The default behavior is to use the native look and feel for the platform.
      *
