@@ -10,7 +10,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.ResistivityManager;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.VoltmeterModel;
+import edu.colorado.phet.circuitconstructionkit.piccolo.VoltmeterModel;
 
 /**
  * User: Sam Reid

@@ -4,8 +4,8 @@ import java.awt.*;
 
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.CCKSimulationPanel;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.PiccoloVoltageCalculation;
+import edu.colorado.phet.circuitconstructionkit.piccolo.CCKSimulationPanel;
+import edu.colorado.phet.circuitconstructionkit.piccolo.PiccoloVoltageCalculation;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
