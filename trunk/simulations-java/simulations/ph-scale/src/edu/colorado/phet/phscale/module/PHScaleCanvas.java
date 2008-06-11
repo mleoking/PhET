@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.control.*;
 import edu.colorado.phet.phscale.model.PHScaleModel;
+import edu.colorado.phet.phscale.view.BarGraphNode;
 import edu.colorado.phet.phscale.view.BeakerNode;
 import edu.colorado.phet.phscale.view.MoleculeCountNode;
 import edu.colorado.phet.phscale.view.ProbeNode;
@@ -88,17 +89,21 @@ public class PHScaleCanvas extends PhetPCanvas {
         beakerViewControlPanelWrapper.setOffset( 225, 600 );//XXX
         moleculeCountNode.setOffset( 85, 275 );//XXX
         
-        GraphScaleControlPanel graphScaleControlPanel = new GraphScaleControlPanel();
-        PSwing graphScaleControlPanelWrapper = new PSwing( graphScaleControlPanel );
-        addRootChild( graphScaleControlPanelWrapper );
-        
         GraphUnitsControlPanel graphUnitsControlPanel = new GraphUnitsControlPanel();
         PSwing graphUnitsControlPanelWrapper = new PSwing( graphUnitsControlPanel );
         addRootChild( graphUnitsControlPanelWrapper );
         
+        BarGraphNode barGraphNode = new BarGraphNode( 225, 400 );//XXX
+        addRootChild( barGraphNode );
+        
+        GraphScaleControlPanel graphScaleControlPanel = new GraphScaleControlPanel();
+        PSwing graphScaleControlPanelWrapper = new PSwing( graphScaleControlPanel );
+        addRootChild( graphScaleControlPanelWrapper );
+        
         //XXX layout, needs to be generalized
-        graphScaleControlPanelWrapper.setOffset( 750, 600 );//XXX
         graphUnitsControlPanelWrapper.setOffset( 750, 50 );//XXX
+        barGraphNode.setOffset( 750, 125 );
+        graphScaleControlPanelWrapper.setOffset( 750, 640 );//XXX
     }
     
 
