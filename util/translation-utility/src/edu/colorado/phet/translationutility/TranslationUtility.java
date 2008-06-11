@@ -27,6 +27,8 @@ public class TranslationUtility extends JFrame {
      */
     public static void main( String[] args ) {
         
+        CheckForUpdates.check();
+        
         String title = TUResources.getTitle();
 
         // prompt the user for initialization info
