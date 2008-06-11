@@ -48,10 +48,9 @@ public class TestPSwingBounds extends Module {
     public static void main( String[] args ) {
         TestPSwingBounds module = new TestPSwingBounds();
         System.out.println( "Made module..." );
-        PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setFont( new PhetFont( Font.BOLD, 13 ) );
-        phetLookAndFeel.apply();
+        phetLookAndFeel.initLookAndFeel();
 //        ModuleApplication moduleApplication = new ModuleApplication();
         PhetApplication phetApplication = new PhetApplication( args, "", "", "" );
         phetApplication.addModule( module );
