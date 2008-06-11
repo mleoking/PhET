@@ -41,6 +41,7 @@ CLEANUP:
 
 
 DONE:
+6/10/08 - placeholder for PHSliderNode
 6/10/08 - Reset All button
 6/10/08 - very simplified BarGraphNode
 6/10/08 - fix HTMLNode in piccolo-phet
