@@ -34,7 +34,7 @@ public class DischargeLampsConfig {
 //    public static final double MAX_ENERGY_LEVEL = -0.378;
 
     // Object locations and dimensions. Everything is keyed off the location of the cathode
-    public static final int ELECTRODE_Y_LOCATION = 300;
+    public static final int ELECTRODE_Y_LOCATION = 275;
     public static final int ELECTRODE_LENGTH = 200;
     public static final int CATHODE_X_LOCATION = 130;
     public static final Point CATHODE_LOCATION = new Point( CATHODE_X_LOCATION, ELECTRODE_Y_LOCATION );
