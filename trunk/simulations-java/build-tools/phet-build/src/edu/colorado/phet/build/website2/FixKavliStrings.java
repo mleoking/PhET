@@ -14,20 +14,20 @@ import java.io.IOException;
 public class FixKavliStrings {
     public static void main(String[] args) throws IOException {
         File f = new File(args[0]);
-        new FixKavliStrings().processFile(f);
+        int count=new FixKavliStrings().processFile(f,0);
     }
 
-    private void processFile(File f) throws IOException {
+    private int processFile(File f,int count) throws IOException {
         if (f.isDirectory()) {
             File[] files = f.listFiles();
             for (int i = 0; i < files.length; i++) {
                 File file = files[i];
-                processFile(file);
+                processFile(file,count);
             }
         } else if (f.getName().endsWith("jnlp")) {
 //        File file = new File("C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations\\circuit-construction-kit\\deploy\\circuit-construction-kit-ac_ja.jnlp");
             String s = FileUtils.loadFileAsString(f, "UTF-16");
-            int index = s.toLowerCase().indexOf("UTF-16");
+            int index = s.toLowerCase().indexOf("utf-16");
             boolean utf16 = index >= 0;
             System.out.println("File=" + f + "utf16 = " + utf16);
             if (utf16) {
@@ -36,11 +36,13 @@ public class FixKavliStrings {
 //        System.out.println("after=\n" + s);
                 FileUtils.writeString(f, s, "UTF-16");
                 System.out.println("Wrote over " + f.getAbsolutePath());
+                count++;
             } else {
                 System.out.println("Not UTF-16");
             }
         } else {
             System.out.println("Skipping: " + f);
         }
+        return count;
     }
 }
