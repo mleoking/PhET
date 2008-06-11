@@ -10,7 +10,7 @@ import java.util.Arrays;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.controls.OptionsMenu;
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.CCKPiccoloModule;
+import edu.colorado.phet.circuitconstructionkit.piccolo.CCKPiccoloModule;
 import edu.colorado.phet.circuitconstructionkit.util.CCKUtil;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
