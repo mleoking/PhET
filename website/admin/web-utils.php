@@ -835,7 +835,8 @@ EOT;
         if ($print_select) {
             print <<<EOT
                   <select name="$select_name" id="$select_id"
-                      onchange="ms_on_change('$name', '$list_id', this.form.$select_name, $should_invalidate_on_empty);">
+                      onchange="ms_on_change('$name', '$list_id', this.form.$select_name, $should_invalidate_on_empty);"
+                      onmousewheel="return false;">
                       $options
                   </select>
 
