@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.circuitconstructionkit.phetgraphics.BulbComponentGraphic;
+import edu.colorado.phet.circuitconstructionkit.phetgraphics.LightBulbGraphic;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -86,7 +86,7 @@ public class Filament extends PathBranch {
         if ( tailJunction == null || shellJunction == null ) {
             return;
         }
-        double tilt = BulbComponentGraphic.determineTilt();
+        double tilt = LightBulbGraphic.determineTilt();
         if ( !connectAtRight ) {
             tilt = -tilt;
         }
