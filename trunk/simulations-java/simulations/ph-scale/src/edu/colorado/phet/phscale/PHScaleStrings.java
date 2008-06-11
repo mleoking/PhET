@@ -48,8 +48,8 @@ public class PHScaleStrings {
     public static final String CHECK_BOX_MOLECULE_COUNT = PHScaleResources.getString( "checkBox.moleculeCount" );
     private static final String CHECK_BOX_H3O_OH_RATIO = PHScaleResources.getString( "checkBox.H3O_OH_ratio" );
 
-    public static final String RADIO_BUTTON_CONCENTRATION = PHScaleResources.getString( "radioButton.concentration" );
-    public static final String RADIO_BUTTON_NUMBER_OF_MOLES = PHScaleResources.getString( "radioButton.numberOfMoles" );
+    private static final String RADIO_BUTTON_CONCENTRATION = PHScaleResources.getString( "radioButton.concentration" );
+    private static final String RADIO_BUTTON_NUMBER_OF_MOLES = PHScaleResources.getString( "radioButton.numberOfMoles" );
     public static final String RADIO_BUTTON_LOGARITHMIC_SCALE = PHScaleResources.getString( "radioButton.logarithmicScale" );
     public static final String RADIO_BUTTON_LINEAR_SCALE = PHScaleResources.getString( "radioButton.linearScale" );
 
@@ -63,6 +63,18 @@ public class PHScaleStrings {
             s = "<html>" + s + "</html>";
         }
         Object[] args = { LABEL_H3O, LABEL_OH };
+        return MessageFormat.format( s, args );
+    }
+    
+    public static final String getConcentrationString() {
+        String s = RADIO_BUTTON_CONCENTRATION;
+        Object[] args = { UNITS_MOLES_PER_LITER };
+        return MessageFormat.format( s, args );
+    }
+    
+    public static final String getNumberOfMolesString() {
+        String s = RADIO_BUTTON_NUMBER_OF_MOLES;
+        Object[] args = { UNITS_MOLES };
         return MessageFormat.format( s, args );
     }
 }

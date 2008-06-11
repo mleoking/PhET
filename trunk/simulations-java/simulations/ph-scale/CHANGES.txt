@@ -41,7 +41,7 @@ CLEANUP:
 
 
 DONE:
-6/10/08 - LogLinearControlPanel
+6/10/08 - GraphScaleControlPanel, GraphUnitsControlPanel
 6/9/08 - adjust probe's shaft position
 6/9/08 - MoleculeCountNode
 6/9/08 - nodes for each type of molecule

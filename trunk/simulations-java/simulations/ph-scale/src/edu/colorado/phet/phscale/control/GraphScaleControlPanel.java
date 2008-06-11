@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
 
-public class LogLinearControlPanel extends JPanel {
+public class GraphScaleControlPanel extends JPanel {
     
     private static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, 18 );;
     
@@ -23,7 +23,7 @@ public class LogLinearControlPanel extends JPanel {
     private final JRadioButton _logRadioButton;
     private final JRadioButton _linearRadioButton;
     
-    public LogLinearControlPanel() {
+    public GraphScaleControlPanel() {
         super();
         setOpaque( false );
 
@@ -68,22 +68,22 @@ public class LogLinearControlPanel extends JPanel {
         setLogSelected( !selected );
     }
     
-    public interface LogLinearControlPanelListener {
+    public interface GraphScaleControlPanelListener {
         public void selectionChanged();
     }
     
-    public void addLogLinearControlPanelListener( LogLinearControlPanelListener listener ) {
+    public void addGraphScaleControlPanelListener( GraphScaleControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeLogLinearControlPanelListener( LogLinearControlPanelListener listener ) {
+    public void removeGraphScaleControlPanelListener( GraphScaleControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
     private void notifySelectionChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (LogLinearControlPanelListener) i.next() ).selectionChanged();
+            ( (GraphScaleControlPanelListener) i.next() ).selectionChanged();
         }
     }
 }
