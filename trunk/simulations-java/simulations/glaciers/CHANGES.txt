@@ -4,13 +4,14 @@ Change history for glaciers
 
 HIGHEST PRIORITY:
 - BUG: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
+- BUG: very short advancing glacier starts off advancing very slowly, then speeds up
 
 HIGH PRIORITY:
 - change ELA graph range for new climate range?
 - equilibrium line doesn't move if climate is changed while clock is paused
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
 ? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
-- bug: Restart clock button does bad things while glacier is evolving, get rid of it?
+- get rid of Restart clock button
 - increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
 - switch user-interface between English and metric units
 - add yaw to fake 3D perspective (terminus, ELA, etc) 
