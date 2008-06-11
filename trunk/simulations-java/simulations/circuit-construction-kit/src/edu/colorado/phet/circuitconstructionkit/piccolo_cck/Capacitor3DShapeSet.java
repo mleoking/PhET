@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.phetgraphics;
+package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
 import java.awt.*;
 import java.awt.geom.Area;

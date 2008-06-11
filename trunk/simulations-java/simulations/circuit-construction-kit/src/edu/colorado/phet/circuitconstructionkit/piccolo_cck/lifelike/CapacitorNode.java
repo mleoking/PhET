@@ -11,7 +11,7 @@ import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
-import edu.colorado.phet.circuitconstructionkit.phetgraphics.Capacitor3DShapeSet;
+import edu.colorado.phet.circuitconstructionkit.piccolo_cck.Capacitor3DShapeSet;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.CircuitInteractionModel;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

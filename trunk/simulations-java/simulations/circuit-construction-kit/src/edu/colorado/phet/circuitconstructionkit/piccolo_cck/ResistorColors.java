@@ -1,5 +1,5 @@
 /*Copyright, University of Colorado, 2004.*/
-package edu.colorado.phet.circuitconstructionkit.phetgraphics;
+package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
 import java.awt.*;
 

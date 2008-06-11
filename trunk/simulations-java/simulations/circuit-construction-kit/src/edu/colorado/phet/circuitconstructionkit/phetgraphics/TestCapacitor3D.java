@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.colorado.phet.circuitconstructionkit.piccolo_cck.Capacitor3DShapeSet;
 
 public class TestCapacitor3D {
     private JFrame frame;
