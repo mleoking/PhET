@@ -14,7 +14,7 @@ class PointClipInitializer{
 		var model:Model = currentPoint.myModel;
 		var theView = model.mainView;
 		var scaleFactor = this.scale;
-		var yLimit = 3;
+		var yLimit = 3;   //smallest length error bar, in pixels
 		//var thisView = this;
 		var clip:MovieClip = this.myPoint.clip_mc;
 		
@@ -23,8 +23,9 @@ class PointClipInitializer{
 			clip.display_mc._visible = true;
 			clip.displayDelY_mc._visible = false;
 			clip.onMouseMove = function(){
-				var xNow = scaleFactor*(clip._x - Util.ORIGINX);
-				var yNow = scaleFactor*(-clip._y + Util.ORIGINY);
+				var decPlace = 100;
+				var xNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(clip._x - Util.ORIGINX));
+				var yNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(-clip._y + Util.ORIGINY));
 				currentPoint.setXY(xNow, yNow);
 				clip.display_mc.xDisplay_txt.text = 0.1*Math.round(10*xNow);
 				clip.display_mc.yDisplay_txt.text = 0.1*Math.round(10*yNow);
@@ -32,10 +33,19 @@ class PointClipInitializer{
 			}
 		}
 		clip.dataPoint_mc.onRelease = function(){
-			currentPoint.setXY(scaleFactor*(clip._x - Util.ORIGINX), scaleFactor*(-clip._y + Util.ORIGINY));
+			var decPlace = 10;
+			var xNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(clip._x - Util.ORIGINX));
+			var yNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(-clip._y + Util.ORIGINY));
+			clip.display_mc.xDisplay_txt.text = xNow;
+			clip.display_mc.yDisplay_txt.text = yNow;
+			currentPoint.setXY(xNow, yNow);
 			clip.stopDrag();
-			clip.display_mc._visible = false;
 			clip.onMouseMove = undefined;
+			//xNow = scaleFactor*(xScreen - Util.ORIGINX);
+			clip._x = Util.ORIGINX + xNow/scaleFactor;
+			//yNow = -scaleFactor*(yScreen - Util.ORIGINY)
+			clip._y = Util.ORIGINY - yNow/scaleFactor;
+			//clip.display_mc._visible = false;
 			if(clip.dataPoint_mc.hitTest(theView.pointsBucket.hitAreaPoints_mc)){
 				model.deletePoint(currentPoint.getPositionInArray());  
 			}

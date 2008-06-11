@@ -59,7 +59,11 @@
 		var tOrF:Boolean = trueOrFalse;
 		this.mainView.pointsBucket.help_mc._visible = tOrF;
 		_root.helpDataPoint_mc._visible = tOrF;
+		if(_root.helpDataPoint_mc._visible){
+			_root.helpDataPoint_mc.wiggleBars();
+		}
 		this.mainView.myChiDisplay.chiDisplay_mc.help_mc._visible = tOrF;
+		this.mainView.equationDisplay.help_mc._visible = tOrF;
 		//trace("true or false:"+tOrF);
 	}
 	

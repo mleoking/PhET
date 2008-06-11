@@ -37,7 +37,7 @@ class MainView{
 		_root.attachMovie("helpDataPoint", "helpDataPoint_mc", Util.getNextDepth());
 		Util.setXYPosition(_root.helpDataPoint_mc, 0.6*stageW, 0.4*stageH);
 		this.equationDisplay = _root.attachMovie("equation","equation_mc", Util.getNextDepth());
-		Util.setXYPosition(this.equationDisplay, Util.ORIGINX + 0.06*stageW, 0.9*stageH);
+		Util.setXYPosition(this.equationDisplay, Util.ORIGINX + 0.06*stageW, 0.88*stageH);
 		this.myChiDisplay = new ChiDisplay(this.model, _root);
 		//this.chiScale = _root.attachMovie("chiScale","chiScale_mc",Util.getNextDepth());
 		//Util.setXYPosition(this.chiScale, -0.05*stageW, 0.05*stageH);
@@ -55,11 +55,17 @@ class MainView{
 		this.clearButton = new ControlButton(this.panel.clearButton_mc, "Clear All", this.model, this.clearButtonAction);
 		this.helpViewMaker = new HelpViewInitializer(this.panel.helpButton_mc, this);
 		this.helpViewMaker.showHelp(false);
+		this.panel.deviations_cb.model = this.model;
+		//this.panel.moreOptions_cb.mainView = this;
+		//this.panel.moreOptions_mc._visible = false;
+		//this.panel.moreOptions_mc.deviations_cb.model = this.model;
+		//this.panel.moreOptions_mc.rSquared_cb.model = this.model;
 		//this.helpButton = new ControlButton(this.panel.helpButton_mc, "Help", this.model, undefined);
 		this.panel.fitTypeRadioGroup.controlPanelView = this;
 		this.panel.fitOrNotRadioGroup.controlPanelView = this;
 		this.setFitOrNot(1);
 		this.setOrderOfFit(1);
+		//this.panel.deviations_cb.toggle();
 		var aSlider:MovieClip = this.panel.sliders_mc.aSlider;
 		var bSlider:MovieClip = this.panel.sliders_mc.bSlider;
 		var cSlider:MovieClip = this.panel.sliders_mc.cSlider;
@@ -246,6 +252,10 @@ class MainView{
 		this.model.deleteAllPoints();
 	}
 	
+	function showMoreOptions(tOrF:Boolean):Void{
+		this.panel.moreOptions_mc._visible = tOrF;
+	}
+	
 	function setOrderOfFit(fitType:Number):Void{
 		//trace("fit type is "+fitType);
 		this.model.setOrderOfFit(fitType);
@@ -254,103 +264,59 @@ class MainView{
 		}else{
 			this.equationDisplay._visible = true;
 		}
-		switch(fitType){
-			case 0:
-				//no fit
-				this.panel.sliders_mc._visible = false;
-				break;
-			case 1:
-				if(fitDescription == "adjustable"){this.panel.sliders_mc._visible = true;}
-				this.panel.sliders_mc.aSlider._visible = true;
-				this.panel.sliders_mc.bSlider._visible = true;
-				this.panel.sliders_mc.cSlider._visible = false;
-				this.panel.sliders_mc.dSlider._visible = false;
-				this.panel.sliders_mc.eSlider._visible = false;
-				this.setSlidersBackground(2);
-				this.equationDisplay.equationDisplayTerms_mc.gotoAndStop(1);
-				this.equationDisplay.aEquals_txt._visible = true;
-				this.equationDisplay.aDisplay_txt._visible = true;
-				this.equationDisplay.bEquals_txt._visible = true;
-				this.equationDisplay.bDisplay_txt._visible = true;
-				this.equationDisplay.cEquals_txt._visible = false;
-				this.equationDisplay.cDisplay_txt._visible = false;
-				this.equationDisplay.dEquals_txt._visible = false;
-				this.equationDisplay.dDisplay_txt._visible = false;
-				this.equationDisplay.eEquals_txt._visible = false;
-				this.equationDisplay.eDisplay_txt._visible = false;
-				break;
-			case 2:
-				if(fitDescription == "adjustable"){this.panel.sliders_mc._visible = true;}
-				this.panel.sliders_mc.aSlider._visible = true;
-				this.panel.sliders_mc.bSlider._visible = true;
-				this.panel.sliders_mc.cSlider._visible = true;
-				this.panel.sliders_mc.dSlider._visible = false;
-				this.panel.sliders_mc.eSlider._visible = false;
-				this.setSlidersBackground(3);
-				this.equationDisplay.equationDisplayTerms_mc.gotoAndStop(2);
-				this.equationDisplay.aEquals_txt._visible = true;
-				this.equationDisplay.aDisplay_txt._visible = true;
-				this.equationDisplay.bEquals_txt._visible = true;
-				this.equationDisplay.bDisplay_txt._visible = true;
-				this.equationDisplay.cEquals_txt._visible = true;
-				this.equationDisplay.cDisplay_txt._visible = true;
-				this.equationDisplay.dEquals_txt._visible = false;
-				this.equationDisplay.dDisplay_txt._visible = false;
-				this.equationDisplay.eEquals_txt._visible = false;
-				this.equationDisplay.eDisplay_txt._visible = false;
-				break;
-			case 3:
-				if(fitDescription == "adjustable"){this.panel.sliders_mc._visible = true;}
-				this.panel.sliders_mc.aSlider._visible = true;
-				this.panel.sliders_mc.bSlider._visible = true;
-				this.panel.sliders_mc.cSlider._visible = true;
-				this.panel.sliders_mc.dSlider._visible = true;
-				this.panel.sliders_mc.eSlider._visible = false;
-				this.setSlidersBackground(4);
-				this.equationDisplay.equationDisplayTerms_mc.gotoAndStop(3);
-				this.equationDisplay.aEquals_txt._visible = true;
-				this.equationDisplay.aDisplay_txt._visible = true;
-				this.equationDisplay.bEquals_txt._visible = true;
-				this.equationDisplay.bDisplay_txt._visible = true;
-				this.equationDisplay.cEquals_txt._visible = true;
-				this.equationDisplay.cDisplay_txt._visible = true;
-				this.equationDisplay.dEquals_txt._visible = true;
-				this.equationDisplay.dDisplay_txt._visible = true;
-				this.equationDisplay.eEquals_txt._visible = false;
-				this.equationDisplay.eDisplay_txt._visible = false;
-				break;
-			case 4:
-				if(fitDescription == "adjustable"){this.panel.sliders_mc._visible = true;}
-				this.panel.sliders_mc.aSlider._visible = true;
-				this.panel.sliders_mc.bSlider._visible = true;
-				this.panel.sliders_mc.cSlider._visible = true;
-				this.panel.sliders_mc.dSlider._visible = true;
-				this.panel.sliders_mc.eSlider._visible = true;
-				this.setSlidersBackground(5);
-				this.equationDisplay.equationDisplayTerms_mc.gotoAndStop(4);
-				this.equationDisplay.aEquals_txt._visible = true;
-				this.equationDisplay.aDisplay_txt._visible = true;
-				this.equationDisplay.bEquals_txt._visible = true;
-				this.equationDisplay.bDisplay_txt._visible = true;
-				this.equationDisplay.cEquals_txt._visible = true;
-				this.equationDisplay.cDisplay_txt._visible = true;
-				this.equationDisplay.dEquals_txt._visible = true;
-				this.equationDisplay.dDisplay_txt._visible = true;
-				this.equationDisplay.eEquals_txt._visible = true;
-				this.equationDisplay.eDisplay_txt._visible = true;
-				break;
-		}//end of switch
+		if(this.fitDescription == "adjustable"){
+			this.updateSliderAndEquationDisplay(fitType);
+			var nbrOfSliders:Number = fitType+1;
+			this.setSlidersBackground(nbrOfSliders);
+		}else{
+			this.panel.sliders_mc._visible = false;
+			this.updateSliderAndEquationDisplay(fitType);
+		}
 	}//end of setOrderOfFit()
 	
+	
+	
+	function updateSliderAndEquationDisplay(fitType:Number):Void{
+		var name_arr:Array = new Array("a","b","c","d","e");
+		this.equationDisplay.equationDisplayTerms_mc.gotoAndStop(fitType);
+		for(var i:Number = 0; i < fitType+1; i++){
+			this.panel.sliders_mc[name_arr[i]+ "Slider"]._visible = true;
+			this.equationDisplay[name_arr[i]+ "Equals_txt"]._visible = true;
+			this.equationDisplay[name_arr[i]+ "Display_txt"]._visible = true;
+		}
+		for(var i:Number = fitType+1; i < 5; i++){
+			this.panel.sliders_mc[name_arr[i]+ "Slider"]._visible = false;
+			this.panel.sliders_mc[name_arr[i]+ "Slider"].init();
+			this.equationDisplay[name_arr[i]+ "Equals_txt"]._visible = false;
+			this.equationDisplay[name_arr[i]+ "Display_txt"]._visible = false;
+		}
+		if(fitType == 0){
+			for(var i:Number = 0; i < 5; i++){
+				this.panel.sliders_mc[name_arr[i]+ "Slider"]._visible = false;
+				this.panel.sliders_mc[name_arr[i]+ "Slider"].init();
+				this.equationDisplay[name_arr[i]+ "Equals_txt"]._visible = false;
+				this.equationDisplay[name_arr[i]+ "Display_txt"]._visible = false;
+			}
+		}
+		
+				
+	}//end of updateSliderAndEquationDisplay
+	
 	function setSlidersBackground(nbrOfSliders:Number):Void{
-		var n:Number = nbrOfSliders;
-		var delWidth = 24;
-		this.panel.sliders_mc.background_mc.center_mc._width = n*delWidth;
-		this.panel.sliders_mc.background_mc.rightEdge_mc._x = 10 + n*delWidth;
-		this.panel.sliders_mc.hitBorder_mc._width = this.panel.sliders_mc.background_mc._width + n; //20 + n*delWidth;
+		if(nbrOfSliders == 0 || nbrOfSliders == 1){
+			this.panel.sliders_mc._visible = false;
+		}else{
+			this.panel.sliders_mc._visible = true;
+			var n:Number = nbrOfSliders;
+			var delWidth = 24;
+			this.panel.sliders_mc.background_mc.center_mc._width = n*delWidth;
+			this.panel.sliders_mc.background_mc.rightEdge_mc._x = 10 + n*delWidth;
+			this.panel.sliders_mc.hitBorder_mc._width = this.panel.sliders_mc.background_mc._width + n; 
+		}
+		//20 + n*delWidth;
 		//trace("this.panel.sliders_mc.background_mc._width: " + this.panel.sliders_mc.background_mc._width);
 		//trace("hitAreaWidth"+this.panel.sliders_mc.background_mc.hitBorder_mc._width);
-	}
+	}//end of setSlidersBackground()
 	
 	function setFitOrNot(fitOrNot:Number):Void{
 		if(fitOrNot == 1){  //fitOrNot == 1 means best fit
@@ -365,7 +331,10 @@ class MainView{
 			this.model.makeFit();
 		}else if(fitOrNot == 2){	//else adjustable fit
 			this.fitDescription = "adjustable";
-			this.panel.sliders_mc._visible = true;
+			var fitType = this.model.getOrderOfFit();
+			//trace("fitType: "+fitType);
+			this.setOrderOfFit(fitType);
+			//this.panel.sliders_mc._visible = true;
 			this.equationDisplay.bestFit_txt._visible = false;
 			this.equationDisplay.adjustableFit_txt._visible = true;
 			this.panel.sliders_mc.aSlider.update();
@@ -374,16 +343,6 @@ class MainView{
 			this.panel.sliders_mc.dSlider.update();
 			this.panel.sliders_mc.eSlider.update();
 			this.model.setFitOn(false);
-			/*
-			if(this.model.orderOfFit == 1){
-				this.panel.sliders_mc.cSlider._visible = false;
-				//this.panel.sliders_mc.cSlider.init(); //set c = 0
-				//this.panel.sliders_mc.cSlider.update();
-			}else if(this.model.orderOfFit == 2){
-				this.panel.sliders_mc.cSlider._visible = true;
-				this.panel.sliders_mc.cSlider.update();
-			}
-			*/
 		}
 	}//end of setFitOrNot()
 	
@@ -393,11 +352,14 @@ class MainView{
 		var c:Number = this.model.fitParameters[2];
 		var d:Number = this.model.fitParameters[3];
 		var e:Number = this.model.fitParameters[4];
-		this.equationDisplay.aDisplay_txt.text = Math.round(10*a)/10;
-		this.equationDisplay.bDisplay_txt.text = Math.round(100*b)/100;
+		this.equationDisplay.aDisplay_txt.text = Math.round(100*a)/100;
+		this.equationDisplay.bDisplay_txt.text = Math.round(1000*b)/1000;
 		this.equationDisplay.cDisplay_txt.text = Math.round(1000*c)/1000;
 		this.equationDisplay.dDisplay_txt.text = Util.expNotation(d);//Math.round(10000*d)/10000;
 		this.equationDisplay.eDisplay_txt.text = Util.expNotation(e);//Math.round(100000*e)/100000;
+		var rSquared:Number = this.model.getRSquared();
+		if(isNaN(rSquared) == NaN){rSquared = 0;}
+		this.equationDisplay.rSquared_txt.text = 1/10000*Math.round(10000*rSquared);
 		//if(isNaN(a)){this.equationDisplay.aDisplay_txt.text = "--";}
 		//if(isNaN(b)){this.equationDisplay.bDisplay_txt.text = "--";}
 	}
@@ -432,7 +394,7 @@ class MainView{
 		border.onReleaseOutside = border.onRelease;
 		
 		sliderBorder.onPress = function(){
-			slidersRef.startDrag(false, xMin, yMin, xMax, yMax); //left,top(yMin),right,bottom(yMax))
+			slidersRef.startDrag(false, 4*xMin, yMin, xMax, yMax); //left,top(yMin),right,bottom(yMax))
 			this.onMouseMove = function(){
 				updateAfterEvent();
 			}//end of onMouseMove()
@@ -465,7 +427,8 @@ class MainView{
 			var dataPointName:String = "dataPointHolder"+String(thisView.nbrPointsCreated);
 			var pointClip:MovieClip = localCanvas_mc.attachMovie("dataPointHolder",dataPointName,localCanvas_mc.getNextHighestDepth());
 			Util.setXYPosition(pointClip,_root._xmouse, _root._ymouse);
-			localCanvas_mc[dataPointName].startDrag(false, 0, 0, thisView.stageW, thisView.stageH);
+			pointClip.startDrag(false, 0, 0, thisView.stageW, thisView.stageH);
+			//localCanvas_mc[dataPointName].startDrag(false, 0, 0, thisView.stageW, thisView.stageH);
 			pointClip.displayDelY_mc._visible = false;
 			this.onMouseMove = function(){
 				var xNow = scaleFactor*(pointClip._x - Util.ORIGINX);
@@ -480,7 +443,18 @@ class MainView{
 			//create Point instance and attach to clip
 			var pointClip:MovieClip = localCanvas_mc[dataPointName];
 			var currentPoint:Point;
-			currentPoint = thisView.model.addPoint(scaleFactor*(_root._xmouse - Util.ORIGINX), scaleFactor*(-_root._ymouse + Util.ORIGINY), pointClip);
+			var decPlace:Number = 10;
+			var xNow:Number = (1/decPlace)*Math.round(decPlace*scaleFactor*(_root._xmouse - Util.ORIGINX));
+			var yNow:Number = (1/decPlace)*Math.round(decPlace*scaleFactor*(-_root._ymouse + Util.ORIGINY));
+			currentPoint = thisView.model.addPoint(xNow, yNow, pointClip);
+			//pointClip.errorBar_mc.bottom_mc._y;
+			var delY = scaleFactor*pointClip.errorBar_mc.bottom_mc._y;
+			currentPoint.setDeltaY(delY);
+			pointClip.displayDelY_mc.display_txt.text = 0.1*Math.round(10*delY);
+			if(thisView.myGraphView.showDeviations){
+				currentPoint.setVerticalBarVisibility(false);
+			}
+			//trace("delY: "+delY);
 			//pointClip.pointObject = thisView.model.addPoint(_root._xmouse - Util.ORIGINX, -(_root._ymouse - Util.ORIGINY), pointClip);
 			pointClip.stopDrag();
 			pointClip.display_mc._visible = false;

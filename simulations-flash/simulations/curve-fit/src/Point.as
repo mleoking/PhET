@@ -44,5 +44,16 @@ class Point{
 		this.deltaY = delY;
 		this.myModel.makeFit();
 	}
+	
+	function setVerticalBarVisibility(tOrF:Boolean):Void{
+		this.clip_mc.errorBar_mc.middle_mc._visible = tOrF;
+		if(tOrF){
+			this.clip_mc.errorBar_mc.top_mc._alpha = 100;
+			this.clip_mc.errorBar_mc.bottom_mc._alpha = 100;
+		}else{
+			this.clip_mc.errorBar_mc.top_mc._alpha = 20;
+			this.clip_mc.errorBar_mc.bottom_mc._alpha = 20;
+		}
+	}
 
 }//end of class
