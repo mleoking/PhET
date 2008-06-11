@@ -2,8 +2,6 @@ package edu.colorado.phet.circuitconstructionkit.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
-
 /**
  * User: Sam Reid
  * Date: Jun 9, 2004

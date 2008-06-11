@@ -8,14 +8,10 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
-import edu.colorado.phet.circuitconstructionkit.model.Circuit;
-import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
+import edu.colorado.phet.circuitconstructionkit.model.*;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
-import edu.colorado.phet.circuitconstructionkit.model.CompositeCircuitChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
