@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
