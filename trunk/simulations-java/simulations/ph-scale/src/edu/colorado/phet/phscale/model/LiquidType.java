@@ -8,6 +8,7 @@ import edu.colorado.phet.phscale.PHScaleStrings;
 public class LiquidType {
     
     // Well type values
+    public static final LiquidType LEMON_JUICE = new LiquidType( PHScaleStrings.CHOICE_LEMON_JUICE );
     public static final LiquidType MILK = new LiquidType( PHScaleStrings.CHOICE_MILK );
     public static final LiquidType BEER = new LiquidType( PHScaleStrings.CHOICE_BEER );
     public static final LiquidType COLA = new LiquidType( PHScaleStrings.CHOICE_COLA );

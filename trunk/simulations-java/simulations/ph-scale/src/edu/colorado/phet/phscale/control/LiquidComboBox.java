@@ -20,7 +20,9 @@ public class LiquidComboBox extends PComboBox {
         super();
         setFont( FONT );
         setBorder( BorderFactory.createLineBorder( Color.BLACK, 2 ) );
-        
+        setBackground( Color.WHITE );
+       
+        addItem( LiquidType.LEMON_JUICE );
         addItem( LiquidType.MILK );
         addItem( LiquidType.COLA );
         addItem( LiquidType.BEER );
