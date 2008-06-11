@@ -209,11 +209,18 @@ EOT;
             return false;
         }
 
+        if ($num_contributions == 1) {
+            $contributions_text = "is 1 contribution";
+        }
+        else {
+            $contributions_text = "are {$num_contributions} contributions";
+        }
+
         $html = '';
 
         $html .= <<<EOT
             <div id="browseresults" class="compact">
-            <p>There are {$num_contributions} contributions listed.</p>
+            <p>There {$contributions_text} listed.</p>
             <table>
                     <thead>
                         <tr>
