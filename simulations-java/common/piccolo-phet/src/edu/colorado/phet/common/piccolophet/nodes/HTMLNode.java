@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicHTML;
@@ -48,7 +49,7 @@ public class HTMLNode extends PNode {
     private Color htmlColor;
     private JLabel htmlLabel;
     private View htmlView;
-    private Rectangle htmlBounds;
+    private final Rectangle htmlBounds; // BasicHTML$Renderer.paint requires a Rectangle
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -71,6 +72,7 @@ public class HTMLNode extends PNode {
         this.font = font;
         this.htmlColor = htmlColor;
         htmlLabel = new JLabel();
+        htmlBounds = new Rectangle();
         update();
     }
 
@@ -154,8 +156,8 @@ public class HTMLNode extends PNode {
         htmlLabel.setForeground( htmlColor );
         htmlLabel.setSize( htmlLabel.getPreferredSize() );
         htmlView = BasicHTML.createHTMLView( htmlLabel, html == null ? "" : html );
-        htmlBounds = new Rectangle( htmlLabel.getPreferredSize() );
-        setBounds( htmlLabel.getBounds() );
+        htmlBounds.setRect( 0, 0, htmlView.getPreferredSpan( View.X_AXIS ), htmlView.getPreferredSpan( View.Y_AXIS ) );
+        setBounds( htmlBounds );
         repaint();
     }
 
@@ -175,7 +177,7 @@ public class HTMLNode extends PNode {
         if ( htmlLabel.getWidth() == 0 || htmlLabel.getHeight() == 0 ) {
             return;
         }
-        Graphics2D g = paintContext.getGraphics();
-        htmlView.paint( g, htmlBounds );
+        Graphics2D g2 = paintContext.getGraphics();
+        htmlView.paint( g2, htmlBounds );
     }
 }
