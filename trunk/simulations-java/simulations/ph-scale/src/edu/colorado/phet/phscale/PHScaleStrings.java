@@ -53,6 +53,8 @@ public class PHScaleStrings {
     public static final String RADIO_BUTTON_LOGARITHMIC_SCALE = PHScaleResources.getString( "radioButton.logarithmicScale" );
     public static final String RADIO_BUTTON_LINEAR_SCALE = PHScaleResources.getString( "radioButton.linearScale" );
 
+    public static final String TITLE_WATER_COMPONENTS = PHScaleResources.getString( "title.waterComponents" );
+    
     public static final String UNITS_LITERS = PHScaleResources.getString( "units.liters" );
     public static final String UNITS_MOLES = PHScaleResources.getString( "units.moles" );
     public static final String UNITS_MOLES_PER_LITER = PHScaleResources.getString( "units.molesPerLiter" );
