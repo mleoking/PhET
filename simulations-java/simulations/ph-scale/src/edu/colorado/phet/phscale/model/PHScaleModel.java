@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.phscale.model;
 
+import java.awt.Color;
+
 
 /**
  * PHScaleModel is the model for PHScaleModule.
@@ -14,7 +16,7 @@ public class PHScaleModel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ILiquid _liquid;
+    private final Liquid _liquid;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -22,17 +24,14 @@ public class PHScaleModel {
     
     public PHScaleModel() {
         super();
+        _liquid = new Liquid( 7, 1, Color.WHITE ); //XXX
     }
     
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setLiquid( ILiquid liquid ) {
-        _liquid = liquid;
-    }
-    
-    public ILiquid getLiquid() {
+    public Liquid getLiquid() {
         return _liquid;
     }
 }

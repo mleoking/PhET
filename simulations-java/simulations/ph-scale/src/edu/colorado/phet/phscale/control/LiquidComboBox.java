@@ -21,11 +21,11 @@ public class LiquidComboBox extends PComboBox {
         setFont( FONT );
         setBorder( BorderFactory.createLineBorder( Color.BLACK, 2 ) );
         setBackground( Color.WHITE );
-       
-        addItem( LiquidType.LEMON_JUICE );
-        addItem( LiquidType.MILK );
-        addItem( LiquidType.COLA );
-        addItem( LiquidType.BEER );
+        
+        LiquidType[] choices = LiquidType.getAll();
+        for ( int i = 0; i < choices.length; i++ ) {
+            addItem( choices[i] );
+        }
     }
     
     public void setLiquidType( LiquidType liquidType ) {
