@@ -515,24 +515,72 @@ EOT;
         $translations = sim_get_translations($this->simulation);
 
         if (count($translations) > 0) {
-            print <<<EOT
-                <ul class="indi-sim">
+            if ($this->sim_type == SIM_TYPE_FLASH) {
+                // Do a fancy header for Flash sims, because there are 2 choices:
+                //     Run it now immediatley (by clicking on the language icon)
+                //     Download and run it later
+                // Java may someday have this ability (it only has the first)
+
+                print <<<EOT
+            <table>
+                <thead>
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><strong>Language</strong></td>
+                        <td><strong>Download</strong></td>
+                    </tr>
+                </thead>
+                <tbody>
 
 EOT;
+            }
+            else {
+                // Java, no fancy header
+                print <<<EOT
+            <table>
+                <tbody>
 
-            foreach ($translations as $language => $launch_url) {
+EOT;
+            }
+
+            foreach ($translations as $language => $data) {
+                $language_code = $data["code"];
+                $launch_url = $data["url"];
+
                 $language_icon_url = sim_get_language_icon_url_from_language_name($language);
 
                 // Flash sims should run in a new window
                 $onclick = "";
                 if ($this->sim_type == SIM_TYPE_FLASH) {
                     $onclick = 'onclick="javascript:open_limited_window(\''.$launch_url.'\',\'simwindow\'); return false;"';
+
+                    // Here is the special download flash version option
+                    $flash_download_html = <<<EOT
+                <td>
+                    <a href="{$this->sim_run_offline_link}&amp;lang={$language_code}" title="Click here to download the {$language} version of {$formatted_sim_name}">Download {$language} version to run offline</a>
+                </td>
+
+EOT;
                 }
 
-                print "<li><a href=\"$launch_url\" $onclick title=\"Click here to launch the $language version of {$formatted_sim_name}\"><img class=\"image-text\" src=\"$language_icon_url\" alt=\"$language\"/></a> - <a href=\"$launch_url\" $onclick title=\"Click here to launch the $language version of {$formatted_sim_name}\">$language</a></li>\n";
+                print <<<EOT
+            <tr>
+                <td>
+                    <a href="{$launch_url}" {$onclick} title="Click here to launch the {$language} version of {$formatted_sim_name}"><img class="image-text" src="{$language_icon_url}" alt="{$language}"/></a>
+                </td>
+                <td>
+                    <a href="{$launch_url}" {$onclick} title="Click here to launch the {$language} version of {$formatted_sim_name}">{$language}</a>
+                </td>
+                {$flash_download_html}
+            </tr>
+
+EOT;
             }
 
-            print '</ul>';
+            print <<<EOT
+                </tbody>
+            </table>
+
+EOT;
         }
         else {
             print <<<EOT
