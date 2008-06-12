@@ -7,7 +7,7 @@
     <licenseFile>../../Installer-Resources/Install-Path/license.txt</licenseFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
     <leftImage></leftImage>
-    <logoImage>../../Installer-Resources/Install-Path/Phet-logo-48x48.gif</logoImage>
+    <logoImage>../../Installer-Resources/Install-Path/phet-logo-48x48.png</logoImage>
     <splashImage></splashImage>
     <defaultLanguage>en</defaultLanguage>
     <allowLanguageSelection>0</allowLanguageSelection>
@@ -46,11 +46,11 @@
                 <fileShortcut>
                      <comment>Launches local mirror of the PhET website.</comment>
                      <filePath>${installdir}/new/index.html</filePath>
-                     <icon>${installdir}/Phet-logo-48x48.gif</icon>
+                     <icon>${installdir}/phet-logo-48x48.png</icon>
                      <name>PhET Simulations</name>
                      <platforms>windows</platforms>
                      <runInTerminal>0</runInTerminal>
-                     <windowsIcon>${installdir}/Phet-logo-48x48.ico</windowsIcon>
+                     <windowsIcon>${installdir}/phet-icon.ico</windowsIcon>
                 </fileShortcut>
             </desktopShortcutList>
             <folderList>
@@ -67,10 +67,10 @@
                             <origin>../../temp/website/phet.colorado.edu/sims</origin>
                         </distributionDirectory>
                         <distributionFile>
-                            <origin>../../Installer-Resources/Install-Path/Phet-logo-48x48.gif</origin>
+                            <origin>../../Installer-Resources/Install-Path/phet-logo-48x48.png</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../Installer-Resources/Install-Path/Phet-logo-48x48.ico</origin>
+                            <origin>../../Installer-Resources/Install-Path/phet-icon.ico</origin>
                         </distributionFile>
                     </distributionFileList>
                     <shortcutList>
@@ -90,11 +90,11 @@
                         <fileShortcut>
                             <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
                             <filePath>${installdir}/new/index.html</filePath>
-                            <icon>${installdir}/Phet-logo-48x48.gif</icon>
+                            <icon>${installdir}/phet-logo-48x48.png</icon>
                             <name>PhET Simulations</name>
                             <platforms>all</platforms>
                             <runInTerminal>0</runInTerminal>
-                            <windowsIcon>${installdir}/Phet-logo-48x48.ico</windowsIcon>
+                            <windowsIcon>${installdir}/phet-icon.ico</windowsIcon>
                         </fileShortcut>
                     </shortcutList>
 
@@ -147,7 +147,7 @@
                     <filePath>${installdir}/new/index.html</filePath>
                     <name>PhET Simulations</name>
                     <runInTerminal>0</runInTerminal>
-                    <windowsIcon>${installdir}/Phet-logo-48x48.ico</windowsIcon>
+                    <windowsIcon>${installdir}/phet-icon.ico</windowsIcon>
                 </startMenuFileShortcut>
             </startMenuShortcutList>
         </component>
@@ -227,5 +227,12 @@
     <preUninstallationActionList/>
     <readyToInstallActionList/>
     <slideShowImageList/>
+    <customLanguageFileList>
+        <language>
+            <code>en</code>
+            <encoding>iso8859-1</encoding>
+            <file>./phet_installer_en.lng</file>
+        </language>
+    </customLanguageFileList>
 </project>
 

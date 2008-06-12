@@ -1,1 +1,2 @@
 Installer.Ready.Text1=Setup is now ready to begin installing %1$s on your computer.  Please click "Next" to begin the installation.
+Installer.Parameter.installdir.explanation=Please specify the directory where ${product_shortname} will be installed.  To accept the default directory, just click "Next".
