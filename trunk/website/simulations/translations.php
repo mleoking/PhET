@@ -31,7 +31,7 @@ class TranslationsPage extends SitePage {
 
 EOT;
 
-        $sim_to_translations = sim_get_all_translated_language_names();
+         $sim_to_translations = sim_get_all_translated_language_names();
 
          $languages = array();
 
