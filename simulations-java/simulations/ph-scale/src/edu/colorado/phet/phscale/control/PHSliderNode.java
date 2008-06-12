@@ -5,9 +5,8 @@ package edu.colorado.phet.phscale.control;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -16,18 +15,27 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * PHSliderNode is a custom Piccolo slider for setting pH.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PHSliderNode extends PNode {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     // whether the max is on top or bottom
     private static final boolean MAX_AT_TOP = true;
@@ -56,14 +64,25 @@ public class PHSliderNode extends PNode {
     private static final Stroke TICK_STROKE = new BasicStroke( TICK_STROKE_WIDTH );
     private static final Color TICK_COLOR = Color.BLACK;
     private static final double TICK_LABEL_SPACING = 2;
+    private static final double TICK_TRACK_SPACING = 3; // space between ticks and the track
 
     // Labels
     private static final Font ACID_BASE_FONT = new PhetFont( 16 );
+    private static final int ACID_BASE_TRACK_SPACING = 4; // space between acid/base labels and track
+    private static final int ACID_BASE_MARGIN = 5; // acid/base labels are y-offset this amount from ends of track
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final TrackNode _trackNode;
     private final KnobNode _knobNode;
-    private double _pH;
     private final ArrayList _listeners;
+    private double _pH;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public PHSliderNode( PDimension trackSize, PDimension knobSize ) {
         super();
@@ -113,24 +132,28 @@ public class PHSliderNode extends PNode {
         baseLabelNode.setFont( ACID_BASE_FONT );
         baseLabelNode.rotate( -Math.PI / 2 );
 
+        // Rendering order
         addChild( _trackNode );
         addChild( acidLabelNode );
         addChild( baseLabelNode );
         addChild( tickNodes );
         addChild( _knobNode );
         
-        _trackNode.setOffset( 0, 0 ); // origin at the upper-left corner of the track
-        tickNodes.setOffset( _trackNode.getFullBoundsReference().getMaxX() + 5, _trackNode.getYOffset() );
-        _knobNode.setOffset( _trackNode.getFullBoundsReference().getMaxX() + ( 0.25 * _knobNode.getFullBoundsReference().getWidth() ), 0 );
-        final int xSpacing = 4; // space between range labels and track
-        final int yMargin = 5; // range labels are offset this amount from ends of track
+        // Positions:
+        // origin at the upper-left corner of the track
+        _trackNode.setOffset( 0, 0 );
+        // ticks to right of track
+        tickNodes.setOffset( _trackNode.getFullBoundsReference().getMaxX() + TICK_TRACK_SPACING, _trackNode.getYOffset() );
+        // knob overlaps the track
+        _knobNode.setOffset( _trackNode.getFullBoundsReference().getMaxX() + ( 0.25 * _knobNode.getFullBoundsReference().getWidth() ), 0 ); // y offset doesn't matter
+        // acid/base labels at top-left and bottom-left of track
         if ( MAX_AT_TOP ) {
-            acidLabelNode.setOffset( -( acidLabelNode.getFullBoundsReference().getWidth() + xSpacing ), _trackNode.getFullBoundsReference().getHeight() - yMargin ); // bottom left of the track
-            baseLabelNode.setOffset( -( baseLabelNode.getFullBoundsReference().getWidth() + xSpacing ), baseLabelNode.getFullBoundsReference().getHeight() + yMargin ); // top left of the track
+            acidLabelNode.setOffset( -( acidLabelNode.getFullBoundsReference().getWidth() + ACID_BASE_TRACK_SPACING ), _trackNode.getFullBoundsReference().getHeight() - ACID_BASE_MARGIN ); 
+            baseLabelNode.setOffset( -( baseLabelNode.getFullBoundsReference().getWidth() + ACID_BASE_TRACK_SPACING ), baseLabelNode.getFullBoundsReference().getHeight() + ACID_BASE_MARGIN ); 
         }
         else {
-            baseLabelNode.setOffset( -( baseLabelNode.getFullBoundsReference().getWidth() + xSpacing ), _trackNode.getFullBoundsReference().getHeight() - yMargin ); // bottom left of the track
-            acidLabelNode.setOffset( -( acidLabelNode.getFullBoundsReference().getWidth() + xSpacing ), acidLabelNode.getFullBoundsReference().getHeight() + yMargin ); // top left of the track    
+            baseLabelNode.setOffset( -( baseLabelNode.getFullBoundsReference().getWidth() + ACID_BASE_TRACK_SPACING ), _trackNode.getFullBoundsReference().getHeight() - ACID_BASE_MARGIN );
+            acidLabelNode.setOffset( -( acidLabelNode.getFullBoundsReference().getWidth() + ACID_BASE_TRACK_SPACING ), acidLabelNode.getFullBoundsReference().getHeight() + ACID_BASE_MARGIN );
         }
         
         initInteractivity();
@@ -140,42 +163,80 @@ public class PHSliderNode extends PNode {
         setPH( 13 );
     }
     
+    /*
+     * Adds interactivity to the knob.
+     */
     private void initInteractivity() {
         
         // hand cursor on knob
         _knobNode.addInputEventListener( new CursorHandler() );
         
         // Constrain the knob to be dragged vertically within the track
-        double xMin = _trackNode.getFullBounds().getX() - ( _knobNode.getFullBounds().getWidth() / 2 );
-        double xMax = _trackNode.getFullBounds().getX() + ( _knobNode.getFullBounds().getWidth() / 2 );
-        double yMin = _trackNode.getFullBounds().getY() - ( _knobNode.getFullBounds().getHeight() / 2 );
-        double yMax = _trackNode.getFullBounds().getMaxY() + ( _knobNode.getFullBounds().getHeight() / 2 );
-        Rectangle2D dragBounds = new Rectangle2D.Double( xMin, yMin, xMax - xMin, yMax - yMin );
-        PPath dragBoundsNode = new PPath( dragBounds );
-        dragBoundsNode.setStroke( null );
-        addChild( dragBoundsNode );
-        BoundedDragHandler dragHandler = new BoundedDragHandler( _knobNode, dragBoundsNode );
-        _knobNode.addInputEventListener( dragHandler );
-        
-        // Update the value when the knob is moved.
-        _knobNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                    updateValue();
+        _knobNode.addInputEventListener( new PDragEventHandler() {
+            
+            private double _globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
+            
+            protected void startDrag( PInputEvent event ) {
+                super.startDrag( event );
+                // note the offset between the mouse click and the knob's origin
+                Point2D pMouseLocal = event.getPositionRelativeTo( PHSliderNode.this );
+                Point2D pMouseGlobal = PHSliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pKnobGlobal = PHSliderNode.this.localToGlobal( _knobNode.getOffset() );
+                _globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
+            }
+
+            protected void drag(PInputEvent event) {
+                
+                // determine the knob's new offset
+                Point2D pMouseLocal = event.getPositionRelativeTo( PHSliderNode.this );
+                Point2D pMouseGlobal = PHSliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
+                Point2D pKnobLocal = PHSliderNode.this.globalToLocal( pKnobGlobal );
+                
+                // convert the offset to a pH value
+                double yOffset = pKnobLocal.getY();
+                double trackLength = _trackNode.getFullBoundsReference().getHeight();
+                double pH = 0;
+                if ( MAX_AT_TOP ) {
+                    pH = RANGE.getMin() + RANGE.getLength() * ( trackLength - yOffset ) / trackLength;
                 }
+                else {
+                    pH = RANGE.getMax() - RANGE.getLength() * ( trackLength - yOffset ) / trackLength;
+                }
+                
+                if ( pH < RANGE.getMin() ) {
+                    pH = RANGE.getMin();
+                }
+                else if ( pH > RANGE.getMax() ) {
+                    pH = RANGE.getMax();
+                }
+                
+                // set the pH (this will move the knob)
+                setPH( pH );
             }
         } );
     }
     
-    private void updateValue() {
-        //XXX
-    }
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
+    /**
+     * Gets the pH value.
+     * 
+     * @return double
+     */
     public double getPH() {
         return _pH;
     }
     
+    /**
+     * Sets the pH value and notifies all ChangeListeners.
+     * 
+     * @param pH
+     */
     public void setPH( double pH ) {
+        System.out.println( "PHSliderNode.setPH " + pH );//XXX
         if ( pH < RANGE.getMin() || pH > RANGE.getMax() ) {
             throw new IllegalArgumentException( "pH is out of range: " + pH );
         }
@@ -191,6 +252,10 @@ public class PHSliderNode extends PNode {
             notifyChanged();
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
     
     /*
      * The slider track, vertical orientation, 
@@ -244,6 +309,10 @@ public class PHSliderNode extends PNode {
         }
     }
     
+    /*
+     * Tick mark, with optional label to the right of the tick.
+     * Origin is at the left center of the tick.
+     */
     private static class TickMarkNode extends PComposite {
         
         public TickMarkNode() {
@@ -270,6 +339,10 @@ public class PHSliderNode extends PNode {
             }
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
     
     public void addChangeListener( ChangeListener listener ) {
         _listeners.add( listener );

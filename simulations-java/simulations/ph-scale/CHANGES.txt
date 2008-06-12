@@ -24,8 +24,6 @@ DESIGN ISSUES
 DESIGN ISSUES:
 
 HIGH PRIORITY:
-- change pH value when slider knob is moved
-- pH slider knob is off by a pixel, need to take stroke width into account in calculations
 
 MEDIUM PRIORITY:
 
@@ -43,6 +41,8 @@ CLEANUP:
 
 
 DONE:
+6/12/08 - change pH value when slider knob is moved
+6/12/08 - pH slider knob is off by a pixel, need to take stroke width into account in calculations
 6/12/08 - custom Piccolo slider for setting pH
 6/12/08 - FaucetNode
 6/10/08 - make faucet images taller
