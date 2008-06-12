@@ -24,6 +24,7 @@ DESIGN ISSUES
 DESIGN ISSUES:
 
 HIGH PRIORITY:
+- change pH value when slider knob is moved
 
 MEDIUM PRIORITY:
 

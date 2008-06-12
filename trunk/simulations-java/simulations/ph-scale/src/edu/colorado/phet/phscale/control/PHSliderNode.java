@@ -8,6 +8,11 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -15,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
+import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -55,10 +61,13 @@ public class PHSliderNode extends PNode {
     private final TrackNode _trackNode;
     private final KnobNode _knobNode;
     private double _pH;
+    private final ArrayList _listeners;
     
     public PHSliderNode( PDimension trackSize, PDimension knobSize ) {
         super();
         
+        _listeners = new ArrayList();
+            
         _trackNode = new TrackNode( trackSize );
         _knobNode = new KnobNode( knobSize );
         
@@ -177,6 +186,7 @@ public class PHSliderNode extends PNode {
             else {
                 _knobNode.setOffset( xOffset, _trackNode.getFullBoundsReference().getHeight() - yOffset + + ( _knobNode.getFullBoundsReference().getHeight() / 2 ) );
             }
+            notifyChanged();
         }
     }
     
@@ -255,6 +265,22 @@ public class PHSliderNode extends PNode {
                 labelNode.setOffset( tickNode.getFullBoundsReference().getMaxX() + TICK_LABEL_SPACING, -labelNode.getFullBoundsReference().getHeight() / 2 );
                 addChild( labelNode );
             }
+        }
+    }
+    
+    public void addChangeListener( ChangeListener listener ) {
+        _listeners.add( listener );
+    }
+    
+    public void removeChangeListener( ChangeListener listener ) {
+        _listeners.add( listener );
+    }
+    
+    private void notifyChanged() {
+        ChangeEvent event = new ChangeEvent( this );
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ChangeListener) i.next() ).stateChanged( event );
         }
     }
 }
