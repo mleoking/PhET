@@ -3,17 +3,14 @@
 package edu.colorado.phet.phscale.control;
 
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.SwingConstants;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.phscale.PHScaleImages;
 import edu.colorado.phet.phscale.control.MomentarySlider.OnOffSliderListener;
+import edu.colorado.phet.phscale.view.FaucetNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -32,18 +29,10 @@ public class FaucetControlNode extends PNode {
         
         _listeners = new ArrayList();
         
-        BufferedImage image = null;
-        if ( orientation == ORIENTATION_RIGHT ) {
-            image = PHScaleImages.FAUCET;
-        }
-        else {
-            image = BufferedImageUtils.flipX( PHScaleImages.FAUCET );
-        }
-        PImage faucetImage = new PImage( image );
-        faucetImage.scale( 0.05 );//XXX
+        PNode faucetNode = new FaucetNode( orientation );
         
         _slider = new MomentarySlider();
-        final int sliderWidth = (int) ( faucetImage.getFullBoundsReference().getWidth() - ( 2 * MARGIN ) );
+        final int sliderWidth = (int) ( faucetNode.getFullBoundsReference().getWidth() - ( 2 * MARGIN ) );
         final int sliderHeight = (int) ( _slider.getPreferredSize().getHeight() );
         _slider.setPreferredSize( new Dimension( sliderWidth, sliderHeight ) );
         _slider.addOnOffSliderListener( new OnOffSliderListener() {
@@ -53,10 +42,10 @@ public class FaucetControlNode extends PNode {
         });
         PSwing sliderWrapper = new PSwing( _slider );
         
-        addChild( faucetImage );
+        addChild( faucetNode );
         addChild( sliderWrapper );
         
-        sliderWrapper.setOffset( MARGIN, 0.38 * faucetImage.getFullBoundsReference().getHeight() ); //XXX image specific
+        sliderWrapper.setOffset( MARGIN, 0.38 * faucetNode.getFullBoundsReference().getHeight() ); //XXX image specific
     }
     
     public void setOn( boolean on ) {
