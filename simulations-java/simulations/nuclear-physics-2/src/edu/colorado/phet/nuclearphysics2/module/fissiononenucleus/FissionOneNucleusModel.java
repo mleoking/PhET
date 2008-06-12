@@ -31,9 +31,9 @@ public class FissionOneNucleusModel {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-    private static final double MOVING_NUCLEUS_VELOCITY = 0.1;  // Femtometers per tick.
     private static final double MOVING_NUCLEON_VELOCITY = 1.0;  // Femtometers per tick.
-    private static final double MOVING_NUCLEUS_ACCELERATION = 0.075;  // Femtometers per tick per tick.
+    private static final double INITIAL_NUCLEUS_VELOCITY = 0.05;  // Femtometers per tick.
+    private static final double INITIAL_NUCLEUS_ACCELERATION = 0.4;  // Femtometers per tick per tick.
     
     // Time, in sim milliseconds, from the capture of a neutron until fission
     // occurs.
@@ -51,6 +51,8 @@ public class FissionOneNucleusModel {
     private ArrayList _listeners = new ArrayList();
     private ConstantDtClock _clock;
     private Random _rand = new Random();
+    private Vector2D _initialParentAccel;
+    private Vector2D _initialDaughterAccel;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -258,14 +260,16 @@ public class FissionOneNucleusModel {
                     if (_rand.nextBoolean()){
                         angle += Math.PI;
                     }
-                    double xVel = Math.sin( angle ) * MOVING_NUCLEUS_VELOCITY;
-                    double yVel = Math.cos( angle ) * MOVING_NUCLEUS_VELOCITY;
-                    double xAcc = Math.sin( angle ) * MOVING_NUCLEUS_ACCELERATION;
-                    double yAcc = Math.cos( angle ) * MOVING_NUCLEUS_ACCELERATION;
+                    double xVel = Math.sin( angle ) * INITIAL_NUCLEUS_VELOCITY;
+                    double yVel = Math.cos( angle ) * INITIAL_NUCLEUS_VELOCITY;
+                    double xAcc = Math.sin( angle ) * INITIAL_NUCLEUS_ACCELERATION;
+                    double yAcc = Math.cos( angle ) * INITIAL_NUCLEUS_ACCELERATION;
                     _primaryNucleus.setVelocity( xVel, yVel );
                     _primaryNucleus.setAcceleration( xAcc, yAcc );
+                    _initialParentAccel = new Vector2D.Double( xAcc, yAcc );
                     _daughterNucleus.setVelocity( -xVel, -yVel );
                     _daughterNucleus.setAcceleration( -xAcc, -yAcc );
+                    _initialDaughterAccel = new Vector2D.Double( -xAcc, -yAcc );
                 }
                 else {
                     // We should never get here, debug it if it does.
@@ -278,10 +282,20 @@ public class FissionOneNucleusModel {
     
     private void updateNucleiBehavior(){
         if (_daughterNucleus != null){
-            Vector2D.Double acceleration = _daughterNucleus.getAcceleration();
-            _daughterNucleus.setAcceleration( acceleration.scale( 0.99 ) );
-            acceleration = _primaryNucleus.getAcceleration();
-            _primaryNucleus.setAcceleration( acceleration.scale( 0.99 ) );            
+            // The nuclei have fissioned and are traveling away from each
+            // other.  As they do this, the acceleration decreases because the
+            // force they exert on each other becomes smaller.  That's what we
+            // are trying to model here.
+            double distance = 
+                _daughterNucleus.getPositionReference().distance( _primaryNucleus.getPositionReference() ) /
+                _primaryNucleus.getDiameter();
+            if (distance > 1){
+                double scaleFactor = 1 / (distance * distance);
+                _daughterNucleus.setAcceleration(_initialDaughterAccel.getX() * scaleFactor,
+                        _initialDaughterAccel.getY() * scaleFactor);
+                _primaryNucleus.setAcceleration(_initialParentAccel.getX() * scaleFactor,
+                        _initialParentAccel.getY() * scaleFactor);
+            }
         }
     }
     
