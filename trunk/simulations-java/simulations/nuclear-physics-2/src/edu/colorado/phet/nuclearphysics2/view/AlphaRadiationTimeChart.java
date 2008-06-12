@@ -437,7 +437,6 @@ public class AlphaRadiationTimeChart extends PNode {
         yAxisUpperTickMarkLabel.setOffset( _graphOriginX - ( 1.15 * yAxisUpperTickMarkLabel.getWidth() ), yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
 
         // Position the labels for the axes.
-        //        _xAxisLabel.setOffset( _graphOriginX, _graphOriginY + ((PText)_xAxisTickMarkLabels.get( 0 )).getHeight());
         _xAxisLabel.setOffset( _usableAreaOriginX + _usableWidth / 2 - ( _xAxisLabel.getWidth() / 2 ), _graphOriginY + ( (PText) _xAxisTickMarkLabels.get( 0 ) ).getHeight() );
         _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - ( 2.0 * _yAxisLabel1.getFont().getSize() ), _graphOriginY );
         _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ), _graphOriginY );
