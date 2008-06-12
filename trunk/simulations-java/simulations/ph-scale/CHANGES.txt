@@ -41,6 +41,7 @@ CLEANUP:
 
 
 DONE:
+6/12/08 - FaucetNode
 6/10/08 - make faucet images taller
 6/10/08 - placeholder for PHSliderNode
 6/10/08 - Reset All button
