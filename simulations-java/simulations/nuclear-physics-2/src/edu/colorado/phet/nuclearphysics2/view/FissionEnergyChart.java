@@ -463,7 +463,7 @@ public class FissionEnergyChart extends PComposite {
 
         // This controls the width of the crossover zone from the 1/r tail
         // portions to the well portion.
-        double crossoverZoneWidth = _energyWellWidth / 3.5;
+        double crossoverZoneWidth = _energyWellWidth / 3.75;
         
         // Move to the starting point for the curve.
         _potentialEnergyWell.moveTo( (float)xScreenPos, 
