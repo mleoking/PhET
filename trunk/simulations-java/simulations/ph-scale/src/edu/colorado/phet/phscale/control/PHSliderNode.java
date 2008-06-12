@@ -45,7 +45,7 @@ public class PHSliderNode extends PNode {
     // Knob
     private static final int KNOB_STROKE_WIDTH = 1;
     private static final Stroke KNOB_STROKE = new BasicStroke( KNOB_STROKE_WIDTH );
-    private static final Color KNOB_FILL_COLOR = Color.WHITE;
+    private static final Color KNOB_FILL_COLOR = new Color( 255, 255, 255, 200 ); // translucent white
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
     
     // Ticks
@@ -137,7 +137,7 @@ public class PHSliderNode extends PNode {
         
         // initialize
         setPH( RANGE.getDefault() );
-        setPH( 12 );
+        setPH( 13 );
     }
     
     private void initInteractivity() {
@@ -181,7 +181,7 @@ public class PHSliderNode extends PNode {
         }
         if ( pH != _pH ) {
             double xOffset = _knobNode.getXOffset();
-            double yOffset = ( ( RANGE.getMax() - pH ) / RANGE.getLength() ) * _trackNode.getFullBoundsReference().getHeight() ;
+            double yOffset = _trackNode.getFullBoundsReference().getHeight() * ( ( RANGE.getMax() - pH ) / RANGE.getLength() );
             if ( MAX_AT_TOP ) {
                 _knobNode.setOffset( xOffset, yOffset );
             }
@@ -193,7 +193,9 @@ public class PHSliderNode extends PNode {
     }
     
     /*
-     * The slider track, filled with a gradient that indicates the transition from acid to base.
+     * The slider track, vertical orientation, 
+     * filled with a gradient paint that indicates the transition from acid to base.
+     * Origin is at the upper left corner.
      */
     private static class TrackNode extends PNode {
         public TrackNode( PDimension size ) {
@@ -217,12 +219,12 @@ public class PHSliderNode extends PNode {
     }
     
     /*
-     * The slider knob, origin at tip.
+     * The slider knob, points to the right.
+     * Origin is at the knob's tip.
      */
     private static class KnobNode extends PNode {
         public KnobNode( PDimension size ) {
 
-            // tip of knob to the right, origin at the tip
             float w = (float) size.getWidth();
             float h = (float) size.getHeight();
             GeneralPath knobPath = new GeneralPath();
