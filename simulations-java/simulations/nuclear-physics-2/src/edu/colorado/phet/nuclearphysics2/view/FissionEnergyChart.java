@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
@@ -31,8 +32,9 @@ import edu.umd.cs.piccolox.nodes.PLine;
 
 
 /**
- * This class displays a chart that depicts the energy curve for a nuclear
- * fission of a single nucleus.
+ * This class displays a chart that depicts the potential energy profile for a
+ * nucleus of Uranium 235 and animates the energy level when the nucleus
+ * absorbs a neutron and fissions as a result.
  *
  * @author John Blanco
  */
@@ -65,7 +67,20 @@ public class FissionEnergyChart extends PComposite {
     private static final double  NUCLEI_SCALING_FACTOR = 0.15;
     private static final double  ARROW_HEAD_HEIGHT = 9;
     private static final double  ARROW_HEAD_WIDTH = 7;
-
+    private static final double  TICK_MARK_LENGTH = 5;
+    private static final float   TICK_MARK_WIDTH = 2;
+    private static final Stroke  TICK_MARK_STROKE = new BasicStroke( TICK_MARK_WIDTH );
+    private static final Font    TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
+    private static final Color   TICK_MARK_COLOR = AXES_LINE_COLOR;
+    
+    // Important Note: The Y-axis of this graph is not using real units,
+    // such as MeV, because if it did the proportions would be too hard to
+    // see.  It is thus "hollywooded" to look correct.  The following
+    // constants control the scale of the Y-axis and the important points
+    // within the graph in the Y dimension.
+    private static final double Y_AXIS_TOTAL_POSITVE_SPAN = 100;
+    private static final double BOTTOM_OF_ENERGY_WELL = 60;
+    private static final double PEAK_OF_ENERGY_WELL = 80;
     
     // Possible state values for tracking the relevant state of the model.
     private static final int STATE_IDLE = 0;
@@ -93,8 +108,10 @@ public class FissionEnergyChart extends PComposite {
     private PNode _unfissionedNucleusImage;
     private PNode _largerDaughterNucleusImage;
     private PNode _smallerDaughterNucleusImage;
+    private PPath _xAxisTickMark;
+    private PText _xAxisTickMarkLabel;
     
-    // Variable used for positioning nodes within the chart.
+    // Variables used for positioning nodes within the chart.
     double _usableAreaOriginX;
     double _usableAreaOriginY;
     double _usableWidth;
@@ -120,6 +137,9 @@ public class FissionEnergyChart extends PComposite {
     
     // Reference to the daughter nucleus that exists after fission occurs.
     DaughterCompositeNucleus _daughterNucleus;
+    
+    // Sample averager, used for drawing potential energy curve.
+    SampleAverager _sampleAverager;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -130,6 +150,7 @@ public class FissionEnergyChart extends PComposite {
         _model = model;
         _canvas = canvas;
         _origNumNeturons = _model.getAtomicNucleus().getNumNeutrons();
+        _sampleAverager = new SampleAverager();
         setPickable( false );
         
         // Register as a clock listener, since we need to be clocked in order
@@ -244,6 +265,15 @@ public class FissionEnergyChart extends PComposite {
         _xAxisLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         addChild( _xAxisLabel );
         
+        // Add the tick mark and its label for the X axis.
+        _xAxisTickMark = new PPath();
+        _xAxisTickMark.setStroke( TICK_MARK_STROKE );
+        _xAxisTickMark.setStrokePaint( TICK_MARK_COLOR );
+        addChild( _xAxisTickMark );
+        _xAxisTickMarkLabel = new PText("0");
+        _xAxisTickMarkLabel.setFont( TICK_MARK_LABEL_FONT );
+        addChild( _xAxisTickMarkLabel );
+        
         // Create the legend (i.e. key) node for the chart.
         _legend = new PPath();
         _legend.setStroke( LEGEND_BORDER_STROKE );
@@ -347,9 +377,13 @@ public class FissionEnergyChart extends PComposite {
         _xAxisLabel.setOffset( xAxisTipPt.getX() - _xAxisLabel.getWidth() - _xAxisOfGraph.getHeadHeight() - 10,
                 _graphOriginY + 5);
 
+        // Position the tick marks and labels.
+        _xAxisTickMark.setPathTo( new Line2D.Double(_usableAreaOriginX/2 + _usableWidth/2, _graphOriginY, 
+                _usableAreaOriginX/2 + _usableWidth/2, _graphOriginY - TICK_MARK_LENGTH));
+        _xAxisTickMarkLabel.setOffset( _usableAreaOriginX/2 + _usableWidth/2 - (_xAxisTickMarkLabel.getWidth()/2), 
+                _graphOriginY + (_xAxisTickMarkLabel.getHeight()/2) );
         
         // Position the line that represents the total energy.
-        
         _totalEnergyLine.removeAllPoints();
         _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3*BORDER_STROKE_WIDTH, _graphOriginY - _usableHeight * 0.40 );
         _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3*BORDER_STROKE_WIDTH, _graphOriginY - _usableHeight * 0.40 );
@@ -396,99 +430,85 @@ public class FissionEnergyChart extends PComposite {
         updateBounds( width, height );
     }
     
-    //-----------------------------------------------------------------------
-    // Below are some parameters that can be used to tweak the potential
-    // energy curve without needing to dig too deeply into the code that
-    // actually draws the curve.
-    //-----------------------------------------------------------------------
-
-    // Amount of the visible x axis that the curve spans.
-    public static final double CURVE_WIDTH_FACTOR = 0.85;
-    
-    // Overall height of the curve.
-    public static final double CURVE_HEIGHT_FACTOR = 0.9;
-    
-    // Depth of the energy well as a function of usable height of the chart.
-    public static final double ENERGY_WELL_DEPTH_FACTOR = 0.45;
-    
     /**
      * This method draws the line that represents the potential energy well
-     * for the nucleus.  It is being made into its own method because it is
-     * complex and will simplify reading the rest of the update code, and
-     * because at some point it may be refactored to make it more "real" as
-     * opposed to an approximated drawing.
+     * for the nucleus.
      */
     private void drawPotentialEnergyWell(){
         
         // Clear the existing curve.
         _potentialEnergyWell.reset();
                 
-        double x1, y1, ctrlx1, ctrly1, x2, y2, ctrlx2, ctrly2;
+        double startX     = _usableAreaOriginX + (3 * BORDER_STROKE_WIDTH);
+        double centerX    = _usableAreaOriginX/2 + _usableWidth/2;
+        double endX       = _usableAreaOriginX + _usableWidth - (3*BORDER_STROKE_WIDTH);
+        double xScreenPos = startX;
         
-        // Calculate the positioning of the first curve, which is the one that
-        // goes from the leftmost point up to the left peak of the energy well.
+        // The following multiplier is used to scale the left and right tails
+        // of the curve to values that make the visual representation reasonable.
+        double tailMultiplier = (_energyWellWidth * PEAK_OF_ENERGY_WELL / 2);
         
-        x1 = _usableAreaOriginX + ((1.0 - CURVE_WIDTH_FACTOR) * _usableWidth);
-        y1 = _graphOriginY;
-        ctrlx1 = x1 + (0.3 * _usableWidth);
-        ctrly1 = y1;
-        x2 = _usableAreaOriginX/2 + _usableWidth/2 - _energyWellWidth/2;
-        y2 = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
-        ctrlx2 = x2 - (0.035 * _usableWidth);
-        ctrly2 = y2;
-        
-        CubicCurve2D leftmostCurve = new CubicCurve2D.Double(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);
-        
-        _potentialEnergyWell.append( leftmostCurve, true );
-        
-        // Calculate the position of the 2nd curve, i.e. the one that goes
-        // from the left peak down to the center of the energy well.
-        
-        x1 = x2;
-        y1 = y2;
-        ctrlx1 = x1 + (0.02 * _usableWidth);
-        ctrly1 = y1;
-        x2 = _usableAreaOriginX/2 + _usableWidth/2;
-        y2 = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight);
-        ctrlx2 = x2 - (0.03 * _usableWidth);
-        ctrly2 = y2;
+        // The following multiplier is used to scale the well in the middle of
+        // the curve to values that make the visual representation reasonable.
+        double wellMultiplier = ((PEAK_OF_ENERGY_WELL - BOTTOM_OF_ENERGY_WELL) * 8) /
+                Math.pow(_energyWellWidth, 3);
 
-        CubicCurve2D leftCenterCurve = new CubicCurve2D.Double(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);
+        // This controls the width of the crossover zone from the 1/r tail
+        // portions to the well portion.
+        double crossoverZoneWidth = _energyWellWidth / 2;
         
-        _potentialEnergyWell.append( leftCenterCurve, true );
+        // Move to the starting point for the curve.
+        _potentialEnergyWell.moveTo( (float)xScreenPos, 
+                (float)convertGraphToScreenY( (1/(centerX - xScreenPos)) * tailMultiplier) );
+        _sampleAverager.clear();
         
-        // Calculate the position of the 3rd curve, which is the one that
-        // goes from the bottom of the energy well up to the right peak.
-        
-        x1 = x2;
-        y1 = y2;
-        ctrlx1 = x1 + (0.03 * _usableWidth);
-        ctrly1 = y1;
-        x2 = _usableAreaOriginX/2 + _usableWidth/2 + _energyWellWidth/2;
-        y2 = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
-        ctrlx2 = x2 - (0.02 * _usableWidth);
-        ctrly2 = y2;
+        // Draw the curve.
+        for (xScreenPos = xScreenPos + 1; xScreenPos < endX; ){
+            
+            double yGraphPos = 0;
 
-        CubicCurve2D rightCenterCurve = new CubicCurve2D.Double(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);
-        
-        _potentialEnergyWell.append( rightCenterCurve, true );
-        
-        // Calculate the position of the 4th and last curve, which is the one
-        // that goes from the right peak of the energy well back to the x axis.
-
-        x1 = x2;
-        y1 = y2;
-        ctrlx1 = x1 + (0.035 * _usableWidth);
-        ctrly1 = y1;
-        x2 = _usableAreaOriginX/2 + (CURVE_WIDTH_FACTOR * _usableWidth);
-        y2 = _graphOriginY;
-        ctrlx2 = x2 - (0.30 * _usableWidth);
-        ctrly2 = y2;
-
-        CubicCurve2D rightmostCurve = new CubicCurve2D.Double(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);
-        
-        _potentialEnergyWell.append( rightmostCurve, true );
-        
+            if (xScreenPos < centerX - _energyWellWidth/2 - crossoverZoneWidth/2){
+                // Left side (tail) of the curve.
+                yGraphPos = (1/(centerX - xScreenPos)) * tailMultiplier;
+                _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
+                xScreenPos+=5;
+            }
+            else if (xScreenPos < centerX - _energyWellWidth/2 + crossoverZoneWidth/2){
+                // Crossing into the well
+                double wellWeightingFactor = (xScreenPos - (centerX - _energyWellWidth/2 - crossoverZoneWidth/2)) / crossoverZoneWidth;
+                yGraphPos = (((1/(centerX - xScreenPos)) * tailMultiplier) * (1-wellWeightingFactor)) + 
+                        ((Math.pow( centerX - xScreenPos, 3 )* wellMultiplier + BOTTOM_OF_ENERGY_WELL) * (wellWeightingFactor));
+                _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
+                System.out.println("wellWeighting = " + wellWeightingFactor);
+                xScreenPos++;
+            }
+            else if (xScreenPos < centerX + _energyWellWidth/2 - crossoverZoneWidth/2){
+                // Inside the well.
+                yGraphPos = Math.abs( Math.pow( centerX - xScreenPos, 3 ) )* wellMultiplier + BOTTOM_OF_ENERGY_WELL;
+                _potentialEnergyWell.lineTo( (float)xScreenPos, 
+                        (float)convertGraphToScreenY( yGraphPos ));
+                xScreenPos++;
+            }
+            else if (xScreenPos < centerX + _energyWellWidth/2 + crossoverZoneWidth/2){
+                // Crossing out of the well.
+                double tailWeightingFactor = (xScreenPos - (centerX + _energyWellWidth/2 - crossoverZoneWidth/2)) / crossoverZoneWidth;
+                yGraphPos = (((1/(xScreenPos - centerX)) * tailMultiplier) * (tailWeightingFactor)) + 
+                        ((Math.pow( xScreenPos - centerX, 3 )* wellMultiplier + BOTTOM_OF_ENERGY_WELL) * (1-tailWeightingFactor));
+                _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
+                System.out.println("yGraphPos = " + yGraphPos);
+                xScreenPos++;
+            }
+            else if (xScreenPos < endX){
+                // Right side (tail) of the curve.
+                yGraphPos = (1/(xScreenPos - centerX)) * tailMultiplier;
+                _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
+                xScreenPos+=5;
+            }
+            else{
+                // Just increment the screen position so we will fall out of the loop.
+                xScreenPos+=10;
+            }
+        }
     }
     
     /**
@@ -504,8 +524,7 @@ public class FissionEnergyChart extends PComposite {
             // energy well.
             _unfissionedNucleusImage.setVisible( true );
             xPos = _usableAreaOriginX/2 + _usableWidth/2 - _unfissionedNucleusImage.getFullBounds().width / 2;
-            yPos = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight) - 
-                _unfissionedNucleusImage.getFullBounds().height / 2;
+            yPos = convertGraphToScreenY( BOTTOM_OF_ENERGY_WELL ) - _unfissionedNucleusImage.getFullBounds().height / 2;
             _unfissionedNucleusImage.setOffset( xPos, yPos );
             
             // Position the total energy line, also at the bottom of the well.
@@ -525,9 +544,8 @@ public class FissionEnergyChart extends PComposite {
             
             // Cause the nucleus to move upward.
             double numUpwardSteps = 5; // TODO: JPB TBD - Make this constant if we end up using this.
-            double nucleusBasePosY = _usableAreaOriginY + (ENERGY_WELL_DEPTH_FACTOR * _usableHeight);
-            double nucleusTopPosY = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight - 
-                    _unfissionedNucleusImage.getFullBoundsReference().height/2;
+            double nucleusBasePosY = convertGraphToScreenY( BOTTOM_OF_ENERGY_WELL );
+            double nucleusTopPosY = convertGraphToScreenY( PEAK_OF_ENERGY_WELL ) - _unfissionedNucleusImage.getFullBoundsReference().height/2;
             if (_unfissionedNucleusImage.getOffset().getY() > nucleusTopPosY){
                 yPos = _unfissionedNucleusImage.getOffset().getY() + 
                         ((nucleusTopPosY - nucleusBasePosY) / numUpwardSteps);
@@ -558,7 +576,7 @@ public class FissionEnergyChart extends PComposite {
             // the origin in the model.
             
             // Y position is the same for both nuclei - at the top of the energy well.
-            yPos = _usableAreaOriginY + (1.0 - CURVE_HEIGHT_FACTOR) * _usableHeight;
+            yPos = convertGraphToScreenY( PEAK_OF_ENERGY_WELL );
             
             // Figure out X position of the larger daughter nucleus.
             Point2D nucleusPosition = _model.getAtomicNucleus().getPositionReference();
@@ -606,6 +624,59 @@ public class FissionEnergyChart extends PComposite {
     private void handleClockTicked(ClockEvent ce){
         if (_fissionState == STATE_FISSIONING || _fissionState == STATE_FISSIONED){
             updateNucleiPositions();
+        }
+    }
+    
+    /**
+     * Convert a Y axis value in graph units to a screen value.
+     * @param yPositionGraph
+     * @return
+     */
+    private double convertGraphToScreenY(double yPositionGraph){
+        return (_graphOriginY - (yPositionGraph * ((_graphOriginY - _usableAreaOriginY)/Y_AXIS_TOTAL_POSITVE_SPAN)));
+    }
+    
+    //------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+    
+    private class SampleAverager{
+        
+        private static final int WINDOW_SIZE = 5;
+        
+        private int m_index;
+        private int m_numSamples;
+        private double [] m_samples = new double [WINDOW_SIZE];
+        
+        SampleAverager(){
+            m_index = 0;
+            m_numSamples = 0;
+        }
+        
+        public void addSample(double sample){
+            m_samples[m_index] = sample;
+            m_index = (m_index + 1) % WINDOW_SIZE;
+            m_numSamples = m_numSamples + 1 < WINDOW_SIZE ? m_numSamples + 1 : WINDOW_SIZE; 
+        }
+        
+        public void clear(){
+            m_index = 0;
+            m_numSamples = 0;
+        }
+        
+        public double getCurrentAverage(){
+            
+            double currentAverage = 0;
+            
+            if (m_numSamples > 0) {
+                double total = 0;
+                for (int i = 0; i < m_numSamples; i++){
+                    total += m_samples[i]; 
+                }
+                currentAverage = total/(double)m_numSamples;
+            }
+            
+            return currentAverage;
         }
     }
 }
