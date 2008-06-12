@@ -5,8 +5,9 @@ package edu.colorado.phet.nuclearphysics2.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Stroke;
-import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
@@ -27,6 +28,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.nodes.PLine;
 
@@ -79,7 +81,7 @@ public class FissionEnergyChart extends PComposite {
     // constants control the scale of the Y-axis and the important points
     // within the graph in the Y dimension.
     private static final double Y_AXIS_TOTAL_POSITVE_SPAN = 100;
-    private static final double BOTTOM_OF_ENERGY_WELL = 55;
+    private static final double BOTTOM_OF_ENERGY_WELL = 60;
     private static final double PEAK_OF_ENERGY_WELL = 80;
     
     // Possible state values for tracking the relevant state of the model.
@@ -138,9 +140,6 @@ public class FissionEnergyChart extends PComposite {
     // Reference to the daughter nucleus that exists after fission occurs.
     DaughterCompositeNucleus _daughterNucleus;
     
-    // Sample averager, used for drawing potential energy curve.
-    SampleAverager _sampleAverager;
-
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -150,7 +149,6 @@ public class FissionEnergyChart extends PComposite {
         _model = model;
         _canvas = canvas;
         _origNumNeturons = _model.getAtomicNucleus().getNumNeutrons();
-        _sampleAverager = new SampleAverager();
         setPickable( false );
         
         // Register as a clock listener, since we need to be clocked in order
@@ -245,7 +243,17 @@ public class FissionEnergyChart extends PComposite {
         
         // Initialize attributes of the curve that shows the potential energy well.
         
-        _potentialEnergyWell = new PPath();
+        _potentialEnergyWell = new PPath(){
+            // Override the rendering hints so that the segmented line can be
+            // drawn smoothly.
+            public void paint(PPaintContext paintContext){
+                Graphics2D g2 = paintContext.getGraphics();
+                RenderingHints oldHints = g2.getRenderingHints();
+                g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
+                super.paint( paintContext );
+                g2.setRenderingHints( oldHints );
+            }
+        };
         _potentialEnergyWell.setStrokePaint( POTENTIAL_ENERGY_LINE_COLOR );
         _potentialEnergyWell.setStroke( ENERGY_LINE_STROKE );
         addChild( _potentialEnergyWell);
@@ -370,9 +378,9 @@ public class FissionEnergyChart extends PComposite {
         // Position the labels for the axes.
 
         _yAxisLabelLow.setOffset( _graphOriginX - (1.5 * _yAxisLabelLow.getFont().getSize()), 
-                _graphOriginY - 0.04 * (_graphOriginY - _usableAreaOriginY));
+                _graphOriginY - 0.12 * (_graphOriginY - _usableAreaOriginY));
         _yAxisLabelHigh.setOffset( _yAxisLabelLow.getOffset().getX() - (1.0 * _yAxisLabelLow.getFont().getSize()), 
-                _graphOriginY - 0.04 * (_graphOriginY - _usableAreaOriginY));
+                _graphOriginY - 0.12 * (_graphOriginY - _usableAreaOriginY));
 
         _xAxisLabel.setOffset( xAxisTipPt.getX() - _xAxisLabel.getWidth() - _xAxisOfGraph.getHeadHeight() - 10,
                 _graphOriginY + 5);
@@ -394,7 +402,7 @@ public class FissionEnergyChart extends PComposite {
         // Lay out the legend.  It will appear just above the x axis on the
         // far right.
         double legendOriginX = _usableWidth - LEGEND_SIZE_X - BORDER_STROKE_WIDTH;
-        double legendOriginY = _graphOriginY - LEGEND_SIZE_Y - (0.15 * _usableHeight);
+        double legendOriginY = _graphOriginY - LEGEND_SIZE_Y - (0.18 * _usableHeight);
         
         _legend.setPathTo( new RoundRectangle2D.Double( 
                 legendOriginX,
@@ -460,7 +468,6 @@ public class FissionEnergyChart extends PComposite {
         // Move to the starting point for the curve.
         _potentialEnergyWell.moveTo( (float)xScreenPos, 
                 (float)convertGraphToScreenY( (1/(centerX - xScreenPos)) * tailMultiplier) );
-        _sampleAverager.clear();
         
         // Draw the curve.
         for (xScreenPos = xScreenPos + 1; xScreenPos < endX; ){
@@ -632,49 +639,5 @@ public class FissionEnergyChart extends PComposite {
      */
     private double convertGraphToScreenY(double yPositionGraph){
         return (_graphOriginY - (yPositionGraph * ((_graphOriginY - _usableAreaOriginY)/Y_AXIS_TOTAL_POSITVE_SPAN)));
-    }
-    
-    //------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
-    
-    private class SampleAverager{
-        
-        public static final int WINDOW_SIZE = 5;
-        
-        private int m_index;
-        private int m_numSamples;
-        private double [] m_samples = new double [WINDOW_SIZE];
-        
-        SampleAverager(){
-            m_index = 0;
-            m_numSamples = 0;
-        }
-        
-        public void addSample(double sample){
-            m_samples[m_index] = sample;
-            m_index = (m_index + 1) % WINDOW_SIZE;
-            m_numSamples = m_numSamples + 1 < WINDOW_SIZE ? m_numSamples + 1 : WINDOW_SIZE; 
-        }
-        
-        public void clear(){
-            m_index = 0;
-            m_numSamples = 0;
-        }
-        
-        public double getCurrentAverage(){
-            
-            double currentAverage = 0;
-            
-            if (m_numSamples > 0) {
-                double total = 0;
-                for (int i = 0; i < m_numSamples; i++){
-                    total += m_samples[i]; 
-                }
-                currentAverage = total/(double)m_numSamples;
-            }
-            
-            return currentAverage;
-        }
     }
 }
