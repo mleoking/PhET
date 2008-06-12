@@ -89,7 +89,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         beakerViewControlPanelWrapper.setOffset( 225, 600 );//XXX
         moleculeCountNode.setOffset( 85, 275 );//XXX
         
-        PHControlNode pHControlNode = new PHControlNode( 175, 625 ); //XXX
+        PHControlNode pHControlNode = new PHControlNode(); //XXX
         addRootChild( pHControlNode );
         
         ResetAllButton resetAllButton = new ResetAllButton();
