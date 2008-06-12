@@ -25,6 +25,7 @@ DESIGN ISSUES:
 
 HIGH PRIORITY:
 - change pH value when slider knob is moved
+- pH slider knob is off by a pixel, need to take stroke width into account in calculations
 
 MEDIUM PRIORITY:
 
