@@ -15,6 +15,8 @@ class TranslationInstructionsPage extends SitePage {
 
         $phet_help_email = PHET_HELP_EMAIL;
 
+        $translation_utility_jar = PORTAL_ROOT."phet-dist/translation-utility/translation-utility.jar";
+
         print <<<EOT
             <p>
                 This is a beta version of the PhET Translation Utility. PLEASE READ THIS PAGE COMPLETELY.
@@ -27,7 +29,7 @@ class TranslationInstructionsPage extends SitePage {
 
             <ol>
                 <li>
-                    Download <a href="get_translate_utility.php">translation-utility.jar</a> to your computer.
+                    Download <a href="get-translation-utility.php">translation-utility.jar</a> to your computer.
                 </li>
 
                 <li>
@@ -35,7 +37,7 @@ class TranslationInstructionsPage extends SitePage {
                 </li>
 
                 <li>
-                    Double-click on <a href="translation-utility.jar">translation-utility.jar</a> to start the Translation Utility.
+                    Double-click on <a href="{$translation_utility_jar}">translation-utility.jar</a> to start the Translation Utility.
                 </li>
 
                 <li>

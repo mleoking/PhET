@@ -26,7 +26,7 @@ class TranslationsPage extends SitePage {
 
         print <<<EOT
             <p>
-                <a href="{$this->prefix}contribute/translate.php">Create a New Translation!</a>
+                <a href="{$this->prefix}contribute/translation-utility.php">Create a New Translation!</a>
             </p>
 
 EOT;
@@ -123,7 +123,7 @@ EOT;
                     flush();
                 }
                 else {
-                    print "<a class=\"translate-prompt\" title=\"Click to translate this sim into $language_name!\" href=\"{$this->prefix}contribute/translate.php\"></a>\n";
+                    print "<a class=\"translate-prompt\" title=\"Click to translate this sim into $language_name!\" href=\"{$this->prefix}contribute/translation-utility.php\"></a>\n";
                 }
 
                 print "</td>\n";

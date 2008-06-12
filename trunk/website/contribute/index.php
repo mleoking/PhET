@@ -31,7 +31,7 @@ class ContributePage extends SitePage {
 
             <h2>Translate Simulations</h2>
 
-            <p>The PhET simulations have been written so that they are easily translated to languages other than English. The process uses a simple tool called the <a href="{$this->prefix}contribute/translate.php">PhET Translation Utility</a>, and requires no programming skills.</p>
+            <p>The PhET simulations have been written so that they are easily translated to languages other than English. The process uses a simple tool called the <a href="{$this->prefix}contribute/translation-utility.php">PhET Translation Utility</a>, and requires no programming skills.</p>
 
             <p>Translating the PhET simulations into other languages greatly expands our target audience, and helps us accomplish the <a href="{$this->prefix}about/index.php">PhET mission</a>.</p>
 
