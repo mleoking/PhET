@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.phscale.module;
 
+import edu.colorado.phet.phscale.model.PHScaleModel;
+
 
 /**
  * PHScaleController is the controller for PHScaleModule.
@@ -13,7 +15,8 @@ package edu.colorado.phet.phscale.module;
  */
 public class PHScaleController {
     
-    public PHScaleController() {
+    public PHScaleController( PHScaleModel model, PHScaleCanvas canvas ) {
+        
         
     }
 }
