@@ -34,7 +34,7 @@ public class PHControlNode extends PNode {
     private static final Font VALUE_FONT = new PhetFont( 18 );
     private static final int VALUE_COLUMNS = 4;
     private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 500 );
-    private static final PDimension KNOB_SIZE = new PDimension( 30, 40 );
+    private static final PDimension KNOB_SIZE = new PDimension( 40, 30 );
     
     private JFormattedTextField _valueTextField;
     private PHSliderNode _sliderNode;
