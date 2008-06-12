@@ -42,7 +42,7 @@ public class PHScaleModule extends PiccoloModule {
         setClockControlPanel( null );
 
         // Controller
-        PHScaleController controller = new PHScaleController();
+        PHScaleController controller = new PHScaleController( _model, _canvas );
         
         // Help
         if ( hasHelp() ) {
