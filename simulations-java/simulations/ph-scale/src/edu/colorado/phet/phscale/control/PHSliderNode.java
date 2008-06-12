@@ -6,9 +6,13 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.umd.cs.piccolo.PNode;
@@ -118,8 +122,42 @@ public class PHSliderNode extends PNode {
             acidLabelNode.setOffset( -( acidLabelNode.getFullBoundsReference().getWidth() + xSpacing ), acidLabelNode.getFullBoundsReference().getHeight() + yMargin ); // top left of the track    
         }
         
+        initInteractivity();
+        
         // initialize
         setPH( RANGE.getDefault() );
+        setPH( 12 );
+    }
+    
+    private void initInteractivity() {
+        
+        // hand cursor on knob
+        _knobNode.addInputEventListener( new CursorHandler() );
+        
+        // Constrain the knob to be dragged vertically within the track
+        double xMin = _trackNode.getFullBounds().getX() - ( _knobNode.getFullBounds().getWidth() / 2 );
+        double xMax = _trackNode.getFullBounds().getX() + ( _knobNode.getFullBounds().getWidth() / 2 );
+        double yMin = _trackNode.getFullBounds().getY() - ( _knobNode.getFullBounds().getHeight() / 2 );
+        double yMax = _trackNode.getFullBounds().getMaxY() + ( _knobNode.getFullBounds().getHeight() / 2 );
+        Rectangle2D dragBounds = new Rectangle2D.Double( xMin, yMin, xMax - xMin, yMax - yMin );
+        PPath dragBoundsNode = new PPath( dragBounds );
+        dragBoundsNode.setStroke( null );
+        addChild( dragBoundsNode );
+        BoundedDragHandler dragHandler = new BoundedDragHandler( _knobNode, dragBoundsNode );
+        _knobNode.addInputEventListener( dragHandler );
+        
+        // Update the value when the knob is moved.
+        _knobNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
+                    updateValue();
+                }
+            }
+        } );
+    }
+    
+    private void updateValue() {
+        //XXX
     }
     
     public double getPH() {
@@ -132,8 +170,13 @@ public class PHSliderNode extends PNode {
         }
         if ( pH != _pH ) {
             double xOffset = _knobNode.getXOffset();
-            double yOffset = ( ( RANGE.getMax() - pH ) / ( RANGE.getMax() - RANGE.getMin() ) ) * _trackNode.getFullBoundsReference().getHeight();
-            _knobNode.setOffset( xOffset, yOffset );
+            double yOffset = ( ( RANGE.getMax() - pH ) / RANGE.getLength() ) * _trackNode.getFullBoundsReference().getHeight() ;
+            if ( MAX_AT_TOP ) {
+                _knobNode.setOffset( xOffset, yOffset + ( _knobNode.getFullBoundsReference().getHeight() / 2 ) );
+            }
+            else {
+                _knobNode.setOffset( xOffset, _trackNode.getFullBoundsReference().getHeight() - yOffset + + ( _knobNode.getFullBoundsReference().getHeight() / 2 ) );
+            }
         }
     }
     
