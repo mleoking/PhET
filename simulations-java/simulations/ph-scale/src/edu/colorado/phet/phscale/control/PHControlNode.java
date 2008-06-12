@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
-public class PHSliderNode extends PNode {
+public class PHControlNode extends PNode {
     
     private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 18 );
     private static final Font VALUE_FONT = new PhetFont( 18 );
@@ -34,7 +34,7 @@ public class PHSliderNode extends PNode {
     
     private JFormattedTextField _valueTextField;
     
-    public PHSliderNode( double width, double height ) {
+    public PHControlNode( double width, double height ) {
         super();
         
         EventHandler listener = new EventHandler();
