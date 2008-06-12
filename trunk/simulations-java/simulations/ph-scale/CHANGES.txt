@@ -24,8 +24,16 @@ DESIGN ISSUES
 DESIGN ISSUES:
 
 HIGH PRIORITY:
+- hook up pH slider to liquid
+- hook up probe to liquid
+- hook up pH text field to liquid
+- better looking beaker with tick marks
+- port prototype code to this sim
+- hook up Molecule Count check box
+- hook up Ratio check box
 
 MEDIUM PRIORITY:
+- generalize canvas layout code, should have 3 main nodes in canvas (beaker, pH slider, graph)
 
 LOW PRIORITY:
 
