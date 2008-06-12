@@ -205,7 +205,7 @@ EOT;
             "contribute/index.php",
             "Contribute",
             array(
-                'contribute/translate.php'    => 'PhET Translation Utility'
+                'contribute/translation-utility.php'    => 'PhET Translation Utility'
             )
         );
 
