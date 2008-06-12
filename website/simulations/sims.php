@@ -50,8 +50,18 @@ class IndividualSimulationPage extends SitePage {
         }
 
         if ($this->sim_type == SIM_TYPE_FLASH) {
-            $gen_flash_page = "{$this->prefix}admin/gen-flash-page.php?flash={$this->sim_launch_url}&amp;title={$sim_name}";
+            // "Run Now!" Flash sims will launch in an new window
 
+            if (strstr($this->sim_launch_url, "html")) {
+                // New style of launching, needs no gen-flash-page
+                $gen_flash_page = $this->sim_launch_url;
+            }
+            else {
+                // Old style of launching
+                $gen_flash_page = "{$this->prefix}admin/gen-flash-page.php?flash={$this->sim_launch_url}&amp;title={$sim_name}&amp;lang=en";
+            }
+
+            // Make sim run in new window
             $this->on_click_html = 'onclick="javascript:open_limited_window(\''.$gen_flash_page.'\',\'simwindow\'); return false;"';
         }
         else {
@@ -513,7 +523,13 @@ EOT;
             foreach ($translations as $language => $launch_url) {
                 $language_icon_url = sim_get_language_icon_url_from_language_name($language);
 
-                print "<li><a href=\"$launch_url\" title=\"Click here to launch the $language version of {$formatted_sim_name}\"><img class=\"image-text\" src=\"$language_icon_url\" alt=\"$language\"/></a> - <a href=\"$launch_url\" title=\"Click here to launch the $language version of {$formatted_sim_name}\">$language</a></li>";
+                // Flash sims should run in a new window
+                $onclick = "";
+                if ($this->sim_type == SIM_TYPE_FLASH) {
+                    $onclick = 'onclick="javascript:open_limited_window(\''.$launch_url.'\',\'simwindow\'); return false;"';
+                }
+
+                print "<li><a href=\"$launch_url\" $onclick title=\"Click here to launch the $language version of {$formatted_sim_name}\"><img class=\"image-text\" src=\"$language_icon_url\" alt=\"$language\"/></a> - <a href=\"$launch_url\" $onclick title=\"Click here to launch the $language version of {$formatted_sim_name}\">$language</a></li>\n";
             }
 
             print '</ul>';

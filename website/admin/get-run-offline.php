@@ -14,15 +14,7 @@
 
     $sim_file_location = sim_get_run_offline_content_location($simulation);
 
-    if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
-        $mime_type = "application/java-archive";
-
-    }
-    else {
-        $mime_type = "application/x-Shockwave-Flash";
-    }
-
     $sim_file = file_get_contents($sim_file_location);
 
-    send_file_to_browser($sim_file_location, $sim_file, $mime_type, "attachment");
+    send_file_to_browser($sim_file_location, $sim_file, null, "attachment");
 ?>
