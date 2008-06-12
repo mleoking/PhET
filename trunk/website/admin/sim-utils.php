@@ -368,21 +368,14 @@
         $launch_file_base_dir = realpath(dirname(__FILE__)."/".PORTAL_ROOT."sims");
 
         foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $language_name) {
-            $translated_flavorname = "${flavorname}_${code}";
-
-            // This is to speed things up on the actual server, where the JNLP files should
-            // be accessible from the file system, and not just from HTTP.
-            $launch_file = $launch_file_base_dir."/${dirname}/${translated_flavorname}.jnlp";
-
-            $launch_url = sim_form_launch_url($dirname, $translated_flavorname, SIM_TYPE_JAVA);
-
-            if (file_exists($launch_file_base_dir)) {
-                if (file_exists($launch_file)) {
-                    $translations[$language_name] = $launch_url;
-                }
+            if ($code == "en") {
+                // Skip the English traslations, they are the default
+                continue;
             }
-            else if (url_exists($launch_url)) {
-                $translations[$language_name] = $launch_url;
+
+            $link = sim_get_launch_url($simulation, $code);
+            if ($link) {
+                $translations[$language_name] = $link;
             }
 
             flush();
@@ -791,8 +784,18 @@
 
         if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
             // Try local first
-            $link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.swf";
-            if (!file_exists($link)) {
+            $oldstlye_link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.swf";
+            $newstyle_link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.jar";
+
+            if (file_exists($newstyle_link)) {
+                $link = $newstyle_link;
+            }
+            else if (file_exists($oldstyle_link)) {
+                $link = $oldstyle_link;
+            }
+            else {
+                // Legacy: just give them something.  Probably meant for development without
+                // needing the sims on the local machine
                 $link = "http://".PHET_DOMAIN_NAME."/sims-offline/{$dirname}/{$flavorname}.swf";
             }
         }
@@ -819,31 +822,44 @@
         return false;
     }
 
-    function sim_form_launch_url($dirname, $flavorname, $sim_type = SIM_TYPE_JAVA) {
+    function sim_get_launch_url($simulation, $language_code = "en") {
+        $dirname    = $simulation['sim_dirname'];
+        $flavorname = $simulation['sim_flavorname'];
+        $sim_type   = $simulation['sim_type'];
+
         if ($sim_type == SIM_TYPE_FLASH) {
-            // Try local first
-            $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
-            if (!file_exists($link)) {
+            $oldstyle_link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
+            $flash_swf = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
+            $flash_strings = PORTAL_ROOT."sims/{$dirname}/{$flavorname}-strings_{$language_code}.xml";
+            $flash_html = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$language_code}.html";
+            if (file_exists($flash_swf) && file_exists($flash_strings) && file_exists($flash_html)) {
+                $link = $flash_html;
+            }
+            else if (($language_code == "en") && file_exists($oldstyle_link)) {
+                $link = $oldstyle_link;
+            }
+            else {
+                return false;
                 $link = "http://".PHET_DOMAIN_NAME."/sims/$dirname/$flavorname.swf";
             }
         }
         else {
             // Try local first
-            $link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jnlp";
-            if (!file_exists($link)) {
+            $oldstyle_link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jnlp";
+            $newstyle_link = PORTAL_ROOT."sims/{$dirname}/{$flavorname}_{$language_code}.jnlp";
+            if (($language_code == "en") && (file_exists($oldstyle_link))) {
+                $link = $oldstyle_link;
+            }
+            else if (file_exists($newstyle_link)) {
+                $link = $newstyle_link;
+            }
+            else {
+                return false;
                 $link = "http://".PHET_DOMAIN_NAME."/sims/{$dirname}/{$flavorname}.jnlp";
             }
         }
 
         return $link;
-    }
-
-    function sim_get_launch_url($simulation) {
-        $dirname    = $simulation['sim_dirname'];
-        $flavorname = $simulation['sim_flavorname'];
-        $type       = $simulation['sim_type'];
-
-        return sim_form_launch_url($dirname, $flavorname, $type);
     }
 
     function sim_get_screenshot($simulation) {
