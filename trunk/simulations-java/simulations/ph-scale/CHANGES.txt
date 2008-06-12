@@ -41,6 +41,8 @@ CLEANUP:
 
 
 DONE:
+6/12/08 - first pass at Liquid model, delete obsolete model files
+6/12/08 - add PHSliderNode.setKnobVisible
 6/12/08 - change pH value when slider knob is moved
 6/12/08 - pH slider knob is off by a pixel, need to take stroke width into account in calculations
 6/12/08 - custom Piccolo slider for setting pH

@@ -253,6 +253,16 @@ public class PHSliderNode extends PNode {
         }
     }
     
+    /**
+     * Sets the visibility of the knob.
+     * When the beaker is empty, pH is meaningless, so we'll want to make the knob invisible.
+     * 
+     * @param visible
+     */
+    public void setKnobVisible( boolean visible ) {
+        _knobNode.setVisible( visible );
+    }
+    
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
