@@ -79,7 +79,7 @@ public class FissionEnergyChart extends PComposite {
     // constants control the scale of the Y-axis and the important points
     // within the graph in the Y dimension.
     private static final double Y_AXIS_TOTAL_POSITVE_SPAN = 100;
-    private static final double BOTTOM_OF_ENERGY_WELL = 60;
+    private static final double BOTTOM_OF_ENERGY_WELL = 55;
     private static final double PEAK_OF_ENERGY_WELL = 80;
     
     // Possible state values for tracking the relevant state of the model.
@@ -455,7 +455,7 @@ public class FissionEnergyChart extends PComposite {
 
         // This controls the width of the crossover zone from the 1/r tail
         // portions to the well portion.
-        double crossoverZoneWidth = _energyWellWidth / 2;
+        double crossoverZoneWidth = _energyWellWidth / 3.5;
         
         // Move to the starting point for the curve.
         _potentialEnergyWell.moveTo( (float)xScreenPos, 
@@ -479,7 +479,6 @@ public class FissionEnergyChart extends PComposite {
                 yGraphPos = (((1/(centerX - xScreenPos)) * tailMultiplier) * (1-wellWeightingFactor)) + 
                         ((Math.pow( centerX - xScreenPos, 3 )* wellMultiplier + BOTTOM_OF_ENERGY_WELL) * (wellWeightingFactor));
                 _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
-                System.out.println("wellWeighting = " + wellWeightingFactor);
                 xScreenPos++;
             }
             else if (xScreenPos < centerX + _energyWellWidth/2 - crossoverZoneWidth/2){
@@ -495,7 +494,6 @@ public class FissionEnergyChart extends PComposite {
                 yGraphPos = (((1/(xScreenPos - centerX)) * tailMultiplier) * (tailWeightingFactor)) + 
                         ((Math.pow( xScreenPos - centerX, 3 )* wellMultiplier + BOTTOM_OF_ENERGY_WELL) * (1-tailWeightingFactor));
                 _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
-                System.out.println("yGraphPos = " + yGraphPos);
                 xScreenPos++;
             }
             else if (xScreenPos < endX){
@@ -642,7 +640,7 @@ public class FissionEnergyChart extends PComposite {
     
     private class SampleAverager{
         
-        private static final int WINDOW_SIZE = 5;
+        public static final int WINDOW_SIZE = 5;
         
         private int m_index;
         private int m_numSamples;
