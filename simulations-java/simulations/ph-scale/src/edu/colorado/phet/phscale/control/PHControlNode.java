@@ -34,6 +34,7 @@ public class PHControlNode extends PNode {
     private static final Font VALUE_FONT = new PhetFont( 18 );
     private static final int VALUE_COLUMNS = 4;
     private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 500 );
+    private static final PDimension KNOB_SIZE = new PDimension( 30, 40 );
     
     private JFormattedTextField _valueTextField;
     private PHSliderNode _sliderNode;
@@ -61,18 +62,17 @@ public class PHControlNode extends PNode {
         valuePanelLayout.addComponent( _valueTextField, 0, 1 );
         PSwing valuePanelWrapper = new PSwing( valuePanel );
         
-        _sliderNode = new PHSliderNode( SLIDER_TRACK_SIZE );
+        _sliderNode = new PHSliderNode( SLIDER_TRACK_SIZE, KNOB_SIZE );
         
         PNode parentNode = new PNode();
         parentNode.addChild( valuePanelWrapper );
         parentNode.addChild( _sliderNode );
         valuePanelWrapper.setOffset( 0, 0 );
         PBounds vb = valuePanelWrapper.getFullBoundsReference();
-        PBounds sb = _sliderNode.getFullBoundsReference();
-        _sliderNode.setOffset( ( vb.getWidth() / 2 ) - ( SLIDER_TRACK_SIZE.getWidth() / 2 ), vb.getHeight() + 10 );
+        _sliderNode.setOffset( ( vb.getWidth() / 2 ) - ( SLIDER_TRACK_SIZE.getWidth() / 2 ), vb.getHeight() + KNOB_SIZE.getWidth()/2 + 10 );
         
         double w = parentNode.getFullBoundsReference().getWidth() + ( 2 * MARGIN );
-        double h = parentNode.getFullBoundsReference().getHeight() + ( 2 * MARGIN );
+        double h = parentNode.getFullBoundsReference().getHeight() + ( 2 * MARGIN ) + KNOB_SIZE.getWidth()/2;
         PPath outlineNode = new PPath( new Rectangle2D.Double( 0, 0, w, h ) );
         outlineNode.setStroke( new BasicStroke( 2f ) );
         outlineNode.setStrokePaint( Color.BLACK );
