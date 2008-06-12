@@ -341,12 +341,12 @@
             $translations = sim_get_translations($sim);
 
             // Get all translations of the current sim:
-            foreach ($translations as $language_name => $launch_url) {
+            foreach ($translations as $language_name => $data) {
                 if (!isset($language_to_translations[$sim_name])) {
                     $language_to_translations[$sim_name] = array();
                 }
 
-                $language_to_translations[$sim_name][$language_name] = $launch_url;
+                $language_to_translations[$sim_name][$language_name] = $data["url"];
             }
         }
 
@@ -375,7 +375,7 @@
 
             $link = sim_get_launch_url($simulation, $code);
             if ($link) {
-                $translations[$language_name] = $link;
+                $translations[$language_name] = array("code" => $code, "url" => $link);
             }
 
             flush();
@@ -778,36 +778,179 @@
         return $listings;
     }
 
-    function sim_get_run_offline_content_location($simulation) {
+    function sim_flash_is_internationalized($simulation) {
         $dirname     = $simulation['sim_dirname'];
         $flavorname  = $simulation['sim_flavorname'];
 
-        if ($simulation['sim_type'] == SIM_TYPE_FLASH) {
-            // Try local first
-            $oldstlye_link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.swf";
-            $newstyle_link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.jar";
+        if ($simulation["sim_type"] != SIM_TYPE_FLASH) {
+            return false;
+        }
 
-            if (file_exists($newstyle_link)) {
-                $link = $newstyle_link;
-            }
-            else if (file_exists($oldstyle_link)) {
-                $link = $oldstyle_link;
-            }
-            else {
-                // Legacy: just give them something.  Probably meant for development without
-                // needing the sims on the local machine
-                $link = "http://".PHET_DOMAIN_NAME."/sims-offline/{$dirname}/{$flavorname}.swf";
-            }
+        $sim_dir = PORTAL_ROOT."sims/";
+        $html_pattern = "{$sim_dir}{$dirname}/{$flavorname}_*.html";
+        $xml_pattern = "{$sim_dir}{$dirname}/{$flavorname}_*.html";
+
+        $files = glob($html_pattern);
+        return count($files) > 0;
+    }
+
+    /**
+     * Return the filename and offline content so a user can download for later.
+     * 
+     * @return arary(filename, conent), or false if not successful
+     **/
+    function sim_get_run_offline($simulation, $language_code = null) {
+
+        $dirname     = $simulation['sim_dirname'];
+        $flavorname  = $simulation['sim_flavorname'];
+
+        // If it is a Java sim, just send the jar
+        if ($simulation['sim_type'] == SIM_TYPE_JAVA) {
+            $filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.jar";
+            return array($filename, file_get_contents($filename));
+        }
+
+        // Determine if the SIM is the newstyle internationalized or the
+        // oldstyle .swf
+
+        if (!sim_flash_is_internationalized($simulation)) {
+            // Old style, just send the .swf along to the user
+            $filename = PORTAL_ROOT."sims/{$dirname}/{$flavorname}.swf";
+            return array($filename, file_get_contents($filename));
+        }
+
+        //
+        // Internationalized sim, generate a jar file that will launch the localized swf
+
+        // Get the language
+        if (is_null($language_code)) {
+            $lang = "en";
         }
         else {
-            // Try local first
-            $link = PORTAL_ROOT."sims-offline/{$dirname}/{$flavorname}.jar";
-            if (!file_exists($link)) {
-                $link = "http://".PHET_DOMAIN_NAME."/sims-offline/{$dirname}/{$flavorname}.jar";
+            $lang = $language_code;
+        }
+
+        // Setup our constants
+        $full_dirname = PORTAL_ROOT."sims/{$dirname}/";
+        $jar_template_dir = PORTAL_ROOT."phet-dist/templates/flash_i18n_jar_template/";
+        $output_jar_name = $flavorname."_".$lang.".jar";
+
+        //
+        // Prepares temporary files and directories
+
+        // Create a temporary directory
+        $num_tries = 10;
+        for ($i = 0; $i < $num_tries; ++$i) {
+            $temp_dir_name = sys_get_temp_dir()."/phet_".rand();
+            $dir_made = mkdir($temp_dir_name);
+            if ($dir_made) {
+                break;
             }
         }
 
-        return $link;
+        if ($dir_made === false) {
+            //print "ERROR: cannot create directory";
+            exit;
+        }
+
+        // Create the args.txt file
+        $fp = fopen($temp_dir_name."/args.txt", "w");
+        if ($fp === false) {
+            print "ERROR: cannot open file 'args.txt'";
+            $result = rmdir($temp_dir_name);
+            assert($result === true);
+            exit;
+        }
+
+        // Write the ags to args.txt file
+        // Fromat: sim_flavorname language_code [flags]
+        $result = fwrite($fp, "{$flavorname} {$lang}");
+        if ($result === false) {
+            print "ERROR: cannot write to file 'args.txt'";
+            $result = rmdir($temp_dir_name);
+            assert($result === true);
+            exit;
+        }
+
+        // Close args.txt file...
+        $result = fclose($fp);
+        if ($fp === false) {
+            print "ERROR: cannot close file 'args.txt'";
+            $result = rmdir($temp_dir_name);
+            assert($result === true);
+            exit;
+        }
+
+        // Create temp jar file...
+        $temp_jar_name = tempnam(sys_get_temp_dir(), "phet_jar_");
+        if ($temp_jar_name === false) {
+            print "ERROR: cannot create temp jar file";
+            $result = rmdir($temp_dir_name);
+            assert($result === true);
+            exit;
+        }
+
+        // fastjar args
+        //     -m specifies the manifest file
+        //     -C dir file  changes to the dir and puts file in the archive
+        $args = array("-m {$jar_template_dir}META-INF/MANIFEST.MF",
+                      "-C {$temp_dir_name} args.txt",
+                      "-C {$full_dirname} {$flavorname}_{$lang}.html",
+                      "-C {$full_dirname} {$flavorname}-strings_{$lang}.xml",
+                      "-C {$full_dirname} {$flavorname}.swf",
+                      "-C {$jar_template_dir} edu");
+
+        // Construct the command
+        $command = "./fastjar cf {$temp_jar_name} ".join(" ", $args);
+
+        // Run the command to create the jar file
+        $sys_ret = 0;
+        $result = system($command, $sys_ret);
+        if ($sys_ret != 0) {
+            print "ERROR: fastjar command failed, exit code: {$sys_ret}<br />\n";
+            print "command: {$command}<br />\n";
+            $result = unlink($tmp_jar_name);
+            assert($result === true);
+            $result = unlink($temp_dir_name."/args.txt");
+            assert($result === true);
+            $result = rmdir($temp_dir_name);
+            assert($result === true);
+            exit;
+        }
+
+        // Get the contents of the jar file
+        $jar_content = file_get_contents($temp_jar_name);
+
+        //
+        // Cleanup
+
+        // Delete temp jar file
+        $result = unlink($temp_jar_name);
+        if ($result === false) {
+            print "ERROR: cannot delete file 'args.txt'";
+            $result = rmdir($temp_dir_name);
+            assert($result === true);
+            exit;
+        }
+
+        // Delete args.txt file
+        $result = unlink($temp_dir_name."/args.txt");
+        if ($result === false) {
+            print "ERROR: cannot delete file 'args.txt'";
+            $result = rmdir($temp_dir_name);
+            assert($result === true);
+            exit;
+        }
+
+        // Delete temp directory
+        $result = rmdir($temp_dir_name);
+        if ($result === false) {
+            print "ERROR: cannot delete file 'args.txt'";
+            exit;
+        }
+
+        // Return the content
+        return array($output_jar_name, $jar_content);
     }
 
     function sim_is_in_category($sim_id, $cat_id) {
