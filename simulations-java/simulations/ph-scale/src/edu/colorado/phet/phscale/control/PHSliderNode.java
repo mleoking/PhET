@@ -20,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
-import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -37,21 +36,24 @@ public class PHSliderNode extends PNode {
     private static final IntegerRange RANGE = new IntegerRange( -1, 15, 7 );
 
     // Track
-    private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
+    private static final float TRACK_STROKE_WIDTH = 1f;
+    private static final Stroke TRACK_STROKE = new BasicStroke( TRACK_STROKE_WIDTH );
     private static final Color TRACK_COLOR = Color.BLACK;
     private static final Color ACID_COLOR = PHScaleConstants.H3O_COLOR;
     private static final Color BASE_COLOR = PHScaleConstants.OH_COLOR;
     
     // Knob
+    private static final int KNOB_STROKE_WIDTH = 1;
+    private static final Stroke KNOB_STROKE = new BasicStroke( KNOB_STROKE_WIDTH );
     private static final Color KNOB_FILL_COLOR = Color.WHITE;
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
-    private static final int KNOB_STROKE_WIDTH = 1;
     
     // Ticks
     private static final double TICK_LENGTH = 10;
     private static final int TICK_SPACING = 2;
     private static final Font TICK_FONT = new PhetFont( 16 );
-    private static final Stroke TICK_STROKE = new BasicStroke( 1f );
+    private static final float TICK_STROKE_WIDTH = 1f;
+    private static final Stroke TICK_STROKE = new BasicStroke( TICK_STROKE_WIDTH );
     private static final Color TICK_COLOR = Color.BLACK;
     private static final double TICK_LABEL_SPACING = 2;
 
@@ -75,7 +77,7 @@ public class PHSliderNode extends PNode {
         TickMarkNode tickMarkNode = null;
         final double xOffset = 0;
         double yOffset = 0;
-        final double yDelta = trackSize.getHeight() / ( RANGE.getMax() - RANGE.getMin() );
+        final double yDelta = _trackNode.getFullBoundsReference().getHeight() / ( RANGE.getMax() - RANGE.getMin() );
         if ( MAX_AT_TOP ) {
             for ( int i = RANGE.getMax(); i >= RANGE.getMin(); i-- ) {
                 if ( i % TICK_SPACING == 0 ) {
@@ -119,7 +121,7 @@ public class PHSliderNode extends PNode {
         
         _trackNode.setOffset( 0, 0 ); // origin at the upper-left corner of the track
         tickNodes.setOffset( _trackNode.getFullBoundsReference().getMaxX() + 5, _trackNode.getYOffset() );
-        _knobNode.setOffset( _trackNode.getFullBoundsReference().getMaxX() - ( 0.75 * _knobNode.getFullBoundsReference().getWidth() ), 0 );
+        _knobNode.setOffset( _trackNode.getFullBoundsReference().getMaxX() + ( 0.25 * _knobNode.getFullBoundsReference().getWidth() ), 0 );
         final int xSpacing = 4; // space between range labels and track
         final int yMargin = 5; // range labels are offset this amount from ends of track
         if ( MAX_AT_TOP ) {
@@ -181,10 +183,10 @@ public class PHSliderNode extends PNode {
             double xOffset = _knobNode.getXOffset();
             double yOffset = ( ( RANGE.getMax() - pH ) / RANGE.getLength() ) * _trackNode.getFullBoundsReference().getHeight() ;
             if ( MAX_AT_TOP ) {
-                _knobNode.setOffset( xOffset, yOffset + ( _knobNode.getFullBoundsReference().getHeight() / 2 ) );
+                _knobNode.setOffset( xOffset, yOffset );
             }
             else {
-                _knobNode.setOffset( xOffset, _trackNode.getFullBoundsReference().getHeight() - yOffset + + ( _knobNode.getFullBoundsReference().getHeight() / 2 ) );
+                _knobNode.setOffset( xOffset, _trackNode.getFullBoundsReference().getHeight() - yOffset );
             }
             notifyChanged();
         }
@@ -197,7 +199,9 @@ public class PHSliderNode extends PNode {
         public TrackNode( PDimension size ) {
             super();
             PPath pathNode = new PPath();
-            pathNode.setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
+            final double width = size.getWidth() - TRACK_STROKE_WIDTH;
+            final double height = size.getHeight() - TRACK_STROKE_WIDTH;
+            pathNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
             Paint trackPaint = null;
             if ( MAX_AT_TOP ) {
                 trackPaint = new GradientPaint( 0f, 0f, BASE_COLOR, 0f, (float)size.getHeight(), ACID_COLOR );
@@ -218,26 +222,23 @@ public class PHSliderNode extends PNode {
     private static class KnobNode extends PNode {
         public KnobNode( PDimension size ) {
 
-            // tip of knob points down
+            // tip of knob to the right, origin at the tip
             float w = (float) size.getWidth();
             float h = (float) size.getHeight();
             GeneralPath knobPath = new GeneralPath();
             knobPath.moveTo( 0f, 0f );
-            knobPath.lineTo( w, 0f );
-            knobPath.lineTo( w, 0.65f * h );
-            knobPath.lineTo( w / 2f, h );
-            knobPath.lineTo( 0f, 0.65f * h );
+            knobPath.lineTo( -0.35f * w, h / 2f );
+            knobPath.lineTo( -w, h / 2f );
+            knobPath.lineTo( -w, -h / 2f );
+            knobPath.lineTo( -0.35f * w, -h / 2f );
             knobPath.closePath();
 
             PPath pathNode = new PPath();
             pathNode.setPathTo( knobPath );
             pathNode.setPaint( KNOB_FILL_COLOR );
-            pathNode.setStroke( new BasicStroke( KNOB_STROKE_WIDTH ) );
+            pathNode.setStroke( KNOB_STROKE );
             pathNode.setStrokePaint( KNOB_STROKE_COLOR );
             addChild( pathNode );
-            
-            // tip of knob points to the right
-            rotate( -Math.PI/2 );
         }
     }
     
@@ -255,7 +256,7 @@ public class PHSliderNode extends PNode {
             PPath tickNode = new PPath( new Line2D.Double( 0, 0, TICK_LENGTH, 0 ) );
             tickNode.setStroke( TICK_STROKE );
             tickNode.setStrokePaint( TICK_COLOR );
-            tickNode.setOffset( 0, 0 );
+            tickNode.setOffset( 0, -tickNode.getFullBoundsReference().getHeight() / 2 );
             addChild( tickNode );
             
             PText labelNode = null;
