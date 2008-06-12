@@ -2,37 +2,43 @@
 
 package edu.colorado.phet.phscale.control;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.text.ParseException;
-import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 public class PHControlNode extends PNode {
     
+    private static final int MARGIN = 15;
     private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 18 );
     private static final Font VALUE_FONT = new PhetFont( 18 );
     private static final int VALUE_COLUMNS = 4;
+    private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 500 );
     
     private JFormattedTextField _valueTextField;
     private PHSliderNode _sliderNode;
     
-    public PHControlNode( double width, double height ) {
+    public PHControlNode() {
         super();
         
         EventHandler listener = new EventHandler();
@@ -55,23 +61,29 @@ public class PHControlNode extends PNode {
         valuePanelLayout.addComponent( _valueTextField, 0, 1 );
         PSwing valuePanelWrapper = new PSwing( valuePanel );
         
-        PPath outlineNode = new PPath( new Rectangle2D.Double( 0, 0, width, height ) );
+        _sliderNode = new PHSliderNode( SLIDER_TRACK_SIZE );
+        
+        PNode parentNode = new PNode();
+        parentNode.addChild( valuePanelWrapper );
+        parentNode.addChild( _sliderNode );
+        valuePanelWrapper.setOffset( 0, 0 );
+        PBounds vb = valuePanelWrapper.getFullBoundsReference();
+        PBounds sb = _sliderNode.getFullBoundsReference();
+        _sliderNode.setOffset( ( vb.getWidth() / 2 ) - ( SLIDER_TRACK_SIZE.getWidth() / 2 ), vb.getHeight() + 10 );
+        
+        double w = parentNode.getFullBoundsReference().getWidth() + ( 2 * MARGIN );
+        double h = parentNode.getFullBoundsReference().getHeight() + ( 2 * MARGIN );
+        PPath outlineNode = new PPath( new Rectangle2D.Double( 0, 0, w, h ) );
         outlineNode.setStroke( new BasicStroke( 2f ) );
         outlineNode.setStrokePaint( Color.BLACK );
         
-        _sliderNode = new PHSliderNode( 10, 500 );
-        
-        addChild( valuePanelWrapper );
-        addChild( _sliderNode );
+        addChild( parentNode );
         addChild( outlineNode );
         
         outlineNode.setOffset( 0, 0 );
         PBounds ob = outlineNode.getFullBoundsReference();
-        PBounds vb = valuePanelWrapper.getFullBoundsReference();
-        valuePanelWrapper.setOffset( ob.getX() + ( ob.getWidth() - vb.getWidth() ) / 2, ob.getY() + 10 );
-        vb = valuePanelWrapper.getFullBoundsReference();
-        PBounds sb = _sliderNode.getFullBoundsReference();
-        _sliderNode.setOffset( ob.getX() + ( ob.getWidth() - sb.getWidth() ) / 2, vb.getMaxY() + 10 );
+        PBounds pb = parentNode.getFullBoundsReference();
+        parentNode.setOffset( ( ob.getWidth() - pb.getWidth() ) / 2, MARGIN );
     }
     
     private void handleSliderChanged() {
