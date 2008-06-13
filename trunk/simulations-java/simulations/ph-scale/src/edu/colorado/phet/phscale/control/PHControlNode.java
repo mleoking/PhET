@@ -4,71 +4,48 @@ package edu.colorado.phet.phscale.control;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
-import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.phscale.PHScaleStrings;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * PHControlNode is the control for pH, composed of a text field and a slider.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PHControlNode extends PNode {
     
     private static final int MARGIN = 15;
-    private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 18 );
-    private static final Font VALUE_FONT = new PhetFont( 18 );
-    private static final int VALUE_COLUMNS = 4;
+
     private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 500 );
     private static final PDimension KNOB_SIZE = new PDimension( 40, 30 );
     
-    private JFormattedTextField _valueTextField;
-    private PHSliderNode _sliderNode;
+    private final PHTextFieldNode _textFieldNode;
+    private final PHSliderNode _sliderNode;
+    private final ArrayList _listeners;
     
-    public PHControlNode() {
+    public PHControlNode( IntegerRange range ) {
         super();
         
-        EventHandler listener = new EventHandler();
+        _listeners = new ArrayList();
         
-        JLabel phLabel = new JLabel( PHScaleStrings.LABEL_PH );
-        phLabel.setFont( LABEL_FONT );
-        
-        _valueTextField = new JFormattedTextField( "XX.XX" );
-        _valueTextField.setFont( VALUE_FONT );
-        _valueTextField.setColumns( VALUE_COLUMNS );
-        _valueTextField.setHorizontalAlignment( JTextField.RIGHT );
-        _valueTextField.addActionListener( listener );
-        _valueTextField.addFocusListener( listener );
-        _valueTextField.addKeyListener( listener );
-        
-        JPanel valuePanel = new JPanel();
-        EasyGridBagLayout valuePanelLayout = new EasyGridBagLayout( valuePanel );
-        valuePanel.setLayout( valuePanelLayout );
-        valuePanelLayout.addComponent( phLabel, 0, 0 );
-        valuePanelLayout.addComponent( _valueTextField, 0, 1 );
-        PSwing valuePanelWrapper = new PSwing( valuePanel );
-        
-        _sliderNode = new PHSliderNode( SLIDER_TRACK_SIZE, KNOB_SIZE );
+        _textFieldNode = new PHTextFieldNode( range );
+        _sliderNode = new PHSliderNode( range, SLIDER_TRACK_SIZE, KNOB_SIZE );
         
         PNode parentNode = new PNode();
-        parentNode.addChild( valuePanelWrapper );
+        parentNode.addChild( _textFieldNode );
         parentNode.addChild( _sliderNode );
-        valuePanelWrapper.setOffset( 0, 0 );
-        PBounds vb = valuePanelWrapper.getFullBoundsReference();
+        _textFieldNode.setOffset( 0, 0 );
+        PBounds vb = _textFieldNode.getFullBoundsReference();
         _sliderNode.setOffset( ( vb.getWidth() / 2 ) - ( SLIDER_TRACK_SIZE.getWidth() / 2 ), vb.getHeight() + KNOB_SIZE.getWidth()/2 + 10 );
         
         double w = parentNode.getFullBoundsReference().getWidth() + ( 2 * MARGIN );
@@ -84,72 +61,49 @@ public class PHControlNode extends PNode {
         PBounds ob = outlineNode.getFullBoundsReference();
         PBounds pb = parentNode.getFullBoundsReference();
         parentNode.setOffset( ( ob.getWidth() - pb.getWidth() ) / 2, MARGIN );
+        
+        _textFieldNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                _sliderNode.setPH( _textFieldNode.getPH() );
+            }
+        });
+        _sliderNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                _textFieldNode.setPH( _sliderNode.getPH() );
+                notifyChanged();
+            }
+        });
     }
     
-    private void handleSliderChanged() {
-        //XXX
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public double getPH() {
+        return _sliderNode.getPH();
     }
     
-    private void handleTextFieldChanged() {
-        //XXX
+    public void setPH( double pH ) {
+        _sliderNode.setPH( pH );
+    }
+   
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
+    
+    public void addChangeListener( ChangeListener listener ) {
+        _listeners.add( listener );
     }
     
-    private void revertTextField() {
-        //XXX
+    public void removeChangeListener( ChangeListener listener ) {
+        _listeners.add( listener );
     }
-
-
-    private class EventHandler extends KeyAdapter implements ActionListener, ChangeListener, FocusListener {
-
-        /* Use the up/down arrow keys to change the value. */
-        public void keyPressed( KeyEvent e ) {
-            if ( e.getSource() == _valueTextField ) {
-                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
-                    //XXX increment
-                }
-                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
-                    //XXX decrement
-                }
-            }
-        }
-
-        /* User pressed enter in text field. */
-        public void actionPerformed( ActionEvent e ) {
-            if ( e.getSource() == _valueTextField ) {
-                handleTextFieldChanged();
-            }
-        }
-
-        /* Slider was moved. */
-        public void stateChanged( ChangeEvent event ) {
-//            if ( event.getSource() == _intensitySlider ) {
-//                handleSliderChanged();
-//            }
-        }
-
-        /**
-         * Selects the entire value text field when it gains focus.
-         */
-        public void focusGained( FocusEvent e ) {
-            if ( e.getSource() == _valueTextField ) {
-                _valueTextField.selectAll();
-            }
-        }
-
-        /**
-         * Processes the contents of the value text field when it loses focus.
-         */
-        public void focusLost( FocusEvent e ) {
-            if ( e.getSource() == _valueTextField ) {
-                try {
-                    _valueTextField.commitEdit();
-                    handleTextFieldChanged();
-                }
-                catch ( ParseException pe ) {
-                    Toolkit.getDefaultToolkit().beep();
-                    revertTextField();
-                }
-            }
+    
+    private void notifyChanged() {
+        ChangeEvent event = new ChangeEvent( this );
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ChangeListener) i.next() ).stateChanged( event );
         }
     }
 
