@@ -28,6 +28,8 @@ import org.xml.sax.SAXException;
  */
 public class PropertiesFlashAdapter {
 
+    private static final String ENCODING = "UTF-8";
+    
     private static final String ROOT_ELEMENT = "SimStrings";
     private static final String STRING_ELEMENT = "string";
     private static final String KEY_ATTRIBUTE = "key";
@@ -81,6 +83,7 @@ public class PropertiesFlashAdapter {
             Result result = new StreamResult( file );
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty( "indent", "yes" ); // make the output easier to read, see Transformer.getOutputProperties
+            transformer.setOutputProperty( "encoding", ENCODING );
             transformer.transform( source, result );
         }
         catch ( ParserConfigurationException e ) {
