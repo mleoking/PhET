@@ -1,6 +1,7 @@
 package edu.colorado.phet.statesofmatter.view;
 
 import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -31,9 +32,9 @@ public class StoveControlPanel extends JPanel {
         stoveSlider.setMinorTickSpacing( 10 );
         stoveSlider.setSnapToTicks( true );
         Hashtable labelTable = new Hashtable();
-        labelTable.put( new Integer( -40 ), new JLabel( IdealGasResources.getString( "Common.Remove" ) ) );
-        labelTable.put( new Integer( 0 ), new JLabel( IdealGasResources.getString( "Common.0" ) ) );
-        labelTable.put( new Integer( 40 ), new JLabel( IdealGasResources.getString( "Common.Add" ) ) );
+        labelTable.put( new Integer( 40 ), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_ADD_LABEL));
+        labelTable.put( new Integer( 0 ), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_ZERO_LABEL));
+        labelTable.put( new Integer( -40 ), new JLabel(StatesOfMatterStrings.STOVE_CONTROL_PANEL_REMOVE_LABEL));
         stoveSlider.setLabelTable( labelTable );
         stoveSlider.setPaintTicks( true );
         stoveSlider.setSnapToTicks( true );
