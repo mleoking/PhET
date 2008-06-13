@@ -2,58 +2,83 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-
-#######################################################################################
-##############                    To Discuss                             ##############
-#######################################################################################
-
-Foods should have correct relative sizes?
-
 I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
     to go beyond a year especially since most of the current data only follows folks for weeks and months.
 
-I am not sure that I entirely agree with your calorie expenditures for physical activity.
-    They seem a bit high and in many cases are absolute values. The total caloric cost for weight
-    bearing activities should be based upon a per body weight value. What was your source for this information?
+    SR - Default range on graph should be 1 year, not 5 years.  Time should go more slowly (1/5 as fast)
+
+    NP - I think it should go for at least a few years. People can take years to lose large amounts of weight, especially if they want to do it safely, and we’d probably like to model this.
 
 I would also limit the age range to the young to middle aged adult since resting metabolic rate
     changes relative to lean mass outside this range.
 
-It might also be fun to include the thermic effect of food intake as part of the daily
-    energy expenditure i.e. when we eat a meal metabolic rate increases to process it.
-    The value varies depending on the composition of the meal but you could just use a value of 15% of the ingested calories.
+    SR - if age is out of range, non-disruptive message that says data is not exact for your range
 
-Possible sim names:
-    Food and Exercise
-    Exercise & Eats
-    Calorie/Fitness
-    Diet and Exercise
-    Exercise and Diet
-    Calories in Food and Exercise
-    Exercise and Foods
-    Eating and Working Out
-    Eats and Exercise
-    Calories and Fitness
-    Calories and Weight
+Rename to Eating and Exercise
 
 Rename directory to match new simulation name, once it is selected
 
 Clarify the meaning of "lifestyle" vs. other daily exercises
     Add description to sedentary, moderate activity, etc.
 
+    SR - Get rid of "Athletic Lifestyle"
+
+#######################################################################################
+##############                    To Do/Noah                             ##############
+#######################################################################################
+
+I am not sure that I entirely agree with your calorie expenditures for physical activity.
+    They seem a bit high and in many cases are absolute values. The total caloric cost for weight
+    bearing activities should be based upon a per body weight value. What was your source for this information?
+
+    SR - We'll choose a function for running, biking, etc.  Noah will come up with these functions.
+    Some activities will say “depends on weight” (others will just give a fixed calories value)
+
 Height
     Incorporate growth or height changes with weight?
         should we increase this?
         yes, look on web for height changes since BMI =f(height)
 
+    SR - Problem: Fat % should be based on height and weight and gender, and update whenever height or weight or gender changes.  Fat free mass depends on height & gender only, not on weight, thus BMR depends only on height and gender
+        Noah P will provide these functions
+
+#######################################################################################
+##############                    To Discuss                             ##############
+#######################################################################################
+
 BMI:
     Are we accounting for sex affects on BMI and BMR?
-    -Can we put a chart or weblink to compare healthy or unhealthy BMI?
+
+    NP - There is no “sex affect” on BMI – it is just height/weight^2.
+    NP - BMR should differ by sex.
+
+    SR – According to Exercise Physiology 4th Ed. By McArdle, Katch & Katch, 1996, p154, the Resting Daily Energy Expenditure is:
+        RDEE (kcal) =370+21.6 * FFM (kg)
+        This equation is said to apply to males and females over a wide range of body weights, and is the equation recommended to us by the CU Integrated Physiologists
+
+Can we put a chart or weblink to compare healthy or unhealthy BMI?
     (see categories chart on national heart lung and blood institute bmi calculator page)
+
+    NP – there is a useful chart on wikipedia. The problem with this is that BMI is not the only indicator of health. People with high BMI can still be healthy.
+    SR – Are there other factors within this simulation that we should use to indicate health?  Or perhaps overall health is not sufficiently covered by this simulation?  Or perhaps we should be clear that the indicator is only a measure of BMI.
 
 We are still confused about a delay in weight loss if: all variables remained constant:
     diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
-    -I think you should be able to do "step day", so you can see the effects of 1 hour activity.
+
+    NP – this is interesting. I haven’t been following this thread, but I have a theory.
+        It might be because the exercise burns the calories you already ate, so you don’t lose the weight there.
+        You lose the weight when your normal metabolism tries to burn up food,
+        but the food is gone since you already burned it exercising, so then you burn fat.
+        This causes a delay in weight loss (in fact, you gain weight when you eat the food,
+        which you then lose again when you exercise, putting you back to the weight you started at.)
+
+I think you should be able to do "step day", so you can see the effects of 1 hour activity.
+
+    NP – I don’t think this is realistic. People do step on a scale every day,
+    but they don’t realize that the statistical fluctuations in weight (due to the weight of food,
+    water retention, etc.) are probably larger than the amount of weight you can actually lose in a day.
+    Note a lb. of fat is ~3000 calories. So if you weigh 150 lb and you some how burn 1 lb.
+    of fat in a day (unlikely), this is <1% change in weight.
 
 Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
 
@@ -89,6 +114,8 @@ Satisfy learning goal: How long do you have to bike/walk to burn a certain numbe
 
 How is body fat calculated?  How would a student know their % body fat to put in the simulation?
 
+	NP – most people don’t know this. It is done either with a skin fold test (calipers), electric current (this is how these scales do it, not entirely accurate), or a submersion in water test (need a special facility). With skin fold, all the numbers are entered in a spreadsheet and it spits out a %. Electronic scales use weight, height, and conductivity (I don’t know the equation. I know it depends on how hydrated you are, and how long your legs are.)
+
 Better values/more options for base diets
 
 Need more junk food for diet options, like actual student diets: burrito, chips, cookies, tacos, sub sandwich, twizzlers or candies, etc
@@ -114,7 +141,11 @@ Editors for exercise (change time or intensity)
 Would it be informative for students to see what 590kcals/day is equivalent to
     (for example 1 hour of swimming, or 2 hours of pilates?)
 
+	NP – possibly – or have them figure this out on their own might be better.
+
 The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
+
+	NP – this is probably not the best way to represent this. It should probabaly be kcal burned per hour rather than per mile. It may be that biking is ¼ per mile, but you travel at least 4x as far on a bike in the same time. In fact, because of wind drag at higher speeds and the ability to climb hills very quickly, the actual “work” done cycling can be considerably higher than other activities.
 
 ######################################
 # Fat % issue
