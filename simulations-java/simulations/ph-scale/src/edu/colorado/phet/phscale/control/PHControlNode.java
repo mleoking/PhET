@@ -37,7 +37,6 @@ public class PHControlNode extends PNode {
     
     private final PHTextFieldNode _textFieldNode;
     private final PHSliderNode _sliderNode;
-    private final ArrayList _listeners;
     
     public PHControlNode( IntegerRange range, PHScaleModel model ) {
         super();
@@ -51,8 +50,6 @@ public class PHControlNode extends PNode {
             }
         };
         _model.getLiquid().addLiquidListener( _liquidListener );
-        
-        _listeners = new ArrayList();
         
         _textFieldNode = new PHTextFieldNode( range );
         _sliderNode = new PHSliderNode( range, SLIDER_TRACK_SIZE, KNOB_SIZE );
@@ -105,25 +102,4 @@ public class PHControlNode extends PNode {
     public void setPH( double pH ) {
         _sliderNode.setPH( pH );
     }
-   
-    //----------------------------------------------------------------------------
-    // Listeners
-    //----------------------------------------------------------------------------
-    
-    public void addChangeListener( ChangeListener listener ) {
-        _listeners.add( listener );
-    }
-    
-    public void removeChangeListener( ChangeListener listener ) {
-        _listeners.add( listener );
-    }
-    
-    private void notifyChanged() {
-        ChangeEvent event = new ChangeEvent( this );
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ChangeListener) i.next() ).stateChanged( event );
-        }
-    }
-
 }
