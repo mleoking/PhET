@@ -27,9 +27,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-/**
- * FitnessCanvas is the canvas for FitnessModule.
- */
 public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
     //----------------------------------------------------------------------------

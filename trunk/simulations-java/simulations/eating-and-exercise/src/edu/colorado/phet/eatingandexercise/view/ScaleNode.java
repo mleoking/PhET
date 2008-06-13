@@ -68,11 +68,7 @@ public class ScaleNode extends PNode {
         weightReadout.scale( TEXT_SCALE );
         addChild( weightReadout );
 
-//        bmiReadout = new FitnessPText( "??" );
-//        bmiReadout.scale( TEXT_SCALE );
-//        addChild( bmiReadout );
         updateWeightReadout();
-//        updateBMIReadout();
 
         JPanel units = new VerticalLayoutPanel();
 //        units.setBorder( BorderFactory.createTitledBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ),"units" ) );

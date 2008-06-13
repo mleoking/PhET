@@ -27,7 +27,6 @@ public class CaloriePanel extends PNode {
     private CalorieNode foodNode;
     private CalorieNode exerciseNode;
     private ChartNode chartNode;
-//    private FitnessWiggleMe fitnessWiggleMe;
 
     public CaloriePanel( final EatingAndExerciseModel model, PhetPCanvas phetPCanvas, Frame parentFrame ) {
         this.phetPCanvas = phetPCanvas;
@@ -89,10 +88,6 @@ public class CaloriePanel extends PNode {
     }
 
     public void applicationStarted() {
-//        if ( fitnessWiggleMe == null ) {
-//            fitnessWiggleMe = new FitnessWiggleMe( phetPCanvas, getEditDietButton() );
-//            addChild( fitnessWiggleMe );
-//        }
     }
 
     public void addEditorClosedListener( ActionListener actionListener ) {
@@ -135,9 +130,5 @@ public class CaloriePanel extends PNode {
         stackedBarChart.setOffset( width / 2 - stackedBarChart.getFullBounds().getWidth() / 2, chartNode.getFullBounds().getY() );
         foodNode.setOffset( stackedBarChart.getFullBounds().getX() - foodNode.getFullBounds().getWidth() - 5, 0 );
         exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 20, 0 );
-
-//        if ( fitnessWiggleMe != null ) {
-//            fitnessWiggleMe.updateWiggleMeTarget();
-//        }
     }
 }

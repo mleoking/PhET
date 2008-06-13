@@ -13,9 +13,6 @@ import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.util.EatingAndExerciseFileParser;
 
-/**
- * FitnessModel is the model for FitnessModule.
- */
 public class EatingAndExerciseModel {
 
     public static class Units {

@@ -26,7 +26,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private EatingAndExerciseModule fitnessModule;
+    private EatingAndExerciseModule eatingAndExerciseModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -73,8 +73,8 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     * Initializes the modules.
     */
     private void initModules() {
-        fitnessModule = new EatingAndExerciseModule( getPhetFrame() );
-        addModule( fitnessModule );
+        eatingAndExerciseModule = new EatingAndExerciseModule( getPhetFrame() );
+        addModule( eatingAndExerciseModule );
     }
 
     /*
@@ -157,6 +157,6 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
     public void startApplication() {
         super.startApplication();
-        fitnessModule.applicationStarted();
+        eatingAndExerciseModule.applicationStarted();
     }
 }

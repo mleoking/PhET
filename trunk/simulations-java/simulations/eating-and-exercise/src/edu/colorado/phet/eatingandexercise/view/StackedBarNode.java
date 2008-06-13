@@ -212,7 +212,6 @@ public class StackedBarNode extends PNode {
 
         private void updateShape() {
             double value = barChartElement.getValue();
-//            readoutNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value ) + " " + FitnessStrings.KCAL_PER_DAY );
             readoutValueNode.setHTML( EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( value ) );
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
