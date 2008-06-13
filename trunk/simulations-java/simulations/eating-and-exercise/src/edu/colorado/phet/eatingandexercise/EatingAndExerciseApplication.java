@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
-import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModule;
+import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModule;
 import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
 
 public class EatingAndExerciseApplication extends PiccoloPhetApplication {
@@ -26,7 +26,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private FitnessModule fitnessModule;
+    private EatingAndExerciseModule fitnessModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -73,7 +73,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     * Initializes the modules.
     */
     private void initModules() {
-        fitnessModule = new FitnessModule( getPhetFrame() );
+        fitnessModule = new EatingAndExerciseModule( getPhetFrame() );
         addModule( fitnessModule );
     }
 

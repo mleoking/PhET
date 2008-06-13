@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.EatingAndExercisePText;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.Human;
-import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
+import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -23,7 +23,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Apr 9, 2008 at 8:35:03 PM
  */
 public class ScaleNode extends PNode {
-    private FitnessModel model;
+    private EatingAndExerciseModel model;
     private Human human;
     private PText weightReadout;
     private double faceWidth = 0.9;
@@ -35,7 +35,7 @@ public class ScaleNode extends PNode {
     //    private PText bmiReadout;
     private PSwing unitsPSwing;
 
-    public ScaleNode( final FitnessModel model, Human human ) {
+    public ScaleNode( final EatingAndExerciseModel model, Human human ) {
         this.model = model;
         this.human = human;
         DoubleGeneralPath topPath = new DoubleGeneralPath();
@@ -77,17 +77,17 @@ public class ScaleNode extends PNode {
         JPanel units = new VerticalLayoutPanel();
 //        units.setBorder( BorderFactory.createTitledBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ),"units" ) );
         units.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
-        for ( int i = 0; i < FitnessModel.availableUnits.length; i++ ) {
-            final JRadioButton jRadioButton = new JRadioButton( FitnessModel.availableUnits[i].getShortName(), FitnessModel.availableUnits[i] == model.getUnits() );
+        for ( int i = 0; i < EatingAndExerciseModel.availableUnits.length; i++ ) {
+            final JRadioButton jRadioButton = new JRadioButton( EatingAndExerciseModel.availableUnits[i].getShortName(), EatingAndExerciseModel.availableUnits[i] == model.getUnits() );
             final int i1 = i;
             jRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.setUnits( FitnessModel.availableUnits[i1] );
+                    model.setUnits( EatingAndExerciseModel.availableUnits[i1] );
                 }
             } );
-            model.addListener( new FitnessModel.Adapter() {
+            model.addListener( new EatingAndExerciseModel.Adapter() {
                 public void unitsChanged() {
-                    jRadioButton.setSelected( model.getUnits() == FitnessModel.availableUnits[i1] );
+                    jRadioButton.setSelected( model.getUnits() == EatingAndExerciseModel.availableUnits[i1] );
                 }
             } );
             units.add( jRadioButton );
@@ -98,7 +98,7 @@ public class ScaleNode extends PNode {
         unitsPSwing.setOffset( faceWidth / 2 + strokeWidth / 2, 0 );
         unitsPSwing.scale( TEXT_SCALE * 0.75 );
         addChild( unitsPSwing );
-        model.addListener( new FitnessModel.Adapter() {
+        model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
                 updateWeightReadout();
 //                updateBMIReadout();

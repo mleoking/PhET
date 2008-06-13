@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
-import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
+import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
 import edu.colorado.phet.eatingandexercise.view.StackedBarChartNode;
 import edu.colorado.phet.eatingandexercise.view.StackedBarNode;
@@ -29,7 +29,7 @@ public class CaloriePanel extends PNode {
     private ChartNode chartNode;
 //    private FitnessWiggleMe fitnessWiggleMe;
 
-    public CaloriePanel( final FitnessModel model, PhetPCanvas phetPCanvas, Frame parentFrame ) {
+    public CaloriePanel( final EatingAndExerciseModel model, PhetPCanvas phetPCanvas, Frame parentFrame ) {
         this.phetPCanvas = phetPCanvas;
         this.chartNode = new ChartNode( model, phetPCanvas );
         addChild( chartNode );
@@ -58,14 +58,14 @@ public class CaloriePanel extends PNode {
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        foodNode = new CalorieNode( parentFrame, EatingAndExerciseResources.getString( "edit.diet" ), new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), EatingAndExerciseResources.getString( "food.sources" ), EatingAndExerciseResources.getString( "diet" ),"plate-2.png" ) {
+        foodNode = new CalorieNode( parentFrame, EatingAndExerciseResources.getString( "edit.diet" ), new Color( 100, 100, 255 ), EatingAndExerciseModel.availableFoods, model.getHuman().getSelectedFoods(), EatingAndExerciseResources.getString( "food.sources" ), EatingAndExerciseResources.getString( "diet" ),"plate-2.png" ) {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new FoodSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }
         };
         addChild( foodNode );
 
-        exerciseNode = new CalorieNode( parentFrame, EatingAndExerciseResources.getString( "exercise.edit" ), Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), EatingAndExerciseResources.getString( "menu.options" ), EatingAndExerciseResources.getString( "exercise.daily" ) ,"planner.png") {
+        exerciseNode = new CalorieNode( parentFrame, EatingAndExerciseResources.getString( "exercise.edit" ), Color.red, EatingAndExerciseModel.availableExercise, model.getHuman().getSelectedExercise(), EatingAndExerciseResources.getString( "menu.options" ), EatingAndExerciseResources.getString( "exercise.daily" ) ,"planner.png") {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new ExerciseSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }

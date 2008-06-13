@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
-import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
+import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
 
 /**
@@ -184,7 +184,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( new CalorieSelectionPanel( FitnessModel.availableFoods, new CalorieSet(), "Grocery store", EatingAndExerciseResources.getString( "diet" ) ) );
+        frame.setContentPane( new CalorieSelectionPanel( EatingAndExerciseModel.availableFoods, new CalorieSet(), "Grocery store", EatingAndExerciseResources.getString( "diet" ) ) );
         frame.pack();
         frame.setSize( 800, 600 );
         frame.setVisible( true );

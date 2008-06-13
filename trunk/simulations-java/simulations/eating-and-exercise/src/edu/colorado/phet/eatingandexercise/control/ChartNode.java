@@ -28,7 +28,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
-import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
+import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -43,26 +43,26 @@ public class ChartNode extends PNode {
     private DefaultTemporalVariable massVar = new DefaultTemporalVariable();
     private DefaultTemporalVariable calIntakeVar = new DefaultTemporalVariable();
     private DefaultTemporalVariable calBurnVar = new DefaultTemporalVariable();
-    private FitnessModel model;
+    private EatingAndExerciseModel model;
     private ControlGraph weightGraph;
     private ControlGraph calorieGraph;
     private static final double DEFAULT_RANGE_YEARS = 5;
-    private FitnessModel.Units previousUnits;
+    private EatingAndExerciseModel.Units previousUnits;
 
-    public ChartNode( final FitnessModel model, PhetPCanvas phetPCanvas ) {
+    public ChartNode( final EatingAndExerciseModel model, PhetPCanvas phetPCanvas ) {
         this.model = model;
         GraphSuiteSet graphSuiteSet = new GraphSuiteSet();
 
         //todo: remove the following bogus line
         TimeSeriesModel tsm = new MotionTimeSeriesModel( new TestTimeSeries.MyRecordableModel(), new ConstantDtClock( 30, 1 ) );
 
-        model.addListener( new FitnessModel.Adapter() {
+        model.addListener( new EatingAndExerciseModel.Adapter() {
             public void simulationTimeChanged() {
                 updateVars();
             }
         } );
         updateVars();
-        model.addListener( new FitnessModel.Adapter() {
+        model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
                 updateWeightMassLabel();
                 syncVerticalRanges();
@@ -92,7 +92,7 @@ public class ChartNode extends PNode {
 
         final ControlGraphSeries weightSeries = new ControlGraphSeries( EatingAndExerciseResources.getString( "weight" ), Color.blue, EatingAndExerciseResources.getString( "weight" ), EatingAndExerciseResources.getString( "units.lbs" ), "", massVar );
         weightSeries.setDecimalFormat( new DefaultDecimalFormat( "0" ) );
-        model.addListener( new FitnessModel.Adapter() {
+        model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
                 weightSeries.setUnits( model.getUnits().getMassUnit() );
             }
@@ -115,7 +115,7 @@ public class ChartNode extends PNode {
         calorieGraph.addSeries( burnSeries );
         updateGraphDomains( DEFAULT_RANGE_YEARS );
         calorieGraph.setEditable( false );
-        model.addListener( new FitnessModel.Adapter() {
+        model.addListener( new EatingAndExerciseModel.Adapter() {
             public void simulationTimeChanged() {
                 calorieGraph.forceUpdateAll();
             }

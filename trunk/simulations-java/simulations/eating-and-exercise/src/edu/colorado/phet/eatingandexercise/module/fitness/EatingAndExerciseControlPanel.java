@@ -10,7 +10,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 /**
  * FitnessControlPanel is the control panel for FitnessModule.
  */
-public class FitnessControlPanel extends ControlPanel {
+public class EatingAndExerciseControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -26,7 +26,7 @@ public class FitnessControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public FitnessControlPanel( FitnessModule module, Frame parentFrame ) {
+    public EatingAndExerciseControlPanel( EatingAndExerciseModule module, Frame parentFrame ) {
         super();
 
         // Set the control panel's minimum width.

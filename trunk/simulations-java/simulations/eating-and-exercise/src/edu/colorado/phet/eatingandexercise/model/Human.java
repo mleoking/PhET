@@ -10,7 +10,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.Activity;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
-import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
+import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.module.fitness.FoodCalorieSet;
 
 /**
@@ -103,7 +103,7 @@ public class Human {
 
         updateBMR();
         setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2].getValue() );
-        Diet initialDiet = FitnessModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
+        Diet initialDiet = EatingAndExerciseModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
         foodItems.clear();
         exerciseItems.clear();
         if ( defaultIntake == null ) {//todo: change to single instance so that view/controller can observe it
@@ -199,7 +199,7 @@ public class Human {
     }
 
     public Diet getDiet() {
-        return FitnessModel.getDiet( lipids.getValue(), carbs.getValue(), proteins.getValue() );
+        return EatingAndExerciseModel.getDiet( lipids.getValue(), carbs.getValue(), proteins.getValue() );
     }
 
     private void notifyDietChanged() {

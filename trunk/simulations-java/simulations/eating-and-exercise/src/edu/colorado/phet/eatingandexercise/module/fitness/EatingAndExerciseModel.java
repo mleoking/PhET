@@ -16,7 +16,7 @@ import edu.colorado.phet.eatingandexercise.util.FitnessFileParser;
 /**
  * FitnessModel is the model for FitnessModule.
  */
-public class FitnessModel {
+public class EatingAndExerciseModel {
 
     public static class Units {
         public static final Units ENGLISH = new Units( EatingAndExerciseResources.getString( "units.english" ), EatingAndExerciseResources.getString( "units.lbs" ), EatingAndExerciseResources.getString( "units.feet.in" ) ) {
@@ -87,7 +87,7 @@ public class FitnessModel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final FitnessClock clock;
+    private final EatingAndExerciseClock clock;
     private final Human human = new Human();
 
     //http://www.calorie-count.com/calories/item/9316.html
@@ -107,7 +107,7 @@ public class FitnessModel {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessModel( FitnessClock clock ) {
+    public EatingAndExerciseModel( EatingAndExerciseClock clock ) {
         super();
 
         this.clock = clock;
@@ -135,7 +135,7 @@ public class FitnessModel {
     // Accessors
     //----------------------------------------------------------------------------
 
-    public FitnessClock getClock() {
+    public EatingAndExerciseClock getClock() {
         return clock;
     }
 

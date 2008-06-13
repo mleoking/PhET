@@ -19,7 +19,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
-import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
+import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.util.FeetInchesFormat;
 import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
 import edu.colorado.phet.eatingandexercise.view.SliderNode;
@@ -29,13 +29,13 @@ import edu.colorado.phet.eatingandexercise.view.SliderNode;
  * Apr 3, 2008 at 1:14:21 PM
  */
 public class HumanControlPanel extends VerticalLayoutPanel {
-    private FitnessModel model;
+    private EatingAndExerciseModel model;
     private Human human;
     private HumanSlider bodyFat;
     private LinearValueControl[] hs;
     private ArrayList listeners = new ArrayList();
 
-    public HumanControlPanel( final FitnessModel model, final Human human ) {
+    public HumanControlPanel( final EatingAndExerciseModel model, final Human human ) {
         this.model = model;
         this.human = human;
         getGridBagConstraints().insets = new Insets( 4, 4, 4, 4 );
@@ -98,7 +98,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 human.setHeight( model.getUnits().viewToModelDistance( heightControl.getValue() ) );
             }
         } );
-        model.addListener( new FitnessModel.Adapter() {
+        model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
                 double origHeight = human.getHeight();
                 double value = model.getUnits().modelToViewDistance( human.getHeight() );
@@ -115,9 +115,9 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
         heightControl.setTextFieldFormat( new FeetInchesFormat() );
-        model.addListener( new FitnessModel.Adapter() {
+        model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
-                heightControl.setTextFieldFormat( model.getUnits() == FitnessModel.Units.METRIC ? (NumberFormat) EatingAndExerciseStrings.AGE_FORMAT : new FeetInchesFormat() );
+                heightControl.setTextFieldFormat( model.getUnits() == EatingAndExerciseModel.Units.METRIC ? (NumberFormat) EatingAndExerciseStrings.AGE_FORMAT : new FeetInchesFormat() );
             }
         } );
 
@@ -137,7 +137,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 weightSlider.setValue( model.getUnits().modelToViewMass( human.getMass() ) );
             }
         } );
-        model.addListener( new FitnessModel.Adapter() {
+        model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
                 weightSlider.setValue( model.getUnits().modelToViewMass( human.getMass() ) );
                 weightSlider.setUnits( model.getUnits().getMassUnit() );
@@ -193,7 +193,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 updateBodyFatSlider();
             }
         } );
-        model.addListener( new FitnessModel.Adapter() {
+        model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
                 new AlignedSliderSetLayoutStrategy( hs ).doLayout();
             }
