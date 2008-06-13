@@ -4,7 +4,7 @@ package edu.colorado.phet.eatingandexercise.model;
  * Created by: Sam
  * Apr 17, 2008 at 11:48:34 PM
  */
-public class FitnessUnits {
+public class EatingAndExerciseUnits {
     private static double SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
     private static final double SECONDS_PER_DAY = 24 * 60 * 60;
     private static double POUNDS_PER_KG = 2.20462262;

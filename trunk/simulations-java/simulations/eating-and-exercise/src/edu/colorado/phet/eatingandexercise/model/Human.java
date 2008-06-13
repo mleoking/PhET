@@ -347,9 +347,9 @@ public class Human {
     public void simulationTimeChanged( double simulationTimeChange ) {
         setAge( getAge() + simulationTimeChange );
         double caloriesGainedPerDay = getDeltaCaloriesGained();
-        double kgGainedPerDay = FitnessUnits.caloriesToKG( caloriesGainedPerDay );
+        double kgGainedPerDay = EatingAndExerciseUnits.caloriesToKG( caloriesGainedPerDay );
 
-        setMass( getMass() + kgGainedPerDay * FitnessUnits.secondsToDays( simulationTimeChange ) );
+        setMass( getMass() + kgGainedPerDay * EatingAndExerciseUnits.secondsToDays( simulationTimeChange ) );
         mass.addValue( getMass(), getAge() );
 
         caloricIntakeVariable.setValue( getDailyCaloricIntake() );
@@ -620,11 +620,11 @@ public class Human {
         }
 
         public double getHeightMeters() {
-            return FitnessUnits.feetToMeters( heightFT );
+            return EatingAndExerciseUnits.feetToMeters( heightFT );
         }
 
         public double getAgeSeconds() {
-            return FitnessUnits.yearsToSeconds( ageYears );
+            return EatingAndExerciseUnits.yearsToSeconds( ageYears );
         }
 
         public double getMassKG() {

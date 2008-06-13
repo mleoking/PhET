@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
-import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
+import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.colorado.phet.eatingandexercise.view.StackedBarChartNode;
 import edu.colorado.phet.eatingandexercise.view.StackedBarNode;
 import edu.umd.cs.piccolo.PNode;
@@ -45,14 +45,14 @@ public class CaloriePanel extends PNode {
 
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         Color labelColor = Color.black;
-        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseStrings.FATS, FitnessColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif", labelColor ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "food.carbs" ), FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png", labelColor ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "food.protien" ), FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "food.carbs" ), EatingAndExerciseColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "food.protien" ), EatingAndExerciseColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif", labelColor ), StackedBarNode.NONE );
 
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
-        exerciseBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "exercise.resting.bmr" ), FitnessColorScheme.BMR, model.getHuman().getBmr(), "heart2.png" ), StackedBarNode.NONE );
-        exerciseBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "exercise.lifestyle" ), FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(), "j0417518.png" ), StackedBarNode.NONE );
-        exerciseBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "exercise" ), FitnessColorScheme.EXERCISE, model.getHuman().getExercise(), "road_biker.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "exercise.resting.bmr" ), EatingAndExerciseColorScheme.BMR, model.getHuman().getBmr(), "heart2.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "exercise.lifestyle" ), EatingAndExerciseColorScheme.ACTIVITY, model.getHuman().getActivity(), "j0417518.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "exercise" ), EatingAndExerciseColorScheme.EXERCISE, model.getHuman().getExercise(), "road_biker.png" ), StackedBarNode.NONE );
 
         stackedBarChart.addStackedBarNode( intakeBars );
         stackedBarChart.addStackedBarNode( exerciseBars );

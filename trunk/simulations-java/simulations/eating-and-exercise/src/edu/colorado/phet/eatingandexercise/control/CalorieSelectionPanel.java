@@ -18,7 +18,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
-import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
+import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 
 /**
  * Created by: Sam
@@ -149,9 +149,9 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
             PhetPCanvas pieChartCanvas = new PhetPCanvas();
             pieChartCanvas.setPreferredSize( new Dimension( 50, 50 ) );
             pieChartCanvas.addScreenChild( new PieChartNode( new PieChartNode.PieValue[]{
-                    new PieChartNode.PieValue( c.getCarbCalories(), FitnessColorScheme.CARBS ),
-                    new PieChartNode.PieValue( c.getProteinCalories(), FitnessColorScheme.PROTEIN ),
-                    new PieChartNode.PieValue( c.getLipidCalories(), FitnessColorScheme.FATS ),
+                    new PieChartNode.PieValue( c.getCarbCalories(), EatingAndExerciseColorScheme.CARBS ),
+                    new PieChartNode.PieValue( c.getProteinCalories(), EatingAndExerciseColorScheme.PROTEIN ),
+                    new PieChartNode.PieValue( c.getLipidCalories(), EatingAndExerciseColorScheme.FATS ),
             }, new Rectangle( 5, 5, 40, 40 ) ) );
             pieChartCanvas.setOpaque( false );
             pieChartCanvas.setBackground( new Color( 0, 0, 0, 0 ) );

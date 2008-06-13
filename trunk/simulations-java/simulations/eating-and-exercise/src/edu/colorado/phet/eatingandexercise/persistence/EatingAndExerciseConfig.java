@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 /**
  * ExampleConfig is a Java Bean compliant configuration of ExampleModule.
  */
-public class FitnessConfig implements IProguardKeepClass {
+public class EatingAndExerciseConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -34,7 +34,7 @@ public class FitnessConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance.
      */
-    public FitnessConfig() {
+    public EatingAndExerciseConfig() {
     }
 
     //----------------------------------------------------------------------------

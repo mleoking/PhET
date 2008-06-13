@@ -26,7 +26,7 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.eatingandexercise.EatingAndExercisePText;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
-import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
+import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
 import edu.umd.cs.piccolo.PNode;
@@ -97,7 +97,7 @@ public class ChartNode extends PNode {
                 weightSeries.setUnits( model.getUnits().getMassUnit() );
             }
         } );
-        weightGraph = new FitnessControlGraph( phetPCanvas, weightSeries, EatingAndExerciseResources.getString( "weight" ), 0, 250, tsm );
+        weightGraph = new EatingAndExerciseControlGraph( phetPCanvas, weightSeries, EatingAndExerciseResources.getString( "weight" ), 0, 250, tsm );
 
         weightGraph.setEditable( false );
 //        weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().setLabel( "Label" );//takes up too much vertical space
@@ -110,7 +110,7 @@ public class ChartNode extends PNode {
         ControlGraphSeries burnSeries = new ControlGraphSeries( EatingAndExerciseResources.getString( "calories.burned" ), Color.red, EatingAndExerciseResources.getString( "calories.burned" ), EatingAndExerciseStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
         burnSeries.setDecimalFormat( new DefaultDecimalFormat( EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT ) );
 
-        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, EatingAndExerciseResources.getString( "units.calories" ), 0, 6000, tsm );
+        calorieGraph = new EatingAndExerciseControlGraph( phetPCanvas, intakeSeries, EatingAndExerciseResources.getString( "units.calories" ), 0, 6000, tsm );
         calorieGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( EatingAndExerciseResources.getString( "units.cal-day" ) );
         calorieGraph.addSeries( burnSeries );
         updateGraphDomains( DEFAULT_RANGE_YEARS );
@@ -188,10 +188,10 @@ public class ChartNode extends PNode {
 
     private void updateGraphDomains( double rangeYears ) {
         double startTime = model.getHuman().getAge();
-        calorieGraph.setHorizontalRange( FitnessUnits.secondsToYears( startTime ),
-                                         FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( rangeYears ) ) );
-        weightGraph.setHorizontalRange( FitnessUnits.secondsToYears( startTime ),
-                                        FitnessUnits.secondsToYears( startTime + FitnessUnits.yearsToSeconds( rangeYears ) ) );
+        calorieGraph.setHorizontalRange( EatingAndExerciseUnits.secondsToYears( startTime ),
+                                         EatingAndExerciseUnits.secondsToYears( startTime + EatingAndExerciseUnits.yearsToSeconds( rangeYears ) ) );
+        weightGraph.setHorizontalRange( EatingAndExerciseUnits.secondsToYears( startTime ),
+                                        EatingAndExerciseUnits.secondsToYears( startTime + EatingAndExerciseUnits.yearsToSeconds( rangeYears ) ) );
     }
 
     private void resetChartArea() {
@@ -202,7 +202,7 @@ public class ChartNode extends PNode {
         massVar.clear();
         ITemporalVariable itv = model.getHuman().getMassVariable();
         for ( int i = 0; i < itv.getSampleCount(); i++ ) {
-            massVar.addValue( model.getUnits().modelToViewMass( itv.getData( i ).getValue() ), FitnessUnits.secondsToYears( itv.getData( i ).getTime() ) );
+            massVar.addValue( model.getUnits().modelToViewMass( itv.getData( i ).getValue() ), EatingAndExerciseUnits.secondsToYears( itv.getData( i ).getTime() ) );
         }
     }
 
@@ -234,7 +234,7 @@ public class ChartNode extends PNode {
     }
 
     private double getAgeYears() {
-        return FitnessUnits.secondsToYears( model.getHuman().getAge() );
+        return EatingAndExerciseUnits.secondsToYears( model.getHuman().getAge() );
     }
 
     public void relayout( int width, int height ) {
@@ -256,11 +256,11 @@ public class ChartNode extends PNode {
         calIntakeVar.clear();
     }
 
-    private class FitnessControlGraph extends ControlGraph {
+    private class EatingAndExerciseControlGraph extends ControlGraph {
         private GradientButtonNode gradientButtonNode;
         private PNode axisLabel;
 
-        public FitnessControlGraph( PhetPCanvas canvas, ControlGraphSeries series, String title, int minY, int maxY, TimeSeriesModel timeSeriesModel ) {
+        public EatingAndExerciseControlGraph( PhetPCanvas canvas, ControlGraphSeries series, String title, int minY, int maxY, TimeSeriesModel timeSeriesModel ) {
             super( canvas, series, title, minY, maxY, timeSeriesModel );
             gradientButtonNode = new GradientButtonNode( EatingAndExerciseResources.getString( "time.reset" ), 12, Color.green );
             gradientButtonNode.addActionListener( new ActionListener() {

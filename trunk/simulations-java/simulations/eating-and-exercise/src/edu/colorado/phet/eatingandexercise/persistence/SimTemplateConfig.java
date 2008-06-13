@@ -24,7 +24,7 @@ public class SimTemplateConfig implements IProguardKeepClass {
     private String _versionRevision;
 
     // Modules
-    private FitnessConfig _exampleConfig;
+    private EatingAndExerciseConfig _exampleConfig;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -34,7 +34,7 @@ public class SimTemplateConfig implements IProguardKeepClass {
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
     public SimTemplateConfig() {
-        _exampleConfig = new FitnessConfig();
+        _exampleConfig = new EatingAndExerciseConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -85,11 +85,11 @@ public class SimTemplateConfig implements IProguardKeepClass {
     // Accessors for module configurations
     //----------------------------------------------------------------------------
 
-    public void setExampleConfig( FitnessConfig exampleConfig ) {
+    public void setExampleConfig( EatingAndExerciseConfig exampleConfig ) {
         _exampleConfig = exampleConfig;
     }
 
-    public FitnessConfig getExampleConfig() {
+    public EatingAndExerciseConfig getExampleConfig() {
         return _exampleConfig;
     }
 }

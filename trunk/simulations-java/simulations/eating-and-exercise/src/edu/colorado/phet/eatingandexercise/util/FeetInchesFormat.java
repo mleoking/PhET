@@ -3,7 +3,7 @@ package edu.colorado.phet.eatingandexercise.util;
 import java.text.*;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
+import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 
 /**
  * Created by: Sam
@@ -30,7 +30,7 @@ public class FeetInchesFormat extends NumberFormat {
             try {
                 double feet = format.parse( st.nextToken() ).doubleValue();
                 double inches = format.parse( st.nextToken() ).doubleValue();
-                return new Double( feet + FitnessUnits.inchesToFeet( inches ) );
+                return new Double( feet + EatingAndExerciseUnits.inchesToFeet( inches ) );
             }
             catch( ParseException e ) {
                 e.printStackTrace();
@@ -43,7 +43,7 @@ public class FeetInchesFormat extends NumberFormat {
         double totalFeet = number;
         double feetDecimal = number - (int) number;
         double feet = totalFeet - feetDecimal;
-        double inches = FitnessUnits.feetToInches( feetDecimal );
+        double inches = EatingAndExerciseUnits.feetToInches( feetDecimal );
 
         String inchText = format.format( inches );
         if ( inchText.equals( "12" ) ) {

@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 public class ZBasalMetabolicRateTester extends TestCase {
     public void testBMR() {
         //see http://en.wikipedia.org/wiki/Basal_metabolic_rate
-        assertEquals( 1266, BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( 59, 1.68, FitnessUnits.yearsToSeconds( 55 ), Human.Gender.FEMALE ), 10 );
+        assertEquals( 1266, BasalMetabolicRate.getBasalMetabolicRateHarrisBenedict( 59, 1.68, EatingAndExerciseUnits.yearsToSeconds( 55 ), Human.Gender.FEMALE ), 10 );
 //        assertEquals( 1266, BasalMetabolicRate.getBasalMetabolicRateMifflinJeor( 59, 1.68, FitnessUnits.yearsToSeconds( 55 ), Human.Gender.FEMALE ), 1E-6 );
     }
 }

@@ -18,7 +18,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
 import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModule;
-import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
+import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 
 public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
@@ -141,7 +141,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 //                DummyConstantStringTester.setTestScenario( new Locale( "ja" ), "\u30A8\u30CD\u30EB\u30AE\u30FC\u306E\u6642\u9593\u5909\u5316" );
                 PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
                 phetLookAndFeel.setFont( new PhetFont( 14, true ) );
-                phetLookAndFeel.setBackgroundColor( FitnessColorScheme.getBackgroundColor() );
+                phetLookAndFeel.setBackgroundColor( EatingAndExerciseColorScheme.getBackgroundColor() );
                 phetLookAndFeel.setTextFieldBackgroundColor( Color.white );
                 phetLookAndFeel.initLookAndFeel();
                 PhetApplicationConfig config = new PhetApplicationConfig( args, EatingAndExerciseConstants.FRAME_SETUP, EatingAndExerciseResources.getResourceLoader() );
