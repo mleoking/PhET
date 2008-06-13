@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.eatingandexercise.FitnessApplication;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -28,13 +28,13 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private FitnessApplication _app;
+    private EatingAndExerciseApplication _app;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControlsDialog( Frame owner, FitnessApplication app ) {
+    public DeveloperControlsDialog( Frame owner, EatingAndExerciseApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );

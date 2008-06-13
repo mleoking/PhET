@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.eatingandexercise.FitnessApplication;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -21,11 +21,11 @@ import edu.colorado.phet.eatingandexercise.FitnessApplication;
  */
 public class DeveloperMenu extends JMenu implements ActionListener {
 
-    private FitnessApplication _app;
+    private EatingAndExerciseApplication _app;
     private JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
 
-    public DeveloperMenu( FitnessApplication app ) {
+    public DeveloperMenu( EatingAndExerciseApplication app ) {
         super( "Developer" );
 
         _app = app;
