@@ -22,9 +22,9 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.defaults.ExampleDefaults;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
-import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
+import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
-import edu.colorado.phet.eatingandexercise.persistence.FitnessConfig;
+import edu.colorado.phet.eatingandexercise.persistence.EatingAndExerciseConfig;
 
 public class EatingAndExerciseModule extends PiccoloModule {
 
@@ -85,7 +85,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         // Clock controls
         _clockControlPanel = new ClockControlPanel( getClock() ) {
             public void setTimeDisplay( double time ) {
-                super.setTimeDisplay( FitnessUnits.secondsToYears( time ) );
+                super.setTimeDisplay( EatingAndExerciseUnits.secondsToYears( time ) );
             }
         };
         _clockControlPanel.setRestartButtonVisible( true );
@@ -166,9 +166,9 @@ public class EatingAndExerciseModule extends PiccoloModule {
     // Persistence
     //----------------------------------------------------------------------------
 
-    public FitnessConfig save() {
+    public EatingAndExerciseConfig save() {
 
-        FitnessConfig config = new FitnessConfig();
+        EatingAndExerciseConfig config = new EatingAndExerciseConfig();
 
         // Module
         config.setActive( isActive() );
@@ -189,7 +189,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         return config;
     }
 
-    public void load( FitnessConfig config ) {
+    public void load( EatingAndExerciseConfig config ) {
 
         // Module
         if ( config.isActive() ) {

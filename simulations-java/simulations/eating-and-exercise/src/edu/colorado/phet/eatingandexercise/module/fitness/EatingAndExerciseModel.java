@@ -9,9 +9,9 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.Diet;
-import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
+import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
-import edu.colorado.phet.eatingandexercise.util.FitnessFileParser;
+import edu.colorado.phet.eatingandexercise.util.EatingAndExerciseFileParser;
 
 /**
  * FitnessModel is the model for FitnessModule.
@@ -21,19 +21,19 @@ public class EatingAndExerciseModel {
     public static class Units {
         public static final Units ENGLISH = new Units( EatingAndExerciseResources.getString( "units.english" ), EatingAndExerciseResources.getString( "units.lbs" ), EatingAndExerciseResources.getString( "units.feet.in" ) ) {
             public double modelToViewMass( double mass ) {
-                return FitnessUnits.kgToPounds( mass );
+                return EatingAndExerciseUnits.kgToPounds( mass );
             }
 
             public double viewToModelMass( double value ) {
-                return FitnessUnits.poundsToKg( value );
+                return EatingAndExerciseUnits.poundsToKg( value );
             }
 
             public double modelToViewDistance( double distance ) {
-                return FitnessUnits.metersToFeet( distance );
+                return EatingAndExerciseUnits.metersToFeet( distance );
             }
 
             public double viewToModelDistance( double value ) {
-                return FitnessUnits.feetToMeters( value );
+                return EatingAndExerciseUnits.feetToMeters( value );
             }
         };
         public static final Units METRIC = new Units( EatingAndExerciseResources.getString( "units.metric" ), EatingAndExerciseResources.getString( "units.kg" ), EatingAndExerciseResources.getString( "units.meters" ) );
@@ -91,8 +91,8 @@ public class EatingAndExerciseModel {
     private final Human human = new Human();
 
     //http://www.calorie-count.com/calories/item/9316.html
-    public static final FoodCalorieSet availableFoods = new FoodCalorieSet( FitnessFileParser.getFoodItems() );
-    public static final CalorieSet availableExercise = new CalorieSet( FitnessFileParser.getExerciseItems() );
+    public static final FoodCalorieSet availableFoods = new FoodCalorieSet( EatingAndExerciseFileParser.getFoodItems() );
+    public static final CalorieSet availableExercise = new CalorieSet( EatingAndExerciseFileParser.getExerciseItems() );
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
     public static final Diet BALANCED_DIET = new Diet( EatingAndExerciseResources.getString( "diet.balanced" ), 870, 1583, 432 );

@@ -17,11 +17,11 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
-import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
+import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.util.FeetInchesFormat;
-import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
+import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.colorado.phet.eatingandexercise.view.SliderNode;
 
 /**
@@ -44,18 +44,18 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), EatingAndExerciseResources.getString( "units.years" ) );
+        final HumanSlider age = new HumanSlider( 0, 100, EatingAndExerciseUnits.secondsToYears( human.getAge() ), EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), EatingAndExerciseResources.getString( "units.years" ) );
         add( age );
 
         age.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setAge( FitnessUnits.yearsToSeconds( age.getValue() ) );
+                human.setAge( EatingAndExerciseUnits.yearsToSeconds( age.getValue() ) );
             }
         } );
 
         human.addListener( new Human.Adapter() {
             public void ageChanged() {
-                age.setValue( FitnessUnits.secondsToYears( human.getAge() ) );
+                age.setValue( EatingAndExerciseUnits.secondsToYears( human.getAge() ) );
             }
         } );
 
@@ -125,7 +125,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
 
         final double minWeight = 0;
-        final double maxWeight = FitnessUnits.poundsToKg( 300 );
+        final double maxWeight = EatingAndExerciseUnits.poundsToKg( 300 );
         final HumanSlider weightSlider = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), EatingAndExerciseResources.getString( "weight" ), EatingAndExerciseStrings.WEIGHT_FORMAT.toPattern(), model.getUnits().getMassUnit() );
         weightSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -242,7 +242,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //            super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
             sliderNode = new SliderNode( min, max, value );
             setBorder( null );
-            setBackground( FitnessColorScheme.getBackgroundColor() );
+            setBackground( EatingAndExerciseColorScheme.getBackgroundColor() );
             sliderNode.setOffset( -sliderNode.getFullBounds().getX() + 1, -sliderNode.getFullBounds().getY() + 1 );
             addScreenChild( sliderNode );
             setPreferredSize( new Dimension( (int) sliderNode.getFullBounds().getWidth() + 2, (int) sliderNode.getFullBounds().getHeight() + 2 ) );

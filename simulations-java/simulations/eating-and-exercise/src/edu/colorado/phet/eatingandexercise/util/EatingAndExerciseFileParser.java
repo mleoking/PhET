@@ -16,7 +16,7 @@ import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
  * Created by: Sam
  * Apr 24, 2008 at 5:08:30 PM
  */
-public class FitnessFileParser {
+public class EatingAndExerciseFileParser {
 
     public static CaloricFoodItem[] getFoodItems() {
         return (CaloricFoodItem[]) parse( "foods.properties", new FoodItemParser(), new CaloricFoodItem[0] );
@@ -89,7 +89,7 @@ public class FitnessFileParser {
     }
 
     private static void iterateAll() {
-        CaloricFoodItem[] c = FitnessFileParser.getFoodItems();
+        CaloricFoodItem[] c = EatingAndExerciseFileParser.getFoodItems();
         for ( int i = 0; i < c.length; i++ ) {
             System.out.println( "i = " + i + ", c=" + c[i] );
             if ( c[i].getImage() != null && c[i].getImage().length() > 0 ) {
@@ -98,7 +98,7 @@ public class FitnessFileParser {
             }
         }
 
-        CaloricItem[] ex = FitnessFileParser.getExerciseItems();
+        CaloricItem[] ex = EatingAndExerciseFileParser.getExerciseItems();
         for ( int i = 0; i < ex.length; i++ ) {
             CaloricItem caloricItem = ex[i];
             System.out.println( "caloricItem = " + caloricItem );

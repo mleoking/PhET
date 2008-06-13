@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
-import edu.colorado.phet.eatingandexercise.util.FitnessFileParser;
+import edu.colorado.phet.eatingandexercise.util.EatingAndExerciseFileParser;
 
 /**
  * Created by: Sam
@@ -63,13 +63,13 @@ public class CrashTest {
         } );
         test.add( new Test( "Load Food List" ) {
             public boolean runTest() {
-                foodList = FitnessFileParser.getFoodItems();
+                foodList = EatingAndExerciseFileParser.getFoodItems();
                 return super.runTest();
             }
         } );
         test.add( new Test( "Load Exercise List" ) {
             public boolean runTest() {
-                exerciseList = FitnessFileParser.getExerciseItems();
+                exerciseList = EatingAndExerciseFileParser.getExerciseItems();
                 return super.runTest();
             }
         } );

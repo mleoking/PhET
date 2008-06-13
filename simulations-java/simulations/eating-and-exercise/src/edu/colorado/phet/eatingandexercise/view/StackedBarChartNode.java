@@ -151,14 +151,14 @@ public class StackedBarChartNode extends PNode {
 
         StackedBarChartNode stackedBarChart = new StackedBarChartNode( new Function.IdentityFunction(), "Calories/Day", 10, 10, 100, 300 );
         StackedBarNode barNode = new StackedBarNode( 100 );
-        barNode.addElement( new StackedBarNode.BarChartElement( "BMR", FitnessColorScheme.BMR, 100 ) );
-        barNode.addElement( new StackedBarNode.BarChartElement( "Activity", FitnessColorScheme.ACTIVITY, 200 ) );
-        barNode.addElement( new StackedBarNode.BarChartElement( "Exercise", FitnessColorScheme.EXERCISE, 50 ) );
+        barNode.addElement( new StackedBarNode.BarChartElement( "BMR", EatingAndExerciseColorScheme.BMR, 100 ) );
+        barNode.addElement( new StackedBarNode.BarChartElement( "Activity", EatingAndExerciseColorScheme.ACTIVITY, 200 ) );
+        barNode.addElement( new StackedBarNode.BarChartElement( "Exercise", EatingAndExerciseColorScheme.EXERCISE, 50 ) );
 
         StackedBarNode barNode2 = new StackedBarNode( 100 );
-        barNode2.addElement( new StackedBarNode.BarChartElement( EatingAndExerciseStrings.FATS, FitnessColorScheme.FATS, 150 ) );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Carbs", FitnessColorScheme.CARBS, 75 ) );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Proteins", FitnessColorScheme.PROTEIN, 150 ) );
+        barNode2.addElement( new StackedBarNode.BarChartElement( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, 150 ) );
+        barNode2.addElement( new StackedBarNode.BarChartElement( "Carbs", EatingAndExerciseColorScheme.CARBS, 75 ) );
+        barNode2.addElement( new StackedBarNode.BarChartElement( "Proteins", EatingAndExerciseColorScheme.PROTEIN, 150 ) );
 
         stackedBarChart.addStackedBarNode( barNode2 );
         stackedBarChart.addStackedBarNode( barNode );

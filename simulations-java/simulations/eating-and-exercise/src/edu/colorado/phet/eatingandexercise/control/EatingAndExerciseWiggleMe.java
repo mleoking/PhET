@@ -16,12 +16,12 @@ import edu.umd.cs.piccolo.util.PBounds;
  * Created by: Sam
  * May 7, 2008 at 2:41:45 PM
  */
-public class FitnessWiggleMe extends DefaultWiggleMe {
+public class EatingAndExerciseWiggleMe extends DefaultWiggleMe {
     private PActivity activity;
     private PNode target;
     private PCanvas canvas;
 
-    public FitnessWiggleMe( final PCanvas canvas, PNode target ) {
+    public EatingAndExerciseWiggleMe( final PCanvas canvas, PNode target ) {
         super( canvas, EatingAndExerciseResources.getString( "diet.choose" ) );
         this.target = target;
         this.canvas = canvas;
@@ -35,7 +35,7 @@ public class FitnessWiggleMe extends DefaultWiggleMe {
         canvas.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 setEnabled( false );
-                getParent().removeChild( FitnessWiggleMe.this );
+                getParent().removeChild( EatingAndExerciseWiggleMe.this );
                 canvas.removeMouseListener( this );
             }
         } );
