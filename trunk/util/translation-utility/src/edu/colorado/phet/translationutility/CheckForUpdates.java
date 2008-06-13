@@ -29,8 +29,8 @@ public class CheckForUpdates {
     private static final int CONNECTION_TIMEOUT = 4000; // milliseconds
     
     private static final String HOST_NAME = "phet.colorado.edu";
-    private static final String URL_HOME = "http://phet.colorado.edu/new/contribute/translate.php";
-    private static final String URL_LATEST_VERSION_INFO = "http://phet.colorado.edu/new/contribute/translation-utility.properties";
+    private static final String URL_HOME = "http://phet.colorado.edu/new/contribute/translation-utility.php";
+    private static final String URL_LATEST_VERSION_INFO = "http://phet.colorado.edu/phet-dist/translation-utility/translation-utility.properties";
 
     private static final String CHECKING_DIALOG_MESSAGE = TUResources.getString( "checkingDialog.message" );
     
