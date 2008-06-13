@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
-import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 
 /**
  * Created by: Sam
