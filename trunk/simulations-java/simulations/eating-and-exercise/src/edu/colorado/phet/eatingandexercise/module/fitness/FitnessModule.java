@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
-import edu.colorado.phet.eatingandexercise.FitnessApplication;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
 import edu.colorado.phet.eatingandexercise.FitnessConstants;
 import edu.colorado.phet.eatingandexercise.FitnessResources;
 import edu.colorado.phet.eatingandexercise.FitnessStrings;
@@ -193,7 +193,7 @@ public class FitnessModule extends PiccoloModule {
 
         // Module
         if ( config.isActive() ) {
-            FitnessApplication.instance().setActiveModule( this );
+            EatingAndExerciseApplication.instance().setActiveModule( this );
         }
 
         // Clock
@@ -223,7 +223,7 @@ public class FitnessModule extends PiccoloModule {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, FitnessConstants.FRAME_SETUP, FitnessResources.getResourceLoader() );
 
                 // Create the application.
-                FitnessApplication app = new FitnessApplication( config );
+                EatingAndExerciseApplication app = new EatingAndExerciseApplication( config );
 
                 // Start the application.
                 app.startApplication();

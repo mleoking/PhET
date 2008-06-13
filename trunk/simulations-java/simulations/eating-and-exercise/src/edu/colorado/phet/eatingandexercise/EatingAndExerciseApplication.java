@@ -20,7 +20,7 @@ import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
 import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModule;
 import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
 
-public class FitnessApplication extends PiccoloPhetApplication {
+public class EatingAndExerciseApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -37,7 +37,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessApplication( PhetApplicationConfig config ) {
+    public EatingAndExerciseApplication( PhetApplicationConfig config ) {
         super( config );
         initTabbedPane();
         initModules();
@@ -147,7 +147,7 @@ public class FitnessApplication extends PiccoloPhetApplication {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, FitnessConstants.FRAME_SETUP, FitnessResources.getResourceLoader() );
 
                 // Create the application.
-                FitnessApplication app = new FitnessApplication( config );
+                EatingAndExerciseApplication app = new EatingAndExerciseApplication( config );
 
                 // Start the application.
                 app.startApplication();
