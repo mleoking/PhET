@@ -16,6 +16,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -35,7 +36,7 @@ public class BarGraphNode extends PNode {
     
     private PPath _graphOutlineNode;
     
-    public BarGraphNode( double width, double height ) {
+    public BarGraphNode( PDimension graphOutlineSize ) {
         super();
         
         PText titleNode = new PText( PHScaleStrings.TITLE_WATER_COMPONENTS );
@@ -46,7 +47,7 @@ public class BarGraphNode extends PNode {
         PSwing graphUnitsControlPanelWrapper = new PSwing( graphUnitsControlPanel );
         addChild( graphUnitsControlPanelWrapper );
         
-        Rectangle2D r = new Rectangle2D.Double( 0, 0, width, height );
+        Rectangle2D r = new Rectangle2D.Double( 0, 0, graphOutlineSize.getWidth(), graphOutlineSize.getHeight() );
         _graphOutlineNode = new PPath( r );
         _graphOutlineNode.setStroke( OUTLINE_STROKE );
         _graphOutlineNode.setStrokePaint( OUTLINE_STROKE_COLOR );

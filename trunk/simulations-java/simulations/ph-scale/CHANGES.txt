@@ -33,7 +33,6 @@ HIGH PRIORITY:
 - hook up Ratio check box
 
 MEDIUM PRIORITY:
-- generalize canvas layout code, should have 3 main nodes in canvas (beaker, pH slider, graph)
 
 LOW PRIORITY:
 
@@ -49,6 +48,7 @@ CLEANUP:
 
 
 DONE:
+6/13/08 - generalize canvas layout code, 3 main nodes on canvas (beaker, pH slider, graph)
 6/13/08 - hook up pH text field and slider
 6/13/08 - refactor pH control to use composition of text field and slider
 6/13/08 - refactor pH text field control

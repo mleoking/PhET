@@ -26,7 +26,7 @@ public class PHControlNode extends PNode {
     
     private static final int MARGIN = 15;
 
-    private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 500 );
+    private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 400 );
     private static final PDimension KNOB_SIZE = new PDimension( 40, 30 );
     
     private final PHTextFieldNode _textFieldNode;

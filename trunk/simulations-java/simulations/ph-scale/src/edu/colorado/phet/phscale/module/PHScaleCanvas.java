@@ -2,19 +2,18 @@
 
 package edu.colorado.phet.phscale.module;
 
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.phscale.PHScaleConstants;
-import edu.colorado.phet.phscale.control.*;
+import edu.colorado.phet.phscale.control.BeakerControlNode;
+import edu.colorado.phet.phscale.control.PHControlNode;
+import edu.colorado.phet.phscale.control.ResetAllButton;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.view.BarGraphNode;
-import edu.colorado.phet.phscale.view.BeakerNode;
-import edu.colorado.phet.phscale.view.MoleculeCountNode;
-import edu.colorado.phet.phscale.view.ProbeNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -35,12 +34,14 @@ public class PHScaleCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private PHScaleModel _model;
+    private final PHScaleModel _model;
     
     // View 
-    private PNode _rootNode;
-    
-    // Control
+    private final PNode _rootNode;
+    private final BeakerControlNode _beakerControlNode;
+    private final PHControlNode _pHControlNode;
+    private final BarGraphNode _barGraphNode;
+    private final ResetAllButton _resetAllButton;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -49,94 +50,64 @@ public class PHScaleCanvas extends PhetPCanvas {
     public PHScaleCanvas( PHScaleModel model ) {
         super();
         setWorldTransformStrategy( new RenderingSizeStrategy( this, RENDERING_SIZE ) );
+        setBackground( PHScaleConstants.CANVAS_BACKGROUND );
         
         _model = model;
-        
-        setBackground( PHScaleConstants.CANVAS_BACKGROUND );
         
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
         
-        ProbeNode probeNode = new ProbeNode( 500 );//XXX
-        probeNode.setPH( 10.3 ); //XXX test
-        addRootChild( probeNode );
+        // Nodes
+        _beakerControlNode = new BeakerControlNode( 7, 1, Color.WHITE, this ); //XXX
+        _pHControlNode = new PHControlNode( PHScaleConstants.PH_RANGE );
+        _barGraphNode = new BarGraphNode( new PDimension( 225, 400 ) );//XXX
+        _resetAllButton = new ResetAllButton();
+        PSwing resetAllButtonWrapper = new PSwing( _resetAllButton );
         
-        BeakerViewControlPanel beakerViewControlPanel = new BeakerViewControlPanel();
-        PSwing beakerViewControlPanelWrapper = new PSwing( beakerViewControlPanel );
-        addRootChild( beakerViewControlPanelWrapper );
+        // Rendering order
+        _rootNode.addChild( _beakerControlNode );
+        _rootNode.addChild( _pHControlNode );
+        _rootNode.addChild( _barGraphNode );
+        _rootNode.addChild( resetAllButtonWrapper );
         
-        LiquidControlNode liquidControlNode = new LiquidControlNode( this );
-        addRootChild( liquidControlNode );
-        
-        WaterControlNode waterControlNode = new WaterControlNode();
-        addRootChild( waterControlNode );
-        
-        DrainControlNode drainControlNode = new DrainControlNode();
-        addRootChild( drainControlNode );
-        
-        BeakerNode beakerNode = new BeakerNode( 350, 400 );//XXX
-        addRootChild( beakerNode );
-        
-        MoleculeCountNode moleculeCountNode = new MoleculeCountNode();
-        addRootChild( moleculeCountNode );
-
-        //XXX layout, needs to be generalized
-        beakerNode.setOffset( 75, 175 );//XXX
-        liquidControlNode.setOffset( 25, 25 );//XXX
-        waterControlNode.setOffset( 400, 25 );//XXX
-        drainControlNode.setOffset( 25, 600 );//XXX
-        probeNode.setOffset( 175, 75 );//XXX
-        beakerViewControlPanelWrapper.setOffset( 225, 600 );//XXX
-        moleculeCountNode.setOffset( 85, 275 );//XXX
-        
-        PHControlNode pHControlNode = new PHControlNode( PHScaleConstants.PH_RANGE );
-        addRootChild( pHControlNode );
-        
-        ResetAllButton resetAllButton = new ResetAllButton();
-        PSwing resetAllButtonWrapper = new PSwing( resetAllButton );
-        addRootChild( resetAllButtonWrapper );
-        
-        //XXX layout, needs to be generalized
-        pHControlNode.setOffset( 520, 25 );
-        resetAllButtonWrapper.setOffset( 555, 675 );
-        
-        BarGraphNode barGraphNode = new BarGraphNode( 225, 400 );//XXX
-        addRootChild( barGraphNode );
-        
-        //XXX layout, needs to be generalized
-        barGraphNode.setOffset( 750, 25 );
-    }
-    
-
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    /* Convenience method for adding a child to the root. */
-    private void addRootChild( PNode child ) {
-        _rootNode.addChild( child );
+        // Layout
+        final double xSpacing = 60;
+        final double ySpacing = 15;
+        // beaker at left
+        _beakerControlNode.setOffset( 0, 25 );
+        // pH control to right of beaker
+        double x = _beakerControlNode.getFullBoundsReference().getMaxX() + xSpacing;
+        double y = _beakerControlNode.getFullBoundsReference().getY();
+        _pHControlNode.setOffset( x, y );
+        // Reset All button centered below pH control
+        x = _pHControlNode.getFullBoundsReference().getX() + ( ( _pHControlNode.getFullBoundsReference().getWidth() - resetAllButtonWrapper.getFullBoundsReference().getWidth() ) / 2 );
+        y = _pHControlNode.getFullBoundsReference().getMaxY() + ySpacing;
+        resetAllButtonWrapper.setOffset( x, y );
+        // bar graph to right of pH control
+        x = _pHControlNode.getFullBoundsReference().getMaxX() + xSpacing;
+        y = _pHControlNode.getFullBoundsReference().getY();
+        _barGraphNode.setOffset( x, y );
     }
     
     //----------------------------------------------------------------------------
-    // Canvas layout
+    // Setters and getters
     //----------------------------------------------------------------------------
     
-    /*
-     * Updates the layout of stuff on the canvas.
-     */
-    protected void updateLayout() {
-
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-        else if ( PHScaleConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "PHScaleCanvas.updateLayout worldSize=" + worldSize );//XXX
-        }
-        
-        //XXX lay out nodes
+    public BeakerControlNode getBeakerControlNode() {
+        return _beakerControlNode;
     }
+    
+    public PHControlNode getPHControlNode() {
+        return _pHControlNode;
+    }
+    
+    public BarGraphNode getBarGraphNode() {
+        return _barGraphNode;
+    }
+    
+    public ResetAllButton getResetAllButton() {
+        return _resetAllButton;
+    }
+    
 }
