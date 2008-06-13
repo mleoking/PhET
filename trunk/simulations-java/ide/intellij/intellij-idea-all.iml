@@ -35,11 +35,11 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/discharge-lamps/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/distance-ladder/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/distance-ladder/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../simulations/eating-and-exercise/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/efield/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/electric-hockey/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/energy-skate-park/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/faraday/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/fitness/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/forces-1d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/fourier/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/glaciers/src" isTestSource="false" />
@@ -1151,15 +1151,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/curve-fitting/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations/mvc-example/data" />
         </CLASSES>
         <JAVADOC />
@@ -1268,7 +1259,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations/fitness/data" />
+          <root url="file://$MODULE_DIR$/../../simulations/eating-and-exercise/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1287,6 +1278,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../../util/translation-utility/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations/ph-scale/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
