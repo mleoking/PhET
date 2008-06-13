@@ -30,8 +30,6 @@ public class PHScaleCanvas extends PhetPCanvas {
     
     private static final Dimension RENDERING_SIZE = new Dimension( 1024, 768 );
     
-    private static final IntegerRange PH_RANGE = new IntegerRange( -1, 15, 7 );
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -92,7 +90,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         beakerViewControlPanelWrapper.setOffset( 225, 600 );//XXX
         moleculeCountNode.setOffset( 85, 275 );//XXX
         
-        PHControlNode pHControlNode = new PHControlNode( PH_RANGE );
+        PHControlNode pHControlNode = new PHControlNode( PHScaleConstants.PH_RANGE );
         addRootChild( pHControlNode );
         
         ResetAllButton resetAllButton = new ResetAllButton();

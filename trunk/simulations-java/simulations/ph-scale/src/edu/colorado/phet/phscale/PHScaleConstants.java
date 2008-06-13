@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -36,6 +37,12 @@ public class PHScaleConstants {
     public static final String PROJECT_NAME = "ph-scale";
     
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
+    
+    //----------------------------------------------------------------------------
+    // Model
+    //----------------------------------------------------------------------------
+    
+    public static final IntegerRange PH_RANGE = new IntegerRange( -1, 15, 7 ); // min, max, default
     
     //----------------------------------------------------------------------------
     // Fonts
