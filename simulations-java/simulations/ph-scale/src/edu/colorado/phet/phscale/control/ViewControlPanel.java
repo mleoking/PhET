@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
 
-public class BeakerViewControlPanel extends JPanel {
+public class ViewControlPanel extends JPanel {
     
     private static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, 18 );;
     
@@ -22,7 +22,7 @@ public class BeakerViewControlPanel extends JPanel {
     private final JCheckBox _countViewCheckBox;
     private final JCheckBox _ratioViewCheckBox;
     
-    public BeakerViewControlPanel() {
+    public ViewControlPanel() {
         super();
         setOpaque( false );
 
@@ -49,7 +49,7 @@ public class BeakerViewControlPanel extends JPanel {
     public void setCountViewSelected( boolean selected ) {
         if ( selected != isCountViewSelected() ) {
             _countViewCheckBox.setSelected( selected );
-            notifyCountViewChanged();
+            notifyViewChanged();
         }
     }
     
@@ -60,41 +60,26 @@ public class BeakerViewControlPanel extends JPanel {
     public void setRatioViewSelected( boolean selected ) {
         if ( selected != isRatioViewSelected() ) {
             _ratioViewCheckBox.setSelected( selected );
-            notifyRatioViewChanged();
+            notifyViewChanged();
         }
     }
     
-    public interface BeakerViewControlPanelListener {
-        public void countViewChanged( boolean selected );
-        public void ratioViewChanged( boolean selected );
+    public interface ViewControlPanelListener {
+        public void viewChanged();
     }
     
-    public static class BeakerViewControlPanelAdapter implements BeakerViewControlPanelListener {
-        public void countViewChanged( boolean selected ) {}
-        public void ratioViewChanged( boolean selected ) {}
-    }
-    
-    public void addBeakerViewControlPanelListener( BeakerViewControlPanelListener listener ) {
+    public void addBeakerViewControlPanelListener( ViewControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeBeakerViewControlPanelListener( BeakerViewControlPanelListener listener ) {
+    public void removeBeakerViewControlPanelListener( ViewControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
-    private void notifyCountViewChanged() {
-        boolean b = isCountViewSelected();
+    private void notifyViewChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (BeakerViewControlPanelListener) i.next() ).countViewChanged( b );
-        }
-    }
-    
-    private void notifyRatioViewChanged() {
-        boolean b = isRatioViewSelected();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (BeakerViewControlPanelListener) i.next() ).ratioViewChanged( b );
+            ( (ViewControlPanelListener) i.next() ).viewChanged();
         }
     }
 
