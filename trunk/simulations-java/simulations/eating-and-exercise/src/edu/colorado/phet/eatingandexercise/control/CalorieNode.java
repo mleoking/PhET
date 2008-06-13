@@ -13,7 +13,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
@@ -58,7 +58,7 @@ public class CalorieNode extends PNode {
         editButton.setOffset( 0, 10 );
         addChild( editButton );
 
-        plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( dropTargetIcon ), 120 ) );
+        plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( EatingAndExerciseResources.getImage( dropTargetIcon ), 120 ) );
         addChild( plateImage );
 
         plateTopSummaryNode = new PlateTopSummaryNode( calorieSet, plateImage );

@@ -16,9 +16,9 @@ import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
-import edu.colorado.phet.eatingandexercise.FitnessConstants;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
-import edu.colorado.phet.eatingandexercise.FitnessStrings;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.defaults.ExampleDefaults;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
@@ -39,7 +39,7 @@ public class FitnessModule extends PiccoloModule {
     private int numAddedItems = 0;
 
     public FitnessModule( final JFrame parentFrame ) {
-        super( FitnessStrings.TITLE_FITNESS_MODULE, new FitnessClock(), FitnessDefaults.STARTS_PAUSED );
+        super( EatingAndExerciseStrings.TITLE_FITNESS_MODULE, new FitnessClock(), FitnessDefaults.STARTS_PAUSED );
         this.parentFrame = parentFrame;
 
         // Model
@@ -90,12 +90,12 @@ public class FitnessModule extends PiccoloModule {
         };
         _clockControlPanel.setRestartButtonVisible( true );
         _clockControlPanel.setTimeDisplayVisible( true );
-        _clockControlPanel.setUnits( FitnessStrings.UNITS_TIME );
+        _clockControlPanel.setUnits( EatingAndExerciseStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         _clockControlPanel.setRestartButtonVisible( false );
-        _clockControlPanel.setStepButtonText( FitnessResources.getString( "time.next-month" ) );
+        _clockControlPanel.setStepButtonText( EatingAndExerciseResources.getString( "time.next-month" ) );
         _clockControlPanel.setTimeFormat( "0.0" );
-        JButton button = new JButton( FitnessResources.getString( "time.reset-all" ) );
+        JButton button = new JButton( EatingAndExerciseResources.getString( "time.reset-all" ) );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 _model.resetAll();
@@ -103,10 +103,10 @@ public class FitnessModule extends PiccoloModule {
             }
         } );
 
-        JButton disclaimerButton = new JButton( FitnessResources.getString( "disclaimer" ) );
+        JButton disclaimerButton = new JButton( EatingAndExerciseResources.getString( "disclaimer" ) );
         disclaimerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( parentFrame, FitnessStrings.DISCLAIMER );
+                JOptionPane.showMessageDialog( parentFrame, EatingAndExerciseStrings.DISCLAIMER );
             }
         } );
         _clockControlPanel.add( disclaimerButton, 0 );
@@ -128,7 +128,7 @@ public class FitnessModule extends PiccoloModule {
 
     private void activateStartButtonWiggleMe() {
         if ( !inited && !everStarted ) {
-            final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, FitnessResources.getString( "time.start" ) );
+            final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, EatingAndExerciseResources.getString( "time.start" ) );
             fitnessClock.addClockListener( new ClockAdapter() {
                 public void clockStarted( ClockEvent clockEvent ) {
                     if ( getDefaultHelpPane().getLayer().indexOfChild( motionHelpBalloon ) >= 0 ) {
@@ -220,7 +220,7 @@ public class FitnessModule extends PiccoloModule {
 
             public void run() {
 
-                PhetApplicationConfig config = new PhetApplicationConfig( args, FitnessConstants.FRAME_SETUP, FitnessResources.getResourceLoader() );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, EatingAndExerciseConstants.FRAME_SETUP, EatingAndExerciseResources.getResourceLoader() );
 
                 // Create the application.
                 EatingAndExerciseApplication app = new EatingAndExerciseApplication( config );

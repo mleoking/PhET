@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
@@ -36,10 +36,10 @@ public class FoodSelectionPanel extends JPanel implements ICalorieSelectionPanel
 
     private class ActivityLevelsPanel extends JPanel {
         private ActivityLevelsPanel() {
-            setBorder( CalorieSelectionPanel.createTitledBorder( FitnessResources.getString( "diet.base" ) ) );
+            setBorder( CalorieSelectionPanel.createTitledBorder( EatingAndExerciseResources.getString( "diet.base" ) ) );
             ButtonGroup bg = new ButtonGroup();
             final CaloricFoodItem[] baseDiets = new CaloricFoodItem[]{
-                    new CaloricFoodItem( FitnessResources.getString( "diet.nothing" ), null, 0, 0, 0, false ),
+                    new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.nothing" ), null, 0, 0, 0, false ),
                     human.getDefaultIntake(),
             };
             for ( int i = 0; i < baseDiets.length; i++ ) {

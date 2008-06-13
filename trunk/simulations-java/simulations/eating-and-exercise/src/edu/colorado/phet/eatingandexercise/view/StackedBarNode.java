@@ -23,9 +23,9 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.eatingandexercise.FitnessPText;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
-import edu.colorado.phet.eatingandexercise.FitnessStrings;
+import edu.colorado.phet.eatingandexercise.EatingAndExercisePText;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -85,8 +85,8 @@ public class StackedBarNode extends PNode {
     }
 
     private void relayout() {
-        DecimalFormat decimalFormat = FitnessStrings.KCAL_PER_DAY_FORMAT;
-        readoutNode.setText( decimalFormat.format( getTotal() ) + " " + FitnessStrings.KCAL_PER_DAY );
+        DecimalFormat decimalFormat = EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT;
+        readoutNode.setText( decimalFormat.format( getTotal() ) + " " + EatingAndExerciseStrings.KCAL_PER_DAY );
         double viewHeight = modelToView( getTotalModelValue() );
         double offsetY = 0;
         for ( int i = barChartElementNodeLayer.getChildrenCount() - 1; i >= 0; i-- ) {
@@ -213,7 +213,7 @@ public class StackedBarNode extends PNode {
         private void updateShape() {
             double value = barChartElement.getValue();
 //            readoutNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value ) + " " + FitnessStrings.KCAL_PER_DAY );
-            readoutValueNode.setHTML( FitnessStrings.KCAL_PER_DAY_FORMAT.format( value ) );
+            readoutValueNode.setHTML( EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( value ) );
             barNode.setPathTo( createShape() );
             clip.setPathTo( createShape() );
             double availHeight = clip.getFullBounds().getHeight();
@@ -391,7 +391,7 @@ public class StackedBarNode extends PNode {
 //        StackedBarNode barNode = new StackedBarNode( new Function.IdentityFunction(), 100 );
         StackedBarNode barNode = new StackedBarNode( new Function.LinearFunction( 0.5 ), 100 );
         barNode.setOffset( 100, 360 );
-        final BarChartElement bmr = new BarChartElement( "BMR", Color.red, 100, FitnessResources.getImage( "eye.png" ) );
+        final BarChartElement bmr = new BarChartElement( "BMR", Color.red, 100, EatingAndExerciseResources.getImage( "eye.png" ) );
         barNode.addElement( bmr );
         BarChartElement activity = new BarChartElement( "Activity", Color.green, 200 );
         barNode.addElement( activity );
@@ -421,7 +421,7 @@ public class StackedBarNode extends PNode {
         private PText child;
 
         private ReadoutNode() {
-            child = new FitnessPText( "Text" );
+            child = new EatingAndExercisePText( "Text" );
             addChild( child );
         }
 

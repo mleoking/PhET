@@ -23,9 +23,9 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.eatingandexercise.FitnessPText;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
-import edu.colorado.phet.eatingandexercise.FitnessStrings;
+import edu.colorado.phet.eatingandexercise.EatingAndExercisePText;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
@@ -90,28 +90,28 @@ public class ChartNode extends PNode {
             }
         } );
 
-        final ControlGraphSeries weightSeries = new ControlGraphSeries( FitnessResources.getString( "weight" ), Color.blue, FitnessResources.getString( "weight" ), FitnessResources.getString( "units.lbs" ), "", massVar );
+        final ControlGraphSeries weightSeries = new ControlGraphSeries( EatingAndExerciseResources.getString( "weight" ), Color.blue, EatingAndExerciseResources.getString( "weight" ), EatingAndExerciseResources.getString( "units.lbs" ), "", massVar );
         weightSeries.setDecimalFormat( new DefaultDecimalFormat( "0" ) );
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
                 weightSeries.setUnits( model.getUnits().getMassUnit() );
             }
         } );
-        weightGraph = new FitnessControlGraph( phetPCanvas, weightSeries, FitnessResources.getString( "weight" ), 0, 250, tsm );
+        weightGraph = new FitnessControlGraph( phetPCanvas, weightSeries, EatingAndExerciseResources.getString( "weight" ), 0, 250, tsm );
 
         weightGraph.setEditable( false );
 //        weightGraph.getJFreeChartNode().getChart().getXYPlot().getDomainAxis().setLabel( "Label" );//takes up too much vertical space
         updateWeightMassLabel();
-        weightChart = new MinimizableControlGraph( FitnessResources.getString( "weight" ), weightGraph );
+        weightChart = new MinimizableControlGraph( EatingAndExerciseResources.getString( "weight" ), weightGraph );
         weightChart.setAvailableBounds( 600, 125 );
 
-        ControlGraphSeries intakeSeries = new ControlGraphSeries( FitnessResources.getString( "calories.intake" ), Color.green, FitnessResources.getString( "calories.intake" ), FitnessStrings.KCAL_PER_DAY, new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calIntakeVar );
-        intakeSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
-        ControlGraphSeries burnSeries = new ControlGraphSeries( FitnessResources.getString( "calories.burned" ), Color.red, FitnessResources.getString( "calories.burned" ), FitnessStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
-        burnSeries.setDecimalFormat( new DefaultDecimalFormat( FitnessStrings.KCAL_PER_DAY_FORMAT ) );
+        ControlGraphSeries intakeSeries = new ControlGraphSeries( EatingAndExerciseResources.getString( "calories.intake" ), Color.green, EatingAndExerciseResources.getString( "calories.intake" ), EatingAndExerciseStrings.KCAL_PER_DAY, new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calIntakeVar );
+        intakeSeries.setDecimalFormat( new DefaultDecimalFormat( EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT ) );
+        ControlGraphSeries burnSeries = new ControlGraphSeries( EatingAndExerciseResources.getString( "calories.burned" ), Color.red, EatingAndExerciseResources.getString( "calories.burned" ), EatingAndExerciseStrings.KCAL_PER_DAY, new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ), "", calBurnVar );
+        burnSeries.setDecimalFormat( new DefaultDecimalFormat( EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT ) );
 
-        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, FitnessResources.getString( "units.calories" ), 0, 6000, tsm );
-        calorieGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( FitnessResources.getString( "units.cal-day" ) );
+        calorieGraph = new FitnessControlGraph( phetPCanvas, intakeSeries, EatingAndExerciseResources.getString( "units.calories" ), 0, 6000, tsm );
+        calorieGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( EatingAndExerciseResources.getString( "units.cal-day" ) );
         calorieGraph.addSeries( burnSeries );
         updateGraphDomains( DEFAULT_RANGE_YEARS );
         calorieGraph.setEditable( false );
@@ -120,7 +120,7 @@ public class ChartNode extends PNode {
                 calorieGraph.forceUpdateAll();
             }
         } );
-        calorieChart = new MinimizableControlGraph( FitnessResources.getString( "units.calories" ), calorieGraph );
+        calorieChart = new MinimizableControlGraph( EatingAndExerciseResources.getString( "units.calories" ), calorieGraph );
         calorieChart.setAvailableBounds( 600, 125 );
 
         calorieGraph.addListener( new ControlGraph.Adapter() {
@@ -156,7 +156,7 @@ public class ChartNode extends PNode {
     }
 
     private void updateWeightMassLabel() {
-        String weight = FitnessResources.getString( "weight" );
+        String weight = EatingAndExerciseResources.getString( "weight" );
         weightGraph.getJFreeChartNode().getChart().getXYPlot().getRangeAxis().setLabel( weight + " (" + model.getUnits().getMassUnit() + ")" );
     }
 
@@ -262,7 +262,7 @@ public class ChartNode extends PNode {
 
         public FitnessControlGraph( PhetPCanvas canvas, ControlGraphSeries series, String title, int minY, int maxY, TimeSeriesModel timeSeriesModel ) {
             super( canvas, series, title, minY, maxY, timeSeriesModel );
-            gradientButtonNode = new GradientButtonNode( FitnessResources.getString( "time.reset" ), 12, Color.green );
+            gradientButtonNode = new GradientButtonNode( EatingAndExerciseResources.getString( "time.reset" ), 12, Color.green );
             gradientButtonNode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     resetChartArea();
@@ -271,7 +271,7 @@ public class ChartNode extends PNode {
             addChild( gradientButtonNode );
 
             axisLabel = new PNode();
-            PText text = new FitnessPText( FitnessResources.getString( "units.time.yrs" ) );
+            PText text = new EatingAndExercisePText( EatingAndExerciseResources.getString( "units.time.yrs" ) );
             axisLabel.addChild( text );
             axisLabel.addChild( new PhetPPath( new Arrow( new Point2D.Double( text.getFullBounds().getMaxX(), text.getFullBounds().getCenterY() ),
                                                           new Vector2D.Double( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );

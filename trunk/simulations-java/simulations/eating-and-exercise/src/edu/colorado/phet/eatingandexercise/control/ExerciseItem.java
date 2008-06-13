@@ -1,7 +1,7 @@
 package edu.colorado.phet.eatingandexercise.control;
 
-import edu.colorado.phet.eatingandexercise.FitnessResources;
-import edu.colorado.phet.eatingandexercise.FitnessStrings;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 
 /**
  * Created by: Sam
@@ -14,8 +14,8 @@ public class ExerciseItem extends CaloricItem {
 
     public String getLabelText() {
 //        String perday = FitnessResources.getString( "per.day" );
-        String onehour = FitnessResources.getString( "one.hour" );
+        String onehour = EatingAndExerciseResources.getString( "one.hour" );
 //        return "<html>" + onehour + " " + getName() + " " + perday + "<br>(" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY + ")</html>";
-        return "<html>" + onehour + " " + getName() + " "+"<br>(" + FitnessStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + FitnessStrings.KCAL_PER_DAY + ")</html>";
+        return "<html>" + onehour + " " + getName() + " "+"<br>(" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + EatingAndExerciseStrings.KCAL_PER_DAY + ")</html>";
     }
 }

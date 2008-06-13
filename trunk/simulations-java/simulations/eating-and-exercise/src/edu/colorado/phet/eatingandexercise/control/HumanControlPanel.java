@@ -15,8 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSli
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
-import edu.colorado.phet.eatingandexercise.FitnessStrings;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
@@ -44,7 +44,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), FitnessResources.getString( "age" ), FitnessStrings.AGE_FORMAT.toPattern(), FitnessResources.getString( "units.years" ) );
+        final HumanSlider age = new HumanSlider( 0, 100, FitnessUnits.secondsToYears( human.getAge() ), EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), EatingAndExerciseResources.getString( "units.years" ) );
         add( age );
 
         age.addChangeListener( new ChangeListener() {
@@ -92,7 +92,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         //todo: factor out slider that accommodates units
         final double minHeight = 1;
         final double maxHeight = 2.72;
-        final HumanSlider heightControl = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ), model.getUnits().modelToViewDistance( human.getHeight() ), FitnessResources.getString( "height" ), "0.00", model.getUnits().getDistanceUnit() );
+        final HumanSlider heightControl = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ), model.getUnits().modelToViewDistance( human.getHeight() ), EatingAndExerciseResources.getString( "height" ), "0.00", model.getUnits().getDistanceUnit() );
         heightControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setHeight( model.getUnits().viewToModelDistance( heightControl.getValue() ) );
@@ -117,7 +117,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         heightControl.setTextFieldFormat( new FeetInchesFormat() );
         model.addListener( new FitnessModel.Adapter() {
             public void unitsChanged() {
-                heightControl.setTextFieldFormat( model.getUnits() == FitnessModel.Units.METRIC ? (NumberFormat) FitnessStrings.AGE_FORMAT : new FeetInchesFormat() );
+                heightControl.setTextFieldFormat( model.getUnits() == FitnessModel.Units.METRIC ? (NumberFormat) EatingAndExerciseStrings.AGE_FORMAT : new FeetInchesFormat() );
             }
         } );
 
@@ -126,7 +126,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         final double minWeight = 0;
         final double maxWeight = FitnessUnits.poundsToKg( 300 );
-        final HumanSlider weightSlider = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), FitnessResources.getString( "weight" ), FitnessStrings.WEIGHT_FORMAT.toPattern(), model.getUnits().getMassUnit() );
+        final HumanSlider weightSlider = new HumanSlider( model.getUnits().modelToViewMass( minWeight ), model.getUnits().modelToViewMass( maxWeight ), model.getUnits().modelToViewMass( human.getMass() ), EatingAndExerciseResources.getString( "weight" ), EatingAndExerciseStrings.WEIGHT_FORMAT.toPattern(), model.getUnits().getMassUnit() );
         weightSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setMass( model.getUnits().viewToModelMass( weightSlider.getValue() ) );
@@ -158,7 +158,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //        bmiSlider.getSlider().setVisible( false );
 //        add( bmiSlider );
 
-        bodyFat = new HumanSlider( 0, 100, human.getFatMassPercent(), FitnessResources.getString( "body.fat" ), "0.0", "%" );
+        bodyFat = new HumanSlider( 0, 100, human.getFatMassPercent(), EatingAndExerciseResources.getString( "body.fat" ), "0.0", "%" );
         bodyFat.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setFatMassPercent( bodyFat.getValue() );
@@ -203,8 +203,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private void updateBodyFatSlider() {
         bodyFat.setRange( 0, human.getGender().getMaxFatMassPercent() );
         Hashtable table = new Hashtable();
-        table.put( new Double( 10 ), new JLabel( FitnessResources.getString( "muscular" ) ) );
-        table.put( new Double( human.getGender().getMaxFatMassPercent() ), new JLabel( FitnessResources.getString( "non-muscular" ) ) );
+        table.put( new Double( 10 ), new JLabel( EatingAndExerciseResources.getString( "muscular" ) ) );
+        table.put( new Double( human.getGender().getMaxFatMassPercent() ), new JLabel( EatingAndExerciseResources.getString( "non-muscular" ) ) );
         bodyFat.setTickLabels( table );
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
     }
@@ -280,14 +280,14 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private class GenderControl extends JPanel {
         public GenderControl( final Human human ) {
             setLayout( new FlowLayout() );
-            final JRadioButton femaleButton = new JRadioButton( FitnessResources.getString( "gender.female" ), human.getGender() == Human.Gender.FEMALE );
+            final JRadioButton femaleButton = new JRadioButton( EatingAndExerciseResources.getString( "gender.female" ), human.getGender() == Human.Gender.FEMALE );
             femaleButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     human.setGender( Human.Gender.FEMALE );
                 }
             } );
             add( femaleButton );
-            final JRadioButton maleButton = new JRadioButton( FitnessResources.getString( "gender.male" ), human.getGender() == Human.Gender.MALE );
+            final JRadioButton maleButton = new JRadioButton( EatingAndExerciseResources.getString( "gender.male" ), human.getGender() == Human.Gender.MALE );
             maleButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     human.setGender( Human.Gender.MALE );

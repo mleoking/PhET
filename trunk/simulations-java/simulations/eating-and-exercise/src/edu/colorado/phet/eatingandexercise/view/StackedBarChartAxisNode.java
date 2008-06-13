@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.eatingandexercise.FitnessPText;
+import edu.colorado.phet.eatingandexercise.EatingAndExercisePText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -50,7 +50,7 @@ public class StackedBarChartAxisNode extends PNode {
             majorTicks.add( majorTick );
             count++;
         }
-        PText titleNode = new FitnessPText( title );
+        PText titleNode = new EatingAndExercisePText( title );
         titleNode.setFont( new PhetFont( 18, true ) );
         addChild( titleNode );
 
@@ -74,7 +74,7 @@ public class StackedBarChartAxisNode extends PNode {
         public MajorTick( double width, double y, boolean textOnLeft ) {
             PhetPPath path = new PhetPPath( new Line2D.Double( -width / 2, -modelToView( y ), width / 2, -modelToView( y ) ), new BasicStroke( 2 ), Color.black );
             addChild( path );
-            PText textLabel = new FitnessPText( new DecimalFormat( "0" ).format( y ) );
+            PText textLabel = new EatingAndExercisePText( new DecimalFormat( "0" ).format( y ) );
             addChild( textLabel );
             textLabel.setOffset( path.getFullBounds().getX() - textLabel.getFullBounds().getWidth(),
                                  path.getFullBounds().getCenterY() - textLabel.getFullBounds().getHeight() / 2 );

@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
 import edu.colorado.phet.eatingandexercise.util.FitnessFileParser;
@@ -172,7 +172,7 @@ public class CrashTest {
 
         public boolean runTest() {
             if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
-                BufferedImage image = BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), 30 );
+                BufferedImage image = BufferedImageUtils.multiScaleToHeight( EatingAndExerciseResources.getImage( item.getImage() ), 30 );
                 addMessage( "image dim=" + image.getWidth() + " x " + image.getHeight() );
             }
             else {
@@ -196,7 +196,7 @@ public class CrashTest {
             frame.setVisible( true );
             boolean superT = super.runTest();
             if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
-                BufferedImage image = BufferedImageUtils.multiScaleToHeight( FitnessResources.getImage( item.getImage() ), 30 );
+                BufferedImage image = BufferedImageUtils.multiScaleToHeight( EatingAndExerciseResources.getImage( item.getImage() ), 30 );
                 frame.addImage( image );
                 addMessage( "displayed image dim=" + image.getWidth() + " x " + image.getHeight() );
             }
