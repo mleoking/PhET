@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+6/13/08 - PropertiesFlashAdapter, for converting to/from Properties and format required by Flash sims (XML)
 6/11/08 - check for updates and alert the user [537]
 ********* version 0.02.00 (21098)
 4/29/08 - delete test JAR on VM exit [98]
