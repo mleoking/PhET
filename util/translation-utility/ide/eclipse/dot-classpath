@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="data"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/simulations-java"/>
+	<classpathentry kind="lib" path="/simulations-java/contrib/jdom/jdom.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
