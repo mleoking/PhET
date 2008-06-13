@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.eatingandexercise.module.fitness;
+package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 
 import java.awt.*;
 import java.awt.event.*;

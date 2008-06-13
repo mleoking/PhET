@@ -1,4 +1,4 @@
-package edu.colorado.phet.eatingandexercise.module.fitness;
+package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 

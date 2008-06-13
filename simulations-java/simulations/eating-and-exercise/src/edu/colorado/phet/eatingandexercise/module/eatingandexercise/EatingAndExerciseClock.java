@@ -1,4 +1,4 @@
-package edu.colorado.phet.eatingandexercise.module.fitness;
+package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;

@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.control.ExerciseItem;
-import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 
 /**
  * Created by: Sam

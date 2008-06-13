@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
-import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 import edu.colorado.phet.eatingandexercise.util.EatingAndExerciseFileParser;
 
 /**

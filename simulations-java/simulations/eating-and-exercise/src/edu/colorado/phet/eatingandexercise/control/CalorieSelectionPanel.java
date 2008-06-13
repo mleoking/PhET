@@ -16,8 +16,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
-import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
-import edu.colorado.phet.eatingandexercise.module.fitness.EatingAndExerciseModel;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 
 /**
