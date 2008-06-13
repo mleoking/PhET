@@ -40,9 +40,6 @@ public class PHSliderNode extends PNode {
     // whether the max is on top or bottom
     private static final boolean MAX_AT_TOP = true;
     
-    // Range of the slider
-    private static final IntegerRange RANGE = new IntegerRange( -1, 15, 7 );
-
     // Track
     private static final float TRACK_STROKE_WIDTH = 1f;
     private static final Stroke TRACK_STROKE = new BasicStroke( TRACK_STROKE_WIDTH );
@@ -75,6 +72,7 @@ public class PHSliderNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private final IntegerRange _range;
     private final TrackNode _trackNode;
     private final KnobNode _knobNode;
     private final ArrayList _listeners;
@@ -84,9 +82,10 @@ public class PHSliderNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHSliderNode( PDimension trackSize, PDimension knobSize ) {
+    public PHSliderNode( IntegerRange range, PDimension trackSize, PDimension knobSize ) {
         super();
         
+        _range = new IntegerRange( range );
         _listeners = new ArrayList();
             
         _trackNode = new TrackNode( trackSize );
@@ -96,9 +95,9 @@ public class PHSliderNode extends PNode {
         TickMarkNode tickMarkNode = null;
         final double xOffset = 0;
         double yOffset = 0;
-        final double yDelta = _trackNode.getFullBoundsReference().getHeight() / ( RANGE.getMax() - RANGE.getMin() );
+        final double yDelta = _trackNode.getFullBoundsReference().getHeight() / _range.getLength();
         if ( MAX_AT_TOP ) {
-            for ( int i = RANGE.getMax(); i >= RANGE.getMin(); i-- ) {
+            for ( int i = _range.getMax(); i >= _range.getMin(); i-- ) {
                 if ( i % TICK_SPACING == 0 ) {
                     tickMarkNode = new TickMarkNode( String.valueOf( i ) );
                 }
@@ -111,7 +110,7 @@ public class PHSliderNode extends PNode {
             }
         }
         else {
-            for ( int i = RANGE.getMin(); i <= RANGE.getMax(); i++ ) {
+            for ( int i = _range.getMin(); i <= _range.getMax(); i++ ) {
                 if ( i % TICK_SPACING == 0 ) {
                     tickMarkNode = new TickMarkNode( String.valueOf( i ) );
                 }
@@ -159,8 +158,7 @@ public class PHSliderNode extends PNode {
         initInteractivity();
         
         // initialize
-        setPH( RANGE.getDefault() );
-        setPH( 13 );
+        setPH( _range.getDefault() );
     }
     
     /*
@@ -198,17 +196,17 @@ public class PHSliderNode extends PNode {
                 double trackLength = _trackNode.getFullBoundsReference().getHeight();
                 double pH = 0;
                 if ( MAX_AT_TOP ) {
-                    pH = RANGE.getMin() + RANGE.getLength() * ( trackLength - yOffset ) / trackLength;
+                    pH = _range.getMin() + _range.getLength() * ( trackLength - yOffset ) / trackLength;
                 }
                 else {
-                    pH = RANGE.getMax() - RANGE.getLength() * ( trackLength - yOffset ) / trackLength;
+                    pH = _range.getMax() - _range.getLength() * ( trackLength - yOffset ) / trackLength;
                 }
                 
-                if ( pH < RANGE.getMin() ) {
-                    pH = RANGE.getMin();
+                if ( pH < _range.getMin() ) {
+                    pH = _range.getMin();
                 }
-                else if ( pH > RANGE.getMax() ) {
-                    pH = RANGE.getMax();
+                else if ( pH > _range.getMax() ) {
+                    pH = _range.getMax();
                 }
                 
                 // set the pH (this will move the knob)
@@ -236,13 +234,13 @@ public class PHSliderNode extends PNode {
      * @param pH
      */
     public void setPH( double pH ) {
-        System.out.println( "PHSliderNode.setPH " + pH );//XXX
-        if ( pH < RANGE.getMin() || pH > RANGE.getMax() ) {
+        if ( !_range.contains( pH ) ) {
             throw new IllegalArgumentException( "pH is out of range: " + pH );
         }
         if ( pH != _pH ) {
+            _pH = pH;
             double xOffset = _knobNode.getXOffset();
-            double yOffset = _trackNode.getFullBoundsReference().getHeight() * ( ( RANGE.getMax() - pH ) / RANGE.getLength() );
+            double yOffset = _trackNode.getFullBoundsReference().getHeight() * ( ( _range.getMax() - pH ) / _range.getLength() );
             if ( MAX_AT_TOP ) {
                 _knobNode.setOffset( xOffset, yOffset );
             }
