@@ -11,6 +11,9 @@ import edu.colorado.phet.phscale.PHScaleImages;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.control.GraphScaleControlPanel;
 import edu.colorado.phet.phscale.control.GraphUnitsControlPanel;
+import edu.colorado.phet.phscale.model.PHScaleModel;
+import edu.colorado.phet.phscale.model.Liquid.LiquidAdapter;
+import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -34,10 +37,30 @@ public class BarGraphNode extends PNode {
     private static final double LEGEND_X_SPACING = 25;
     private static final double LEGEND_Y_SPACING = 5;
     
-    private PPath _graphOutlineNode;
+    private final PHScaleModel _model;
+    private final LiquidListener _liquidListener;
     
-    public BarGraphNode( PDimension graphOutlineSize ) {
+    private final PPath _graphOutlineNode;
+    
+    public BarGraphNode( PDimension graphOutlineSize, PHScaleModel model ) {
         super();
+        
+        _model = model;
+        
+        _liquidListener = new LiquidAdapter() {
+
+            public void pHChanged( double pH ) {
+                //XXX change bars
+                //XXX change numbers
+            }
+
+            public void volumeChanged( double volume ) {
+                //XXX change bars
+                //XXX change numbers
+            }
+            
+        };
+        _model.getLiquid().addLiquidListener( _liquidListener );
         
         PText titleNode = new PText( PHScaleStrings.TITLE_WATER_COMPONENTS );
         titleNode.setFont( TITLE_FONT );
@@ -71,6 +94,10 @@ public class BarGraphNode extends PNode {
         legendNode.setOffset( ( ob.getWidth() - lb.getWidth() ) / 2, ob.getMaxY() + LEGEND_Y_SPACING );
         lb = legendNode.getFullBoundsReference();
         graphScaleControlPanelWrapper.setOffset( ob.getX(), lb.getMaxY() + 10 );
+    }
+    
+    public void cleanup() {
+        _model.getLiquid().removeLiquidListener( _liquidListener );
     }
     
     private static class LegendNode extends PComposite { 
