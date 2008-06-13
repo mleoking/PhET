@@ -34,22 +34,22 @@ public class EatingAndExerciseModule extends PiccoloModule {
     private JFrame parentFrame;
     private boolean inited = false;
     private boolean everStarted = false;
-    private EatingAndExerciseClock fitnessClock;
+    private EatingAndExerciseClock eatingAndExerciseClock;
 
     private int numAddedItems = 0;
 
     public EatingAndExerciseModule( final JFrame parentFrame ) {
-        super( EatingAndExerciseStrings.TITLE_FITNESS_MODULE, new EatingAndExerciseClock(), EatingAndExerciseDefaults.STARTS_PAUSED );
+        super( EatingAndExerciseStrings.TITLE_EATING_AND_EXERCISE_MODULE, new EatingAndExerciseClock(), EatingAndExerciseDefaults.STARTS_PAUSED );
         this.parentFrame = parentFrame;
 
         // Model
-        fitnessClock = (EatingAndExerciseClock) getClock();
-        fitnessClock.addClockListener( new ClockAdapter() {
+        eatingAndExerciseClock = (EatingAndExerciseClock) getClock();
+        eatingAndExerciseClock.addClockListener( new ClockAdapter() {
             public void clockStarted( ClockEvent clockEvent ) {
                 everStarted = true;
             }
         } );
-        _model = new EatingAndExerciseModel( fitnessClock );
+        _model = new EatingAndExerciseModel( eatingAndExerciseClock );
 
         // Canvas
         _canvas = new EatingAndExerciseCanvas( _model, parentFrame );
@@ -78,7 +78,6 @@ public class EatingAndExerciseModule extends PiccoloModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-//        _controlPanel = new FitnessControlPanel( this, parentFrame );
         setControlPanel( null );
         setLogoPanelVisible( false );
 
@@ -129,7 +128,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
     private void activateStartButtonWiggleMe() {
         if ( !inited && !everStarted ) {
             final MotionHelpBalloon motionHelpBalloon = new DefaultWiggleMe( _canvas, EatingAndExerciseResources.getString( "time.start" ) );
-            fitnessClock.addClockListener( new ClockAdapter() {
+            eatingAndExerciseClock.addClockListener( new ClockAdapter() {
                 public void clockStarted( ClockEvent clockEvent ) {
                     if ( getDefaultHelpPane().getLayer().indexOfChild( motionHelpBalloon ) >= 0 ) {
                         getDefaultHelpPane().remove( motionHelpBalloon );
@@ -173,19 +172,6 @@ public class EatingAndExerciseModule extends PiccoloModule {
         // Module
         config.setActive( isActive() );
 
-        // Clock
-//        ConstantDtClock clock = _model.getClock();
-//        config.setClockDt( clock.getDt() );
-//        config.setClockRunning( getClockRunningWhenActive() );
-
-        // FitnessModelElement
-//        Human fitnessModelElement = _model.getHuman();
-//        config.setFitnessModelElementPosition( fitnessModelElement.getPositionReference() );
-//        config.setFitnessModelElementOrientation( fitnessModelElement.getOrientation() );
-
-        // Control panel settings that are specific to the view
-        //XXX
-
         return config;
     }
 
@@ -195,19 +181,6 @@ public class EatingAndExerciseModule extends PiccoloModule {
         if ( config.isActive() ) {
             EatingAndExerciseApplication.instance().setActiveModule( this );
         }
-
-        // Clock
-//        ConstantDtClock clock = _model.getClock();
-//        clock.setDt( config.getClockDt() );
-//        setClockRunningWhenActive( config.isClockRunning() );
-
-        // FitnessModelElement
-//        FitnessModelElement fitnessModelElement = _model.getFitnessModelElement();
-//        fitnessModelElement.setPosition( config.getFitnessModelElementPosition() );
-//        fitnessModelElement.setOrientation( config.getFitnessModelElementOrientation() );
-
-        // Control panel settings that are specific to the view
-        //XXX
 
     }
 

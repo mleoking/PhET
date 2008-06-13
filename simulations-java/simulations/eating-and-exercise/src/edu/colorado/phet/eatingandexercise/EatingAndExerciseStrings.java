@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  */
 public class EatingAndExerciseStrings {
-    public static String TITLE_FITNESS_MODULE = EatingAndExerciseResources.getString( "fitness.name" );
+    public static String TITLE_EATING_AND_EXERCISE_MODULE = EatingAndExerciseResources.getString( "eating-and-exercise.name" );
 
 
     /* not intended for instantiation */

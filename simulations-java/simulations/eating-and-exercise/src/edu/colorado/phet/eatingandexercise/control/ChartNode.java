@@ -142,10 +142,6 @@ public class ChartNode extends PNode {
         addChild( weightChart );
         addChild( calorieChart );
 
-//        PNode chartAxisLabel = new FitnessPText( "label" );
-//        addChild( chartAxisLabel );
-//        chartAxisLabel.setOffset( weightChart.getFullBounds().getWidth()/2, weightChart.getFullBounds().getHeight()/2);
-//        System.out.println( "a.getFullBounds() = " + weightChart.getFullBounds() );
         resetChartVerticalRanges();
         syncVerticalRanges();
     }

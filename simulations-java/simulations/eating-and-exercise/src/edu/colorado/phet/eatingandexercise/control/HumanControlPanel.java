@@ -148,16 +148,6 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( weightSlider );
 
-//        final HumanSlider bmiSlider = new HumanSlider( 0, 100, human.getBMI(), FitnessResources.getString( "bmi" ), "0.0", FitnessResources.getString( "units.bmi" ) );
-//        human.addListener( new Human.Adapter() {
-//            public void bmiChanged() {
-//                bmiSlider.setValue( human.getBMI() );
-//            }
-//        } );
-//        bmiSlider.getTextField().setEditable( false );
-//        bmiSlider.getSlider().setVisible( false );
-//        add( bmiSlider );
-
         bodyFat = new HumanSlider( 0, 100, human.getFatMassPercent(), EatingAndExerciseResources.getString( "body.fat" ), "0.0", "%" );
         bodyFat.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
