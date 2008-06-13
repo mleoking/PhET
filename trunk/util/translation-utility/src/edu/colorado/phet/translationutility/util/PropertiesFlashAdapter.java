@@ -80,6 +80,7 @@ public class PropertiesFlashAdapter {
             File file = new File( xmlFilename );
             Result result = new StreamResult( file );
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty( "indent", "yes" ); // make the output easier to read, see Transformer.getOutputProperties
             transformer.transform( source, result );
         }
         catch ( ParserConfigurationException e ) {
