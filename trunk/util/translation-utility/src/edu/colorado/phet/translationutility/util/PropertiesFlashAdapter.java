@@ -1,123 +1,162 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.translationutility.util;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.XMLOutputter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * Converts between Java Properties and the format required for Flash sims.
  * Flash sims require an XML file.
  * The root element is <SimStrings>.
- * The element for each key-value pair is <string key="key" value="value" />.
+ * The element for each localized string is <string key="key" value="value" />.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PropertiesFlashAdapter {
 
-    private static final String STRING_TAG = "string";
+    private static final String ROOT_ELEMENT = "SimStrings";
+    private static final String STRING_ELEMENT = "string";
     private static final String KEY_ATTRIBUTE = "key";
     private static final String VALUE_ATTRIBUTE = "value";
     
     /**
-     * Saves Properties to an XML file.
+     * All exceptions encountered are recast as this exception type.
+     */
+    public static class PropertiesFlashAdapterException extends Exception {
+        public PropertiesFlashAdapterException( String message ) {
+            super( message );
+        }
+        public PropertiesFlashAdapterException( String message, Throwable cause ) {
+            super( message, cause );
+        }
+    }
+    
+    /**
+     * Saves a Properties object to an XML file.
      * 
      * @param properties
      * @param xmlFilename
      * @throws IOException
+     * @throws PropertiesFlashAdapterException 
      */
-    public static final void propertiesToXML( Properties properties, String xmlFilename ) throws IOException {
+    public static final void propertiesToXML( Properties properties, String xmlFilename ) throws PropertiesFlashAdapterException {
         
-        Element root = new Element( "SimStrings" );
-        Document doc = new Document( root );
-        
-        Enumeration keys = properties.propertyNames();
-        while ( keys.hasMoreElements() ) {
-            String key = (String) keys.nextElement();
-            String value = properties.getProperty( key );
-            Element element = new Element( STRING_TAG );
-            element.setAttribute( KEY_ATTRIBUTE, key );
-            element.setAttribute( VALUE_ATTRIBUTE, value );
-            root.addContent( element );
+        try {
+            // create a document
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document document = builder.newDocument();
+
+            // Insert the root element node
+            Element rootElement = document.createElement( ROOT_ELEMENT );
+            document.appendChild( rootElement );
+
+            // add all key-value pairs to the document
+            Enumeration keys = properties.propertyNames();
+            while ( keys.hasMoreElements() ) {
+                String key = (String) keys.nextElement();
+                String value = properties.getProperty( key );
+                Element element = document.createElement( STRING_ELEMENT );
+                element.setAttribute( KEY_ATTRIBUTE, key );
+                element.setAttribute( VALUE_ATTRIBUTE, value );
+                rootElement.appendChild( element );
+            }
+
+            // write the document to a file
+            Source source = new DOMSource( document );
+            File file = new File( xmlFilename );
+            Result result = new StreamResult( file );
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform( source, result );
         }
-        
-        XMLOutputter outputter = new XMLOutputter( " ", true );
-        FileOutputStream outputStream = new FileOutputStream( xmlFilename );
-        outputter.output(  doc, outputStream );
+        catch ( ParserConfigurationException e ) {
+            throw new PropertiesFlashAdapterException( "failed to create XML document builder", e );
+        }
+        catch ( TransformerException e ) {
+            throw new PropertiesFlashAdapterException( "failed to write XML file", e );
+        }
     }
     
     /**
-     * Reads Properties from an XML file.
+     * Reads a Properties object from an XML file.
      * 
      * @param xmlFilename
-     * @return Properties
-     * @throws IOException
-     * @throws JDOMException
+     * @return Properties null if the file wasn't read or didn't contain any <string> elements.
+     * @throws PropertiesFlashAdapterException
      */
-    public static final Properties xmlToProperties( String xmlFilename ) throws IOException, JDOMException {
-        Properties properties = new Properties();
-        FileInputStream inputStream = new FileInputStream( xmlFilename );
-        SAXBuilder builder = new SAXBuilder();
-        Document doc = builder.build( inputStream );
-        List elements = doc.getRootElement().getChildren();
-        Iterator i = elements.iterator();
-        while ( i.hasNext() ) {
-            Element element = (Element) i.next();
-            String name = element.getName();
-            if ( STRING_TAG.equals( name ) ) {
-                String key = element.getAttribute( KEY_ATTRIBUTE ).getValue();
-                String value = element.getAttribute( VALUE_ATTRIBUTE ).getValue();
-                properties.setProperty( key, value );
+    public static final Properties xmlToProperties( String xmlFilename ) throws PropertiesFlashAdapterException {
+
+        Properties properties = null;
+        try {
+            // Read the file into a document
+            File file = new File( xmlFilename );
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document document = builder.parse( file );
+            NodeList elements = document.getElementsByTagName( STRING_ELEMENT );
+
+            // Parse the document
+            int numberOfNodes = elements.getLength();
+            if ( numberOfNodes > 0 ) {
+                properties = new Properties();
+                for ( int i = 0; i < numberOfNodes; i++ ) {
+                    Element element = (Element) elements.item( i );
+                    String key = element.getAttribute( KEY_ATTRIBUTE );
+                    String value = element.getAttribute( VALUE_ATTRIBUTE );
+                    properties.setProperty( key, value );
+                }
             }
         }
+        catch ( ParserConfigurationException e ) {
+            throw new PropertiesFlashAdapterException( "failed to create XML document builder", e );
+        }
+        catch ( IOException e ) {
+            throw new PropertiesFlashAdapterException( "error reading XML document", e );
+        }
+        catch ( SAXException e ) {
+            throw new PropertiesFlashAdapterException( "error parsing XML document", e );
+        }
+        
         return properties;
     }
     
     /**
      * Test program.
+     * @throws PropertiesFlashAdapterException 
      */
-    public static void main( String[] args ) {
-        
+    public static void main( String[] args ) throws PropertiesFlashAdapterException {
+
         String tmpDir = System.getProperty( "java.io.tmpdir" );
         String fileSeparator = System.getProperty( "file.separator" );
-        
-        // Write the System properties to /tmp/test.xml
+
+        // Write the System properties to an XML file
         Properties properties = System.getProperties();
         String xmlFilename = tmpDir + fileSeparator + "test.xml";
-        try {
-            propertiesToXML( properties, xmlFilename );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        
-        // Read the XML file we wrote above
-        try {
-            Properties inputProperties = xmlToProperties( xmlFilename );
-            
-            // Sort
-            Object[] keySet = inputProperties.keySet().toArray();
-            List keys = Arrays.asList( keySet );
-            Collections.sort( keys );
+        propertiesToXML( properties, xmlFilename );
 
-            // Print out each key/value pair
-            for( int i = 0; i < keys.size(); i++ ) {
-                Object key = keys.get( i );
-                Object value = inputProperties.get( key );
-                System.out.println( key + ": " + value );
-            }
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        catch ( JDOMException e ) {
-            e.printStackTrace();
+        // Read the XML file that we wrote above
+        Properties inputProperties = xmlToProperties( xmlFilename );
+
+        // Sort & print key/value pairs
+        Object[] keySet = inputProperties.keySet().toArray();
+        List keys = Arrays.asList( keySet );
+        Collections.sort( keys );
+        for ( int i = 0; i < keys.size(); i++ ) {
+            Object key = keys.get( i );
+            Object value = inputProperties.get( key );
+            System.out.println( key + ": " + value );
         }
     }
     
