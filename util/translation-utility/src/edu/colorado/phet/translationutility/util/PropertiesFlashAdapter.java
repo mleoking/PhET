@@ -1,12 +1,14 @@
 package edu.colorado.phet.translationutility.util;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Properties;
+import java.util.*;
 
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
 /**
@@ -46,8 +48,35 @@ public class PropertiesFlashAdapter {
         }
         
         XMLOutputter outputter = new XMLOutputter( " ", true );
-        FileOutputStream oStream = new FileOutputStream( xmlFilename );
-        outputter.output(  doc, oStream );
+        FileOutputStream outputStream = new FileOutputStream( xmlFilename );
+        outputter.output(  doc, outputStream );
+    }
+    
+    /**
+     * Reads Properties from an XML file.
+     * 
+     * @param xmlFilename
+     * @return Properties
+     * @throws IOException
+     * @throws JDOMException
+     */
+    public static final Properties xmlToProperties( String xmlFilename ) throws IOException, JDOMException {
+        Properties properties = new Properties();
+        FileInputStream inputStream = new FileInputStream( xmlFilename );
+        SAXBuilder builder = new SAXBuilder();
+        Document doc = builder.build( inputStream );
+        List elements = doc.getRootElement().getChildren();
+        Iterator i = elements.iterator();
+        while ( i.hasNext() ) {
+            Element element = (Element) i.next();
+            String name = element.getName();
+            if ( STRING_TAG.equals( name ) ) {
+                String key = element.getAttribute( KEY_ATTRIBUTE ).getValue();
+                String value = element.getAttribute( VALUE_ATTRIBUTE ).getValue();
+                properties.setProperty( key, value );
+            }
+        }
+        return properties;
     }
     
     /**
@@ -60,11 +89,34 @@ public class PropertiesFlashAdapter {
         
         // Write the System properties to /tmp/test.xml
         Properties properties = System.getProperties();
-        String tmpFile = tmpDir + fileSeparator + "test.xml";
+        String xmlFilename = tmpDir + fileSeparator + "test.xml";
         try {
-            propertiesToXML( properties, tmpFile );
+            propertiesToXML( properties, xmlFilename );
         }
         catch ( IOException e ) {
+            e.printStackTrace();
+        }
+        
+        // Read the XML file we wrote above
+        try {
+            Properties inputProperties = xmlToProperties( xmlFilename );
+            
+            // Sort
+            Object[] keySet = inputProperties.keySet().toArray();
+            List keys = Arrays.asList( keySet );
+            Collections.sort( keys );
+
+            // Print out each key/value pair
+            for( int i = 0; i < keys.size(); i++ ) {
+                Object key = keys.get( i );
+                Object value = inputProperties.get( key );
+                System.out.println( key + ": " + value );
+            }
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+        catch ( JDOMException e ) {
             e.printStackTrace();
         }
     }
