@@ -51,6 +51,15 @@ public class IntegerRange {
         _default = defaultValue;
     }
 
+    /**
+     * Copy constructor.
+     * 
+     * @param range
+     */
+    public IntegerRange( IntegerRange range ) {
+        this( range.getMin(), range.getMax(), range.getDefault() );
+    }
+    
     //----------------------------------------------------------------------------
     // Getters
     //----------------------------------------------------------------------------
@@ -93,6 +102,16 @@ public class IntegerRange {
      * @return true or false
      */
     public boolean contains( int value ) {
+        return ( value >= _min && value <= _max );
+    }
+    
+    /**
+     * Determines whether the range contains a double value.
+     *
+     * @param value
+     * @return true or false
+     */
+    public boolean contains( double value ) {
         return ( value >= _min && value <= _max );
     }
 
