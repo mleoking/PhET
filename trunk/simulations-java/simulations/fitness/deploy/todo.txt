@@ -7,19 +7,6 @@
 ##############                    To Discuss                             ##############
 #######################################################################################
 
-Performance: consider profiling or changing clock rate
-    >>How severe is this problem?
-
-Some exercise and food items are missing icons
-    >>Should this taks be reassigned?
-
-Time readouts should be Years:Months, not years in decimal
-    >>What's the best input user interface for this?
-
-Need a way to get rid of or clean up icons
-    >>Dragging back to the toolbox removes the item
-    >>Could add a trash can as well
-
 Foods should have correct relative sizes?
 
 I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
@@ -187,24 +174,15 @@ check with fran, bill & kate regarding change in % fat
 
 KG gained per day should be a function of caloric distribution over lipids, carbs and protein
 
-#######################################################################################
-##############                    Decided Against                        ##############
-#######################################################################################
+Performance: consider profiling or changing clock rate
+    >>How severe is this problem?
 
-Remove unused column from food properties file (calories computed from fats, carbs, proteins)
-    It might be good to keep these value for future usage
+Some exercise and food items are missing icons
+    >>Should this taks be reassigned?
 
-To emphasize the meaning of the bar charts, you might have big labels on
-    the left and right of the center line of the bar chart: 'Diet' on the
-    left and 'Exercise' on the right (perhaps with the 'edit' buttons below
-    the labels)
-        >>I think this is clear from the items, bar chart composition and edit buttons
+Time readouts should be Years:Months, not years in decimal
+    >>What's the best input user interface for this?
 
-Possibly visualize balance of caloric intake as scale
-
-Mac issues:
-    -Dialog box shows n~ characters on mac, see email for screenshot
-    -Mass slider thumb in the wrong spot on Mac, see malley's machine.
-        >>Also (in case you're not aware of it) the Body Fat slider doesn't render properly and is not usable on Mac.
-
-        >>Not reproducible on mac mini
+Need a way to get rid of or clean up icons
+    >>Dragging back to the toolbox removes the item
+    >>Could add a trash can as well
