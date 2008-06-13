@@ -24,7 +24,11 @@ import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * PHTextFieldNode is a labeled, editable text field for setting pH.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PHTextFieldNode extends PNode {
     
     //----------------------------------------------------------------------------
@@ -79,7 +83,8 @@ public class PHTextFieldNode extends PNode {
         
         addChild( valuePanelWrapper );
         
-        setPH( 7 );
+        // initialize
+        setPH( range.getDefault() );
     }
     
     //----------------------------------------------------------------------------
@@ -111,8 +116,34 @@ public class PHTextFieldNode extends PNode {
         }
     }
     
+    /**
+     *  Enables or disables the text field.
+     *  When disabled, the text field will not respond to user input, and will be blank.
+     *  Enabling the text field causes the pH value to be displayed.
+     *  This is useful when the beaker is empty, in which case pH is meaningless.
+     *  
+     *  @param enabled
+     */
+    public void setEnabled( boolean enabled ) {
+        if ( enabled != _textField.isEnabled() ) {
+            _textField.setEnabled( enabled );
+            if ( enabled ) {
+                setTextField( _pH );
+            }
+            else {
+                _textField.setText( "" );
+            }
+        }
+    }
+    
+    /*
+     * Sets the pH value displayed in the text field.
+     */
     private void setTextField( double pH ) {
-        _textField.setText( VALUE_FORMAT.format( pH ) );
+        assert( _range.contains( pH ) );
+        if ( _textField.isEnabled() ) {
+            _textField.setText( VALUE_FORMAT.format( pH ) );
+        }
     }
     
     //----------------------------------------------------------------------------
