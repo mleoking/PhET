@@ -30,14 +30,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * FitnessCanvas is the canvas for FitnessModule.
  */
-public class FitnessCanvas extends BufferedPhetPCanvas {
+public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Model
-    private FitnessModel _model;
+    private EatingAndExerciseModel _model;
 
     // View
     private PNode _rootNode;
@@ -57,7 +57,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FitnessCanvas( final FitnessModel model, final Frame parentFrame ) {
+    public EatingAndExerciseCanvas( final EatingAndExerciseModel model, final Frame parentFrame ) {
         super( new PDimension( 15, 15 ) );
 
         // Set the transform strategy in such a way that the center of the
@@ -137,7 +137,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
                 requestFocus();
             }
         } );
-        setWorldTransformStrategy( new FitnessRenderingSizeStrategy( this, CANVAS_WIDTH, CANVAS_HEIGHT ) );
+        setWorldTransformStrategy( new EatingAndExerciseRenderingSizeStrategy( this, CANVAS_WIDTH, CANVAS_HEIGHT ) );
     }
 
     private void updateHeartHealthButtonNodeLayout() {

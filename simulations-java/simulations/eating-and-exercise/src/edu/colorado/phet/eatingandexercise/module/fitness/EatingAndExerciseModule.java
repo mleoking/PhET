@@ -26,33 +26,33 @@ import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.persistence.FitnessConfig;
 
-public class FitnessModule extends PiccoloModule {
+public class EatingAndExerciseModule extends PiccoloModule {
 
-    private FitnessModel _model;
-    private FitnessCanvas _canvas;
+    private EatingAndExerciseModel _model;
+    private EatingAndExerciseCanvas _canvas;
     private ClockControlPanel _clockControlPanel;
     private JFrame parentFrame;
     private boolean inited = false;
     private boolean everStarted = false;
-    private FitnessClock fitnessClock;
+    private EatingAndExerciseClock fitnessClock;
 
     private int numAddedItems = 0;
 
-    public FitnessModule( final JFrame parentFrame ) {
-        super( EatingAndExerciseStrings.TITLE_FITNESS_MODULE, new FitnessClock(), FitnessDefaults.STARTS_PAUSED );
+    public EatingAndExerciseModule( final JFrame parentFrame ) {
+        super( EatingAndExerciseStrings.TITLE_FITNESS_MODULE, new EatingAndExerciseClock(), EatingAndExerciseDefaults.STARTS_PAUSED );
         this.parentFrame = parentFrame;
 
         // Model
-        fitnessClock = (FitnessClock) getClock();
+        fitnessClock = (EatingAndExerciseClock) getClock();
         fitnessClock.addClockListener( new ClockAdapter() {
             public void clockStarted( ClockEvent clockEvent ) {
                 everStarted = true;
             }
         } );
-        _model = new FitnessModel( fitnessClock );
+        _model = new EatingAndExerciseModel( fitnessClock );
 
         // Canvas
-        _canvas = new FitnessCanvas( _model, parentFrame );
+        _canvas = new EatingAndExerciseCanvas( _model, parentFrame );
         _canvas.addEditorClosedListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 activateStartButtonWiggleMe();
@@ -156,10 +156,10 @@ public class FitnessModule extends PiccoloModule {
 //        setHelpEnabled( true );
 
         // Clock
-        FitnessClock clock = _model.getClock();
+        EatingAndExerciseClock clock = _model.getClock();
         clock.resetSimulationTime();
-        clock.setDt( FitnessDefaults.CLOCK_DT );
-        setClockRunningWhenActive( !FitnessDefaults.STARTS_PAUSED );
+        clock.setDt( EatingAndExerciseDefaults.CLOCK_DT );
+        setClockRunningWhenActive( !EatingAndExerciseDefaults.STARTS_PAUSED );
     }
 
     //----------------------------------------------------------------------------

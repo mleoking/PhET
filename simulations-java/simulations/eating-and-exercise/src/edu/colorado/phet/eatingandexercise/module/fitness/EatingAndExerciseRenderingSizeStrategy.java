@@ -9,10 +9,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  * Created by: Sam
  * Apr 18, 2008 at 1:14:25 AM
  */
-public class FitnessRenderingSizeStrategy extends PhetPCanvas.RenderingSizeStrategy {
-    private FitnessCanvas canvas;
+public class EatingAndExerciseRenderingSizeStrategy extends PhetPCanvas.RenderingSizeStrategy {
+    private EatingAndExerciseCanvas canvas;
 
-    public FitnessRenderingSizeStrategy( FitnessCanvas canvas, double CANVAS_WIDTH, double CANVAS_HEIGHT ) {
+    public EatingAndExerciseRenderingSizeStrategy( EatingAndExerciseCanvas canvas, double CANVAS_WIDTH, double CANVAS_HEIGHT ) {
         super( canvas, new PDimension( CANVAS_WIDTH, CANVAS_HEIGHT ) );
         this.canvas = canvas;
     }
