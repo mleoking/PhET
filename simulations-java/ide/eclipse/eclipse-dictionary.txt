@@ -16,6 +16,7 @@ femtometer
 femtometers
 fission
 fissioning
+Frankel
 glyph
 glyphs
 Google
