@@ -2,7 +2,7 @@ package edu.colorado.phet.eatingandexercise.control;
 
 import javax.swing.*;
 
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.Human;
 
 /**
@@ -13,7 +13,7 @@ public class NamePanel extends JPanel {
     public NamePanel( Human human ) {
 
         JPanel namePanel = new JPanel();
-        namePanel.add( new JLabel( FitnessResources.getString( "name" ) ) );
+        namePanel.add( new JLabel( EatingAndExerciseResources.getString( "name" ) ) );
         JTextField name = new JTextField( human.getName() );
         name.setColumns( 10 );
         namePanel.add( name );

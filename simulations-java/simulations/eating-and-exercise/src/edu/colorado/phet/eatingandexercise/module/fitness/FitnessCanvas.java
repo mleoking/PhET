@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.eatingandexercise.FitnessConstants;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.control.CaloriePanel;
 import edu.colorado.phet.eatingandexercise.control.HumanControlPanel;
@@ -65,7 +65,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
 
         _model = model;
 
-        setBackground( FitnessConstants.CANVAS_BACKGROUND );
+        setBackground( EatingAndExerciseConstants.CANVAS_BACKGROUND );
         getCamera().addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent aEvent ) {
                 if ( aEvent.isLeftMouseButton() && aEvent.getPickedNode() instanceof PCamera ) {
@@ -183,7 +183,7 @@ public class FitnessCanvas extends BufferedPhetPCanvas {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        else if ( FitnessConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+        else if ( EatingAndExerciseConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "PhysicsCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
 

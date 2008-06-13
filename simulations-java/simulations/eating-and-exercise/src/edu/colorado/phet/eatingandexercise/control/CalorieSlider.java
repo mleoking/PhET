@@ -7,8 +7,8 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.eatingandexercise.FitnessPText;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExercisePText;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -27,7 +27,7 @@ public class CalorieSlider extends PNode {
     private PhetPPath borderNode;
 
     public CalorieSlider( String title, Color color, boolean arrowDown ) {
-        titleNode = new FitnessPText( title );
+        titleNode = new EatingAndExercisePText( title );
         addChild( titleNode );
         borderNode = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, HEIGHT ), new BasicStroke( 1.5f ), Color.black );
         addChild( borderNode );
@@ -52,10 +52,10 @@ public class CalorieSlider extends PNode {
         borderNode.setOffset( 0, titleNode.getHeight() );
         arrowNode.setOffset( 0, titleNode.getHeight() );
 
-        PText low = new FitnessPText( FitnessResources.getString( "none" ) );
+        PText low = new EatingAndExercisePText( EatingAndExerciseResources.getString( "none" ) );
         addChild( low );
         low.setOffset( -low.getFullBounds().getWidth(), borderNode.getFullBounds().getCenterY() - low.getFullBounds().getHeight() / 2 );
-        PText lots = new FitnessPText( FitnessResources.getString( "lots" ) );
+        PText lots = new EatingAndExercisePText( EatingAndExerciseResources.getString( "lots" ) );
         addChild( lots );
         lots.setOffset( borderNode.getFullBounds().getWidth(), borderNode.getFullBounds().getCenterY() - low.getFullBounds().getHeight() / 2 );
 

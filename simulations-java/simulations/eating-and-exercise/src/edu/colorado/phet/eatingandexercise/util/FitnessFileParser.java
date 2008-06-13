@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.control.ExerciseItem;
 import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
@@ -29,7 +29,7 @@ public class FitnessFileParser {
     private static Object[] parse( String resource, IParser parser, Object[] type ) {
         try {
             ArrayList list = new ArrayList();
-            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( FitnessResources.getResourceLoader().getResourceAsStream( resource ) ) );
+            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( EatingAndExerciseResources.getResourceLoader().getResourceAsStream( resource ) ) );
             for ( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
                 line = line.trim();
                 if ( !line.startsWith( "#" ) && line.length() > 0 ) {
@@ -57,7 +57,7 @@ public class FitnessFileParser {
             if ( st.hasMoreTokens() ) {
                 image = st.nextToken().trim();
             }
-            return new CaloricFoodItem( FitnessResources.getString( name ), image, lipids, carbs, proteins );
+            return new CaloricFoodItem( EatingAndExerciseResources.getString( name ), image, lipids, carbs, proteins );
         }
     }
 
@@ -75,7 +75,7 @@ public class FitnessFileParser {
             if ( st.hasMoreTokens() ) {
                 image = st.nextToken().trim();
             }
-            return new ExerciseItem( FitnessResources.getString( name ), image, cal );
+            return new ExerciseItem( EatingAndExerciseResources.getString( name ), image, cal );
         }
     }
 
@@ -93,7 +93,7 @@ public class FitnessFileParser {
         for ( int i = 0; i < c.length; i++ ) {
             System.out.println( "i = " + i + ", c=" + c[i] );
             if ( c[i].getImage() != null && c[i].getImage().length() > 0 ) {
-                BufferedImage im = FitnessResources.getImage( c[i].getImage() );
+                BufferedImage im = EatingAndExerciseResources.getImage( c[i].getImage() );
                 System.out.println( "loaded image[" + i + "]=" + im );
             }
         }
@@ -103,7 +103,7 @@ public class FitnessFileParser {
             CaloricItem caloricItem = ex[i];
             System.out.println( "caloricItem = " + caloricItem );
             if ( ex[i].getImage() != null && ex[i].getImage().length() > 0 ) {
-                BufferedImage im = FitnessResources.getImage( ex[i].getImage() );
+                BufferedImage im = EatingAndExerciseResources.getImage( ex[i].getImage() );
                 System.out.println( "loaded image[" + i + "]=" + im );
             }
         }

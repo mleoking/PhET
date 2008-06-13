@@ -6,7 +6,7 @@ import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.Activity;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.module.fitness.CaloricFoodItem;
@@ -107,7 +107,7 @@ public class Human {
         foodItems.clear();
         exerciseItems.clear();
         if ( defaultIntake == null ) {//todo: change to single instance so that view/controller can observe it
-            defaultIntake = new CaloricFoodItem( FitnessResources.getString( "diet.healthy" ), FOOD_PYRAMID, initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
+            defaultIntake = new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), FOOD_PYRAMID, initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
         }
         foodItems.addItem( defaultIntake );//todo: standardize constructor units
         updateIntake();
@@ -395,8 +395,8 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( FitnessResources.getString( "gender.male" ).toLowerCase(), 4, 80 );
-        public static Gender FEMALE = new Gender( FitnessResources.getString( "gender.female" ).toLowerCase(), 10, 80 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 4, 80 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 10, 80 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;

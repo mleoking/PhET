@@ -1,6 +1,6 @@
 package edu.colorado.phet.eatingandexercise.control;
 
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 
 /**
  * Created by: Sam
@@ -11,14 +11,14 @@ import edu.colorado.phet.eatingandexercise.FitnessResources;
 public class Activity {
     private String name;
     private double activityLevel;
-    public static final Activity DEFAULT_ACTIVITY_LEVEL = new Activity( FitnessResources.getString( "activity.moderate" ), 1.5 );
+    public static final Activity DEFAULT_ACTIVITY_LEVEL = new Activity( EatingAndExerciseResources.getString( "activity.moderate" ), 1.5 );
 
     public static final Activity[] DEFAULT_ACTIVITY_LEVELS = {
-            new Activity( FitnessResources.getString( "activity.very-sedentary" ), 1.3 ),
-            new Activity( FitnessResources.getString( "activity.sedentary" ), 1.4 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.very-sedentary" ), 1.3 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.sedentary" ), 1.4 ),
             DEFAULT_ACTIVITY_LEVEL,
-            new Activity( FitnessResources.getString( "activity.active" ), 1.6 ),
-            new Activity( FitnessResources.getString( "activity.athletic" ), 1.7 )
+            new Activity( EatingAndExerciseResources.getString( "activity.active" ), 1.6 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.athletic" ), 1.7 )
     };
 
 

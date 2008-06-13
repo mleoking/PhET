@@ -9,8 +9,8 @@ import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
-import edu.colorado.phet.eatingandexercise.FitnessStrings;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
 import edu.colorado.phet.eatingandexercise.view.FitnessColorScheme;
 import edu.colorado.phet.eatingandexercise.view.StackedBarChartNode;
@@ -41,31 +41,31 @@ public class CaloriePanel extends PNode {
         } );
 
         Function.LinearFunction transform = new Function.LinearFunction( 0, 3000, 0, 250 );
-        stackedBarChart = new StackedBarChartNode( transform, FitnessResources.getString( "units.cal-per-day" ), 10, 250, 1000, 8000 );
+        stackedBarChart = new StackedBarChartNode( transform, EatingAndExerciseResources.getString( "units.cal-per-day" ), 10, 250, 1000, 8000 );
 
         StackedBarNode intakeBars = new StackedBarNode( transform, 100 );
         Color labelColor = Color.black;
-        intakeBars.addElement( new BarChartElementAdapter( FitnessStrings.FATS, FitnessColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif", labelColor ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "food.carbs" ), FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png", labelColor ), StackedBarNode.NONE );
-        intakeBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "food.protien" ), FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseStrings.FATS, FitnessColorScheme.FATS, model.getHuman().getLipids(), "j0232547.gif", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "food.carbs" ), FitnessColorScheme.CARBS, model.getHuman().getCarbs(), "carbs.png", labelColor ), StackedBarNode.NONE );
+        intakeBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "food.protien" ), FitnessColorScheme.PROTEIN, model.getHuman().getProteins(), "j0413686.gif", labelColor ), StackedBarNode.NONE );
 
         StackedBarNode exerciseBars = new StackedBarNode( transform, 100 );
-        exerciseBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "exercise.resting.bmr" ), FitnessColorScheme.BMR, model.getHuman().getBmr(), "heart2.png" ), StackedBarNode.NONE );
-        exerciseBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "exercise.lifestyle" ), FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(), "j0417518.png" ), StackedBarNode.NONE );
-        exerciseBars.addElement( new BarChartElementAdapter( FitnessResources.getString( "exercise" ), FitnessColorScheme.EXERCISE, model.getHuman().getExercise(), "road_biker.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "exercise.resting.bmr" ), FitnessColorScheme.BMR, model.getHuman().getBmr(), "heart2.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "exercise.lifestyle" ), FitnessColorScheme.ACTIVITY, model.getHuman().getActivity(), "j0417518.png" ), StackedBarNode.NONE );
+        exerciseBars.addElement( new BarChartElementAdapter( EatingAndExerciseResources.getString( "exercise" ), FitnessColorScheme.EXERCISE, model.getHuman().getExercise(), "road_biker.png" ), StackedBarNode.NONE );
 
         stackedBarChart.addStackedBarNode( intakeBars );
         stackedBarChart.addStackedBarNode( exerciseBars );
         addChild( stackedBarChart );
 
-        foodNode = new CalorieNode( parentFrame, FitnessResources.getString( "edit.diet" ), new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), FitnessResources.getString( "food.sources" ), FitnessResources.getString( "diet" ),"plate-2.png" ) {
+        foodNode = new CalorieNode( parentFrame, EatingAndExerciseResources.getString( "edit.diet" ), new Color( 100, 100, 255 ), FitnessModel.availableFoods, model.getHuman().getSelectedFoods(), EatingAndExerciseResources.getString( "food.sources" ), EatingAndExerciseResources.getString( "diet" ),"plate-2.png" ) {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new FoodSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }
         };
         addChild( foodNode );
 
-        exerciseNode = new CalorieNode( parentFrame, FitnessResources.getString( "exercise.edit" ), Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), FitnessResources.getString( "menu.options" ), FitnessResources.getString( "exercise.daily" ) ,"planner.png") {
+        exerciseNode = new CalorieNode( parentFrame, EatingAndExerciseResources.getString( "exercise.edit" ), Color.red, FitnessModel.availableExercise, model.getHuman().getSelectedExercise(), EatingAndExerciseResources.getString( "menu.options" ), EatingAndExerciseResources.getString( "exercise.daily" ) ,"planner.png") {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new ExerciseSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
             }
@@ -106,7 +106,7 @@ public class CaloriePanel extends PNode {
 
     public static class BarChartElementAdapter extends StackedBarNode.BarChartElement {
         public BarChartElementAdapter( String name, Paint paint, final DefaultTemporalVariable variable, String image, Color textColor ) {
-            super( name, paint, variable.getValue(), FitnessResources.getImage( image ), textColor );
+            super( name, paint, variable.getValue(), EatingAndExerciseResources.getImage( image ), textColor );
             variable.addListener( new IVariable.Listener() {
                 public void valueChanged() {
                     BarChartElementAdapter.this.setValue( variable.getValue() );

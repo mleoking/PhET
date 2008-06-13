@@ -10,8 +10,8 @@ import javax.swing.border.BevelBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.eatingandexercise.FitnessPText;
-import edu.colorado.phet.eatingandexercise.FitnessStrings;
+import edu.colorado.phet.eatingandexercise.EatingAndExercisePText;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.fitness.FitnessModel;
 import edu.umd.cs.piccolo.PNode;
@@ -63,7 +63,7 @@ public class ScaleNode extends PNode {
                 updateWeightReadout();
             }
         } );
-        weightReadout = new FitnessPText( "??" );
+        weightReadout = new EatingAndExercisePText( "??" );
         double TEXT_SCALE = 1.0 / 175.0;
         weightReadout.scale( TEXT_SCALE );
         addChild( weightReadout );
@@ -112,7 +112,7 @@ public class ScaleNode extends PNode {
 //    }
 
     private void updateWeightReadout() {
-        weightReadout.setText( "" + FitnessStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() );
+        weightReadout.setText( "" + EatingAndExerciseStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() );
         updateTextLayout();
     }
 

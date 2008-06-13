@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.Diet;
 import edu.colorado.phet.eatingandexercise.model.FitnessUnits;
@@ -19,7 +19,7 @@ import edu.colorado.phet.eatingandexercise.util.FitnessFileParser;
 public class FitnessModel {
 
     public static class Units {
-        public static final Units ENGLISH = new Units( FitnessResources.getString( "units.english" ), FitnessResources.getString( "units.lbs" ), FitnessResources.getString( "units.feet.in" ) ) {
+        public static final Units ENGLISH = new Units( EatingAndExerciseResources.getString( "units.english" ), EatingAndExerciseResources.getString( "units.lbs" ), EatingAndExerciseResources.getString( "units.feet.in" ) ) {
             public double modelToViewMass( double mass ) {
                 return FitnessUnits.kgToPounds( mass );
             }
@@ -36,7 +36,7 @@ public class FitnessModel {
                 return FitnessUnits.feetToMeters( value );
             }
         };
-        public static final Units METRIC = new Units( FitnessResources.getString( "units.metric" ), FitnessResources.getString( "units.kg" ), FitnessResources.getString( "units.meters" ) );
+        public static final Units METRIC = new Units( EatingAndExerciseResources.getString( "units.metric" ), EatingAndExerciseResources.getString( "units.kg" ), EatingAndExerciseResources.getString( "units.meters" ) );
         private String shortName;
         private String massUnit;
         private String distanceUnit;
@@ -95,8 +95,8 @@ public class FitnessModel {
     public static final CalorieSet availableExercise = new CalorieSet( FitnessFileParser.getExerciseItems() );
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
-    public static final Diet BALANCED_DIET = new Diet( FitnessResources.getString( "diet.balanced" ), 870, 1583, 432 );
-    public static final Diet FAST_FOOD_ONLY = new Diet( FitnessResources.getString( "diet.fast-food" ), 3000, 300, 150 );
+    public static final Diet BALANCED_DIET = new Diet( EatingAndExerciseResources.getString( "diet.balanced" ), 870, 1583, 432 );
+    public static final Diet FAST_FOOD_ONLY = new Diet( EatingAndExerciseResources.getString( "diet.fast-food" ), 3000, 300, 150 );
     public static final Diet[] availableDiets = new Diet[]{
             BALANCED_DIET,
             FAST_FOOD_ONLY
@@ -159,7 +159,7 @@ public class FitnessModel {
                 return availableDiet;
             }
         }
-        return new Diet( FitnessResources.getString( "diet.user-specified" ), lipids, carbs, proteins );
+        return new Diet( EatingAndExerciseResources.getString( "diet.user-specified" ), lipids, carbs, proteins );
     }
 
     //Todo: remove this workaround for performance/graphics problems

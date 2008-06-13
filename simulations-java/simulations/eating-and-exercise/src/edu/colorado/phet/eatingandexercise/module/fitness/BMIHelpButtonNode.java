@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.Human;
 
 /**
@@ -23,13 +23,13 @@ public class BMIHelpButtonNode extends GradientButtonNode {
         this.human = human;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                String currentBMI = FitnessResources.getString( "bmi.current" );
-                String line1 = FitnessResources.getString( "bmi.table" );
-                String line2 = FitnessResources.getString( "bmi.columns" );
-                String line3 = FitnessResources.getString( "bmi.underweight" );
-                String line4 = FitnessResources.getString( "bmi.normal" );
-                String line5 = FitnessResources.getString( "bmi.overweight" );
-                String line6 = FitnessResources.getString( "bmi.obese" );
+                String currentBMI = EatingAndExerciseResources.getString( "bmi.current" );
+                String line1 = EatingAndExerciseResources.getString( "bmi.table" );
+                String line2 = EatingAndExerciseResources.getString( "bmi.columns" );
+                String line3 = EatingAndExerciseResources.getString( "bmi.underweight" );
+                String line4 = EatingAndExerciseResources.getString( "bmi.normal" );
+                String line5 = EatingAndExerciseResources.getString( "bmi.overweight" );
+                String line6 = EatingAndExerciseResources.getString( "bmi.obese" );
                 JOptionPane.showMessageDialog( parentComponent, currentBMI + new DecimalFormat( "0.0" ).format( human.getBMI() ) + "\n\n" +
                                                                 line1 +
                                                                 line2 +

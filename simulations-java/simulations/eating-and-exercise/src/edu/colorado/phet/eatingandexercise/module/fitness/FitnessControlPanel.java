@@ -5,7 +5,7 @@ package edu.colorado.phet.eatingandexercise.module.fitness;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 
 /**
  * FitnessControlPanel is the control panel for FitnessModule.
@@ -30,7 +30,7 @@ public class FitnessControlPanel extends ControlPanel {
         super();
 
         // Set the control panel's minimum width.
-        int minimumWidth = FitnessResources.getInt( "int.minControlPanelWidth", 215 );
+        int minimumWidth = EatingAndExerciseResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
 
         // Create sub-panels

@@ -1,6 +1,6 @@
 package edu.colorado.phet.eatingandexercise.module.fitness;
 
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 
 /**
  * Created by: Sam
@@ -24,7 +24,7 @@ public class Exercise {
     }
 
     public String toString() {
-        String calPerDay = FitnessResources.getString( "units.cal-per-day" );
+        String calPerDay = EatingAndExerciseResources.getString( "units.cal-per-day" );
         return name + ": " + calories + " " + calPerDay;
     }
 }

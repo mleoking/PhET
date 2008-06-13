@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -22,18 +22,18 @@ public class HeartNode extends PImage {
 
     public HeartNode( Human human ) {
         this.human = human;
-        heart = new PImage( FitnessResources.getImage( "heart.png" ) );
+        heart = new PImage( EatingAndExerciseResources.getImage( "heart.png" ) );
         addChild( heart );
 
         double eyeDX = 80;
         double eyeY = 50;
         double eyeScale = 0.4;
 
-        PImage leftEye = new PImage( BufferedImageUtils.multiScale( FitnessResources.getImage( "eye.png" ), eyeScale ) );
+        PImage leftEye = new PImage( BufferedImageUtils.multiScale( EatingAndExerciseResources.getImage( "eye.png" ), eyeScale ) );
         leftEye.setOffset( heart.getFullBounds().getWidth() / 2 - leftEye.getFullBounds().getWidth() / 2 - eyeDX / 2, eyeY );
         addChild( leftEye );
 
-        PImage rightEye = new PImage( BufferedImageUtils.multiScale( FitnessResources.getImage( "eye.png" ), eyeScale ) );
+        PImage rightEye = new PImage( BufferedImageUtils.multiScale( EatingAndExerciseResources.getImage( "eye.png" ), eyeScale ) );
         rightEye.setOffset( heart.getFullBounds().getWidth() / 2 - rightEye.getFullBounds().getWidth() / 2 + eyeDX / 2, eyeY );
         addChild( rightEye );
 

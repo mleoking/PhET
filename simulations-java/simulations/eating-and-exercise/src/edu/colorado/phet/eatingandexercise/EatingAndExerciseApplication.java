@@ -62,7 +62,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
         TabbedPaneType tabbedPaneType = new TabbedPaneType() {
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setSelectedTabColor( FitnessConstants.SELECTED_TAB_COLOR );
+                _tabbedModulePane.setSelectedTabColor( EatingAndExerciseConstants.SELECTED_TAB_COLOR );
                 return _tabbedModulePane;
             }
         };
@@ -144,7 +144,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
                 phetLookAndFeel.setBackgroundColor( FitnessColorScheme.getBackgroundColor() );
                 phetLookAndFeel.setTextFieldBackgroundColor( Color.white );
                 phetLookAndFeel.initLookAndFeel();
-                PhetApplicationConfig config = new PhetApplicationConfig( args, FitnessConstants.FRAME_SETUP, FitnessResources.getResourceLoader() );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, EatingAndExerciseConstants.FRAME_SETUP, EatingAndExerciseResources.getResourceLoader() );
 
                 // Create the application.
                 EatingAndExerciseApplication app = new EatingAndExerciseApplication( config );

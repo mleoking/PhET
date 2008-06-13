@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.eatingandexercise.FitnessResources;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -40,7 +40,7 @@ public class BMIReadout extends PNode {
     }
 
     private void updateReadout() {
-        pText.setText( "BMI: " + new DecimalFormat( "0.0" ).format( human.getBMI() ) + " " + FitnessResources.getString( "units.bmi" ) );
+        pText.setText( "BMI: " + new DecimalFormat( "0.0" ).format( human.getBMI() ) + " " + EatingAndExerciseResources.getString( "units.bmi" ) );
         Rectangle2D v = RectangleUtils.expand( pText.getFullBounds(), 2, 2 );
 //        background.setPathTo( v );
         background.setPathTo( new RoundRectangle2D.Double( v.getX(), v.getY(), v.getWidth(), v.getHeight(), 12, 12 ) );
