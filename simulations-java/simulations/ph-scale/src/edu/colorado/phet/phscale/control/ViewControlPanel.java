@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -19,8 +21,8 @@ public class ViewControlPanel extends JPanel {
     private static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, 18 );;
     
     private final ArrayList _listeners;
-    private final JCheckBox _countViewCheckBox;
-    private final JCheckBox _ratioViewCheckBox;
+    private final JCheckBox _countCheckBox;
+    private final JCheckBox _ratioCheckBox;
     
     public ViewControlPanel() {
         super();
@@ -28,58 +30,83 @@ public class ViewControlPanel extends JPanel {
 
         _listeners = new ArrayList();
         
-        _countViewCheckBox = new JCheckBox( PHScaleStrings.CHECK_BOX_MOLECULE_COUNT );
-        _countViewCheckBox.setFont( CONTROL_FONT );
+        _countCheckBox = new JCheckBox( PHScaleStrings.CHECK_BOX_MOLECULE_COUNT );
+        _countCheckBox.setFont( CONTROL_FONT );
+        _countCheckBox.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                notifyCountChanged();
+            }
+        });
         
-        _ratioViewCheckBox = new JCheckBox( PHScaleStrings.getBeakerViewRatioString() );
-        _ratioViewCheckBox.setFont( CONTROL_FONT );
+        _ratioCheckBox = new JCheckBox( PHScaleStrings.getBeakerViewRatioString() );
+        _ratioCheckBox.setFont( CONTROL_FONT );
+        _ratioCheckBox.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                notifyRatioChanged();
+            }
+        });
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         this.setLayout( layout );
         int row = 0;
         int col = 0;
-        layout.addComponent( _countViewCheckBox, row++, col );
-        layout.addComponent( _ratioViewCheckBox, row++, col );
+        layout.addComponent( _countCheckBox, row++, col );
+        layout.addComponent( _ratioCheckBox, row++, col );
     }
     
     public boolean isCountViewSelected() {
-        return _countViewCheckBox.isSelected();
+        return _countCheckBox.isSelected();
     }
     
-    public void setCountViewSelected( boolean selected ) {
+    public void setCountSelected( boolean selected ) {
         if ( selected != isCountViewSelected() ) {
-            _countViewCheckBox.setSelected( selected );
-            notifyViewChanged();
+            _countCheckBox.setSelected( selected );
+            notifyCountChanged();
         }
     }
     
     public boolean isRatioViewSelected() {
-        return _ratioViewCheckBox.isSelected();
+        return _ratioCheckBox.isSelected();
     }
     
-    public void setRatioViewSelected( boolean selected ) {
+    public void setRatioSelected( boolean selected ) {
         if ( selected != isRatioViewSelected() ) {
-            _ratioViewCheckBox.setSelected( selected );
-            notifyViewChanged();
+            _ratioCheckBox.setSelected( selected );
+            notifyRatioChanged();
         }
     }
     
     public interface ViewControlPanelListener {
-        public void viewChanged();
+        public void countChanged( boolean selected );
+        public void ratioChanged( boolean selected );
     }
     
-    public void addBeakerViewControlPanelListener( ViewControlPanelListener listener ) {
+    public static class ViewControlPanelAdapter implements ViewControlPanelListener {
+        public void countChanged( boolean selected ) {}
+        public void ratioChanged( boolean selected ) {}
+    }
+    
+    public void addViewControlPanelListener( ViewControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeBeakerViewControlPanelListener( ViewControlPanelListener listener ) {
+    public void removeViewControlPanelListener( ViewControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
-    private void notifyViewChanged() {
+    private void notifyCountChanged() {
+        boolean selected = _countCheckBox.isSelected();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ViewControlPanelListener) i.next() ).viewChanged();
+            ( (ViewControlPanelListener) i.next() ).countChanged( selected );
+        }
+    }
+    
+    private void notifyRatioChanged() {
+        boolean selected = _ratioCheckBox.isSelected();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ViewControlPanelListener) i.next() ).ratioChanged( selected );
         }
     }
 

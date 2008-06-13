@@ -12,6 +12,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.phscale.model.PHScaleModel;
+import edu.colorado.phet.phscale.model.Liquid.LiquidAdapter;
+import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -29,12 +32,25 @@ public class PHControlNode extends PNode {
     private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 400 );
     private static final PDimension KNOB_SIZE = new PDimension( 40, 30 );
     
+    private final PHScaleModel _model;
+    private final LiquidListener _liquidListener;
+    
     private final PHTextFieldNode _textFieldNode;
     private final PHSliderNode _sliderNode;
     private final ArrayList _listeners;
     
-    public PHControlNode( IntegerRange range ) {
+    public PHControlNode( IntegerRange range, PHScaleModel model ) {
         super();
+        
+        _model = model;
+        
+        _liquidListener = new LiquidAdapter() {
+            public void pHChanged( double pH ) {
+                _textFieldNode.setPH( pH );
+                _sliderNode.setPH( pH );
+            }
+        };
+        _model.getLiquid().addLiquidListener( _liquidListener );
         
         _listeners = new ArrayList();
         
@@ -64,15 +80,18 @@ public class PHControlNode extends PNode {
         
         _textFieldNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _sliderNode.setPH( _textFieldNode.getPH() );
+                _model.getLiquid().setPH( _textFieldNode.getPH() );
             }
         });
         _sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _textFieldNode.setPH( _sliderNode.getPH() );
-                notifyChanged();
+                _model.getLiquid().setPH( _sliderNode.getPH() );
             }
         });
+    }
+    
+    public void cleanup() {
+        _model.getLiquid().removeLiquidListener( _liquidListener );
     }
     
     //----------------------------------------------------------------------------

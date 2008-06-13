@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.phscale.module;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -59,9 +58,9 @@ public class PHScaleCanvas extends PhetPCanvas {
         addWorldChild( _rootNode );
         
         // Nodes
-        _beakerControlNode = new BeakerControlNode( 7, 1, Color.WHITE, this ); //XXX
-        _pHControlNode = new PHControlNode( PHScaleConstants.PH_RANGE );
-        _barGraphNode = new BarGraphNode( new PDimension( 225, 400 ) );//XXX
+        _beakerControlNode = new BeakerControlNode( this, _model ); //XXX
+        _pHControlNode = new PHControlNode( PHScaleConstants.PH_RANGE, _model );
+        _barGraphNode = new BarGraphNode( new PDimension( 225, 400 ), model );//XXX
         _resetAllButton = new ResetAllButton();
         PSwing resetAllButtonWrapper = new PSwing( _resetAllButton );
         
