@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.common;
+package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
