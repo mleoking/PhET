@@ -14,6 +14,6 @@ public class ExerciseItem extends CaloricItem {
 
     public String getLabelText() {
         String onehour = EatingAndExerciseResources.getString( "one.hour" );
-        return "<html>" + onehour + " " + getName() + " "+"<br>(" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + EatingAndExerciseStrings.KCAL_PER_DAY + ")</html>";
+        return "<html>" + onehour + " " + getName() + " " + "<br>(" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + EatingAndExerciseStrings.KCAL_PER_DAY + ")</html>";
     }
 }

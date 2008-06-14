@@ -78,7 +78,7 @@ public class StackedBarChartNode extends PNode {
 
         //todo: convert the following two lines to use axisNode.setFunction instead
         axisNode = new StackedBarChartAxisNode( title, function, minorTickSpacing, majorTickSpacing, maxYValue );
-        addChild( indexOfChild( barLayer )+1,axisNode );
+        addChild( indexOfChild( barLayer ) + 1, axisNode );
 
         for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
             PNode child = barLayer.getChild( i );

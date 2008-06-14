@@ -13,9 +13,9 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
-import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.control.CaloriePanel;
 import edu.colorado.phet.eatingandexercise.control.HumanControlPanel;
+import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.view.HumanAreaNode;
 import edu.colorado.phet.eatingandexercise.view.ScaleNode;
 import edu.umd.cs.piccolo.PCamera;
@@ -102,7 +102,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
                 updateHeartHealthButtonNodeLayout();
             }
         } );
-        model.getHuman().addListener( new Human.Adapter(){
+        model.getHuman().addListener( new Human.Adapter() {
             public void heightChanged() {
                 updateHeartHealthButtonNodeLayout();
             }
