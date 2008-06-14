@@ -7,12 +7,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.common.RoundGradientPaint;
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -87,7 +87,6 @@ public class BulbNode extends PhetPNode {
 
         pin = getPin( bulbShape );
         rad = new Point2D.Double( bounds.getWidth() / 2, bounds.getHeight() / 2 );
-//        paint = new RoundGradientPaint( pin.getX(), pin.getY(), Color.white, rad, Color.yellow );
         conductor = new Rectangle2D.Double( conductorX, conductorY, conductorWidth, conductorHeight );
 
         insulator = new Ellipse2D.Double( insulatorX, insulatorY, insulatorWidth, insulatorHeight );
