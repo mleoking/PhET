@@ -2,8 +2,13 @@
 
 package edu.colorado.phet.phscale.module;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 
 /**
@@ -32,7 +37,7 @@ public class PHScaleModule extends PiccoloModule {
         _model = new PHScaleModel();
 
         // Canvas
-        _canvas = new PHScaleCanvas( _model );
+        _canvas = new PHScaleCanvas( _model, this );
         setSimulationPanel( _canvas );
 
         // Control Panel
@@ -61,7 +66,19 @@ public class PHScaleModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-        //XXX
+        super.reset();
+        
+        System.out.println( "PHScaleModule.reset" );//XXX
+        
+        // Model
+        Liquid liquid = _model.getLiquid();
+        liquid.setPH( 7 );
+        liquid.setVolume( 1 );
+        liquid.setColor( Color.WHITE );
+        
+        // View-specific controls
+        _canvas.getBeakerControlNode().setMoleculeCountSelected( true );
+        _canvas.getBeakerControlNode().setRatioSelected( true );
     }
     
 }

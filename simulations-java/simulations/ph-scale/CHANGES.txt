@@ -44,6 +44,9 @@ CLEANUP:
 
 
 DONE:
+6/13/08 - add interfaces to support Reset All
+6/13/08 - use phetcommon's ResetAllButton
+6/13/08 - refactor "Reset All" button so that it can be used outside of ControlPanel
 6/13/08 - start to wire things up to the model
 6/13/08 - hook up Molecule Count check box
 6/13/08 - generalize canvas layout code, 3 main nodes on canvas (beaker, pH slider, graph)
