@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.grabbag;
+package edu.colorado.phet.circuitconstructionkit.model.grabbag;
 
 import java.awt.geom.Point2D;
 
