@@ -15,9 +15,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
-import edu.colorado.phet.circuitconstructionkit.controls.AdvancedPanel;
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -108,6 +107,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         titlePanel.add( logoLabel );
         add( titlePanel );
         add( filePanel );
+        addControl( new CCKResetButton( module ) );
         if ( module.getParameters().isUseVisualControlPanel() ) {
             add( visualPanel );
         }
@@ -476,38 +476,12 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             }
         } );
 
-        JButton resetButton = new JButton( CCKResources.getString( "CCK3ControlPanel.ClearButton" ) );
-        resetButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                boolean needsClearing = module.getCircuit().numBranches() != 0 || module.getCircuit().numJunctions() != 0;
-                if ( needsClearing ) {
-                    Object[] options = {CCKResources.getString( "NewCCK3ControlPanel.Yes" ),
-                            CCKResources.getString( "NewCCK3ControlPanel.No" ),
-                            CCKResources.getString( "NewCCK3ControlPanel.Cancel" )};
+        JPanel filePanel = new JPanel();
 
-
-                    int answer = JOptionPane.showOptionDialog( module.getSimulationPanel(),
-                                                               CCKResources.getString( "CCK3ControlPanel.DeleteConfirm" ),
-                                                               CCKResources.getString( "NewCCK3ControlPanel.DeleteConfirmTitle" ),
-                                                               JOptionPane.YES_NO_CANCEL_OPTION,
-                                                               JOptionPane.QUESTION_MESSAGE,
-                                                               null,
-                                                               options,
-                                                               options[2] );
-
-
-                    if ( answer == JOptionPane.YES_OPTION ) {
-                        module.clear();
-                    }
-                }
-            }
-        } );
-        JPanel filePanelContents = new JPanel();
-        filePanelContents.add( resetButton );
-        filePanelContents.add( save );
-        filePanelContents.add( load );
-        filePanelContents.setBorder( new CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.FilePanelBorder" ) ) );
-        return filePanelContents;
+        filePanel.add( save );
+        filePanel.add( load );
+        filePanel.setBorder( new CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.FilePanelBorder" ) ) );
+        return filePanel;
     }
 
     public static class CCKTitledBorder extends TitledBorder {
