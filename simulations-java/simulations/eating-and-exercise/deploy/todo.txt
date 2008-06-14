@@ -2,8 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Slider text box should display values allowed by the model but out of the range of the slider
-
 I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
     to go beyond a year especially since most of the current data only follows folks for weeks and months.
 
@@ -16,6 +14,10 @@ I would also limit the age range to the young to middle aged adult since resting
     changes relative to lean mass outside this range.
 
     SR - if age is out of range, non-disruptive message that says data is not exact for your range
+
+Slider text box should display values allowed by the model but out of the range of the slider
+    >>Slider text box values can go outside the slider range
+    >>Looks like wrong behavior for when a user types in an out of range value
 
 #######################################################################################
 ##############                    To Do/Noah                             ##############
