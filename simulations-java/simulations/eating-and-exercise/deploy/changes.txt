@@ -3,6 +3,7 @@ Tooltips should always show when grabbing an item, and disappear when dropped
 Renamed to Eating & Exercise
 Removed "Athletic Lifestyle"
 Slider text box values can go outside the slider range
+Default range on graph changed to 1 year instead 5 years.  Time runs more slowly (1/4 as fast)
 
 New in 0.00.42
 Dragging an item back to the toolbox removes the item

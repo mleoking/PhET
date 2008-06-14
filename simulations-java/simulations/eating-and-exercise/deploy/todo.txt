@@ -2,14 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
-    to go beyond a year especially since most of the current data only follows folks for weeks and months.
-
-    SR - Default range on graph should be 1 year, not 5 years.  Time should go more slowly (1/5 as fast)
-
-    NP - I think it should go for at least a few years. People can take years to lose large amounts of weight,
-    especially if they want to do it safely, and we’d probably like to model this.
-
 I would also limit the age range to the young to middle aged adult since resting metabolic rate
     changes relative to lean mass outside this range.
 
