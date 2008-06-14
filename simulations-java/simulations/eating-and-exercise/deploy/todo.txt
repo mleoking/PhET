@@ -246,7 +246,3 @@ I wonder if, before putting more time into this, it might make sense to check wi
 All the statistics for the country on obesity use BMI; however, any federal agency or some of the medical help sites on health risks print the exact warnings about BMI that I’ve mentioned here.  That’s why I wanted to include them in the sim.  I didn’t have to look in some obscure place.  So I think it’d be good to have in the sim even if teachers do just use BMI because we could have a little info button (like our see real laser button) that has the exact wording from one of the federal sites.  This way we are educating the teachers as well and in a way that would probably not get them to think the sim is wrong.
 
 Ok, as long as it is set up so you can have it both ways.
-
-test comment
-
-new test comment - np
