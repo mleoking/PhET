@@ -6,13 +6,6 @@ import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
-/**
- * User: Sam Reid
- * Date: Dec 6, 2003
- * Time: 9:38:59 PM
- * <p/>
- * Testing cvs.
- */
 public class CCKImageSuite {
 
     private ImageSuite lifelikeImageSuite;
@@ -35,9 +28,7 @@ public class CCKImageSuite {
     }
 
     public BufferedImage getParticleImage() throws IOException {
-//        return imageLoader.loadImage( "cck/images/electron9.gif" );
         return imageLoader.loadImage( "circuit-construction-kit/images/electron10.png" );
-//        return imageLoader.loadImage( "cck/images/electron-2.png" );
     }
 
     private void loadImages() throws IOException {
@@ -45,7 +36,6 @@ public class CCKImageSuite {
         BufferedImage batteryImage = ImageLoader.loadBufferedImage( batteryImageLocation );
         lifelikeImageSuite = new ImageSuite( resistorImage, batteryImage, closedImage );
         capacitorImage = ImageLoader.loadBufferedImage( capImageLoc );
-//        acImage = BufferedImageUtils.flipY( ImageLoader.loadBufferedImage( acImageLoc ) );//todo used in phetgraphics implementation
         acImage = ImageLoader.loadBufferedImage( acImageLoc );
         inductorImage = ImageLoader.loadBufferedImage( inductorImageLoc );
     }

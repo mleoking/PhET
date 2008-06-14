@@ -81,21 +81,6 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
         protected Point2D getLocation() {
             Point2D location = getCrosshairGraphic().getGlobalTranslation();
             cckSimulationPanel.getCircuitNode().globalToLocal( location );
-//            super.getPhetPCanvas().getPhetRootNode().globalToWorld( location );
-            return location;
-        }
-    }
-
-
-    public static class Phetgraphics extends SingleTerminalFloatingChart {
-
-        public Phetgraphics( PhetPCanvas pSwingCanvas, String title, ValueReader valueReader, IClock clock ) {
-            super( pSwingCanvas, title, valueReader, clock );
-        }
-
-        protected Point2D getLocation() {
-            Point2D location = getCrosshairGraphic().getGlobalTranslation();
-            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
             return location;
         }
     }
