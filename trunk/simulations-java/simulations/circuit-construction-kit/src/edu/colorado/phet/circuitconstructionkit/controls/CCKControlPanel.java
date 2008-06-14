@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit;
+package edu.colorado.phet.circuitconstructionkit.controls;
 
 import net.n3.nanoxml.*;
 
@@ -21,6 +21,9 @@ import edu.colorado.phet.circuitconstructionkit.controls.ResetDynamicsButton;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.persistence.CircuitXML;
+import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;

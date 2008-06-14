@@ -1,5 +1,5 @@
 /*Copyright, University of Colorado, 2004.*/
-package edu.colorado.phet.circuitconstructionkit;
+package edu.colorado.phet.circuitconstructionkit.view;
 
 import java.awt.image.BufferedImage;
 

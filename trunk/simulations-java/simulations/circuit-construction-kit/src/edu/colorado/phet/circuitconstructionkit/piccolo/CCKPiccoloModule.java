@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.piccolo;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.circuitconstructionkit.CCKControlPanel;
+import edu.colorado.phet.circuitconstructionkit.controls.CCKControlPanel;
 import edu.colorado.phet.circuitconstructionkit.CCKParameters;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
