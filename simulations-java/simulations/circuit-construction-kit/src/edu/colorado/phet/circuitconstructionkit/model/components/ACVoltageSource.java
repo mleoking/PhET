@@ -20,16 +20,11 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
     private double amplitude = 10;
     private double frequency = 1.0 / 100.0;//hz
 
-    public ACVoltageSource( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, boolean internalResistanceOn ) {
-        super( start, dir, length, height, kl, internalResistanceOn );
-    }
-
     public ACVoltageSource( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance, boolean internalResistanceOn ) {
         super( kl, startJunction, endjJunction, length, height, internalResistance, internalResistanceOn );
     }
 
     public double getVoltageDrop() {
-//        double scale = Math.sin( time * frequency * Math.PI * 2 );
         double scale = Math.sin( time * frequency * Math.PI * 2 );
         return amplitude * scale;
     }
