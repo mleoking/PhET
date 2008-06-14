@@ -5,7 +5,7 @@
 I would also limit the age range to the young to middle aged adult since resting metabolic rate
     changes relative to lean mass outside this range.
 
-    SR - if age is out of range, non-disruptive message that says data is not exact for your range
+    SR - if age is out of range, display a non-disruptive message that says data is not exact for your range
 
 Slider text box should display values allowed by the model but out of the range of the slider
     >>Slider text box values can go outside the slider range
