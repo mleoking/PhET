@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-import edu.colorado.phet.circuitconstructionkit.piccolo.CCKSimulationPanel;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.CCKSimulationPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
