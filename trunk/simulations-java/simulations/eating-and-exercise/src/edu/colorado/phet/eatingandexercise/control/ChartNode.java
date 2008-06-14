@@ -46,7 +46,7 @@ public class ChartNode extends PNode {
     private EatingAndExerciseModel model;
     private ControlGraph weightGraph;
     private ControlGraph calorieGraph;
-    private static final double DEFAULT_RANGE_YEARS = 5;
+    private static final double DEFAULT_RANGE_YEARS = 1;
     private EatingAndExerciseModel.Units previousUnits;
 
     public ChartNode( final EatingAndExerciseModel model, PhetPCanvas phetPCanvas ) {
