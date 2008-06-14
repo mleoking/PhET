@@ -8,7 +8,7 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.circuitconstructionkit.common;
+package edu.colorado.phet.circuitconstructionkit.controls;
 
 
 import java.awt.*;

@@ -8,8 +8,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
-import edu.colorado.phet.circuitconstructionkit.common.ColorDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 
 /**
  * User: Sam Reid
@@ -22,7 +22,7 @@ public class ToolboxColorMenuItem extends JMenuItem {
         super( CCKResources.getString( "OptionsMenu.ToolboxcolorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                ColorDialog.Listener listy = new ColorDialog.Listener() {
+                ColorChooserFactory.Listener listy = new ColorChooserFactory.Listener() {
                     public void colorChanged( Color color ) {
                         cck.setToolboxBackgroundColor( color );
                     }
@@ -35,8 +35,8 @@ public class ToolboxColorMenuItem extends JMenuItem {
                         cck.setToolboxBackgroundColor( color );
                     }
                 };
-                ColorDialog.showDialog( CCKResources.getString( "OptionsMenu.ToolboxColorDialogTitle" ),
-                                        application.getPhetFrame(), cck.getToolboxBackgroundColor(), listy );
+                ColorChooserFactory.showDialog( CCKResources.getString( "OptionsMenu.ToolboxColorDialogTitle" ),
+                                                application.getPhetFrame(), cck.getToolboxBackgroundColor(), listy );
             }
         } );
     }
