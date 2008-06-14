@@ -12,6 +12,7 @@ import javax.swing.*;
 import edu.colorado.phet.circuitconstructionkit.controls.OptionsMenu;
 import edu.colorado.phet.circuitconstructionkit.piccolo.CCKPiccoloModule;
 import edu.colorado.phet.circuitconstructionkit.util.CCKUtil;
+import edu.colorado.phet.circuitconstructionkit.view.CCKPhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;

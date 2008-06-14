@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit;
+package edu.colorado.phet.circuitconstructionkit.controls;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +8,8 @@ import javax.swing.*;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 
 /**
  * User: Sam Reid

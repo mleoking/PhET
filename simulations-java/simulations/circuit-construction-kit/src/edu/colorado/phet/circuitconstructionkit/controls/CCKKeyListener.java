@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit;
+package edu.colorado.phet.circuitconstructionkit.controls;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.model.analysis.ModifiedNodalAnalysis_Orig;
+import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 
 /**
  * User: Sam Reid

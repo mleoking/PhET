@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit;
+package edu.colorado.phet.circuitconstructionkit.view;
 
 import java.awt.*;
 

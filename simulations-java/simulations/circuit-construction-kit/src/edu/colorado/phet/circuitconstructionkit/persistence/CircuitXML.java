@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit;
+package edu.colorado.phet.circuitconstructionkit.persistence;
 
 import net.n3.nanoxml.IXMLElement;
 import net.n3.nanoxml.XMLElement;
@@ -12,6 +12,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 
 /**
  * User: Sam Reid
