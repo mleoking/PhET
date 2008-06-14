@@ -12,7 +12,7 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.controls.GrabBagButton;
-import edu.colorado.phet.circuitconstructionkit.common.SimpleKeyEvent;
+import edu.colorado.phet.circuitconstructionkit.controls.SimpleKeyEvent;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
