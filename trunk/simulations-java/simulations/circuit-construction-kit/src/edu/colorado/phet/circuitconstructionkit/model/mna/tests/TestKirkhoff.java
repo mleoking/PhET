@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.tests.kirkhoff;
+package edu.colorado.phet.circuitconstructionkit.model.mna.tests;
 
 import java.awt.geom.Point2D;
 

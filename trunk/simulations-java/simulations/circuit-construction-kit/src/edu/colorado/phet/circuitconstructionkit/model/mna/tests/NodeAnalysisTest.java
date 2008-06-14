@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.circuitconstructionkit.tests.mna;
+package edu.colorado.phet.circuitconstructionkit.model.mna.tests;
 
 import java.awt.geom.Point2D;
 
