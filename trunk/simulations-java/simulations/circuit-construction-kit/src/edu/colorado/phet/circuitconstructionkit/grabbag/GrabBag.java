@@ -50,7 +50,7 @@ Dog = infinite
         add( new GrabBagItem( "paperclip.gif", CCKResources.getString( "GrabBag.PaperClip" ), CCKModel.MIN_RESISTANCE, .7 * SCALE ) );
         add( new GrabBagItem( "penny.gif", CCKResources.getString( "GrabBag.Penny" ), CCKModel.MIN_RESISTANCE, .6 * SCALE ) );
         add( new GrabBagItem( "eraser.gif", CCKResources.getString( "GrabBag.Eraser" ), Math.pow( 10, 9 ), .7 * SCALE ) );
-        add( new GrabBagItem( "pencil.gif", CCKResources.getString( "GrabBag.PencilLead" ), 3000, 3.5 * SCALE ) );
+        add( new GrabBagItem( "pencil.gif", CCKResources.getString( "GrabBag.PencilLead" ), 300, 3.5 * SCALE ) );
         add( new GrabBagItem( "hand.gif", CCKResources.getString( "GrabBag.Hand" ), Math.pow( 10, 6 ), 1 * SCALE ) );
         add( new GrabBagItem( "dog.gif", CCKResources.getString( "GrabBag.Dog" ), Math.pow( 10, 9 ), 2.5 * SCALE ) );
     }
