@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.tests;
+package edu.colorado.phet.circuitconstructionkit.model;
 
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
