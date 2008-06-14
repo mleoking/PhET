@@ -2,10 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Investigate: are tooltips being removed, gc'd or memory leak?
-
-Tooltips should always show when grabbing an item, and disappear when dropped
-
 Slider text box should display values allowed by the model but out of the range of the slider
 
 I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
