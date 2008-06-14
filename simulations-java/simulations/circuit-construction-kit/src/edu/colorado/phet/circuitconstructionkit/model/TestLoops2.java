@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.tests;
+package edu.colorado.phet.circuitconstructionkit.model;
 
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
@@ -11,7 +11,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
  * Date: Jun 2, 2004
  * Time: 9:42:34 AM
  */
-public class TestLoops1 {
+public class TestLoops2 {
     public static void main( String[] args ) {
         CircuitChangeListener kl = new CircuitChangeListener() {
             public void circuitChanged() {
@@ -22,6 +22,8 @@ public class TestLoops1 {
         Junction b = new Junction( 1, 0 );
         circuit.addBranch( new Wire( kl, a, b ) );
         circuit.addBranch( new Wire( kl, a, b ) );
+        circuit.addBranch( new Wire( kl, a, b ) );
+
         Path[] p = Path.getLoops( circuit );
         for ( int i = 0; i < p.length; i++ ) {
             Path path = p[i];

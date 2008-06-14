@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.tests;
+package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 /**
  * User: Sam Reid
