@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -14,6 +13,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.circuitconstructionkit.piccolo.lifelike.BulbComponentNode;
 import edu.colorado.phet.circuitconstructionkit.piccolo.lifelike.BulbNode;
+import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -245,11 +245,7 @@ public class ToolboxNode extends PhetPNode {
 
         private Battery createBattery() {
             double L = 1.6 * batteryScale;
-//            double L = 0.8;
-            double height = 1.8;
-//            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, height, 0.01, true );
-//            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, height, 0.001, true );
-            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, height, 1E-4, true );
+            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, 1.8, 1E-4, true );
         }
     }
 
@@ -257,7 +253,6 @@ public class ToolboxNode extends PhetPNode {
         public BulbMaker() {
             super( CCKStrings.getString( "BranchSource.LightBulb" ), 1 );
             PNode child = new BulbNode( createBulb() );
-//            PNode child = branchNodeFactory.createNode( createBulb() );
             child.transformBy( AffineTransform.getScaleInstance( 50, 75 ) );//todo choose scale based on insets?
             setDisplayGraphic( child );
         }
@@ -302,7 +297,7 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private ACVoltageSource createSwitch() {
-            return new ACVoltageSource( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, false );
+            return new ACVoltageSource( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
         }
     }
 

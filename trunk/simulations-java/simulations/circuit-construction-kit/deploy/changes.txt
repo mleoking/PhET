@@ -1,3 +1,6 @@
+CCK 3.13.24
+Fixed: AC Source: internal resistance display for AC voltage is incorrect (always zero)
+
 10-15-2007: Fixed: "Internal Resistance" controls for battery are unavailable
 10-15-2007: Removed model-wide flag for internal-resistance; internal-resistance is now always available for each model component
 9-24-2007: Fixed: "Advanced" controls should be show/hide, not enable/disable

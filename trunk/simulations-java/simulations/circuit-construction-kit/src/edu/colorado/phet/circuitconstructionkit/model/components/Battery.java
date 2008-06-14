@@ -70,7 +70,6 @@ public class Battery extends CircuitComponent {
     }
 
     public void setInternalResistance( double resistance ) {
-//        setResistance( resistance );
         this.internalResistance = resistance;
         if ( internalResistanceOn ) {
             setResistance( resistance );
