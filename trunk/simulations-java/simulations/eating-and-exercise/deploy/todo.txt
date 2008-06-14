@@ -2,6 +2,12 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
+Investigate: are tooltips being removed, gc'd or memory leak?
+
+Tooltips should always show when grabbing an item, and disappear when dropped
+
+Slider text box should display values allowed by the model but out of the range of the slider
+
 I might also limit the duration of the simulation to 6 to 12 months. It does not seem practical
     to go beyond a year especially since most of the current data only follows folks for weeks and months.
 
@@ -45,6 +51,9 @@ Height
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
+
+Balanced diet should readjust when you set your weight (maybe)
+	-kathy said "possibly"
 
 BMI:
     Are we accounting for sex affects on BMI and BMR?
