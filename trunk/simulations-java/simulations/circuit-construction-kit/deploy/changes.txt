@@ -1,6 +1,8 @@
 CCK 3.13.24
 Fixed: AC Source: internal resistance display for AC voltage is incorrect (always zero)
 Reduced pencil lead resistance from 3000 to 300 Ohms
+Renamed Clear to Reset, moved out of File Save/Load panel
+Renamed File to Circuit in Save/Load panel
 
 10-15-2007: Fixed: "Internal Resistance" controls for battery are unavailable
 10-15-2007: Removed model-wide flag for internal-resistance; internal-resistance is now always available for each model component
