@@ -24,6 +24,9 @@ DESIGN ISSUES
 DESIGN ISSUES:
 
 HIGH PRIORITY:
+- add # moles concentration to model
+- add concentration computation to model
+- add counts to bar graph, hook up to model
 - better looking beaker with tick marks
 - port prototype code to this sim
 - hook up Ratio check box
