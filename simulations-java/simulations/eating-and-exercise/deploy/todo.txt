@@ -17,9 +17,6 @@ I would also limit the age range to the young to middle aged adult since resting
 
     SR - if age is out of range, non-disruptive message that says data is not exact for your range
 
-Clarify the meaning of "lifestyle" vs. other daily exercises
-    Add description to sedentary, moderate activity, etc.
-
 #######################################################################################
 ##############                    To Do/Noah                             ##############
 #######################################################################################
@@ -122,6 +119,11 @@ Need more junk food for diet options, like actual student diets: burrito, chips,
 
 When I was trying to learn about BMI, body fat and heart health I found that we should be able to address a lot of the factors that are used to determine heart health. Especially if we are including BMI since it’s typically associated with that. I think it’d be a really nice addition if we could add this as a learning goal.  We could have the little question mark by the heart pop up a window with the list of risk factors for the heart from the American Heart Association.  This I think is also useful to do because it will give a person a better idea of the value of BMI. As it is now, it appears that BMI is more of a stand alone indicator of health which it definitely is not.
     I’d like to see us make this sim a resource that offers more than the typical text book or activity can. So I was hoping to expand a bit into some of these things that are closely related and can easily be integrated into the sim.
+
+Clarify the meaning of "lifestyle" vs. other daily exercises
+    Add description to sedentary, moderate activity, etc.
+
+    >>I removed the Athletic Lifestyle option, do I need to add tooltips to explain other lifestyles?
 
 ######################################
 # Edit Diet
