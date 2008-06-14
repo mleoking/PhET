@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
-import edu.colorado.phet.circuitconstructionkit.common.LineSegment;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;

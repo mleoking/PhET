@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.common;
+package edu.colorado.phet.circuitconstructionkit.controls;
 
 import java.awt.*;
 
@@ -6,13 +6,6 @@ import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-/**
- * Created by IntelliJ IDEA.
- * User: admin
- * Date: Jul 29, 2004
- * Time: 3:57:52 PM
- * To change this template use File | Settings | File Templates.
- */
 public class JPopupMenuRepaintWorkaround extends JPopupMenu {
     private Component target;
 
