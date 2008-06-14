@@ -208,6 +208,13 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             setSignifyOutOfBounds( false );
         }
 
+        /*
+        * Don't clamp allowed value to slider range.
+         */
+        protected boolean isValueInRange( double value ) {
+            return true;
+        }
+
         public void setColumns( int i ) {
             getTextField().setColumns( i );
         }
