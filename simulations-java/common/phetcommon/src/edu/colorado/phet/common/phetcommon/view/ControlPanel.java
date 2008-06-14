@@ -241,19 +241,7 @@ public class ControlPanel extends JPanel {
      * @param the button
      */
     public JButton addResetAllButton( final Resettable[] resettables ) {
-        JButton resetAllButton = new JButton( PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) );
-        resetAllButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                Frame frame = PhetApplication.instance().getPhetFrame();
-                String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
-                int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
-                if ( option == JOptionPane.YES_OPTION ) {
-                    for ( int i = 0; i < resettables.length; i++ ) {
-                        resettables[i].reset();
-                    }
-                }
-            }
-        } );
+        JButton resetAllButton = new ResetAllButton( resettables, PhetApplication.instance().getPhetFrame() );
         addControl( resetAllButton );
         return resetAllButton;
     }
