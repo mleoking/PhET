@@ -10,21 +10,19 @@ import java.util.Random;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.ToolTipNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
  * Created by: Sam
@@ -39,17 +37,16 @@ public class CalorieDragStrip extends PNode {
     private int count = 5;
     private ArrayList panels = new ArrayList();
     private Color buttonColor = new Color( 128, 128, 255 );
-    private PClip stripPanelClip;
+    private TogglePClip stripPanelClip;
+//    private PPath stripPanelClip;
 
     public CalorieDragStrip( final CalorieSet available ) {
         for ( int i = 0; i < available.getItemCount(); i += count ) {
             panels.add( getPanel( available, i, Math.min( i + count, available.getItemCount() ) ) );
         }
-        stripPanelClip = new PClip();
+        stripPanelClip = new TogglePClip();
         stripPanel = (PNode) panels.get( 0 );
         stripPanelClip.addChild( stripPanel );
-
-        addChild( stripPanelClip );
 
         GradientButtonNode leftButton = new GradientButtonNode( "<html>&gt;</html>", 13, buttonColor );
         leftButton.addActionListener( new ActionListener() {
@@ -67,6 +64,7 @@ public class CalorieDragStrip extends PNode {
             }
         } );
         addChild( rightButton );
+        addChild( stripPanelClip );
         rightButton.setOffset( -rightButton.getFullBounds().getWidth(), getMaxPanelHeight() / 2 - rightButton.getFullBounds().getHeight() / 2 );
 
         centerItems();
@@ -113,6 +111,7 @@ public class CalorieDragStrip extends PNode {
         if ( timer != null && timer.isRunning() ) {
             return;
         }
+        stripPanelClip.setClipEnabled( true );
         final PNode oldStripPanel = stripPanel;
         stripPanel = (PNode) panels.get( nextIndex( increment ) );
         stripPanelClip.addChild( stripPanel );
@@ -123,11 +122,13 @@ public class CalorieDragStrip extends PNode {
             int count = 0;
 
             public void actionPerformed( ActionEvent e ) {
+
                 oldStripPanel.translate( -10 * increment, 0 );
                 stripPanel.translate( -10 * increment, 0 );
                 count++;
                 if ( count >= 10 ) {
                     stripPanelClip.removeChild( oldStripPanel );
+                    stripPanelClip.setClipEnabled( false );
                     timer.stop();
                 }
             }
@@ -243,8 +244,8 @@ public class CalorieDragStrip extends PNode {
         return node.getPNode();
     }
 
-    public Rectangle2D getSourceBounds() {
-        return stripPanel.getFullBounds();
+    public Rectangle2D getGlobalFullSourceBounds() {
+        return stripPanel.getGlobalFullBounds();
     }
 
     public void resetAll() {
@@ -264,12 +265,29 @@ public class CalorieDragStrip extends PNode {
         private CaloricItem item;
         private PNode node;
         private boolean dragging = false;//todo: could coalesce with PDragSequenceEventHandler.isDragging
+        private PNode labelNode;
 
         public DefaultDragNode( PNode node, CaloricItem item ) {
             this.item = item;
             this.node = node;
             addChild( node );
-            node.addInputEventListener( new CursorHandler() );
+            addInputEventListener( new CursorHandler() );
+
+            labelNode = new CaloricItemLabelNode( "<html>" + item.getName() + " (" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + EatingAndExerciseResources.getString( "units.cal" ) + ")</html>" );
+            labelNode.setOffset( -labelNode.getFullBounds().getWidth() - 3, node.getFullBounds().getHeight() - labelNode.getFullBounds().getHeight() / 2 );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseEntered( PInputEvent event ) {
+                    if ( !getChildrenReference().contains( labelNode ) ) {
+                        addChild( labelNode );
+                    }
+                }
+
+                public void mouseExited( PInputEvent event ) {
+                    while ( getChildrenReference().contains( labelNode ) ) {
+                        removeChild( labelNode );
+                    }
+                }
+            } );
         }
 
         public void addDragHandler() {
@@ -306,6 +324,10 @@ public class CalorieDragStrip extends PNode {
             return item;
         }
 
+        public PNode getPNodeIcon() {
+            return node;
+        }
+
         public void setDragging( boolean b ) {
             this.dragging = b;
 //            System.out.println( "CalorieDragStrip$DefaultDragNode.setDragging: " + b );
@@ -315,13 +337,14 @@ public class CalorieDragStrip extends PNode {
     private DefaultDragNode createNode( final CaloricItem item ) {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
             final DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( EatingAndExerciseResources.getImage( item.getImage() ), HEIGHT ) ), item );
-            ToolTipNode toolTipNode = new ToolTipNode( "<html>" + item.getName() + " (" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + EatingAndExerciseResources.getString( "units.cal" ) + ")</html>", dragNode );
-            toolTipNode.setFont( new PhetFont( 16, true ) );
+
+//            ToolTipNode toolTipNode = new ToolTipNode( "<html>" + item.getName() + " (" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + EatingAndExerciseResources.getString( "units.cal" ) + ")</html>", dragNode );
+//            toolTipNode.setFont( new PhetFont( 16, true ) );
 
             if ( item.getImage().equals( Human.FOOD_PYRAMID ) ) {
                 handleFoodPyramid( item, dragNode );
             }
-            tooltipLayer.addChild( toolTipNode );
+//            tooltipLayer.addChild( toolTipNode );
             return dragNode;
         }
         else {
@@ -359,6 +382,13 @@ public class CalorieDragStrip extends PNode {
         PNode getPNode();
 
         CaloricItem getItem();
+
+        /*
+         * Returns just the graphical icon child of the Node represented by this DragNode.
+         *
+         * This allows bounds computations using the icon, and ignoring labels, etc
+         */
+        PNode getPNodeIcon();
     }
 
     public static interface Listener {

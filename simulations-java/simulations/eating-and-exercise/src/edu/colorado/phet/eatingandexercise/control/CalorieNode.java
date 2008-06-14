@@ -68,17 +68,17 @@ public class CalorieNode extends PNode {
         calorieDragStrip.setOffset( 0, 2 );
         calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
             public void nodeDragged( CalorieDragStrip.DragNode node ) {
-                setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNode().getGlobalFullBounds() ) );
+                setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNodeIcon().getGlobalFullBounds() ) );
             }
 
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
-                if ( !node.getItem().getImage().equals( Human.FOOD_PYRAMID ) && node.getPNode().getFullBounds().intersects( calorieDragStrip.getSourceBounds() ) ) {
+                if ( !node.getItem().getImage().equals( Human.FOOD_PYRAMID ) && node.getPNodeIcon().getGlobalFullBounds().intersects( calorieDragStrip.getGlobalFullSourceBounds() ) ) {
                     final Timer timer = new Timer( 30, null );
                     timer.addActionListener( new ActionListener() {
                         int count = 0;
 
                         public void actionPerformed( ActionEvent e ) {
-                            node.getPNode().scaleAboutPoint( 0.82, node.getPNode().getFullBounds().getWidth() / 2, node.getPNode().getFullBounds().getHeight() / 2 );
+                            node.getPNode().scaleAboutPoint( 0.82, node.getPNodeIcon().getFullBounds().getWidth() / 2, node.getPNodeIcon().getFullBounds().getHeight() / 2 );
                             count++;
                             if ( count >= 20 ) {
                                 timer.stop();
