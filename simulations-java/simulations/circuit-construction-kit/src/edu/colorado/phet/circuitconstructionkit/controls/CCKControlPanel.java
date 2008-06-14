@@ -15,15 +15,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
+import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.AdvancedPanel;
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
-import edu.colorado.phet.circuitconstructionkit.controls.ResetDynamicsButton;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
-import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.persistence.CircuitXML;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
@@ -59,7 +58,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             }
         } );
         this.module = module;
-        JPanel filePanel = makeFilePanel();
+        JPanel filePanel = getFilePanel();
         if ( useAdvanced() ) {
             advancedPanel = new AdvancedControlPanel( module );
         }
@@ -453,14 +452,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     }
 
 
-    private JPanel makeFilePanel() {
+    private JPanel getFilePanel() {
         final JButton save = new JButton( CCKResources.getString( "CCK3ControlPanel.SaveButton" ) );
-//        new Timer( 30,new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                System.out.println( "save.getFont() = " + save.getFont() );
-//            }
-//        } ).start();
-
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -483,8 +476,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             }
         } );
 
-        JButton clear = new JButton( CCKResources.getString( "CCK3ControlPanel.ClearButton" ) );
-        clear.addActionListener( new ActionListener() {
+        JButton resetButton = new JButton( CCKResources.getString( "CCK3ControlPanel.ClearButton" ) );
+        resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean needsClearing = module.getCircuit().numBranches() != 0 || module.getCircuit().numJunctions() != 0;
                 if ( needsClearing ) {
@@ -510,7 +503,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             }
         } );
         JPanel filePanelContents = new JPanel();
-        filePanelContents.add( clear );
+        filePanelContents.add( resetButton );
         filePanelContents.add( save );
         filePanelContents.add( load );
         filePanelContents.setBorder( new CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.FilePanelBorder" ) ) );
