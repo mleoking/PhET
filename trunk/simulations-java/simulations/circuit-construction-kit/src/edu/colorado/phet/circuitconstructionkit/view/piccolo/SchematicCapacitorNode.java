@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic.SchematicPlatedNode;
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 public class SchematicCapacitorNode extends SchematicPlatedNode {
     private static double SCALE = 1.2;
 
-    public SchematicCapacitorNode( CCKModel cckModel, Capacitor capacitor, JComponent component, ICCKModule module ) {
+    public SchematicCapacitorNode( CCKModel cckModel, Capacitor capacitor, JComponent component, CCKModule module ) {
         super( cckModel, capacitor, component, module, 0.1, 0.4, 3 * SCALE, 3 * SCALE );
     }
 

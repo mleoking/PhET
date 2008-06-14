@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
@@ -21,9 +21,9 @@ public class BranchNodeFactory {
     private boolean lifelike = true;
     private CCKModel cckModel;
     private JComponent component;
-    private ICCKModule module;
+    private CCKModule module;
 
-    public BranchNodeFactory( CCKModel cckModel, JComponent component, ICCKModule module, boolean lifelike ) {
+    public BranchNodeFactory( CCKModel cckModel, JComponent component, CCKModule module, boolean lifelike ) {
         this.cckModel = cckModel;
         this.component = component;
         this.module = module;

@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -35,7 +35,7 @@ public class SchematicResistorNode extends ComponentNode {
     private SimpleObserver simpleObserver;
     private PhetPPath resistorPPath;
 
-    public SchematicResistorNode( CCKModel cckModel, Resistor resistor, JComponent component, ICCKModule module ) {
+    public SchematicResistorNode( CCKModel cckModel, Resistor resistor, JComponent component, CCKModule module ) {
         super( cckModel, resistor, component, module );
 
         resistorPPath = new PhetPPath( Color.black );

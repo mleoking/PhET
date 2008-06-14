@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.view.CCKImageSuite;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Inductor;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentImageNode;
@@ -15,10 +15,10 @@ import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentImageNode;
  */
 
 public class InductorNode extends ComponentImageNode {
-    private ICCKModule module;
+    private CCKModule module;
     private Inductor inductor;
 
-    public InductorNode( CCKModel model, Inductor inductor, JComponent component, ICCKModule module ) {
+    public InductorNode( CCKModel model, Inductor inductor, JComponent component, CCKModule module ) {
         super( model, inductor, CCKImageSuite.getInstance().getInductorImage(), component, module );
         this.module = module;
         this.inductor = inductor;

@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.DynamicPopupMenuHandler;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public abstract class ComponentNode extends BranchNode {
     private CCKModel model;
     private CircuitComponent circuitComponent;
-    private ICCKModule module;
+    private CCKModule module;
     private CircuitInteractionModel circuitInteractionModel;
     private PPath highlightNode;
     private JComponent parent;
@@ -34,7 +34,7 @@ public abstract class ComponentNode extends BranchNode {
         }
     };
 
-    public ComponentNode( final CCKModel model, final CircuitComponent circuitComponent, JComponent parent, ICCKModule module ) {
+    public ComponentNode( final CCKModel model, final CircuitComponent circuitComponent, JComponent parent, CCKModule module ) {
         this.model = model;
         this.circuitComponent = circuitComponent;
         this.module = module;

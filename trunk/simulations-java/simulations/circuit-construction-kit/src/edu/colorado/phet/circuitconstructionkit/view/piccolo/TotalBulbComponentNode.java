@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
@@ -26,7 +26,7 @@ public class TotalBulbComponentNode extends BranchNode {
     private FilamentNode filamentNode;
     private BulbComponentNode bulbComponentNode;
 
-    public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb, JComponent component, ICCKModule module ) {
+    public TotalBulbComponentNode( CCKModel cckModel, Bulb bulb, JComponent component, CCKModule module ) {
         this.bulb = bulb;
         filamentNode = new FilamentNode( bulb.getFilament(), this );
         bulbComponentNode = new BulbComponentNode( cckModel, bulb, component, module );

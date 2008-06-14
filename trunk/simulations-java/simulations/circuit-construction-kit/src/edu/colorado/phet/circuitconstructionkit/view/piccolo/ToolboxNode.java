@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -42,11 +42,11 @@ public class ToolboxNode extends PhetPNode {
     private static final int TOP_INSET = 30;
     private double betweenInset = 6;
     private CircuitInteractionModel circuitInteractionModel;
-    private ICCKModule module;
+    private CCKModule module;
     private AmmeterMaker ammeterMaker;
     private ToolboxNode.WireMaker wireMaker;
 
-    public ToolboxNode( PhetPCanvas canvas, CCKModel model, ICCKModule module, BranchNodeFactory branchNodeFactory, CCKSimulationPanel cckSimulationPanel ) {
+    public ToolboxNode( PhetPCanvas canvas, CCKModel model, CCKModule module, BranchNodeFactory branchNodeFactory, CCKSimulationPanel cckSimulationPanel ) {
         this.module = module;
         this.canvas = canvas;
         this.model = model;
@@ -174,7 +174,7 @@ public class ToolboxNode extends PhetPNode {
 //            System.out.println( "ToolboxNode.this.getParent().getParent() = " + ToolboxNode.this.getParent().getParent() );
             Point2D pt = event.getPositionRelativeTo( this );
             this.localToGlobal( pt );
-            CCKPiccoloModule m = (CCKPiccoloModule) module;
+            CCKModule m = (CCKModule) module;
             m.getCckSimulationPanel().getCircuitNode().globalToLocal( pt );
             return pt;
 //            return event.getPositionRelativeTo( ToolboxNode.this.getParent().getParent() );//todo remove this dependence on parent structure

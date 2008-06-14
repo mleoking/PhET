@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -18,7 +18,7 @@ public class ToolboxNodeSuite extends PhetPNode {
     private ToolboxNode schematicToolbox;
     private BranchNodeFactory branchNodeFactory;
 
-    public ToolboxNodeSuite( CCKModel model, ICCKModule module, CCKSimulationPanel cckSimulationPanel, BranchNodeFactory branchNodeFactory ) {
+    public ToolboxNodeSuite( CCKModel model, CCKModule module, CCKSimulationPanel cckSimulationPanel, BranchNodeFactory branchNodeFactory ) {
         this.branchNodeFactory = branchNodeFactory;
         lifelikeToolbox = new ToolboxNode( cckSimulationPanel, model, module, new BranchNodeFactory( model, cckSimulationPanel, module, true ), cckSimulationPanel );
         lifelikeToolbox.scale( 1.0 / 80.0 );

@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.SwitchBodyRectangleNode;
@@ -28,10 +28,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 public class SchematicSwitchNode extends SwitchBodyRectangleNode {
     private Switch s;
-    private ICCKModule module;
+    private CCKModule module;
     private SwitchLeverNode switchLeverNode;
 
-    public SchematicSwitchNode( CCKModel model, Switch s, JComponent component, ICCKModule module ) {
+    public SchematicSwitchNode( CCKModel model, Switch s, JComponent component, CCKModule module ) {
         super( model, s, component, module );
         this.s = s;
         this.module = module;

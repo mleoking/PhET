@@ -12,7 +12,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 
 /**
  * User: Sam Reid
@@ -22,7 +22,7 @@ import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 
 public class CircuitXML {
 
-    public static Circuit parseXML( IXMLElement xml, CircuitChangeListener kl, ICCKModule module ) {
+    public static Circuit parseXML( IXMLElement xml, CircuitChangeListener kl, CCKModule module ) {
         Circuit cir = new Circuit( kl );
         for ( int i = 0; i < xml.getChildrenCount(); i++ ) {
             IXMLElement child = xml.getChildAtIndex( i );
@@ -47,7 +47,7 @@ public class CircuitXML {
         return cir;
     }
 
-    public static Branch toBranch( ICCKModule module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
+    public static Branch toBranch( CCKModule module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
         String type = xml.getAttribute( "type", "null" );
         if ( type.equals( Wire.class.getName() ) ) {
             return new Wire( kl, startJunction, endJunction );

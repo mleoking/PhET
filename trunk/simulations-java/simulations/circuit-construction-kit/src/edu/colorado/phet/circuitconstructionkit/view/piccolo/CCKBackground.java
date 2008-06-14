@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -25,7 +25,7 @@ public class CCKBackground extends PNode {
     public CCKBackground( final CCKModel model, CCKSimulationPanel cckSimulationPanel ) {
         this.model = model;
         this.cckSimulationPanel = cckSimulationPanel;
-        path = new PhetPPath( ICCKModule.BACKGROUND_COLOR );
+        path = new PhetPPath( CCKModule.BACKGROUND_COLOR );
         addChild( path );
         cckSimulationPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {

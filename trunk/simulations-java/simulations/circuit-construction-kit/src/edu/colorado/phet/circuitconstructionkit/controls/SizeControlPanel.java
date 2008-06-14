@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 
 /**
  * User: Sam Reid
@@ -19,9 +19,9 @@ import edu.colorado.phet.circuitconstructionkit.ICCKModule;
  */
 
 public class SizeControlPanel extends VerticalLayoutPanel {
-    private ICCKModule module;
+    private CCKModule module;
 
-    public SizeControlPanel( ICCKModule module ) {
+    public SizeControlPanel( CCKModule module ) {
         this.module = module;
 
         final JSpinner zoom = new JSpinner( new SpinnerNumberModel( 1, .1, 10, .1 ) );

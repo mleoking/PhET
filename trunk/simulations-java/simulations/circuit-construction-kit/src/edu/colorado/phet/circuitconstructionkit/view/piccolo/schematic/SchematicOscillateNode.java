@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
@@ -33,7 +33,7 @@ public class SchematicOscillateNode extends ComponentNode {
     private PhetPPath path;
     private static final double SCALE = 1.0 / 60.0;
 
-    public SchematicOscillateNode( CCKModel parent, CircuitComponent circuitComponent, JComponent jComponent, ICCKModule module, double wireThickness ) {
+    public SchematicOscillateNode( CCKModel parent, CircuitComponent circuitComponent, JComponent jComponent, CCKModule module, double wireThickness ) {
         super( parent, circuitComponent, jComponent, module );
         this.component = circuitComponent;
         this.wireThickness = wireThickness;

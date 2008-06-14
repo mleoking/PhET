@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -25,14 +25,14 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class VirtualAmmeterNode extends PhetPNode {
     private TargetReadoutToolNode targetReadoutToolNode;
     private Component panel;
-    private ICCKModule module;
+    private CCKModule module;
     private Circuit circuit;
 
-    public VirtualAmmeterNode( Circuit circuit, Component panel, ICCKModule module ) {
+    public VirtualAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
         this( new TargetReadoutToolNode(), panel, circuit, module );
     }
 
-    public VirtualAmmeterNode( TargetReadoutToolNode targetReadoutTool, final Component panel, Circuit circuit, final ICCKModule module ) {
+    public VirtualAmmeterNode( TargetReadoutToolNode targetReadoutTool, final Component panel, Circuit circuit, final CCKModule module ) {
         this.targetReadoutToolNode = targetReadoutTool;
         this.panel = panel;
         this.module = module;

@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
@@ -31,7 +31,7 @@ public class SchematicPlatedNode extends ComponentNode {
     private PhetPPath path;
     private Shape clipShape;
 
-    public SchematicPlatedNode( CCKModel cckModel, CircuitComponent circuitComponent, JComponent component, ICCKModule module, double wireThickness, double fracDistToPlate,
+    public SchematicPlatedNode( CCKModel cckModel, CircuitComponent circuitComponent, JComponent component, CCKModule module, double wireThickness, double fracDistToPlate,
                                 double scaleHeightLeft, double scaleHeightRight ) {
         super( cckModel, circuitComponent, component, module );
         this.fracDistToPlate = fracDistToPlate;

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
@@ -27,7 +27,7 @@ public class CircuitNode extends PhetPNode {
     private CCKModel cckModel;
     private Circuit circuit;
     private Component component;
-    private ICCKModule module;
+    private CCKModule module;
     private ReadoutSetNode readoutLayer;
     private PNode electronLayer;
     private PNode solderLayer;
@@ -38,7 +38,7 @@ public class CircuitNode extends PhetPNode {
     private boolean changingLifelike;
     private ReadoutSetNode editingReadoutLayer;
 
-    public CircuitNode( final CCKModel cckModel, final Circuit circuit, final JComponent component, ICCKModule module, BranchNodeFactory branchNodeFactory ) {
+    public CircuitNode( final CCKModel cckModel, final Circuit circuit, final JComponent component, CCKModule module, BranchNodeFactory branchNodeFactory ) {
         this.branchNodeFactory = branchNodeFactory;
         this.cckModel = cckModel;
         this.circuit = circuit;

@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.ACVoltageSource;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -21,7 +21,7 @@ public class SchematicACNode extends SchematicOscillateNode {
     private PhetPPath shapeGraphic;
     private float SCALE = (float) ( 1.0 / 60.0 );
 
-    public SchematicACNode( CCKModel parent, ACVoltageSource circuitComponent, JComponent jComponent, ICCKModule module ) {
+    public SchematicACNode( CCKModel parent, ACVoltageSource circuitComponent, JComponent jComponent, CCKModule module ) {
         super( parent, circuitComponent, jComponent, module, 0.3 );
         shapeGraphic = new PhetPPath( new BasicStroke( 3.0f * SCALE ), Color.black );
         addChild( shapeGraphic );

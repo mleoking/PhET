@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -24,10 +24,10 @@ import edu.umd.cs.piccolo.PNode;
 public class CCKHelpSuite extends PhetPNode {
     private MotionHelpBalloon motionHelpBalloon;
     private CCKSimulationPanel cckSimulationPanel;
-    private ICCKModule module;
+    private CCKModule module;
     private PhetPNode helpNode = new PhetPNode();
 
-    public CCKHelpSuite( CCKSimulationPanel cckSimulationPanel, ICCKModule module ) {
+    public CCKHelpSuite( CCKSimulationPanel cckSimulationPanel, CCKModule module ) {
         this.cckSimulationPanel = cckSimulationPanel;
         this.module = module;
         motionHelpBalloon = new MotionHelpBalloon( cckSimulationPanel, CCKStrings.getString( "CCK3Module.GrabAWire" ) );

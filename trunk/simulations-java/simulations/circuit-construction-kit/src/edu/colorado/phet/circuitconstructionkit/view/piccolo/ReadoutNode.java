@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ReadoutNode extends PhetPNode {
     private ShadowHTMLNode htmlNode;
-    protected ICCKModule module;
+    protected CCKModule module;
     protected Branch branch;
     private JComponent panel;
     protected DecimalFormat formatter;
@@ -35,7 +35,7 @@ public class ReadoutNode extends PhetPNode {
 
     static Font font = new PhetFont( Font.BOLD, 16 );
 
-    public ReadoutNode( ICCKModule module, Branch branch, JComponent panel, DecimalFormat formatter ) {
+    public ReadoutNode( CCKModule module, Branch branch, JComponent panel, DecimalFormat formatter ) {
         this.module = module;
         this.branch = branch;
         this.panel = panel;
@@ -184,7 +184,7 @@ public class ReadoutNode extends PhetPNode {
 
 //    public static class BatteryReadoutNode extends ReadoutNode {
 //
-//        public BatteryReadoutNode( ICCKModule module, Branch branch, JComponent panel, boolean visible, DecimalFormat decimalFormatter ) {
+//        public BatteryReadoutNode( CCKPiccoloModule module, Branch branch, JComponent panel, boolean visible, DecimalFormat decimalFormatter ) {
 //            super( module, branch, panel, decimalFormatter );
 //        }
 //

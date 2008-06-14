@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.model.analysis.ModifiedNodalAnalysis_Orig;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 
 /**
  * User: Sam Reid
@@ -15,9 +15,9 @@ import edu.colorado.phet.circuitconstructionkit.ICCKModule;
  * Time: 1:09:58 PM
  */
 public class CCKKeyListener implements KeyListener {
-    ICCKModule cck;
+    CCKModule cck;
 
-    public CCKKeyListener( ICCKModule cck ) {
+    public CCKKeyListener( CCKModule cck ) {
         this.cck = cck;
     }
 

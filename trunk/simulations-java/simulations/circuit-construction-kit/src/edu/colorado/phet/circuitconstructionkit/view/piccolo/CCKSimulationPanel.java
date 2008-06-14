@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.controls.GrabBagButton;
 import edu.colorado.phet.circuitconstructionkit.controls.SimpleKeyEvent;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -30,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class CCKSimulationPanel extends PhetPCanvas {
     private CCKModel model;
-    private ICCKModule module;
+    private CCKModule module;
     private CircuitNode circuitNode;
     private MessageNode messageNode;
     private MeasurementToolSetNode measurementToolSetNode;
@@ -41,7 +41,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private TimeScaleNode timeScaleNode;
     private PSwing grabBagPSwing;
 
-    public CCKSimulationPanel( CCKModel model, final ICCKModule module, IClock clock ) {
+    public CCKSimulationPanel( CCKModel model, final CCKModule module, IClock clock ) {
         super( new Dimension( 10, 10 ) );
         this.model = model;
         this.module = module;

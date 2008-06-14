@@ -9,7 +9,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 
 /**
  * User: Sam Reid
@@ -20,9 +20,9 @@ import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 public class ShowReadoutPanel extends JPanel {
     private JButton showValues;
     private JButton hideValues;
-    private ICCKModule module;
+    private CCKModule module;
 
-    public ShowReadoutPanel( final ICCKModule module ) {
+    public ShowReadoutPanel( final CCKModule module ) {
         this.module = module;
         showValues = new JButton( CCKResources.getString( "CCK3ControlPanel.ShowValuesCheckBox" ) );
         hideValues = new JButton( CCKResources.getString( "CCK3ControlPanel.HideValuesCheckBox" ) );

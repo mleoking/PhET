@@ -1,6 +1,6 @@
 //package edu.colorado.phet.cck.piccolo;
 //
-//import edu.colorado.phet.cck.ICCKModule;
+//import edu.colorado.phet.cck.CCKPiccoloModule;
 //import edu.colorado.phet.cck.model.Circuit;
 //import edu.colorado.phet.cck.model.components.Branch;
 //import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -13,7 +13,7 @@
 // */
 //
 //public class EditingReadoutSetNode extends ReadoutSetNode {
-//    public EditingReadoutSetNode( ICCKModule module, Circuit circuit ) {
+//    public EditingReadoutSetNode( CCKPiccoloModule module, Circuit circuit ) {
 //        super( module, circuit );
 //    }
 //

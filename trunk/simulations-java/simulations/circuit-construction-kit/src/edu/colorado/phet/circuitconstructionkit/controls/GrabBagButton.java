@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBag;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagItem;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -26,10 +26,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class GrabBagButton extends JButton {
     private GrabBag bag;
-    private ICCKModule module;
+    private CCKModule module;
     private JFrame dialog;
 
-    public GrabBagButton( ICCKModule module ) {
+    public GrabBagButton( CCKModule module ) {
         super( CCKResources.getString( "GrabBagButton.ButtonTitle" ) );
 //        setOpaque( false );
 

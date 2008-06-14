@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -20,9 +20,9 @@ import edu.umd.cs.piccolo.PNode;
 
 public class CCKHelpNode extends PhetPNode {
     private CCKSimulationPanel cckSimulationPanel;
-    private ICCKModule module;
+    private CCKModule module;
 
-    public CCKHelpNode( CCKSimulationPanel cckSimulationPanel, ICCKModule module ) {
+    public CCKHelpNode( CCKSimulationPanel cckSimulationPanel, CCKModule module ) {
         this.cckSimulationPanel = cckSimulationPanel;
         this.module = module;
         JunctionHelpNode junctionHelpNode = new JunctionHelpNode( cckSimulationPanel, module );
@@ -37,9 +37,9 @@ public class CCKHelpNode extends PhetPNode {
 
     static class ToolboxHelpNode extends HelpBalloon {
         private CCKSimulationPanel cckSimulationPanel;
-        private ICCKModule module;
+        private CCKModule module;
 
-        public ToolboxHelpNode( CCKSimulationPanel cckSimulationPanel, ICCKModule module ) {
+        public ToolboxHelpNode( CCKSimulationPanel cckSimulationPanel, CCKModule module ) {
             super( cckSimulationPanel, CCKStrings.toHTML( "CCKHelp.ToolboxHelp" ), RIGHT_BOTTOM, 30 );
             this.cckSimulationPanel = cckSimulationPanel;
             this.module = module;
@@ -49,7 +49,7 @@ public class CCKHelpNode extends PhetPNode {
 
     static class BranchHelpNode extends HelpBalloon {
         private CCKSimulationPanel cckSimulationPanel;
-        private ICCKModule module;
+        private CCKModule module;
         private BranchNode followedBranch;
         private PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -61,7 +61,7 @@ public class CCKHelpNode extends PhetPNode {
             pointAt( followedBranch.getGlobalFullBounds().getCenter2D() );
         }
 
-        public BranchHelpNode( CCKSimulationPanel cckSimulationPanel, ICCKModule module ) {
+        public BranchHelpNode( CCKSimulationPanel cckSimulationPanel, CCKModule module ) {
             super( cckSimulationPanel, CCKStrings.toHTML( "CCKHelp.ComponentHelp" ), BOTTOM_LEFT, 40 );
             this.cckSimulationPanel = cckSimulationPanel;
             this.module = module;
@@ -101,7 +101,7 @@ public class CCKHelpNode extends PhetPNode {
 
     static class JunctionHelpNode extends HelpBalloon {
         private CCKSimulationPanel cckSimulationPanel;
-        private ICCKModule module;
+        private CCKModule module;
         private JunctionNode followedJunction;
         private PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -113,7 +113,7 @@ public class CCKHelpNode extends PhetPNode {
             pointAt( followedJunction.getGlobalFullBounds().getCenter2D() );
         }
 
-        public JunctionHelpNode( CCKSimulationPanel cckSimulationPanel, ICCKModule module ) {
+        public JunctionHelpNode( CCKSimulationPanel cckSimulationPanel, CCKModule module ) {
             super( cckSimulationPanel, CCKStrings.toHTML( "CCKHelp.JunctionHelp" ), RIGHT_BOTTOM, 30 );
             this.cckSimulationPanel = cckSimulationPanel;
             this.module = module;

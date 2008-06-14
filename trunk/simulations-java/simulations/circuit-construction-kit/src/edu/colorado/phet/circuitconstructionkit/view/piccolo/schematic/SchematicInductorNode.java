@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -24,7 +24,7 @@ public class SchematicInductorNode extends SchematicOscillateNode {
     private PhetPPath rightBranch;
     private float SCALE = (float) ( 1.0 / 60.0 );
 
-    public SchematicInductorNode( CCKModel parent, CircuitComponent component, JComponent jComponent, ICCKModule module ) {
+    public SchematicInductorNode( CCKModel parent, CircuitComponent component, JComponent jComponent, CCKModule module ) {
         super( parent, component, jComponent, module, 0.3 );
         leftBranch = new PhetPPath( new BasicStroke( 6.0f * SCALE ), Color.black );
         rightBranch = new PhetPPath( new BasicStroke( 6.0f * SCALE ), Color.black );
