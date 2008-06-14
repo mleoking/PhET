@@ -38,7 +38,6 @@ public class CalorieDragStrip extends PNode {
     private ArrayList panels = new ArrayList();
     private Color buttonColor = new Color( 128, 128, 255 );
     private TogglePClip stripPanelClip;
-//    private PPath stripPanelClip;
 
     public CalorieDragStrip( final CalorieSet available ) {
         for ( int i = 0; i < available.getItemCount(); i += count ) {
@@ -267,14 +266,14 @@ public class CalorieDragStrip extends PNode {
         private boolean dragging = false;//todo: could coalesce with PDragSequenceEventHandler.isDragging
         private PNode labelNode;
 
-        public DefaultDragNode( PNode node, CaloricItem item ) {
+        public DefaultDragNode( PNode iconNode, CaloricItem item ) {
             this.item = item;
-            this.node = node;
-            addChild( node );
+            this.node = iconNode;
+            addChild( iconNode );
             addInputEventListener( new CursorHandler() );
 
             labelNode = new CaloricItemLabelNode( "<html>" + item.getName() + " (" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + EatingAndExerciseResources.getString( "units.cal" ) + ")</html>" );
-            labelNode.setOffset( -labelNode.getFullBounds().getWidth() - 3, node.getFullBounds().getHeight() - labelNode.getFullBounds().getHeight() / 2 );
+            labelNode.setOffset( -labelNode.getFullBounds().getWidth() - 3, iconNode.getFullBounds().getHeight() / 2 - labelNode.getFullBounds().getHeight() / 2 );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseEntered( PInputEvent event ) {
                     if ( !getChildrenReference().contains( labelNode ) ) {
@@ -338,13 +337,9 @@ public class CalorieDragStrip extends PNode {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
             final DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( EatingAndExerciseResources.getImage( item.getImage() ), HEIGHT ) ), item );
 
-//            ToolTipNode toolTipNode = new ToolTipNode( "<html>" + item.getName() + " (" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + EatingAndExerciseResources.getString( "units.cal" ) + ")</html>", dragNode );
-//            toolTipNode.setFont( new PhetFont( 16, true ) );
-
             if ( item.getImage().equals( Human.FOOD_PYRAMID ) ) {
                 handleFoodPyramid( item, dragNode );
             }
-//            tooltipLayer.addChild( toolTipNode );
             return dragNode;
         }
         else {
