@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
@@ -32,7 +32,7 @@ public abstract class RectangularComponentNode extends ComponentNode {
         }
     };
 
-    public RectangularComponentNode( final CCKModel model, final CircuitComponent circuitComponent, double width, double height, JComponent component, ICCKModule module ) {
+    public RectangularComponentNode( final CCKModel model, final CircuitComponent circuitComponent, double width, double height, JComponent component, CCKModule module ) {
         super( model, circuitComponent, component, module );
         dimension = new PDimension( width, height );
         flameNode = new FlameNode( getBranch() );

@@ -1,17 +1,19 @@
-package edu.colorado.phet.circuitconstructionkit.view.piccolo;
+package edu.colorado.phet.circuitconstructionkit;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.circuitconstructionkit.controls.CCKControlPanel;
-import edu.colorado.phet.circuitconstructionkit.CCKParameters;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.ResistivityManager;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.CCKSimulationPanel;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.CircuitNode;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.MeasurementToolSet;
+import edu.colorado.phet.circuitconstructionkit.view.piccolo.VoltmeterModel;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -23,14 +25,15 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
  * Time: 2:47:24 AM
  */
 
-public class CCKPiccoloModule extends Module implements ICCKModule {
+public class CCKModule extends Module {
+    public static Color BACKGROUND_COLOR = new Color( 100, 160, 255 );
     private String[] args;
     private CCKModel model;
     private CCKParameters cckParameters;
     private CCKSimulationPanel cckSimulationPanel;
     private MeasurementToolSet measurementToolSet;
 
-    public CCKPiccoloModule( String[] args ) {
+    public CCKModule( String[] args ) {
         super( "CCK-Piccolo", new SwingClock( 30, 1 ) );
 
         cckParameters = new CCKParameters( this, args );

@@ -10,7 +10,7 @@ import java.util.Arrays;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.controls.OptionsMenu;
-import edu.colorado.phet.circuitconstructionkit.view.piccolo.CCKPiccoloModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.util.CCKUtil;
 import edu.colorado.phet.circuitconstructionkit.view.CCKPhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -29,7 +29,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication {
     public static final String localizedStringsPath = "circuitconstructionkit/localization/cck-strings";
-    private CCKPiccoloModule cckPiccoloModule;
+    private CCKModule cckPiccoloModule;
     public static final String AC_OPTION = "-dynamics";
 
     public CircuitConstructionKitDCApplication( String[] args ) throws IOException {
@@ -41,7 +41,7 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
             System.out.println( "debugMode = " + debugMode );
         }
 
-        cckPiccoloModule = new CCKPiccoloModule( args );
+        cckPiccoloModule = new CCKModule( args );
         cckPiccoloModule.getCckSimulationPanel().addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
             }

@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 
@@ -14,7 +14,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 public class SchematicBatteryNode extends SchematicPlatedNode {
     private static double SCALE = 1.2;
 
-    public SchematicBatteryNode( CCKModel cckModel, Battery battery, JComponent component, ICCKModule module ) {
+    public SchematicBatteryNode( CCKModel cckModel, Battery battery, JComponent component, CCKModule module ) {
         super( cckModel, battery, component, module, 0.1, 0.43, 3 * SCALE, 1.75 * SCALE );
     }
 }

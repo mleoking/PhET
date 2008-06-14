@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -16,10 +16,10 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  */
 
 public class ReadoutSetNode extends PhetPNode {
-    private ICCKModule module;
+    private CCKModule module;
     private Circuit circuit;
 
-    public ReadoutSetNode( ICCKModule module, Circuit circuit ) {
+    public ReadoutSetNode( CCKModule module, Circuit circuit ) {
         this.module = module;
         this.circuit = circuit;
         circuit.addCircuitListener( new CircuitListenerAdapter() {

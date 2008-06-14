@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -66,7 +66,7 @@ public class GrabBagItem {
 
     private static final Random random = new Random();
 
-    public Resistor createBranch( ICCKModule module ) {
+    public Resistor createBranch( CCKModule module ) {
         Rectangle2D mb = module.getModelBounds();
 
         double x = random.nextDouble() * mb.getWidth() * 0.9 + mb.getX();

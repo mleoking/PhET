@@ -8,7 +8,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 public class BulbComponentNode extends ComponentNode {
     private BulbNode bulbNode;
     private Bulb bulb;
-    private ICCKModule module;
+    private CCKModule module;
     private CircuitSolutionListener circuitSolutionListener = new CircuitSolutionListener() {
         public void circuitSolverFinished() {
             updateIntensity();
@@ -34,7 +34,7 @@ public class BulbComponentNode extends ComponentNode {
     };
     private static final double SCALE = 0.75;
 
-    public BulbComponentNode( CCKModel model, Bulb bulb, JComponent component, ICCKModule module ) {
+    public BulbComponentNode( CCKModel model, Bulb bulb, JComponent component, CCKModule module ) {
         super( model, bulb, component, module );
         this.bulb = bulb;
         this.module = module;

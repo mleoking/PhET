@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
  */
 public class SeriesAmmeterNode extends ComponentNode {
     private SeriesAmmeter component;
-    private ICCKModule module;
+    private CCKModule module;
     private static final double SCALE = 1.0 / 60.0;
     private Stroke stroke = new BasicStroke( (float) ( 5 * SCALE ) );
     private Font font = new PhetFont( Font.BOLD, 17 );
@@ -48,12 +48,12 @@ public class SeriesAmmeterNode extends ComponentNode {
     private PText textGraphic;
     private Area area;
 
-    public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, ICCKModule module, String fixedMessage ) {
+    public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, CCKModule module, String fixedMessage ) {
         this( parent, component, module );
         this.fixedMessage = fixedMessage;
     }
 
-    public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, final ICCKModule module ) {
+    public SeriesAmmeterNode( JComponent parent, final SeriesAmmeter component, final CCKModule module ) {
         super( module.getCCKModel(), component, parent, module );
         this.component = component;
         this.module = module;

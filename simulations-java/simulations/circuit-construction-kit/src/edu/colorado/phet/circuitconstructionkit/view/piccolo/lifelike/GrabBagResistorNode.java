@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentImageNode;
@@ -15,14 +15,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class GrabBagResistorNode extends ComponentImageNode {
     private GrabBagResistor resistor;
-    private ICCKModule module;
+    private CCKModule module;
     private SimpleObserver resistorObserver = new SimpleObserver() {
         public void update() {
             GrabBagResistorNode.this.update();
         }
     };
 
-    public GrabBagResistorNode( CCKModel model, final GrabBagResistor resistor, JComponent component, final ICCKModule module ) {
+    public GrabBagResistorNode( CCKModel model, final GrabBagResistor resistor, JComponent component, final CCKModule module ) {
         super( model, resistor, resistor.getItemInfo().getImage(), component, module );
         this.resistor = resistor;
         this.module = module;

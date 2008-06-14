@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.controls.StopwatchDecorator;
 import edu.colorado.phet.circuitconstructionkit.view.chart.CCKTime;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -25,7 +25,7 @@ public class MeasurementToolSetNode extends PhetPNode {
     private VirtualAmmeterNode virtualAmmeterNode;
     private PNode stopwatchNode;
 
-    public MeasurementToolSetNode( CCKModel model, PSwingCanvas pSwingCanvas, ICCKModule module, VoltmeterModel voltmeterModel ) {
+    public MeasurementToolSetNode( CCKModel model, PSwingCanvas pSwingCanvas, CCKModule module, VoltmeterModel voltmeterModel ) {
         voltmeterNode = new VoltmeterNode( voltmeterModel );
         addChild( voltmeterNode );
         this.virtualAmmeterNode = new VirtualAmmeterNode( model.getCircuit(), pSwingCanvas, module );

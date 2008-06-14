@@ -16,7 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.controls.AdvancedPanel;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -38,13 +38,13 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * Time: 11:03:06 AM
  */
 public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.ControlPanel {
-    private ICCKModule module;
+    private CCKModule module;
     private JCheckBox seriesAmmeter;
     private AdvancedControlPanel advancedControlPanel;
     private JPanel advancedPanel;
     private boolean debugging = false;
 
-    public CCKControlPanel( final ICCKModule module, Module m ) {
+    public CCKControlPanel( final CCKModule module, Module m ) {
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
         JLabel logoLabel = new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo-120x50.jpg" ) ) );
@@ -416,7 +416,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         }
     }
 
-    private static void printEm( ICCKModule module ) {
+    private static void printEm( CCKModule module ) {
         KirkhoffSolver ks = new KirkhoffSolver();
         Circuit circuit = module.getCircuit();
         KirkhoffSolver.MatrixTable mt = new KirkhoffSolver.MatrixTable( circuit );
@@ -527,12 +527,12 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     }
 
     static class AdvancedControlPanel extends AdvancedPanel {
-        private ICCKModule module;
+        private CCKModule module;
         private JDialog dialog;
         private ResistivitySlider resistivitySlider;
         private JCheckBox hideElectrons;
 
-        public AdvancedControlPanel( final ICCKModule module ) {
+        public AdvancedControlPanel( final CCKModule module ) {
             super( CCKResources.getString( "CCK3ControlPanel.Enable" ), CCKResources.getString( "CCK3ControlPanel.Disable" ) );
             this.module = module;
 //            resistivitySlider = new PhetSlider( CCKResources.getString( "CCK3ControlPanel.WireResistivitySlider" ),

@@ -10,7 +10,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.controls.ResetDynamicsMenuItem;
 import edu.colorado.phet.circuitconstructionkit.controls.JPopupMenuRepaintWorkaround;
@@ -20,11 +20,11 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 
 public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
-    protected ICCKModule module;
+    protected CCKModule module;
     private Branch branch;
     private JCheckBoxMenuItem setVisibleItem;
 
-    public ComponentMenu( Branch branch, ICCKModule module ) {
+    public ComponentMenu( Branch branch, CCKModule module ) {
         super( module.getSimulationPanel() );
         this.branch = branch;
         this.module = module;
@@ -34,7 +34,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         return this;
     }
 
-    protected JCheckBoxMenuItem createShowValueButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
+    protected JCheckBoxMenuItem createShowValueButton( JPopupMenuRepaintWorkaround menu, final CCKModule module, final Branch branch ) {
         final JCheckBoxMenuItem showValue = new JCheckBoxMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.ShowValueMenuItem" ) );
         menu.addPopupMenuListener( new PopupMenuListener() {
             public void popupMenuCanceled( PopupMenuEvent e ) {
@@ -62,7 +62,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         return showValue;
     }
 
-    protected void addRemoveButton( JPopupMenuRepaintWorkaround menu, final ICCKModule module, final Branch branch ) {
+    protected void addRemoveButton( JPopupMenuRepaintWorkaround menu, final CCKModule module, final Branch branch ) {
         JMenuItem remove = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.RemoveMenuItem" ) );
         remove.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -108,7 +108,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         private Resistor res;
         private ComponentEditor.ResistorEditor editor;
 
-        public ResistorMenu( Resistor res, ICCKModule module ) {
+        public ResistorMenu( Resistor res, CCKModule module ) {
             super( res, module );
             this.res = res;
             if ( res instanceof GrabBagResistor ) {//todo this should have a separate class, not reuse ResistorMenu
@@ -141,7 +141,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         private Inductor inductor;
         private ComponentEditor editor;
 
-        public InductorMenu( final Inductor inductor, ICCKModule module ) {
+        public InductorMenu( final Inductor inductor, CCKModule module ) {
             super( inductor, module );
             this.inductor = inductor;
             double min = 0;
@@ -178,7 +178,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         private Capacitor capacitor;
         private ComponentEditor editor;
 
-        public CapacitorMenu( final Capacitor capacitor, ICCKModule module ) {
+        public CapacitorMenu( final Capacitor capacitor, CCKModule module ) {
             super( capacitor, module );
             this.capacitor = capacitor;
             editor = new ComponentEditor( module, CCKStrings.getString( "capacitance" ), capacitor, module.getSimulationPanel(), CCKStrings.getString( "capacitance" ), CCKStrings.getString( "farads" ), 0, 0.05, capacitor.getCapacitance(), module.getCircuit() ) {
@@ -212,7 +212,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         private ComponentEditor.BulbResistanceEditor editor;
         private JMenuItem flip;
 
-        public BulbMenu( final Bulb bulb, final ICCKModule module ) {
+        public BulbMenu( final Bulb bulb, final CCKModule module ) {
             super( bulb, module );
             this.bulb = bulb;
             editor = new ComponentEditor.BulbResistanceEditor( module, bulb, module.getSimulationPanel(), module.getCircuit() );
@@ -268,14 +268,14 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     }
 
     public static class SwitchMenu extends DefaultComponentMenu {
-        public SwitchMenu( Branch branch, ICCKModule module ) {
+        public SwitchMenu( Branch branch, CCKModule module ) {
             super( branch, module );
         }
     }
 
     public static class DefaultComponentMenu extends ComponentMenu {
 
-        public DefaultComponentMenu( Branch branch, ICCKModule module ) {
+        public DefaultComponentMenu( Branch branch, CCKModule module ) {
             super( branch, module );
             addShowValueButton();
             addRemoveButton();
@@ -283,7 +283,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     }
 
     public static class SeriesAmmeterMenu extends DefaultComponentMenu {
-        public SeriesAmmeterMenu( Branch branch, ICCKModule module ) {
+        public SeriesAmmeterMenu( Branch branch, CCKModule module ) {
             super( branch, module );
         }
     }
@@ -296,7 +296,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         private ComponentEditor.BatteryResistanceEditor resistanceEditor;
         private ComponentEditor editor;
 
-        public BatteryJMenu( final Battery branch, ICCKModule module ) {
+        public BatteryJMenu( final Battery branch, CCKModule module ) {
             super( branch, module );
             this.battery = branch;
             JMenuItem edit = new JMenuItem( CCKResources.getString( "CircuitComponentInteractiveGraphic.VoltageMenuItem" ) );
@@ -377,12 +377,12 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         }
     }
 
-    protected ICCKModule getModule() {
+    protected CCKModule getModule() {
         return module;
     }
 
     public static class GrabBagResistorMenu extends ComponentMenu {
-        public GrabBagResistorMenu( GrabBagResistor res, ICCKModule module ) {
+        public GrabBagResistorMenu( GrabBagResistor res, CCKModule module ) {
             super( res, module );
             addRemoveButton( getMenu(), module, res );
         }
@@ -390,7 +390,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
 
     public static class ACVoltageSourceMenu extends ComponentMenu.BatteryJMenu {
 
-        public ACVoltageSourceMenu( Battery branch, ICCKModule module ) {
+        public ACVoltageSourceMenu( Battery branch, CCKModule module ) {
             super( branch, module );
         }
 

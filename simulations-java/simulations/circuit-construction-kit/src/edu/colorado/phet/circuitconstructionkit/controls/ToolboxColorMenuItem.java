@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
  */
 
 public class ToolboxColorMenuItem extends JMenuItem {
-    public ToolboxColorMenuItem( final PhetApplication application, final ICCKModule cck ) {
+    public ToolboxColorMenuItem( final PhetApplication application, final CCKModule cck ) {
         super( CCKResources.getString( "OptionsMenu.ToolboxcolorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

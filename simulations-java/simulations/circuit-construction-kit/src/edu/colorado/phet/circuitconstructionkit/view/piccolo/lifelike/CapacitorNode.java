@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 
 public class CapacitorNode extends ComponentNode {
     private CCKModel model;
-    private ICCKModule module;
+    private CCKModule module;
     private Capacitor capacitor;
     private static final Color tan = new Color( 255, 220, 130 );
     private Color plate1Color = tan;
@@ -51,7 +51,7 @@ public class CapacitorNode extends ComponentNode {
         }
     };
 
-    public CapacitorNode( CCKModel model, Capacitor capacitor, JComponent component, ICCKModule module ) {
+    public CapacitorNode( CCKModel model, Capacitor capacitor, JComponent component, CCKModule module ) {
         super( model, capacitor, component, module );
         this.model = model;
         this.module = module;

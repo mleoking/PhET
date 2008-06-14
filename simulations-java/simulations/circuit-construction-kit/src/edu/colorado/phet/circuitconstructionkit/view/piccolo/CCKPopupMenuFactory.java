@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import javax.swing.*;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 
@@ -13,9 +13,9 @@ import edu.colorado.phet.circuitconstructionkit.model.components.*;
  */
 
 public class CCKPopupMenuFactory {
-    private ICCKModule module;
+    private CCKModule module;
 
-    public CCKPopupMenuFactory( ICCKModule module ) {
+    public CCKPopupMenuFactory( CCKModule module ) {
         this.module = module;
     }
 
