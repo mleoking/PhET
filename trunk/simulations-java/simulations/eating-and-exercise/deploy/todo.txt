@@ -9,7 +9,8 @@ I might also limit the duration of the simulation to 6 to 12 months. It does not
 
     SR - Default range on graph should be 1 year, not 5 years.  Time should go more slowly (1/5 as fast)
 
-    NP - I think it should go for at least a few years. People can take years to lose large amounts of weight, especially if they want to do it safely, and we’d probably like to model this.
+    NP - I think it should go for at least a few years. People can take years to lose large amounts of weight,
+    especially if they want to do it safely, and we’d probably like to model this.
 
 I would also limit the age range to the young to middle aged adult since resting metabolic rate
     changes relative to lean mass outside this range.
@@ -18,8 +19,6 @@ I would also limit the age range to the young to middle aged adult since resting
 
 Clarify the meaning of "lifestyle" vs. other daily exercises
     Add description to sedentary, moderate activity, etc.
-
-    SR - Get rid of "Athletic Lifestyle"
 
 #######################################################################################
 ##############                    To Do/Noah                             ##############

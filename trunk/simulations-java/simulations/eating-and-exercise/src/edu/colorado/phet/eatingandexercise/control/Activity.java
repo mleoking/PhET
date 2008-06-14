@@ -18,7 +18,7 @@ public class Activity {
             new Activity( EatingAndExerciseResources.getString( "activity.sedentary" ), 1.4 ),
             DEFAULT_ACTIVITY_LEVEL,
             new Activity( EatingAndExerciseResources.getString( "activity.active" ), 1.6 ),
-            new Activity( EatingAndExerciseResources.getString( "activity.athletic" ), 1.7 )
+//            new Activity( EatingAndExerciseResources.getString( "activity.athletic" ), 1.7 )
     };
 
 
