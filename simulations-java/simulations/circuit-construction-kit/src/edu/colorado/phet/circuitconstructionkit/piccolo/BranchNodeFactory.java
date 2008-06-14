@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
-import edu.colorado.phet.circuitconstructionkit.grabbag.GrabBagResistor;
+import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.circuitconstructionkit.piccolo.lifelike.*;

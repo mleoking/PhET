@@ -6,7 +6,7 @@ import net.n3.nanoxml.XMLWriter;
 
 import java.io.IOException;
 
-import edu.colorado.phet.circuitconstructionkit.grabbag.GrabBagResistor;
+import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;

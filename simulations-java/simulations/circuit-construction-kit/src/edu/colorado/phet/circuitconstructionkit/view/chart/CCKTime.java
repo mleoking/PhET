@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.circuitconstructionkit.chart;
+package edu.colorado.phet.circuitconstructionkit.view.chart;
 
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 

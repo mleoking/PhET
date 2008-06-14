@@ -1,4 +1,4 @@
-package edu.colorado.phet.circuitconstructionkit.chart;
+package edu.colorado.phet.circuitconstructionkit.view.chart;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

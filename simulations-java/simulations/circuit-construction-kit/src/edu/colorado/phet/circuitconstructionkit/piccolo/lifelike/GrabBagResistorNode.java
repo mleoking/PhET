@@ -3,7 +3,7 @@ package edu.colorado.phet.circuitconstructionkit.piccolo.lifelike;
 import javax.swing.*;
 
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
-import edu.colorado.phet.circuitconstructionkit.grabbag.GrabBagResistor;
+import edu.colorado.phet.circuitconstructionkit.model.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.piccolo.ComponentImageNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
