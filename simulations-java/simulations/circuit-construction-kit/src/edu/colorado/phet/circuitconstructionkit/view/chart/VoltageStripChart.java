@@ -2,7 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.chart;
 
 import java.awt.*;
 
-import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
+import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.CCKSimulationPanel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.PiccoloVoltageCalculation;

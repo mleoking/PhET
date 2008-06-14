@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
+import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
