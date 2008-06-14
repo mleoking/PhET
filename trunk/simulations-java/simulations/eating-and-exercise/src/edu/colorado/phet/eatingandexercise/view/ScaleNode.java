@@ -10,7 +10,6 @@ import javax.swing.border.BevelBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.eatingandexercise.view.EatingAndExercisePText;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
@@ -32,8 +31,8 @@ public class ScaleNode extends PNode {
     private double depthDX = 0.06;
     private double depthDY = 0.1;
     private float strokeWidth = 0.02f;
-    //    private PText bmiReadout;
     private PSwing unitsPSwing;
+    private final Color scaleColor = Color.lightGray;
 
     public ScaleNode( final EatingAndExerciseModel model, Human human ) {
         this.model = model;
@@ -45,7 +44,7 @@ public class ScaleNode extends PNode {
         topPath.lineTo( faceWidth / 2 - depthDX, faceY - depthDY );
         topPath.lineTo( faceWidth / 2, faceY );
         topPath.lineTo( -faceWidth / 2, faceY );
-        addChild( new PhetPPath( topPath.getGeneralPath(), new BasicStroke( strokeWidth ), Color.black ) );
+        addChild( new PhetPPath( topPath.getGeneralPath(), scaleColor, new BasicStroke( strokeWidth ), Color.black ) );
 
         DoubleGeneralPath facePath = new DoubleGeneralPath();
         facePath.moveTo( -faceWidth / 2, faceY );
@@ -53,12 +52,8 @@ public class ScaleNode extends PNode {
         facePath.lineTo( faceWidth / 2, faceY + faceHeight );
         facePath.lineTo( faceWidth / 2, faceY );
         facePath.lineTo( -faceWidth / 2, faceY );
-        addChild( new PhetPPath( facePath.getGeneralPath(), new BasicStroke( strokeWidth ), Color.black ) );
+        addChild( new PhetPPath( facePath.getGeneralPath(), scaleColor, new BasicStroke( strokeWidth ), Color.black ) );
         human.addListener( new Human.Adapter() {
-            public void bmiChanged() {
-//                updateBMIReadout();
-            }
-
             public void weightChanged() {
                 updateWeightReadout();
             }
@@ -71,7 +66,6 @@ public class ScaleNode extends PNode {
         updateWeightReadout();
 
         JPanel units = new VerticalLayoutPanel();
-//        units.setBorder( BorderFactory.createTitledBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ),"units" ) );
         units.setBorder( BorderFactory.createBevelBorder( BevelBorder.LOWERED ) );
         for ( int i = 0; i < EatingAndExerciseModel.availableUnits.length; i++ ) {
             final JRadioButton jRadioButton = new JRadioButton( EatingAndExerciseModel.availableUnits[i].getShortName(), EatingAndExerciseModel.availableUnits[i] == model.getUnits() );
@@ -88,7 +82,6 @@ public class ScaleNode extends PNode {
             } );
             units.add( jRadioButton );
         }
-//        units.setBorder(  );
 
         unitsPSwing = new PSwing( units );
         unitsPSwing.setOffset( faceWidth / 2 + strokeWidth / 2, 0 );
@@ -97,15 +90,9 @@ public class ScaleNode extends PNode {
         model.addListener( new EatingAndExerciseModel.Adapter() {
             public void unitsChanged() {
                 updateWeightReadout();
-//                updateBMIReadout();
             }
         } );
     }
-
-//    private void updateBMIReadout() {
-//        bmiReadout.setText( "BMI: " + new DecimalFormat( "0.0" ).format( human.getBMI() ) + " kg/m^2" );
-//        updateTextLayout();
-//    }
 
     private void updateWeightReadout() {
         weightReadout.setText( "" + EatingAndExerciseStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() );
@@ -113,8 +100,6 @@ public class ScaleNode extends PNode {
     }
 
     private void updateTextLayout() {
-//        weightReadout.setOffset( -faceWidth / 2 + strokeWidth, faceY );
         weightReadout.setOffset( 0 - weightReadout.getFullBounds().getWidth() / 2, faceY );
-//        bmiReadout.setOffset( faceWidth / 2 - strokeWidth - bmiReadout.getFullBounds().getWidth(), faceY );
     }
 }
