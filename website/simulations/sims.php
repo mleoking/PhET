@@ -550,6 +550,7 @@ EOT;
 
                 // Flash sims should run in a new window
                 $onclick = "";
+                $flash_download_html = "";
                 if ($this->sim_type == SIM_TYPE_FLASH) {
                     $onclick = 'onclick="javascript:open_limited_window(\''.$launch_url.'\',\'simwindow\'); return false;"';
 
