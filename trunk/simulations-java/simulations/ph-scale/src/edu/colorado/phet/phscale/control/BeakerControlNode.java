@@ -107,4 +107,20 @@ public class BeakerControlNode extends PNode {
     public void cleanup() {
         _model.getLiquid().removeLiquidListener( _liquidListener );
     }
+    
+    public void setMoleculeCountSelected( boolean selected ) {
+        _viewControlPanel.setCountSelected( selected );
+    }
+    
+    public boolean isMoleculeCountSelected() {
+        return _viewControlPanel.isCountSelected();
+    }
+    
+    public void setRatioSelected( boolean selected ) {
+        _viewControlPanel.setRatioSelected( selected );
+    }
+    
+    public boolean isRatioSelected() {
+        return _viewControlPanel.isRatioSelected();
+    }
 }

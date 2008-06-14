@@ -54,23 +54,23 @@ public class ViewControlPanel extends JPanel {
         layout.addComponent( _ratioCheckBox, row++, col );
     }
     
-    public boolean isCountViewSelected() {
+    public boolean isCountSelected() {
         return _countCheckBox.isSelected();
     }
     
     public void setCountSelected( boolean selected ) {
-        if ( selected != isCountViewSelected() ) {
+        if ( selected != isCountSelected() ) {
             _countCheckBox.setSelected( selected );
             notifyCountChanged();
         }
     }
     
-    public boolean isRatioViewSelected() {
+    public boolean isRatioSelected() {
         return _ratioCheckBox.isSelected();
     }
     
     public void setRatioSelected( boolean selected ) {
-        if ( selected != isRatioViewSelected() ) {
+        if ( selected != isRatioSelected() ) {
             _ratioCheckBox.setSelected( selected );
             notifyRatioChanged();
         }

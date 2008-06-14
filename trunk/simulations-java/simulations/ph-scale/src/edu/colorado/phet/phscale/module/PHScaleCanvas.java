@@ -4,11 +4,12 @@ package edu.colorado.phet.phscale.module;
 
 import java.awt.Dimension;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.control.BeakerControlNode;
 import edu.colorado.phet.phscale.control.PHControlNode;
-import edu.colorado.phet.phscale.control.ResetAllButton;
+import edu.colorado.phet.phscale.control.PHScaleResetAllButton;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.view.BarGraphNode;
 import edu.umd.cs.piccolo.PNode;
@@ -40,13 +41,13 @@ public class PHScaleCanvas extends PhetPCanvas {
     private final BeakerControlNode _beakerControlNode;
     private final PHControlNode _pHControlNode;
     private final BarGraphNode _barGraphNode;
-    private final ResetAllButton _resetAllButton;
+    private final PHScaleResetAllButton _resetAllButton;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHScaleCanvas( PHScaleModel model ) {
+    public PHScaleCanvas( PHScaleModel model, Resettable resettable ) {
         super();
         setWorldTransformStrategy( new RenderingSizeStrategy( this, RENDERING_SIZE ) );
         setBackground( PHScaleConstants.CANVAS_BACKGROUND );
@@ -61,7 +62,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         _beakerControlNode = new BeakerControlNode( this, _model ); //XXX
         _pHControlNode = new PHControlNode( PHScaleConstants.PH_RANGE, _model );
         _barGraphNode = new BarGraphNode( new PDimension( 225, 400 ), model );//XXX
-        _resetAllButton = new ResetAllButton();
+        _resetAllButton = new PHScaleResetAllButton( resettable, this );
         PSwing resetAllButtonWrapper = new PSwing( _resetAllButton );
         
         // Rendering order
@@ -105,7 +106,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         return _barGraphNode;
     }
     
-    public ResetAllButton getResetAllButton() {
+    public PHScaleResetAllButton getResetAllButton() {
         return _resetAllButton;
     }
     
