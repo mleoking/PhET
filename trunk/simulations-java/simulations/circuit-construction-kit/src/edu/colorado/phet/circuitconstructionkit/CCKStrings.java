@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.circuitconstructionkit.common;
+package edu.colorado.phet.circuitconstructionkit;
 
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 
