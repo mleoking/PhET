@@ -1,4 +1,4 @@
-package edu.colorado.phet.eatingandexercise;
+package edu.colorado.phet.eatingandexercise.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
