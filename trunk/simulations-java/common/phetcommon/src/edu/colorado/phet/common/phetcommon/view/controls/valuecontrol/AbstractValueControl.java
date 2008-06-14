@@ -226,6 +226,10 @@ public abstract class AbstractValueControl extends JPanel {
         }
     }
 
+    /*
+     * Returns true if the specified value is in the allowed range of this control.
+     * This method can be overriden (e.g. to always return true) to allow all values 
+     */
     protected boolean isValueInRange( double value ) {
         return value >= getMinimum() && value <= getMaximum();
     }
