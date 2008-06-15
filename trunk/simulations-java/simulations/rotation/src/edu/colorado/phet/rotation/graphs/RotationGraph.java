@@ -126,7 +126,7 @@ public class RotationGraph extends MotionControlGraph {
 
     public void addSecondarySeries( ControlGraphSeries graphSeries ) {
         secondarySeries.add( graphSeries );
-        super.addSeries( graphSeries );
+        addSeries( graphSeries );
     }
 
     public void setSecondarySeriesVisible( boolean visible ) {
