@@ -42,4 +42,8 @@ public class AngleUnitModel {
             ( (Listener) listeners.get( i ) ).changed();
         }
     }
+
+    public String toString() {
+        return super.toString()+" radians="+radians;
+    }
 }
