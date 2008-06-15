@@ -36,12 +36,12 @@ public class MotionControlGraph extends ControlGraph {
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
                                double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final UpdateableObject updateableObject ) {
-        this(ControlGraph.createDefaultChart(title),pSwingCanvas,series, label, title, min,max,editable, timeSeriesModel, updateStrategy, maxDomainValue, updateableObject );
+        this( ControlGraph.createDefaultChart( title ), pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, maxDomainValue, updateableObject );
     }
 
-    public MotionControlGraph( JFreeChart chart,PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
+    public MotionControlGraph( JFreeChart chart, PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
                                double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final UpdateableObject updateableObject ) {
-        super( chart,pSwingCanvas, series, min, max, timeSeriesModel, maxDomainValue );
+        super( chart, pSwingCanvas, series, min, max, timeSeriesModel, maxDomainValue );
         this.updateableObject = updateableObject;
         this.timeSeriesModel = timeSeriesModel;
         this.updateStrategy = updateStrategy;
@@ -137,8 +137,10 @@ public class MotionControlGraph extends ControlGraph {
     }
 
     public void notifyZoomChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).horizontalZoomChanged( this );
+        if ( listeners != null ) {
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                ( (Listener) listeners.get( i ) ).horizontalZoomChanged( this );
+            }
         }
     }
 

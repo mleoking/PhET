@@ -125,12 +125,12 @@ public class ChartNode extends PNode {
 
         calorieGraph.addListener( new ControlGraph.Adapter() {
             public void zoomChanged() {
-                weightGraph.setHorizontalRange( calorieGraph.getMinDataX(), calorieGraph.getMaxDataX() );
+                weightGraph.setDomain( calorieGraph.getMinDataX(), calorieGraph.getMaxDataX() );
             }
         } );
         weightGraph.addListener( new ControlGraph.Adapter() {
             public void zoomChanged() {
-                calorieGraph.setHorizontalRange( weightGraph.getMinDataX(), weightGraph.getMaxDataX() );
+                calorieGraph.setDomain( weightGraph.getMinDataX(), weightGraph.getMaxDataX() );
             }
         } );
 
@@ -184,9 +184,9 @@ public class ChartNode extends PNode {
 
     private void updateGraphDomains( double rangeYears ) {
         double startTime = model.getHuman().getAge();
-        calorieGraph.setHorizontalRange( EatingAndExerciseUnits.secondsToYears( startTime ),
+        calorieGraph.setDomain( EatingAndExerciseUnits.secondsToYears( startTime ),
                                          EatingAndExerciseUnits.secondsToYears( startTime + EatingAndExerciseUnits.yearsToSeconds( rangeYears ) ) );
-        weightGraph.setHorizontalRange( EatingAndExerciseUnits.secondsToYears( startTime ),
+        weightGraph.setDomain( EatingAndExerciseUnits.secondsToYears( startTime ),
                                         EatingAndExerciseUnits.secondsToYears( startTime + EatingAndExerciseUnits.yearsToSeconds( rangeYears ) ) );
     }
 
@@ -294,12 +294,12 @@ public class ChartNode extends PNode {
             double currentRange = max - min;
             double newRange = Math.max( 1, currentRange * v );
 
-            setHorizontalRange( min, min + newRange );
+            setDomain( min, min + newRange );
             forceUpdateAll();
         }
 
-        public void setHorizontalRange( double minDomainValue, double maxDomainValue ) {
-            super.setHorizontalRange( minDomainValue, maxDomainValue );
+        public void setDomain( double minDomainValue, double maxDomainValue ) {
+            super.setDomain( minDomainValue, maxDomainValue );
             if ( getZoomControl() != null ) {
                 getZoomControl().setHorizontalZoomInEnabled( maxDomainValue - minDomainValue > 1 );
             }
