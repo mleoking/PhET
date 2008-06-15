@@ -42,7 +42,7 @@ public class AngularUnitGraph extends RotationGraph {
 
     public void resetRange() {
         setVerticalRange( getDisplayValue( getDefaultMinY() ), getDisplayValue( getDefaultMaxY() ) );
-        setHorizontalRangeMax( getDefaultMaxX() );
+        setDomain( 0, getDefaultMaxX() );
     }
 
     private void updateUnits() {

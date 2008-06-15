@@ -54,8 +54,6 @@ public class ControlGraph extends PNode {
     private ZoomSuiteNode zoomControl;
     private TitleLayer titleLayer;
 
-    private double minDomainValue = 0;
-    private double maxDomainValue;
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
     private ArrayList series = new ArrayList();
@@ -67,6 +65,10 @@ public class ControlGraph extends PNode {
     private double defaultMinY;
     private double defaultMaxY;
     private double defaultMaxX;
+
+    //todo: these values appear to have buggy usage, as both viewable range and visible range
+    private double minViewableX = 0;
+    private double maxViewableX;
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ITemporalVariable temporalVariable,
                          String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
@@ -96,24 +98,30 @@ public class ControlGraph extends PNode {
             } );
             thumb = new PImage( ColorArrows.createArrow( series.getColor() ) );
         }
-        this.maxDomainValue = maxDomainTime;
-        titleLayer = createTitleLayer();
-        jFreeChart.setTitle( (String) null );
-        setVerticalRange( minY, maxY );
-        setHorizontalRangeMax( maxDomainTime );
-        jFreeChart.setBackgroundPaint( null );
+        this.maxViewableX = maxDomainTime;
+        this.defaultMinY = minY;
+        this.defaultMaxY = maxY;
+        this.defaultMaxX = maxDomainTime;
+        this.zoomControl = new ZoomSuiteNode();
+        this.titleLayer = createTitleLayer();
+
 
         dynamicJFreeChartNode = new DynamicJFreeChartNode( pSwingCanvas, jFreeChart );
         dynamicJFreeChartNode.setBuffered( true );
         dynamicJFreeChartNode.setBounds( 0, 0, 300, 400 );
         dynamicJFreeChartNode.setBufferedImmediateSeries();
 
+        jFreeChart.setTitle( (String) null );
+        setVerticalRange( minY, maxY );
+        setDomain( 0, maxDomainTime );
+        jFreeChart.setBackgroundPaint( null );
+
         graphTimeControlNode = createGraphTimeControlNode( timeSeriesModel );
         additionalControls = new PSwing( additionalControlPanel );
 //        additionalControls.addChild( new PSwing( additionalControlPanel) );
 
         jFreeChartSliderNode = createSliderNode( thumb, series != null ? series.getColor() : Color.yellow );
-        zoomControl = new ZoomSuiteNode();
+
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
                 zoomVertical( ZOOM_FRACTION );
@@ -176,9 +184,7 @@ public class ControlGraph extends PNode {
                 event.getInputManager().setKeyboardFocus( event.getPath() );
             }
         } );
-        this.defaultMinY = minY;
-        this.defaultMaxY = maxY;
-        this.defaultMaxX = maxDomainTime;
+
 
         if ( series != null ) {
             addSeries( series );
@@ -206,16 +212,12 @@ public class ControlGraph extends PNode {
         return new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb, highlightColor );//todo: better support for non-controllable graphs
     }
 
-    public void setHorizontalRangeMax( double maxDomainValue ) {
-        setHorizontalRange( 0, maxDomainValue );
-    }
-
-    public void setHorizontalRange( double minDomainValue, double maxDomainValue ) {
-        if ( minDomainValue != this.minDomainValue || this.maxDomainValue != maxDomainValue ) {
-            jFreeChart.getXYPlot().getDomainAxis().setRange( minDomainValue, maxDomainValue );
-            this.minDomainValue = minDomainValue;
-            this.maxDomainValue = maxDomainValue;
+    public void setDomain( double min, double max ) {
+        if ( !jFreeChart.getXYPlot().getDomainAxis().getRange().equals( new Range( min, max ) ) ) {
+            jFreeChart.getXYPlot().getDomainAxis().setRange( min, max );
             notifyZoomChanged();
+            updateHorizontalZoomEnabled();
+            forceUpdateAll();
         }
     }
 
@@ -291,7 +293,7 @@ public class ControlGraph extends PNode {
 
     public void resetRange() {
         setVerticalRange( defaultMinY, defaultMaxY );
-        setHorizontalRangeMax( defaultMaxX );
+        setDomain( 0, defaultMaxX );
     }
 
     public double getDefaultMinY() {
@@ -309,11 +311,10 @@ public class ControlGraph extends PNode {
     protected void zoomHorizontal( double v ) {
         double currentValue = jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
         double newValue = currentValue * v;
-        if ( newValue > maxDomainValue ) {
-            newValue = maxDomainValue;
+        if ( newValue > maxViewableX ) {
+            newValue = maxViewableX;
         }
         setDomainUpperBound( newValue );
-        forceUpdateAll();
     }
 
     protected void notifyZoomChanged() {
@@ -337,7 +338,7 @@ public class ControlGraph extends PNode {
     }
 
     protected void updateHorizontalZoomEnabled() {
-        zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
+        zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxViewableX );
     }
 
     protected ZoomSuiteNode getZoomControl() {
@@ -448,11 +449,12 @@ public class ControlGraph extends PNode {
     }
 
     public void setDomainUpperBound( double maxDataX ) {
-        if ( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDataX ) {
-            jFreeChart.getXYPlot().getDomainAxis().setUpperBound( maxDataX );
-            updateHorizontalZoomEnabled();
-            notifyZoomChanged();
-        }
+        setDomain( jFreeChart.getXYPlot().getDomainAxis().getLowerBound(), maxDataX );
+//        if ( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDataX ) {
+//            jFreeChart.getXYPlot().getDomainAxis().setUpperBound( maxDataX );
+//            updateHorizontalZoomEnabled();
+//            notifyZoomChanged();
+//        }
     }
 
     public void setFlowLayout() {
@@ -622,15 +624,17 @@ public class ControlGraph extends PNode {
 //            forceUpdateAll();
 //        }
 
-        //Throw away data that is outside of the max allowed domain
-        if ( domainContains( time ) ) {
+        if ( viewableRegionContains( time ) ) {
             dynamicJFreeChartNode.addValue( series, time, value );
+        }
+        else {
+            //Throw away data that is outside of the max allowed domain
         }
 //        System.out.println( "series = " + series + " time=" + time + ", value=" + value );
     }
 
-    private boolean domainContains( double time ) {
-        return time >= 0 && time <= maxDomainValue;
+    private boolean viewableRegionContains( double time ) {
+        return time >= minViewableX && time <= maxViewableX;
     }
 
     public void setEditable( boolean editable ) {
