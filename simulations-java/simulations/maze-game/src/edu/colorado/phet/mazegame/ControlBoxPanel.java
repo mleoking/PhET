@@ -42,7 +42,6 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
     //private Graphics offScreenGraphics;
 
     private JRadioButton rButton, vButton, aButton;
-    private ButtonGroup radioGroup;
     private Border raisedBevel, loweredBevel, compound1, compound2;
 
     public ControlBoxPanel( ParticleArena pArena )  //  edu.colorado.phet.mazegame.ControlBox()
@@ -57,7 +56,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         setBorder( compound2 );
         arrow = new ArrowA();
         x0 = MazeGameApplet.fullWidth / 4;
-        ;              //changed from getWidth()/2; when Applet changed to Panel
+                      //changed from getWidth()/2; when Applet changed to Panel
         y0 = MazeGameApplet.fullHeight / 4;
         xF = x0 + 9 * ( MazeGameApplet.fullWidth / 4 ) / 10;      //Initial Position of throttle
         yF = y0 - 5 * ( MazeGameApplet.fullHeight / 4 ) / 10;
@@ -82,7 +81,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         this.add( vButton );
         this.add( aButton );
 
-        radioGroup = new ButtonGroup();
+        ButtonGroup radioGroup = new ButtonGroup();
         radioGroup.add( rButton );
         radioGroup.add( vButton );
         radioGroup.add( aButton );
