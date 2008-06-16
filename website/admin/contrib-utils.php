@@ -448,16 +448,16 @@ EOT;
                             </tr>
 
                             <tr>
-                                <td colspan="2" id="forgot_password">
-                                    <a href="{$site_root}admin/forgot-password.php">Forgot your password?</a>
-                                </td>
-                            </tr>
-
-                            <tr>
                                 <td colspan="2">
                                     <input type="hidden" name="referrer" value="{$referrer}" class="always-enabled" />
                                     {$hidden_inputs}
                                     <input type="submit" name="submit" value="Login" class="always-enabled auto-width" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" id="forgot_password">
+                                    <a href="{$site_root}admin/forgot-password.php">Forgot your password?</a>
                                 </td>
                             </tr>
 
