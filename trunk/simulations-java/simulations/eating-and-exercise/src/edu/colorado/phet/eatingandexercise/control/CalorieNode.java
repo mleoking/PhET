@@ -92,19 +92,9 @@ public class CalorieNode extends PNode {
             }
         } );
 
-//        final PhetPPath child = new PhetPPath( calorieDragStrip.getSourceBounds(), Color.green );
-//        calorieDragStrip.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
-//            public void propertyChange( PropertyChangeEvent evt ) {
-//                child.setPathTo( calorieDragStrip.getSourceBounds() );
-//            }
-//        } );
-//        addChild( child );
-
-
         addPreExistingItems();
         calorieSet.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
-//                calorieDragStrip.itemAdded( item );
             }
 
             public void itemRemoved( CaloricItem item ) {
