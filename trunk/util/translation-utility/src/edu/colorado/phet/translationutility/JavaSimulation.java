@@ -1,6 +1,6 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.translationutility.java;
+package edu.colorado.phet.translationutility;
 
 import java.io.*;
 import java.util.Properties;
@@ -9,23 +9,19 @@ import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
-import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.Command;
+import edu.colorado.phet.translationutility.util.PropertiesIO;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
+import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOException;
 
 /**
- * JarIO handles input and output related to a Java-based simulation's JAR file.
- * It also handles running a JAR file.
- * <p>
- * Notes:
- * <ul>
- * <li>file I/O uses the platform-specific file separator character in all file names
- * <li>JAR entries ignore the platform-specific file separator and always use '/'
- * </ul>
+ * JavaSimulation is a Java-based simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class JarIO {
+public class JavaSimulation extends Simulation {
+    
+    private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.pathSeparator" ) + "phet-test-translation.jar"; // temporary JAR file used to test translations
     
     private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
     private static final String ERROR_CANNOT_CLOSE_JAR = TUResources.getString( "error.cannotCloseJar" );
@@ -34,23 +30,69 @@ public class JarIO {
     private static final String ERROR_CANNOT_INSERT_PROPERTIES_FILE = TUResources.getString( "error.cannotInsertPropertiesFile" );
     private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
     private static final String ERROR_MISSING_MANIFEST = TUResources.getString( "error.missingManifest" );
+    private static final String ERROR_EXPORT = "failed to export to file";//XXX
+    private static final String ERROR_IMPORT = "failed to import from file"; //XXX
+    private static final String ERROR_RUN_JAR = "failed to run jar file"; //XXX
     
-    /**
-     * All exceptions caught by JarFileManager will be mapped to JarIOException. 
-     */
-    public static class JarIOException extends Exception {
-        public JarIOException( String message ) {
-            super( message );
+    private final String _jarFileName;
+    private final String _projectName;
+
+    public JavaSimulation( String jarFileName ) throws SimulationException {
+        super();
+        _jarFileName = jarFileName;
+        
+        String[] commonProjectNames = TUResources.getCommonProjectNames();
+        _projectName = getSimulationProjectName( jarFileName, commonProjectNames );
+    }
+    
+    public String getProjectName() {
+        return _projectName;
+    }
+    
+    public void test( Properties properties, String languageCode ) throws SimulationException {
+        setLocalizedStrings( properties, languageCode );
+        try {
+            runJar( TEST_JAR, languageCode );
         }
-        public JarIOException( String message, Throwable cause ) {
-            super( message, cause );
+        catch ( CommandException e ) {
+            throw new SimulationException( ERROR_RUN_JAR, e );
+        }
+    }
+
+    public Properties getLocalizedStrings( String languageCode ) throws SimulationException {
+        return readPropertiesFromJar( _jarFileName, _projectName, languageCode );
+    }
+
+    public void setLocalizedStrings( Properties properties, String languageCode ) throws SimulationException {
+        String propertiesFileName = getPropertiesResourceName( _projectName, languageCode );
+        copyJarAndAddProperties( _jarFileName, TEST_JAR, propertiesFileName, properties );
+    }
+    
+    public Properties importLocalizedStrings( File file ) throws SimulationException {
+        Properties properties = null;
+        try {
+            properties = PropertiesIO.readPropertiesFromFile( file );
+        }
+        catch ( PropertiesIOException e ) {
+            throw new SimulationException( ERROR_IMPORT, e );
+        }
+        return properties;
+    }
+
+    public void exportLocalizedStrings( Properties properties, File file ) throws SimulationException {
+        try {
+            PropertiesIO.writePropertiesToFile( properties, file );
+        }
+        catch ( PropertiesIOException e ) {
+            throw new SimulationException( ERROR_EXPORT, e );
         }
     }
     
-    /* not intended for instantiation */
-    private JarIO() {}
+    public String getExportFileBasename( String languageCode ) {
+        return getPropertiesFileBaseName( _projectName, languageCode );
+    }
     
-    /**
+    /*
      * Gets the name of the simulation project used to create the JAR file.
      * We search for localization files in the JAR file.
      * The first localization file that does not belong to a common project is assumed
@@ -61,7 +103,7 @@ public class JarIO {
      * @return String
      * @throws JarIOException
      */
-    public static String getSimulationProjectName( String jarFileName, String[] commonProjectNames ) throws JarIOException {
+    private static String getSimulationProjectName( String jarFileName, String[] commonProjectNames ) throws SimulationException {
         
         String projectName = null;
         
@@ -71,7 +113,7 @@ public class JarIO {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName, e );
+            throw new SimulationException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName, e );
         }
         
         JarInputStream jarInputStream = null;
@@ -106,11 +148,11 @@ public class JarIO {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + jarFileName, e );
+            throw new SimulationException( ERROR_CANNOT_READ_JAR + " : " + jarFileName, e );
         }
         
         if ( projectName == null ) {
-            throw new JarIOException( ERROR_CANNOT_DETERMINE_PROJECT_NAME + " : " + jarFileName );
+            throw new SimulationException( ERROR_CANNOT_DETERMINE_PROJECT_NAME + " : " + jarFileName );
         }
         
         return projectName;
@@ -125,7 +167,31 @@ public class JarIO {
         return projectName + "/localization/" + projectName + "-strings.properties";
     }
     
-    /**
+    /*
+     * Gets the name of the properties resource that contains localized strings for a specified language code.
+     * If the language code is null, the default localization file (English) is returned.
+     */
+    private static String getPropertiesResourceName( String projectName, String languageCode ) {
+        return projectName + "/localization/" + getPropertiesFileBaseName( projectName, languageCode );
+    }
+    
+    /*
+     * Gets the base name of the localized properties file for a specified project and language.
+     * 
+     * @param projectName
+     * @param languageCode
+     * @return
+     */
+    private static String getPropertiesFileBaseName( String projectName, String languageCode ) {
+        String baseName = projectName + "-strings";
+        if ( languageCode != null && languageCode != "en" ) {
+            baseName = baseName + "_" + languageCode;
+        }
+        baseName = baseName + ".properties";
+        return baseName;
+    }
+
+    /*
      * Reads a properties file from the specified JAR file.
      * The properties file contains localized strings.
      * 
@@ -135,7 +201,7 @@ public class JarIO {
      * @return Properties
      * @throws JarIOException
      */
-    public static Properties readPropertiesFromJar( String jarFileName, String projectName, String languageCode ) throws JarIOException {
+    private static Properties readPropertiesFromJar( String jarFileName, String projectName, String languageCode ) throws SimulationException {
         
         InputStream inputStream = null;
         try {
@@ -143,7 +209,7 @@ public class JarIO {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName, e );
+            throw new SimulationException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName, e );
         }
         
         String propertiesFileName = getPropertiesResourceName( projectName, languageCode );
@@ -166,7 +232,7 @@ public class JarIO {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + jarFileName, e );
+            throw new SimulationException( ERROR_CANNOT_READ_JAR + " : " + jarFileName, e );
         }
         
         Properties properties = null;
@@ -177,7 +243,7 @@ public class JarIO {
             }
             catch ( IOException e ) {
                 e.printStackTrace();
-                throw new JarIOException( ERROR_CANNOT_EXTRACT_PROPERTIES_FILE + " : " + propertiesFileName, e );
+                throw new SimulationException( ERROR_CANNOT_EXTRACT_PROPERTIES_FILE + " : " + propertiesFileName, e );
             }
         }
         
@@ -186,13 +252,13 @@ public class JarIO {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_CLOSE_JAR + " : " + jarFileName, e );
+            throw new SimulationException( ERROR_CANNOT_CLOSE_JAR + " : " + jarFileName, e );
         }
     
         return properties;
     }
     
-    /**
+    /*
      * Copies a JAR file and adds (or replaces) a properties file.
      * The properties file contains localized strings.
      * The original JAR file is not modified.
@@ -203,7 +269,9 @@ public class JarIO {
      * @param properties
      * @throws JarIOException
      */
-    public static void copyJarAndAddProperties( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws JarIOException {
+    private static void copyJarAndAddProperties( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws SimulationException {
+        
+        System.out.println( "copying " + originalJarFileName + " to " + newJarFileName );//XXX
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
@@ -216,7 +284,7 @@ public class JarIO {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + originalJarFileName, e );
+            throw new SimulationException( ERROR_CANNOT_OPEN_JAR + " : " + originalJarFileName, e );
         }
         
         File testFile = new File( newJarFileName );
@@ -226,7 +294,7 @@ public class JarIO {
             JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
             Manifest manifest = jarInputStream.getManifest();
             if ( manifest == null ) {
-                throw new JarIOException( ERROR_MISSING_MANIFEST + " : " + originalJarFileName );
+                throw new SimulationException( ERROR_MISSING_MANIFEST + " : " + originalJarFileName );
             }
             
             // output goes to test JAR file
@@ -262,42 +330,19 @@ public class JarIO {
         catch ( IOException e ) {
             testFile.delete();
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_INSERT_PROPERTIES_FILE + " : " + newJarFileName, e );
+            throw new SimulationException( ERROR_CANNOT_INSERT_PROPERTIES_FILE + " : " + newJarFileName, e );
         }
     }
-
-    /**
+    
+    /*
      * Runs the JAR file for a specified language code.
      * 
      * @param languageCode
      */
-    public static void runJar( String jarFileName, String languageCode ) throws CommandException {
+    private static void runJar( String jarFileName, String languageCode ) throws CommandException {
         String languageArg = "-Duser.language=" + languageCode;
         String[] cmdArray = { "java", "-jar", languageArg, jarFileName };
         Command.run( cmdArray, false /* waitForCompletion */ );
     }
-    
-    /**
-     * Gets the name of the properties resource that contains localized strings for a specified language code.
-     * If the language code is null, the default localization file (English) is returned.
-     */
-    public static String getPropertiesResourceName( String projectName, String languageCode ) {
-        return projectName + "/localization/" + getPropertiesFileBaseName( projectName, languageCode );
-    }
-    
-    /**
-     * Gets the base name of the localized properties file for a specified project and language.
-     * 
-     * @param projectName
-     * @param languageCode
-     * @return
-     */
-    public static String getPropertiesFileBaseName( String projectName, String languageCode ) {
-        String baseName = projectName + "-strings";
-        if ( languageCode != null && languageCode != "en" ) {
-            baseName = baseName + "_" + languageCode;
-        }
-        baseName = baseName + ".properties";
-        return baseName;
-    }
+
 }

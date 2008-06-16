@@ -18,7 +18,8 @@ public class Command {
     private static final String ERROR_COMMAND_FAILED = TUResources.getString( "error.commandFailed" );
     private static final String ERROR_COMMAND_INTERRUPTED = TUResources.getString( "error.commandInterrupted" );
     
-    private static final boolean DEBUG_COMMAND_OUTPUT = false;
+    private static final boolean DEBUG_COMMAND_STRING = true;
+    private static final boolean DEBUG_COMMAND_STREAMS = false;
     
     /**
      * All exceptions caught by Command will be mapped to CommandException.
@@ -56,12 +57,14 @@ public class Command {
                 command += " ";
             }
         }
-//        System.out.println( "Command.run " + command );
+        if ( DEBUG_COMMAND_STRING ) {
+            System.out.println( "Command.run " + command );
+        }
         
         try {
             Process process = Runtime.getRuntime().exec( cmdArray );
             
-            if ( DEBUG_COMMAND_OUTPUT ) {
+            if ( DEBUG_COMMAND_STREAMS ) {
                 InputStream in = process.getInputStream();
                 int c;
                 while ( ( c = in.read() ) != -1 ) {
