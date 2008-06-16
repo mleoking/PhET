@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility.view;
+package edu.colorado.phet.translationutility.userinterface;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,9 +11,9 @@ import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 import edu.colorado.phet.translationutility.util.FontFactory;
 import edu.colorado.phet.translationutility.util.LanguageCodes;
-import edu.colorado.phet.translationutility.view.FindDialog.FindListener;
 
 /**
  * TranslationPanel is a panel that consists of 3 columns for localizing strings.

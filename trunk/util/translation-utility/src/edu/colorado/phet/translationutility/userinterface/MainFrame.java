@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.translationutility.view;
+package edu.colorado.phet.translationutility.userinterface;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -21,11 +21,11 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.simulations.Simulation;
 import edu.colorado.phet.translationutility.simulations.Simulation.SimulationException;
+import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
+import edu.colorado.phet.translationutility.userinterface.ToolBar.ToolBarListener;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
 import edu.colorado.phet.translationutility.util.FontFactory;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
-import edu.colorado.phet.translationutility.view.FindDialog.FindListener;
-import edu.colorado.phet.translationutility.view.ToolBar.ToolBarListener;
 
 /**
  * MainFrame is the application's main window.
