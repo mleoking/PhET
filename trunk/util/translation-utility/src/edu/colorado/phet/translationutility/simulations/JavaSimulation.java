@@ -24,17 +24,6 @@ public class JavaSimulation extends Simulation {
     
     private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar"; // temporary JAR file used to test translations
     
-    private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
-    private static final String ERROR_CANNOT_CLOSE_JAR = TUResources.getString( "error.cannotCloseJar" );
-    private static final String ERROR_CANNOT_READ_JAR = TUResources.getString( "error.cannotReadJar" );
-    private static final String ERROR_CANNOT_EXTRACT_PROPERTIES_FILE = TUResources.getString( "error.cannotExtractPropertiesFile" );
-    private static final String ERROR_CANNOT_INSERT_PROPERTIES_FILE = TUResources.getString( "error.cannotInsertPropertiesFile" );
-    private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
-    private static final String ERROR_MISSING_MANIFEST = TUResources.getString( "error.missingManifest" );
-    private static final String ERROR_EXPORT = TUResources.getString( "error.export" );
-    private static final String ERROR_IMPORT = TUResources.getString( "error.import" );
-    private static final String ERROR_RUN_JAR = TUResources.getString( "error.runJar" );
-    
     private final String _jarFileName;
     private final String _projectName;
 
@@ -56,7 +45,7 @@ public class JavaSimulation extends Simulation {
             runJar( TEST_JAR, languageCode );
         }
         catch ( CommandException e ) {
-            throw new SimulationException( ERROR_RUN_JAR + " : " + TEST_JAR, e );
+            throw new SimulationException( e );
         }
     }
 
@@ -75,7 +64,7 @@ public class JavaSimulation extends Simulation {
             properties = PropertiesIO.read( file );
         }
         catch ( PropertiesIOException e ) {
-            throw new SimulationException( ERROR_IMPORT + " : " + file.getAbsolutePath(), e );
+            throw new SimulationException( e );
         }
         return properties;
     }
@@ -85,7 +74,7 @@ public class JavaSimulation extends Simulation {
             PropertiesIO.write( properties, file );
         }
         catch ( PropertiesIOException e ) {
-            throw new SimulationException( ERROR_EXPORT + " : " + file.getAbsolutePath(), e );
+            throw new SimulationException( e );
         }
     }
     
@@ -114,7 +103,7 @@ public class JavaSimulation extends Simulation {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new SimulationException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName, e );
+            throw new SimulationException( "jar file not found: " + jarFileName, e );
         }
         
         JarInputStream jarInputStream = null;
@@ -148,12 +137,11 @@ public class JavaSimulation extends Simulation {
             jarInputStream.close();
         }
         catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( ERROR_CANNOT_READ_JAR + " : " + jarFileName, e );
+            throw new SimulationException( "error reading jar file: " + jarFileName, e );
         }
         
         if ( projectName == null ) {
-            throw new SimulationException( ERROR_CANNOT_DETERMINE_PROJECT_NAME + " : " + jarFileName );
+            throw new SimulationException( "could not determine this simulation's project name: " + jarFileName );
         }
         
         return projectName;
@@ -210,7 +198,7 @@ public class JavaSimulation extends Simulation {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new SimulationException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName, e );
+            throw new SimulationException( "jar file not found: " + jarFileName, e );
         }
         
         String propertiesFileName = getPropertiesResourceName( projectName, languageCode );
@@ -233,7 +221,7 @@ public class JavaSimulation extends Simulation {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new SimulationException( ERROR_CANNOT_READ_JAR + " : " + jarFileName, e );
+            throw new SimulationException( "error reading jar file: " + jarFileName, e );
         }
         
         Properties properties = null;
@@ -244,7 +232,7 @@ public class JavaSimulation extends Simulation {
             }
             catch ( IOException e ) {
                 e.printStackTrace();
-                throw new SimulationException( ERROR_CANNOT_EXTRACT_PROPERTIES_FILE + " : " + propertiesFileName, e );
+                throw new SimulationException( "cannot read localized strings file from jar: " + propertiesFileName, e );
             }
         }
         
@@ -253,7 +241,7 @@ public class JavaSimulation extends Simulation {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new SimulationException( ERROR_CANNOT_CLOSE_JAR + " : " + jarFileName, e );
+            throw new SimulationException( "error closing jar file: " + jarFileName, e );
         }
     
         return properties;
@@ -283,7 +271,7 @@ public class JavaSimulation extends Simulation {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new SimulationException( ERROR_CANNOT_OPEN_JAR + " : " + originalJarFileName, e );
+            throw new SimulationException( "jar file not found: " + originalJarFileName, e );
         }
         
         File testFile = new File( newJarFileName );
@@ -293,7 +281,7 @@ public class JavaSimulation extends Simulation {
             JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
             Manifest manifest = jarInputStream.getManifest();
             if ( manifest == null ) {
-                throw new SimulationException( ERROR_MISSING_MANIFEST + " : " + originalJarFileName );
+                throw new SimulationException( "jar file is missing its manifest: " + originalJarFileName );
             }
             
             // output goes to test JAR file
@@ -329,7 +317,7 @@ public class JavaSimulation extends Simulation {
         catch ( IOException e ) {
             testFile.delete();
             e.printStackTrace();
-            throw new SimulationException( ERROR_CANNOT_INSERT_PROPERTIES_FILE + " : " + newJarFileName, e );
+            throw new SimulationException( "cannot add localized strings to jar file: " + newJarFileName, e );
         }
     }
     

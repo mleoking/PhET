@@ -2,6 +2,9 @@
 Change history for translation-utility
 ================================================================================
 
+- move common.projects and language properties to their own properties files
+- cleanup JavaSimulation and FlashSimulation
+
 DONE:
 6/16/08 - add HTML file to jar for FlashLauncher, so that "test" feature works
 6/16/08 - add support for Flash sims (test isn't working yet, missing HTML file)

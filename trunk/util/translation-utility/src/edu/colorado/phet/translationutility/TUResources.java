@@ -42,20 +42,8 @@ public class TUResources {
         return RESOURCES.getLocalizedChar( name, defaultValue );
     }
 
-    public static final int getInt( String name, int defaultValue ) {
-        return RESOURCES.getLocalizedInt( name, defaultValue );
-    }
-    
-    public static final BufferedImage getImage( String name ) {
-        return RESOURCES.getImage( name );
-    }
-    
     public static final Icon getIcon( String name ) {
         return new ImageIcon( RESOURCES.getImage( name ) );
-    }
-    
-    public static final String getCommonString( String name ) {
-        return PhetCommonResources.getInstance().getLocalizedString( name );
     }
     
     public static final BufferedImage getCommonImage( String name ) {
@@ -91,6 +79,12 @@ public class TUResources {
         return MessageFormat.format( "{0} : {1} {2}", titleFormatArgs );
     }
     
+    /**
+     * Gets a property from the project properties file (translation-utility.properties).
+     * 
+     * @param key
+     * @return
+     */
     public static String getProjectProperty( String key ) {
         return CONFIG.getProjectProperty( key );
     }

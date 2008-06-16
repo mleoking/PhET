@@ -9,7 +9,6 @@ import java.io.InputStream;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
-import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.simulations.Simulation.SimulationException;
 
 /**
@@ -19,9 +18,6 @@ import edu.colorado.phet.translationutility.simulations.Simulation.SimulationExc
  */
 public class SimulationFactory {
     
-    private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
-    private static final String ERROR_CANNOT_READ_JAR = TUResources.getString( "error.cannotReadJar" );
-
     private SimulationFactory() {}
     
     public static Simulation createSimulation( String jarFileName ) throws SimulationException {
@@ -54,7 +50,7 @@ public class SimulationFactory {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new SimulationException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName, e );
+            throw new SimulationException( "jar file not found: " + jarFileName, e );
         }
         
         JarInputStream jarInputStream = null;
@@ -76,7 +72,7 @@ public class SimulationFactory {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new SimulationException( ERROR_CANNOT_READ_JAR + " : " + jarFileName, e );
+            throw new SimulationException( "error reading jar file: " + jarFileName, e );
         }
         
         return containsSWF;

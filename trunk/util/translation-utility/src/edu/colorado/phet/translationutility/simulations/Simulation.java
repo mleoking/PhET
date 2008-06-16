@@ -13,6 +13,9 @@ import java.util.Properties;
 public abstract class Simulation {
     
     public static class SimulationException extends Exception {
+        public SimulationException( Throwable cause ) {
+            super( cause );
+        }
         public SimulationException( String message ) {
             super( message );
         }

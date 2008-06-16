@@ -14,9 +14,6 @@ import edu.colorado.phet.translationutility.TUResources;
  */
 public class PropertiesIO {
 
-    private static final String ERROR_CANNOT_READ_PROPERTIES_FILE = TUResources.getString( "error.cannotReadPropertiesFile" );
-    private static final String ERROR_CANNOT_WRITE_PROPERTIES_FILE = TUResources.getString( "error.cannotWritePropertiesFile" );
-
     /**
      * All exceptions caught by PropertiesIO will be mapped to PropertiesIOException. 
      */
@@ -48,7 +45,7 @@ public class PropertiesIO {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new PropertiesIOException( ERROR_CANNOT_WRITE_PROPERTIES_FILE + " : " + file.getAbsolutePath(), e );
+            throw new PropertiesIOException( "failed to write properties file: " + file.getAbsolutePath(), e );
         }
     }
     
@@ -68,7 +65,7 @@ public class PropertiesIO {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new PropertiesIOException( ERROR_CANNOT_READ_PROPERTIES_FILE + " : " + file.getAbsolutePath(), e );
+            throw new PropertiesIOException( "failed to read properties file: " + file.getAbsolutePath(), e );
         }
         return properties;
     }
