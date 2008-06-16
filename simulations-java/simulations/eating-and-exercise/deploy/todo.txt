@@ -11,6 +11,8 @@ Slider text box should display values allowed by the model but out of the range 
     >>Slider text box values can go outside the slider range
     >>Looks like wrong behavior for when a user types in an out of range value
 
+Buggy behavior when an icon overlaps both the toolbox and the plate (nullpointerexception)
+
 #######################################################################################
 ##############                    To Do/Noah                             ##############
 #######################################################################################
