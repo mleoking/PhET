@@ -308,6 +308,9 @@
                 if ($ext == 'jnlp') {
                     $mime_type = "application/x-java-jnlp-file";
                 }
+                else if ($ext == 'swf') {
+                    $mime_type = "application/x-Shockwave-Flash";
+                }
                 else if ($ext == 'gif') {
                     $mime_type = "image/gif";
                 }
