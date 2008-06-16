@@ -170,7 +170,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         layout.addComponent( new JSeparator(), row, 0, 3, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL );
         row++;
 
-        // sort the keys in lexographically acending order
+        // sort the keys in ascending order
         Enumeration keys = sourceProperties.propertyNames();
         TreeSet sortedSet = new TreeSet();
         while ( keys.hasMoreElements() ) {
