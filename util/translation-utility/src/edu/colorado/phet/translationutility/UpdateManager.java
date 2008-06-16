@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class CheckForUpdates {
+public class UpdateManager {
 
     private static final int CONNECTION_TIMEOUT = 4000; // milliseconds
     
@@ -38,14 +38,14 @@ public class CheckForUpdates {
     private static final String UPDATE_DIALOG_MESSAGE = TUResources.getString( "updateDialog.message" );
 
     /* not intended for instantiation */
-    private CheckForUpdates() {}
+    private UpdateManager() {}
 
     /**
      * Reads a properties file on the PhET production server.
      * Compares the SVN revision number property with the SVN revision number of the running program.
      * If they are different, alert the user by opening a dialog. 
      */
-    public static void check() {
+    public static void checkForUpdate() {
         
         // Are we connected to the Internet?
         boolean connectedToInternet = false;
