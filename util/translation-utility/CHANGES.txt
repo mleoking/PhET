@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+6/16/08 - add support for Flash sims (test isn't working yet, missing HTML file)
 6/16/08 - add factory for creating proper type of Simulation
 6/16/08 - rename UpdateManager
 6/16/08 - refactor to create Simulation type hierarchy

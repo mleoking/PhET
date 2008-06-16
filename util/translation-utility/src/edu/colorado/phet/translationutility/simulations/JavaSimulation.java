@@ -22,7 +22,7 @@ import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOExcept
  */
 public class JavaSimulation extends Simulation {
     
-    private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.pathSeparator" ) + "phet-test-translation.jar"; // temporary JAR file used to test translations
+    private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar"; // temporary JAR file used to test translations
     
     private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
     private static final String ERROR_CANNOT_CLOSE_JAR = TUResources.getString( "error.cannotCloseJar" );
@@ -72,7 +72,7 @@ public class JavaSimulation extends Simulation {
     public Properties importLocalizedStrings( File file ) throws SimulationException {
         Properties properties = null;
         try {
-            properties = PropertiesIO.readPropertiesFromFile( file );
+            properties = PropertiesIO.read( file );
         }
         catch ( PropertiesIOException e ) {
             throw new SimulationException( ERROR_IMPORT + " : " + file.getAbsolutePath(), e );
@@ -82,7 +82,7 @@ public class JavaSimulation extends Simulation {
 
     public void exportLocalizedStrings( Properties properties, File file ) throws SimulationException {
         try {
-            PropertiesIO.writePropertiesToFile( properties, file );
+            PropertiesIO.write( properties, file );
         }
         catch ( PropertiesIOException e ) {
             throw new SimulationException( ERROR_EXPORT + " : " + file.getAbsolutePath(), e );
@@ -271,8 +271,6 @@ public class JavaSimulation extends Simulation {
      * @throws JarIOException
      */
     private static void copyJarAndAddProperties( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws SimulationException {
-        
-        System.out.println( "copying " + originalJarFileName + " to " + newJarFileName );//XXX
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
