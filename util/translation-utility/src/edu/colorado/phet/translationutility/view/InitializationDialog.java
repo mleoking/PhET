@@ -59,21 +59,18 @@ public class InitializationDialog extends JDialog {
     
     /**
      * Constructs a dialog with no owner.
-     * 
-     * @param title
      */
-    public InitializationDialog( String title ) {
-        this( null, title );
+    public InitializationDialog() {
+        this( null );
     }
     
     /**
      * Constructs a dialog with a specified owner.
      * 
      * @param owner
-     * @param title
      */
-    public InitializationDialog( Frame owner, String title ) {
-        super( owner, title );
+    public InitializationDialog( Frame owner ) {
+        super( owner, TUResources.getTitle() );
         
         setModal( true );
         setResizable( false );

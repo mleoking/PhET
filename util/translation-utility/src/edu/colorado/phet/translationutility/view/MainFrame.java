@@ -18,11 +18,9 @@ import javax.swing.text.html.HTMLEditorKit;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.translationutility.Simulation;
 import edu.colorado.phet.translationutility.TUResources;
-import edu.colorado.phet.translationutility.java.JarIO;
-import edu.colorado.phet.translationutility.java.PropertiesIO;
-import edu.colorado.phet.translationutility.java.JarIO.JarIOException;
-import edu.colorado.phet.translationutility.java.PropertiesIO.PropertiesIOException;
+import edu.colorado.phet.translationutility.Simulation.SimulationException;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
 import edu.colorado.phet.translationutility.util.FontFactory;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
@@ -36,8 +34,6 @@ import edu.colorado.phet.translationutility.view.ToolBar.ToolBarListener;
  */
 public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     
-    private static final String TEST_JAR_NAME = "phet-test-translation.jar"; // temporary JAR file used to test translations
-    
     private static final String CONFIRM_OVERWRITE_TITLE = TUResources.getString( "title.confirmOverwrite" );
     private static final String CONFIRM_OVERWRITE_MESSAGE = TUResources.getString( "message.confirmOverwrite" );
     private static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
@@ -45,10 +41,11 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     private static final String HELP_TITLE = TUResources.getString( "title.help" );
     private static final String HELP_MESSAGE = TUResources.getString( "help.translation" );
     
-    private String _jarFileName;
-    private String _targetLanguageCode;
-    private String _projectName;
-    private TranslationPanel _translationPanel;
+    private final Simulation _simulation;
+    private final String _targetLanguageCode;
+    private final String _saveDirName;
+    
+    private final TranslationPanel _translationPanel;
     private File _currentDirectory;
     private FindDialog _findDialog;
     private String _previousFindText;
@@ -56,16 +53,18 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     /**
      * Constructor.
      * 
-     * @param title
-     * @param jarFileName
+     * @param simulation
      * @param sourceLanguageCode
      * @param targetLanguageCode
+     * @param saveDirName
      */
-    public MainFrame( String title, String jarFileName, String sourceLanguageCode, String targetLanguageCode ) {
-        super( title );
+    public MainFrame( Simulation simulation, String sourceLanguageCode, String targetLanguageCode, String saveDirName ) {
+        super( TUResources.getTitle() );
         
-        _jarFileName = jarFileName;
+        _simulation = simulation;
         _targetLanguageCode = targetLanguageCode;
+        _saveDirName = saveDirName;
+        
         _currentDirectory = null;
         _findDialog = null;
         _previousFindText = null;
@@ -77,21 +76,19 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         toolBar.addToolBarListener( this );
         
         // Translation Panel
-        String[] commonProjectNames = TUResources.getCommonProjectNames();
         Properties sourceProperties = null;
         Properties targetProperties = null;
         try {
-            _projectName = JarIO.getSimulationProjectName( jarFileName, commonProjectNames );
-            sourceProperties = JarIO.readPropertiesFromJar( jarFileName, _projectName, sourceLanguageCode );
-            targetProperties = JarIO.readPropertiesFromJar( jarFileName, _projectName, targetLanguageCode );
+            sourceProperties = _simulation.getLocalizedStrings( sourceLanguageCode );
+            targetProperties = _simulation.getLocalizedStrings( targetLanguageCode );
         }
-        catch ( JarIOException e ) {
+        catch ( SimulationException e ) {
             ExceptionHandler.handleFatalException( e );
         }
         if ( targetProperties == null ) {
             targetProperties = new Properties();
         }
-        _translationPanel = new TranslationPanel( _projectName, sourceLanguageCode, sourceProperties, targetLanguageCode, targetProperties );
+        _translationPanel = new TranslationPanel( _simulation.getProjectName(), sourceLanguageCode, sourceProperties, targetLanguageCode, targetProperties );
         JScrollPane scrollPane = new JScrollPane( _translationPanel );
         
         // make Component with focus visible in the scroll pane
@@ -152,15 +149,10 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      */
     public void handleTest() {
         Properties properties = _translationPanel.getTargetProperties();
-        String propertiesFileName = JarIO.getPropertiesResourceName( _projectName, _targetLanguageCode );
         try {
-            JarIO.copyJarAndAddProperties( _jarFileName, TEST_JAR_NAME, propertiesFileName, properties );
-            JarIO.runJar( TEST_JAR_NAME, _targetLanguageCode );
+            _simulation.test( properties, _targetLanguageCode );
         }
-        catch ( JarIOException e ) {
-            ExceptionHandler.handleNonFatalException( e );
-        }
-        catch ( CommandException e ) {
+        catch ( SimulationException e ) {
             ExceptionHandler.handleNonFatalException( e );
         }
     }
@@ -185,9 +177,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 }
             }
             try {
-                PropertiesIO.writePropertiesToFile( properties, outFile );
+                _simulation.exportLocalizedStrings( properties, outFile );
             }
-            catch ( PropertiesIOException e ) {
+            catch ( SimulationException e ) {
                 ExceptionHandler.handleNonFatalException( e );
             }
         }
@@ -206,9 +198,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             File inFile = chooser.getSelectedFile();
             Properties properties = null;
             try {
-                properties = PropertiesIO.readPropertiesFromFile( inFile );
+                properties = _simulation.importLocalizedStrings( inFile );
             }
-            catch ( PropertiesIOException e ) {
+            catch ( SimulationException e ) {
                 ExceptionHandler.handleNonFatalException( e );
             }
             _translationPanel.setTargetProperties( properties );
@@ -223,16 +215,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         Properties properties = _translationPanel.getTargetProperties();
         
-        // create the output File, in same directory as JAR file
-        String dirName = new File( _jarFileName ).getParent();
-        String baseName = JarIO.getPropertiesFileBaseName( _projectName, _targetLanguageCode );
-        String fileName = null;
-        if ( dirName != null && dirName.length() > 0 ) {
-            fileName = dirName + File.separatorChar + baseName;
-        }
-        else {
-            fileName = baseName;
-        }
+        // export properties to a file
+        String baseName = _simulation.getExportFileBasename( _targetLanguageCode );
+        String fileName = _saveDirName + File.separatorChar + baseName;
         File outFile = new File( fileName );
         if ( outFile.exists() ) {
             Object[] args = { fileName };
@@ -244,9 +229,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         }
         
         try {
-            PropertiesIO.writePropertiesToFile( properties, outFile );
+            _simulation.exportLocalizedStrings( properties, outFile );
         }
-        catch ( PropertiesIOException e ) {
+        catch ( SimulationException e ) {
             ExceptionHandler.handleNonFatalException( e );
         }
         
