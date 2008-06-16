@@ -127,8 +127,10 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             // Register as a listener with the model so that we know when it gets
             // reset.
             m_model.addListener( new MultipleParticleModel.Adapter(){
-                public void resetOccurred(){
+                public void temperatureChanged(){
                     m_temperatureControl.setValue( m_model.getTemperature() );
+                }
+                public void resetOccurred(){
                     m_gravitationalAccControl.setValue( m_model.getGravitationalAcceleration() );
                 }
             });
