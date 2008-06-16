@@ -39,7 +39,7 @@ public class PropertiesIO {
      * @param file
      * @throws PropertiesIOException
      */
-    public static void writePropertiesToFile( Properties properties, File file ) throws PropertiesIOException {
+    public static void write( Properties properties, File file ) throws PropertiesIOException {
         try {
             OutputStream outputStream = new FileOutputStream( file );
             String header = file.getName() + " created using PhET Translation Utility " + TUResources.getVersion();
@@ -59,7 +59,7 @@ public class PropertiesIO {
      * @param file
      * @throws PropertiesIOException
      */
-    public static Properties readPropertiesFromFile( File file ) throws PropertiesIOException {
+    public static Properties read( File file ) throws PropertiesIOException {
         Properties properties = new Properties();
         try {
             InputStream inStream = new FileInputStream( file );
