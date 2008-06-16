@@ -139,7 +139,6 @@ public class MultipleParticleModel {
         return m_gravitationalAcceleration;
     }
 
-    
     public void setGravitationalAcceleration( double acceleration ) {
         m_gravitationalAcceleration = acceleration;
     }
@@ -162,22 +161,6 @@ public class MultipleParticleModel {
         }
         m_particles.clear();
 
-        // TODO: JPB TBD - Add a set of moving particles.
-        /*
-        Random rand = new Random();
-        for (int i=0; i<15; i++){
-            double xPos = rand.nextDouble() * StatesOfMatterConstants.CONTAINER_BOUNDS.width;
-            double yPos = rand.nextDouble() * StatesOfMatterConstants.CONTAINER_BOUNDS.height;
-            double xVel = (rand.nextDouble() - 0.5) * 40;
-            double yVel = (rand.nextDouble() - 0.5) * 40;
-            StatesOfMatterParticle particle = new StatesOfMatterParticle(xPos, yPos, OXYGEN_MOLECULE_DIAMETER, 10);
-            particle.setVx( xVel );
-            particle.setVy( yVel );
-            m_particles.add( particle );
-            notifyParticleAdded( particle );
-        }
-        */
-        
         // Initialize the system parameters.
         m_temperature = INITIAL_TEMPERATURE;
         m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
@@ -211,6 +194,8 @@ public class MultipleParticleModel {
         syncParticlePositions();
         
         /*
+         * TODO: JPB TBD - This is the original code that John De Goes had written, which
+         * is being kept for now as a reference, but should ultimately be deleted.
         ParticleCreationStrategy strategy = 
             new PackedHexagonalParticleCreationStrategy(StatesOfMatterConstants.ICE_CUBE_BOUNDS, 
                     StatesOfMatterConstants.PARTICLE_MASS, 
@@ -269,33 +254,9 @@ public class MultipleParticleModel {
         syncParticlePositions();
         
         /*
-        // TODO: JPB TBD - Simple linear motion and bouncing algorithm for testing.
-        for ( Iterator iterator = m_particles.iterator(); iterator.hasNext(); ) {
-            StatesOfMatterParticle particle = (StatesOfMatterParticle) iterator.next();
-            
-            // Bounce the particle if needed.
-            if ((particle.getX() >= StatesOfMatterConstants.CONTAINER_BOUNDS.width) &&
-                (particle.getVx() > 0)){
-                particle.setVx( -particle.getVx() );
-            }
-            else if ((particle.getX() <= StatesOfMatterConstants.CONTAINER_BOUNDS.x) &&
-                     (particle.getVx() < 0)){
-                particle.setVx( -particle.getVx() );
-            }
-            if ((particle.getY() >= StatesOfMatterConstants.CONTAINER_BOUNDS.height) &&
-                    (particle.getVy() > 0)){
-                    particle.setVy( -particle.getVy() );
-            }
-            else if ((particle.getY() <= StatesOfMatterConstants.CONTAINER_BOUNDS.y) &&
-                     (particle.getVy() < 0)){
-                particle.setVy( -particle.getVy() );
-            }
-                
-            particle.setPosition( particle.getX() + particle.getVx(), particle.getY() + particle.getVy());
-        }
-        */
-        
-        /*
+         * TODO: JPB TBD - This is the original code that John De Goes had written, which
+         * is being kept for now as a reference, but should ultimately be deleted.
+
         for (int i = 0; i < StatesOfMatterConstants.COMPUTATIONS_PER_RENDER; i++) {
             ForceComputation computation = m_engineFacade.step(clockEvent.getSimulationTimeChange());
 
