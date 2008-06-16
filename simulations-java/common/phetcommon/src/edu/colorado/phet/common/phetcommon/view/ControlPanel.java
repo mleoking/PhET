@@ -238,7 +238,6 @@ public class ControlPanel extends JPanel {
      * Adds a "Reset All" button that will reset a collection of objects when pressed.
      * 
      * @param resettables
-     * @param the button
      */
     public JButton addResetAllButton( final Resettable[] resettables ) {
         JButton resetAllButton = new ResetAllButton( resettables, PhetApplication.instance().getPhetFrame() );
