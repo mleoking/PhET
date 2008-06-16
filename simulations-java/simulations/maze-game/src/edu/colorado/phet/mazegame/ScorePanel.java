@@ -1,13 +1,14 @@
 package edu.colorado.phet.mazegame;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 public class ScorePanel extends JPanel implements ItemListener {
     ParticleArena pArena;
@@ -130,7 +131,7 @@ public class ScorePanel extends JPanel implements ItemListener {
         startBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent aevt ) {
                 ScorePanel.this.pArena.start();
-                if( clockOn ) {
+                if ( clockOn ) {
                     myClock1.start();
                 }
                 //startStopLbl.setText("Drag tip of arrow");
@@ -205,7 +206,7 @@ public class ScorePanel extends JPanel implements ItemListener {
 
     class TraceChkBoxHandler implements ActionListener {
         public void actionPerformed( ActionEvent aevt ) {
-            if( traceChkBox.isSelected() ) {
+            if ( traceChkBox.isSelected() ) {
                 //cbPanel.getTrace().moveTo((float)cbPanel.getX(), (float)cbPanel.getY());
                 traceOn = true;
                 cbPanel.setTraceState( traceOn );
@@ -227,18 +228,18 @@ public class ScorePanel extends JPanel implements ItemListener {
 
 
     public void itemStateChanged( ItemEvent ievt ) {
-        if( ievt.getSource() == radio0 ) {
+        if ( ievt.getSource() == radio0 ) {
             pArena.setBarrierState( 0 );
             //System.out.println("barrier state is " + pArena.getBarrierState());
         }
-        else if( ievt.getSource() == radio1 ) {
+        else if ( ievt.getSource() == radio1 ) {
             pArena.setBarrierState( 1 );
             //System.out.println("barrier state is " + pArena.getBarrierState());
         }
-        else if( ievt.getSource() == radio2 ) {
+        else if ( ievt.getSource() == radio2 ) {
             pArena.setBarrierState( 2 );
         }
-        else if( ievt.getSource() == radio3 ) {
+        else if ( ievt.getSource() == radio3 ) {
             pArena.setBarrierState( 3 );
         }
     }

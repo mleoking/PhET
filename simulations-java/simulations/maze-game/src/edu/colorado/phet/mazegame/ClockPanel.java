@@ -2,11 +2,12 @@ package edu.colorado.phet.mazegame;
 
 //A simple clock application using javax.swing.Timer class
 
-import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -35,7 +36,7 @@ public class ClockPanel extends JPanel {
         setBorder( compound1 );
 
         clockTick = 0;          //initial clock setting in clock ticks
-        clockTime = ( (double)clockTick ) / 10.0;
+        clockTime = ( (double) clockTick ) / 10.0;
 
         clockTimeString = new Double( clockTime ).toString();
         myClockFont = new PhetFont( 25 );
@@ -55,7 +56,7 @@ public class ClockPanel extends JPanel {
         myTimer1 = new Timer( TENTH_SEC, new ActionListener() {
             public void actionPerformed( ActionEvent evt ) {
                 clockTick++;
-                clockTime = ( (double)clockTick ) / 10.0;
+                clockTime = ( (double) clockTick ) / 10.0;
                 clockTimeString = new Double( clockTime ).toString();
                 timeLbl.setText( clockTimeString );
                 //System.out.println(clockTime);
@@ -75,7 +76,7 @@ public class ClockPanel extends JPanel {
 
     public void reset() {
         clockTick = 0;
-        clockTime = ( (double)clockTick ) / 10.0;
+        clockTime = ( (double) clockTick ) / 10.0;
         clockTimeString = new Double( clockTime ).toString();
         timeLbl.setText( clockTimeString );
     }
@@ -85,7 +86,7 @@ public class ClockPanel extends JPanel {
     }
 
     protected void paintComponent( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         super.paintComponent( g );
     }

@@ -37,8 +37,8 @@ public class Particle {
 
 
     public void paint( Graphics g ) {
-        int xInt = (int)( this.x );
-        int yInt = (int)( this.y );
+        int xInt = (int) ( this.x );
+        int yInt = (int) ( this.y );
         g.setColor( Color.red );
         g.fillOval( xInt - radius, yInt - radius, 2 * radius, 2 * radius );
 

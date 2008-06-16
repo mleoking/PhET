@@ -2,18 +2,19 @@ package edu.colorado.phet.mazegame;
 
 //Helper class for Maze Game.  Maintains controller arrow
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.GeneralPath;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 public class ControlBoxPanel extends JPanel    //possible to replace Applet with Panel?
         implements ItemListener, MouseMotionListener {
@@ -96,11 +97,11 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
     }//end of init()
 
     public double getDeltaX() {
-        return (double)( xF - x0 );
+        return (double) ( xF - x0 );
     }
 
     public double getDeltaY() {
-        return (double)( yF - y0 );
+        return (double) ( yF - y0 );
     }
 
     public int getXF() {
@@ -116,16 +117,16 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
     }
 
     public void paintComponent( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         super.paintComponent( g );
-        Graphics2D g2D = (Graphics2D)g;
+        Graphics2D g2D = (Graphics2D) g;
         g.setColor( fontColor );
         g.setFont( arrowFont );
-        if( controlState == POSITION ) {
+        if ( controlState == POSITION ) {
             g.drawString( SimStrings.getInstance().getString( "ControlBoxPanel.PositionLabel" ), 5 * MazeGameApplet.fullWidth / 32, 3 * MazeGameApplet.fullHeight / 8 );
         }
-        else if( controlState == VELOCITY ) {
+        else if ( controlState == VELOCITY ) {
             g.drawString( SimStrings.getInstance().getString( "ControlBoxPanel.VelocityLabel" ), 5 * MazeGameApplet.fullWidth / 32, 3 * MazeGameApplet.fullHeight / 8 );
         }
         else {
@@ -144,12 +145,12 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         xF = mevt.getX();
         yF = mevt.getY();
         arrow.setPosition( x0, y0, xF, yF );
-        if( traceOn && !traceStarted ) {
-            trace.moveTo( (float)xF, (float)yF );
+        if ( traceOn && !traceStarted ) {
+            trace.moveTo( (float) xF, (float) yF );
             traceStarted = true;
         }
-        if( traceOn ) {
-            trace.lineTo( (float)xF, (float)yF );
+        if ( traceOn ) {
+            trace.lineTo( (float) xF, (float) yF );
         }
 
         repaint();
@@ -160,13 +161,13 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
     }
 
     public void itemStateChanged( ItemEvent aevt ) {
-        if( aevt.getSource() == rButton ) {
+        if ( aevt.getSource() == rButton ) {
             //xF = x0 + 9*(edu.colorado.phet.mazegame.MazeGameApplet.fullWidth/4)/10;
             //yF = y0 - 5*(edu.colorado.phet.mazegame.MazeGameApplet.fullHeight/4)/10;
 
             //read current position of particle, set control arrow to match
-            int deltX = (int)( ( pArena.getCurrentX() - ( MazeGameApplet.fullWidth / 2 ) ) / pArena.getPositionFactor() );
-            int deltY = (int)( ( pArena.getCurrentY() - ( MazeGameApplet.fullHeight / 4 ) ) / pArena.getPositionFactor() );
+            int deltX = (int) ( ( pArena.getCurrentX() - ( MazeGameApplet.fullWidth / 2 ) ) / pArena.getPositionFactor() );
+            int deltY = (int) ( ( pArena.getCurrentY() - ( MazeGameApplet.fullHeight / 4 ) ) / pArena.getPositionFactor() );
             this.controlState = POSITION;
 //            System.out.println("x= " + deltX + "   y= " + deltY);
             xF = deltX + x0;
@@ -175,7 +176,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
 
             //System.out.println(getControlState());
         }
-        else if( aevt.getSource() == vButton ) {
+        else if ( aevt.getSource() == vButton ) {
             this.controlState = VELOCITY;
             //reset control arrow to zero length
             xF = x0;
@@ -184,7 +185,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
             repaint();
             //System.out.println(getControlState());
         }
-        else if( aevt.getSource() == aButton ) {
+        else if ( aevt.getSource() == aButton ) {
             this.controlState = ACCELERATION;
             xF = x0;
             yF = y0;

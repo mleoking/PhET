@@ -1,21 +1,13 @@
 package edu.colorado.phet.mazegame;
 
-//edu.colorado.phet.mazegame.ArrowA.class  M.Dubson 5/30/02  Draws a nice arrow.
-
 import java.awt.*;
 
+//M.Dubson 5/30/02  Draws a nice arrow.
 public class ArrowA {
 
     private double L;      //length of arrow
-    private double w;        //width of arrow
-    private double h;        //length of arrow head
     private int[] xInt = new int[8];    //positions of arrow corners for polygon()
     private int[] yInt = new int[8];
-
-
-    public ArrowA() //default constructor
-    {
-    }
 
     //set arrow position arrow to head:(xFinal, yFinal), tail:(x0, y0)
 
@@ -30,8 +22,8 @@ public class ArrowA {
         double y1 = yFinal - y0;    //y-component of arrow
         this.L = Math.pow( ( x1 * x1 + y1 * y1 ), 0.5 );
         //this.thta = Math.asin((yFinal - y0)/L);  //not necessary
-        this.w = this.computeWidth();
-        this.h = 4 * w * Math.sqrt( 3 ) / 2.0;
+        double w = this.computeWidth();
+        double h = 4 * w * Math.sqrt( 3 ) / 2.0;
 
         double[] x = new double[]{( w / 2 ) * ( -y1 / L ),
                 ( w / 2 ) * ( -y1 / L ) + ( L - h ) * ( x1 / L ),
@@ -51,9 +43,9 @@ public class ArrowA {
                 ( w / 2 ) * ( -x1 / L ),
                 ( w / 2 ) * ( x1 / L )};
 
-        for( int i = 0; i < x.length; i++ ) {
-            xInt[i] = x0 + (int)( x[i] );
-            yInt[i] = y0 + (int)( y[i] );
+        for ( int i = 0; i < x.length; i++ ) {
+            xInt[i] = x0 + (int) ( x[i] );
+            yInt[i] = y0 + (int) ( y[i] );
         }
 
     }//end of position()

@@ -48,10 +48,10 @@ public class PositionUpdater {
     }
 
     public int getIntX() {
-        return (int)( this.x );
+        return (int) ( this.x );
     }
 
     public int getIntY() {
-        return (int)( this.y );
+        return (int) ( this.y );
     }
 }//end of public class
