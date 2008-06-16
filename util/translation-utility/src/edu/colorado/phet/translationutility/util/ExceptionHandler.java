@@ -18,11 +18,13 @@ public class ExceptionHandler {
     private ExceptionHandler() {}
 
     public static void handleFatalException( Exception e ) {
+        e.printStackTrace();
         DialogUtils.showErrorDialog( null, e.getMessage(), FATAL_ERROR_DIALOG_TITLE );
         System.exit( 1 ); // non-zero status to indicate abnormal termination
     }
     
     public static void handleNonFatalException( Exception e ) {
+        e.printStackTrace();
         DialogUtils.showErrorDialog( null, e.getMessage(), ERROR_DIALOG_TITLE );
     }
 }
