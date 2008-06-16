@@ -6,11 +6,13 @@ import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class is the "view" for the particle container.  This is where the
@@ -40,6 +42,7 @@ public class ParticleContainerNode extends PhetPNode {
     private final ParticleContainer m_container;
     private final MultipleParticleModel m_model;
     private PImage m_cupImageNode;
+    private LiquidExpansionThermometerNode m_thermometerNode;
 
     private double m_containmentAreaWidth;
     private double m_containmentAreaHeight;
@@ -56,6 +59,13 @@ public class ParticleContainerNode extends PhetPNode {
 
         m_model               = model;
         m_container           = model.getParticleContainer();
+        
+        // Register as a listener for temperature changes.
+        m_model.addListener( new MultipleParticleModel.Adapter(){
+            public void temperatureChanged(){
+                updateThermometerTemperature();
+            }
+        });
         
         // Internal initialization.
         m_containmentAreaWidth  = StatesOfMatterConstants.CONTAINER_BOUNDS.getWidth();
@@ -77,12 +87,23 @@ public class ParticleContainerNode extends PhetPNode {
         m_containmentAreaOffsetX = neededImageWidth * NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT;
         m_containmentAreaOffsetY = m_cupImageNode.getFullBounds().height * NON_CONTAINER_IMAGE_FRACTION_FROM_TOP;
         
-        
         // Position this node so that the origin of the canvas, i.e. position
         // x=0, y=0, is at the lower left corner of the container.
         double xPos = -m_cupImageNode.getFullBoundsReference().width * NON_CONTAINER_IMAGE_FRACTION_FROM_LEFT;
         double yPos = -m_cupImageNode.getFullBoundsReference().height * (1 - NON_CONTAINER_IMAGE_FRACTION_FROM_BOTTOM);
         setOffset( xPos, yPos );
+        
+        // Add a thermometer for displaying temperature.
+        m_thermometerNode = new LiquidExpansionThermometerNode( 
+                new PDimension( m_cupImageNode.getFullBoundsReference().width * 0.075, 
+                        m_cupImageNode.getFullBoundsReference().height * 0.25 ) );
+        
+        addChild(m_thermometerNode);
+        m_thermometerNode.setOffset( 
+                m_cupImageNode.getFullBoundsReference().x + m_cupImageNode.getFullBoundsReference().width * 0.8, 
+                        m_cupImageNode.getFullBoundsReference().y - m_cupImageNode.getFullBoundsReference().height * 0.1 );
+          
+        updateThermometerTemperature();
         
         // Set ourself to be non-pickable so that we don't get mouse events.
         setPickable( false );
@@ -102,6 +123,13 @@ public class ParticleContainerNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Private Methods
     //----------------------------------------------------------------------------
+    
+    /**
+     * Update the value displayed in the thermometer.
+     */
+    private void updateThermometerTemperature(){
+        m_thermometerNode.setLiquidHeight( m_model.getNormalizedTemperature() );
+    }
 
     // TODO: JPB TBD - Is this needed?
     private void update() {

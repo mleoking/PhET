@@ -50,7 +50,7 @@ public class MultipleParticleModel {
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
     private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.0;
-    private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.015;
+    private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.02;
     private static final int    TICKS_PER_TEMP_ADJUSTEMENT = 10; // JPB TBD - I'm not sure if this is a reasonable
                                                                  // way to do this (i.e. that it is based on the
                                                                  // number of ticks).  Should it instead be based on
@@ -140,10 +140,15 @@ public class MultipleParticleModel {
     
     public void setTemperature(double newTemperature){
         m_temperature = newTemperature;
+        notifyTemperatureChanged();
     }
 
     public double getTemperature(){
         return m_temperature;
+    }
+    
+    public double getNormalizedTemperature(){
+        return (getTemperature() / MAX_TEMPERATURE);
     }
     
     public double getGravitationalAcceleration() {
@@ -173,10 +178,13 @@ public class MultipleParticleModel {
         m_particles.clear();
 
         // Initialize the system parameters.
-        m_temperature = INITIAL_TEMPERATURE;
         m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
         m_heatingCoolingAmount = 0;
         m_tempAdjustTickCounter = 0;
+        if (m_temperature != INITIAL_TEMPERATURE){
+            m_temperature = INITIAL_TEMPERATURE;
+            notifyTemperatureChanged();
+        }
         
         // Initialize the vectors that define the normalized particle attributes.
         m_particlePositions  = new Point2D [NUMBER_OF_PARTICLES];
@@ -282,15 +290,16 @@ public class MultipleParticleModel {
         
         // Adjust the temperature.
         m_tempAdjustTickCounter++;
-        if (m_tempAdjustTickCounter > TICKS_PER_TEMP_ADJUSTEMENT){
+        if ((m_tempAdjustTickCounter > TICKS_PER_TEMP_ADJUSTEMENT) && m_heatingCoolingAmount != 0){
             m_tempAdjustTickCounter = 0;
             m_temperature += m_heatingCoolingAmount * MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT;
-            if (m_temperature >= MAX_TEMPERATURE){
+            if (getTemperature() >= MAX_TEMPERATURE){
                 m_temperature = MAX_TEMPERATURE;
             }
             else if (m_temperature <= MIN_TEMPERATURE){
                 m_temperature = MIN_TEMPERATURE;
             }
+            notifyTemperatureChanged();
             System.out.println("m_temperature = " + m_temperature);
         }
         
@@ -321,6 +330,12 @@ public class MultipleParticleModel {
     private void notifyParticleAdded(StatesOfMatterParticle particle){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).particleAdded( particle );
+        }        
+    }
+
+    private void notifyTemperatureChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).temperatureChanged();
         }        
     }
 
@@ -565,10 +580,16 @@ public class MultipleParticleModel {
          * Inform listeners that a new particle has been added to the model.
          */
         public void particleAdded(StatesOfMatterParticle particle);
+        
+        /**
+         * Inform listeners that the temperature of the system has changed.
+         */
+        public void temperatureChanged();
     }
     
     public static class Adapter implements Listener {
         public void resetOccurred(){}
         public void particleAdded(StatesOfMatterParticle particle){}
+        public void temperatureChanged(){}
     }
 }
