@@ -367,6 +367,9 @@ EOT;
             print "<p>There are no contributions for this simulation.</p>";
         }
 
+        $file_max_size = ini_get("upload_max_filesize");
+        $post_max_size = ini_get("post_max_size");
+
         print <<<EOT
         </div>
 
@@ -377,6 +380,8 @@ EOT;
             <div>
                 <input type="hidden" name="sim_id"   value="{$sim_id}" />
             </div>
+
+            <p>Note: The maximum file size is <strong>{$file_max_size}</strong>, with a maximum upload of <strong>{$post_max_size}</strong> at a time.</p>
 
             <p>Required fields are marked with an asterisk (*).</p>
 

@@ -12,6 +12,11 @@ class SimSubmitContributionPage extends SitePage {
             return $result;
         }
 
+        // Check if the file is just too big
+        if (post_size_ok()) {
+            return;
+        }
+
         if (!isset($_REQUEST['contribution_title'])) {
             return;
         }
@@ -113,6 +118,12 @@ class SimSubmitContributionPage extends SitePage {
         $result = parent::render_content();
         if (!$result) {
             return $result;
+        }
+
+        $post_max_size = ini_get('post_max_size');
+        if (!$this->post_size_ok()) {
+            print "<p><strong>Error:</strong> size of file(s) exceeds limit of <strong>{$post_max_size}</strong></p>\n";
+            return;
         }
 
         if (!isset($_REQUEST['contribution_title'])) {
