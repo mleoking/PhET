@@ -49,7 +49,7 @@ public class MultipleParticleModel {
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
-    private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.3;
+    private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.2;
     private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.025;
     private static final int    TICKS_PER_TEMP_ADJUSTEMENT = 10; // JPB TBD - I'm not sure if this is a reasonable
                                                                  // way to do this (i.e. that it is based on the
