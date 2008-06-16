@@ -65,6 +65,8 @@ public class MultipleParticleModel {
     private Point2D [] m_particlePositions;
     private Vector2D [] m_particleVelocities;
     private Vector2D [] m_particleForces;
+    private Vector2D [] m_nextParticleForces;
+
     double m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / OXYGEN_MOLECULE_DIAMETER;
     double m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / OXYGEN_MOLECULE_DIAMETER;
     double m_potentialEnergy;
@@ -165,10 +167,11 @@ public class MultipleParticleModel {
         m_temperature = INITIAL_TEMPERATURE;
         m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
         
-        // TODO: JPB TBD - First attempt to port Paul Beale's IDL code.
-        m_particlePositions = new Point2D [NUMBER_OF_PARTICLES];
+        // Initialize the vectors that define the normalized particle attributes.
+        m_particlePositions  = new Point2D [NUMBER_OF_PARTICLES];
         m_particleVelocities = new Vector2D [NUMBER_OF_PARTICLES];
-        m_particleForces = new Vector2D [NUMBER_OF_PARTICLES];
+        m_particleForces     = new Vector2D [NUMBER_OF_PARTICLES];
+        m_nextParticleForces = new Vector2D [NUMBER_OF_PARTICLES];
         
         for (int i = 0; i < NUMBER_OF_PARTICLES; i++){
             
@@ -176,6 +179,7 @@ public class MultipleParticleModel {
             m_particlePositions[i] = new Point2D.Double();
             m_particleVelocities[i] = new Vector2D.Double();
             m_particleForces[i] = new Vector2D.Double();
+            m_nextParticleForces[i] = new Vector2D.Double();
             
             // Add particle to model set.
             StatesOfMatterParticle particle = new StatesOfMatterParticle(0, 0, OXYGEN_MOLECULE_DIAMETER/2, 10);
@@ -366,14 +370,13 @@ public class MultipleParticleModel {
             double timeStep, double temperature){
         
         double kineticEnergy = 0;
-        Vector2D [] nextParticleForces = new Vector2D [numParticles];
         
         // TODO: JPB TBD - For the sake of efficiency, this allocation should
         // be moved outside of this member function at some point, probably
         // made into a member var of the object that does the calculation.
-        for (int i = 0; i < numParticles; i++){
-            nextParticleForces[i] = new Vector2D.Double();
-        }
+//        for (int i = 0; i < numParticles; i++){
+//            m_nextParticleForces[i] = new Vector2D.Double();
+//        }
         
         double timeStepSqrHalf = timeStep * timeStep * 0.5;
         double timeStepHalf = timeStep / 2;
@@ -395,11 +398,14 @@ public class MultipleParticleModel {
         // walls and by gravity.
         for (int i = 0; i < numParticles; i++){
             
+            // Clear the previous calculation's particle forces.
+            m_nextParticleForces[i].setComponents( 0, 0 );
+            
             // Get the force values caused by the container walls.
-            calculateWallForce(particlePositions[i], nextParticleForces[i], containerWidth, containerHeight);
+            calculateWallForce(particlePositions[i], m_nextParticleForces[i], containerWidth, containerHeight);
             
             // Add in the effect of gravity.
-            nextParticleForces[i].setY( nextParticleForces[i].getY() - gravitationalForce );
+            m_nextParticleForces[i].setY( m_nextParticleForces[i].getY() - gravitationalForce );
         }
         
         // Calculate the forces created through interactions with other
@@ -419,8 +425,8 @@ public class MultipleParticleModel {
                     double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
                     force.setX( dx * forceScaler );
                     force.setY( dy * forceScaler );
-                    nextParticleForces[i].add( force );
-                    nextParticleForces[j].subtract( force );
+                    m_nextParticleForces[i].add( force );
+                    m_nextParticleForces[j].subtract( force );
                     m_potentialEnergy += 4*r6inv*(r6inv-1) + 0.016316891136;
                 }
             }
@@ -429,8 +435,8 @@ public class MultipleParticleModel {
         // Calculate the new velocities.
         Vector2D.Double velocityIncrement = new Vector2D.Double();
         for (int i = 0; i < numParticles; i++){
-            velocityIncrement.setX( timeStepHalf * (particleForces[i].getX() + nextParticleForces[i].getX()));
-            velocityIncrement.setY( timeStepHalf * (particleForces[i].getY() + nextParticleForces[i].getY()));
+            velocityIncrement.setX( timeStepHalf * (particleForces[i].getX() + m_nextParticleForces[i].getX()));
+            velocityIncrement.setY( timeStepHalf * (particleForces[i].getY() + m_nextParticleForces[i].getY()));
             particleVelocities[i].add( velocityIncrement );
             kineticEnergy += ((particleVelocities[i].getX() * particleVelocities[i].getX()) + 
                     (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
@@ -455,7 +461,7 @@ public class MultipleParticleModel {
         
         // Replace the new forces with the old ones.
         for (int i = 0; i < numParticles; i++){
-            particleForces[i] = nextParticleForces[i];
+            particleForces[i].setComponents( m_nextParticleForces[i].getX(), m_nextParticleForces[i].getY() );
         }
     }
     
