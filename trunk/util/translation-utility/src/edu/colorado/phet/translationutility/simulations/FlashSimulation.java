@@ -11,9 +11,12 @@ import java.util.Properties;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FlashSimulation extends Simulation {
+    
+    private final String _jarFileName;
 
-    public FlashSimulation() {
+    public FlashSimulation( String jarFileName ) {
         super();
+        _jarFileName = jarFileName;
     }
 
     public String getProjectName() {
