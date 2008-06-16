@@ -108,6 +108,9 @@ public class UpdateManager {
         }
     }
     
+    /*
+     * Dialog that is displayed while we're checking the remote file.
+     */
     private static class CheckingDialog extends JDialog {
         
         public CheckingDialog( Frame owner ) {

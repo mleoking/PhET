@@ -55,7 +55,7 @@ public class TranslationUtility extends JFrame {
             ExceptionHandler.handleFatalException( e );
         }
         
-        // determine where to save files
+        // save "submitted" files in the same directory as the JAR
         String saveDirName = new File( jarFileName ).getParent();
         if ( saveDirName == null || saveDirName.length() == 0 ) {
             saveDirName = ".";

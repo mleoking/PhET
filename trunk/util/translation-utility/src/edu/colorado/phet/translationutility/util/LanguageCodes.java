@@ -8,6 +8,7 @@ import edu.colorado.phet.translationutility.TUResources;
 
 /**
  * LanguageCodes is a collection of ISO 639-1 language codes and their English names.
+ * The language codes are read from a resource file.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
