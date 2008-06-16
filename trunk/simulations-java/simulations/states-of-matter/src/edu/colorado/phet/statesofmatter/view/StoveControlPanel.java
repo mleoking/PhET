@@ -1,23 +1,23 @@
 package edu.colorado.phet.statesofmatter.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.idealgas.IdealGasResources;
-import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
-import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.phetgraphicsdemo.view.DebuggerGraphic;
-
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.BevelBorder;
-import java.util.Hashtable;
-import java.util.ArrayList;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Hashtable;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 
 public class StoveControlPanel extends JPanel {
     private static final int s_stoveSliderHeight = 60;
@@ -60,7 +60,7 @@ public class StoveControlPanel extends JPanel {
         TitledBorder border = new TitledBorder(new EtchedBorder(BevelBorder.RAISED, 
                 new Color(40, 20, 255),
                 Color.black),
-                IdealGasResources.getString("IdealGasControlPanel.Heat_Control"));
+                StatesOfMatterStrings.STOVE_CONTROL_PANEL_TITLE);
         border.setTitleFont( new PhetFont(12) );
         stovePanel.setBorder(border);
         m_stoveSlider.setBackground(m_controlColor);
