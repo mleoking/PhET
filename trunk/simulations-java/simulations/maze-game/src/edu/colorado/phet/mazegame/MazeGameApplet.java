@@ -3,13 +3,14 @@ package edu.colorado.phet.mazegame;
 //import edu.colorado.phet.common.view.util.GraphicsUtil;
 //import edu.colorado.phet.common.view.util.graphics.ImageLoader;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-
-import javax.swing.*;
-import javax.swing.border.Border;
 import java.applet.AudioClip;
 import java.awt.*;
 import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 public class MazeGameApplet extends JApplet {
     // Localization
