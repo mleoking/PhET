@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility.view;
+package edu.colorado.phet.translationutility.userinterface;
 
 import java.awt.Component;
 import java.awt.Container;
