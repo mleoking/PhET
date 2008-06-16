@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.statesofmatter.view;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -94,13 +95,17 @@ public class ParticleContainerNode extends PhetPNode {
         setOffset( xPos, yPos );
         
         // Add a thermometer for displaying temperature.
+        
         m_thermometerNode = new LiquidExpansionThermometerNode( 
                 new PDimension( m_cupImageNode.getFullBoundsReference().width * 0.075, 
                         m_cupImageNode.getFullBoundsReference().height * 0.25 ) );
         
+        m_thermometerNode.setTicks( m_thermometerNode.getFullBoundsReference().height / 12, Color.BLACK, 4 );
+        
         addChild(m_thermometerNode);
+        
         m_thermometerNode.setOffset( 
-                m_cupImageNode.getFullBoundsReference().x + m_cupImageNode.getFullBoundsReference().width * 0.8, 
+                m_cupImageNode.getFullBoundsReference().x + m_cupImageNode.getFullBoundsReference().width * 0.4, 
                         m_cupImageNode.getFullBoundsReference().y - m_cupImageNode.getFullBoundsReference().height * 0.1 );
           
         updateThermometerTemperature();
