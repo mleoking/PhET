@@ -40,7 +40,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 2.5;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.75;
+    private final double HEIGHT_TRANSLATION_FACTOR = 1.667;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
