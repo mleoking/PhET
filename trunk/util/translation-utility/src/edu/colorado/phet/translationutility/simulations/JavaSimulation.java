@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
 import java.util.Properties;
@@ -9,6 +9,7 @@ import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
+import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.PropertiesIO;
 import edu.colorado.phet.translationutility.util.Command.CommandException;

@@ -7,7 +7,9 @@ import java.io.File;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.translationutility.Simulation.SimulationException;
+import edu.colorado.phet.translationutility.simulations.JavaSimulation;
+import edu.colorado.phet.translationutility.simulations.Simulation;
+import edu.colorado.phet.translationutility.simulations.Simulation.SimulationException;
 import edu.colorado.phet.translationutility.view.InitializationDialog;
 import edu.colorado.phet.translationutility.view.MainFrame;
 

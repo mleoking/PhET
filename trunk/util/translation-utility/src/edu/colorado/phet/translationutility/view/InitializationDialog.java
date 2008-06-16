@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.translationutility.TUResources;
-import edu.colorado.phet.translationutility.control.LanguageComboBox;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
 import edu.colorado.phet.translationutility.util.LanguageCodes;
 
