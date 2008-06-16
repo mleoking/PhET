@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- * DocumentIO is a set of utilities for reading and writing XML documents to streams.
+ * DocumentIO handles input/output of XML documents.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
