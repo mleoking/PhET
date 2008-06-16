@@ -11,6 +11,10 @@ class EditContributionPage extends SitePage {
     function update_contribution($contribution) {
         $contributor = $this->user;
 
+        if (!post_size_ok()) {
+            return;
+        }
+
         // Only allow team members to change these fields:
         if ($contributor['contributor_is_team_member'] != 1) {
             unset($contribution['contribution_from_phet']);
@@ -68,9 +72,15 @@ class EditContributionPage extends SitePage {
         contribution_delete_all_files_not_in_list($contribution_id, $files_to_keep);
 
         // Second, add all new files:
-        contribution_add_all_form_files_to_contribution($contribution_id);
+        $this->file_error = false;
+        $this->files_present = contribution_contribution_form_has_files();
+        if ($this->files_present) {
+            $this->file_error = contribution_add_all_form_files_to_contribution($contribution_id);
+        }
 
         cache_clear_teacher_ideas();
+
+        return $contribution_id;
     }
 
     function handle_action($action) {
@@ -86,14 +96,37 @@ class EditContributionPage extends SitePage {
 
             $contribution = gather_script_params_into_array('contribution_');
 
-            $this->update_contribution($contribution);
+            $this->final_contribution_id = $this->update_contribution($contribution);
 
             cache_clear(BROWSE_CACHE);
+
             return true;
         }
         else {
             return false;
         }
+    }
+
+    function print_file_erors() {
+        $errors_html = "";
+        foreach ($this->file_error as $filename => $error) {
+            $errors_html .= "<li><strong>{$filename}</strong> - $error </li>\n";
+        }
+
+        print <<<EOT
+            <h2>Update File Errors</h2>
+
+            <p>There were problems with some/all of your file uploads.  Aside from the files listed below, your contribution had been successfully updated.</p>
+
+            <p><strong>Errors:</strong>
+            <ul>
+            {$errors_html}
+            </ul>
+            </p>
+
+            <p><a href="edit-contribution.php?contribution_id={$this->final_contribution_id}">Go back to the Edit Contribution page</a></p>
+
+EOT;
     }
 
     function print_success() {
@@ -115,7 +148,15 @@ EOT;
 
         ob_start();
 
-        if (!isset($_REQUEST['contribution_id'])) {
+        if (!post_size_ok()) {
+            $post_max_size = ini_get('post_max_size');
+            print <<<EOT
+            <p><strong>Error:</strong> size of file(s) exceeds limit of <strong>{$post_max_size}</strong></p>
+            <p>Please try again.</p>
+
+EOT;
+        }
+        else if (!isset($_REQUEST['contribution_id'])) {
             print <<<EOT
             <p>You must specify a contribution to edit.  Try going to the <a href="manage-contributions.php">Manage Contributions</a> page, and select a activity to edit.</p>
 
@@ -140,7 +181,11 @@ EOT;
                 if (isset($_REQUEST['action'])) {
                     $success = $this->handle_action($_REQUEST['action']);
 
-                    if ($success) {
+                    if (!empty($this->file_error)) {
+                        $this->referrer = "{$this->prefix}teacher_ideas/manage-contributions.php";
+                        $this->print_file_erors();
+                    }
+                    else if ($success) {
                         $this->referrer = "{$this->prefix}teacher_ideas/manage-contributions.php";
                         $this->meta_refresh("{$this->prefix}teacher_ideas/manage-contributions.php", 3);
                         $this->print_success();

@@ -413,6 +413,7 @@ EO_DISPLAY_SLIDESHOW_1;
                 setInterval("rotateimage()", delay);
             /*]]>*/
             </script>
+
 EO_DISPLAY_SLIDESHOW_2;
     }
 
@@ -587,6 +588,7 @@ EO_DISPLAY_SLIDESHOW_2;
 
         print <<<EOT
         <input name="${prefix}" type="checkbox" id="${prefix}" value="${prefix}" $checked_status $read_only_status />
+
 EOT;
 
         $checkbox_id++;
@@ -894,11 +896,13 @@ EOT;
             $formatted_text = format_for_html($text);
             print <<<EOT
                 <option value="$value" $is_selected>$formatted_text</option>
+
 EOT;
         }
 
         print <<<EOT
             </select>
+
 EOT;
     }
 
@@ -908,6 +912,7 @@ EOT;
         print <<<EOT
                 <input type="hidden"   name="$checkbox_name" value="0" />
                 <input type="checkbox" name="$checkbox_name" value="1" id="${checkbox_name}_uid" $is_checked />$checkbox_text
+
 EOT;
     }
 
@@ -954,6 +959,21 @@ EOT;
             $newstr .= ($val == 0x228) ? "\n" : chr($val);
         }
         return $newstr;
+    }
+
+    function post_size_ok() {
+        if (!isset($_SERVER['CONTENT_LENGTH'])) {
+            return true;
+        }
+
+        $POST_MAX_SIZE = ini_get('post_max_size');
+        $mul = substr($POST_MAX_SIZE, -1);
+        $mul = ($mul == 'M' ? 1048576 : ($mul == 'K' ? 1024 : ($mul == 'G' ? 1073741824 : 1)));
+        if ($_SERVER['CONTENT_LENGTH'] > $mul*(int)$POST_MAX_SIZE && $POST_MAX_SIZE) {
+            return false;
+        }
+
+        return true;
     }
 
 ?>

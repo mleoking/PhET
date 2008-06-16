@@ -266,7 +266,31 @@ EOT;
 EOT;
     }
 
+    function contribution_contribution_form_has_files() {
+        if ((isset($_FILES['contribution_file_url'])) && 
+            ($_FILES['contribution_file_url'] != 4)) {
+            return true;
+        }
+        else if ((isset($_FILES['MF__F_0_0'])) &&
+                ($_FILES['MF__F_0_0'] != 4)) { 
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // TODO: return value too overloaded, refactor
     function contribution_add_all_form_files_to_contribution($contribution_id) {
+        // Errors, format: "filename" => "Error reason"
+        $errors = array();
+
+        // First check if there is too much data
+        if (!post_size_ok()) {
+            $errors["GENERAL"] = "Size of file(s) exceeds limit of <strong>{$post_max_size}</strong>";
+            return $errors;
+        }
+
         if (isset($_FILES['contribution_file_url'])) {
             $file = $_FILES['contribution_file_url'];
         }
@@ -281,9 +305,26 @@ EOT;
         $type     = $file['type'];
         $tmp_name = $file['tmp_name'];
         $error    = $file['error'] !== 0;
+        $error_code = $file['error'];
 
         if (!$error) {
             contribution_add_new_file_to_contribution($contribution_id, $tmp_name, $name);
+        }
+        else {
+            switch ($error) {
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                    $errors[$file['name']] = "The uploaded file exceeds the max of ".ini_get("upload_max_filesize");
+                    break;
+                case UPLOAD_ERR_PARTIAL:
+                    $errors[$file['name']] = "The file was only partially uploaded, please try again";
+                    break;
+                case UPLOAD_ERR_NO_FILE:
+                    break;
+                default:
+                    $errors[$file['name']] = "There was a general error, please try again";
+                    break;
+            }
         }
 
         for ($i = 1; true; $i++) {
@@ -299,15 +340,32 @@ EOT;
                 $type     = $file['type'];
                 $tmp_name = $file['tmp_name'];
                 $error    = $file['error'] !== 0;
+                $error_code = $file['error'];
 
                 if (!$error){
                     contribution_add_new_file_to_contribution($contribution_id, $tmp_name, $name);
                 }
                 else {
                     // Some error occurred; maybe user cancelled file
+                    switch ($error_code) {
+                        case UPLOAD_ERR_INI_SIZE:
+                        case UPLOAD_ERR_FORM_SIZE:
+                            $errors[$file['name']] = "The uploaded file exceeds the max of ".ini_get("upload_max_filesize");
+                            break;
+                        case UPLOAD_ERR_PARTIAL:
+                            $errors[$file['name']] = "The file was only partially uploaded, please try again";
+                            break;
+                        case UPLOAD_ERR_NO_FILE:
+                            break;
+                        default:
+                            $errors[$file['name']] = "There was a general error, please try again";
+                            break;
+                    }
                 }
             }
         }
+
+        return $errors;
     }
 
     function print_login_and_new_account_form($login_form_action, $new_account_form_action, $referrer, $intro_text = "", $hidden_inputs = "") {
@@ -908,6 +966,9 @@ EOT;
                                 $page
                             );
 
+        $file_max_size = ini_get("upload_max_filesize");
+        $post_max_size = ini_get("post_max_size");
+
         print <<<EOT
                         </td>
                     </tr>
@@ -918,6 +979,14 @@ EOT;
                         <td>
                             <input type="file" name="contribution_file_url" class="multi" />
                          </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            Note: Maximum file size is <strong>{$file_max_size}</strong>, maximum upload of <strong>{$post_max_size}</strong> at a time.
+                        </td>
                     </tr>
 
                     <tr>
