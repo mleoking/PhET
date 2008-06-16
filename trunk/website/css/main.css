@@ -420,7 +420,7 @@ table.form tr.error-message td p {
 }
 
 table.form #forgot_password {
-    text-align: right;
+    text-align: center;
 }
 
 #downloadspeeds {
