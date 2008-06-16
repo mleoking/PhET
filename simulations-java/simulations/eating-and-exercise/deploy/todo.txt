@@ -217,6 +217,49 @@ Need a way to get rid of or clean up icons
     >>Dragging back to the toolbox removes the item
     >>Could add a trash can as well
 
+Franny said on 6/13/2008:
+I have been playing with the Simulation this morning and had a question for you. If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change. I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my % fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures) in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in, but that portion is not very realistic, so i thought i'd point it out.
+
+Noah said on 6-13-2008:
+--------
+Here is something I came up with for controlling height, weight, and % fat. Let me know if you think this is a good solution.
+
+I'm just emailing you all instead of adding it to the to do yet because it is a long description of my reasoning (and I don't know yet that this is what we want to do.)
+
+An average healthy BMI is about 21. BMI = mass/height2 (kg/m2 ) The range is about 18.5-25. Take this to figure out the average lean body mass (LBM, or fat free mass FFM) for an individual of height h.
+
+So what does this mean for an average person 5’8” (1.72 m)?
+
+m = BMI*h2 = 18.5*1.722 = 54.7 kg (120.6 lb)
+
+21*1.722 = 62.1 (136.9 lb)
+
+25*1.722 = 74.0 kg (163.1 lb)
+
+30.6*1.722 = 90.5 kg (200 lb)
+
+Arnold Schwarzenegger had a BMI of 107 kg / (1.87 m)2 = 30.6.
+
+For our 1.72 m dude, Arnold's BMI would give a mass of 90.5 kg (200 lb).
+
+Lance Armstrong has a BMI of 74 kg / (1.77 m)2 = 23.6. So, even a thin but very fit individual is nearing the upper range of “healthy” BMI.
+
+Note this is a HUGE range of BMI, and all of these individuals could have %fat < 10%, making the LBM 108-180 lb.
+
+Here is what I propose:
+
+There should be a range of allowed LBMs for a given height. Define a “Lean Body Mass Index” = LBMI = LBM/height2 . Let’s assume the ends of the BMI scale above are for 10% fat. So the LBM for a 1.72 m male is 50-82 kg. This makes our LBMI range 16.65-27.6.
+
+This range of LBMI will be a set limit in the sim code. If you set a certain height, anything above the maximum (27.6) MUST be fat. You will have free and independent control of height, weight, and % fat, constrained by these limits. So you can make a lean, very muscular person who has a very high BMI and is still healthy because their % fat is low.
+
+Functionally, if you set a certain height, then when you change weight within the LBMI limits, % fat does not change. If you go outside of the LBMI limits, the % fat slider will automatically change to compensate.
+
+
+As far as readout for this stuff - 1st pass could be charts of LBM and fat mass. 2nd thing, more complex, could be to somehow show muscles shrinking and growing inside a layer of fat in the picture of the person. I'm still thinking about how this could be done.
+
+-Noah P.
+--------
+
 ##############################################################################################
 #                                    Health Indicators                                       #
 ##############################################################################################
