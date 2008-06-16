@@ -269,7 +269,7 @@ public class FlavorLauncher extends JFrame {
         }
         else {//fallback plan in case not running in a JAR file
             final File file = new File( "flavors.properties" );
-            System.out.println( "Attempting to load properties from: "+file.getAbsolutePath() );
+            System.out.println( "FlavorLauncher: attempting to load properties from "+file.getAbsolutePath() );
             prop.load( new FileInputStream( file ) );
         }
 
@@ -283,19 +283,18 @@ public class FlavorLauncher extends JFrame {
             Properties flavorProperties = new Properties();
             flavorProperties.load( mainURL.openStream() );
             String mainFlavor = flavorProperties.getProperty( "main.flavor" );
-            System.out.println( "Launching: " + mainFlavor );
+            System.out.println( "FlavorLauncher: launching " + mainFlavor );
             launchFlavor( info, mainFlavor );
         }
 
         else if ( info.length == 1 ) {
-            System.out.println( "Found one flavor: " + info[0].getTitle() );
-            System.out.println( "Launching..." );
+            System.out.println( "FlavorLauncher: found one flavor, launching " + info[0].getTitle() );
             info[0].launch();
         }
         else {
             FlavorLauncher launcher = new FlavorLauncher( args, info );
             SwingUtils.centerWindowOnScreen( launcher );
-            launcher.show();
+            launcher.setVisible( true );
         }
     }
 
