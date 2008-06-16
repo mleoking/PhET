@@ -76,7 +76,7 @@ public class DocumentIO {
             transformer.transform( source, result );
         }
         catch ( TransformerException e ) {
-            throw new DocumentIOException( "failed to write XML file", e );
+            throw new DocumentIOException( "error writing XML document", e );
         }
     }
 }

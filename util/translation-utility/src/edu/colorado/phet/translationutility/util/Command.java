@@ -5,18 +5,12 @@ package edu.colorado.phet.translationutility.util;
 import java.io.IOException;
 import java.io.InputStream;
 
-import edu.colorado.phet.translationutility.TUResources;
-
 /**
  * Command runs an external command via Runtime.exec.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class Command {
-    
-    private static final String ERROR_COMMAND_TERMINATED_ABNORMALLY = TUResources.getString( "error.commandTerminatedAbnormally" );
-    private static final String ERROR_COMMAND_FAILED = TUResources.getString( "error.commandFailed" );
-    private static final String ERROR_COMMAND_INTERRUPTED = TUResources.getString( "error.commandInterrupted" );
     
     private static final boolean DEBUG_COMMAND_STRING = false;
     private static final boolean DEBUG_COMMAND_STREAMS = false;
@@ -82,7 +76,7 @@ public class Command {
             if ( waitForCompletion ) {
                 int exitValue = process.waitFor();
                 if ( exitValue != 0 ) {
-                    CommandException e = new CommandException( ERROR_COMMAND_TERMINATED_ABNORMALLY + " : " + command );
+                    CommandException e = new CommandException( "command terminated abnormally: " + command );
                     e.printStackTrace();
                     throw e;
                 }
@@ -90,11 +84,11 @@ public class Command {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new CommandException( ERROR_COMMAND_FAILED + " : " + command, e );
+            throw new CommandException( "command failed: " + command, e );
         }
         catch ( InterruptedException e ) {
             e.printStackTrace();
-            throw new CommandException( ERROR_COMMAND_INTERRUPTED + " : " + command, e );
+            throw new CommandException( "command interrupted: " + command, e );
         } 
     }
 }

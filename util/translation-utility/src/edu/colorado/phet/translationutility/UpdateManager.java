@@ -31,11 +31,14 @@ public class UpdateManager {
     private static final String HOST_NAME = "phet.colorado.edu";
     private static final String URL_HOME = "http://phet.colorado.edu/new/contribute/translation-utility.php";
     private static final String URL_LATEST_VERSION_INFO = "http://phet.colorado.edu/phet-dist/translation-utility/translation-utility.properties";
+    
+    private static final String SVN_REVISION_KEY = "version.revision";
 
     private static final String CHECKING_DIALOG_MESSAGE = TUResources.getString( "checkingDialog.message" );
-    
     private static final String UPDATE_DIALOG_TITLE = TUResources.getString( "updateDialog.title" );
     private static final String UPDATE_DIALOG_MESSAGE = TUResources.getString( "updateDialog.message" );
+    private static final String GET_NEW_VERSION_BUTTON =  TUResources.getString( "updateDialog.button.getNewVersion" );
+    private static final String CONTINUE_BUTTON = TUResources.getString( "updateDialog.button.continue" );
 
     /* not intended for instantiation */
     private UpdateManager() {}
@@ -62,10 +65,10 @@ public class UpdateManager {
             connectedToInternet = true;
         }
         catch ( UnknownHostException e ) {
-            System.out.println( "CheckForUpdates: unknown host: " + HOST_NAME );
+            System.out.println( "UpdateManager.checkForUpdates: unknown host: " + HOST_NAME );
         }
         catch ( SocketTimeoutException e ) {
-            System.out.println( "CheckForUpdates: connection timed out" );
+            System.out.println( "UpdateManager.checkForUpdates: connection timed out" );
         }
         catch ( IOException e ) {
             e.printStackTrace();
@@ -96,9 +99,8 @@ public class UpdateManager {
 
             // compare the SVN revision numbers
             if ( properties != null ) {
-                String key = "version.revision";
-                String thisRevision = TUResources.getProjectProperty( key );
-                String remoteRevision = properties.getProperty( key );
+                String thisRevision = TUResources.getProjectProperty( SVN_REVISION_KEY );
+                String remoteRevision = properties.getProperty( SVN_REVISION_KEY );
                 if ( remoteRevision != null && !thisRevision.equals( remoteRevision ) ) {
                     UpdateDialog updateDialog = new UpdateDialog( null );
                     SwingUtils.centerWindowOnScreen( updateDialog );
@@ -140,7 +142,7 @@ public class UpdateManager {
             JLabel messageLabel = new JLabel( UPDATE_DIALOG_MESSAGE );
             messageLabel.setFont( new PhetFont( 14 ) );
 
-            JButton getNewVersionButton = new JButton( TUResources.getString( "updateDialog.button.getNewVersion" ) );
+            JButton getNewVersionButton = new JButton( GET_NEW_VERSION_BUTTON );
             getNewVersionButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     PhetServiceManager.showWebPage( URL_HOME );
@@ -148,7 +150,7 @@ public class UpdateManager {
                 }
             } );
             
-            JButton continueButton = new JButton( TUResources.getString( "updateDialog.button.continue" ) );
+            JButton continueButton = new JButton( CONTINUE_BUTTON );
             continueButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     dispose();

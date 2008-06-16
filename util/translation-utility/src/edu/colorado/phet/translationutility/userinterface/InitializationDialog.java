@@ -34,9 +34,9 @@ public class InitializationDialog extends JDialog {
     private static final String CANCEL_BUTTON_LABEL = TUResources.getString( "button.cancel" );
     private static final String CONTINUE_BUTTON_LABEL = TUResources.getString( "button.continue" );
     private static final String LANGUAGE_LABEL = TUResources.getString( "label.language" );
-    private static final String AUTO_TRANSLATE_CHECKBOX_LABEL = TUResources.getString( "checkbox.autoTranslate" );
     
     private static final String ERROR_TITLE = TUResources.getString( "title.errorDialog" );
+    
     private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
     private static final String ERROR_LANGUAGE_CODE_FORMAT = TUResources.getString( "error.languageCodeFormat" );
     private static final String ERROR_NOT_CUSTOM_LANGUAGE_CODE = TUResources.getString( "error.notCustomLanguageCode" );
@@ -165,15 +165,6 @@ public class InitializationDialog extends JDialog {
             languagePanel.add( helpLabel );
         }
         
-        // panel for selecting automatic translation
-        JPanel autoTranslatePanel = new JPanel();
-        autoTranslatePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
-        {
-            _autoTranslateCheckBox = new JCheckBox( AUTO_TRANSLATE_CHECKBOX_LABEL );
-            _autoTranslateCheckBox.setSelected( false );
-            autoTranslatePanel.add( _autoTranslateCheckBox );
-        }
-        
         // buttons at the bottom of the dialog
         JPanel buttonPanel = new JPanel();
         {
@@ -207,7 +198,6 @@ public class InitializationDialog extends JDialog {
         mainPanel.add( new JSeparator() );
         mainPanel.add( jarFilePanel );
         mainPanel.add( languagePanel );
-//        mainPanel.add( autoTranslatePanel ); //TODO: possible feature for future
         mainPanel.add( new JSeparator() );
         mainPanel.add( buttonPanel );
         
