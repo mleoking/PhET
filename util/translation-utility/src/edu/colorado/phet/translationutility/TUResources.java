@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
+import java.util.Properties;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -27,6 +28,8 @@ public class TUResources {
     
     private static final PhetResources RESOURCES = new PhetResources( "translation-utility" );
     private static final PhetApplicationConfig CONFIG = new PhetApplicationConfig( null /* args */, new FrameSetup.NoOp(), RESOURCES );
+    private static final Properties LANGUAGE_CODES = RESOURCES.getProperties( "language-codes.properties" );
+    private static final Properties COMMON_PROJECTS = RESOURCES.getProperties( "common-projects.properties" );
 
     private static final String COMMON_PROJECTS_SEPARATOR = ",";
     private static final String LANGUAGE_CODES_SEPARATOR = ",";
@@ -99,7 +102,7 @@ public class TUResources {
     public static String[] getCommonProjectNames() {
         
         // get the list of common project names
-        String allNames = CONFIG.getProjectProperty( "common.projects" );
+        String allNames = COMMON_PROJECTS.getProperty( "common.projects" );
         
         // remove all whitespace
         allNames = allNames.replaceAll( "\\s+", "" );
@@ -122,8 +125,7 @@ public class TUResources {
     
     public static String[] getLanguageCodes() {
         String[] codes = null;
-        String key = "language.codes";
-        String allNames = CONFIG.getProjectProperty( key );
+        String allNames = LANGUAGE_CODES.getProperty( "language.codes" );
         if ( allNames != null ) {
             codes = allNames.split( LANGUAGE_CODES_SEPARATOR );
         }
@@ -132,7 +134,7 @@ public class TUResources {
     
     public static String getLanguageName( String languageCode ) {
         String key = "language." + languageCode;
-        return CONFIG.getProjectProperty( key );
+        return LANGUAGE_CODES.getProperty( key );
     }
     
     /**
