@@ -44,10 +44,17 @@ public class MultipleParticleModel {
     public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
     public static final double TIME_STEP = Math.pow( 0.5, 7.0 );
     public static final double INITIAL_TEMPERATURE = 0.2;
+    public static final double MAX_TEMPERATURE = 3.0;
+    public static final double MIN_TEMPERATURE = 0.01;
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
     private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.0;
+    private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.015;
+    private static final int    TICKS_PER_TEMP_ADJUSTEMENT = 10; // JPB TBD - I'm not sure if this is a reasonable
+                                                                 // way to do this (i.e. that it is based on the
+                                                                 // number of ticks).  Should it instead be based on
+                                                                 // the time step defined above?
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -67,12 +74,14 @@ public class MultipleParticleModel {
     private Vector2D [] m_particleForces;
     private Vector2D [] m_nextParticleForces;
 
-    double m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / OXYGEN_MOLECULE_DIAMETER;
-    double m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / OXYGEN_MOLECULE_DIAMETER;
-    double m_potentialEnergy;
-    Random m_rand = new Random();
-    double m_temperature;
-    double m_gravitationalAcceleration;
+    private double m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / OXYGEN_MOLECULE_DIAMETER;
+    private double m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / OXYGEN_MOLECULE_DIAMETER;
+    private double m_potentialEnergy;
+    private Random m_rand = new Random();
+    private double m_temperature;
+    private double m_gravitationalAcceleration;
+    private double m_heatingCoolingAmount;
+    private int    m_tempAdjustTickCounter;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -166,6 +175,8 @@ public class MultipleParticleModel {
         // Initialize the system parameters.
         m_temperature = INITIAL_TEMPERATURE;
         m_gravitationalAcceleration = INITIAL_GRAVITATIONAL_ACCEL;
+        m_heatingCoolingAmount = 0;
+        m_tempAdjustTickCounter = 0;
         
         // Initialize the vectors that define the normalized particle attributes.
         m_particlePositions  = new Point2D [NUMBER_OF_PARTICLES];
@@ -228,6 +239,18 @@ public class MultipleParticleModel {
         notifyResetOccurred();
     }
     
+    /**
+     * Sets the amount of heating or cooling that the system is undergoing.
+     * 
+     * @param heatingCoolingAmount - Normalized amount of heating or cooling
+     * that the system is undergoing, ranging from -1 to +1.
+     */
+    public void setHeatingCoolingAmount(double heatingCoolingAmount){
+        assert (heatingCoolingAmount <= 1.0) && (heatingCoolingAmount >= -1.0);
+        
+        m_heatingCoolingAmount = heatingCoolingAmount;
+    }
+    
     public void addListener(Listener listener){
         
         if (_listeners.contains( listener ))
@@ -256,6 +279,20 @@ public class MultipleParticleModel {
                     m_temperature );
         }
         syncParticlePositions();
+        
+        // Adjust the temperature.
+        m_tempAdjustTickCounter++;
+        if (m_tempAdjustTickCounter > TICKS_PER_TEMP_ADJUSTEMENT){
+            m_tempAdjustTickCounter = 0;
+            m_temperature += m_heatingCoolingAmount * MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT;
+            if (m_temperature >= MAX_TEMPERATURE){
+                m_temperature = MAX_TEMPERATURE;
+            }
+            else if (m_temperature <= MIN_TEMPERATURE){
+                m_temperature = MIN_TEMPERATURE;
+            }
+            System.out.println("m_temperature = " + m_temperature);
+        }
         
         /*
          * TODO: JPB TBD - This is the original code that John De Goes had written, which

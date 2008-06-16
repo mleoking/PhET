@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -17,60 +18,66 @@ public class StoveNode extends PNode {
     private static final double BURNER_Y_OFFSET = 20; 
 
     // Heat value, ranges from -1 to +1.
-    private double heat;
-    private PImage fireImage;
-    private PImage iceImage;
-    private PImage stoveImage;
-    private StoveControlPanel stoveControlPanel;
+    private double m_heat;
+    private PImage m_fireImage;
+    private PImage m_iceImage;
+    private PImage m_stoveImage;
+    private StoveControlPanel m_stoveControlPanel;
+    private MultipleParticleModel m_model;
 
-    public StoveNode() {
+    public StoveNode(MultipleParticleModel model) {
 
-        fireImage = StatesOfMatterResources.getImageNode("flames.gif");
-        fireImage.setOffset( 0, BURNER_Y_OFFSET );
-        addChild(fireImage);
+        m_model = model;
+        
+        m_fireImage = StatesOfMatterResources.getImageNode("flames.gif");
+        m_fireImage.setOffset( 0, BURNER_Y_OFFSET );
+        addChild(m_fireImage);
 
-        iceImage = StatesOfMatterResources.getImageNode("ice.gif");
-        iceImage.setOffset( 0, BURNER_Y_OFFSET );
-        addChild(iceImage);
+        m_iceImage = StatesOfMatterResources.getImageNode("ice.gif");
+        m_iceImage.setOffset( 0, BURNER_Y_OFFSET );
+        addChild(m_iceImage);
 
-        stoveImage = StatesOfMatterResources.getImageNode("stove.png");
-        stoveImage.setOffset( 0, BURNER_Y_OFFSET );
-        addChild(stoveImage);
+        m_stoveImage = StatesOfMatterResources.getImageNode("stove.png");
+        m_stoveImage.setOffset( 0, BURNER_Y_OFFSET );
+        addChild(m_stoveImage);
 
-        stoveControlPanel = new StoveControlPanel();
-        stoveControlPanel.addListener(new StoveControlPanel.Listener() {
+        m_stoveControlPanel = new StoveControlPanel();
+        m_stoveControlPanel.addListener(new StoveControlPanel.Listener() {
             public void valueChanged(double value) {
-                heat = value;
+                m_heat = value;
                 update();
+                if (m_model != null){
+                    m_model.setHeatingCoolingAmount( m_heat );
+                }
             }
         });
-        PSwing stoveControlPanelNode = new PSwing(stoveControlPanel);
+        PSwing stoveControlPanelNode = new PSwing(m_stoveControlPanel);
         addChild(stoveControlPanelNode);
-        stoveControlPanelNode.setOffset(stoveImage.getFullBoundsReference().getWidth() + 15, 0);
+        stoveControlPanelNode.setOffset(m_stoveImage.getFullBoundsReference().getWidth() + 15, 0);
 
         update();
     }
 
     private void update() {
 
-        if (heat > 0) {
-            fireImage.setOffset(stoveImage.getFullBoundsReference().width / 2 - fireImage.getFullBoundsReference().width / 2,
-                    -heat * stoveImage.getFullBoundsReference().height + BURNER_Y_OFFSET);
-            iceImage.setOffset(stoveImage.getFullBoundsReference().width / 2 - iceImage.getFullBoundsReference().width / 2, 0);
-        } else if (heat <= 0) {
-            iceImage.setOffset(stoveImage.getFullBoundsReference().width / 2 - iceImage.getFullBoundsReference().width / 2,
-                    heat * stoveImage.getFullBoundsReference().height + BURNER_Y_OFFSET);
-            fireImage.setOffset(stoveImage.getFullBoundsReference().width / 2 - fireImage.getFullBoundsReference().width / 2, 0);
+        if (m_heat > 0) {
+            m_fireImage.setOffset(m_stoveImage.getFullBoundsReference().width / 2 - m_fireImage.getFullBoundsReference().width / 2,
+                    -m_heat * m_stoveImage.getFullBoundsReference().height + BURNER_Y_OFFSET);
+            m_iceImage.setOffset(m_stoveImage.getFullBoundsReference().width / 2 - m_iceImage.getFullBoundsReference().width / 2, 0);
+        } else if (m_heat <= 0) {
+            m_iceImage.setOffset(m_stoveImage.getFullBoundsReference().width / 2 - m_iceImage.getFullBoundsReference().width / 2,
+                    m_heat * m_stoveImage.getFullBoundsReference().height + BURNER_Y_OFFSET);
+            m_fireImage.setOffset(m_stoveImage.getFullBoundsReference().width / 2 - m_fireImage.getFullBoundsReference().width / 2, 0);
         }
-        iceImage.setVisible(heat<0);
-        fireImage.setVisible(heat>0);
+        m_iceImage.setVisible(m_heat<0);
+        m_fireImage.setVisible(m_heat>0);
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 PiccoloTestFrame testFrame = new PiccoloTestFrame("Stove Node Test");
-                StoveNode stoveNode = new StoveNode();
+                StoveNode stoveNode = new StoveNode(null);
                 stoveNode.setOffset(100, 200);
                 testFrame.addNode(stoveNode);
                 testFrame.setVisible(true);
