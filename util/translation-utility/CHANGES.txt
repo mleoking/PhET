@@ -3,6 +3,8 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+6/16/08 - refactor to create Simulation type hierarchy
+6/16/08 - delete dead code for using Google Translate to provide an automatic translation
 6/13/08 - PropertiesFlashAdapter, for converting to/from Properties and format required by Flash sims (XML)
 6/11/08 - check for updates and alert the user [537]
 ********* version 0.02.00 (21098)
