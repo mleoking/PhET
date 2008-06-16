@@ -1,5 +1,6 @@
 package edu.colorado.phet.statesofmatter.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.phetgraphicsdemo.view.DebuggerGraphic;
@@ -25,7 +26,7 @@ public class StoveControlPanel extends JPanel {
     private int maxStoveSliderValue;
 
     public StoveControlPanel() {
-
+        
         // This panel will be put on the ApparatusPanel, which has a null LayoutManager.
         // When a JPanel is added to a JPanel with a null LayoutManager, the nested panel
         // doesn't lay out properly if it is at all complicated. To get it to lay out properly,
@@ -47,6 +48,7 @@ public class StoveControlPanel extends JPanel {
         stoveSlider.setSnapToTicks(true);
         stoveSlider.setPaintLabels(true);
         stoveSlider.setPreferredSize(new Dimension(100, s_stoveSliderHeight));
+        stoveSlider.setFont( new PhetFont(11) );
 
         stoveSlider.addMouseListener(new MouseAdapter() {
             public void mouseReleased(MouseEvent e) {
@@ -54,10 +56,11 @@ public class StoveControlPanel extends JPanel {
             }
         });
 
-        Border border = new TitledBorder(new EtchedBorder(BevelBorder.RAISED,
+        TitledBorder border = new TitledBorder(new EtchedBorder(BevelBorder.RAISED, 
                 new Color(40, 20, 255),
                 Color.black),
                 IdealGasResources.getString("IdealGasControlPanel.Heat_Control"));
+        border.setTitleFont( new PhetFont(12) );
         stovePanel.setBorder(border);
         stoveSlider.setBackground(controlColor);
         stovePanel.setBackground(controlColor);

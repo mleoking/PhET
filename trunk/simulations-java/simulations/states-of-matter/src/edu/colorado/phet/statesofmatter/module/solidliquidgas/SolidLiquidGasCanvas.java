@@ -16,6 +16,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
+import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -39,7 +40,10 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
     
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 2.5;
-    private final double HEIGHT_TRANSLATION_FACTOR = 1.5;
+    private final double HEIGHT_TRANSLATION_FACTOR = 1.75;
+    
+    // Sizes, in terms of overall canvas size, of the nodes on the canvas.
+    private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -111,6 +115,15 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         m_particleLayer.setPickable( false );
         m_particleLayer.setChildrenPickable( false );
         addWorldChild( m_particleLayer );
+        
+        // Add a burner that the user can use to add or remove heat from the
+        // particle container.
+        StoveNode stoveNode = new StoveNode();
+        stoveNode.setScale( BURNER_NODE_WIDTH / stoveNode.getFullBoundsReference().width );
+        stoveNode.setOffset(m_particleContainer.getFullBoundsReference().getMinX() + 
+                m_particleContainer.getFullBoundsReference().width/2,
+                m_particleContainer.getFullBoundsReference().getMaxY());
+        addWorldChild( stoveNode );
         
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
