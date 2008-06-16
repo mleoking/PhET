@@ -3,6 +3,7 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+6/16/08 - add HTML file to jar for FlashLauncher, so that "test" feature works
 6/16/08 - add support for Flash sims (test isn't working yet, missing HTML file)
 6/16/08 - add factory for creating proper type of Simulation
 6/16/08 - rename UpdateManager

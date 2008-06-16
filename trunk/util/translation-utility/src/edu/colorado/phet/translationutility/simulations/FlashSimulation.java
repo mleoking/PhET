@@ -31,7 +31,6 @@ public class FlashSimulation extends Simulation {
     private static final String ERROR_CANNOT_EXTRACT_PROPERTIES_FILE = TUResources.getString( "error.cannotExtractPropertiesFile" );
     private static final String ERROR_CANNOT_INSERT_PROPERTIES_FILE = TUResources.getString( "error.cannotInsertPropertiesFile" );
     private static final String ERROR_MISSING_MANIFEST = TUResources.getString( "error.missingManifest" );
-    private static final String ERROR_EXPORT = TUResources.getString( "error.export" );
     private static final String ERROR_IMPORT = TUResources.getString( "error.import" );
     private static final String ERROR_RUN_JAR = TUResources.getString( "error.runJar" );
     private static final String ERROR_IMPORT_FILE_NOT_FOUND = "import file not found";
@@ -169,6 +168,10 @@ public class FlashSimulation extends Simulation {
         return getXMLFileBasename( projectName, languageCode );
     }
     
+    private static String getHTMLResourceName( String projectName, String languageCode ) {
+        return projectName + "_" + languageCode + ".html";
+    }
+    
     private static void copyJarAndAddProperties( String projectName, String languageCode, String originalJarFileName, String newJarFileName, String xmlFilename, Properties properties ) throws SimulationException {
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
@@ -199,10 +202,11 @@ public class FlashSimulation extends Simulation {
             OutputStream outputStream = new FileOutputStream( testFile );
             JarOutputStream testOutputStream = new JarOutputStream( outputStream, manifest );
             
-            // copy all entries from input to output, skipping the properties file & args.txt
+            // copy all entries from input to output, skipping the properties file & args.txt & HTML file
+            String htmlResourceName = getHTMLResourceName( projectName, languageCode );
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
-                if ( !jarEntry.getName().equals( xmlFilename ) && !jarEntry.getName().equals( ARGS_FILENAME )) {
+                if ( !jarEntry.getName().equals( xmlFilename ) && !jarEntry.getName().equals( ARGS_FILENAME ) && !jarEntry.getName().equals( htmlResourceName ) ) {
                     testOutputStream.putNextEntry( jarEntry );
                     byte[] buf = new byte[1024];
                     int len;
@@ -228,6 +232,13 @@ public class FlashSimulation extends Simulation {
             testOutputStream.closeEntry();
             
             // add HTML file used by FlashLauncher
+            String html = TUResources.getFlashHTMLTemplate();
+            html = html.replaceAll( "@SIM@", projectName );
+            html = html.replaceAll( "@LOCALE@", languageCode );
+            jarEntry = new JarEntry( htmlResourceName );
+            testOutputStream.putNextEntry( jarEntry );
+            testOutputStream.write( html.getBytes() );
+            testOutputStream.closeEntry();
             
             // close the streams
             jarInputStream.close();
