@@ -30,9 +30,9 @@ public class JavaSimulation extends Simulation {
     private static final String ERROR_CANNOT_INSERT_PROPERTIES_FILE = TUResources.getString( "error.cannotInsertPropertiesFile" );
     private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
     private static final String ERROR_MISSING_MANIFEST = TUResources.getString( "error.missingManifest" );
-    private static final String ERROR_EXPORT = "failed to export to file";//XXX
-    private static final String ERROR_IMPORT = "failed to import from file"; //XXX
-    private static final String ERROR_RUN_JAR = "failed to run jar file"; //XXX
+    private static final String ERROR_EXPORT = TUResources.getString( "error.export" );
+    private static final String ERROR_IMPORT = TUResources.getString( "error.import" );
+    private static final String ERROR_RUN_JAR = TUResources.getString( "error.runJar" );
     
     private final String _jarFileName;
     private final String _projectName;
@@ -55,7 +55,7 @@ public class JavaSimulation extends Simulation {
             runJar( TEST_JAR, languageCode );
         }
         catch ( CommandException e ) {
-            throw new SimulationException( ERROR_RUN_JAR, e );
+            throw new SimulationException( ERROR_RUN_JAR + " : " + TEST_JAR, e );
         }
     }
 
@@ -74,7 +74,7 @@ public class JavaSimulation extends Simulation {
             properties = PropertiesIO.readPropertiesFromFile( file );
         }
         catch ( PropertiesIOException e ) {
-            throw new SimulationException( ERROR_IMPORT, e );
+            throw new SimulationException( ERROR_IMPORT + " : " + file.getAbsolutePath(), e );
         }
         return properties;
     }
@@ -84,7 +84,7 @@ public class JavaSimulation extends Simulation {
             PropertiesIO.writePropertiesToFile( properties, file );
         }
         catch ( PropertiesIOException e ) {
-            throw new SimulationException( ERROR_EXPORT, e );
+            throw new SimulationException( ERROR_EXPORT + " : " + file.getAbsolutePath(), e );
         }
     }
     
