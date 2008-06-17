@@ -36,6 +36,8 @@ class SearchPage extends SitePage {
             return $result;
         }
 
+        $html_referrer = format_string_for_html($this->referrer);
+
         $number_results = count($this->sims) + count($this->contribs) + count($this->researches);
         if (!strcmp("", $this->search_for)) {
             print "<p>No search term specified</p>\n";
@@ -44,14 +46,14 @@ class SearchPage extends SitePage {
         else {
             print "<p>{$number_results} search results matching <strong>{$this->search_for}</strong></p>\n";
         }
-        print "<div id=\"searchresults\">";
-        print "<h2>Simulations</h2>";
+        print "<div id=\"searchresults\">\n";
+        print "<h2>Simulations</h2>\n";
 
         if ((!isset($this->sims)) || (count($this->sims) == 0)) {
-            print "<p>No simulations were found meeting the specified criteria.</p>";
+            print "<p>No simulations were found meeting the specified criteria.</p>\n";
         }
         else {
-            print "<ul>";
+            print "<ul>\n";
 
             foreach($this->sims as $sim) {
                 $sim_id = $sim['sim_id'];
@@ -60,7 +62,7 @@ class SearchPage extends SitePage {
                 $sim_url = sim_get_url_to_sim_page($sim_id);
 
                 print <<<EOT
-                    <li><a href="$sim_url">$sim_name</a></li
+                    <li><a href="$sim_url">$sim_name</a></li>
 
 EOT;
             }
@@ -68,49 +70,49 @@ EOT;
             print "</ul>";
         }
 
-        print "<h2>Contributions</h2>";
+        print "<h2>Contributions</h2>\n";
 
         if ((!isset($this->contribs) || count($this->contribs) == 0)) {
-            print "<p>No contributions were found meeting the specified criteria.</p>";
+            print "<p>No contributions were found meeting the specified criteria.</p>\n";
         }
         else {
-            print "<ul>";
+            print "<ul>\n";
 
             foreach($this->contribs as $contrib) {
                 $contribution_id = $contrib['contribution_id'];
                 $contribution_title = format_string_for_html($contrib['contribution_title']);
                 print <<<EOT
-                    <li><a href="{$this->prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer={$this->referrer}">$contribution_title</a></li>
+                    <li><a href="{$this->prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id&amp;referrer={$html_referrer}">$contribution_title</a></li>
 
 EOT;
             }
 
-            print "</ul>";
+            print "</ul>\n";
         }
 
-        print "<h2>Research</h2>";
+        print "<h2>Research</h2>\n";
 
         if ((!isset($this->researches)) || (count($this->researches) == 0)) {
-            print "<p>No research items were found meeting the specified criteria.</p>";
+            print "<p>No research items were found meeting the specified criteria.</p>\n";
         }
         else {
-            print "<ul>";
+            print "<ul>\n";
 
             foreach($this->researches as $research) {
                 print "<li>";
 
                 research_print($research['research_id']);
 
-                print "</li>";
+                print "</li>\n";
             }
 
-            print "</ul>";
+            print "</ul>\n";
         }
 
         print <<<EOT
             </div>
 
-            <p><a href="{$this->referrer}">back</a></p>
+            <p><a href="{$html_referrer}">back</a></p>
 
 EOT;
     }
