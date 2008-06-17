@@ -1,4 +1,4 @@
-package edu.colorado.phet.flashlauncher;
+package edu.colorado.phet.flashlauncher.util;
 
 import java.io.*;
 import java.util.Enumeration;

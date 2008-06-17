@@ -4,7 +4,7 @@
     <property name="dist" location="dist"/>
     <property name="sim" value="curve-fit"/>
     <property name="language" value="fr"/>
-    <property name="trunk" value="../.."/>
+    <property name="trunk" value=".."/>
 
     <target name="init">
         <tstamp/>
@@ -13,16 +13,18 @@
     <target name="compile" depends="init">
         <mkdir dir="${build}"/>
         <javac srcdir="${src}" destdir="${build}"/>
-        <copy file="${trunk}\simulations-flash\simulations\${sim}\deploy\${sim}.swf" todir="${build}"/>
+        <copy file="${trunk}/simulations/${sim}/deploy/${sim}.swf" todir="${build}"/>
         <!--copy all string files as done in the java sims-->
         <copy todir="${build}">
-            <fileset dir="${trunk}\simulations-flash\simulations\${sim}\deploy\" includes="${sim}-strings_*"/>
+            <fileset dir="${trunk}/simulations/${sim}/deploy/" includes="${sim}-strings_*"/>
         </copy>
+    	<!--copy the HTML template -->
+        <copy file="${trunk}/flash-launcher/templates/flash-template.html" todir="${build}"/>
         <filter token="SIM" value="${sim}"/>
         <filter token="LANGUAGE" value="${language}"/>
-        <copy file="${trunk}\util\flash-launcher\templates\flash-template.html" tofile="${build}/${sim}_${language}.html"
+        <copy file="${trunk}/flash-launcher/templates/flash-template.html" tofile="${build}/${sim}_${language}.html"
               filtering="true"/>
-        <echo file="${build}\args.txt" message="${sim} ${language} -dev"/>
+        <echo file="${build}/args.txt" message="${sim} ${language} -dev"/>
     </target>
 
     <target name="dist" depends="compile">
