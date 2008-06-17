@@ -1,4 +1,4 @@
-This project is a feasibility test for making multi-file flash programs (including SWF, XML and HTML) launchable from Java JAR files.
+flash-launcher is the mechanism for making multi-file flash programs (including SWF, XML and HTML) launchable from Java JAR files.
 
 Sam Reid
 PhET
