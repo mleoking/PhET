@@ -3,6 +3,7 @@
 package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -16,17 +17,30 @@ import edu.colorado.phet.translationutility.util.Command.CommandException;
 import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOException;
 
 /**
- * JavaSimulation is a Java-based simulation.
+ * JavaSimulation supports of Java-based simulations.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class JavaSimulation extends Simulation {
     
-    private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar"; // temporary JAR file used to test translations
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    // temporary JAR file used to test translations
+    private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar";
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final String _jarFileName;
     private final String _projectName;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public JavaSimulation( String jarFileName ) throws SimulationException {
         super();
         _jarFileName = jarFileName;
@@ -34,6 +48,10 @@ public class JavaSimulation extends Simulation {
         String[] commonProjectNames = TUResources.getCommonProjectNames();
         _projectName = getSimulationProjectName( jarFileName, commonProjectNames );
     }
+    
+    //----------------------------------------------------------------------------
+    // Public interface
+    //----------------------------------------------------------------------------
     
     public String getProjectName() {
         return _projectName;
@@ -55,7 +73,7 @@ public class JavaSimulation extends Simulation {
 
     public void setLocalizedStrings( Properties properties, String languageCode ) throws SimulationException {
         String propertiesFileName = getPropertiesResourceName( _projectName, languageCode );
-        copyJarAndAddProperties( _jarFileName, TEST_JAR, propertiesFileName, properties );
+        writePropertiesToJarCopy( _jarFileName, TEST_JAR, propertiesFileName, properties );
     }
     
     public Properties importLocalizedStrings( File file ) throws SimulationException {
@@ -79,7 +97,44 @@ public class JavaSimulation extends Simulation {
     }
     
     public String getExportFileBasename( String languageCode ) {
-        return getPropertiesFileBaseName( _projectName, languageCode );
+        return getPropertiesResourceBasename( _projectName, languageCode );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Gets the base name of the JAR resource that contains localized strings for 
+     * a specified project and language.  If the language code is null, the default 
+     * name (English) is returned.
+     * 
+     * @param projectName
+     * @param languageCode
+     * @return
+     */
+    private static String getPropertiesResourceBasename( String projectName, String languageCode ) {
+        String baseName = null;
+        if ( languageCode == null || languageCode == "en" ) {
+            String format = "{0}-strings.properties";  // eg, faraday-strings.properties
+            Object[] args = { projectName, languageCode };
+            baseName = MessageFormat.format( format, args );
+        }
+        else {
+            String format = "{0}-strings_{1}.properties"; // eg, faraday-strings_ar.properties
+            Object[] args = { projectName, languageCode };
+            baseName = MessageFormat.format( format, args );
+        }
+        return baseName;
+    }
+    
+    /*
+     * Gets the full name of the JAR resource that contains localized strings for 
+     * a specified project and language.  If the language code is null, the default 
+     * name (English) is returned.
+     */
+    private static String getPropertiesResourceName( String projectName, String languageCode ) {
+        return projectName + "/localization/" + getPropertiesResourceBasename( projectName, languageCode );
     }
     
     /*
@@ -107,7 +162,7 @@ public class JavaSimulation extends Simulation {
         }
         
         JarInputStream jarInputStream = null;
-        String localizationWildcard = getLocalizationResourceName( ".*" /* match for any project name */ );
+        String localizationWildcard = getPropertiesResourceName( ".*" /* match for any project name */, "en" );
         try {
             jarInputStream = new JarInputStream( inputStream );
             
@@ -119,7 +174,7 @@ public class JavaSimulation extends Simulation {
                     boolean commonMatch = false;
                     for ( int i = 0; i < commonProjectNames.length; i++ ) {
                         // for example, phetcommon/localization/phetcommon-strings.properties
-                        String commonProjectFileName = getLocalizationResourceName( commonProjectNames[i] );
+                        String commonProjectFileName = getPropertiesResourceName( commonProjectNames[i], "en" );
                         if ( jarEntryName.matches( commonProjectFileName ) ) {
                             commonMatch = true;
                             break;
@@ -148,39 +203,6 @@ public class JavaSimulation extends Simulation {
     }
     
     /*
-     * Creates the JAR entry name for a project's English localization file.
-     * By PhET convention the form is: projectName/localization/projectName-strings.properties
-     * Note that JAR entries use '/' as the file separator, rather than the platform-specific separator.
-     */
-    private static String getLocalizationResourceName( String projectName ) {
-        return projectName + "/localization/" + projectName + "-strings.properties";
-    }
-    
-    /*
-     * Gets the name of the properties resource that contains localized strings for a specified language code.
-     * If the language code is null, the default localization file (English) is returned.
-     */
-    private static String getPropertiesResourceName( String projectName, String languageCode ) {
-        return projectName + "/localization/" + getPropertiesFileBaseName( projectName, languageCode );
-    }
-    
-    /*
-     * Gets the base name of the localized properties file for a specified project and language.
-     * 
-     * @param projectName
-     * @param languageCode
-     * @return
-     */
-    private static String getPropertiesFileBaseName( String projectName, String languageCode ) {
-        String baseName = projectName + "-strings";
-        if ( languageCode != null && languageCode != "en" ) {
-            baseName = baseName + "_" + languageCode;
-        }
-        baseName = baseName + ".properties";
-        return baseName;
-    }
-
-    /*
      * Reads a properties file from the specified JAR file.
      * The properties file contains localized strings.
      * 
@@ -188,7 +210,6 @@ public class JavaSimulation extends Simulation {
      * @param projectName
      * @param languageCode
      * @return Properties
-     * @throws JarIOException
      */
     private static Properties readPropertiesFromJar( String jarFileName, String projectName, String languageCode ) throws SimulationException {
         
@@ -256,9 +277,8 @@ public class JavaSimulation extends Simulation {
      * @param newJarFileName
      * @param propertiesFileName
      * @param properties
-     * @throws JarIOException
      */
-    private static void copyJarAndAddProperties( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws SimulationException {
+    private static void writePropertiesToJarCopy( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws SimulationException {
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
