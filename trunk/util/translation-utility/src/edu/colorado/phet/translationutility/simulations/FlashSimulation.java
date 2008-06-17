@@ -280,7 +280,7 @@ public class FlashSimulation implements ISimulation {
             // add HTML file used by FlashLauncher
             String html = TUResources.getFlashHTMLTemplate();
             html = html.replaceAll( "@SIM@", projectName );
-            html = html.replaceAll( "@LOCALE@", languageCode );
+            html = html.replaceAll( "@LANGUAGE@", languageCode );
             jarEntry = new JarEntry( htmlResourceName );
             testOutputStream.putNextEntry( jarEntry );
             testOutputStream.write( html.getBytes() );
