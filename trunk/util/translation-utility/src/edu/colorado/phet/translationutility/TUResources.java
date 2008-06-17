@@ -3,10 +3,6 @@
 package edu.colorado.phet.translationutility;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.MessageFormat;
 import java.util.Properties;
 
@@ -135,30 +131,5 @@ public class TUResources {
     public static String getLanguageName( String languageCode ) {
         String key = "language." + languageCode;
         return LANGUAGE_CODES.getProperty( key );
-    }
-    
-    /**
-     * Template for Flash HTML files used by FlashLauncher.
-     */
-    public static String getFlashHTMLTemplate() {
-        String s = "";
-        InputStream is = null;
-        try {
-            is = RESOURCES.getResourceAsStream( "flash-template.html" );
-            BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( is ) );
-            String line = bufferedReader.readLine();
-            while ( line != null ) {
-                s += line;
-                line = bufferedReader.readLine();
-                if ( line != null ) {
-                    s += System.getProperty( "line.separator" );
-                }
-            }
-        }
-        catch ( IOException e ) {
-            e.printStackTrace(); //XXX handle this better
-            s = null;
-        }
-        return s;
     }
 }
