@@ -40,6 +40,7 @@ public class MultipleParticleModel {
     public static final int NUMBER_OF_PARTICLES = 
         2 + (2 * NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL) * (NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL - 1);
     public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
+    public static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.9;  // In particle diameters.
     public static final double TIME_STEP = Math.pow( 0.5, 6.0 );
     public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double MAX_TEMPERATURE = 4.0;
@@ -228,8 +229,14 @@ public class MultipleParticleModel {
             m_particles.add( particle );
             notifyParticleAdded( particle );
         }
+        
+        // Initialize the particle positions.
+        boolean diatomic = false;
+        if (m_particleType == StatesOfMatterParticleType.OXYGEN){
+            diatomic = true;
+        }
         insertCrystal( NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL, NUMBER_OF_PARTICLES, m_particlePositions,
-                m_normalizedContainerWidth, m_normalizedContainerHeight );
+                m_normalizedContainerWidth, m_normalizedContainerHeight, diatomic );
         
         // Initialize particle velocities.
         for (int i = 0; i < NUMBER_OF_PARTICLES; i++){
@@ -305,9 +312,9 @@ public class MultipleParticleModel {
         
         // Execute the Verlet algorithm.
         for (int i = 0; i < 8; i++ ){
-            verlet( NUMBER_OF_PARTICLES, m_particlePositions, m_particleVelocities, m_normalizedContainerWidth, 
-                    m_normalizedContainerHeight, m_gravitationalAcceleration, m_particleForces, TIME_STEP, 
-                    m_temperature );
+//            verlet( NUMBER_OF_PARTICLES, m_particlePositions, m_particleVelocities, m_normalizedContainerWidth, 
+//                    m_normalizedContainerHeight, m_gravitationalAcceleration, m_particleForces, TIME_STEP, 
+//                    m_temperature );
         }
         syncParticlePositions();
         
@@ -389,24 +396,42 @@ public class MultipleParticleModel {
      * @param particlePositions
      * @param normalizedContainerWidth
      * @param normalizedContainerHeight
+     * @param diatomic TODO
      */
     private void insertCrystal( int numLayers, int numParticles, Point2D [] particlePositions,
-            double normalizedContainerWidth, double normalizedContainerHeight ){
+            double normalizedContainerWidth, double normalizedContainerHeight, boolean diatomic ){
         
         int particlesPerLayer = (int)(numParticles / numLayers);
+        if ((diatomic) && (particlesPerLayer % 2 != 0)){
+            // We must have an even number of particles per layer if the
+            // molecules need to be diatomic or we will run into problems.
+            particlesPerLayer++;
+        }
         double startingPosX = (normalizedContainerWidth / 2) - (double)(particlesPerLayer / 2) - 
                 ((particlesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
-        double startingPosY = 2.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
+        double startingPosY = 1.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
         
         int particlesPlaced = 0;
+        double xPos, yPos;
         for (int i = 0; particlesPlaced < numParticles; i++){ // One iteration per layer.
             for (int j = 0; (j < particlesPerLayer) && (particlesPlaced < numParticles); j++){
-                double xPos = startingPosX + j + (j * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
-                if (i % 2 != 0){
-                    // Every other row is shifted a bit to create hexagonal pattern.
-                    xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
+                if ((diatomic) && (j % 2 != 0)){
+                    // We are adding a partner to an atom to create a diatomic pair.
+                    Point2D prevParticlePos = particlePositions[(i * particlesPerLayer) + (j - 1)];
+                    xPos = prevParticlePos.getX() + DISTANCE_BETWEEN_DIATOMIC_PAIRS;
+                    StatesOfMatterParticle particleA = (StatesOfMatterParticle)(m_particles.get( (i * particlesPerLayer) + (j - 1) ));
+                    StatesOfMatterParticle particleB = (StatesOfMatterParticle)(m_particles.get( (i * particlesPerLayer) + (j) ));
+                    particleA.setDiatomicPartner( particleB );
+                    particleB.setDiatomicPartner( particleA );
                 }
-                double yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
+                else{
+                    xPos = startingPosX + j + (j * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
+                    if (i % 2 != 0){
+                        // Every other row is shifted a bit to create hexagonal pattern.
+                        xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
+                    }
+                }
+                yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
                 particlePositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );
                 particlesPlaced++;
             }

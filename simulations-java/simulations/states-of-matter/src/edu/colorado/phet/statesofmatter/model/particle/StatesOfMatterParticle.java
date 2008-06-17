@@ -32,6 +32,7 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
     private volatile double m_radius, m_mass;
     private double m_inverseMass;
     private ArrayList m_listeners = new ArrayList();
+    private StatesOfMatterParticle m_diatomicPartner;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -145,6 +146,14 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
         return m_accel;
     }
     
+    public StatesOfMatterParticle getDiatomicPartner() {
+        return m_diatomicPartner;
+    }
+
+    public void setDiatomicPartner( StatesOfMatterParticle partner ) {
+        m_diatomicPartner = partner;
+    }
+
     //----------------------------------------------------------------------------
     // Other Public Methods
     //----------------------------------------------------------------------------
