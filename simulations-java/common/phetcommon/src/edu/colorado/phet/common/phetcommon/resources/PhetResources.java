@@ -104,8 +104,8 @@ public class PhetResources {
 
     /*
     * Read the locale that was specified for the application.
-    * The default locale is the value of the user.langage System property, as read by Locale.getDefault.
-    * The javaws.phet.locale System property takes prescedence, and can be set via the <property> tag in
+    * The default locale is the value of the user.language System property, as read by Locale.getDefault.
+    * The javaws.phet.locale System property takes precedence, and can be set via the <property> tag in
     * JNLP files.
     *
     * @return Locale
