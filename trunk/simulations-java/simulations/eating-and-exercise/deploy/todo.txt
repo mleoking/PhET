@@ -34,6 +34,10 @@ Height
     SR - Problem: Fat % should be based on height and weight and gender, and update whenever height or weight or gender changes.  Fat free mass depends on height & gender only, not on weight, thus BMR depends only on height and gender
         Noah P will provide these functions
 
+NP - Disclaimer text for BMI chart - not only indicator of health.
+NP - Model for BMR, non-linear with food input. You do not gain or lose weight in an ideal way, i.e. if you cut 3000 calories from your diet, you only actually lose weight accounting for about 1/2 of those calories. Same for weight gain. Possibly a hysteresis curve of some sort?
+
+
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
