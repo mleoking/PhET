@@ -8,13 +8,15 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 
 import edu.colorado.phet.phscale.PHScaleConstants;
-import edu.colorado.phet.phscale.model.LiquidType;
+import edu.colorado.phet.phscale.PHScaleStrings;
+import edu.colorado.phet.phscale.model.Liquid;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 
 
 public class LiquidComboBox extends PComboBox {
     
-    public static final Font FONT = PHScaleConstants.CONTROL_FONT;
+    private static final Object NO_CHOICE = PHScaleStrings.CHOICE_CHOOSE_LIQUID;
+    private static final Font FONT = PHScaleConstants.CONTROL_FONT;
     
     public LiquidComboBox() {
         super();
@@ -22,20 +24,28 @@ public class LiquidComboBox extends PComboBox {
         setBorder( BorderFactory.createLineBorder( Color.BLACK, 2 ) );
         setBackground( Color.WHITE );
         
-        LiquidType[] choices = LiquidType.getAll();
+        addItem( NO_CHOICE );
+        Liquid[] choices = Liquid.getChoices();
         for ( int i = 0; i < choices.length; i++ ) {
-            LiquidType choice = choices[i];
-            if ( choice != LiquidType.WATER ) {
-                addItem( choices[i] );
-            }
+            addItem( choices[i] );
         }
     }
     
-    public void setLiquidType( LiquidType liquidType ) {
-        setSelectedItem( liquidType );
+    public void setChoice( Liquid liquid ) {
+        if ( liquid == null ) {
+            setSelectedItem( NO_CHOICE );
+        }
+        else {
+            setSelectedItem( liquid );  
+        }
     }
     
-    public LiquidType getLiquidType() {
-        return (LiquidType) getSelectedItem();
+    public Liquid getChoice() {
+        Liquid choice = null;
+        Object selectedItem = getSelectedItem();
+        if ( selectedItem instanceof Liquid ) {
+            choice = (Liquid) selectedItem;
+        }
+        return choice;
     }
 }

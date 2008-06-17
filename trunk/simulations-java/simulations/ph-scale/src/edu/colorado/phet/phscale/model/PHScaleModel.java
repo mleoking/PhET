@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.phscale.model;
 
-import java.awt.Color;
+import edu.colorado.phet.phscale.model.Liquid.Water;
+
 
 
 /**
@@ -16,7 +17,9 @@ public class PHScaleModel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final Liquid _liquid;
+    private Liquid _liquid;
+    private final Water _water;
+    private final Beaker _beaker;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -24,7 +27,9 @@ public class PHScaleModel {
     
     public PHScaleModel() {
         super();
-        _liquid = new Liquid( 7, 1, Color.WHITE ); //XXX
+        _liquid = Liquid.LEMON_JUICE;
+        _water = Liquid.WATER;
+        _beaker = new Beaker();
     }
     
     //----------------------------------------------------------------------------
@@ -33,5 +38,13 @@ public class PHScaleModel {
     
     public Liquid getLiquid() {
         return _liquid;
+    }
+    
+    public Water getWater() {
+        return _water;
+    }
+    
+    public Beaker getBeaker() {
+        return _beaker;
     }
 }

@@ -56,6 +56,10 @@ public class FaucetControlNode extends PNode {
         return _slider.isOn();
     }
     
+    public void setEnabled( boolean enabled ) {
+        _slider.setEnabled( enabled );
+    }
+    
     public interface FaucetControlListener {
         public void onOffChanged( boolean on );
     }
