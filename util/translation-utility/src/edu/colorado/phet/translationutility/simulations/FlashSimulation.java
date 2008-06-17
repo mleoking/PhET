@@ -3,6 +3,7 @@
 package edu.colorado.phet.translationutility.simulations;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -16,18 +17,30 @@ import edu.colorado.phet.translationutility.util.Command.CommandException;
 import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
 
 /**
- * FlashSimulation is a Flash-based simulation.
+ * FlashSimulation supports translation of Flash-based simulations.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FlashSimulation extends Simulation {
     
-    private static final String ARGS_FILENAME = "args.txt";
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar"; // temporary JAR file used to test translations
-
+    private static final String ARGS_FILENAME = "args.txt";
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final String _jarFileName;
     private final String _projectName;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public FlashSimulation( String jarFileName ) {
         super();
         
@@ -39,6 +52,10 @@ public class FlashSimulation extends Simulation {
         _projectName = name.replace( ".jar", "" );
     }
 
+    //----------------------------------------------------------------------------
+    // Public interface
+    //----------------------------------------------------------------------------
+    
     public String getProjectName() {
         return _projectName;
     }
@@ -55,64 +72,12 @@ public class FlashSimulation extends Simulation {
     }
 
     public Properties getLocalizedStrings( String languageCode ) throws SimulationException {
-        
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream( _jarFileName );
-        }
-        catch ( FileNotFoundException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "jar file not found: " + _jarFileName, e );
-        }
-        
-        String xmlFilename = getDocumentResourceName( _projectName, languageCode );
-        JarInputStream jarInputStream = null;
-        boolean found = false;
-        try {
-            jarInputStream = new JarInputStream( inputStream );
-            
-            // look for the properties file
-            JarEntry jarEntry = jarInputStream.getNextJarEntry();
-            while ( jarEntry != null ) {
-                if ( jarEntry.getName().equals( xmlFilename ) ) {
-                    found = true;
-                    break;
-                }
-                else {
-                    jarEntry = jarInputStream.getNextJarEntry();
-                }
-            }
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "error reading jar file: " + _jarFileName, e );
-        }
-        
-        Properties properties = null;
-        if ( found ) {
-            properties = new Properties();
-            try {
-                properties = DocumentAdapter.readProperties( jarInputStream );
-            }
-            catch ( DocumentIOException e ) {
-                throw new SimulationException( e );
-            }
-        }
-        
-        try {
-            jarInputStream.close();
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new SimulationException( "error closing jar file: " + _jarFileName, e );
-        }
-    
-        return properties;
+        return readDocumentFromJar( _jarFileName, _projectName, languageCode );
     }
 
     public void setLocalizedStrings( Properties properties, String languageCode ) throws SimulationException {
         String xmlFilename = getDocumentResourceName( _projectName, languageCode );
-        copyJarAndAddProperties( _projectName, languageCode, _jarFileName, TEST_JAR, xmlFilename, properties );
+        writeDocumentToJarCopy( _projectName, languageCode, _jarFileName, TEST_JAR, xmlFilename, properties );
     }
 
     public Properties importLocalizedStrings( File file ) throws SimulationException {
@@ -143,23 +108,119 @@ public class FlashSimulation extends Simulation {
     }
 
     public String getExportFileBasename( String languageCode ) {
-        return getXMLFileBasename( _projectName, languageCode );
+        return getDocumentResourceBasename( _projectName, languageCode );
     }
     
-    private static String getXMLFileBasename( String projectName, String languageCode ) {
-        return projectName + "-strings_" + languageCode + ".xml";
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Gets the base name of of the JAR resource for an XML document.
+     */
+    private static String getDocumentResourceBasename( String projectName, String languageCode ) {
+        String format = "{0}-strings_{1}.xml";  // eg, curve-fit-strings_en.xml
+        Object[] args = { projectName, languageCode };
+        return MessageFormat.format( format, args );
     }
     
+    /*
+     * Gets the JAR resource name for an XML document.
+     */
     private static String getDocumentResourceName( String projectName, String languageCode ) {
-        // XML resources are at the top-level of the JAR, same as basename
-        return getXMLFileBasename( projectName, languageCode );
+        // XML resources are at the top-level of the JAR, so resource name is the same as basename
+        return getDocumentResourceBasename( projectName, languageCode );
     }
     
+    /*
+     * Gets the JAR resource name for an HTML file.
+     * @param projectName
+     * @param languageCode
+     * @return
+     */
     private static String getHTMLResourceName( String projectName, String languageCode ) {
-        return projectName + "_" + languageCode + ".html";
+        String format = "{0}_{1}.html"; // eg, curve-fit_en.html
+        Object[] args = { projectName, languageCode };
+        return MessageFormat.format( format, args );
     }
     
-    private static void copyJarAndAddProperties( String projectName, String languageCode, String originalJarFileName, String newJarFileName, String xmlFilename, Properties properties ) throws SimulationException {
+    /*
+     * Reads an XML document from the specified JAR file, and converts it to Properties.
+     * The XML document contains localized strings.
+     * 
+     * @param jarFileName
+     * @param projectName
+     * @param languageCode
+     * @return Properties
+     */
+    private static Properties readDocumentFromJar( String jarFileName, String projectName, String languageCode ) throws SimulationException {
+        
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream( jarFileName );
+        }
+        catch ( FileNotFoundException e ) {
+            e.printStackTrace();
+            throw new SimulationException( "jar file not found: " + jarFileName, e );
+        }
+        
+        String xmlFilename = getDocumentResourceName( projectName, languageCode );
+        JarInputStream jarInputStream = null;
+        boolean found = false;
+        try {
+            jarInputStream = new JarInputStream( inputStream );
+            
+            // look for the properties file
+            JarEntry jarEntry = jarInputStream.getNextJarEntry();
+            while ( jarEntry != null ) {
+                if ( jarEntry.getName().equals( xmlFilename ) ) {
+                    found = true;
+                    break;
+                }
+                else {
+                    jarEntry = jarInputStream.getNextJarEntry();
+                }
+            }
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new SimulationException( "error reading jar file: " + jarFileName, e );
+        }
+        
+        Properties properties = null;
+        if ( found ) {
+            properties = new Properties();
+            try {
+                properties = DocumentAdapter.readProperties( jarInputStream );
+            }
+            catch ( DocumentIOException e ) {
+                throw new SimulationException( e );
+            }
+        }
+        
+        try {
+            jarInputStream.close();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new SimulationException( "error closing jar file: " + jarFileName, e );
+        }
+    
+        return properties;
+    }
+    
+    /*
+     * Copies a JAR file and adds (or replaces) an XML file and a file that identifies the language code for FlashLauncher.
+     * The XML file contains localized strings.
+     * The original JAR file is not modified.
+     * 
+     * @param originalJarFileName
+     * @param newJarFileName
+     * @param propertiesFileName
+     * @param properties
+     * @throws JarIOException
+     */
+    private static void writeDocumentToJarCopy( String projectName, String languageCode, String originalJarFileName, String newJarFileName, String xmlFilename, Properties properties ) throws SimulationException {
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
