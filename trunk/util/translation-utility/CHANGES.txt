@@ -3,6 +3,8 @@ Change history for translation-utility
 ================================================================================
 
 DONE:
+6/16/08 - discover project name from jar files named curve-fit.jar or curve-fit_fr.jar
+6/16/08 - wrap main in SwingUtility.invokeLater
 6/16/08 - remove HTML file generation for Flash, handled dynamically by FlashLauncher
 6/16/08 - cleanup JavaSimulation and FlashSimulation
 6/16/08 - move common.projects and language properties to their own properties files, since project properties file may lose its formatting
