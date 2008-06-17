@@ -164,7 +164,7 @@ class Model{
 	}
 	
 	function makeFit():Void{
-		if(this.fitOn && this.nbrPoints == 0){
+		if(this.fitOn && this.nbrPoints < 2){
 			this.fitParameters = this.fitMaker.getFit();
 			//trace("model.makeFit called with fitOn and nbrPoints = 0  fitParameters: " +this.fitParameters  );
 			this.clearFit();
