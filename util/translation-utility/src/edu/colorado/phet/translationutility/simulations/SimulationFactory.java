@@ -20,23 +20,27 @@ public class SimulationFactory {
     
     private SimulationFactory() {}
     
-    public static ISimulation createSimulation( String jarFileName ) throws SimulationException {
+    public static ISimulation createSimulation( String filename ) throws SimulationException {
 
         ISimulation simulation = null;
 
-        /*
-         * Assume we have a JAR file.
-         * If the JAR contains a .swf file, then it's a Flash sim.
-         * Otherwise, it's a Java sim.
-         */
-        if ( isFlash( jarFileName ) ) {
-            simulation = new FlashSimulation( jarFileName );
+        if ( isJar( filename ) ) {
+            if ( isFlash( filename ) ) {
+                simulation = new FlashSimulation( filename );
+            }
+            else {
+                simulation = new JavaSimulation( filename );
+            }
         }
         else {
-            simulation = new JavaSimulation( jarFileName );
+            throw new SimulationException( "not a jar file: " + filename );
         }
 
         return simulation;
+    }
+    
+    private static boolean isJar( String jarFileName ) {
+        return jarFileName.endsWith( ".jar" );
     }
     
     /*

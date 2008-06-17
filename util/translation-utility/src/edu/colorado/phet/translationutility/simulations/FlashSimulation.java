@@ -42,17 +42,12 @@ public class FlashSimulation implements ISimulation {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public FlashSimulation( String jarFileName ) {
+    public FlashSimulation( String jarFileName ) throws SimulationException {
         super();
-        
         _jarFileName = jarFileName;
-        
-        // project name is the JAR file's basename, without the .jar suffix
-        File jarFile = new File( jarFileName );
-        String name = jarFile.getName();
-        _projectName = name.replace( ".jar", "" );
+        _projectName = getSimulationProjectName( jarFileName );
     }
-
+    
     //----------------------------------------------------------------------------
     // Public interface
     //----------------------------------------------------------------------------
@@ -139,6 +134,36 @@ public class FlashSimulation implements ISimulation {
         String format = "{0}_{1}.html"; // eg, curve-fit_en.html
         Object[] args = { projectName, languageCode };
         return MessageFormat.format( format, args );
+    }
+    
+    /*
+     * Gets the project name, based on the JAR file name.
+     * The JAR file name may or may not contain a language code.
+     * For example, acceptable file names for the "curve-fit" project are curve-fit.jar and curve-fit_fr.jar.
+     * 
+     * @param jarFileName
+     * @return String
+     */
+    private static String getSimulationProjectName( String jarFileName ) throws SimulationException {
+        String projectName = null;
+        File jarFile = new File( jarFileName );
+        String name = jarFile.getName();
+        int index = name.indexOf( "_" );
+        if ( index != -1 ) {
+            // eg, curve-fit_fr.jar
+            projectName = name.substring( 0, index );
+        }
+        else {
+            // eg, curve-fit.jar
+            index = name.indexOf( "." );
+            if ( index != -1 ) {
+                projectName = name.substring( 0, index );
+            }
+            else {
+                throw new SimulationException( "cannot determine project name" );
+            }
+        }
+        return projectName;
     }
     
     /*
