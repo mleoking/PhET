@@ -22,7 +22,7 @@ public class StatesOfMatterStrings {
 
     public static final String MOLECULE_TYPE_SELECT_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.MoleculeSelection");
     public static final String OXYGEN_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.Oxygen");
-    public static final String NITROGEN_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.Nitrogen");
-    public static final String CARBON_DIOXIDE_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.CarbonDioxide");
+    public static final String NEON_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.Neon");
+    public static final String ARGON_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.Argon");
 
 }
