@@ -18,10 +18,12 @@ import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
 
 /**
  * FlashSimulation supports translation of Flash-based simulations.
+ * Flash simulations use XML document files to store localized strings.
+ * There is one XML file per language.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FlashSimulation extends Simulation {
+public class FlashSimulation implements ISimulation {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -60,8 +62,9 @@ public class FlashSimulation extends Simulation {
         return _projectName;
     }
 
-    public void test( Properties properties, String languageCode ) throws SimulationException {
-        setLocalizedStrings( properties, languageCode );
+    public void testStrings( Properties properties, String languageCode ) throws SimulationException {
+        String xmlFilename = getDocumentResourceName( _projectName, languageCode );
+        writeDocumentToJarCopy( _projectName, languageCode, _jarFileName, TEST_JAR, xmlFilename, properties );
         try {
             String[] cmdArray = { "java", "-jar", TEST_JAR };
             Command.run( cmdArray, false /* waitForCompletion */ );
@@ -71,16 +74,11 @@ public class FlashSimulation extends Simulation {
         }
     }
 
-    public Properties getLocalizedStrings( String languageCode ) throws SimulationException {
+    public Properties getStrings( String languageCode ) throws SimulationException {
         return readDocumentFromJar( _jarFileName, _projectName, languageCode );
     }
 
-    public void setLocalizedStrings( Properties properties, String languageCode ) throws SimulationException {
-        String xmlFilename = getDocumentResourceName( _projectName, languageCode );
-        writeDocumentToJarCopy( _projectName, languageCode, _jarFileName, TEST_JAR, xmlFilename, properties );
-    }
-
-    public Properties importLocalizedStrings( File file ) throws SimulationException {
+    public Properties loadStrings( File file ) throws SimulationException {
         Properties properties = null;
         try {
             properties = DocumentAdapter.readProperties( new FileInputStream( file ) );
@@ -94,7 +92,7 @@ public class FlashSimulation extends Simulation {
         return properties;
     }
 
-    public void exportLocalizedStrings( Properties properties, File file ) throws SimulationException {
+    public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
             OutputStream outputStream = new FileOutputStream( file );
             DocumentAdapter.writeProperties( properties, outputStream );
@@ -107,7 +105,7 @@ public class FlashSimulation extends Simulation {
         }
     }
 
-    public String getExportFileBasename( String languageCode ) {
+    public String getSubmitBasename( String languageCode ) {
         return getDocumentResourceBasename( _projectName, languageCode );
     }
     
@@ -170,7 +168,7 @@ public class FlashSimulation extends Simulation {
         try {
             jarInputStream = new JarInputStream( inputStream );
             
-            // look for the properties file
+            // look for the XML file
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
                 if ( jarEntry.getName().equals( xmlFilename ) ) {
