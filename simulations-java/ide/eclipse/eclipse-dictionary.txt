@@ -1,4 +1,5 @@
 accessor
+accessors
 Blanco
 borehole
 Chris
@@ -23,10 +24,13 @@ Google
 headwall
 Hollywood
 javadoc
+javaws
 jblanco
 jiggles
 km
 krypton
+Locale
+locale
 Malley
 max
 min
@@ -37,6 +41,8 @@ nuclei
 nucleon
 nucleus
 Paulson
+phet
+PhET
 Piccolo
 pixelzoom
 polonium
@@ -46,6 +52,7 @@ radian
 refactor
 rescale
 rescaled
+resettable
 sim
 snowfall
 subpanels
