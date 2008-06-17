@@ -36,11 +36,12 @@ public class MultipleParticleModel {
     // TODO: JPB TBD - These constants are here as a result of the first attempt
     // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
     // Eventually some or all of them will be moved.
-    public static final int NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL = 6;
-    public static final int NUMBER_OF_PARTICLES = 
-        2 + (2 * NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL) * (NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL - 1);
+    public static final int NUMBER_OF_LAYERS_IN_INITIAL_ARGON_CRYSTAL = 6;
+    public static final int NUMBER_OF_LAYERS_IN_INITIAL_OXYGEN_CRYSTAL = 8;
+    public static final int NUMBER_OF_LAYERS_IN_INITIAL_NEON_CRYSTAL = 9;
     public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
-    public static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.9;  // In particle diameters.
+    public static final double DISTANCE_BETWEEN_DIATOMIC_PAIRS = 0.8;  // In particle diameters.
+    public static final double DIATOMIC_FORCE_CONSTANT = 100; // For calculating force between diatomic pairs.
     public static final double TIME_STEP = Math.pow( 0.5, 6.0 );
     public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double MAX_TEMPERATURE = 4.0;
@@ -48,7 +49,7 @@ public class MultipleParticleModel {
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
-    private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.2;
+    private static final double INITIAL_GRAVITATIONAL_ACCEL = 0.1;
     private static final double MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT = 0.025;
     private static final int    TICKS_PER_TEMP_ADJUSTEMENT = 10; // JPB TBD - I'm not sure if this is a reasonable
                                                                  // way to do this (i.e. that it is based on the
@@ -72,6 +73,7 @@ public class MultipleParticleModel {
     private Vector2D [] m_particleVelocities;
     private Vector2D [] m_particleForces;
     private Vector2D [] m_nextParticleForces;
+    private int m_numberOfParticles;
 
     private double m_normalizedContainerWidth;
     private double m_normalizedContainerHeight;
@@ -210,13 +212,31 @@ public class MultipleParticleModel {
         m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
         m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
         
+        // Calculate the number of particles to create and simulate.
+        int numInitialLayers = 0;
+        switch (m_particleType){
+        case StatesOfMatterParticleType.OXYGEN:
+            numInitialLayers = NUMBER_OF_LAYERS_IN_INITIAL_OXYGEN_CRYSTAL;
+            break;
+        case StatesOfMatterParticleType.NEON:
+            numInitialLayers = NUMBER_OF_LAYERS_IN_INITIAL_NEON_CRYSTAL;
+            break;
+        case StatesOfMatterParticleType.ARGON:
+            numInitialLayers = NUMBER_OF_LAYERS_IN_INITIAL_ARGON_CRYSTAL;
+            break;
+        default:
+            System.err.println("Error: Unrecognized particle type, using default number of layers.");
+            break;
+        }
+        m_numberOfParticles = (2 * numInitialLayers) * (numInitialLayers - 1);
+
         // Initialize the vectors that define the normalized particle attributes.
-        m_particlePositions  = new Point2D [NUMBER_OF_PARTICLES];
-        m_particleVelocities = new Vector2D [NUMBER_OF_PARTICLES];
-        m_particleForces     = new Vector2D [NUMBER_OF_PARTICLES];
-        m_nextParticleForces = new Vector2D [NUMBER_OF_PARTICLES];
+        m_particlePositions  = new Point2D [m_numberOfParticles];
+        m_particleVelocities = new Vector2D [m_numberOfParticles];
+        m_particleForces     = new Vector2D [m_numberOfParticles];
+        m_nextParticleForces = new Vector2D [m_numberOfParticles];
         
-        for (int i = 0; i < NUMBER_OF_PARTICLES; i++){
+        for (int i = 0; i < m_numberOfParticles; i++){
             
             // Add particle and its velocity and forces to normalized set.
             m_particlePositions[i] = new Point2D.Double();
@@ -235,11 +255,11 @@ public class MultipleParticleModel {
         if (m_particleType == StatesOfMatterParticleType.OXYGEN){
             diatomic = true;
         }
-        insertCrystal( NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL, NUMBER_OF_PARTICLES, m_particlePositions,
+        insertCrystal( numInitialLayers, m_numberOfParticles, m_particlePositions,
                 m_normalizedContainerWidth, m_normalizedContainerHeight, diatomic );
         
         // Initialize particle velocities.
-        for (int i = 0; i < NUMBER_OF_PARTICLES; i++){
+        for (int i = 0; i < m_numberOfParticles; i++){
             double temperatureSqrt = Math.sqrt( m_temperature );
             m_particleVelocities[i].setComponents( temperatureSqrt * m_rand.nextGaussian() , 
                     temperatureSqrt * m_rand.nextGaussian() );
@@ -312,9 +332,9 @@ public class MultipleParticleModel {
         
         // Execute the Verlet algorithm.
         for (int i = 0; i < 8; i++ ){
-//            verlet( NUMBER_OF_PARTICLES, m_particlePositions, m_particleVelocities, m_normalizedContainerWidth, 
-//                    m_normalizedContainerHeight, m_gravitationalAcceleration, m_particleForces, TIME_STEP, 
-//                    m_temperature );
+            verlet( m_numberOfParticles, m_particlePositions, m_particleVelocities, m_normalizedContainerWidth, 
+                    m_normalizedContainerHeight, m_gravitationalAcceleration, m_particleForces, TIME_STEP, 
+                    m_temperature );
         }
         syncParticlePositions();
         
@@ -446,7 +466,7 @@ public class MultipleParticleModel {
         // TODO: JPB TBD - This way of un-normalizing needs to be worked out,
         // and setting it as done below is a temporary thing.
         double positionMultiplier = m_particleDiameter;
-        for (int i = 0; i < NUMBER_OF_PARTICLES; i++){
+        for (int i = 0; i < m_numberOfParticles; i++){
             ((StatesOfMatterParticle)m_particles.get( i )).setPosition( 
                     m_particlePositions[i].getX() * positionMultiplier, 
                     m_particlePositions[i].getY() * positionMultiplier);
@@ -470,13 +490,6 @@ public class MultipleParticleModel {
             double timeStep, double temperature){
         
         double kineticEnergy = 0;
-        
-        // TODO: JPB TBD - For the sake of efficiency, this allocation should
-        // be moved outside of this member function at some point, probably
-        // made into a member var of the object that does the calculation.
-//        for (int i = 0; i < numParticles; i++){
-//            m_nextParticleForces[i] = new Vector2D.Double();
-//        }
         
         double timeStepSqrHalf = timeStep * timeStep * 0.5;
         double timeStepHalf = timeStep / 2;
@@ -511,13 +524,31 @@ public class MultipleParticleModel {
         // Calculate the forces created through interactions with other
         // particles.
         Vector2D force = new Vector2D.Double();
+        StatesOfMatterParticle particle1, particle2;
+        double particle1NormalizedPosX, particle1NormalizedPosY;
         for (int i = 0; i < numParticles; i++){
+            particle1 = (StatesOfMatterParticle)m_particles.get( i );
+            particle1NormalizedPosX = particlePositions[i].getX();
+            particle1NormalizedPosY = particlePositions[i].getY();
             for (int j = i + 1; j < numParticles; j++){
-                double dx = particlePositions[i].getX() - particlePositions[j].getX();
-                double dy = particlePositions[i].getY() - particlePositions[j].getY();
-                double distanceSqrd = (dx * dx) + (dy * dy);
                 
-                if (distanceSqrd < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
+                double dx = particle1NormalizedPosX - particlePositions[j].getX();
+                double dy = particle1NormalizedPosY - particlePositions[j].getY();
+                double distanceSqrd = (dx * dx) + (dy * dy);
+                double distance = Math.sqrt( distanceSqrd );
+                
+                particle2 = (StatesOfMatterParticle)m_particles.get( j );
+                if (particle1.getDiatomicPartner() == particle2){
+                    // This is a diatomic pair of particles, so calculate the
+                    // force accordingly.  Basically, this acts as though
+                    // there is a spring between the two particles.
+                    double springDistance = distance - DISTANCE_BETWEEN_DIATOMIC_PAIRS;
+                    force.setX( springDistance * DIATOMIC_FORCE_CONSTANT * dx / distance);
+                    force.setY( springDistance * DIATOMIC_FORCE_CONSTANT * dy / distance);
+                    m_nextParticleForces[i].subtract( force );
+                    m_nextParticleForces[j].add( force );
+                }
+                else if (distanceSqrd < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
                     // This pair of particles is close enough to one another
                     // that we consider them in the calculation.
                     double r2inv = 1 / distanceSqrd;
