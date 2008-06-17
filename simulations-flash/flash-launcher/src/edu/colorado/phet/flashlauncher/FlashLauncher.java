@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
+import edu.colorado.phet.flashlauncher.util.FileUtils;
 
 /**
  * Created by: Sam
@@ -76,7 +77,7 @@ public class FlashLauncher {
     
     private static String generateHTML( String sim, String language ) throws IOException {
         String s = "";
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "templates/flash-template.txt" );
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "flash-template.html" );
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
         String line = bufferedReader.readLine();
         while ( line != null ) {
