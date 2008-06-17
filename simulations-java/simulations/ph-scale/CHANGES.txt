@@ -47,6 +47,7 @@ CLEANUP:
 
 
 DONE:
+6/17/08 - add Water to liquid types
 6/13/08 - add interfaces to support Reset All
 6/13/08 - use phetcommon's ResetAllButton
 6/13/08 - refactor "Reset All" button so that it can be used outside of ControlPanel

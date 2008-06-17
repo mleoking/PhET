@@ -11,13 +11,14 @@ import edu.colorado.phet.phscale.PHScaleStrings;
 public class LiquidType {
     
     // Liquid types
+    public static final LiquidType WATER = new LiquidType( PHScaleStrings.CHOICE_WATER, 7, new Color( 255, 255, 255, 100 ) );
     public static final LiquidType MILK = new LiquidType( PHScaleStrings.CHOICE_MILK, 6.5, Color.WHITE );
     public static final LiquidType BEER = new LiquidType( PHScaleStrings.CHOICE_BEER, 4.5, new Color( 185, 79, 5 ) );
     public static final LiquidType COLA = new LiquidType( PHScaleStrings.CHOICE_COLA, 2.5, new Color( 122, 60, 35 ) );
     public static final LiquidType LEMON_JUICE = new LiquidType( PHScaleStrings.CHOICE_LEMON_JUICE, 2.4, Color.YELLOW );
     
     // Array of all liquid types
-    public static final LiquidType[] ALL_TYPES = new LiquidType[] { MILK, BEER, COLA, LEMON_JUICE };
+    private static final LiquidType[] ALL_TYPES = new LiquidType[] { MILK, BEER, COLA, LEMON_JUICE };
     
     // pH format
     private static final DecimalFormat PH_FORMAT = new DecimalFormat( "0.0" );

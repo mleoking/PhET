@@ -9,8 +9,8 @@ import java.util.Iterator;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.phscale.PHScaleConstants;
-import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
+import edu.colorado.phet.phscale.model.LiquidType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -28,7 +28,7 @@ public class WaterControlNode extends PNode {
         
         _listeners = new ArrayList();
         
-        JLabel label = new JLabel( PHScaleStrings.CHOICE_WATER );
+        JLabel label = new JLabel( LiquidType.WATER.toString() );
         label.setFont( FONT );
         PSwing labelWrapper = new PSwing( label );
         

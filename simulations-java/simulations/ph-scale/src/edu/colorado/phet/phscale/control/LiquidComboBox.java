@@ -24,7 +24,10 @@ public class LiquidComboBox extends PComboBox {
         
         LiquidType[] choices = LiquidType.getAll();
         for ( int i = 0; i < choices.length; i++ ) {
-            addItem( choices[i] );
+            LiquidType choice = choices[i];
+            if ( choice != LiquidType.WATER ) {
+                addItem( choices[i] );
+            }
         }
     }
     
