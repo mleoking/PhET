@@ -117,9 +117,9 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             buttonGroup.add( m_oxygenRadioButton );
             m_neonRadioButton.setSelected( true );
             
-            add( m_oxygenRadioButton );
             add( m_neonRadioButton );
             add( m_argonRadioButton );
+            add( m_oxygenRadioButton );
         }
     }
     
