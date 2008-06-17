@@ -14,15 +14,24 @@ import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 import edu.colorado.phet.flashlauncher.util.FileUtils;
 
 /**
+ * FlashLauncher is the mechanism for launching Flash simulations.
+ * It is bundled into a JAR file as the mainclass.
+ * An args.txt file in the JAR identifies the simulation name and language code,
+ * which are used to fill in an HTML template.
+ * A web browser is launched, and pointed at the HTML.
+ * 
  * Created by: Sam
  * May 29, 2008 at 7:53:28 AM
  */
 public class FlashLauncher {
+    
     private String sim;
     private String language;
     private static JTextArea jTextArea;
 
     public FlashLauncher() throws IOException {
+        
+        // read sim and language from args.txt, a JAR resource file
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "args.txt" );
         BufferedReader bu = new BufferedReader( new InputStreamReader( inputStream ) );
         String line = bu.readLine();
@@ -30,6 +39,8 @@ public class FlashLauncher {
         println( "line = " + line );
         this.sim = stringTokenizer.nextToken();
         this.language = stringTokenizer.nextToken();
+        
+        // if the developer flag is specified in args.txt, open a window to show debug output
         if ( stringTokenizer.hasMoreTokens() && stringTokenizer.nextToken().equals( "-dev" ) ) {
             println( "FlashLauncher.FlashLauncher dev" );
             JFrame frame = new JFrame( "Text" );
@@ -41,6 +52,9 @@ public class FlashLauncher {
         }
     }
 
+    /**
+     * Prints to the debug window, if it exists.
+     */
     public static void println( String string ) {
         System.out.println( string );
         if ( jTextArea != null ) {
@@ -53,11 +67,17 @@ public class FlashLauncher {
         new FlashLauncher().start();
     }
 
+    /*
+     * Launches the simulation in a web browser.
+     */
     private void start() throws IOException {
+        
         println( "FlashLauncher.start" );
         println( "System.getProperty( \"user.dir\" ) = " + System.getProperty( "user.dir" ) );
         File currentDir = new File( System.getProperty( "user.dir" ) );
         File tempDir = new File( currentDir, "temp-"+sim+"-phet" );
+        
+        // unzip the JAR into temp directory
         File jarfile = getJARFile();
         println( "jarfile = " + jarfile );
         println( "Starting unzip jarfile=" + jarfile + ", tempDir=" + tempDir );
@@ -71,10 +91,14 @@ public class FlashLauncher {
         outputStream.write( html.getBytes() );
         outputStream.close();
 
+        // open the browser, point it at the HTML file
         println( "Starting openurl" );
         BareBonesBrowserLaunch.openURL( "file://" + htmlFile.getAbsolutePath() );
     }
     
+    /*
+     * Reads the HTML template and fills in the blanks for sim and language.
+     */
     private static String generateHTML( String sim, String language ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "flash-template.html" );
@@ -92,6 +116,9 @@ public class FlashLauncher {
         return s;
     }
 
+    /*
+     * Gets the JAR file that this class was launched from.
+     */
     private File getJARFile() {
         URL url = FlashLauncher.class.getProtectionDomain().getCodeSource().getLocation();
         try {
