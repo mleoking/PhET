@@ -5,6 +5,7 @@ borehole
 Chris
 cmalley
 com
+diatomic
 ditto
 downvalley
 draggable
@@ -16,6 +17,7 @@ femto
 femtometer
 femtometers
 fission
+fissions
 fissioning
 Frankel
 glyph
@@ -27,6 +29,7 @@ javadoc
 javaws
 jblanco
 jiggles
+kinetic
 km
 krypton
 Locale
@@ -44,6 +47,7 @@ Paulson
 phet
 PhET
 Piccolo
+pickable
 pixelzoom
 polonium
 python
@@ -62,5 +66,6 @@ Unfuddle
 Updaters
 upvalley
 Uranium
+Verlet
 viewport
 yaw
