@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -22,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.StatesOfMatterParticleType;
 
 
 public class SolidLiquidGasControlPanel extends ControlPanel {
@@ -68,9 +71,9 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     private class MoleculeSelectionPanel extends JPanel {
         
+        private JRadioButton m_neonRadioButton;
+        private JRadioButton m_argonRadioButton;
         private JRadioButton m_oxygenRadioButton;
-        private JRadioButton m_nitrogenRadioButton;
-        private JRadioButton m_carbonDioxideRadioButton;
         
         MoleculeSelectionPanel(){
             
@@ -88,20 +91,35 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
 
             m_oxygenRadioButton = new JRadioButton( StatesOfMatterStrings.OXYGEN_SELECTION_LABEL );
             m_oxygenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_nitrogenRadioButton = new JRadioButton( StatesOfMatterStrings.NITROGEN_SELECTION_LABEL );
-            m_nitrogenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_carbonDioxideRadioButton = new JRadioButton( StatesOfMatterStrings.CARBON_DIOXIDE_SELECTION_LABEL );
-            m_carbonDioxideRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_oxygenRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setParticleType( StatesOfMatterParticleType.OXYGEN );
+                }
+            } );
+            m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
+            m_neonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_neonRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setParticleType( StatesOfMatterParticleType.NEON );
+                }
+            } );
+            m_argonRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
+            m_argonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_argonRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setParticleType( StatesOfMatterParticleType.ARGON );
+                }
+            } );
             
             ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( m_neonRadioButton );
+            buttonGroup.add( m_argonRadioButton );
             buttonGroup.add( m_oxygenRadioButton );
-            buttonGroup.add( m_nitrogenRadioButton );
-            buttonGroup.add( m_carbonDioxideRadioButton );
-            m_oxygenRadioButton.setSelected( true );
+            m_neonRadioButton.setSelected( true );
             
             add( m_oxygenRadioButton );
-            add( m_nitrogenRadioButton );
-            add( m_carbonDioxideRadioButton );
+            add( m_neonRadioButton );
+            add( m_argonRadioButton );
         }
     }
     

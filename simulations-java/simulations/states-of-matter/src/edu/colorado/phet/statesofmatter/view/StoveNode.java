@@ -15,7 +15,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class StoveNode extends PNode {
 
     // Offset in Y direction for stove, tweak as needed.
-    private static final double BURNER_Y_OFFSET = 20; 
+    private static final double BURNER_Y_OFFSET = 20;
+    
+    // Scaling used to set relative size of burner to control panel.  Tweak
+    // as needed.
+    private static final double INITIAL_STOVE_SCALING = 1.5;
 
     // Heat value, ranges from -1 to +1.
     private double m_heat;
@@ -31,14 +35,17 @@ public class StoveNode extends PNode {
         
         m_fireImage = StatesOfMatterResources.getImageNode("flames.gif");
         m_fireImage.setOffset( 0, BURNER_Y_OFFSET );
+        m_fireImage.setScale( INITIAL_STOVE_SCALING );
         addChild(m_fireImage);
 
         m_iceImage = StatesOfMatterResources.getImageNode("ice.gif");
         m_iceImage.setOffset( 0, BURNER_Y_OFFSET );
+        m_iceImage.setScale( INITIAL_STOVE_SCALING );
         addChild(m_iceImage);
 
         m_stoveImage = StatesOfMatterResources.getImageNode("stove.png");
         m_stoveImage.setOffset( 0, BURNER_Y_OFFSET );
+        m_stoveImage.setScale( INITIAL_STOVE_SCALING );
         addChild(m_stoveImage);
 
         m_stoveControlPanel = new StoveControlPanel();

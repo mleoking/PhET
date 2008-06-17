@@ -33,14 +33,12 @@ public class MultipleParticleModel {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final double OXYGEN_MOLECULE_DIAMETER = 120;  // Picometers.
-    
     // TODO: JPB TBD - These constants are here as a result of the first attempt
     // to integrate Paul Beale's IDL implementation of the Verlet algorithm.
     // Eventually some or all of them will be moved.
     public static final int NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL = 6;
     public static final int NUMBER_OF_PARTICLES = 
-        1 + (2 * NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL) * (NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL - 1);
+        2 + (2 * NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL) * (NUMBER_OF_LAYERS_IN_INITIAL_CRYSTAL - 1);
     public static final double DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL = 0.3;  // In particle diameters.
     public static final double TIME_STEP = Math.pow( 0.5, 6.0 );
     public static final double INITIAL_TEMPERATURE = 0.2;
@@ -74,14 +72,16 @@ public class MultipleParticleModel {
     private Vector2D [] m_particleForces;
     private Vector2D [] m_nextParticleForces;
 
-    private double m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / OXYGEN_MOLECULE_DIAMETER;
-    private double m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / OXYGEN_MOLECULE_DIAMETER;
+    private double m_normalizedContainerWidth;
+    private double m_normalizedContainerHeight;
     private double m_potentialEnergy;
     private Random m_rand = new Random();
     private double m_temperature;
     private double m_gravitationalAcceleration;
     private double m_heatingCoolingAmount;
     private int    m_tempAdjustTickCounter;
+    private int    m_particleType;
+    private double m_particleDiameter;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -102,6 +102,10 @@ public class MultipleParticleModel {
                 reset();
             }
         });
+        
+        // Set the default particle type.
+        m_particleType = StatesOfMatterParticleType.NEON;
+        m_particleDiameter = StatesOfMatterParticleType.getParticleDiameter( m_particleType );
 
         reset();
     }
@@ -158,6 +162,21 @@ public class MultipleParticleModel {
     public void setGravitationalAcceleration( double acceleration ) {
         m_gravitationalAcceleration = acceleration;
     }
+    
+    public int getParticleType(){
+        return m_particleType;
+    }
+    
+    public void setParticleType(int particleType){
+        
+        assert StatesOfMatterParticleType.isSupportedType(particleType);
+        
+        m_particleType = particleType;
+        m_particleDiameter = StatesOfMatterParticleType.getParticleDiameter( particleType );
+        
+        // This causes a reset - otherwise it would be too hard to do.
+        reset();
+    }
 
     //----------------------------------------------------------------------------
     // Other Public Methods
@@ -186,6 +205,10 @@ public class MultipleParticleModel {
             notifyTemperatureChanged();
         }
         
+        // Set the size of the container.
+        m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
+        m_normalizedContainerHeight = StatesOfMatterConstants.CONTAINER_BOUNDS.height / m_particleDiameter;
+        
         // Initialize the vectors that define the normalized particle attributes.
         m_particlePositions  = new Point2D [NUMBER_OF_PARTICLES];
         m_particleVelocities = new Vector2D [NUMBER_OF_PARTICLES];
@@ -201,7 +224,7 @@ public class MultipleParticleModel {
             m_nextParticleForces[i] = new Vector2D.Double();
             
             // Add particle to model set.
-            StatesOfMatterParticle particle = new StatesOfMatterParticle(0, 0, OXYGEN_MOLECULE_DIAMETER/2, 10);
+            StatesOfMatterParticle particle = new StatesOfMatterParticle(0, 0, m_particleDiameter/2, 10);
             m_particles.add( particle );
             notifyParticleAdded( particle );
         }
@@ -397,7 +420,7 @@ public class MultipleParticleModel {
     private void syncParticlePositions(){
         // TODO: JPB TBD - This way of un-normalizing needs to be worked out,
         // and setting it as done below is a temporary thing.
-        double positionMultiplier = OXYGEN_MOLECULE_DIAMETER;
+        double positionMultiplier = m_particleDiameter;
         for (int i = 0; i < NUMBER_OF_PARTICLES; i++){
             ((StatesOfMatterParticle)m_particles.get( i )).setPosition( 
                     m_particlePositions[i].getX() * positionMultiplier, 
