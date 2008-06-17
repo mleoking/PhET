@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import java.util.Vector;
 
 import edu.colorado.phet.common.phetcommon.resources.DummyConstantStringTester;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * SimStrings
@@ -34,15 +35,7 @@ public class SimStrings {
 
     /* intended to be a singleton, use getInstance */
     private SimStrings() {
-
-        // user.language indicates the default locale
-        locale = Locale.getDefault();
-
-        // javaws.locale overrides user.language
-        String javawsLocale = System.getProperty( "javaws.phet.locale" );
-        if ( javawsLocale != null && !javawsLocale.equals( "" ) ) {
-            locale = new Locale( javawsLocale );
-        }
+        locale= PhetResources.readLocale();
     }
 
     /**
@@ -52,19 +45,6 @@ public class SimStrings {
      * @param bundleName the base name of the resource bundle containing localized strings
      */
     public void init( String[] args, String bundleName ) {
-
-        // Override locale using "user.language=" command line argument.
-        if ( args != null ) {
-            String argsKey = "user.language=";
-            for ( int i = 0; i < args.length; i++ ) {
-                if ( args[i].startsWith( argsKey ) ) {
-                    String locale = args[i].substring( argsKey.length(), args[i].length() );
-                    setLocale( new Locale( locale ) );
-                    break;
-                }
-            }
-        }
-
         // Initialize simulation strings using resource bundle for the locale.
         addStrings( bundleName );
     }
