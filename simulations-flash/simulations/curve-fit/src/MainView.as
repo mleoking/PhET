@@ -427,14 +427,18 @@ class MainView{
 			var dataPointName:String = "dataPointHolder"+String(thisView.nbrPointsCreated);
 			var pointClip:MovieClip = localCanvas_mc.attachMovie("dataPointHolder",dataPointName,localCanvas_mc.getNextHighestDepth());
 			Util.setXYPosition(pointClip,_root._xmouse, _root._ymouse);
-			pointClip.startDrag(false, 0, 0, thisView.stageW, thisView.stageH);
+			//pointClip.startDrag(false, 0, 0, thisView.stageW, thisView.stageH);
 			//localCanvas_mc[dataPointName].startDrag(false, 0, 0, thisView.stageW, thisView.stageH);
 			pointClip.displayDelY_mc._visible = false;
+			var decPlace = 10;
 			this.onMouseMove = function(){
-				var xNow = scaleFactor*(pointClip._x - Util.ORIGINX);
-				var yNow = scaleFactor*(-pointClip._y + Util.ORIGINY);
+				var xNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(_root._xmouse - Util.ORIGINX));
+				var yNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(-_root._ymouse + Util.ORIGINY));
 				pointClip.display_mc.xDisplay_txt.text = 0.1*Math.round(10*xNow);
 				pointClip.display_mc.yDisplay_txt.text = 0.1*Math.round(10*yNow);
+				pointClip._x = 
+				pointClip._x = Util.ORIGINX + xNow/scaleFactor;
+				pointClip._y = Util.ORIGINY - yNow/scaleFactor;
 				updateAfterEvent();
 			}
 		}
@@ -446,6 +450,8 @@ class MainView{
 			var decPlace:Number = 10;
 			var xNow:Number = (1/decPlace)*Math.round(decPlace*scaleFactor*(_root._xmouse - Util.ORIGINX));
 			var yNow:Number = (1/decPlace)*Math.round(decPlace*scaleFactor*(-_root._ymouse + Util.ORIGINY));
+			pointClip._x = Util.ORIGINX + xNow/scaleFactor;
+			pointClip._y = Util.ORIGINY - yNow/scaleFactor;
 			currentPoint = thisView.model.addPoint(xNow, yNow, pointClip);
 			//pointClip.errorBar_mc.bottom_mc._y;
 			var delY = scaleFactor*pointClip.errorBar_mc.bottom_mc._y;
@@ -456,7 +462,7 @@ class MainView{
 			}
 			//trace("delY: "+delY);
 			//pointClip.pointObject = thisView.model.addPoint(_root._xmouse - Util.ORIGINX, -(_root._ymouse - Util.ORIGINY), pointClip);
-			pointClip.stopDrag();
+			//pointClip.stopDrag();
 			pointClip.display_mc._visible = false;
 			this.onMouseMove = undefined;
 			//thisView.makePointDraggable(currentPoint); //localCanvas_mc[dataPointName]);

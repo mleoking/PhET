@@ -19,32 +19,47 @@ class PointClipInitializer{
 		var clip:MovieClip = this.myPoint.clip_mc;
 		
 		clip.dataPoint_mc.onPress = function(){
-			clip.startDrag(false, 0, 0, theView.stageW, theView.stageH);
+			//clip.startDrag(false, 0, 0, theView.stageW, theView.stageH);
 			clip.display_mc._visible = true;
 			clip.displayDelY_mc._visible = false;
 			clip.onMouseMove = function(){
-				var decPlace = 100;
-				var xNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(clip._x - Util.ORIGINX));
-				var yNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(-clip._y + Util.ORIGINY));
+				var decPlace = 10;
+				var xNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(_root._xmouse - Util.ORIGINX));
+				var yNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(-_root._ymouse + Util.ORIGINY));
 				currentPoint.setXY(xNow, yNow);
 				clip.display_mc.xDisplay_txt.text = 0.1*Math.round(10*xNow);
 				clip.display_mc.yDisplay_txt.text = 0.1*Math.round(10*yNow);
+				clip._x = Util.ORIGINX + xNow/scaleFactor;
+				clip._y = Util.ORIGINY - yNow/scaleFactor;
 				updateAfterEvent();
 			}
 		}
 		clip.dataPoint_mc.onRelease = function(){
+			var stageW = theView.stageW;
+			var stageH = theView.stageH;
+			if(clip._x > stageW){
+				clip._x = stageW;
+			}else if(clip._x < 0){
+				clip._x = 0;
+			}else if(clip._y > stageH){
+				clip._y = stageH;
+			}else if(clip._y < 0){
+				clip._y = 0;
+			}
 			var decPlace = 10;
 			var xNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(clip._x - Util.ORIGINX));
 			var yNow = (1/decPlace)*Math.round(decPlace*scaleFactor*(-clip._y + Util.ORIGINY));
 			clip.display_mc.xDisplay_txt.text = xNow;
 			clip.display_mc.yDisplay_txt.text = yNow;
 			currentPoint.setXY(xNow, yNow);
-			clip.stopDrag();
+			//clip.stopDrag();
 			clip.onMouseMove = undefined;
 			//xNow = scaleFactor*(xScreen - Util.ORIGINX);
 			clip._x = Util.ORIGINX + xNow/scaleFactor;
 			//yNow = -scaleFactor*(yScreen - Util.ORIGINY)
 			clip._y = Util.ORIGINY - yNow/scaleFactor;
+			
+			
 			//clip.display_mc._visible = false;
 			if(clip.dataPoint_mc.hitTest(theView.pointsBucket.hitAreaPoints_mc)){
 				model.deletePoint(currentPoint.getPositionInArray());  
