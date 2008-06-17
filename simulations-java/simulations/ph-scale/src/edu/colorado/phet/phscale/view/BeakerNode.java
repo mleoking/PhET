@@ -2,25 +2,41 @@
 
 package edu.colorado.phet.phscale.view;
 
-import java.awt.BasicStroke;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.phscale.model.Beaker;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 public class BeakerNode extends PComposite {
     
-    private static final Stroke STROKE = new BasicStroke( 6f );
+    private static final String[] MAJOR_TICK_LABELS = { "\u00bc L", "\u00bd L", "\u00be L", "1 L", "1\u00bc L" }; // 1/4, 1/2, 3/4, 1,...
+    
+    private static final Color TICK_COLOR = Color.BLACK;
+    private static final double MINOR_TICK_SPACING = 1./16.; // liters
+    private static final int MINOR_TICKS_PER_MAJOR_TICK = 4;
+    private static final double MAJOR_TICK_LENGTH = 20;
+    private static final double MINOR_TICK_LENGTH = 15;
+    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
+    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
+    private static final Font TICK_LABEL_FONT = new PhetFont( 20 );
+    
+    private static final Stroke OUTLINE_STROKE = new BasicStroke( 6f );
+    private static final Color OUTLINE_COLOR = Color.BLACK;
 
     private final GeneralPath _beakerPath;
     private final PPath _beakerNode;
     
-    public BeakerNode( PDimension size ) {
+    public BeakerNode( Beaker beaker, PDimension size ) {
         super();
         
+        // outline
         final float width = (float) size.getWidth();
         final float height = (float) size.getHeight();
         
@@ -33,7 +49,48 @@ public class BeakerNode extends PComposite {
         
         _beakerNode = new PPath( _beakerPath );
         _beakerNode.setPaint( null );
-        _beakerNode.setStroke( STROKE );
+        _beakerNode.setStroke( OUTLINE_STROKE );
+        _beakerNode.setStrokePaint( OUTLINE_COLOR );
         addChild( _beakerNode );
+        
+        // tick marks
+        PComposite ticksNode = new PComposite();
+        addChild( ticksNode );
+        double maxVolume = beaker.getMaxVolume();
+        int numberOfTicks = (int) Math.floor( maxVolume / MINOR_TICK_SPACING );
+        final double rightX = _beakerNode.getFullBoundsReference().getMaxX();
+        final double bottomY = _beakerNode.getFullBoundsReference().getMaxY();
+        double deltaY = size.getHeight() / numberOfTicks;
+        for ( int i = 1; i <= numberOfTicks; i++ ) {
+            final double y = bottomY - ( i * deltaY );
+            if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
+                // major tick
+                Shape tickPath = new Line2D.Double( rightX - MAJOR_TICK_LENGTH, y, rightX - 2, y );
+                PPath tickNode = new PPath( tickPath );
+                tickNode.setStroke( MAJOR_TICK_STROKE );
+                tickNode.setStrokePaint( TICK_COLOR );
+                ticksNode.addChild( tickNode );
+                
+                int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
+                if ( labelIndex < MAJOR_TICK_LABELS.length ) {
+                    String label = MAJOR_TICK_LABELS[ labelIndex ];
+                    PText textNode = new PText( label );
+                    textNode.setFont( TICK_LABEL_FONT );
+                    textNode.setTextPaint( TICK_COLOR );
+                    ticksNode.addChild( textNode );
+                    double xOffset = tickNode.getFullBounds().getMinX() - textNode.getFullBoundsReference().getWidth() - 2;
+                    double yOffset = tickNode.getFullBounds().getMinY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
+                    textNode.setOffset( xOffset, yOffset );
+                }
+            }
+            else {
+                // minor tick
+                Shape tickPath = new Line2D.Double( rightX - MINOR_TICK_LENGTH, y, rightX - 2, y );
+                PPath tickNode = new PPath( tickPath );
+                tickNode.setStroke( MINOR_TICK_STROKE );
+                tickNode.setStrokePaint( TICK_COLOR );
+                ticksNode.addChild( tickNode );
+            }
+        }
     }
 }
