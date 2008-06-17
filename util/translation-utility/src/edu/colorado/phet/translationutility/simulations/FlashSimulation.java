@@ -10,7 +10,6 @@ import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
-import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.DocumentAdapter;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
@@ -275,15 +274,6 @@ public class FlashSimulation implements ISimulation {
             testOutputStream.putNextEntry( jarEntry );
             String args = projectName + " " + languageCode;
             testOutputStream.write( args.getBytes() );
-            testOutputStream.closeEntry();
-            
-            // add HTML file used by FlashLauncher
-            String html = TUResources.getFlashHTMLTemplate();
-            html = html.replaceAll( "@SIM@", projectName );
-            html = html.replaceAll( "@LANGUAGE@", languageCode );
-            jarEntry = new JarEntry( htmlResourceName );
-            testOutputStream.putNextEntry( jarEntry );
-            testOutputStream.write( html.getBytes() );
             testOutputStream.closeEntry();
             
             // close the streams
