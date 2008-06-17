@@ -2,8 +2,8 @@
     <property name="src" location="src"/>
     <property name="build" location="build"/>
     <property name="dist" location="dist"/>
-    <property name="lang" value="fr"/>
     <property name="sim" value="curve-fit"/>
+    <property name="language" value="fr"/>
     <property name="trunk" value="../.."/>
 
     <target name="init">
@@ -19,15 +19,15 @@
             <fileset dir="${trunk}\simulations-flash\simulations\${sim}\deploy\" includes="${sim}-strings_*"/>
         </copy>
         <filter token="SIM" value="${sim}"/>
-        <filter token="LOCALE" value="${lang}"/>
-        <copy file="${trunk}\util\flash-launcher\templates\flash-template.html" tofile="${build}/${sim}_${lang}.html"
+        <filter token="LANGUAGE" value="${language}"/>
+        <copy file="${trunk}\util\flash-launcher\templates\flash-template.html" tofile="${build}/${sim}_${language}.html"
               filtering="true"/>
-        <echo file="${build}\args.txt" message="${sim} ${lang} -dev"/>
+        <echo file="${build}\args.txt" message="${sim} ${language} -dev"/>
     </target>
 
     <target name="dist" depends="compile">
         <mkdir dir="${dist}"/>
-        <jar jarfile="${dist}/${sim}_${lang}.jar" basedir="${build}">
+        <jar jarfile="${dist}/${sim}_${language}.jar" basedir="${build}">
             <manifest>
                 <attribute name="Main-Class" value="edu.colorado.phet.flashlauncher.FlashLauncher"/>
             </manifest>

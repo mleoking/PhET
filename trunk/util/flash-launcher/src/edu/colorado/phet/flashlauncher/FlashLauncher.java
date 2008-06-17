@@ -4,12 +4,11 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Enumeration;
 import java.util.StringTokenizer;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import edu.colorado.phet.flashlauncher.util.BareBonesBrowserLaunch;
 
@@ -61,11 +60,35 @@ public class FlashLauncher {
         File jarfile = getJARFile();
         println( "jarfile = " + jarfile );
         println( "Starting unzip jarfile=" + jarfile + ", tempDir=" + tempDir );
-        unzip( jarfile, tempDir );
+        FileUtils.unzip( jarfile, tempDir );
         println( "Finished unzip" );
+       
+        // dynamically generate an HTML file
+        String html = generateHTML( sim, language );
+        File htmlFile = new File( tempDir, sim + "_" + language + ".html" );
+        FileOutputStream outputStream = new FileOutputStream( htmlFile );
+        outputStream.write( html.getBytes() );
+        outputStream.close();
 
         println( "Starting openurl" );
-        BareBonesBrowserLaunch.openURL( "file://" + new File( tempDir, sim + "_" + language + ".html" ).getAbsolutePath() );
+        BareBonesBrowserLaunch.openURL( "file://" + htmlFile.getAbsolutePath() );
+    }
+    
+    private static String generateHTML( String sim, String language ) throws IOException {
+        String s = "";
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "templates/flash-template.txt" );
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
+        String line = bufferedReader.readLine();
+        while ( line != null ) {
+            s += line;
+            line = bufferedReader.readLine();
+            if ( line != null ) {
+                s += System.getProperty( "line.separator" );
+            }
+        }
+        s = s.replaceAll( "@SIM@", sim );
+        s = s.replaceAll( "@LANGUAGE@", language );
+        return s;
     }
 
     private File getJARFile() {
@@ -80,71 +103,4 @@ public class FlashLauncher {
             throw new RuntimeException( e );
         }
     }
-
-    //todo: the following utility functions were copied from FileUtils so that we didn't have to
-    //todo: gather all lib dependencies from FileUtils
-    public static void unzip( File zipFileName, File targetDir ) throws IOException {
-        unzip( zipFileName, targetDir, new FileFilter() {
-            public boolean accept( File file ) {
-                return true;
-            }
-        } );
-    }
-
-    public static void unzip( File zipFileName, File targetDir, FileFilter filter ) throws IOException {
-        ZipFile zipFile = new ZipFile( zipFileName );
-
-        Enumeration enumeration = zipFile.entries();
-
-        while ( enumeration.hasMoreElements() ) {
-            ZipEntry entry = (ZipEntry) enumeration.nextElement();
-
-            String name = entry.getName();
-
-            if ( filter.accept( new File( targetDir, name ) ) ) {
-                if ( entry.isDirectory() ) {
-                    new File( targetDir, name ).mkdirs();
-                }
-                else {
-                    File targetFile = new File( targetDir, name );
-
-                    targetFile.getParentFile().mkdirs();
-
-                    InputStream source = zipFile.getInputStream( entry );
-                    FileOutputStream fileOutputStream = new FileOutputStream( targetFile );
-
-                    copyAndClose( source, fileOutputStream, false );
-                }
-            }
-        }
-        zipFile.close();
-    }
-
-    public static void copyTo( File source, File dest ) throws IOException {
-        copyAndClose( new FileInputStream( source ), new FileOutputStream( dest ), true );
-    }
-
-    public static void copy( InputStream source, OutputStream dest, boolean buffered ) throws IOException {
-        //todo: buffering is disabled until file truncation issue is resolved
-        buffered = false;
-        if ( buffered ) {
-            source = new BufferedInputStream( source );
-            dest = new BufferedOutputStream( dest );
-        }
-
-        int bytesRead;
-
-        byte[] buffer = new byte[1024];
-
-        while ( ( bytesRead = source.read( buffer ) ) >= 0 ) {
-            dest.write( buffer, 0, bytesRead );
-        }
-    }
-
-    public static void copyAndClose( InputStream source, OutputStream dest, boolean buffered ) throws IOException {
-        copy( source, dest, buffered );
-        source.close();
-        dest.close();
-    }
-
 }
