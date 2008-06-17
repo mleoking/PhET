@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
-import edu.colorado.phet.phscale.model.LiquidType;
+import edu.colorado.phet.phscale.model.Liquid;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -32,11 +32,14 @@ public class LiquidControlNode extends PNode {
         _comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 notifyLiquidChanged();
-                _faucetControlNode.setOn( true ); // automatically turn on the faucet
+                _faucetControlNode.setOn( _comboBox.getChoice() != null ); // automatically turn on the faucet
+                _faucetControlNode.setEnabled( _comboBox.getChoice() != null ); // automatically turn on the faucet
             }
-        });
+        } );
         
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_RIGHT );
+        _faucetControlNode.setOn( false );
+        _faucetControlNode.setEnabled( false ); // disabled until user makes a liquid choice
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
                 notifyOnOffChanged();
@@ -58,12 +61,12 @@ public class LiquidControlNode extends PNode {
         return _faucetControlNode.isOn();
     }
     
-    public void setLiquidType( LiquidType liquidType ) {
-        _comboBox.setLiquidType( liquidType );
+    public void setLiquid( Liquid liquid ) {
+        _comboBox.setChoice( liquid );
     }
     
-    public LiquidType getLiquidType() {
-        return _comboBox.getLiquidType();
+    public Liquid getLiquid() {
+        return _comboBox.getChoice();
     }
     
     public interface LiquidControlListener {

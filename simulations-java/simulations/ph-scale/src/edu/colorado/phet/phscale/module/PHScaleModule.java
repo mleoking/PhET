@@ -71,10 +71,7 @@ public class PHScaleModule extends PiccoloModule {
         System.out.println( "PHScaleModule.reset" );//XXX
         
         // Model
-        Liquid liquid = _model.getLiquid();
-        liquid.setPH( 7 );
-        liquid.setVolume( 1 );
-        liquid.setColor( Color.WHITE );
+        //XXX
         
         // View-specific controls
         _canvas.getBeakerControlNode().setMoleculeCountSelected( true );

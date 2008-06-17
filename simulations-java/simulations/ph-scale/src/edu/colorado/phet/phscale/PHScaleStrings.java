@@ -22,6 +22,7 @@ public class PHScaleStrings {
     
     public static final String BUTTON_RESET_ALL = PHScaleResources.getCommonString( PhetCommonResources.STRING_RESET_ALL );
 
+    public static final String CHOICE_CHOOSE_LIQUID = PHScaleResources.getString( "choice.chooseLiquid" );
     public static final String CHOICE_MILK = PHScaleResources.getString( "choice.milk" );
     public static final String CHOICE_BATTERY_ACID = PHScaleResources.getString( "choice.batteryAcid" );
     public static final String CHOICE_GASTRIC_ACID = PHScaleResources.getString( "choice.gastricAcid" );
