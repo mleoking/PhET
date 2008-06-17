@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
-import edu.colorado.phet.translationutility.simulations.Simulation.SimulationException;
+import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
 
 /**
  * SimulationFactory creates a simulation based on the input file type and contents.
@@ -20,9 +20,9 @@ public class SimulationFactory {
     
     private SimulationFactory() {}
     
-    public static Simulation createSimulation( String jarFileName ) throws SimulationException {
+    public static ISimulation createSimulation( String jarFileName ) throws SimulationException {
 
-        Simulation simulation = null;
+        ISimulation simulation = null;
 
         /*
          * Assume we have a JAR file.

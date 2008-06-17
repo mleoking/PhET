@@ -19,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.TUResources;
-import edu.colorado.phet.translationutility.simulations.Simulation;
-import edu.colorado.phet.translationutility.simulations.Simulation.SimulationException;
+import edu.colorado.phet.translationutility.simulations.ISimulation;
+import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 import edu.colorado.phet.translationutility.userinterface.ToolBar.ToolBarListener;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
@@ -40,7 +40,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     private static final String HELP_TITLE = TUResources.getString( "title.help" );
     private static final String HELP_MESSAGE = TUResources.getString( "help.translation" );
     
-    private final Simulation _simulation;
+    private final ISimulation _simulation;
     private final String _targetLanguageCode;
     private final String _saveDirName;
     
@@ -57,7 +57,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * @param targetLanguageCode
      * @param saveDirName
      */
-    public MainFrame( Simulation simulation, String sourceLanguageCode, String targetLanguageCode, String saveDirName ) {
+    public MainFrame( ISimulation simulation, String sourceLanguageCode, String targetLanguageCode, String saveDirName ) {
         super( TUResources.getTitle() );
         
         _simulation = simulation;
@@ -78,8 +78,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         Properties sourceProperties = null;
         Properties targetProperties = null;
         try {
-            sourceProperties = _simulation.getLocalizedStrings( sourceLanguageCode );
-            targetProperties = _simulation.getLocalizedStrings( targetLanguageCode );
+            sourceProperties = _simulation.getStrings( sourceLanguageCode );
+            targetProperties = _simulation.getStrings( targetLanguageCode );
         }
         catch ( SimulationException e ) {
             ExceptionHandler.handleFatalException( e );
@@ -149,7 +149,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     public void handleTest() {
         Properties properties = _translationPanel.getTargetProperties();
         try {
-            _simulation.test( properties, _targetLanguageCode );
+            _simulation.testStrings( properties, _targetLanguageCode );
         }
         catch ( SimulationException e ) {
             ExceptionHandler.handleNonFatalException( e );
@@ -176,7 +176,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 }
             }
             try {
-                _simulation.exportLocalizedStrings( properties, outFile );
+                _simulation.saveStrings( properties, outFile );
             }
             catch ( SimulationException e ) {
                 ExceptionHandler.handleNonFatalException( e );
@@ -197,7 +197,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             File inFile = chooser.getSelectedFile();
             Properties properties = null;
             try {
-                properties = _simulation.importLocalizedStrings( inFile );
+                properties = _simulation.loadStrings( inFile );
             }
             catch ( SimulationException e ) {
                 ExceptionHandler.handleNonFatalException( e );
@@ -215,7 +215,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         Properties properties = _translationPanel.getTargetProperties();
         
         // export properties to a file
-        String baseName = _simulation.getExportFileBasename( _targetLanguageCode );
+        String baseName = _simulation.getSubmitBasename( _targetLanguageCode );
         String fileName = _saveDirName + File.separatorChar + baseName;
         File outFile = new File( fileName );
         if ( outFile.exists() ) {
@@ -228,7 +228,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         }
         
         try {
-            _simulation.exportLocalizedStrings( properties, outFile );
+            _simulation.saveStrings( properties, outFile );
         }
         catch ( SimulationException e ) {
             ExceptionHandler.handleNonFatalException( e );

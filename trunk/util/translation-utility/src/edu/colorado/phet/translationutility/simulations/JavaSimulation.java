@@ -18,10 +18,12 @@ import edu.colorado.phet.translationutility.util.PropertiesIO.PropertiesIOExcept
 
 /**
  * JavaSimulation supports of Java-based simulations.
+ * Java simulations use Java properties files to store localized strings.
+ * There is one properties file per language.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class JavaSimulation extends Simulation {
+public class JavaSimulation implements ISimulation {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -57,26 +59,23 @@ public class JavaSimulation extends Simulation {
         return _projectName;
     }
     
-    public void test( Properties properties, String languageCode ) throws SimulationException {
-        setLocalizedStrings( properties, languageCode );
+    public void testStrings( Properties properties, String languageCode ) throws SimulationException {
+        String propertiesFileName = getPropertiesResourceName( _projectName, languageCode );
+        writePropertiesToJarCopy( _jarFileName, TEST_JAR, propertiesFileName, properties );
         try {
-            runJar( TEST_JAR, languageCode );
+            String[] cmdArray = { "java", "-jar", "-Duser.language=" + languageCode, TEST_JAR };
+            Command.run( cmdArray, false /* waitForCompletion */ );
         }
         catch ( CommandException e ) {
             throw new SimulationException( e );
         }
     }
 
-    public Properties getLocalizedStrings( String languageCode ) throws SimulationException {
+    public Properties getStrings( String languageCode ) throws SimulationException {
         return readPropertiesFromJar( _jarFileName, _projectName, languageCode );
     }
 
-    public void setLocalizedStrings( Properties properties, String languageCode ) throws SimulationException {
-        String propertiesFileName = getPropertiesResourceName( _projectName, languageCode );
-        writePropertiesToJarCopy( _jarFileName, TEST_JAR, propertiesFileName, properties );
-    }
-    
-    public Properties importLocalizedStrings( File file ) throws SimulationException {
+    public Properties loadStrings( File file ) throws SimulationException {
         Properties properties = null;
         try {
             properties = PropertiesIO.read( file );
@@ -87,7 +86,7 @@ public class JavaSimulation extends Simulation {
         return properties;
     }
 
-    public void exportLocalizedStrings( Properties properties, File file ) throws SimulationException {
+    public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
             PropertiesIO.write( properties, file );
         }
@@ -96,7 +95,7 @@ public class JavaSimulation extends Simulation {
         }
     }
     
-    public String getExportFileBasename( String languageCode ) {
+    public String getSubmitBasename( String languageCode ) {
         return getPropertiesResourceBasename( _projectName, languageCode );
     }
     
@@ -340,16 +339,4 @@ public class JavaSimulation extends Simulation {
             throw new SimulationException( "cannot add localized strings to jar file: " + newJarFileName, e );
         }
     }
-    
-    /*
-     * Runs the JAR file for a specified language code.
-     * 
-     * @param languageCode
-     */
-    private static void runJar( String jarFileName, String languageCode ) throws CommandException {
-        String languageArg = "-Duser.language=" + languageCode;
-        String[] cmdArray = { "java", "-jar", languageArg, jarFileName };
-        Command.run( cmdArray, false /* waitForCompletion */ );
-    }
-
 }

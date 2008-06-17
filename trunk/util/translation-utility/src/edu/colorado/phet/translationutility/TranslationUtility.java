@@ -7,9 +7,9 @@ import java.io.File;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.translationutility.simulations.Simulation;
+import edu.colorado.phet.translationutility.simulations.ISimulation;
 import edu.colorado.phet.translationutility.simulations.SimulationFactory;
-import edu.colorado.phet.translationutility.simulations.Simulation.SimulationException;
+import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
 import edu.colorado.phet.translationutility.userinterface.InitializationDialog;
 import edu.colorado.phet.translationutility.userinterface.MainFrame;
 import edu.colorado.phet.translationutility.util.ExceptionHandler;
@@ -47,7 +47,7 @@ public class TranslationUtility extends JFrame {
         String targetLanguageCode = initDialog.getTargetLanguageCode();
         
         // create a Simulation
-        Simulation simulation = null;
+        ISimulation simulation = null;
         try {
             simulation = SimulationFactory.createSimulation( jarFileName );
         }
