@@ -6,7 +6,6 @@ HIGHEST PRIORITY:
 - BUG: very short advancing glacier starts off advancing very slowly, then speeds up
 
 HIGH PRIORITY:
-- equilibrium line doesn't move if climate is changed while clock is paused
 - BoreholeDrillIconNode.DRAG_OFFSET breaks when mvt scale is changed, needs to be generalized
 ? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
 - increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
@@ -87,6 +86,7 @@ CLEANUP:
 
 
 DONE:
+6/18/08 - if climate is changed while clock is paused, change equilibrium line and intersection with glacier surface
 6/18/08 - bugfix: algorithm for ELA ice surface intersection was intersections close to terminus
 6/18/08 - change loop in Glacier.updateIceThickness, iterate until thickness==0
 6/18/08 - remove Restart clock button, semantics don't make sense for this sim

@@ -111,6 +111,7 @@ public class Glacier extends ClockAdapter {
      * When the climate changes, the glacier is no longer in steady state.
      */
     private void handleClimateChange() {
+        updateIceThickness();
         if ( _steadyState ) {
             _steadyState = false;
             notifySteadyStateChanged();
