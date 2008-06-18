@@ -29,7 +29,7 @@ public class FlashSimulation implements ISimulation {
     //----------------------------------------------------------------------------
     
     private static final String TEST_JAR = System.getProperty( "java.io.tmpdir" ) + System.getProperty( "file.separator" ) + "phet-test-translation.jar"; // temporary JAR file used to test translations
-    private static final String ARGS_FILENAME = "args.txt";
+    private static final String ARGS_FILENAME = "flash-launcher-args.txt";
     
     //----------------------------------------------------------------------------
     // Instance data
