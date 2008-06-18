@@ -3,16 +3,16 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- BUG: very short advancing glacier starts off advancing very slowly, then speeds up (model problem)
 
 HIGH PRIORITY:
-? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
-- increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
-- switch user-interface between English and metric units
-- add yaw to fake 3D perspective (terminus, ELA, etc) 
 - visual representation of snowfall
+- switch user-interface between English and metric units
+- increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
+- BUG: very short advancing glacier starts off advancing very slowly, then speeds up (model problem)
 
 MEDIUM PRIORITY:
+- add yaw to fake 3D perspective (terminus, ELA, etc) 
+? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
 - make sure everything works properly when clock is paused
 - start with terminus at far right of zoomed viewport
 - new image with more to right of headwall and stretched elevation
@@ -42,6 +42,7 @@ MEDIUM PRIORITY:
 - improve performance on slower machines
 
 LOW PRIORITY:
+- delete trash can code if we're sure we'll never need it
 - refactor model listener class hierarchy
 - right edge of ice thickness tool icon is clipped (see Unfuddle #558)
 - remove registration points from mountains image
