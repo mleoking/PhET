@@ -14,8 +14,8 @@ import edu.colorado.phet.glaciers.view.tools.AbstractToolIconNode.InteractiveToo
  */
 public class BoreholeDrillIconNode extends InteractiveToolIconNode {
     
-    // NOTE! image specific, offset of bit tip from handle (meters)
-    private static final Point2D DRAG_OFFSET = new Point2D.Double( -500, -840 );
+    // NOTE! image specific, offset of bit tip from handle in local view coordinates
+    private static final Point2D DRAG_OFFSET = new Point2D.Double( -30, 90 );
     
     public BoreholeDrillIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
         super( BoreholeDrillNode.createImage(), toolProducer, mvt );

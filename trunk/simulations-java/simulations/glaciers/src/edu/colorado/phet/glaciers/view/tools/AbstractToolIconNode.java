@@ -108,9 +108,9 @@ public abstract class AbstractToolIconNode extends PNode {
      */
     protected static abstract class InteractiveToolIconNode extends AbstractToolIconNode {
 
-        private IToolProducer _toolProducer;
-        private ModelViewTransform _mvt;
-        private Point2D _pModel; // reusable point for model-view transforms
+        private final IToolProducer _toolProducer;
+        private final ModelViewTransform _mvt;
+        private final Point2D _pModel, _pView; // reusable point for model-view transforms
 
         /**
          * Constructor.
@@ -137,6 +137,7 @@ public abstract class AbstractToolIconNode extends PNode {
             _toolProducer = toolProducer;
             _mvt = mvt;
             _pModel = new Point2D.Double();
+            _pView = new Point2D.Double();
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PDragEventHandler() {
@@ -145,9 +146,9 @@ public abstract class AbstractToolIconNode extends PNode {
 
                 /* When the drag starts, create the new tool. */
                 protected void startDrag( PInputEvent event ) {
-                    _mvt.viewToModel( event.getPosition(), _pModel );
                     Point2D offset = getDragOffsetReference();
-                    _pModel.setLocation( _pModel.getX() + offset.getX(), _pModel.getY() + offset.getY() );
+                    _pView.setLocation( event.getPosition().getX() + offset.getX(), event.getPosition().getY() + offset.getY() );
+                    _mvt.viewToModel( _pView, _pModel );
                     _tool = createTool( _pModel );
                     _tool.setDragging( true );
                     super.startDrag( event );
@@ -155,9 +156,9 @@ public abstract class AbstractToolIconNode extends PNode {
 
                 /* During the drag, set the position of the new tool. */
                 protected void drag( PInputEvent event ) {
-                    _mvt.viewToModel( event.getPosition(), _pModel );
                     Point2D offset = getDragOffsetReference();
-                    _pModel.setLocation( _pModel.getX() + offset.getX(), _pModel.getY() + offset.getY() );
+                    _pView.setLocation( event.getPosition().getX() + offset.getX(), event.getPosition().getY() + offset.getY() );
+                    _mvt.viewToModel( _pView, _pModel );
                     _tool.setPosition( _pModel );
                     // do not call super.drag, or the icon in the toolbox will move!
                 }
