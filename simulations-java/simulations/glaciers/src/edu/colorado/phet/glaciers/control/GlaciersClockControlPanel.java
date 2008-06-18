@@ -62,7 +62,7 @@ public class GlaciersClockControlPanel extends ClockControlPanel {
         _clock.addConstantDtClockListener( _clockListener );
         
         // common clock controls
-        setRestartButtonVisible( true );
+        setRestartButtonVisible( false );
         setTimeDisplayVisible( true );
         setUnits( GlaciersStrings.UNITS_TIME );
         setTimeFormat( displayFormat );
