@@ -7,13 +7,26 @@ I would also limit the age range to the young to middle aged adult since resting
 
     SR - if age is out of range, display a non-disruptive message that says data is not exact for your range
 
+
+    Popup during mouseover of slider or textbox with minimum of five seconds
+
 Slider text box should display values allowed by the model but out of the range of the slider
-    >>Slider text box values can go outside the slider range
-    >>Looks like wrong behavior for when a user types in an out of range value
+     >>Looks like wrong behavior for when a user types in an out of range value
 
 Buggy behavior when an icon overlaps both the toolbox and the plate (nullpointerexception)
 
-Yellow item description overlaps yellow exercise bar chart and obscures changes 
+Yellow item description overlaps yellow exercise bar chart and obscures changes
+
+
+All items in the play area should scale on window resize
+
+New defaults: 5'8" 150 lbs 22 years
+
+Food icons should be halfway into the plate before adding them to the model to prevent overlap of label with bar graph
+
+Change color for draggable icon labels
+
+Try indicators for slider out of range
 
 #######################################################################################
 ##############                    To Do/Noah                             ##############
@@ -42,42 +55,13 @@ NP - Model for BMR, non-linear with food input. You do not gain or lose weight i
 ##############                    To Discuss                             ##############
 #######################################################################################
 
-Balanced diet should readjust when you set your weight (maybe)
-	-kathy said "possibly"
+Balanced diet should readjust when you set your weight or body fat %, only during user input, not during model change
 
-BMI:
-    Are we accounting for sex affects on BMI and BMR?
-
-    NP - There is no “sex affect” on BMI – it is just height/weight^2.
-    NP - BMR should differ by sex.
-
-    SR – According to Exercise Physiology 4th Ed. By McArdle, Katch & Katch, 1996, p154, the Resting Daily Energy Expenditure is:
-        RDEE (kcal) =370+21.6 * FFM (kg)
-        This equation is said to apply to males and females over a wide range of body weights, and is the equation recommended to us by the CU Integrated Physiologists
-
-Can we put a chart or weblink to compare healthy or unhealthy BMI?
-    (see categories chart on national heart lung and blood institute bmi calculator page)
-
-    NP – there is a useful chart on wikipedia. The problem with this is that BMI is not the only indicator of health. People with high BMI can still be healthy.
-    SR – Are there other factors within this simulation that we should use to indicate health?  Or perhaps overall health is not sufficiently covered by this simulation?  Or perhaps we should be clear that the indicator is only a measure of BMI.
-
-We are still confused about a delay in weight loss if: all variables remained constant:
-    diet and lifestyle and then we ran a mile, why there is a delay in weight loss.
-
-    NP – this is interesting. I haven’t been following this thread, but I have a theory.
-        It might be because the exercise burns the calories you already ate, so you don’t lose the weight there.
-        You lose the weight when your normal metabolism tries to burn up food,
-        but the food is gone since you already burned it exercising, so then you burn fat.
-        This causes a delay in weight loss (in fact, you gain weight when you eat the food,
-        which you then lose again when you exercise, putting you back to the weight you started at.)
-
-I think you should be able to do "step day", so you can see the effects of 1 hour activity.
-
-    NP – I don’t think this is realistic. People do step on a scale every day,
-    but they don’t realize that the statistical fluctuations in weight (due to the weight of food,
-    water retention, etc.) are probably larger than the amount of weight you can actually lose in a day.
-    Note a lb. of fat is ~3000 calories. So if you weigh 150 lb and you some how burn 1 lb.
-    of fat in a day (unlikely), this is <1% change in weight.
+Are there other factors within this simulation that we should use to indicate health?  Or perhaps overall health is not sufficiently covered by this simulation?  Or perhaps we should be clear that the indicator is only a measure of BMI.
+    Try vertical bars for BMI, body fat %, and exercise
+    Put it where the ruler is
+    Delete the ruler
+    Color should indicate if it is a good value
 
 Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
 
