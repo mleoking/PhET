@@ -9,7 +9,7 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
@@ -22,6 +22,7 @@ import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_force1d.view.phetgraphics.*;
 import edu.colorado.phet.forces1d.Forces1DApplication;
 import edu.colorado.phet.forces1d.Force1DUtil;
+import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.common.*;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetButton;
 import edu.colorado.phet.forces1d.common.plotdevice.FloatingControl;
@@ -92,12 +93,12 @@ public class Force1DPanel extends ApparatusPanel2 {
 
         double appliedForceRange = 1000;
         Force1DLookAndFeel laf = module.getForce1DLookAndFeel();
-        PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, SimStrings.get( "Force1DPanel.appliedForce" ), model.getPlotDeviceModel(),
+        PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, Force1DResources.get( "Force1DPanel.appliedForce" ), model.getPlotDeviceModel(),
                                                                            forcePlotDeviceView, model.getAppliedForceDataSeries().getSmoothedDataSeries(),
 //                                                                           laf.getAppliedForceColor(), new BasicStroke( 0 ),
 Color.black, new BasicStroke( 10 ),
 new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMaxTime(), appliedForceRange * 2 ),
-0, SimStrings.get( "Force1DPanel.newtonsAbbrev" ), SimStrings.get( "Force1DPanel.appliedForce" ), true, SimStrings.get( "Force1DPanel.forceWithUnits" ) );
+0, Force1DResources.get( "Force1DPanel.newtonsAbbrev" ), Force1DResources.get( "Force1DPanel.appliedForce" ), true, Force1DResources.get( "Force1DPanel.forceWithUnits" ) );
 
         forceParams.setZoomRates( 300, 100, 5000 );
 
@@ -112,7 +113,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
         } );
         forcePlotDevice.removeDefaultDataSeries();
         forcePlotDevice.setAdorned( true );
-        forcePlotDevice.setLabelText( SimStrings.get( "Force1DPanel.appliedForceHTML" ) );
+        forcePlotDevice.setLabelText( Force1DResources.get( "Force1DPanel.appliedForceHTML" ) );
         float frictionForceStrokeWidth = 3;
         float appliedForceStrokeWidth = 3;
         float totalForceStrokeWidth = 3;
@@ -123,32 +124,32 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
         Color tn = Force1DUtil.transparify( laf.getNetForceColor(), alpha );
         int cap = BasicStroke.CAP_BUTT;
         int join = BasicStroke.JOIN_ROUND;
-        forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), tf, SimStrings.get( "ArrowSetGraphic.frictionForce" ), new BasicStroke( frictionForceStrokeWidth, cap, join ) );
-        forcePlotDevice.addDataSeries( model.getAppliedForceSeries().getSmoothedDataSeries(), ta, SimStrings.get( "ArrowSetGraphic.appliedForce" ), new BasicStroke( appliedForceStrokeWidth, cap, join ) );
-        forcePlotDevice.addDataSeries( model.getNetForceSeries(), tn, SimStrings.get( "ArrowSetGraphic.totalForce" ), new BasicStroke( totalForceStrokeWidth, cap, join ) );
+        forcePlotDevice.addDataSeries( model.getFrictionForceSeries(), tf, Force1DResources.get( "ArrowSetGraphic.frictionForce" ), new BasicStroke( frictionForceStrokeWidth, cap, join ) );
+        forcePlotDevice.addDataSeries( model.getAppliedForceSeries().getSmoothedDataSeries(), ta, Force1DResources.get( "ArrowSetGraphic.appliedForce" ), new BasicStroke( appliedForceStrokeWidth, cap, join ) );
+        forcePlotDevice.addDataSeries( model.getNetForceSeries(), tn, Force1DResources.get( "ArrowSetGraphic.totalForce" ), new BasicStroke( totalForceStrokeWidth, cap, join ) );
 
         backgroundGraphic.addGraphic( forcePlotDevice );
         addGraphic( forcePlotDevice.getVerticalChartSlider() );
         double accelRange = 10;
-        PlotDevice.ParameterSet accelParams = new PlotDevice.ParameterSet( this, SimStrings.get( "Force1DPanel.acceleration" ), model.getPlotDeviceModel(), forcePlotDeviceView, model.getAccelerationDataSeries(),
+        PlotDevice.ParameterSet accelParams = new PlotDevice.ParameterSet( this, Force1DResources.get( "Force1DPanel.acceleration" ), model.getPlotDeviceModel(), forcePlotDeviceView, model.getAccelerationDataSeries(),
                                                                            laf.getAccelerationColor(), new BasicStroke( strokeWidth ),
-                                                                           new Rectangle2D.Double( 0, -accelRange, model.getPlotDeviceModel().getMaxTime(), accelRange * 2 ), 0, SimStrings.get( "Force1DPanel.accelerationUnitsHTML" ), SimStrings.get( "Force1DPanel.acceleration" ), false, SimStrings.get( "Force1DPanel.accelerationAndUnitsHTML" ) );
+                                                                           new Rectangle2D.Double( 0, -accelRange, model.getPlotDeviceModel().getMaxTime(), accelRange * 2 ), 0, Force1DResources.get( "Force1DPanel.accelerationUnitsHTML" ), Force1DResources.get( "Force1DPanel.acceleration" ), false, Force1DResources.get( "Force1DPanel.accelerationAndUnitsHTML" ) );
 
         accelPlotDevice = new PlotDevice( accelParams, backgroundGraphic );
         backgroundGraphic.addGraphic( accelPlotDevice );
         double velRange = 10;
-        PlotDevice.ParameterSet velParams = new PlotDevice.ParameterSet( this, SimStrings.get( "Force1DPanel.velocity" ), model.getPlotDeviceModel(), forcePlotDeviceView, model.getVelocityDataSeries().getSmoothedDataSeries(),
+        PlotDevice.ParameterSet velParams = new PlotDevice.ParameterSet( this, Force1DResources.get( "Force1DPanel.velocity" ), model.getPlotDeviceModel(), forcePlotDeviceView, model.getVelocityDataSeries().getSmoothedDataSeries(),
                                                                          laf.getVelocityColor(), new BasicStroke( strokeWidth ),
-                                                                         new Rectangle2D.Double( 0, -velRange, model.getPlotDeviceModel().getMaxTime(), velRange * 2 ), 0, SimStrings.get( "Force1DPanel.velocityUnits" ),
-                                                                         SimStrings.get( "Force1DPanel.velocity" ), false, SimStrings.get( "Force1DPanel.velocityAndUnits" ) );
+                                                                         new Rectangle2D.Double( 0, -velRange, model.getPlotDeviceModel().getMaxTime(), velRange * 2 ), 0, Force1DResources.get( "Force1DPanel.velocityUnits" ),
+                                                                         Force1DResources.get( "Force1DPanel.velocity" ), false, Force1DResources.get( "Force1DPanel.velocityAndUnits" ) );
         velPlotDevice = new PlotDevice( velParams, backgroundGraphic );
         backgroundGraphic.addGraphic( velPlotDevice );
 
         double posRange = 10;
-        PlotDevice.ParameterSet posParams = new PlotDevice.ParameterSet( this, SimStrings.get( "Force1DPanel.position" ), model.getPlotDeviceModel(), forcePlotDeviceView, model.getPositionDataSeries().getSmoothedDataSeries(),
+        PlotDevice.ParameterSet posParams = new PlotDevice.ParameterSet( this, Force1DResources.get( "Force1DPanel.position" ), model.getPlotDeviceModel(), forcePlotDeviceView, model.getPositionDataSeries().getSmoothedDataSeries(),
                                                                          laf.getPositionColor(), new BasicStroke( strokeWidth ),
-                                                                         new Rectangle2D.Double( 0, -posRange, model.getPlotDeviceModel().getMaxTime(), posRange * 2 ), 0, SimStrings.get( "Force1DPanel.positionUnits" ),
-                                                                         SimStrings.get( "Force1DPanel.position" ), false, SimStrings.get( "Force1DPanel.positionAndUnits" ) );
+                                                                         new Rectangle2D.Double( 0, -posRange, model.getPlotDeviceModel().getMaxTime(), posRange * 2 ), 0, Force1DResources.get( "Force1DPanel.positionUnits" ),
+                                                                         Force1DResources.get( "Force1DPanel.position" ), false, Force1DResources.get( "Force1DPanel.positionAndUnits" ) );
         posPlotDevice = new PlotDevice( posParams, backgroundGraphic );
         backgroundGraphic.addGraphic( posPlotDevice );
         forcePlotDevice.addListener( new PlotDevice.Listener() {
@@ -171,7 +172,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
             }
         } );
         Font checkBoxFont = new Font( PhetFont.getDefaultFontName(), Font.PLAIN, 13 );
-        String stf = SimStrings.get( "Force1DPanel.showFTotalHTML" );
+        String stf = Force1DResources.get( "Force1DPanel.showFTotalHTML" );
 //        final JCheckBox showNetForce = new JCheckBox( "Show Total Force", true );
         final JCheckBox showNetForce = new JCheckBox( stf, true );
 
@@ -183,7 +184,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
         showNetForce.setFont( checkBoxFont );
 
 
-        String text = SimStrings.get( "Force1DPanel.showFrictionHTML" );
+        String text = Force1DResources.get( "Force1DPanel.showFrictionHTML" );
 //        String text = "Show Friction Force";
         final JCheckBox showFrictionForce = new JCheckBox( text, true );
         showFrictionForce.addActionListener( new ActionListener() {
@@ -193,7 +194,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
         } );
         showFrictionForce.setFont( checkBoxFont );
 
-        final JCheckBox showAppliedForce = new JCheckBox( SimStrings.get( "Force1DPanel.showAppliedHTML" ), true );
+        final JCheckBox showAppliedForce = new JCheckBox( Force1DResources.get( "Force1DPanel.showAppliedHTML" ), true );
         showAppliedForce.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setShowForceSeries( 1, showAppliedForce.isSelected() );
@@ -253,7 +254,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
         addGraphic( offscreenPointerGraphic, 1000 );
         offscreenPointerGraphic.setLocation( 400, 50 );
 
-        PhetButton phetButton = new PhetButton( this, SimStrings.get( "Force1DPanel.reset" ) );
+        PhetButton phetButton = new PhetButton( this, Force1DResources.get( "Force1DPanel.reset" ) );
         phetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "Resetted." );
@@ -271,7 +272,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
         };
         blockGraphic.addMouseInputListener( listener );
 
-        wiggleMe = new WiggleMe( this, module.getClock(), SimStrings.get( "Force1DPanel.applyForce" ), blockGraphic );
+        wiggleMe = new WiggleMe( this, module.getClock(), Force1DResources.get( "Force1DPanel.applyForce" ), blockGraphic );
         wiggleMe.setOscillationAxis( new Vector2D.Double( 1, 0 ) );
         addGraphic( wiggleMe, 10000 );
         model.addListener( new Force1DModel.Listener() {
@@ -288,7 +289,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
             }
         } );
 
-        sliderWiggleMe = new WiggleMe( this, module.getClock(), SimStrings.get( "Force1DPanel.wiggleMeText" ),
+        sliderWiggleMe = new WiggleMe( this, module.getClock(), Force1DResources.get( "Force1DPanel.wiggleMeText" ),
 //                                       new WiggleMe.SwingComponentTarget( this.forcePlotDevice.getVerticalChartSlider().getSlider() ) );
 new WiggleMe.Target() {
     public Point getLocation() {
@@ -338,22 +339,22 @@ new WiggleMe.Target() {
             }
         } );
 
-        HelpItem2 sliderHelp = new HelpItem2( this, SimStrings.get( "Force1DPanel.sliderHelp" ) );
+        HelpItem2 sliderHelp = new HelpItem2( this, Force1DResources.get( "Force1DPanel.sliderHelp" ) );
 //        sliderHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getVerticalChartSlider().getSlider(), this ), 30 );
         sliderHelp.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( forcePlotDevice.getVerticalChartSlider().getSliderGraphic() ), 30 );
 
-        HelpItem2 goButtonHelp = new HelpItem2( this, SimStrings.get( "Force1DPanel.goRecordHelp" ) );
+        HelpItem2 goButtonHelp = new HelpItem2( this, Force1DResources.get( "Force1DPanel.goRecordHelp" ) );
         PhetGraphic goButtonGraphic = getGoButtonGraphic();
 
         goButtonHelp.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( goButtonGraphic ), 30 );
 
-        HelpItem2 dragHelpItem = new HelpItem2( this, SimStrings.get( "Force1DPanel.applyForceHelp" ) );
+        HelpItem2 dragHelpItem = new HelpItem2( this, Force1DResources.get( "Force1DPanel.applyForceHelp" ) );
         dragHelpItem.pointUpAt( blockGraphic, 15 );
 
-        HelpItem2 zoomHelpButton = new HelpItem2( this, SimStrings.get( "Force1DPanel.zoomHelp" ) );
+        HelpItem2 zoomHelpButton = new HelpItem2( this, Force1DResources.get( "Force1DPanel.zoomHelp" ) );
         zoomHelpButton.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( forcePlotDevice.getChartComponent().getMagPlusGraphic() ), 30 );
 
-        HelpItem2 typeInButton = new HelpItem2( this, SimStrings.get( "Force1DPanel.typeHelp" ) );
+        HelpItem2 typeInButton = new HelpItem2( this, Force1DResources.get( "Force1DPanel.typeHelp" ) );
 //        typeInButton.pointLeftAt( new RelativeLocationSetter.JComponentTarget( forcePlotDevice.getTextBox() ), 20 );
         typeInButton.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( forcePlotDevice.getTextFieldGraphic() ), 20 );
 
@@ -363,7 +364,7 @@ new WiggleMe.Target() {
         module.getHelpManager().addGraphic( zoomHelpButton );
         module.getHelpManager().addGraphic( typeInButton );
 
-        soloGoButtonHelp = new HelpItem2( this, SimStrings.get( "Force1DPanel.pressGoHelp" ) );
+        soloGoButtonHelp = new HelpItem2( this, Force1DResources.get( "Force1DPanel.pressGoHelp" ) );
 //        soloGoButtonHelp.pointLeftAt( new RelativeLocationSetter.JComponentTarget( floatingControl.getGoButton(), this ), 30 );
         soloGoButtonHelp.pointLeftAt( new RelativeLocationSetter.PhetGraphicTarget( goButtonGraphic ), 30 );
         addGraphic( soloGoButtonHelp, Double.POSITIVE_INFINITY );

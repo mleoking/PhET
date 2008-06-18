@@ -16,9 +16,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.application.Module;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * HelpPanel
@@ -28,9 +29,9 @@ import edu.colorado.phet.common_force1d.application.PhetApplication;
  */
 public class HelpPanel extends JPanel {
     private boolean miniHelpShowing = false;
-    private String showHelpStr = SimStrings.get( "Common.HelpPanel.ShowHelp" );
-    private String hideHelpStr = SimStrings.get( "Common.HelpPanel.HideHelp" );
-    private String megaHelpStr = SimStrings.get( "Common.HelpPanel.MegaHelp" );
+    private String showHelpStr = Force1DResources.getCommonString( "Common.HelpPanel.ShowHelp" );
+    private String hideHelpStr = Force1DResources.getCommonString( "Common.HelpPanel.HideHelp" );
+    private String megaHelpStr = Force1DResources.getCommonString( "Common.HelpPanel.MegaHelp" );
     private JButton miniHelpBtn;
     private JButton megaHelpBtn;
     private int padY = 2;

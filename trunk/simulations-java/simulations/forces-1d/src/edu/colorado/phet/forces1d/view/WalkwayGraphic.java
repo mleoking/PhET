@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
@@ -17,6 +17,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Forces1DApplication;
+import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
 
 /**
@@ -150,7 +151,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
                 double modelx = minValue + i * modelDX;
                 String str = format.format( modelx );
                 if ( str.equals( "0" ) ) {
-                    str = SimStrings.get( "WalkwayGraphic.zeroMeters" );
+                    str = Force1DResources.get( "WalkwayGraphic.zeroMeters" );
                 }
                 TickGraphic tickGraphic = new TickGraphic( component, modelx, transform, str );
                 graphicList.add( tickGraphic );

@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.application.Module;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
 import edu.colorado.phet.common_force1d.model.BaseModel;
@@ -50,7 +50,7 @@ public class Forces1DApplication extends Module {
     private static final String VERSION = PhetApplicationConfig.getVersion( "forces-1d" ).formatForTitleBar();
 
     public Forces1DApplication( AbstractClock clock, PhetLookAndFeel phetLookAndFeel ) throws IOException {
-        this( clock, SimStrings.get( "Force1DModule.moduleName" ), phetLookAndFeel );
+        this( clock, Force1DResources.get( "Force1DModule.moduleName" ), phetLookAndFeel );
     }
 
     public Forces1DApplication( AbstractClock clock, String name, PhetLookAndFeel phetLookAndFeel ) throws IOException {
@@ -62,11 +62,11 @@ public class Forces1DApplication extends Module {
         forceModel = new Force1DModel( this );
         setModel( new BaseModel() );
         imageElements = new Force1dObject[]{
-                new Force1dObject( "forces-1d/images/cabinet.gif", SimStrings.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
-                new Force1dObject( "forces-1d/images/fridge.gif", SimStrings.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
-                new Force1dObject( "forces-1d/images/phetbook.gif", SimStrings.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
-                new Force1dObject( "forces-1d/images/crate.gif", SimStrings.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
-                new Force1dObject( "forces-1d/images/ollie.gif", SimStrings.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
+                new Force1dObject( "forces-1d/images/cabinet.gif", Force1DResources.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
+                new Force1dObject( "forces-1d/images/fridge.gif", Force1DResources.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
+                new Force1dObject( "forces-1d/images/phetbook.gif", Force1DResources.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
+                new Force1dObject( "forces-1d/images/crate.gif", Force1DResources.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
+                new Force1dObject( "forces-1d/images/ollie.gif", Force1DResources.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
         };
         System.out.println( "Force1DModule.Force1DModule" );
         forcePanel = new Force1DPanel( this );
@@ -136,7 +136,7 @@ public class Forces1DApplication extends Module {
     }
 
     private void showColorDialog() {
-        String title = SimStrings.get( "Force1DModule.chartcolor" );
+        String title = Force1DResources.get( "Force1DModule.chartcolor" );
         ColorDialog.showDialog( title, getApparatusPanel(), Color.yellow, new ColorDialog.Listener() {
             public void colorChanged( Color color ) {
                 setChartBackground( color );
@@ -318,8 +318,8 @@ public class Forces1DApplication extends Module {
     }
 
     private static void runMain( String[] args ) throws IOException {
-        SimStrings.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
-        SimStrings.getInstance().addStrings( "forces-1d/localization/phetcommon-strings" );
+//        Force1DResources.getInstance().init( args, LOCALIZATION_BUNDLE_BASENAME );
+//        Force1DResources.getInstance().addStrings( "forces-1d/localization/phetcommon-strings" );
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel lookAndFeel = new PhetLookAndFeel();
         lookAndFeel.apply();
@@ -328,15 +328,15 @@ public class Forces1DApplication extends Module {
         FrameSetup frameSetup = ( new FrameSetup.CenteredWithInsets( 200, 200 ) );
 
         String version = VERSION;
-        final PhetApplication phetApplication = new PhetApplication( args, SimStrings.get( "Force1DModule.title" ) + " (" + version + ")",
-                                                                     SimStrings.get( "Force1DModule.description" ), version, clock, false, frameSetup );
+        final PhetApplication phetApplication = new PhetApplication( args, Force1DResources.get( "Force1DModule.title" ) + " (" + version + ")",
+                                                                     Force1DResources.get( "Force1DModule.description" ), version, clock, false, frameSetup );
 
         final Forces1DApplication module = new Forces1DApplication( clock, lookAndFeel );
         Module[] m = new Module[]{module};
         phetApplication.setModules( m );
 
-        JMenu options = new JMenu( SimStrings.get( "Force1DModule.options" ) );
-        JMenuItem item = new JMenuItem( SimStrings.get( "Force1DModule.backgroundColor" ) );
+        JMenu options = new JMenu( Force1DResources.get( "Force1DModule.options" ) );
+        JMenuItem item = new JMenuItem( Force1DResources.get( "Force1DModule.backgroundColor" ) );
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.showColorDialog();

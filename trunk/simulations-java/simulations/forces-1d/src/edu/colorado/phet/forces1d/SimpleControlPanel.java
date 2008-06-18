@@ -9,7 +9,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
@@ -31,14 +31,14 @@ public class SimpleControlPanel extends IForceControl {
         this.simpleForceModule = simpleForceModule;
 
 //        AdvancedPanel advancedPanel = new AdvancedPanel( "More Controls", "Hide" );
-        JButton moreControls = new JButton( SimStrings.get( "SimpleControlPanel.moreControls" ) );
+        JButton moreControls = new JButton( Force1DResources.get( "SimpleControlPanel.moreControls" ) );
         moreControls.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 simpleForceModule.setAdvancedControlPanel();
             }
         } );
         add( moreControls );
-        frictionCheckBox = new JCheckBox( SimStrings.get( "SimpleControlPanel.friction" ), true );
+        frictionCheckBox = new JCheckBox( Force1DResources.get( "SimpleControlPanel.friction" ), true );
         frictionCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 simpleForceModule.setFrictionEnabled( frictionCheckBox.isSelected() );

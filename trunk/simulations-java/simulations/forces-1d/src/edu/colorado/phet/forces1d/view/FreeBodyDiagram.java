@@ -11,7 +11,7 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
@@ -22,6 +22,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.Forces1DApplication;
 import edu.colorado.phet.forces1d.Force1DUtil;
+import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 /**
@@ -64,23 +65,23 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
         addGraphic( axes );
         axes.setVisible( false );
 
-        mg = new ForceArrow( component, this, laf.getWeightColor(), SimStrings.get( "FreeBodyDiagram.gravity" ), new Vector2D.Double( 0, 80 ) );
+        mg = new ForceArrow( component, this, laf.getWeightColor(), Force1DResources.get( "FreeBodyDiagram.gravity" ), new Vector2D.Double( 0, 80 ) );
         addForceArrow( mg );
 
-        normal = new ForceArrow( component, this, laf.getNormalColor(), SimStrings.get( "FreeBodyDiagram.normal" ), new Vector2D.Double( 0, 80 ) );
+        normal = new ForceArrow( component, this, laf.getNormalColor(), Force1DResources.get( "FreeBodyDiagram.normal" ), new Vector2D.Double( 0, 80 ) );
         addForceArrow( normal );
 
-        appliedForce = new ForceArrow( component, this, laf.getAppliedForceColor(), SimStrings.get( "FreeBodyDiagram.applied" ), new Vector2D.Double() );
+        appliedForce = new ForceArrow( component, this, laf.getAppliedForceColor(), Force1DResources.get( "FreeBodyDiagram.applied" ), new Vector2D.Double() );
         addForceArrow( appliedForce );
 
-        frictionForce = new ForceArrow( component, this, laf.getFrictionForceColor(), SimStrings.get( "FreeBodyDiagram.friction" ), new Vector2D.Double() );
+        frictionForce = new ForceArrow( component, this, laf.getFrictionForceColor(), Force1DResources.get( "FreeBodyDiagram.friction" ), new Vector2D.Double() );
         addForceArrow( frictionForce );
 
-        netForce = new ForceArrow( component, this, laf.getNetForceColor(), SimStrings.get( "FreeBodyDiagram.total" ), new Vector2D.Double() );
+        netForce = new ForceArrow( component, this, laf.getNetForceColor(), Force1DResources.get( "FreeBodyDiagram.total" ), new Vector2D.Double() );
         addForceArrow( netForce );
         netForce.setOrigin( 0, -30 );
 
-        wallForce = new ForceArrow( component, this, laf.getWallForceColor(), SimStrings.get( "FreeBodyDiagram.wall" ), new Vector2D.Double() );
+        wallForce = new ForceArrow( component, this, laf.getWallForceColor(), Force1DResources.get( "FreeBodyDiagram.wall" ), new Vector2D.Double() );
         addForceArrow( wallForce );
         wallForce.setOrigin( 0, -30 );
 
@@ -252,8 +253,8 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
 
 
             Font font = new Font( PhetFont.getDefaultFontName(), Font.PLAIN, 16 );
-            xLabel = new HTMLGraphic( component, font, SimStrings.get( "FreeBodyDiagram.fx" ), Color.black );
-            yLabel = new HTMLGraphic( component, font, SimStrings.get( "FreeBodyDiagram.fy" ), Color.black );
+            xLabel = new HTMLGraphic( component, font, Force1DResources.get( "FreeBodyDiagram.fx" ), Color.black );
+            yLabel = new HTMLGraphic( component, font, Force1DResources.get( "FreeBodyDiagram.fy" ), Color.black );
             addGraphic( xLabel );
             addGraphic( yLabel );
 

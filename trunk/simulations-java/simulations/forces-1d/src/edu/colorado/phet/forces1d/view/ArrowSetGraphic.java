@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
@@ -12,6 +12,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.forces1d.Force1DUtil;
+import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 
 /**
@@ -42,22 +43,22 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         this.transform2D = transform2D;
         this.laf = force1DPanel.getLookAndFeel();
 
-        applied = new ForceArrowGraphic( force1DPanel, SimStrings.get( "ArrowSetGraphic.appliedForce" ), laf.getAppliedForceColor(), 0, new ForceComponent() {
+        applied = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.appliedForce" ), laf.getAppliedForceColor(), 0, new ForceComponent() {
             public double getForce() {
                 return model.getAppliedForce();
             }
         } );
-        friction = new ForceArrowGraphic( force1DPanel, SimStrings.get( "ArrowSetGraphic.frictionForce" ), laf.getFrictionForceColor(), 0, new ForceComponent() {
+        friction = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.frictionForce" ), laf.getFrictionForceColor(), 0, new ForceComponent() {
             public double getForce() {
                 return model.getStoredFrictionForceValue();
             }
         } );
-        total = new ForceArrowGraphic( force1DPanel, SimStrings.get( "ArrowSetGraphic.totalForce" ), laf.getNetForceColor(), 60, new ForceComponent() {
+        total = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.totalForce" ), laf.getNetForceColor(), 60, new ForceComponent() {
             public double getForce() {
                 return model.getNetForce();
             }
         } );
-        wall = new ForceArrowGraphic( force1DPanel, SimStrings.get( "ArrowSetGraphic.wallForce" ), laf.getWallForceColor(), 60, new ForceComponent() {
+        wall = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.wallForce" ), laf.getWallForceColor(), 60, new ForceComponent() {
             public double getForce() {
                 return model.getWallForce();
             }

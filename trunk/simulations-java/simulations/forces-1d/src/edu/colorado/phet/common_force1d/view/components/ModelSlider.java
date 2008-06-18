@@ -24,9 +24,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.math.ModelViewTransform1D;
 import edu.colorado.phet.common_force1d.view.util.SwingUtils;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * ModelSlider combines title, slider, and textfield, with units for normal usage.
@@ -257,11 +258,11 @@ public class ModelSlider extends JPanel {
             return true;
         }
         catch( IllegalValueException ive ) {
-            String outofrange = SimStrings.get( "Common.ModelSlider.OutOfRange" );
-            String minimum = SimStrings.get( "Common.ModelSlider.Minimum" );
-            String maximum = SimStrings.get( "Common.ModelSlider.Maximum" );
-            String youentered = SimStrings.get( "Common.ModelSlider.YouEntered" );
-            String description = SimStrings.get( "Common.ModelSlider.Description" );
+            String outofrange = Force1DResources.getCommonString( "Common.ModelSlider.OutOfRange" );
+            String minimum = Force1DResources.getCommonString( "Common.ModelSlider.Minimum" );
+            String maximum = Force1DResources.getCommonString( "Common.ModelSlider.Maximum" );
+            String youentered = Force1DResources.getCommonString( "Common.ModelSlider.YouEntered" );
+            String description = Force1DResources.getCommonString( "Common.ModelSlider.Description" );
             JOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
                                                  + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
                                                  + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );

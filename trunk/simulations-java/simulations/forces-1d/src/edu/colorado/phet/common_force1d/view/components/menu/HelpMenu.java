@@ -17,12 +17,13 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_force1d.application.ModuleEvent;
 import edu.colorado.phet.common_force1d.application.ModuleManager;
 import edu.colorado.phet.common_force1d.application.ModuleObserver;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * HelpMenu
@@ -42,15 +43,15 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
     public HelpMenu( final Frame parent, final ModuleManager moduleManager, final String title,
                      String description, String version ) {
-        super( SimStrings.get( "Common.HelpMenu.Title" ) );
+        super( Force1DResources.getCommonString( "Common.HelpMenu.Title" ) );
         this.parent = parent;
-        this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
+        this.setMnemonic( Force1DResources.getCommonString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         moduleManager.addModuleObserver( this );
 
         //----------------------------------------------------------------------
         // "Help" menu item
-        onscreenHelp = new JCheckBoxMenuItem( SimStrings.get( "Common.HelpMenu.Title" ) );
-        onscreenHelp.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
+        onscreenHelp = new JCheckBoxMenuItem( Force1DResources.getCommonString( "Common.HelpMenu.Title" ) );
+        onscreenHelp.setMnemonic( Force1DResources.getCommonString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         onscreenHelp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 moduleManager.getActiveModule().setHelpEnabled( onscreenHelp.isSelected() );
@@ -61,8 +62,8 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "MegaHelp" menu item
-//        final JMenuItem megaHelpItem = new JMenuItem( SimStrings.get( "Common.HelpMenu.MegaHelp" ) );
-//        megaHelpItem.setMnemonic( SimStrings.get( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
+//        final JMenuItem megaHelpItem = new JMenuItem( Force1DResources.getCommonString( "Common.HelpMenu.MegaHelp" ) );
+//        megaHelpItem.setMnemonic( Force1DResources.getCommonString( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
 //        megaHelpItem.addActionListener( new ActionListener() {
 //            public void actionPerformed( ActionEvent e ) {
 //                if( moduleManager.getActiveModule().hasMegaHelp() ) {
@@ -94,7 +95,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "About" menu item
-        final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
+        final JMenuItem about = new JMenuItem( Force1DResources.getCommonString( "Common.HelpMenu.About" ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 PhetAboutDialog phetAboutDialog = new PhetAboutDialog( parent, "forces-1d" );

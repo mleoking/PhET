@@ -9,11 +9,12 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * User: Sam Reid
@@ -51,13 +52,13 @@ public class FloatingControl extends VerticalLayoutPanel {
     }
 
     public FloatingControl( final PlotDeviceModel plotDeviceModel, final ApparatusPanel apparatusPanel ) {
-        pauseButton = new ControlButton( SimStrings.get( "FloatingControl.pause" ) );
+        pauseButton = new ControlButton( Force1DResources.get( "FloatingControl.pause" ) );
         pauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setPaused( true );
             }
         } );
-        recordButton = new ControlButton( SimStrings.get( "FloatingControl.go" ) );
+        recordButton = new ControlButton( Force1DResources.get( "FloatingControl.go" ) );
         recordButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setRecordMode();
@@ -65,12 +66,12 @@ public class FloatingControl extends VerticalLayoutPanel {
             }
         } );
 
-        resetButton = new ControlButton( SimStrings.get( "FloatingControl.clear" ) );
+        resetButton = new ControlButton( Force1DResources.get( "FloatingControl.clear" ) );
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean paused = plotDeviceModel.isPaused();
                 plotDeviceModel.setPaused( true );
-                int option = JOptionPane.showConfirmDialog( apparatusPanel, SimStrings.get( "FloatingControl.sureToClear" ), SimStrings.get( "FloatingControl.confirmReset" ), JOptionPane.YES_NO_CANCEL_OPTION );
+                int option = JOptionPane.showConfirmDialog( apparatusPanel, Force1DResources.get( "FloatingControl.sureToClear" ), Force1DResources.get( "FloatingControl.confirmReset" ), JOptionPane.YES_NO_CANCEL_OPTION );
                 if ( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
                     plotDeviceModel.reset();
                 }

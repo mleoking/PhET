@@ -10,7 +10,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.ControlPanel;
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
@@ -18,6 +18,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Forces1DApplication;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * User: Sam Reid
@@ -39,7 +40,7 @@ public class FreeBodyDiagramSuite {
     public FreeBodyDiagramSuite( final Forces1DApplication module ) {
         this.module = module;
         fbdPanel = new FreeBodyDiagramPanel( module );
-        checkBox = new JCheckBox( SimStrings.get( "FreeBodyDiagramSuite.freeBodyDiagram" ), true );
+        checkBox = new JCheckBox( Force1DResources.get( "FreeBodyDiagramSuite.freeBodyDiagram" ), true );
         checkBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 boolean showFBD = checkBox.isSelected();
@@ -135,7 +136,7 @@ public class FreeBodyDiagramSuite {
     }
 
     private void createDialog() {
-        dialog = new JDialog( module.getPhetFrame(), SimStrings.get( "FreeBodyDiagramSuite.freeBodyDiagram" ) );
+        dialog = new JDialog( module.getPhetFrame(), Force1DResources.get( "FreeBodyDiagramSuite.freeBodyDiagram" ) );
         dialog.setResizable( false );
         dialogContentPane = new JPanel( null );
 

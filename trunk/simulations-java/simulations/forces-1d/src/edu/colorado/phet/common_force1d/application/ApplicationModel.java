@@ -11,9 +11,10 @@
 
 package edu.colorado.phet.common_force1d.application;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
 import edu.colorado.phet.common_force1d.view.util.FrameSetup;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level
@@ -43,7 +44,7 @@ public class ApplicationModel {
         this.description = description;
         this.version = version;
         this.frameSetup = frameSetup;
-        SimStrings.setStrings( "localization/CommonStrings" );
+        Force1DResources.setStrings( "localization/CommonStrings" );
     }
 
     public ApplicationModel( String windowTitle, String description, String version, FrameSetup frameSetup, Module[] m, AbstractClock clock ) {

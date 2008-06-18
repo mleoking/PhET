@@ -7,8 +7,9 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,7 +43,7 @@ public class DefaultPlaybackPanel extends JPanel {
         }
 
 //        playback = new JButton( "Playback", playIcon );
-        playback = new JButton( SimStrings.get( "DefaultPlaybackPanel.playback" ), playIcon );
+        playback = new JButton( Force1DResources.get( "DefaultPlaybackPanel.playback" ), playIcon );
         playback.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setPlaybackMode();
@@ -51,14 +52,14 @@ public class DefaultPlaybackPanel extends JPanel {
         } );
 
 
-        pause = new JButton( SimStrings.get( "DefaultPlaybackPanel.pause" ), pauseIcon );
+        pause = new JButton( Force1DResources.get( "DefaultPlaybackPanel.pause" ), pauseIcon );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setPaused( true );
             }
         } );
 
-        rewind = new JButton( SimStrings.get( "DefaultPlaybackPanel.rewind" ), rewIcon );
+        rewind = new JButton( Force1DResources.get( "DefaultPlaybackPanel.rewind" ), rewIcon );
         rewind.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 plotDeviceModel.setPaused( true );

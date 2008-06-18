@@ -5,7 +5,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
 
 /**
@@ -16,7 +16,7 @@ import edu.colorado.phet.forces1d.model.BoundaryCondition;
 
 public class BarrierCheckBox extends JCheckBox {
     public BarrierCheckBox( final Forces1DApplication module ) {
-        super( SimStrings.get( "BarrierCheckBox.barriers" ), true );
+        super( Force1DResources.get( "BarrierCheckBox.barriers" ), true );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if ( !isSelected() ) {

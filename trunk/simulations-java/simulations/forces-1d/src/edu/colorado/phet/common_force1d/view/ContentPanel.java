@@ -15,8 +15,9 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.application.PhetApplication;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * ContentPanel
@@ -194,7 +195,7 @@ public class ContentPanel extends JPanel {
 
         if ( buttonDlg == null ) {
             buttonDlg = new JDialog();
-            buttonDlg.setTitle( SimStrings.get( "Common.BasicPhetPanel.Title" ) );
+            buttonDlg.setTitle( Force1DResources.getCommonString( "Common.BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
 //            ImageIcon logo = new ImageIcon( phetLogo );
             JButton logoButton = new JButton( "Toggle Fullscreen" );
@@ -205,7 +206,7 @@ public class ContentPanel extends JPanel {
                     buttonDlg.setVisible( false );
                 }
             } );
-            logoButton.setToolTipText( SimStrings.get( "Common.BasicPhetPanel.LogoToolTip" ) );
+            logoButton.setToolTipText( Force1DResources.getCommonString( "Common.BasicPhetPanel.LogoToolTip" ) );
             buttonDlg.getContentPane().setLayout( new FlowLayout( FlowLayout.CENTER ) );
             buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();
