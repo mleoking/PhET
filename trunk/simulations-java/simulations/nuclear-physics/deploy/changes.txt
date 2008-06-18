@@ -1,2 +1,0 @@
-2.00.07 (6-19-2007)
-Fixed a problem with the Jar file that prevented launching under Java 1.6 (duplicate entry)
