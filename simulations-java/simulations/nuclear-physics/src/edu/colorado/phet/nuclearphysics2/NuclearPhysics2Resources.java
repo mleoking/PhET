@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class NuclearPhysics2Resources {
     
-    private static final PhetResources RESOURCES = new PhetResources( "nuclear-physics-2" );
+    private static final PhetResources RESOURCES = new PhetResources( "nuclear-physics" );
     
     /* not intended for instantiation */
     private NuclearPhysics2Resources() {}
