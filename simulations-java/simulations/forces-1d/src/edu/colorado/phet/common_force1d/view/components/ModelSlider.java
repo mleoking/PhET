@@ -24,7 +24,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 import edu.colorado.phet.common_force1d.math.ModelViewTransform1D;
 import edu.colorado.phet.common_force1d.view.util.SwingUtils;
 import edu.colorado.phet.forces1d.Force1DResources;

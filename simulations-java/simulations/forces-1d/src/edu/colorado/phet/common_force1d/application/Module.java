@@ -13,7 +13,6 @@ package edu.colorado.phet.common_force1d.application;
 
 import javax.swing.*;
 
-
 import edu.colorado.phet.common_force1d.model.BaseModel;
 import edu.colorado.phet.common_force1d.model.ModelElement;
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;

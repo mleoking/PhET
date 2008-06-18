@@ -15,7 +15,6 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-
 import edu.colorado.phet.common_force1d.application.PhetApplication;
 import edu.colorado.phet.forces1d.Force1DResources;
 

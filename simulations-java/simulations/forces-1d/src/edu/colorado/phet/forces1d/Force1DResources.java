@@ -1,7 +1,7 @@
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * Created by: Sam

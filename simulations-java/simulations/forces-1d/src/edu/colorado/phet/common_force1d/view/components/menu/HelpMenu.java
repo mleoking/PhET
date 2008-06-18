@@ -17,7 +17,6 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_force1d.application.ModuleEvent;
 import edu.colorado.phet.common_force1d.application.ModuleManager;

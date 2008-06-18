@@ -18,7 +18,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
 import edu.colorado.phet.common_force1d.model.clock.ClockStateEvent;
 import edu.colorado.phet.common_force1d.model.clock.ClockStateListener;
