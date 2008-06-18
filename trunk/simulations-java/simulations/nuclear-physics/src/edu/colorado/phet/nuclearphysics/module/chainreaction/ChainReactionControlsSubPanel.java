@@ -78,7 +78,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         // Add the border around the sub panel.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ControlBorder" ),
+                NuclearPhysicsStrings.LEGEND_BORDER_LABEL,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),

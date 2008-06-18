@@ -40,7 +40,7 @@ public class FissionOneNucleusLegendPanel extends JPanel {
         // Add the border around the legend.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.LegendBorder" ),
+                NuclearPhysicsStrings.LEGEND_BORDER_LABEL,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),

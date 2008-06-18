@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alpharadiation.AlphaRadiationModel;
@@ -228,20 +229,20 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         
         // Add the text for the Y axis.
 
-         _yAxisLabel1 = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel1" ) );
+         _yAxisLabel1 = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_Y_AXIS_LABEL_1 );
          _yAxisLabel1.setFont( new PhetFont( Font.PLAIN, 14 ) );
          _yAxisLabel1.rotate( 1.5 * Math.PI );
          // TODO: JPB TBD - Leave this label off for now - Kathy and Wendy are trying to decide if we
          // want it.
          // addChild( _yAxisLabel1 );
          
-         _yAxisLabel2 = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel2" ) );
+         _yAxisLabel2 = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_Y_AXIS_LABEL_2 );
          _yAxisLabel2.setFont( new PhetFont( Font.PLAIN, 14 ) );
          _yAxisLabel2.rotate( 1.5 * Math.PI );
          addChild( _yAxisLabel2 );
          
         // Add the text for the X axis.
-        _xAxisLabel = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.XAxisLabel" ));
+        _xAxisLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_X_AXIS_LABEL );
         _xAxisLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         addChild( _xAxisLabel );
         
@@ -253,7 +254,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         addChild( _legend );
         
         // Add the title to the legend.
-        _legendTitle = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.title"));
+        _legendTitle = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_LEGEND_TITLE );
         _legendTitle.setFont( new PhetFont( Font.BOLD, 16 ) );
         _legend.addChild( _legendTitle );
         
@@ -263,7 +264,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _potentialEnergyLegendLine.setStroke( ENERGY_LINE_STROKE );
         _legend.addChild( _potentialEnergyLegendLine );
         
-        _potentialEnergyLabel = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.PotentialEnergy") );
+        _potentialEnergyLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_POTENTIAL_ENERGY );
         _potentialEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _legend.addChild( _potentialEnergyLabel );
         
@@ -272,7 +273,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _totalEnergyLegendLine.setStroke( ENERGY_LINE_STROKE );
         _legend.addChild( _totalEnergyLegendLine );
         
-        _totalEnergyLabel = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.TotalEnergy") );
+        _totalEnergyLabel = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_TOTAL_ENERGY );
         _totalEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _legend.addChild( _totalEnergyLabel );
         
