@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.ContainmentVessel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -100,11 +100,11 @@ public class AtomicBombGraphicNode extends PhetPNode {
         setVisible( false );
         
         // Create the node with the graphic of the bomb.
-        _explosionGraphic = new PImage(NuclearPhysics2Resources.getImage( "mushroom_cloud.jpg" ));
+        _explosionGraphic = new PImage(NuclearPhysicsResources.getImage( "mushroom_cloud.jpg" ));
         addChild(_explosionGraphic);
         
         // Create the node with textual label but don't make it visible yet.
-        _explosionLabel = new ShadowPText(NuclearPhysics2Strings.EXPLOSION_LABEL, LABEL_COLOR, LABEL_FONT);
+        _explosionLabel = new ShadowPText(NuclearPhysicsStrings.EXPLOSION_LABEL, LABEL_COLOR, LABEL_FONT);
         addChild(_explosionLabel);
     }
     

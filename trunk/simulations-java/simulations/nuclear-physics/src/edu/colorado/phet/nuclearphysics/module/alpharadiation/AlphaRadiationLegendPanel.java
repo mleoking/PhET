@@ -15,9 +15,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -44,7 +44,7 @@ public class AlphaRadiationLegendPanel extends JPanel {
         // Add the border around the legend.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.LegendBorder" ),
+                NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.LegendBorder" ),
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
@@ -57,33 +57,33 @@ public class AlphaRadiationLegendPanel extends JPanel {
 
         // Add the images and labels for the simple portion of the legend.
         
-        addLegendItem( "Neutron.png", NuclearPhysics2Strings.NEUTRON_LEGEND_LABEL, 12 );
-        addLegendItem( "Proton.png", NuclearPhysics2Strings.PROTON_LEGEND_LABEL, 12 );
-        addLegendItem( "Alpha Particle 001.png", NuclearPhysics2Strings.ALPHA_PARTICLE_LEGEND_LABEL, 20 );
+        addLegendItem( "Neutron.png", NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL, 12 );
+        addLegendItem( "Proton.png", NuclearPhysicsStrings.PROTON_LEGEND_LABEL, 12 );
+        addLegendItem( "Alpha Particle 001.png", NuclearPhysicsStrings.ALPHA_PARTICLE_LEGEND_LABEL, 20 );
         
         // Add the Polonium nucleus to the legend.
         
         PNode labeledPoloniumNucleus = new LabeledNucleusNode("Polonium Nucleus Small.png",
-                NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER, 
-                NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.POLONIUM_LABEL_COLOR );
+                NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
         
         Image poloniumImage = labeledPoloniumNucleus.toImage();
         ImageIcon icon = new ImageIcon(poloniumImage);
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.POLONIUM_LEGEND_LABEL ) );
+        add(new JLabel( NuclearPhysicsStrings.POLONIUM_LEGEND_LABEL ) );
         
         // Add the Lead nucleus to the legend.
         
         PNode labeledLeadNucleus = new LabeledNucleusNode("Lead Nucleus Small.png",
-                NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER, 
-                NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.LEAD_LABEL_COLOR );
+                NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.LEAD_LABEL_COLOR );
         
         Image leadImage = labeledLeadNucleus.toImage();
         icon = new ImageIcon(leadImage);
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.LEAD_LEGEND_LABEL ) );
+        add(new JLabel( NuclearPhysicsStrings.LEAD_LEGEND_LABEL ) );
     }
     
     /**
@@ -95,7 +95,7 @@ public class AlphaRadiationLegendPanel extends JPanel {
      * @param width
      */
     private void addLegendItem( String imageName, String label, int width ) {
-        Image im = NuclearPhysics2Resources.getImage( imageName );
+        Image im = NuclearPhysicsResources.getImage( imageName );
         ImageIcon icon = new ImageIcon(im.getScaledInstance( width, -1, Image.SCALE_SMOOTH ));
         add(new JLabel(icon));
         add(new JLabel( label ));

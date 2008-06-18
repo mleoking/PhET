@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alpharadiation.AlphaRadiationModel;
@@ -228,20 +228,20 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         
         // Add the text for the Y axis.
 
-         _yAxisLabel1 = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel1" ) );
+         _yAxisLabel1 = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel1" ) );
          _yAxisLabel1.setFont( new PhetFont( Font.PLAIN, 14 ) );
          _yAxisLabel1.rotate( 1.5 * Math.PI );
          // TODO: JPB TBD - Leave this label off for now - Kathy and Wendy are trying to decide if we
          // want it.
          // addChild( _yAxisLabel1 );
          
-         _yAxisLabel2 = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel2" ) );
+         _yAxisLabel2 = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel2" ) );
          _yAxisLabel2.setFont( new PhetFont( Font.PLAIN, 14 ) );
          _yAxisLabel2.rotate( 1.5 * Math.PI );
          addChild( _yAxisLabel2 );
          
         // Add the text for the X axis.
-        _xAxisLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.XAxisLabel" ));
+        _xAxisLabel = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.XAxisLabel" ));
         _xAxisLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         addChild( _xAxisLabel );
         
@@ -253,7 +253,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         addChild( _legend );
         
         // Add the title to the legend.
-        _legendTitle = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.title"));
+        _legendTitle = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.title"));
         _legendTitle.setFont( new PhetFont( Font.BOLD, 16 ) );
         _legend.addChild( _legendTitle );
         
@@ -263,7 +263,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _potentialEnergyLegendLine.setStroke( ENERGY_LINE_STROKE );
         _legend.addChild( _potentialEnergyLegendLine );
         
-        _potentialEnergyLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.PotentialEnergy") );
+        _potentialEnergyLabel = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.PotentialEnergy") );
         _potentialEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _legend.addChild( _potentialEnergyLabel );
         
@@ -272,7 +272,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         _totalEnergyLegendLine.setStroke( ENERGY_LINE_STROKE );
         _legend.addChild( _totalEnergyLegendLine );
         
-        _totalEnergyLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.TotalEnergy") );
+        _totalEnergyLabel = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.TotalEnergy") );
         _totalEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _legend.addChild( _totalEnergyLabel );
         
@@ -280,10 +280,10 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         // within the nucleus.
         for (int i = 0; i < MAX_ALPHA_PARTICLES_DISPLAYED; i++){
             if ((i % 2) == 0){
-               _alphaParticleImages[i] = NuclearPhysics2Resources.getImageNode("Alpha Particle 001.png");
+               _alphaParticleImages[i] = NuclearPhysicsResources.getImageNode("Alpha Particle 001.png");
             }
             else{
-                _alphaParticleImages[i] = NuclearPhysics2Resources.getImageNode("Alpha Particle 002.png");                
+                _alphaParticleImages[i] = NuclearPhysicsResources.getImageNode("Alpha Particle 002.png");                
             }
             _alphaParticleImages[i].setVisible( true );
             _alphaParticleImages[i].setScale( ALPHA_PARTICLE_SCALE_FACTOR );
@@ -291,7 +291,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         }
         
         // Add the image that depicts the tunneling alpha particle.
-        _tunneledAlphaParticleImage = NuclearPhysics2Resources.getImageNode("Alpha Particle 001.png");
+        _tunneledAlphaParticleImage = NuclearPhysicsResources.getImageNode("Alpha Particle 001.png");
         _tunneledAlphaParticleImage.setVisible( false );
         _tunneledAlphaParticleImage.setScale( ALPHA_PARTICLE_SCALE_FACTOR );
         addChild( _tunneledAlphaParticleImage );

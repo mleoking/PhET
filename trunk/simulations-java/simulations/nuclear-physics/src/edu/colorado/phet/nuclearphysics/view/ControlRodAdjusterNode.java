@@ -11,8 +11,8 @@ import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.ControlRod;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModel;
 import edu.umd.cs.piccolo.PNode;
@@ -122,8 +122,8 @@ public class ControlRodAdjusterNode extends PNode {
         addChild(_handle);
         
         // Add the textual label to the adjuster.
-        PText label = new PText(NuclearPhysics2Strings.CONTROL_ROD_ADJUSTER_LABEL);
-        label.setFont( new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 14 ) );
+        PText label = new PText(NuclearPhysicsStrings.CONTROL_ROD_ADJUSTER_LABEL);
+        label.setFont( new Font( NuclearPhysicsConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 ) );
         label.rotate( -Math.PI / 2 );
         addChild(label);
         label.setOffset( horizSize - width, -(vertSize / 3) + (label.getWidth() / 2));

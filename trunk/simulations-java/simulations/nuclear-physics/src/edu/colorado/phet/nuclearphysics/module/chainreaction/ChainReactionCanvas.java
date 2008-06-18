@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Uranium235CompositeNucleus;
@@ -81,7 +81,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         });
         
         // Set the background color.
-        setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
+        setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
         // Add a PNode that will act as a sort of 'layer' where the nuclei
         // will be added.

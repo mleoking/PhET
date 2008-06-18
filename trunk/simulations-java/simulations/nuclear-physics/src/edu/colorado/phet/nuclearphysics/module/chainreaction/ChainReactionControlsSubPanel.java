@@ -25,8 +25,8 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 
 /**
  * This class defines a subpanel that goes on the main control panel for the
@@ -78,7 +78,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         // Add the border around the sub panel.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                NuclearPhysics2Resources.getString( "MultipleNucleusFissionControlPanel.ControlBorder" ),
+                NuclearPhysicsResources.getString( "MultipleNucleusFissionControlPanel.ControlBorder" ),
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
@@ -87,7 +87,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         setBorder( titledBorder );
         
         // Add the check box for the containment vessel.
-        _enableContainmentVesselCheckBox = new JCheckBox( NuclearPhysics2Strings.CONTAINMENT_VESSEL_CHECK_BOX );
+        _enableContainmentVesselCheckBox = new JCheckBox( NuclearPhysicsStrings.CONTAINMENT_VESSEL_CHECK_BOX );
         _enableContainmentVesselCheckBox.setSelected( _model.getContainmentVessel().getIsEnabled() );
         _enableContainmentVesselCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -199,7 +199,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         
         // Add the percentage fissioned information.
         JPanel fissionInfoPanel = new JPanel();
-        JLabel percentFissionedLabel = new JLabel(NuclearPhysics2Strings.PERCENT_FISSIONED_LABEL);
+        JLabel percentFissionedLabel = new JLabel(NuclearPhysicsStrings.PERCENT_FISSIONED_LABEL);
         fissionInfoPanel.add(percentFissionedLabel);
         _percentFissioned = new JTextField( 5 );
         _percentFissioned.setHorizontalAlignment( JTextField.RIGHT );

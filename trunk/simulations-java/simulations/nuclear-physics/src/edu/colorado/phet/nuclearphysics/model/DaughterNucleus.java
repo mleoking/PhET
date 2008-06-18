@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
  */
 public class DaughterNucleus extends AtomicNucleus {
 
-    public DaughterNucleus(NuclearPhysics2Clock clock, Point2D position, int numProtons, int numNeutrons){
+    public DaughterNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons){
 
         super(clock, position, numProtons, numNeutrons);
         

@@ -17,10 +17,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  *
  * @author John Blanco
  */
-public class NuclearPhysics2Constants {
+public class NuclearPhysicsConstants {
 
     /* Not intended for instantiation. */
-    private NuclearPhysics2Constants() {}
+    private NuclearPhysicsConstants() {}
     
     //----------------------------------------------------------------------------
     // Debugging
@@ -44,11 +44,11 @@ public class NuclearPhysics2Constants {
     public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
     public static final int DEFAULT_FONT_SIZE = 16;
     
-    public static final Font CONTROL_PANEL_TITLE_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
-    public static final Font CONTROL_PANEL_CONTROL_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
+    public static final Font CONTROL_PANEL_TITLE_FONT = new Font( NuclearPhysicsConstants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
+    public static final Font CONTROL_PANEL_CONTROL_FONT = new Font( NuclearPhysicsConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
     
-    public static final Font PLAY_AREA_TITLE_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
-    public static final Font PLAY_AREA_CONTROL_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.PLAIN, 16 );
+    public static final Font PLAY_AREA_TITLE_FONT = new Font( NuclearPhysicsConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
+    public static final Font PLAY_AREA_CONTROL_FONT = new Font( NuclearPhysicsConstants.DEFAULT_FONT_NAME, Font.PLAIN, 16 );
     
     //----------------------------------------------------------------------------
     // Strokes

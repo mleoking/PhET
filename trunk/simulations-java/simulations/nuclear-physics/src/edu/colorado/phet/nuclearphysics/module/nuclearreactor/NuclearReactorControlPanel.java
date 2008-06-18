@@ -5,7 +5,7 @@ package edu.colorado.phet.nuclearphysics.module.nuclearreactor;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 
 /**
  * This class represents the control panel that presents the legend and allows
@@ -41,7 +41,7 @@ public class NuclearReactorControlPanel extends ControlPanel {
         super();
         
         // Set the control panel's minimum width.
-        int minimumWidth = NuclearPhysics2Resources.getInt( "int.minControlPanelWidth", 215 );
+        int minimumWidth = NuclearPhysicsResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
         // Create sub-panels

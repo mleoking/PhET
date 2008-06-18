@@ -11,7 +11,7 @@ import edu.colorado.phet.nuclearphysics.persistence.ExampleConfig;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NuclearPhysics2Config implements IProguardKeepClass {
+public class NuclearPhysicsConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -34,7 +34,7 @@ public class NuclearPhysics2Config implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
-    public NuclearPhysics2Config() {
+    public NuclearPhysicsConfig() {
         _exampleConfig = new ExampleConfig();
     }
 

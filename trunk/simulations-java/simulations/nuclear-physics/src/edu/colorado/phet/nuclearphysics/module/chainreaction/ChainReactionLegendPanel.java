@@ -15,9 +15,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -47,7 +47,7 @@ public class ChainReactionLegendPanel extends JPanel {
         // Add the border around the legend.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.LegendBorder" ),
+                NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.LegendBorder" ),
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
@@ -59,44 +59,44 @@ public class ChainReactionLegendPanel extends JPanel {
         setLayout( new GridLayout(0, 2) );
 
         // Add the images and labels for the simple portion of the legend.
-        addLegendItem( "Neutron.png", NuclearPhysics2Strings.NEUTRON_LEGEND_LABEL, 12 );
-        addLegendItem( "Proton.png", NuclearPhysics2Strings.PROTON_LEGEND_LABEL, 12 );
+        addLegendItem( "Neutron.png", NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL, 12 );
+        addLegendItem( "Proton.png", NuclearPhysicsStrings.PROTON_LEGEND_LABEL, 12 );
         
         // Add the Uranium 235 nucleus to the legend.
         PNode labeledU235Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
-                NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER, 
-                NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.URANIUM_235_LABEL_COLOR );
+                NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
         
         Image u235Image = labeledU235Nucleus.toImage();
         ImageIcon icon = new ImageIcon(u235Image);
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.URANIUM_235_LEGEND_LABEL ) );
+        add(new JLabel( NuclearPhysicsStrings.URANIUM_235_LEGEND_LABEL ) );
         
         // Add the Uranium 238 nucleus to the legend.
         PNode labeledU238Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
-                NuclearPhysics2Strings.URANIUM_238_ISOTOPE_NUMBER, 
-                NuclearPhysics2Strings.URANIUM_238_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.URANIUM_238_LABEL_COLOR );
+                NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR );
         
         Image u238Image = labeledU238Nucleus.toImage();
         icon = new ImageIcon(u238Image);
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.URANIUM_238_LEGEND_LABEL ) );
+        add(new JLabel( NuclearPhysicsStrings.URANIUM_238_LEGEND_LABEL ) );
         
         // Add the Uranium 238 nucleus to the legend.
         PNode labeledU239Nucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
-                NuclearPhysics2Strings.URANIUM_239_ISOTOPE_NUMBER, 
-                NuclearPhysics2Strings.URANIUM_239_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.URANIUM_239_LABEL_COLOR );
+                NuclearPhysicsStrings.URANIUM_239_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.URANIUM_239_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.URANIUM_239_LABEL_COLOR );
         
         Image u239Image = labeledU239Nucleus.toImage();
         icon = new ImageIcon(u239Image);
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.URANIUM_239_LEGEND_LABEL ) );
+        add(new JLabel( NuclearPhysicsStrings.URANIUM_239_LEGEND_LABEL ) );
         
         // Add the daughter nuclei to the legend.
-        addLegendItem( "Daughter Nuclei Small.png", NuclearPhysics2Strings.DAUGHTER_NUCLEI_LABEL, 75 );
+        addLegendItem( "Daughter Nuclei Small.png", NuclearPhysicsStrings.DAUGHTER_NUCLEI_LABEL, 75 );
     }
     
     /**
@@ -108,7 +108,7 @@ public class ChainReactionLegendPanel extends JPanel {
      * @param width
      */
     private void addLegendItem( String imageName, String label, int width ) {
-        Image im = NuclearPhysics2Resources.getImage( imageName );
+        Image im = NuclearPhysicsResources.getImage( imageName );
         ImageIcon icon = new ImageIcon(im.getScaledInstance( width, -1, Image.SCALE_SMOOTH ));
         add(new JLabel(icon));
         add(new JLabel( label ));

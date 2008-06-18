@@ -40,7 +40,7 @@ public class Polonium211CompositeNucleus extends CompositeAtomicNucleus {
     // Constructor
     //------------------------------------------------------------------------
     
-    public Polonium211CompositeNucleus(NuclearPhysics2Clock clock, Point2D position){
+    public Polonium211CompositeNucleus(NuclearPhysicsClock clock, Point2D position){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         // Decide when alpha decay will occur.

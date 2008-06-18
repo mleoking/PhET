@@ -20,8 +20,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
@@ -63,8 +63,8 @@ public class AlphaRadiationTimeChart extends PNode {
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final float TIME_LINE_STROKE_WIDTH = 2f;
     private static final Stroke TIME_LINE_STROKE = new BasicStroke( TIME_LINE_STROKE_WIDTH );
-    private static final Color TIME_LINE_COLOR_PRE_DECAY = NuclearPhysics2Constants.POLONIUM_LABEL_COLOR;
-    private static final Color TIME_LINE_COLOR_POST_DECAY = NuclearPhysics2Constants.LEAD_LABEL_COLOR;
+    private static final Color TIME_LINE_COLOR_PRE_DECAY = NuclearPhysicsConstants.POLONIUM_LABEL_COLOR;
+    private static final Color TIME_LINE_COLOR_POST_DECAY = NuclearPhysicsConstants.LEAD_LABEL_COLOR;
     private static final float HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
     private static final Color HALF_LIFE_LINE_COLOR = new Color (0x990000);
@@ -271,25 +271,25 @@ public class AlphaRadiationTimeChart extends PNode {
 
         _yAxisTickMarkLabels = new ArrayList( 2 );
 
-        PText yTickMarkLabel1 = new PText( NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER );
+        PText yTickMarkLabel1 = new PText( NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER );
         yTickMarkLabel1.setFont( TICK_MARK_LABEL_FONT );
         _yAxisTickMarkLabels.add( yTickMarkLabel1 );
         _nonPickableChartNode.addChild( yTickMarkLabel1 );
 
-        PText yTickMarkLabel2 = new PText( NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER );
+        PText yTickMarkLabel2 = new PText( NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER );
         yTickMarkLabel2.setFont( TICK_MARK_LABEL_FONT );
         _yAxisTickMarkLabels.add( yTickMarkLabel2 );
         _nonPickableChartNode.addChild( yTickMarkLabel2 );
 
         // Add the text for the X & Y axes.
-        _xAxisLabel = new PText( NuclearPhysics2Strings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysics2Strings.DECAY_TIME_UNITS + ")" );
+        _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
         _xAxisLabel.setFont( LABEL_FONT );
         _nonPickableChartNode.addChild( _xAxisLabel );
-        _yAxisLabel1 = new PText( NuclearPhysics2Strings.DECAY_TIME_CHART_Y_AXIS_LABEL1 );
+        _yAxisLabel1 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL1 );
         _yAxisLabel1.setFont( LABEL_FONT );
         _yAxisLabel1.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel1 );
-        _yAxisLabel2 = new PText( NuclearPhysics2Strings.DECAY_TIME_CHART_Y_AXIS_LABEL2 );
+        _yAxisLabel2 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL2 );
         _yAxisLabel2.setFont( LABEL_FONT );
         _yAxisLabel2.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel2 );
@@ -320,7 +320,7 @@ public class AlphaRadiationTimeChart extends PNode {
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
 
         // Create the label for the half life line.
-        _halfLifeLabel = new PText( " " + NuclearPhysics2Strings.DECAY_TIME_CHART_HALF_LIFE + " " );
+        _halfLifeLabel = new PText( " " + NuclearPhysicsStrings.DECAY_TIME_CHART_HALF_LIFE + " " );
         _halfLifeLabel.setFont( HALF_LIFE_FONT );
         _halfLifeLabel.setPaint( HALF_LIFE_LINE_COLOR );
         _halfLifeLabel.setTextPaint( HALF_LIFE_TEXT_COLOR );
@@ -332,19 +332,19 @@ public class AlphaRadiationTimeChart extends PNode {
         _markerInLegend.setTextPaint( MARKER_COLOR );
 
         _nonPickableChartNode.addChild( _markerInLegend );
-        _markerLegendLabel = new PText( " = " + NuclearPhysics2Strings.DECAY_EVENT );
+        _markerLegendLabel = new PText( " = " + NuclearPhysicsStrings.DECAY_EVENT );
         _markerLegendLabel.setFont( LABEL_FONT );
         _nonPickableChartNode.addChild( _markerLegendLabel );
 
         // Add the text that will show the decay time.
-        _timeToDecayLabel = new PText( NuclearPhysics2Strings.DECAY_TIME_LABEL );
+        _timeToDecayLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_LABEL );
         _timeToDecayLabel.setFont( DECAY_TIME_FONT );
         _nonPickableChartNode.addChild( _timeToDecayLabel );
         _timeToDecayText = new PText( "0.000" );
         _timeToDecayText.setFont( DECAY_TIME_FONT );
         _timeToDecayText.setTextPaint( DECAY_TIME_COLOR );
         _nonPickableChartNode.addChild( _timeToDecayText );
-        _timeToDecayUnits = new PText( NuclearPhysics2Strings.DECAY_TIME_UNITS );
+        _timeToDecayUnits = new PText( NuclearPhysicsStrings.DECAY_TIME_UNITS );
         _timeToDecayUnits.setFont( DECAY_TIME_FONT );
         _nonPickableChartNode.addChild( _timeToDecayUnits );
         
@@ -355,7 +355,7 @@ public class AlphaRadiationTimeChart extends PNode {
         addChild(_decayMarkerParentNode);
 
         // Add the button for resetting the chart.
-        _resetButtonNode = new PhetButtonNode( NuclearPhysics2Strings.DECAY_TIME_CLEAR_CHART );
+        _resetButtonNode = new PhetButtonNode( NuclearPhysicsStrings.DECAY_TIME_CLEAR_CHART );
         _resetButtonNode.setPickable( true );
         addChild( _resetButtonNode );
 

@@ -21,7 +21,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 
 /**
  * This class defines a subpanel that goes on the main control panel for the
@@ -57,7 +57,7 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         // Add the border around the sub panel.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                NuclearPhysics2Strings.CONTROLS_BORDER,
+                NuclearPhysicsStrings.CONTROLS_BORDER,
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
@@ -68,7 +68,7 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         addSpace(5);
         
         // Add the check box for the energy graphs.
-        _energyGraphsCheckBox = new JCheckBox( NuclearPhysics2Strings.ENERGY_GRAPHS_CHECK_BOX );
+        _energyGraphsCheckBox = new JCheckBox( NuclearPhysicsStrings.ENERGY_GRAPHS_CHECK_BOX );
         _energyGraphsCheckBox.setSelected( true );
         _energyGraphsCheckBox.addChangeListener( new ChangeListener() {
             
@@ -86,7 +86,7 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         setFillNone();
         
         // Add the button that allows users to fire neutrons into the reaction area.
-        JButton fireNeutronsButton = new JButton(NuclearPhysics2Strings.FIRE_NEUTRONS_BUTTON_LABEL );
+        JButton fireNeutronsButton = new JButton(NuclearPhysicsStrings.FIRE_NEUTRONS_BUTTON_LABEL );
         fireNeutronsButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 _model.fireNeutrons();
@@ -98,7 +98,7 @@ public class NuclearReactorControlsSubPanel extends VerticalLayoutPanel {
         addSpace( 10 );
         
         // Add the button that allows the user to reset the reaction.
-        JButton resetButton = new JButton(NuclearPhysics2Strings.RESET_BUTTON_LABEL);
+        JButton resetButton = new JButton(NuclearPhysicsStrings.RESET_BUTTON_LABEL);
         resetButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
                 // Reset the sim time, which will in turn reset the model.

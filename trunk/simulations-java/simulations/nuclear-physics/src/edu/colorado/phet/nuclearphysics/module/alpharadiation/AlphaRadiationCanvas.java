@@ -17,8 +17,8 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
@@ -175,7 +175,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         });
         
         // Set the background color.
-        setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
+        setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
         // Add the chart that depicts the tunneling energy threshold.
         _alphaRadiationEnergyChart = new AlphaRadiationEnergyChart(alphaRadiationModel, this);
@@ -208,7 +208,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         addWorldChild(rightBreakoutLine);
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GradientButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS, 16, new Color(0xff9900));
+        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 16, new Color(0xff9900));
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.

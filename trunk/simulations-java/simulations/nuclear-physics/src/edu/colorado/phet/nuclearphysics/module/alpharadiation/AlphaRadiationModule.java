@@ -6,9 +6,9 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.defaults.AlphaRadiationDefaults;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 
 /**
  * This class is where the model and view classes for the Alpha Radiation
@@ -32,11 +32,11 @@ public class AlphaRadiationModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public AlphaRadiationModule( Frame parentFrame ) {
-        super( NuclearPhysics2Strings.TITLE_ALPHA_RADIATION_MODULE,
-               new NuclearPhysics2Clock( AlphaRadiationDefaults.CLOCK_FRAME_RATE, AlphaRadiationDefaults.CLOCK_DT ));
+        super( NuclearPhysicsStrings.TITLE_ALPHA_RADIATION_MODULE,
+               new NuclearPhysicsClock( AlphaRadiationDefaults.CLOCK_FRAME_RATE, AlphaRadiationDefaults.CLOCK_DT ));
  
         // Model
-        NuclearPhysics2Clock clock = (NuclearPhysics2Clock) getClock();
+        NuclearPhysicsClock clock = (NuclearPhysicsClock) getClock();
         _model = new AlphaRadiationModel(clock);
 
         // Canvas
@@ -48,7 +48,7 @@ public class AlphaRadiationModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanel( (NuclearPhysics2Clock) getClock() );
+        _clockControlPanel = new ClockControlPanel( (NuclearPhysicsClock) getClock() );
         setClockControlPanel( _clockControlPanel );
         
         // Help

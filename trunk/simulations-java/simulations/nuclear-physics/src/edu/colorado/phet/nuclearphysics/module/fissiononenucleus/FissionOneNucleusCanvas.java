@@ -13,8 +13,8 @@ import java.util.Hashtable;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
@@ -75,7 +75,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         });
         
         // Set the background color.
-        setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
+        setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
         // Register as a listener to the model.
         _fissionOneNucleusModel = fissionOneNucleusModel;
@@ -183,7 +183,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         });
         
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new GradientButtonNode(NuclearPhysics2Strings.RESET_NUCLEUS, 16, new Color(0xff9900));
+        _resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 16, new Color(0xff9900));
         addScreenChild(_resetButtonNode);
         
         // Register to receive button pushes.

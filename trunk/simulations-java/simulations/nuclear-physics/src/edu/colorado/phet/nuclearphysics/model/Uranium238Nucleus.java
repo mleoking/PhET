@@ -23,7 +23,7 @@ public class Uranium238Nucleus extends AtomicNucleus {
     // Constructor(s)
     //------------------------------------------------------------------------
     
-    public Uranium238Nucleus(NuclearPhysics2Clock clock, Point2D position){
+    public Uranium238Nucleus(NuclearPhysicsClock clock, Point2D position){
 
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
     }

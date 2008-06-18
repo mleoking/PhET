@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -32,8 +32,8 @@ public class AtomicNucleusNode extends PNode {
     //------------------------------------------------------------------------
     
     // Fonts for displaying the label on the nucleus.
-    private static final Font ISOTOPE_NUMBER_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 10 );
-    private static final Font ISOTOPE_CHEM_SYMBOL_FONT = new Font( NuclearPhysics2Constants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
+    private static final Font ISOTOPE_NUMBER_FONT = new Font( NuclearPhysicsConstants.DEFAULT_FONT_NAME, Font.BOLD, 10 );
+    private static final Font ISOTOPE_CHEM_SYMBOL_FONT = new Font( NuclearPhysicsConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
     
     // Factor by which the font should be scaled.  This allows us to use
     // standard font sizes and the use the Piccolo scaling capabilities,
@@ -193,27 +193,27 @@ public class AtomicNucleusNode extends PNode {
             // Uranium
             if (numNeutrons == 143){
                 // Uranium 235
-                isotopeNumber = NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysics2Constants.URANIUM_235_LABEL_COLOR;
+                isotopeNumber = NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR;
             }
             else if (numNeutrons == 144){
                 // Uranium 236
-                isotopeNumber = NuclearPhysics2Strings.URANIUM_236_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysics2Strings.URANIUM_236_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysics2Constants.URANIUM_236_LABEL_COLOR;
+                isotopeNumber = NuclearPhysicsStrings.URANIUM_236_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysicsStrings.URANIUM_236_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.URANIUM_236_LABEL_COLOR;
             }
             else if (numNeutrons == 146){
                 // Uranium 238
-                isotopeNumber = NuclearPhysics2Strings.URANIUM_238_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysics2Strings.URANIUM_238_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysics2Constants.URANIUM_238_LABEL_COLOR;
+                isotopeNumber = NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR;
             }
             else if (numNeutrons == 147){
                 // Uranium 239
-                isotopeNumber = NuclearPhysics2Strings.URANIUM_239_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysics2Strings.URANIUM_239_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysics2Constants.URANIUM_239_LABEL_COLOR;
+                isotopeNumber = NuclearPhysicsStrings.URANIUM_239_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysicsStrings.URANIUM_239_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.URANIUM_239_LABEL_COLOR;
             }
             
             break;
@@ -222,9 +222,9 @@ public class AtomicNucleusNode extends PNode {
             // Polonium
             if (numNeutrons == 127){
             // Polonium 211
-                isotopeNumber = NuclearPhysics2Strings.POLONIUM_211_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysics2Strings.POLONIUM_211_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysics2Constants.POLONIUM_LABEL_COLOR;
+                isotopeNumber = NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.POLONIUM_LABEL_COLOR;
             }
             
             break;
@@ -232,9 +232,9 @@ public class AtomicNucleusNode extends PNode {
         case 82:
             // Lead
             if (numNeutrons == 125){
-                isotopeNumber = NuclearPhysics2Strings.LEAD_207_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysics2Strings.LEAD_207_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysics2Constants.LEAD_LABEL_COLOR;
+                isotopeNumber = NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER;
+                chemSymbol = NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL;
+                labelColor = NuclearPhysicsConstants.LEAD_LABEL_COLOR;
             }
             
             break;

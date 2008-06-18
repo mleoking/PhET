@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
 
 /**
@@ -38,7 +38,7 @@ public class AlphaRadiationModel {
     // Constructor
     //------------------------------------------------------------------------
     
-    public AlphaRadiationModel(NuclearPhysics2Clock clock)
+    public AlphaRadiationModel(NuclearPhysicsClock clock)
     {
         _clock = clock;
 

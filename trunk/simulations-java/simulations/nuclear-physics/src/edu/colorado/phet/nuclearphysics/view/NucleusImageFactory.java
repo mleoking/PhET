@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PPanEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
@@ -175,10 +175,10 @@ public class NucleusImageFactory {
         // Randomly select from one of the available images.
         PImage alphaImage;
         if (_rand.nextBoolean()){
-            alphaImage = NuclearPhysics2Resources.getImageNode("Alpha Particle 001.png");
+            alphaImage = NuclearPhysicsResources.getImageNode("Alpha Particle 001.png");
         }
         else{
-            alphaImage = NuclearPhysics2Resources.getImageNode("Alpha Particle 002.png");            
+            alphaImage = NuclearPhysicsResources.getImageNode("Alpha Particle 002.png");            
         }
         
         // Scale and position the image.
@@ -192,7 +192,7 @@ public class NucleusImageFactory {
     private void addNeutron(PNode nucleus, double radius, double pixelsPerFm){
         
         // Load the image.
-        PImage neutronImage = NuclearPhysics2Resources.getImageNode("Neutron.png");
+        PImage neutronImage = NuclearPhysicsResources.getImageNode("Neutron.png");
         
         // Scale and position the image.
         neutronImage.scale( pixelsPerFm * NUCLEON_DIAMETER / neutronImage.getWidth());
@@ -205,7 +205,7 @@ public class NucleusImageFactory {
     private void addProton(PNode nucleus, double radius, double pixelsPerFm){
         
         // Load the image.
-        PImage protonImage = NuclearPhysics2Resources.getImageNode("Proton.png");
+        PImage protonImage = NuclearPhysicsResources.getImageNode("Proton.png");
         
         // Scale and position the image.
         protonImage.scale( pixelsPerFm * NUCLEON_DIAMETER / protonImage.getWidth());
