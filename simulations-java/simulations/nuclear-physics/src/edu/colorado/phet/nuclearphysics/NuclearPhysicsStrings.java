@@ -18,6 +18,10 @@ public class NuclearPhysicsStrings {
     public static final String TITLE_CHAIN_REACTION_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.MultipleNucleusFissionModule" );
     public static final String TITLE_NUCLEAR_REACTOR_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.ControlledReaction" );
 
+    public static final String MENU_OPTIONS = NuclearPhysicsResources.getString( "menu.options" );
+
+    public static final String LEGEND_BORDER_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.LegendBorder" );
+
     public static final String NEUTRON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.NeutronLabel" );
     public static final String PROTON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
     public static final String ALPHA_PARTICLE_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.AlphaParticleLabel" );
@@ -73,4 +77,15 @@ public class NuclearPhysicsStrings {
     public static final String ENERGY_GRAPH_UNITS = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.EnergyGraphUnits" );
     public static final String POWER_GRAPH_LABEL = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.PowerGraphLabel" );
     public static final String POWER_GRAPH_UNITS = NuclearPhysicsResources.getString( "ControlledFissionControlPanel.PowerGraphUnits" );
+    
+    
+    public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_1 = NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel1" );
+    public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_2 = NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel2" );
+    public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_3 = NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel3" );
+    public static final String POTENTIAL_PROFILE_Y_AXIS_LABEL_4 = NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel4" );
+    public static final String POTENTIAL_PROFILE_X_AXIS_LABEL = NuclearPhysicsResources.getString( "PotentialProfilePanel.XAxisLabel" );
+    public static final String POTENTIAL_PROFILE_LEGEND_TITLE = NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.title" );
+    public static final String POTENTIAL_PROFILE_POTENTIAL_ENERGY = NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.PotentialEnergy" );
+    public static final String POTENTIAL_PROFILE_TOTAL_ENERGY = NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.TotalEnergy" );
+    
 }
