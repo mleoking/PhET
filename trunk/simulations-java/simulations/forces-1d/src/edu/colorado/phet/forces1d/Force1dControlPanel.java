@@ -14,7 +14,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ModelSliderLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_force1d.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;

@@ -14,7 +14,6 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
@@ -28,10 +27,10 @@ import edu.colorado.phet.force1d_tag_chart.DataSet;
 import edu.colorado.phet.force1d_tag_chart.Range2D;
 import edu.colorado.phet.force1d_tag_chart.controllers.HorizontalCursor2;
 import edu.colorado.phet.force1d_tag_chart.controllers.VerticalChartSlider2;
+import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
-import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * User: Sam Reid

@@ -489,8 +489,7 @@ public class PhetJComponent extends PhetGraphic {
         }
 
         public void updateGraphics() {
-            for ( int i = 0; i < dirty.size(); i++ )
-            {//todo coalesce the paint messages.  Can some code from RepaintManager be reused?
+            for ( int i = 0; i < dirty.size(); i++ ) {//todo coalesce the paint messages.  Can some code from RepaintManager be reused?
                 PhetJComponent phetJComponent = (PhetJComponent) dirty.get( i );
                 phetJComponent.repaint();
             }

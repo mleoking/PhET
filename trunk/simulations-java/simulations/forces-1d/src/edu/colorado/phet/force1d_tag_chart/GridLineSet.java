@@ -64,6 +64,7 @@ public class GridLineSet {
 //        majorGrid.setTicksVisible( visible );
 
     //    }
+
     public void setMajorGridlines( double[] lines ) {
         majorGrid.setGridlines( lines );
     }

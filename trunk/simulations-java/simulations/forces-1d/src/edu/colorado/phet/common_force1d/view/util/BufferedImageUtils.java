@@ -51,6 +51,7 @@ public class BufferedImageUtils {
 //        return out;
 
     //    }
+
     public static BufferedImage rescaleYMaintainAspectRatio( Component parent, BufferedImage im, int height ) {
         double iny = im.getHeight();
         double dy = height / iny;
