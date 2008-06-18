@@ -16,7 +16,7 @@ import edu.colorado.phet.flashlauncher.util.FileUtils;
 /**
  * FlashLauncher is the mechanism for launching Flash simulations.
  * It is bundled into a JAR file as the mainclass.
- * An args.txt file in the JAR identifies the simulation name and language code,
+ * The flash-launcher-args.txt file in the JAR identifies the simulation name and language code,
  * which are used to fill in an HTML template.
  * A web browser is launched, and pointed at the HTML.
  * 
@@ -25,6 +25,8 @@ import edu.colorado.phet.flashlauncher.util.FileUtils;
  */
 public class FlashLauncher {
     
+    private static final String ARGS_FILENAME = "flash-launcher-args.txt";
+    
     private String sim;
     private String language;
     private static JTextArea jTextArea;
@@ -32,7 +34,7 @@ public class FlashLauncher {
     public FlashLauncher() throws IOException {
         
         // read sim and language from args.txt, a JAR resource file
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "args.txt" );
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( ARGS_FILENAME );
         BufferedReader bu = new BufferedReader( new InputStreamReader( inputStream ) );
         String line = bu.readLine();
         StringTokenizer stringTokenizer = new StringTokenizer( line, " " );
