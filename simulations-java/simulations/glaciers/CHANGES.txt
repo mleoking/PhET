@@ -3,7 +3,6 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- BUG: when advancing glacier reaches ELA, the ELA surface line jumps up/down valley
 - BUG: very short advancing glacier starts off advancing very slowly, then speeds up
 
 HIGH PRIORITY:
@@ -88,6 +87,8 @@ CLEANUP:
 
 
 DONE:
+6/18/08 - bugfix: algorithm for ELA ice surface intersection was intersections close to terminus
+6/18/08 - change loop in Glacier.updateIceThickness, iterate until thickness==0
 6/18/08 - remove Restart clock button, semantics don't make sense for this sim
 6/18/08 - verify that "glacial budget vs elevation" graph looks OK with new climate model
 ******* 0.00.30 (22142)

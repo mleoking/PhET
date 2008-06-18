@@ -296,41 +296,55 @@ public class Glacier extends ClockAdapter {
             assert( _terminus.getY() <= headwallY );
             
             // initialize variables
-            double surfaceElevation = 0;
+            double x = headwallX + DX;
             double thickness = 0;
             double sumOfNonZeroSquares = 0;
             double countOfNonZeroSquares = 0;
+            double surfaceElevation = 0;
+            boolean done = false;
             
             // Compute average ice thickness squares & intersection of ELA with surface.
-            // There is some error here if glacier length is not an integer multiple of DX.
-            for ( double x = headwallX; x <= terminusX; x += DX ) {
+            // There is some error here if glacier length is not an integer multiple of DX,
+            // since we may miss a bit of ice near the terminus.
+            while ( !done ) {
 
                 // compute thickness
                 thickness = getIceThickness( x );
 
-                // accumulate squares
-                if ( thickness > 0 ) {
+                if ( thickness == 0 ) {
+                    done = true;
+                }
+                else {
+                    // accumulate squares
                     sumOfNonZeroSquares += ( thickness * thickness );
                     countOfNonZeroSquares++;
-                }
-                
-                // look for the place where the ELA intersects the ice surface
-                if ( _surfaceAtELA == null && x != headwallX && ela < maxElevation ) {
-                    surfaceElevation = _valley.getElevation( x ) + thickness;
-                    if ( surfaceElevation <= ela ) {
-                        // search between previous and current samples
-                        _surfaceAtELA = findSurfaceAtELA( ela, x - DX, x );
+                    
+                    // look for the place where the ELA intersects the ice surface
+                    if ( _surfaceAtELA == null && ela < maxElevation ) {
+                        surfaceElevation = _valley.getElevation( x ) + thickness;
+                        if ( surfaceElevation <= ela ) {
+                            // search between previous and current samples
+                            _surfaceAtELA = findSurfaceAtELA( ela, x - DX, x );
+                        }
                     }
+                    
+                    x += DX;
                 }
             }
-
+            
+            // If the ELA intersect the ice surface close to the terminus, we may miss it above.
+            // Look backwards from the terminus to find it.
+            if ( _surfaceAtELA == null && ela < maxElevation && terminusY < ela ) {
+                _surfaceAtELA = findSurfaceAtELA( ela, terminusX - DX, terminusX );
+            }
+            
             // compute average
             if ( countOfNonZeroSquares > 0 ) {
                 _averageIceThicknessSquares = sumOfNonZeroSquares / countOfNonZeroSquares;
             }
             assert( _averageIceThicknessSquares >= 0 );
         }
-
+        
         notifyIceThicknessChanged();
     }
     
@@ -382,7 +396,7 @@ public class Glacier extends ClockAdapter {
             currentSurfaceElevation = getSurfaceElevation( x );
             currentDiff = currentSurfaceElevation - ela;
             
-            if ( currentDiff <= SURFACE_ELA_EQUALITY_THRESHOLD ) {
+            if ( Math.abs( currentDiff ) <= SURFACE_ELA_EQUALITY_THRESHOLD ) {
                 // current sample is close enough
                 p = new Point2D.Double( x, currentSurfaceElevation );
             }
