@@ -27,3 +27,5 @@ A list of Piccolo changes/enhancements that would be useful to PhET
 - support for testing and assertions
 
 - add method addChild() to PCanvas, with default implementation getLayer().addChild()
+
+- layout nodes, to specify the spacial relationship between a set of nodes, dynamically manages layout
