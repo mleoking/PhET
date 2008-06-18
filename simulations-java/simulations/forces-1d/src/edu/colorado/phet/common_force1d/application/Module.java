@@ -13,7 +13,7 @@ package edu.colorado.phet.common_force1d.application;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.model.BaseModel;
 import edu.colorado.phet.common_force1d.model.ModelElement;
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
@@ -24,6 +24,7 @@ import edu.colorado.phet.common_force1d.view.ControlPanel;
 import edu.colorado.phet.common_force1d.view.help.HelpManager;
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * This class encapsulates the parts of an application that make up
@@ -51,7 +52,7 @@ public class Module implements ClockTickListener {
     protected Module( String name, AbstractClock clock ) {
         this.name = name;
         this.clock = clock;
-        SimStrings.setStrings( "localization/CommonStrings" );
+        Force1DResources.setStrings( "localization/CommonStrings" );
         helpManager = new HelpManager();
     }
 

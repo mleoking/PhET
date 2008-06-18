@@ -18,11 +18,12 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
 import edu.colorado.phet.common_force1d.model.clock.ClockStateEvent;
 import edu.colorado.phet.common_force1d.model.clock.ClockStateListener;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * ClockControlPanel
@@ -51,9 +52,9 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         ImageIcon playIcon = new ImageIcon( playU );
         ImageIcon pauseIcon = new ImageIcon( pauseU );
         ImageIcon stepIcon = new ImageIcon( stepU );
-        play = new JButton( SimStrings.get( "Common.ClockControlPanel.Play" ), playIcon );
-        pause = new JButton( SimStrings.get( "Common.ClockControlPanel.Pause" ), pauseIcon );
-        step = new JButton( SimStrings.get( "Common.ClockControlPanel.Step" ), stepIcon );
+        play = new JButton( Force1DResources.getCommonString( "Common.ClockControlPanel.Play" ), playIcon );
+        pause = new JButton( Force1DResources.getCommonString( "Common.ClockControlPanel.Pause" ), pauseIcon );
+        step = new JButton( Force1DResources.getCommonString( "Common.ClockControlPanel.Step" ), stepIcon );
         step.setEnabled( false );
 
         play.addActionListener( new ActionListener() {

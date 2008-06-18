@@ -8,12 +8,13 @@ import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.forces1d.Forces1DApplication;
+import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -62,7 +63,7 @@ public class FreeBodyDiagramPanel {
                 return 0;
             }
         };
-        fbdWiggleMe = new WiggleMe( fbdPanel, module.getClock(), SimStrings.get( "FreeBodyDiagramPanel.clickHelp" ), target );
+        fbdWiggleMe = new WiggleMe( fbdPanel, module.getClock(), Force1DResources.get( "FreeBodyDiagramPanel.clickHelp" ), target );
         fbdWiggleMe.setArrowColor( new Color( 0, 30, 240, 128 ) );
         fbdWiggleMe.setFont( new Font( PhetFont.getDefaultFontName(), Font.BOLD, 14 ) );
         fbdWiggleMe.setArrow( 0, 40 );

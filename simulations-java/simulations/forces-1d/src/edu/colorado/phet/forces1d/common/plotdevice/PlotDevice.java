@@ -14,7 +14,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
@@ -31,6 +31,7 @@ import edu.colorado.phet.force1d_tag_chart.controllers.VerticalChartSlider2;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * User: Sam Reid
@@ -106,7 +107,7 @@ public class PlotDevice extends GraphicLayerSet {
             }
         } );
 
-        ChartButton showButton = new ChartButton( SimStrings.get( "PlotDevice.graph" ) + " " + title );
+        ChartButton showButton = new ChartButton( Force1DResources.get( "PlotDevice.graph" ) + " " + title );
         showButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setVisible( true );
@@ -191,7 +192,7 @@ public class PlotDevice extends GraphicLayerSet {
                 horizontalCursor.setX( 0 );
             }
         } );
-        timeLabel = new PhetTextGraphic( panel, PlotDeviceFontManager.getFontSet().getTimeLabelFont(), SimStrings.get( "PlotDevice.time" ), Color.red, 0, 0 );
+        timeLabel = new PhetTextGraphic( panel, PlotDeviceFontManager.getFontSet().getTimeLabelFont(), Force1DResources.get( "PlotDevice.time" ), Color.red, 0, 0 );
         addGraphic( chartComponent.getChart() );
         addGraphic( timeLabel );
         updateControllable();
@@ -752,7 +753,7 @@ public class PlotDevice extends GraphicLayerSet {
             chart.setVerticalTitle( verticalTitle, color, verticalTitleFont, 60 );
             chart.getVerticalTicks().setMajorOffset( new JSlider().getWidth() - 5, 0 );
 
-            closeButton.setToolTipText( SimStrings.get( "PlotDevice.closeGraph" ) );
+            closeButton.setToolTipText( Force1DResources.get( "PlotDevice.closeGraph" ) );
             closeButtonGraphic = PhetJComponent.newInstance( panel, closeButton );
 //            panel.add( closeButton );
             panel.addGraphic( closeButtonGraphic, Double.POSITIVE_INFINITY );
@@ -763,8 +764,8 @@ public class PlotDevice extends GraphicLayerSet {
             ActionListener smoothNeg = new Decrement( holdDownZoom, maxZoomRange );
             ActionListener incPos = new Increment( singleClickZoom );
             ActionListener incNeg = new Decrement( singleClickZoom, maxZoomRange );
-            MagButton magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, SimStrings.get( "PlotDevice.zoomIn" ) );
-            MagButton magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, SimStrings.get( "PlotDevice.zoomOut" ) );
+            MagButton magPlus = new MagButton( new ImageIcon( imgPlus ), smoothPos, incPos, Force1DResources.get( "PlotDevice.zoomIn" ) );
+            MagButton magMinus = new MagButton( new ImageIcon( imgMinus ), smoothNeg, incNeg, Force1DResources.get( "PlotDevice.zoomOut" ) );
             magPlusGraphic = PhetJComponent.newInstance( panel, magPlus );
             magMinusGraphic = PhetJComponent.newInstance( panel, magMinus );
 
@@ -974,7 +975,7 @@ public class PlotDevice extends GraphicLayerSet {
         public TypingTextField( int columns, final PlotDevice plotDevice, PlotDeviceModel module ) {
             super( columns );
             Font borderFont = new Font( PhetFont.getDefaultFontName(), 0, 12 );
-            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "PlotDevice.appliedForce" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderFont, plotDevice.color ) );
+            setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), Force1DResources.get( "PlotDevice.appliedForce" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderFont, plotDevice.color ) );
             this.plotDevice = plotDevice;
             this.addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent e ) {

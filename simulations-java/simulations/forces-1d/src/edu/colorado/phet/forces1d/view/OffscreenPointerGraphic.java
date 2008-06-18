@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
@@ -13,6 +13,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.forces1d.model.Block;
+import edu.colorado.phet.forces1d.Force1DResources;
 
 /**
  * Author: Sam Reid
@@ -42,7 +43,7 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
                     Block block = blockGraphic.getBlock();
                     double x = block.getPosition();
                     String locStr = decimalFormat.format( x );
-                    textGraphic.setText( locStr + " " + SimStrings.get( "OffscreenPointerGraphic.meters" ) );
+                    textGraphic.setText( locStr + " " + Force1DResources.get( "OffscreenPointerGraphic.meters" ) );
                     int yRel = textGraphic.getHeight() + 10;
 
                     Point2D.Double source = new Point2D.Double( textGraphic.getWidth() / 2, yRel );
