@@ -15,7 +15,7 @@ import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.NeutronSource;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.model.Proton;
 import edu.colorado.phet.nuclearphysics.model.Uranium235CompositeNucleus;
@@ -58,7 +58,7 @@ public class FissionOneNucleusModel {
     // Constructor
     //------------------------------------------------------------------------
     
-    public FissionOneNucleusModel(NuclearPhysics2Clock clock)
+    public FissionOneNucleusModel(NuclearPhysicsClock clock)
     {
         // Add a nucleus of Uranium 235 to the model.
         _primaryNucleus = new Uranium235CompositeNucleus( clock, new Point2D.Double( 0, 0 ), FISSION_INTERVAL );

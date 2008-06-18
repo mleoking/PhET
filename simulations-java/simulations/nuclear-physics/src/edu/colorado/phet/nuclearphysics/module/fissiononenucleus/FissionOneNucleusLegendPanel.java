@@ -15,9 +15,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -40,7 +40,7 @@ public class FissionOneNucleusLegendPanel extends JPanel {
         // Add the border around the legend.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                NuclearPhysics2Resources.getString( "NuclearPhysicsControlPanel.LegendBorder" ),
+                NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.LegendBorder" ),
                 TitledBorder.LEFT,
                 TitledBorder.TOP,
                 new PhetFont( Font.BOLD, 14 ),
@@ -53,26 +53,26 @@ public class FissionOneNucleusLegendPanel extends JPanel {
 
         // Add the images and labels for the simple portion of the legend.
         
-        addLegendItem( "Neutron.png", NuclearPhysics2Strings.NEUTRON_LEGEND_LABEL, 12 );
-        addLegendItem( "Proton.png", NuclearPhysics2Strings.PROTON_LEGEND_LABEL, 12 );
+        addLegendItem( "Neutron.png", NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL, 12 );
+        addLegendItem( "Proton.png", NuclearPhysicsStrings.PROTON_LEGEND_LABEL, 12 );
         
         // Add the Uranium nucleus to the legend.
         
         PNode labeledUraniumNucleus = new LabeledNucleusNode("Uranium Nucleus Small.png",
-                NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER, 
-                NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.URANIUM_235_LABEL_COLOR );
+                NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
         
         Image uraniumImage = labeledUraniumNucleus.toImage();
         ImageIcon icon = new ImageIcon(uraniumImage);
         add(new JLabel(icon));
-        add(new JLabel( NuclearPhysics2Strings.URANIUM_235_LEGEND_LABEL ) );
+        add(new JLabel( NuclearPhysicsStrings.URANIUM_235_LEGEND_LABEL ) );
         
         // Add the daughter nuclei to the legend.  These are not specifically
         // labeled with chemical symbols because the products from a fission
         // of U-235 can vary.
         
-        addLegendItem( "Daughter Nuclei Small.png", NuclearPhysics2Strings.DAUGHTER_NUCLEI_LABEL, 75 );
+        addLegendItem( "Daughter Nuclei Small.png", NuclearPhysicsStrings.DAUGHTER_NUCLEI_LABEL, 75 );
     }
     
     /**
@@ -84,7 +84,7 @@ public class FissionOneNucleusLegendPanel extends JPanel {
      * @param width
      */
     private void addLegendItem( String imageName, String label, int width ) {
-        Image im = NuclearPhysics2Resources.getImage( imageName );
+        Image im = NuclearPhysicsResources.getImage( imageName );
         ImageIcon icon = new ImageIcon(im.getScaledInstance( width, -1, Image.SCALE_SMOOTH ));
         add(new JLabel(icon));
         add(new JLabel( label ));

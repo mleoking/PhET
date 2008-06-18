@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.DaughterCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.module.fissiononenucleus.FissionOneNucleusModel;
@@ -259,17 +259,17 @@ public class FissionEnergyChart extends PComposite {
         addChild( _potentialEnergyWell);
         
         // Add the text for the Y axis.
-        _yAxisLabelHigh = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel3" ));
+        _yAxisLabelHigh = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel3" ));
         _yAxisLabelHigh.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _yAxisLabelHigh.rotate( 1.5 * Math.PI );
         addChild( _yAxisLabelHigh );
-        _yAxisLabelLow = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.YAxisLabel4" ));
+        _yAxisLabelLow = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.YAxisLabel4" ));
         _yAxisLabelLow.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _yAxisLabelLow.rotate( 1.5 * Math.PI );
         addChild( _yAxisLabelLow );
         
         // Add the text for the X axis.
-        _xAxisLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.XAxisLabel" ));
+        _xAxisLabel = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.XAxisLabel" ));
         _xAxisLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         addChild( _xAxisLabel );
         
@@ -295,7 +295,7 @@ public class FissionEnergyChart extends PComposite {
         _potentialEnergyLegendLine.setStroke( ENERGY_LINE_STROKE );
         _legend.addChild( _potentialEnergyLegendLine );
         
-        _potentialEnergyLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.PotentialEnergy") );
+        _potentialEnergyLabel = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.PotentialEnergy") );
         _potentialEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _legend.addChild( _potentialEnergyLabel );
         
@@ -304,22 +304,22 @@ public class FissionEnergyChart extends PComposite {
         _totalEnergyLegendLine.setStroke( ENERGY_LINE_STROKE );
         _legend.addChild( _totalEnergyLegendLine );
         
-        _totalEnergyLabel = new PText( NuclearPhysics2Resources.getString( "PotentialProfilePanel.legend.TotalEnergy") );
+        _totalEnergyLabel = new PText( NuclearPhysicsResources.getString( "PotentialProfilePanel.legend.TotalEnergy") );
         _totalEnergyLabel.setFont( new PhetFont( Font.PLAIN, 14 ) );
         _legend.addChild( _totalEnergyLabel );
         
         // Add the images for the nuclei.  Not all are initially visible.
         
-        _unfissionedNucleusImage = NuclearPhysics2Resources.getImageNode("Uranium Nucleus Small.png");
+        _unfissionedNucleusImage = NuclearPhysicsResources.getImageNode("Uranium Nucleus Small.png");
         _unfissionedNucleusImage.setScale( NUCLEI_SCALING_FACTOR );
         addChild(_unfissionedNucleusImage);
         
-        _largerDaughterNucleusImage = NuclearPhysics2Resources.getImageNode("Larger Daughter Nucleus.png");
+        _largerDaughterNucleusImage = NuclearPhysicsResources.getImageNode("Larger Daughter Nucleus.png");
         _largerDaughterNucleusImage.setScale(  NUCLEI_SCALING_FACTOR );
         _largerDaughterNucleusImage.setVisible( false );
         addChild(_largerDaughterNucleusImage);
         
-        _smallerDaughterNucleusImage = NuclearPhysics2Resources.getImageNode("Smaller Daughter Nucleus.png");
+        _smallerDaughterNucleusImage = NuclearPhysicsResources.getImageNode("Smaller Daughter Nucleus.png");
         _smallerDaughterNucleusImage.setScale(  NUCLEI_SCALING_FACTOR );
         _smallerDaughterNucleusImage.setVisible( false );
         addChild(_smallerDaughterNucleusImage);

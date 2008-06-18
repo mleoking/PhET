@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.defaults;
 
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 
 
 public class FissionOneNucleusDefaults {
@@ -15,5 +15,5 @@ public class FissionOneNucleusDefaults {
     public static final int CLOCK_FRAME_RATE = 25; // Frames per second.
     public static final double CLOCK_DT = 40; // Milliseconds per tick.
     public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
-    public static final NuclearPhysics2Clock CLOCK = new NuclearPhysics2Clock( CLOCK_FRAME_RATE, CLOCK_DT );
+    public static final NuclearPhysicsClock CLOCK = new NuclearPhysicsClock( CLOCK_FRAME_RATE, CLOCK_DT );
 }

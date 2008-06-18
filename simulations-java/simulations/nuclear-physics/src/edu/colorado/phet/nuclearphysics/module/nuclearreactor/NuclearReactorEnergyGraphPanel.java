@@ -25,8 +25,8 @@ import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.util.SimpleChartPanel;
 
 /**
@@ -49,9 +49,9 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
     
     // Keys for creating and manipulating data sets for charts.
     private static final String TOTAL_ENERGY_ROW_KEY         = new String("Total");
-    private static final String TOTAL_ENERGY_COLUMN_KEY      = NuclearPhysics2Strings.ENERGY_GRAPH_LABEL;
+    private static final String TOTAL_ENERGY_COLUMN_KEY      = NuclearPhysicsStrings.ENERGY_GRAPH_LABEL;
     private static final String PER_SECOND_ENERGY_ROW_KEY    = new String("Instantaneous");
-    private static final String PER_SECOND_ENERGY_COLUMN_KEY = NuclearPhysics2Strings.POWER_GRAPH_LABEL;
+    private static final String PER_SECOND_ENERGY_COLUMN_KEY = NuclearPhysicsStrings.POWER_GRAPH_LABEL;
     
     // Fonts for the graphs.
     private static final Font LABEL_FONT = new PhetFont(Font.BOLD, 14);
@@ -140,15 +140,15 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         _energyPerSecondDataSet.setValue(ENERGY_PER_SECOND_GRAPH_RANGE, PER_SECOND_ENERGY_ROW_KEY, 
                 PER_SECOND_ENERGY_COLUMN_KEY);
         
-        JFreeChart chart = ChartFactory.createBarChart(null, null, NuclearPhysics2Strings.POWER_GRAPH_UNITS, 
+        JFreeChart chart = ChartFactory.createBarChart(null, null, NuclearPhysicsStrings.POWER_GRAPH_UNITS, 
                 _energyPerSecondDataSet, PlotOrientation.VERTICAL, false, false, false);
-        chart.setBackgroundPaint( NuclearPhysics2Constants.CONTROL_PANEL_COLOR );
+        chart.setBackgroundPaint( NuclearPhysicsConstants.CONTROL_PANEL_COLOR );
         CategoryPlot plot = (CategoryPlot)chart.getPlot();
         plot.setBackgroundPaint( Color.darkGray );
         plot.setRangeGridlinePaint(Color.white);
         
         // Set up the title.
-        TextTitle title = new TextTitle(NuclearPhysics2Strings.POWER_GRAPH_LABEL);
+        TextTitle title = new TextTitle(NuclearPhysicsStrings.POWER_GRAPH_LABEL);
         title.setHorizontalAlignment( HorizontalAlignment.CENTER );
         title.setFont( TITLE_FONT );
         title.setPosition( RectangleEdge.BOTTOM );
@@ -185,16 +185,16 @@ public class NuclearReactorEnergyGraphPanel extends JPanel {
         
         _totalEnergyDataSet.setValue(TOTAL_ENERGY_GRAPH_RANGE, TOTAL_ENERGY_ROW_KEY, TOTAL_ENERGY_COLUMN_KEY);
         
-        JFreeChart chart = ChartFactory.createBarChart(NuclearPhysics2Strings.ENERGY_GRAPH_LABEL, null, 
-                NuclearPhysics2Strings.ENERGY_GRAPH_UNITS, _totalEnergyDataSet, PlotOrientation.VERTICAL, false, false,
+        JFreeChart chart = ChartFactory.createBarChart(NuclearPhysicsStrings.ENERGY_GRAPH_LABEL, null, 
+                NuclearPhysicsStrings.ENERGY_GRAPH_UNITS, _totalEnergyDataSet, PlotOrientation.VERTICAL, false, false,
                 false);
-        chart.setBackgroundPaint( NuclearPhysics2Constants.CONTROL_PANEL_COLOR );
+        chart.setBackgroundPaint( NuclearPhysicsConstants.CONTROL_PANEL_COLOR );
         CategoryPlot plot = (CategoryPlot)chart.getPlot();
         plot.setBackgroundPaint( Color.DARK_GRAY );
         plot.setRangeGridlinePaint(Color.white);
         
         // Set up the title.
-        TextTitle title = new TextTitle(NuclearPhysics2Strings.ENERGY_GRAPH_LABEL);
+        TextTitle title = new TextTitle(NuclearPhysicsStrings.ENERGY_GRAPH_LABEL);
         title.setHorizontalAlignment( HorizontalAlignment.CENTER );
         title.setFont( TITLE_FONT );
         title.setPosition( RectangleEdge.BOTTOM );

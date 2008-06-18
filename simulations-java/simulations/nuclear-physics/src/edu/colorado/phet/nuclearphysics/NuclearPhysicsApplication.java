@@ -30,7 +30,7 @@ import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModu
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
  */
-public class NuclearPhysics2Application extends PiccoloPhetApplication {
+public class NuclearPhysicsApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -62,7 +62,7 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
      *
      * @param config - The configuration for the application.
      */
-    public NuclearPhysics2Application( PhetApplicationConfig config )
+    public NuclearPhysicsApplication( PhetApplicationConfig config )
     {
         super( config );
         initTabbedPane();
@@ -83,7 +83,7 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setSelectedTabColor( NuclearPhysics2Constants.SELECTED_TAB_COLOR );
+                _tabbedModulePane.setSelectedTabColor( NuclearPhysicsConstants.SELECTED_TAB_COLOR );
                 return _tabbedModulePane;
             }
         };
@@ -190,14 +190,14 @@ public class NuclearPhysics2Application extends PiccoloPhetApplication {
 
             public void run() {
 
-                PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysics2Constants.FRAME_SETUP, NuclearPhysics2Resources.getResourceLoader() );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysicsConstants.FRAME_SETUP, NuclearPhysicsResources.getResourceLoader() );
                 
                 PhetLookAndFeel p = new PhetLookAndFeel();
-                p.setBackgroundColor( NuclearPhysics2Constants.CONTROL_PANEL_COLOR );
+                p.setBackgroundColor( NuclearPhysicsConstants.CONTROL_PANEL_COLOR );
                 p.initLookAndFeel();
 
                 // Create the application.
-                NuclearPhysics2Application app = new NuclearPhysics2Application( config );
+                NuclearPhysicsApplication app = new NuclearPhysicsApplication( config );
 
                 // Start the application.
                 app.startApplication();

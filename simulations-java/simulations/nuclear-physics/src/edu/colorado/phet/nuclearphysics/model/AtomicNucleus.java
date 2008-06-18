@@ -25,7 +25,7 @@ public abstract class AtomicNucleus {
     //------------------------------------------------------------------------
 
     // The clock that drives the time-based behavior.
-    protected NuclearPhysics2Clock _clock;
+    protected NuclearPhysicsClock _clock;
     
     // List of registered listeners.
     private ArrayList _listeners = new ArrayList();
@@ -64,7 +64,7 @@ public abstract class AtomicNucleus {
      * neutrons, and alpha particles that will comprise the nucleus.  It is
      * generally used when create a nucleus "from scratch".
      */
-    public AtomicNucleus(NuclearPhysics2Clock clock, Point2D position, int numProtons, int numNeutrons)
+    public AtomicNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons)
     {
         _clock = clock;
         _numProtons = numProtons;

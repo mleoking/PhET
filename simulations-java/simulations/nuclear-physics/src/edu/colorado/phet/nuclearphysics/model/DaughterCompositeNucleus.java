@@ -23,7 +23,7 @@ public class DaughterCompositeNucleus extends CompositeAtomicNucleus {
     // Constructor
     //------------------------------------------------------------------------
     
-    public DaughterCompositeNucleus(NuclearPhysics2Clock clock, Point2D position, ArrayList constituents){
+    public DaughterCompositeNucleus(NuclearPhysicsClock clock, Point2D position, ArrayList constituents){
         super(clock, position, constituents);
         
         // Set the tunneling region to be more confined than in some of the

@@ -17,7 +17,7 @@ import edu.colorado.phet.nuclearphysics.model.ContainmentVessel;
 import edu.colorado.phet.nuclearphysics.model.DaughterNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.NeutronSource;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.model.Proton;
 import edu.colorado.phet.nuclearphysics.model.Uranium235Nucleus;
@@ -71,7 +71,7 @@ public class ChainReactionModel {
     // Instance data
     //------------------------------------------------------------------------
     
-    private NuclearPhysics2Clock _clock;
+    private NuclearPhysicsClock _clock;
     private ArrayList _listeners = new ArrayList();
     private ArrayList _u235Nuclei = new ArrayList();
     private ArrayList _u238Nuclei = new ArrayList();
@@ -87,7 +87,7 @@ public class ChainReactionModel {
     // Constructor
     //------------------------------------------------------------------------
     
-    public ChainReactionModel(NuclearPhysics2Clock clock)
+    public ChainReactionModel(NuclearPhysicsClock clock)
     {
         _clock = clock;
 

@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.model.Proton;
 import edu.colorado.phet.nuclearphysics.model.Uranium235Nucleus;
@@ -77,7 +77,7 @@ public class NuclearReactorModel {
     // Instance data
     //------------------------------------------------------------------------
     
-    private NuclearPhysics2Clock _clock;
+    private NuclearPhysicsClock _clock;
     private ArrayList _listeners;
     private ArrayList _u235Nuclei;
     private ArrayList _u238Nuclei;
@@ -99,7 +99,7 @@ public class NuclearReactorModel {
     // Constructor
     //------------------------------------------------------------------------
     
-    public NuclearReactorModel(NuclearPhysics2Clock clock)
+    public NuclearReactorModel(NuclearPhysicsClock clock)
     {
         _clock = clock;
 

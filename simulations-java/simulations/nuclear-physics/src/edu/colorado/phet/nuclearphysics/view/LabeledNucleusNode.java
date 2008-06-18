@@ -9,9 +9,9 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Strings;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -46,7 +46,7 @@ public class LabeledNucleusNode extends PNode {
     public LabeledNucleusNode(String imageName, String isotopeNumber, String chemicalSymbol, Color labelColor){
         
         // Get the image for the nucleus.
-        BufferedImage im = NuclearPhysics2Resources.getImage( imageName );
+        BufferedImage im = NuclearPhysicsResources.getImage( imageName );
         
         // Create and add the image node.
         PImage nucleus = new PImage(im);
@@ -75,8 +75,8 @@ public class LabeledNucleusNode extends PNode {
      */
     public static void main(String [] args){
         LabeledNucleusNode testNode = new LabeledNucleusNode("Uranium Nucleus Small.png",
-                NuclearPhysics2Strings.URANIUM_235_ISOTOPE_NUMBER, NuclearPhysics2Strings.URANIUM_235_CHEMICAL_SYMBOL, 
-                NuclearPhysics2Constants.URANIUM_235_LABEL_COLOR );
+                NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER, NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR );
         
         JFrame frame = new JFrame();
         PhetPCanvas canvas = new PhetPCanvas();

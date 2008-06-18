@@ -44,7 +44,7 @@ public class Uranium235Nucleus extends AtomicNucleus {
     // Constructor(s)
     //------------------------------------------------------------------------
     
-    public Uranium235Nucleus(NuclearPhysics2Clock clock, Point2D position, double fissionInterval){
+    public Uranium235Nucleus(NuclearPhysicsClock clock, Point2D position, double fissionInterval){
 
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         

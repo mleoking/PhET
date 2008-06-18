@@ -5,19 +5,19 @@ package edu.colorado.phet.nuclearphysics.model;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
- * NuclearPhysics2Clock is the clock for this simulation.
+ * NuclearPhysicsClock is the clock for this simulation.
  * The simulation time change (dt) on each clock tick is constant,
  * regardless of when (in wall time) the ticks actually happen.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NuclearPhysics2Clock extends ConstantDtClock {
+public class NuclearPhysicsClock extends ConstantDtClock {
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public NuclearPhysics2Clock( int framesPerSecond, double dt ) {
+    public NuclearPhysicsClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
     

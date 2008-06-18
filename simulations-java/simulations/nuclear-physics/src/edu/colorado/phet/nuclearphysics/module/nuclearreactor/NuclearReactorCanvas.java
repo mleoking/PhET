@@ -5,7 +5,7 @@ package edu.colorado.phet.nuclearphysics.module.nuclearreactor;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Constants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.view.NuclearReactorNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -55,7 +55,7 @@ public class NuclearReactorCanvas extends PhetPCanvas{
         });
         
         // Set the background color.
-        setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
+        setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
         
         // Add the reactor node to the canvas.
         _nuclearReactorNode = new NuclearReactorNode(_nuclearReactorModel, this);

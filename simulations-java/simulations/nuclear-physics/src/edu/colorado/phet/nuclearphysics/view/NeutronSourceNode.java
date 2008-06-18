@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.NeutronSource;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -89,7 +89,7 @@ public class NeutronSourceNode extends PNode{
         });
 
         // Load the graphic image for this device.
-        _displayImage = NuclearPhysics2Resources.getImageNode("neutron-gun.png");
+        _displayImage = NuclearPhysicsResources.getImageNode("neutron-gun.png");
         
         // Scale the graphic and add it.
         _displayImage.scale( graphicWidth/_displayImage.getWidth());
@@ -97,14 +97,14 @@ public class NeutronSourceNode extends PNode{
         
         // Add the node that will be visible when the fire button is down,
         // i.e. pressed.
-        _fireButtonDown = NuclearPhysics2Resources.getImageNode("fire-button-down.png");
+        _fireButtonDown = NuclearPhysicsResources.getImageNode("fire-button-down.png");
         _fireButtonDown.addInputEventListener( new CursorHandler() );
         _displayImage.addChild( _fireButtonDown );
         _fireButtonDown.setOffset( BUTTON_OFFSET );
         
         // Add the node that will be visible when the fire button is not being
         // pressed.
-        _fireButtonUp = NuclearPhysics2Resources.getImageNode("fire-button.png");
+        _fireButtonUp = NuclearPhysicsResources.getImageNode("fire-button.png");
         _displayImage.addChild( _fireButtonUp );
         _fireButtonUp.setOffset( BUTTON_OFFSET );
         _fireButtonUp.addInputEventListener( new CursorHandler() );

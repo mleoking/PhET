@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Resources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
 import edu.umd.cs.piccolo.PNode;
 
@@ -35,7 +35,7 @@ public class NeutronNode extends PNode implements NucleonNode {
         _nucleon = nucleon;
         
         // Set up the image for this particle.
-        _displayImage = NuclearPhysics2Resources.getImageNode("Neutron.png");
+        _displayImage = NuclearPhysicsResources.getImageNode("Neutron.png");
         
         _displayImage.scale( PARTICLE_DIAMETER/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
         addChild(_displayImage);

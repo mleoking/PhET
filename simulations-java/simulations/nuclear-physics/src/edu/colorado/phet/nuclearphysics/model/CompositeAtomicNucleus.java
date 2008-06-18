@@ -56,7 +56,7 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     // Constructor(s)
     //------------------------------------------------------------------------
 
-    public CompositeAtomicNucleus(NuclearPhysics2Clock clock, Point2D position, int numProtons, int numNeutrons){
+    public CompositeAtomicNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons){
         
         super(clock, position, numProtons, numNeutrons);
         
@@ -97,7 +97,7 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
      * This is generally used to create a "daughter nucleus" when an existing
      * nucleus splits.
      */
-    public CompositeAtomicNucleus(NuclearPhysics2Clock clock, Point2D position, ArrayList constituents)
+    public CompositeAtomicNucleus(NuclearPhysicsClock clock, Point2D position, ArrayList constituents)
     {
         // Create an empty nucleus.
         this(clock, position, 0, 0);

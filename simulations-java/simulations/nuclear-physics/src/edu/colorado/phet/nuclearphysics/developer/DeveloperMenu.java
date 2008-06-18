@@ -13,7 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Application;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -23,11 +23,11 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysics2Application;
  */
 public class DeveloperMenu extends JMenu implements ActionListener {
 
-    private NuclearPhysics2Application _app;
+    private NuclearPhysicsApplication _app;
     private JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
 
-    public DeveloperMenu( NuclearPhysics2Application app ) {
+    public DeveloperMenu( NuclearPhysicsApplication app ) {
         super( "Developer" );
 
         _app = app;

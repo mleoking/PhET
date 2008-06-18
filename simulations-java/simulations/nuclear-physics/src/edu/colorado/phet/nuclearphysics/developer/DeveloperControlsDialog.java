@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.nuclearphysics.NuclearPhysics2Application;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsApplication;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -31,13 +31,13 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NuclearPhysics2Application _app;
+    private NuclearPhysicsApplication _app;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControlsDialog( Frame owner, NuclearPhysics2Application app ) {
+    public DeveloperControlsDialog( Frame owner, NuclearPhysicsApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );
