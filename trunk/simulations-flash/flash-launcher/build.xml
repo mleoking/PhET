@@ -24,7 +24,7 @@
         <filter token="LANGUAGE" value="${language}"/>
         <copy file="${trunk}/flash-launcher/templates/flash-template.html" tofile="${build}/${sim}_${language}.html"
               filtering="true"/>
-        <echo file="${build}/args.txt" message="${sim} ${language} -dev"/>
+        <echo file="${build}/flash-launcher-args.txt" message="${sim} ${language} -dev"/>
     </target>
 
     <target name="dist" depends="compile">
