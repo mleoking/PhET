@@ -32,6 +32,8 @@ HIGH PRIORITY:
 - hook up Ratio check box
 
 MEDIUM PRIORITY:
+- request confirmation when changing liquid ("Are you sure you want to empty the beaker?")
+- add a check box to confirmation dialog ("don't ask me again")
 
 LOW PRIORITY:
 
