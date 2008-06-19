@@ -33,7 +33,7 @@ public class FlashLauncher {
 
     public FlashLauncher() throws IOException {
         
-        // read sim and language from args.txt, a JAR resource file
+        // read sim and language from args file (JAR resource)
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( ARGS_FILENAME );
         BufferedReader bu = new BufferedReader( new InputStreamReader( inputStream ) );
         String line = bu.readLine();
@@ -42,7 +42,7 @@ public class FlashLauncher {
         this.sim = stringTokenizer.nextToken();
         this.language = stringTokenizer.nextToken();
         
-        // if the developer flag is specified in args.txt, open a window to show debug output
+        // if the developer flag is specified in args file, open a window to show debug output
         if ( stringTokenizer.hasMoreTokens() && stringTokenizer.nextToken().equals( "-dev" ) ) {
             println( "FlashLauncher.FlashLauncher dev" );
             JFrame frame = new JFrame( "Text" );
