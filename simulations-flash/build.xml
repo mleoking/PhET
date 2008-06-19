@@ -5,61 +5,65 @@
   
 ================================================================================
 -->
-<project name="PhET Flash buildfile" default="dist" basedir=".">
+<project name="PhET Flash buildfile" default="create-test-jar" basedir=".">
 	
 	<!-- OK to change these -->
     <property name="sim" value="curve-fit"/>
     <property name="language" value="fr"/>
     	
-    <!-- do not change these -->
+    <!-- DO NOT change these -->
     <property name="rootDir" value="."/>
     <property name="flash-launcher-src" location="flash-launcher/src"/>
     <property name="build" location="build"/>
-    <property name="dist" location="dist"/>
+    <property name="jar-inputs" location="${build}/jar-inputs"/>
 
-    <target name="init">
-        <tstamp/>
-    </target>
-
-    <target name="compile" depends="init,clean">
+	<!-- creates a runnable JAR file for testing a Flash sim, puts it in build directory -->
+    <target name="create-test-jar">
     	
+    	<delete dir="${build}"/>
         <mkdir dir="${build}"/>
-        <javac srcdir="${flash-launcher-src}" destdir="${build}"/>
+    	<mkdir dir="${jar-inputs}"/>
+    	
+    	<!-- create FlashLauncher class file -->
+        <javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}"/>
     	
     	<!-- copy swf file -->
-        <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.swf" todir="${build}"/>
+        <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.swf" todir="${jar-inputs}"/>
     	
         <!-- copy xml files -->
-        <copy todir="${build}">
+        <copy todir="${jar-inputs}">
             <fileset dir="${rootDir}/simulations/${sim}/deploy/" includes="${sim}-strings_*"/>
         </copy>
     	
-    	<!--copy the HTML template -->
-        <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" todir="${build}"/>
-        <filter token="SIM" value="${sim}"/>
-        <filter token="LANGUAGE" value="${language}"/>
+    	<!--copy the html template -->
+        <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" todir="${jar-inputs}"/>
     	
-    	<!-- create language-specific html files -->
-        <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" tofile="${build}/${sim}_${language}.html"
-              filtering="true"/>
-        <echo file="${build}/flash-launcher-args.txt" message="${sim} ${language} -dev"/>
+    	<!-- create args file -->
+        <echo file="${jar-inputs}/flash-launcher-args.txt" message="${sim} ${language} -dev"/>
     	
     	<!-- copy properties file -->
-        <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.properties" todir="${build}"/>
+        <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.properties" todir="${jar-inputs}"/>
     	
-    </target>
-
-    <target name="dist" depends="compile">
-        <mkdir dir="${dist}"/>
-        <jar jarfile="${dist}/${sim}_${language}.jar" basedir="${build}">
+    	<!-- create jar -->
+        <jar jarfile="${build}/${sim}_${language}.jar" basedir="${jar-inputs}">
             <manifest>
                 <attribute name="Main-Class" value="edu.colorado.phet.flashlauncher.FlashLauncher"/>
             </manifest>
         </jar>
+    	
+    	<!-- delete the files that were added to the jar -->
+    	<delete dir="${jar-inputs}"/>
+                	
     </target>
-
-    <target name="clean">
-        <delete dir="${build}" />
-        <delete dir="${dist}" />
+	
+	<!-- creates an html file for a specified sim and language, puts it in the sim's deploy directory -->
+	<target name="create-html">
+		<property file="${rootDir}/simulations/${sim}/deploy/${sim}.properties"/>
+        <filter token="SIM" value="${sim}"/>
+        <filter token="LANGUAGE" value="${language}"/>
+		<filter token="VERSION" value="${version.major}.${version.minor}.${version.dev} (${version.revision})"/>
+        <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" tofile="${rootDir}/simulations/${sim}/deploy/${sim}_${language}.html" filtering="true"/>
+		<!-- TODO: check the file into SVN -->
     </target>
+	
 </project>
