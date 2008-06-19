@@ -279,6 +279,19 @@ As far as readout for this stuff - 1st pass could be charts of LBM and fat mass.
 -Noah P.
 --------
 
+
+******
+
+NP - Here is a simple way to think about what I said above: FFM range for men is 18.5/1.15*h^2 to 30/1.15*h^2, for women 18.5/1.23*h^2 to 30/1.23*h^2. This comes from assuming average % fat for people in this range (15% for men, 23% for women).
+
+Any weight above the upper limits must be fat. You can independently set height, weight, and % fat...but if you set weight above the upper limit, it automatically increases fat. BMR remains dependent on FFM only - so a heavy and lean person has a higher BMR than someone the same weight but with more fat (and hence less muscle).
+
+The lower limits above assume a very low FFM with average % fat - you can go below this limit by pushing down % body fat. Note that the lower limit is around a BMI of 16. At this point, you will be very low % fat and can begin removing FFM to drop weight, but you are now in the danger zone.
+
+
+******
+
+
 ##############################################################################################
 #                                    Health Indicators                                       #
 ##############################################################################################
