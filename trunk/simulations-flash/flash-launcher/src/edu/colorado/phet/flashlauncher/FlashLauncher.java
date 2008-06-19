@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.flashlauncher;
 
 import java.io.*;
@@ -16,16 +18,16 @@ import edu.colorado.phet.flashlauncher.util.FileUtils;
 /**
  * FlashLauncher is the mechanism for launching Flash simulations.
  * It is bundled into a JAR file as the mainclass.
- * The flash-launcher-args.txt file in the JAR identifies the simulation name and language code,
+ * An args file in the JAR identifies the simulation name and language code,
  * which are used to fill in an HTML template.
  * A web browser is launched, and pointed at the HTML.
  * 
- * Created by: Sam
- * May 29, 2008 at 7:53:28 AM
+ * @author Sam Reid
  */
 public class FlashLauncher {
     
     private static final String ARGS_FILENAME = "flash-launcher-args.txt";
+    private static final String HTML_TEMPLATE = "flash-launcher-template.html";
     
     private String sim;
     private String language;
@@ -103,7 +105,7 @@ public class FlashLauncher {
      */
     private static String generateHTML( String sim, String language ) throws IOException {
         String s = "";
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( "flash-template.html" );
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
         String line = bufferedReader.readLine();
         while ( line != null ) {
