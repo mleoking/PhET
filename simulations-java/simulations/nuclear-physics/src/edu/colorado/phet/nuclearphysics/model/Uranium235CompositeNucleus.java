@@ -80,9 +80,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
         
         if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
             // We can capture this neutron.
-            if (_dynamic){
-                freeParticle.setTunnelingEnabled( true );
-            }
+            freeParticle.setTunnelingEnabled( true );
             freeParticle.setPosition( getPositionReference() );
             freeParticle.setVelocity( 0, 0 );
             _constituents.add( freeParticle );
