@@ -588,7 +588,7 @@ public class FissionEnergyChart extends PComposite {
             
             // Create a bit of jitter along the x-axis to create a look of
             // instability.
-            xPos += xPos * (_rand.nextDouble() - 0.5) * 0.05;
+            xPos += xPos * (_rand.nextDouble() - 0.5) * 0.10;
             _unfissionedNucleusImage.setOffset( xPos, yPos );
             
             // Move the total energy line up with the nucleus.
