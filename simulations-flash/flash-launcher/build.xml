@@ -19,10 +19,10 @@
             <fileset dir="${trunk}/simulations/${sim}/deploy/" includes="${sim}-strings_*"/>
         </copy>
     	<!--copy the HTML template -->
-        <copy file="${trunk}/flash-launcher/templates/flash-template.html" todir="${build}"/>
+        <copy file="${trunk}/flash-launcher/templates/flash-launcher-template.html" todir="${build}"/>
         <filter token="SIM" value="${sim}"/>
         <filter token="LANGUAGE" value="${language}"/>
-        <copy file="${trunk}/flash-launcher/templates/flash-template.html" tofile="${build}/${sim}_${language}.html"
+        <copy file="${trunk}/flash-launcher/templates/flash-launcher-template.html" tofile="${build}/${sim}_${language}.html"
               filtering="true"/>
         <echo file="${build}/flash-launcher-args.txt" message="${sim} ${language} -dev"/>
     </target>
