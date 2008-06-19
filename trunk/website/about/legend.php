@@ -47,7 +47,8 @@ class LegendPage extends SitePage {
                             <td>$gold_star_html</td>    <td><strong>Gold Star Contribution</strong>: 
                             This contribution has received a Gold Star
                             because it is a high quality inquiry-based activity that follows the
-                            <a href="{$this->prefix}teacher_ideas/contribution-guidelines.pdf">PhET design guidelines</a>
+                            <a href="{$this->prefix}teacher_ideas/contribution-guidelines.php">PhET design guidelines</a>
+                            (<a href="{$this->prefix}teacher_ideas/contribution-guidelines.pdf">PDF</a>)
                             and teachers have found it useful.</td>
                         </tr>
 

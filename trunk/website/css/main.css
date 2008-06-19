@@ -1826,3 +1826,24 @@ background-color: rgb(210, 210, 210);
 #contribution_control_panel fieldset #contribution_options ul {
     margin-top: 0px;
 }
+
+/* Contribution Guidelines page */
+div.contribution_guidelines h1,
+div.contribution_guidelines h2,
+div.contribution_guidelines h3 {
+    text-align: center;
+}
+
+div.contribution_guidelines li .header {
+    font-weight: bold;
+    font-size: larger;
+}
+
+div.contribution_guidelines li .content {
+    font-weight: normal;
+}
+
+div.contribution_guidelines li {
+    font-weight: bold;
+    padding-bottom: 1em;
+}

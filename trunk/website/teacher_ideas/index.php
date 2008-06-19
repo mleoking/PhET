@@ -27,7 +27,7 @@ class TeacherIdeasMainPage extends SitePage {
             <h2>PhET's Advice for Creating Activities</h2>
 
             <p>
-            You can read our guidelines for contributions by <a href="contribution-guidelines.pdf">clicking here</a>.
+            You can read our <a href="contribution-guidelines.php">guidelines for contributions</a> (<a href="contribution-guidelines.pdf">PDF</a>).
             </p>
 
 EOT;
