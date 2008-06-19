@@ -31,12 +31,6 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     // List of the constituent particles that comprise this nucleus.
     protected ArrayList _constituents;
     
-    // Boolean value that controls whether the nucleus is dynamic, meaning
-    // that it moves the constituent particles around ("agitates") or is
-    // static and does not move the particles around.
-    // TODO: JPB TBD - Is this needed after the refactoring of composite/singular? 
-    boolean _dynamic = true;
-    
     // Used to implement the 'agitation' behavior, i.e. to make the nucleus
     // appear to be in constant dynamic motion.
     private int _agitationCount = 0;
@@ -143,34 +137,6 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
         return _constituents;
     }
 
-    public void setDynamic(boolean dynamic){
-        if ((_dynamic == true)  && (dynamic == false)){
-            // Randomize the locations of the constituent particles so that 
-            // they are not all in once place, which would look lame.
-            double nucleusRadius = getDiameter() / 2;
-            for (int i = 0; i < _constituents.size(); i++){
-                double angle = (_rand.nextDouble() * Math.PI * 2);
-                double multiplier = _rand.nextDouble();
-                if (multiplier > 0.8){
-                    // Cause the distribution to tail off in the outer regions
-                    // of the nucleus.  This makes the center of the nucleus
-                    // look more concentrated.
-                    multiplier = _rand.nextDouble() * _rand.nextDouble();
-                }
-                double radius = nucleusRadius * multiplier;
-                double xPos = Math.sin( angle ) * radius + _position.getX();
-                double yPos = Math.cos( angle ) * radius + _position.getY();
-                AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
-                constituent.setPosition( new Point2D.Double(xPos, yPos) );
-            }
-        }
-        _dynamic = dynamic;
-    }
-    
-    public boolean getDynamic(){
-        return _dynamic;
-    }
-
     //------------------------------------------------------------------------
     // Private and Protected Methods
     //------------------------------------------------------------------------
@@ -202,7 +168,7 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
         // Move the constituent particles to create the visual effect of a
         // very dynamic nucleus.  In order to allow different levels of
         // agitation, we don't necessarily move all particles every time.
-        if ((_agitationFactor > 0) && (_dynamic)){
+        if (_agitationFactor > 0){
             
             // Calculate the increment to be used for creating the agitation
             // effect.
