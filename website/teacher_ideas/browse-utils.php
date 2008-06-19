@@ -218,37 +218,127 @@ EOT;
 
         $html = '';
 
+        // TODO: refactor: below is the fastest "get it done NOW" method, and is ugly and kinda hacky
+        // If it sorted by a multiple key, it totally ignores the sorting that has already happened
+        $jump_list = '';
+        $html_table_rows = '';
+        $sort_key_to_section = array("sim_name" => "simulations",
+            "contribution_type_desc" => "types",
+            "contribution_level_desc" => "levels");
+        $sort_key_filter = array("sim_name" => $Simulations,
+            "contribution_type_desc" => $Types,
+            "contribution_level_desc" => $Levels);
+        if (array_key_exists($sort_by, $sort_key_filter)) {
+            // In this if clause, we want to sort by things that have more than 1 association,
+            // such as simulations or levels associated with a contribution
+            $section = $sort_key_to_section[$sort_by];
+
+            // First, create an array with keys => value pairs of
+            // "filtered item" => contributions with that element
+            // ex for $sort_by==sim_name: "Arithmetic" => array(<contributions associated with simulation Arithmetic>)
+            // ex for $sort_by==contrbitution_level_desc: "High School" => array(<contributions associated with level High School>)
+            // etc
+            $contr = array();
+            foreach($contributions as $contribution) {
+                foreach ($contribution[$section] as $idx => $sim) {
+                    if ((in_array('all', $sort_key_filter["$sort_by"])) ||
+                        in_array($sim[$sort_by], $sort_key_filter["$sort_by"])) {
+                        $contr[$sim[$sort_by]][] = $contribution;
+                    }
+                }
+            }
+
+            // Now grab the keys from the previous loop and sort them
+            $keys = array_keys($contr);
+            $sorted_keys = sort($keys);
+            if ($order == 'desc') {
+                $sorted_keys = array_reverse($keys);
+                $keys = $sorted_keys;
+            }
+
+            // Custom function for case insenstive sorting of the contribution title
+            function mycmp($a, $b) {
+                return strcasecmp($a, $b);
+            }
+
+            // Custom function for case insenstive reverse sorting of the contribution title
+            function myrevcmp($a, $b) {
+                return strcasecmp($b, $a);
+            }
+
+            // Now create a section for each key, and put all associated elements in it (sorted)
+            // This will build an anchor and link to have a sort of "table of contents"
+            // as well as the actual table rows
+            foreach ($keys as $key) {
+                // Format the key for display in HTML
+                $formatted_key = format_string_for_html($key);
+
+                // and have a version to use in the anchors
+                $encoded_key = web_encode_string($key);
+
+                // Get all contributions associated with the key
+                $con = $contr[$key];
+
+                // Create the TOC
+                $jump_list .= '<li><a href="#key_'.$encoded_key.'">'.$formatted_key.'</a></li>'."\n";
+
+                // Create the anchor and title for this section
+                $html_table_rows .= '<tr><td colspan="6" style="background-color:#cccccc;">'.
+                    '<a name="key_'.$encoded_key.'"></a>'.
+                    "<strong>{$formatted_key}</strong>".'</td></tr>'."\n";
+
+                // Sort the section
+                $con2 = array();
+                foreach ($con as $conn) {
+                    $con2[$conn['contribution']['contribution_title']] = $conn;
+                }
+                $sorted_kkeys = uksort($con2, (($order == "asc") ? "mycmp" : "myrevcmp"));
+
+                // Now make a row for each sorted contribution in this section
+                foreach ($con2 as $ignored_key => $conn) {
+                    $html_table_rows .= contribution_get_contribution_summary_as_html($conn, $print_simulations, true);
+                }
+            }
+        }
+        else {
+            // Sorting by something with only 1 association, like the contribution title
+            foreach($contributions as $contribution) {
+                $html_table_rows .= /*orig_*/contribution_get_contribution_summary_as_html($contribution, $print_simulations, true);
+            }
+        }
+
+        $html_jump_list = '';
+        if (!empty($jump_list)) {
+            $html_jump_list = "<p><strong>Quick jump list:</strong></p>\n";
+            $html_jump_list .= "<ul>\n".$jump_list."</ul>\n";
+        }
+
         $html .= <<<EOT
             <div id="browseresults" class="compact">
             <p>There {$contributions_text} listed.</p>
+            {$html_jump_list}
             <table>
                     <thead>
                         <tr>
 
-                            $title
+                        {$title}
 
-                            $author
+                        {$author}
 
-                            $level
+                        {$level}
 
-                            $type
+                        {$type}
 
-                            $sims
+                        {$sims}
 
-                            $date
+                        {$date}
 
                         </tr>
                     </thead>
 
                     <tbody>
 
-EOT;
-
-        foreach($contributions as $contribution) {
-            $html .= /*orig_*/contribution_get_contribution_summary_as_html($contribution, $print_simulations, true);
-        }
-
-        $html .= <<<EOT
+                    {$html_table_rows}
 
                     </tbody>
 
