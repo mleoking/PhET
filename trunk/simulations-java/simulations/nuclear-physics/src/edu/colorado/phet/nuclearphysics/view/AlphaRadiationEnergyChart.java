@@ -68,9 +68,9 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private static final double  ARROW_HEAD_HEIGHT = 10;
     private static final double  ARROW_HEAD_WIDTH = 8;
     
-    // TODO: JPB TBD - Need to revisit these values and see if they make
-    // sense as they are, or should be converted to units, and/or should be
-    // dynamically calculated as a property of the nucleus.
+    // Parameters that control the Y-axis positioning of various data on the
+    // chart.  The Y-axis doesn't really have units, so these are essentially
+    // arbitrary ones that look the way we need them to on the chart.
     private static final double TOTAL_ENERGY = 10.0;
     private static final double ALPHA_PARTICLE_PRE_DECAY_ENERGY = TOTAL_ENERGY;
     private static final double ALPHA_PARTICLE_POST_DECAY_ENERGY = -10.0;
@@ -232,8 +232,9 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
          _yAxisLabel1 = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_Y_AXIS_LABEL_1 );
          _yAxisLabel1.setFont( new PhetFont( Font.PLAIN, 14 ) );
          _yAxisLabel1.rotate( 1.5 * Math.PI );
-         // TODO: JPB TBD - Leave this label off for now - Kathy and Wendy are trying to decide if we
-         // want it.
+         // TODO: - This label was removed in May 2008 after some discussion that arose
+         // during a review meeting.  If no one has requested that it be added back by
+         // May 2009, we can remove it permanently from the code.
          // addChild( _yAxisLabel1 );
          
          _yAxisLabel2 = new PText( NuclearPhysicsStrings.POTENTIAL_PROFILE_Y_AXIS_LABEL_2 );
