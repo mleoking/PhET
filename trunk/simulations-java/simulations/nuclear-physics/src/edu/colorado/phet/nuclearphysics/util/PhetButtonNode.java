@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -33,6 +34,7 @@ public class PhetButtonNode extends PhetPNode {
     public PhetButtonNode(String text) {
         _button = new JButton(text);
         _button.setFont( new PhetFont( Font.PLAIN, 14 ) );
+        SwingUtils.fixButtonOpacity( _button );
         PSwing buttonWrapper = new PSwing( _button );
         buttonWrapper.addInputEventListener( new CursorHandler() );
         addChild( buttonWrapper );
