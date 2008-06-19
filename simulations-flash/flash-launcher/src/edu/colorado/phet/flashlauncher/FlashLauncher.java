@@ -6,6 +6,8 @@ import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.text.MessageFormat;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.swing.JFrame;
@@ -28,6 +30,8 @@ public class FlashLauncher {
     
     private static final String ARGS_FILENAME = "flash-launcher-args.txt";
     private static final String HTML_TEMPLATE = "flash-launcher-template.html";
+    private static final String PRODUCTION_VERSION_FORMAT = "{0}.{1}";
+    private static final String DEV_VERSION_FORMAT = "{0}.{1}.{2} ({3})";
     
     private String sim;
     private String language;
@@ -88,8 +92,11 @@ public class FlashLauncher {
         FileUtils.unzip( jarfile, tempDir );
         println( "Finished unzip" );
        
+        // read the version properties
+        String version = readVersion( sim );
+        
         // dynamically generate an HTML file
-        String html = generateHTML( sim, language );
+        String html = generateHTML( sim, language, version );
         File htmlFile = new File( tempDir, sim + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
@@ -100,10 +107,53 @@ public class FlashLauncher {
         BareBonesBrowserLaunch.openURL( "file://" + htmlFile.getAbsolutePath() );
     }
     
+    private static String readVersion( String sim ) {
+        String version = null;
+        
+        // read the properties file
+        String propertiesFileName = sim + ".properties";
+        InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( propertiesFileName );
+        Properties properties = new Properties();
+        try {
+            properties.load( inStream );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace(); //TODO handle this better
+        }
+        
+        // read the version properties
+        String major = properties.getProperty( "version.major" );
+        String minor = properties.getProperty( "version.minor" );
+        String dev = properties.getProperty( "version.dev" );
+        String revision = properties.getProperty( "version.revision" );
+        
+        // format the version string
+        if ( isZero( dev ) ) {
+            Object[] args = { major, minor };
+            version = MessageFormat.format( PRODUCTION_VERSION_FORMAT, args );
+        }
+        else {
+            Object[] args = { major, minor, dev, revision };
+            version = MessageFormat.format( DEV_VERSION_FORMAT, args );
+        }
+        return version;
+    }
+
+    private static boolean isZero( String s ) {
+        int i = 0;
+        try {
+            i = Integer.parseInt( s );
+        }
+        catch( NumberFormatException e ) {
+            i = -1;
+        }
+        return ( i == 0 );
+    }
+    
     /*
-     * Reads the HTML template and fills in the blanks for sim and language.
+     * Reads the HTML template and fills in the blanks for sim, language and version.
      */
-    private static String generateHTML( String sim, String language ) throws IOException {
+    private static String generateHTML( String sim, String language, String version ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
@@ -117,6 +167,7 @@ public class FlashLauncher {
         }
         s = s.replaceAll( "@SIM@", sim );
         s = s.replaceAll( "@LANGUAGE@", language );
+        s = s.replaceAll( "@VERSION@", version );
         return s;
     }
 
