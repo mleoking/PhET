@@ -7,6 +7,8 @@ include_once(SITE_ROOT."teacher_ideas/browse-utils.php");
 
 class IndividualSimulationPage extends SitePage {
 
+    const MAX_TITLE_CHARS = 80;
+
     function update() {
         $result = parent::update();
         if (!$result) {
@@ -162,6 +164,30 @@ EOT;
         $formatted_sim_name = format_string_for_html($sim_name);
         $formatted_sim_desc = format_string_for_html($sim_desc);
 
+        // Add keywords to title
+        $new_title = "PhET {$formatted_sim_name} - ";
+        $keywords_array = explode(",", $sim_keywords);
+
+        $comma_first_time = true;
+        foreach ($keywords_array as $keyword) {
+            if ((strlen($new_title) + strlen($keyword)) > self::MAX_TITLE_CHARS) {
+                // Adding this word would make title too long, we're done
+                break;
+            }
+
+            if ($comma_first_time) {
+                // Don't need a comma the first time
+                $comma_first_time = false;
+            }
+            else {
+                $new_title .= ",";
+            }
+
+            $new_title .= $keyword;
+        }
+
+        // Set the new title, don't use a basename
+        $this->set_title($new_title, '');
 
         /*
         // Gather sim_rating_html & sim_type_html information:
