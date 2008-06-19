@@ -82,8 +82,11 @@ public class FissionEnergyChart extends PComposite {
     // constants control the scale of the Y-axis and the important points
     // within the graph in the Y dimension.
     private static final double Y_AXIS_TOTAL_POSITVE_SPAN = 100;
-    private static final double BOTTOM_OF_ENERGY_WELL = 60;
+    private static final double BOTTOM_OF_ENERGY_WELL = 65;
     private static final double PEAK_OF_ENERGY_WELL = 80;
+    
+    // Constants the control dynamic chart behavior.
+    private static final int NUM_UPWARD_STEPS_FOR_NUCLEUS = 5;
     
     // Possible state values for tracking the relevant state of the model.
     private static final int STATE_IDLE = 0;
@@ -452,61 +455,59 @@ public class FissionEnergyChart extends PComposite {
         double centerX    = _usableAreaOriginX/2 + _usableWidth/2;
         double endX       = _usableAreaOriginX + _usableWidth - (3*BORDER_STROKE_WIDTH);
         double xScreenPos = startX;
-        
+
         // The following multiplier is used to scale the left and right tails
         // of the curve to values that make the visual representation reasonable.
         double tailMultiplier = (_energyWellWidth * PEAK_OF_ENERGY_WELL / 2);
         
-        // The following multiplier is used to scale the well in the middle of
-        // the curve to values that make the visual representation reasonable.
-        double wellMultiplier = ((PEAK_OF_ENERGY_WELL - BOTTOM_OF_ENERGY_WELL) * 8) /
-                Math.pow(_energyWellWidth, 3);
-
-        // This controls the width of the crossover zone from the 1/r tail
-        // portions to the well portion.
-        double crossoverZoneWidth = _energyWellWidth / 3.75;
+        // Define the crossover zone between the calculation for the tails
+        // and the calculation for the energy well.  This is arbitrarily
+        // chosen to make the curve look good.
+        double crossoverDistanceFromCenter = _energyWellWidth * 0.6;
+        double crossoverZoneWidth = _energyWellWidth / 4;
         
         // Move to the starting point for the curve.
-        _potentialEnergyWell.moveTo( (float)xScreenPos, 
-                (float)convertGraphToScreenY( (1/(centerX - xScreenPos)) * tailMultiplier) );
-        
+        double yGraphPos = (1/(centerX - xScreenPos)) * tailMultiplier;
+        _potentialEnergyWell.moveTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ) ); 
+
         // Draw the curve.
         for (xScreenPos = xScreenPos + 1; xScreenPos < endX; ){
             
-            double yGraphPos = 0;
-
-            if (xScreenPos < centerX - _energyWellWidth/2 - crossoverZoneWidth/2){
+            double xGraphPos = xScreenPos - centerX;
+                
+            if (xScreenPos < centerX - crossoverDistanceFromCenter - crossoverZoneWidth/2){
                 // Left side (tail) of the curve.
-                yGraphPos = (1/(centerX - xScreenPos)) * tailMultiplier;
+                yGraphPos = (1/-xGraphPos) * tailMultiplier;
                 _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
                 xScreenPos+=5;
             }
-            else if (xScreenPos < centerX - _energyWellWidth/2 + crossoverZoneWidth/2){
-                // Crossing into the well
-                double wellWeightingFactor = (xScreenPos - (centerX - _energyWellWidth/2 - crossoverZoneWidth/2)) / crossoverZoneWidth;
-                yGraphPos = (((1/(centerX - xScreenPos)) * tailMultiplier) * (1-wellWeightingFactor)) + 
-                        ((Math.pow( centerX - xScreenPos, 3 )* wellMultiplier + BOTTOM_OF_ENERGY_WELL) * (wellWeightingFactor));
+            else if (xScreenPos < centerX - crossoverDistanceFromCenter + crossoverZoneWidth/2){
+                // Crossing into the well.
+                double wellWeightingFactor = 
+                        computeWellWeightingFactor( centerX, xScreenPos, crossoverDistanceFromCenter, crossoverZoneWidth );
+                yGraphPos = (((1/-xGraphPos) * tailMultiplier) * (1-wellWeightingFactor)) + 
+                        (calculateWellValue( xGraphPos ) * (wellWeightingFactor));
                 _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
                 xScreenPos++;
             }
-            else if (xScreenPos < centerX + _energyWellWidth/2 - crossoverZoneWidth/2){
+            else if (xScreenPos < centerX + crossoverDistanceFromCenter - crossoverZoneWidth/2){
                 // Inside the well.
-                yGraphPos = Math.abs( Math.pow( centerX - xScreenPos, 3 ) )* wellMultiplier + BOTTOM_OF_ENERGY_WELL;
-                _potentialEnergyWell.lineTo( (float)xScreenPos, 
-                        (float)convertGraphToScreenY( yGraphPos ));
+                yGraphPos = calculateWellValue( xGraphPos );
+                _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
                 xScreenPos++;
             }
-            else if (xScreenPos < centerX + _energyWellWidth/2 + crossoverZoneWidth/2){
+            else if (xScreenPos < centerX + crossoverDistanceFromCenter + crossoverZoneWidth/2){
                 // Crossing out of the well.
-                double tailWeightingFactor = (xScreenPos - (centerX + _energyWellWidth/2 - crossoverZoneWidth/2)) / crossoverZoneWidth;
-                yGraphPos = (((1/(xScreenPos - centerX)) * tailMultiplier) * (tailWeightingFactor)) + 
-                        ((Math.pow( xScreenPos - centerX, 3 )* wellMultiplier + BOTTOM_OF_ENERGY_WELL) * (1-tailWeightingFactor));
+                double wellWeightingFactor = 
+                    computeWellWeightingFactor( centerX, xScreenPos, crossoverDistanceFromCenter, crossoverZoneWidth );
+                yGraphPos = (((1/xGraphPos) * tailMultiplier) * (1-wellWeightingFactor)) + 
+                    (calculateWellValue( xGraphPos ) * (wellWeightingFactor));
                 _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
                 xScreenPos++;
             }
             else if (xScreenPos < endX){
                 // Right side (tail) of the curve.
-                yGraphPos = (1/(xScreenPos - centerX)) * tailMultiplier;
+                yGraphPos = (1/xGraphPos) * tailMultiplier;
                 _potentialEnergyWell.lineTo( (float)xScreenPos, (float)convertGraphToScreenY( yGraphPos ));
                 xScreenPos+=5;
             }
@@ -515,6 +516,29 @@ public class FissionEnergyChart extends PComposite {
                 xScreenPos+=10;
             }
         }
+    }
+
+    /**
+     * Compute the weighting factor that is used to "crossfade" between the tail
+     * portion of the graph and the center energy well.
+     * 
+     * @param centerX
+     * @param xScreenPos
+     * @param crossoverDistanceFromCenter
+     * @param crossoverZoneWidth
+     * @return
+     */
+    private double computeWellWeightingFactor( double centerX, double xScreenPos, 
+            double crossoverDistanceFromCenter, double crossoverZoneWidth ) {
+        // The computation is not linear - it is made to be weighted more heavily on either end.
+        double linearFactor = 1 - ((Math.abs(centerX - xScreenPos) -
+                crossoverDistanceFromCenter + crossoverZoneWidth/2) / crossoverZoneWidth);
+        return (-Math.cos(Math.PI * linearFactor) + 1) / 2;
+    }
+
+    private double calculateWellValue( double xGraphPos ) {
+        return BOTTOM_OF_ENERGY_WELL + ((Math.cos(((xGraphPos*2/_energyWellWidth) - 1) * Math.PI) + 1) * 
+              (PEAK_OF_ENERGY_WELL - BOTTOM_OF_ENERGY_WELL)/2);
     }
     
     /**
@@ -549,12 +573,11 @@ public class FissionEnergyChart extends PComposite {
             xPos = _usableAreaOriginX/2 + _usableWidth/2 - _unfissionedNucleusImage.getFullBounds().width / 2;
             
             // Cause the nucleus to move upward.
-            double numUpwardSteps = 5; // TODO: JPB TBD - Make this constant if we end up using this.
             double nucleusBasePosY = convertGraphToScreenY( BOTTOM_OF_ENERGY_WELL );
             double nucleusTopPosY = convertGraphToScreenY( PEAK_OF_ENERGY_WELL ) - _unfissionedNucleusImage.getFullBoundsReference().height/2;
             if (_unfissionedNucleusImage.getOffset().getY() > nucleusTopPosY){
                 yPos = _unfissionedNucleusImage.getOffset().getY() + 
-                        ((nucleusTopPosY - nucleusBasePosY) / numUpwardSteps);
+                        ((nucleusTopPosY - nucleusBasePosY) / NUM_UPWARD_STEPS_FOR_NUCLEUS);
                 if (yPos < nucleusTopPosY){
                     yPos = nucleusTopPosY;
                 }
@@ -616,6 +639,13 @@ public class FissionEnergyChart extends PComposite {
                 }
             }
             
+            // Position the total energy line at the top of the well.
+            _totalEnergyLine.removeAllPoints();
+            _totalEnergyLine.addPoint( 0, _usableAreaOriginX + 3 * BORDER_STROKE_WIDTH, 
+                    convertGraphToScreenY( PEAK_OF_ENERGY_WELL ) );
+            _totalEnergyLine.addPoint( 1, _usableAreaOriginX + _usableWidth - 3 * BORDER_STROKE_WIDTH, 
+                    convertGraphToScreenY( PEAK_OF_ENERGY_WELL ) );
+
             break;
         }
     }
@@ -641,4 +671,5 @@ public class FissionEnergyChart extends PComposite {
     private double convertGraphToScreenY(double yPositionGraph){
         return (_graphOriginY - (yPositionGraph * ((_graphOriginY - _usableAreaOriginY)/Y_AXIS_TOTAL_POSITVE_SPAN)));
     }
+    
 }
