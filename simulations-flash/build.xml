@@ -1,0 +1,65 @@
+<!--
+================================================================================
+
+  PhET buildfile for Flash simulation
+  
+================================================================================
+-->
+<project name="PhET Flash buildfile" default="dist" basedir=".">
+	
+	<!-- OK to change these -->
+    <property name="sim" value="curve-fit"/>
+    <property name="language" value="fr"/>
+    	
+    <!-- do not change these -->
+    <property name="rootDir" value="."/>
+    <property name="flash-launcher-src" location="flash-launcher/src"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+
+    <target name="init">
+        <tstamp/>
+    </target>
+
+    <target name="compile" depends="init,clean">
+    	
+        <mkdir dir="${build}"/>
+        <javac srcdir="${flash-launcher-src}" destdir="${build}"/>
+    	
+    	<!-- copy swf file -->
+        <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.swf" todir="${build}"/>
+    	
+        <!-- copy xml files -->
+        <copy todir="${build}">
+            <fileset dir="${rootDir}/simulations/${sim}/deploy/" includes="${sim}-strings_*"/>
+        </copy>
+    	
+    	<!--copy the HTML template -->
+        <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" todir="${build}"/>
+        <filter token="SIM" value="${sim}"/>
+        <filter token="LANGUAGE" value="${language}"/>
+    	
+    	<!-- create language-specific html files -->
+        <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" tofile="${build}/${sim}_${language}.html"
+              filtering="true"/>
+        <echo file="${build}/flash-launcher-args.txt" message="${sim} ${language} -dev"/>
+    	
+    	<!-- copy properties file -->
+        <copy file="${rootDir}/simulations/${sim}/deploy/${sim}.properties" todir="${build}"/>
+    	
+    </target>
+
+    <target name="dist" depends="compile">
+        <mkdir dir="${dist}"/>
+        <jar jarfile="${dist}/${sim}_${language}.jar" basedir="${build}">
+            <manifest>
+                <attribute name="Main-Class" value="edu.colorado.phet.flashlauncher.FlashLauncher"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build}" />
+        <delete dir="${dist}" />
+    </target>
+</project>
