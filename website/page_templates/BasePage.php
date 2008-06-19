@@ -119,7 +119,7 @@ class BasePage {
 
         if ((strcmp("", $this->page_title)) &&
             (strcmp("", $this->base_title))) {
-            $full_title = $full_title." -- ";
+            $full_title = $full_title." - ";
         }
 
         $full_title = $full_title.$this->base_title;
