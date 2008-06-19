@@ -120,9 +120,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u235AmountControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if (_ignoreStateChanges == false){
-                    int num = _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
-                    // JPB TBD.
-//                    _u235AmountControl.setValue( (double )num );
+                    _model.setNumU235Nuclei( (int)Math.round(_u235AmountControl.getValue()) );
                 }
             }
         });        
@@ -165,9 +163,7 @@ public class ChainReactionControlsSubPanel extends VerticalLayoutPanel {
         _u238AmountControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if (_ignoreStateChanges == false){
-                    int num = _model.setNumU238Nuclei( (int)Math.round(_u238AmountControl.getValue()) );
-                    // JPB TBD
-//                    _u238AmountControl.setValue( (double )num );
+                    _model.setNumU238Nuclei( (int)Math.round(_u238AmountControl.getValue()) );
                 }
             }
         } );
