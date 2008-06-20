@@ -30,8 +30,7 @@ public class FlashLauncher {
     
     private static final String ARGS_FILENAME = "flash-launcher-args.txt";
     private static final String HTML_TEMPLATE = "flash-launcher-template.html";
-    private static final String PRODUCTION_VERSION_FORMAT = "{0}.{1}";
-    private static final String DEV_VERSION_FORMAT = "{0}.{1}.{2} ({3})";
+    private static final String VERSION_FORMAT = "{0}.{1}.{2} ({3})";
     
     private String sim;
     private String language;
@@ -126,30 +125,14 @@ public class FlashLauncher {
         String minor = properties.getProperty( "version.minor" );
         String dev = properties.getProperty( "version.dev" );
         String revision = properties.getProperty( "version.revision" );
-        
+
         // format the version string
-        if ( isZero( dev ) ) {
-            Object[] args = { major, minor };
-            version = MessageFormat.format( PRODUCTION_VERSION_FORMAT, args );
-        }
-        else {
-            Object[] args = { major, minor, dev, revision };
-            version = MessageFormat.format( DEV_VERSION_FORMAT, args );
-        }
+        Object[] args = { major, minor, dev, revision };
+        version = MessageFormat.format( VERSION_FORMAT, args );
+
         return version;
     }
 
-    private static boolean isZero( String s ) {
-        int i = 0;
-        try {
-            i = Integer.parseInt( s );
-        }
-        catch( NumberFormatException e ) {
-            i = -1;
-        }
-        return ( i == 0 );
-    }
-    
     /*
      * Reads the HTML template and fills in the blanks for sim, language and version.
      */
