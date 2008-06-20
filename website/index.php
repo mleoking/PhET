@@ -198,7 +198,7 @@ EOT;
 
 }
 
-$page = new MainPage("PhET :: Physics Education Technology at CU Boulder", NAV_NOT_SPECIFIED, null);
+$page = new MainPage("PhET: Free online physics, chemistry, biology, earth science and math simulations", NAV_NOT_SPECIFIED, null);
 $page->set_prefix(SITE_ROOT);
 $page->add_stylesheet("css/home.css");
 $page->update();
