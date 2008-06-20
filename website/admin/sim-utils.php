@@ -846,7 +846,7 @@
 
         // Setup our constants
         $full_dirname = PORTAL_ROOT."sims/{$dirname}/";
-        $jar_template_dir = PORTAL_ROOT."phet-dist/templates/flash_i18n_jar_template/";
+        $jar_template_dir = PORTAL_ROOT."phet-dist/flash-launcher/";
         $output_jar_name = $flavorname."_".$lang.".jar";
 
         //
@@ -855,7 +855,7 @@
         // Create a temporary directory
         $num_tries = 10;
         for ($i = 0; $i < $num_tries; ++$i) {
-            $temp_dir_name = sys_get_temp_dir()."/phet_".rand();
+            $temp_dir_name = sys_get_temp_dir()."/phet_".rand()."/";
             $dir_made = mkdir($temp_dir_name);
             if ($dir_made) {
                 break;
@@ -867,29 +867,29 @@
             exit;
         }
 
-        // Create the args.txt file
-        $fp = fopen($temp_dir_name."/args.txt", "w");
+        // Create the flash-launcher-args.txt file
+        $fp = fopen($temp_dir_name."flash-launcher-args.txt", "w");
         if ($fp === false) {
-            print "ERROR: cannot open file 'args.txt'";
+            print "ERROR: cannot open file 'flash-launcher-args.txt'";
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
         }
 
-        // Write the ags to args.txt file
+        // Write the ags to flash-launcher-args.txt file
         // Fromat: sim_flavorname language_code [flags]
         $result = fwrite($fp, "{$flavorname} {$lang}");
         if ($result === false) {
-            print "ERROR: cannot write to file 'args.txt'";
+            print "ERROR: cannot write to file 'flash-launcher-args.txt'";
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
         }
 
-        // Close args.txt file...
+        // Close flash-launcher-args.txt file...
         $result = fclose($fp);
         if ($fp === false) {
-            print "ERROR: cannot close file 'args.txt'";
+            print "ERROR: cannot close file 'flash-launcher-args.txt'";
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
@@ -904,18 +904,27 @@
             exit;
         }
 
+        // Get all the languages, formatted for including on the fastjar command line
+        $jar_include_languages = array();
+        $jar_laungage_xmls = '';
+        foreach (glob("{$full_dirname}{$flavorname}-strings_*.xml") as $lanugage_xml) {
+            $jar_laungage_xmls .= "-C ".dirname($lanugage_xml)." ".basename($lanugage_xml)." ";
+        }
+
         // fastjar args
         //     -m specifies the manifest file
         //     -C dir file  changes to the dir and puts file in the archive
         $args = array("-m {$jar_template_dir}META-INF/MANIFEST.MF",
-                      "-C {$temp_dir_name} args.txt",
-                      "-C {$full_dirname} {$flavorname}_{$lang}.html",
-                      "-C {$full_dirname} {$flavorname}-strings_{$lang}.xml",
+                      "-C {$temp_dir_name} flash-launcher-args.txt",
+                      "-C {$jar_template_dir} flash-launcher-template.html",
+                      "-C {$full_dirname} {$flavorname}.properties",
                       "-C {$full_dirname} {$flavorname}.swf",
+                      $jar_laungage_xmls,
                       "-C {$jar_template_dir} edu");
 
+
         // Construct the command
-        $command = "./fastjar cf {$temp_jar_name} ".join(" ", $args);
+        $command = "fastjar cf {$temp_jar_name} ".join(" ", $args);
 
         // Run the command to create the jar file
         $sys_ret = 0;
@@ -925,7 +934,7 @@
             print "command: {$command}<br />\n";
             $result = unlink($tmp_jar_name);
             assert($result === true);
-            $result = unlink($temp_dir_name."/args.txt");
+            $result = unlink($temp_dir_name."flash-launcher-args.txt");
             assert($result === true);
             $result = rmdir($temp_dir_name);
             assert($result === true);
@@ -941,16 +950,16 @@
         // Delete temp jar file
         $result = unlink($temp_jar_name);
         if ($result === false) {
-            print "ERROR: cannot delete file 'args.txt'";
+            print "ERROR: cannot delete file 'flash-launcher-args.txt'";
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
         }
 
-        // Delete args.txt file
-        $result = unlink($temp_dir_name."/args.txt");
+        // Delete flash-launcher-args.txt file
+        $result = unlink($temp_dir_name."flash-launcher-args.txt");
         if ($result === false) {
-            print "ERROR: cannot delete file 'args.txt'";
+            print "ERROR: cannot delete file 'flash-launcher-args.txt'";
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
@@ -959,7 +968,7 @@
         // Delete temp directory
         $result = rmdir($temp_dir_name);
         if ($result === false) {
-            print "ERROR: cannot delete file 'args.txt'";
+            print "ERROR: cannot delete file 'flash-launcher-args.txt'";
             exit;
         }
 
