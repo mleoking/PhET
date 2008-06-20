@@ -7,16 +7,79 @@
 -->
 <project name="PhET Flash buildfile" default="create-test-jar" basedir=".">
 	
-	<!-- OK to change these -->
-    <property name="sim" value="curve-fit"/>
-    <property name="language" value="fr"/>
-    	
+	<!-- read local properties file -->
+	<property file="build-local.properties"/>
+	
+	<!-- OK to change these here, or set them in build-local.properties -->
+    <property name="sim" value="YOUR_SIM_NAME"/>
+    <property name="language" value="YOUR_LANGUAGE_CODE"/>
+	<property name="prod-username" value="YOUR_PROD_USERNAME"/>
+	<property name="dev-username" value="YOUR_DEV_USERNAME"/>
+	<property name="prod-password" value="YOUR_PROD_PASSWORD"/>
+	<property name="dev-password" value="YOUR_DEV_PASSWORD"/>
+		
     <!-- DO NOT change these -->
     <property name="rootDir" value="."/>
-    <property name="flash-launcher-src" location="flash-launcher/src"/>
-    <property name="build" location="build"/>
+    <property name="flash-launcher-src" location="${rootDir}/flash-launcher/src"/>
+    <property name="build" location="${rootDir}/build"/>
     <property name="jar-inputs" location="${build}/jar-inputs"/>
+    <property name="build-tools" location="${rootDir}/build-tools"/>
+	<property name="dev-server" value="spot.colorado.edu"/>
+    <property name="prod-server" value="tigercat.colorado.edu"/>
+	<property name="dev-rootdir" value="/htdocs/physics/phet/dev"/>
+	<property name="prod-rootdir" value="/web/htdocs/phet"/>
+	<property name="prod-flash-launcher-dir" value="/web/htdocs/phet/phet-dist/flash-launcher"/>
+		
+	<!-- deploys flash-launch to the production server -->
+	<target name="deploy-flash-launcher">
 
+		<delete dir="${build}"/>
+        <mkdir dir="${build}"/>
+    	<mkdir dir="${jar-inputs}"/>
+    	
+    	<!-- create FlashLauncher class files -->
+        <javac srcdir="${flash-launcher-src}" destdir="${jar-inputs}"/>
+		
+    	<!--copy the html template -->
+        <copy file="${rootDir}/flash-launcher/data/flash-launcher-template.html" todir="${jar-inputs}"/>
+        
+	    <!-- create a jar so we have a manifest -->
+        <jar jarfile="${build}/flash-launcher.jar" basedir="${jar-inputs}">
+            <manifest>
+                <attribute name="Main-Class" value="edu.colorado.phet.flashlauncher.FlashLauncher"/>
+            </manifest>
+        </jar>
+                	
+	    <!-- unpack the jar -->
+		<unjar src="${build}/flash-launcher.jar" dest="${build}"/>
+		
+		<!-- delete what we don't need -->
+		<delete dir="${jar-inputs}"/>
+		<delete file="${build}/flash-launcher.jar"/>
+		
+	    <!-- scp the files to the production server -->
+		<scp sftp="true" todir="${prod-username}:${prod-password}@${prod-server}:${prod-flash-launcher-dir}">
+		    <fileset dir="${build}"/>
+		</scp>
+		
+	</target>
+	
+	<!-- deploys a sim to the dev server -->
+	<target name="deploy-to-dev">
+		<!-- increment version.dev -->
+		<!-- check in ${sim}/deploy/${sim}.properties -->
+	    <!-- scp all files to sim dir on dev server -->
+	</target>
+	
+	<!-- deploys a sim to the production and dev servers -->
+	<target name="deploy-to-prod">
+		<!-- set version.dev to 0 -->
+		<!-- increment version.minor -->
+		<!-- check in ${sim}/deploy/${sim}.properties -->
+	    <!-- scp all files to sim dir on dev server -->
+	    <!-- scp all files to sim dir on production server -->
+	</target>
+	
 	<!-- creates a runnable JAR file for testing a Flash sim, puts it in build directory -->
     <target name="create-test-jar">
     	
