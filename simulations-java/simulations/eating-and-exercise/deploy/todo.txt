@@ -29,23 +29,6 @@ Change color for draggable icon labels
 Try indicators for slider out of range
 
 
-#######################################################################################
-##############                    Teenage Growth                         ##############
-#######################################################################################
-
-NP - I found charts for average growth rates for teenage boys and girls, both height and weight. See www.teengrowth.com.
-	These rates are not exactly linear, but a linear approximation will be close enough I believe. Here are equations for increases in height (H) and mass (M) for teenagers.
-
-The equations for boys are valid from age 2-17. After 17 most boys stop growing significantly. For girls, the age range is 2-15, after which they stop growing in height. The increases in weight below are due to natural growth in height body changes - this should add to any increase in weight is gained by caloric intake. H_0 and M_0 are the initial values entered.
-
-
-H_boy=H_0 + 6*age (cm)   [H_0 average = 85]
-M_boy=M_0 + 3.5*age (kg)  [M_0 average = 13]
-
-Hgirl=H_0 + 6*age (cm)    [H_0 average = 85]
-Mgirl=M_0 + 3.15*age (kg) [M_0 average = 12]
-
-
 
 #######################################################################################
 ##############                    To Do/Noah                             ##############
@@ -55,15 +38,9 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
     They seem a bit high and in many cases are absolute values. The total caloric cost for weight
     bearing activities should be based upon a per body weight value. What was your source for this information?
 
-    SR - We'll choose a function for running, biking, etc.  Noah will come up with these functions.
-    Some activities will say “depends on weight” (others will just give a fixed calories value)
+   >>>See section below on caloric expenditure from exercise.
 
-	Calories burned for road and mountain biking:
-		Cal_road / hour = 3.44*v*{3.5+[0.26*(v+w)^2]+10.3*m*g/100}
-		Cal_mountain / hour = 3.44*v*{7.8+[0.39*(v+w)^2]+10.3*m*g/100}
-
-		where v = rider speed, w = wind speed, m = rider mass, g = % grade of road
-		>> Can probably set w=0 and choose grades that are reasonable. It makes a big difference whether you are riding flat road (g=0) or climbing. As a reference, the average grade up to Jamestown is about 5%, the average grade of Flagstaff road is about 10%. Some reasonable numbers are v=15mph, g=5 for road, v=8mph, g=8 for mountain.
+NP - need to decide which activities are weight dependent and which are constant caloric expenditure.
 
 
 Height
@@ -76,6 +53,8 @@ Height
 
 NP - Disclaimer text for BMI chart - not only indicator of health.
 NP - Model for BMR, non-linear with food input. You do not gain or lose weight in an ideal way, i.e. if you cut 3000 calories from your diet, you only actually lose weight accounting for about 1/2 of those calories. Same for weight gain. Possibly a hysteresis curve of some sort?
+
+   >>> See section below on gaining / losing weight.
 
 
 #######################################################################################
@@ -290,6 +269,53 @@ The lower limits above assume a very low FFM with average % fat - you can go bel
 
 
 ******
+
+#######################################################################################
+##############          Caloric Expenditure from Exercise                ##############
+#######################################################################################
+
+    SR - We'll choose a function for running, biking, etc.  Noah will come up with these functions.
+    Some activities will say “depends on weight” (others will just give a fixed calories value)
+
+	Calories burned for road and mountain biking:
+		Cal_road / hour = 3.44*v*{3.5+[0.26*(v+w)^2]+10.3*m*g/100}
+		Cal_mountain / hour = 3.44*v*{7.8+[0.39*(v+w)^2]+10.3*m*g/100}
+
+		where v = rider speed, w = wind speed, m = rider mass, g = % grade of road
+		>> Can probably set w=0 and choose grades that are reasonable. It makes a big difference whether you are riding flat road (g=0) or climbing. As a reference, the average grade up to Jamestown is about 5%, the average grade of Flagstaff road is about 10%. Some reasonable numbers are v=15mph, g=5 for road, v=8mph, g=8 for mountain.
+
+    NP - a simpler way to do this would be to use an average caloric expenditure for each activity and scale this linearly with weight. I found one website that does this. It may not be perfect, but it is a reasonable approximation. At least for lifting yourself, work done scales linearly with mass.
+
+
+
+#######################################################################################
+##############                    Teenage Growth                         ##############
+#######################################################################################
+
+NP - I found charts for average growth rates for teenage boys and girls, both height and weight. See www.teengrowth.com.
+	These rates are not exactly linear, but a linear approximation will be close enough I believe. Here are equations for increases in height (H) and mass (M) for teenagers.
+
+The equations for boys are valid from age 2-17. After 17 most boys stop growing significantly. For girls, the age range is 2-15, after which they stop growing in height. The increases in weight below are due to natural growth in height body changes - this should add to any increase in weight is gained by caloric intake. H_0 and M_0 are the initial values entered.
+
+
+H_boy=H_0 + 6*age (cm)   [H_0 average = 85]
+M_boy=M_0 + 3.5*age (kg)  [M_0 average = 13]
+
+Hgirl=H_0 + 6*age (cm)    [H_0 average = 85]
+Mgirl=M_0 + 3.15*age (kg) [M_0 average = 12]
+
+
+#######################################################################################
+##############                    Gaining / Losing Weight                ##############
+#######################################################################################
+
+NP - weight lost should be both muscle and fat. There should be some ratio of FFM to Fat mass that is probably constant whenever someone loses weight.
+
+   - there should be some muscle gained from exercising, to a point. This should be limited (you can only get so muscular)
+
+   >>>These features will effectively make BMR vary according to your caloric intake (if you undereat, your BMR should drop some to compensate, vise versa for eating more and exercising).
+   
+   - all other weight gained is added fat mass.
 
 
 ##############################################################################################
