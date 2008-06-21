@@ -11,7 +11,7 @@ class TranslationInstructionsPage extends SitePage {
             return $result;
         }
 
-        $example_sim = "http://".PHET_DOMAIN_NAME."/new/simulations/sims.php?sim=Models_of_the_Hydrogen_Atom";
+        $example_sim = "http://".PHET_DOMAIN_NAME."/simulations/sims.php?sim=Models_of_the_Hydrogen_Atom";
 
         $phet_help_email = PHET_HELP_EMAIL;
 

@@ -64,10 +64,10 @@ EOT;
             $link .= "&amp;tl={$to}";
             return $link;
             //var_dump($link);
-            //var_dump("http://translate.google.com/translate?u=http%3A%2F%2Fphet2.colorado.edu%2Fnew%2Findex.php&amp;hl=en&amp;ie=UTF8&amp;sl=en&amp;tl=de");
+            //var_dump("http://translate.google.com/translate?u=http%3A%2F%2Fphet.colorado.edu%2Fnew%2Findex.php&amp;hl=en&amp;ie=UTF8&amp;sl=en&amp;tl=de");
         }
         function mk_google_translate_link2($page, $to, $from = 'en') {
-            // http://209.85.171.104/translate_c?hl=en&sl=en&tl=pt&u=http://phet2.colorado.edu/simulations/translations.php#Portuguese
+            // http://209.85.171.104/translate_c?hl=en&sl=en&tl=pt&u=http://phet.colorado.edu/simulations/translations.php#Portuguese
             //$link = "http://translate.google.com/translate?";
             $link = "http://209.85.171.104/translate_c?";
             $link .= "hl=en";
