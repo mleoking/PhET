@@ -158,7 +158,7 @@ EOT;
 
                 <dd><a href="teacher_ideas/browse.php">Search for lessons created by teachers using PhET simulations.</a></dd>
 
-                <dd><a href="teacher_ideas/workshops.php">Information about our upcoming workshops.</a></dd>
+                <dd><a href="teacher_ideas/workshops.php">Workshops</a></dd>
 
             </dl>
 
