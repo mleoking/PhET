@@ -23,6 +23,7 @@ class DeleteContributionPage extends SitePage {
                 contribution_delete_contribution($contribution_id);
                 $this->delete_success = true;
                 cache_clear_teacher_ideas();
+                cache_clear_simulations();
             }
         }
     }
