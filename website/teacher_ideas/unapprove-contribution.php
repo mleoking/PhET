@@ -22,6 +22,7 @@ class UnapproveContributionPage extends SitePage {
         $contribution_id = $_REQUEST["contribution_id"];
         contribution_set_approved($contribution_id, false);
         cache_clear_teacher_ideas();
+        cache_clear_simulations();
         $this->meta_refresh($this->referrer, 2);
     }
 

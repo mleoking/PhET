@@ -79,6 +79,7 @@ class EditContributionPage extends SitePage {
         }
 
         cache_clear_teacher_ideas();
+        cache_clear_simulations();
 
         return $contribution_id;
     }
@@ -99,6 +100,8 @@ class EditContributionPage extends SitePage {
             $this->final_contribution_id = $this->update_contribution($contribution);
 
             cache_clear(BROWSE_CACHE);
+            cache_clear_teacher_ideas();
+            cache_clear_simulations();
 
             return true;
         }
