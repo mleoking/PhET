@@ -1067,7 +1067,8 @@
     }
 
     function sim_get_file_contents($resource) {
-        $new_resource = str_replace('http://'.PHET_DOMAIN_NAME.'/sims/', PORTAL_ROOT.'sims/', $resource);
+        // TODO: called by random-thumbnail.php, but due to weird include finangling this dir is specific ot
+        $new_resource = str_replace('http://'.PHET_DOMAIN_NAME.'/sims/', 'sims/', $resource);
 
         if (file_exists($new_resource)) return file_get_contents($new_resource);
 
