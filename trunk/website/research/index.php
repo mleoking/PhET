@@ -139,7 +139,7 @@ EOT;
 
 }
 
-$page = new ResearchPage("Research", NAV_RESEARCH, null);
+$page = new ResearchPage("Research", NAV_RESEARCH, null, AUTHLEVEL_NONE, false);
 $page->update();
 $page->render();
 
