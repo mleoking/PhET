@@ -272,7 +272,7 @@ EOT;
             return true;
         }
         else if ((isset($_FILES['MF__F_0_0'])) &&
-                ($_FILES['MF__F_0_0'] != 4)) { 
+                ($_FILES['MF__F_0_0']['error'] != 4)) { 
             return true;
         }
         else {
@@ -311,7 +311,7 @@ EOT;
             contribution_add_new_file_to_contribution($contribution_id, $tmp_name, $name);
         }
         else {
-            switch ($error) {
+            switch ($error_code) {
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
                     $errors[$file['name']] = "The uploaded file exceeds the max of ".ini_get("upload_max_filesize");
