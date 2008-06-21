@@ -41,7 +41,7 @@ class DownloadPage extends SitePage {
         $this->set_title("Downloading File");
 
         if ($download) {
-            if ($this->file == PORTAL_ROOT.'phet-dist/'.basename($this->file) && file_exists($this->file)) {
+            if ($this->file == PORTAL_ROOT.'phet-dist/installers/'.basename($this->file) && file_exists($this->file)) {
                 $contributor_id = $this->user["contributor_id"];
 
                 // Keep track of download statistics:
