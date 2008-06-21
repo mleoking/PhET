@@ -335,16 +335,33 @@
                 $mime_type = auto_detect_mime_type($file_contents, true);
 
                 // Add another check, the auto detect can't tell the difference
-                // between powerpoint and word files, so if it thinks it is a word
-                // file, and the extension is "ppt", change the mimetype.
+                // between powerpoint, excel and word files, so if it thinks it 
+                // is a word file, and the extension is "ppt" or "xls", change the
+                // mimetype.
                 // Why not just key off the extension?
                 // Paranoa.  This is just a little safer, in case someone
                 // uploaded some other very different format, like on "EXE",
                 // and calls it a 'PPT'.
                 if (!(false === strpos($mime_type, "application/msword"))) {
                     $path_info = pathinfo($file_path);
-                    if (0 == strcmp($path_info["extension"], "ppt")) {
+                    if (0 == strcasecmp($path_info["extension"], "ppt")) {
                         $mime_type = "application/vnd.ms-powerpoint";
+                    }
+                    else if (0 == strcasecmp($path_info["extension"], "xls")) {
+                        /*
+                         * From http://filext.com/file-extension/XLS:
+                         * application/msexcel
+                         * application/x-msexcel
+                         * application/x-ms-excel
+                         * application/vnd.ms-excel
+                         * application/x-excel
+                         * application/x-dos_ms_excel
+                         * application/xls
+                         * application/x-xls
+                         * zz-application/zz-winassoc-xls
+                         * 
+                         */
+                        $mime_type1 = "application/vnd.ms-excel";
                     }
                 }
              }
