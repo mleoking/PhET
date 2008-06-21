@@ -254,11 +254,10 @@ EOT;
                     'admin/manage-db.php'           => 'Manage Database',
                     'admin/compose-newsletter.php'  => 'Compose Newsletter',
                     'admin/view-statistics.php'     => 'View Statistics',
-                    'cache-clear-sims.php'          => 'Clear the simulation cache',
-                    'admin/cache-clear-activitiesdb.php' => 'Clear the activities cache',
-                    'admin/cache-clear-base.php'    => 'Clear the base directory cache',
-                    'admin/cache-clear-admin.php'   => 'Clear the admin directory cache',
-                    'admin/cache-clear-all.php'     => 'Clear all the caches'
+                    'admin/cache-clear.php?cache=sims'          => 'Clear the simulation cache',
+                    'admin/cache-clear.php?cache=teacher_ideas' => 'Clear the activities cache',
+                    'admin/cache-clear.php?cache=admin'         => 'Clear the admin directory cache',
+                    'admin/cache-clear.php?cache=all'           => 'Clear all the caches'
                     )
             );
         }

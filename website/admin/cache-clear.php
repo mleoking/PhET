@@ -12,8 +12,8 @@ define("CACHE_KEY", "cache");
 $COMMANDS = array(
     "sims" => "return cache_clear_simulations();",
     "simulations" => "return cache_clear_simulations();",
-    "admin" => "return cache_clear_simulations();",
-    "teacher_ideas" => "return cache_clear_simulations();",
+    "admin" => "return cache_clear_admin();",
+    "teacher_ideas" => "return cache_clear_teacher_ideas();",
     "all" => "return cache_clear_all();"
     );
 
