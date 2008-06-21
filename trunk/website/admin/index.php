@@ -50,11 +50,10 @@ class AdminControlPanelPage extends SitePage {
 
             <h3>Web page caching</h3>
             <ul>
-                <li><a href="cache-clear-sims.php">Clear the simulation cache</a></li>
-                <li><a href="cache-clear-activitiesdb.php">Clear the activities cache</a></li>
-                <li><a href="cache-clear-base.php">Clear the base directory cache</a></li>
-                <li><a href="cache-clear-admin.php">Clear the admin directory cache</a></li>
-                <li><a href="cache-clear-all.php">Clear all the caches</a></li>
+                <li><a href="cache-clear.php?cache=sims">Clear the simulation cache</a></li>
+                <li><a href="cache-clear.php?cache=teacher_ideas">Clear the activities cache</a></li>
+                <li><a href="cache-clear.php?cache=admin">Clear the admin directory cache</a></li>
+                <li><a href="cache-clear.php?cache=all">Clear all the caches</a></li>
             </ul>
 
 EOT;

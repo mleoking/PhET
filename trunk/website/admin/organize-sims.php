@@ -53,8 +53,9 @@ class OrganizeSimulationsPage extends SitePage {
 
             <p>If the simulations ordering is wonky (can be seen by several sims sharing the same
             "order id" number, <a href="organize-sims.php?auto_order=1">clicking here</a> will reorder them as they appear
-            on the screen right now.  This should resolves most sorting problems.<br />
-            You may also need to <a href="cache-clear-all.php">clear the cache</a>.</p>
+            on the screen right now.  This should resolves most sorting problems.</p>
+
+            <p>You may also need to <a href="cache-clear.php?cache=all">clear the cache</a>.</p>
 
 EOT;
 
