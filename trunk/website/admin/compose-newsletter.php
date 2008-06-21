@@ -17,7 +17,7 @@ class ComposeNewsletterPage extends SitePage {
 
         $contributor_email = $this->user["contributor_email"];
 
-        $unsubscribe_link = "http://".PHET_DOMAIN_NAME."/new/teacher_ideas/user-edit-profile.php";
+        $unsubscribe_link = "http://".PHET_DOMAIN_NAME."/teacher_ideas/user-edit-profile.php";
 
         print <<<EOT
             <p>

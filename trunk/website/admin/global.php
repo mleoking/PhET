@@ -32,7 +32,7 @@
         define("CACHE_DIRNAME", "webcache");
     }
 
-    define("PHET_DOMAIN_NAME", "phet2.colorado.edu");
+    define("PHET_DOMAIN_NAME", "phet.colorado.edu");
     define("PHET_HELP_EMAIL", "phethelp@phet.colorado.edu");
 
     /**
@@ -45,8 +45,15 @@
         define("SITE_ROOT", "../");
     }
 
+
+    ini_set("session.gc_maxlifetime", "10800"); 
+    ini_set("session.cache_expire",   "180");
+    /*
+     * Not sure why these are so high... makes for a lot of garbage piling up
+     * changing these to lower numbers, about 3 hours
     ini_set("session.gc_maxlifetime", "999999999"); 
     ini_set("session.cache_expire",   "999999999");
+    */
     ini_set('upload_max_filesize',    '20M');
 
     if (isset($GLOBALS['IE6_DOWNLOAD_WORKAROUND']) &&
