@@ -113,7 +113,7 @@ class SimulationsPage extends SitePage {
                         $link = sim_get_category_link_by_cat_id($cat_id, "$page_number", "&amp;st=$page_sim_start_number", 'pg');
                     }
 
-                    $pages_html .=  "$link";
+                    $pages_html .=  "$link\n";
                 }
 
                 $pages_html .=  "</div>\n";
