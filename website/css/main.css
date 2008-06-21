@@ -666,10 +666,6 @@ div.horizontal_center {
     text-decoration: underline;
 }
 
-#pg a.pg:first-child {
-    text-decoration: none;
-}
-
 #pg a:hover .pg {
     color: blue;
     padding: 0px 3px 0px 2px;
