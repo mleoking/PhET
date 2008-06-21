@@ -26,7 +26,7 @@ class FlashSupportPage extends SitePage {
             <br />
             <a href="/"><img src="{$this->prefix}images/flash-error.gif" alt="Image of a Flash error message" /></a></p>
 
-            <p>If you are unsure if you currently have a version of Flash, we can check for you if you <a href="{$portal_root}web-pages/misc-pages/flash_detect_v7.html">click here.</a></p>
+            <p>If you are unsure if you currently have a version of Flash, we can check for you if you <a href="flash_detect_v7.html">click here.</a></p>
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Back to the Top" /></a></p>
 
