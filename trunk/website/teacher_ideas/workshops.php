@@ -130,7 +130,7 @@ EOT;
 
 }
 
-$page = new WorkshopsPage("PhET Workshops", NAV_TEACHER_IDEAS, get_referrer(), 0, false);
+$page = new WorkshopsPage("PhET Workshops", NAV_TEACHER_IDEAS, get_referrer());
 $page->update();
 $page->render();
 
