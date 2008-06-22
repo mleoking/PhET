@@ -336,7 +336,7 @@ EOT;
     }
 }
 
-$page = new UgandaPhotosPage("Photos of the PhET Uganda Workshop", NAV_TEACHER_IDEAS, get_referrer(), 0, false);
+$page = new UgandaPhotosPage("Photos of the PhET Uganda Workshop", NAV_TEACHER_IDEAS, get_referrer());
 $page->add_stylesheet("css/uganda.css");
 $page->update();
 $page->render();
