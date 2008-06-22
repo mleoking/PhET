@@ -1843,3 +1843,8 @@ div.contribution_guidelines li {
     font-weight: bold;
     padding-bottom: 1em;
 }
+
+/* Uganda workshop */
+div.workshop_uganda_photos table  tr td {
+    text-align: center;
+}

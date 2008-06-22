@@ -16,7 +16,50 @@ class WorkshopsPage extends SitePage {
 
         $phet_domain_name = PHET_DOMAIN_NAME;
 
+        $workshop_materials_location = PORTAL_ROOT."phet-dist/workshops/";
+
         print <<<EOT
+
+        <p>Members of the PhET team regularly offer workshops on how to teach with our simulations throughout Colorado and at national meetings.</p>
+
+        <h2>Upcoming Workshops</h2>
+        <ul>
+        <li>Trish's upcoming workshops Chemistry series in Evergreen (Aug, Sept, Oct, and Nov 2008) (<a href="{$workshop_materials_location}announcement08_09.pdf">PDF flyer</a>) <!-- link to materials once ready (possibly ofter the workshop) --></li>
+        <li>Physical Science for Middle School Aug 7, 2008 Boulder <a href="{$workshop_materials_location}Physical_Science_for_Middle_School_using_PhET_simulations.pdf">PDF flyer</a> <!-- link to materials once ready (possibly ofter the workshop) --></li>
+        <li>Exploring Easy &amp; Effective Ways to Use PhET's Web-Based Interactive Simulations in Your Physics Course, AAPT 2008 Summer Meeting, Edmonton, AB, Jul. 20, 2008. (Wendy Adams, Noah Finkelstein, and Archie Paulson) <a href="http://www.aapt.org/Events/SM2008">link to info</a></li>
+        </ul>
+
+        <h2>Workshop Materials:</h2>
+        <ul>
+        <li><a href="workshop_uganda.php">Uganda Workshop and Guide to giving PhET workshops in developing countries</a></li>
+        <li>4 hour workshop for American Association of Physics Teachers meetings (<a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2007.pdf">PDF</a> or <a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2007.ppt">PPT</a>)</li>
+        <li>Trish Loeblein's workshop series for high school teachers (<a href="{$workshop_materials_location}PhET_Workshop_Series_07-08.pdf">PDF</a>)</li>
+        <li>Carl Wieman talk about PhET Simulations (<a href="{$workshop_materials_location}WiemanPhetTalk2007.pdf">PDF</a> or <a href="{$workshop_materials_location}WiemanPhetTalk2007.ppt">PPT</a>)</li>
+        <li>Handouts used in PhET Workshops (<a href="{$workshop_materials_location}PhETWorkshopHandouts.zip">ZIP</a>)</li>
+        </ul>
+
+        <h2>Schedule of Past Workshops</h2>
+        <ul>
+        <li><em>PhET workshop for High school teachers</em>, Evergreen High School (met once a month throughout 2007-2008 school year) (Trish Loeblein)</li>
+        <li><em>Introduction to Inquiry-Based Teaching and PhET's Web-Based Interactive Simulations, Workshop for high school teachers</em>, Soroti, Uganda, Jan. 29 - Feb. 1, 2008. (Sam McKagan)</li>
+        <li><em>Exploring Easy and Effective Ways to Use PhET's Web-based Interactive Simulations in Your Physics or Physical Science Course</em>,  NSTA 2007 Western Area Conference, Denver, CO, Nov. 8-10, 2007. (Trish Loeblein, Sam McKagan, Wendy Adams, Archie Paulson, and Angie Jardine)</li>
+        <li><em>Chemistry and PhET Interactive Simulations</em>, NSTA 2007 Western Area Conference, Denver, CO, Nov. 8-10, 2007. (Trish Loeblein and Laurie Langdon)</li>
+        <li><em>PhET Workshop</em>, Boulder Area physics teachers meeting, Boulder High School, Oct. 30, 2007 (Trish Loeblein, Archie Paulson, Angie Jardine)</li>
+        <li><em>Exploring Easy &amp; Effective Ways to Use PhET's Web-Based Interactive Simulations in Your Physics Course</em>, AAPT 2007 Summer Meeting, Greensboro, NC, Jul. 28 - Aug. 1, 2007. (Kathy Perkins, Wendy Adams, Sam McKagan, and Carl Wieman)</li>
+        <li><em>PhET Workshop</em>, Research Experience for Teachers Program, JILA, Boulder, CO. Jul. 25, 2007 (Sam McKagan, Angie Jardine, Ariel Paul)</li>
+        <li><em>PhET Workshop</em>, DAMOP Educator's Day, Calgary, Alberta, Jun. 5, 2007 (Sam McKagan and Carl Wieman)</li>
+        <li><em>Exploring Easy &amp; Effective Ways to Use PhET's Web-Based Interactive Simulations in Your Physics Course</em>, AAPT 2007 Winter Meeting, Seattle, WA, Jan. 6-11, 2007. (Kathy Perkins, Wendy Adams, Sam McKagan, and Carl Wieman)</li>
+        <li><em>PhET workshop for High school teachers</em>, Evergreen High School (met once a month throughout 2006-2007 school year) (Trish Loeblein)</li>
+        <li><em>Chemistry Modeling using PhET Simulations</em>, Colorado Science Teachers Association Meeting, Nov 2006. (Trish Loeblein and Linda Koch)</li>
+        <li><em>PhET workshop</em>, Dakota Ridge High School Math and Science Departments, Oct 2006 (Trish Loeblein)</li>
+        <li><em>PhET Introductory Workshop. Boulder Valley School District Science Curriculum Committee. Sep. 19</em>, 2006. (Kathy Perkins and Trish Loeblein)</li>
+        <li><em>Exploring Easy &amp; Effective Ways to Use PhET's Web-Based Interactive Simulations in Your Physics Course</em>, AAPT 2006 Summer Meeting, Syracuse, NY, Jul. 22-26, 2006. (Kathy Perkins, Wendy Adams, Sam McKagan, and Carl Wieman)</li>
+        <li><em>PhET Introductory Workshop</em>, STEM-TP summer workshop for HS teachers. Jun. 2006 (Kathy Perkins)</li>
+        <li><em>Learning about the Physical World Virtually: Computer Simulations from the Physics Education Technology Project</em>, PhysTEC Conference, Fayetteville, AK, Mar. 24-26, 2006. (Noah Finkelstein)</li>
+        </ul>
+
+        <hr />
+
         <h2>Upcoming Workshops</h2>
 
         <div class="workshop">
@@ -87,7 +130,7 @@ EOT;
 
 }
 
-$page = new WorkshopsPage("PhET Workshops", NAV_TEACHER_IDEAS, get_referrer());
+$page = new WorkshopsPage("PhET Workshops", NAV_TEACHER_IDEAS, get_referrer(), 0, false);
 $page->update();
 $page->render();
 
