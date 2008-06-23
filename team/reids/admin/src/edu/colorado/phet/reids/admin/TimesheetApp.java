@@ -167,7 +167,7 @@ public class TimesheetApp extends JFrame {
     }
 
     private void updateIconImage() throws IOException {
-        setIconImage( ImageIO.read( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\admin\\contrib\\tango\\" + ( timesheetData.isRunning() ? "x-office-running.png" : "x-office-calendar.png" ) ) ) );
+        setIconImage( ImageIO.read( new File( "C:\\reid\\phet\\svn\\trunk2\\team\\reids\\admin\\contrib\\tango\\" + ( timesheetData.isRunning() ? "x-office-running.png" : "x-office-calendar.png" ) ) ) );
     }
 
     public File[] getRecentFiles() {
