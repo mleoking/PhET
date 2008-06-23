@@ -34,7 +34,6 @@
 	<!-- deploys flash-launch to the production server -->
 	<target name="deploy-flash-launcher" depends="clean-build">
 
-		<delete dir="${build}" files="*"/>
         <mkdir dir="${build}"/>
     	<mkdir dir="${jar-inputs}"/>
     	
