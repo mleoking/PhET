@@ -98,7 +98,7 @@ public class FlashLauncher {
         String version = readVersion( properties );
         
         // read the background color property
-        String bgcolor = readBrowserBackgroundColor( properties );
+        String bgcolor = readBackgroundColor( properties );
         
         // dynamically generate an HTML file
         String html = generateHTML( sim, language, version, bgcolor );
@@ -141,8 +141,8 @@ public class FlashLauncher {
         return version;
     }
     
-    private static String readBrowserBackgroundColor( Properties properties ) {
-        String bgcolor = properties.getProperty( "browser.bgcolor" );
+    private static String readBackgroundColor( Properties properties ) {
+        String bgcolor = properties.getProperty( "bgcolor" );
         if ( bgcolor == null ) {
             bgcolor = "#ffffff"; // white
         }
