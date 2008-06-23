@@ -29,10 +29,10 @@ public class AlphaParticleNode extends PNode {
         // Randomly choose an image for this particle.  This is done to give
         // the nucleus a more random and thus realistic look.
         if (rand.nextDouble() > 0.5){
-           _displayImage = NuclearPhysicsResources.getImageNode("Alpha Particle 001.png");
+           _displayImage = NuclearPhysicsResources.getImageNode("Alpha Particle 001.jpg");
         }
         else {
-            _displayImage = NuclearPhysicsResources.getImageNode("Alpha Particle 002.png");            
+            _displayImage = NuclearPhysicsResources.getImageNode("Alpha Particle 002.jpg");            
         }
         
         _displayImage.scale( PARTICLE_DIAMETER/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));

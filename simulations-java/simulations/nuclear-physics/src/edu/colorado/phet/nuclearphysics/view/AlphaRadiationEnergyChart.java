@@ -282,10 +282,10 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         // within the nucleus.
         for (int i = 0; i < MAX_ALPHA_PARTICLES_DISPLAYED; i++){
             if ((i % 2) == 0){
-               _alphaParticleImages[i] = NuclearPhysicsResources.getImageNode("Alpha Particle 001.png");
+               _alphaParticleImages[i] = NuclearPhysicsResources.getImageNode("Alpha Particle 001.jpg");
             }
             else{
-                _alphaParticleImages[i] = NuclearPhysicsResources.getImageNode("Alpha Particle 002.png");                
+                _alphaParticleImages[i] = NuclearPhysicsResources.getImageNode("Alpha Particle 002.jpg");                
             }
             _alphaParticleImages[i].setVisible( true );
             _alphaParticleImages[i].setScale( ALPHA_PARTICLE_SCALE_FACTOR );
@@ -293,7 +293,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         }
         
         // Add the image that depicts the tunneling alpha particle.
-        _tunneledAlphaParticleImage = NuclearPhysicsResources.getImageNode("Alpha Particle 001.png");
+        _tunneledAlphaParticleImage = NuclearPhysicsResources.getImageNode("Alpha Particle 001.jpg");
         _tunneledAlphaParticleImage.setVisible( false );
         _tunneledAlphaParticleImage.setScale( ALPHA_PARTICLE_SCALE_FACTOR );
         addChild( _tunneledAlphaParticleImage );

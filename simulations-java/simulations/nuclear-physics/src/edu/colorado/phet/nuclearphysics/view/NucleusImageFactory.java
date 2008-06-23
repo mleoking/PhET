@@ -175,10 +175,10 @@ public class NucleusImageFactory {
         // Randomly select from one of the available images.
         PImage alphaImage;
         if (_rand.nextBoolean()){
-            alphaImage = NuclearPhysicsResources.getImageNode("Alpha Particle 001.png");
+            alphaImage = NuclearPhysicsResources.getImageNode("Alpha Particle 001.jpg");
         }
         else{
-            alphaImage = NuclearPhysicsResources.getImageNode("Alpha Particle 002.png");            
+            alphaImage = NuclearPhysicsResources.getImageNode("Alpha Particle 002.jpg");            
         }
         
         // Scale and position the image.
@@ -192,7 +192,7 @@ public class NucleusImageFactory {
     private void addNeutron(PNode nucleus, double radius, double pixelsPerFm){
         
         // Load the image.
-        PImage neutronImage = NuclearPhysicsResources.getImageNode("Neutron.png");
+        PImage neutronImage = NuclearPhysicsResources.getImageNode("Neutron.jpg");
         
         // Scale and position the image.
         neutronImage.scale( pixelsPerFm * NUCLEON_DIAMETER / neutronImage.getWidth());
@@ -205,7 +205,7 @@ public class NucleusImageFactory {
     private void addProton(PNode nucleus, double radius, double pixelsPerFm){
         
         // Load the image.
-        PImage protonImage = NuclearPhysicsResources.getImageNode("Proton.png");
+        PImage protonImage = NuclearPhysicsResources.getImageNode("Proton.jpg");
         
         // Scale and position the image.
         protonImage.scale( pixelsPerFm * NUCLEON_DIAMETER / protonImage.getWidth());
