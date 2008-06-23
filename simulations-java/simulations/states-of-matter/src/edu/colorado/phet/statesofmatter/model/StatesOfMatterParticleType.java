@@ -26,7 +26,7 @@ public class StatesOfMatterParticleType {
     
     /**
      * Get the diameter of a given molecule type.  The values used were found
-     * on wikipedia.org and were specified for each element as "Atomic Raidus 
+     * on wikipedia.org and were specified for each element as "Atomic Radius 
      * (calc)".
      */
     public static final double getParticleDiameter(int particleType){
@@ -38,15 +38,15 @@ public class StatesOfMatterParticleType {
             switch (particleType){
             
             case OXYGEN:
-                diameter = 96;
+                diameter = 96; // Possible alternate: Van der Wals radius = 152
                 break;
                 
             case NEON:
-                diameter = 76;
+                diameter = 76; // Possible alternate: Van der Wals radius = 154
                 break;
                 
             case ARGON:
-                diameter = 142;
+                diameter = 142;// Possible alternate: Van der Wals radius = 188
                 break;
                 
             case INVALID:
