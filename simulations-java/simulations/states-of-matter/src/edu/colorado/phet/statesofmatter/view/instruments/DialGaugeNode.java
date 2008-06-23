@@ -26,22 +26,28 @@ public class DialGaugeNode extends PNode {
     //------------------------------------------------------------------------
 
     // Constants the control the appearance of the dial gauge.
-    private static final Color BACKGROUND_COLOR = new Color( 245, 255, 250 );
-    private static final Color BORDER_COLOR = Color.DARK_GRAY;
-    private static final Color NEEDLE_COLOR = Color.RED;
-    private static final int NUM_TICKMARKS = 19;
+    private static final Color  BACKGROUND_COLOR = new Color( 245, 255, 250 );
+    private static final Color  BORDER_COLOR = Color.DARK_GRAY;
+    private static final Color  NEEDLE_COLOR = Color.RED;
     private static final double BORDER_SCALE_FACTOR = 0.005;           // Size of border wrt overal diameter.
     private static final double TICK_MARK_LENGTH_SCALE_FACTOR = 0.03; // Length of tick marks wrt overall diameter. 
     private static final double TICK_MARK_WIDTH_SCALE_FACTOR = 0.008;  // Width of tick marks wrt overall diameter. 
-    private static final double NEEDLE_LENGTH_SCALE_FACTOR = 0.60;  // Length of needle wrt overall diameter. 
-    private static final double NEEDLE_WIDTH_SCALE_FACTOR = 0.010;  // Width of needle wrt overall diameter. 
+    private static final double NEEDLE_LENGTH_SCALE_FACTOR = 0.55;  // Length of needle wrt overall diameter. 
+    private static final double NEEDLE_WIDTH_SCALE_FACTOR = 0.015;  // Width of needle wrt overall diameter. 
     private static final double PIN_DIAMETER_SCALE_FACTOR = 0.020;  // Diameter of attachment pin wrt overall diameter. 
+    private static final int    NUM_TICKMARKS = 19;
+    private static double       GAUGE_START_ANGLE = -Math.PI * 5 / 4; // In radians.
+    private static double       GAUGE_END_ANGLE = Math.PI / 4;        // In radians.
+    private static double       GAUGE_ANGLE_RANGE = GAUGE_END_ANGLE - GAUGE_START_ANGLE;
+    private static double       NEEDLE_SHIFT_PROPORTION = 0.75;      // Proportion of needle used as pointer.
     
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
     
-    PPath m_needle;
+    private PPath m_needle;
+    private double m_needleAngle;
+    private double m_needleLength;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -62,9 +68,9 @@ public class DialGaugeNode extends PNode {
         addChild( dialFace );
         
         // Add the tick marks.
-        double tickSpace = ( Math.PI * 6 / 4 ) / ( NUM_TICKMARKS - 1 );
+        double tickSpace = ( Math.PI * 6 / 4 ) / ( NUM_TICKMARKS );
         Stroke tickMarkStroke = new BasicStroke((float)(diameter * TICK_MARK_WIDTH_SCALE_FACTOR));
-        for( double theta = Math.PI * 3 / 4; theta <= Math.PI * 9 / 4 + tickSpace / 2; theta += tickSpace ) {
+        for( double theta = GAUGE_START_ANGLE; theta <= GAUGE_END_ANGLE; theta += tickSpace ) {
             PPath tickMark = new PPath( new Line2D.Double(0, 0, diameter * TICK_MARK_LENGTH_SCALE_FACTOR, 0));
             tickMark.setStroke( tickMarkStroke );
             tickMark.rotate( theta );
@@ -74,11 +80,15 @@ public class DialGaugeNode extends PNode {
         }
         
         // Add the needle.
-        double needleLength = diameter * NEEDLE_LENGTH_SCALE_FACTOR;
-        m_needle = new PPath(new Line2D.Double(0, 0, needleLength, 0));
+        m_needleLength = diameter * NEEDLE_LENGTH_SCALE_FACTOR;
+        m_needle = new PPath(new Line2D.Double(0, 0, m_needleLength, 0));
         m_needle.setStroke( new BasicStroke((float)(diameter * NEEDLE_WIDTH_SCALE_FACTOR)) );
         m_needle.setStrokePaint( NEEDLE_COLOR );
-        m_needle.setOffset( (diameter / 2) - (needleLength * 0.75), diameter/2 );
+        m_needle.setOffset( (diameter / 2) - (m_needleLength * (1 - NEEDLE_SHIFT_PROPORTION)),
+                diameter/2 );
+        m_needleAngle = 0;
+//        m_needleAngle = GAUGE_START_ANGLE;
+//        m_needle.rotateAboutPoint( m_needleAngle, (m_needleLength * (1 - NEEDLE_SHIFT_PROPORTION)), 0 );
         addChild( m_needle );
         
         // Add a little pin in the center where the needle attaches to the face.
@@ -98,6 +108,20 @@ public class DialGaugeNode extends PNode {
     // Other Public Methods
     //------------------------------------------------------------------------
     
+    /**
+     * Set the value of the pressure gauge to a normalized value, meaning that
+     * the value is between 0 and 1.
+     */
+    public void setValue(double value){
+        assert ((value >= 0.0) && (value <= 1.0));
+
+        double targetNeedleAngle = GAUGE_START_ANGLE + (GAUGE_ANGLE_RANGE * value);
+        m_needle.rotateAboutPoint( targetNeedleAngle - m_needleAngle, 
+                m_needleLength * (1 - NEEDLE_SHIFT_PROPORTION), 0 );
+        m_needleAngle = targetNeedleAngle;
+        
+    }
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -106,6 +130,7 @@ public class DialGaugeNode extends PNode {
                 dialGaugeNode.setOffset(50, 50);
                 testFrame.addNode(dialGaugeNode);
                 testFrame.setVisible(true);
+                dialGaugeNode.setValue( 0.75 );
             }
         });
     }
