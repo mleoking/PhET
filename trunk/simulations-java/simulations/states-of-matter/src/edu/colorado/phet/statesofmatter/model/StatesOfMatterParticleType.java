@@ -38,15 +38,15 @@ public class StatesOfMatterParticleType {
             switch (particleType){
             
             case OXYGEN:
-                diameter = 96; // Possible alternate: Van der Wals radius = 152
+                diameter = 304;
                 break;
                 
             case NEON:
-                diameter = 76; // Possible alternate: Van der Wals radius = 154
+                diameter = 308;
                 break;
                 
             case ARGON:
-                diameter = 142;// Possible alternate: Van der Wals radius = 188
+                diameter = 376;
                 break;
                 
             case INVALID:
