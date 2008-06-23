@@ -2,9 +2,14 @@
 
 package edu.colorado.phet.nuclearphysics.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Ellipse2D;
+
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
@@ -24,7 +29,7 @@ public class ProtonNode extends PNode implements NucleonNode{
     // Instance data
     //------------------------------------------------------------------------
     
-    private PNode _displayImage;
+    private PPath _displayImage;
     private Nucleon _nucleon;
     
     //------------------------------------------------------------------------
@@ -36,6 +41,7 @@ public class ProtonNode extends PNode implements NucleonNode{
         _nucleon = nucleon;
         
         // Set up the image for this particle.
+        /*
         _displayImage = NuclearPhysicsResources.getImageNode("Proton.jpg");
         
         _displayImage.scale( PARTICLE_DIAMETER/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
@@ -47,6 +53,12 @@ public class ProtonNode extends PNode implements NucleonNode{
             }
             
         });
+        */
+        _displayImage = new PPath(new Ellipse2D.Double(0,0,PARTICLE_DIAMETER, PARTICLE_DIAMETER));
+        _displayImage.setPaint( Color.RED );
+        _displayImage.setStroke( new BasicStroke(0.1f) );
+        addChild(_displayImage);
+
         
         // Call update at the end of construction to assure that the view is
         // synchronized with the model.
