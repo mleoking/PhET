@@ -90,12 +90,18 @@ public class FlashLauncher {
         println( "Starting unzip jarfile=" + jarfile + ", tempDir=" + tempDir );
         FileUtils.unzip( jarfile, tempDir );
         println( "Finished unzip" );
+        
+        // read the properties file
+        Properties properties = readProperties( sim );
        
         // read the version properties
-        String version = readVersion( sim );
+        String version = readVersion( properties );
+        
+        // read the background color property
+        String bgcolor = readBrowserBackgroundColor( properties );
         
         // dynamically generate an HTML file
-        String html = generateHTML( sim, language, version );
+        String html = generateHTML( sim, language, version, bgcolor );
         File htmlFile = new File( tempDir, sim + "_" + language + ".html" );
         FileOutputStream outputStream = new FileOutputStream( htmlFile );
         outputStream.write( html.getBytes() );
@@ -106,10 +112,7 @@ public class FlashLauncher {
         BareBonesBrowserLaunch.openURL( "file://" + htmlFile.getAbsolutePath() );
     }
     
-    private static String readVersion( String sim ) {
-        String version = null;
-        
-        // read the properties file
+    private static Properties readProperties( String sim ) {
         String propertiesFileName = sim + ".properties";
         InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( propertiesFileName );
         Properties properties = new Properties();
@@ -119,6 +122,11 @@ public class FlashLauncher {
         catch ( IOException e ) {
             e.printStackTrace(); //TODO handle this better
         }
+        return properties;
+    }
+    
+    private static String readVersion( Properties properties ) {
+        String version = null;
         
         // read the version properties
         String major = properties.getProperty( "version.major" );
@@ -132,11 +140,19 @@ public class FlashLauncher {
 
         return version;
     }
+    
+    private static String readBrowserBackgroundColor( Properties properties ) {
+        String bgcolor = properties.getProperty( "browser.bgcolor" );
+        if ( bgcolor == null ) {
+            bgcolor = "#ffffff"; // white
+        }
+        return bgcolor;
+    }
 
     /*
      * Reads the HTML template and fills in the blanks for sim, language and version.
      */
-    private static String generateHTML( String sim, String language, String version ) throws IOException {
+    private static String generateHTML( String sim, String language, String version, String bgcolor ) throws IOException {
         String s = "";
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_TEMPLATE );
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
@@ -151,6 +167,7 @@ public class FlashLauncher {
         s = s.replaceAll( "@SIM@", sim );
         s = s.replaceAll( "@LANGUAGE@", language );
         s = s.replaceAll( "@VERSION@", version );
+        s = s.replaceAll( "@BGCOLOR@", bgcolor );
         return s;
     }
 
