@@ -4,18 +4,24 @@ package edu.colorado.phet.statesofmatter.view.instruments;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.geom.Line2D.Double;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PLine;
 
 
@@ -29,17 +35,22 @@ public class DialGaugeNode extends PNode {
     private static final Color  BACKGROUND_COLOR = new Color( 245, 255, 250 );
     private static final Color  BORDER_COLOR = Color.DARK_GRAY;
     private static final Color  NEEDLE_COLOR = Color.RED;
-    private static final double BORDER_SCALE_FACTOR = 0.005;           // Size of border wrt overal diameter.
+    private static final double BORDER_SCALE_FACTOR = 0.010;           // Size of border wrt overal diameter.
     private static final double TICK_MARK_LENGTH_SCALE_FACTOR = 0.03; // Length of tick marks wrt overall diameter. 
     private static final double TICK_MARK_WIDTH_SCALE_FACTOR = 0.008;  // Width of tick marks wrt overall diameter. 
     private static final double NEEDLE_LENGTH_SCALE_FACTOR = 0.55;  // Length of needle wrt overall diameter. 
     private static final double NEEDLE_WIDTH_SCALE_FACTOR = 0.015;  // Width of needle wrt overall diameter. 
     private static final double PIN_DIAMETER_SCALE_FACTOR = 0.020;  // Diameter of attachment pin wrt overall diameter. 
+    private static final double TEXTUAL_READOUT_HEIGHT_SCALE_FACTOR = 0.1;  // Height of textual readout box wrt overall diameter. 
+    private static final double TEXTUAL_READOUT_WIDTH_SCALE_FACTOR = 0.6;     // Width of textual readout box wrt overall diameter. 
+    private static final double TEXTUAL_READOUT_STROKE_SCALE_FACTOR = 0.010;  // Stroke width textual readout box wrt overall diameter. 
     private static final int    NUM_TICKMARKS = 19;
     private static double       GAUGE_START_ANGLE = -Math.PI * 5 / 4; // In radians.
     private static double       GAUGE_END_ANGLE = Math.PI / 4;        // In radians.
     private static double       GAUGE_ANGLE_RANGE = GAUGE_END_ANGLE - GAUGE_START_ANGLE;
     private static double       NEEDLE_SHIFT_PROPORTION = 0.75;      // Proportion of needle used as pointer.
+    private static double       CONNECTOR_HEIGHT_PROPORATION = 0.15; // Height of connector wrt overall diameter.
+    private static double       CONNECTOR_WIDTH_PROPORATION = 0.20;  // Width of connector wrt overall diameter.
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -48,24 +59,50 @@ public class DialGaugeNode extends PNode {
     private PPath m_needle;
     private double m_needleAngle;
     private double m_needleLength;
+    private PText m_gaugeTitle;
+    private PText m_textualReadout;
+    private double m_minValue;
+    private double m_maxValue;
+    private String m_unitsLabel;
+    private RoundRectangle2D m_textualReadoutBoxShape;
 
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
     
-    
-    public DialGaugeNode(double diameter) {
+    public DialGaugeNode(double diameter, String title, double minValue, double maxValue, String unitsLabel) {
         
-        // Scale other aspects of the size of this dial based on the overall
+        m_minValue = minValue;
+        m_maxValue = maxValue;
+        m_unitsLabel = new String(unitsLabel);
+        
+        // Scale various aspects of the size of this dial based on the overall
         // diameter.
         double borderWidth = diameter * BORDER_SCALE_FACTOR;
+        double connectorWidth = diameter * CONNECTOR_WIDTH_PROPORATION;
+        
+        // Create the connector.  It is placed first because then it can be
+        // behind everything else.
+        PPath connector = new PPath(new Rectangle2D.Double(0, 0, diameter / 2, CONNECTOR_HEIGHT_PROPORATION * diameter));
+        GradientPaint gradientPaint = new GradientPaint((float)(diameter / 2), 
+                0, Color.LIGHT_GRAY, (float)(diameter / 2), (float)(CONNECTOR_HEIGHT_PROPORATION * diameter), Color.BLUE);
+
+        connector.setPaint( gradientPaint );
+        connector.setOffset( 0, diameter / 2 - connector.getHeight() / 2 );
+        addChild(connector);
+        
+        // Create a node that will contain the bulk of the dial nodes so that
+        // they can be easily offset as a group.
+        PNode dialComponentsNode = new PNode();
+        dialComponentsNode.setOffset( connectorWidth, 0 );
+        addChild(dialComponentsNode);
         
         // Create the node that will represent the face of the dial.
         PPath dialFace = new PPath(new Ellipse2D.Double(0, 0, diameter, diameter));
         dialFace.setPaint( BACKGROUND_COLOR );
         dialFace.setStrokePaint( BORDER_COLOR );
         dialFace.setStroke( new BasicStroke( (float)borderWidth) );
-        addChild( dialFace );
+        dialComponentsNode.addChild( dialFace );
         
         // Add the tick marks.
         double tickSpace = ( Math.PI * 6 / 4 ) / ( NUM_TICKMARKS );
@@ -76,8 +113,41 @@ public class DialGaugeNode extends PNode {
             tickMark.rotate( theta );
             tickMark.setOffset( (diameter / 2) + (diameter * 0.44) * Math.cos(theta), 
                     (diameter / 2) + (diameter * 0.44) * Math.sin(theta) );
-            addChild(tickMark);
+            dialComponentsNode.addChild(tickMark);
         }
+        
+        // Add the title.
+        m_gaugeTitle = new PText();
+        m_gaugeTitle.setText( title );
+        m_gaugeTitle.setFont(new PhetFont(22));
+        m_gaugeTitle.setOffset(diameter / 2 - m_gaugeTitle.getFullBoundsReference().width / 2,
+                diameter / 4);
+        dialComponentsNode.addChild( m_gaugeTitle );
+        
+        // Add the textual readout display.
+        m_textualReadoutBoxShape = new RoundRectangle2D.Double(0, 0, 
+                TEXTUAL_READOUT_WIDTH_SCALE_FACTOR * diameter, 
+                TEXTUAL_READOUT_HEIGHT_SCALE_FACTOR * diameter,
+                4, 4);
+        PPath textualReadoutHighlight = new PPath(m_textualReadoutBoxShape);
+        float highlightStrokeWidth = (float)(diameter * TEXTUAL_READOUT_STROKE_SCALE_FACTOR * 3);
+        textualReadoutHighlight.setStroke( new BasicStroke( highlightStrokeWidth ) );
+        textualReadoutHighlight.setStrokePaint( Color.YELLOW );
+        textualReadoutHighlight.setPaint( Color.WHITE );
+        textualReadoutHighlight.setOffset( diameter / 2 - textualReadoutHighlight.getWidth() / 2 + highlightStrokeWidth / 2, 
+                diameter * 0.60 );
+        dialComponentsNode.addChild( textualReadoutHighlight );
+        
+        PPath textualReadoutBox = new PPath(m_textualReadoutBoxShape);
+        float textBoxStrokeWidth = (float)(diameter * TEXTUAL_READOUT_STROKE_SCALE_FACTOR);
+        textualReadoutBox.setStroke( new BasicStroke( textBoxStrokeWidth ) );
+        textualReadoutBox.setStrokePaint( Color.DARK_GRAY );
+        textualReadoutBox.setOffset( diameter / 2 - textualReadoutHighlight.getWidth() / 2 + textBoxStrokeWidth / 2,
+                diameter * 0.60 );
+        dialComponentsNode.addChild( textualReadoutBox );
+        m_textualReadout = new PText();
+        m_textualReadout.setFont( new PhetFont(12) );
+        textualReadoutBox.addChild( m_textualReadout );
         
         // Add the needle.
         m_needleLength = diameter * NEEDLE_LENGTH_SCALE_FACTOR;
@@ -86,18 +156,16 @@ public class DialGaugeNode extends PNode {
         m_needle.setStrokePaint( NEEDLE_COLOR );
         m_needle.setOffset( (diameter / 2) - (m_needleLength * (1 - NEEDLE_SHIFT_PROPORTION)),
                 diameter/2 );
-        m_needleAngle = 0;
-//        m_needleAngle = GAUGE_START_ANGLE;
-//        m_needle.rotateAboutPoint( m_needleAngle, (m_needleLength * (1 - NEEDLE_SHIFT_PROPORTION)), 0 );
-        addChild( m_needle );
+        m_needleAngle = GAUGE_START_ANGLE;
+        m_needle.rotateAboutPoint( m_needleAngle, (m_needleLength * (1 - NEEDLE_SHIFT_PROPORTION)), 0 );
+        dialComponentsNode.addChild( m_needle );
         
         // Add a little pin in the center where the needle attaches to the face.
         double pinDiameter = PIN_DIAMETER_SCALE_FACTOR * diameter;
-        PPath knob = new PPath(new Ellipse2D.Double( 0, 0, pinDiameter, pinDiameter ) ); 
-        knob.setPaint( Color.BLACK );
-        knob.setOffset( diameter/2 -  pinDiameter/2, diameter/2 - pinDiameter/2);
-        addChild( knob );
-        
+        PPath pin = new PPath(new Ellipse2D.Double( 0, 0, pinDiameter, pinDiameter ) ); 
+        pin.setPaint( Color.BLACK );
+        pin.setOffset( diameter/2 -  pinDiameter/2, diameter/2 - pinDiameter/2);
+        dialComponentsNode.addChild( pin );
     }
 
     //------------------------------------------------------------------------
@@ -113,20 +181,29 @@ public class DialGaugeNode extends PNode {
      * the value is between 0 and 1.
      */
     public void setValue(double value){
-        assert ((value >= 0.0) && (value <= 1.0));
+        
+        // Validate the input.
+        assert ((value >= m_minValue) && (value <= m_maxValue));
 
-        double targetNeedleAngle = GAUGE_START_ANGLE + (GAUGE_ANGLE_RANGE * value);
+        // Set the needle position.
+        double normalizedValue = value / (m_maxValue - m_minValue);
+        double targetNeedleAngle = GAUGE_START_ANGLE + (GAUGE_ANGLE_RANGE * normalizedValue);
         m_needle.rotateAboutPoint( targetNeedleAngle - m_needleAngle, 
                 m_needleLength * (1 - NEEDLE_SHIFT_PROPORTION), 0 );
         m_needleAngle = targetNeedleAngle;
         
+        // Set the textual readout.
+        m_textualReadout.setText( value + " " + m_unitsLabel );
+        m_textualReadout.setOffset( 
+                m_textualReadoutBoxShape.getWidth() / 2 - m_textualReadout.getFullBoundsReference().width / 2, 
+                m_textualReadoutBoxShape.getHeight() / 2 - m_textualReadout.getFullBoundsReference().height / 2  );
     }
     
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 PiccoloTestFrame testFrame = new PiccoloTestFrame("Dial Gauge Test");
-                DialGaugeNode dialGaugeNode = new DialGaugeNode(200);
+                DialGaugeNode dialGaugeNode = new DialGaugeNode(200, "Pressure", 0, 1, "Atm");
                 dialGaugeNode.setOffset(50, 50);
                 testFrame.addNode(dialGaugeNode);
                 testFrame.setVisible(true);
