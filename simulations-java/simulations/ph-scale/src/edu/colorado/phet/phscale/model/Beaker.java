@@ -10,21 +10,21 @@ public class Beaker {
     
     public static final double MAX_VOLUME = 1.25; // liters
 
-    public Liquid _liquid;
+    public LiquidDescriptor _liquid;
     public final ArrayList _listeners;
     
     public Beaker() {
         _listeners = new ArrayList();
     }
     
-    public void setLiquid( Liquid liquid ) {
+    public void setLiquid( LiquidDescriptor liquid ) {
         if ( liquid != _liquid ) {
             _liquid = liquid;
             notifyLiquidChanged();
         }
     }
     
-    public Liquid getLiquid() {
+    public LiquidDescriptor getLiquid() {
         return _liquid;
     }
     

@@ -2,10 +2,6 @@
 
 package edu.colorado.phet.phscale.model;
 
-import edu.colorado.phet.phscale.model.Liquid.Water;
-
-
-
 /**
  * PHScaleModel is the model for PHScaleModule.
  *
@@ -17,8 +13,7 @@ public class PHScaleModel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Liquid _liquid;
-    private final Water _water;
+    private final Liquid _liquid;
     private final Beaker _beaker;
 
     //----------------------------------------------------------------------------
@@ -27,8 +22,7 @@ public class PHScaleModel {
     
     public PHScaleModel() {
         super();
-        _liquid = Liquid.LEMON_JUICE;
-        _water = Liquid.WATER;
+        _liquid = new Liquid( LiquidDescriptor.LEMON_JUICE, 1 );
         _beaker = new Beaker();
     }
     
@@ -38,10 +32,6 @@ public class PHScaleModel {
     
     public Liquid getLiquid() {
         return _liquid;
-    }
-    
-    public Water getWater() {
-        return _water;
     }
     
     public Beaker getBeaker() {

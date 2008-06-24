@@ -2,9 +2,8 @@
 
 package edu.colorado.phet.phscale.control;
 
-import java.awt.Color;
-
 import edu.colorado.phet.phscale.control.ViewControlPanel.ViewControlPanelListener;
+import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.view.BeakerNode;
@@ -36,40 +35,26 @@ public class BeakerControlNode extends PNode {
         super();
         
         _model = model;
+        Liquid liquid = model.getLiquid();
         
         _liquidListener = new LiquidListener() {
-
-            public void colorChanged( Color color ) {
-                //XXX change color of liquid in beaker
+            public void stateChanged() {
+                //XXX update everything
             }
-
-            public void pHChanged( double pH ) {
-                _probeNode.setPH( pH );
-                //XXX change molecule counts
-                //XXX change particle ratios
-            }
-
-            public void volumeChanged( double volume ) {
-                //XXX change molecule counts
-                //XXX change volume of liquid in beaker
-            }
-            
         };
+        liquid.addLiquidListener( _liquidListener );
         
-        _model.getLiquid().addLiquidListener( _liquidListener );
+        _probeNode = new ProbeNode( PROBE_LENGTH, liquid );
         
-        _probeNode = new ProbeNode( PROBE_LENGTH );
-        _probeNode.setPH( _model.getLiquid().getPH() );
+        _liquidControlNode = new LiquidControlNode( pSwingCanvas, liquid );
         
-        _liquidControlNode = new LiquidControlNode( pSwingCanvas );
-        
-        _waterControlNode = new WaterControlNode();
+        _waterControlNode = new WaterControlNode( liquid );
         
         _drainControlNode = new DrainControlNode();
 
         _beakerNode = new BeakerNode( _model.getBeaker(), BEAKER_SIZE );
         
-        _moleculeCountNode = new MoleculeCountNode();
+        _moleculeCountNode = new MoleculeCountNode( liquid );
         
         _viewControlPanel = new ViewControlPanel();
         PSwing viewControlPanelWrapper = new PSwing( _viewControlPanel );
@@ -122,5 +107,9 @@ public class BeakerControlNode extends PNode {
     
     public boolean isRatioSelected() {
         return _viewControlPanel.isRatioSelected();
+    }
+    
+    public LiquidControlNode getLiquidControlNode() {
+        return _liquidControlNode;
     }
 }

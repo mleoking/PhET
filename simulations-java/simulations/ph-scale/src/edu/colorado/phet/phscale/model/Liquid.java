@@ -1,83 +1,124 @@
-/* Copyright 2008, University of Colorado */
-
 package edu.colorado.phet.phscale.model;
 
 import java.awt.Color;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import edu.colorado.phet.phscale.PHScaleStrings;
 
 
 public class Liquid {
     
-    // water is a special singleton
-    public static class Water extends Liquid {
-        private Water() {
-            super(  PHScaleStrings.CHOICE_WATER, 7, new Color( 255, 255, 255, 100 ) );
-        }
-    }
-    public static final Water WATER = new Water();
+    private static final double AVOGADROS_NUMBER = 6.023E23;
+    private static final double H2O_CONCENTRATION = 55; // moles/L
     
-    // singletons for each liquid type
-    public static final Liquid MILK = new Liquid( PHScaleStrings.CHOICE_MILK, 6.5, Color.WHITE );
-    public static final Liquid BEER = new Liquid( PHScaleStrings.CHOICE_BEER, 4.5, new Color( 185, 79, 5 ) );
-    public static final Liquid COLA = new Liquid( PHScaleStrings.CHOICE_COLA, 2.5, new Color( 122, 60, 35 ) );
-    public static final Liquid LEMON_JUICE = new Liquid( PHScaleStrings.CHOICE_LEMON_JUICE, 2.4, Color.YELLOW );
+    private final ArrayList _listeners;
     
-    // all choices except water
-    private static final Liquid[] CHOICES = new Liquid[] { MILK, BEER, COLA, LEMON_JUICE };
-    
-    public static Liquid[] getChoices() {
-        return CHOICES;
-    }
-    
-    private static final DecimalFormat PH_FORMAT = new DecimalFormat( "0.0" );
-    
-    private final String _name;
-    private final double _pH;
+    private LiquidDescriptor _baseLiquid;
+    private double _pH;
     private double _volume; // liters
-    private final Color _color;
-    private final java.util.ArrayList _listeners;
-
-    protected Liquid( String name, double pH, Color color ) {
-        _name = name;
-        _pH = pH;
-        _color = color;
-        _volume = 0;
+    
+    public Liquid( LiquidDescriptor baseLiquid, double volume ) {
+        assert( volume >= 0 );
         _listeners = new ArrayList();
+        setLiquid( baseLiquid, volume );
     }
     
-    public String getName() {
-        return _name;
+    public LiquidDescriptor getBaseLiquid() {
+        return _baseLiquid;
+    }
+    
+    public void setLiquid( LiquidDescriptor baseLiquid, double volume ) {
+        _baseLiquid = baseLiquid;
+        _pH = baseLiquid.getPH();
+        _volume = volume;
+        notifyStateChanged();
+    }
+    
+    public void add( LiquidDescriptor liquid, double volume ) {
+        assert( volume >= 0 );
+        _pH = -Math.log( ( Math.pow( 10, -_pH * _volume ) + Math.pow( 10, -liquid.getPH() * volume ) ) / ( _volume + volume ) );
+        _volume += volume;
+        notifyStateChanged();
+    }
+    
+    public void setPH( double pH ) {
+        _pH = pH;
+        notifyStateChanged();
     }
     
     public double getPH() {
         return _pH;
     }
     
-    public Color getColor() {
-        return _color;
-    }
-    
-    public void setVolume( double volume ) {
-        if ( volume != _volume ) {
-            _volume = volume;
-            notifyVolumeChanged();
-        }
-    }
-    
     public double getVolume() {
         return _volume;
     }
     
-    public String toString() { 
-        return _name + " (" + PH_FORMAT.format( _pH ) + ")";
+    public Color getColor() {
+        return _baseLiquid.getColor(); //XXX need to dilute this
+    }
+    
+    public void setConcentrationH3O( double c ) {
+        _pH = -Math.log( c );
+        notifyStateChanged();
+    }
+    
+    public double getConcentrationH3O() {
+        return Math.pow( 10, -_pH );
+    }
+  
+    public void setConcentrationOH( double c ) {
+        _pH = 14 - ( -Math.log( c ) );
+        notifyStateChanged();
+    }
+    
+    public double getConcentrationOH() {
+        return Math.pow( 10, -( 14 - _pH ) );
+    }
+    
+    public double getConcentrationH2O() {
+        return H2O_CONCENTRATION;
+    }
+    
+    public double getNumberOfMoleculesH3O() {
+        return getConcentrationH3O() * AVOGADROS_NUMBER * _volume;
+    }
+
+    public double getNumberOfMoleculesOH() {
+        return getConcentrationOH() * AVOGADROS_NUMBER * _volume;
+    }
+
+    public double getNumberOfMoleculesH2O() {
+        return getConcentrationH2O() * AVOGADROS_NUMBER * _volume;
+    }
+    
+    public void setNumberOfMolesH3O( double m ) {
+        _pH = -Math.log( m / _volume );
+        notifyStateChanged();
+    }
+    
+    public double getNumberOfMolesH3O() {
+        return _volume * getConcentrationH3O();
+    }
+    
+    public void setNumberOfMolesOH( double m ) {
+        _pH = 14 - ( -Math.log( m / _volume ) );
+        notifyStateChanged();
+    }
+    
+    public double getNumberOfMolesOH() {
+        return _volume * getConcentrationOH();
+    }
+    
+    public void setNumberOfMolesH2O( double m ) {
+        //XXX ?
+    }
+    
+    public double getNumberOfMolesH2O() {
+        return _volume * getConcentrationH2O();
     }
     
     public interface LiquidListener {
-        public void volumeChanged( double volume );
+        public void stateChanged();
     }
     
     public void addLiquidListener( LiquidListener listener ) {
@@ -88,10 +129,10 @@ public class Liquid {
         _listeners.remove( listener );
     }
     
-    private void notifyVolumeChanged() {
+    private void notifyStateChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (LiquidListener) i.next() ).volumeChanged( _volume );
+            ( (LiquidListener) i.next() ).stateChanged();
         }
     }
 }

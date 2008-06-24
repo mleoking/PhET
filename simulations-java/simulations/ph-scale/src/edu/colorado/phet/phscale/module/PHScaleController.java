@@ -15,8 +15,7 @@ import edu.colorado.phet.phscale.model.PHScaleModel;
  */
 public class PHScaleController {
     
-    public PHScaleController( PHScaleModel model, PHScaleCanvas canvas ) {
-        
+    public PHScaleController( final PHScaleModel model, final PHScaleCanvas canvas ) {
         
     }
 }

@@ -3,14 +3,13 @@
 package edu.colorado.phet.phscale.control;
 
 import java.awt.Font;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JLabel;
 
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
 import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -20,22 +19,22 @@ public class WaterControlNode extends PNode {
 
     public static final Font FONT = PHScaleConstants.CONTROL_FONT;
     
-    private final ArrayList _listeners;
+    private final Liquid _liquid;
     private final FaucetControlNode _faucetControlNode;
     
-    public WaterControlNode() {
+    public WaterControlNode( Liquid liquid ) {
         super();
         
-        _listeners = new ArrayList();
+        _liquid = liquid;
         
-        JLabel label = new JLabel( Liquid.WATER.toString() );
+        JLabel label = new JLabel( LiquidDescriptor.WATER.toString() );
         label.setFont( FONT );
         PSwing labelWrapper = new PSwing( label );
         
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT );
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
-                notifyOnOffChanged();
+                //XXX
             }
         });
         
@@ -53,24 +52,5 @@ public class WaterControlNode extends PNode {
     
     public boolean isOn() {
         return _faucetControlNode.isOn();
-    }
-    
-    public interface WaterControlListener {
-        public void onOffChanged();
-    }
-    
-    public void addWaterControlListener( WaterControlListener listener ) {
-        _listeners.add( listener );
-    }
-    
-    public void removeWaterControlListener( WaterControlListener listener ) {
-        _listeners.remove( listener );
-    }
-    
-    private void notifyOnOffChanged() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (WaterControlListener) i.next() ).onOffChanged();
-        }
     }
 }
