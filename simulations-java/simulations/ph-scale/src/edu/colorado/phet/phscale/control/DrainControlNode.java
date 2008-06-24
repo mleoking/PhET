@@ -15,18 +15,15 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 public class DrainControlNode extends PNode {
     
-    private static final PDimension LIQUID_SIZE = new PDimension( 20, 500 );
+    private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 500 );
 
-    private final ArrayList _listeners;
     private final FaucetControlNode _faucetControlNode;
-    private final PPath _liquidNode;
+    private final PPath _liquidColumnNode;
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
     public DrainControlNode( Liquid liquid ) {
         super();
-        
-        _listeners = new ArrayList();
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
@@ -39,20 +36,20 @@ public class DrainControlNode extends PNode {
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT );
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
-                _liquidNode.setVisible( on );
+                _liquidColumnNode.setVisible( on );
             }
         });
         _faucetControlNode.setOn( false );
 
-        _liquidNode = new PPath( new Rectangle2D.Double( 0, 0, LIQUID_SIZE.getWidth(), LIQUID_SIZE.getHeight() ) );
-        _liquidNode.setStroke( null );
-        _liquidNode.setVisible( _faucetControlNode.isOn() );
+        _liquidColumnNode = new PPath( new Rectangle2D.Double( 0, 0, LIQUID_COLUMN_SIZE.getWidth(), LIQUID_COLUMN_SIZE.getHeight() ) );
+        _liquidColumnNode.setStroke( null );
+        _liquidColumnNode.setVisible( _faucetControlNode.isOn() );
         
-        addChild( _liquidNode );
+        addChild( _liquidColumnNode );
         addChild( _faucetControlNode );
         
         _faucetControlNode.setOffset( 0, 0 );
-        _liquidNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 4, _faucetControlNode.getFullBoundsReference().getMaxY() );
+        _liquidColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 4, _faucetControlNode.getFullBoundsReference().getMaxY() );
 
         update();
     }
@@ -66,6 +63,6 @@ public class DrainControlNode extends PNode {
     }
     
     private void update() {
-        _liquidNode.setPaint( _liquid.getColor() );
+        _liquidColumnNode.setPaint( _liquid.getColor() );
     }
 }
