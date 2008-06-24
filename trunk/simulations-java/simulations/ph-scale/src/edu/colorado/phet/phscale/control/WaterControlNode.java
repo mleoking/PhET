@@ -20,11 +20,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class WaterControlNode extends PNode {
 
-    private static final PDimension LIQUID_SIZE = new PDimension( 20, 450 );
+    private static final PDimension WATER_COLUMN_SIZE = new PDimension( 20, 450 );
     public static final Font FONT = PHScaleConstants.CONTROL_FONT;
     
     private final Liquid _liquid;
-    private final PPath _liquidNode;
+    private final PPath _waterColumnNode;
     private final FaucetControlNode _faucetControlNode;
     
     public WaterControlNode( Liquid liquid ) {
@@ -39,24 +39,24 @@ public class WaterControlNode extends PNode {
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT );
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
-                _liquidNode.setVisible( on );
+                _waterColumnNode.setVisible( on );
                 //XXX
             }
         });
         
-        _liquidNode = new PPath( new Rectangle2D.Double( 0, 0, LIQUID_SIZE.getWidth(), LIQUID_SIZE.getHeight() ) );
-        _liquidNode.setPaint( LiquidDescriptor.WATER.getColor() );
-        _liquidNode.setStroke( null );
-        _liquidNode.setVisible( _faucetControlNode.isOn() );
+        _waterColumnNode = new PPath( new Rectangle2D.Double( 0, 0, WATER_COLUMN_SIZE.getWidth(), WATER_COLUMN_SIZE.getHeight() ) );
+        _waterColumnNode.setPaint( LiquidDescriptor.WATER.getColor() );
+        _waterColumnNode.setStroke( null );
+        _waterColumnNode.setVisible( _faucetControlNode.isOn() );
         
         addChild( labelWrapper );
-        addChild( _liquidNode );
+        addChild( _waterColumnNode );
         addChild( _faucetControlNode );
         
         labelWrapper.setOffset( 0, 0 );
         PBounds lb = labelWrapper.getFullBoundsReference();
         PBounds fb = _faucetControlNode.getFullBoundsReference();
         _faucetControlNode.setOffset( lb.getMaxX() - fb.getWidth(), lb.getMaxY() + 5 );
-        _liquidNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 4, _faucetControlNode.getFullBoundsReference().getMaxY() );   
+        _waterColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 4, _faucetControlNode.getFullBoundsReference().getMaxY() );   
     }
 }
