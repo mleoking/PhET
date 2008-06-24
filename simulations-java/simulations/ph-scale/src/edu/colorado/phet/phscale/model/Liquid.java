@@ -20,15 +20,18 @@ public class Liquid extends ClockAdapter {
     private double _pH;
     private double _volume; // liters
     private boolean _draining;
+    private double _drainingRate;
     private boolean _filling;
-    private double _desiredVolume;
+    private double _fillRate;
+    private LiquidDescriptor _fillLiquidDescriptor;
+    private double _fillVolume;
     
     public Liquid( LiquidDescriptor liquidDescriptor, double volume ) {
         assert( volume >= 0 );
         _listeners = new ArrayList();
-        setLiquidDescriptor( liquidDescriptor, volume );
         _draining = false;
         _filling = false;
+        setLiquidDescriptor( liquidDescriptor );
     }
     
     public double getMaxVolume() {
@@ -39,10 +42,10 @@ public class Liquid extends ClockAdapter {
         return _liquidDescriptor;
     }
     
-    public void setLiquidDescriptor( LiquidDescriptor baseLiquid, double volume ) {
+    public void setLiquidDescriptor( LiquidDescriptor baseLiquid ) {
         _liquidDescriptor = baseLiquid;
         _pH = baseLiquid.getPH();
-        _volume = volume;
+        _volume = 0;
         notifyStateChanged();
     }
     
@@ -53,15 +56,65 @@ public class Liquid extends ClockAdapter {
         notifyStateChanged();
     }
     
-    public void setDraining( boolean draining ) {
-        if ( draining != _draining && _volume != 0 ) {
-            _draining = draining;
+    public boolean isEmpty() {
+        return _volume == 0;
+    }
+    
+    public boolean isFull() {
+        return _volume == MAX_VOLUME;
+    }
+    
+    public void startDraining( double drainingRate ) {
+        if ( !_draining && !isEmpty() ) {
+            _filling = false;
+            _draining = true;
+            _drainingRate = drainingRate;
+            notifyStateChanged();
+        }
+    }
+    
+    public void stopDraining() {
+        if ( _draining ) {
+            _draining = false;
             notifyStateChanged();
         }
     }
     
     public boolean isDraining() {
         return _draining;
+    }
+    
+    public void drainImmediately() {
+        if ( !isEmpty() ) {
+            _volume = 0;
+            notifyStateChanged();
+        }
+    }
+    
+    public void startFilling( double fillRate, LiquidDescriptor fillLiquidDescriptor ) {
+        startFilling( fillRate, fillLiquidDescriptor, MAX_VOLUME );
+    }
+    
+    public void startFilling( double fillRate, LiquidDescriptor fillLiquidDescriptor, double fillVolume ) {
+        if ( !_filling && !isFull() && fillVolume > _volume ) {
+            _draining = false;
+            _filling = true;
+            _fillRate = fillRate;
+            _fillLiquidDescriptor = fillLiquidDescriptor;
+            _fillVolume = fillVolume;
+            notifyStateChanged();
+        }
+    }
+    
+    public void stopFilling() {
+        if ( _filling ) {
+            _filling = false;
+            notifyStateChanged();
+        }
+    }
+    
+    public boolean isFilling() {
+        return _filling;
     }
     
     public void setPH( double pH ) {
@@ -163,7 +216,7 @@ public class Liquid extends ClockAdapter {
     
     public void clockTicked( ClockEvent clockEvent ) {
         if ( _draining ) {
-            _volume -= 0.01;
+            _volume -= _drainingRate;
             if ( _volume <= 0 ) {
                 _volume = 0;
                 _draining = false;
@@ -171,7 +224,12 @@ public class Liquid extends ClockAdapter {
             notifyStateChanged();
         }
         else if ( _filling ) {
-            
+            _volume += _fillRate;
+            if ( _volume >= _fillVolume ) {
+                _volume = _fillVolume;
+                _filling = false;
+            }
+            notifyStateChanged();
         }
     }
 }
