@@ -36,8 +36,9 @@ public class Human {
     private DefaultTemporalVariable exercise = new DefaultTemporalVariable();//initialized to make sure weight is constant at startup
     private DefaultTemporalVariable bmr = new DefaultTemporalVariable();//dependent variable
     //    private Exercise exerciseObject = null;
-    private static final ReferenceHuman REFERENCE_MALE = new ReferenceHuman( true, 22, 5, 8.5, 70, 86 );
-    private static final ReferenceHuman REFERENCE_FEMALE = new ReferenceHuman( false, 22, 5, 4.5, 57, 74 );
+    //New defaults: 5'8" 150 lbs 22 years
+    private static final ReferenceHuman REFERENCE_MALE = new ReferenceHuman( true, 22, 5 + EatingAndExerciseUnits.inchesToFeet( 8 ), 8.5, EatingAndExerciseUnits.poundsToKg( 150 ), 86 );
+    private static final ReferenceHuman REFERENCE_FEMALE = new ReferenceHuman( false, 22, 5 + EatingAndExerciseUnits.inchesToFeet( 8 ), 4.5, EatingAndExerciseUnits.poundsToKg( 150 ), 74 );
     public static final ReferenceHuman DEFAULT_VALUE = REFERENCE_FEMALE;
 
     private CalorieSet exerciseItems = new CalorieSet();
