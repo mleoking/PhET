@@ -38,23 +38,23 @@ public class Liquid extends ClockAdapter {
         return MAX_VOLUME;
     }
     
-    public LiquidDescriptor geLiquidDescriptor() {
+    public LiquidDescriptor getLiquidDescriptor() {
         return _liquidDescriptor;
     }
     
-    public void setLiquidDescriptor( LiquidDescriptor baseLiquid ) {
-        _liquidDescriptor = baseLiquid;
-        _pH = baseLiquid.getPH();
+    public void setLiquidDescriptor( LiquidDescriptor liquidDescriptor ) {
+        _liquidDescriptor = liquidDescriptor;
+        _pH = liquidDescriptor.getPH();
         _volume = 0;
         notifyStateChanged();
     }
     
-    public void add( LiquidDescriptor liquid, double volume ) {
-        assert( volume >= 0 );
-        _pH = -Math.log( ( Math.pow( 10, -_pH * _volume ) + Math.pow( 10, -liquid.getPH() * volume ) ) / ( _volume + volume ) );
-        _volume += volume;
-        notifyStateChanged();
-    }
+//    public void add( LiquidDescriptor liquid, double volume ) {
+//        assert( volume >= 0 );
+//        _pH = -Math.log( ( Math.pow( 10, -_pH * _volume ) + Math.pow( 10, -liquid.getPH() * volume ) ) / ( _volume + volume ) );
+//        _volume += volume;
+//        notifyStateChanged();
+//    }
     
     public boolean isEmpty() {
         return _volume == 0;
@@ -186,10 +186,10 @@ public class Liquid extends ClockAdapter {
         return _volume * getConcentrationOH();
     }
     
-    public void setNumberOfMolesH2O( double m ) {
-        double volumeChange = ( m / getConcentrationH2O() ) - _volume;
-        add( LiquidDescriptor.WATER, volumeChange );
-    }
+//    public void setNumberOfMolesH2O( double m ) {
+//        double volumeChange = ( m / getConcentrationH2O() ) - _volume;
+//        add( LiquidDescriptor.WATER, volumeChange );
+//    }
     
     public double getNumberOfMolesH2O() {
         return _volume * getConcentrationH2O();
