@@ -15,7 +15,7 @@ import edu.colorado.phet.phscale.control.GraphUnitsControlPanel;
 import edu.colorado.phet.phscale.control.GraphUnitsControlPanel.GraphUnitsControlPanelListener;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.util.PowersOfTenFormat;
+import edu.colorado.phet.phscale.util.TimesTenFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -32,8 +32,8 @@ public class BarGraphNode extends PNode {
     
     private static final Font VALUE_FONT = new PhetFont( 16 );
     private static final double VALUE_SPACING = 50;
-    private static final PowersOfTenFormat H3O_FORMAT = new PowersOfTenFormat( "0.00E0" );
-    private static final PowersOfTenFormat OH_FORMAT = new PowersOfTenFormat( "0.00E0" );
+    private static final TimesTenFormat H3O_FORMAT = new TimesTenFormat( "0.00" );
+    private static final TimesTenFormat OH_FORMAT = new TimesTenFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DecimalFormat( "#0" );
     
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
