@@ -6,16 +6,16 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.util.PowersOfTenFormat;
+import edu.colorado.phet.phscale.util.TimesTenFormat;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 public class MoleculeCountNode extends PComposite {
     
-    private static final PowersOfTenFormat H3O_FORMAT = new PowersOfTenFormat( "0.00E0" );
-    private static final PowersOfTenFormat OH_FORMAT = new PowersOfTenFormat( "0.00E0" );
-    private static final PowersOfTenFormat H2O_FORMAT = new PowersOfTenFormat( "0E0" );
+    private static final TimesTenFormat H3O_FORMAT = new TimesTenFormat( "0.00" );
+    private static final TimesTenFormat OH_FORMAT = new TimesTenFormat( "0.00" );
+    private static final TimesTenFormat H2O_FORMAT = new TimesTenFormat( "0" );
     
     private static final double X_SPACING = 15;
     private static final double Y_SPACING = 20;
