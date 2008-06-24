@@ -64,6 +64,7 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
     private static final double  LEGEND_WIDTH = 190.0d;
     private static final double  LEGEND_HEIGHT = 80.0d;
     private static final double  ALPHA_PARTICLE_SCALE_FACTOR = 0.075;
+    private static final double  ALPHA_PARTICLE_DIAMETER = 22;
     private static final int     MAX_ALPHA_PARTICLES_DISPLAYED = 6;
     private static final double  ARROW_HEAD_HEIGHT = 10;
     private static final double  ARROW_HEAD_WIDTH = 8;
@@ -281,19 +282,13 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         // Add the images that will depict alpha particles moving around
         // within the nucleus.
         for (int i = 0; i < MAX_ALPHA_PARTICLES_DISPLAYED; i++){
-            if ((i % 2) == 0){
-               _alphaParticleImages[i] = NuclearPhysicsResources.getImageNode("Alpha Particle 001.jpg");
-            }
-            else{
-                _alphaParticleImages[i] = NuclearPhysicsResources.getImageNode("Alpha Particle 002.jpg");                
-            }
+            _alphaParticleImages[i] = AlphaParticleNode.generateAlphaParticleImageNode(ALPHA_PARTICLE_DIAMETER);
             _alphaParticleImages[i].setVisible( true );
-            _alphaParticleImages[i].setScale( ALPHA_PARTICLE_SCALE_FACTOR );
             addChild( _alphaParticleImages[i] );
         }
         
         // Add the image that depicts the tunneling alpha particle.
-        _tunneledAlphaParticleImage = NuclearPhysicsResources.getImageNode("Alpha Particle 001.jpg");
+        _tunneledAlphaParticleImage = AlphaParticleNode.generateAlphaParticleImageNode(ALPHA_PARTICLE_DIAMETER);
         _tunneledAlphaParticleImage.setVisible( false );
         _tunneledAlphaParticleImage.setScale( ALPHA_PARTICLE_SCALE_FACTOR );
         addChild( _tunneledAlphaParticleImage );
