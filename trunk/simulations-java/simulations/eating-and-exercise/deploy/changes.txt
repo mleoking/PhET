@@ -3,6 +3,7 @@ Removed the Ruler
 Set new defaults: 5'8" 150 lbs 22 years
 Changed color for draggable icon labels from yellow to tan
 Fixed: Food icons should be halfway into the plate before adding them to the model
+Added a non-disruptive message for age-out-of-bounds
 
 New in 0.00.45
 Tooltips should always show when grabbing an item, and disappear when dropped

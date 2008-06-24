@@ -20,7 +20,7 @@ public class LabelNode extends PNode {
         htmlNode.setFont( new PhetFont( 16, true ) );
 
         Rectangle2D rectangle2D = RectangleUtils.expandRectangle2D( htmlNode.getFullBounds(), 5, 5 );
-        Color color = new Color( 246, 239, 169, 128 );
+        Color color = new Color( 246, 239, 169, 200 );
         PhetPPath background = new PhetPPath( new RoundRectangle2D.Double( rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight(), 10, 10 ), color );
 
         addChild( background );

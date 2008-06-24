@@ -49,6 +49,8 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     private BMIHelpButtonNode heartHealthButtonNode;
     private CaloriePanel caloriePanel;
     private BMIReadout bmiReadout;
+    private AgeRangeMessage ageRangeMessage;
+    private HumanControlPanel humanControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -111,7 +113,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         rulerNode = createRulerNode();
 //        addWorldChild( rulerNode );
 
-        HumanControlPanel humanControlPanel = new HumanControlPanel( model, model.getHuman() );
+        humanControlPanel = new HumanControlPanel( model, model.getHuman() );
         humanControlPanel.addListener( new HumanControlPanel.Listener() {
             public void ageManuallyChanged() {
                 caloriePanel.clearAndResetDomains();
@@ -136,7 +138,8 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         } );
         setWorldTransformStrategy( new EatingAndExerciseRenderingSizeStrategy( this, CANVAS_WIDTH, CANVAS_HEIGHT ) );
 
-//        addScreenChild( new AgeRangeMessage() );
+        ageRangeMessage = new AgeRangeMessage( model.getHuman() );
+        addScreenChild( ageRangeMessage );
     }
 
     private void updateHeartHealthButtonNodeLayout() {
@@ -187,7 +190,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         }
 
         humanControlPanelPSwing.setOffset( 0, getHeight() - humanControlPanelPSwing.getFullBounds().getHeight() );
-
+        ageRangeMessage.setOffset( humanControlPanelPSwing.getFullBounds().getMaxX(), humanControlPanelPSwing.getFullBounds().getY()+humanControlPanel.getAgeSliderY() );
         //XXX lay out nodes
 
     }
