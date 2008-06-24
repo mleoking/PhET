@@ -35,7 +35,7 @@ public class TorqueApplication extends PiccoloPhetApplication {
         addModule( momentModule );
         addModule( angMomModule );
 
-        getPhetFrame().addMenu( new RotationDevMenu( this, torqueModule ) );
+//        getPhetFrame().addMenu( new RotationDevMenu( this, torqueModule ) );
 //        getPhetFrame().addMenu( new RotationTestMenu() );
     }
 
