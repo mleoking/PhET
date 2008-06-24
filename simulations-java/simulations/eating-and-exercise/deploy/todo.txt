@@ -39,6 +39,7 @@ NP - Model for BMR, non-linear with food input. You do not gain or lose weight i
 
    >>> See section below on gaining / losing weight.
 
+Fix text for "simulation age out of range" message
 
 #######################################################################################
 ##############                    To Discuss                             ##############
