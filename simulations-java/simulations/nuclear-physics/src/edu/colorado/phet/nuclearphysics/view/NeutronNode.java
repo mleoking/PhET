@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * This class displays a visual representation of the neutron on the canvas.
@@ -82,6 +83,15 @@ public class NeutronNode extends SphericalNode implements NucleonNode {
                 new Point2D.Double( diameter/4, diameter/4 ), COLOR );
         SphericalNode protonImageNode = new SphericalNode( diameter, roundGradient, false);
         return protonImageNode.toImage();
+    }
+    
+    /**
+     * This is a static factory method that can be used to obtain an image node
+     * for a neutron that will look just like the images used in the play area.
+     */
+    static public PImage generateNeutronImageNode(double diameter){
+        
+        return (new PImage(generateNeutronImage( diameter )));
     }
 
     //------------------------------------------------------------------------
