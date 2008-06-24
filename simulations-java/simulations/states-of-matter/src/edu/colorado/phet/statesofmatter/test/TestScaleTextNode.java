@@ -48,7 +48,7 @@ public class TestScaleTextNode extends JFrame {
         textNode.scale( scale );
         
         // center text in rectangle
-        tb = textNode.getFullBoundsReference(); // reference bounds after scaling
+        tb = textNode.getFullBoundsReference(); // refresh bounds after scaling
         textNode.setOffset( rb.getX() + ( rb.getWidth() - tb.getWidth() ) / 2 , rb.getY() + ( rb.getHeight() - tb.getHeight() ) / 2 );
     }
 
