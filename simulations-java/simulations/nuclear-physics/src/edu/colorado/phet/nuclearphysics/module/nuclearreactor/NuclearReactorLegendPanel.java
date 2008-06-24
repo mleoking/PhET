@@ -19,6 +19,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
+import edu.colorado.phet.nuclearphysics.view.NeutronNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -56,7 +57,7 @@ public class NuclearReactorLegendPanel extends JPanel {
 
         // Add the images and labels for the simple portion of the legend.
         
-        addLegendItem( "Neutron.png", NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL, 12 );
+        addLegendItem( NeutronNode.generateNeutronImage( 12 ), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL ); 
         
         // Add the Uranium 235 nucleus to the legend.
         // Add the Uranium 235 nucleus to the legend.
@@ -82,6 +83,15 @@ public class NuclearReactorLegendPanel extends JPanel {
     private void addLegendItem( String imageName, String label, int width ) {
         Image im = NuclearPhysicsResources.getImage( imageName );
         ImageIcon icon = new ImageIcon(im.getScaledInstance( width, -1, Image.SCALE_SMOOTH ));
+        add(new JLabel(icon));
+        add(new JLabel( label ));
+    }
+    
+    /**
+     * An alternative way to add a legend item if the image is already available.
+     */
+    private void addLegendItem( Image im, String label ) {
+        ImageIcon icon = new ImageIcon(im);
         add(new JLabel(icon));
         add(new JLabel( label ));
     }
