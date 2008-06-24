@@ -1,6 +1,7 @@
 New in 0.00.46
 Removed the Ruler
 Set new defaults: 5'8" 150 lbs 22 years
+Changed color for draggable icon labels from yellow to tan
 
 New in 0.00.45
 Tooltips should always show when grabbing an item, and disappear when dropped
