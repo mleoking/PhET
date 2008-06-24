@@ -17,6 +17,7 @@ public class MoleculeCountNode extends PComposite {
     private static final DecimalFormat OH_FORMAT = new DecimalFormat( "0.00E0" );
     private static final DecimalFormat H2O_FORMAT = new DecimalFormat( "0E0" );
     
+    private static final double X_SPACING = 15;
     private static final double Y_SPACING = 20;
     private static final Font FONT = new PhetFont( 25 );
     
@@ -62,9 +63,9 @@ public class MoleculeCountNode extends PComposite {
         PBounds bOH = ohNode.getFullBoundsReference();
         PBounds bH2O = h2oNode.getFullBoundsReference();
         final double maxX = Math.max( bH3O.getMaxX(), Math.max( bOH.getMaxX(), bH2O.getMaxX() ) );
-        _h3oCountNode.setOffset( maxX, bH3O.getY() + ( bH3O.getHeight() - _h3oCountNode.getFullBoundsReference().getHeight() ) / 2 );
-        _ohCountNode.setOffset( maxX, bOH.getY() + ( bOH.getHeight() - _ohCountNode.getFullBoundsReference().getHeight() ) / 2 );
-        _h2oCountNode.setOffset( maxX, bH2O.getY() + ( bH2O.getHeight() - _h2oCountNode.getFullBoundsReference().getHeight() ) / 2 );
+        _h3oCountNode.setOffset( maxX + X_SPACING, bH3O.getY() + ( bH3O.getHeight() - _h3oCountNode.getFullBoundsReference().getHeight() ) / 2 );
+        _ohCountNode.setOffset( maxX + X_SPACING, bOH.getY() + ( bOH.getHeight() - _ohCountNode.getFullBoundsReference().getHeight() ) / 2 );
+        _h2oCountNode.setOffset( maxX + X_SPACING, bH2O.getY() + ( bH2O.getHeight() - _h2oCountNode.getFullBoundsReference().getHeight() ) / 2 );
         
         scale( 0.60 ); //XXX
         
