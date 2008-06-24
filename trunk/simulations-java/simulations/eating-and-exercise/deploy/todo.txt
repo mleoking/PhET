@@ -3,7 +3,7 @@
 #######################################################################################
 
 Slider text box should display values allowed by the model but out of the range of the slider
-     >>Looks like wrong behavior for when a user types in an out of range value
+     >>When a user types in an out of range value, the value is clamped to slider range
      >>Try indicators for slider out of range
         >>Add arrows to left and right of sliders for when the values go beyond the slider limits.
 
