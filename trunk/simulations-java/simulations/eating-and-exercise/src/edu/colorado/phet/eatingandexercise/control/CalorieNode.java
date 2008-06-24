@@ -68,7 +68,7 @@ public class CalorieNode extends PNode {
         calorieDragStrip.setOffset( 0, 2 );
         calorieDragStrip.addListener( new CalorieDragStrip.Adapter() {
             public void nodeDragged( CalorieDragStrip.DragNode node ) {
-                setContainsItem( node.getItem(), plateImage.getGlobalFullBounds().intersects( node.getPNodeIcon().getGlobalFullBounds() ) );
+                setContainsItem( node.getItem(), nodeOverlaps( node ) );
             }
 
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
@@ -114,6 +114,14 @@ public class CalorieNode extends PNode {
         } );
         updatePlusNodeVisible();
         relayout();
+    }
+
+    private boolean nodeOverlapsORIG( CalorieDragStrip.DragNode node ) {
+        return plateImage.getGlobalFullBounds().intersects( node.getPNodeIcon().getGlobalFullBounds() );
+    }
+
+    private boolean nodeOverlaps( CalorieDragStrip.DragNode node ) {
+        return plateImage.getGlobalFullBounds().contains( node.getPNodeIcon().getGlobalFullBounds().getCenter2D() );
     }
 
     private void addPreExistingItems() {
