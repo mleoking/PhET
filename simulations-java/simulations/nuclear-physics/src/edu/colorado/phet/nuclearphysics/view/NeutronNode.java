@@ -22,10 +22,10 @@ public class NeutronNode extends SphericalNode implements NucleonNode {
     //------------------------------------------------------------------------
     
     private final static double PARTICLE_DIAMETER = 1.6;  // Femto meters.
-    private static final Color COLOR = Color.DARK_GRAY;
+    private static final Color COLOR = Color.GRAY;
     private static final Color HILITE_COLOR = new Color(0xeeeeee);
-    private static final Paint ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER / 6, -PARTICLE_DIAMETER / 6,
-            HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/2, PARTICLE_DIAMETER/2 ), COLOR );
+    private static final Paint ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER/6, -PARTICLE_DIAMETER/6,
+            HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/4, PARTICLE_DIAMETER/4 ), COLOR );
     
     //------------------------------------------------------------------------
     // Instance Data

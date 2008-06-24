@@ -28,14 +28,14 @@ public class AlphaParticleNode extends PNode {
     private final static double PARTICLE_DIAMETER = 3.2d;  // Femto meters.
     private static final Color PROTON_COLOR = new Color(0xaa0000); // Red
     private static final Color PROTON_HILITE_COLOR = new Color(0xffaaaa); // Light red
-    private static final Paint PROTON_ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER / 6, 
-            -PARTICLE_DIAMETER / 6, PROTON_HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/4,
-            PARTICLE_DIAMETER/4 ), PROTON_COLOR );
-    private static final Color NEUTRON_COLOR = Color.DARK_GRAY;
+    private static final Paint PROTON_ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER/12, 
+            -PARTICLE_DIAMETER/12, PROTON_HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/8,
+            PARTICLE_DIAMETER/8 ), PROTON_COLOR );
+    private static final Color NEUTRON_COLOR = Color.GRAY;
     private static final Color NEUTRON_HILITE_COLOR = new Color(0xeeeeee);
-    private static final Paint NEUTRON_ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER / 6, 
-            -PARTICLE_DIAMETER / 6, NEUTRON_HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/2, 
-            PARTICLE_DIAMETER/2 ), NEUTRON_COLOR );
+    private static final Paint NEUTRON_ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER/12, 
+            -PARTICLE_DIAMETER/12, NEUTRON_HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/8, 
+            PARTICLE_DIAMETER/8 ), NEUTRON_COLOR );
     private static final Random _rand = new Random();
     
     //------------------------------------------------------------------------

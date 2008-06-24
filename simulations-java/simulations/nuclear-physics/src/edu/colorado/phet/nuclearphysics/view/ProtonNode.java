@@ -25,7 +25,7 @@ public class ProtonNode extends SphericalNode implements NucleonNode{
     private final static double PARTICLE_DIAMETER = 1.6;  // Femto meters.
     private static final Color COLOR = new Color(0xaa0000); // Red
     private static final Color HILITE_COLOR = new Color(0xffaaaa); // Light red
-    private static final Paint ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER / 6, -PARTICLE_DIAMETER / 6,
+    private static final Paint ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER/6, -PARTICLE_DIAMETER/6,
             HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/4, PARTICLE_DIAMETER/4 ), COLOR );
     
     //------------------------------------------------------------------------
