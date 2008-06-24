@@ -80,13 +80,14 @@ public class BeakerControlNode extends PNode {
         addChild( viewControlPanelWrapper );
         
         // Layout
-        _beakerNode.setOffset( 75, 150 );//XXX
-        _liquidControlNode.setOffset( 25, 0 );//XXX
-        _waterControlNode.setOffset( 400, 0 );//XXX
-        _drainControlNode.setOffset( 25, 575 );//XXX
-        _probeNode.setOffset( 175, 50 );//XXX
-        viewControlPanelWrapper.setOffset( 225, 575 );//XXX
-        _moleculeCountNode.setOffset( 85, 250 );//XXX
+        //XXX this needs to be generalized
+        _beakerNode.setOffset( 75, 150 );
+        _liquidControlNode.setOffset( 35, 0 );
+        _waterControlNode.setOffset( 365, 0 );
+        _drainControlNode.setOffset( 25, 575 );
+        _probeNode.setOffset( 195, 50 );
+        viewControlPanelWrapper.setOffset( 225, 575 );
+        _moleculeCountNode.setOffset( 85, 250 );
     }
     
     public void cleanup() {
