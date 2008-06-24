@@ -3,12 +3,14 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
+import edu.umd.cs.piccolo.PNode;
 
 
 /**
@@ -68,6 +70,22 @@ public class ProtonNode extends SphericalNode implements NucleonNode{
         return _nucleon;
     }
     
+    //------------------------------------------------------------------------
+    // Other Public Methods
+    //------------------------------------------------------------------------
+    
+    /**
+     * This is a static factory method that can be used to obtain an image of
+     * a proton that will look just like the images used in the play area.
+     */
+    static public Image generateProtonImage(double diameter){
+        
+        Paint roundGradient = new RoundGradientPaint( -diameter/6, -diameter/6, HILITE_COLOR, 
+                new Point2D.Double( diameter/4, diameter/4 ), COLOR );
+        SphericalNode protonImageNode = new SphericalNode( diameter, roundGradient, false);
+        return protonImageNode.toImage();
+    }
+
     //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
