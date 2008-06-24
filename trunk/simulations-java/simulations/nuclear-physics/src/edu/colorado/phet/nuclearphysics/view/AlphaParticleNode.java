@@ -3,8 +3,10 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -81,17 +83,35 @@ public class AlphaParticleNode extends PNode {
     //------------------------------------------------------------------------
     
     /**
-     * This is a static factory method that can be used to obtain an image of
-     * an alpha particle that will look just like the images used in the play
-     * area.
+     * This is a static factory method that can be used to obtain an image
+     * node that depicts an alpha particle that will look just like the
+     * images used in the play area.
      */
-    static public PImage generateAlphaParticleImageNode(){
+    static public PImage generateAlphaParticleImageNode(double diameter){
+        
+        return new PImage(generateAlphaParticleImage( diameter ));
+    }
+    
+    /**
+     * This is a static factory method that can be used to obtain an
+     * image of an alpha particle that will look just like the images used in
+     * the play area.
+     */
+    static public Image generateAlphaParticleImage(double diameter){
+        
+        double scaleFactor = diameter / PARTICLE_DIAMETER;
+
+        PNode compositeNode;
         if (_rand.nextBoolean()){
-            return new PImage(createCompositeNode1().toImage());
+            compositeNode = createCompositeNode1();
         }
         else{
-            return new PImage(createCompositeNode2().toImage());
+            compositeNode = createCompositeNode2();
         }
+        
+        compositeNode.setScale( scaleFactor );
+        
+        return compositeNode.toImage();
     }
     
     //------------------------------------------------------------------------
