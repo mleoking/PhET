@@ -12,6 +12,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.opticaltweezers.model.AbstractEnzyme;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
@@ -63,15 +64,11 @@ public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
         _modelViewTransform = modelViewTransform;
         
         final double outerDiameter = _modelViewTransform.modelToView( _enzyme.getOuterDiameter() );
-        SphericalNode outerSphere = new SphericalNode( false /* convertToImage */ );
-        outerSphere.setDiameter( outerDiameter );
-        outerSphere.setPaint( outerPaint );
+        SphericalNode outerSphere = new SphericalNode( outerDiameter, outerPaint, false /* convertToImage */ );
         outerSphere.setStroke( null );
         
         final double innerDiameter = _modelViewTransform.modelToView( _enzyme.getInnerDiameter() );
-        SphericalNode innerSphere = new SphericalNode( false /* convertToImage */ );
-        innerSphere.setDiameter( innerDiameter );
-        innerSphere.setPaint( innerPaint );
+        SphericalNode innerSphere = new SphericalNode( innerDiameter, innerPaint, false /* convertToImage */ );
         innerSphere.setStroke(  null );
 
         // tick starts in center of inner sphere, extends not quite to the outer eddge

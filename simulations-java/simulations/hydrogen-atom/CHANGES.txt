@@ -3,6 +3,7 @@ Change history for hydrogen-atom
 ===============================================================================
 
 DONE:
+6/24/08 - move SphericalNode to piccolo-phet
 5/20/08 - replace Font with PhetFont
 ***** 1.07.00 (21248)
 ***** 1.06.01 (21223)

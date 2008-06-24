@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.view;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Paint;
 import java.awt.Shape;

@@ -18,9 +18,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
+import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.hydrogenatom.model.BilliardBallModel;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
-import edu.colorado.phet.hydrogenatom.view.SphericalNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**

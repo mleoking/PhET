@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
+import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 
 /**
  * NeutronNode is the visual representation of a neutron.
