@@ -2,33 +2,35 @@
 
 package edu.colorado.phet.nuclearphysics.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Ellipse2D;
+import java.awt.Paint;
+import java.awt.geom.Point2D;
 
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
+import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * This class displays a visual representation of the nucleus on the canvas.
+ * This class displays a visual representation of the neutron on the canvas.
  *
  * @author John Blanco
  */
-public class NeutronNode extends PNode implements NucleonNode {
+public class NeutronNode extends SphericalNode implements NucleonNode {
     
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
     
     private final static double PARTICLE_DIAMETER = 1.6;  // Femto meters.
+    private static final Color COLOR = Color.DARK_GRAY;
+    private static final Color HILITE_COLOR = new Color(0xeeeeee);
+    private static final Paint ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER / 6, -PARTICLE_DIAMETER / 6,
+            HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/2, PARTICLE_DIAMETER/2 ), COLOR );
     
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
     
-    private PPath _displayShape;
     private Nucleon _nucleon;
     
     //------------------------------------------------------------------------
@@ -37,19 +39,9 @@ public class NeutronNode extends PNode implements NucleonNode {
 
     public NeutronNode(Nucleon nucleon)
     {
+        super(PARTICLE_DIAMETER, ROUND_GRADIENT, false);
+        
         _nucleon = nucleon;
-        
-        /*
-        // Set up the image for this particle.
-        _displayShape = NuclearPhysicsResources.getImageNode("Neutron.png");
-        
-        _displayShape.scale( PARTICLE_DIAMETER/((_displayShape.getWidth() + _displayShape.getHeight()) / 2));
-        addChild(_displayShape);
-        */
-        _displayShape = new PPath(new Ellipse2D.Double(0,0,PARTICLE_DIAMETER, PARTICLE_DIAMETER));
-        _displayShape.setPaint( Color.LIGHT_GRAY );
-        _displayShape.setStroke( new BasicStroke(0.1f) );
-        addChild(_displayShape);
         
         nucleon.addListener(new Nucleon.Listener(){
             public void positionChanged()
@@ -58,6 +50,9 @@ public class NeutronNode extends PNode implements NucleonNode {
             }
             
         });
+        
+        setPickable( false );
+        setChildrenPickable( false );
         
         // Call update at the end of construction to assure that the view is
         // synchronized with the model.
@@ -73,11 +68,15 @@ public class NeutronNode extends PNode implements NucleonNode {
     }
     
     //------------------------------------------------------------------------
+    // Public Methods
+    //------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
 
     private void update(){
-        _displayShape.setOffset( _nucleon.getPositionReference().getX() - PARTICLE_DIAMETER/2,  
+        setOffset( _nucleon.getPositionReference().getX() - PARTICLE_DIAMETER/2,  
                 _nucleon.getPositionReference().getY() - PARTICLE_DIAMETER/2);
     }
 }

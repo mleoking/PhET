@@ -205,9 +205,8 @@ public abstract class AtomicNucleus {
     //------------------------------------------------------------------------
 
     /**
-     * This method lets this model element know that the clock has ticked.  In
-     * response, the nucleus generally 'agitates' a bit, may also perform some
-     * sort of decay, and may move.
+     * This method lets this model element know that the clock has ticked, and
+     * it should move or do whatever other changes are appropriate.
      */
     protected void handleClockTicked(ClockEvent clockEvent)
     {
