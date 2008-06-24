@@ -18,7 +18,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
+import edu.colorado.phet.nuclearphysics.view.NeutronNode;
+import edu.colorado.phet.nuclearphysics.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 
@@ -57,9 +60,10 @@ public class AlphaRadiationLegendPanel extends JPanel {
 
         // Add the images and labels for the simple portion of the legend.
         
-        addLegendItem( "Neutron.png", NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL, 12 );
-        addLegendItem( "Proton.png", NuclearPhysicsStrings.PROTON_LEGEND_LABEL, 12 );
-        addLegendItem( "Alpha Particle 001.png", NuclearPhysicsStrings.ALPHA_PARTICLE_LEGEND_LABEL, 20 );
+        addLegendItem( NeutronNode.generateNeutronImage( 12 ), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL ); 
+        addLegendItem( ProtonNode.generateProtonImage( 12 ), NuclearPhysicsStrings.PROTON_LEGEND_LABEL ); 
+        addLegendItem( AlphaParticleNode.generateAlphaParticleImage( 25 ), 
+                NuclearPhysicsStrings.ALPHA_PARTICLE_LEGEND_LABEL );
         
         // Add the Polonium nucleus to the legend.
         
@@ -89,14 +93,9 @@ public class AlphaRadiationLegendPanel extends JPanel {
     /**
      * This method adds simple legend items, i.e. those that only include an
      * image and a label, to the legend.
-     * 
-     * @param imageName
-     * @param labelName
-     * @param width
      */
-    private void addLegendItem( String imageName, String label, int width ) {
-        Image im = NuclearPhysicsResources.getImage( imageName );
-        ImageIcon icon = new ImageIcon(im.getScaledInstance( width, -1, Image.SCALE_SMOOTH ));
+    private void addLegendItem( Image im, String label ) {
+        ImageIcon icon = new ImageIcon(im);
         add(new JLabel(icon));
         add(new JLabel( label ));
     }
