@@ -1,9 +1,9 @@
 package edu.colorado.phet.eatingandexercise.control;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.eatingandexercise.view.EatingAndExercisePText;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
+import edu.colorado.phet.eatingandexercise.view.EatingAndExercisePText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;

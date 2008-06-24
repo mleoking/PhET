@@ -23,12 +23,12 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.eatingandexercise.view.EatingAndExercisePText;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
+import edu.colorado.phet.eatingandexercise.view.EatingAndExercisePText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -185,9 +185,9 @@ public class ChartNode extends PNode {
     private void updateGraphDomains( double rangeYears ) {
         double startTime = model.getHuman().getAge();
         calorieGraph.setDomain( EatingAndExerciseUnits.secondsToYears( startTime ),
-                                         EatingAndExerciseUnits.secondsToYears( startTime + EatingAndExerciseUnits.yearsToSeconds( rangeYears ) ) );
+                                EatingAndExerciseUnits.secondsToYears( startTime + EatingAndExerciseUnits.yearsToSeconds( rangeYears ) ) );
         weightGraph.setDomain( EatingAndExerciseUnits.secondsToYears( startTime ),
-                                        EatingAndExerciseUnits.secondsToYears( startTime + EatingAndExerciseUnits.yearsToSeconds( rangeYears ) ) );
+                               EatingAndExerciseUnits.secondsToYears( startTime + EatingAndExerciseUnits.yearsToSeconds( rangeYears ) ) );
     }
 
     private void resetChartArea() {
