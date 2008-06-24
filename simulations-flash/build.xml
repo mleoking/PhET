@@ -14,9 +14,11 @@
     <property name="sim" value="YOUR_SIM_NAME"/>
     <property name="language" value="YOUR_LANGUAGE_CODE"/>
 	<property name="prod-username" value="YOUR_PROD_USERNAME"/>
-	<property name="dev-username" value="YOUR_DEV_USERNAME"/>
 	<property name="prod-password" value="YOUR_PROD_PASSWORD"/>
+	<property name="dev-username" value="YOUR_DEV_USERNAME"/>
 	<property name="dev-password" value="YOUR_DEV_PASSWORD"/>
+	<property name="svn-username" value="YOUR_SVN_USERNAME"/>
+	<property name="svn-password" value="YOUR_SVN_PASSWORD"/>
 	<property name="flash-launcher-extra-args=" value="-dev"/>
 		
     <!-- DO NOT change these -->
@@ -80,6 +82,42 @@
 		<!-- check in ${sim}/deploy/${sim}.properties -->
 	    <!-- scp all files to sim dir on dev server -->
 	    <!-- scp all files to sim dir on production server -->
+	</target>
+	
+	<!-- creates the version number for a new major release -->
+	<target name="create-major-version-number">
+		<!-- read sim's properties file -->
+		<!-- increment major number, set minor and dev to zero, figure out revision -->
+		<!-- write to sim's properties file -->
+		<!-- check in to svn -->
+	</target>
+	
+	<!-- creates the version number for a new minor release -->
+	<target name="create-minor-version-number">
+		<!-- read sim's properties file -->
+		<!-- increment minor number, set dev to zero, figure out revision -->
+		<!-- write to sim's properties file -->
+		<!-- check in to svn -->
+	</target>
+		
+    <!-- creates the version number for a new dev release -->
+    <target name="create-dev-version-number">
+		<!-- read sim's properties file -->
+		<!-- increment dev number, figure out revision -->
+		<!-- write to sim's properties file -->
+		<!-- check in to svn -->
+	</target>
+	
+	<target name="rebuild-all-html-files">
+		<!-- for every xml file, create html file -->
+		<!-- check html files into svn -->
+	</target>
+	
+	<target name="integrate-translations">
+		<!-- for each xml file... -->
+		<!-- generate html file -->
+		<!-- check in xml and html files -->
+		<!-- scp xml and html files to production server -->
 	</target>
 	
 	<!-- creates a runnable JAR file for testing a Flash sim, puts it in build directory -->
