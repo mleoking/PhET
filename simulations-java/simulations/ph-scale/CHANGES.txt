@@ -49,6 +49,7 @@ CLEANUP:
 
 
 DONE:
+6/24/08 - display values on bar graph for concentration and moles
 6/24/08 - wire up some stuff to model
 6/24/08 - implement model (pH, concentration, moles, volume, etc)
 6/17/08 - add tick marks to beaker

@@ -13,9 +13,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public class MoleculeCountNode extends PComposite {
     
-    private static final DecimalFormat H3O_FORMAT = new DecimalFormat( "0.00E00" );
-    private static final DecimalFormat OH_FORMAT = new DecimalFormat( "0.00E00" );
-    private static final DecimalFormat H2O_FORMAT = new DecimalFormat( "0.00E00" );
+    private static final DecimalFormat H3O_FORMAT = new DecimalFormat( "0.00E0" );
+    private static final DecimalFormat OH_FORMAT = new DecimalFormat( "0.00E0" );
+    private static final DecimalFormat H2O_FORMAT = new DecimalFormat( "0E0" );
     
     private static final double Y_SPACING = 20;
     private static final Font FONT = new PhetFont( 25 );

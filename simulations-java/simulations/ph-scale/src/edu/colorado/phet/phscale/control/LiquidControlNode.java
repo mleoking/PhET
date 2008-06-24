@@ -32,7 +32,7 @@ public class LiquidControlNode extends PNode {
             public void itemStateChanged( ItemEvent e ) {
                 LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
                 if ( liquidDescriptor != null ) {
-                    _liquid.setLiquid( liquidDescriptor, 1 );
+                    _liquid.setLiquidDescriptor( liquidDescriptor, 1 );
                 }
                 _faucetControlNode.setOn( _comboBox.getChoice() != null ); // automatically turn on the faucet
                 _faucetControlNode.setEnabled( _comboBox.getChoice() != null ); // automatically turn on the faucet
@@ -54,7 +54,7 @@ public class LiquidControlNode extends PNode {
         PBounds cb = comboBoxWrapper.getFullBoundsReference();
         _faucetControlNode.setOffset( cb.getX(), cb.getMaxY() + 5 );
         
-        setLiquidDescriptor( _liquid.getBaseLiquid() );
+        setLiquidDescriptor( _liquid.geLiquidDescriptor() );
     }
     
     public void setOn( boolean on ) {
