@@ -297,7 +297,7 @@ NP - weight lost should be both muscle and fat. There should be some ratio of FF
    - all other weight gained is added fat mass.
 
 #######################################################################################
-##############                    Death and Dieing                       ##############
+##############                    Death and Dying                       ##############
 #######################################################################################
 
 NP - the person should be able to starve to death or die of heart attack. Here is how it should probably work:
