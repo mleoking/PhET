@@ -52,7 +52,7 @@ public class BeakerControlNode extends PNode {
         
         _waterControlNode = new WaterControlNode( liquid );
         
-        _drainControlNode = new DrainControlNode();
+        _drainControlNode = new DrainControlNode( liquid );
 
         _liquidNode = new LiquidNode( _model.getLiquid(), BEAKER_SIZE );
         
