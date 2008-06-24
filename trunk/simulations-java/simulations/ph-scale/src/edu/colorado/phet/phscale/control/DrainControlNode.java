@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class DrainControlNode extends PNode {
     
     private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 500 );
+    private static final double DRAINING_RATE = 0.01; // liters per clock tick
 
     private final FaucetControlNode _faucetControlNode;
     private final PPath _liquidColumnNode;
@@ -35,7 +36,12 @@ public class DrainControlNode extends PNode {
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT );
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
-                _liquid.setDraining( on );
+                if ( on ) {
+                    _liquid.startDraining( DRAINING_RATE );
+                }
+                else {
+                    _liquid.stopDraining();
+                }
             }
         });
         _faucetControlNode.setOn( false );

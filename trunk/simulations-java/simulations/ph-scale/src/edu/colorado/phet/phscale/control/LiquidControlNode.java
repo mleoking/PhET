@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
+import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -20,8 +21,12 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class LiquidControlNode extends PNode {
     
     private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 440 );
+    private static final double FILL_RATE = 0.01; // liters per clock tick
+    private static final double FAST_FILL_VOLUME = 1.0; // liters
+    private static final double FAST_FILL_RATE = 0.2; // liters
 
     private final Liquid _liquid;
+    private final LiquidListener _liquidListener;
     private final LiquidComboBox _comboBox;
     private final PPath _liquidColumnNode;
     private final FaucetControlNode _faucetControlNode;
@@ -30,6 +35,12 @@ public class LiquidControlNode extends PNode {
         super();
         
         _liquid = liquid;
+        _liquidListener = new LiquidListener() {
+            public void stateChanged() {
+                update();
+            }
+        };
+        _liquid.addLiquidListener( _liquidListener );
         
         _comboBox = new LiquidComboBox();
         PSwing comboBoxWrapper = new PSwing( _comboBox );
@@ -38,14 +49,15 @@ public class LiquidControlNode extends PNode {
             public void itemStateChanged( ItemEvent e ) {
                 LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
                 if ( liquidDescriptor != null ) {
-                    _liquid.setLiquidDescriptor( liquidDescriptor, 1 );
-                    _liquidColumnNode.setPaint( liquidDescriptor.getColor() );
+                    _liquid.drainImmediately();
+                    _liquid.setLiquidDescriptor( liquidDescriptor );
+                    _liquid.startFilling( FAST_FILL_RATE, liquidDescriptor, FAST_FILL_VOLUME );
                 }
                 else {
                     _liquidColumnNode.setPaint( null );
                 }
-                _faucetControlNode.setOn( _comboBox.getChoice() != null ); // automatically turn on the faucet
-                _faucetControlNode.setEnabled( _comboBox.getChoice() != null ); // automatically turn on the faucet
+                _faucetControlNode.setOn( liquidDescriptor != null ); // automatically turn on the faucet
+                _faucetControlNode.setEnabled( liquidDescriptor != null ); // automatically turn on the faucet
             }
         } );
         
@@ -54,8 +66,13 @@ public class LiquidControlNode extends PNode {
         _faucetControlNode.setEnabled( false ); // disabled until user makes a liquid choice
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
-                _liquidColumnNode.setVisible( on );
-                //XXX
+                if ( on ) {
+                    LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
+                    _liquid.startFilling( FILL_RATE, liquidDescriptor );
+                }
+                else {
+                    _liquid.stopFilling();
+                }
             }
         });
         
@@ -76,6 +93,10 @@ public class LiquidControlNode extends PNode {
         _faucetControlNode.setOn( false );
     }
     
+    public void cleanup() {
+        _liquid.removeLiquidListener( _liquidListener );
+    }
+    
     public void setOn( boolean on ) {
         _faucetControlNode.setOn( on );
     }
@@ -90,5 +111,11 @@ public class LiquidControlNode extends PNode {
     
     public LiquidDescriptor getLiquidDescriptor() {
         return _comboBox.getChoice();
+    }
+    
+    private void update() {
+        _faucetControlNode.setOn( _liquid.isFilling() );
+        _liquidColumnNode.setVisible( _liquid.isFilling() && _faucetControlNode.isOn() );
+        _liquidColumnNode.setPaint( _liquid.getColor() );
     }
 }
