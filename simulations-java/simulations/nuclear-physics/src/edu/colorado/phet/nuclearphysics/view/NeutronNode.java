@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 
@@ -68,8 +69,20 @@ public class NeutronNode extends SphericalNode implements NucleonNode {
     }
     
     //------------------------------------------------------------------------
-    // Public Methods
+    // Other Public Methods
     //------------------------------------------------------------------------
+    
+    /**
+     * This is a static factory method that can be used to obtain an image of
+     * a neutron that will look just like the images used in the play area.
+     */
+    static public Image generateNeutronImage(double diameter){
+        
+        Paint roundGradient = new RoundGradientPaint( -diameter/6, -diameter/6, HILITE_COLOR, 
+                new Point2D.Double( diameter/4, diameter/4 ), COLOR );
+        SphericalNode protonImageNode = new SphericalNode( diameter, roundGradient, false);
+        return protonImageNode.toImage();
+    }
 
     //------------------------------------------------------------------------
     // Private Methods
