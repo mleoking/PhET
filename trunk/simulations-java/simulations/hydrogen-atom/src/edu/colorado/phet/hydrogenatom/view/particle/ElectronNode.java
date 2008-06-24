@@ -18,7 +18,7 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.hydrogenatom.view.SphericalNode;
+import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 
 /**
  * ElectronNode is the visual representation of an electron.
