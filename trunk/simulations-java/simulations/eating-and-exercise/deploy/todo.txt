@@ -32,7 +32,6 @@ Try indicators for slider out of range
 NP Added these 6/24:
 
 - Remove ruler.
-- Make the play area rescale properly when windown size changes
 - Add indicators for good/bad % fat and exercise amount (these will be vertical bar graphs)
 - Add arrows to left and right of sliders for when the values go beyond the slider limits.
 
@@ -325,6 +324,22 @@ NP - weight lost should be both muscle and fat. There should be some ratio of FF
    >>>These features will effectively make BMR vary according to your caloric intake (if you undereat, your BMR should drop some to compensate, vise versa for eating more and exercising).
    
    - all other weight gained is added fat mass.
+
+#######################################################################################
+##############                    Death and Dieing                       ##############
+#######################################################################################
+
+NP - the person should be able to starve to death or die of heart attack. Here is how it should probably work:
+
+Starving:   If the person goes below 2% fat, they will die in 2 months. If they go back above 2% fat, they get to live and the clock restarts.
+		>>When % fat is below 2%, a warning appears saying something like "Your body is in starvation mode. Death will occur soon."
+
+Heart attack: If the person goes above XX% fat, they get a probability of having a heart attack each day. (Different % for men and women). This probability increases with % fat above XX%.
+		To 1st order linear function, p_heart_attack = P_0*(%_fat - XX).
+		Set P_0 so that the person dies in a few years if they have %fat above 50%.
+		>>When % fat is above XX, a warning appears saying something like "Your body fat % is dangerously high. Probability of heart attack is (low, moderate, high, extreme)."
+
+When the person dies, "x's" are put over their eyes and the sim stops. A box pops up and says "You have died from (starvation, heart attack). Click to start over."
 
 
 ##############################################################################################
