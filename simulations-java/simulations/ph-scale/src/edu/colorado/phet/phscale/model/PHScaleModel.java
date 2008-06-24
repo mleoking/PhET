@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.phscale.model;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+
 /**
  * PHScaleModel is the model for PHScaleModule.
  *
@@ -14,16 +16,15 @@ public class PHScaleModel {
     //----------------------------------------------------------------------------
     
     private final Liquid _liquid;
-    private final Beaker _beaker;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHScaleModel() {
+    public PHScaleModel( IClock clock ) {
         super();
         _liquid = new Liquid( LiquidDescriptor.LEMON_JUICE, 1 );
-        _beaker = new Beaker();
+        clock.addClockListener( _liquid );
     }
     
     //----------------------------------------------------------------------------
@@ -32,9 +33,5 @@ public class PHScaleModel {
     
     public Liquid getLiquid() {
         return _liquid;
-    }
-    
-    public Beaker getBeaker() {
-        return _beaker;
     }
 }

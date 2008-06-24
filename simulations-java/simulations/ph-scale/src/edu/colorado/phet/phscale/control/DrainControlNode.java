@@ -3,7 +3,6 @@
 package edu.colorado.phet.phscale.control;
 
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
 import edu.colorado.phet.phscale.model.Liquid;
@@ -36,7 +35,7 @@ public class DrainControlNode extends PNode {
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT );
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
-                _liquidColumnNode.setVisible( on );
+                _liquid.setDraining( on );
             }
         });
         _faucetControlNode.setOn( false );
@@ -63,6 +62,7 @@ public class DrainControlNode extends PNode {
     }
     
     private void update() {
+        _liquidColumnNode.setVisible( _liquid.isDraining() );
         _liquidColumnNode.setPaint( _liquid.getColor() );
     }
 }

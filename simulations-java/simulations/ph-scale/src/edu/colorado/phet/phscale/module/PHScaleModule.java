@@ -2,13 +2,9 @@
 
 package edu.colorado.phet.phscale.module;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 
 /**
@@ -18,6 +14,12 @@ import edu.colorado.phet.phscale.model.PHScaleModel;
  */
 public class PHScaleModule extends PiccoloModule {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final IClock CLOCK = new ConstantDtClock( 100, 1 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -30,11 +32,11 @@ public class PHScaleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public PHScaleModule() {
-        super( "", new ConstantDtClock( 1000, 1 ), true /* startsPaused */ );
+        super( "", CLOCK, false /* startsPaused */ );
         setLogoPanelVisible( false );
 
         // Model
-        _model = new PHScaleModel();
+        _model = new PHScaleModel( CLOCK );
 
         // Canvas
         _canvas = new PHScaleCanvas( _model, this );
@@ -46,9 +48,6 @@ public class PHScaleModule extends PiccoloModule {
         // Clock controls
         setClockControlPanel( null );
 
-        // Controller
-        PHScaleController controller = new PHScaleController( _model, _canvas );
-        
         // Help
         if ( hasHelp() ) {
             //XXX add help items
