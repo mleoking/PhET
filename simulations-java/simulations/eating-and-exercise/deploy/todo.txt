@@ -20,8 +20,6 @@ Yellow item description overlaps yellow exercise bar chart and obscures changes
 
 All items in the play area should scale on window resize
 
-New defaults: 5'8" 150 lbs 22 years
-
 Food icons should be halfway into the plate before adding them to the model to prevent overlap of label with bar graph
 
 Change color for draggable icon labels
