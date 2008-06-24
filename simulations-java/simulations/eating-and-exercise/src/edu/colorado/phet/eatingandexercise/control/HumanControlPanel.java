@@ -34,6 +34,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private HumanSlider bodyFat;
     private LinearValueControl[] hs;
     private ArrayList listeners = new ArrayList();
+    private HumanSlider ageSlider;
 
     public HumanControlPanel( final EatingAndExerciseModel model, final Human human ) {
         this.model = model;
@@ -44,33 +45,33 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( new GenderControl( human ) );
         setFillHorizontal();
 
-        final HumanSlider age = new HumanSlider( 0, 100, EatingAndExerciseUnits.secondsToYears( human.getAge() ), EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), EatingAndExerciseResources.getString( "units.years" ) );
-        add( age );
+        ageSlider = new HumanSlider( 0, 100, EatingAndExerciseUnits.secondsToYears( human.getAge() ), EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), EatingAndExerciseResources.getString( "units.years" ) );
+        add( ageSlider );
 
-        age.addChangeListener( new ChangeListener() {
+        ageSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human.setAge( EatingAndExerciseUnits.yearsToSeconds( age.getValue() ) );
+                human.setAge( EatingAndExerciseUnits.yearsToSeconds( ageSlider.getValue() ) );
             }
         } );
 
         human.addListener( new Human.Adapter() {
             public void ageChanged() {
-                age.setValue( EatingAndExerciseUnits.secondsToYears( human.getAge() ) );
+                ageSlider.setValue( EatingAndExerciseUnits.secondsToYears( human.getAge() ) );
             }
         } );
 
         //todo: find a more elegant way to decide when to reset the chart regions
-        age.getTextField().addKeyListener( new KeyAdapter() {
+        ageSlider.getTextField().addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
                 notifyAgeManuallyChanged();
             }
         } );
-        age.getTextField().addActionListener( new ActionListener() {
+        ageSlider.getTextField().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyAgeManuallyChanged();
             }
         } );
-        age.getTextField().addFocusListener( new FocusListener() {
+        ageSlider.getTextField().addFocusListener( new FocusListener() {
             public void focusGained( FocusEvent e ) {
             }
 
@@ -78,12 +79,12 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 notifyAgeManuallyChanged();
             }
         } );
-        age.getSlider().addMouseListener( new MouseAdapter() {
+        ageSlider.getSlider().addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
                 notifyAgeManuallyChanged();
             }
         } );
-        age.getSlider().addMouseMotionListener( new MouseMotionAdapter() {
+        ageSlider.getSlider().addMouseMotionListener( new MouseMotionAdapter() {
             public void mouseDragged( MouseEvent e ) {
                 notifyAgeManuallyChanged();
             }
@@ -174,7 +175,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( bodyFat );
 
 //        hs = new LinearValueControl[]{age, heightControl, weightSlider, bmiSlider, bodyFat};
-        hs = new LinearValueControl[]{age, heightControl, weightSlider, bodyFat};
+        hs = new LinearValueControl[]{ageSlider, heightControl, weightSlider, bodyFat};
         new AlignedSliderSetLayoutStrategy( hs ).doLayout();
 
         updateBodyFatSlider();
@@ -188,6 +189,10 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 new AlignedSliderSetLayoutStrategy( hs ).doLayout();
             }
         } );
+    }
+
+    public double getAgeSliderY(){
+        return ageSlider.getY();
     }
 
     private void updateBodyFatSlider() {
