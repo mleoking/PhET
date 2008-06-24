@@ -7,7 +7,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.phscale.model.Beaker;
+import edu.colorado.phet.phscale.model.Liquid;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -33,7 +33,7 @@ public class BeakerNode extends PComposite {
     private final GeneralPath _beakerPath;
     private final PPath _beakerNode;
     
-    public BeakerNode( Beaker beaker, PDimension size ) {
+    public BeakerNode( Liquid liquid, PDimension size ) {
         super();
         
         // outline
@@ -56,7 +56,7 @@ public class BeakerNode extends PComposite {
         // tick marks
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
-        double maxVolume = beaker.getMaxVolume();
+        double maxVolume = liquid.getMaxVolume();
         int numberOfTicks = (int) Math.floor( maxVolume / MINOR_TICK_SPACING );
         final double rightX = _beakerNode.getFullBoundsReference().getMaxX();
         final double bottomY = _beakerNode.getFullBoundsReference().getMaxY();

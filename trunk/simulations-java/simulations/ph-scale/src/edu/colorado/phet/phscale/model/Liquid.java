@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
-public class Liquid {
+
+public class Liquid extends ClockAdapter {
     
     private static final double MAX_VOLUME = 1.25;
     private static final double AVOGADROS_NUMBER = 6.023E23;
@@ -16,11 +19,16 @@ public class Liquid {
     private LiquidDescriptor _liquidDescriptor;
     private double _pH;
     private double _volume; // liters
+    private boolean _draining;
+    private boolean _filling;
+    private double _desiredVolume;
     
     public Liquid( LiquidDescriptor liquidDescriptor, double volume ) {
         assert( volume >= 0 );
         _listeners = new ArrayList();
         setLiquidDescriptor( liquidDescriptor, volume );
+        _draining = false;
+        _filling = false;
     }
     
     public double getMaxVolume() {
@@ -43,6 +51,17 @@ public class Liquid {
         _pH = -Math.log( ( Math.pow( 10, -_pH * _volume ) + Math.pow( 10, -liquid.getPH() * volume ) ) / ( _volume + volume ) );
         _volume += volume;
         notifyStateChanged();
+    }
+    
+    public void setDraining( boolean draining ) {
+        if ( draining != _draining && _volume != 0 ) {
+            _draining = draining;
+            notifyStateChanged();
+        }
+    }
+    
+    public boolean isDraining() {
+        return _draining;
     }
     
     public void setPH( double pH ) {
@@ -139,6 +158,20 @@ public class Liquid {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (LiquidListener) i.next() ).stateChanged();
+        }
+    }
+    
+    public void clockTicked( ClockEvent clockEvent ) {
+        if ( _draining ) {
+            _volume -= 0.01;
+            if ( _volume <= 0 ) {
+                _volume = 0;
+                _draining = false;
+            }
+            notifyStateChanged();
+        }
+        else if ( _filling ) {
+            
         }
     }
 }

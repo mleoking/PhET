@@ -49,6 +49,8 @@ CLEANUP:
 
 
 DONE:
+6/24/08 - add ability to drain liquid
+6/24/08 - delete Beaker from model, not needed
 6/24/08 - add column of liquid coming out of faucets
 6/24/08 - change from scientific notation to custom format for values
 6/24/08 - add LiquidNode
