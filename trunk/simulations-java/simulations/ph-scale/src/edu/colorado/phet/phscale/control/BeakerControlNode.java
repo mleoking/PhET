@@ -7,6 +7,7 @@ import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.view.BeakerNode;
+import edu.colorado.phet.phscale.view.LiquidNode;
 import edu.colorado.phet.phscale.view.MoleculeCountNode;
 import edu.colorado.phet.phscale.view.ProbeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -26,6 +27,7 @@ public class BeakerControlNode extends PNode {
     private final LiquidControlNode _liquidControlNode;
     private final WaterControlNode _waterControlNode;
     private final BeakerNode _beakerNode;
+    private final LiquidNode _liquidNode;
     private final ProbeNode _probeNode;
     private final MoleculeCountNode _moleculeCountNode;
     private final ViewControlPanel _viewControlPanel;
@@ -52,6 +54,8 @@ public class BeakerControlNode extends PNode {
         
         _drainControlNode = new DrainControlNode();
 
+        _liquidNode = new LiquidNode( _model.getLiquid(), BEAKER_SIZE );
+        
         _beakerNode = new BeakerNode( _model.getBeaker(), BEAKER_SIZE );
         
         _moleculeCountNode = new MoleculeCountNode( liquid );
@@ -75,6 +79,7 @@ public class BeakerControlNode extends PNode {
         addChild( _waterControlNode );
         addChild( _probeNode );
         addChild( _drainControlNode );
+        addChild( _liquidNode );
         addChild( _beakerNode );
         addChild( _moleculeCountNode );
         addChild( viewControlPanelWrapper );
@@ -82,6 +87,7 @@ public class BeakerControlNode extends PNode {
         // Layout
         //XXX this needs to be generalized
         _beakerNode.setOffset( 75, 150 );
+        _liquidNode.setOffset( _beakerNode.getOffset() );
         _liquidControlNode.setOffset( 35, 0 );
         _waterControlNode.setOffset( 365, 0 );
         _drainControlNode.setOffset( 25, 575 );
