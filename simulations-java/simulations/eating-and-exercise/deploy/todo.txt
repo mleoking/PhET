@@ -11,6 +11,7 @@ I would also limit the age range to the young to middle aged adult since resting
 
 Slider text box should display values allowed by the model but out of the range of the slider
      >>Looks like wrong behavior for when a user types in an out of range value
+     >>Try indicators for slider out of range
 
 Buggy behavior when an icon overlaps both the toolbox and the plate (nullpointerexception)
 
@@ -20,8 +21,6 @@ Yellow item description overlaps yellow exercise bar chart and obscures changes
     >Food icons should be halfway into the plate before adding them to the model to prevent overlap of label with bar graph
 
 Change color for draggable icon labels
-
-Try indicators for slider out of range
 
 Add indicators for good/bad % fat and exercise amount (these will be vertical bar graphs)
 
