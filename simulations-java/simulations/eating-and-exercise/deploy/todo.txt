@@ -293,25 +293,6 @@ The lower limits above assume a very low FFM with average % fat - you can go bel
 
     NP - a simpler way to do this would be to use an average caloric expenditure for each activity and scale this linearly with weight. I found one website that does this. It may not be perfect, but it is a reasonable approximation. At least for lifting yourself, work done scales linearly with mass.
 
-
-
-#######################################################################################
-##############                    Teenage Growth                         ##############
-#######################################################################################
-
-NP - I found charts for average growth rates for teenage boys and girls, both height and weight. See www.teengrowth.com.
-	These rates are not exactly linear, but a linear approximation will be close enough I believe. Here are equations for increases in height (H) and mass (M) for teenagers.
-
-The equations for boys are valid from age 2-17. After 17 most boys stop growing significantly. For girls, the age range is 2-15, after which they stop growing in height. The increases in weight below are due to natural growth in height body changes - this should add to any increase in weight is gained by caloric intake. H_0 and M_0 are the initial values entered.
-
-
-H_boy=H_0 + 6*age (cm)   [H_0 average = 85]
-M_boy=M_0 + 3.5*age (kg)  [M_0 average = 13]
-
-Hgirl=H_0 + 6*age (cm)    [H_0 average = 85]
-Mgirl=M_0 + 3.15*age (kg) [M_0 average = 12]
-
-
 #######################################################################################
 ##############                    Gaining / Losing Weight                ##############
 #######################################################################################
