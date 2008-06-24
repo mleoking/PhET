@@ -34,7 +34,7 @@ public class RotationApplication extends PiccoloPhetApplication {
         addModule( rotationModule );
 
 //        getPhetFrame().addMenu( new RotationTestMenu() );
-        getPhetFrame().addMenu( new RotationDevMenu( this, rotationModule ) );
+//        getPhetFrame().addMenu( new RotationDevMenu( this, rotationModule ) );
 
         //trial workaround for getting the window to paint when gray, this is a problem due to performance constraints of this application.
         getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
