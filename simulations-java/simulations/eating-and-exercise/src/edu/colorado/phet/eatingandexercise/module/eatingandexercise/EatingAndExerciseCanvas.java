@@ -109,7 +109,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         } );
 
         rulerNode = createRulerNode();
-        addWorldChild( rulerNode );
+//        addWorldChild( rulerNode );
 
         HumanControlPanel humanControlPanel = new HumanControlPanel( model, model.getHuman() );
         humanControlPanel.addListener( new HumanControlPanel.Listener() {
