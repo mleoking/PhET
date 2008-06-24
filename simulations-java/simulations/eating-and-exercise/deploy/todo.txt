@@ -29,6 +29,15 @@ Change color for draggable icon labels
 Try indicators for slider out of range
 
 
+NP Added these 6/24:
+
+- Remove ruler.
+- Make the play area rescale properly when windown size changes
+- Add indicators for good/bad % fat and exercise amount (these will be vertical bar graphs)
+- Add arrows to left and right of sliders for when the values go beyond the slider limits.
+
+
+
 
 #######################################################################################
 ##############                    To Do/Noah                             ##############
