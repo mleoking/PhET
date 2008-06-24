@@ -11,6 +11,7 @@ import edu.colorado.phet.phscale.PHScaleImages;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.control.GraphScaleControlPanel;
 import edu.colorado.phet.phscale.control.GraphUnitsControlPanel;
+import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
@@ -36,14 +37,22 @@ public class BarGraphNode extends PNode {
     private static final double LEGEND_X_SPACING = 25;
     private static final double LEGEND_Y_SPACING = 5;
     
-    private final PHScaleModel _model;
+    private final Liquid _liquid;
+    private final LiquidListener _liquidListener;
     
     private final PPath _graphOutlineNode;
     
-    public BarGraphNode( PDimension graphOutlineSize, PHScaleModel model ) {
+    public BarGraphNode( PDimension graphOutlineSize, Liquid liquid ) {
         super();
         
-        _model = model;
+        _liquid = liquid;
+        _liquidListener = new LiquidListener() {
+            public void stateChanged() {
+                update();
+            }
+        };
+        _liquid.addLiquidListener( _liquidListener );
+        
         
         //XXX need to add a listener to the model so we're notified of pH changes
         
@@ -82,7 +91,11 @@ public class BarGraphNode extends PNode {
     }
     
     public void cleanup() {
-        //XXX remove any listeners that we added to the model
+        _liquid.removeLiquidListener( _liquidListener );
+    }
+    
+    private void update() {
+        //XXX
     }
     
     private static class LegendNode extends PComposite { 

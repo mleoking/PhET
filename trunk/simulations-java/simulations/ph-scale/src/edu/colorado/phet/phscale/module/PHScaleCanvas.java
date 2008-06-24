@@ -60,8 +60,8 @@ public class PHScaleCanvas extends PhetPCanvas {
         
         // Nodes
         _beakerControlNode = new BeakerControlNode( this, _model ); //XXX
-        _pHControlNode = new PHControlNode( PHScaleConstants.PH_RANGE, _model );
-        _barGraphNode = new BarGraphNode( new PDimension( 225, 400 ), model );//XXX
+        _pHControlNode = new PHControlNode( PHScaleConstants.PH_RANGE, _model.getLiquid() );
+        _barGraphNode = new BarGraphNode( new PDimension( 225, 400 ), _model.getLiquid() );//XXX
         _resetAllButton = new PHScaleResetAllButton( resettable, this );
         PSwing resetAllButtonWrapper = new PSwing( _resetAllButton );
         

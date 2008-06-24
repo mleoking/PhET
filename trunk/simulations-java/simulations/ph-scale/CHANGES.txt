@@ -49,6 +49,8 @@ CLEANUP:
 
 
 DONE:
+6/24/08 - wire up some stuff to model
+6/24/08 - implement model (pH, concentration, moles, volume, etc)
 6/17/08 - add tick marks to beaker
 6/17/08 - lots of reorganization and changes
 6/17/08 - add Water to liquid types

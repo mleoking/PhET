@@ -9,7 +9,7 @@ import javax.swing.BorderFactory;
 
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
-import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 
 
@@ -25,13 +25,13 @@ public class LiquidComboBox extends PComboBox {
         setBackground( Color.WHITE );
         
         addItem( NO_CHOICE );
-        Liquid[] choices = Liquid.getChoices();
+        LiquidDescriptor[] choices = LiquidDescriptor.getChoices();
         for ( int i = 0; i < choices.length; i++ ) {
             addItem( choices[i] );
         }
     }
     
-    public void setChoice( Liquid liquid ) {
+    public void setChoice( LiquidDescriptor liquid ) {
         if ( liquid == null ) {
             setSelectedItem( NO_CHOICE );
         }
@@ -40,11 +40,11 @@ public class LiquidComboBox extends PComboBox {
         }
     }
     
-    public Liquid getChoice() {
-        Liquid choice = null;
+    public LiquidDescriptor getChoice() {
+        LiquidDescriptor choice = null;
         Object selectedItem = getSelectedItem();
-        if ( selectedItem instanceof Liquid ) {
-            choice = (Liquid) selectedItem;
+        if ( selectedItem instanceof LiquidDescriptor ) {
+            choice = (LiquidDescriptor) selectedItem;
         }
         return choice;
     }

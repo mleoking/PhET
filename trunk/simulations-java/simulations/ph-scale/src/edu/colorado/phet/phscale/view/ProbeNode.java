@@ -15,6 +15,8 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
+import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -37,12 +39,22 @@ public class ProbeNode extends PComposite {
     private static final double DISPLAY_X_SPACING = 8;
     private static final Color DISPLAY_BACKGROUND = Color.LIGHT_GRAY;
 
+    private final Liquid _liquid;
+    private final LiquidListener _liquidListener;
     private final DisplayNode _displayNode;
     
-    public ProbeNode( double height ) {
+    public ProbeNode( double height, Liquid liquid ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
+        
+        _liquid = liquid;
+        _liquidListener = new LiquidListener() {
+            public void stateChanged() {
+                setPH( _liquid.getPH() );
+            }
+        };
+        _liquid.addLiquidListener( _liquidListener );
         
         _displayNode = new DisplayNode();
         
@@ -63,9 +75,15 @@ public class ProbeNode extends PComposite {
         sb = shaftNode.getFullBoundsReference();
         PBounds tb = tipNode.getFullBoundsReference();
         tipNode.setOffset( sb.getX() + ( sb.getWidth() - tb.getWidth() ) / 2, sb.getY() + sb.getHeight() );
+        
+        setPH( _liquid.getPH() );
     }
     
-    public void setPH( double pH ) {
+    public void cleanup() {
+        _liquid.removeLiquidListener( _liquidListener );
+    }
+    
+    private void setPH( double pH ) {
         _displayNode.setValue( pH );
     }
     

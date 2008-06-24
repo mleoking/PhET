@@ -10,7 +10,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.phscale.model.PHScaleModel;
+import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -28,16 +29,22 @@ public class PHControlNode extends PNode {
     private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 400 );
     private static final PDimension KNOB_SIZE = new PDimension( 40, 30 );
     
-    private final PHScaleModel _model;
+    private final Liquid _liquid;
+    private final LiquidListener _liquidListener;
     
     private final PHTextFieldNode _textFieldNode;
     private final PHSliderNode _sliderNode;
     
-    public PHControlNode( IntegerRange range, PHScaleModel model ) {
+    public PHControlNode( IntegerRange range, Liquid liquid ) {
         super();
         
-        _model = model;
-        //XXX need to add a listener to the model so we're notified of pH changes
+        _liquid = liquid;
+        _liquidListener = new LiquidListener() {
+            public void stateChanged() {
+                setPH( _liquid.getPH() );
+            }
+        };
+        _liquid.addLiquidListener( _liquidListener );
         
         _textFieldNode = new PHTextFieldNode( range );
         _sliderNode = new PHSliderNode( range, SLIDER_TRACK_SIZE, KNOB_SIZE );
@@ -65,20 +72,20 @@ public class PHControlNode extends PNode {
         
         _textFieldNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                //XXX change the pH of the model
-                _sliderNode.setPH( _textFieldNode.getPH() );
+                _liquid.setPH( _textFieldNode.getPH() );
             }
         });
         _sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                //XXX change the pH of the model
-                _textFieldNode.setPH( _sliderNode.getPH() );
+                _liquid.setPH( _sliderNode.getPH() );
             }
         });
+        
+        setPH( _liquid.getPH() );
     }
     
     public void cleanup() {
-        //XXX remove any listeners that we added to the model
+        _liquid.removeLiquidListener( _liquidListener );
     }
     
     //----------------------------------------------------------------------------
@@ -91,5 +98,6 @@ public class PHControlNode extends PNode {
     
     public void setPH( double pH ) {
         _sliderNode.setPH( pH );
+        _textFieldNode.setPH( pH );
     }
 }
