@@ -178,15 +178,15 @@ public class TimesheetApp extends JFrame {
         Properties p = new Properties();
         p.load( new FileInputStream( PREFERENCES_FILE ) );
         Rectangle r = new Rectangle();
-        r.x = Integer.parseInt( p.getProperty( WINDOW_X ) );
-        r.y = Integer.parseInt( p.getProperty( WINDOW_Y ) );
-        r.width = Integer.parseInt( p.getProperty( WINDOW_WIDTH ) );
-        r.height = Integer.parseInt( p.getProperty( WINDOW_HEIGHT ) );
+        r.x = Integer.parseInt( p.getProperty( WINDOW_X ,"100") );
+        r.y = Integer.parseInt( p.getProperty( WINDOW_Y ,"100") );
+        r.width = Integer.parseInt( p.getProperty( WINDOW_WIDTH,"800" ) );
+        r.height = Integer.parseInt( p.getProperty( WINDOW_HEIGHT,"600" ) );
         setSize( r.width, r.height );
         setLocation( r.x, r.y );
 
 
-        String recentFiles = p.getProperty( RECENT_FILES );
+        String recentFiles = p.getProperty( RECENT_FILES,"" );
         System.out.println( "Loaded prefs, r=" + r + ", recent=" + recentFiles );
         StringTokenizer stringTokenizer = new StringTokenizer( recentFiles, "," );
         this.recentFiles.clear();
@@ -197,7 +197,7 @@ public class TimesheetApp extends JFrame {
             }
         }
         updateMenuWithRecent();
-        String currentFile = p.getProperty( CURRENT_FILE );
+        String currentFile = p.getProperty( CURRENT_FILE,"" );
         if ( new File( currentFile ).exists() ) {
             load( new File( currentFile ) );
         }
