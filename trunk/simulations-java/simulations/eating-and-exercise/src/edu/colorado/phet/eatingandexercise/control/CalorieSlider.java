@@ -4,7 +4,10 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
@@ -75,5 +78,18 @@ public class CalorieSlider extends PNode {
         addChild( path );
         borderNode.moveToFront();
         arrowNode.moveToFront();
+    }
+
+    public static void main( String[] args ) {
+        JFrame jFrame = new JFrame();
+        PhetPCanvas contentPane = new PhetPCanvas();
+        CalorieSlider slider = new CalorieSlider( "title", Color.blue, true );
+//        slider.addRegion( 10, 100, Color.blue );
+        slider.setOffset( 200, 200 );
+        contentPane.getLayer().addChild( slider );
+        jFrame.setContentPane( contentPane );
+        jFrame.setSize( 800, 600 );
+        jFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        jFrame.setVisible( true );
     }
 }
