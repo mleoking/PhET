@@ -102,4 +102,9 @@ public class NuclearPhysicsConstants {
     // Cursors
     //----------------------------------------------------------------------------
     
+    //----------------------------------------------------------------------------
+    // Misc
+    //----------------------------------------------------------------------------
+    public static final double NUCLEON_DIAMETER        = 1.6; // In femtometers.
+    public static final double ALPHA_PARTICLE_DIAMETER = 3.2; // In femtometers.
 }
