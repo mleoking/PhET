@@ -135,6 +135,8 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
             }
         } );
         setWorldTransformStrategy( new EatingAndExerciseRenderingSizeStrategy( this, CANVAS_WIDTH, CANVAS_HEIGHT ) );
+
+//        addScreenChild( new AgeRangeMessage() );
     }
 
     private void updateHeartHealthButtonNodeLayout() {
