@@ -15,6 +15,7 @@ import edu.colorado.phet.phscale.control.GraphUnitsControlPanel;
 import edu.colorado.phet.phscale.control.GraphUnitsControlPanel.GraphUnitsControlPanelListener;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
+import edu.colorado.phet.phscale.util.PowersOfTenFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -31,8 +32,8 @@ public class BarGraphNode extends PNode {
     
     private static final Font VALUE_FONT = new PhetFont( 16 );
     private static final double VALUE_SPACING = 50;
-    private static final DecimalFormat H3O_FORMAT = new DecimalFormat( "0.00E0" );
-    private static final DecimalFormat OH_FORMAT = new DecimalFormat( "0.00E0" );
+    private static final PowersOfTenFormat H3O_FORMAT = new PowersOfTenFormat( "0.00E0" );
+    private static final PowersOfTenFormat OH_FORMAT = new PowersOfTenFormat( "0.00E0" );
     private static final DecimalFormat H2O_FORMAT = new DecimalFormat( "#0" );
     
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
@@ -51,7 +52,6 @@ public class BarGraphNode extends PNode {
     private final GraphUnitsControlPanel _graphUnitsControlPanel;
     private final GraphScaleControlPanel _graphScaleControlPanel;
     private final ValuesNode _concentrationsNode, _molesNode;
-    private final PText _molesH3ONode, _molesOHNode, _molesH2ONode;
     
     public BarGraphNode( PDimension graphOutlineSize, Liquid liquid ) {
         super();
@@ -93,15 +93,6 @@ public class BarGraphNode extends PNode {
         _molesNode.rotate( -Math.PI/2 );
         addChild( _molesNode );
 
-        _molesH3ONode = new PText();
-        _molesH3ONode.setFont( VALUE_FONT );
-        
-        _molesOHNode = new PText();
-        _molesOHNode.setFont( VALUE_FONT );
-        
-        _molesH2ONode = new PText();
-        _molesH2ONode.setFont( VALUE_FONT );
-        
         LegendNode legendNode = new LegendNode();
         addChild( legendNode );
         
@@ -147,17 +138,17 @@ public class BarGraphNode extends PNode {
 
     private static class ValuesNode extends PComposite {
         
-        private final PText _h3oNode, _ohNode, _h2oNode;
+        private final HTMLNode _h3oNode, _ohNode, _h2oNode;
         
         public ValuesNode() {
             
-            _h3oNode = new PText( "?" );
+            _h3oNode = new HTMLNode( "?" );
             _h3oNode.setFont( VALUE_FONT );
             
-            _ohNode = new PText( "?" );
+            _ohNode = new HTMLNode( "?" );
             _ohNode.setFont( VALUE_FONT );
             
-            _h2oNode = new PText( "?" );
+            _h2oNode = new HTMLNode( "?" );
             _h2oNode.setFont( VALUE_FONT );
             
             addChild( _h3oNode );
@@ -170,9 +161,9 @@ public class BarGraphNode extends PNode {
         }
         
         public void setValues( double h3o, double oh, double h2o ) {
-            _h3oNode.setText( H3O_FORMAT.format( h3o ) );
-            _ohNode.setText( OH_FORMAT.format( oh ) );
-            _h2oNode.setText( H2O_FORMAT.format( h2o ) );
+            _h3oNode.setHTML( H3O_FORMAT.format( h3o ) );
+            _ohNode.setHTML( OH_FORMAT.format( oh ) );
+            _h2oNode.setHTML( H2O_FORMAT.format( h2o ) );
         }
     }
     
