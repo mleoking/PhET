@@ -2,14 +2,13 @@
 
 package edu.colorado.phet.nuclearphysics.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Ellipse2D;
+import java.awt.Paint;
+import java.awt.geom.Point2D;
 
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
+import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
@@ -17,19 +16,22 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author John Blanco
  */
-public class ProtonNode extends PNode implements NucleonNode{
+public class ProtonNode extends SphericalNode implements NucleonNode{
 
     //------------------------------------------------------------------------
-    // Class data
+    // Class Data
     //------------------------------------------------------------------------
-
+    
     private final static double PARTICLE_DIAMETER = 1.6;  // Femto meters.
+    private static final Color COLOR = new Color(0xaa0000); // Red
+    private static final Color HILITE_COLOR = new Color(0xffaaaa); // Light red
+    private static final Paint ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER / 6, -PARTICLE_DIAMETER / 6,
+            HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/4, PARTICLE_DIAMETER/4 ), COLOR );
     
     //------------------------------------------------------------------------
-    // Instance data
+    // Instance Data
     //------------------------------------------------------------------------
     
-    private PPath _displayImage;
     private Nucleon _nucleon;
     
     //------------------------------------------------------------------------
@@ -38,14 +40,10 @@ public class ProtonNode extends PNode implements NucleonNode{
 
     public ProtonNode(Nucleon nucleon)
     {
+        super(PARTICLE_DIAMETER, ROUND_GRADIENT, false);
+        
         _nucleon = nucleon;
         
-        // Set up the image for this particle.
-        /*
-        _displayImage = NuclearPhysicsResources.getImageNode("Proton.jpg");
-        
-        _displayImage.scale( PARTICLE_DIAMETER/((_displayImage.getWidth() + _displayImage.getHeight()) / 2));
-        addChild(_displayImage);
         nucleon.addListener(new Nucleon.Listener(){
             public void positionChanged()
             {
@@ -53,12 +51,9 @@ public class ProtonNode extends PNode implements NucleonNode{
             }
             
         });
-        */
-        _displayImage = new PPath(new Ellipse2D.Double(0,0,PARTICLE_DIAMETER, PARTICLE_DIAMETER));
-        _displayImage.setPaint( Color.RED );
-        _displayImage.setStroke( new BasicStroke(0.1f) );
-        addChild(_displayImage);
-
+        
+        setPickable( false );
+        setChildrenPickable( false );
         
         // Call update at the end of construction to assure that the view is
         // synchronized with the model.
@@ -68,7 +63,7 @@ public class ProtonNode extends PNode implements NucleonNode{
     //------------------------------------------------------------------------
     // Accessor Methods
     //------------------------------------------------------------------------
-
+    
     public Nucleon getNucleon(){
         return _nucleon;
     }
@@ -78,7 +73,7 @@ public class ProtonNode extends PNode implements NucleonNode{
     //------------------------------------------------------------------------
 
     private void update(){
-        _displayImage.setOffset( _nucleon.getPositionReference().getX() - PARTICLE_DIAMETER/2,  
+        setOffset( _nucleon.getPositionReference().getX() - PARTICLE_DIAMETER/2,  
                 _nucleon.getPositionReference().getY() - PARTICLE_DIAMETER/2);
     }
 }
