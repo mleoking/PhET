@@ -49,6 +49,7 @@ CLEANUP:
 
 
 DONE:
+6/24/08 - add ability to dilute with water
 6/24/08 - add ability to add a liquid
 6/24/08 - add ability to drain liquid
 6/24/08 - delete Beaker from model, not needed

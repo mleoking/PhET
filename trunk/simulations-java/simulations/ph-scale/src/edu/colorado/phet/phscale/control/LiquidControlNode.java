@@ -30,9 +30,12 @@ public class LiquidControlNode extends PNode {
     private final LiquidComboBox _comboBox;
     private final PPath _liquidColumnNode;
     private final FaucetControlNode _faucetControlNode;
+    private boolean _autoFilling;
     
     public LiquidControlNode( PSwingCanvas canvas, Liquid liquid ) {
         super();
+        
+        _autoFilling = false;
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
@@ -43,12 +46,14 @@ public class LiquidControlNode extends PNode {
         _liquid.addLiquidListener( _liquidListener );
         
         _comboBox = new LiquidComboBox();
+        _comboBox.setChoice( _liquid.getLiquidDescriptor() );
         PSwing comboBoxWrapper = new PSwing( _comboBox );
         _comboBox.setEnvironment( comboBoxWrapper, canvas ); // hack required by PComboBox
         _comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
                 if ( liquidDescriptor != null ) {
+                    _autoFilling = true;
                     _liquid.drainImmediately();
                     _liquid.setLiquidDescriptor( liquidDescriptor );
                     _liquid.startFilling( FAST_FILL_RATE, liquidDescriptor, FAST_FILL_VOLUME );
@@ -63,7 +68,7 @@ public class LiquidControlNode extends PNode {
         
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_RIGHT );
         _faucetControlNode.setOn( false );
-        _faucetControlNode.setEnabled( false ); // disabled until user makes a liquid choice
+        _faucetControlNode.setEnabled( _comboBox.getChoice() != null ); // disabled until a liquid is chosen
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
                 if ( on ) {
@@ -89,32 +94,18 @@ public class LiquidControlNode extends PNode {
         _faucetControlNode.setOffset( cb.getX(), cb.getMaxY() + 5 );
         _liquidColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMaxX() - _liquidColumnNode.getFullBoundsReference().getWidth() - 3, _faucetControlNode.getFullBoundsReference().getMaxY() );
         
-        setLiquidDescriptor( _liquid.geLiquidDescriptor() );
-        _faucetControlNode.setOn( false );
+        update();
     }
     
     public void cleanup() {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
-    public void setOn( boolean on ) {
-        _faucetControlNode.setOn( on );
-    }
-    
-    public boolean isOn() {
-        return _faucetControlNode.isOn();
-    }
-    
-    public void setLiquidDescriptor( LiquidDescriptor liquidDescriptor ) {
-        _comboBox.setChoice( liquidDescriptor );
-    }
-    
-    public LiquidDescriptor getLiquidDescriptor() {
-        return _comboBox.getChoice();
-    }
-    
     private void update() {
-        _faucetControlNode.setOn( _liquid.isFilling() );
+        if ( _autoFilling ) {
+            _autoFilling = _liquid.isFilling();
+            _faucetControlNode.setOn( _liquid.isFilling() );
+        }
         _liquidColumnNode.setVisible( _liquid.isFilling() && _faucetControlNode.isOn() );
         _liquidColumnNode.setPaint( _liquid.getColor() );
     }
