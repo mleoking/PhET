@@ -12,22 +12,22 @@ public class Liquid {
     
     private final ArrayList _listeners;
     
-    private LiquidDescriptor _baseLiquid;
+    private LiquidDescriptor _liquidDescriptor;
     private double _pH;
     private double _volume; // liters
     
-    public Liquid( LiquidDescriptor baseLiquid, double volume ) {
+    public Liquid( LiquidDescriptor liquidDescriptor, double volume ) {
         assert( volume >= 0 );
         _listeners = new ArrayList();
-        setLiquid( baseLiquid, volume );
+        setLiquidDescriptor( liquidDescriptor, volume );
     }
     
-    public LiquidDescriptor getBaseLiquid() {
-        return _baseLiquid;
+    public LiquidDescriptor geLiquidDescriptor() {
+        return _liquidDescriptor;
     }
     
-    public void setLiquid( LiquidDescriptor baseLiquid, double volume ) {
-        _baseLiquid = baseLiquid;
+    public void setLiquidDescriptor( LiquidDescriptor baseLiquid, double volume ) {
+        _liquidDescriptor = baseLiquid;
         _pH = baseLiquid.getPH();
         _volume = volume;
         notifyStateChanged();
@@ -54,7 +54,7 @@ public class Liquid {
     }
     
     public Color getColor() {
-        return _baseLiquid.getColor(); //XXX need to dilute this
+        return _liquidDescriptor.getColor(); //XXX need to dilute this
     }
     
     public void setConcentrationH3O( double c ) {
@@ -110,7 +110,8 @@ public class Liquid {
     }
     
     public void setNumberOfMolesH2O( double m ) {
-        //XXX ?
+        double volumeChange = ( m / getConcentrationH2O() ) - _volume;
+        add( LiquidDescriptor.WATER, volumeChange );
     }
     
     public double getNumberOfMolesH2O() {

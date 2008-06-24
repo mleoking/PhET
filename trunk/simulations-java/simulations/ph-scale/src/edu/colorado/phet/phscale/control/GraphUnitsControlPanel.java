@@ -49,23 +49,23 @@ public class GraphUnitsControlPanel extends JPanel {
         _concentrationRadioButton.setSelected( true );
     }
     
-    public boolean isLogSelected() {
+    public boolean isConcentrationSelected() {
         return _concentrationRadioButton.isSelected();
     }
     
-    public void setLogSelected( boolean selected ) {
-        if ( selected != isLogSelected() ) {
+    public void setConcentrationSelected( boolean selected ) {
+        if ( selected != isConcentrationSelected() ) {
             _concentrationRadioButton.setSelected( selected );
             notifySelectionChanged();
         }
     }
     
-    public boolean isLinearSelected() {
-        return !isLogSelected();
+    public boolean isMolesSelected() {
+        return !isConcentrationSelected();
     }
     
-    public void setLinearSelected( boolean selected ) {
-        setLogSelected( !selected );
+    public void setMolesSelected( boolean selected ) {
+        setConcentrationSelected( !selected );
     }
     
     public interface GraphUnitsControlPanelListener {
