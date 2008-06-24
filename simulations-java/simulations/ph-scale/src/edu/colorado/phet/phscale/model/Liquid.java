@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 public class Liquid {
     
+    private static final double MAX_VOLUME = 1.25;
     private static final double AVOGADROS_NUMBER = 6.023E23;
     private static final double H2O_CONCENTRATION = 55; // moles/L
     
@@ -20,6 +21,10 @@ public class Liquid {
         assert( volume >= 0 );
         _listeners = new ArrayList();
         setLiquidDescriptor( liquidDescriptor, volume );
+    }
+    
+    public double getMaxVolume() {
+        return MAX_VOLUME;
     }
     
     public LiquidDescriptor geLiquidDescriptor() {
