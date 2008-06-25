@@ -13,6 +13,7 @@ editable
 extrude
 extruded
 extruding
+faucet
 femto
 femtometer
 femtometers
