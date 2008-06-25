@@ -49,6 +49,8 @@ CLEANUP:
 
 
 DONE:
+6/24/08 - disable slider when beaker is empty
+6/24/08 - wire up units controls on bar graph
 6/24/08 - add ability to dilute with water
 6/24/08 - add ability to add a liquid
 6/24/08 - add ability to drain liquid
