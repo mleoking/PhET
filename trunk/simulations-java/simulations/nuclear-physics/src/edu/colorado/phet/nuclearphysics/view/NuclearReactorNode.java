@@ -238,7 +238,7 @@ public class NuclearReactorNode extends PNode {
         }
         else if (modelElement instanceof Neutron){
             // Add a corresponding neutron node for this guy.
-            PNode neutronNode = new NeutronNode((Neutron)modelElement);
+            PNode neutronNode = new NeutronModelNode((Neutron)modelElement);
             _nucleiAndFreeParticleNode.addChild( neutronNode );
             _modelElementToNodeMap.put( modelElement, neutronNode );            
         }

@@ -12,20 +12,22 @@ import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+
 /**
- * This class displays a visual representation of the neutron on the canvas.
+ * This class is used to visually represent a Proton and will track the
+ * location of a proton in the model and update itself accordingly.
  *
  * @author John Blanco
  */
-public class NeutronNode extends SphericalNode implements NucleonNode {
-    
+public class ProtonModelNode extends SphericalNode implements NucleonNode{
+
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
     
     private final static double PARTICLE_DIAMETER = 1.6;  // Femto meters.
-    private static final Color COLOR = Color.GRAY;
-    private static final Color HILITE_COLOR = new Color(0xeeeeee);
+    private static final Color COLOR = new Color(0xaa0000); // Red
+    private static final Color HILITE_COLOR = new Color(0xffaaaa); // Light red
     private static final Paint ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER/6, -PARTICLE_DIAMETER/6,
             HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/4, PARTICLE_DIAMETER/4 ), COLOR );
     
@@ -39,7 +41,7 @@ public class NeutronNode extends SphericalNode implements NucleonNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public NeutronNode(Nucleon nucleon)
+    public ProtonModelNode(Nucleon nucleon)
     {
         super(PARTICLE_DIAMETER, ROUND_GRADIENT, false);
         
@@ -75,9 +77,9 @@ public class NeutronNode extends SphericalNode implements NucleonNode {
     
     /**
      * This is a static factory method that can be used to obtain an image of
-     * a neutron that will look just like the images used in the play area.
+     * a proton that will look just like the images used in the play area.
      */
-    static public Image generateNeutronImage(double diameter){
+    static public Image generateProtonImage(double diameter){
         
         Paint roundGradient = new RoundGradientPaint( -diameter/6, -diameter/6, HILITE_COLOR, 
                 new Point2D.Double( diameter/4, diameter/4 ), COLOR );
@@ -87,11 +89,11 @@ public class NeutronNode extends SphericalNode implements NucleonNode {
     
     /**
      * This is a static factory method that can be used to obtain an image node
-     * for a neutron that will look just like the images used in the play area.
+     * for a proton that will look just like the images used in the play area.
      */
     static public PImage generateNeutronImageNode(double diameter){
         
-        return (new PImage(generateNeutronImage( diameter )));
+        return (new PImage(generateProtonImage( diameter )));
     }
 
     //------------------------------------------------------------------------

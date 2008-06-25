@@ -19,8 +19,8 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronNode;
-import edu.colorado.phet.nuclearphysics.view.ProtonNode;
+import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
+import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.umd.cs.piccolo.PNode;
 
 
@@ -55,8 +55,8 @@ public class FissionOneNucleusLegendPanel extends JPanel {
 
         // Add the images and labels for the simple portion of the legend.
         
-        addLegendItem( NeutronNode.generateNeutronImage( 12 ), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL ); 
-        addLegendItem( ProtonNode.generateProtonImage( 12 ), NuclearPhysicsStrings.PROTON_LEGEND_LABEL ); 
+        addLegendItem( NeutronModelNode.generateNeutronImage( 12 ), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL ); 
+        addLegendItem( ProtonModelNode.generateProtonImage( 12 ), NuclearPhysicsStrings.PROTON_LEGEND_LABEL ); 
         
         // Add the Uranium nucleus to the legend.
         

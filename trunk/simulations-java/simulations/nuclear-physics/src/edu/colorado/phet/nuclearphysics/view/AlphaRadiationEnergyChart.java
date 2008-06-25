@@ -281,13 +281,13 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         // Add the images that will depict alpha particles moving around
         // within the nucleus.
         for (int i = 0; i < MAX_ALPHA_PARTICLES_DISPLAYED; i++){
-            _alphaParticleImages[i] = AlphaParticleNode.generateAlphaParticleImageNode(ALPHA_PARTICLE_DIAMETER);
+            _alphaParticleImages[i] = AlphaParticleModelNode.generateAlphaParticleImageNode(ALPHA_PARTICLE_DIAMETER);
             _alphaParticleImages[i].setVisible( true );
             addChild( _alphaParticleImages[i] );
         }
         
         // Add the image that depicts the tunneling alpha particle.
-        _tunneledAlphaParticleImage = AlphaParticleNode.generateAlphaParticleImageNode(ALPHA_PARTICLE_DIAMETER);
+        _tunneledAlphaParticleImage = AlphaParticleModelNode.generateAlphaParticleImageNode(ALPHA_PARTICLE_DIAMETER);
         _tunneledAlphaParticleImage.setVisible( false );
         _tunneledAlphaParticleImage.setScale( ALPHA_PARTICLE_SCALE_FACTOR );
         addChild( _tunneledAlphaParticleImage );

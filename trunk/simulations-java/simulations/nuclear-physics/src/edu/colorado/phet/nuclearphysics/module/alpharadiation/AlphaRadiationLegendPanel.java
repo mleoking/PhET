@@ -18,10 +18,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.view.AlphaParticleNode;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronNode;
-import edu.colorado.phet.nuclearphysics.view.ProtonNode;
+import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
+import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.umd.cs.piccolo.PNode;
 
 
@@ -60,9 +60,9 @@ public class AlphaRadiationLegendPanel extends JPanel {
 
         // Add the images and labels for the simple portion of the legend.
         
-        addLegendItem( NeutronNode.generateNeutronImage( 12 ), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL ); 
-        addLegendItem( ProtonNode.generateProtonImage( 12 ), NuclearPhysicsStrings.PROTON_LEGEND_LABEL ); 
-        addLegendItem( AlphaParticleNode.generateAlphaParticleImage( 25 ), 
+        addLegendItem( NeutronModelNode.generateNeutronImage( 12 ), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL ); 
+        addLegendItem( ProtonModelNode.generateProtonImage( 12 ), NuclearPhysicsStrings.PROTON_LEGEND_LABEL ); 
+        addLegendItem( AlphaParticleModelNode.generateAlphaParticleImage( 25 ), 
                 NuclearPhysicsStrings.ALPHA_PARTICLE_LEGEND_LABEL );
         
         // Add the Polonium nucleus to the legend.

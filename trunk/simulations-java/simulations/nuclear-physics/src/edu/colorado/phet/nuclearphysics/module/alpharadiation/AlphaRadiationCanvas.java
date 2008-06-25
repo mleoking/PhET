@@ -23,12 +23,12 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.Proton;
-import edu.colorado.phet.nuclearphysics.view.AlphaParticleNode;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AlphaRadiationEnergyChart;
 import edu.colorado.phet.nuclearphysics.view.AlphaRadiationTimeChart;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronNode;
-import edu.colorado.phet.nuclearphysics.view.ProtonNode;
+import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
+import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -106,19 +106,19 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
             
             if (constituent instanceof AlphaParticle){
                 // Add a visible representation of the alpha particle to the canvas.
-                AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
+                AlphaParticleModelNode alphaNode = new AlphaParticleModelNode((AlphaParticle)constituent);
                 alphaNode.setVisible( true );
                 nucleusLayer.addChild( alphaNode );
             }
             else if (constituent instanceof Neutron){
                 // Add a visible representation of the neutron to the canvas.
-                NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
+                NeutronModelNode neutronNode = new NeutronModelNode((Neutron)constituent);
                 neutronNode.setVisible( true );
                 nucleusLayer.addChild( neutronNode );
             }
             else if (constituent instanceof Proton){
                 // Add a visible representation of the proton to the canvas.
-                ProtonNode protonNode = new ProtonNode((Proton)constituent);
+                ProtonModelNode protonNode = new ProtonModelNode((Proton)constituent);
                 protonNode.setVisible( true );
                 nucleusLayer.addChild( protonNode );
             }
@@ -152,7 +152,7 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
              */
             public void particleAdded(AlphaParticle alphaParticle){
                 
-                AlphaParticleNode alphaParticleNode = new AlphaParticleNode(alphaParticle);
+                AlphaParticleModelNode alphaParticleNode = new AlphaParticleModelNode(alphaParticle);
                 
                 // Add the particle to the world.
                 addWorldChild( 0, alphaParticleNode );
@@ -166,8 +166,8 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
              * remove its representation from the canvas (i.e. view).
              */
             public void particleRemoved(AlphaParticle alphaParticle){
-                AlphaParticleNode alphaParticleNode = 
-                    (AlphaParticleNode)_mapAlphaParticlesToNodes.get( alphaParticle );
+                AlphaParticleModelNode alphaParticleNode = 
+                    (AlphaParticleModelNode)_mapAlphaParticlesToNodes.get( alphaParticle );
                 assert alphaParticleNode != null;
                 removeWorldChild( alphaParticleNode );
                 _mapAlphaParticlesToNodes.remove( alphaParticleNode );
