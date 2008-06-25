@@ -22,6 +22,10 @@ public class Liquid extends ClockAdapter {
     // Class data
     //----------------------------------------------------------------------------
     
+    public static final double SLOW_FILL_RATE = 0.01; // liters per clock tick
+    public static final double FAST_FILL_RATE = 0.2; // liters per clock tick
+    public static final double FAST_FILL_VOLUME = 1.0; // liters
+    
     private static final double MAX_VOLUME = 1.25;
     private static final double AVOGADROS_NUMBER = 6.023E23;
     private static final double H2O_CONCENTRATION = 55; // moles/L
@@ -74,6 +78,7 @@ public class Liquid extends ClockAdapter {
     public void setLiquidDescriptor( LiquidDescriptor liquidDescriptor ) {
         _liquidDescriptor = liquidDescriptor;
         drainImmediately();
+        startFilling( FAST_FILL_RATE, liquidDescriptor, FAST_FILL_VOLUME );
         notifyStateChanged();
     }
     

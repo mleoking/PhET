@@ -22,7 +22,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class WaterControlNode extends PNode {
 
     private static final PDimension WATER_COLUMN_SIZE = new PDimension( 20, 450 );
-    private static final double FILL_RATE = 0.01; // liters per clock tick
     public static final Font FONT = PHScaleConstants.CONTROL_FONT;
     
     private final Liquid _liquid;
@@ -49,7 +48,7 @@ public class WaterControlNode extends PNode {
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
                 if ( on ) {
-                    _liquid.startFilling( FILL_RATE, LiquidDescriptor.WATER );
+                    _liquid.startFilling( Liquid.SLOW_FILL_RATE, LiquidDescriptor.WATER );
                 }
                 else {
                     _liquid.stopFilling();

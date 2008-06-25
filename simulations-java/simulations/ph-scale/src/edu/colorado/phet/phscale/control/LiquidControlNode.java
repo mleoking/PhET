@@ -25,9 +25,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class LiquidControlNode extends PNode {
     
     private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 440 );
-    private static final double FILL_RATE = 0.01; // liters per clock tick
-    private static final double FAST_FILL_VOLUME = 1.0; // liters
-    private static final double FAST_FILL_RATE = 0.2; // liters
 
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
@@ -59,7 +56,7 @@ public class LiquidControlNode extends PNode {
         _comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 if ( e.getStateChange() == ItemEvent.SELECTED ) {
-                    handleLiquidSelection();
+                    handleLiquidSelection( _confirmChangeLiquid );
                 }
             }
         } );
@@ -95,6 +92,11 @@ public class LiquidControlNode extends PNode {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
+    public void setLiquidDescriptor( LiquidDescriptor liquidDescriptor ) {
+        _comboBox.setChoice( liquidDescriptor );
+        handleLiquidSelection( false /* confirm */ );
+    }
+    
     private void update() {
         if ( _autoFilling ) {
             _autoFilling = _liquid.isFilling();
@@ -102,21 +104,21 @@ public class LiquidControlNode extends PNode {
         }
         _liquidColumnNode.setVisible( _liquid.isFilling() && _faucetControlNode.isOn() );
         _liquidColumnNode.setPaint( _liquid.getColor() );
+        _comboBox.setChoice( _liquid.getLiquidDescriptor() );
     }
     
-    private void handleLiquidSelection() {
+    private void handleLiquidSelection( boolean confirm ) {
         LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
         if ( liquidDescriptor != null ) {
             if ( liquidDescriptor != _selectedLiquidDescriptor ) {
                 boolean confirmed = true;
-                if ( !_liquid.isEmpty() && _confirmChangeLiquid ) {
+                if ( !_liquid.isEmpty() && confirm ) {
                     confirmed = confirmChangeLiquid();
                 }
                 if ( confirmed ) {
                     _autoFilling = true;
                     _selectedLiquidDescriptor = liquidDescriptor;
                     _liquid.setLiquidDescriptor( liquidDescriptor );
-                    _liquid.startFilling( FAST_FILL_RATE, liquidDescriptor, FAST_FILL_VOLUME );
                 }
                 else {
                     _comboBox.setChoice( _selectedLiquidDescriptor );
@@ -133,7 +135,7 @@ public class LiquidControlNode extends PNode {
     private void handleFaucetOnOff( boolean on ) {
         if ( on ) {
             LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
-            _liquid.startFilling( FILL_RATE, liquidDescriptor );
+            _liquid.startFilling( Liquid.SLOW_FILL_RATE, liquidDescriptor );
         }
         else {
             _liquid.stopFilling();
