@@ -7,12 +7,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JOptionPane;
-
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.phscale.PHScaleApplication;
-import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
+import edu.colorado.phet.phscale.dialog.ConfirmChangeLiquidDialog;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
@@ -39,11 +37,13 @@ public class LiquidControlNode extends PNode {
     
     private LiquidDescriptor _selectedLiquidDescriptor;
     private boolean _autoFilling;
+    private boolean _confirmChangeLiquid;
     
     public LiquidControlNode( PSwingCanvas canvas, Liquid liquid ) {
         super();
         
         _autoFilling = false;
+        _confirmChangeLiquid = true;
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
@@ -58,7 +58,9 @@ public class LiquidControlNode extends PNode {
         _selectedLiquidDescriptor = _comboBox.getChoice();
         _comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
-                handleLiquidSelection();
+                if ( e.getStateChange() == ItemEvent.SELECTED ) {
+                    handleLiquidSelection();
+                }
             }
         } );
         PSwing comboBoxWrapper = new PSwing( _comboBox );
@@ -106,11 +108,11 @@ public class LiquidControlNode extends PNode {
         LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
         if ( liquidDescriptor != null ) {
             if ( liquidDescriptor != _selectedLiquidDescriptor ) {
-                boolean confirm = true;
-                if ( !_liquid.isEmpty() ) {
-                    confirm = confirmChangeLiquid();
+                boolean confirmed = true;
+                if ( !_liquid.isEmpty() && _confirmChangeLiquid ) {
+                    confirmed = confirmChangeLiquid();
                 }
-                if ( confirm ) {
+                if ( confirmed ) {
                     _autoFilling = true;
                     _selectedLiquidDescriptor = liquidDescriptor;
                     _liquid.setLiquidDescriptor( liquidDescriptor );
@@ -138,10 +140,19 @@ public class LiquidControlNode extends PNode {
         }
     }
     
-    private static boolean confirmChangeLiquid() {
+    /*
+     * Opens a dialog to confirm whether the user wantes to change the liquid.
+     * As a side effect, the flag is set that determines whether this dialog is shown again.
+     * 
+     * @return true or false
+     */
+    private boolean confirmChangeLiquid() {
         Frame parent = PHScaleApplication.instance().getPhetFrame();
-        String message = PHScaleStrings.CONFIRM_CHANGE_LIQUID;
-        int rval = DialogUtils.showConfirmDialog( parent, message, JOptionPane.YES_NO_OPTION );
-        return ( rval == JOptionPane.YES_OPTION );
+        ConfirmChangeLiquidDialog dialog = new ConfirmChangeLiquidDialog( parent );
+        SwingUtils.centerDialogInParent( dialog );
+        dialog.setVisible( true );
+        boolean confirmed = dialog.isConfirmed();
+        _confirmChangeLiquid = !dialog.getDontAskAgain();
+        return confirmed;
     }
 }
