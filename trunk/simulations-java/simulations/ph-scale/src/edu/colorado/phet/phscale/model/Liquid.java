@@ -58,19 +58,21 @@ public class Liquid extends ClockAdapter {
         assert ( newVolume >= 0 );
         assert ( newVolume <= MAX_VOLUME );
         if ( newVolume != _volume ) {
-            double dv = newVolume - _volume;
-            // pH = -log[(10**-pH*Vo + 10**-pH'*Va)/(Vo+Va)]
-            if ( _pH == null ) {
+            if ( _volume == 0 ) {
                 _pH = new Double( addedLiquid.getPH() );
             }
             else {
-                double newPH = -Math.log( ( ( Math.pow( 10, -_pH.doubleValue() ) * _volume ) + ( Math.pow( 10, -addedLiquid.getPH() ) * dv ) ) / ( _volume + dv ) );
+                double addedVolume = newVolume - _volume;
+                double newPH = pHComposite( _pH.doubleValue(), _volume, addedLiquid.getPH(), addedVolume );
                 _pH = new Double( newPH );
             }
-            System.out.println( "Liquid.increaseVolume _pH=" + _pH.doubleValue() + " dv=" + dv );//XXX
             _volume = newVolume;
             notifyStateChanged();
         }
+    }
+    
+    private static final double pHComposite( double pH1, double volume1, double pH2, double volume2 ) {
+        return -Math.log( ( Math.pow( 10, -pH1 ) * volume1 + Math.pow( 10, -pH2 ) * volume2 ) / ( volume1 + volume2 ) );
     }
     
     private void decreaseVolume( double newVolume ) {
@@ -274,5 +276,12 @@ public class Liquid extends ClockAdapter {
             _draining = false;
         }
         decreaseVolume( newVolume );
+    }
+    
+    public static void main( String[] args ) {
+        // adding some more of the same liquid should result in the same pH
+        double pH = 2.4;
+        double newPH = pHComposite( pH, 0.01, pH, 0.01 );
+        System.out.println( "pH=" + pH + " newPH=" + newPH );
     }
 }
