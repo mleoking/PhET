@@ -51,7 +51,7 @@ public class ProbeNode extends PComposite {
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
             public void stateChanged() {
-                setPH( _liquid.getPH() );
+                update();
             }
         };
         _liquid.addLiquidListener( _liquidListener );
@@ -76,15 +76,15 @@ public class ProbeNode extends PComposite {
         PBounds tb = tipNode.getFullBoundsReference();
         tipNode.setOffset( sb.getX() + ( sb.getWidth() - tb.getWidth() ) / 2, sb.getY() + sb.getHeight() );
         
-        setPH( _liquid.getPH() );
+        update();
     }
     
     public void cleanup() {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
-    private void setPH( double pH ) {
-        _displayNode.setValue( pH );
+    private void update() {
+        _displayNode.setValue( _liquid.getPH() );
     }
     
     /*
@@ -120,8 +120,13 @@ public class ProbeNode extends PComposite {
             parentNode.setOffset( DISPLAY_BORDER_MARGIN, DISPLAY_BORDER_MARGIN );
         }
         
-        public void setValue( double pH ) {
-            _valueNode.setText( DISPLAY_FORMAT.format( pH ) );
+        public void setValue( Double pH ) {
+            if ( pH != null ) {
+                _valueNode.setText( DISPLAY_FORMAT.format( pH ) );
+            }
+            else {
+                _valueNode.setText( "" );  
+            }
         }
     }
     

@@ -54,7 +54,6 @@ public class LiquidControlNode extends PNode {
                 LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
                 if ( liquidDescriptor != null ) {
                     _autoFilling = true;
-                    _liquid.drainImmediately();
                     _liquid.setLiquidDescriptor( liquidDescriptor );
                     _liquid.startFilling( FAST_FILL_RATE, liquidDescriptor, FAST_FILL_VOLUME );
                 }

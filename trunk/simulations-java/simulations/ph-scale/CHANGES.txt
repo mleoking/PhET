@@ -24,14 +24,11 @@ DESIGN ISSUES
 DESIGN ISSUES:
 
 HIGH PRIORITY:
-- add # moles concentration to model
-- add concentration computation to model
-- add counts to bar graph, hook up to model
-- better looking beaker with tick marks
-- port prototype code to this sim
-- hook up Ratio check box
+- fix pH calculation in Liquid.increaseVolume
 
 MEDIUM PRIORITY:
+- port prototype code to this sim
+- hook up Ratio check box
 - request confirmation when changing liquid ("Are you sure you want to empty the beaker?")
 - add a check box to confirmation dialog ("don't ask me again")
 
@@ -49,6 +46,7 @@ CLEANUP:
 
 
 DONE:
+6/24/08 - change pH property to type Double, null mean undefined
 6/24/08 - disable slider when beaker is empty
 6/24/08 - wire up units controls on bar graph
 6/24/08 - add ability to dilute with water

@@ -23,7 +23,7 @@ public class PHScaleModel {
     
     public PHScaleModel( IClock clock ) {
         super();
-        _liquid = new Liquid( LiquidDescriptor.LEMON_JUICE, 1 );
+        _liquid = new Liquid( LiquidDescriptor.LEMON_JUICE );
         clock.addClockListener( _liquid );
     }
     

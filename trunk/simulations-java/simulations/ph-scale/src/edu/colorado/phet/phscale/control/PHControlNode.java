@@ -41,12 +41,7 @@ public class PHControlNode extends PNode {
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
             public void stateChanged() {
-                if ( _liquid.getVolume() > 0 ) {
-                    setPH( _liquid.getPH() );
-                }
-                else {
-                    setPHUndefined();
-                }
+                update();
             }
         };
         _liquid.addLiquidListener( _liquidListener );
@@ -86,30 +81,24 @@ public class PHControlNode extends PNode {
             }
         });
         
-        setPH( _liquid.getPH() );
+        update();
     }
     
     public void cleanup() {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
-    //----------------------------------------------------------------------------
-    // Setters and getters
-    //----------------------------------------------------------------------------
-    
-    public double getPH() {
-        return _sliderNode.getPH();
-    }
-    
-    public void setPH( double pH ) {
-        _sliderNode.setEnabled( true );
-        _textFieldNode.setEnabled( true );
-        _sliderNode.setPH( pH );
-        _textFieldNode.setPH( pH );
-    }
-    
-    public void setPHUndefined() {
-        _sliderNode.setEnabled( false );
-        _textFieldNode.setEnabled( false );
+    private void update() {
+        Double pH = _liquid.getPH();
+        if ( pH != null ) {
+            _sliderNode.setEnabled( true );
+            _textFieldNode.setEnabled( true );
+            _sliderNode.setPH( pH.doubleValue() );
+            _textFieldNode.setPH( pH.doubleValue() );
+        }
+        else {
+            _sliderNode.setEnabled( false );
+            _textFieldNode.setEnabled( false );
+        }
     }
 }

@@ -17,7 +17,7 @@ public class Liquid extends ClockAdapter {
     private final ArrayList _listeners;
     
     private LiquidDescriptor _liquidDescriptor;
-    private double _pH;
+    private Double _pH;
     private double _volume; // liters
     private boolean _draining;
     private double _drainRate;
@@ -26,8 +26,9 @@ public class Liquid extends ClockAdapter {
     private LiquidDescriptor _fillLiquidDescriptor;
     private double _fillVolume;
     
-    public Liquid( LiquidDescriptor liquidDescriptor, double volume ) {
-        assert( volume >= 0 );
+    public Liquid( LiquidDescriptor liquidDescriptor ) {
+        _pH = null;
+        _volume = 0;
         _listeners = new ArrayList();
         _filling = false;
         _fillRate = 0;
@@ -48,8 +49,7 @@ public class Liquid extends ClockAdapter {
     
     public void setLiquidDescriptor( LiquidDescriptor liquidDescriptor ) {
         _liquidDescriptor = liquidDescriptor;
-        _pH = liquidDescriptor.getPH();
-        _volume = 0;
+        drainImmediately();
         notifyStateChanged();
     }
     
@@ -59,7 +59,15 @@ public class Liquid extends ClockAdapter {
         assert ( newVolume <= MAX_VOLUME );
         if ( newVolume != _volume ) {
             double dv = newVolume - _volume;
-//            _pH = -Math.log( ( Math.pow( 10, -_pH * _volume ) + Math.pow( 10, -addedLiquid.getPH() * dv ) ) / ( _volume + dv ) );
+            // pH = -log[(10**-pH*Vo + 10**-pH'*Va)/(Vo+Va)]
+            if ( _pH == null ) {
+                _pH = new Double( addedLiquid.getPH() );
+            }
+            else {
+                double newPH = -Math.log( ( ( Math.pow( 10, -_pH.doubleValue() ) * _volume ) + ( Math.pow( 10, -addedLiquid.getPH() ) * dv ) ) / ( _volume + dv ) );
+                _pH = new Double( newPH );
+            }
+            System.out.println( "Liquid.increaseVolume _pH=" + _pH.doubleValue() + " dv=" + dv );//XXX
             _volume = newVolume;
             notifyStateChanged();
         }
@@ -70,6 +78,9 @@ public class Liquid extends ClockAdapter {
         assert ( newVolume >= 0 );
         assert ( newVolume <= MAX_VOLUME );
         _volume = newVolume;
+        if ( _volume == 0 ) {
+            _pH = null;
+        }
         notifyStateChanged();
     }
     
@@ -135,11 +146,11 @@ public class Liquid extends ClockAdapter {
     }
     
     public void setPH( double pH ) {
-        _pH = pH;
+        _pH = new Double( pH );
         notifyStateChanged();
     }
     
-    public double getPH() {
+    public Double getPH() {
         return _pH;
     }
     
@@ -152,21 +163,29 @@ public class Liquid extends ClockAdapter {
     }
     
     public void setConcentrationH3O( double c ) {
-        _pH = -Math.log( c );
+        _pH = new Double( -Math.log( c ) );
         notifyStateChanged();
     }
     
     public double getConcentrationH3O() {
-        return Math.pow( 10, -_pH );
+        double c = 0;
+        if ( _pH != null ) {
+            c = Math.pow( 10, -_pH.doubleValue() );
+        }
+        return c;
     }
   
     public void setConcentrationOH( double c ) {
-        _pH = 14 - ( -Math.log( c ) );
+        _pH = new Double( 14 - ( -Math.log( c ) ) );
         notifyStateChanged();
     }
     
     public double getConcentrationOH() {
-        return Math.pow( 10, -( 14 - _pH ) );
+        double c = 0;
+        if ( _pH != null ) {
+            c = Math.pow( 10, -( 14 - _pH.doubleValue()) );
+        }
+        return c;
     }
     
     public double getConcentrationH2O() {
@@ -186,7 +205,7 @@ public class Liquid extends ClockAdapter {
     }
     
     public void setNumberOfMolesH3O( double m ) {
-        _pH = -Math.log( m / _volume );
+        _pH = new Double( -Math.log( m / _volume ) );
         notifyStateChanged();
     }
     
@@ -195,7 +214,7 @@ public class Liquid extends ClockAdapter {
     }
     
     public void setNumberOfMolesOH( double m ) {
-        _pH = 14 - ( -Math.log( m / _volume ) );
+        _pH = new Double( 14 - ( -Math.log( m / _volume ) ) );
         notifyStateChanged();
     }
     
