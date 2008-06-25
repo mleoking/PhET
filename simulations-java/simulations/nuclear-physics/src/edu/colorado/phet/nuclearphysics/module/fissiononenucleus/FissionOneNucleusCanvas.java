@@ -22,12 +22,12 @@ import edu.colorado.phet.nuclearphysics.model.Neutron;
 import edu.colorado.phet.nuclearphysics.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.model.Proton;
-import edu.colorado.phet.nuclearphysics.view.AlphaParticleNode;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.FissionEnergyChart;
-import edu.colorado.phet.nuclearphysics.view.NeutronNode;
+import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronSourceNode;
-import edu.colorado.phet.nuclearphysics.view.ProtonNode;
+import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -135,19 +135,19 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
             
             if (constituent instanceof AlphaParticle){
                 // Add a visible representation of the alpha particle to the canvas.
-                AlphaParticleNode alphaNode = new AlphaParticleNode((AlphaParticle)constituent);
+                AlphaParticleModelNode alphaNode = new AlphaParticleModelNode((AlphaParticle)constituent);
                 _nucleusParticlesLayerNode.addChild( alphaNode );
                 _particleToNodeMap.put( constituent, alphaNode );
             }
             else if (constituent instanceof Proton){
                 // Add a visible representation of the proton to the canvas.
-                ProtonNode protonNode = new ProtonNode((Proton)constituent);
+                ProtonModelNode protonNode = new ProtonModelNode((Proton)constituent);
                 _nucleusParticlesLayerNode.addChild( protonNode );
                 _particleToNodeMap.put( constituent, protonNode );
             }
             else if (constituent instanceof Neutron){
                 // Add a visible representation of the neutron to the canvas.
-                NeutronNode neutronNode = new NeutronNode((Neutron)constituent);
+                NeutronModelNode neutronNode = new NeutronModelNode((Neutron)constituent);
                 _nucleusParticlesLayerNode.addChild( neutronNode );
                 _particleToNodeMap.put( constituent, neutronNode );
             }
@@ -173,7 +173,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         fissionOneNucleusModel.getNeutronSource().addListener( new NeutronSource.Adapter (){
             public void neutronGenerated(Neutron neutron){
                 // Add this new neutron to the canvas.
-                NeutronNode neutronNode = new NeutronNode(neutron);
+                NeutronModelNode neutronNode = new NeutronModelNode(neutron);
                 _nucleusParticlesLayerNode.addChild( neutronNode );
                 _particleToNodeMap.put( neutron, neutronNode );
             }

@@ -16,11 +16,11 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * AlphaParticleNode - This class is used to represent an alpha particle in
- * the view.
+ * the view and will track the location of it in the model and update itself accordingly.
  *
  * @author John Blanco
  */
-public class AlphaParticleNode extends PNode {
+public class AlphaParticleModelNode extends PNode {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -50,7 +50,7 @@ public class AlphaParticleNode extends PNode {
     // Constructor
     //------------------------------------------------------------------------
     
-    public AlphaParticleNode(AlphaParticle alphaParticle)
+    public AlphaParticleModelNode(AlphaParticle alphaParticle)
     {
         _alphaParticle = alphaParticle;
         

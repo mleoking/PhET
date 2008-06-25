@@ -16,7 +16,7 @@ import edu.colorado.phet.nuclearphysics.model.Uranium235CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.view.AtomicBombGraphicNode;
 import edu.colorado.phet.nuclearphysics.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.view.ContainmentVesselNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronNode;
+import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronSourceNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -140,7 +140,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         }
         else if (modelElement instanceof Neutron){
             // Add a corresponding neutron node for this guy.
-            PNode neutronNode = new NeutronNode((Neutron)modelElement);
+            PNode neutronNode = new NeutronModelNode((Neutron)modelElement);
             _nucleusLayer.addChild( neutronNode );
             _modelElementToNodeMap.put( modelElement, neutronNode );            
         }
