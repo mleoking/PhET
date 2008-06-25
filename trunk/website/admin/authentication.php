@@ -106,7 +106,7 @@
                 ($_REQUEST['contributor_password1'] == $_REQUEST['contributor_password2'])) {
                 // make sure the account doesn't exist
                 if (contributor_get_contributor_by_username($_REQUEST['contributor_email'])) {
-                    $authentication_error = "Account creation faild, that email already exists";
+                    $authentication_error = "Account creation failed, that email already exists";
                     $authentication_complete = true;
                     $authentication_result = false;
                     return $authentication_result;
@@ -179,7 +179,7 @@
 
             $valid = contributor_is_valid_login($email, $encrypted_password);
             if ($valid === false) {
-                $authentication_error = "Login faild, email and/or password is incorrect";
+                $authentication_error = "Login failed, email and/or password is incorrect";
                 $authentication_complete = true;
                 $authentication_result = false;
                 return $authentication_result;
