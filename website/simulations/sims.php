@@ -499,7 +499,7 @@ EOT;
                                     print "Sun Java 1.4.2_16 or later<br/>";
                                 }
                                 else if ($sim_type == '1') {
-                                    print "Macromedia Flash 7 or later<br/>";
+                                    print "Macromedia Flash 8 or later<br/>";
                                 }
 
                             print <<<EOT
@@ -514,7 +514,7 @@ EOT;
                                 print "Apple Java 1.4.2_16 or later<br/>";
                             }
                             else if ($sim_type == '1') {
-                                print "Macromedia Flash 7 or later<br/>";
+                                print "Macromedia Flash 8 or later<br/>";
                             }
 
                             print <<<EOT
@@ -526,7 +526,7 @@ EOT;
                                 print "Sun Java 1.4.2_16 or later<br/>";
                             }
                             else if ($sim_type == '1') {
-                                print "Macromedia Flash 7 or later<br/>";
+                                print "Macromedia Flash 8 or later<br/>";
                             }
 
                             print <<<EOT

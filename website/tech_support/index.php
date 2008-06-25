@@ -72,7 +72,7 @@ class TroubleshootingPage extends SitePage {
             Approximately 60MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
             Sun Java 1.4.2_16 or later<br />
-            Macromedia Flash 7 or later<br />
+            Macromedia Flash 8 or later<br />
             Microsoft Internet Explorer 6 or later, Firefox 2 or later</p>
 
             <p><strong>Macintosh Systems</strong><br />
@@ -82,7 +82,7 @@ class TroubleshootingPage extends SitePage {
             Approximately 40 MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
             Apple Java 1.4.2_16 or later<br />
-            Macromedia Flash 7 or later<br />
+            Macromedia Flash 8 or later<br />
             Safari 2 or later, Firefox 2 or later</p>
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
@@ -93,7 +93,7 @@ class TroubleshootingPage extends SitePage {
             Approximately 40 MB disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
             Sun Java 1.4.2_16 or later<br />
-            Macromedia Flash 7 or later<br />
+            Macromedia Flash 8 or later<br />
             Firefox 2 or later<br/></p>
 
             <p><strong>Support Software</strong></p>

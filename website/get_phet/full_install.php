@@ -62,7 +62,7 @@ class FullInstallPage extends SitePage {
 
             <h2>Support Software</h2>
 
-            <p>Our simulations require Java 1.4 or newer and Flash 7 or newer, both of which are available at no cost. If you don't have them on your computer or aren't sure about your versions, <a href="{$this->prefix}tech_support/index.php">click here</a>.</p>
+            <p>Our simulations require Java 1.4 or newer and Flash 8 or newer, both of which are available at no cost. If you don't have them on your computer or aren't sure about your versions, <a href="{$this->prefix}tech_support/index.php">click here</a>.</p>
 
             <h2>Creating an Installation CD-ROM</h2>
 
