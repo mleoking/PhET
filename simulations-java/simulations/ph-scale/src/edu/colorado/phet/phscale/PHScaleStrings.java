@@ -22,6 +22,10 @@ public class PHScaleStrings {
     
     public static final String BUTTON_RESET_ALL = PHScaleResources.getCommonString( PhetCommonResources.STRING_RESET_ALL );
 
+    public static final String CHECK_BOX_MOLECULE_COUNT = PHScaleResources.getString( "checkBox.moleculeCount" );
+    private static final String CHECK_BOX_H3O_OH_RATIO = PHScaleResources.getString( "checkBox.H3O_OH_ratio" );
+    public static final String CHECK_BOX_DONT_ASK_AGAIN = PHScaleResources.getString( "checkBox.dontAskAgain" );
+    
     public static final String CHOICE_CHOOSE_LIQUID = PHScaleResources.getString( "choice.chooseLiquid" );
     public static final String CHOICE_MILK = PHScaleResources.getString( "choice.milk" );
     public static final String CHOICE_BATTERY_ACID = PHScaleResources.getString( "choice.batteryAcid" );
@@ -43,15 +47,14 @@ public class PHScaleStrings {
     public static final String CHOICE_LYE = PHScaleResources.getString( "choice.lye" );
     public static final String CHOICE_WATER = PHScaleResources.getString( "choice.water" );
 
+    public static final String CONFIRM_CHANGE_LIQUID = PHScaleResources.getString( "confirm.changeLiquid" );
+    
     public static final String LABEL_PH = PHScaleResources.getString( "label.pH" );
     public static final String LABEL_ACID = PHScaleResources.getString( "label.acid" );
     public static final String LABEL_BASE = PHScaleResources.getString( "label.base" );
     public static final String LABEL_H2O = PHScaleResources.getString( "label.H2O" );
     public static final String LABEL_H3O = PHScaleResources.getString( "label.H3O" );
     public static final String LABEL_OH = PHScaleResources.getString( "label.OH" );
-
-    public static final String CHECK_BOX_MOLECULE_COUNT = PHScaleResources.getString( "checkBox.moleculeCount" );
-    private static final String CHECK_BOX_H3O_OH_RATIO = PHScaleResources.getString( "checkBox.H3O_OH_ratio" );
 
     private static final String RADIO_BUTTON_CONCENTRATION = PHScaleResources.getString( "radioButton.concentration" );
     private static final String RADIO_BUTTON_NUMBER_OF_MOLES = PHScaleResources.getString( "radioButton.numberOfMoles" );

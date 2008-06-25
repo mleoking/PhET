@@ -29,8 +29,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - port prototype code to this sim
 - hook up Ratio check box
-- request confirmation when changing liquid ("Are you sure you want to empty the beaker?")
-- add a check box to confirmation dialog ("don't ask me again")
 
 LOW PRIORITY:
 
@@ -46,6 +44,8 @@ CLEANUP:
 
 
 DONE:
+6/24/08 - add a check box to confirmation dialog ("don't ask me again")
+6/24/08 - request confirmation when changing liquid
 6/24/08 - workaround for incorrect pH model for combined liquids
 6/24/08 - clean up Liquid model, javadoc, symmetry, etc.
 6/24/08 - change pH property to type Double, null mean undefined
