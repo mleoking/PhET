@@ -38,18 +38,19 @@ class FullInstallPage extends SitePage {
         print <<<EOT
             <p>
                 The full PhET installation package installs a copy of the PhET website onto your computer. Once installed, you do not need to be connected to the Internet
-                to view or run any of the simulations(as long as you have <a href="http://www.java.com/">Java</a>, <a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=shockwaveFlash">Flash</a>, and a web browser such as <a href="http://www.mozilla.com/en-US/">Firefox</a> or <a href="http://www.microsoft.com/windows/products/winfamily/ie/default.mspx">Internet Explorer</a>).
+                to view or run any of the simulations (as long as you have <a href="http://www.java.com/">Java</a>, <a href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=shockwaveFlash">Flash</a>, and a web browser such as <a href="http://www.mozilla.com/en-US/">Firefox</a> or <a href="http://www.microsoft.com/windows/products/winfamily/ie/default.mspx">Internet Explorer</a>).
             </p>
+
             <p>
-                These installers of the PhET Simulations are updated weekly. We suggest uninstalling your earlier versions of PhET before installing.
+                These installers of the PhET Simulations are updated daily. We suggest uninstalling your earlier versions of PhET before installing.
             </p>
 
             <ul>
-                <li><a href="{$this->prefix}admin/get-member-file.php?file={$win_url}">Download installer for Windows</a> - {$win_size} MB</li>
+                <li><a href="{$this->prefix}admin/get-member-file.php?file={$win_url}">Download installer for Windows (includes Java)</a> - {$win_size} MB</li>
 
-                <li><a href="{$this->prefix}admin/get-member-file.php?file={$mac_url}">Download installer for Mac OS X</a> - {$mac_size} MB</li>
+                <li><a href="{$this->prefix}admin/get-member-file.php?file={$mac_url}">Download installer for Mac OS X (does not include Java)</a> - {$mac_size} MB</li>
 
-                <li><a href="{$this->prefix}admin/get-member-file.php?file={$lin_url}">Download installer for Linux</a> - {$lin_size} MB</li>
+                <li><a href="{$this->prefix}admin/get-member-file.php?file={$lin_url}">Download installer for Linux (does not include Java)</a> - {$lin_size} MB</li>
             </ul>
 
             <hr/>
