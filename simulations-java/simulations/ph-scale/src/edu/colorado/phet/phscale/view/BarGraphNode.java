@@ -119,6 +119,7 @@ public class BarGraphNode extends PNode {
         yo = ob.getMaxY() - mb.getMaxY() - 20;
         _molesNode.setOffset( xo, yo );
         
+        updateUnits();
         updateValues();
     }
     
@@ -141,15 +142,22 @@ public class BarGraphNode extends PNode {
         private final HTMLNode _h3oNode, _ohNode, _h2oNode;
         
         public ValuesNode() {
+            this( Color.BLACK );
+        }
+        
+        public ValuesNode( Color textColor ) {
             
             _h3oNode = new HTMLNode( "?" );
             _h3oNode.setFont( VALUE_FONT );
+            _h3oNode.setHTMLColor( textColor );
             
             _ohNode = new HTMLNode( "?" );
             _ohNode.setFont( VALUE_FONT );
+            _ohNode.setHTMLColor( textColor );
             
             _h2oNode = new HTMLNode( "?" );
             _h2oNode.setFont( VALUE_FONT );
+            _h2oNode.setHTMLColor( textColor );
             
             addChild( _h3oNode );
             addChild( _ohNode );

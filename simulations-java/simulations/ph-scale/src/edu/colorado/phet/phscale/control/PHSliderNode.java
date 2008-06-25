@@ -252,12 +252,21 @@ public class PHSliderNode extends PNode {
     }
     
     /**
+     * Enables and disables the slider.
+     * When the beaker is empty, pH is meaningless, so we'll want to disable the slider.
+     * 
+     * @param enabled
+     */
+    public void setEnabled( boolean enabled ) {
+        setKnobVisible( enabled );
+    }
+    
+    /*
      * Sets the visibility of the knob.
-     * When the beaker is empty, pH is meaningless, so we'll want to make the knob invisible.
      * 
      * @param visible
      */
-    public void setKnobVisible( boolean visible ) {
+    private void setKnobVisible( boolean visible ) {
         _knobNode.setVisible( visible );
     }
     

@@ -20,7 +20,7 @@ public class Liquid extends ClockAdapter {
     private double _pH;
     private double _volume; // liters
     private boolean _draining;
-    private double _drainingRate;
+    private double _drainRate;
     private boolean _filling;
     private double _fillRate;
     private LiquidDescriptor _fillLiquidDescriptor;
@@ -29,8 +29,12 @@ public class Liquid extends ClockAdapter {
     public Liquid( LiquidDescriptor liquidDescriptor, double volume ) {
         assert( volume >= 0 );
         _listeners = new ArrayList();
-        _draining = false;
         _filling = false;
+        _fillRate = 0;
+        _fillLiquidDescriptor = null;
+        _fillVolume = MAX_VOLUME;
+        _draining = false;
+        _drainRate = 0;
         setLiquidDescriptor( liquidDescriptor );
     }
     
@@ -49,12 +53,25 @@ public class Liquid extends ClockAdapter {
         notifyStateChanged();
     }
     
-//    public void add( LiquidDescriptor liquid, double volume ) {
-//        assert( volume >= 0 );
-//        _pH = -Math.log( ( Math.pow( 10, -_pH * _volume ) + Math.pow( 10, -liquid.getPH() * volume ) ) / ( _volume + volume ) );
-//        _volume += volume;
-//        notifyStateChanged();
-//    }
+    private void increaseVolume( double newVolume, LiquidDescriptor addedLiquid ) {
+        assert ( newVolume > _volume );
+        assert ( newVolume >= 0 );
+        assert ( newVolume <= MAX_VOLUME );
+        if ( newVolume != _volume ) {
+            double dv = newVolume - _volume;
+//            _pH = -Math.log( ( Math.pow( 10, -_pH * _volume ) + Math.pow( 10, -addedLiquid.getPH() * dv ) ) / ( _volume + dv ) );
+            _volume = newVolume;
+            notifyStateChanged();
+        }
+    }
+    
+    private void decreaseVolume( double newVolume ) {
+        assert ( newVolume < _volume );
+        assert ( newVolume >= 0 );
+        assert ( newVolume <= MAX_VOLUME );
+        _volume = newVolume;
+        notifyStateChanged();
+    }
     
     public boolean isEmpty() {
         return _volume == 0;
@@ -64,11 +81,11 @@ public class Liquid extends ClockAdapter {
         return _volume == MAX_VOLUME;
     }
     
-    public void startDraining( double drainingRate ) {
+    public void startDraining( double drainRate ) {
         if ( !_draining && !isEmpty() ) {
             _filling = false;
             _draining = true;
-            _drainingRate = drainingRate;
+            _drainRate = drainRate;
             notifyStateChanged();
         }
     }
@@ -186,10 +203,9 @@ public class Liquid extends ClockAdapter {
         return _volume * getConcentrationOH();
     }
     
-//    public void setNumberOfMolesH2O( double m ) {
-//        double volumeChange = ( m / getConcentrationH2O() ) - _volume;
-//        add( LiquidDescriptor.WATER, volumeChange );
-//    }
+    public void setNumberOfMolesH2O( double m ) {
+        //XXX how to do this?...
+    }
     
     public double getNumberOfMolesH2O() {
         return _volume * getConcentrationH2O();
@@ -215,21 +231,29 @@ public class Liquid extends ClockAdapter {
     }
     
     public void clockTicked( ClockEvent clockEvent ) {
-        if ( _draining ) {
-            _volume -= _drainingRate;
-            if ( _volume <= 0 ) {
-                _volume = 0;
-                _draining = false;
-            }
-            notifyStateChanged();
+        if ( _filling ) {
+            stepFill();
         }
-        else if ( _filling ) {
-            _volume += _fillRate;
-            if ( _volume >= _fillVolume ) {
-                _volume = _fillVolume;
-                _filling = false;
-            }
-            notifyStateChanged();
+        else if ( _draining ) {
+            stepDrain();
         }
+    }
+    
+    private void stepFill() {
+        double newVolume = _volume + _fillRate;
+        if ( newVolume >= _fillVolume ) {
+            newVolume = _fillVolume;
+            _filling = false;
+        }
+        increaseVolume( newVolume, _fillLiquidDescriptor );
+    }
+    
+    private void stepDrain() {
+        double newVolume = _volume - _drainRate;
+        if ( newVolume <= 0 ) {
+            newVolume = 0;
+            _draining = false;
+        }
+        decreaseVolume( newVolume );
     }
 }

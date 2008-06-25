@@ -3,6 +3,8 @@
 package edu.colorado.phet.phscale.control;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -21,7 +23,7 @@ public class GraphUnitsControlPanel extends JPanel {
     
     private final ArrayList _listeners;
     private final JRadioButton _concentrationRadioButton;
-    private final JRadioButton _numberOfMolesRadioButton;
+    private final JRadioButton _molesRadioButton;
     
     public GraphUnitsControlPanel() {
         super();
@@ -31,20 +33,30 @@ public class GraphUnitsControlPanel extends JPanel {
         
         _concentrationRadioButton = new JRadioButton( PHScaleStrings.getConcentrationString() );
         _concentrationRadioButton.setFont( CONTROL_FONT );
+        _concentrationRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifySelectionChanged();
+            }
+        } );
         
-        _numberOfMolesRadioButton = new JRadioButton( PHScaleStrings.getNumberOfMolesString() );
-        _numberOfMolesRadioButton.setFont( CONTROL_FONT );
+        _molesRadioButton = new JRadioButton( PHScaleStrings.getNumberOfMolesString() );
+        _molesRadioButton.setFont( CONTROL_FONT );
+        _molesRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifySelectionChanged();
+            }
+        } );
         
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _concentrationRadioButton );
-        buttonGroup.add( _numberOfMolesRadioButton );
+        buttonGroup.add( _molesRadioButton );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         this.setLayout( layout );
         int row = 0;
         int col = 0;
         layout.addComponent( _concentrationRadioButton, row++, col );
-        layout.addComponent( _numberOfMolesRadioButton, row++, col );
+        layout.addComponent( _molesRadioButton, row++, col );
         
         _concentrationRadioButton.setSelected( true );
     }
@@ -61,11 +73,14 @@ public class GraphUnitsControlPanel extends JPanel {
     }
     
     public boolean isMolesSelected() {
-        return !isConcentrationSelected();
+        return _molesRadioButton.isSelected();
     }
     
     public void setMolesSelected( boolean selected ) {
-        setConcentrationSelected( !selected );
+        if ( selected != isMolesSelected() ) {
+            _molesRadioButton.setSelected( selected );
+            notifySelectionChanged();
+        }
     }
     
     public interface GraphUnitsControlPanelListener {
