@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
@@ -229,7 +230,7 @@ public class Liquid extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public void setConcentrationH3O( double c ) {
-        _pH = new Double( -Math.log( c ) );
+        _pH = new Double( -MathUtil.log10( c ) );
         notifyStateChanged();
     }
     
@@ -242,7 +243,7 @@ public class Liquid extends ClockAdapter {
     }
   
     public void setConcentrationOH( double c ) {
-        _pH = new Double( 14 - ( -Math.log( c ) ) );
+        _pH = new Double( 14 - ( -MathUtil.log10( c ) ) );
         notifyStateChanged();
     }
     
@@ -279,7 +280,7 @@ public class Liquid extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public void setMolesH3O( double m ) {
-        _pH = new Double( -Math.log( m / _volume ) );
+        _pH = new Double( -MathUtil.log10( m / _volume ) );
         notifyStateChanged();
     }
     
@@ -288,7 +289,7 @@ public class Liquid extends ClockAdapter {
     }
     
     public void setMolesOH( double m ) {
-        _pH = new Double( 14 - ( -Math.log( m / _volume ) ) );
+        _pH = new Double( 14 - ( -MathUtil.log10( m / _volume ) ) );
         notifyStateChanged();
     }
     
@@ -317,7 +318,7 @@ public class Liquid extends ClockAdapter {
      * @param volume2 (L)
      */
     private static final double pHCombined( double pH1, double volume1, double pH2, double volume2 ) {
-        return -Math.log( ( Math.pow( 10, -pH1 ) * volume1 + Math.pow( 10, -pH2 ) * volume2 ) / ( volume1 + volume2 ) ) / Math.log(10);
+        return -MathUtil.log10( ( Math.pow( 10, -pH1 ) * volume1 + Math.pow( 10, -pH2 ) * volume2 ) / ( volume1 + volume2 ) );
     }
     
     /*

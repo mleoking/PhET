@@ -44,6 +44,8 @@ CLEANUP:
 
 
 DONE:
+6/25/08 - add MathUtil.log10
+6/25/08 - fix all Math.log with MathUtil.log10 in ph-scale Liquid model
 6/25/08 - fix Liquid.pHCombined
 6/25/08 - reset liquid model in "reset all"
 6/25/08 - fill to 1L on startup or reset
