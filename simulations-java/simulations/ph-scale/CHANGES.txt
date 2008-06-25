@@ -11,6 +11,7 @@ DESIGN ISSUES
     6.5    160       16
     6.0    500        5
 - how to combine color of liquid + water?
+- what to do with liquid color when pH is changed via pH slider or bars?
 - what happens when dragging bars would result in pH outside range?
 
 HIGH PRIORITY:
