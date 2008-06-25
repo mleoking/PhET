@@ -11,7 +11,6 @@ DESIGN ISSUES
     6.5    160       16
     6.0    500        5
 - how to combine color of liquid + water?
-- what to do with liquid color when pH is changed via pH slider or bars?
 - what happens when dragging bars would result in pH outside range?
 
 HIGH PRIORITY:
@@ -27,6 +26,7 @@ MEDIUM PRIORITY:
 - implement linear and log scale switching
 - add plumbing going into faucets
 - 10x zoom feature for linear graph, zoom into zero
+- liquid level doesn't line up with volume tick marks on beaker
 
 LOW PRIORITY:
 - change layout of molecule counts display
@@ -45,6 +45,9 @@ CLEANUP:
 
 
 DONE:
+6/25/08 - add startFillingWithWater interface to Liquid, separate set of flags for filling with water
+6/25/08 - change startFilling interface to startFillingLiquid, use getLiquidDescriptor for the liquid that is filled
+6/25/08 - fix: liquid faucet remains "on" after changing liquid type and filling is finished
 6/25/08 - add MathUtil.log10
 6/25/08 - fix all Math.log with MathUtil.log10 in ph-scale Liquid model
 6/25/08 - fix Liquid.pHCombined
@@ -120,6 +123,7 @@ DONE:
 5/20/08 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+6/25/08 - change color of liquid in beaker when pH slider or graph bars are changed (no, don't change color)
 
 
 ===============================================================================
