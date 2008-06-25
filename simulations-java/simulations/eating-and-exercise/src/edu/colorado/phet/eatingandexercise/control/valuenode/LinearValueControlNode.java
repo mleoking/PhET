@@ -120,7 +120,7 @@ public class LinearValueControlNode extends PNode {
                 System.out.println( "LinearValueControlNode.valueChanged: " + value );
             }
         } );
-        piccoloTestFrame.addNode( new BorderNode( control ) );
+        piccoloTestFrame.addNode( new BorderNode( control ,5,3) );
         piccoloTestFrame.setVisible( true );
     }
 }
