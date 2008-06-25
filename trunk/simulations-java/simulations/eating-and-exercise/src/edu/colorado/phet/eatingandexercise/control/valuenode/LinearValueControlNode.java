@@ -107,7 +107,7 @@ public class LinearValueControlNode extends PNode {
         }
     }
 
-    private double getValue() {
+    public double getValue() {
         return value;
     }
 
