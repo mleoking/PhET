@@ -64,7 +64,7 @@ public class LinearValueControlNode extends PNode {
         relayout();
     }
 
-    private void setValue( double v ) {
+    public void setValue( double v ) {
         //run the value through the numberformat, so that the displayed value is always the model value
         v = Double.parseDouble( numberFormat.format( v ) );
         if ( this.value != v ) {
