@@ -35,17 +35,22 @@
     define("PHET_DOMAIN_NAME", "phet.colorado.edu");
     define("PHET_HELP_EMAIL", "phethelp@phet.colorado.edu");
 
+    // Latest versions of flash and java
+    define("JAVA_MIN_VERSION", "1.4.2_17");
+    define("FLASH_MIN_VERSION", "8");
+
     /**
      * This constant is used so that included scripts can reference the files 
      * they require using an absolute path, which seems to be required due to
      * odd behavior of require/include functions.
-     */     
-     
+     */
+
     if (!defined("SITE_ROOT")) {
         define("SITE_ROOT", "../");
     }
 
 
+    ini_set('upload_max_filesize',    '20M');
     ini_set("session.gc_maxlifetime", "10800"); 
     ini_set("session.cache_expire",   "180");
     /*
@@ -54,7 +59,6 @@
     ini_set("session.gc_maxlifetime", "999999999"); 
     ini_set("session.cache_expire",   "999999999");
     */
-    ini_set('upload_max_filesize',    '20M');
 
     if (isset($GLOBALS['IE6_DOWNLOAD_WORKAROUND']) &&
         ($GLOBALS['IE6_DOWNLOAD_WORKAROUND'])) {
