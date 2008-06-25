@@ -64,6 +64,10 @@ public class LinearValueControlNode extends PNode {
         relayout();
     }
 
+    public void setSliderRange( double min, double max ) {
+        sliderNode.setRange( min, max );
+    }
+
     public void setValue( double v ) {
         //run the value through the numberformat, so that the displayed value is always the model value
         v = Double.parseDouble( numberFormat.format( v ) );
@@ -113,14 +117,14 @@ public class LinearValueControlNode extends PNode {
 
     public static void main( String[] args ) {
         PiccoloTestFrame piccoloTestFrame = new PiccoloTestFrame( LinearValueControlNode.class.getName() );
-        LinearValueControlNode control = new LinearValueControlNode( "label", "units", 0, 500,2, new DecimalFormat( "0.00" ) );
-        control.setOffset( 200,200 );
+        LinearValueControlNode control = new LinearValueControlNode( "label", "units", 0, 500, 2, new DecimalFormat( "0.00" ) );
+        control.setOffset( 200, 200 );
         control.addListener( new Listener() {
             public void valueChanged( double value ) {
                 System.out.println( "LinearValueControlNode.valueChanged: " + value );
             }
         } );
-        piccoloTestFrame.addNode( new BorderNode( control ,5,3) );
+        piccoloTestFrame.addNode( new BorderNode( control, 5, 3 ) );
         piccoloTestFrame.setVisible( true );
     }
 }
