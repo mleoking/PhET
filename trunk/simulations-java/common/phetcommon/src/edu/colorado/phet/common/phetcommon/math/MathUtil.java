@@ -45,6 +45,18 @@ public class MathUtil {
     public static double logBaseX( double number, double base ) {
         return Math.log( number ) / Math.log( base );
     }
+    
+    /**
+     * Returns the log base 10 of a number.
+     * This function is needed for Java 1.4.
+     * java.lang.Math.log10 was added in Java 1.5.
+     * 
+     * @param number
+     * @return
+     */
+    public static double log10( double number ) {
+        return logBaseX( number, 10 );
+    }
 
     /**
      * Returns +1 or -1, reflecting the sign of the argument
