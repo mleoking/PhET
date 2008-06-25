@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet.test;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 
@@ -15,7 +16,7 @@ public class PiccoloTestFrame extends JFrame {
     public PiccoloTestFrame(String title) {
         super(title);
 
-        canvas = new PhetPCanvas();
+        canvas = new BufferedPhetPCanvas();
         setContentPane(canvas);
         setSize(800, 600);
 
