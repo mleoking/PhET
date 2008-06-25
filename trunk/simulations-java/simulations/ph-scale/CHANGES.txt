@@ -44,6 +44,9 @@ CLEANUP:
 
 
 DONE:
+6/24/08 - reset liquid model in "reset all"
+6/24/08 - fill to 1L on startup or reset
+6/24/08 - remove "Choose a liquid" choice from liquid faucet, no longer needed
 6/24/08 - create a custom confirmation dialog with "don't ask me again" check box
 6/24/08 - request confirmation when changing liquid
 6/24/08 - workaround for incorrect pH model for combined liquids

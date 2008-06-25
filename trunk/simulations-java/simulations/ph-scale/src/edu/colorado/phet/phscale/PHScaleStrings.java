@@ -28,7 +28,6 @@ public class PHScaleStrings {
     private static final String CHECK_BOX_H3O_OH_RATIO = PHScaleResources.getString( "checkBox.H3O_OH_ratio" );
     public static final String CHECK_BOX_DONT_ASK_AGAIN = PHScaleResources.getString( "checkBox.dontAskAgain" );
     
-    public static final String CHOICE_CHOOSE_LIQUID = PHScaleResources.getString( "choice.chooseLiquid" );
     public static final String CHOICE_MILK = PHScaleResources.getString( "choice.milk" );
     public static final String CHOICE_BATTERY_ACID = PHScaleResources.getString( "choice.batteryAcid" );
     public static final String CHOICE_GASTRIC_ACID = PHScaleResources.getString( "choice.gastricAcid" );

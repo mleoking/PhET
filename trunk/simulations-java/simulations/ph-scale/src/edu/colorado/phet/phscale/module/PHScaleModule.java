@@ -5,6 +5,8 @@ package edu.colorado.phet.phscale.module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 
 /**
@@ -70,11 +72,11 @@ public class PHScaleModule extends PiccoloModule {
         System.out.println( "PHScaleModule.reset" );//XXX
         
         // Model
-        //XXX
+        _model.getLiquid().setLiquidDescriptor( LiquidDescriptor.LEMON_JUICE );
         
         // View-specific controls
         _canvas.getBeakerControlNode().setMoleculeCountSelected( true );
-        _canvas.getBeakerControlNode().setRatioSelected( true );
+        _canvas.getBeakerControlNode().setRatioSelected( false );
     }
     
 }
