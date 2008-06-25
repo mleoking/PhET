@@ -20,7 +20,7 @@ public class PhaseChangesModule extends Module {
     //----------------------------------------------------------------------------
 
     private MultipleParticleModel m_model;
-    private SolidLiquidGasCanvas  m_canvas;
+    private PhaseChangesCanvas  m_canvas;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -35,7 +35,7 @@ public class PhaseChangesModule extends Module {
         m_model = new MultipleParticleModel( getClock() );
 
         // Canvas
-        m_canvas = new SolidLiquidGasCanvas( m_model );
+        m_canvas = new PhaseChangesCanvas( m_model );
         setSimulationPanel( m_canvas );
         
         // Control panel
