@@ -12,6 +12,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -120,6 +121,25 @@ public class SliderNode extends PNode {
     private void update() {
         updateThumbLocation();
         thumbNode.setThumbPaint( value <= min || value >= max ? Color.red : Color.blue );
+        Shape shape = new RoundRectangle2D.Double( 0, 0, thumbNode.getThumbWidth(), thumbNode.getThumbHeight(), 6, 6 );
+        if ( value <= min ) {
+            DoubleGeneralPath path = new DoubleGeneralPath();
+            path.moveTo( thumbNode.getThumbWidth(), 0 );
+            path.lineTo( 0, thumbNode.getThumbHeight() / 2 );
+            path.lineTo( thumbNode.getThumbWidth(), thumbNode.getThumbHeight() );
+            path.lineTo( thumbNode.getThumbWidth(), 0 );
+            shape = path.getGeneralPath();
+        }
+        else if ( value >= max ) {
+            DoubleGeneralPath path = new DoubleGeneralPath();
+            path.moveTo( 0, 0 );
+            path.lineTo( thumbNode.getThumbWidth(), thumbNode.getThumbHeight() / 2 );
+            path.lineTo( 0, thumbNode.getThumbHeight() );
+            path.lineTo( 0, 0 );
+            shape = path.getGeneralPath();
+        }
+        thumbNode.setThumbState( new ThumbState( value <= min || value >= max ? Color.red : Color.blue,
+                                                 shape ) );
     }
 
     private void updateThumbLocation() {
@@ -166,14 +186,45 @@ public class SliderNode extends PNode {
                     PDimension d = new PDimension( dragEndPT.getX() - dragStartPT.getX(), dragEndPT.getY() - dragEndPT.getY() );
                     ThumbNode.this.localToGlobal( d );
                     double proposedValue = value + d.getWidth();
-                    setValue( clamp( proposedValue ));
+                    setValue( clamp( proposedValue ) );
                 }
             } );
             addChild( thumb );
         }
 
+        public void setThumbState( ThumbState thumbState ) {
+            setThumbPaint( thumbState.getPaint() );
+            thumb.setPathTo( thumbState.getShape() );
+        }
+
         public void setThumbPaint( Paint paint ) {
             thumb.setPaint( paint );
+        }
+
+        public double getThumbWidth() {
+            return thumbWidth;
+        }
+
+        public double getThumbHeight() {
+            return thumbHeight;
+        }
+    }
+
+    public static class ThumbState {
+        private Paint paint;
+        private Shape shape;
+
+        ThumbState( Paint paint, Shape shape ) {
+            this.paint = paint;
+            this.shape = shape;
+        }
+
+        public Paint getPaint() {
+            return paint;
+        }
+
+        public Shape getShape() {
+            return shape;
         }
     }
 
