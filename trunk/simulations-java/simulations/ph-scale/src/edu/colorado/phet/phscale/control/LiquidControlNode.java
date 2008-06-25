@@ -33,13 +33,11 @@ public class LiquidControlNode extends PNode {
     private final FaucetControlNode _faucetControlNode;
     
     private LiquidDescriptor _selectedLiquidDescriptor;
-    private boolean _autoFilling;
     private boolean _confirmChangeLiquid;
     
     public LiquidControlNode( PSwingCanvas canvas, Liquid liquid ) {
         super();
         
-        _autoFilling = false;
         _confirmChangeLiquid = true;
         
         _liquid = liquid;
@@ -98,11 +96,8 @@ public class LiquidControlNode extends PNode {
     }
     
     private void update() {
-        if ( _autoFilling ) {
-            _autoFilling = _liquid.isFilling();
-            _faucetControlNode.setOn( _liquid.isFilling() );
-        }
-        _liquidColumnNode.setVisible( _liquid.isFilling() && _faucetControlNode.isOn() );
+        _faucetControlNode.setOn( _liquid.isFillingLiquid() );
+        _liquidColumnNode.setVisible( _liquid.isFillingLiquid() );
         _liquidColumnNode.setPaint( _liquid.getColor() );
         _comboBox.setChoice( _liquid.getLiquidDescriptor() );
     }
@@ -116,7 +111,6 @@ public class LiquidControlNode extends PNode {
                     confirmed = confirmChangeLiquid();
                 }
                 if ( confirmed ) {
-                    _autoFilling = true;
                     _selectedLiquidDescriptor = liquidDescriptor;
                     _liquid.setLiquidDescriptor( liquidDescriptor );
                 }
@@ -134,11 +128,10 @@ public class LiquidControlNode extends PNode {
     
     private void handleFaucetOnOff( boolean on ) {
         if ( on ) {
-            LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
-            _liquid.startFilling( Liquid.SLOW_FILL_RATE, liquidDescriptor );
+            _liquid.startFillingLiquid( Liquid.SLOW_FILL_RATE );
         }
         else {
-            _liquid.stopFilling();
+            _liquid.stopFillingLiquid();
         }
     }
     

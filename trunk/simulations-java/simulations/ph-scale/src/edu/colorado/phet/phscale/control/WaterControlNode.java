@@ -47,12 +47,7 @@ public class WaterControlNode extends PNode {
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT );
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
-                if ( on ) {
-                    _liquid.startFilling( Liquid.SLOW_FILL_RATE, LiquidDescriptor.WATER );
-                }
-                else {
-                    _liquid.stopFilling();
-                }
+                handleFaucetOnOff( on );
             }
         });
         
@@ -79,7 +74,16 @@ public class WaterControlNode extends PNode {
     }
     
     private void update() {
-//        _faucetControlNode.setOn( _liquid.isFilling() );
-        _waterColumnNode.setVisible( _liquid.isFilling() && _faucetControlNode.isOn() );
+        _faucetControlNode.setOn( _liquid.isFillingWater() );
+        _waterColumnNode.setVisible( _liquid.isFillingWater() );
+    }
+    
+    private void handleFaucetOnOff( boolean on ) {
+        if ( on ) {
+            _liquid.startFillingWater( Liquid.SLOW_FILL_RATE );
+        }
+        else {
+            _liquid.stopFillingWater();
+        }
     }
 }
