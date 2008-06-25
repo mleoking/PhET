@@ -7,8 +7,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.eatingandexercise.view.SliderNode;
@@ -19,6 +19,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * Created by: Sam
  * Jun 24, 2008 at 4:01:47 PM
+ * <p/>
+ * Todo: make sure readout value is identical to model value
  */
 public class LinearValueControlNode extends PNode {
     private PText labelNode;
