@@ -5,6 +5,7 @@ borehole
 Chris
 cmalley
 com
+Dano
 diatomic
 ditto
 downvalley
@@ -36,6 +37,7 @@ krypton
 Locale
 locale
 Malley
+Mike
 max
 min
 misc
@@ -48,6 +50,7 @@ Paulson
 phet
 PhET
 Piccolo
+piccolo
 pickable
 pixelzoom
 polonium
@@ -59,6 +62,7 @@ rescale
 rescaled
 resettable
 sim
+sims
 snowfall
 subpanels
 timescale
