@@ -2,6 +2,7 @@ package edu.colorado.phet.eatingandexercise.control.valuenode;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
@@ -12,9 +13,13 @@ import edu.umd.cs.piccolo.PNode;
 public class BorderNode extends PNode {
     private PhetPPath borderPath;
     private PNode child;
+    private double dw;
+    private double dh;
 
-    public BorderNode( PNode child ) {
+    public BorderNode( PNode child, double dw, double dh ) {
         this.child = child;
+        this.dw = dw;
+        this.dh = dh;
         addChild( child );
         borderPath = new PhetPPath( new BasicStroke( 1 ), Color.black );
         addChild( borderPath );
@@ -22,7 +27,7 @@ public class BorderNode extends PNode {
     }
 
     private void relayout() {
-        borderPath.setPathTo( child.getFullBounds() );
+        borderPath.setPathTo( RectangleUtils.expand( child.getFullBounds(), dw, dh ) );
     }
 
 }
