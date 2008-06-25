@@ -119,7 +119,8 @@ public class DialGaugeNode extends PNode {
         // Add the title.
         m_gaugeTitle = new PText();
         m_gaugeTitle.setText( title );
-        m_gaugeTitle.setFont(new PhetFont(22));
+        m_gaugeTitle.setFont(new PhetFont(12));
+        m_gaugeTitle.scale( (dialComponentsNode.getFullBoundsReference().width * 0.6)/m_gaugeTitle.getFullBoundsReference().width );
         m_gaugeTitle.setOffset(diameter / 2 - m_gaugeTitle.getFullBoundsReference().width / 2,
                 diameter / 4);
         dialComponentsNode.addChild( m_gaugeTitle );
@@ -145,8 +146,9 @@ public class DialGaugeNode extends PNode {
         textualReadoutBox.setOffset( diameter / 2 - textualReadoutHighlight.getWidth() / 2 + textBoxStrokeWidth / 2,
                 diameter * 0.60 );
         dialComponentsNode.addChild( textualReadoutBox );
-        m_textualReadout = new PText();
+        m_textualReadout = new PText(" ");
         m_textualReadout.setFont( new PhetFont(12) );
+        m_textualReadout.scale( textualReadoutBox.getHeight() * 0.8 / m_textualReadout.getFullBoundsReference().height );
         textualReadoutBox.addChild( m_textualReadout );
         
         // Add the needle.
@@ -166,6 +168,9 @@ public class DialGaugeNode extends PNode {
         pin.setPaint( Color.BLACK );
         pin.setOffset( diameter/2 -  pinDiameter/2, diameter/2 - pinDiameter/2);
         dialComponentsNode.addChild( pin );
+        
+        // Set the initial value.
+        setValue( m_minValue );
     }
 
     //------------------------------------------------------------------------
