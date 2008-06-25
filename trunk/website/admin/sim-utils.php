@@ -756,8 +756,15 @@
                 print "Error trying to detect size: ".$simulation['sim_name'].", id = ".$simulation['sim_id'].", url = $sim_launch_url, encoding = $xml_encoding<br/>";
             }
         }
-        else {
+        else if ($ext == 'swf') {
+            // Old style just linked to the SWF directly
             $size = url_or_file_size($sim_launch_url);
+        }
+        else if ($ext == 'html') {
+            // New style flash sim with i18n support, look for the SWF
+            // TODO: push the filename generation into a function
+            $i18n_flash_link = PORTAL_ROOT."sims/{$simulation['sim_dirname']}/{$simulation['sim_flavorname']}.swf";
+            $size = url_or_file_size($i18n_flash_link);
         }
 
         $simulation = array(
