@@ -317,8 +317,7 @@ public class Liquid extends ClockAdapter {
      * @param volume2 (L)
      */
     private static final double pHCombined( double pH1, double volume1, double pH2, double volume2 ) {
-//        return -Math.log( ( Math.pow( 10, -pH1 ) * volume1 + Math.pow( 10, -pH2 ) * volume2 ) / ( volume1 + volume2 ) );
-        return ( pH1 * ( volume1 / ( volume1 + volume2 ) ) ) + ( pH2 * ( volume2 / ( volume1 + volume2 ) ) );//XXX workaround, not correct
+        return -Math.log( ( Math.pow( 10, -pH1 ) * volume1 + Math.pow( 10, -pH2 ) * volume2 ) / ( volume1 + volume2 ) ) / Math.log(10);
     }
     
     /*

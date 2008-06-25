@@ -45,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+6/25/08 - fix Liquid.pHCombined
 6/25/08 - reset liquid model in "reset all"
 6/25/08 - fill to 1L on startup or reset
 6/25/08 - remove "Choose a liquid" choice from liquid faucet, no longer needed
