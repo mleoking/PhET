@@ -159,6 +159,10 @@ public class SliderNode extends PNode {
         return new Function.LinearFunction( min, max, 0, width ).evaluate( value );
     }
 
+    private double viewToModel( double view ) {
+        return new Function.LinearFunction( 0, width, min, max ).evaluate( view );
+    }
+
     private class TrackNode extends PNode {
         private TrackNode() {
             PPath path = new PhetPPath( createTrackShape( min, max ), Color.lightGray, new BasicStroke( 1 ), Color.black );
@@ -185,7 +189,10 @@ public class SliderNode extends PNode {
                     Point2D dragEndPT = event.getPositionRelativeTo( ThumbNode.this );
                     PDimension d = new PDimension( dragEndPT.getX() - dragStartPT.getX(), dragEndPT.getY() - dragEndPT.getY() );
                     ThumbNode.this.localToGlobal( d );
-                    double proposedValue = value + d.getWidth();
+                    System.out.println( "d.getWidth() = " + d.getWidth() );
+                    double proposedValue = value + viewToModel( d.getWidth() );
+//                    double proposedValue = value + d.getWidth() ;
+                    System.out.println( "proposedValue = " + proposedValue );
                     setValue( clamp( proposedValue ) );
                 }
             } );
