@@ -30,8 +30,10 @@ public class LinearValueControlNode extends PNode {
     private int SPACING = 5;
     private double value;
     private JFormattedTextField field;
+    private NumberFormat numberFormat;
 
     public LinearValueControlNode( String label, String units, double min, double max, double value, NumberFormat numberFormat ) {
+        this.numberFormat = numberFormat;
         this.value = value;
         labelNode = new PText( label );
         addChild( labelNode );
@@ -63,6 +65,8 @@ public class LinearValueControlNode extends PNode {
     }
 
     private void setValue( double v ) {
+        //run the value through the numberformat, so that the displayed value is always the model value
+        v = Double.parseDouble( numberFormat.format( v ) );
         if ( this.value != v ) {
             this.value = v;
             field.setValue( new Double( v ) );
