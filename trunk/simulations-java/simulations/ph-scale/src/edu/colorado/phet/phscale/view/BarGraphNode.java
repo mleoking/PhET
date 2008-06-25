@@ -129,7 +129,7 @@ public class BarGraphNode extends PNode {
     
     private void updateValues() {
         _concentrationsNode.setValues( _liquid.getConcentrationH3O(), _liquid.getConcentrationOH(), _liquid.getConcentrationH2O() );
-        _molesNode.setValues( _liquid.getNumberOfMolesH3O(), _liquid.getNumberOfMolesOH(), _liquid.getNumberOfMolesH2O() );
+        _molesNode.setValues( _liquid.getMolesH3O(), _liquid.getMolesOH(), _liquid.getMolesH2O() );
     }
     
     private void updateUnits() {

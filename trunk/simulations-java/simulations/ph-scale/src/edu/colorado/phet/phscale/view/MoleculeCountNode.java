@@ -77,8 +77,8 @@ public class MoleculeCountNode extends PComposite {
     }
     
     private void update() {
-        _h3oCountNode.setHTML( H3O_FORMAT.format( _liquid.getNumberOfMoleculesH3O() ) );
-        _ohCountNode.setHTML( OH_FORMAT.format( _liquid.getNumberOfMoleculesOH() ) );
-        _h2oCountNode.setHTML( H2O_FORMAT.format( _liquid.getNumberOfMoleculesH2O() ) );
+        _h3oCountNode.setHTML( H3O_FORMAT.format( _liquid.getMoleculesH3O() ) );
+        _ohCountNode.setHTML( OH_FORMAT.format( _liquid.getMoleculesOH() ) );
+        _h2oCountNode.setHTML( H2O_FORMAT.format( _liquid.getMoleculesH2O() ) );
     }
 }
