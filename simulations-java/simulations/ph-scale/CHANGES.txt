@@ -16,7 +16,6 @@ DESIGN ISSUES
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- faucet doesn't turn on when filling via "reset all"
 - port prototype code to this sim
 - make particles of minority species more opaque
 - hook up Ratio check box
@@ -27,8 +26,10 @@ MEDIUM PRIORITY:
 - add plumbing going into faucets
 - 10x zoom feature for linear graph, zoom into zero
 - liquid level doesn't line up with volume tick marks on beaker
+- line up pH slider ticks with bar graph ticks
 
 LOW PRIORITY:
+- replace molecule image files with SphericalNode subclasses
 - change layout of molecule counts display
 - generalize layout code
 - address Kathy's problem with prototype and Java 1.4 Random class
@@ -45,6 +46,7 @@ CLEANUP:
 
 
 DONE:
+6/25/08 - faucet doesn't turn on when filling via "reset all"
 6/25/08 - add startFillingWithWater interface to Liquid, separate set of flags for filling with water
 6/25/08 - change startFilling interface to startFillingLiquid, use getLiquidDescriptor for the liquid that is filled
 6/25/08 - fix: liquid faucet remains "on" after changing liquid type and filling is finished
