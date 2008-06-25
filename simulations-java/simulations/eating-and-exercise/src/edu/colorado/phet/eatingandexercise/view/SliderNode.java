@@ -59,7 +59,7 @@ public class SliderNode extends PNode {
         addChild( lowerRestrictedRange );
         addChild( upperRestrictedRange );
         addChild( thumbNode );
-        updateThumbLocation();
+        update();
     }
 
     public void setDragRange( double dragmin, double dragmax ) {
@@ -79,7 +79,7 @@ public class SliderNode extends PNode {
     public void setRange( double min, double max ) {
         this.min = min;
         this.max = max;
-        updateThumbLocation();
+        update();
         //todo: check that the value appears in the range
     }
 
@@ -117,8 +117,22 @@ public class SliderNode extends PNode {
         upperRestrictedRange.setRange( dragmax, max );
     }
 
+    private void update() {
+        updateThumbLocation();
+        thumbNode.setThumbPaint( value <= min || value >= max ? Color.red : Color.blue );
+    }
+
     private void updateThumbLocation() {
-        thumbNode.setOffset( modelToView( value ), 0 );
+        thumbNode.setOffset( modelToView( getClampedValue() ), 0 );
+    }
+
+    private double getClampedValue() {
+        return clamp( value );
+    }
+
+    private double clamp( double v ) {
+        double sliderValue = MathUtil.clamp( min, v, max );
+        return MathUtil.clamp( dragmin, sliderValue, dragmax );
     }
 
     private double modelToView( double value ) {
@@ -136,9 +150,10 @@ public class SliderNode extends PNode {
         private int thumbWidth = DEFAULT_THUMB_WIDTH;
         private int thumbHeight = DEFAULT_THUMB_HEIGHT;
         private Point2D dragStartPT;
+        private PPath thumb;
 
         private ThumbNode() {
-            PPath thumb = new PhetPPath( new RoundRectangle2D.Double( 0, 0, thumbWidth, thumbHeight, 6, 6 ), new Color( 237, 200, 120 ), new BasicStroke(), Color.black );
+            thumb = new PhetPPath( new RoundRectangle2D.Double( 0, 0, thumbWidth, thumbHeight, 6, 6 ), new Color( 237, 200, 120 ), new BasicStroke(), Color.black );
             thumb.setOffset( -thumb.getFullBounds().getWidth() / 2, height / 2 - thumb.getFullBounds().getHeight() / 2 );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
@@ -150,21 +165,24 @@ public class SliderNode extends PNode {
                     Point2D dragEndPT = event.getPositionRelativeTo( ThumbNode.this );
                     PDimension d = new PDimension( dragEndPT.getX() - dragStartPT.getX(), dragEndPT.getY() - dragEndPT.getY() );
                     ThumbNode.this.localToGlobal( d );
-                    setValue( value + d.getWidth() );
+                    double proposedValue = value + d.getWidth();
+                    setValue( clamp( proposedValue ));
                 }
             } );
             addChild( thumb );
         }
+
+        public void setThumbPaint( Paint paint ) {
+            thumb.setPaint( paint );
+        }
     }
 
-    public void setValue( double v ) {
-        double origValue = getValue();
-        v = MathUtil.clamp( min, v, max );
-        double newValue = MathUtil.clamp( dragmin, v, dragmax );
-        if ( newValue != origValue ) {
-            this.value = newValue;
+    public void setValue( double value ) {
+        if ( this.value != value ) {
+            this.value = value;
+
             notifyValueChanged();
-            updateThumbLocation();
+            update();
         }
     }
 
