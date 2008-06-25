@@ -10,8 +10,55 @@ Slider text box should display values allowed by the model but out of the range 
 Buggy behavior when an icon overlaps both the toolbox and the plate (nullpointerexception)
 
 All items in the play area should scale on window resize
+>>Move up baseline of buttons and bar chart, make graphs fill width and height
 
 Add indicators for good/bad % fat and exercise amount (these will be vertical bar graphs)
+>>Are there other factors within this simulation that we should use to indicate health?  Or perhaps overall health is not sufficiently covered by this simulation?
+    Try vertical bars for body fat %, and exercise
+    Color should indicate if it is a good value
+
+
+Shouldn't be able to set more than 24 hours/day
+
+No food starts on the plate
+
+Balanced diet has a slider in its popup
+>>default is 2000
+
+BMI readout should be on the scale
+
+Clarify the meaning of "lifestyle" vs. other daily exercises
+    Add description to sedentary, moderate activity, etc.
+>>These should be in the main control panel as radio buttons, not in Edit Exercise
+>>Add popups with explanations (from Noah)
+
+Remove "Edit Foods" and exercise buttons and popup dialog
+
+Arms and legs should bulge based on muscle %
+
+Death and Dying:
+x's for eyes, "Game over", Pac man sound
+
+NP - the person should be able to starve to death or die of heart attack. Here is how it should probably work:
+
+Starving:   If the person goes below 2% fat, they will die in 2 months. If they go back above 2% fat, they get to live and the clock restarts.
+		>>When % fat is below 2%, a warning appears saying something like "Your body is in starvation mode. Death will occur soon."
+
+>>Gender specific
+
+Heart attack: If the person goes above XX% fat, they get a probability of having a heart attack each day. (Different % for men and women). This probability increases with % fat above XX%.
+		To 1st order linear function, p_heart_attack = P_0*(%_fat - XX).
+		Set P_0 so that the person dies in a few years if they have %fat above 50%.
+		>>When % fat is above XX, a warning appears saying something like "Your body fat % is dangerously high. Probability of heart attack is (low, moderate, high, extreme)."
+	>>Warning should be near the heart, with a click-for-more-info button (exaclamation point or something)
+
+When the person dies, "x's" are put over their eyes and the sim stops. A box pops up and says "You have died from (starvation, heart attack). Click to start over."
+
+height, weight and fat % will be the independent variables, but fat will be constrained by (the explanation below)
+
+NP - Here is a simple way to think about what I said above: FFM range for men is 18.5/1.15*h^2 to 30/1.15*h^2, for women 18.5/1.23*h^2 to 30/1.23*h^2. This comes from assuming average % fat for people in this range (15% for men, 23% for women).
+
+The lower limits above assume a very low FFM with average % fat - you can go below this limit by pushing down % body fat. Note that the lower limit is around a BMI of 16. At this point, you will be very low % fat and can begin removing FFM to drop weight, but you are now in the danger zone.
 
 #######################################################################################
 ##############                    To Do/Noah                             ##############
@@ -25,128 +72,24 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
 
 NP - need to decide which activities are weight dependent and which are constant caloric expenditure.
 
-
-Height
-    Incorporate growth or height changes with weight?
-        should we increase this?
-        yes, look on web for height changes since BMI =f(height)
-
-    SR - Problem: Fat % should be based on height and weight and gender, and update whenever height or weight or gender changes.  Fat free mass depends on height & gender only, not on weight, thus BMR depends only on height and gender
-        Noah P will provide these functions
-
-NP - Disclaimer text for BMI chart - not only indicator of health.
-NP - Model for BMR, non-linear with food input. You do not gain or lose weight in an ideal way, i.e. if you cut 3000 calories from your diet, you only actually lose weight accounting for about 1/2 of those calories. Same for weight gain. Possibly a hysteresis curve of some sort?
-
-   >>> See section below on gaining / losing weight.
-
 Fix text for "simulation age out of range" message
 
-#######################################################################################
-##############                    To Discuss                             ##############
-#######################################################################################
+Come up with definitions for different lifestyles
 
-Balanced diet should readjust when you set your weight or body fat %, only during user input, not during model change
-
-Are there other factors within this simulation that we should use to indicate health?  Or perhaps overall health is not sufficiently covered by this simulation?  Or perhaps we should be clear that the indicator is only a measure of BMI.
-    Try vertical bars for BMI, body fat %, and exercise
-    Put it where the ruler is
-    Delete the ruler
-    Color should indicate if it is a good value
-
-Change in intake or expenditure … doesn’t lead to ideal weight loss, since other compartments adjust to compensate
-
-Caloric intake changes resting metabolic rate
-    Extra carbs or protein can increase RMR (not agreed upon in scientific community)
-
-Is it true that I can eat a hamburger per day above a 'healthy diet', and
-  have a steady weight (though a ~10 lb gain) after about three years?
-    - to see this, click 'reset all', wait until you're 23 years old, then
-      add a hamburger per day.
-        >>The behavior of this has changed since we started keeping BMR constant over weight change
-        >>Is the new behavior acceptable?
-
-3000 kcal/day wrong, should be 2000kcal/day
-    should this be exact?
-    can't force 2000kcal/day and prescribed ffm and have balanced calories
-
-As I add the exercise the graphs begin to change,
-    but I can't see whats happening from the getgo because it runs while the exercise window is open.
-    I think this might make it difficult to understand what the starting point is and what the added exercise is changing.
-    >>To address this problem, I started the simulation paused; hopefully the user will be able to pause the simulation before
-    >>adding exercise/diet.  If not, we can either pause the sim when they bring up an editor, or add a control to the
-    >>diet selection panel
-        >>Now that the simulation has drag-and-drop for editing diet and exercise, perhaps it should start running?
-        >>Or perhaps the sim should start running as soon as the first item is dropped?
-        >>Or perhaps a wiggle me should be used instead
-
-Satisfy learning goal: How long do you have to bike/walk to burn a certain number of calories?
-    the learning goal seems too easy: to figure out "How long do you have to
-    bike/walk to burn a certain number of calories?", you just have to look
-    at the number of kcal/day in the text of the exercise type.
-        might be better to ask how long it would take to lose 10 lbs?
+Add the following:
+>>1 large size fast food value meal
+>>Coffee shop, sugary drink
 
 How is body fat calculated?  How would a student know their % body fat to put in the simulation?
 
 	NP – most people don’t know this. It is done either with a skin fold test (calipers), electric current (this is how these scales do it, not entirely accurate), or a submersion in water test (need a special facility). With skin fold, all the numbers are entered in a spreadsheet and it spits out a %. Electronic scales use weight, height, and conductivity (I don’t know the equation. I know it depends on how hydrated you are, and how long your legs are.)
+	SR - Noah will come up with an equation for this based on other parameters
+>>    SR - Problem: Fat % should be based on height and weight and gender, and update whenever height or weight or gender changes.  Fat free mass depends on height & gender only, not on weight, thus BMR depends only on height and gender
+        Noah P will provide these functions
 
-Better values/more options for base diets
 
-Need more junk food for diet options, like actual student diets: burrito, chips, cookies, tacos, sub sandwich, twizzlers or candies, etc
+We could have the little question mark by the heart pop up a window with the list of risk factors for the heart from the American Heart Association. (smoking, etc)
 
-When I was trying to learn about BMI, body fat and heart health I found that we should be able to address a lot of the factors that are used to determine heart health. Especially if we are including BMI since it’s typically associated with that. I think it’d be a really nice addition if we could add this as a learning goal.  We could have the little question mark by the heart pop up a window with the list of risk factors for the heart from the American Heart Association.  This I think is also useful to do because it will give a person a better idea of the value of BMI. As it is now, it appears that BMI is more of a stand alone indicator of health which it definitely is not.
-    I’d like to see us make this sim a resource that offers more than the typical text book or activity can. So I was hoping to expand a bit into some of these things that are closely related and can easily be integrated into the sim.
-
-Clarify the meaning of "lifestyle" vs. other daily exercises
-    Add description to sedentary, moderate activity, etc.
-
-    >>I removed the Athletic Lifestyle option, do I need to add tooltips to explain other lifestyles?
-
-######################################
-# Edit Diet
-###################
-
-Add a legend for caloric breakdown pie chart
-
-Number of calories of healthy diet should be editable
-
-Add/Remove items from Edit Diet should be synchronized with Plate graphics
-
-I wanted to click on the food item or description rather than the add
-button. Can you change the interface to something like that.  That would
-clean up this box a bit as well.
-
-Add a done button at the top of the diet and exercise boxes.
-
-Editors for exercise (change time or intensity)
-
-Would it be informative for students to see what 590kcals/day is equivalent to
-    (for example 1 hour of swimming, or 2 hours of pilates?)
-
-	NP – possibly – or have them figure this out on their own might be better.
-
-The energy cost of walking/running is about 1.43 kcal/kg/mile, swimming 4x higher, biking 1/4 value of walking
-
-	NP – this is probably not the best way to represent this. It should probabaly be kcal burned per hour rather than per mile. It may be that biking is ¼ per mile, but you travel at least 4x as far on a bike in the same time. In fact, because of wind drag at higher speeds and the ability to climb hills very quickly, the actual “work” done cycling can be considerably higher than other activities.
-
-######################################
-# Fat % issue
-###################
-
-I'm having trouble making sense out of this. It appears that if I add weight
-my BMR increases tremendously.  I thought BMR does not increase unless
-muscle mass increases.  Then I see that adding to my weight does not change
-my body fat.  That seems very strange to me.  Shouldn't that be a
-calculation of my weight and height with a slight scaling due to the
-muscular slider? The way it's set up, adding to a person's weight
-immediately causes calorie burn to compensate and they get lose weight
-immediately. This does not match my understanding.
-
-Weight gain should go into fat% to keep BMR basically constant.
-
-My biggest concern is the body fat indicator not changing as your guy gets fatter or
-you set his weight really high.
-
-I agree with Wendy that it doesn't make much sense to not have the percentage fat linked up at all to the weight.
     Description             Women   Men
     Essential fat           12–15%  2–5%
     Athletes                16–20%  6–13%
@@ -155,124 +98,11 @@ I agree with Wendy that it doesn't make much sense to not have the percentage fa
     Obese                   32%+    25%+
     source: http://en.wikipedia.org/wiki/Body_fat_percentage
 
-When you get up to 300+ pounds and have a BMI over 30, you should be into the obese fat percentages,
-but as lower weights, your percentage should be more in the fit ranges.
-(The default 26% is quite high for a male so should change if you hit male instead of female.)
-
-It seems like when you increase the weight we should also increase the calories in the base diet
- because otherwise the 300 lb guy loses weight very fast ... normally a guy like that would
- eat a lot more to maintain his weight. Basically this would be his BMR plus Lifestyle calories.
- Then be able to add OR subtract from that base diet.
- This would get away from the unrealistic rapid weight loss by a very overweight person.
-
 I found this page somewhat helpful in thinking about the above.
 http://weightloss.about.com/od/eatsmart/a/blcalintake.htm
 
-1. Percent body fat should change as body weight changes. This change probably be based upon the concept
-    that one pound of fat gain/loss requires a gain/loss of about 3500 calories.
-    It should be noted that weight loss by diet only, results in a loss of both fat (75%) and lean tissue (25%)
-    whereas weight loss via diet and exercise results in a maintenance of lean tissue and a loss of only fat.
-
-
-Food composition should lead to a change in the Fat Free Mass %
-
-check with fran, bill & kate regarding change in % fat
-    http://sportsmedicine.about.com/od/fitnessevalandassessment/a/Body_Fat_Comp.htm
-        Can I Change My Body Composition?
-        Yes. To increase or decrease your percent of body fat you need to create the right balance between the
-        calories in and calories out. The best way to do this is to decrease daily calories by about 500 and
-        increase your exercise. Aerobic exercise along with strength training is ideal.
-        If you are beginning a new exercise program, you are advised to first consult your physician.
-
-KG gained per day should be a function of caloric distribution over lipids, carbs and protein
-
-Performance: consider profiling or changing clock rate
-    >>How severe is this problem?
-
-Some exercise and food items are missing icons
-    >>Should this taks be reassigned?
-
-Time readouts should be Years:Months, not years in decimal
-    >>What's the best input user interface for this?
-
-Need a way to get rid of or clean up icons
-    >>Dragging back to the toolbox removes the item
-    >>Could add a trash can as well
-
 Franny said on 6/13/2008:
 I have been playing with the Simulation this morning and had a question for you. If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change. I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my % fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures) in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in, but that portion is not very realistic, so i thought i'd point it out.
-
-Noah said on 6-13-2008:
---------
-Here is something I came up with for controlling height, weight, and % fat. Let me know if you think this is a good solution.
-
-I'm just emailing you all instead of adding it to the to do yet because it is a long description of my reasoning (and I don't know yet that this is what we want to do.)
-
-An average healthy BMI is about 21. BMI = mass/height2 (kg/m2 ) The range is about 18.5-25. Take this to figure out the average lean body mass (LBM, or fat free mass FFM) for an individual of height h.
-
-So what does this mean for an average person 5’8” (1.72 m)?
-
-m = BMI*h2 = 18.5*1.722 = 54.7 kg (120.6 lb)
-
-21*1.722 = 62.1 (136.9 lb)
-
-25*1.722 = 74.0 kg (163.1 lb)
-
-30.6*1.722 = 90.5 kg (200 lb)
-
-Arnold Schwarzenegger had a BMI of 107 kg / (1.87 m)2 = 30.6.
-
-For our 1.72 m dude, Arnold's BMI would give a mass of 90.5 kg (200 lb).
-
-Lance Armstrong has a BMI of 74 kg / (1.77 m)2 = 23.6. So, even a thin but very fit individual is nearing the upper range of “healthy” BMI.
-
-Note this is a HUGE range of BMI, and all of these individuals could have %fat < 10%, making the LBM 108-180 lb.
-
-Here is what I propose:
-
-There should be a range of allowed LBMs for a given height. Define a “Lean Body Mass Index” = LBMI = LBM/height2 . Let’s assume the ends of the BMI scale above are for 10% fat. So the LBM for a 1.72 m male is 50-82 kg. This makes our LBMI range 16.65-27.6.
-
-This range of LBMI will be a set limit in the sim code. If you set a certain height, anything above the maximum (27.6) MUST be fat. You will have free and independent control of height, weight, and % fat, constrained by these limits. So you can make a lean, very muscular person who has a very high BMI and is still healthy because their % fat is low.
-
-Functionally, if you set a certain height, then when you change weight within the LBMI limits, % fat does not change. If you go outside of the LBMI limits, the % fat slider will automatically change to compensate.
-
-
-As far as readout for this stuff - 1st pass could be charts of LBM and fat mass. 2nd thing, more complex, could be to somehow show muscles shrinking and growing inside a layer of fat in the picture of the person. I'm still thinking about how this could be done.
-
--Noah P.
---------
-
-
-******
-
-NP - Here is a simple way to think about what I said above: FFM range for men is 18.5/1.15*h^2 to 30/1.15*h^2, for women 18.5/1.23*h^2 to 30/1.23*h^2. This comes from assuming average % fat for people in this range (15% for men, 23% for women).
-
-Any weight above the upper limits must be fat. You can independently set height, weight, and % fat...but if you set weight above the upper limit, it automatically increases fat. BMR remains dependent on FFM only - so a heavy and lean person has a higher BMR than someone the same weight but with more fat (and hence less muscle).
-
-The lower limits above assume a very low FFM with average % fat - you can go below this limit by pushing down % body fat. Note that the lower limit is around a BMI of 16. At this point, you will be very low % fat and can begin removing FFM to drop weight, but you are now in the danger zone.
-
-
-******
-
-#######################################################################################
-##############          Caloric Expenditure from Exercise                ##############
-#######################################################################################
-
-    SR - We'll choose a function for running, biking, etc.  Noah will come up with these functions.
-    Some activities will say “depends on weight” (others will just give a fixed calories value)
-
-	Calories burned for road and mountain biking:
-		Cal_road / hour = 3.44*v*{3.5+[0.26*(v+w)^2]+10.3*m*g/100}
-		Cal_mountain / hour = 3.44*v*{7.8+[0.39*(v+w)^2]+10.3*m*g/100}
-
-		where v = rider speed, w = wind speed, m = rider mass, g = % grade of road
-		>> Can probably set w=0 and choose grades that are reasonable. It makes a big difference whether you are riding flat road (g=0) or climbing. As a reference, the average grade up to Jamestown is about 5%, the average grade of Flagstaff road is about 10%. Some reasonable numbers are v=15mph, g=5 for road, v=8mph, g=8 for mountain.
-
-    NP - a simpler way to do this would be to use an average caloric expenditure for each activity and scale this linearly with weight. I found one website that does this. It may not be perfect, but it is a reasonable approximation. At least for lifting yourself, work done scales linearly with mass.
-
-#######################################################################################
-##############                    Gaining / Losing Weight                ##############
-#######################################################################################
 
 NP - weight lost should be both muscle and fat. There should be some ratio of FFM to Fat mass that is probably constant whenever someone loses weight.
 
@@ -282,36 +112,18 @@ NP - weight lost should be both muscle and fat. There should be some ratio of FF
    
    - all other weight gained is added fat mass.
 
+
+
 #######################################################################################
-##############                    Death and Dying                       ##############
+##############                    To Discuss                             ##############
 #######################################################################################
 
-NP - the person should be able to starve to death or die of heart attack. Here is how it should probably work:
+######################################
+# Fat % issue
+###################
 
-Starving:   If the person goes below 2% fat, they will die in 2 months. If they go back above 2% fat, they get to live and the clock restarts.
-		>>When % fat is below 2%, a warning appears saying something like "Your body is in starvation mode. Death will occur soon."
+Performance: consider profiling or changing clock rate
+    >>How severe is this problem?
 
-Heart attack: If the person goes above XX% fat, they get a probability of having a heart attack each day. (Different % for men and women). This probability increases with % fat above XX%.
-		To 1st order linear function, p_heart_attack = P_0*(%_fat - XX).
-		Set P_0 so that the person dies in a few years if they have %fat above 50%.
-		>>When % fat is above XX, a warning appears saying something like "Your body fat % is dangerously high. Probability of heart attack is (low, moderate, high, extreme)."
-
-When the person dies, "x's" are put over their eyes and the sim stops. A box pops up and says "You have died from (starvation, heart attack). Click to start over."
-
-
-##############################################################################################
-#                                    Health Indicators                                       #
-##############################################################################################
-
-I’ve been researching BMI and body fat today and have a few recommendations. I need to look more to finish this up but this is a start.
-    BMI is weight/height^2 which it seems you have wired in already.  This was developed in the late 1800’s and never meant to be used as it is today.  It’s simply a statistical pointer for sedentary people. It was never intended for use on individuals or as a predictor of health.  It’s a poor indicator for taller people and the ranges for Asians is different since they have  a clearly different build. Also the calculation and the ranges that are considered healthy do not have any differentiation for men and women.  This makes no sense since healthy body fat levels are very different for men and women. In any case, 19-25 is good, below 19 is underweight, below 16 is starving, over 25 is over weight and obese is over 30.  IF we decide to have the heart tied to BMI this is how I’d do it. I would have the heart have no smile or frown for underweight and overweight and a frown for starving and obese. I’m nervous using this however, since I found studies that showed things like 61% of people who had normal BMIs were actually obese when body fat was measured and that athletes or tall people will look overweight or obese according to their BMI.  Lance Armstrong’s BMI said he was very overweight when he competed in the Tour de France.
-    So I vote for showing BMI but not having it tie to the heart.  Body fat is a better indicator of that.  The American Heart association uses BMI, with waste measurement and number of health risks from a table of 8 things like do you smoke, high LDL, low HDL, high triglycerides etc…  It could be one of the learning goals to see that BMI does not change with %body fat, sex, or age.  Maybe for our real thing button we could give some information from these other sites on risk factors etc… I can put that together if we decide to do that.  For this sim I think the heart smiling should be a function of body fat, sex and age.
-    Body fat is more complicated.  It definitely needs to go above 40%.  It’s hard to figure out for sure since obesity is now determined by BMI and not body fat, but a lot of studies do use this.  So it appears that 32% of the population has body fat over 35%.  So 40% is definitely a low limit. I’d allow at least 75 or 80%.  I figured this thinking about a 5’4” woman who started at 348 and lost 200 lbs. This was on the weight watchers site. She was very heavy at 348 but did look like someone you’d see if you went shopping for example.  I did some quick calculations and assuming she was sedentary, she probably had body fat just over 70%.
-    I need to do some more looking and we need to consider the interaction between the body fat slider and the other controls as well as the learning goals. If we are interested in health, then its’ important to note that waste circumference and body fat are both much better indicators of health than BMI.  I also think we should rethink the shape of the person and how they look as they gain weight.  Its’ very different for men and women and this is an important aspect of health so might be worth considering.
-    In the long run, the body fat slider should be tied to the exercise/lifestyle as well as the weight.  I found studies that showed people losing weight and increasing their body fat because they were too sedentary. Once we know exactly where we want to go with this, I’ll find the info we need to model it appropriately.
-
-I wonder if, before putting more time into this, it might make sense to check with some potential teacher users.  If they all just use BMI, and are not aware of and/or want to teach any of these other more complicated things, it is not going to improve sim by putting them in.  Teachers will just either assume sim is wrong, or decide not to use it because it will confuse the kids.  I assume this asking a few other teachers who are potential users  is something Ingrid could do fairly easily.
-
-All the statistics for the country on obesity use BMI; however, any federal agency or some of the medical help sites on health risks print the exact warnings about BMI that I’ve mentioned here.  That’s why I wanted to include them in the sim.  I didn’t have to look in some obscure place.  So I think it’d be good to have in the sim even if teachers do just use BMI because we could have a little info button (like our see real laser button) that has the exact wording from one of the federal sites.  This way we are educating the teachers as well and in a way that would probably not get them to think the sim is wrong.
-
-Ok, as long as it is set up so you can have it both ways.
+Time readouts should be Years:Months, not years in decimal
+    >>Wait for interviews
