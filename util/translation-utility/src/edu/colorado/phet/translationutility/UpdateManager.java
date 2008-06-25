@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
@@ -29,7 +30,7 @@ public class UpdateManager {
     private static final int CONNECTION_TIMEOUT = 4000; // milliseconds
     
     private static final String HOST_NAME = "phet.colorado.edu";
-    private static final String URL_HOME = "http://phet.colorado.edu/new/contribute/translation-utility.php";
+    private static final String URL_HOME = "http://phet.colorado.edu/contribute/translation-utility.php";
     private static final String URL_LATEST_VERSION_INFO = "http://phet.colorado.edu/phet-dist/translation-utility/translation-utility.properties";
     
     private static final String SVN_REVISION_KEY = "version.revision";
@@ -90,6 +91,9 @@ public class UpdateManager {
                     properties = new Properties();
                     properties.load( inputStream );
                 }
+            }
+            catch ( FileNotFoundException e ) {
+                System.out.println( "UpdateManager: " + URL_LATEST_VERSION_INFO + " not found" );
             }
             catch ( IOException e ) {
                 e.printStackTrace();
