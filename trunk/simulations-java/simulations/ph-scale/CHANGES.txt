@@ -3,35 +3,34 @@ Change history for ph-scale
 ================================================================================
 
 DESIGN ISSUES
-- make particles of minority species more opaque
-- Laurie's # (or ratio) of particles for pH=6=8 (she will give me a formula):
+- Laurie's # (or ratio) of particles for pH=6=8 (see her Excel document):
     pH      H3O+    OH-
     8.0      5      500
     7.5     16      160
     7.0     50       50
     6.5    160       16
     6.0    500        5
-- in beaker with ph=6-8, calculate #particles proportional to liquid volume
-- in beaker, create particles only in liquid volume
-- address Kathy's problem with prototype on Java 1.4
-- linear option for bar graph, with zoom in/out x10 around 0
-- label H20 concentration as "about 55" in bar graph
-- where to position value in bar graph when bars are too small to contain them?
-- negative pH support?
-- remove H2O value in beaker
-- make molecules large enough in beaker so that numbers fit inside of them
-
-DESIGN ISSUES:
+- how to combine color of liquid + water?
+- what happens when dragging bars would result in pH outside range?
 
 HIGH PRIORITY:
-- fix pH calculation in Liquid.increaseVolume
 
 MEDIUM PRIORITY:
 - faucet doesn't turn on when filling via "reset all"
 - port prototype code to this sim
+- make particles of minority species more opaque
 - hook up Ratio check box
+- add bars to graph
+- make bars interactive
+- tick marks on graph
+- implement linear and log scale switching
+- add plumbing going into faucets
+- 10x zoom feature for linear graph, zoom into zero
 
 LOW PRIORITY:
+- change layout of molecule counts display
+- generalize layout code
+- address Kathy's problem with prototype and Java 1.4 Random class
 
 PERFORMANCE OPTIMIZATIONS:
 
