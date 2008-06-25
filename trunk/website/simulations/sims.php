@@ -496,10 +496,10 @@ EOT;
 EOT;
 
                                 if ($sim_type == '0') {
-                                    print "Sun Java 1.4.2_16 or later<br/>";
+                                    print "Sun Java ".JAVA_MIN_VERSION." or later<br/>";
                                 }
                                 else if ($sim_type == '1') {
-                                    print "Macromedia Flash 8 or later<br/>";
+                                    print "Macromedia Flash ".FLASH_MIN_VERSION." or later<br/>";
                                 }
 
                             print <<<EOT
@@ -511,10 +511,10 @@ EOT;
 EOT;
 
                             if ($sim_type == '0') {
-                                print "Apple Java 1.4.2_16 or later<br/>";
+                                print "Apple Java ".JAVA_MIN_VERSION." or later<br/>";
                             }
                             else if ($sim_type == '1') {
-                                print "Macromedia Flash 8 or later<br/>";
+                                print "Macromedia Flash ".FLASH_MIN_VERSION." or later<br/>";
                             }
 
                             print <<<EOT
@@ -523,10 +523,10 @@ EOT;
                         <td>
 EOT;
                             if ($sim_type == '0') {
-                                print "Sun Java 1.4.2_16 or later<br/>";
+                                print "Sun Java ".JAVA_MIN_VERSION." or later<br/>";
                             }
                             else if ($sim_type == '1') {
-                                print "Macromedia Flash 8 or later<br/>";
+                                print "Macromedia Flash ".FLASH_MIN_VERSION." or later<br/>";
                             }
 
                             print <<<EOT

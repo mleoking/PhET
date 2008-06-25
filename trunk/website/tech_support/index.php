@@ -16,6 +16,9 @@ class TroubleshootingPage extends SitePage {
 
         $phet_help_email = PHET_HELP_EMAIL;
 
+        $java_min_version = JAVA_MIN_VERSION;
+        $flash_min_version = FLASH_MIN_VERSION;
+
         print <<<EOT
             <p>This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a href="mailto:{$phet_help_email}?Subject=Help"><span class="red">{$phet_help_email}</span></a>.</p>
 
@@ -57,7 +60,7 @@ class TroubleshootingPage extends SitePage {
 
             <h3 id="q1" >Why can I run some of the simulations but not all?</h3>
 
-            <p>Some of our simulations are Java Web Start based applications and others use Macromedia's Flash player. Flash comes with most computers while Java Web Start is a free application that can be downloaded from Sun Microsystems. To run the Java-based simulations you must have Java version 1.4.2 or higher installed on your computer.</p>
+            <p>Some of our simulations are Java Web Start based applications and others use Macromedia's Flash player. Flash comes with most computers while Java Web Start is a free application that can be downloaded from Sun Microsystems. To run the Java-based simulations you must have Java version {$java_min_version} or higher installed on your computer.</p>
 
             <p><a href="{$this->prefix}tech_support/support-java.php">Learn about Java installation and Troubleshooting here</a>.</p>
 
@@ -71,8 +74,8 @@ class TroubleshootingPage extends SitePage {
             256MB RAM minimum<br />
             Approximately 60MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
-            Sun Java 1.4.2_16 or later<br />
-            Macromedia Flash 8 or later<br />
+            Sun Java {$java_min_version} or later<br />
+            Macromedia Flash {$flash_min_version} or later<br />
             Microsoft Internet Explorer 6 or later, Firefox 2 or later</p>
 
             <p><strong>Macintosh Systems</strong><br />
@@ -81,8 +84,8 @@ class TroubleshootingPage extends SitePage {
             256MB RAM minimum<br />
             Approximately 40 MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
-            Apple Java 1.4.2_16 or later<br />
-            Macromedia Flash 8 or later<br />
+            Apple Java {$java_min_version} or later<br />
+            Macromedia Flash {$flash_min_version} or later<br />
             Safari 2 or later, Firefox 2 or later</p>
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
@@ -92,8 +95,8 @@ class TroubleshootingPage extends SitePage {
             256MB RAM minimum<br />
             Approximately 40 MB disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
-            Sun Java 1.4.2_16 or later<br />
-            Macromedia Flash 8 or later<br />
+            Sun Java {$java_min_version} or later<br />
+            Macromedia Flash {$flash_min_version} or later<br />
             Firefox 2 or later<br/></p>
 
             <p><strong>Support Software</strong></p>
