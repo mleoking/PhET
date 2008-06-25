@@ -27,6 +27,7 @@ HIGH PRIORITY:
 - fix pH calculation in Liquid.increaseVolume
 
 MEDIUM PRIORITY:
+- faucet doesn't turn on when filling via "reset all"
 - port prototype code to this sim
 - hook up Ratio check box
 
@@ -44,13 +45,13 @@ CLEANUP:
 
 
 DONE:
-6/24/08 - reset liquid model in "reset all"
-6/24/08 - fill to 1L on startup or reset
-6/24/08 - remove "Choose a liquid" choice from liquid faucet, no longer needed
-6/24/08 - create a custom confirmation dialog with "don't ask me again" check box
-6/24/08 - request confirmation when changing liquid
-6/24/08 - workaround for incorrect pH model for combined liquids
-6/24/08 - clean up Liquid model, javadoc, symmetry, etc.
+6/25/08 - reset liquid model in "reset all"
+6/25/08 - fill to 1L on startup or reset
+6/25/08 - remove "Choose a liquid" choice from liquid faucet, no longer needed
+6/25/08 - create a custom confirmation dialog with "don't ask me again" check box
+6/25/08 - request confirmation when changing liquid
+6/25/08 - workaround for incorrect pH model for combined liquids
+6/25/08 - clean up Liquid model, javadoc, symmetry, etc.
 6/24/08 - change pH property to type Double, null mean undefined
 6/24/08 - disable slider when beaker is empty
 6/24/08 - wire up units controls on bar graph
