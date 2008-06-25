@@ -15,11 +15,15 @@ public class TimesTenFormat {
     }
     
     public String format( double value ) {
-        String s = _format.format( value );
-        int index = s.lastIndexOf( 'E' );
-        String mantissa = s.substring( 0, index );
-        String exponent = s.substring( index + 1 );
-        Object[] args = { mantissa, exponent };
-        return MessageFormat.format( FORMAT, args );
+        String valueString = "0";
+        if ( value != 0 ) {
+            String scientificString = _format.format( value );
+            int index = scientificString.lastIndexOf( 'E' );
+            String mantissa = scientificString.substring( 0, index );
+            String exponent = scientificString.substring( index + 1 );
+            Object[] args = { mantissa, exponent };
+            valueString = MessageFormat.format( FORMAT, args );
+        }
+        return valueString;
     }
 }
