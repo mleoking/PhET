@@ -46,6 +46,7 @@ CLEANUP:
 
 
 DONE:
+6/24/08 - workaround for incorrect pH model for combined liquids
 6/24/08 - clean up Liquid model, javadoc, symmetry, etc.
 6/24/08 - change pH property to type Double, null mean undefined
 6/24/08 - disable slider when beaker is empty
