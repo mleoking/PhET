@@ -2,10 +2,16 @@
 
 package edu.colorado.phet.phscale.control;
 
+import java.awt.Frame;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.JOptionPane;
+
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.phscale.PHScaleApplication;
+import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
@@ -30,6 +36,8 @@ public class LiquidControlNode extends PNode {
     private final LiquidComboBox _comboBox;
     private final PPath _liquidColumnNode;
     private final FaucetControlNode _faucetControlNode;
+    
+    private LiquidDescriptor _selectedLiquidDescriptor;
     private boolean _autoFilling;
     
     public LiquidControlNode( PSwingCanvas canvas, Liquid liquid ) {
@@ -47,36 +55,21 @@ public class LiquidControlNode extends PNode {
         
         _comboBox = new LiquidComboBox();
         _comboBox.setChoice( _liquid.getLiquidDescriptor() );
-        PSwing comboBoxWrapper = new PSwing( _comboBox );
-        _comboBox.setEnvironment( comboBoxWrapper, canvas ); // hack required by PComboBox
+        _selectedLiquidDescriptor = _comboBox.getChoice();
         _comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
-                LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
-                if ( liquidDescriptor != null ) {
-                    _autoFilling = true;
-                    _liquid.setLiquidDescriptor( liquidDescriptor );
-                    _liquid.startFilling( FAST_FILL_RATE, liquidDescriptor, FAST_FILL_VOLUME );
-                }
-                else {
-                    _liquidColumnNode.setPaint( null );
-                }
-                _faucetControlNode.setOn( liquidDescriptor != null ); // automatically turn on the faucet
-                _faucetControlNode.setEnabled( liquidDescriptor != null ); // automatically turn on the faucet
+                handleLiquidSelection();
             }
         } );
+        PSwing comboBoxWrapper = new PSwing( _comboBox );
+        _comboBox.setEnvironment( comboBoxWrapper, canvas ); // hack required by PComboBox
         
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_RIGHT );
         _faucetControlNode.setOn( false );
         _faucetControlNode.setEnabled( _comboBox.getChoice() != null ); // disabled until a liquid is chosen
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
-                if ( on ) {
-                    LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
-                    _liquid.startFilling( FILL_RATE, liquidDescriptor );
-                }
-                else {
-                    _liquid.stopFilling();
-                }
+                handleFaucetOnOff( on );
             }
         });
         
@@ -107,5 +100,48 @@ public class LiquidControlNode extends PNode {
         }
         _liquidColumnNode.setVisible( _liquid.isFilling() && _faucetControlNode.isOn() );
         _liquidColumnNode.setPaint( _liquid.getColor() );
+    }
+    
+    private void handleLiquidSelection() {
+        LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
+        if ( liquidDescriptor != null ) {
+            if ( liquidDescriptor != _selectedLiquidDescriptor ) {
+                boolean confirm = true;
+                if ( !_liquid.isEmpty() ) {
+                    confirm = confirmChangeLiquid();
+                }
+                if ( confirm ) {
+                    _autoFilling = true;
+                    _selectedLiquidDescriptor = liquidDescriptor;
+                    _liquid.setLiquidDescriptor( liquidDescriptor );
+                    _liquid.startFilling( FAST_FILL_RATE, liquidDescriptor, FAST_FILL_VOLUME );
+                }
+                else {
+                    _comboBox.setChoice( _selectedLiquidDescriptor );
+                }
+            }
+        }
+        else {
+            _liquidColumnNode.setPaint( null );
+        }
+        _faucetControlNode.setOn( liquidDescriptor != null ); // automatically turn on the faucet
+        _faucetControlNode.setEnabled( liquidDescriptor != null ); // automatically turn on the faucet
+    }
+    
+    private void handleFaucetOnOff( boolean on ) {
+        if ( on ) {
+            LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
+            _liquid.startFilling( FILL_RATE, liquidDescriptor );
+        }
+        else {
+            _liquid.stopFilling();
+        }
+    }
+    
+    private static boolean confirmChangeLiquid() {
+        Frame parent = PHScaleApplication.instance().getPhetFrame();
+        String message = PHScaleStrings.CONFIRM_CHANGE_LIQUID;
+        int rval = DialogUtils.showConfirmDialog( parent, message, JOptionPane.YES_NO_OPTION );
+        return ( rval == JOptionPane.YES_OPTION );
     }
 }
