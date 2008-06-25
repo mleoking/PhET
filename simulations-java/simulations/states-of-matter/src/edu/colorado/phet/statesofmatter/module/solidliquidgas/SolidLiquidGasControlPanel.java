@@ -42,7 +42,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     /**
      * Constructor.
      * 
-     * @param alphaRadiationModule
+     * @param solidLiquidGasModule
      * @param parentFrame parent frame, for creating dialogs
      */
     public SolidLiquidGasControlPanel( SolidLiquidGasModule solidLiquidGasModule, Frame parentFrame ) {
