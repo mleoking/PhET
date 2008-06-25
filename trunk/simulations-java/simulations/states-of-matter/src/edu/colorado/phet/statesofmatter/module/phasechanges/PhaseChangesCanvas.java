@@ -19,6 +19,7 @@ import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
+import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -36,11 +37,12 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 2.5;
+    private final double WIDTH_TRANSLATION_FACTOR = 3;
     private final double HEIGHT_TRANSLATION_FACTOR = 1.667;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
+    private final double PRESSURE_GAUGE_WIDTH = CANVAS_WIDTH / 5.5;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -83,7 +85,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( StatesOfMatterConstants.CANVAS_BACKGROUND );
         
-        // Create and add the particle container.
+        // Create the particle container.
         try {
             m_particleContainer = new ParticleContainerNode(this, m_model);
         }
@@ -91,6 +93,14 @@ public class PhaseChangesCanvas extends PhetPCanvas {
             throw new RuntimeException();
         }
         
+        // Add the pressure meter.
+        DialGaugeNode pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, "Pressure", 0, 1, "Atm");
+        pressureMeter.setOffset( m_particleContainer.getFullBoundsReference().x + (0.97 * m_particleContainer.getFullBoundsReference().width), 
+                -m_particleContainer.getFullBoundsReference().height * 0.75 );
+        addWorldChild( pressureMeter );
+        
+        // Add the particle container after the pressure meter so it can be
+        // on top of it.
         addWorldChild(m_particleContainer);
         
         // TODO: JPB TBD - Add a rectangle that represents the containment box
