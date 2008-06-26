@@ -10,12 +10,12 @@ import java.util.Random;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
@@ -34,8 +34,8 @@ public class CalorieDragStrip extends PNode {
     private static final int HEIGHT = 45;
     private PNode tooltipLayer = new PNode();
     private PNode stripPanel;
-    public static int ITEMS_PER_PAGE=4;
-    private int count = ITEMS_PER_PAGE+1;
+    public static int ITEMS_PER_PAGE = 4;
+    private int count = ITEMS_PER_PAGE + 1;
     private ArrayList panels = new ArrayList();
     private Color buttonColor = new Color( 128, 128, 255 );
     private TogglePClip stripPanelClip;
@@ -336,8 +336,8 @@ public class CalorieDragStrip extends PNode {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
             final DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( EatingAndExerciseResources.getImage( item.getImage() ), HEIGHT ) ), item );
 
-            if ( item.getImage().equals( Human.FOOD_PYRAMID ) ) {
-                decorateFoodPyramid( item, dragNode );
+            if ( item.getImage().equals( Human.FOOD_PYRAMID ) && item instanceof CaloricFoodItem) {
+                decorateFoodPyramid( (CaloricFoodItem) item, dragNode );
             }
             return dragNode;
         }
@@ -346,21 +346,8 @@ public class CalorieDragStrip extends PNode {
         }
     }
 
-    private void decorateFoodPyramid( final CaloricItem item, DefaultDragNode dragNode ) {
-        final JDialog dialog = new JDialog();
-        JLabel contentPane = new JLabel( item.getLabelText(), new ImageIcon( EatingAndExerciseResources.getImage( item.getImage() ) ), SwingConstants.CENTER ) {
-            protected void paintComponent( Graphics g ) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-                super.paintComponent( g );
-            }
-        };
-
-        contentPane.setOpaque( true );
-        contentPane.setBackground( Color.white );
-        SwingUtils.centerWindowOnScreen( dialog );
-        dialog.setContentPane( contentPane );
-        dialog.pack();
+    private void decorateFoodPyramid( final CaloricFoodItem item, DefaultDragNode dragNode ) {
+        final FoodPyramidDialog dialog = new FoodPyramidDialog( item );
 
         GradientButtonNode gradientButtonNode = new GradientButtonNode( "?", 12, Color.red );
         gradientButtonNode.addActionListener( new ActionListener() {

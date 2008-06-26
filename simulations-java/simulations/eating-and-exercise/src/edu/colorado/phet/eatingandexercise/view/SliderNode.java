@@ -203,10 +203,10 @@ public class SliderNode extends PNode {
                     Point2D dragEndPT = event.getPositionRelativeTo( ThumbNode.this );
                     PDimension d = new PDimension( dragEndPT.getX() - dragStartPT.getX(), dragEndPT.getY() - dragEndPT.getY() );
                     ThumbNode.this.localToGlobal( d );
-                    System.out.println( "d.getWidth() = " + d.getWidth() );
+//                    System.out.println( "d.getWidth() = " + d.getWidth() );
                     double proposedValue = value + viewToModelRelative( d.getWidth() );
 //                    double proposedValue = value + d.getWidth() ;
-                    System.out.println( "proposedValue = " + proposedValue );
+//                    System.out.println( "proposedValue = " + proposedValue );
                     setValue( clamp( proposedValue ) );
                 }
             } );

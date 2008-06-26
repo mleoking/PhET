@@ -96,17 +96,14 @@ public class CalorieNode extends PNode {
         } );
 
         addPreExistingItems();
-        calorieSet.addListener( new CalorieSet.Listener() {
-            public void itemAdded( CaloricItem item ) {
-            }
-
+        calorieSet.addListener( new CalorieSet.Adapter() {
             public void itemRemoved( CaloricItem item ) {
                 calorieDragStrip.itemRemoved( item );
             }
         } );
         addChild( calorieDragStrip );
 
-        calorieSet.addListener( new CalorieSet.Listener() {
+        calorieSet.addListener( new CalorieSet.Adapter() {
             public void itemAdded( CaloricItem item ) {
                 updatePlusNodeVisible();
             }

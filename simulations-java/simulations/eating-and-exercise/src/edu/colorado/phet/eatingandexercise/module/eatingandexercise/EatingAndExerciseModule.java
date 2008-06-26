@@ -58,22 +58,17 @@ public class EatingAndExerciseModule extends PiccoloModule {
                 activateStartButtonWiggleMe();
             }
         } );
-        _model.getHuman().getSelectedExercise().addListener( new CalorieSet.Listener() {
+        _model.getHuman().getSelectedExercise().addListener( new CalorieSet.Adapter() {
             public void itemAdded( CaloricItem item ) {
                 incrementAddedItems();
-            }
-
-            public void itemRemoved( CaloricItem item ) {
             }
         } );
 
-        _model.getHuman().getSelectedFoods().addListener( new CalorieSet.Listener() {
+        _model.getHuman().getSelectedFoods().addListener( new CalorieSet.Adapter() {
             public void itemAdded( CaloricItem item ) {
                 incrementAddedItems();
             }
 
-            public void itemRemoved( CaloricItem item ) {
-            }
         } );
         setSimulationPanel( _canvas );
 

@@ -26,7 +26,7 @@ public class PlateTopSummaryNode extends PNode {
         for ( int i = 0; i < calorieSet.size(); i++ ) {
             addItem( calorieSet.getItem( i ) );
         }
-        calorieSet.addListener( new CalorieSet.Listener() {
+        calorieSet.addListener( new CalorieSet.Adapter() {
             public void itemAdded( CaloricItem item ) {
                 addItem( item );
             }

@@ -1,5 +1,7 @@
 package edu.colorado.phet.eatingandexercise.control;
 
+import java.util.ArrayList;
+
 /**
  * Created by: Sam
  * Apr 23, 2008 at 1:34:08 PM
@@ -44,6 +46,27 @@ public abstract class CaloricItem implements Cloneable {
         catch( CloneNotSupportedException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
+        }
+    }
+
+    protected void setCalories( double totalCalories ) {
+        this.cal = totalCalories;
+        notifyCaloriesChanged();
+    }
+
+    public static interface Listener {
+        void caloriesChanged();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyCaloriesChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).caloriesChanged();
         }
     }
 }
