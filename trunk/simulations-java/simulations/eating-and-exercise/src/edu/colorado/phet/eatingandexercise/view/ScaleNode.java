@@ -26,13 +26,14 @@ public class ScaleNode extends PNode {
     private Human human;
     private PText weightReadout;
     private double faceWidth = 0.9;
-    private double faceHeight = 0.1;
+    private double faceHeight = 0.13;
     private double faceY = 0.05;
     private double depthDX = 0.06;
     private double depthDY = 0.1;
     private float strokeWidth = 0.02f;
     private PSwing unitsPSwing;
     private final Color scaleColor = Color.lightGray;
+    private PhetPPath faceNode;
 
     public ScaleNode( final EatingAndExerciseModel model, Human human ) {
         this.model = model;
@@ -52,7 +53,8 @@ public class ScaleNode extends PNode {
         facePath.lineTo( faceWidth / 2, faceY + faceHeight );
         facePath.lineTo( faceWidth / 2, faceY );
         facePath.lineTo( -faceWidth / 2, faceY );
-        addChild( new PhetPPath( facePath.getGeneralPath(), scaleColor, new BasicStroke( strokeWidth ), Color.black ) );
+        faceNode = new PhetPPath( facePath.getGeneralPath(), scaleColor, new BasicStroke( strokeWidth ), Color.black );
+        addChild( faceNode );
         human.addListener( new Human.Adapter() {
             public void weightChanged() {
                 updateWeightReadout();
@@ -95,11 +97,11 @@ public class ScaleNode extends PNode {
     }
 
     private void updateWeightReadout() {
-        weightReadout.setText( "" + EatingAndExerciseStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() );
+        weightReadout.setText( "" + EatingAndExerciseStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() +", BMI: "+EatingAndExerciseStrings.BMI_FORMAT.format( human.getBMI() )+" kg/m^2");
         updateTextLayout();
     }
 
     private void updateTextLayout() {
-        weightReadout.setOffset( 0 - weightReadout.getFullBounds().getWidth() / 2, faceY );
+        weightReadout.setOffset( 0 - weightReadout.getFullBounds().getWidth() / 2, faceY+faceHeight-weightReadout.getFullBounds().getHeight()-0.01 );
     }
 }
