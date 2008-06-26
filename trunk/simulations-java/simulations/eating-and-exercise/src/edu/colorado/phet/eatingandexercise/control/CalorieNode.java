@@ -56,7 +56,7 @@ public class CalorieNode extends PNode {
             }
         } );
         editButton.setOffset( 0, 10 );
-        addChild( editButton );
+//        addChild( editButton );
 
         plateImage = new PImage( BufferedImageUtils.multiScaleToHeight( EatingAndExerciseResources.getImage( dropTargetIcon ), 120 ) );
         addChild( plateImage );
@@ -214,8 +214,8 @@ public class CalorieNode extends PNode {
     }
 
     private void relayout() {
-        editButton.setOffset( 0, maxY - editButton.getFullBounds().getHeight() );
-        plateImage.setOffset( 0, editButton.getFullBounds().getY() - plateImage.getFullBounds().getHeight() );
+//        editButton.setOffset( 0, maxY - editButton.getFullBounds().getHeight() );
+        plateImage.setOffset( 0, maxY- plateImage.getFullBounds().getHeight() );
         plateTopSummaryNode.relayout();
     }
 
