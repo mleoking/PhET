@@ -121,7 +121,7 @@ public class SliderNode extends PNode {
 
     private void update() {
         updateThumbLocation();
-        thumbNode.setThumbPaint( value < min || value > max ? Color.red : Color.blue );
+//        thumbNode.setThumbPaint( value < min || value > max ? Color.red : new Color( 237, 200, 120 ) );
         Shape shape = new RoundRectangle2D.Double( 0, 0, thumbNode.getThumbWidth(), thumbNode.getThumbHeight(), 6, 6 );
         if ( value < min ) {
             DoubleGeneralPath path = new DoubleGeneralPath();
@@ -139,7 +139,7 @@ public class SliderNode extends PNode {
             path.lineTo( 0, 0 );
             shape = path.getGeneralPath();
         }
-        thumbNode.setThumbState( new ThumbState( value < min || value > max ? Color.red : Color.blue,
+        thumbNode.setThumbState( new ThumbState( value < min || value > max ? Color.red : new Color( 237, 200, 120 ),
                                                  shape ) );
     }
 
@@ -165,7 +165,7 @@ public class SliderNode extends PNode {
     }
 
     private double viewToModelRelative( double dv ) {
-        return dv*(max-min)/(width-0);
+        return dv * ( max - min ) / ( width - 0 );
     }
 
     private class TrackNode extends PNode {
@@ -184,7 +184,16 @@ public class SliderNode extends PNode {
         private ThumbNode() {
             thumb = new PhetPPath( new RoundRectangle2D.Double( 0, 0, thumbWidth, thumbHeight, 6, 6 ), new Color( 237, 200, 120 ), new BasicStroke(), Color.black );
             thumb.setOffset( -thumb.getFullBounds().getWidth() / 2, height / 2 - thumb.getFullBounds().getHeight() / 2 );
-            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new CursorHandler() );//fails for PNode inside PhetPCanvas wrapped inside JComponent inside PSwing inside PhetPCanvas
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseEntered( PInputEvent event ) {
+                    handleMouse( event, Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+                }
+
+                public void mouseExited( PInputEvent event ) {
+                    handleMouse( event, Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                }
+            } );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     dragStartPT = event.getPositionRelativeTo( ThumbNode.this );
@@ -204,6 +213,19 @@ public class SliderNode extends PNode {
             addChild( thumb );
         }
 
+        private void handleMouse( PInputEvent event, Cursor predefinedCursor ) {
+            Object o = event.getComponent();
+            if ( o instanceof JComponent ) {
+                JComponent jComponent = (JComponent) o;
+                Window w = SwingUtilities.getWindowAncestor( jComponent );
+                if ( w instanceof JFrame ) {
+                    JFrame frame = (JFrame) w;
+                    Container contentPane = frame.getContentPane();
+                    setCursorHand( contentPane, predefinedCursor );
+                }
+            }
+        }
+
         public void setThumbState( ThumbState thumbState ) {
             setThumbPaint( thumbState.getPaint() );
             thumb.setPathTo( thumbState.getShape() );
@@ -219,6 +241,17 @@ public class SliderNode extends PNode {
 
         public double getThumbHeight() {
             return thumbHeight;
+        }
+    }
+
+    private void setCursorHand( Container contentPane, Cursor cursor ) {
+        contentPane.setCursor( cursor );
+        for ( int i = 0; i < contentPane.getComponentCount(); i++ ) {
+            Component c = contentPane.getComponent( i );
+            c.setCursor( cursor );
+            if ( c instanceof Container ) {
+                setCursorHand( (Container) c, cursor );
+            }
         }
     }
 
