@@ -1,32 +1,34 @@
 package edu.colorado.phet.phscale.view;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.phscale.graphs.FormattedNumberNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.util.TimesTenFormat;
+import edu.colorado.phet.phscale.util.TimesTenNumberFormat;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 public class MoleculeCountNode extends PComposite {
     
-    private static final TimesTenFormat H3O_FORMAT = new TimesTenFormat( "0.00" );
-    private static final TimesTenFormat OH_FORMAT = new TimesTenFormat( "0.00" );
-    private static final TimesTenFormat H2O_FORMAT = new TimesTenFormat( "0" );
+    private static final TimesTenNumberFormat H3O_FORMAT = new TimesTenNumberFormat( "0.00" );
+    private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
+    private static final TimesTenNumberFormat H2O_FORMAT = new TimesTenNumberFormat( "0" );
     
     private static final double X_SPACING = 15;
     private static final double Y_SPACING = 20;
-    private static final Font FONT = new PhetFont( 25 );
+    private static final Font VALUE_FONT = new PhetFont( 25 );
+    private static final Color VALUE_COLOR = Color.BLACK;
     
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
-    private final HTMLNode _h3oCountNode;
-    private final HTMLNode _ohCountNode;
-    private final HTMLNode _h2oCountNode;
+    private final FormattedNumberNode _h3oCountNode;
+    private final FormattedNumberNode _ohCountNode;
+    private final FormattedNumberNode _h2oCountNode;
     
     public MoleculeCountNode( Liquid liquid ) {
         super();
@@ -39,15 +41,15 @@ public class MoleculeCountNode extends PComposite {
         };
         _liquid.addLiquidListener( _liquidListener );
         
+        // icons
         H3ONode h3oNode = new H3ONode();
         OHNode ohNode = new OHNode();
         H2ONode h2oNode = new H2ONode();
-        _h3oCountNode = new HTMLNode( "?" );
-        _h3oCountNode.setFont( FONT );
-        _ohCountNode = new HTMLNode( "?" );
-        _ohCountNode.setFont( FONT );
-        _h2oCountNode = new HTMLNode( "?" );
-        _h2oCountNode.setFont( FONT );
+        
+        // values
+        _h3oCountNode = new FormattedNumberNode( H3O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
+        _ohCountNode = new FormattedNumberNode( OH_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
+        _h2oCountNode = new FormattedNumberNode( H2O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
         
         // update before positions so that layout uses values
         update();
@@ -78,8 +80,8 @@ public class MoleculeCountNode extends PComposite {
     }
     
     private void update() {
-        _h3oCountNode.setHTML( H3O_FORMAT.format( _liquid.getMoleculesH3O() ) );
-        _ohCountNode.setHTML( OH_FORMAT.format( _liquid.getMoleculesOH() ) );
-        _h2oCountNode.setHTML( H2O_FORMAT.format( _liquid.getMoleculesH2O() ) );
+        _h3oCountNode.setValue( _liquid.getMoleculesH3O() );
+        _ohCountNode.setValue( _liquid.getMoleculesOH() );
+        _h2oCountNode.setValue( _liquid.getMoleculesH2O() );
     }
 }
