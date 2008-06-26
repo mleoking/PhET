@@ -78,6 +78,10 @@ public class Human {
             public void itemRemoved( CaloricItem item ) {
                 updateExercise();
             }
+
+            public void itemChanged( CaloricItem item ) {
+                updateExercise();
+            }
         } );
         foodItems.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
@@ -87,6 +91,11 @@ public class Human {
             public void itemRemoved( CaloricItem item ) {
                 updateIntake();
             }
+
+            public void itemChanged( CaloricItem item ) {
+                updateIntake();
+            }
+
         } );
         resetAll();
     }
@@ -124,6 +133,10 @@ public class Human {
             public void itemRemoved( CaloricItem item ) {
                 notifyDietChanged();
             }
+
+            public void itemChanged( CaloricItem item ) {
+                notifyDietChanged();
+            }
         } );
         exerciseItems.addListener( new CalorieSet.Listener() {
             public void itemAdded( CaloricItem item ) {
@@ -132,6 +145,11 @@ public class Human {
             }
 
             public void itemRemoved( CaloricItem item ) {
+                exercise.setValue( exerciseItems.getTotalCalories() );
+                notifyExerciseChanged();
+            }
+
+            public void itemChanged( CaloricItem item ) {
                 exercise.setValue( exerciseItems.getTotalCalories() );
                 notifyExerciseChanged();
             }

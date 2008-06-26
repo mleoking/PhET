@@ -23,14 +23,26 @@ public class CalorieSet {
         }
     }
 
-    public void insertItem(int index,CaloricItem item){
-        list.add( index,item );
+    public void insertItem( int index, CaloricItem item ) {
+        list.add( index, item );
         notifyItemAdded( item );
     }
 
-    public void addItem( CaloricItem item ) {
+    public void addItem( final CaloricItem item ) {
         list.add( item );
         notifyItemAdded( item );
+        item.addListener( new CaloricItem.Listener() {//todo: remove memory leak
+
+            public void caloriesChanged() {
+                notifyItemChanged( item );
+            }
+        } );
+    }
+
+    private void notifyItemChanged( CaloricItem item ) {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).itemChanged( item );
+        }
     }
 
     public double getTotalCalories() {
@@ -84,6 +96,20 @@ public class CalorieSet {
         void itemAdded( CaloricItem item );
 
         void itemRemoved( CaloricItem item );
+
+        void itemChanged( CaloricItem item );
+    }
+
+    public static class Adapter implements Listener {
+
+        public void itemAdded( CaloricItem item ) {
+        }
+
+        public void itemRemoved( CaloricItem item ) {
+        }
+
+        public void itemChanged( CaloricItem item ) {
+        }
     }
 
     public void addListener( Listener listener ) {

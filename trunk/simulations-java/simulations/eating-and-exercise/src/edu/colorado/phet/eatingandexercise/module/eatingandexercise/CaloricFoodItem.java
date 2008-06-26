@@ -68,6 +68,17 @@ public class CaloricFoodItem extends CaloricItem {
         return "<html>" + one + " " + getName() + " <br>(" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( getCalories() ) + " " + EatingAndExerciseStrings.KCAL_PER_DAY + ")</html>";
     }
 
+    public void setTotalCalories( double totalCalories ) {
+        double scale = totalCalories / getCalories();
+        double newLipidCalories = getLipidCalories() * scale;
+        double newCarbCalories = getCarbCalories() * scale;
+        double newProteinCalories = getProteinCalories() * scale;
+        this.lipids = newLipidCalories / 9;
+        this.carbs = newCarbCalories / 4;
+        this.protein = newProteinCalories / 4;
+        super.setCalories(getTotalCalories());
+    }
+
     public Object clone() {
         CaloricFoodItem item = (CaloricFoodItem) super.clone();
         item.lipids = lipids;

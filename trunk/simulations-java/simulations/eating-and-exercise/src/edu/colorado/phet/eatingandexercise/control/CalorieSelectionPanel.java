@@ -63,7 +63,7 @@ public class CalorieSelectionPanel extends JPanel implements ICalorieSelectionPa
         pane.add( rightScrollPane );
 
         add( pane, new GridBagConstraints( 0, 1, 1, 1, 1E6, 1E6, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 1, 1, 1, 1 ), 0, 0 ) );
-        selected.addListener( new CalorieSet.Listener() {
+        selected.addListener( new CalorieSet.Adapter() {
             public void itemAdded( CaloricItem item ) {
                 rightPanel.add( new SelectedComponent( selected, item ) );
                 pane.invalidate();

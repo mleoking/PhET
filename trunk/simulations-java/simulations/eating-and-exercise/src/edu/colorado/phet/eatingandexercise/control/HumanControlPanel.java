@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -13,7 +12,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.control.valuenode.LinearValueControlNode;
@@ -207,12 +205,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         private LinearValueControlNode linearValueControlNode;
 
         public HumanSlider( double min, double max, double value, String label, String textFieldPattern, String units ) {
-            PhetPCanvas canvas = new PhetPCanvas();
             linearValueControlNode = new LinearValueControlNode( label, units, min, max, value, new DefaultDecimalFormat( textFieldPattern ) );
-            canvas.addScreenChild( linearValueControlNode );
-            linearValueControlNode.setOffset( 2, 3 );//todo: remove the need for this workaround
-            canvas.setPreferredSize( new Dimension( (int) linearValueControlNode.getFullBounds().getWidth() + 4, (int) linearValueControlNode.getFullBounds().getHeight() + 4 ) );
-            add( canvas );
+            add( new PNodeComponent( linearValueControlNode ) );
         }
 
         public double getValue() {
