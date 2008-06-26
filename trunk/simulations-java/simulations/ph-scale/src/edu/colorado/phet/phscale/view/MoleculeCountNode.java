@@ -42,12 +42,15 @@ public class MoleculeCountNode extends PComposite {
         H3ONode h3oNode = new H3ONode();
         OHNode ohNode = new OHNode();
         H2ONode h2oNode = new H2ONode();
-        _h3oCountNode = new HTMLNode(); //XXX
+        _h3oCountNode = new HTMLNode( "?" );
         _h3oCountNode.setFont( FONT );
-        _ohCountNode = new HTMLNode(); //XXX
+        _ohCountNode = new HTMLNode( "?" );
         _ohCountNode.setFont( FONT );
-        _h2oCountNode = new HTMLNode(); //XXX
+        _h2oCountNode = new HTMLNode( "?" );
         _h2oCountNode.setFont( FONT );
+        
+        // update before positions so that layout uses values
+        update();
         
         addChild( h3oNode );
         addChild( ohNode );
@@ -63,13 +66,11 @@ public class MoleculeCountNode extends PComposite {
         PBounds bOH = ohNode.getFullBoundsReference();
         PBounds bH2O = h2oNode.getFullBoundsReference();
         final double maxX = Math.max( bH3O.getMaxX(), Math.max( bOH.getMaxX(), bH2O.getMaxX() ) );
-        _h3oCountNode.setOffset( maxX + X_SPACING, bH3O.getY() + ( bH3O.getHeight() - _h3oCountNode.getFullBoundsReference().getHeight() ) / 2 );
-        _ohCountNode.setOffset( maxX + X_SPACING, bOH.getY() + ( bOH.getHeight() - _ohCountNode.getFullBoundsReference().getHeight() ) / 2 );
-        _h2oCountNode.setOffset( maxX + X_SPACING, bH2O.getY() + ( bH2O.getHeight() - _h2oCountNode.getFullBoundsReference().getHeight() ) / 2 );
+        _h3oCountNode.setOffset( maxX + X_SPACING, bH3O.getCenterY() - _h3oCountNode.getFullBoundsReference().getHeight() / 2 );
+        _ohCountNode.setOffset( maxX + X_SPACING, bOH.getCenterY() - _ohCountNode.getFullBoundsReference().getHeight() / 2 );
+        _h2oCountNode.setOffset( maxX + X_SPACING, bH2O.getCenterY() - _h2oCountNode.getFullBoundsReference().getHeight() / 2 );
         
         scale( 0.60 ); //XXX
-        
-        update();
     }
     
     public void cleanup() {
