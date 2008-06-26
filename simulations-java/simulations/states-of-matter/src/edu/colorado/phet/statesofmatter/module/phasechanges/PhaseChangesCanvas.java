@@ -18,6 +18,7 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
+import edu.colorado.phet.statesofmatter.view.BicyclePumpNode;
 import edu.colorado.phet.statesofmatter.view.StoveNode;
 import edu.colorado.phet.statesofmatter.view.instruments.DialGaugeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -33,17 +34,19 @@ public class PhaseChangesCanvas extends PhetPCanvas {
 
     // Canvas size in pico meters, since this is a reasonable scale at which
     // to display molecules.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 27000;
+    private final double CANVAS_WIDTH = 30000;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
-    private final double WIDTH_TRANSLATION_FACTOR = 3;
+    private final double WIDTH_TRANSLATION_FACTOR = 4;
     private final double HEIGHT_TRANSLATION_FACTOR = 1.667;
     
     // Sizes, in terms of overall canvas size, of the nodes on the canvas.
     private final double BURNER_NODE_WIDTH = CANVAS_WIDTH / 2.5;
-    private final double PRESSURE_GAUGE_WIDTH = CANVAS_WIDTH / 5.5;
-    
+    private final double PRESSURE_GAUGE_WIDTH = CANVAS_WIDTH / 6;
+    private final double PUMP_HEIGHT = CANVAS_HEIGHT / 2;
+    private final double PUMP_WIDTH = CANVAS_WIDTH / 3;
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -98,6 +101,12 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         pressureMeter.setOffset( m_particleContainer.getFullBoundsReference().x + (0.97 * m_particleContainer.getFullBoundsReference().width), 
                 -m_particleContainer.getFullBoundsReference().height * 0.75 );
         addWorldChild( pressureMeter );
+        
+        // Add the pump.
+        BicyclePumpNode pump = new BicyclePumpNode(PUMP_WIDTH, PUMP_HEIGHT);
+        pump.setOffset( m_particleContainer.getFullBoundsReference().x + (0.97 * m_particleContainer.getFullBoundsReference().width),
+                -PUMP_HEIGHT);
+        addWorldChild( pump );
         
         // Add the particle container after the pressure meter so it can be
         // on top of it.
