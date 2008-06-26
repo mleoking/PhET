@@ -19,9 +19,12 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleNode;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
+import edu.colorado.phet.nuclearphysics.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
+import edu.colorado.phet.nuclearphysics.view.ProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 
@@ -37,6 +40,9 @@ public class AlphaRadiationLegendPanel extends JPanel {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
+    
+    // Amount to scale up the particle nodes to make them look reasonable.
+    private static final double PARTICLE_SCALE_FACTOR = 8;
     
     //------------------------------------------------------------------------
     // Constructor
@@ -60,10 +66,15 @@ public class AlphaRadiationLegendPanel extends JPanel {
 
         // Add the images and labels for the simple portion of the legend.
         
-        addLegendItem( NeutronModelNode.generateNeutronImage( 12 ), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL ); 
-        addLegendItem( ProtonModelNode.generateProtonImage( 12 ), NuclearPhysicsStrings.PROTON_LEGEND_LABEL ); 
-        addLegendItem( AlphaParticleModelNode.generateAlphaParticleImage( 25 ), 
-                NuclearPhysicsStrings.ALPHA_PARTICLE_LEGEND_LABEL );
+        PNode neutron = new NeutronNode();
+        neutron.scale( PARTICLE_SCALE_FACTOR );
+        addLegendItem( neutron.toImage(), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL ); 
+        PNode proton = new ProtonNode();
+        proton.scale( PARTICLE_SCALE_FACTOR );
+        addLegendItem( proton.toImage(), NuclearPhysicsStrings.PROTON_LEGEND_LABEL ); 
+        PNode alphaParticle = new AlphaParticleNode();
+        alphaParticle.scale( PARTICLE_SCALE_FACTOR );
+        addLegendItem( alphaParticle.toImage(), NuclearPhysicsStrings.ALPHA_PARTICLE_LEGEND_LABEL );
         
         // Add the Polonium nucleus to the legend.
         

@@ -21,6 +21,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.module.alpharadiation.AlphaRadiationModel;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -281,13 +282,16 @@ public class AlphaRadiationEnergyChart extends PComposite implements AlphaPartic
         // Add the images that will depict alpha particles moving around
         // within the nucleus.
         for (int i = 0; i < MAX_ALPHA_PARTICLES_DISPLAYED; i++){
-            _alphaParticleImages[i] = AlphaParticleModelNode.generateAlphaParticleImageNode(ALPHA_PARTICLE_DIAMETER);
+            PNode alphaParticleNode = new AlphaParticleNode();
+            // Scale up the particle size by an arbitrary amount to make it look good.
+            alphaParticleNode.scale( 7 );
+            _alphaParticleImages[i] = new PImage(alphaParticleNode.toImage());
             _alphaParticleImages[i].setVisible( true );
             addChild( _alphaParticleImages[i] );
         }
         
         // Add the image that depicts the tunneling alpha particle.
-        _tunneledAlphaParticleImage = AlphaParticleModelNode.generateAlphaParticleImageNode(ALPHA_PARTICLE_DIAMETER);
+        _tunneledAlphaParticleImage = new PImage((new AlphaParticleNode()).toImage());
         _tunneledAlphaParticleImage.setVisible( false );
         _tunneledAlphaParticleImage.setScale( ALPHA_PARTICLE_SCALE_FACTOR );
         addChild( _tunneledAlphaParticleImage );
