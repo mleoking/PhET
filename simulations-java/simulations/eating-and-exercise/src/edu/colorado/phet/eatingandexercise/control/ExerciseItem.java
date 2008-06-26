@@ -36,7 +36,7 @@ public class ExerciseItem extends CaloricItem {
 
     private void updateCalories() {
         double newCalories = referenceCalories * ( 1 + weightDependence * ( EatingAndExerciseUnits.kgToPounds( human.getMass() ) - referenceWeightPounds ) / referenceWeightPounds );
-        System.out.println( "weightDependence = " + weightDependence + ", newcal=" + newCalories );
+//        System.out.println( "weightDependence = " + weightDependence + ", newcal=" + newCalories );
         setCalories( newCalories );
     }
 
