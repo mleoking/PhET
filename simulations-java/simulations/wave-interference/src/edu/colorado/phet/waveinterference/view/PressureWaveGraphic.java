@@ -71,7 +71,7 @@ public class PressureWaveGraphic extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        int MOD = 3;
+        int MOD = 2;
         for ( int i = 0; i < lattice.getWidth(); i++ ) {
             for ( int j = 0; j < lattice.getHeight(); j++ ) {
                 if ( i % MOD == 0 && j % MOD == 0 ) {
