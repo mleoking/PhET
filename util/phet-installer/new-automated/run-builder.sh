@@ -69,7 +69,7 @@ fi
 
 echo "Copying new installers to distribution directory" | tee --append installer-builder-log.txt
 
-cp ./temp/installer-output/*.* ../phet-dist/ | tee --append installer-builder-log.txt
+cp ./temp/installer-output/*.* ../phet-dist/installers/ | tee --append installer-builder-log.txt
 
 if [ "$?" -ne "0" ]; then
   echo "Error copying new installers to distribution directory" | tee --append installer-builder-log.txt
