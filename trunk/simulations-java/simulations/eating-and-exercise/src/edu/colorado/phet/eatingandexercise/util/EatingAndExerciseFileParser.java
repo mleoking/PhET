@@ -75,7 +75,7 @@ public class EatingAndExerciseFileParser {
     private static class ExerciseItemParser implements IParser {
         public Object parseLine( String line, double referenceWeightPounds, Human human ) {
             String name = line.substring( 0, line.indexOf( ":" ) );
-            System.out.println( "name = " + name );
+//            System.out.println( "name = " + name );
             String remainder = line.substring( line.indexOf( ":" ) + 1 );
             StringTokenizer st = new StringTokenizer( remainder, "," );
             double baseCalories = Double.parseDouble( st.nextToken() );
