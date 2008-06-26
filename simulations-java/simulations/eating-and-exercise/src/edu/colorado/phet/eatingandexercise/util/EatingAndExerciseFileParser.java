@@ -1,8 +1,6 @@
 package edu.colorado.phet.eatingandexercise.util;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -10,6 +8,7 @@ import java.util.StringTokenizer;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.control.ExerciseItem;
+import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 
 /**
@@ -18,22 +17,30 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodI
  */
 public class EatingAndExerciseFileParser {
 
-    public static CaloricFoodItem[] getFoodItems() {
-        return (CaloricFoodItem[]) parse( "foods.properties", new FoodItemParser(), new CaloricFoodItem[0] );
+    public static CaloricFoodItem[] getFoodItems( Human human ) {
+        return (CaloricFoodItem[]) parse( "foods.properties", new FoodItemParser(), new CaloricFoodItem[0], human );
     }
 
-    public static CaloricItem[] getExerciseItems() {
-        return (CaloricItem[]) parse( "exercise.properties", new ExerciseItemParser(), new CaloricItem[0] );
+    public static CaloricItem[] getExerciseItems( Human human ) {
+        return (CaloricItem[]) parse( "exercise.properties", new ExerciseItemParser(), new CaloricItem[0], human );
     }
 
-    private static Object[] parse( String resource, IParser parser, Object[] type ) {
+    private static Object[] parse( String resource, IParser parser, Object[] type, Human human ) {
         try {
+            double referenceWeightPounds = 0;
             ArrayList list = new ArrayList();
             BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( EatingAndExerciseResources.getResourceLoader().getResourceAsStream( resource ) ) );
             for ( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
                 line = line.trim();
                 if ( !line.startsWith( "#" ) && line.length() > 0 ) {
-                    list.add( parser.parseLine( line ) );
+                    if ( line.startsWith( "reference-weight-pounds" ) ) {
+                        StringTokenizer st = new StringTokenizer( line, "=" );
+                        st.nextToken();
+                        referenceWeightPounds = Double.parseDouble( st.nextToken() );
+                    }
+                    else {
+                        list.add( parser.parseLine( line, referenceWeightPounds, human ) );
+                    }
                 }
             }
             return list.toArray( type );
@@ -45,7 +52,7 @@ public class EatingAndExerciseFileParser {
 
 
     private static class FoodItemParser implements IParser {
-        public Object parseLine( String line ) {
+        public Object parseLine( String line, double referenceWeightPounds, Human human ) {
             String name = line.substring( 0, line.indexOf( ":" ) );
             String remainder = line.substring( line.indexOf( ":" ) + 1 );
             StringTokenizer st = new StringTokenizer( remainder, "," );
@@ -62,50 +69,22 @@ public class EatingAndExerciseFileParser {
     }
 
     private interface IParser {
-        public Object parseLine( String line );
+        public Object parseLine( String line, double referenceWeightPounds, Human human );
     }
 
     private static class ExerciseItemParser implements IParser {
-        public Object parseLine( String line ) {
+        public Object parseLine( String line, double referenceWeightPounds, Human human ) {
             String name = line.substring( 0, line.indexOf( ":" ) );
+            System.out.println( "name = " + name );
             String remainder = line.substring( line.indexOf( ":" ) + 1 );
             StringTokenizer st = new StringTokenizer( remainder, "," );
-            double cal = Double.parseDouble( st.nextToken() );
+            double baseCalories = Double.parseDouble( st.nextToken() );
+            double weightDependence = Double.parseDouble( st.nextToken() );
             String image = "";
             if ( st.hasMoreTokens() ) {
                 image = st.nextToken().trim();
             }
-            return new ExerciseItem( EatingAndExerciseResources.getString( name ), image, cal );
-        }
-    }
-
-    public static void main( String[] args ) throws IOException {
-        for ( int i = 0; i < 10; i++ ) {
-            System.out.println( "################\n" +
-                                "# Started iteration " + i + "\n" +
-                                "###############" );
-            iterateAll();
-        }
-    }
-
-    private static void iterateAll() {
-        CaloricFoodItem[] c = EatingAndExerciseFileParser.getFoodItems();
-        for ( int i = 0; i < c.length; i++ ) {
-            System.out.println( "i = " + i + ", c=" + c[i] );
-            if ( c[i].getImage() != null && c[i].getImage().length() > 0 ) {
-                BufferedImage im = EatingAndExerciseResources.getImage( c[i].getImage() );
-                System.out.println( "loaded image[" + i + "]=" + im );
-            }
-        }
-
-        CaloricItem[] ex = EatingAndExerciseFileParser.getExerciseItems();
-        for ( int i = 0; i < ex.length; i++ ) {
-            CaloricItem caloricItem = ex[i];
-            System.out.println( "caloricItem = " + caloricItem );
-            if ( ex[i].getImage() != null && ex[i].getImage().length() > 0 ) {
-                BufferedImage im = EatingAndExerciseResources.getImage( ex[i].getImage() );
-                System.out.println( "loaded image[" + i + "]=" + im );
-            }
+            return new ExerciseItem( EatingAndExerciseResources.getString( name ), image, baseCalories, weightDependence, referenceWeightPounds, human );
         }
     }
 }

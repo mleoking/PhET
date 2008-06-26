@@ -2,14 +2,52 @@ package edu.colorado.phet.eatingandexercise.control;
 
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
+import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
+import edu.colorado.phet.eatingandexercise.model.Human;
 
 /**
  * Created by: Sam
  * Apr 30, 2008 at 9:01:42 AM
  */
 public class ExerciseItem extends CaloricItem {
-    public ExerciseItem( String name, String image, double cal ) {
-        super( name, image, cal );
+    private double weightDependence;
+    private double referenceWeightPounds;
+    private double referenceCalories;
+    private Human human;
+
+    public ExerciseItem( String name, String image, double referenceCalories, double weightDependence, double referenceWeightPounds, Human human ) {
+        super( name, image, referenceCalories );
+        this.weightDependence = weightDependence;
+        this.referenceCalories = referenceCalories;
+        this.referenceWeightPounds = referenceWeightPounds;
+        this.human = human;
+        init();
+    }
+
+    private void init() {
+        System.out.println( "human.hashCode() = " + human.hashCode() );
+        human.addListener( new Human.Adapter() {
+            public void weightChanged() {
+                updateCalories();
+            }
+        } );
+        updateCalories();
+    }
+
+    private void updateCalories() {
+        double newCalories = referenceCalories * ( 1 + weightDependence * ( EatingAndExerciseUnits.kgToPounds( human.getMass() ) - referenceWeightPounds ) / referenceWeightPounds );
+        System.out.println( "weightDependence = " + weightDependence + ", newcal=" + newCalories );
+        setCalories( newCalories );
+    }
+
+    public Object clone() {
+        final ExerciseItem clone = (ExerciseItem) super.clone();
+        clone.weightDependence = weightDependence;
+        clone.referenceCalories = referenceCalories;
+        clone.referenceWeightPounds = referenceWeightPounds;
+        clone.human = human;
+        clone.init();
+        return clone;
     }
 
     public String getLabelText() {

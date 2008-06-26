@@ -43,7 +43,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         setFillHorizontal();
 
 //        add( new ActivityLevelControlPanel( human ) );
-        add( new ActivityLevelComboBox( human ) );
+//        add( new ActivityLevelComboBox( human ) );
 
         ageSlider = new HumanSlider( 0, 100, EatingAndExerciseUnits.secondsToYears( human.getAge() ), EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), EatingAndExerciseResources.getString( "units.years" ) );
         add( ageSlider );

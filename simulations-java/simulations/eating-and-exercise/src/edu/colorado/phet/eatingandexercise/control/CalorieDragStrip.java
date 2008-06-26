@@ -263,7 +263,7 @@ public class CalorieDragStrip extends PNode {
         private CaloricItem item;
         private PNode node;
         private boolean dragging = false;//todo: could coalesce with PDragSequenceEventHandler.isDragging
-        private PNode labelNode;
+        private CaloricItemLabelNode labelNode;
 
         public DefaultDragNode( PNode iconNode, CaloricItem item ) {
             this.item = item;
@@ -271,7 +271,12 @@ public class CalorieDragStrip extends PNode {
             addChild( iconNode );
             addInputEventListener( new CursorHandler() );
 
-            labelNode = new CaloricItemLabelNode( "<html>" + item.getName() + " (" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + EatingAndExerciseResources.getString( "units.cal" ) + ")</html>" );
+            labelNode = new CaloricItemLabelNode( getLabelText(  ) );
+            item.addListener( new CaloricItem.Listener() {
+                public void caloriesChanged() {
+                    labelNode.setText(getLabelText(  ));
+                }
+            } );
             labelNode.setOffset( -labelNode.getFullBounds().getWidth() - 3, iconNode.getFullBounds().getHeight() / 2 - labelNode.getFullBounds().getHeight() / 2 );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseEntered( PInputEvent event ) {
@@ -286,6 +291,10 @@ public class CalorieDragStrip extends PNode {
                     }
                 }
             } );
+        }
+
+        private String getLabelText( ) {
+            return "<html>" + item.getName() + " (" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + EatingAndExerciseResources.getString( "units.cal" ) + ")</html>";
         }
 
         public void addDragHandler() {

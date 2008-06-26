@@ -32,7 +32,7 @@ public class FoodPyramidDialog extends JDialog {
         linearValueControlNode.addListener( new LinearValueControlNode.Listener() {
             public void valueChanged( double value ) {
                 item.setTotalCalories( value );
-                System.out.println( "set calories: "+value+", item.getCalories() = " + item.getCalories() );
+//                System.out.println( "set calories: "+value+", item.getCalories() = " + item.getCalories() );
             }
         } );
         contentPane.add( new PNodeComponent( linearValueControlNode ) );
