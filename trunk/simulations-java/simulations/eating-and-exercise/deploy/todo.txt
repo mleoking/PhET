@@ -17,7 +17,6 @@ Add indicators for good/bad % fat and exercise amount (these will be vertical ba
     Try vertical bars for body fat %, and exercise
     Color should indicate if it is a good value
 
-
 Shouldn't be able to set more than 24 hours/day
 
 No food starts on the plate
@@ -112,15 +111,9 @@ NP - weight lost should be both muscle and fat. There should be some ratio of FF
    
    - all other weight gained is added fat mass.
 
-
-
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
-
-######################################
-# Fat % issue
-###################
 
 Performance: consider profiling or changing clock rate
     >>How severe is this problem?
