@@ -26,7 +26,6 @@ MEDIUM PRIORITY:
 - add plumbing going into faucets
 - 10x zoom feature for linear graph, zoom into zero
 - line up pH slider ticks with bar graph ticks
-- where beaker is empty, H2O concentration should be 0
 
 LOW PRIORITY:
 - replace molecule image files with SphericalNode subclasses
@@ -46,6 +45,7 @@ CLEANUP:
 
 
 DONE:
+6/26/08 - fix: when beaker is empty, H2O concentration should be 0
 6/26/08 - move FormattedNumberNode to piccolo-phet
 6/26/08 - move TimesTenNumberFormat to phetcommon
 6/26/08 - generalize TimesTenNumberFormat, a new number formatter for formats like "4.35 x 10^12"
