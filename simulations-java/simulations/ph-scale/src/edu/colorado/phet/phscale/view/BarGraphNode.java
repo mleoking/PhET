@@ -10,16 +10,16 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.control.GraphScaleControlPanel;
 import edu.colorado.phet.phscale.control.GraphUnitsControlPanel;
 import edu.colorado.phet.phscale.control.GraphUnitsControlPanel.GraphUnitsControlPanelListener;
-import edu.colorado.phet.phscale.graphs.FormattedNumberNode;
 import edu.colorado.phet.phscale.graphs.LegendNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.util.TimesTenNumberFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

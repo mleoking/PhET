@@ -1,13 +1,12 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.graphs;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
