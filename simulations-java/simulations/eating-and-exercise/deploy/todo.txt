@@ -19,8 +19,6 @@ Add indicators for good/bad % fat and exercise amount (these will be vertical ba
     Try vertical bars for body fat %, and exercise
     Color should indicate if it is a good value
 
-Shouldn't be able to set more than 24 hours/day
-
 Add popup-question mark button for BMI readout near scale
 
 Remove popup-question mark button for old version of heart BMI readout
@@ -161,6 +159,9 @@ Abstract
 #######################################################################################
 
 Add Eating / Exercise labels to each side of the screen?
+
+Shouldn't be able to set more than 24 hours/day
+    >>SR: Is this a real problem?  If each icon is one hour, then the screen will be too overloaded at 24 to make any sense.  I'm not sure this problem is worth addressing.
 
 Performance: consider profiling or changing clock rate
     >>How severe is this problem?

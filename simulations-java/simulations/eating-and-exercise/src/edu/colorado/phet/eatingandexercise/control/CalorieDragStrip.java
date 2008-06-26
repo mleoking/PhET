@@ -356,7 +356,7 @@ public class CalorieDragStrip extends PNode {
     }
 
     private void decorateFoodPyramid( final CaloricFoodItem item, DefaultDragNode dragNode ) {
-        final FoodPyramidDialog dialog = new FoodPyramidDialog( item );
+        final BalancedDietDialog dialog = new BalancedDietDialog( item );
 
         GradientButtonNode gradientButtonNode = new GradientButtonNode( "?", 12, Color.red );
         gradientButtonNode.addActionListener( new ActionListener() {
