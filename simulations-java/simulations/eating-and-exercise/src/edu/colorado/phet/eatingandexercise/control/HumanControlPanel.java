@@ -180,6 +180,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 updateBodyFatSlider();
             }
         } );
+        add( new AliveCheckBox( human ) );
 //        alignSliders();
     }
 
@@ -327,6 +328,22 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     public void notifyAgeManuallyChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).ageManuallyChanged();
+        }
+    }
+
+    public static class AliveCheckBox extends JCheckBox {
+        public AliveCheckBox( final Human human ) {
+            super( "Alive", human.isAlive() );
+            human.addListener( new Human.Adapter() {
+                public void aliveChanged() {
+                    setSelected( human.isAlive() );
+                }
+            } );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    human.setAlive( isSelected() );
+                }
+            } );
         }
     }
 }

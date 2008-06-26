@@ -48,6 +48,7 @@ public class Human {
     private ITemporalVariable caloricBurnVariable = new DefaultTemporalVariable();
     private CaloricFoodItem defaultIntake;
     public static final String FOOD_PYRAMID = "food-pyramid.png";
+    private boolean alive = true;
 
     public Human() {
         lipids.addListener( new IVariable.Listener() {
@@ -118,7 +119,7 @@ public class Human {
         exerciseItems.clear();
         if ( defaultIntake == null ) {//todo: change to single instance so that view/controller can observe it
 //            defaultIntake = new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), FOOD_PYRAMID, 0.3 * 9 * 2000 / 5.5 / 9, 0.4 * 4 * 2000 / 5.5 / 4, 0.3 * 4 * 2000 / 5.5 / 4, false );
-            defaultIntake = new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), FOOD_PYRAMID, initialDiet.getFat()/9, initialDiet.getCarb()/4, initialDiet.getProtein()/4,false );
+            defaultIntake = new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), FOOD_PYRAMID, initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
         }
 //        foodItems.addItem( defaultIntake );//todo: standardize constructor units
         updateIntake();
@@ -177,6 +178,22 @@ public class Human {
         return defaultIntake;
     }
 
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public void setAlive( boolean alive ) {
+        if ( alive != this.alive ) {
+            this.alive = alive;
+            notifyAliveChanged();
+        }
+    }
+
+    private void notifyAliveChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener) listeners.get( i )).aliveChanged();
+        }
+    }
 
     private void clearTemporalVariables() {
         height.clear();
@@ -550,6 +567,8 @@ public class Human {
         void caloricIntakeChanged();
 
         void caloricBurnChanged();
+
+        void aliveChanged();
     }
 
     public static class Adapter implements Listener {
@@ -588,6 +607,9 @@ public class Human {
         }
 
         public void caloricBurnChanged() {
+        }
+
+        public void aliveChanged() {
         }
     }
 
