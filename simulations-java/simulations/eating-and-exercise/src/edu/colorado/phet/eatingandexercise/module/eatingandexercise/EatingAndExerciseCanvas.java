@@ -90,6 +90,9 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
         _rootNode.addChild( new ScaleNode( model, model.getHuman() ) );
         humanAreaNode = new HumanAreaNode( model.getHuman() );
+
+        HumanAudioPlayer humanAudioPlayer=new HumanAudioPlayer(model.getHuman());
+        humanAudioPlayer.start();
         _rootNode.addChild( humanAreaNode );
 
         bmiReadout = new BMIReadout( model.getHuman() );
