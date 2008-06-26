@@ -25,7 +25,6 @@ MEDIUM PRIORITY:
 - implement linear and log scale switching
 - add plumbing going into faucets
 - 10x zoom feature for linear graph, zoom into zero
-- liquid level doesn't line up with volume tick marks on beaker
 - line up pH slider ticks with bar graph ticks
 
 LOW PRIORITY:
@@ -46,6 +45,8 @@ CLEANUP:
 
 
 DONE:
+6/26/08 - add lip to top edge of beaker
+6/26/08 - fix: liquid level doesn't line up with volume tick marks on beaker
 6/25/08 - faucet doesn't turn on when filling via "reset all"
 6/25/08 - add startFillingWithWater interface to Liquid, separate set of flags for filling with water
 6/25/08 - change startFilling interface to startFillingLiquid, use getLiquidDescriptor for the liquid that is filled

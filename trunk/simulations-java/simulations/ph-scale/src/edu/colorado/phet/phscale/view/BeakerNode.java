@@ -5,6 +5,7 @@ package edu.colorado.phet.phscale.view;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.model.Liquid;
@@ -27,8 +28,11 @@ public class BeakerNode extends PComposite {
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Font TICK_LABEL_FONT = new PhetFont( 20 );
     
-    private static final Stroke OUTLINE_STROKE = new BasicStroke( 6f );
+    private static final Stroke OUTLINE_STROKE = new BasicStroke( 6f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Color OUTLINE_COLOR = Color.BLACK;
+    
+    private static final double SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK = 10;
+    private static final Point2D BEAKER_LIP_OFFSET = new Point2D.Double( 20, 20 );
 
     private final GeneralPath _beakerPath;
     private final PPath _beakerNode;
@@ -42,10 +46,12 @@ public class BeakerNode extends PComposite {
         
         _beakerPath = new GeneralPath();
         _beakerPath.reset();
-        _beakerPath.moveTo( 0f, 0f );
+        _beakerPath.moveTo( (float) -BEAKER_LIP_OFFSET.getX(), (float)-( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
+        _beakerPath.lineTo( 0f, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
         _beakerPath.lineTo( 0f, height );
         _beakerPath.lineTo( width, height );
-        _beakerPath.lineTo( width, 0f );
+        _beakerPath.lineTo( width, (float) -SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK );
+        _beakerPath.lineTo( (float) ( width + BEAKER_LIP_OFFSET.getX() ), (float)-( BEAKER_LIP_OFFSET.getY() + SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK ) );
         
         _beakerNode = new PPath( _beakerPath );
         _beakerNode.setPaint( null );
@@ -58,8 +64,8 @@ public class BeakerNode extends PComposite {
         addChild( ticksNode );
         double maxVolume = liquid.getMaxVolume();
         int numberOfTicks = (int) Math.floor( maxVolume / MINOR_TICK_SPACING );
-        final double rightX = _beakerNode.getFullBoundsReference().getMaxX();
-        final double bottomY = _beakerNode.getFullBoundsReference().getMaxY();
+        final double rightX = _beakerNode.getFullBoundsReference().getMaxX() - BEAKER_LIP_OFFSET.getX();
+        final double bottomY = size.getHeight();
         double deltaY = size.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
