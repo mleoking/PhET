@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * Apr 24, 2008 at 6:48:47 PM
  */
 public class SliderNode extends PNode {
-    private static final int DEFAULT_WIDTH = 100;
+    private static final int DEFAULT_WIDTH = 160;
     private static final int DEFAULT_HEIGHT = 30;
     private static final int DEFAULT_THUMB_WIDTH = 10;
     private static final int DEFAULT_THUMB_HEIGHT = 30;
