@@ -64,7 +64,7 @@ public class BeakerNode extends PComposite {
         addChild( ticksNode );
         double maxVolume = liquid.getMaxVolume();
         int numberOfTicks = (int) Math.floor( maxVolume / MINOR_TICK_SPACING );
-        final double rightX = _beakerNode.getFullBoundsReference().getMaxX() - BEAKER_LIP_OFFSET.getX();
+        final double rightX = size.getWidth(); // don't use bounds or position will be off because of stroke width
         final double bottomY = size.getHeight(); // don't use bounds or position will be off because of stroke width
         double deltaY = size.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
@@ -84,7 +84,7 @@ public class BeakerNode extends PComposite {
                     textNode.setFont( TICK_LABEL_FONT );
                     textNode.setTextPaint( TICK_COLOR );
                     ticksNode.addChild( textNode );
-                    double xOffset = tickNode.getFullBounds().getMinX() - textNode.getFullBoundsReference().getWidth() - 2;
+                    double xOffset = tickNode.getFullBounds().getMinX() - textNode.getFullBoundsReference().getWidth();
                     double yOffset = tickNode.getFullBounds().getMinY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
                     textNode.setOffset( xOffset, yOffset );
                 }
