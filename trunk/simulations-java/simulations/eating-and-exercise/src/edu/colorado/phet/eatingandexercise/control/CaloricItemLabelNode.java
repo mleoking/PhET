@@ -11,8 +11,10 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 public class CaloricItemLabelNode extends PNode {
+    private HTMLNode htmlNode;
+
     public CaloricItemLabelNode( String s ) {
-        HTMLNode htmlNode = new HTMLNode( s );
+        htmlNode = new HTMLNode( s );
         htmlNode.setFont( new PhetFont( 16, true ) );
 
         Rectangle2D rectangle2D = RectangleUtils.expandRectangle2D( htmlNode.getFullBounds(), 5, 5 );
@@ -20,5 +22,9 @@ public class CaloricItemLabelNode extends PNode {
 
         addChild( background );
         addChild( htmlNode );
+    }
+
+    public void setText( String labelText ) {
+        htmlNode.setHTML( labelText );
     }
 }

@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
+import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -61,9 +62,9 @@ public class SummaryNode extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PhetPCanvas contentPane = new PhetPCanvas();
         SummaryNode node = new SummaryNode( new CalorieSet() );
-        node.addItem( new ExerciseItem( "banana split", "bananasplit.png", 100 ) );
-        node.addItem( new ExerciseItem( "burger", "burger.png", 100 ) );
-        node.addItem( new ExerciseItem( "strawberry", "strawberry.png", 100 ) );
+        node.addItem( new ExerciseItem( "banana split", "bananasplit.png", 100 ,0,160,new Human()) );
+        node.addItem( new ExerciseItem( "burger", "burger.png", 100 ,0,160,new Human()) );
+        node.addItem( new ExerciseItem( "strawberry", "strawberry.png", 100 ,0,160,new Human()) );
         contentPane.addScreenChild( node );
         node.setOffset( 100, 100 );
         frame.setContentPane( contentPane );

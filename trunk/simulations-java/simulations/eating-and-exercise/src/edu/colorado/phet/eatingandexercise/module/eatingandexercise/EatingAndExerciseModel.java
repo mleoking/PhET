@@ -89,16 +89,12 @@ public class EatingAndExerciseModel {
     private final Human human = new Human();
 
     //http://www.calorie-count.com/calories/item/9316.html
-    public static final FoodCalorieSet availableFoods = new FoodCalorieSet( EatingAndExerciseFileParser.getFoodItems() );
+    private final FoodCalorieSet availableFoods = new FoodCalorieSet( EatingAndExerciseFileParser.getFoodItems( human ) );
 
-    public static final CalorieSet availableExercise = new CalorieSet( EatingAndExerciseFileParser.getExerciseItems() );
+    private final CalorieSet availableExercise = new CalorieSet( EatingAndExerciseFileParser.getExerciseItems( human ) );
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
     public static final Diet BALANCED_DIET = new Diet( EatingAndExerciseResources.getString( "diet.balanced" ), 30, 40, 30 ).getInstanceOfMagnitude( 2000 );
-
-    static {
-        availableFoods.insertItem( CalorieDragStrip.ITEMS_PER_PAGE, new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), Human.FOOD_PYRAMID, BALANCED_DIET.getFat()/9, BALANCED_DIET.getCarb()/4, BALANCED_DIET.getProtein()/4 ) );
-    }
 
     public static final Diet FAST_FOOD_ONLY = new Diet( EatingAndExerciseResources.getString( "diet.fast-food" ), 3000, 300, 150 );
     public static final Diet[] availableDiets = new Diet[]{
@@ -113,7 +109,7 @@ public class EatingAndExerciseModel {
 
     public EatingAndExerciseModel( EatingAndExerciseClock clock ) {
         super();
-
+        availableFoods.insertItem( CalorieDragStrip.ITEMS_PER_PAGE, new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), Human.FOOD_PYRAMID, BALANCED_DIET.getFat() / 9, BALANCED_DIET.getCarb() / 4, BALANCED_DIET.getProtein() / 4 ) );
         this.clock = clock;
 
         this.clock.addClockListener( new ClockAdapter() {

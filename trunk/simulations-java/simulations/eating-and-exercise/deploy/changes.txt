@@ -5,6 +5,7 @@ Added Balanced Diet to set of available draggable items
 Added a slider to the Balanced Diet dialog box
 Moved BMI readout to the scale
 Removed "Edit Foods" and exercise buttons and popup dialog
+Added new field to exercise file format that allows specification of weight dependence 
 
 New in 0.00.46
 Removed the Ruler
