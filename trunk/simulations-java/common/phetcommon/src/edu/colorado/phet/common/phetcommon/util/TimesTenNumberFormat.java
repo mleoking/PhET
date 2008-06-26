@@ -89,4 +89,31 @@ public class TimesTenNumberFormat extends NumberFormat {
     public Number parse( String source, ParsePosition parsePosition ) {
         throw new UnsupportedOperationException( "not supported" );
     }
+    
+    /* examples */
+    public static void main( String[] args ) {
+        
+        final double zero = 0;
+        final double value = 4.23E-7;
+        
+        String p1 = "0.00";
+        String p2 = "0.0";
+        String p3 = "#.0";
+        String p4 = "0";
+        
+        TimesTenNumberFormat f1 = new TimesTenNumberFormat( p1 );
+        f1.setSimpleZeroFormat( false );
+        NumberFormat f2 = new TimesTenNumberFormat( p2 );
+        NumberFormat f3 = new TimesTenNumberFormat( p3 );
+        NumberFormat f4 = new TimesTenNumberFormat( p4 );
+        
+        System.out.println( "pattern=" + p1 + " value=" + zero  + " formatted=" + f1.format( zero ) );
+        System.out.println( "pattern=" + p1 + " value=" + value + " formatted=" + f1.format( value ) );
+        System.out.println( "pattern=" + p2 + " value=" + zero  + " formatted=" + f2.format( zero ) );
+        System.out.println( "pattern=" + p2 + " value=" + value + " formatted=" + f2.format( value ) );
+        System.out.println( "pattern=" + p3 + " value=" + zero  + " formatted=" + f3.format( zero ) );
+        System.out.println( "pattern=" + p3 + " value=" + value + " formatted=" + f3.format( value ) );
+        System.out.println( "pattern=" + p4 + " value=" + zero  + " formatted=" + f4.format( zero ) );
+        System.out.println( "pattern=" + p4 + " value=" + value + " formatted=" + f4.format( value ) );
+    }
 }
