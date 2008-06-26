@@ -104,11 +104,12 @@ public class Human {
 
         updateBMR();
         setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2].getValue() );
-        Diet initialDiet = EatingAndExerciseModel.BALANCED_DIET.getInstanceOfMagnitude( activity.getValue() + bmr.getValue() + exercise.getValue() );
+        Diet initialDiet = EatingAndExerciseModel.BALANCED_DIET;
         foodItems.clear();
         exerciseItems.clear();
         if ( defaultIntake == null ) {//todo: change to single instance so that view/controller can observe it
-            defaultIntake = new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), FOOD_PYRAMID, initialDiet.getFat() / 9, initialDiet.getCarb() / 4, initialDiet.getProtein() / 4, false );
+//            defaultIntake = new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), FOOD_PYRAMID, 0.3 * 9 * 2000 / 5.5 / 9, 0.4 * 4 * 2000 / 5.5 / 4, 0.3 * 4 * 2000 / 5.5 / 4, false );
+            defaultIntake = new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), FOOD_PYRAMID, initialDiet.getFat()/9, initialDiet.getCarb()/4, initialDiet.getProtein()/4,false );
         }
         foodItems.addItem( defaultIntake );//todo: standardize constructor units
         updateIntake();

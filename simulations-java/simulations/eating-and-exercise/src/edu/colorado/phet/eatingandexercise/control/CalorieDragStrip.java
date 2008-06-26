@@ -227,8 +227,6 @@ public class CalorieDragStrip extends PNode {
             if ( child instanceof DefaultDragNode ) {
                 DefaultDragNode dragNode = (DefaultDragNode) child;
                 if ( dragNode.getItem() == item ) {
-//                    removeChild( child );
-//                    i--;
                     return (DefaultDragNode) child;
                 }
             }
@@ -338,7 +336,7 @@ public class CalorieDragStrip extends PNode {
             final DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( EatingAndExerciseResources.getImage( item.getImage() ), HEIGHT ) ), item );
 
             if ( item.getImage().equals( Human.FOOD_PYRAMID ) ) {
-                handleFoodPyramid( item, dragNode );
+                decorateFoodPyramid( item, dragNode );
             }
             return dragNode;
         }
@@ -347,7 +345,7 @@ public class CalorieDragStrip extends PNode {
         }
     }
 
-    private void handleFoodPyramid( final CaloricItem item, DefaultDragNode dragNode ) {
+    private void decorateFoodPyramid( final CaloricItem item, DefaultDragNode dragNode ) {
         final JDialog dialog = new JDialog();
         JLabel contentPane = new JLabel( item.getLabelText(), new ImageIcon( EatingAndExerciseResources.getImage( item.getImage() ) ), SwingConstants.CENTER ) {
             protected void paintComponent( Graphics g ) {
