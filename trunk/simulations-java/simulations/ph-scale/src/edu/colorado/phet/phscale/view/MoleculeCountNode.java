@@ -3,11 +3,11 @@ package edu.colorado.phet.phscale.view;
 import java.awt.Color;
 import java.awt.Font;
 
+import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.phscale.graphs.FormattedNumberNode;
+import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.util.TimesTenNumberFormat;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
