@@ -1,11 +1,13 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.*;
+
 import edu.colorado.phet.waveinterference.util.WIStrings;
-import edu.colorado.phet.waveinterference.view.DetectorSetControlPanel;
-import edu.colorado.phet.waveinterference.view.MeasurementControlPanel;
-import edu.colorado.phet.waveinterference.view.MultiOscillatorControlPanel;
-import edu.colorado.phet.waveinterference.view.SlitControlPanel;
+import edu.colorado.phet.waveinterference.view.*;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 /**
  * User: Sam Reid
@@ -46,6 +48,58 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( slitControlPanel );
 
         addControl( new AddWallPotentialButton( soundModule.getWaveInterferenceModel() ) );
+
+        addSupplementalControls();
+    }
+
+    private void addSupplementalControls() {
+        final PressureWaveGraphic pressureWaveGraphic=soundModule.getSoundWaveGraphic().getPressureWaveGraphic();
+//        final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, pressureWaveGraphic.getDistBetweenCells() );
+//        cellDim.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                int dim = (int) cellDim.getValue();
+//                pressureWaveGraphic.setSpaceBetweenCells( dim );
+//                waveModelGraphic.setCellDimensions( dim, dim );
+//            }
+//        } );
+//        final JCheckBox showWave = new JCheckBox( "Show Lattice", waveModelGraphic.getVisible() );
+//        showWave.addChangeListener( new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                waveModelGraphic.setVisible( showWave.isSelected() );
+//            }
+//        } );
+        final ModelSlider imageSize = new ModelSlider( "Particle Size", "pixels", 1, 36, pressureWaveGraphic.getImageSize() );
+        imageSize.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                pressureWaveGraphic.setParticleImageSize( (int) imageSize.getValue() );
+            }
+        } );
+
+        final ModelSlider acceleration = new ModelSlider( "Particle Acceleration", "", 0, 10, pressureWaveGraphic.getParticleAcceleration() );
+        acceleration.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                pressureWaveGraphic.setParticleAcceleration( acceleration.getValue() );
+            }
+        } );
+        final ModelSlider maxVelocity = new ModelSlider( "Particle Max Velocity", "pixels/sec", 0, 30, pressureWaveGraphic.getMaxVelocity() );
+        maxVelocity.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                pressureWaveGraphic.setMaxVelocity( maxVelocity.getValue() );
+            }
+        } );
+        final ModelSlider friction = new ModelSlider( "Friction", "scale", 0, 1, pressureWaveGraphic.getFriction() );
+        friction.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                pressureWaveGraphic.setFriction( friction.getValue() );
+            }
+        } );
+
+//        addControl( cellDim );
+//        addControl( showWave );
+        addControl( imageSize );
+        addControl( acceleration );
+        addControl( maxVelocity );
+        addControl( friction );
     }
 
     public void setAsymmetricFeaturesEnabled( boolean b ) {
