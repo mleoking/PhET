@@ -72,6 +72,9 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
 
 NP - need to decide which activities are weight dependent and which are constant caloric expenditure.
 
+>>>> Figure the given values are for an average person. So Caliories_burned = Cal * [1 + beta (W - W_0)/W_0], where Cal is the base calories for a person of weight W_0 (say 160 lb), W is the person's weight, and beta is 0 or 1 depending on thether the activity is weight dependent (1) or not (0). Beta could also be used to make activities more or less weight dependent (but for now leave it 0 or 1). Cal and beta are adjustable for each exercise, W_0 is a single constant for all exercises.
+
+
 Fix text for "simulation age out of range" message
 
 Come up with definitions for different lifestyles
