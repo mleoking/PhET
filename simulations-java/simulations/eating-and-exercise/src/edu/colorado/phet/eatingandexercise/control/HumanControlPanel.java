@@ -10,19 +10,16 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AlignedSliderSetLayoutStrategy;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
+import edu.colorado.phet.eatingandexercise.control.valuenode.LinearValueControlNode;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.util.FeetInchesFormat;
-import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
-import edu.colorado.phet.eatingandexercise.view.SliderNode;
 
 /**
  * Created by: Sam
@@ -32,7 +29,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private EatingAndExerciseModel model;
     private Human human;
     private HumanSlider bodyFat;
-    private LinearValueControl[] hs;
+    //    private LinearValueControl[] hs;
     private ArrayList listeners = new ArrayList();
     private HumanSlider ageSlider;
 
@@ -175,8 +172,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( bodyFat );
 
 //        hs = new LinearValueControl[]{age, heightControl, weightSlider, bmiSlider, bodyFat};
-        hs = new LinearValueControl[]{ageSlider, heightControl, weightSlider, bodyFat};
-        new AlignedSliderSetLayoutStrategy( hs ).doLayout();
+//        hs = new LinearValueControl[]{ageSlider, heightControl, weightSlider, bodyFat};
+//        new AlignedSliderSetLayoutStrategy( hs ).doLayout();
 
         updateBodyFatSlider();
         addComponentListener( new ComponentAdapter() {
@@ -184,14 +181,14 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 updateBodyFatSlider();
             }
         } );
-        model.addListener( new EatingAndExerciseModel.Adapter() {
-            public void unitsChanged() {
-                new AlignedSliderSetLayoutStrategy( hs ).doLayout();
-            }
-        } );
+//        model.addListener( new EatingAndExerciseModel.Adapter() {
+//            public void unitsChanged() {
+//                new AlignedSliderSetLayoutStrategy( hs ).doLayout();
+//            }
+//        } );
     }
 
-    public double getAgeSliderY(){
+    public double getAgeSliderY() {
         return ageSlider.getY();
     }
 
@@ -201,75 +198,51 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         table.put( new Double( 10 ), new JLabel( EatingAndExerciseResources.getString( "muscular" ) ) );
         table.put( new Double( human.getGender().getMaxFatMassPercent() ), new JLabel( EatingAndExerciseResources.getString( "non-muscular" ) ) );
         bodyFat.setTickLabels( table );
-        new AlignedSliderSetLayoutStrategy( hs ).doLayout();
+//        new AlignedSliderSetLayoutStrategy( hs ).doLayout();
     }
 
-    public static final class HumanSlider extends LinearValueControl {
+    public static class HumanSlider extends JPanel {
+        private LinearValueControlNode linearValueControlNode;
+
         public HumanSlider( double min, double max, double value, String label, String textFieldPattern, String units ) {
-            super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
-            setColumns( 4 );
-            setPaintTicks( false );
-            setPaintLabels( false );
-            setSignifyOutOfBounds( false );
-        }
-
-        /*
-        * Don't clamp allowed value to slider range.
-         */
-        protected boolean isValueInRange( double value ) {
-            return true;
-        }
-
-        public void setColumns( int i ) {
-            getTextField().setColumns( i );
-        }
-
-        public void setPaintLabels( boolean b ) {
-            getSlider().setPaintLabels( b );
-        }
-
-        public void setPaintTicks( boolean b ) {
-            getSlider().setPaintTicks( b );
-        }
-
-        public void setTextFieldFormat( NumberFormat format ) {
-            super.setTextFieldFormat( format );
-        }
-    }
-
-    public static final class HumanSliderNEW extends PhetPCanvas {
-        private SliderNode sliderNode;
-
-        public HumanSliderNEW( double min, double max, double value, String label, String textFieldPattern, String units ) {
-//            super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
-            sliderNode = new SliderNode( min, max, value );
-            setBorder( null );
-            setBackground( EatingAndExerciseColorScheme.getBackgroundColor() );
-            sliderNode.setOffset( -sliderNode.getFullBounds().getX() + 1, -sliderNode.getFullBounds().getY() + 1 );
-            addScreenChild( sliderNode );
-            setPreferredSize( new Dimension( (int) sliderNode.getFullBounds().getWidth() + 2, (int) sliderNode.getFullBounds().getHeight() + 2 ) );
-        }
-
-        public void setColumns( int col ) {
+            PhetPCanvas canvas = new PhetPCanvas();
+            linearValueControlNode = new LinearValueControlNode( label, units, min, max, value, new DefaultDecimalFormat( textFieldPattern ) );
+            canvas.addScreenChild( linearValueControlNode );
+            canvas.setPreferredSize( new Dimension( (int) linearValueControlNode.getFullBounds().getWidth(), (int) linearValueControlNode.getFullBounds().getHeight() ) );
+            add( canvas );
+//            setPreferredSize( canvas.getPreferredSize() );
         }
 
         public double getValue() {
-            return sliderNode.getValue();
+            return linearValueControlNode.getValue();
         }
 
-        public void addChangeListener( ChangeListener changeListener ) {
-            sliderNode.addChangeListener( changeListener );
+        public void addChangeListener( final ChangeListener changeListener ) {
+            linearValueControlNode.addListener( new LinearValueControlNode.Listener() {
+                public void valueChanged( double value ) {
+                    changeListener.stateChanged( null );
+                }
+            } );
         }
 
         public void setValue( double v ) {
-            sliderNode.setValue( v );
+            linearValueControlNode.setValue( v );
+        }
+
+        public JTextField getTextField() {
+            return new JTextField();
+        }
+
+        public JSlider getSlider() {
+            return new JSlider();
         }
 
         public void setRange( double min, double max ) {
-            sliderNode.setRange( min, max );
+//            linearValueControlNode.setSliderRange( min, max );
         }
 
-        public void setUnits( String units ) {
+        public void setUnits( String distanceUnit ) {
+            linearValueControlNode.setUnits( distanceUnit );
         }
 
         public void setPaintLabels( boolean b ) {
@@ -277,7 +250,46 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         public void setPaintTicks( boolean b ) {
         }
+
+        public void setTextFieldFormat( NumberFormat numberFormat ) {
+        }
+
+        public void setTickLabels( Hashtable table ) {
+        }
     }
+
+//    public static final class HumanSlider extends LinearValueControl {
+//        public HumanSlider( double min, double max, double value, String label, String textFieldPattern, String units ) {
+//            super( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
+//            setColumns( 4 );
+//            setPaintTicks( false );
+//            setPaintLabels( false );
+//            setSignifyOutOfBounds( false );
+//        }
+//
+//        /*
+//        * Don't clamp allowed value to slider range.
+//         */
+//        protected boolean isValueInRange( double value ) {
+//            return true;
+//        }
+//
+//        public void setColumns( int i ) {
+//            getTextField().setColumns( i );
+//        }
+//
+//        public void setPaintLabels( boolean b ) {
+//            getSlider().setPaintLabels( b );
+//        }
+//
+//        public void setPaintTicks( boolean b ) {
+//            getSlider().setPaintTicks( b );
+//        }
+//
+//        public void setTextFieldFormat( NumberFormat format ) {
+//            super.setTextFieldFormat( format );
+//        }
+//    }
 
     private class GenderControl extends JPanel {
         public GenderControl( final Human human ) {
@@ -302,7 +314,6 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                     maleButton.setSelected( human.getGender() == Human.Gender.MALE );
                 }
             } );
-
         }
     }
 
