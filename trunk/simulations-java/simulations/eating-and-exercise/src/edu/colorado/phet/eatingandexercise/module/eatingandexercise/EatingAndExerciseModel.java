@@ -92,7 +92,7 @@ public class EatingAndExerciseModel {
     public static final CalorieSet availableExercise = new CalorieSet( EatingAndExerciseFileParser.getExerciseItems() );
 
     //values taken from http://www.hpathy.com/healthtools/calories-need.asp
-    public static final Diet BALANCED_DIET = new Diet( EatingAndExerciseResources.getString( "diet.balanced" ), 870, 1583, 432 );
+    public static final Diet BALANCED_DIET = new Diet( EatingAndExerciseResources.getString( "diet.balanced" ), 30, 40, 30).getInstanceOfMagnitude( 2000 );
     public static final Diet FAST_FOOD_ONLY = new Diet( EatingAndExerciseResources.getString( "diet.fast-food" ), 3000, 300, 150 );
     public static final Diet[] availableDiets = new Diet[]{
             BALANCED_DIET,

@@ -22,7 +22,6 @@ Shouldn't be able to set more than 24 hours/day
 No food starts on the plate
 
 Balanced diet has a slider in its popup
->>default is 2000
 
 BMI readout should be on the scale
 
