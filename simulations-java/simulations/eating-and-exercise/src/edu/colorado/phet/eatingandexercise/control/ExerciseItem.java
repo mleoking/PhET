@@ -25,7 +25,6 @@ public class ExerciseItem extends CaloricItem {
     }
 
     private void init() {
-        System.out.println( "human.hashCode() = " + human.hashCode() );
         human.addListener( new Human.Adapter() {
             public void weightChanged() {
                 updateCalories();
