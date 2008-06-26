@@ -2,7 +2,12 @@
 
 package edu.colorado.phet.phscale.util;
 
-import java.text.*;
+import java.text.FieldPosition;
+import java.text.MessageFormat;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
+
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
  * TimesTenNumberFormat displays numbers in this format:
@@ -22,7 +27,7 @@ public class TimesTenNumberFormat extends NumberFormat {
     
     private static final String FORMAT = "<html>{0} x 10<sup>{1}</sup></html>";
 
-    private final DecimalFormat _decimalFormat;
+    private final DefaultDecimalFormat _decimalFormat;
     private boolean _simpleZeroFormat;
     
     /**
@@ -31,7 +36,7 @@ public class TimesTenNumberFormat extends NumberFormat {
      * @param mantissaFormat format of the mantissa, specified using DecimalFormat's syntax
      */
     public TimesTenNumberFormat( String mantissaFormat ) {
-        _decimalFormat = new DecimalFormat( mantissaFormat + "E0" );
+        _decimalFormat = new DefaultDecimalFormat( mantissaFormat + "E0" );
         _simpleZeroFormat = true;
     }
     

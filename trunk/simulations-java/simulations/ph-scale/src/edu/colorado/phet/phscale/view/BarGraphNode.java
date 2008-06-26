@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.control.GraphScaleControlPanel;
@@ -36,7 +37,7 @@ public class BarGraphNode extends PNode {
     private static final double VALUE_SPACING = 50;
     private static final TimesTenNumberFormat H3O_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
-    private static final DecimalFormat H2O_FORMAT = new DecimalFormat( "#0" );
+    private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0" );
     
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
