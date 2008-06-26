@@ -65,7 +65,7 @@ public class BeakerNode extends PComposite {
         double maxVolume = liquid.getMaxVolume();
         int numberOfTicks = (int) Math.floor( maxVolume / MINOR_TICK_SPACING );
         final double rightX = _beakerNode.getFullBoundsReference().getMaxX() - BEAKER_LIP_OFFSET.getX();
-        final double bottomY = size.getHeight();
+        final double bottomY = size.getHeight(); // don't use bounds or position will be off because of stroke width
         double deltaY = size.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
