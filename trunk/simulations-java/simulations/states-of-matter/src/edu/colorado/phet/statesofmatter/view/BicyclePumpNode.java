@@ -23,10 +23,11 @@ public class BicyclePumpNode extends PNode {
     // Class Data
     //------------------------------------------------------------------------
     
-    private static final double PUMP_HORIZ_POSITION_PROPORTION = 0.65;
-    private static final double PUMP_BASE_WIDTH_PROPORTION = 0.2;
+    private static final double PUMP_HORIZ_POSITION_PROPORTION = 0.75;
+    private static final double PUMP_BASE_WIDTH_PROPORTION = 0.3;
     private static final double PUMP_BASE_HEIGHT_PROPORTION = 0.02;
-    private static final Color PUMP_BASE_COLOR = Color.YELLOW;
+    private static final Color PUMP_BASE_COLOR = new Color (0xCC9966);
+    private static final Color PUMP_BODY_COLOR = Color.RED;
     private static final double PUMP_BODY_HEIGHT_PROPORTION = 0.75;
     private static final double PUMP_BODY_WIDTH_PROPORTION = 0.075;
     
@@ -53,15 +54,13 @@ public class BicyclePumpNode extends PNode {
         addChild( pumpBase );
         
         // Add the body of the pump
-        /*
-        double pumpBaseWidth = width * PUMP_BASE_WIDTH_PROPORTION;
-        double pumpBaseHeight = height * PUMP_BASE_HEIGHT_PROPORTION;
-        PPath pumpBase = new PPath(
-                new Rectangle2D.Double( 0, 0, pumpBaseWidth, pumpBaseHeight ));
-        pumpBase.setPaint( PUMP_BASE_COLOR );
-        pumpBase.setOffset( width * PUMP_HORIZ_POSITION_PROPORTION - (pumpBaseWidth / 2), height - pumpBaseHeight );
-        addChild( pumpBase );
-        */
+        double pumpBodyWidth = width * PUMP_BODY_WIDTH_PROPORTION;
+        double pumpBodyHeight = height * PUMP_BODY_HEIGHT_PROPORTION;
+        PPath pumpBody = new PPath( new Rectangle2D.Double( 0, 0, pumpBodyWidth, pumpBodyHeight ));
+        pumpBody.setPaint( PUMP_BODY_COLOR );
+        pumpBody.setOffset( width * PUMP_HORIZ_POSITION_PROPORTION - (pumpBodyWidth / 2), 
+                height - pumpBodyHeight - pumpBaseHeight );
+        addChild( pumpBody );
         
         
     }
