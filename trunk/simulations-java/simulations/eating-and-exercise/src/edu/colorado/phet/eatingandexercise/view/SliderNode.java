@@ -54,7 +54,7 @@ public class SliderNode extends PNode {
         this.dragmax = this.max;
         this.value = value;
         thumbNode = new ThumbNode();
-        lowerRestrictedRange = new RestrictedRangeNode( 0, dragmin );
+        lowerRestrictedRange = new RestrictedRangeNode( this.min, dragmin );
         upperRestrictedRange = new RestrictedRangeNode( dragmax, this.max );
         addChild( new TrackNode() );
         addChild( lowerRestrictedRange );
@@ -115,6 +115,7 @@ public class SliderNode extends PNode {
 
     private void updateRestrictedRanges() {
         lowerRestrictedRange.setRange( min, dragmin );
+        System.out.println( "min = " + min + ", dragmin=" + dragmin );
         upperRestrictedRange.setRange( dragmax, max );
     }
 
@@ -163,6 +164,10 @@ public class SliderNode extends PNode {
         return new Function.LinearFunction( 0, width, min, max ).evaluate( view );
     }
 
+    private double viewToModelRelative( double dv ) {
+        return dv*(max-min)/(width-0);
+    }
+
     private class TrackNode extends PNode {
         private TrackNode() {
             PPath path = new PhetPPath( createTrackShape( min, max ), Color.lightGray, new BasicStroke( 1 ), Color.black );
@@ -190,7 +195,7 @@ public class SliderNode extends PNode {
                     PDimension d = new PDimension( dragEndPT.getX() - dragStartPT.getX(), dragEndPT.getY() - dragEndPT.getY() );
                     ThumbNode.this.localToGlobal( d );
                     System.out.println( "d.getWidth() = " + d.getWidth() );
-                    double proposedValue = value + viewToModel( d.getWidth() );
+                    double proposedValue = value + viewToModelRelative( d.getWidth() );
 //                    double proposedValue = value + d.getWidth() ;
                     System.out.println( "proposedValue = " + proposedValue );
                     setValue( clamp( proposedValue ) );
@@ -238,7 +243,6 @@ public class SliderNode extends PNode {
     public void setValue( double value ) {
         if ( this.value != value ) {
             this.value = value;
-
             notifyValueChanged();
             update();
         }
@@ -250,29 +254,17 @@ public class SliderNode extends PNode {
         }
     }
 
-    public static class SwingSlider extends PhetPCanvas {
-        public SwingSlider() {
-            setPreferredSize( new Dimension( DEFAULT_WIDTH, DEFAULT_HEIGHT ) );
-            addScreenChild( new SliderNode( 0, 100, 50 ) );
-        }
-    }
-
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test Frame" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
         PhetPCanvas contentPane = new BufferedPhetPCanvas();
-        SliderNode sliderNode = new SliderNode( 0, 100, 50 );
+        SliderNode sliderNode = new SliderNode( 50, 100, 50 );
         sliderNode.setOffset( 100, 100 );
         contentPane.addScreenChild( sliderNode );
         frame.setContentPane( contentPane );
         frame.setVisible( true );
-        sliderNode.setDragRange( 25, 75 );
-
-        JFrame frame2 = new JFrame();
-        frame2.setContentPane( new SwingSlider() );
-        frame2.pack();
-        frame2.setVisible( true );
+//        sliderNode.setDragRange( 25, 75 );
     }
 
 }
