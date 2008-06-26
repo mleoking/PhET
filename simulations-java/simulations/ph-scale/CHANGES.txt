@@ -26,6 +26,7 @@ MEDIUM PRIORITY:
 - add plumbing going into faucets
 - 10x zoom feature for linear graph, zoom into zero
 - line up pH slider ticks with bar graph ticks
+- where beaker is empty, H2O concentration should be 0
 
 LOW PRIORITY:
 - replace molecule image files with SphericalNode subclasses
