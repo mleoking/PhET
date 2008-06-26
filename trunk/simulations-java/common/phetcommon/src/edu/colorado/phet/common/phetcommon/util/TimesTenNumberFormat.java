@@ -65,10 +65,13 @@ public class TimesTenNumberFormat extends NumberFormat {
     public StringBuffer format( double number, StringBuffer toAppendTo, FieldPosition pos ) {
         String valueString = "0";
         if ( number != 0 || !_simpleZeroFormat ) {
+            // use a DecimalFormat to format in scientific notation, like 4.73E-7
             String scientificString = _decimalFormat.format( number );
+            // parse out the mantissa and exponent on either side of the 'E'
             int index = scientificString.lastIndexOf( 'E' );
             String mantissa = scientificString.substring( 0, index );
             String exponent = scientificString.substring( index + 1 );
+            // put the mantissa and exponent into our format
             Object[] args = { mantissa, exponent };
             valueString = MessageFormat.format( FORMAT, args );
         }
