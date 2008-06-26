@@ -21,7 +21,6 @@ Shouldn't be able to set more than 24 hours/day
 
 Balanced Diet should have a slider in its popup
 
-Add Balanced Diet to set of available items 
 
 BMI readout should be on the scale
 

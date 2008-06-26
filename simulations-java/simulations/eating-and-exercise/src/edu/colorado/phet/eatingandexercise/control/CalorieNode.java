@@ -72,7 +72,10 @@ public class CalorieNode extends PNode {
             }
 
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
-                if ( !node.getItem().getImage().equals( Human.FOOD_PYRAMID ) && node.getPNodeIcon().getGlobalFullBounds().intersects( calorieDragStrip.getGlobalFullSourceBounds() ) ) {
+                boolean isBalancedDiet = node.getItem().getImage().equals( Human.FOOD_PYRAMID );
+                if (
+//                        !isBalancedDiet &&
+                        node.getPNodeIcon().getGlobalFullBounds().intersects( calorieDragStrip.getGlobalFullSourceBounds() ) ) {
                     final Timer timer = new Timer( 30, null );
                     timer.addActionListener( new ActionListener() {
                         int count = 0;

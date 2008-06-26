@@ -34,7 +34,8 @@ public class CalorieDragStrip extends PNode {
     private static final int HEIGHT = 45;
     private PNode tooltipLayer = new PNode();
     private PNode stripPanel;
-    private int count = 5;
+    public static int ITEMS_PER_PAGE=4;
+    private int count = ITEMS_PER_PAGE+1;
     private ArrayList panels = new ArrayList();
     private Color buttonColor = new Color( 128, 128, 255 );
     private TogglePClip stripPanelClip;
