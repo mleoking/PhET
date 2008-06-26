@@ -303,7 +303,7 @@ public class Liquid extends ClockAdapter {
     }
     
     public double getConcentrationH2O() {
-        return H2O_CONCENTRATION;
+        return ( isEmpty() ? 0 : H2O_CONCENTRATION );
     }
     
     //----------------------------------------------------------------------------
