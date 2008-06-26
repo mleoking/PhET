@@ -45,7 +45,7 @@
             <desktopShortcutList>
                 <fileShortcut>
                      <comment>Launches local mirror of the PhET website.</comment>
-                     <filePath>${installdir}/new/index.html</filePath>
+                     <filePath>${installdir}/index.html</filePath>
                      <icon>${installdir}/phet-logo-48x48.png</icon>
                      <name>PhET Simulations</name>
                      <platforms>windows</platforms>
@@ -61,16 +61,61 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet.colorado.edu/new</origin>
+                            <origin>../../temp/website/phet.colorado.edu/about</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/admin</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/contribute</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/css</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/get_phet</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/images</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/js</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/research</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>../../temp/website/phet.colorado.edu/sims</origin>
                         </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/simulations</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/sponsors</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/teacher_ideas</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/tech_support</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phet.colorado.edu/webcache</origin>
+                        </distributionDirectory>
+                        <distributionFile>
+                            <origin>../../temp/website/phet.colorado.edu/index-2.html</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../temp/website/phet.colorado.edu/index.html</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../Installer-Resources/Install-Path/phet-icon.ico</origin>
+                        </distributionFile>
                         <distributionFile>
                             <origin>../../Installer-Resources/Install-Path/phet-logo-48x48.png</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../Installer-Resources/Install-Path/phet-icon.ico</origin>
+                            <origin>../../temp/website/phet.colorado.edu/random-thumbnail.gif</origin>
                         </distributionFile>
                     </distributionFileList>
                     <shortcutList>
@@ -89,7 +134,7 @@
                         </shortcut>
                         <fileShortcut>
                             <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                            <filePath>${installdir}/new/index.html</filePath>
+                            <filePath>${installdir}/index.html</filePath>
                             <icon>${installdir}/phet-logo-48x48.png</icon>
                             <name>PhET Simulations</name>
                             <platforms>all</platforms>
@@ -144,7 +189,7 @@
                 </startMenuShortcut>
                 <startMenuFileShortcut>
                     <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                    <filePath>${installdir}/new/index.html</filePath>
+                    <filePath>${installdir}/index.html</filePath>
                     <name>PhET Simulations</name>
                     <runInTerminal>0</runInTerminal>
                     <windowsIcon>${installdir}/phet-icon.ico</windowsIcon>
