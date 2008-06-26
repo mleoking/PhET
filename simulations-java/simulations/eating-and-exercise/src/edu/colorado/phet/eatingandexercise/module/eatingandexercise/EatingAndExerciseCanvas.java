@@ -93,7 +93,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         _rootNode.addChild( humanAreaNode );
 
         bmiReadout = new BMIReadout( model.getHuman() );
-        addScreenChild( bmiReadout );
+//        addScreenChild( bmiReadout );
 
         heartHealthButtonNode = new BMIHelpButtonNode( this, model.getHuman() );
         addScreenChild( heartHealthButtonNode );
