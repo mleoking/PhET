@@ -1,6 +1,7 @@
 New in 0.00.47
 Balanced diet has 2000 Calories
 Removed balanced diet from initial diet
+Added Balanced Diet to set of available draggable items
 
 New in 0.00.46
 Removed the Ruler

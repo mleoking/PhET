@@ -23,6 +23,11 @@ public class CalorieSet {
         }
     }
 
+    public void insertItem(int index,CaloricItem item){
+        list.add( index,item );
+        notifyItemAdded( item );
+    }
+
     public void addItem( CaloricItem item ) {
         list.add( item );
         notifyItemAdded( item );
