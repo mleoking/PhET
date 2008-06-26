@@ -1,4 +1,7 @@
 1.05.02
+Trial version with particles in every cell
+
+1.05.02
 Trial version with particles in every 2 cells
 
 1.05.00 (5-7-08)
