@@ -26,14 +26,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class HumanAreaNode extends PNode {
     private Human human;
-    private PhetPPath head;
+    private HeadNode head;
     private PImage heartNode;
     private BasicStroke stroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER );
     private PhetPPath areaNode = new PhetPPath( Color.white, stroke, Color.black );
 
     public HumanAreaNode( Human human ) {
         this.human = human;
-        head = new PhetPPath( Color.white, new BasicStroke( 0.02f ), Color.black );
+        head = new HeadNode( human, Color.white, new BasicStroke( 0.02f ), Color.black );
         addChild( areaNode );
 
         heartNode = new HeartNode( human );
