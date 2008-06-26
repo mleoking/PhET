@@ -15,8 +15,8 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodI
  * Created by: Sam
  * Jun 26, 2008 at 8:55:58 AM
  */
-public class FoodPyramidDialog extends JDialog {
-    public FoodPyramidDialog( final CaloricFoodItem item ) {
+public class BalancedDietDialog extends JDialog {
+    public BalancedDietDialog( final CaloricFoodItem item ) {
         JPanel contentPane = new JPanel();
         JLabel label = new JLabel( item.getLabelText(), new ImageIcon( EatingAndExerciseResources.getImage( item.getImage() ) ), SwingConstants.CENTER ) {
             protected void paintComponent( Graphics g ) {
@@ -45,7 +45,7 @@ public class FoodPyramidDialog extends JDialog {
     }
 
     public static void main( String[] args ) {
-        FoodPyramidDialog dialog = new FoodPyramidDialog( new CaloricFoodItem( "balanced diet", Human.FOOD_PYRAMID, 5, 5, 5 ) );
+        BalancedDietDialog dialog = new BalancedDietDialog( new CaloricFoodItem( "balanced diet", Human.FOOD_PYRAMID, 5, 5, 5 ) );
         dialog.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         dialog.setVisible( true );
     }
