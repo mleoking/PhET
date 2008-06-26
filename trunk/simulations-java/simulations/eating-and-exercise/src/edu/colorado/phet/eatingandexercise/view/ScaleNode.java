@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
 import edu.umd.cs.piccolo.PNode;
@@ -97,11 +98,13 @@ public class ScaleNode extends PNode {
     }
 
     private void updateWeightReadout() {
-        weightReadout.setText( "" + EatingAndExerciseStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() +", BMI: "+EatingAndExerciseStrings.BMI_FORMAT.format( human.getBMI() )+" kg/m^2");
+        String BMI = EatingAndExerciseResources.getString( "bmi" );
+        String BMI_UNITS = EatingAndExerciseResources.getString( "units.bmi" );
+        weightReadout.setText( "" + EatingAndExerciseStrings.WEIGHT_FORMAT.format( model.getUnits().modelToViewMass( human.getMass() ) ) + " " + model.getUnits().getMassUnit() + ", " + BMI + ": " + EatingAndExerciseStrings.BMI_FORMAT.format( human.getBMI() ) + " " + BMI_UNITS );
         updateTextLayout();
     }
 
     private void updateTextLayout() {
-        weightReadout.setOffset( 0 - weightReadout.getFullBounds().getWidth() / 2, faceY+faceHeight-weightReadout.getFullBounds().getHeight()-0.01 );
+        weightReadout.setOffset( 0 - weightReadout.getFullBounds().getWidth() / 2, faceY + faceHeight - weightReadout.getFullBounds().getHeight() - 0.01 );
     }
 }
