@@ -33,9 +33,9 @@ public class DialGaugeNode extends PNode {
 
     // Constants the control the appearance of the dial gauge.
     private static final Color  BACKGROUND_COLOR = new Color( 245, 255, 250 );
-    private static final Color  BORDER_COLOR = Color.DARK_GRAY;
+    private static final Color  BORDER_COLOR = Color.LIGHT_GRAY;
     private static final Color  NEEDLE_COLOR = Color.RED;
-    private static final double BORDER_SCALE_FACTOR = 0.010;           // Size of border wrt overal diameter.
+    private static final double BORDER_SCALE_FACTOR = 0.015;           // Size of border wrt overal diameter.
     private static final double TICK_MARK_LENGTH_SCALE_FACTOR = 0.03; // Length of tick marks wrt overall diameter. 
     private static final double TICK_MARK_WIDTH_SCALE_FACTOR = 0.008;  // Width of tick marks wrt overall diameter. 
     private static final double NEEDLE_LENGTH_SCALE_FACTOR = 0.55;  // Length of needle wrt overall diameter. 
