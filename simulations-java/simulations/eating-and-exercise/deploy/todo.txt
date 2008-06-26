@@ -9,6 +9,8 @@ Slider text box should display values allowed by the model but out of the range 
 
 New sliders need to update when units change english/metric
 
+New sliders need better aligned layout
+
 Buggy behavior when an icon overlaps both the toolbox and the plate (nullpointerexception)
 
 All items in the play area should scale on window resize
