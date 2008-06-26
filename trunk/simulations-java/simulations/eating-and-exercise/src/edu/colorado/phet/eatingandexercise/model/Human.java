@@ -111,7 +111,7 @@ public class Human {
 //            defaultIntake = new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), FOOD_PYRAMID, 0.3 * 9 * 2000 / 5.5 / 9, 0.4 * 4 * 2000 / 5.5 / 4, 0.3 * 4 * 2000 / 5.5 / 4, false );
             defaultIntake = new CaloricFoodItem( EatingAndExerciseResources.getString( "diet.healthy" ), FOOD_PYRAMID, initialDiet.getFat()/9, initialDiet.getCarb()/4, initialDiet.getProtein()/4,false );
         }
-        foodItems.addItem( defaultIntake );//todo: standardize constructor units
+//        foodItems.addItem( defaultIntake );//todo: standardize constructor units
         updateIntake();
 
         //todo remove the need for this workaround

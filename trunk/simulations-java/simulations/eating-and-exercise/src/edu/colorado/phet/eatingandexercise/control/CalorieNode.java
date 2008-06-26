@@ -116,10 +116,6 @@ public class CalorieNode extends PNode {
         relayout();
     }
 
-    private boolean nodeOverlapsORIG( CalorieDragStrip.DragNode node ) {
-        return plateImage.getGlobalFullBounds().intersects( node.getPNodeIcon().getGlobalFullBounds() );
-    }
-
     private boolean nodeOverlaps( CalorieDragStrip.DragNode node ) {
         return plateImage.getGlobalFullBounds().contains( node.getPNodeIcon().getGlobalFullBounds().getCenter2D() );
     }
@@ -129,12 +125,12 @@ public class CalorieNode extends PNode {
             final PNode node = calorieDragStrip.addItemNode( calorieSet.getItem( i ) );
             plateImage.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
-                    node.setOffset( plateImage.getFullBounds().getCenterX() - node.getFullBounds().getWidth() / 2,
-                                    plateImage.getFullBounds().getCenterY() - node.getFullBounds().getHeight() / 2 );
+                    node.setOffset( plateImage.getFullBounds().getCenterX() - node.getFullBounds().getWidth() / 2 + node.getFullBounds().getWidth(),
+                                    plateImage.getFullBounds().getY() - node.getFullBounds().getHeight() * 1.1 );
                 }
             } );
-            node.setOffset( plateImage.getFullBounds().getCenterX() - node.getFullBounds().getWidth() / 2,
-                            plateImage.getFullBounds().getCenterY() - node.getFullBounds().getHeight() / 2 );
+            node.setOffset( plateImage.getFullBounds().getCenterX() - node.getFullBounds().getWidth() / 2 + node.getFullBounds().getWidth(),
+                            plateImage.getFullBounds().getY() - node.getFullBounds().getHeight() * 1.1 );
         }
     }
 
