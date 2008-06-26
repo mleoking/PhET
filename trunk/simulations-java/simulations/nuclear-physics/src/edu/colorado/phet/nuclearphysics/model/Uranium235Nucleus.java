@@ -146,6 +146,7 @@ public class Uranium235Nucleus extends AtomicNucleus {
             for (int i = 0; i < 3; i++){
                 byProducts.add( new Neutron(_position.getX(), _position.getY(), false) );
             }
+            _numNeutrons -= 3;
 
             // Now create the appropriate daughter nucleus and add it to the
             // list of byproducts.

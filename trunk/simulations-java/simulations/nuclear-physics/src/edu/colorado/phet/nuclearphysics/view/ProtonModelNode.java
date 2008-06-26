@@ -2,15 +2,9 @@
 
 package edu.colorado.phet.nuclearphysics.view;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Paint;
-import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 
 /**
@@ -19,20 +13,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author John Blanco
  */
-public class ProtonModelNode extends SphericalNode implements NucleonNode{
+public class ProtonModelNode extends ProtonNode implements NucleonModelNode{
 
     //------------------------------------------------------------------------
     // Class Data
-    //------------------------------------------------------------------------
-    
-    private final static double PARTICLE_DIAMETER = 1.6;  // Femto meters.
-    private static final Color COLOR = new Color(0xaa0000); // Red
-    private static final Color HILITE_COLOR = new Color(0xffaaaa); // Light red
-    private static final Paint ROUND_GRADIENT = new RoundGradientPaint( -PARTICLE_DIAMETER/6, -PARTICLE_DIAMETER/6,
-            HILITE_COLOR, new Point2D.Double( PARTICLE_DIAMETER/4, PARTICLE_DIAMETER/4 ), COLOR );
-    
-    //------------------------------------------------------------------------
-    // Instance Data
     //------------------------------------------------------------------------
     
     private Nucleon _nucleon;
@@ -43,8 +27,6 @@ public class ProtonModelNode extends SphericalNode implements NucleonNode{
 
     public ProtonModelNode(Nucleon nucleon)
     {
-        super(PARTICLE_DIAMETER, ROUND_GRADIENT, false);
-        
         _nucleon = nucleon;
         
         nucleon.addListener(new Nucleon.Listener(){
@@ -75,33 +57,8 @@ public class ProtonModelNode extends SphericalNode implements NucleonNode{
     // Other Public Methods
     //------------------------------------------------------------------------
     
-    /**
-     * This is a static factory method that can be used to obtain an image of
-     * a proton that will look just like the images used in the play area.
-     */
-    static public Image generateProtonImage(double diameter){
-        
-        Paint roundGradient = new RoundGradientPaint( -diameter/6, -diameter/6, HILITE_COLOR, 
-                new Point2D.Double( diameter/4, diameter/4 ), COLOR );
-        SphericalNode protonImageNode = new SphericalNode( diameter, roundGradient, false);
-        return protonImageNode.toImage();
-    }
-    
-    /**
-     * This is a static factory method that can be used to obtain an image node
-     * for a proton that will look just like the images used in the play area.
-     */
-    static public PImage generateNeutronImageNode(double diameter){
-        
-        return (new PImage(generateProtonImage( diameter )));
-    }
-
-    //------------------------------------------------------------------------
-    // Private Methods
-    //------------------------------------------------------------------------
-
     private void update(){
-        setOffset( _nucleon.getPositionReference().getX() - PARTICLE_DIAMETER/2,  
-                _nucleon.getPositionReference().getY() - PARTICLE_DIAMETER/2);
+        setOffset( _nucleon.getPositionReference().getX() - NuclearPhysicsConstants.NUCLEON_DIAMETER/2,  
+                _nucleon.getPositionReference().getY() - NuclearPhysicsConstants.NUCLEON_DIAMETER/2);
     }
 }

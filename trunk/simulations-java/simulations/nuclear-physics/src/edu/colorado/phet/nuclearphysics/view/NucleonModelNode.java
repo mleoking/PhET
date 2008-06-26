@@ -5,7 +5,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.nuclearphysics.model.Nucleon;
 
 
-public interface NucleonNode {
+public interface NucleonModelNode {
 
     /**
      * Get the nucleon that this node represents.
