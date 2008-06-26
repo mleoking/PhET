@@ -2,22 +2,24 @@
 
 package edu.colorado.phet.phscale.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.phscale.PHScaleImages;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.control.GraphScaleControlPanel;
 import edu.colorado.phet.phscale.control.GraphUnitsControlPanel;
 import edu.colorado.phet.phscale.control.GraphUnitsControlPanel.GraphUnitsControlPanelListener;
+import edu.colorado.phet.phscale.graphs.FormattedNumberNode;
+import edu.colorado.phet.phscale.graphs.LegendNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.util.TimesTenFormat;
+import edu.colorado.phet.phscale.util.TimesTenNumberFormat;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -32,17 +34,14 @@ public class BarGraphNode extends PNode {
     
     private static final Font VALUE_FONT = new PhetFont( 16 );
     private static final double VALUE_SPACING = 50;
-    private static final TimesTenFormat H3O_FORMAT = new TimesTenFormat( "0.00" );
-    private static final TimesTenFormat OH_FORMAT = new TimesTenFormat( "0.00" );
+    private static final TimesTenNumberFormat H3O_FORMAT = new TimesTenNumberFormat( "0.00" );
+    private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DecimalFormat( "#0" );
     
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
     private static final Color OUTLINE_FILL_COLOR = Color.WHITE;
 
-    private static final Font LEGEND_FONT = new PhetFont( 18 );
-    private static final double LEGEND_ITEM_Y_SPACING = 5;
-    private static final double LEGEND_X_SPACING = 25;
     private static final double LEGEND_Y_SPACING = 5;
     
     private final Liquid _liquid;
@@ -139,7 +138,7 @@ public class BarGraphNode extends PNode {
 
     private static class ValuesNode extends PComposite {
         
-        private final HTMLNode _h3oNode, _ohNode, _h2oNode;
+        private final FormattedNumberNode _h3oNode, _ohNode, _h2oNode;
         
         public ValuesNode() {
             this( Color.BLACK );
@@ -147,18 +146,9 @@ public class BarGraphNode extends PNode {
         
         public ValuesNode( Color textColor ) {
             
-            _h3oNode = new HTMLNode( "?" );
-            _h3oNode.setFont( VALUE_FONT );
-            _h3oNode.setHTMLColor( textColor );
-            
-            _ohNode = new HTMLNode( "?" );
-            _ohNode.setFont( VALUE_FONT );
-            _ohNode.setHTMLColor( textColor );
-            
-            _h2oNode = new HTMLNode( "?" );
-            _h2oNode.setFont( VALUE_FONT );
-            _h2oNode.setHTMLColor( textColor );
-            
+            _h3oNode = new FormattedNumberNode( H3O_FORMAT, 0, VALUE_FONT, textColor );
+            _ohNode = new FormattedNumberNode( OH_FORMAT, 0, VALUE_FONT, textColor );
+            _h2oNode = new FormattedNumberNode( H2O_FORMAT, 0, VALUE_FONT, textColor );
             addChild( _h3oNode );
             addChild( _ohNode );
             addChild( _h2oNode );
@@ -169,53 +159,9 @@ public class BarGraphNode extends PNode {
         }
         
         public void setValues( double h3o, double oh, double h2o ) {
-            _h3oNode.setHTML( H3O_FORMAT.format( h3o ) );
-            _ohNode.setHTML( OH_FORMAT.format( oh ) );
-            _h2oNode.setHTML( H2O_FORMAT.format( h2o ) );
-        }
-    }
-    
-    private static class LegendNode extends PComposite { 
-        public LegendNode() {
-            super();
-            LegendItemNode h3oLegendItemNode = new LegendItemNode( PHScaleImages.H3O, PHScaleStrings.LABEL_H3O );
-            LegendItemNode ohLegendItemNode = new LegendItemNode( PHScaleImages.OH, PHScaleStrings.LABEL_OH );
-            LegendItemNode h2oLegendItemNode = new LegendItemNode( PHScaleImages.H2O, PHScaleStrings.LABEL_H2O );
-            addChild( h3oLegendItemNode );
-            addChild( ohLegendItemNode );
-            addChild( h2oLegendItemNode );
-            h3oLegendItemNode.setOffset( 0, 0 );
-            PBounds h3ob = h3oLegendItemNode.getFullBoundsReference();
-            ohLegendItemNode.setOffset( h3ob.getMaxX() + LEGEND_X_SPACING, h3ob.getY() );
-            PBounds ohb = ohLegendItemNode.getFullBoundsReference();
-            h2oLegendItemNode.setOffset( ohb.getMaxX() + LEGEND_X_SPACING, ohb.getY() );
-        }
-    }
-    private static class LegendItemNode extends PComposite {
-
-        public LegendItemNode( Image image, String label ) {
-            super();
-            setPickable( false );
-            setChildrenPickable( false );
-            
-            PImage imageNode = new PImage( image );
-            imageNode.scale( 0.4 );//XXX
-            addChild( imageNode );
-            
-            HTMLNode htmlNode = new HTMLNode( label );
-            htmlNode.setFont( LEGEND_FONT );
-            addChild( htmlNode );
-            
-            PBounds ib = imageNode.getFullBoundsReference();
-            PBounds hb = htmlNode.getFullBoundsReference();
-            if ( ib.getWidth() > hb.getWidth() ) {
-                imageNode.setOffset( 0, 0 );
-                htmlNode.setOffset( ( ib.getWidth() - hb.getWidth() ) / 2, ib.getHeight() + LEGEND_ITEM_Y_SPACING );
-            }
-            else {
-                imageNode.setOffset( ( hb.getWidth() - ib.getWidth() ) / 2, 0 );
-                htmlNode.setOffset( 0, ib.getHeight() + LEGEND_ITEM_Y_SPACING );
-            }
+            _h3oNode.setValue( h3o );
+            _ohNode.setValue( oh );
+            _h2oNode.setValue( h2o );
         }
     }
 }

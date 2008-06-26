@@ -45,6 +45,9 @@ CLEANUP:
 
 
 DONE:
+6/26/08 - generalize TimesTenNumberFormat, a new number formatter for formats like "4.35 x 10^12"
+6/26/08 - generalize FormattedNumberNode, a node that displays a formatted number
+6/26/08 - promote inner class LegendNode to top-level
 6/26/08 - fix vertical alignment of molecule count values
 6/26/08 - add lip to top edge of beaker
 6/26/08 - fix: liquid level doesn't line up with volume tick marks on beaker
