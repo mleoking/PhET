@@ -19,7 +19,9 @@ Add indicators for good/bad % fat and exercise amount (these will be vertical ba
 
 Shouldn't be able to set more than 24 hours/day
 
-Balanced diet should have a slider in its popup
+Balanced Diet should have a slider in its popup
+
+Add Balanced Diet to set of available items 
 
 BMI readout should be on the scale
 
