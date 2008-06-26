@@ -19,14 +19,16 @@ Add indicators for good/bad % fat and exercise amount (these will be vertical ba
 
 Shouldn't be able to set more than 24 hours/day
 
-Add popup-questionmark button for BMI readout
+Add popup-question mark button for BMI readout near scale
+
+Remove popup-question mark button for old version of heart BMI readout
 
 Clarify the meaning of "lifestyle" vs. other daily exercises
     Add description to sedentary, moderate activity, etc.
 >>These should be in the main control panel as radio buttons, not in Edit Exercise
 >>Add popups with explanations (from Noah)
 
-Remove "Edit Foods" and exercise buttons and popup dialog
+Balanced diet popup dialog should have a better layout (slider may go off the screen on low resolution screens)
 
 Arms and legs should bulge based on muscle %
 
@@ -109,6 +111,8 @@ NP - weight lost should be both muscle and fat. There should be some ratio of FF
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
+
+Add Eating / Exercise labels to each side of the screen?
 
 Performance: consider profiling or changing clock rate
     >>How severe is this problem?
