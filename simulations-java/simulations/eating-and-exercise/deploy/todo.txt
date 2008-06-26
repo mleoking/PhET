@@ -54,7 +54,7 @@ Death and Dying:
 
 height, weight and fat % will be the independent variables, but fat will be constrained by (the explanation below)
 
-NP - Here is a simple way to think about what I said above: FFM range for men is 18.5/1.15*h^2 to 30/1.15*h^2, for women 18.5/1.23*h^2 to 30/1.23*h^2. This comes from assuming average % fat for people in this range (15% for men, 23% for women).
+    >>NP - Here is a simple way to think about what I said above: FFM range for men is 18.5/1.15*h^2 to 30/1.15*h^2, for women 18.5/1.23*h^2 to 30/1.23*h^2. This comes from assuming average % fat for people in this range (15% for men, 23% for women).
 
 The lower limits above assume a very low FFM with average % fat - you can go below this limit by pushing down % body fat. Note that the lower limit is around a BMI of 16. At this point, you will be very low % fat and can begin removing FFM to drop weight, but you are now in the danger zone.
 
