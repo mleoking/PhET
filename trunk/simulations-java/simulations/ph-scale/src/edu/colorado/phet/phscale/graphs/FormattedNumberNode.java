@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * FormattedNumberNode displays a value with using a specified NumberFormat.
+ * FormattedNumberNode displays a value using a specified NumberFormat.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
