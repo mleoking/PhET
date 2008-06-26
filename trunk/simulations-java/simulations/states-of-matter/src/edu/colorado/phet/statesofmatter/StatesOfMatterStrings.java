@@ -26,4 +26,8 @@ public class StatesOfMatterStrings {
     public static final String NEON_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.Neon");
     public static final String ARGON_SELECTION_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.Argon");
 
+    public static final String STATE_TYPE_SELECT_LABEL = StatesOfMatterResources.getString("SolidLiquidGasControl.StateSelection");
+    public static final String PHASE_STATE_SOLID = StatesOfMatterResources.getString("SolidLiquidGasControl.Solid");
+    public static final String PHASE_STATE_LIQUID = StatesOfMatterResources.getString("SolidLiquidGasControl.Liquid");
+    public static final String PHASE_STATE_GAS = StatesOfMatterResources.getString("SolidLiquidGasControl.Gas");
 }
