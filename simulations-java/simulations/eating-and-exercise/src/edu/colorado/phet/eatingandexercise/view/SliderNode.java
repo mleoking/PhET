@@ -120,9 +120,9 @@ public class SliderNode extends PNode {
 
     private void update() {
         updateThumbLocation();
-        thumbNode.setThumbPaint( value <= min || value >= max ? Color.red : Color.blue );
+        thumbNode.setThumbPaint( value < min || value > max ? Color.red : Color.blue );
         Shape shape = new RoundRectangle2D.Double( 0, 0, thumbNode.getThumbWidth(), thumbNode.getThumbHeight(), 6, 6 );
-        if ( value <= min ) {
+        if ( value < min ) {
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( thumbNode.getThumbWidth(), 0 );
             path.lineTo( 0, thumbNode.getThumbHeight() / 2 );
@@ -130,7 +130,7 @@ public class SliderNode extends PNode {
             path.lineTo( thumbNode.getThumbWidth(), 0 );
             shape = path.getGeneralPath();
         }
-        else if ( value >= max ) {
+        else if ( value > max ) {
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
             path.lineTo( thumbNode.getThumbWidth(), thumbNode.getThumbHeight() / 2 );
@@ -138,7 +138,7 @@ public class SliderNode extends PNode {
             path.lineTo( 0, 0 );
             shape = path.getGeneralPath();
         }
-        thumbNode.setThumbState( new ThumbState( value <= min || value >= max ? Color.red : Color.blue,
+        thumbNode.setThumbState( new ThumbState( value < min || value > max ? Color.red : Color.blue,
                                                  shape ) );
     }
 
