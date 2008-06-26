@@ -91,8 +91,6 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         _rootNode.addChild( new ScaleNode( model, model.getHuman() ) );
         humanAreaNode = new HumanAreaNode( model.getHuman() );
 
-        HumanAudioPlayer humanAudioPlayer=new HumanAudioPlayer(model.getHuman());
-        humanAudioPlayer.start();
         _rootNode.addChild( humanAreaNode );
 
         bmiReadout = new BMIReadout( model.getHuman() );
@@ -193,7 +191,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         }
 
         humanControlPanelPSwing.setOffset( 0, getHeight() - humanControlPanelPSwing.getFullBounds().getHeight() );
-        ageRangeMessage.setOffset( humanControlPanelPSwing.getFullBounds().getMaxX(), humanControlPanelPSwing.getFullBounds().getY()+humanControlPanel.getAgeSliderY() );
+        ageRangeMessage.setOffset( humanControlPanelPSwing.getFullBounds().getMaxX(), humanControlPanelPSwing.getFullBounds().getY() + humanControlPanel.getAgeSliderY() );
         //XXX lay out nodes
 
     }

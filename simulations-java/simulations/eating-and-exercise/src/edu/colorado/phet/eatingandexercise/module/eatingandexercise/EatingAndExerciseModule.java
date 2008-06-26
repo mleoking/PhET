@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
@@ -38,7 +39,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
 
     private int numAddedItems = 0;
 
-    public EatingAndExerciseModule( final JFrame parentFrame ) {
+    public EatingAndExerciseModule( final PhetFrame parentFrame ) {
         super( EatingAndExerciseStrings.TITLE_EATING_AND_EXERCISE_MODULE, new EatingAndExerciseClock(), EatingAndExerciseDefaults.STARTS_PAUSED );
         this.parentFrame = parentFrame;
 
@@ -50,6 +51,12 @@ public class EatingAndExerciseModule extends PiccoloModule {
             }
         } );
         _model = new EatingAndExerciseModel( eatingAndExerciseClock );
+
+        HumanAudioPlayer humanAudioPlayer = new HumanAudioPlayer( _model.getHuman() );
+        humanAudioPlayer.start();
+
+        GameOverDialog gameOverDialog=new GameOverDialog(parentFrame, _model.getHuman(),this );
+        gameOverDialog.start();
 
         // Canvas
         _canvas = new EatingAndExerciseCanvas( _model, parentFrame );
