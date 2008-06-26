@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.valuenode.LinearValueControlNode;
 import edu.colorado.phet.eatingandexercise.model.Human;
@@ -17,7 +18,8 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodI
  */
 public class BalancedDietDialog extends JDialog {
     public BalancedDietDialog( final CaloricFoodItem item ) {
-        JPanel contentPane = new JPanel();
+        JPanel contentPane = new VerticalLayoutPanel();
+//        contentPane.setLayout( new GridBagLayout() );
         JLabel label = new JLabel( item.getLabelText(), new ImageIcon( EatingAndExerciseResources.getImage( item.getImage() ) ), SwingConstants.CENTER ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D) g;

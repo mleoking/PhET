@@ -28,8 +28,6 @@ Clarify the meaning of "lifestyle" vs. other daily exercises
 >>These should be in the main control panel as radio buttons, not in Edit Exercise
 >>Add popups with explanations (from Noah)
 
-Balanced diet popup dialog should have a better layout (slider may go off the screen on low resolution screens)
-
 Arms and legs should bulge based on muscle %
 
 Death and Dying:
