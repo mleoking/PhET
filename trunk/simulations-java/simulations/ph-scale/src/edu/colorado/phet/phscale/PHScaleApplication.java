@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.phscale.developer.DeveloperMenu;
-import edu.colorado.phet.phscale.module.PHScaleModule;
 
 /**
  * PHScaleApplication is the main application for this simulation.

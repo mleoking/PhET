@@ -1,12 +1,11 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.module;
+package edu.colorado.phet.phscale;
 
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.control.BeakerControlNode;
 import edu.colorado.phet.phscale.control.PHControlNode;
 import edu.colorado.phet.phscale.control.PHScaleResetAllButton;
