@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
-import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -72,10 +71,8 @@ public class CalorieNode extends PNode {
             }
 
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
-                boolean isBalancedDiet = node.getItem().getImage().equals( Human.FOOD_PYRAMID );
-                if (
-//                        !isBalancedDiet &&
-                        node.getPNodeIcon().getGlobalFullBounds().intersects( calorieDragStrip.getGlobalFullSourceBounds() ) ) {
+                if ( node.getPNodeIcon().getGlobalFullBounds().intersects( calorieDragStrip.getGlobalFullSourceBounds() ) ) {
+                    System.out.println( "CalorieNode.nodeDropped" );
                     final Timer timer = new Timer( 30, null );
                     timer.addActionListener( new ActionListener() {
                         int count = 0;
@@ -86,7 +83,9 @@ public class CalorieNode extends PNode {
                             if ( count >= 20 ) {
                                 timer.stop();
                                 setContainsItem( node.getItem(), false );
-                                node.getPNode().getParent().removeChild( node.getPNode() );//todo: clean up this line, looks awkward
+                                if ( node.getPNode().getParent() != null ) {//todo: remove the need for this workaround
+                                    node.getPNode().getParent().removeChild( node.getPNode() );//todo: clean up this line, looks awkward
+                                }
                             }
                         }
                     } );
@@ -215,7 +214,7 @@ public class CalorieNode extends PNode {
 
     private void relayout() {
 //        editButton.setOffset( 0, maxY - editButton.getFullBounds().getHeight() );
-        plateImage.setOffset( 0, maxY- plateImage.getFullBounds().getHeight() );
+        plateImage.setOffset( 0, maxY - plateImage.getFullBounds().getHeight() );
         plateTopSummaryNode.relayout();
     }
 
