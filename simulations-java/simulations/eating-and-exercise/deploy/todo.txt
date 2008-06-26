@@ -19,7 +19,7 @@ Add indicators for good/bad % fat and exercise amount (these will be vertical ba
 
 Shouldn't be able to set more than 24 hours/day
 
-Add popup-questionmark buttor for BMI readout
+Add popup-questionmark button for BMI readout
 
 Clarify the meaning of "lifestyle" vs. other daily exercises
     Add description to sedentary, moderate activity, etc.
