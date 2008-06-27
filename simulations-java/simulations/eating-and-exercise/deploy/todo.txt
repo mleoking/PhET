@@ -46,17 +46,27 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
     They seem a bit high and in many cases are absolute values. The total caloric cost for weight
     bearing activities should be based upon a per body weight value. What was your source for this information?
 
-   >>>See section below on caloric expenditure from exercise.
+____________________________________________________________________________________________
+WEIGHT DEPENDENT EXERCISE
 
-NP - need to decide which activities are weight dependent and which are constant caloric expenditure.
 
->>>> Figure the given values are for an average person. So Caliories_burned = Cal * [1 + beta (W - W_0)/W_0], where Cal is the base calories for a person of weight W_0 (say 160 lb), W is the person's weight, and beta is 0 or 1 depending on thether the activity is weight dependent (1) or not (0). Beta could also be used to make activities more or less weight dependent (but for now leave it 0 or 1). Cal and beta are adjustable for each exercise, W_0 is a single constant for all exercises.
+>>>> Figure the given values for exercise are for an average person.
 
-Fix text for "simulation age out of range" message
+>>>Model for exercise calories burned: 
+
+	Caliories_burned = Cal * [1 + beta (W - W_0)/W_0]
+
+	...where Cal is the base calories for a person of weight W_0 (say 160 lb), W is the person's weight, and beta is 0 or 1 depending on whether the activity is weight dependent (1) or not (0). Beta could also be used to make activities more or less weight dependent (but for now leave it 0 or 1). Cal and beta are adjustable for each exercise, W_0 is a single constant for all exercises.
+
+>>>Fix text for "simulation age out of range" message
 
 Come up with definitions for different lifestyles
 
-Add the following:
+____________________________________________________________________________________________
+ADD TO FOODS LIST
+
+
+Add the following to foods list:
 >>1 large size fast food value meal
 	1/4 pounder with cheese: 510 cal, 26 g fat, 40 g carb, 29 g protein
 	Large fries: 		 500 cal, 25 g fat, 63 g carb,  6 g protein
@@ -71,7 +81,15 @@ Add the following:
 	
 	Source http://www.starbucks.com/retail/nutrition_beverage_detail.asp
 
-How is body fat calculated?  How would a student know their % body fat to put in the simulation?
+____________________________________________________________________________________________
+CALCULATING BODY FAT BASED ON HEIGHT, WEIGHT, ACTIVITY LEVEL  
+
+The sim will automatically calculate an approximate % fat based on height, weight, activity level, and sex. The range will be based on the "healthy" BMI (18.5-25) for a person with healthy body fat (Men 10%, Women 18%).
+
+
+
+How would a student know their % body fat to put in the simulation?
+
 
 	NP – most people don’t know this. It is done either with a skin fold test (calipers), electric current (this is how these scales do it, not entirely accurate), or a submersion in water test (need a special facility). With skin fold, all the numbers are entered in a spreadsheet and it spits out a %. Electronic scales use weight, height, and conductivity (I don’t know the equation. I know it depends on how hydrated you are, and how long your legs are.)
 	SR - Noah will come up with an equation for this based on other parameters
@@ -94,6 +112,10 @@ http://weightloss.about.com/od/eatsmart/a/blcalintake.htm
 Franny said on 6/13/2008:
 I have been playing with the Simulation this morning and had a question for you. If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change. I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my % fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures) in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in, but that portion is not very realistic, so i thought i'd point it out.
 
+____________________________________________________________________________________________
+MUSCLE AND FAT MASS LOSS
+
+
 NP - weight lost should be both muscle and fat. There should be some ratio of FFM to Fat mass that is probably constant whenever someone loses weight.
 
 Article: Weight Loss-Induced Skeletal Muscle Loss: Accurate Estimation by Bioimpedance Analysis (BIA)
@@ -104,28 +126,46 @@ Authors: Nuñez C, Kovera A, Wang ZM, Heymsfield SB.
 Presented at : 8th International Congress on Obesity, Paris, August 29-September 3. 1998.
 Abstract
 
-    Objective: Loss of skeletal muscle (SM) is a characteristic body composition change associated with weight reduction treatment. Prevention of dieting-SM atrophy with appropriate food composition or exercise is an important research goal.
-    Design: This study evaluated the accuracy of BIA (50kHz) in monitoring leg SM changes in a group of 71 obese women (X±SD, age, 40.0±7.3 yrs; BMI, 31.1±2.8kg/m2) undergoing 16-week weight loss treatment on conventional low calorie diet.
-    Results: Subjects lost mean of 4.9 kg body mass, 4.3 kg as fat and 0.6 kg as fat-free mass. Pre-weight loss there was a strong correlation between predicted (Pr) and measured (M) leg SM (r=0.86, p<0.001; Pr=15.9±2.3 kg vs M=16.0±3.4 kg; p=NS). Similarly, agreement between Pr and M leg SM was good at post-weight loss (r=0.89, p<0.001; Pr=15.7±2.3 kg vs. M=15.8±3.4 kg; p=NS). There was a significant correlation between predicted and measured change in leg SM (r=0.45, p<0.001) and the mean change in Pr leg SM (-0.20±0.79 kg) was not significantly different from M leg SM (-0.22±0.52 kg).
+Objective: Loss of skeletal muscle (SM) is a characteristic body composition change associated with weight reduction treatment. Prevention of            dieting-SM atrophy with appropriate food composition or exercise is an important research goal.
+Design: This study evaluated the accuracy of BIA (50kHz) in monitoring leg SM changes in a group of 71 obese women (X±SD, age, 40.0±7.3 yrs; BMI,         31.1±2.8kg/m2) undergoing 16-week weight loss treatment on conventional low calorie diet.
+Results: ***Subjects lost mean of 4.9 kg body mass, 4.3 kg as fat and 0.6 kg as fat-free mass.*** 
 
 >>> So based on this, muscle loss is maybe 12% of total weight loss when dieting. Seems reasonable.
 
->>> Model: when weight is lost due to lower calorie intake than expenditure, 12% of calories come from lean body mass, 88 % come from fat mass. Remove 4 g for every LBM calorie lost, 9 g for every fat calorie lost.
+>>> Model: when weight is lost due to lower calorie intake than expenditure, 12% of calories come from lean body mass, 88 % come from fat mass. 		    
+	Remove 4 g for every LBM calorie lost, 9 g for every fat calorie lost.
 
 	So for example, if you take in 100 calories less than you burn, 12*4=48 g of LBM and 88*9=792 g of fat are lost.
 
+>>>Model for weight loss:
+
+	LBM_lost (g) = 0.12*4*Cal_burned
+	Fat_lost (g) = 0.88*9*Cal_burned
+
+____________________________________________________________________________________________
+MUSCLE GAINED FROM EXERCISING
+
    - there should be some muscle gained from exercising, to a point. This should be limited (you can only get so muscular). I had trouble finding anything on this, so I made up a model that seemed reasonable.
 
->>>Model: For every calorie exercised, all of the calories are burned. In addition, your body tries to make 10% of that number of calories into muscle, at a rate of 1/4 g of muscle ber calorie. So for example, if you do 1000 calories of exercise, 100 calories are are also turned into muscle (or 25 g). These calories are in addition to those burned to do the exercise itself. At this rate, one would build about 1 lb of muscle in 18 days, which seems reasonable. There is also feedback so that the more muscle you have, the less you can build, and at some point you cannot get any more muscular.
+>>>Model: For every calorie exercised, all of the calories are burned. In addition, your body tries to make 10% of that number of calories into muscle, at a rate of 1/4 g of muscle per calorie. So for example, if you do 1000 calories of exercise, all of those calories are burned. In addition, 100 calories of what you eat are are turned into muscle (or 25 g). These calories are in addition to those burned to do the exercise itself. At this rate, one would build about 1 lb of muscle in 18 days, which seems reasonable. There is also feedback so that the more muscle you have, the less you can build, and at some point you cannot get any more muscular. 
 
-	Formula: M_muscle_gained = 0.1 * Cal_exercise * (LBM_0 - LBM)
+>>>Model for muscle building from exercise:
+
+	Muscle_mass_gained = 0.1 * Cal_exercise * (LBM_0 - LBM)
+	
 	...where LBM is lean body mass, LBM_0 is 0.96 * sqrt(height / 30), or the lean body mass of a person with 4% body fat and a BMI of 30.
 
 >>>These two features above will effectively make BMR vary according to your caloric intake (if you undereat, your BMR should drop some to compensate, vise versa for eating more and exercising).
    
 >>> all other weight gained is added fat mass.
 
+____________________________________________________________________________________________
+STARVATION AND HEART ATTACK
+
 Starvation mode should be Gender specific: what are the threshould %fat values for male & female?
+
+NP - let's say 2% for men, 4% for women.
+
 
 #######################################################################################
 ##############                    To Discuss                             ##############
