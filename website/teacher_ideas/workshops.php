@@ -24,7 +24,7 @@ class WorkshopsPage extends SitePage {
 
         <h2>Upcoming Workshops</h2>
         <ul>
-        <li>Trish's upcoming workshops Chemistry series in Evergreen (Aug, Sept, Oct, and Nov 2008) (<a href="{$workshop_materials_location}announcement08_09.pdf">PDF flyer</a>) <!-- link to materials once ready (possibly ofter the workshop) --></li>
+        <li>Chemistry series in Evergreen (Aug, Sept, Oct, and Nov 2008) (<a href="{$workshop_materials_location}announcement08_09.pdf">PDF flyer</a>) <!-- link to materials once ready (possibly ofter the workshop) --></li>
         <li>Physical Science for Middle School Aug 7, 2008 Boulder <a href="{$workshop_materials_location}Physical_Science_for_Middle_School_using_PhET_simulations.pdf">PDF flyer</a> <!-- link to materials once ready (possibly ofter the workshop) --></li>
         <li>Exploring Easy &amp; Effective Ways to Use PhET's Web-Based Interactive Simulations in Your Physics Course, AAPT 2008 Summer Meeting, Edmonton, AB, Jul. 20, 2008. (Wendy Adams, Noah Finkelstein, and Archie Paulson) <a href="http://www.aapt.org/Events/SM2008">link to info</a></li>
         </ul>
