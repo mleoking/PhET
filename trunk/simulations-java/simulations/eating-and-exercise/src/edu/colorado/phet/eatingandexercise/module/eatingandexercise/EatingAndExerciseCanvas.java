@@ -53,6 +53,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
     private HumanControlPanel humanControlPanel;
     private StarvingMessage starvingMessage;
+    private HeartAttackMessage heartAttackMessage;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,6 +61,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
     public EatingAndExerciseCanvas( final EatingAndExerciseModel model, final Frame parentFrame ) {
         super( new PDimension( 15, 15 ) );
+//        super( new PDimension( 10, 10 ) );
 
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
@@ -146,6 +148,9 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
         starvingMessage = new StarvingMessage( model.getHuman() );
         addScreenChild( starvingMessage );
+
+        heartAttackMessage=new HeartAttackMessage(model.getHuman());
+        addScreenChild( heartAttackMessage );
     }
 
     private void updateHeartHealthButtonNodeLayout() {
@@ -198,6 +203,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         humanControlPanelPSwing.setOffset( 0, getHeight() - humanControlPanelPSwing.getFullBounds().getHeight() );
         ageRangeMessage.setOffset( humanControlPanelPSwing.getFullBounds().getMaxX(), humanControlPanelPSwing.getFullBounds().getY() + humanControlPanel.getAgeSliderY() );
         starvingMessage.setOffset( humanAreaNode.getGlobalFullBounds().getMaxX(), humanAreaNode.getGlobalFullBounds().getCenterY() );
+        heartAttackMessage.setOffset( starvingMessage.getFullBounds().getX(), starvingMessage.getFullBounds().getMaxY() );
         //XXX lay out nodes
 
     }

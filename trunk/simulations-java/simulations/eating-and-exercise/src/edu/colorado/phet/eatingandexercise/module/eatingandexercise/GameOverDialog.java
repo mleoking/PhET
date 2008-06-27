@@ -38,7 +38,7 @@ public class GameOverDialog {
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getClock().pause();
-                JOptionPane.showMessageDialog( parentFrame, "You have died from " + causeOfDeath + ". Click to start over." );
+                JOptionPane.showMessageDialog( parentFrame, "Body died from " + causeOfDeath + ". Click to start over." );
                 module.resetAll();
             }
         } );

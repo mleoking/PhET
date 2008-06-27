@@ -1,6 +1,7 @@
 package edu.colorado.phet.eatingandexercise.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
@@ -50,6 +51,8 @@ public class Human {
     public static final String FOOD_PYRAMID = "food-pyramid.png";
     private boolean alive = true;
     private double starvingTime = 0;
+    private Random random = new Random();
+    private int heartAttacks = 0;
 
     public Human() {
         lipids.addListener( new IVariable.Listener() {
@@ -156,7 +159,9 @@ public class Human {
                 notifyExerciseChanged();
             }
         } );
-
+        heartAttacks = 0;
+        setAlive( true );
+        starvingTime = 0;
     }
 
     public double getActivityLevel() {
@@ -405,8 +410,31 @@ public class Human {
         if ( getStarvingTimeDays() > 30 * 2 && isAlive() ) {
             setAlive( false );
         }
+//        System.out.println( "simulationTimeChange = " + simulationTimeChange );
+        double heartAttackProbabilityPerDay = getHeartAttackProbabilityPerDay();
+        double heartAttackProbabilityPerSec = heartAttackProbabilityPerDay / EatingAndExerciseUnits.daysToSeconds( 1 );
+        double heartAttackProbabilityPerDT = heartAttackProbabilityPerSec * simulationTimeChange;
+        double rand = random.nextDouble();
+//        System.out.println( "PerDay = " + heartAttackProbabilityPerDay + ", perSec=" + heartAttackProbabilityPerSec + ", perDT=" + heartAttackProbabilityPerDT + ", rand=" + rand );
+        if ( rand < heartAttackProbabilityPerDT ) {
+            addHeartAttack();
+        }
 
 //        System.out.println( "getDailyCaloricIntake() = " + getDailyCaloricIntake() );
+    }
+
+    private void addHeartAttack() {
+        heartAttacks++;
+        setAlive( false );
+    }
+
+    public double getHeartAttackProbabilityPerDay() {
+        if ( getFatMassPercent() < 50 ) {
+            return 0;
+        }
+        else {
+            return ( getFatMassPercent() - 50 ) / 50;
+        }
     }
 
     public double getStarvingTimeDays() {
@@ -446,6 +474,15 @@ public class Human {
 //        fatMassFraction.setValue( value / 100.0 );
         updateBMR();
         notifyFatPercentChanged();
+
+        //todo: not all of these notifications are from true changes
+        notifyHeartAttackProbabilityChanged();
+    }
+
+    private void notifyHeartAttackProbabilityChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).heartAttackProbabilityChanged();
+        }
     }
 
     public void clearMassData() {
@@ -456,8 +493,11 @@ public class Human {
         if ( getStarvingTimeDays() >= 60 ) {
             return "starvation";
         }
+        else if ( heartAttacks > 0 ) {
+            return "heart attack";
+        }
         else {
-            return null;
+            return "no known cause of death";
         }
     }
 
@@ -599,6 +639,8 @@ public class Human {
         void caloricBurnChanged();
 
         void aliveChanged();
+
+        void heartAttackProbabilityChanged();
     }
 
     public static class Adapter implements Listener {
@@ -640,6 +682,9 @@ public class Human {
         }
 
         public void aliveChanged() {
+        }
+
+        public void heartAttackProbabilityChanged() {
         }
     }
 
