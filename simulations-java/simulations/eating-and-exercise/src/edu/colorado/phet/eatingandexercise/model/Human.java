@@ -401,6 +401,10 @@ public class Human {
         caloricBurnVariable.setValue( getDailyCaloricBurn() );
         caloricBurnVariable.addValue( getDailyCaloricBurn(), getAge() );
 
+        /*
+         * Model for starvation:
+	        If you drop below 2%/4% (men/women) fat, you can live for 2 months and then death occurs. If you go above this level, the clock resets.
+         */
         if ( isStarving() ) {
             starvingTime += simulationTimeChange;
         }
@@ -410,7 +414,17 @@ public class Human {
         if ( getStarvingTimeDays() > 30 * 2 && isAlive() ) {
             setAlive( false );
         }
-//        System.out.println( "simulationTimeChange = " + simulationTimeChange );
+
+        /*Model for heart attack:
+      If you go above 25%/32% (men/women) fat, you begin to have a probability of heart attack each day, p_attack.
+      Below these %fat thresholds, p_attack = 0.
+
+      p_attack = p_0 * (%fat - %fat_0)
+
+      ...where p_0 is a constant we adjust to make heart attack fairly likely
+      (within a couple of years) for $fat > 50, %fat_0 = 25%/32% for men/women.
+      */
+
         double heartAttackProbabilityPerDay = getHeartAttackProbabilityPerDay();
         double heartAttackProbabilityPerSec = heartAttackProbabilityPerDay / EatingAndExerciseUnits.daysToSeconds( 1 );
         double heartAttackProbabilityPerDT = heartAttackProbabilityPerSec * simulationTimeChange;
@@ -429,12 +443,7 @@ public class Human {
     }
 
     public double getHeartAttackProbabilityPerDay() {
-        if ( getFatMassPercent() < 50 ) {
-            return 0;
-        }
-        else {
-            return ( getFatMassPercent() - 50 ) / 50;
-        }
+        return gender.getHeartAttackProbabilityPerDay( this );
     }
 
     public double getStarvingTimeDays() {
@@ -502,18 +511,20 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2 );
-        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
         private double starvingFatMassPercentThreshold;
+        private double heartAttackFatMassPercentThreshold;
 
-        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold ) {
+        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold ) {
             this.name = name;
             this.minFatMassPercent = minFatMassPercent;
             this.maxFatMassPercent = maxFatMassPercent;
             this.starvingFatMassPercentThreshold = starvingFatMassPercentThreshold;
+            this.heartAttackFatMassPercentThreshold = heartAttackFatMassPercentThreshold;
         }
 
         public String toString() {
@@ -534,6 +545,20 @@ public class Human {
 
         public boolean isStarving( Human human ) {
             return human.getFatMassPercent() < starvingFatMassPercentThreshold;
+        }
+
+//  p_attack = p_0 * (%fat - %fat_0)
+//	where p_0 is a constant we adjust to make heart attack fairly
+//  likely (within a couple of years) for $fat > 50, %fat_0 = 25%/32% for men/women.
+
+        public double getHeartAttackProbabilityPerDay( Human human ) {
+            double p0 = 1.0 / 100.0;
+            if ( human.getFatMassPercent() < heartAttackFatMassPercentThreshold ) {
+                return 0;
+            }
+            else {
+                return p0 * ( human.getFatMassPercent() - heartAttackFatMassPercentThreshold );
+            }
         }
     }
 
