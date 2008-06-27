@@ -1,7 +1,7 @@
 New in 0.00.48
 Fixed: Buggy behavior when an icon overlaps both the toolbox and the plate (nullpointerexception)
 Fixed: Balanced diet popup dialog should have a better layout (slider may go off the screen on low resolution screens)
-Added starvation mode
+Added warnings and game-over due to heart attack or starvation
 
 New in 0.00.47
 Balanced diet has 2000 Calories
