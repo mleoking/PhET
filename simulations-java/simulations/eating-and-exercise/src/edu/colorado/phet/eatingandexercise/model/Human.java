@@ -518,6 +518,7 @@ public class Human {
         private double maxFatMassPercent;
         private double starvingFatMassPercentThreshold;
         private double heartAttackFatMassPercentThreshold;
+        public static double P0 = 1.0 / 100.0;
 
         private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold ) {
             this.name = name;
@@ -553,12 +554,11 @@ public class Human {
 //  %fat_0 = 25%/32% for men/women.
 
         public double getHeartAttackProbabilityPerDay( Human human ) {
-            double p0 = 1.0 / 100.0;
             if ( human.getFatMassPercent() < heartAttackFatMassPercentThreshold ) {
                 return 0;
             }
             else {
-                return p0 * ( human.getFatMassPercent() - heartAttackFatMassPercentThreshold );
+                return P0 * ( human.getFatMassPercent() - heartAttackFatMassPercentThreshold );
             }
         }
     }

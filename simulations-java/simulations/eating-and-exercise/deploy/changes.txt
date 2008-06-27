@@ -1,6 +1,7 @@
 New in 0.00.49
 Added a "Game Over" message to the text messages.
 Made starvation threshold gender-specific
+Added developer controls for heart attack scenario
 
 New in 0.00.48
 Fixed: Buggy behavior when an icon overlaps both the toolbox and the plate (nullpointerexception)
