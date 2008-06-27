@@ -49,4 +49,9 @@ public class HealthBar extends PNode {
         PhetPPath bottom = new PhetPPath( rec, gradientPaint );
         return bottom;
     }
+
+    public double getViewY( double value ) {
+        return modelToView.evaluate( value );
+    }
+
 }
