@@ -3,6 +3,7 @@
 package edu.colorado.phet.statesofmatter.model;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -55,6 +56,8 @@ public class MultipleParticleModel {
                                                                  // way to do this (i.e. that it is based on the
                                                                  // number of ticks).  Should it instead be based on
                                                                  // the time step defined above?
+    private static final int MAX_NUM_PARTICLES = 200;
+    private static final double INJECTED_PARTICLE_VELOCITY_SCALING_FACTOR = 1.0;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -146,7 +149,7 @@ public class MultipleParticleModel {
     }
     
     public void setTemperature(double newTemperature){
-        m_temperature = newTemperature;
+        m_temperature = newTemperature < MAX_TEMPERATURE ? newTemperature : MAX_TEMPERATURE;
         notifyTemperatureChanged();
     }
 
@@ -231,10 +234,10 @@ public class MultipleParticleModel {
         m_numberOfParticles = (2 * numInitialLayers) * (numInitialLayers - 1);
 
         // Initialize the vectors that define the normalized particle attributes.
-        m_particlePositions  = new Point2D [m_numberOfParticles];
-        m_particleVelocities = new Vector2D [m_numberOfParticles];
-        m_particleForces     = new Vector2D [m_numberOfParticles];
-        m_nextParticleForces = new Vector2D [m_numberOfParticles];
+        m_particlePositions  = new Point2D [MAX_NUM_PARTICLES];
+        m_particleVelocities = new Vector2D [MAX_NUM_PARTICLES];
+        m_particleForces     = new Vector2D [MAX_NUM_PARTICLES];
+        m_nextParticleForces = new Vector2D [MAX_NUM_PARTICLES];
         
         for (int i = 0; i < m_numberOfParticles; i++){
             
@@ -309,6 +312,29 @@ public class MultipleParticleModel {
         m_heatingCoolingAmount = heatingCoolingAmount;
     }
     
+    /**
+     * Inject a new particle of the current type into the model.  This uses
+     * the current temperature to assign an initial velocity.
+     */
+    public void injectParticle(){
+        
+        if ( m_numberOfParticles < MAX_NUM_PARTICLES ){
+            // Add particle and its velocity and forces to normalized set.
+            m_particlePositions[m_numberOfParticles] = new Point2D.Double(m_normalizedContainerWidth * 0.97,
+                    m_normalizedContainerHeight * 0.3);
+            m_particleVelocities[m_numberOfParticles] = new Vector2D.Double( -m_temperature * INJECTED_PARTICLE_VELOCITY_SCALING_FACTOR, 0 );
+            m_particleForces[m_numberOfParticles] = new Vector2D.Double();
+            m_nextParticleForces[m_numberOfParticles] = new Vector2D.Double();
+            m_numberOfParticles++;
+            
+            // Add particle to model set.
+            StatesOfMatterParticle particle = new StatesOfMatterParticle(0, 0, m_particleDiameter/2, 10);
+            m_particles.add( particle );
+            syncParticlePositions();
+            notifyParticleAdded( particle );
+        }
+    }
+    
     public void addListener(Listener listener){
         
         if (_listeners.contains( listener ))
@@ -370,7 +396,7 @@ public class MultipleParticleModel {
         conserveTotalEnergy();
         */
     }
-    
+
     private void notifyResetOccurred(){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).resetOccurred();
@@ -536,6 +562,16 @@ public class MultipleParticleModel {
                 double dy = particle1NormalizedPosY - particlePositions[j].getY();
                 double distanceSqrd = (dx * dx) + (dy * dy);
                 double distance = Math.sqrt( distanceSqrd );
+                // TODO: JPB TBD - Limit the max forces to prevent weird behavior.  Is this
+                // worth keeping?
+                double minDistanceSquared = 0.8;
+                while (distanceSqrd < minDistanceSquared){
+                    dx *= 1.1;
+                    dy *= 1.1;
+                    distanceSqrd = (dx * dx) + (dy * dy);
+                    distance = Math.sqrt( distanceSqrd );
+                }
+                // End JPB TBD.
                 
                 particle2 = (StatesOfMatterParticle)m_particles.get( j );
                 if (particle1.getDiatomicPartner() == particle2){
@@ -616,31 +652,53 @@ public class MultipleParticleModel {
             return;
         }
         
+        double xPos = position.getX();
+        double yPos = position.getY();
+        
+        double minDistance = WALL_DISTANCE_THRESHOLD / 2;
+        double distance;
+        
         // Calculate the force in the X direction.
-        if (position.getX() < WALL_DISTANCE_THRESHOLD){
+        if (xPos < WALL_DISTANCE_THRESHOLD){
             // Close enough to the left wall to feel the force.
-            resultantForce.setX( (48/(Math.pow(position.getX(), 13))) - (24/(Math.pow( position.getX(), 7))) );
-            m_potentialEnergy += 4/(Math.pow(position.getX(), 12)) - 4/(Math.pow( position.getX(), 6)) + 1;
+            if (xPos < minDistance){
+                // Limit the distance, and thus the force, if we are really close.
+                xPos = minDistance;
+            }
+            resultantForce.setX( (48/(Math.pow(xPos, 13))) - (24/(Math.pow( xPos, 7))) );
+            m_potentialEnergy += 4/(Math.pow(xPos, 12)) - 4/(Math.pow( xPos, 6)) + 1;
         }
-        else if (containerWidth - position.getX() < WALL_DISTANCE_THRESHOLD){
+        else if (containerWidth - xPos < WALL_DISTANCE_THRESHOLD){
             // Close enough to the right wall to feel the force.
-            resultantForce.setX( -(48/(Math.pow(containerWidth - position.getX(), 13))) + 
-                    (24/(Math.pow( containerWidth - position.getX(), 7))) );
-            m_potentialEnergy += 4/(Math.pow(containerWidth - position.getX(), 12)) - 
-                    4/(Math.pow( containerWidth - position.getX(), 6)) + 1;
+            distance = containerWidth - xPos;
+            if (distance < minDistance){
+                distance = minDistance;
+            }
+            resultantForce.setX( -(48/(Math.pow(distance, 13))) + 
+                    (24/(Math.pow( distance, 7))) );
+            m_potentialEnergy += 4/(Math.pow(distance, 12)) - 
+                    4/(Math.pow( distance, 6)) + 1;
         }
         
         // Calculate the force in the Y direction.
-        if (position.getY() < WALL_DISTANCE_THRESHOLD){
+        if (yPos < WALL_DISTANCE_THRESHOLD){
             // Close enough to the bottom wall to feel the force.
-            resultantForce.setY( 48/(Math.pow(position.getY(), 13)) - (24/(Math.pow( position.getY(), 7))) );
-            m_potentialEnergy += 4/(Math.pow(position.getY(), 12)) - 4/(Math.pow( position.getY(), 6)) + 1;
+            if (yPos < minDistance){
+                yPos = minDistance;
+            }
+            resultantForce.setY( 48/(Math.pow(yPos, 13)) - (24/(Math.pow( yPos, 7))) );
+            m_potentialEnergy += 4/(Math.pow(yPos, 12)) - 4/(Math.pow( yPos, 6)) + 1;
         }
-        else if (containerHeight - position.getY() < WALL_DISTANCE_THRESHOLD){
-            resultantForce.setY( -48/(Math.pow(containerHeight - position.getY(), 13)) +
-                    (24/(Math.pow( containerHeight - position.getY(), 7))) );
-            m_potentialEnergy += 4/(Math.pow(containerHeight - position.getY(), 12)) - 
-                    4/(Math.pow( containerHeight - position.getY(), 6)) + 1;
+        else if (containerHeight - yPos < WALL_DISTANCE_THRESHOLD){
+            // Close enough to the top to feel the force.
+            distance = containerHeight - yPos;
+            if (distance < minDistance){
+                distance = minDistance;
+            }
+            resultantForce.setY( -48/(Math.pow(distance, 13)) +
+                    (24/(Math.pow( distance, 7))) );
+            m_potentialEnergy += 4/(Math.pow(distance, 12)) - 
+                    4/(Math.pow( distance, 6)) + 1;
         }
     }
     
