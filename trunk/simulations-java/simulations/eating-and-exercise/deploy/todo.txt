@@ -50,7 +50,6 @@ NP - need to decide which activities are weight dependent and which are constant
 
 >>>> Figure the given values are for an average person. So Caliories_burned = Cal * [1 + beta (W - W_0)/W_0], where Cal is the base calories for a person of weight W_0 (say 160 lb), W is the person's weight, and beta is 0 or 1 depending on thether the activity is weight dependent (1) or not (0). Beta could also be used to make activities more or less weight dependent (but for now leave it 0 or 1). Cal and beta are adjustable for each exercise, W_0 is a single constant for all exercises.
 
-
 Fix text for "simulation age out of range" message
 
 Come up with definitions for different lifestyles
@@ -65,13 +64,10 @@ Add the following:
  
 	Source http://www.mcdonalds.com/app_controller.nutrition.index1.html
 
-
 >>Coffee shop, sugary drink
 	Large sugary coffee blended drink with whipped cream: 590 cal, 22 g fat, 96 g carb, 9 g protein
 	
 	Source http://www.starbucks.com/retail/nutrition_beverage_detail.asp
-
-
 
 How is body fat calculated?  How would a student know their % body fat to put in the simulation?
 
@@ -79,7 +75,6 @@ How is body fat calculated?  How would a student know their % body fat to put in
 	SR - Noah will come up with an equation for this based on other parameters
 >>    SR - Problem: Fat % should be based on height and weight and gender, and update whenever height or weight or gender changes.  Fat free mass depends on height & gender only, not on weight, thus BMR depends only on height and gender
         Noah P will provide these functions
-
 
 We could have the little question mark by the heart pop up a window with the list of risk factors for the heart from the American Heart Association. (smoking, etc)
 
@@ -99,8 +94,6 @@ I have been playing with the Simulation this morning and had a question for you.
 
 NP - weight lost should be both muscle and fat. There should be some ratio of FFM to Fat mass that is probably constant whenever someone loses weight.
 
-
-
 Article: Weight Loss-Induced Skeletal Muscle Loss: Accurate Estimation by Bioimpedance Analysis (BIA)
 
 http://www.halls.md/fat/muscle.htm
@@ -118,17 +111,13 @@ Abstract
 >>> Model: when weight is lost due to lower calorie intake than expenditure, 12% of calories come from lean body mass, 88 % come from fat mass. Remove 4 g for every LBM calorie lost, 9 g for every fat calorie lost.
 
 	So for example, if you take in 100 calories less than you burn, 12*4=48 g of LBM and 88*9=792 g of fat are lost.
-    
-
 
    - there should be some muscle gained from exercising, to a point. This should be limited (you can only get so muscular). I had trouble finding anything on this, so I made up a model that seemed reasonable.
-
 
 >>>Model: For every calorie exercised, all of the calories are burned. In addition, your body tries to make 10% of that number of calories into muscle, at a rate of 1/4 g of muscle ber calorie. So for example, if you do 1000 calories of exercise, 100 calories are are also turned into muscle (or 25 g). These calories are in addition to those burned to do the exercise itself. At this rate, one would build about 1 lb of muscle in 18 days, which seems reasonable. There is also feedback so that the more muscle you have, the less you can build, and at some point you cannot get any more muscular.
 
 	Formula: M_muscle_gained = 0.1 * Cal_exercise * (LBM_0 - LBM)
 	...where LBM is lean body mass, LBM_0 is 0.96 * sqrt(height / 30), or the lean body mass of a person with 4% body fat and a BMI of 30.
-
 
 >>>These two features above will effectively make BMR vary according to your caloric intake (if you undereat, your BMR should drop some to compensate, vise versa for eating more and exercising).
    
@@ -140,7 +129,7 @@ Starvation mode should be Gender specific: what are the threshould %fat values f
 ##############                    To Discuss                             ##############
 #######################################################################################
 
-Add Eating / Exercise labels to each side of the screen?
+Add Eating / Exercise labels to each side of the screen?  We removed the Edit Diet/Exercise buttons, which were partially serving as labels.
 
 Shouldn't be able to set more than 24 hours/day
     >>SR: Is this a real problem?  If each icon is one hour, then the screen will be too overloaded at 24 to make any sense.  I'm not sure this problem is worth addressing.
