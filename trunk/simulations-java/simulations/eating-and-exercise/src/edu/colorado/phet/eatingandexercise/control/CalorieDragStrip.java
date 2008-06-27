@@ -15,9 +15,9 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
-import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.Human;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -47,6 +47,7 @@ public class CalorieDragStrip extends PNode {
         stripPanelClip = new TogglePClip();
         stripPanel = (PNode) panels.get( 0 );
         stripPanelClip.addChild( stripPanel );
+        stripPanelClip.setPaint( new Color( 200, 220, 220 ) );
 
         GradientButtonNode leftButton = new GradientButtonNode( "<html>&gt;</html>", 13, buttonColor );
         leftButton.addActionListener( new ActionListener() {
@@ -271,10 +272,10 @@ public class CalorieDragStrip extends PNode {
             addChild( iconNode );
             addInputEventListener( new CursorHandler() );
 
-            labelNode = new CaloricItemLabelNode( getLabelText(  ) );
+            labelNode = new CaloricItemLabelNode( getLabelText() );
             item.addListener( new CaloricItem.Listener() {
                 public void caloriesChanged() {
-                    labelNode.setText(getLabelText(  ));
+                    labelNode.setText( getLabelText() );
                 }
             } );
             labelNode.setOffset( -labelNode.getFullBounds().getWidth() - 3, iconNode.getFullBounds().getHeight() / 2 - labelNode.getFullBounds().getHeight() / 2 );
@@ -293,7 +294,7 @@ public class CalorieDragStrip extends PNode {
             } );
         }
 
-        private String getLabelText( ) {
+        private String getLabelText() {
             return "<html>" + item.getName() + " (" + EatingAndExerciseStrings.KCAL_PER_DAY_FORMAT.format( item.getCalories() ) + " " + EatingAndExerciseResources.getString( "units.cal" ) + ")</html>";
         }
 
@@ -345,7 +346,7 @@ public class CalorieDragStrip extends PNode {
         if ( item.getImage() != null && item.getImage().trim().length() > 0 ) {
             final DefaultDragNode dragNode = new DefaultDragNode( new PImage( BufferedImageUtils.multiScaleToHeight( EatingAndExerciseResources.getImage( item.getImage() ), HEIGHT ) ), item );
 
-            if ( item.getImage().equals( Human.FOOD_PYRAMID ) && item instanceof CaloricFoodItem) {
+            if ( item.getImage().equals( Human.FOOD_PYRAMID ) && item instanceof CaloricFoodItem ) {
                 decorateFoodPyramid( (CaloricFoodItem) item, dragNode );
             }
             return dragNode;
