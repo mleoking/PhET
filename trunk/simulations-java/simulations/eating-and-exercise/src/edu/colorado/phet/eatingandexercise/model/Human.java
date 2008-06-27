@@ -549,7 +549,8 @@ public class Human {
 
 //  p_attack = p_0 * (%fat - %fat_0)
 //	where p_0 is a constant we adjust to make heart attack fairly
-//  likely (within a couple of years) for $fat > 50, %fat_0 = 25%/32% for men/women.
+//  likely (within a couple of years) for %fat > 50
+//  %fat_0 = 25%/32% for men/women.
 
         public double getHeartAttackProbabilityPerDay( Human human ) {
             double p0 = 1.0 / 100.0;
