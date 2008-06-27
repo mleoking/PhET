@@ -4,7 +4,10 @@ package edu.colorado.phet.statesofmatter.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D.Double;
 
@@ -27,10 +30,10 @@ public class BicyclePumpNode extends PNode {
     // The follow constants define the size and positions of the various
     // components of the pump as proportions of the overall width and height
     // of the node.
-    private static final double PUMP_HORIZ_POSITION_PROPORTION = 0.75;
+    private static final double PUMP_HORIZ_POSITION_PROPORTION = 0.85;
     private static final double PUMP_BASE_WIDTH_PROPORTION = 0.3;
     private static final double PUMP_BASE_HEIGHT_PROPORTION = 0.02;
-    private static final Color PUMP_BASE_COLOR = new Color (0xCC9966);
+    private static final Color PUMP_BASE_COLOR = new Color (0xbb8855);
     private static final Color PUMP_BODY_COLOR = Color.RED;
     private static final double PUMP_BODY_HEIGHT_PROPORTION = 0.75;
     private static final double PUMP_BODY_WIDTH_PROPORTION = 0.075;
@@ -40,7 +43,14 @@ public class BicyclePumpNode extends PNode {
     private static final double PUMP_HANDLE_WIDTH_PROPORTION = 0.25;
     private static final double PUMP_HANDLE_HEIGHT_PROPORTION = 0.02;
     private static final double PUMP_HANDLE_INIT_VERT_POS_PROPORTION = PUMP_BODY_HEIGHT_PROPORTION * 1.1;
-    private static final Color PUMP_HANDLE_COLOR = new Color (0xCC9966);
+    private static final Color PUMP_HANDLE_COLOR = new Color (0xddaa77);
+    private static final double HOSE_CONNECTOR_HEIGHT_PROPORTION = 0.04;
+    private static final double HOSE_CONNECTOR_WIDTH_PROPORTION = 0.05;
+    private static final double HOSE_CONNECTOR_VERT_POS_PROPORTION = 0.3;
+    private static final Color HOSE_CONNECTOR_COLOR = new Color (0xffff99);
+    private static final double HOSE_ATTACH_VERT_POS_PROPORTION = 0.075;
+    private static final Color HOSE_COLOR = Color.WHITE;
+    private static final double HOSE_WIDTH_PROPORTION = 0.02;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -82,7 +92,29 @@ public class BicyclePumpNode extends PNode {
         pumpShaft.setOffset( width * PUMP_HORIZ_POSITION_PROPORTION - (pumpShaftWidth / 2), 
                 height - (height * PUMP_HANDLE_INIT_VERT_POS_PROPORTION) );
         addChild( pumpShaft );
+
+        // Add the hose.
+        double hoseExternalAttachPtX = 0;
+        double hoseExternalAttachPtY = height - (height * HOSE_CONNECTOR_VERT_POS_PROPORTION) + 
+                (height * HOSE_CONNECTOR_HEIGHT_PROPORTION / 2);
+        double hoseToPumpAttachPtX = width * PUMP_HORIZ_POSITION_PROPORTION;
+        double hoseToPumpAttachPtY = height - (height * HOSE_ATTACH_VERT_POS_PROPORTION);
+        CubicCurve2D hoseShape = new CubicCurve2D.Double(hoseExternalAttachPtX, hoseExternalAttachPtY,
+                width, height - (height * HOSE_CONNECTOR_VERT_POS_PROPORTION),
+                0, height - (height * HOSE_ATTACH_VERT_POS_PROPORTION), hoseToPumpAttachPtX,
+                hoseToPumpAttachPtY );
+        PPath hose = new PPath( hoseShape );
+        hose.setStroke( new BasicStroke((float)(HOSE_WIDTH_PROPORTION * width) ));
+        hose.setStrokePaint( HOSE_COLOR );
+        addChild( hose );
         
+        // Add the hose connector.
+        double hoseConnectorWidth = width * HOSE_CONNECTOR_WIDTH_PROPORTION;
+        double hoseConnectorHeight = height * HOSE_CONNECTOR_HEIGHT_PROPORTION;
+        PPath hoseConnector = new PPath( new Rectangle2D.Double( 0, 0, hoseConnectorWidth, hoseConnectorHeight ));
+        hoseConnector.setPaint( HOSE_CONNECTOR_COLOR );
+        hoseConnector.setOffset( 0, height - (height * HOSE_CONNECTOR_VERT_POS_PROPORTION) );
+        addChild( hoseConnector );
         
         // Add the body of the pump
         double pumpBodyWidth = width * PUMP_BODY_WIDTH_PROPORTION;
@@ -92,7 +124,6 @@ public class BicyclePumpNode extends PNode {
         pumpBody.setOffset( width * PUMP_HORIZ_POSITION_PROPORTION - (pumpBodyWidth / 2), 
                 height - pumpBodyHeight - pumpBaseHeight );
         addChild( pumpBody );
-        
         
     }
     
