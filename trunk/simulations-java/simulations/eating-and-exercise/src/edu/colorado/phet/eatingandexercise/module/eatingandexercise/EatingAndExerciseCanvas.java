@@ -49,7 +49,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     private BMIHelpButtonNode heartHealthButtonNode;
     private CaloriePanel caloriePanel;
     private BMIReadout bmiReadout;
-    private AgeRangeMessage ageRangeMessage;
+    private WarningMessage ageRangeMessage;
     private HumanControlPanel humanControlPanel;
 
     //----------------------------------------------------------------------------
@@ -139,7 +139,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         } );
         setWorldTransformStrategy( new EatingAndExerciseRenderingSizeStrategy( this, CANVAS_WIDTH, CANVAS_HEIGHT ) );
 
-        ageRangeMessage = new AgeRangeMessage( model.getHuman() );
+        ageRangeMessage = new WarningMessage( model.getHuman() );
         addScreenChild( ageRangeMessage );
     }
 

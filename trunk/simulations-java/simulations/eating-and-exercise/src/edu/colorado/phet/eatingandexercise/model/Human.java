@@ -49,6 +49,7 @@ public class Human {
     private CaloricFoodItem defaultIntake;
     public static final String FOOD_PYRAMID = "food-pyramid.png";
     private boolean alive = true;
+    private double starvingTime = 0;
 
     public Human() {
         lipids.addListener( new IVariable.Listener() {
@@ -191,7 +192,7 @@ public class Human {
 
     private void notifyAliveChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener) listeners.get( i )).aliveChanged();
+            ( (Listener) listeners.get( i ) ).aliveChanged();
         }
     }
 
@@ -394,7 +395,26 @@ public class Human {
 
         caloricBurnVariable.setValue( getDailyCaloricBurn() );
         caloricBurnVariable.addValue( getDailyCaloricBurn(), getAge() );
+
+        if ( isStarving() ) {
+            starvingTime += simulationTimeChange;
+        }
+        else {
+            starvingTime = 0;
+        }
+        if ( getStarvingTimeDays() > 30 * 2 && isAlive() ) {
+            setAlive( false );
+        }
+
 //        System.out.println( "getDailyCaloricIntake() = " + getDailyCaloricIntake() );
+    }
+
+    public double getStarvingTimeDays() {
+        return EatingAndExerciseUnits.secondsToDays( starvingTime );
+    }
+
+    private boolean isStarving() {
+        return getFatMassPercent() < 2.0;
     }
 
     private double getDeltaCaloriesGained() {
@@ -423,6 +443,7 @@ public class Human {
 
     public void setFatMassPercent( double value ) {
         fatMassFraction.setValue( gender.clampFatMassPercent( value ) / 100.0 );
+//        fatMassFraction.setValue( value / 100.0 );
         updateBMR();
         notifyFatPercentChanged();
     }
@@ -431,9 +452,18 @@ public class Human {
         mass.clear();
     }
 
+    public String getCauseOfDeath() {
+        if ( getStarvingTimeDays() >= 60 ) {
+            return "starvation";
+        }
+        else {
+            return null;
+        }
+    }
+
     public static class Gender {
-        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 4, 80 );
-        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 10, 80 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;

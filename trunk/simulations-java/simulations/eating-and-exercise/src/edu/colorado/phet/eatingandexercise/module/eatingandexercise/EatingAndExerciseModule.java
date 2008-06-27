@@ -55,7 +55,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         HumanAudioPlayer humanAudioPlayer = new HumanAudioPlayer( _model.getHuman() );
         humanAudioPlayer.start();
 
-        GameOverDialog gameOverDialog=new GameOverDialog(parentFrame, _model.getHuman(),this );
+        GameOverDialog gameOverDialog = new GameOverDialog( parentFrame, _model.getHuman(), this );
         gameOverDialog.start();
 
         // Canvas
@@ -99,8 +99,7 @@ public class EatingAndExerciseModule extends PiccoloModule {
         JButton button = new JButton( EatingAndExerciseResources.getString( "time.reset-all" ) );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                _model.resetAll();
-                _canvas.resetAll();
+                resetAll();
             }
         } );
 
@@ -118,6 +117,11 @@ public class EatingAndExerciseModule extends PiccoloModule {
 
         setHelpEnabled( true );
         reset();
+    }
+
+    public void resetAll() {
+        _model.resetAll();
+        _canvas.resetAll();
     }
 
     private void incrementAddedItems() {
@@ -144,23 +148,6 @@ public class EatingAndExerciseModule extends PiccoloModule {
             getDefaultHelpPane().add( motionHelpBalloon );
             inited = true;
         }
-    }
-//----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-
-    /**
-     * Resets the module.
-     */
-    public void reset() {
-//        activate();
-//        setHelpEnabled( true );
-
-        // Clock
-        EatingAndExerciseClock clock = _model.getClock();
-        clock.resetSimulationTime();
-        clock.setDt( EatingAndExerciseDefaults.CLOCK_DT );
-        setClockRunningWhenActive( !EatingAndExerciseDefaults.STARTS_PAUSED );
     }
 
     //----------------------------------------------------------------------------

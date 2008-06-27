@@ -14,11 +14,11 @@ import edu.umd.cs.piccolo.PNode;
  * Created by: Sam
  * Jun 24, 2008 at 11:48:26 AM
  */
-public class AgeRangeMessage extends PNode {
+public class WarningMessage extends PNode {
     private long lastVisibilityRestart;
     private Human human;
 
-    public AgeRangeMessage( final Human human ) {
+    public WarningMessage( final Human human ) {
         this.human = human;
         LabelNode labelNode = new LabelNode( "<html>This simulation is based on data<br>from 20-60 year olds.<html>" );
         addChild( labelNode );
