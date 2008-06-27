@@ -15,8 +15,8 @@ public class HealthIndicator extends PNode {
 
     public HealthIndicator( Human human ) {
         this.human = human;
-        bodyFatIndicator = new HealthBar( "<html>Body Fat %</html>" );
-        exerciseIndicator = new HealthBar( "<html>Exercise</html>" );
+        bodyFatIndicator = new HealthBar( "<html>Body Fat %</html>", 0, 100, 50, 200 );
+        exerciseIndicator = new HealthBar( "<html>Exercise</html>", 0, 1, 0.25, 200 );
 
         addChild( bodyFatIndicator );
         addChild( exerciseIndicator );
