@@ -442,7 +442,7 @@ public class Human {
     }
 
     private boolean isStarving() {
-        return getFatMassPercent() < 2.0;
+        return gender.isStarving( this );
     }
 
     private double getDeltaCaloriesGained() {
@@ -502,16 +502,18 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100 );
-        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
+        private double starvingFatMassPercentThreshold;
 
-        private Gender( String name, double minFatMassPercent, double maxFatMassPercent ) {
+        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold ) {
             this.name = name;
             this.minFatMassPercent = minFatMassPercent;
             this.maxFatMassPercent = maxFatMassPercent;
+            this.starvingFatMassPercentThreshold = starvingFatMassPercentThreshold;
         }
 
         public String toString() {
@@ -528,6 +530,10 @@ public class Human {
 
         public double clampFatMassPercent( double value ) {
             return MathUtil.clamp( minFatMassPercent, value, maxFatMassPercent );
+        }
+
+        public boolean isStarving( Human human ) {
+            return human.getFatMassPercent() < starvingFatMassPercentThreshold;
         }
     }
 
