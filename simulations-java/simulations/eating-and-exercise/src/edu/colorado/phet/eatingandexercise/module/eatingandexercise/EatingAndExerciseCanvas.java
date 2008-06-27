@@ -16,6 +16,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseConstants;
 import edu.colorado.phet.eatingandexercise.control.CaloriePanel;
 import edu.colorado.phet.eatingandexercise.control.HumanControlPanel;
 import edu.colorado.phet.eatingandexercise.model.Human;
+import edu.colorado.phet.eatingandexercise.view.HealthIndicator;
 import edu.colorado.phet.eatingandexercise.view.HumanAreaNode;
 import edu.colorado.phet.eatingandexercise.view.ScaleNode;
 import edu.umd.cs.piccolo.PCamera;
@@ -54,6 +55,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     private HumanControlPanel humanControlPanel;
     private StarvingMessage starvingMessage;
     private HeartAttackMessage heartAttackMessage;
+    private HealthIndicator healthIndicator;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -151,6 +153,9 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
         heartAttackMessage = new HeartAttackMessage( model.getHuman() );
         addScreenChild( heartAttackMessage );
+
+        healthIndicator = new HealthIndicator( model.getHuman() );
+        addScreenChild( healthIndicator );
     }
 
     private void updateHeartHealthButtonNodeLayout() {
@@ -204,7 +209,8 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         ageRangeMessage.setOffset( humanControlPanelPSwing.getFullBounds().getMaxX(), humanControlPanelPSwing.getFullBounds().getY() + humanControlPanel.getAgeSliderY() );
         starvingMessage.setOffset( humanAreaNode.getGlobalFullBounds().getMaxX(), humanAreaNode.getGlobalFullBounds().getCenterY() );
         heartAttackMessage.setOffset( starvingMessage.getFullBounds().getX(), starvingMessage.getFullBounds().getMaxY() );
-        //XXX lay out nodes
+
+        healthIndicator.setOffset( humanControlPanelPSwing.getFullBounds().getX(), humanControlPanelPSwing.getFullBounds().getMinY()-healthIndicator.getFullBounds().getHeight() );
 
     }
 

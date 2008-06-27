@@ -2,6 +2,8 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
+add a "Game Over" message to the text messages.  
+
 New sliders need to update when units change english/metric
 
 New sliders need better aligned layout
