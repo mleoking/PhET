@@ -121,7 +121,7 @@ public class LinearValueControlNode extends PNode {
 
     public static void main( String[] args ) {
         PiccoloTestFrame piccoloTestFrame = new PiccoloTestFrame( LinearValueControlNode.class.getName() );
-        LinearValueControlNode control = new LinearValueControlNode( "label", "units", 250, 500, 2, new DecimalFormat( "0.00" ) );
+        LinearValueControlNode control = new LinearValueControlNode( "label", "units", 0, 1.0/50.0, 0.02, new DecimalFormat( "0.00000" ) );
         control.setOffset( 200, 200 );
         control.addListener( new Listener() {
             public void valueChanged( double value ) {

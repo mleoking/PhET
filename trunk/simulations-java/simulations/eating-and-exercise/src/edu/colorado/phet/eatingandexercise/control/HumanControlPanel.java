@@ -3,6 +3,7 @@ package edu.colorado.phet.eatingandexercise.control;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -32,6 +33,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private HumanSlider ageSlider;
     private HumanSlider heightSlider;
     private HumanSlider weightSlider;
+    private final HumanSlider p0Slider;
+    private final JLabel pheart;
 
     public HumanControlPanel( final EatingAndExerciseModel model, final Human human ) {
         this.model = model;
@@ -172,12 +175,38 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( bodyFatSlider );
 
+        p0Slider = new HumanSlider( Math.min( 0, Human.Gender.P0 ), Math.max( 1 / 100.0, Human.Gender.P0 ), Human.Gender.P0, "p0", "0.0000", "units" );
+        p0Slider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                Human.Gender.P0 = p0Slider.getValue();
+            }
+        } );
+        add( p0Slider );
+
+        pheart = new JLabel( );
+        p0Slider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateHeartAttackProbabilityLabel(  );
+            }
+        } );
+        human.addListener( new Human.Adapter(){
+            public void heartAttackProbabilityChanged() {
+                updateHeartAttackProbabilityLabel();
+            }
+        } );
+        updateHeartAttackProbabilityLabel();
+        add( pheart );
+
         updateBodyFatSlider();
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 updateBodyFatSlider();
             }
         } );
+    }
+
+    private void updateHeartAttackProbabilityLabel(  ) {
+        pheart.setText( "probability of heart attack per day="+new DecimalFormat("0.0000").format( human.getHeartAttackProbabilityPerDay() ));
     }
 
     public double getAgeSliderY() {
