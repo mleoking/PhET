@@ -38,12 +38,12 @@ Death and Dying:
     Starving:   If the person goes below 2% fat, they will die in 2 months. If they go back above 2% fat, they get to live and the clock restarts.
             >>When % fat is below 2%, a warning appears saying something like "Your body is in starvation mode. Death will occur soon."
 
-    >>Gender specific
-
-    Heart attack: If the person goes above XX% fat, they get a probability of having a heart attack each day. (Different % for men and women). This probability increases with % fat above XX%.
+    Heart attack: If the person goes above XX% fat, they get a probability of having a heart attack each day.
+        (Different % for men and women). This probability increases with % fat above XX%.
             To 1st order linear function, p_heart_attack = P_0*(%_fat - XX).
             Set P_0 so that the person dies in a few years if they have %fat above 50%.
-            >>When % fat is above XX, a warning appears saying something like "Your body fat % is dangerously high. Probability of heart attack is (low, moderate, high, extreme)."
+            >>When % fat is above XX, a warning appears saying something like "Your body fat % is dangerously high.
+                Probability of heart attack is (low, moderate, high, extreme)."
         >>Warning should be near the heart, with a click-for-more-info button (exaclamation point or something)
 
     When the person dies, "x's" are put over their eyes and the sim stops. A box pops up and says "You have died from (starvation, heart attack). Click to start over."
@@ -151,6 +151,8 @@ Abstract
 >>>These two features above will effectively make BMR vary according to your caloric intake (if you undereat, your BMR should drop some to compensate, vise versa for eating more and exercising).
    
 >>> all other weight gained is added fat mass.
+
+Starvation mode should be Gender specific: what are the threshould %fat values for male & female?
 
 #######################################################################################
 ##############                    To Discuss                             ##############
