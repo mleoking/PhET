@@ -2,12 +2,11 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Slider text box should display values allowed by the model but out of the range of the slider
-     >>When a user types in an out of range value, the value is clamped to slider range
-
 New sliders need to update when units change english/metric
 
 New sliders need better aligned layout
+
+New sliders need out-of-bound values for type-in
 
 All items in the play area should scale on window resize
 >>Move up baseline of buttons and bar chart, make graphs fill width and height
