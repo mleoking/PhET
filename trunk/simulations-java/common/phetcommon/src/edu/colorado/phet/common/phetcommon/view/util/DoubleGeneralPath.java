@@ -20,6 +20,8 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.
  *
+ * A better design would be to extend GeneralPath, but this is impossible since the GeneralPath is final in Java API.
+ *
  * @author ?
  * @version $Revision$
  */
