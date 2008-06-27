@@ -141,3 +141,5 @@ Performance: consider profiling or changing clock rate
 
 Time readouts should be Years:Months, not years in decimal
     >>Wait for interviews
+
+Consider a 2-layer human graphic to show a "layer" of fat over a muscular interior
