@@ -103,7 +103,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         addWorldChild( pressureMeter );
         
         // Add the pump.
-        BicyclePumpNode pump = new BicyclePumpNode(PUMP_WIDTH, PUMP_HEIGHT);
+        BicyclePumpNode pump = new BicyclePumpNode(PUMP_WIDTH, PUMP_HEIGHT, m_model);
         pump.setOffset( m_particleContainer.getFullBoundsReference().x + (0.97 * m_particleContainer.getFullBoundsReference().width),
                 -PUMP_HEIGHT);
         addWorldChild( pump );

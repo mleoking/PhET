@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D.Double;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -55,22 +56,31 @@ public class BicyclePumpNode extends PNode {
     private static final Color HOSE_CONNECTOR_COLOR = new Color( 0xffff99 );
     private static final double HOSE_ATTACH_VERT_POS_PROPORTION = 0.075;
     private static final Color HOSE_COLOR = Color.WHITE;
-    private static final double HOSE_WIDTH_PROPORTION = 0.02;
+    private static final double HOSE_WIDTH_PROPORTION = 0.015;
+    private static final double PUMPING_REQUIRED_TO_INJECT_PROPORTION = PUMP_SHAFT_HEIGHT_PROPORTION / 10;
 
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
+    MultipleParticleModel m_model;
     PPath m_pumpHandle;
     double m_currentHandleOffset;
     double m_maxHandleOffset;
+    double m_pumpingRequiredToInject;
+    double m_currentPumpingAmount;
     PPath m_pumpShaft;
 
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
-    public BicyclePumpNode( double width, double height ) {
+    public BicyclePumpNode( double width, double height, MultipleParticleModel model ) {
 
+        // Initialize local variables.
+        m_model = model;
+        m_pumpingRequiredToInject = height * PUMPING_REQUIRED_TO_INJECT_PROPORTION;
+        m_currentPumpingAmount = 0;
+        
         // JPB TBD - Create a box to show where the overall pump will go.
         PPath outline = new PPath( new Rectangle2D.Double( 0, 0, width, height ) );
         outline.setStrokePaint( Color.WHITE );
@@ -115,6 +125,15 @@ public class BicyclePumpNode extends PNode {
                     m_pumpHandle.offset( 0, d.getHeight() );
                     m_pumpShaft.offset( 0, d.getHeight() );
                     m_currentHandleOffset += d.getHeight();
+                    if (d.getHeight() > 0){
+                        // This motion is in the pumping direction, so accumulate it.
+                        m_currentPumpingAmount += d.getHeight();
+                        if (m_currentPumpingAmount >= m_pumpingRequiredToInject){
+                            // Enough pumping has been done to inject a new particle.
+                            m_model.injectParticle();
+                            m_currentPumpingAmount = 0;
+                        }
+                    }
                 }
             }
         } );
