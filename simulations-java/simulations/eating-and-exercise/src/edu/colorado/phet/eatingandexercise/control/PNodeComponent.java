@@ -7,8 +7,8 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Created by: Sam
-* Jun 26, 2008 at 8:55:09 AM
-*/
+ * Jun 26, 2008 at 8:55:09 AM
+ */
 public class PNodeComponent extends PhetPCanvas {
     public PNodeComponent( PNode node ) {
         addScreenChild( node );

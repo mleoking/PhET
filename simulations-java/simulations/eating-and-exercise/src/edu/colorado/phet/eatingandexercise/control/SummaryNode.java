@@ -62,9 +62,9 @@ public class SummaryNode extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PhetPCanvas contentPane = new PhetPCanvas();
         SummaryNode node = new SummaryNode( new CalorieSet() );
-        node.addItem( new ExerciseItem( "banana split", "bananasplit.png", 100 ,0,160,new Human()) );
-        node.addItem( new ExerciseItem( "burger", "burger.png", 100 ,0,160,new Human()) );
-        node.addItem( new ExerciseItem( "strawberry", "strawberry.png", 100 ,0,160,new Human()) );
+        node.addItem( new ExerciseItem( "banana split", "bananasplit.png", 100, 0, 160, new Human() ) );
+        node.addItem( new ExerciseItem( "burger", "burger.png", 100, 0, 160, new Human() ) );
+        node.addItem( new ExerciseItem( "strawberry", "strawberry.png", 100, 0, 160, new Human() ) );
         contentPane.addScreenChild( node );
         node.setOffset( 100, 100 );
         frame.setContentPane( contentPane );

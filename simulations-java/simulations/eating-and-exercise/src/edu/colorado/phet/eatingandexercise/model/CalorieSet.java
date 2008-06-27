@@ -32,6 +32,7 @@ public class CalorieSet {
         list.add( item );
         notifyItemAdded( item );
         item.addListener( new CaloricItem.Listener() {//todo: remove memory leak
+
             public void caloriesChanged() {
                 notifyItemChanged( item );
             }

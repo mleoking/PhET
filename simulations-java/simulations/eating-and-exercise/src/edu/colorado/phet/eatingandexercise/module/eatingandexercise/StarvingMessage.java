@@ -25,6 +25,6 @@ public class StarvingMessage extends LabelNode {
     protected void updateVisibility() {//todo: remove awkwardness
         setVisible( human.getStarvingTimeDays() > 30 );
     }
-    
+
 
 }
