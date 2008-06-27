@@ -76,7 +76,7 @@ public class CaloricFoodItem extends CaloricItem {
         this.lipids = newLipidCalories / 9;
         this.carbs = newCarbCalories / 4;
         this.protein = newProteinCalories / 4;
-        super.setCalories(getTotalCalories());
+        super.setCalories( getTotalCalories() );
     }
 
     public Object clone() {

@@ -58,7 +58,7 @@ public class CaloriePanel extends PNode {
         addChild( stackedBarChart );
 
         foodNode = new CalorieNode( parentFrame, EatingAndExerciseResources.getString( "edit.diet" ),
-                                    new Color( 100, 100, 255 ),model.getAvailableFoods(),
+                                    new Color( 100, 100, 255 ), model.getAvailableFoods(),
                                     model.getHuman().getSelectedFoods(), EatingAndExerciseResources.getString( "food.sources" ), EatingAndExerciseResources.getString( "diet" ), "plate-2.png" ) {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {
                 return new FoodSelectionPanel( model.getHuman(), getAvailable(), getCalorieSet(), getAvailableTitle(), getSelectedTitle() );
@@ -67,7 +67,7 @@ public class CaloriePanel extends PNode {
         addChild( foodNode );
 
         exerciseNode = new CalorieNode( parentFrame, EatingAndExerciseResources.getString( "exercise.edit" ),
-                                        Color.red, model.getAvailableExercise(), 
+                                        Color.red, model.getAvailableExercise(),
                                         model.getHuman().getSelectedExercise(),
                                         EatingAndExerciseResources.getString( "menu.options" ), EatingAndExerciseResources.getString( "exercise.daily" ), "planner.png" ) {
             protected ICalorieSelectionPanel createCalorieSelectionPanel() {

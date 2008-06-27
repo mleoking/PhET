@@ -12,7 +12,6 @@ public class EatingAndExerciseStrings {
     public static String TITLE_EATING_AND_EXERCISE_MODULE = EatingAndExerciseResources.getString( "eating-and-exercise.name" );
 
 
-
     /* not intended for instantiation */
     private EatingAndExerciseStrings() {
     }

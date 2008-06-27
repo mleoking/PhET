@@ -13,7 +13,7 @@ public class EatingAndExerciseRenderingSizeStrategy extends PhetPCanvas.Renderin
     private EatingAndExerciseCanvas canvas;
 
     public EatingAndExerciseRenderingSizeStrategy( EatingAndExerciseCanvas canvas, double CANVAS_WIDTH, double CANVAS_HEIGHT ) {
-        super( canvas, new PDimension( CANVAS_WIDTH*1.2, CANVAS_HEIGHT*1.2) );//todo: remove the need for layout magic numbers
+        super( canvas, new PDimension( CANVAS_WIDTH * 1.2, CANVAS_HEIGHT * 1.2 ) );//todo: remove the need for layout magic numbers
         this.canvas = canvas;
     }
 

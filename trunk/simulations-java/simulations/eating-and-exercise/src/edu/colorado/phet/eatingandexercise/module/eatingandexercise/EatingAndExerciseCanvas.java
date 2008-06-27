@@ -149,7 +149,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         starvingMessage = new StarvingMessage( model.getHuman() );
         addScreenChild( starvingMessage );
 
-        heartAttackMessage=new HeartAttackMessage(model.getHuman());
+        heartAttackMessage = new HeartAttackMessage( model.getHuman() );
         addScreenChild( heartAttackMessage );
     }
 
