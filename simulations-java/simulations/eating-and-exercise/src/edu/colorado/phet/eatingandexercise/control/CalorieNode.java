@@ -72,7 +72,6 @@ public class CalorieNode extends PNode {
 
             public void nodeDropped( final CalorieDragStrip.DragNode node ) {
                 if ( node.getPNodeIcon().getGlobalFullBounds().intersects( calorieDragStrip.getGlobalFullSourceBounds() ) ) {
-                    System.out.println( "CalorieNode.nodeDropped" );
                     final Timer timer = new Timer( 30, null );
                     timer.addActionListener( new ActionListener() {
                         int count = 0;

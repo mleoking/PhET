@@ -2,7 +2,8 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-There is a warning for heart attacks (you can try changing fat % with the simulation paused to see this), but it isn't very well calibrated.  I'll make a developer control so we can fine tune this.
+There is a warning for heart attacks, but it isn't very well calibrated.
+    >>I'll make a developer control so we can fine tune this.
 
 New sliders need to update when units change english/metric
 
