@@ -2,6 +2,12 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
+Change starving message to “Starving!”
+
+Change game over OK button to “Restart”
+
+Change heart attack warning to “Risk of heart attack increasing...”
+
 There is a warning for heart attacks, but it isn't very well calibrated.
     >>I'll make a developer control so we can fine tune this.
 
