@@ -15,15 +15,30 @@ import edu.umd.cs.piccolo.PNode;
  * Jun 24, 2008 at 11:43:12 AM
  */
 public class LabelNode extends PNode {
+    private HTMLNode htmlNode;
+    private PhetPPath background;
+
     public LabelNode( String text ) {
-        HTMLNode htmlNode = new HTMLNode( text );
+        htmlNode = new HTMLNode( text );
         htmlNode.setFont( new PhetFont( 16, true ) );
 
-        Rectangle2D rectangle2D = RectangleUtils.expandRectangle2D( htmlNode.getFullBounds(), 5, 5 );
         Color color = new Color( 246, 239, 169, 200 );
-        PhetPPath background = new PhetPPath( new RoundRectangle2D.Double( rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight(), 10, 10 ), color );
+        background = new PhetPPath( color );
 
         addChild( background );
         addChild( htmlNode );
+        updateBackgroundShape();
+        setPickable( false );
+        setChildrenPickable( false );
+    }
+
+    private void updateBackgroundShape() {
+        Rectangle2D rectangle2D = RectangleUtils.expandRectangle2D( htmlNode.getFullBounds(), 5, 5 );
+        background.setPathTo( new RoundRectangle2D.Double( rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight(), 10, 10 ) );
+    }
+
+    public void setText( String text ) {
+        this.htmlNode.setHTML( text );
+        updateBackgroundShape();
     }
 }

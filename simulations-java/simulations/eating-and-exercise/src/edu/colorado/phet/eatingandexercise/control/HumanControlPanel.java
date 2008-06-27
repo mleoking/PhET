@@ -27,8 +27,10 @@ import edu.colorado.phet.eatingandexercise.util.FeetInchesFormat;
 public class HumanControlPanel extends VerticalLayoutPanel {
     private EatingAndExerciseModel model;
     private Human human;
-    private HumanSlider bodyFatSlider;
+
     private ArrayList listeners = new ArrayList();
+
+    private HumanSlider bodyFatSlider;
     private HumanSlider ageSlider;
     private HumanSlider heightSlider;
     private HumanSlider weightSlider;
@@ -97,6 +99,11 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         heightSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setHeight( model.getUnits().viewToModelDistance( heightSlider.getValue() ) );
+            }
+        } );
+        human.addListener( new Human.Adapter() {
+            public void heightChanged() {
+                heightSlider.setValue( EatingAndExerciseUnits.metersToFeet( human.getHeight() ) );
             }
         } );
         model.addListener( new EatingAndExerciseModel.Adapter() {

@@ -38,6 +38,10 @@ public class EatingAndExerciseUnits {
         return seconds / SECONDS_PER_DAY;
     }
 
+    public static double daysToSeconds( double days ) {
+        return days * SECONDS_PER_DAY;
+    }
+
     public static double feetToMeters( double dist ) {
         return dist * 0.3048;
     }

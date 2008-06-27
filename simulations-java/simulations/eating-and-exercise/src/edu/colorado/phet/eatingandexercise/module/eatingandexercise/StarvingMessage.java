@@ -11,7 +11,7 @@ public class StarvingMessage extends LabelNode {
     private Human human;
 
     public StarvingMessage( final Human human ) {
-        super( "<html>Your body is in starvation mode.<br>Death will occur soon.<html>" );
+        super( "<html>Body is in starvation mode.<br>Death will occur soon.<html>" );
         this.human = human;
 
         human.addListener( new Human.Adapter() {
