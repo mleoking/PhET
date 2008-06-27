@@ -84,9 +84,27 @@ Add the following to foods list:
 ____________________________________________________________________________________________
 CALCULATING BODY FAT BASED ON HEIGHT, WEIGHT, ACTIVITY LEVEL  
 
-The sim will automatically calculate an approximate % fat based on height, weight, activity level, and sex. The range will be based on the "healthy" BMI (18.5-25) for a person with healthy body fat (Men 10%, Women 18%).
+The sim will automatically calculate an approximate % fat based on height, weight, activity level, and sex. The range will be based on the "healthy" BMI (18.5-25) for a person with healthy body fat (Men 15%, Women 22%).
 
 
+>>>Model for calculating body fat:
+	
+	First calculate LBM:
+
+	LBM_men = BMI_0 * height^2 / 1.15
+	LBM_women = BMI_0 * height^2 / 1.22
+
+	%_fat = (weight - LBM)/weight
+
+	BMI_0 = 18.5 (very sedentary)
+		20.0 (sedentary)
+		22.5 (moderately active)
+		25.0 (active)
+
+% fat is updated whenever someone manually changes height, weight, activity level, and/or sex. Or maybe this should only happen on startup and when someone does "Reset All"?? Otherwise, these parameters are all independent.
+
+
+>>Old notes on this:
 
 How would a student know their % body fat to put in the simulation?
 
