@@ -155,13 +155,13 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 human.setFatMassPercent( bodyFatSlider.getValue() );
             }
         } );
-        bodyFatSlider.getSlider().addMouseListener( new MouseAdapter() {
-            public void mouseReleased( MouseEvent e ) {
-                double va = human.getFatMassPercent();
-                bodyFatSlider.setValue( human.getFatMassPercent() + 1 );
-                bodyFatSlider.setValue( va );
-            }
-        } );
+//        bodyFatSlider.getSlider().addMouseListener( new MouseAdapter() {
+//            public void mouseReleased( MouseEvent e ) {
+//                double va = human.getFatMassPercent();
+//                bodyFatSlider.setValue( human.getFatMassPercent() + 1 );
+//                bodyFatSlider.setValue( va );
+//            }
+//        } );
         human.addListener( new Human.Adapter() {
             public void fatPercentChanged() {
                 bodyFatSlider.setValue( human.getFatMassPercent() );
@@ -181,17 +181,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( new AliveCheckBox( human ) );
-//        alignSliders();
     }
-
-//    private void alignSliders() {
-//        HumanSlider[] s = new HumanSlider[]{ageSlider, heightSlider, weightSlider, bodyFatSlider};
-//        ArrayList list = new ArrayList( Arrays.asList( s ) );
-//        for ( int i = 0; i < s.length; i++ ) {
-//            HumanSlider humanSlider = s[i];
-//            humanSlider.setLayoutStrategy( new Aligned() );
-//        }
-//    }
 
     public double getAgeSliderY() {
         return ageSlider.getY();

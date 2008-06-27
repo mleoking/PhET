@@ -24,20 +24,22 @@ public class GameOverDialog {
         human.addListener( new Human.Adapter() {
             public void aliveChanged() {
                 if ( !human.isAlive() ) {
-                    showDialog();
+                    String causeOfDeath = human.getCauseOfDeath();
+                    showDialog( causeOfDeath );
                 }
             }
         } );
     }
 
-    private void showDialog() {
+    private void showDialog( final String causeOfDeath ) {
         final Timer timer = new Timer( 1000, null );
         timer.setRepeats( false );
 
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( parentFrame, "You have died from (starvation, heart attack). Click to start over." );
-                module.reset();
+                module.getClock().pause();
+                JOptionPane.showMessageDialog( parentFrame, "You have died from " + causeOfDeath + ". Click to start over." );
+                module.resetAll();
             }
         } );
         timer.start();
