@@ -187,7 +187,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 updateBodyFatSlider();
             }
         } );
-        add( new AliveCheckBox( human ) );
+//        add( new AliveCheckBox( human ) );
     }
 
     public double getAgeSliderY() {

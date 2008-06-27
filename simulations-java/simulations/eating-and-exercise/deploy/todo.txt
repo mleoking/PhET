@@ -6,7 +6,7 @@ New sliders need to update when units change english/metric
 
 New sliders need better aligned layout
 
-New sliders need out-of-bound values for type-in
+New sliders need limits on type-in values
 
 All items in the play area should scale on window resize
 >>Move up baseline of buttons and bar chart, make graphs fill width and height
