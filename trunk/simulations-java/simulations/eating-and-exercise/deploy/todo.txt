@@ -2,21 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Chart seems to skip from half values to integral values
-    >>Caused by numberformatter in chart slider
-
-    java.lang.RuntimeException
-	at edu.colorado.phet.eatingandexercise.model.Human.setAge(Human.java:574)
-	at edu.colorado.phet.eatingandexercise.control.HumanControlPanel$1.stateChanged(HumanControlPanel.java:56)
-	at edu.colorado.phet.eatingandexercise.control.HumanSlider$1.valueChanged(HumanSlider.java:31)
-	at edu.colorado.phet.eatingandexercise.control.valuenode.LinearValueControlNode.notifyListener(LinearValueControlNode.java:114)
-	at edu.colorado.phet.eatingandexercise.control.valuenode.LinearValueControlNode.setValue(LinearValueControlNode.java:78)
-	at edu.colorado.phet.eatingandexercise.control.HumanSlider.setValue(HumanSlider.java:37)
-	at edu.colorado.phet.eatingandexercise.control.HumanControlPanel$2.ageChanged(HumanControlPanel.java:62)
-	at edu.colorado.phet.eatingandexercise.model.Human.notifyAgeChanged(Human.java:584)
-	at edu.colorado.phet.eatingandexercise.model.Human.setAge(Human.java:577)
-	at edu.colorado.phet.eatingandexercise.model.Human.simulationTimeChanged(Human.java:392)
-
 Add popup-question mark button for BMI readout near scale
 
 Remove popup-question mark button for old version of heart BMI readout
