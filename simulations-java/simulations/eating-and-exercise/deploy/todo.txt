@@ -2,18 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-There is a warning for heart attacks, but it isn't very well calibrated.
-    >>I'll make a developer control so we can fine tune this.
-
-New sliders need to update when units change english/metric
-
-New sliders need better aligned layout
-
-New sliders need limits on type-in values
-
-All items in the play area should scale on window resize
->>Move up baseline of buttons and bar chart, make graphs fill width and height
-
 Add indicators for good/bad % fat and exercise amount (these will be vertical bar graphs)
 >>Are there other factors within this simulation that we should use to indicate health?
 >>Or perhaps overall health is not sufficiently covered by this simulation?
@@ -40,6 +28,17 @@ height, weight and fat % will be the independent variables, but fat will be cons
 The lower limits above assume a very low FFM with average % fat - you can go below this limit by pushing down % body fat.
 Note that the lower limit is around a BMI of 16. At this point, you will be very low % fat and can begin removing FFM to drop weight,
 but you are now in the danger zone.
+
+Play area scale doesn't respect control panel size.
+
+New sliders need to update when units change english/metric
+
+New sliders need better aligned layout
+
+New sliders need limits on type-in values
+
+All items in the play area should scale on window resize
+    >>Move up baseline of buttons and bar chart, make graphs fill width and height
 
 #######################################################################################
 ##############                    To Do/Noah                             ##############
