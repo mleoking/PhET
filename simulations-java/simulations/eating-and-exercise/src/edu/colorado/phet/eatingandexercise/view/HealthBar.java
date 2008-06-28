@@ -22,7 +22,7 @@ public class HealthBar extends PNode {
     private double viewWidth = 20;
 
     public HealthBar( String name, double min, double max, double optimal, double viewHeight ) {
-        this.modelToView = new Function.LinearFunction( min, max, 0, viewHeight );//flip y axis
+        this.modelToView = new Function.LinearFunction( max, min, 0, viewHeight );//flip y axis
         this.min = min;
         this.max = max;
         this.optimal = optimal;
