@@ -44,7 +44,7 @@ public class LinearValueControlNode extends PNode {
         field.setHorizontalAlignment( JTextField.RIGHT );
         field.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setValue( Double.parseDouble( field.getText() ) );
+                setValueAndNotifyModel( Double.parseDouble( field.getText() ) );
             }
         } );
         readoutNode = new PSwing( field );
@@ -56,11 +56,11 @@ public class LinearValueControlNode extends PNode {
         sliderNode = new SliderNode( min, max, value );
         sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setValue( sliderNode.getValue() );
+                setValueAndNotifyModel( sliderNode.getValue() );
             }
         } );
         addChild( sliderNode );
-        setValue( value );//run the value through the numberformat
+        setValueAndNotifyModel( value );//run the value through the numberformat
         relayout();
     }
 
@@ -68,14 +68,32 @@ public class LinearValueControlNode extends PNode {
         sliderNode.setRange( min, max );
     }
 
+    /**
+     * Sets the value that this slider should display, does not send any notifications.
+     * <p/>
+     * <p/>
+     * For situations that require a model with a value that cannot be exactly displayed by this component,
+     * it is necessary to set the display value without firing change notifications.  This is similar to
+     * treating this as an MVC view component when the notification comes from elsewhere, and a MVC control component
+     * when this component originates the change.
+     *
+     * @param v the value to display
+     */
     public void setValue( double v ) {
-        //run the value through the numberformat, so that the displayed value is always the model value
+        //run the value through the numberformat, so that the displayed value matches the internal model value
         v = Double.parseDouble( numberFormat.format( v ) );
         if ( this.value != v ) {
             this.value = v;
             field.setValue( new Double( v ) );
             sliderNode.setValue( v );
-            notifyListener();
+        }
+    }
+
+    private void setValueAndNotifyModel( double v ) {
+        double oldValue = getValue();
+        setValue( v );
+        if ( getValue() != oldValue ) {
+            notifyListeners();
         }
     }
 
@@ -109,7 +127,7 @@ public class LinearValueControlNode extends PNode {
         listeners.add( listener );
     }
 
-    public void notifyListener() {
+    public void notifyListeners() {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).valueChanged( getValue() );
         }
@@ -121,7 +139,7 @@ public class LinearValueControlNode extends PNode {
 
     public static void main( String[] args ) {
         PiccoloTestFrame piccoloTestFrame = new PiccoloTestFrame( LinearValueControlNode.class.getName() );
-        LinearValueControlNode control = new LinearValueControlNode( "label", "units", 0, 1.0/50.0, 0.02, new DecimalFormat( "0.00000" ) );
+        LinearValueControlNode control = new LinearValueControlNode( "label", "units", 0, 1.0 / 50.0, 0.02, new DecimalFormat( "0.00000" ) );
         control.setOffset( 200, 200 );
         control.addListener( new Listener() {
             public void valueChanged( double value ) {
