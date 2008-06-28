@@ -2,8 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Change game over OK button to “Restart”
-
 Change heart attack warning to “Risk of heart attack increasing...”
 
 There is a warning for heart attacks, but it isn't very well calibrated.
