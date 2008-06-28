@@ -210,7 +210,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         starvingMessage.setOffset( humanAreaNode.getGlobalFullBounds().getMaxX(), humanAreaNode.getGlobalFullBounds().getCenterY() );
         heartAttackMessage.setOffset( starvingMessage.getFullBounds().getX(), starvingMessage.getFullBounds().getMaxY() );
 
-        healthIndicator.setOffset( humanControlPanelPSwing.getFullBounds().getX(), humanControlPanelPSwing.getFullBounds().getMinY()-healthIndicator.getFullBounds().getHeight() );
+        healthIndicator.setOffset( 5, humanControlPanelPSwing.getFullBounds().getMinY()-healthIndicator.getFullBounds().getHeight() );
 
     }
 

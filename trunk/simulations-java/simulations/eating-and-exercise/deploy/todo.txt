@@ -2,12 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Add indicators for good/bad % fat and exercise amount (these will be vertical bar graphs)
->>Are there other factors within this simulation that we should use to indicate health?
->>Or perhaps overall health is not sufficiently covered by this simulation?
-    Try vertical bars for body fat %, and exercise
-    Color should indicate if it is a good value
-
 Chart seems to skip from half values to integral values
 
 Add popup-question mark button for BMI readout near scale
@@ -213,3 +207,7 @@ Time readouts should be Years:Months, not years in decimal
     >>Wait for interviews
 
 Consider a 2-layer human graphic to show a "layer" of fat over a muscular interior
+
+How should health indicators be wired up to heart health?
+
+What are parameters for health indicators?
