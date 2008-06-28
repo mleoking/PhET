@@ -2,8 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Change starving message to “Starving!”
-
 Change game over OK button to “Restart”
 
 Change heart attack warning to “Risk of heart attack increasing...”
