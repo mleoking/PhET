@@ -131,7 +131,7 @@ public class AddTranslation {
 
                      */
 
-                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
+                    FileUtils.download( "http://phet.colorado.edu/admin/cache-clear.php?cache=all", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
 //                    FileUtils.download( "http://phet.colorado.edu/admin/cache-clear.php?cache=sims", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
 //                    FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear-all.php", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
                     System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
