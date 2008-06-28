@@ -68,13 +68,6 @@ public class ChartNode extends PNode {
                 syncVerticalRanges();
             }
         } );
-//        model.getHuman().addListener( new Human.Adapter() {
-//            public void ageChanged() {
-//                if ( model.getClock().isPaused() ) {
-//                    clearAndResetDomains();
-//                }
-//            }
-//        } );
         model.getHuman().addListener( new Human.Adapter() {
             public void weightChanged() {
                 massVar.setValue( getMassDisplayValue() );
