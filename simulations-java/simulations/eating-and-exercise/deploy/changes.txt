@@ -1,6 +1,7 @@
 New in 0.00.50
 Changed starving message to “Starving!”
 Changed game over OK button to “Restart”
+Changed heart attack message to "Increased risk of heart attack."
 
 New in 0.00.49
 Added a "Game Over" message to the text messages.

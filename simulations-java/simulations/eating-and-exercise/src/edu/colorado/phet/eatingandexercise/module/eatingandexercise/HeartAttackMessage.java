@@ -27,7 +27,7 @@ public class HeartAttackMessage extends LabelNode {
     }
 
     private String getWarningMessage() {
-        return "<html>Body fat % is dangerously high.<br>Probability of heart attack is " + getLevel() + ".</html>";
+        return "<html>Increased risk of heart attack.</html>";
     }
 
     private String getLevel() {
