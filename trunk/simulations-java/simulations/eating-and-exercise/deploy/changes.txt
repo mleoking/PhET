@@ -5,6 +5,7 @@ Changed heart attack message to "Increased risk of heart attack."
 Fixed: Chart seems to skip from half values to integral values
 Inverted y-values for health indicator (so that y=0 is at the bottom)
 Removed popup-question mark button for old version of heart BMI readout
+Arms and legs bulge based on muscle %
 
 New in 0.00.49
 Added a "Game Over" message to the text messages.

@@ -2,8 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Arms and legs should bulge based on muscle %
-
 height, weight and fat % will be the independent variables, but fat will be constrained by (the explanation below)
     >>NP - FFM range for men is 18.5/1.15*h^2 to 30/1.15*h^2, for women 18.5/1.23*h^2 to 30/1.23*h^2.
         >>This comes from assuming average % fat for people in this range (15% for men, 23% for women).
