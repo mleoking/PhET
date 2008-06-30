@@ -2,11 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Clarify the meaning of "lifestyle" vs. other daily exercises
-    Add description to sedentary, moderate activity, etc.
->>These should be in the main control panel as radio buttons, not in Edit Exercise
->>Add popups with explanations (from Noah)
-
 Arms and legs should bulge based on muscle %
 
 height, weight and fat % will be the independent variables, but fat will be constrained by (the explanation below)
@@ -27,6 +22,12 @@ New sliders need limits on type-in values
 
 All items in the play area should scale on window resize
     >>Move up baseline of buttons and bar chart, make graphs fill width and height
+
+Clarify the meaning of "lifestyle" vs. other daily exercises
+    Add description to sedentary, moderate activity, etc.
+>>These should be in the main control panel as radio buttons, not in Edit Exercise
+>>Add popups with explanations (from Noah)
+    >>SR: need to decide whether this panel will be Piccolo or Swing before proceeding with JComboBox (unless incompatibility bugs can be fixed)
 
 #######################################################################################
 ##############                    To Do/Noah                             ##############
