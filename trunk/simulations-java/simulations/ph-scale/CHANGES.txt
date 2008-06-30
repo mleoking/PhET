@@ -46,6 +46,7 @@ CLEANUP:
 
 
 DONE:
+******* version 0.00.05 (22809)
 6/30/08 - connect particle developer control panel to ParticlesNode
 6/30/08 - fix: liquid and water sliders are stuck "on" when beaker is full
 6/30/08 - hook up Ratio check box
