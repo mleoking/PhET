@@ -14,7 +14,6 @@ DESIGN ISSUES
 - what happens when dragging bars would result in pH outside range?
 
 HIGH PRIORITY:
-- bug: liquid and water sliders are stuck "on" when beaker is full
 - connect particle control panel to ParticlesNode
 - use Laurie's algorithm for # particles to create
 
@@ -48,6 +47,7 @@ CLEANUP:
 
 
 DONE:
+6/30/08 - fix: liquid and water sliders are stuck "on" when beaker is full
 6/30/08 - hook up Ratio check box
 6/30/08 - port prototype code for particles to this sim
 6/30/08 - developer control panel for particles view, mostly borrowed from test program

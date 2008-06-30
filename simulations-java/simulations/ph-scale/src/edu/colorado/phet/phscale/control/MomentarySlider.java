@@ -40,6 +40,7 @@ public class MomentarySlider extends JSlider {
         } );
         addMouseListener( new MouseAdapter() {
             public void mouseReleased( MouseEvent e ) {
+                setValue( OFF_VALUE + 1 ); // workaround for slider getting stuck "on" when setOn(false) is called while dragging
                 setOn( false );
             }
         } );
@@ -68,6 +69,10 @@ public class MomentarySlider extends JSlider {
     
     private void setValue( boolean on ) {
         setValue( on ? ON_VALUE : OFF_VALUE );
+    }
+    
+    public void setValue( int value ) {
+        super.setValue( value );
     }
     
     public interface MomentarySliderListener {

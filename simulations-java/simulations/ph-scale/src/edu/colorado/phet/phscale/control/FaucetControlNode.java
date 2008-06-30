@@ -38,7 +38,6 @@ public class FaucetControlNode extends PNode {
         _slider.addMomentarySliderListener( new MomentarySliderListener() {
             public void onOffChanged( boolean on ) {
                 notifyOnOffChanged();
-                System.out.println( "FaucetControlNode.onOffChanged " + on );//XXX
             }
         });
         PSwing sliderWrapper = new PSwing( _slider );
