@@ -4,8 +4,9 @@ package edu.colorado.phet.phscale.model;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
 
@@ -16,7 +17,7 @@ public class LiquidDescriptor {
     // water is a special singleton
     public static class WaterDescriptor extends LiquidDescriptor {
         private WaterDescriptor() {
-            super(  PHScaleStrings.CHOICE_WATER, 7, new Color( 200, 200, 255, ALPHA ) );
+            super(  PHScaleStrings.CHOICE_WATER, 7, ColorUtils.createColor( PHScaleConstants.H2O_COLOR, ALPHA ) );
         }
     }
     public static final WaterDescriptor WATER = new WaterDescriptor();

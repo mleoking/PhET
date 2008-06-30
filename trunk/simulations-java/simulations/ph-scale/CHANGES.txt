@@ -23,11 +23,12 @@ MEDIUM PRIORITY:
 - make bars interactive
 - tick marks on graph
 - implement linear and log scale switching
-- add plumbing going into faucets
 - 10x zoom feature for linear graph, zoom into zero
 - line up pH slider ticks with bar graph ticks
+- disable liquid and water sliders when beaker is full
 
 LOW PRIORITY:
+- add plumbing to liquid and water faucets?
 - replace molecule image files with SphericalNode subclasses
 - change layout of molecule counts display
 - generalize layout code
@@ -45,6 +46,7 @@ CLEANUP:
 
 
 DONE:
+6/30/08 - developer control panel for particles view, mostly borrowed from test program
 6/30/08 - fix a bunch of layout code, tweak layout of beaker
 6/30/08 - add pipe to drain faucet
 6/30/08 - improve faucet image
