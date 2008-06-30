@@ -51,6 +51,10 @@ public class HumanNode extends PNode {
             public void fatPercentChanged() {
                 update();
             }
+
+            public void musclePercentChanged() {
+                update();
+            }
         } );
         update();
     }
@@ -102,12 +106,13 @@ public class HumanNode extends PNode {
 
     private Shape createBicep( Line2D.Double rightArm, BasicStroke limbStroke ) {
         double leanMusclePercent = human.getFatFreeMassPercent();
+//        System.out.println( "leanMusclePercent = " + leanMusclePercent );
         double width = limbStroke.getLineWidth() * ( 1 + ( leanMusclePercent / 100.0 ) );
+        System.out.println( "width = " + width + ", LMP=" + leanMusclePercent );
         Vector2D.Double vector = new Vector2D.Double( rightArm.getP1(), rightArm.getP2() );
-//        Point2D ellispeCenter = new Point2D.Double( rightArm.getX1() + rightArm.getx, );
-        double distAlongArm = 0.35;//assumes arm is one segment
+        double distAlongArmToCenter = 0.35;//assumes arm is one segment
         Ellipse2D.Double aDouble = new Ellipse2D.Double();
-        Point2D center = vector.getScaledInstance( distAlongArm ).getDestination( rightArm.getP1() );
+        Point2D center = vector.getScaledInstance( distAlongArmToCenter ).getDestination( rightArm.getP1() );
         aDouble.setFrameFromCenter( center, new Point2D.Double( center.getX() + width / 2, center.getY() + width / 2 ) );
         return aDouble;
     }
@@ -155,6 +160,11 @@ public class HumanNode extends PNode {
         control2.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setFatMassPercent( control2.getValue() );
+            }
+        } );
+        human.addListener( new Human.Adapter(){
+            public void fatPercentChanged() {
+                control2.setValue( human.getFatMassPercent() );
             }
         } );
         contentPane.add( control2 );
