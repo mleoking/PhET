@@ -590,16 +590,26 @@ public class MultipleParticleModel {
                 double dx = particle1NormalizedPosX - particlePositions[j].getX();
                 double dy = particle1NormalizedPosY - particlePositions[j].getY();
                 double distanceSqrd = (dx * dx) + (dy * dy);
-                double distance = Math.sqrt( distanceSqrd );
                 // TODO: JPB TBD - Limit the max forces to prevent weird behavior.  Is this
                 // worth keeping?
                 double minDistanceSquared = 0.8;
-                while (distanceSqrd < minDistanceSquared){
-                    dx *= 1.1;
-                    dy *= 1.1;
-                    distanceSqrd = (dx * dx) + (dy * dy);
-                    distance = Math.sqrt( distanceSqrd );
+                if (distanceSqrd == 0){
+                    // Handle the special case where the particles are right
+                    // on top of each other by assigning an arbitrary
+                    // artificial spacing.
+                    dx = 1;
+                    dy = 1;
+                    distanceSqrd = 2;
                 }
+                else {
+                    while (distanceSqrd < minDistanceSquared){
+                        dx *= 1.1;
+                        dy *= 1.1;
+                        distanceSqrd = (dx * dx) + (dy * dy);
+                    }
+                }
+                
+                double distance = Math.sqrt( distanceSqrd );
                 // End JPB TBD.
                 
                 particle2 = (StatesOfMatterParticle)m_particles.get( j );
@@ -774,7 +784,7 @@ public class MultipleParticleModel {
      */
     private class PressureCalculator{
         
-        private final static int WINDOW_SIZE = 100;
+        private final static int WINDOW_SIZE = 500;
         
         private double [] m_pressueSamples;
         private int       m_accumulationPosition;
