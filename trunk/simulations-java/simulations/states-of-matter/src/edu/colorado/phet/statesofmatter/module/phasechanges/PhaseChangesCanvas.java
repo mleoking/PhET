@@ -46,6 +46,10 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private final double PRESSURE_GAUGE_WIDTH = CANVAS_WIDTH / 6;
     private final double PUMP_HEIGHT = CANVAS_HEIGHT / 2;
     private final double PUMP_WIDTH = CANVAS_WIDTH / 3;
+    
+    // Maximum value expected for pressure.  JPB TBD - Should probably get
+    // this from the model or somewhere, though I'm not sure where.
+    private final double MAX_PRESSURE = 100;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -55,6 +59,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     private ParticleContainerNode m_particleContainer;
     private PNode m_particleLayer;
     private ModelViewTransform m_mvt;
+    private DialGaugeNode m_pressureMeter;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -83,6 +88,9 @@ public class PhaseChangesCanvas extends PhetPCanvas {
             public void particleAdded(StatesOfMatterParticle particle){
                 m_particleLayer.addChild( new ParticleNode(particle, m_mvt));
             }
+            public void pressureChanged(){
+                m_pressureMeter.setValue(m_model.getPressure());
+            }
         });
         
         // Set the background color.
@@ -97,10 +105,10 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         }
         
         // Add the pressure meter.
-        DialGaugeNode pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, "Pressure", 0, 1, "Atm");
-        pressureMeter.setOffset( m_particleContainer.getFullBoundsReference().x + (0.97 * m_particleContainer.getFullBoundsReference().width), 
+        m_pressureMeter = new DialGaugeNode(PRESSURE_GAUGE_WIDTH, "Pressure", 0, MAX_PRESSURE, "");
+        m_pressureMeter.setOffset( m_particleContainer.getFullBoundsReference().x + (0.97 * m_particleContainer.getFullBoundsReference().width), 
                 -m_particleContainer.getFullBoundsReference().height * 0.75 );
-        addWorldChild( pressureMeter );
+        addWorldChild( m_pressureMeter );
         
         // Add the pump.
         BicyclePumpNode pump = new BicyclePumpNode(PUMP_WIDTH, PUMP_HEIGHT, m_model);
