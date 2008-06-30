@@ -284,9 +284,13 @@ public class Liquid extends ClockAdapter {
     public double getConcentrationH3O() {
         double c = 0;
         if ( _pH != null ) {
-            c = Math.pow( 10, -_pH.doubleValue() );
+            c = getConcentrationH3O( _pH.doubleValue() );
         }
         return c;
+    }
+    
+    public static double getConcentrationH3O( double pH ) {
+        return Math.pow( 10, -pH );
     }
   
     public void setConcentrationOH( double c ) {
@@ -297,9 +301,13 @@ public class Liquid extends ClockAdapter {
     public double getConcentrationOH() {
         double c = 0;
         if ( _pH != null ) {
-            c = Math.pow( 10, -( 14 - _pH.doubleValue()) );
+            c = getConcentrationOH( _pH.doubleValue() );
         }
         return c;
+    }
+    
+    public static double getConcentrationOH( double pH ) {
+        return Math.pow( 10, -( 14 - pH ) );
     }
     
     public double getConcentrationH2O() {
