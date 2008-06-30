@@ -70,8 +70,8 @@ public class ParticlesNode extends PComposite {
         _maxParticles = 5000;
         _diameter = 4;
         _transparency = 128;
-        _h3oColor = PHScaleConstants.H3O_COLOR;
-        _ohColor = PHScaleConstants.OH_COLOR;
+        _h3oColor = ColorUtils.createColor( PHScaleConstants.H3O_COLOR, _transparency );
+        _ohColor = ColorUtils.createColor( PHScaleConstants.OH_COLOR, _transparency );
         
         update();
     }
@@ -174,14 +174,12 @@ public class ParticlesNode extends PComposite {
     
     private void update() {
         if ( getVisible() ) {
-            Double pH = _liquid.getPH();
-            if ( pH == null ) {
-                _pH = null;
-                _particlesParent.removeAllChildren();
+            Double previousPH = _pH;
+            _pH = _liquid.getPH();
+            if ( _pH == null ) {
+                deleteAllParticles();
             }
-            else if ( !pH.equals( _pH ) ) {
-                _pH = pH;
-                _particlesParent.removeAllChildren();
+            else if ( !_pH.equals( previousPH ) ) {
                 createParticles();
             }
         }
@@ -192,10 +190,18 @@ public class ParticlesNode extends PComposite {
     //----------------------------------------------------------------------------
     
     /*
+     * Deletes all particles.
+     */
+    private void deleteAllParticles() {
+        _particlesParent.removeAllChildren();
+    }
+    
+    /*
      * Creates particle nodes based on the current pH value.
      */
     private void createParticles() {
-        assert( _pH != null );
+        
+        deleteAllParticles();
 
         // calculate the ratio of H30 to OH
         final double ratio = ratio_H30_to_OH( _pH.doubleValue() );

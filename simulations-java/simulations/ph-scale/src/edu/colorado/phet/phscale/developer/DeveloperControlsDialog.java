@@ -6,7 +6,6 @@ import java.awt.Frame;
 import java.awt.Insets;
 
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -14,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.phscale.PHScaleApplication;
+import edu.colorado.phet.phscale.view.ParticlesNode;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -53,7 +53,9 @@ public class DeveloperControlsDialog extends JDialog {
 
     private JPanel createInputPanel() {
 
-        JPanel particlePanel = new ParticleControlPanel( PHScaleApplication.instance().getPhetFrame() );
+        Frame dialogOwner = PHScaleApplication.instance().getPhetFrame();
+        ParticlesNode particlesNode = _app.getModule().getParticlesNode();
+        ParticlesControlPanel particlesPanel = new ParticlesControlPanel( dialogOwner, particlesNode );
 
         // Layout
         JPanel panel = new JPanel();
@@ -63,7 +65,7 @@ public class DeveloperControlsDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( particlePanel, row++, column );
+        layout.addComponent( particlesPanel, row++, column );
 
         return panel;
     }

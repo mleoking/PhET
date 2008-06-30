@@ -11,6 +11,7 @@ import edu.colorado.phet.phscale.control.PHControlNode;
 import edu.colorado.phet.phscale.control.PHScaleResetAllButton;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.view.BarGraphNode;
+import edu.colorado.phet.phscale.view.ParticlesNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -109,4 +110,8 @@ public class PHScaleCanvas extends PhetPCanvas {
         return _resetAllButton;
     }
     
+    // for attaching developer control panel
+    public ParticlesNode getParticlesNode() {
+        return _beakerControlNode.getParticlesNode();
+    }
 }

@@ -57,6 +57,11 @@ public class LiquidNode extends PComposite {
         return _particlesNode.getVisible();
     }
     
+    // for attaching developer control panel
+    public ParticlesNode getParticlesNode() {
+        return _particlesNode;
+    }
+    
     private void update() {
 
         // color

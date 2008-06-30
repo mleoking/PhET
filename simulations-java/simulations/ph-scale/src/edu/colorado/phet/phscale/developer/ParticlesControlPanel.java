@@ -2,11 +2,9 @@
 
 package edu.colorado.phet.phscale.developer;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.phscale.PHScaleConstants;
+import edu.colorado.phet.phscale.view.ParticlesNode;
 
 /**
  * This is a developer control panel that controls the "look" of 
@@ -27,7 +25,7 @@ import edu.colorado.phet.phscale.PHScaleConstants;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ParticleControlPanel extends JPanel {
+public class ParticlesControlPanel extends JPanel {
 
     private static final DoubleRange MAX_PARTICLES_RANGE = new DoubleRange( 1000, 10000, 5000 );
     private static final double MAX_PARTICLES_DELTA = 1;
@@ -41,41 +39,41 @@ public class ParticleControlPanel extends JPanel {
     private static final double TRANSPARENCY_DELTA = 1;
     private static final String TRANSPARENCY_PATTERN = "##0";
 
-    private final ArrayList _listeners;
+    private final ParticlesNode _particlesNode;
     private final LinearValueControl _maxParticlesControl, _diameterControl, _transparencyControl;
     private final ColorControl _h3oColorControl, _ohColorControl;
 
-    public ParticleControlPanel( Frame dialogOwner ) {
+    public ParticlesControlPanel( Frame dialogOwner, ParticlesNode particlesNode ) {
         
-        _listeners = new ArrayList();
+        _particlesNode = particlesNode;
 
         // max particles
         _maxParticlesControl = new LinearValueControl( MAX_PARTICLES_RANGE.getMin(), MAX_PARTICLES_RANGE.getMax(), "max # particles:", MAX_PARTICLES_PATTERN, "" );
-        _maxParticlesControl.setValue( MAX_PARTICLES_RANGE.getDefault() );
+        _maxParticlesControl.setValue( particlesNode.getMaxParticles() );
         _maxParticlesControl.setUpDownArrowDelta( MAX_PARTICLES_DELTA );
         _maxParticlesControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                notifyMaxParticlesChanged();
+                _particlesNode.setMaxParticles( (int) _maxParticlesControl.getValue() );
             }
         } );
 
         // diameter
         _diameterControl = new LinearValueControl( PARTICLE_DIAMETER_RANGE.getMin(), PARTICLE_DIAMETER_RANGE.getMax(), "particle diameter:", PARTICLE_DIAMETER_PATTERN, "" );
-        _diameterControl.setValue( PARTICLE_DIAMETER_RANGE.getDefault() );
+        _diameterControl.setValue( _particlesNode.getParticleDiameter() );
         _diameterControl.setUpDownArrowDelta( PARTICLE_DIAMETER_DELTA );
         _diameterControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                notifyParticleDiameterChanged();
+                _particlesNode.setParticleDiameter( _diameterControl.getValue() );
             }
         } );
 
         // transparency
         _transparencyControl = new LinearValueControl( TRANSPARENCY_RANGE.getMin(), TRANSPARENCY_RANGE.getMax(), "particle transparency:", TRANSPARENCY_PATTERN, "" );
-        _transparencyControl.setValue( TRANSPARENCY_RANGE.getDefault() );
+        _transparencyControl.setValue( _particlesNode.getParticleTransparency() );
         _transparencyControl.setUpDownArrowDelta( TRANSPARENCY_DELTA );
         _transparencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                notifyParticleTransparencyChanged();
+                _particlesNode.setParticleTransparency( (int) _transparencyControl.getValue() );
             }
         } );
         Hashtable particleTransparencyLabelTable = new Hashtable();
@@ -84,18 +82,18 @@ public class ParticleControlPanel extends JPanel {
         _transparencyControl.setTickLabels( particleTransparencyLabelTable );
 
         // H3O color
-        _h3oColorControl = new ColorControl( dialogOwner, "H3O color:", PHScaleConstants.H3O_COLOR );
+        _h3oColorControl = new ColorControl( dialogOwner, "H3O color:", _particlesNode.getH3OColor() );
         _h3oColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                notifyParticleColorChanged();
+                _particlesNode.setH3OColor( _h3oColorControl.getColor() );
             }
         } );
 
         // OH color
-        _ohColorControl = new ColorControl( dialogOwner, "OH color:", PHScaleConstants.OH_COLOR );
+        _ohColorControl = new ColorControl( dialogOwner, "OH color:", _particlesNode.getOHColor() );
         _ohColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                notifyParticleColorChanged();
+                _particlesNode.setOHColor( _ohColorControl.getColor() );
             }
         } );
 
@@ -109,88 +107,5 @@ public class ParticleControlPanel extends JPanel {
         particlePanelLayout.addComponent( _transparencyControl, row++, column );
         particlePanelLayout.addComponent( _h3oColorControl, row++, column );
         particlePanelLayout.addComponent( _ohColorControl, row++, column );
-    }
-    
-    public void setMaxParticles( int maxParticles ) {
-        _maxParticlesControl.setValue( maxParticles );
-    }
-    
-    public double getMaxParticles() {
-        return (int) _maxParticlesControl.getValue();
-    }
-    
-    public void setDiameter( double diameter ) {
-        _diameterControl.setValue( diameter );
-    }
-    
-    public double getDiameter() {
-        return _diameterControl.getValue();
-    }
-
-    public void setTransparency( int alpha ) {
-        _transparencyControl.setValue( alpha );
-    }
-    
-    public int getTransparency() {
-        return (int) _transparencyControl.getValue();
-    }
-    
-    public void setH3OColor( Color color ) {
-        _h3oColorControl.setColor( color );
-    }
-    
-    public Color getH3OColor() {
-        return _h3oColorControl.getColor();
-    }
-    
-    public void setOHColor( Color color ) {
-        _ohColorControl.setColor( color );
-    }
-    
-    public Color getOHColor() {
-        return _ohColorControl.getColor();
-    }
-    
-    public interface ParticleFactoryControlPanelListener {
-        public void maxParticlesChanged();
-        public void particleDiameterChanged();
-        public void particleTransparencyChanged();
-        public void particleColorChanged();
-    }
-
-    public void addParticleFactoryControlPanelListener( ParticleFactoryControlPanelListener listener ) {
-        _listeners.add( listener );
-    }
-
-    public void removeParticleFactoryControlPanelListener( ParticleFactoryControlPanelListener listener ) {
-        _listeners.remove( listener );
-    }
-
-    private void notifyMaxParticlesChanged() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ParticleFactoryControlPanelListener) i.next() ).maxParticlesChanged();
-        }
-    }
-
-    private void notifyParticleDiameterChanged() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ParticleFactoryControlPanelListener) i.next() ).particleDiameterChanged();
-        }
-    }
-
-    private void notifyParticleTransparencyChanged() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ParticleFactoryControlPanelListener) i.next() ).particleTransparencyChanged();
-        }
-    }
-
-    private void notifyParticleColorChanged() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ParticleFactoryControlPanelListener) i.next() ).particleColorChanged();
-        }
     }
 }

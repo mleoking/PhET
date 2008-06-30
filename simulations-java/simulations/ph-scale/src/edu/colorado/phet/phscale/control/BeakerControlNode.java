@@ -6,10 +6,7 @@ import edu.colorado.phet.phscale.control.ViewControlPanel.ViewControlPanelListen
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.view.BeakerNode;
-import edu.colorado.phet.phscale.view.LiquidNode;
-import edu.colorado.phet.phscale.view.MoleculeCountNode;
-import edu.colorado.phet.phscale.view.ProbeNode;
+import edu.colorado.phet.phscale.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -120,7 +117,9 @@ public class BeakerControlNode extends PNode {
         return _viewControlPanel.isRatioSelected();
     }
     
-    public LiquidControlNode getLiquidControlNode() {
-        return _liquidControlNode;
+    // for attaching developer control panel
+    public ParticlesNode getParticlesNode() {
+        return _liquidNode.getParticlesNode();
     }
+    
 }
