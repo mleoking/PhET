@@ -112,7 +112,7 @@ public class HumanNode extends PNode {
         double leanMusclePercent = human.getFatFreeMassPercent();
 //        System.out.println( "leanMusclePercent = " + leanMusclePercent );
         double width = limbStroke.getLineWidth() * ( 1 + ( leanMusclePercent / 100.0 ) );
-        System.out.println( "width = " + width + ", LMP=" + leanMusclePercent );
+//        System.out.println( "width = " + width + ", LMP=" + leanMusclePercent );
         Vector2D.Double vector = new Vector2D.Double( rightArm.getP1(), rightArm.getP2() );
         double distAlongArmToCenter = 0.35;//assumes arm is one segment
         Ellipse2D.Double aDouble = new Ellipse2D.Double();
