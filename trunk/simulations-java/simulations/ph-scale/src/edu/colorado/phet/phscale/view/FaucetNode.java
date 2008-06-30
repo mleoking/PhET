@@ -8,9 +8,13 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.phscale.PHScaleImages;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class FaucetNode extends PNode {
+    
+    // We expect the image to be this size, warn if not this size.
+    public static final PDimension IMAGE_SIZE = new PDimension( 125, 90 );
     
     public static final int ORIENTATION_LEFT = SwingConstants.LEFT;
     public static final int ORIENTATION_RIGHT = SwingConstants.RIGHT;
@@ -24,8 +28,12 @@ public class FaucetNode extends PNode {
             image = BufferedImageUtils.flipX( PHScaleImages.FAUCET );
         }
         PImage faucetImage = new PImage( image );
-        faucetImage.scale( 0.05 );//XXX
         addChild( faucetImage );
+        
+        if ( IMAGE_SIZE.getWidth() != faucetImage.getFullBoundsReference().getWidth() ||
+             IMAGE_SIZE.getHeight() != faucetImage.getFullBoundsReference().getHeight() ) {
+            System.out.println( "WARNING: in FaucetNode, image is not the excepted size, layout may be off" );
+        }
     }
 
 }

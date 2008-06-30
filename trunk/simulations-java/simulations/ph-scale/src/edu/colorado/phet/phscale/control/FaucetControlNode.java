@@ -45,7 +45,7 @@ public class FaucetControlNode extends PNode {
         addChild( faucetNode );
         addChild( sliderWrapper );
         
-        sliderWrapper.setOffset( MARGIN, 0.38 * faucetNode.getFullBoundsReference().getHeight() ); //XXX image specific
+        sliderWrapper.setOffset( MARGIN, 0.42 * faucetNode.getFullBoundsReference().getHeight() ); //XXX image specific
     }
     
     public void setOn( boolean on ) {

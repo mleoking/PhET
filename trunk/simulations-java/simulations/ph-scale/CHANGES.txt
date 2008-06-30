@@ -45,6 +45,9 @@ CLEANUP:
 
 
 DONE:
+6/30/08 - fix a bunch of layout code, tweak layout of beaker
+6/30/08 - add pipe to drain faucet
+6/30/08 - improve faucet image
 6/26/08 - fix: when beaker is empty, H2O concentration should be 0
 6/26/08 - move FormattedNumberNode to piccolo-phet
 6/26/08 - move TimesTenNumberFormat to phetcommon
