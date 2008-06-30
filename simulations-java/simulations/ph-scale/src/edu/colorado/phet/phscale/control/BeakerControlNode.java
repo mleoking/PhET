@@ -70,7 +70,7 @@ public class BeakerControlNode extends PNode {
             }
 
             public void ratioChanged( boolean selected ) {
-                //XXX change visibility of ratio node
+                _liquidNode.setParticlesVisible( selected );
             }
             
         } );
@@ -104,6 +104,7 @@ public class BeakerControlNode extends PNode {
     
     public void setMoleculeCountSelected( boolean selected ) {
         _viewControlPanel.setCountSelected( selected );
+        _moleculeCountNode.setVisible( selected );
     }
     
     public boolean isMoleculeCountSelected() {
@@ -112,6 +113,7 @@ public class BeakerControlNode extends PNode {
     
     public void setRatioSelected( boolean selected ) {
         _viewControlPanel.setRatioSelected( selected );
+        _liquidNode.setParticlesVisible( selected );
     }
     
     public boolean isRatioSelected() {

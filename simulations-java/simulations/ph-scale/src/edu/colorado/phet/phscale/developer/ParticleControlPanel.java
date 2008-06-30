@@ -43,7 +43,7 @@ public class ParticleControlPanel extends JPanel {
 
     private final ArrayList _listeners;
     private final LinearValueControl _maxParticlesControl, _diameterControl, _transparencyControl;
-    private final ColorControl _h3oColorControl, _ohColorControl, _h2oColorControl;
+    private final ColorControl _h3oColorControl, _ohColorControl;
 
     public ParticleControlPanel( Frame dialogOwner ) {
         
@@ -99,14 +99,6 @@ public class ParticleControlPanel extends JPanel {
             }
         } );
 
-        // H2O color
-        _h2oColorControl = new ColorControl( dialogOwner, "H2O color:", PHScaleConstants.H2O_COLOR );
-        _h2oColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                notifyParticleColorChanged();
-            }
-        } );
-
         setBorder( new TitledBorder( "particle controls" ) );
         EasyGridBagLayout particlePanelLayout = new EasyGridBagLayout( this );
         this.setLayout( particlePanelLayout );
@@ -117,7 +109,6 @@ public class ParticleControlPanel extends JPanel {
         particlePanelLayout.addComponent( _transparencyControl, row++, column );
         particlePanelLayout.addComponent( _h3oColorControl, row++, column );
         particlePanelLayout.addComponent( _ohColorControl, row++, column );
-        particlePanelLayout.addComponent( _h2oColorControl, row++, column );
     }
     
     public void setMaxParticles( int maxParticles ) {
@@ -158,14 +149,6 @@ public class ParticleControlPanel extends JPanel {
     
     public Color getOHColor() {
         return _ohColorControl.getColor();
-    }
-    
-    public void setH2OColor( Color color ) {
-        _h2oColorControl.setColor( color );
-    }
-    
-    public Color getH2OColor() {
-        return _h2oColorControl.getColor();
     }
     
     public interface ParticleFactoryControlPanelListener {
