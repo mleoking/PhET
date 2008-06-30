@@ -74,7 +74,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         final double xSpacing = 60;
         final double ySpacing = 15;
         // beaker at left
-        _beakerControlNode.setOffset( 0, 25 );
+        _beakerControlNode.setOffset( 35, 15 );
         // pH control to right of beaker
         double x = _beakerControlNode.getFullBoundsReference().getMaxX() + xSpacing;
         double y = _beakerControlNode.getFullBoundsReference().getY();

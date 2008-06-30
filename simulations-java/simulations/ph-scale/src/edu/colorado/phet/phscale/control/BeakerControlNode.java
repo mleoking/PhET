@@ -11,6 +11,7 @@ import edu.colorado.phet.phscale.view.LiquidNode;
 import edu.colorado.phet.phscale.view.MoleculeCountNode;
 import edu.colorado.phet.phscale.view.ProbeNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -18,7 +19,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 public class BeakerControlNode extends PNode {
 
-    private static final double PROBE_LENGTH = 500;
+    private static final double PROBE_LENGTH = 475;
     private static final PDimension BEAKER_SIZE = new PDimension( 350, 400 );
     
     private final PHScaleModel _model;
@@ -86,14 +87,15 @@ public class BeakerControlNode extends PNode {
         
         // Layout
         //XXX this needs to be generalized
-        _beakerNode.setOffset( 75, 150 );
+        _liquidControlNode.setOffset( 0, 0  );
+        PBounds b = _liquidControlNode.getFullBoundsReference();
+        _waterControlNode.setOffset( b.getX() + 330, b.getY() + 5 );
+        _beakerNode.setOffset( b.getX() + 40,  b.getY() + 160 );
         _liquidNode.setOffset( _beakerNode.getOffset() );
-        _liquidControlNode.setOffset( 35, 0 );
-        _waterControlNode.setOffset( 365, 0 );
-        _drainControlNode.setOffset( 25, 575 );
-        _probeNode.setOffset( 195, 50 );
-        viewControlPanelWrapper.setOffset( 225, 575 );
-        _moleculeCountNode.setOffset( 85, 250 );
+        _drainControlNode.setOffset( b.getX() + 10,  b.getY() + 585 );
+        _probeNode.setOffset( b.getX() + 152, b.getY() + 85 );
+        viewControlPanelWrapper.setOffset( b.getX() + 190,  b.getY() + 585 );
+        _moleculeCountNode.setOffset( b.getX() + 50,  b.getY() + 260 );
     }
     
     public void cleanup() {
