@@ -20,6 +20,8 @@ import edu.colorado.phet.phscale.developer.DeveloperMenu;
  */
 public class PHScaleApplication extends PiccoloPhetApplication {
 
+    private PHScaleModule _module;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -44,8 +46,8 @@ public class PHScaleApplication extends PiccoloPhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
-        PHScaleModule module = new PHScaleModule();
-        addModule( module );
+        _module = new PHScaleModule();
+        addModule( _module );
     }
 
     /*
@@ -62,6 +64,10 @@ public class PHScaleApplication extends PiccoloPhetApplication {
         }
     }
 
+    public PHScaleModule getModule() {
+        return _module;
+    }
+    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
