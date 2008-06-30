@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 import javax.swing.SwingConstants;
 
-import edu.colorado.phet.phscale.control.MomentarySlider.OnOffSliderListener;
+import edu.colorado.phet.phscale.control.MomentarySlider.MomentarySliderListener;
 import edu.colorado.phet.phscale.view.FaucetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -35,9 +35,10 @@ public class FaucetControlNode extends PNode {
         final int sliderWidth = (int) ( faucetNode.getFullBoundsReference().getWidth() - ( 2 * MARGIN ) );
         final int sliderHeight = (int) ( _slider.getPreferredSize().getHeight() );
         _slider.setPreferredSize( new Dimension( sliderWidth, sliderHeight ) );
-        _slider.addOnOffSliderListener( new OnOffSliderListener() {
+        _slider.addMomentarySliderListener( new MomentarySliderListener() {
             public void onOffChanged( boolean on ) {
                 notifyOnOffChanged();
+                System.out.println( "FaucetControlNode.onOffChanged " + on );//XXX
             }
         });
         PSwing sliderWrapper = new PSwing( _slider );
