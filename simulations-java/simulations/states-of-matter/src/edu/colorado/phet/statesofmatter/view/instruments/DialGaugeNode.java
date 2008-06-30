@@ -13,6 +13,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.geom.Line2D.Double;
+import java.text.DecimalFormat;
 
 import javax.swing.SwingUtilities;
 
@@ -51,6 +52,7 @@ public class DialGaugeNode extends PNode {
     private static double       NEEDLE_SHIFT_PROPORTION = 0.75;      // Proportion of needle used as pointer.
     private static double       CONNECTOR_HEIGHT_PROPORATION = 0.15; // Height of connector wrt overall diameter.
     private static double       CONNECTOR_WIDTH_PROPORATION = 0.20;  // Width of connector wrt overall diameter.
+    private static DecimalFormat NUMBER_FORMATTER = new DecimalFormat( "##0.00" );
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -182,8 +184,8 @@ public class DialGaugeNode extends PNode {
     //------------------------------------------------------------------------
     
     /**
-     * Set the value of the pressure gauge to a normalized value, meaning that
-     * the value is between 0 and 1.
+     * Set the value of the pressure gauge.  The value must be within the
+     * bounds set when the gauge was created.
      */
     public void setValue(double value){
         
@@ -198,7 +200,7 @@ public class DialGaugeNode extends PNode {
         m_needleAngle = targetNeedleAngle;
         
         // Set the textual readout.
-        m_textualReadout.setText( value + " " + m_unitsLabel );
+        m_textualReadout.setText( new String (NUMBER_FORMATTER.format(value) + " " + m_unitsLabel ) );
         m_textualReadout.setOffset( 
                 m_textualReadoutBoxShape.getWidth() / 2 - m_textualReadout.getFullBoundsReference().width / 2, 
                 m_textualReadoutBoxShape.getHeight() / 2 - m_textualReadout.getFullBoundsReference().height / 2  );

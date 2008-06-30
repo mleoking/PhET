@@ -88,6 +88,8 @@ public class MultipleParticleModel {
     private int    m_tempAdjustTickCounter;
     private int    m_particleType;
     private double m_particleDiameter;
+    private double m_pressure;
+    private PressureCalculator m_pressureCalculator;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -96,6 +98,7 @@ public class MultipleParticleModel {
     public MultipleParticleModel(IClock clock) {
         
         m_clock = clock;
+        m_pressureCalculator = new PressureCalculator();
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -173,6 +176,10 @@ public class MultipleParticleModel {
         return m_particleType;
     }
     
+    public double getPressure(){
+        return m_pressure;
+    }
+    
     public void setParticleType(int particleType){
         
         assert StatesOfMatterParticleType.isSupportedType(particleType);
@@ -210,6 +217,9 @@ public class MultipleParticleModel {
             m_temperature = INITIAL_TEMPERATURE;
             notifyTemperatureChanged();
         }
+        
+        // Clear out the pressure calculation.
+        m_pressureCalculator.clear();
         
         // Set the size of the container.
         m_normalizedContainerWidth = StatesOfMatterConstants.CONTAINER_BOUNDS.width / m_particleDiameter;
@@ -363,6 +373,12 @@ public class MultipleParticleModel {
                     m_temperature );
         }
         syncParticlePositions();
+        if (m_pressure != m_pressureCalculator.getPressure()){
+            // The pressure has changed.  Send out notifications and update
+            // the current value.
+            m_pressure = m_pressureCalculator.getPressure();
+            notifyPressureChanged();
+        }
         
         // Adjust the temperature.
         m_tempAdjustTickCounter++;
@@ -412,6 +428,12 @@ public class MultipleParticleModel {
     private void notifyTemperatureChanged(){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).temperatureChanged();
+        }        
+    }
+
+    private void notifyPressureChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).pressureChanged();
         }        
     }
 
@@ -543,9 +565,16 @@ public class MultipleParticleModel {
             // Get the force values caused by the container walls.
             calculateWallForce(particlePositions[i], m_nextParticleForces[i], containerWidth, containerHeight);
             
+            // Accumulate this force value as part of the pressure being
+            // exerted on the walls of the container.
+            m_pressureCalculator.accumulatePressureValue( m_nextParticleForces[i] );
+            
             // Add in the effect of gravity.
             m_nextParticleForces[i].setY( m_nextParticleForces[i].getY() - gravitationalForce );
         }
+        
+        // Advance the moving average window of the pressure calculator.
+        m_pressureCalculator.advanceWindow();
         
         // Calculate the forces created through interactions with other
         // particles.
@@ -703,7 +732,7 @@ public class MultipleParticleModel {
     }
     
     //------------------------------------------------------------------------
-    // Inner Interfaces and Adapters
+    // Inner Interfaces and Classes
     //------------------------------------------------------------------------
     
     public static interface Listener {
@@ -722,11 +751,73 @@ public class MultipleParticleModel {
          * Inform listeners that the temperature of the system has changed.
          */
         public void temperatureChanged();
+        
+        /**
+         * Inform listeners that the pressure of the system has changed.
+         */
+        public void pressureChanged();
+
     }
     
     public static class Adapter implements Listener {
         public void resetOccurred(){}
         public void particleAdded(StatesOfMatterParticle particle){}
         public void temperatureChanged(){}
+        public void pressureChanged(){}
+    }
+    
+    /**
+     * This class enables the user to calculate a moving average of the
+     * pressure within the container.
+     *
+     * @author John Blanco
+     */
+    private class PressureCalculator{
+        
+        private final static int WINDOW_SIZE = 100;
+        
+        private double [] m_pressueSamples;
+        private int       m_accumulationPosition;
+        private int       m_numSamples;
+        
+        public PressureCalculator(){
+            m_pressueSamples = new double[WINDOW_SIZE];
+            m_accumulationPosition = 0;
+            m_numSamples = 0;
+        }
+        
+        public void accumulatePressureValue(Vector2D vector){
+            m_pressueSamples[m_accumulationPosition] += Math.abs( vector.getX() ) + Math.abs(  vector.getY() );
+        }
+        
+        public double getPressure(){
+            
+            if (m_numSamples == 0){
+                // Prevent divide by 0 issues.
+                return 0;
+            }
+            
+            // Calculate the pressure as the moving average of all accumulated
+            // pressure samples.
+            double accumulatedPressure = 0;
+            for (int i = 0; i < m_numSamples; i++){
+                accumulatedPressure += m_pressueSamples[i];
+            }
+            return accumulatedPressure/m_numSamples;
+        }
+        
+        public void advanceWindow(){
+            m_accumulationPosition = (m_accumulationPosition + 1) % WINDOW_SIZE;
+            m_pressueSamples[m_accumulationPosition] = 0;
+            m_numSamples = m_numSamples >= WINDOW_SIZE ? m_numSamples : m_numSamples + 1; 
+        }
+        
+        public void clear(){
+            m_accumulationPosition = 0;
+            m_numSamples = 0;
+            for (int i = 0; i < WINDOW_SIZE; i++){
+                m_pressueSamples[i] = 0;
+            }
+        }
     }
 }
