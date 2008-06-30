@@ -19,6 +19,7 @@ HIGH PRIORITY:
 - use Laurie's algorithm for # particles to create
 
 MEDIUM PRIORITY:
+- make LiquidListener more specific about what changed so that ParticlesNode doesn't have to save and compare pH
 - make particles of minority species more opaque
 - add bars to graph
 - make bars interactive

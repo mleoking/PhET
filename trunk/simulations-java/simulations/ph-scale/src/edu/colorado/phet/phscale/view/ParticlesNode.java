@@ -36,7 +36,7 @@ public class ParticlesNode extends PComposite {
     private final PNode _particlesParent;
     private final Random _randomX, _randomY;
    
-    private Double _pH;
+    private Double _pH; // used to watch for pH change in the liquid
     private int _maxParticles;
     private double _diameter;
     private int _transparency;
@@ -227,7 +227,7 @@ public class ParticlesNode extends PComposite {
     }
     
     /* 
-     * Computes the ratio of H30 to OH.
+     * Computes the ratio of H3O to OH.
      * Between pH of 6 and 8, we use the actual log scale.
      * Below 6 and above 8, use a linear scale for "Hollywood" visualization.
      */
@@ -237,10 +237,12 @@ public class ParticlesNode extends PComposite {
             ratio = Liquid.getConcentrationH3O( pH ) / Liquid.getConcentrationOH( pH );
         }
         else if ( pH < ACID_PH_THRESHOLD ) {
+            // strong acid
             double multiplier = ACID_PH_THRESHOLD - pH + 1;
             ratio = multiplier * Liquid.getConcentrationH3O( ACID_PH_THRESHOLD ) / Liquid.getConcentrationOH( ACID_PH_THRESHOLD );
         }
         else {
+            // strong base
             double multiplier = 1 / ( pH - BASE_PH_THRESHOLD + 1 );
             ratio = multiplier * Liquid.getConcentrationH3O( BASE_PH_THRESHOLD ) / Liquid.getConcentrationOH( BASE_PH_THRESHOLD );
         }
