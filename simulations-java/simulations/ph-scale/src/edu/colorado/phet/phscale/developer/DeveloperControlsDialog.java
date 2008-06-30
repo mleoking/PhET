@@ -53,7 +53,7 @@ public class DeveloperControlsDialog extends JDialog {
 
     private JPanel createInputPanel() {
 
-        JLabel label = new JLabel( "developer controls go here" );
+        JPanel particlePanel = new ParticleControlPanel( PHScaleApplication.instance().getPhetFrame() );
 
         // Layout
         JPanel panel = new JPanel();
@@ -63,7 +63,7 @@ public class DeveloperControlsDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( label, row++, column );
+        layout.addComponent( particlePanel, row++, column );
 
         return panel;
     }
