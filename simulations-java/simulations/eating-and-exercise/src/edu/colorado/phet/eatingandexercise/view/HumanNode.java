@@ -25,14 +25,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  * Created by: Sam
  * Apr 3, 2008 at 8:43:08 PM
  */
-public class HumanAreaNode extends PNode {
+public class HumanNode extends PNode {
     private Human human;
     private HeadNode head;
     private PImage heartNode;
     private BasicStroke stroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER );
     private PhetPPath areaNode = new PhetPPath( Color.white, stroke, Color.black );
 
-    public HumanAreaNode( Human human ) {
+    public HumanNode( Human human ) {
         this.human = human;
         head = new HeadNode( human, Color.white, new BasicStroke( 0.02f ), Color.black );
         addChild( areaNode );
@@ -117,10 +117,10 @@ public class HumanAreaNode extends PNode {
         //todo: update layout
         frame.setContentPane( phetPCanvas );
 
-        final Human human1 = new Human();
-        HumanAreaNode humanNodeArea = new HumanAreaNode( human1 );
-        humanNodeArea.setOffset( 1, 2 );
-        phetPCanvas.addWorldChild( humanNodeArea );
+        final Human human = new Human();
+        HumanNode humanNode = new HumanNode( human );
+        humanNode.setOffset( 1, 2 );
+        phetPCanvas.addWorldChild( humanNode );
         frame.setVisible( true );
         JFrame controlFrame = new JFrame();
         JPanel contentPane = new VerticalLayoutPanel();
@@ -129,7 +129,7 @@ public class HumanAreaNode extends PNode {
         final LinearValueControl control = new LinearValueControl( 0, 500, 75, "mass", "0.00", "kg" );
         control.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human1.setMass( control.getValue() );
+                human.setMass( control.getValue() );
             }
         } );
         contentPane.add( control );
@@ -137,7 +137,7 @@ public class HumanAreaNode extends PNode {
         final LinearValueControl control2 = new LinearValueControl( 0, 100, "fat %", "0.0", "%" );
         control2.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                human1.setFatMassPercent( control2.getValue() );
+                human.setFatMassPercent( control2.getValue() );
             }
         } );
         contentPane.add( control2 );

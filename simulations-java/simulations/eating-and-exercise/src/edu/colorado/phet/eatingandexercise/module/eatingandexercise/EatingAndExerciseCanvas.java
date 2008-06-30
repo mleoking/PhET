@@ -17,7 +17,7 @@ import edu.colorado.phet.eatingandexercise.control.CaloriePanel;
 import edu.colorado.phet.eatingandexercise.control.HumanControlPanel;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.view.HealthIndicator;
-import edu.colorado.phet.eatingandexercise.view.HumanAreaNode;
+import edu.colorado.phet.eatingandexercise.view.HumanNode;
 import edu.colorado.phet.eatingandexercise.view.ScaleNode;
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PNode;
@@ -46,7 +46,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     // Translation factors, used to set origin of canvas area.
     private RulerNode rulerNode;
     private PSwing humanControlPanelPSwing;
-    private HumanAreaNode humanAreaNode;
+    private HumanNode humanAreaNode;
     private BMIHelpButtonNode heartHealthButtonNode;
     private CaloriePanel caloriePanel;
     private BMIReadout bmiReadout;
@@ -95,7 +95,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         addWorldChild( _rootNode );
 
         _rootNode.addChild( new ScaleNode( model, model.getHuman() ) );
-        humanAreaNode = new HumanAreaNode( model.getHuman() );
+        humanAreaNode = new HumanNode( model.getHuman() );
 
         _rootNode.addChild( humanAreaNode );
 
@@ -179,7 +179,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         return rulerNode;
     }
 
-    public HumanAreaNode getHumanAreaNode() {
+    public HumanNode getHumanAreaNode() {
         return humanAreaNode;
     }
 //----------------------------------------------------------------------------
