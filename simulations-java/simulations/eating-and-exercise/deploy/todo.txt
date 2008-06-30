@@ -2,8 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Remove popup-question mark button for old version of heart BMI readout
-
 Clarify the meaning of "lifestyle" vs. other daily exercises
     Add description to sedentary, moderate activity, etc.
 >>These should be in the main control panel as radio buttons, not in Edit Exercise
