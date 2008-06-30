@@ -2,8 +2,6 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-Add popup-question mark button for BMI readout near scale
-
 Remove popup-question mark button for old version of heart BMI readout
 
 Clarify the meaning of "lifestyle" vs. other daily exercises
@@ -209,3 +207,7 @@ Consider a 2-layer human graphic to show a "layer" of fat over a muscular interi
 How should health indicators be wired up to heart health?
 
 What are parameters for health indicators?
+
+Add popup-question mark button for BMI readout near scale
+    >>Not a great place for this near the scale, should it go below the scale?  Just appear when help is pressed?
+    >>Ingrid said her students didn't use the near-the-heart-and-bmi version during class use. 
