@@ -70,16 +70,16 @@ public class MomentarySlider extends JSlider {
         setValue( on ? ON_VALUE : OFF_VALUE );
     }
     
-    public interface OnOffSliderListener {
+    public interface MomentarySliderListener {
         public void onOffChanged( boolean on );
     }
     
-    public void addOnOffSliderListener( OnOffSliderListener listener ) {
+    public void addMomentarySliderListener( MomentarySliderListener listener ) {
         _listeners.add( listener );
     }
     
     
-    public void removeOnOffSliderListener( OnOffSliderListener listener ) {
+    public void removeMomentarySliderListener( MomentarySliderListener listener ) {
         _listeners.remove( listener );
     }
     
@@ -87,7 +87,7 @@ public class MomentarySlider extends JSlider {
         final boolean on = isOn();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (OnOffSliderListener) i.next() ).onOffChanged( on );
+            ( (MomentarySliderListener) i.next() ).onOffChanged( on );
         }
     }
 
