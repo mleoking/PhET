@@ -22,6 +22,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * Created by: Sam
  * Apr 3, 2008 at 8:43:08 PM
+ * Todo: factor out limb class
  */
 public class HumanNode extends PNode {
     private Human human;
@@ -76,8 +77,8 @@ public class HumanNode extends PNode {
 
         double m = getScaledMass();
 
-        Line2D.Double leftLeg = ( new Line2D.Double( -distBetweenShoulders / 2, 0, 0, hipY ) );
-        Line2D.Double rightLeg = ( new Line2D.Double( +distBetweenShoulders / 2, 0, 0, hipY ) );
+        Line2D.Double leftLeg = ( new Line2D.Double( 0, hipY,-distBetweenShoulders / 2, 0 ) );
+        Line2D.Double rightLeg = ( new Line2D.Double( 0, hipY,+distBetweenShoulders / 2, 0 ) );
         Line2D.Double body = ( new Line2D.Double( 0, hipY, 0, neckY ) );
         Line2D.Double leftArm = ( new Line2D.Double( 0, shoulderY, -armLength, shoulderY ) );
         Line2D.Double rightArm = ( new Line2D.Double( 0, shoulderY, armLength, shoulderY ) );
@@ -95,8 +96,11 @@ public class HumanNode extends PNode {
         bodyArea.add( new Area( limbStroke.createStrokedShape( leftArm ) ) );
         bodyArea.add( new Area( createStomachShape( bodyShape ) ) );
 
-        bodyArea.add( new Area( createBicep( rightArm, limbStroke ) ) );
-        bodyArea.add( new Area( createBicep( leftArm, limbStroke ) ) );
+        bodyArea.add( new Area( createMuscle( rightArm, limbStroke ) ) );
+        bodyArea.add( new Area( createMuscle( leftArm, limbStroke ) ) );
+
+//        bodyArea.add( new Area( createMuscle( leftLeg, limbStroke ) ) );
+//        bodyArea.add( new Area( createMuscle( rightLeg, limbStroke ) ) );
 
         areaNode.setPathTo( bodyArea );
         areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * m, 0.025f ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
@@ -104,7 +108,7 @@ public class HumanNode extends PNode {
         heartNode.setOffset( -heartNode.getFullBounds().getWidth() * 0.15, neckY + heartNode.getFullBounds().getHeight() * 1.25 );
     }
 
-    private Shape createBicep( Line2D.Double rightArm, BasicStroke limbStroke ) {
+    private Shape createMuscle( Line2D.Double rightArm, BasicStroke limbStroke ) {
         double leanMusclePercent = human.getFatFreeMassPercent();
 //        System.out.println( "leanMusclePercent = " + leanMusclePercent );
         double width = limbStroke.getLineWidth() * ( 1 + ( leanMusclePercent / 100.0 ) );
