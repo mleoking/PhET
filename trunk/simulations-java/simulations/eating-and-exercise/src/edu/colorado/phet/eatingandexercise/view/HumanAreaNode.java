@@ -112,19 +112,19 @@ public class HumanAreaNode extends PNode {
         JFrame frame = new JFrame( "Test Frame" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
-        PhetPCanvas contentPane = new BufferedPhetPCanvas( new PDimension( 3, 3 ) );
-        contentPane.setZoomEventHandler( new PZoomEventHandler() );
+        PhetPCanvas phetPCanvas = new BufferedPhetPCanvas( new PDimension( 3, 3 ) );
+        phetPCanvas.setZoomEventHandler( new PZoomEventHandler() );
         //todo: update layout
-        frame.setContentPane( contentPane );
+        frame.setContentPane( phetPCanvas );
 
         final Human human1 = new Human();
         HumanAreaNode humanNodeArea = new HumanAreaNode( human1 );
         humanNodeArea.setOffset( 1, 2 );
-        contentPane.addWorldChild( humanNodeArea );
+        phetPCanvas.addWorldChild( humanNodeArea );
         frame.setVisible( true );
         JFrame controlFrame = new JFrame();
-        JPanel cp = new VerticalLayoutPanel();
-        controlFrame.setContentPane( cp );
+        JPanel contentPane = new VerticalLayoutPanel();
+        controlFrame.setContentPane( contentPane );
 
         final LinearValueControl control = new LinearValueControl( 0, 500, 75, "mass", "0.00", "kg" );
         control.addChangeListener( new ChangeListener() {
@@ -132,7 +132,15 @@ public class HumanAreaNode extends PNode {
                 human1.setMass( control.getValue() );
             }
         } );
-        cp.add( control );
+        contentPane.add( control );
+
+        final LinearValueControl control2 = new LinearValueControl( 0, 100, "fat %", "0.0", "%" );
+        control2.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                human1.setFatMassPercent( control2.getValue() );
+            }
+        } );
+        contentPane.add( control2 );
 
         controlFrame.setVisible( true );
         controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
