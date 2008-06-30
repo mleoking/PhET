@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -112,6 +113,7 @@ public class HumanAreaNode extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
         PhetPCanvas contentPane = new BufferedPhetPCanvas( new PDimension( 10, 10 ) );
+        contentPane.setZoomEventHandler( new PZoomEventHandler() );
         //todo: update layout
         frame.setContentPane( contentPane );
 
