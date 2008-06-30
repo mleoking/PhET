@@ -1,15 +1,13 @@
 package edu.colorado.phet.eatingandexercise.view;
 
 import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -47,6 +45,10 @@ public class HumanNode extends PNode {
             }
 
             public void weightChanged() {
+                update();
+            }
+
+            public void fatPercentChanged() {
                 update();
             }
         } );
@@ -89,10 +91,25 @@ public class HumanNode extends PNode {
         bodyArea.add( new Area( limbStroke.createStrokedShape( leftArm ) ) );
         bodyArea.add( new Area( createStomachShape( bodyShape ) ) );
 
+        bodyArea.add( new Area( createBicep( rightArm, limbStroke ) ) );
+        bodyArea.add( new Area( createBicep( leftArm, limbStroke ) ) );
+
         areaNode.setPathTo( bodyArea );
         areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * m, 0.025f ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
 
         heartNode.setOffset( -heartNode.getFullBounds().getWidth() * 0.15, neckY + heartNode.getFullBounds().getHeight() * 1.25 );
+    }
+
+    private Shape createBicep( Line2D.Double rightArm, BasicStroke limbStroke ) {
+        double leanMusclePercent = human.getFatFreeMassPercent();
+        double width = limbStroke.getLineWidth() * ( 1 + ( leanMusclePercent / 100.0 ) );
+        Vector2D.Double vector = new Vector2D.Double( rightArm.getP1(), rightArm.getP2() );
+//        Point2D ellispeCenter = new Point2D.Double( rightArm.getX1() + rightArm.getx, );
+        double distAlongArm = 0.35;//assumes arm is one segment
+        Ellipse2D.Double aDouble = new Ellipse2D.Double();
+        Point2D center = vector.getScaledInstance( distAlongArm ).getDestination( rightArm.getP1() );
+        aDouble.setFrameFromCenter( center, new Point2D.Double( center.getX() + width / 2, center.getY() + width / 2 ) );
+        return aDouble;
     }
 
     //provides a mapping from human mass in KG to the arbitrary-scaled value for showing weight
