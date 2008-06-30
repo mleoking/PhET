@@ -112,13 +112,14 @@ public class HumanAreaNode extends PNode {
         JFrame frame = new JFrame( "Test Frame" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
-        PhetPCanvas contentPane = new BufferedPhetPCanvas( new PDimension( 10, 10 ) );
+        PhetPCanvas contentPane = new BufferedPhetPCanvas( new PDimension( 3, 3 ) );
         contentPane.setZoomEventHandler( new PZoomEventHandler() );
         //todo: update layout
         frame.setContentPane( contentPane );
 
         final Human human1 = new Human();
         HumanAreaNode humanNodeArea = new HumanAreaNode( human1 );
+        humanNodeArea.setOffset( 1, 2 );
         contentPane.addWorldChild( humanNodeArea );
         frame.setVisible( true );
         JFrame controlFrame = new JFrame();
