@@ -16,9 +16,6 @@ Clarify the meaning of "lifestyle" vs. other daily exercises
     >>Add popups with explanations (from Noah)
         >>SR: need to decide whether this panel will be Piccolo or Swing before proceeding with JComboBox (unless incompatibility bugs can be fixed)
 
--On the heart attack, the message also does not come up for this right away (above even 50% fat).
-    >>NP My bad - I had p_0 set to 0. In that case, the warning did not come up. When I set p_0 to non-zero it worked (but there was a slight delay for %fat above 30%).
-
 -"Just right" (green) body fat should be different for men / women.
     >>SR: This will be converted to heart strength/strain anyways (which may be gender-specific)
 
@@ -213,3 +210,7 @@ Add popup-question mark button for BMI readout near scale
 
 -The adjustable balanced diet works nicely, but I think the text box for calories is too small (on my screen anyway, it cuts off the edges of the number.)
     >>I tried to address this is 0.00.51.  Is this resolved?
+
+-On the heart attack, the message also does not come up for this right away (above even 50% fat).
+    >>NP My bad - I had p_0 set to 0. In that case, the warning did not come up. When I set p_0 to non-zero it worked (but there was a slight delay for %fat above 30%).
+    >>SR: I can't reproduce this delay.  Can you confirm the steps to repeat this problem?  Prehaps the problem is just that thresholds are 25/32% (male/female)
