@@ -17,7 +17,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - pH text field isn't fully selected when it gains focus or when you double-click in it
-- make particles of minority species more opaque
 - add bars to graph
 - make bars interactive
 - tick marks on graph
@@ -45,6 +44,9 @@ CLEANUP:
 
 
 DONE:
+6/30/08 - add developer control for # particles at pH=7
+6/30/08 - add developer control for majority & minority species transparency
+6/30/08 - use separate transparency for majority and minority species of particles
 6/30/08 - use my algorithm for linear # particles to create outside pH range 6-8
 6/30/08 - use Laurie's algorithm for # particles to create in pH range 6-8
 ******* version 0.00.05 (22811)

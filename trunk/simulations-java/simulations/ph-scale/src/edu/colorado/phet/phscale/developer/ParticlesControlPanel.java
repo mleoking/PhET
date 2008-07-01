@@ -27,6 +27,10 @@ import edu.colorado.phet.phscale.view.ParticlesNode;
  */
 public class ParticlesControlPanel extends JPanel {
 
+    private static final DoubleRange NEUTRAL_PARTICLES_RANGE = new DoubleRange( 50, 200, 100 );
+    private static final double NEUTRAL_PARTICLES_DELTA = 1;
+    private static final String NEUTRAL_PARTICLES_PATTERN = "####0";
+    
     private static final DoubleRange MAX_PARTICLES_RANGE = new DoubleRange( 1000, 10000, 5000 );
     private static final double MAX_PARTICLES_DELTA = 1;
     private static final String MAX_PARTICLES_PATTERN = "####0";
@@ -40,15 +44,26 @@ public class ParticlesControlPanel extends JPanel {
     private static final String TRANSPARENCY_PATTERN = "##0";
 
     private final ParticlesNode _particlesNode;
-    private final LinearValueControl _maxParticlesControl, _diameterControl, _transparencyControl;
+    private final LinearValueControl _neutralParticlesControl, _maxParticlesControl, _diameterControl;
+    private final LinearValueControl _majorityTransparencyControl, _minorityTransparencyControl;
     private final ColorControl _h3oColorControl, _ohColorControl;
 
     public ParticlesControlPanel( Frame dialogOwner, ParticlesNode particlesNode ) {
         
         _particlesNode = particlesNode;
 
+        // neutral particles
+        _neutralParticlesControl = new LinearValueControl( NEUTRAL_PARTICLES_RANGE.getMin(), NEUTRAL_PARTICLES_RANGE.getMax(), "# particles at pH=7:", NEUTRAL_PARTICLES_PATTERN, "" );
+        _neutralParticlesControl.setValue( particlesNode.getNeutralParticles() );
+        _neutralParticlesControl.setUpDownArrowDelta( NEUTRAL_PARTICLES_DELTA );
+        _neutralParticlesControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                _particlesNode.setNeutralParticles( (int) _neutralParticlesControl.getValue() );
+            }
+        } );
+        
         // max particles
-        _maxParticlesControl = new LinearValueControl( MAX_PARTICLES_RANGE.getMin(), MAX_PARTICLES_RANGE.getMax(), "max # particles:", MAX_PARTICLES_PATTERN, "" );
+        _maxParticlesControl = new LinearValueControl( MAX_PARTICLES_RANGE.getMin(), MAX_PARTICLES_RANGE.getMax(), "# particles at pH=15:", MAX_PARTICLES_PATTERN, "" );
         _maxParticlesControl.setValue( particlesNode.getMaxParticles() );
         _maxParticlesControl.setUpDownArrowDelta( MAX_PARTICLES_DELTA );
         _maxParticlesControl.addChangeListener( new ChangeListener() {
@@ -67,20 +82,34 @@ public class ParticlesControlPanel extends JPanel {
             }
         } );
 
-        // transparency
-        _transparencyControl = new LinearValueControl( TRANSPARENCY_RANGE.getMin(), TRANSPARENCY_RANGE.getMax(), "particle transparency:", TRANSPARENCY_PATTERN, "" );
-        _transparencyControl.setValue( _particlesNode.getParticleTransparency() );
-        _transparencyControl.setUpDownArrowDelta( TRANSPARENCY_DELTA );
-        _transparencyControl.addChangeListener( new ChangeListener() {
+        // majority transparency
+        _majorityTransparencyControl = new LinearValueControl( TRANSPARENCY_RANGE.getMin(), TRANSPARENCY_RANGE.getMax(), "majority transparency:", TRANSPARENCY_PATTERN, "" );
+        _majorityTransparencyControl.setValue( _particlesNode.getMajorityAlpha() );
+        _majorityTransparencyControl.setUpDownArrowDelta( TRANSPARENCY_DELTA );
+        _majorityTransparencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _particlesNode.setParticleTransparency( (int) _transparencyControl.getValue() );
+                _particlesNode.setMajorityAlpha( (int) _majorityTransparencyControl.getValue() );
             }
         } );
-        Hashtable particleTransparencyLabelTable = new Hashtable();
-        particleTransparencyLabelTable.put( new Double( _transparencyControl.getMinimum() ), new JLabel( "invisible" ) );
-        particleTransparencyLabelTable.put( new Double( _transparencyControl.getMaximum() ), new JLabel( "opaque" ) );
-        _transparencyControl.setTickLabels( particleTransparencyLabelTable );
+        Hashtable majorityTransparencyLabelTable = new Hashtable();
+        majorityTransparencyLabelTable.put( new Double( _majorityTransparencyControl.getMinimum() ), new JLabel( "invisible" ) );
+        majorityTransparencyLabelTable.put( new Double( _majorityTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
+        _majorityTransparencyControl.setTickLabels( majorityTransparencyLabelTable );
 
+        // minority transparency
+        _minorityTransparencyControl = new LinearValueControl( TRANSPARENCY_RANGE.getMin(), TRANSPARENCY_RANGE.getMax(), "minority transparency:", TRANSPARENCY_PATTERN, "" );
+        _minorityTransparencyControl.setValue( _particlesNode.getMinorityAlpha() );
+        _minorityTransparencyControl.setUpDownArrowDelta( TRANSPARENCY_DELTA );
+        _minorityTransparencyControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                _particlesNode.setMinorityAlpha( (int) _minorityTransparencyControl.getValue() );
+            }
+        } );
+        Hashtable minorityTransparencyLabelTable = new Hashtable();
+        minorityTransparencyLabelTable.put( new Double( _minorityTransparencyControl.getMinimum() ), new JLabel( "invisible" ) );
+        minorityTransparencyLabelTable.put( new Double( _minorityTransparencyControl.getMaximum() ), new JLabel( "opaque" ) );
+        _minorityTransparencyControl.setTickLabels( minorityTransparencyLabelTable );
+        
         // H3O color
         _h3oColorControl = new ColorControl( dialogOwner, "H3O color:", _particlesNode.getH3OColor() );
         _h3oColorControl.addChangeListener( new ChangeListener() {
@@ -102,9 +131,11 @@ public class ParticlesControlPanel extends JPanel {
         this.setLayout( particlePanelLayout );
         int row = 0;
         int column = 0;
+        particlePanelLayout.addComponent( _neutralParticlesControl, row++, column );
         particlePanelLayout.addComponent( _maxParticlesControl, row++, column );
         particlePanelLayout.addComponent( _diameterControl, row++, column );
-        particlePanelLayout.addComponent( _transparencyControl, row++, column );
+        particlePanelLayout.addComponent( _majorityTransparencyControl, row++, column );
+        particlePanelLayout.addComponent( _minorityTransparencyControl, row++, column );
         particlePanelLayout.addComponent( _h3oColorControl, row++, column );
         particlePanelLayout.addComponent( _ohColorControl, row++, column );
     }
