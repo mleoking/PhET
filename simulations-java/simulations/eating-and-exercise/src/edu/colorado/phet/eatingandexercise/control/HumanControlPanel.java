@@ -16,6 +16,7 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseCanvas;
 import edu.colorado.phet.eatingandexercise.util.FeetInchesFormat;
 
 /**
@@ -37,7 +38,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
     private ArrayList sliders = new ArrayList();
 
-    public HumanControlPanel( final EatingAndExerciseModel model, final Human human ) {
+    public HumanControlPanel( EatingAndExerciseCanvas canvas, final EatingAndExerciseModel model, final Human human ) {
         this.model = model;
         this.human = human;
         setFillNone();
@@ -46,7 +47,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         setFillHorizontal();
 
 //        add( new ActivityLevelControlPanel( human ) );
-//        add( new ActivityLevelComboBox( human ) );
+        add( new ActivityLevelControl( canvas, human ) );
 
         ageSlider = new HumanSlider( 0, 100, EatingAndExerciseUnits.secondsToYears( human.getAge() ), EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), EatingAndExerciseResources.getString( "units.years" ) );
         sliders.add( ageSlider );
