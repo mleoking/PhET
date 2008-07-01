@@ -25,7 +25,13 @@ public class ParticlesNode extends PComposite {
     
     private static final double ACID_PH_THRESHOLD = 6;
     private static final double BASE_PH_THRESHOLD = 8;
-
+    
+    private static final int DEFAULT_NEUTRAL_PARTICLES = 100;
+    private static final int DEFAULT_MAX_PARTICLES = 5000;
+    private static final double DEFAULT_DIAMETER = 4;
+    private static final int DEFAULT_MAJORITY_ALPHA = 128; // 0-255, transparent-opaque
+    private static final int DEFAULT_MINORITY_ALPHA = 255; // 0-255, transparent-opaque
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -38,9 +44,11 @@ public class ParticlesNode extends PComposite {
    
     private Double _pH; // used to watch for pH change in the liquid
     private int _maxParticles;
+    private int _neutralParticles;
     private double _diameter;
-    private int _transparency;
+    private int _majorityAlpha, _minorityAlpha;
     private Color _h3oColor, _ohColor;
+    private int _numberOfH3O, _numberOfOH;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -67,11 +75,15 @@ public class ParticlesNode extends PComposite {
         _particlesParent = new PNode();
         addChild( _particlesParent );
         
-        _maxParticles = 5000;
-        _diameter = 4;
-        _transparency = 128;
-        _h3oColor = ColorUtils.createColor( PHScaleConstants.H3O_COLOR, _transparency );
-        _ohColor = ColorUtils.createColor( PHScaleConstants.OH_COLOR, _transparency );
+        _maxParticles = DEFAULT_MAX_PARTICLES;
+        _neutralParticles = DEFAULT_NEUTRAL_PARTICLES;
+        _diameter = DEFAULT_DIAMETER;
+        _majorityAlpha = DEFAULT_MAJORITY_ALPHA;
+        _minorityAlpha = DEFAULT_MINORITY_ALPHA;
+        _h3oColor = PHScaleConstants.H3O_COLOR;
+        _ohColor = PHScaleConstants.OH_COLOR;
+        _numberOfH3O = 0;
+        _numberOfOH = 0;
         
         update();
     }
@@ -95,6 +107,17 @@ public class ParticlesNode extends PComposite {
         return _maxParticles;
     }
     
+    public void setNeutralParticles( int neutralParticles ) {
+        if ( neutralParticles != _neutralParticles ) {
+            _neutralParticles = neutralParticles;
+            createParticles();
+        }
+    }
+    
+    public int getNeutralParticles() {
+        return _neutralParticles;
+    }
+    
     public void setParticleDiameter( double diameter ) {
         if ( diameter != _diameter ) {
             _diameter = diameter;
@@ -109,25 +132,39 @@ public class ParticlesNode extends PComposite {
         return _diameter;
     }
     
-    public void setParticleTransparency( int transparency ) {
-        if ( transparency != _transparency ) {
-            _transparency = transparency;
+    public void setMajorityAlpha( int alpha ) {
+        if ( alpha != _majorityAlpha ) {
+            _majorityAlpha = alpha;
             setH3OColor( _h3oColor );
             setOHColor( _ohColor );
         }
     }
     
-    public int getParticleTransparency() { 
-        return _transparency;
+    public int getMajorityAlpha() { 
+        return _majorityAlpha;
+    }
+    
+    public void setMinorityAlpha( int alpha ) {
+        if ( alpha != _minorityAlpha ) {
+            _minorityAlpha = alpha;
+            setH3OColor( _h3oColor );
+            setOHColor( _ohColor );
+        }
+    }
+    
+    public int getMinorityAlpha() {
+        return _minorityAlpha;
     }
     
     public void setH3OColor( Color color ) {
-        _h3oColor = ColorUtils.createColor( color, _transparency );
+        _h3oColor = color;
+        int alpha = ( _numberOfH3O >= _numberOfOH ? _majorityAlpha : _minorityAlpha );
+        Color particleColor = ColorUtils.createColor( _h3oColor, alpha );
         int count = _particlesParent.getChildrenCount();
         for ( int i = 0; i < count; i++ ) {
             PNode node = _particlesParent.getChild( i );
             if ( node instanceof H3ONode ) {
-                node.setPaint( _h3oColor );
+                node.setPaint( particleColor );
             }
         }
     }
@@ -137,12 +174,14 @@ public class ParticlesNode extends PComposite {
     }
     
     public void setOHColor( Color color ) {
-        _ohColor = ColorUtils.createColor( color, _transparency );
+        int alpha = ( _numberOfOH >= _numberOfH3O ? _majorityAlpha : _minorityAlpha );
+        _ohColor = color;
+        Color particleColor = ColorUtils.createColor( _ohColor, alpha );
         int count = _particlesParent.getChildrenCount();
         for ( int i = 0; i < count; i++ ) {
             PNode node = _particlesParent.getChild( i );
             if ( node instanceof OHNode ) {
-                node.setPaint( _ohColor );
+                node.setPaint( particleColor );
             }
         }
     }
@@ -205,45 +244,48 @@ public class ParticlesNode extends PComposite {
         deleteAllParticles();
         
         final double pH = _pH.doubleValue();
-        double numH3O = 0;
-        double numOH = 0;
 
-        if ( pH >= 6 && pH <= 8 ) {
-            numH3O = ( _liquid.getConcentrationH3O() * 50 / 1E-7 );
-            numOH = ( _liquid.getConcentrationOH() * 50 / 1E-7 );
+        if ( pH >= ACID_PH_THRESHOLD && pH <= BASE_PH_THRESHOLD ) {
+            // # particles is varies with log in this range
+            _numberOfH3O = (int) ( _liquid.getConcentrationH3O() * ( _neutralParticles / 2 ) / 1E-7 );
+            _numberOfOH = (int) ( _liquid.getConcentrationOH() * ( _neutralParticles / 2 ) / 1E-7 );
         }
         else {
-            final double N = ( _maxParticles - 500 ) / 7;
-            if ( pH < 6 ) {
-                numH3O = Math.min( _maxParticles, ( Liquid.getConcentrationH3O( 6 ) * 50 / 1E-7 ) + ( ( 6 - pH ) * N ) );
-                numOH = Math.max( 1, ( Liquid.getConcentrationOH( 6 ) * 50 / 1E-7 )  - ( 6 - pH ) );
+            // # particles becomes a linear relationship in this range
+            final double N = ( _maxParticles - ( 10 * _neutralParticles / 2 ) ) / 7;
+            if ( pH < ACID_PH_THRESHOLD ) {
+                // strong acid
+                _numberOfH3O = (int) Math.min( _maxParticles, ( Liquid.getConcentrationH3O( ACID_PH_THRESHOLD ) * ( _neutralParticles / 2 ) / 1E-7 ) + ( ( ACID_PH_THRESHOLD - pH ) * N ) );
+                _numberOfOH = (int) Math.max( 1, ( Liquid.getConcentrationOH( ACID_PH_THRESHOLD ) * ( _neutralParticles / 2 ) / 1E-7 ) - ( ACID_PH_THRESHOLD - pH ) );
             }
-            else { /* pH > 8 */
-                numH3O = Math.max( 1, ( Liquid.getConcentrationH3O( 8 ) * 50 / 1E-7 ) - ( pH - 8 ) );
-                numOH = Math.min( _maxParticles, (Liquid.getConcentrationOH( 8 ) * 50 / 1E-7 ) + ( ( pH - 8 ) * N ) );
+            else {
+                // strong base
+                _numberOfH3O = (int) Math.max( 1, ( Liquid.getConcentrationH3O( BASE_PH_THRESHOLD ) * ( _neutralParticles / 2 ) / 1E-7 ) - ( pH - BASE_PH_THRESHOLD ) );
+                _numberOfOH = (int) Math.min( _maxParticles, (Liquid.getConcentrationOH( BASE_PH_THRESHOLD ) * ( _neutralParticles / 2 ) / 1E-7 ) + ( ( pH - BASE_PH_THRESHOLD ) * N ) );
             }
         }
-        System.out.println( "#H3O=" + numH3O + " #OH=" + numOH );
+        System.out.println( "#H3O=" + _numberOfH3O + " #OH=" + _numberOfOH );
         
         // create particles, minority species in foreground
-        if ( numH3O > numOH ) {
-            createH3ONodes( (int) numH3O );
-            createOHNodes( (int) numOH );
+        if ( _numberOfH3O > _numberOfOH ) {
+            createH3ONodes( (int) _numberOfH3O, _majorityAlpha );
+            createOHNodes( (int) _numberOfOH, _minorityAlpha );
         }
         else {
-            createOHNodes( (int) numOH );
-            createH3ONodes( (int) numH3O );
+            createOHNodes( (int) _numberOfOH, _majorityAlpha );
+            createH3ONodes( (int) _numberOfH3O, _minorityAlpha );
         }
     }
     
     /*
      * Creates H3O nodes at random locations.
      */
-    private void createH3ONodes( int count ) {
+    private void createH3ONodes( int count, int alpha ) {
         Point2D pOffset = new Point2D.Double();
+        Color color = ColorUtils.createColor( _h3oColor, alpha );
         for ( int i = 0; i < count; i++ ) {
             getRandomPoint( _containerBounds, pOffset );
-            ParticleNode p = new H3ONode( _diameter, _h3oColor );
+            ParticleNode p = new H3ONode( _diameter, color );
             p.setOffset( pOffset );
             _particlesParent.addChild( p );
         }
@@ -252,11 +294,12 @@ public class ParticlesNode extends PComposite {
     /*
      * Creates OH nodes at random locations.
      */
-    private void createOHNodes( int count ) {
+    private void createOHNodes( int count, int alpha ) {
         Point2D pOffset = new Point2D.Double();
+        Color color = ColorUtils.createColor( _ohColor, alpha );
         for ( int i = 0; i < count; i++ ) {
             getRandomPoint( _containerBounds, pOffset );
-            ParticleNode p = new OHNode( _diameter, _ohColor );
+            ParticleNode p = new OHNode( _diameter, color );
             p.setOffset( pOffset );
             _particlesParent.addChild( p );
         }
