@@ -2,10 +2,13 @@ package edu.colorado.phet.phscale.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Insets;
+import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
+import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -20,15 +23,17 @@ public class MoleculeCountNode extends PComposite {
     
     private static final double X_SPACING = 15;
     private static final double Y_SPACING = 20;
-    private static final Font VALUE_FONT = new PhetFont( 25 );
+    private static final Font VALUE_FONT = new PhetFont( 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
+    private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
+    private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 );
     
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
-    private final FormattedNumberNode _h3oCountNode;
-    private final FormattedNumberNode _ohCountNode;
-    private final FormattedNumberNode _h2oCountNode;
+    private final ValueNode _h3oCountNode;
+    private final ValueNode _ohCountNode;
+    private final ValueNode _h2oCountNode;
     
     public MoleculeCountNode( Liquid liquid ) {
         super();
@@ -43,15 +48,18 @@ public class MoleculeCountNode extends PComposite {
         
         // icons
         H3ONode h3oNode = new H3ONode();
+        h3oNode.scale( 0.6 ); //XXX
         OHNode ohNode = new OHNode();
+        ohNode.scale( 0.6 ); //XXX
         H2ONode h2oNode = new H2ONode();
+        h2oNode.scale( 0.6 ); //XXX
         
         // values
-        _h3oCountNode = new FormattedNumberNode( H3O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
-        _ohCountNode = new FormattedNumberNode( OH_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
-        _h2oCountNode = new FormattedNumberNode( H2O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
+        _h3oCountNode = new ValueNode( H3O_FORMAT );
+        _ohCountNode = new ValueNode( OH_FORMAT );
+        _h2oCountNode = new ValueNode( H2O_FORMAT );
         
-        // update before positions so that layout uses values
+        // update before setting offsets so that we have meaningful sizes for the value nodes
         update();
         
         addChild( h3oNode );
@@ -71,8 +79,6 @@ public class MoleculeCountNode extends PComposite {
         _h3oCountNode.setOffset( maxX + X_SPACING, bH3O.getCenterY() - _h3oCountNode.getFullBoundsReference().getHeight() / 2 );
         _ohCountNode.setOffset( maxX + X_SPACING, bOH.getCenterY() - _ohCountNode.getFullBoundsReference().getHeight() / 2 );
         _h2oCountNode.setOffset( maxX + X_SPACING, bH2O.getCenterY() - _h2oCountNode.getFullBoundsReference().getHeight() / 2 );
-        
-        scale( 0.60 ); //XXX
     }
     
     public void cleanup() {
@@ -83,5 +89,21 @@ public class MoleculeCountNode extends PComposite {
         _h3oCountNode.setValue( _liquid.getMoleculesH3O() );
         _ohCountNode.setValue( _liquid.getMoleculesOH() );
         _h2oCountNode.setValue( _liquid.getMoleculesH2O() );
+    }
+    
+    private static class ValueNode extends PComposite {
+
+        private FormattedNumberNode _numberNode;
+        
+        public ValueNode( NumberFormat format ) {
+            _numberNode = new FormattedNumberNode( format, 0, VALUE_FONT, VALUE_COLOR );
+            RectangularBackgroundNode backgroundNode = new RectangularBackgroundNode( _numberNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
+            addChild( backgroundNode );
+        }
+        
+        public void setValue( double value ) {
+            _numberNode.setValue( value );
+        }
+        
     }
 }
