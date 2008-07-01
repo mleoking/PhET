@@ -240,6 +240,11 @@ public class ParticlesNode extends PComposite {
     // Updaters
     //----------------------------------------------------------------------------
     
+    /*
+     * Creates a new set of particles only if the liquid's pH changes.
+     * If the volume changes, we'll simply expose more of the existing 
+     * particles by increasing the size of LiquidNode.
+     */
     private void update() {
         if ( getVisible() ) {
             Double previousPH = _pH;
@@ -266,6 +271,8 @@ public class ParticlesNode extends PComposite {
     
     /*
      * Creates particle nodes based on the current pH value.
+     * Particles are spread throughout the container without consideratin of actual liquid volume.
+     * This allows us to simply expose more particles (via LiquidNode) as the liquid's volume increases.
      */
     private void createParticles() {
         assert( _pH != null );
