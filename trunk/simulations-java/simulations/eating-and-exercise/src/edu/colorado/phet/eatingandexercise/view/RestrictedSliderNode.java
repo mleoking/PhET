@@ -10,14 +10,14 @@ import edu.umd.cs.piccolo.PNode;
  * Created by: Sam
  * Apr 24, 2008 at 6:48:47 PM
  */
-public class RestrictedSliderNode2 extends SliderNode2 {
+public class RestrictedSliderNode extends SliderNode {
 
     private double dragmin;
     private double dragmax;
     private RestrictedRangeNode lowerRestrictedRange;
     private RestrictedRangeNode upperRestrictedRange;
 
-    public RestrictedSliderNode2( double min, double max, double value ) {
+    public RestrictedSliderNode( double min, double max, double value ) {
         super( max, value, min );
         this.dragmin = min;
         this.dragmax = max;
