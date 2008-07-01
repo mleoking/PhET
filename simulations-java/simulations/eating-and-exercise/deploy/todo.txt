@@ -23,10 +23,6 @@ Clarify the meaning of "lifestyle" vs. other daily exercises
 -On the heart attack, the message also does not come up for this right away (above even 50% fat).
     >>NP My bad - I had p_0 set to 0. In that case, the warning did not come up. When I set p_0 to non-zero it worked (but there was a slight delay for %fat above 30%).
 
-Play area scale doesn't respect control panel width.
-    >>This is only a problem for skinny window sizes, does it need to be addressed?
-    >>No, this is a problem elsewhere too.  It should be addressed.
-
 #######################################################################################
 ##############                    To Do/Noah                             ##############
 #######################################################################################
