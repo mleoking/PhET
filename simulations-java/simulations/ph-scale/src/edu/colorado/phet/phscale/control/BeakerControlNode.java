@@ -13,9 +13,17 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-
+/**
+ * BeakerControlNode contains the beaker, liquid and all related controls.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class BeakerControlNode extends PNode {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final double PROBE_LENGTH = 475;
     private static final PDimension BEAKER_SIZE = new PDimension( 350, 400 );
     
@@ -30,6 +38,10 @@ public class BeakerControlNode extends PNode {
     private final MoleculeCountNode _moleculeCountNode;
     private final ViewControlPanel _viewControlPanel;
     private final DrainControlNode _drainControlNode;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public BeakerControlNode( PSwingCanvas pSwingCanvas, PHScaleModel model ) {
         super();
@@ -54,7 +66,7 @@ public class BeakerControlNode extends PNode {
 
         _liquidNode = new LiquidNode( liquid, BEAKER_SIZE );
         
-        _beakerNode = new BeakerNode( liquid, BEAKER_SIZE );
+        _beakerNode = new BeakerNode( BEAKER_SIZE, liquid.getMaxVolume() );
         
         _moleculeCountNode = new MoleculeCountNode( liquid );
         
@@ -98,6 +110,10 @@ public class BeakerControlNode extends PNode {
     public void cleanup() {
         _model.getLiquid().removeLiquidListener( _liquidListener );
     }
+   
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public void setMoleculeCountSelected( boolean selected ) {
         _viewControlPanel.setCountSelected( selected );

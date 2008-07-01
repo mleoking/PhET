@@ -24,16 +24,28 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class PHControlNode extends PNode {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final int MARGIN = 15;
 
     private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 400 );
     private static final PDimension KNOB_SIZE = new PDimension( 40, 30 );
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
     private final PHTextFieldNode _textFieldNode;
     private final PHSliderNode _sliderNode;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public PHControlNode( IntegerRange range, Liquid liquid ) {
         super();
@@ -87,6 +99,10 @@ public class PHControlNode extends PNode {
     public void cleanup() {
         _liquid.removeLiquidListener( _liquidListener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
     
     private void update() {
         Double pH = _liquid.getPH();

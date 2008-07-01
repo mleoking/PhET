@@ -13,13 +13,25 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * LegendNode is the molecules legend that appears below the bar graph.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LegendNode extends PComposite {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final Font LEGEND_FONT = new PhetFont( 18 );
     private static final double LEGEND_ITEM_Y_SPACING = 5;
     private static final double LEGEND_X_SPACING = 25;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public LegendNode() {
         super();
         LegendItemNode h3oLegendItemNode = new LegendItemNode( new H3ONode(), PHScaleStrings.LABEL_H3O );
@@ -34,7 +46,14 @@ public class LegendNode extends PComposite {
         PBounds ohb = ohLegendItemNode.getFullBoundsReference();
         h2oLegendItemNode.setOffset( ohb.getMaxX() + LEGEND_X_SPACING, ohb.getY() );
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
 
+    /*
+     * A legend item consists of an icon with a label centered beneath it.
+     */
     private static class LegendItemNode extends PComposite {
 
         public LegendItemNode( PNode iconNode, String label ) {

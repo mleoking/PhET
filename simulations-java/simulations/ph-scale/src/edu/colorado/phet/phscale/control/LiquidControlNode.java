@@ -21,11 +21,24 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-
+/**
+ * LiquidControlNode contains the combo box and on/off faucet for controlling
+ * the type and amount of liquid in the beaker.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LiquidControlNode extends PNode {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 440 );
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     private final LiquidComboBox _comboBox;
@@ -34,6 +47,10 @@ public class LiquidControlNode extends PNode {
     
     private LiquidDescriptor _selectedLiquidDescriptor;
     private boolean _confirmChangeLiquid;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public LiquidControlNode( PSwingCanvas canvas, Liquid liquid ) {
         super();
@@ -90,10 +107,18 @@ public class LiquidControlNode extends PNode {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public void setLiquidDescriptor( LiquidDescriptor liquidDescriptor ) {
         _comboBox.setChoice( liquidDescriptor );
         handleLiquidSelection( false /* confirm */ );
     }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
     
     private void update() {
         _faucetControlNode.setOn( _liquid.isFillingLiquid() );

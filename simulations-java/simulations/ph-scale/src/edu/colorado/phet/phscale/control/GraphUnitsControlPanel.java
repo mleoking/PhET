@@ -16,14 +16,31 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
-
+/**
+ * GraphUnitsControlPanel contains the controls for switching the graph's units.
+ * The units can be either concentration (moles/L) or moles.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class GraphUnitsControlPanel extends JPanel {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, 18 );;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final ArrayList _listeners;
     private final JRadioButton _concentrationRadioButton;
     private final JRadioButton _molesRadioButton;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public GraphUnitsControlPanel() {
         super();
@@ -61,6 +78,10 @@ public class GraphUnitsControlPanel extends JPanel {
         _concentrationRadioButton.setSelected( true );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public boolean isConcentrationSelected() {
         return _concentrationRadioButton.isSelected();
     }
@@ -82,6 +103,10 @@ public class GraphUnitsControlPanel extends JPanel {
             notifySelectionChanged();
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Listener interface
+    //----------------------------------------------------------------------------
     
     public interface GraphUnitsControlPanelListener {
         public void selectionChanged();

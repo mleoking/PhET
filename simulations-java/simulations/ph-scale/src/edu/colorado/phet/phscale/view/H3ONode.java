@@ -6,7 +6,11 @@ import edu.colorado.phet.phscale.PHScaleImages;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * H3ONode is the visual representation of a hydronium molecule.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class H3ONode extends PComposite {
 
     public H3ONode() {

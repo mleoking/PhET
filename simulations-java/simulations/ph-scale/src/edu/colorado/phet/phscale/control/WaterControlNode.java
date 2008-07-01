@@ -18,16 +18,32 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * WaterControlNode contains on/off faucet for adding water to the beaker.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class WaterControlNode extends PNode {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final PDimension WATER_COLUMN_SIZE = new PDimension( 20, 450 );
     public static final Font FONT = PHScaleConstants.CONTROL_FONT;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     private final PPath _waterColumnNode;
     private final FaucetControlNode _faucetControlNode;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public WaterControlNode( Liquid liquid ) {
         super();
@@ -72,6 +88,10 @@ public class WaterControlNode extends PNode {
     public void cleanup() {
         _liquid.removeLiquidListener( _liquidListener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
     
     private void update() {
         _faucetControlNode.setOn( _liquid.isFillingWater() );

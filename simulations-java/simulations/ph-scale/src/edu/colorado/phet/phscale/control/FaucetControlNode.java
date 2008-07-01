@@ -13,16 +13,32 @@ import edu.colorado.phet.phscale.view.FaucetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * FaucetControlNode is a general faucet control. It has 2 states: on or off.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class FaucetControlNode extends PNode {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     public static final int ORIENTATION_LEFT = SwingConstants.LEFT;
     public static final int ORIENTATION_RIGHT = SwingConstants.RIGHT;
     
     private static final int MARGIN = 15;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final MomentarySlider _slider;
     private final ArrayList _listeners;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
 
     public FaucetControlNode( int orientation ) {
         super();
@@ -48,6 +64,10 @@ public class FaucetControlNode extends PNode {
         sliderWrapper.setOffset( MARGIN, 0.42 * faucetNode.getFullBoundsReference().getHeight() ); //XXX image specific
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public void setOn( boolean on ) {
         _slider.setOn( on );
     }
@@ -59,6 +79,10 @@ public class FaucetControlNode extends PNode {
     public void setEnabled( boolean enabled ) {
         _slider.setEnabled( enabled );
     }
+    
+    //----------------------------------------------------------------------------
+    // Listener interface
+    //----------------------------------------------------------------------------
     
     public interface FaucetControlListener {
         public void onOffChanged( boolean on );

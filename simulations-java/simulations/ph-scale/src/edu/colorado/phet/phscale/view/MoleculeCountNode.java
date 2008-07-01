@@ -14,8 +14,16 @@ import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * MoleculeCountNode displays the molecule counts shown in the beaker.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class MoleculeCountNode extends PComposite {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final TimesTenNumberFormat H3O_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
@@ -28,12 +36,20 @@ public class MoleculeCountNode extends PComposite {
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
     private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 );
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
     private final ValueNode _h3oCountNode;
     private final ValueNode _ohCountNode;
     private final ValueNode _h2oCountNode;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public MoleculeCountNode( Liquid liquid ) {
         super();
@@ -85,12 +101,19 @@ public class MoleculeCountNode extends PComposite {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
     private void update() {
         _h3oCountNode.setValue( _liquid.getMoleculesH3O() );
         _ohCountNode.setValue( _liquid.getMoleculesOH() );
         _h2oCountNode.setValue( _liquid.getMoleculesH2O() );
     }
     
+    /*
+     * Displays a formatted number on a background.
+     */
     private static class ValueNode extends PComposite {
 
         private FormattedNumberNode _numberNode;

@@ -30,6 +30,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 public class BarGraphNode extends PNode {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
 
     private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 24 );
     
@@ -45,6 +49,10 @@ public class BarGraphNode extends PNode {
 
     private static final double LEGEND_Y_SPACING = 5;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
@@ -52,6 +60,10 @@ public class BarGraphNode extends PNode {
     private final GraphUnitsControlPanel _graphUnitsControlPanel;
     private final GraphScaleControlPanel _graphScaleControlPanel;
     private final ValuesNode _concentrationsNode, _molesNode;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public BarGraphNode( PDimension graphOutlineSize, Liquid liquid ) {
         super();
@@ -136,7 +148,10 @@ public class BarGraphNode extends PNode {
         _concentrationsNode.setVisible( _graphUnitsControlPanel.isConcentrationSelected() );
         _molesNode.setVisible( _graphUnitsControlPanel.isMolesSelected() );
     }
-
+    
+    /*
+     * Numeric values displayed on the graph.
+     */
     private static class ValuesNode extends PComposite {
         
         private final FormattedNumberNode _h3oNode, _ohNode, _h2oNode;
