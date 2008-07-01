@@ -5,9 +5,9 @@ Fixed: New sliders need to update when units change english/metric
 Fixed: New sliders need limits on type-in values
 Added aligned layout for sliders
 Fixed: If I set a value beyond the slider, the arrow comes up (very nice) but the tip of the arrow is cut off.
-Layout fixes: Move up baseline of buttons and bar chart, make graphs fill width and height
-Fixed: -The "Starving" message did not come up immediately below a certain body fat (4% female / 2% male). It came up only after body fat reached 0% (as far as I could tell).
-Fixed: -If I set a height and weight and adjust body fat, the muscles get smaller, but the rest of the body does not get bigger.
+Fixed Layout: Move up baseline of buttons and bar chart, make graphs fill width and height
+Fixed: The "Starving" message did not come up immediately below a certain body fat (4% female / 2% male). It came up only after body fat reached 0% (as far as I could tell).
+Fixed: If I set a height and weight and adjust body fat, the muscles get smaller, but the rest of the body does not get bigger.
 
 New in 0.00.50
 Changed starving message to “Starving!”
