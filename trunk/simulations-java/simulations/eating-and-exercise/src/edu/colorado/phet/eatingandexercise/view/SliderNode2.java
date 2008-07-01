@@ -25,48 +25,37 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Created by: Sam
- * Apr 24, 2008 at 6:48:47 PM
+ * Jul 1, 2008 at 9:43:43 AM
  */
-public class SliderNode extends PNode {
+public class SliderNode2 extends PNode {
+    private int width = DEFAULT_WIDTH;
+    private int height = DEFAULT_HEIGHT;
+    private double min;
+    private double max;
+    private double value;
+    private ThumbNode thumbNode;
+    private TrackNode trackNode;
+
+    private ArrayList listeners = new ArrayList();
+
     private static final int DEFAULT_WIDTH = 160;
     private static final int DEFAULT_HEIGHT = 30;
     private static final int DEFAULT_THUMB_WIDTH = 10;
     private static final int DEFAULT_THUMB_HEIGHT = 30;
 
-    private int width = DEFAULT_WIDTH;
-    private int height = DEFAULT_HEIGHT;
-
-    private double min;
-    private double max;
-    private double value;
-    private ThumbNode thumbNode;
-    private double dragmin;
-    private double dragmax;
-    private RestrictedRangeNode lowerRestrictedRange;
-    private RestrictedRangeNode upperRestrictedRange;
-
-    private ArrayList listeners = new ArrayList();
-
-    public SliderNode( double min, double max, double value ) {
+    public SliderNode2( double min, double max, double value ) {
         this.min = min;
         this.max = max;
-        this.dragmin = this.min;
-        this.dragmax = this.max;
         this.value = value;
-        thumbNode = new ThumbNode();
-        lowerRestrictedRange = new RestrictedRangeNode( this.min, dragmin );
-        upperRestrictedRange = new RestrictedRangeNode( dragmax, this.max );
-        addChild( new TrackNode() );
-        addChild( lowerRestrictedRange );
-        addChild( upperRestrictedRange );
-        addChild( thumbNode );
-        update();
-    }
 
-    public void setDragRange( double dragmin, double dragmax ) {
-        this.dragmin = dragmin;
-        this.dragmax = dragmax;
-        updateRestrictedRanges();
+        trackNode = new TrackNode();
+        thumbNode = new ThumbNode();
+
+        addChild( trackNode );
+        addChild( thumbNode );
+
+        update();
+        System.out.println( "trackNode.getFullBounds() = " + trackNode.getFullBounds() );
     }
 
     public double getValue() {
@@ -84,44 +73,12 @@ public class SliderNode extends PNode {
         //todo: check that the value appears in the range
     }
 
-    private class RestrictedRangeNode extends PNode {
-        private PhetPPath path;
-        private double min;
-        private double max;
-
-        public RestrictedRangeNode( double min, double max ) {
-            this.min = min;
-            this.max = max;
-            path = new PhetPPath( Color.red, new BasicStroke( 1 ), Color.black );
-            addChild( path );
-            updatePath();
-        }
-
-        private void updatePath() {
-            path.setPathTo( createTrackShape( min, max ) );
-            path.setVisible( min != max );
-        }
-
-        public void setRange( double min, double max ) {
-            this.min = min;
-            this.max = max;
-            updatePath();
-        }
-    }
-
-    private Shape createTrackShape( double min, double max ) {
+    protected Shape createTrackShape( double min, double max ) {
         return new BasicStroke( 2 ).createStrokedShape( new Line2D.Double( modelToView( min ), height / 2, modelToView( max ), height / 2 ) );
     }
 
-    private void updateRestrictedRanges() {
-        lowerRestrictedRange.setRange( min, dragmin );
-        System.out.println( "min = " + min + ", dragmin=" + dragmin );
-        upperRestrictedRange.setRange( dragmax, max );
-    }
-
-    private void update() {
+    protected void update() {
         updateThumbLocation();
-//        thumbNode.setThumbPaint( value < min || value > max ? Color.red : new Color( 237, 200, 120 ) );
         Shape shape = new RoundRectangle2D.Double( 0, 0, thumbNode.getThumbWidth(), thumbNode.getThumbHeight(), 6, 6 );
         if ( value < min ) {
             DoubleGeneralPath path = new DoubleGeneralPath();
@@ -151,9 +108,8 @@ public class SliderNode extends PNode {
         return clamp( value );
     }
 
-    private double clamp( double v ) {
-        double sliderValue = MathUtil.clamp( min, v, max );
-        return MathUtil.clamp( dragmin, sliderValue, dragmax );
+    protected double clamp( double v ) {
+        return MathUtil.clamp( min, v, max );
     }
 
     private double modelToView( double value ) {
@@ -168,14 +124,47 @@ public class SliderNode extends PNode {
         return dv * ( max - min ) / ( width - 0 );
     }
 
-    private class TrackNode extends PNode {
-        private TrackNode() {
+    private void setCursorHand( Container contentPane, Cursor cursor ) {
+        contentPane.setCursor( cursor );
+        for ( int i = 0; i < contentPane.getComponentCount(); i++ ) {
+            Component c = contentPane.getComponent( i );
+            c.setCursor( cursor );
+            if ( c instanceof Container ) {
+                setCursorHand( (Container) c, cursor );
+            }
+        }
+    }
+
+    public void setValue( double value ) {
+        if ( this.value != value ) {
+            this.value = value;
+            notifyValueChanged();
+            update();
+        }
+    }
+
+    private void notifyValueChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (ChangeListener) listeners.get( i ) ).stateChanged( new ChangeEvent( this ) );
+        }
+    }
+
+    public double getMax() {
+        return max;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    protected class TrackNode extends PNode {
+        protected TrackNode() {
             PPath path = new PhetPPath( createTrackShape( min, max ), Color.lightGray, new BasicStroke( 1 ), Color.black );
             addChild( path );
         }
     }
 
-    private class ThumbNode extends PNode {
+    protected class ThumbNode extends PNode {
         private int thumbWidth = DEFAULT_THUMB_WIDTH;
         private int thumbHeight = DEFAULT_THUMB_HEIGHT;
         private Point2D dragStartPT;
@@ -184,9 +173,8 @@ public class SliderNode extends PNode {
         private ThumbNode() {
             thumb = new PhetPPath( new RoundRectangle2D.Double( 0, 0, thumbWidth, thumbHeight, 6, 6 ), new Color( 237, 200, 120 ), new BasicStroke(), Color.black );
             thumb.setOffset( -thumb.getFullBounds().getWidth() / 2, height / 2 - thumb.getFullBounds().getHeight() / 2 );
-            addInputEventListener( new CursorHandler() );//fails for PNode inside PhetPCanvas wrapped inside JComponent inside PSwing inside PhetPCanvas
+            addInputEventListener( new CursorHandler() );//todo: fails for PNode inside PhetPCanvas wrapped inside JComponent inside PSwing inside PhetPCanvas, see workaround below
             addInputEventListener( new PBasicInputEventHandler() {
-
                 //todo: remove this workaround for cursor handling on pswing double embedding
                 public void mouseEntered( PInputEvent event ) {
                     handleMouse( event, Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
@@ -198,17 +186,14 @@ public class SliderNode extends PNode {
             } );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
-                    dragStartPT = event.getPositionRelativeTo( ThumbNode.this );
+                    dragStartPT = event.getPositionRelativeTo( RestrictedSliderNode2.ThumbNode.this );
                 }
 
                 public void mouseDragged( PInputEvent event ) {
-                    Point2D dragEndPT = event.getPositionRelativeTo( ThumbNode.this );
+                    Point2D dragEndPT = event.getPositionRelativeTo( RestrictedSliderNode2.ThumbNode.this );
                     PDimension d = new PDimension( dragEndPT.getX() - dragStartPT.getX(), dragEndPT.getY() - dragEndPT.getY() );
-                    ThumbNode.this.localToGlobal( d );
-//                    System.out.println( "d.getWidth() = " + d.getWidth() );
+                    RestrictedSliderNode2.ThumbNode.this.localToGlobal( d );
                     double proposedValue = value + viewToModelRelative( d.getWidth() );
-//                    double proposedValue = value + d.getWidth() ;
-//                    System.out.println( "proposedValue = " + proposedValue );
                     setValue( clamp( proposedValue ) );
                 }
             } );
@@ -228,7 +213,7 @@ public class SliderNode extends PNode {
             }
         }
 
-        public void setThumbState( ThumbState thumbState ) {
+        public void setThumbState( RestrictedSliderNode2.ThumbState thumbState ) {
             setThumbPaint( thumbState.getPaint() );
             thumb.setPathTo( thumbState.getShape() );
         }
@@ -243,17 +228,6 @@ public class SliderNode extends PNode {
 
         public double getThumbHeight() {
             return thumbHeight;
-        }
-    }
-
-    private void setCursorHand( Container contentPane, Cursor cursor ) {
-        contentPane.setCursor( cursor );
-        for ( int i = 0; i < contentPane.getComponentCount(); i++ ) {
-            Component c = contentPane.getComponent( i );
-            c.setCursor( cursor );
-            if ( c instanceof Container ) {
-                setCursorHand( (Container) c, cursor );
-            }
         }
     }
 
@@ -275,31 +249,23 @@ public class SliderNode extends PNode {
         }
     }
 
-    public void setValue( double value ) {
-        if ( this.value != value ) {
-            this.value = value;
-            notifyValueChanged();
-            update();
-        }
-    }
-
-    private void notifyValueChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (ChangeListener) listeners.get( i ) ).stateChanged( new ChangeEvent( this ) );
-        }
-    }
-
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test Frame" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
         PhetPCanvas contentPane = new BufferedPhetPCanvas();
-        SliderNode sliderNode = new SliderNode( 50, 100, 50 );
+        final SliderNode2 sliderNode = new SliderNode2( 50, 100, 50 );
         sliderNode.setOffset( 100, 100 );
         contentPane.addScreenChild( sliderNode );
         frame.setContentPane( contentPane );
         frame.setVisible( true );
-//        sliderNode.setDragRange( 25, 75 );
+//
+//        Timer timer = new Timer( 1000, new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                sliderNode.setRange( 0, 1 );
+//            }
+//        } );
+//        timer.setRepeats( false );
+//        timer.start();
     }
-
 }
