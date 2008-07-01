@@ -154,7 +154,9 @@ Results: ***Subjects lost mean of 4.9 kg body mass, 4.3 kg as fat and 0.6 kg as 
 	Fat_lost (g) = 0.88 * 9 * Cal_burned
 
 >>>Starvation mode:
-	When starving (<2%/4% for men/women) make the ratio switch: LBM loss 95% and Fat loss 5%. (this might become 100% LBM...not yet sure).
+	When starving (<2%/4% for men/women) make the ratio switch, with buffering as follows:
+		%fat 2-4% (men), 4-6% (women): 	LBM loss 50%, Fat loss 50%
+		%fat < 2% (men), < 4% (women): 	LBM loss 95%, Fat loss 5%. (this might become 100% LBM...not yet sure).
 
 ____________________________________________________________________________________________
 MUSCLE GAINED FROM EXERCISING
