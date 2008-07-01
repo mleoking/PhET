@@ -227,8 +227,8 @@ public class ChartNode extends PNode {
     }
 
     public void relayout( double width, double height ) {
-        weightChart.setAvailableBounds( width, height / 4 );
-        calorieChart.setAvailableBounds( width, height / 4 );
+        weightChart.setAvailableBounds( width, height / 2 );
+        calorieChart.setAvailableBounds( width, height / 2 );
         weightChart.setOffset( 0, height - weightChart.getFullBounds().getHeight() - calorieChart.getFullBounds().getHeight() );
         calorieChart.setOffset( 0, weightChart.getFullBounds().getMaxY() );
 
