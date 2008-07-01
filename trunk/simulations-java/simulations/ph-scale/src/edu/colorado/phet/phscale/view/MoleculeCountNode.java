@@ -64,11 +64,11 @@ public class MoleculeCountNode extends PComposite {
         
         // icons
         H3ONode h3oNode = new H3ONode();
-        h3oNode.scale( 0.6 ); //XXX
+        h3oNode.scale( 0.4 ); //XXX
         OHNode ohNode = new OHNode();
-        ohNode.scale( 0.6 ); //XXX
+        ohNode.scale( 0.4 ); //XXX
         H2ONode h2oNode = new H2ONode();
-        h2oNode.scale( 0.6 ); //XXX
+        h2oNode.scale( 0.4 ); //XXX
         
         // values
         _h3oCountNode = new ValueNode( H3O_FORMAT );
