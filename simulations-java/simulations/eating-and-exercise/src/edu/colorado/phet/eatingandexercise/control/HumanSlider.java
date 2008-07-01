@@ -6,13 +6,13 @@ import java.util.Hashtable;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.eatingandexercise.control.valuenode.LinearValueControlNode;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.eatingandexercise.control.valuenode.LinearValueControlNode;
 
 /**
  * Created by: Sam
-* Jun 27, 2008 at 10:14:13 AM
-*/
+ * Jun 27, 2008 at 10:14:13 AM
+ */
 public class HumanSlider extends JPanel {
     private LinearValueControlNode linearValueControlNode;
 
@@ -46,7 +46,7 @@ public class HumanSlider extends JPanel {
     }
 
     public void setRange( double min, double max ) {
-//            linearValueControlNode.setSliderRange( min, max );
+        linearValueControlNode.setSliderRange( min, max );
     }
 
     public void setUnits( String distanceUnit ) {
@@ -60,7 +60,7 @@ public class HumanSlider extends JPanel {
     }
 
     public void setTextFieldFormat( NumberFormat numberFormat ) {
-        linearValueControlNode.setTextFieldFormat(numberFormat);
+        linearValueControlNode.setTextFieldFormat( numberFormat );
     }
 
     public void setTickLabels( Hashtable table ) {
