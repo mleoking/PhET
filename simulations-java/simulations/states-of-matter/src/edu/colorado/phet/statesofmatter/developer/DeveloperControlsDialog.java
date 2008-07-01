@@ -3,21 +3,29 @@
 package edu.colorado.phet.statesofmatter.developer;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Insets;
 
+import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
+import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
+import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -74,7 +82,32 @@ public class DeveloperControlsDialog extends JDialog {
                 _app.setSelectedTabColor( selectedTabColorControl.getColor() );
             }
         } );
+        
+        // Add the slider that controls the temperature of the system.
+        final LinearValueControl temperatureControl;
 
+        temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE, 
+                MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "##.##", "Control" );
+        temperatureControl.setUpDownArrowDelta( 0.05 );
+        temperatureControl.setTextFieldEditable( true );
+        temperatureControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
+        temperatureControl.setTickPattern( "0" );
+        temperatureControl.setMajorTickSpacing( 2.5 );
+        temperatureControl.setMinorTickSpacing( 1.25 );
+        temperatureControl.setBorder( BorderFactory.createEtchedBorder() );
+        temperatureControl.setValue( MultipleParticleModel.MIN_TEMPERATURE );
+        temperatureControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                Module activeModule = _app.getActiveModule();
+                if ( activeModule instanceof SolidLiquidGasModule ){
+                    ((SolidLiquidGasModule)activeModule).getMultiParticleModel().setTemperature( temperatureControl.getValue() );
+                }
+                else if ( activeModule instanceof PhaseChangesModule ){
+                    ((PhaseChangesModule)activeModule).getMultiParticleModel().setTemperature( temperatureControl.getValue() );
+                }
+            }
+        });
+        
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
@@ -85,6 +118,7 @@ public class DeveloperControlsDialog extends JDialog {
         int column = 0;
         layout.addComponent( controlPanelColorControl, row++, column );
         layout.addComponent( selectedTabColorControl, row++, column );
+        layout.addComponent( temperatureControl, row++, column );
 
         return panel;
     }
