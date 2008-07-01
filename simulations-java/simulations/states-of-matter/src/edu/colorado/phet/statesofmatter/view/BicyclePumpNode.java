@@ -52,7 +52,7 @@ public class BicyclePumpNode extends PNode {
     private static final Color PUMP_HANDLE_COLOR = new Color( 0xddaa77 );
     private static final double HOSE_CONNECTOR_HEIGHT_PROPORTION = 0.04;
     private static final double HOSE_CONNECTOR_WIDTH_PROPORTION = 0.05;
-    private static final double HOSE_CONNECTOR_VERT_POS_PROPORTION = 0.3;
+    private static final double HOSE_CONNECTOR_VERT_POS_PROPORTION = 0.5;
     private static final Color HOSE_CONNECTOR_COLOR = new Color( 0xffff99 );
     private static final double HOSE_ATTACH_VERT_POS_PROPORTION = 0.075;
     private static final Color HOSE_COLOR = Color.WHITE;

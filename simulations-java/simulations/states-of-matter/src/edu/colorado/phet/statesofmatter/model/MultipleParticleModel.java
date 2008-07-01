@@ -58,6 +58,8 @@ public class MultipleParticleModel {
                                                                  // the time step defined above?
     private static final int MAX_NUM_PARTICLES = 300;
     private static final double INJECTED_PARTICLE_VELOCITY = 1.0;
+    private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.97;
+    private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -339,8 +341,9 @@ public class MultipleParticleModel {
         
         if ( m_numberOfParticles < MAX_NUM_PARTICLES ){
             // Add particle and its velocity and forces to normalized set.
-            m_particlePositions[m_numberOfParticles] = new Point2D.Double(m_normalizedContainerWidth * 0.97,
-                    m_normalizedContainerHeight * 0.3);
+            m_particlePositions[m_numberOfParticles] = 
+                new Point2D.Double(m_normalizedContainerWidth * INJECTION_POINT_HORIZ_PROPORTION,
+                    m_normalizedContainerHeight * INJECTION_POINT_VERT_PROPORTION);
             m_particleVelocities[m_numberOfParticles] = new Vector2D.Double( -INJECTED_PARTICLE_VELOCITY, 0 );
             m_particleForces[m_numberOfParticles] = new Vector2D.Double();
             m_nextParticleForces[m_numberOfParticles] = new Vector2D.Double();
