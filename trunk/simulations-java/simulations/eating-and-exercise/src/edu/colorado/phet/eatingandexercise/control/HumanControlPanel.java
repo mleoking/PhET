@@ -1,9 +1,8 @@
 package edu.colorado.phet.eatingandexercise.control;
 
-import java.awt.*;
 import java.awt.event.*;
-import java.text.NumberFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -36,10 +35,11 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     private final HumanSlider p0Slider;
     private final JLabel pheart;
 
+    private ArrayList sliders = new ArrayList();
+
     public HumanControlPanel( final EatingAndExerciseModel model, final Human human ) {
         this.model = model;
         this.human = human;
-        getGridBagConstraints().insets = new Insets( 4, 4, 4, 4 );
         setFillNone();
 
         add( new GenderControl( human ) );
@@ -49,6 +49,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 //        add( new ActivityLevelComboBox( human ) );
 
         ageSlider = new HumanSlider( 0, 100, EatingAndExerciseUnits.secondsToYears( human.getAge() ), EatingAndExerciseResources.getString( "age" ), EatingAndExerciseStrings.AGE_FORMAT.toPattern(), EatingAndExerciseResources.getString( "units.years" ) );
+        sliders.add( ageSlider );
         add( ageSlider );
 
         ageSlider.addChangeListener( new ChangeListener() {
@@ -108,7 +109,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         human.addListener( new Human.Adapter() {
             public void heightChanged() {
-                heightSlider.setValue( model.getUnits().modelToViewDistance( human.getHeight() ));
+                heightSlider.setValue( model.getUnits().modelToViewDistance( human.getHeight() ) );
             }
         } );
         model.addListener( new EatingAndExerciseModel.Adapter() {
@@ -135,6 +136,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
 
         add( heightSlider );
+        sliders.add( heightSlider );
 
 
         final double minWeight = 0;
@@ -160,6 +162,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( weightSlider );
+        sliders.add( weightSlider );
 
         bodyFatSlider = new HumanSlider( 0, 100, human.getFatMassPercent(), EatingAndExerciseResources.getString( "body.fat" ), "0.0", "%" );
         bodyFatSlider.addChangeListener( new ChangeListener() {
@@ -178,6 +181,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
         add( bodyFatSlider );
+        sliders.add( bodyFatSlider );
 
         p0Slider = new HumanSlider( Math.min( 0, Human.Gender.P0 ), Math.max( 1 / 100.0, Human.Gender.P0 ), Human.Gender.P0, "p0", "0.0000", "units" );
         p0Slider.addChangeListener( new ChangeListener() {
@@ -187,13 +191,13 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
 //        add( p0Slider );
 
-        pheart = new JLabel( );
+        pheart = new JLabel();
         p0Slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateHeartAttackProbabilityLabel(  );
+                updateHeartAttackProbabilityLabel();
             }
         } );
-        human.addListener( new Human.Adapter(){
+        human.addListener( new Human.Adapter() {
             public void heartAttackProbabilityChanged() {
                 updateHeartAttackProbabilityLabel();
             }
@@ -204,13 +208,24 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         updateBodyFatSlider();
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                updateBodyFatSlider();
+                updateLayout();
             }
         } );
+        updateLayout();
     }
 
-    private void updateHeartAttackProbabilityLabel(  ) {
-        pheart.setText( "probability of heart attack per day="+new DecimalFormat("0.0000").format( human.getHeartAttackProbabilityPerDay() ));
+    private void updateLayout() {
+        updateBodyFatSlider();
+        relayoutSliders();
+    }
+
+    private void relayoutSliders() {
+        HumanSlider[]s= (HumanSlider[]) sliders.toArray( new HumanSlider[0] );
+        HumanSlider.layout(s);
+    }
+
+    private void updateHeartAttackProbabilityLabel() {
+        pheart.setText( "probability of heart attack per day=" + new DecimalFormat( "0.0000" ).format( human.getHeartAttackProbabilityPerDay() ) );
     }
 
     public double getAgeSliderY() {

@@ -15,10 +15,12 @@ import edu.colorado.phet.eatingandexercise.control.valuenode.LinearValueControlN
  */
 public class HumanSlider extends JPanel {
     private LinearValueControlNode linearValueControlNode;
+    private PNodeComponent pNodeComponent;
 
     public HumanSlider( double min, double max, double value, String label, String textFieldPattern, String units ) {
         linearValueControlNode = new LinearValueControlNode( label, units, min, max, value, new DefaultDecimalFormat( textFieldPattern ) );
-        add( new PNodeComponent( linearValueControlNode ) );
+        pNodeComponent = new PNodeComponent( linearValueControlNode );
+        add( pNodeComponent );
     }
 
     public double getValue() {
@@ -65,4 +67,20 @@ public class HumanSlider extends JPanel {
 
     public void setTickLabels( Hashtable table ) {
     }
+
+    public static void layout( HumanSlider[] s ) {
+        LinearValueControlNode[] nodes = new LinearValueControlNode[s.length];
+        for ( int i = 0; i < nodes.length; i++ ) {
+            nodes[i] = s[i].linearValueControlNode;
+        }
+        for ( int i = 0; i < nodes.length; i++ ) {
+            LinearValueControlNode valueControlNode = nodes[i];
+            valueControlNode.setLayoutStrategy(valueControlNode.getGridLayout(nodes));
+        }
+        for ( int i = 0; i < s.length; i++ ) {
+            HumanSlider humanSlider = s[i];
+            humanSlider.pNodeComponent.updatePreferredSize();
+        }
+    }
+
 }
