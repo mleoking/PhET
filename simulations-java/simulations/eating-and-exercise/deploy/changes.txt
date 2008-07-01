@@ -3,6 +3,7 @@ Fixed: Play area scale doesn't respect control panel height.
 Fixed: Default height was 6'4" (should probably be put back to 5-8 or 5-6 for female?)
 Fixed: New sliders need to update when units change english/metric
 Fixed: New sliders need limits on type-in values
+Added aligned layout for sliders
 
 New in 0.00.50
 Changed starving message to “Starving!”

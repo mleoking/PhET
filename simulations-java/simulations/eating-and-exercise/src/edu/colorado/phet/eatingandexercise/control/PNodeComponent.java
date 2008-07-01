@@ -10,9 +10,16 @@ import edu.umd.cs.piccolo.PNode;
  * Jun 26, 2008 at 8:55:09 AM
  */
 public class PNodeComponent extends PhetPCanvas {
+    private PNode node;
+
     public PNodeComponent( PNode node ) {
+        this.node = node;
         addScreenChild( node );
         node.setOffset( 2, 3 );
-        setPreferredSize( new Dimension( (int) node.getFullBounds().getWidth() + 4, (int) node.getFullBounds().getHeight() + 4 ) );
+        updatePreferredSize();
+    }
+
+    public void updatePreferredSize() {
+        setPreferredSize( new Dimension( (int) node.getFullBounds().getWidth() + 10, (int) node.getFullBounds().getHeight() + 4 ) );
     }
 }

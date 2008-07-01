@@ -13,6 +13,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.eatingandexercise.view.SliderNode;
 import edu.umd.cs.piccolo.PNode;
@@ -36,6 +37,7 @@ public class LinearValueControlNode extends PNode {
     private NumberFormat numberFormat;
     private double min;
     private double max;
+    private LayoutStrategy layoutStrategy = new DefaultLayoutStrategy();
 
     public LinearValueControlNode( String label, String units, double min, double max, double value, NumberFormat numberFormat ) {
         this.min = min;
@@ -127,11 +129,7 @@ public class LinearValueControlNode extends PNode {
     }
 
     private void relayout() {
-        double maxHeight = getMaxChildHeight();
-        labelNode.setOffset( 0, maxHeight / 2 - labelNode.getFullBounds().getHeight() / 2 );
-        readoutNode.setOffset( labelNode.getFullBounds().getMaxX() + SPACING, maxHeight / 2 - readoutNode.getFullBounds().getHeight() / 2 );
-        unitsNode.setOffset( readoutNode.getFullBounds().getMaxX() + SPACING, maxHeight / 2 - unitsNode.getFullBounds().getHeight() / 2 );
-        sliderNode.setOffset( unitsNode.getFullBounds().getMaxX() + SPACING, maxHeight / 2 - sliderNode.getFullBounds().getHeight() / 2 );
+        layoutStrategy.layout( this );
     }
 
     private double getMaxChildHeight() {
@@ -149,6 +147,80 @@ public class LinearValueControlNode extends PNode {
     public void setTextFieldFormat( NumberFormat numberFormat ) {
         this.numberFormat = numberFormat;
         field.setFormatterFactory( new DefaultFormatterFactory( new NumberFormatter( numberFormat ) ) );
+    }
+
+    public void setLayoutStrategy( LayoutStrategy layoutStrategy ) {
+        this.layoutStrategy = layoutStrategy;
+        relayout();
+    }
+
+    public LayoutStrategy getGridLayout( LinearValueControlNode[] nodes ) {
+        return new GridLayout( nodes );
+    }
+
+    //todo: perhaps this should be static
+    public interface LayoutStrategy {
+        void layout( LinearValueControlNode linearValueControlNode );
+    }
+
+    public class DefaultLayoutStrategy implements LayoutStrategy {
+        public void layout( LinearValueControlNode linearValueControlNode ) {
+            double maxHeight = getMaxChildHeight();
+            labelNode.setOffset( 0, maxHeight / 2 - labelNode.getFullBounds().getHeight() / 2 );
+            readoutNode.setOffset( labelNode.getFullBounds().getMaxX() + SPACING, maxHeight / 2 - readoutNode.getFullBounds().getHeight() / 2 );
+            unitsNode.setOffset( readoutNode.getFullBounds().getMaxX() + SPACING, maxHeight / 2 - unitsNode.getFullBounds().getHeight() / 2 );
+            sliderNode.setOffset( unitsNode.getFullBounds().getMaxX() + SPACING, maxHeight / 2 - sliderNode.getFullBounds().getHeight() / 2 );
+        }
+    }
+
+    public static interface Getter {
+        public double getValue( LinearValueControlNode node );
+    }
+
+    public class GridLayout implements LayoutStrategy {
+        private LinearValueControlNode[] nodes;
+
+        public GridLayout( LinearValueControlNode[] nodes ) {
+            this.nodes = nodes;
+        }
+
+        public void layout( LinearValueControlNode linearValueControlNode ) {
+            double maxHeight = getMaxChildHeight();
+
+            double maxLabelNodeWidth = getMax( new Getter() {
+                public double getValue( LinearValueControlNode n ) {
+                    return n.labelNode.getFullBounds().getWidth();
+                }
+            } );
+            double maxReadoutNodeWidth = getMax( new Getter() {
+                public double getValue( LinearValueControlNode n ) {
+                    return n.readoutNode.getFullBounds().getWidth();
+                }
+            } );
+            double maxUnitsNodeWidth = getMax( new Getter() {
+                public double getValue( LinearValueControlNode n ) {
+                    return n.unitsNode.getFullBounds().getWidth();
+                }
+            } );
+            double maxSliderNodeWidth = getMax( new Getter() {
+                public double getValue( LinearValueControlNode n ) {
+                    return n.sliderNode.getFullBounds().getWidth();
+                }
+            } );
+            System.out.println( "maxLabelNodeWidth = " + maxLabelNodeWidth );
+            labelNode.setOffset( 0, maxHeight / 2 - labelNode.getFullBounds().getHeight() / 2 );
+            readoutNode.setOffset( maxLabelNodeWidth + SPACING, maxHeight / 2 - readoutNode.getFullBounds().getHeight() / 2 );
+            unitsNode.setOffset( maxReadoutNodeWidth + maxLabelNodeWidth + SPACING * 2, maxHeight / 2 - unitsNode.getFullBounds().getHeight() / 2 );
+            sliderNode.setOffset( maxUnitsNodeWidth + maxLabelNodeWidth + maxReadoutNodeWidth + SPACING * 3, maxHeight / 2 - sliderNode.getFullBounds().getHeight() / 2 );
+        }
+
+        private double getMax( Getter getter ) {
+            double[] v = new double[nodes.length];
+            for ( int i = 0; i < nodes.length; i++ ) {
+                v[i] = getter.getValue( nodes[i] );
+            }
+            return MathUtil.max( v );
+        }
     }
 
     public static interface Listener {
@@ -183,4 +255,5 @@ public class LinearValueControlNode extends PNode {
         piccoloTestFrame.addNode( new BorderNode( control, 5, 3 ) );
         piccoloTestFrame.setVisible( true );
     }
+
 }
