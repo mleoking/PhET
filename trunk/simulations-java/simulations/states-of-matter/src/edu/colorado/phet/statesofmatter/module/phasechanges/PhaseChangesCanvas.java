@@ -49,7 +49,7 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     
     // Maximum value expected for pressure.  JPB TBD - Should probably get
     // this from the model or somewhere, though I'm not sure where.
-    private final double MAX_PRESSURE = 100;
+    private final double MAX_PRESSURE = 2;
 
     //----------------------------------------------------------------------------
     // Instance Data

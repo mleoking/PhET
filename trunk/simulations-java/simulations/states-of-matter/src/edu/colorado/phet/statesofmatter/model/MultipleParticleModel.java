@@ -805,8 +805,8 @@ public class MultipleParticleModel {
             m_numSamples = 0;
         }
         
-        public void accumulatePressureValue(Vector2D vector){
-            m_pressueSamples[m_accumulationPosition] += Math.abs( vector.getX() ) + Math.abs(  vector.getY() );
+        public void accumulatePressureValue(Vector2D forceVector){
+            m_pressueSamples[m_accumulationPosition] += Math.abs(  forceVector.getX() ) / (m_normalizedContainerHeight * 2);
         }
         
         public double getPressure(){
