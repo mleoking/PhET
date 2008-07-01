@@ -108,7 +108,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         human.addListener( new Human.Adapter() {
             public void heightChanged() {
-                heightSlider.setValue( EatingAndExerciseUnits.metersToFeet( human.getHeight() ) );
+                heightSlider.setValue( model.getUnits().modelToViewDistance( human.getHeight() ));
             }
         } );
         model.addListener( new EatingAndExerciseModel.Adapter() {

@@ -1,6 +1,8 @@
 package edu.colorado.phet.eatingandexercise.view;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
@@ -235,7 +237,7 @@ public class SliderNode extends PNode {
         private Paint paint;
         private Shape shape;
 
-        ThumbState( Paint paint, Shape shape ) {
+        public ThumbState( Paint paint, Shape shape ) {
             this.paint = paint;
             this.shape = shape;
         }
@@ -260,12 +262,12 @@ public class SliderNode extends PNode {
         frame.setContentPane( contentPane );
         frame.setVisible( true );
 //
-//        Timer timer = new Timer( 1000, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                sliderNode.setRange( 0, 1 );
-//            }
-//        } );
-//        timer.setRepeats( false );
-//        timer.start();
+        Timer timer = new Timer( 1000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                sliderNode.setRange( 0, 1 );
+            }
+        } );
+        timer.setRepeats( false );
+        timer.start();
     }
 }
