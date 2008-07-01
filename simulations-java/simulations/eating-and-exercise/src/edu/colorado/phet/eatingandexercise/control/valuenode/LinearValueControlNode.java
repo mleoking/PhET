@@ -14,7 +14,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
-import edu.colorado.phet.eatingandexercise.view.SliderNode2;
+import edu.colorado.phet.eatingandexercise.view.SliderNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -28,7 +28,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class LinearValueControlNode extends PNode {
     private PText labelNode;
     private PSwing readoutNode;
-    private SliderNode2 sliderNode;
+    private SliderNode sliderNode;
     private PText unitsNode;
     private int SPACING = 5;
     private double value;
@@ -61,7 +61,7 @@ public class LinearValueControlNode extends PNode {
         unitsNode = new PText( units );
         addChild( unitsNode );
 
-        sliderNode = new SliderNode2( min, max, value );
+        sliderNode = new SliderNode( min, max, value );
         sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setValueAndNotifyModel( sliderNode.getValue() );

@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * Created by: Sam
  * Jul 1, 2008 at 9:43:43 AM
  */
-public class SliderNode2 extends PNode {
+public class SliderNode extends PNode {
     private int width = DEFAULT_WIDTH;
     private int height = DEFAULT_HEIGHT;
     private double min;
@@ -43,7 +43,7 @@ public class SliderNode2 extends PNode {
     private static final int DEFAULT_THUMB_WIDTH = 10;
     private static final int DEFAULT_THUMB_HEIGHT = 30;
 
-    public SliderNode2( double min, double max, double value ) {
+    public SliderNode( double min, double max, double value ) {
         this.min = min;
         this.max = max;
         this.value = value;
@@ -186,13 +186,13 @@ public class SliderNode2 extends PNode {
             } );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
-                    dragStartPT = event.getPositionRelativeTo( RestrictedSliderNode2.ThumbNode.this );
+                    dragStartPT = event.getPositionRelativeTo( RestrictedSliderNode.ThumbNode.this );
                 }
 
                 public void mouseDragged( PInputEvent event ) {
-                    Point2D dragEndPT = event.getPositionRelativeTo( RestrictedSliderNode2.ThumbNode.this );
+                    Point2D dragEndPT = event.getPositionRelativeTo( RestrictedSliderNode.ThumbNode.this );
                     PDimension d = new PDimension( dragEndPT.getX() - dragStartPT.getX(), dragEndPT.getY() - dragEndPT.getY() );
-                    RestrictedSliderNode2.ThumbNode.this.localToGlobal( d );
+                    RestrictedSliderNode.ThumbNode.this.localToGlobal( d );
                     double proposedValue = value + viewToModelRelative( d.getWidth() );
                     setValue( clamp( proposedValue ) );
                 }
@@ -213,7 +213,7 @@ public class SliderNode2 extends PNode {
             }
         }
 
-        public void setThumbState( RestrictedSliderNode2.ThumbState thumbState ) {
+        public void setThumbState( RestrictedSliderNode.ThumbState thumbState ) {
             setThumbPaint( thumbState.getPaint() );
             thumb.setPathTo( thumbState.getShape() );
         }
@@ -254,7 +254,7 @@ public class SliderNode2 extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
         PhetPCanvas contentPane = new BufferedPhetPCanvas();
-        final SliderNode2 sliderNode = new SliderNode2( 50, 100, 50 );
+        final SliderNode sliderNode = new SliderNode( 50, 100, 50 );
         sliderNode.setOffset( 100, 100 );
         contentPane.addScreenChild( sliderNode );
         frame.setContentPane( contentPane );
