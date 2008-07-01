@@ -12,8 +12,6 @@ but you are now in the danger zone.
 
 New sliders need better aligned layout
 
-New sliders need limits on type-in values
-
 All items in the play area should scale on window resize
     >>Move up baseline of buttons and bar chart, make graphs fill width and height
 
