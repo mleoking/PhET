@@ -32,7 +32,8 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
 ____________________________________________________________________________________________
 CALCULATING BODY FAT BASED ON HEIGHT, WEIGHT, ACTIVITY LEVEL  
 
-The sim will automatically calculate an approximate % fat based on height, weight, activity level, and sex. The range will be based on the "healthy" BMI (18.5-25) for a person with healthy body fat (Men 15%, Women 22%).
+The sim will automatically calculate an approximate % fat based on height, weight, activity level, and sex.
+The range will be based on the "healthy" BMI (18.5-25) for a person with healthy body fat (Men 15%, Women 22%).
 
 
 >>>Model for calculating body fat:
@@ -49,7 +50,8 @@ The sim will automatically calculate an approximate % fat based on height, weigh
 		22.5 (moderately active)
 		25.0 (active)
 
-% fat is updated whenever someone manually changes height, weight, activity level, and/or sex. Or maybe this should only happen on startup and when someone does "Reset All"?? Otherwise, these parameters are all independent.
+% fat is updated whenever someone manually changes height, weight, activity level, and/or sex.
+Or maybe this should only happen on startup and when someone does "Reset All"?? Otherwise, these parameters are all independent.
 
 
 >>Old notes on this:
@@ -76,7 +78,13 @@ I found this page somewhat helpful in thinking about the above.
 http://weightloss.about.com/od/eatsmart/a/blcalintake.htm
 
 Franny said on 6/13/2008:
-I have been playing with the Simulation this morning and had a question for you. If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change. I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my % fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures) in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in, but that portion is not very realistic, so i thought i'd point it out.
+    I have been playing with the Simulation this morning and had a question for you. 
+    If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change.
+    I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my %
+    fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures)
+    in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there
+    was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in,
+    but that portion is not very realistic, so i thought i'd point it out.
 
 ____________________________________________________________________________________________
 MUSCLE AND FAT MASS LOSS
