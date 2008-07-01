@@ -60,6 +60,7 @@ public class HumanSlider extends JPanel {
     }
 
     public void setTextFieldFormat( NumberFormat numberFormat ) {
+        linearValueControlNode.setTextFieldFormat(numberFormat);
     }
 
     public void setTickLabels( Hashtable table ) {
