@@ -152,7 +152,16 @@ public class MultipleParticleModel {
     }
     
     public void setTemperature(double newTemperature){
-        m_temperature = newTemperature < MAX_TEMPERATURE ? newTemperature : MAX_TEMPERATURE;
+        if (newTemperature > MAX_TEMPERATURE) {
+            m_temperature = MAX_TEMPERATURE;
+        }
+        else if (newTemperature < MIN_TEMPERATURE){
+            m_temperature = MIN_TEMPERATURE;
+        }
+        else{
+            m_temperature = newTemperature;
+        }
+
         notifyTemperatureChanged();
     }
 
@@ -385,7 +394,7 @@ public class MultipleParticleModel {
         if ((m_tempAdjustTickCounter > TICKS_PER_TEMP_ADJUSTEMENT) && m_heatingCoolingAmount != 0){
             m_tempAdjustTickCounter = 0;
             m_temperature += m_heatingCoolingAmount * MAX_TEMPERATURE_CHANGE_PER_ADJUSTMENT;
-            if (getTemperature() >= MAX_TEMPERATURE){
+            if (m_temperature >= MAX_TEMPERATURE){
                 m_temperature = MAX_TEMPERATURE;
             }
             else if (m_temperature <= MIN_TEMPERATURE){

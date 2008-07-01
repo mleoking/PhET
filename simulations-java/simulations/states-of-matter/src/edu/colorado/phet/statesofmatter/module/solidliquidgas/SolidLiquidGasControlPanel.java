@@ -223,7 +223,8 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             });
             
             // Add the slider that controls the temperature of the system.
-            m_temperatureControl = new LinearValueControl( 0, 5, "Temperature", "##.##", "Control" );
+            m_temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE, 
+                    MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "##.##", "Control" );
             m_temperatureControl.setUpDownArrowDelta( 0.05 );
             m_temperatureControl.setTextFieldEditable( true );
             m_temperatureControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
