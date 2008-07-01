@@ -4,6 +4,7 @@ Fixed: Default height was 6'4" (should probably be put back to 5-8 or 5-6 for fe
 Fixed: New sliders need to update when units change english/metric
 Fixed: New sliders need limits on type-in values
 Added aligned layout for sliders
+Fixed: If I set a value beyond the slider, the arrow comes up (very nice) but the tip of the arrow is cut off.
 
 New in 0.00.50
 Changed starving message to “Starving!”
