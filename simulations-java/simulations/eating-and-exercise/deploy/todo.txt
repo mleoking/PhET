@@ -21,6 +21,7 @@ Clarify the meaning of "lifestyle" vs. other daily exercises
 
 -The adjustable balanced diet works nicely, but I think the text box for calories is too small (on my screen anyway, it cuts off the edges of the number.)
 -"Just right" (green) body fat should be different for men / women.
+    >>SR: This will be a heart strength/strain anyways
 -If I set a height and weight and adjust body fat, the muscles get smaller, but the rest of the body does not get bigger.
 -The "Starving" message did not come up immediately below a certain body fat (4% female / 2% male). It came up only after body fat reached 0% (as far as I could tell).
 -On the heart attack, the message also does not come up for this right away (above even 50% fat).
