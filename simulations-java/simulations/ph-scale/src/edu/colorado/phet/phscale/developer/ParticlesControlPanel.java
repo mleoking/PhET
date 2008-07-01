@@ -54,21 +54,21 @@ public class ParticlesControlPanel extends JPanel {
 
         // neutral particles
         _neutralParticlesControl = new LinearValueControl( NEUTRAL_PARTICLES_RANGE.getMin(), NEUTRAL_PARTICLES_RANGE.getMax(), "# particles at pH=7:", NEUTRAL_PARTICLES_PATTERN, "" );
-        _neutralParticlesControl.setValue( particlesNode.getNeutralParticles() );
+        _neutralParticlesControl.setValue( particlesNode.getNumberOfParticlesAtPH7() );
         _neutralParticlesControl.setUpDownArrowDelta( NEUTRAL_PARTICLES_DELTA );
         _neutralParticlesControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _particlesNode.setNeutralParticles( (int) _neutralParticlesControl.getValue() );
+                _particlesNode.setNumberOfParticlesAtPH7( (int) _neutralParticlesControl.getValue() );
             }
         } );
         
         // max particles
         _maxParticlesControl = new LinearValueControl( MAX_PARTICLES_RANGE.getMin(), MAX_PARTICLES_RANGE.getMax(), "# particles at pH=15:", MAX_PARTICLES_PATTERN, "" );
-        _maxParticlesControl.setValue( particlesNode.getMaxParticles() );
+        _maxParticlesControl.setValue( particlesNode.getNumberOfParticlesAtPH15() );
         _maxParticlesControl.setUpDownArrowDelta( MAX_PARTICLES_DELTA );
         _maxParticlesControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _particlesNode.setMaxParticles( (int) _maxParticlesControl.getValue() );
+                _particlesNode.setNumberOfParticlesAtPH15( (int) _maxParticlesControl.getValue() );
             }
         } );
 
@@ -84,11 +84,11 @@ public class ParticlesControlPanel extends JPanel {
 
         // majority transparency
         _majorityTransparencyControl = new LinearValueControl( TRANSPARENCY_RANGE.getMin(), TRANSPARENCY_RANGE.getMax(), "majority transparency:", TRANSPARENCY_PATTERN, "" );
-        _majorityTransparencyControl.setValue( _particlesNode.getMajorityAlpha() );
+        _majorityTransparencyControl.setValue( _particlesNode.getMajorityTransparency() );
         _majorityTransparencyControl.setUpDownArrowDelta( TRANSPARENCY_DELTA );
         _majorityTransparencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _particlesNode.setMajorityAlpha( (int) _majorityTransparencyControl.getValue() );
+                _particlesNode.setMajorityTransparency( (int) _majorityTransparencyControl.getValue() );
             }
         } );
         Hashtable majorityTransparencyLabelTable = new Hashtable();
@@ -98,11 +98,11 @@ public class ParticlesControlPanel extends JPanel {
 
         // minority transparency
         _minorityTransparencyControl = new LinearValueControl( TRANSPARENCY_RANGE.getMin(), TRANSPARENCY_RANGE.getMax(), "minority transparency:", TRANSPARENCY_PATTERN, "" );
-        _minorityTransparencyControl.setValue( _particlesNode.getMinorityAlpha() );
+        _minorityTransparencyControl.setValue( _particlesNode.getMinorityTransparency() );
         _minorityTransparencyControl.setUpDownArrowDelta( TRANSPARENCY_DELTA );
         _minorityTransparencyControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _particlesNode.setMinorityAlpha( (int) _minorityTransparencyControl.getValue() );
+                _particlesNode.setMinorityTransparency( (int) _minorityTransparencyControl.getValue() );
             }
         } );
         Hashtable minorityTransparencyLabelTable = new Hashtable();

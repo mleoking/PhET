@@ -29,8 +29,8 @@ public class ParticlesNode extends PComposite {
     private static final int DEFAULT_NEUTRAL_PARTICLES = 100;
     private static final int DEFAULT_MAX_PARTICLES = 5000;
     private static final double DEFAULT_DIAMETER = 4;
-    private static final int DEFAULT_MAJORITY_ALPHA = 128; // 0-255, transparent-opaque
-    private static final int DEFAULT_MINORITY_ALPHA = 255; // 0-255, transparent-opaque
+    private static final int DEFAULT_MAJORITY_TRANSPARENCY = 128; // 0-255, transparent-opaque
+    private static final int DEFAULT_MINORITY_TRANSPARENCY = 255; // 0-255, transparent-opaque
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -43,12 +43,13 @@ public class ParticlesNode extends PComposite {
     private final Random _randomX, _randomY;
    
     private Double _pH; // used to watch for pH change in the liquid
-    private int _maxParticles;
-    private int _neutralParticles;
-    private double _diameter;
-    private int _majorityAlpha, _minorityAlpha;
-    private Color _h3oColor, _ohColor;
-    private int _numberOfH3O, _numberOfOH;
+    private int _numberOfParticlesAtPH7; // number of particles created when pH=7
+    private int _numberOfParticlesAtPH15; // number of particles created when pH=15
+    private double _diameter; // diameter of all particles, view coordinates
+    private int _majorityTransparency; // transparency of majority type of particle
+    private int _minorityTransparency; // transparency of minorty type of particle
+    private Color _h3oColor, _ohColor; // base colors, no alpha
+    private int _numberOfH3O, _numberOfOH; // number of each type of particle
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,11 +76,11 @@ public class ParticlesNode extends PComposite {
         _particlesParent = new PNode();
         addChild( _particlesParent );
         
-        _maxParticles = DEFAULT_MAX_PARTICLES;
-        _neutralParticles = DEFAULT_NEUTRAL_PARTICLES;
+        _numberOfParticlesAtPH15 = DEFAULT_MAX_PARTICLES;
+        _numberOfParticlesAtPH7 = DEFAULT_NEUTRAL_PARTICLES;
         _diameter = DEFAULT_DIAMETER;
-        _majorityAlpha = DEFAULT_MAJORITY_ALPHA;
-        _minorityAlpha = DEFAULT_MINORITY_ALPHA;
+        _majorityTransparency = DEFAULT_MAJORITY_TRANSPARENCY;
+        _minorityTransparency = DEFAULT_MINORITY_TRANSPARENCY;
         _h3oColor = PHScaleConstants.H3O_COLOR;
         _ohColor = PHScaleConstants.OH_COLOR;
         _numberOfH3O = 0;
@@ -96,26 +97,26 @@ public class ParticlesNode extends PComposite {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setMaxParticles( int maxParticles ) {
-        if ( maxParticles != _maxParticles ) {
-            _maxParticles = maxParticles;
+    public void setNumberOfParticlesAtPH15( int num ) {
+        if ( num != _numberOfParticlesAtPH15 ) {
+            _numberOfParticlesAtPH15 = num;
             createParticles();
         }
     }
     
-    public int getMaxParticles() {
-        return _maxParticles;
+    public int getNumberOfParticlesAtPH15() {
+        return _numberOfParticlesAtPH15;
     }
     
-    public void setNeutralParticles( int neutralParticles ) {
-        if ( neutralParticles != _neutralParticles ) {
-            _neutralParticles = neutralParticles;
+    public int getNumberOfParticlesAtPH7() {
+        return _numberOfParticlesAtPH7;
+    }
+    
+    public void setNumberOfParticlesAtPH7( int num ) {
+        if ( num != _numberOfParticlesAtPH7 ) {
+            _numberOfParticlesAtPH7 = num;
             createParticles();
         }
-    }
-    
-    public int getNeutralParticles() {
-        return _neutralParticles;
     }
     
     public void setParticleDiameter( double diameter ) {
@@ -132,34 +133,36 @@ public class ParticlesNode extends PComposite {
         return _diameter;
     }
     
-    public void setMajorityAlpha( int alpha ) {
-        if ( alpha != _majorityAlpha ) {
-            _majorityAlpha = alpha;
+    public void setMajorityTransparency( int transparency ) {
+        if ( transparency != _majorityTransparency ) {
+            _majorityTransparency = transparency;
             setH3OColor( _h3oColor );
             setOHColor( _ohColor );
         }
     }
     
-    public int getMajorityAlpha() { 
-        return _majorityAlpha;
+    public int getMajorityTransparency() { 
+        return _majorityTransparency;
     }
     
-    public void setMinorityAlpha( int alpha ) {
-        if ( alpha != _minorityAlpha ) {
-            _minorityAlpha = alpha;
+    public void setMinorityTransparency( int transparency ) {
+        if ( transparency != _minorityTransparency ) {
+            _minorityTransparency = transparency;
             setH3OColor( _h3oColor );
             setOHColor( _ohColor );
         }
     }
     
-    public int getMinorityAlpha() {
-        return _minorityAlpha;
+    public int getMinorityTransparency() {
+        return _minorityTransparency;
     }
     
     public void setH3OColor( Color color ) {
         _h3oColor = color;
-        int alpha = ( _numberOfH3O >= _numberOfOH ? _majorityAlpha : _minorityAlpha );
+        // compute color with alpha
+        int alpha = ( _numberOfH3O >= _numberOfOH ? _majorityTransparency : _minorityTransparency );
         Color particleColor = ColorUtils.createColor( _h3oColor, alpha );
+        // update all H3O particle nodes
         int count = _particlesParent.getChildrenCount();
         for ( int i = 0; i < count; i++ ) {
             PNode node = _particlesParent.getChild( i );
@@ -174,9 +177,11 @@ public class ParticlesNode extends PComposite {
     }
     
     public void setOHColor( Color color ) {
-        int alpha = ( _numberOfOH >= _numberOfH3O ? _majorityAlpha : _minorityAlpha );
         _ohColor = color;
+        // compute color with alpha
+        int alpha = ( _numberOfOH >= _numberOfH3O ? _majorityTransparency : _minorityTransparency );
         Color particleColor = ColorUtils.createColor( _ohColor, alpha );
+        // update all OH particle nodes
         int count = _particlesParent.getChildrenCount();
         for ( int i = 0; i < count; i++ ) {
             PNode node = _particlesParent.getChild( i );
@@ -246,35 +251,48 @@ public class ParticlesNode extends PComposite {
         final double pH = _pH.doubleValue();
 
         if ( pH >= ACID_PH_THRESHOLD && pH <= BASE_PH_THRESHOLD ) {
-            // # particles is varies with log in this range
-            _numberOfH3O = (int) ( _liquid.getConcentrationH3O() * ( _neutralParticles / 2 ) / 1E-7 );
-            _numberOfOH = (int) ( _liquid.getConcentrationOH() * ( _neutralParticles / 2 ) / 1E-7 );
+            // # particles varies logarithmically in this range
+            _numberOfH3O = getNumberOfH3OParticles( pH );
+            _numberOfOH = getNumberOfOHParticles( pH );
         }
         else {
-            // # particles becomes a linear relationship in this range
-            final double N = ( _maxParticles - ( 10 * _neutralParticles / 2 ) ) / 7;
-            if ( pH < ACID_PH_THRESHOLD ) {
-                // strong acid
-                _numberOfH3O = (int) Math.min( _maxParticles, ( Liquid.getConcentrationH3O( ACID_PH_THRESHOLD ) * ( _neutralParticles / 2 ) / 1E-7 ) + ( ( ACID_PH_THRESHOLD - pH ) * N ) );
-                _numberOfOH = (int) Math.max( 1, ( Liquid.getConcentrationOH( ACID_PH_THRESHOLD ) * ( _neutralParticles / 2 ) / 1E-7 ) - ( ACID_PH_THRESHOLD - pH ) );
+            // # particles varies linearly in this range
+            final double pH15 = 15;
+            final double minParticles = 1;
+            // N is the number of particles to add for each 1 unit of pH above or below the thresholds
+            final double N = ( _numberOfParticlesAtPH15 - getNumberOfOHParticles( BASE_PH_THRESHOLD ) ) / ( pH15 - BASE_PH_THRESHOLD );
+            if ( pH > BASE_PH_THRESHOLD ) {
+                // strong base
+                final double phDiff = pH - BASE_PH_THRESHOLD;
+                _numberOfH3O = (int) Math.max( minParticles, ( getNumberOfH3OParticles( BASE_PH_THRESHOLD ) - phDiff ) );
+                _numberOfOH = (int) ( getNumberOfOHParticles( BASE_PH_THRESHOLD ) + ( phDiff * N ) );
             }
             else {
-                // strong base
-                _numberOfH3O = (int) Math.max( 1, ( Liquid.getConcentrationH3O( BASE_PH_THRESHOLD ) * ( _neutralParticles / 2 ) / 1E-7 ) - ( pH - BASE_PH_THRESHOLD ) );
-                _numberOfOH = (int) Math.min( _maxParticles, (Liquid.getConcentrationOH( BASE_PH_THRESHOLD ) * ( _neutralParticles / 2 ) / 1E-7 ) + ( ( pH - BASE_PH_THRESHOLD ) * N ) );
+                // strong acid
+                final double phDiff = ACID_PH_THRESHOLD - pH;
+                _numberOfH3O = (int) ( getNumberOfH3OParticles( ACID_PH_THRESHOLD ) + ( phDiff * N ) );
+                _numberOfOH = (int) Math.max( minParticles, ( getNumberOfOHParticles( ACID_PH_THRESHOLD ) - phDiff ) );
             }
         }
         System.out.println( "#H3O=" + _numberOfH3O + " #OH=" + _numberOfOH );
         
         // create particles, minority species in foreground
         if ( _numberOfH3O > _numberOfOH ) {
-            createH3ONodes( (int) _numberOfH3O, _majorityAlpha );
-            createOHNodes( (int) _numberOfOH, _minorityAlpha );
+            createH3ONodes( (int) _numberOfH3O, _majorityTransparency );
+            createOHNodes( (int) _numberOfOH, _minorityTransparency );
         }
         else {
-            createOHNodes( (int) _numberOfOH, _majorityAlpha );
-            createH3ONodes( (int) _numberOfH3O, _minorityAlpha );
+            createOHNodes( (int) _numberOfOH, _majorityTransparency );
+            createH3ONodes( (int) _numberOfH3O, _minorityTransparency );
         }
+    }
+    
+    private int getNumberOfH3OParticles( double pH ) {
+        return (int) ( Liquid.getConcentrationH3O( pH ) * ( _numberOfParticlesAtPH7 / 2 ) / 1E-7 );
+    }
+    
+    private int getNumberOfOHParticles( double pH ) {
+        return (int) ( Liquid.getConcentrationOH( pH ) * ( _numberOfParticlesAtPH7 / 2 ) / 1E-7 );
     }
     
     /*
