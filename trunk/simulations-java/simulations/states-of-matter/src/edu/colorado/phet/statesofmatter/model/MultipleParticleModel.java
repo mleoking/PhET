@@ -57,7 +57,7 @@ public class MultipleParticleModel {
                                                                  // number of ticks).  Should it instead be based on
                                                                  // the time step defined above?
     private static final int MAX_NUM_PARTICLES = 300;
-    private static final double INJECTED_PARTICLE_VELOCITY_SCALING_FACTOR = 1.0;
+    private static final double INJECTED_PARTICLE_VELOCITY = 1.0;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -341,7 +341,7 @@ public class MultipleParticleModel {
             // Add particle and its velocity and forces to normalized set.
             m_particlePositions[m_numberOfParticles] = new Point2D.Double(m_normalizedContainerWidth * 0.97,
                     m_normalizedContainerHeight * 0.3);
-            m_particleVelocities[m_numberOfParticles] = new Vector2D.Double( -m_temperature * INJECTED_PARTICLE_VELOCITY_SCALING_FACTOR, 0 );
+            m_particleVelocities[m_numberOfParticles] = new Vector2D.Double( -INJECTED_PARTICLE_VELOCITY, 0 );
             m_particleForces[m_numberOfParticles] = new Vector2D.Double();
             m_nextParticleForces[m_numberOfParticles] = new Vector2D.Double();
             m_numberOfParticles++;
