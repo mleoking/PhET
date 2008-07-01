@@ -6,11 +6,11 @@ import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.phscale.control.GraphControlNode;
 import edu.colorado.phet.phscale.control.BeakerControlNode;
 import edu.colorado.phet.phscale.control.PHControlNode;
 import edu.colorado.phet.phscale.control.PHScaleResetAllButton;
 import edu.colorado.phet.phscale.model.PHScaleModel;
-import edu.colorado.phet.phscale.view.BarGraphNode;
 import edu.colorado.phet.phscale.view.ParticlesNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -40,7 +40,7 @@ public class PHScaleCanvas extends PhetPCanvas {
     private final PNode _rootNode;
     private final BeakerControlNode _beakerControlNode;
     private final PHControlNode _pHControlNode;
-    private final BarGraphNode _barGraphNode;
+    private final GraphControlNode _graphControlNode;
     private final PHScaleResetAllButton _resetAllButton;
     
     //----------------------------------------------------------------------------
@@ -61,14 +61,14 @@ public class PHScaleCanvas extends PhetPCanvas {
         // Nodes
         _beakerControlNode = new BeakerControlNode( this, _model ); //XXX
         _pHControlNode = new PHControlNode( PHScaleConstants.PH_RANGE, _model.getLiquid() );
-        _barGraphNode = new BarGraphNode( new PDimension( 225, 400 ), _model.getLiquid() );//XXX
+        _graphControlNode = new GraphControlNode( _model.getLiquid() );//XXX
         _resetAllButton = new PHScaleResetAllButton( resettable, this );
         PSwing resetAllButtonWrapper = new PSwing( _resetAllButton );
         
         // Rendering order
         _rootNode.addChild( _beakerControlNode );
         _rootNode.addChild( _pHControlNode );
-        _rootNode.addChild( _barGraphNode );
+        _rootNode.addChild( _graphControlNode );
         _rootNode.addChild( resetAllButtonWrapper );
         
         // Layout
@@ -87,7 +87,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         // bar graph to right of pH control
         x = _pHControlNode.getFullBoundsReference().getMaxX() + xSpacing;
         y = _pHControlNode.getFullBoundsReference().getY();
-        _barGraphNode.setOffset( x, y );
+        _graphControlNode.setOffset( x, y );
     }
     
     //----------------------------------------------------------------------------
@@ -102,8 +102,8 @@ public class PHScaleCanvas extends PhetPCanvas {
         return _pHControlNode;
     }
     
-    public BarGraphNode getBarGraphNode() {
-        return _barGraphNode;
+    public GraphControlNode getBarGraphNode() {
+        return _graphControlNode;
     }
     
     public PHScaleResetAllButton getResetAllButton() {

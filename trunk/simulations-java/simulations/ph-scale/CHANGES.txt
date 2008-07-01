@@ -39,6 +39,7 @@ CLEANUP:
 
 
 DONE:
+7/1/08 - restructure bar graph code in preparation for flashing out this feature
 7/1/08 - make molecules in count view the same size as molecules in legend
 7/1/08 - adjust layout of molecules legend
 7/1/08 - javadoc everything done up to this point
