@@ -16,13 +16,11 @@ Clarify the meaning of "lifestyle" vs. other daily exercises
     >>Add popups with explanations (from Noah)
         >>SR: need to decide whether this panel will be Piccolo or Swing before proceeding with JComboBox (unless incompatibility bugs can be fixed)
 
--"Just right" (green) body fat should be different for men / women.
-    >>SR: This will be converted to heart strength/strain anyways (which may be gender-specific)
-
--If I set a height and weight and adjust body fat, the muscles get smaller, but the rest of the body does not get bigger.
-
 -On the heart attack, the message also does not come up for this right away (above even 50% fat).
     >>NP My bad - I had p_0 set to 0. In that case, the warning did not come up. When I set p_0 to non-zero it worked (but there was a slight delay for %fat above 30%).
+
+-"Just right" (green) body fat should be different for men / women.
+    >>SR: This will be converted to heart strength/strain anyways (which may be gender-specific)
 
 #######################################################################################
 ##############                    To Do/Noah                             ##############
