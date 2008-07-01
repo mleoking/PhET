@@ -16,7 +16,7 @@ MEDIUM PRIORITY:
 - 10x zoom feature for linear graph, zoom into zero
 - line up pH slider ticks with bar graph ticks
 - generalize layout code
-- address Kathy's problem with prototype and Java 1.4 Random class
+- address Kathy's problem with Java 1.4 Random class
 
 LOW PRIORITY:
 - pH text field isn't fully selected when it gains focus or when you double-click in it (PSwing issue?)
@@ -39,6 +39,7 @@ CLEANUP:
 
 
 DONE:
+7/1/08 - adjust layout of molecules legend
 7/1/08 - javadoc everything done up to this point
 7/1/08 - put a translucent background behind molecule counts
 ******* version 0.00.06 (22824)

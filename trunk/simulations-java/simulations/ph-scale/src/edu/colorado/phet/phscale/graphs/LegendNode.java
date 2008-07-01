@@ -1,3 +1,4 @@
+/* Copyright 2008, University of Colorado */
 
 package edu.colorado.phet.phscale.graphs;
 
@@ -14,7 +15,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * LegendNode is the molecules legend that appears below the bar graph.
+ * LegendNode is the legend for molecules that appears below the bar graph.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -24,9 +25,9 @@ public class LegendNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font LEGEND_FONT = new PhetFont( 18 );
-    private static final double LEGEND_ITEM_Y_SPACING = 5;
-    private static final double LEGEND_X_SPACING = 25;
+    private static final Font FONT = new PhetFont( 18 );
+    private static final double ICON_X_SPACING = 25;
+    private static final double Y_SPACING = 0;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -34,50 +35,44 @@ public class LegendNode extends PComposite {
     
     public LegendNode() {
         super();
-        LegendItemNode h3oLegendItemNode = new LegendItemNode( new H3ONode(), PHScaleStrings.LABEL_H3O );
-        LegendItemNode ohLegendItemNode = new LegendItemNode( new OHNode(), PHScaleStrings.LABEL_OH );
-        LegendItemNode h2oLegendItemNode = new LegendItemNode( new H2ONode(), PHScaleStrings.LABEL_H2O );
-        addChild( h3oLegendItemNode );
-        addChild( ohLegendItemNode );
-        addChild( h2oLegendItemNode );
-        h3oLegendItemNode.setOffset( 0, 0 );
-        PBounds h3ob = h3oLegendItemNode.getFullBoundsReference();
-        ohLegendItemNode.setOffset( h3ob.getMaxX() + LEGEND_X_SPACING, h3ob.getY() );
-        PBounds ohb = ohLegendItemNode.getFullBoundsReference();
-        h2oLegendItemNode.setOffset( ohb.getMaxX() + LEGEND_X_SPACING, ohb.getY() );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-
-    /*
-     * A legend item consists of an icon with a label centered beneath it.
-     */
-    private static class LegendItemNode extends PComposite {
-
-        public LegendItemNode( PNode iconNode, String label ) {
-            super();
-            setPickable( false );
-            setChildrenPickable( false );
-
-            iconNode.scale( 0.4 );//XXX
-            addChild( iconNode );
-
-            HTMLNode htmlNode = new HTMLNode( label );
-            htmlNode.setFont( LEGEND_FONT );
-            addChild( htmlNode );
-
-            PBounds ib = iconNode.getFullBoundsReference();
-            PBounds hb = htmlNode.getFullBoundsReference();
-            if ( ib.getWidth() > hb.getWidth() ) {
-                iconNode.setOffset( 0, 0 );
-                htmlNode.setOffset( ( ib.getWidth() - hb.getWidth() ) / 2, ib.getHeight() + LEGEND_ITEM_Y_SPACING );
-            }
-            else {
-                iconNode.setOffset( ( hb.getWidth() - ib.getWidth() ) / 2, 0 );
-                htmlNode.setOffset( 0, ib.getHeight() + LEGEND_ITEM_Y_SPACING );
-            }
-        }
+        
+        // icons
+        PNode h3oIconNode = new H3ONode();
+        h3oIconNode.scale( 0.4 ); //XXX
+        PNode ohIconNode = new OHNode();
+        ohIconNode.scale( 0.4 ); //XXX
+        PNode h2oIconNode = new H2ONode();
+        h2oIconNode.scale( 0.4 ); //XXX
+        
+        // labels
+        HTMLNode h3oLabelNode = new HTMLNode( PHScaleStrings.LABEL_H3O );
+        h3oLabelNode.setFont( FONT );
+        HTMLNode ohLabelNode = new HTMLNode( PHScaleStrings.LABEL_OH );
+        ohLabelNode.setFont( FONT );
+        HTMLNode h2oLabelNode = new HTMLNode( PHScaleStrings.LABEL_H2O );
+        h2oLabelNode.setFont( FONT );
+        
+        addChild( h3oIconNode );
+        addChild( ohIconNode );
+        addChild( h2oIconNode );
+        addChild( h3oLabelNode );
+        addChild( ohLabelNode );
+        addChild( h2oLabelNode );
+        
+        // vertically align centers of the icons
+        h3oIconNode.setOffset( 0, 0 );
+        PBounds h3ob = h3oIconNode.getFullBoundsReference();
+        PBounds ohb = ohIconNode.getFullBoundsReference();
+        PBounds h2ob = h2oIconNode.getFullBoundsReference();
+        ohIconNode.setOffset( h3ob.getMaxX() + ICON_X_SPACING, h3ob.getCenterY() - ohb.getHeight() / 2 );
+        ohb = ohIconNode.getFullBoundsReference();
+        h2oIconNode.setOffset( ohb.getMaxX() + ICON_X_SPACING, h3ob.getCenterY() - h2ob.getHeight() / 2 );
+        h2ob = h2oIconNode.getFullBoundsReference();
+        
+        // center labels below the icons
+        final double y = Math.max( h3ob.getMaxY(), Math.max( ohb.getMaxY(), h2ob.getMaxY() ) ) + Y_SPACING;
+        h3oLabelNode.setOffset( h3ob.getCenterX() - h3oLabelNode.getFullBoundsReference().getWidth() / 2, y );
+        ohLabelNode.setOffset( ohb.getCenterX() - ohLabelNode.getFullBoundsReference().getWidth() / 2, y );
+        h2oLabelNode.setOffset( h2ob.getCenterX() - h2oLabelNode.getFullBoundsReference().getWidth() / 2, y + 7 ); // +7 is a hack to align baselines of HTML nodes
     }
 }
