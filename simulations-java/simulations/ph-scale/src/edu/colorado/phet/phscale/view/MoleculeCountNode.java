@@ -3,6 +3,7 @@ package edu.colorado.phet.phscale.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
@@ -11,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
+import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -27,7 +29,7 @@ public class MoleculeCountNode extends PComposite {
     
     private static final TimesTenNumberFormat H3O_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
-    private static final TimesTenNumberFormat H2O_FORMAT = new TimesTenNumberFormat( "0" );
+    private static final ConstantPowerOfTenNumberFormat H2O_FORMAT = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
     
     private static final double X_SPACING = 15;
     private static final double Y_SPACING = 20;
@@ -111,6 +113,10 @@ public class MoleculeCountNode extends PComposite {
         _h2oCountNode.setValue( _liquid.getMoleculesH2O() );
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
     /*
      * Displays a formatted number on a background.
      */
@@ -127,6 +133,5 @@ public class MoleculeCountNode extends PComposite {
         public void setValue( double value ) {
             _numberNode.setValue( value );
         }
-        
     }
 }
