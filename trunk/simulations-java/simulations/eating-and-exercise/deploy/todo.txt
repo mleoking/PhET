@@ -159,6 +159,9 @@ Results: ***Subjects lost mean of 4.9 kg body mass, 4.3 kg as fat and 0.6 kg as 
 	LBM_lost (g) = 0.12 * 4 * Cal_burned
 	Fat_lost (g) = 0.88 * 9 * Cal_burned
 
+>>>Starvation mode:
+	When starving (<2%/4% for men/women) make the ratio switch: LBM loss 95% and Fat loss 5%. (this might become 100% LBM...not yet sure).
+
 ____________________________________________________________________________________________
 MUSCLE GAINED FROM EXERCISING
 
@@ -185,6 +188,8 @@ NP - let's say 2% for men, 4% for women.
 
 >>>Model for starvation:
 	If you drop below 2%/4% (men/women) fat, you can live for 2 months and then death occurs. If you go above this level, the clock resets.
+	
+	See MUSCLE AND FAT MASS LOSS section above for LBM and Fat loss when in starvation mode. (Basically you burn more muscle since you have so little fat.)
 
 >>>Model for heart attack:
 	If you go above 25%/32% (men/women) fat, you begin to have a probability of heart attack each day, p_attack. Below these %fat thresholds, p_attack = 0.
