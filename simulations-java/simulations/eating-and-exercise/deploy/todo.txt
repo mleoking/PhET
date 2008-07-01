@@ -19,7 +19,6 @@ Clarify the meaning of "lifestyle" vs. other daily exercises
 >>Add popups with explanations (from Noah)
     >>SR: need to decide whether this panel will be Piccolo or Swing before proceeding with JComboBox (unless incompatibility bugs can be fixed)
 
--The adjustable balanced diet works nicely, but I think the text box for calories is too small (on my screen anyway, it cuts off the edges of the number.)
 -"Just right" (green) body fat should be different for men / women.
     >>SR: This will be a heart strength/strain anyways
 -If I set a height and weight and adjust body fat, the muscles get smaller, but the rest of the body does not get bigger.
@@ -218,3 +217,6 @@ Add popup-question mark button for BMI readout near scale
 
 Play area scale doesn't respect control panel width.
     >>This is only a problem for skinny window sizes, does it need to be addressed?
+
+-The adjustable balanced diet works nicely, but I think the text box for calories is too small (on my screen anyway, it cuts off the edges of the number.)
+    >>I tried to address this is 0.00.51.  Is this resolved?
