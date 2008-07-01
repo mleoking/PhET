@@ -34,8 +34,12 @@ public class LinearValueControlNode extends PNode {
     private double value;
     private JFormattedTextField field;
     private NumberFormat numberFormat;
+    private double min;
+    private double max;
 
     public LinearValueControlNode( String label, String units, double min, double max, double value, NumberFormat numberFormat ) {
+        this.min = min;
+        this.max = max;
         this.numberFormat = numberFormat;
         this.value = value;
         labelNode = new PText( label );
@@ -109,9 +113,16 @@ public class LinearValueControlNode extends PNode {
 
     private void setValueAndNotifyModel( double v ) {
         double oldValue = getValue();
-        setValue( v );
-        if ( getValue() != oldValue ) {
-            notifyListeners();
+        if ( v >= min && v <= max ) {
+            setValue( v );
+            if ( getValue() != oldValue ) {
+                notifyListeners();
+            }
+        }
+        else {
+            setValue( oldValue );
+            field.setValue( new Double( oldValue ) );
+            //todo: optionally show an out-of-range message
         }
     }
 
