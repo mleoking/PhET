@@ -106,8 +106,6 @@ public class HumanNode extends PNode {
         areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * m, 0.025f ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
 
         heartNode.setOffset( -heartNode.getFullBounds().getWidth() * 0.15, neckY + heartNode.getFullBounds().getHeight() * 1.25 );
-
-        System.out.println( "getGlobalFullBounds() = " + getGlobalFullBounds() );
     }
 
     private Shape createMuscle( Line2D.Double rightArm, BasicStroke limbStroke ) {

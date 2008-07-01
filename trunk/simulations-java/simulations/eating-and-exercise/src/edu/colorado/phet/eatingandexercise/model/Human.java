@@ -13,6 +13,7 @@ import edu.colorado.phet.eatingandexercise.control.CaloricItem;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.FoodCalorieSet;
+import edu.colorado.phet.eatingandexercise.util.FeetInchesFormat;
 
 /**
  * Created by: Sam
@@ -38,8 +39,8 @@ public class Human {
     private DefaultTemporalVariable bmr = new DefaultTemporalVariable();//dependent variable
     //    private Exercise exerciseObject = null;
     //New defaults: 5'8" 150 lbs 22 years
-    private static final ReferenceHuman REFERENCE_MALE = new ReferenceHuman( true, 22, 5 + EatingAndExerciseUnits.inchesToFeet( 8 ), 8.5, EatingAndExerciseUnits.poundsToKg( 150 ), 86 );
-    private static final ReferenceHuman REFERENCE_FEMALE = new ReferenceHuman( false, 22, 5 + EatingAndExerciseUnits.inchesToFeet( 8 ), 4.5, EatingAndExerciseUnits.poundsToKg( 150 ), 74 );
+    private static final ReferenceHuman REFERENCE_MALE = new ReferenceHuman( true, 22, 5 + 8 / 12.0, EatingAndExerciseUnits.poundsToKg( 150 ), 86 );
+    private static final ReferenceHuman REFERENCE_FEMALE = new ReferenceHuman( false, 22, 5 + 6 / 12.0, EatingAndExerciseUnits.poundsToKg( 150 ), 74 );
     public static final ReferenceHuman DEFAULT_VALUE = REFERENCE_FEMALE;
 
     private CalorieSet exerciseItems = new CalorieSet();
@@ -105,13 +106,20 @@ public class Human {
         resetAll();
     }
 
+    public static String metersToFeetStr( double m ) {
+        return new FeetInchesFormat().format( EatingAndExerciseUnits.metersToFeet( m ) );
+    }
+
     public void resetAll() {
         name = "Larry";
 
         clearTemporalVariables();
 
         setGender( DEFAULT_VALUE.getGender() );
-        setHeight( DEFAULT_VALUE.getHeightMeters() );
+        double heightMeters = DEFAULT_VALUE.getHeightMeters();
+        System.out.println( "heightMeters = " + heightMeters );
+        System.out.println( "heightFt=" + metersToFeetStr( heightMeters ) );
+        setHeight( heightMeters );
         setMass( DEFAULT_VALUE.getMassKG() );
         setAge( DEFAULT_VALUE.getAgeSeconds() );
         setFatMassPercent( ( 100 - DEFAULT_VALUE.getFatFreeMassPercent() ) );
@@ -760,10 +768,10 @@ public class Human {
         double massKG;
         double fatFreeMassPercent;
 
-        public ReferenceHuman( boolean male, double ageYears, double heightFT, double heightIN, double massKG, double fatFreeMassPercent ) {
+        public ReferenceHuman( boolean male, double ageYears, double heightFT, double massKG, double fatFreeMassPercent ) {
             this.male = male;
             this.ageYears = ageYears;
-            this.heightFT = heightFT + heightIN / 12;
+            this.heightFT = heightFT;
             this.massKG = massKG;
             this.fatFreeMassPercent = fatFreeMassPercent;
         }
