@@ -3,7 +3,6 @@
 package edu.colorado.phet.phscale.developer;
 
 import java.awt.Frame;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.JLabel;
@@ -27,48 +26,80 @@ import edu.colorado.phet.phscale.view.ParticlesNode;
  */
 public class ParticlesControlPanel extends JPanel {
 
-    private static final DoubleRange NEUTRAL_PARTICLES_RANGE = new DoubleRange( 50, 200, 100 );
-    private static final double NEUTRAL_PARTICLES_DELTA = 1;
-    private static final String NEUTRAL_PARTICLES_PATTERN = "####0";
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
-    private static final DoubleRange MAX_PARTICLES_RANGE = new DoubleRange( 1000, 10000, 5000 );
-    private static final double MAX_PARTICLES_DELTA = 1;
-    private static final String MAX_PARTICLES_PATTERN = "####0";
+    // number of particles at pH=7
+    private static final DoubleRange NUM_PARTICLES_PH7_RANGE = new DoubleRange( 50, 200 );
+    private static final double NUM_PARTICLES_PH7_DELTA = 1;
+    private static final String NUM_PARTICLES_PH7_PATTERN = "##0";
+    
+    // number of particles at pH=15
+    private static final DoubleRange NUM_PARTICLES_PH15_RANGE = new DoubleRange( 1000, 10000 );
+    private static final double NUM_PARTICLES_PH15_DELTA = 1;
+    private static final String NUM_PARTICLES_PH15_PATTERN = "####0";
+    
+    // minimum # particles of minority type
+    private static final DoubleRange MIN_MINORITY_PARTICLES_RANGE = new DoubleRange( 1, 25 );
+    private static final double MIN_MINORITY_PARTICLES_DELTA = 1;
+    private static final String MIN_MINORITY_PARTICLES_PATTERN = "#0";
 
-    private static final DoubleRange PARTICLE_DIAMETER_RANGE = new DoubleRange( 1, 25, 4 );
+    // particle diameter
+    private static final DoubleRange PARTICLE_DIAMETER_RANGE = new DoubleRange( 1, 25 );
     private static final double PARTICLE_DIAMETER_DELTA = 0.1;
     private static final String PARTICLE_DIAMETER_PATTERN = "#0.0";
 
-    private static final DoubleRange TRANSPARENCY_RANGE = new DoubleRange( 0, 255, 128 );
+    // particle transparency (alpha channel)
+    private static final DoubleRange TRANSPARENCY_RANGE = new DoubleRange( 0, 255 );
     private static final double TRANSPARENCY_DELTA = 1;
     private static final String TRANSPARENCY_PATTERN = "##0";
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final ParticlesNode _particlesNode;
-    private final LinearValueControl _neutralParticlesControl, _maxParticlesControl, _diameterControl;
+    private final LinearValueControl _numberOfParticlesAtPH7Control, _numberOfParticlesAtPH15Control, _minMinorityParticlesControl;
+    private final LinearValueControl _diameterControl;
     private final LinearValueControl _majorityTransparencyControl, _minorityTransparencyControl;
     private final ColorControl _h3oColorControl, _ohColorControl;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public ParticlesControlPanel( Frame dialogOwner, ParticlesNode particlesNode ) {
         
         _particlesNode = particlesNode;
 
-        // neutral particles
-        _neutralParticlesControl = new LinearValueControl( NEUTRAL_PARTICLES_RANGE.getMin(), NEUTRAL_PARTICLES_RANGE.getMax(), "# particles at pH=7:", NEUTRAL_PARTICLES_PATTERN, "" );
-        _neutralParticlesControl.setValue( particlesNode.getNumberOfParticlesAtPH7() );
-        _neutralParticlesControl.setUpDownArrowDelta( NEUTRAL_PARTICLES_DELTA );
-        _neutralParticlesControl.addChangeListener( new ChangeListener() {
+        // number of particles at pH=7
+        _numberOfParticlesAtPH7Control = new LinearValueControl( NUM_PARTICLES_PH7_RANGE.getMin(), NUM_PARTICLES_PH7_RANGE.getMax(), "# particles at pH=7:", NUM_PARTICLES_PH7_PATTERN, "" );
+        _numberOfParticlesAtPH7Control.setValue( particlesNode.getNumberOfParticlesAtPH7() );
+        _numberOfParticlesAtPH7Control.setUpDownArrowDelta( NUM_PARTICLES_PH7_DELTA );
+        _numberOfParticlesAtPH7Control.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _particlesNode.setNumberOfParticlesAtPH7( (int) _neutralParticlesControl.getValue() );
+                _particlesNode.setNumberOfParticlesAtPH7( (int) _numberOfParticlesAtPH7Control.getValue() );
             }
         } );
         
-        // max particles
-        _maxParticlesControl = new LinearValueControl( MAX_PARTICLES_RANGE.getMin(), MAX_PARTICLES_RANGE.getMax(), "# particles at pH=15:", MAX_PARTICLES_PATTERN, "" );
-        _maxParticlesControl.setValue( particlesNode.getNumberOfParticlesAtPH15() );
-        _maxParticlesControl.setUpDownArrowDelta( MAX_PARTICLES_DELTA );
-        _maxParticlesControl.addChangeListener( new ChangeListener() {
+        // number of particles at pH=15
+        _numberOfParticlesAtPH15Control = new LinearValueControl( NUM_PARTICLES_PH15_RANGE.getMin(), NUM_PARTICLES_PH15_RANGE.getMax(), "# particles at pH=15:", NUM_PARTICLES_PH15_PATTERN, "" );
+        _numberOfParticlesAtPH15Control.setValue( particlesNode.getNumberOfParticlesAtPH15() );
+        _numberOfParticlesAtPH15Control.setUpDownArrowDelta( NUM_PARTICLES_PH15_DELTA );
+        _numberOfParticlesAtPH15Control.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _particlesNode.setNumberOfParticlesAtPH15( (int) _maxParticlesControl.getValue() );
+                _particlesNode.setNumberOfParticlesAtPH15( (int) _numberOfParticlesAtPH15Control.getValue() );
+            }
+        } );
+        
+        // min minority particles
+        _minMinorityParticlesControl = new LinearValueControl( MIN_MINORITY_PARTICLES_RANGE.getMin(), MIN_MINORITY_PARTICLES_RANGE.getMax(), "min # of minority particles:", MIN_MINORITY_PARTICLES_PATTERN, "" );
+        _minMinorityParticlesControl.setValue( particlesNode.getMinMinorityParticles() );
+        _minMinorityParticlesControl.setUpDownArrowDelta( MIN_MINORITY_PARTICLES_DELTA );
+        _minMinorityParticlesControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                _particlesNode.setMinMinorityParticles( (int) _minMinorityParticlesControl.getValue() );
             }
         } );
 
@@ -131,8 +162,9 @@ public class ParticlesControlPanel extends JPanel {
         this.setLayout( particlePanelLayout );
         int row = 0;
         int column = 0;
-        particlePanelLayout.addComponent( _neutralParticlesControl, row++, column );
-        particlePanelLayout.addComponent( _maxParticlesControl, row++, column );
+        particlePanelLayout.addComponent( _numberOfParticlesAtPH7Control, row++, column );
+        particlePanelLayout.addComponent( _numberOfParticlesAtPH15Control, row++, column );
+        particlePanelLayout.addComponent( _minMinorityParticlesControl, row++, column );
         particlePanelLayout.addComponent( _diameterControl, row++, column );
         particlePanelLayout.addComponent( _majorityTransparencyControl, row++, column );
         particlePanelLayout.addComponent( _minorityTransparencyControl, row++, column );

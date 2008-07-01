@@ -16,7 +16,17 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * ParticlesNode draws the particles that are shown for the "H3O/OH ratio" view.
+ * In pH range 6 to 8, the relationship between number of particles and pH is log.
+ * Outside of this range, we can't possibly draw that many particles, so we 
+ * fake it using a linear relationship.
+ * <p>
+ * This class is highly parameterized, and its behavior is intended to be 
+ * tweaked and tuned using the developer controls in ParticlesControlPanel.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ParticlesNode extends PComposite {
     
     //----------------------------------------------------------------------------
@@ -26,8 +36,9 @@ public class ParticlesNode extends PComposite {
     private static final double ACID_PH_THRESHOLD = 6;
     private static final double BASE_PH_THRESHOLD = 8;
     
-    private static final int DEFAULT_NEUTRAL_PARTICLES = 100;
-    private static final int DEFAULT_MAX_PARTICLES = 5000;
+    private static final int DEFAULT_NUM_PARTICLES_AT_PH7 = 100;
+    private static final int DEFAULT_NUM_PARTICLES_AT_PH15 = 5000;
+    private static final int DEFAULT_MIN_MINORITY_PARTICLES = 5;
     private static final double DEFAULT_DIAMETER = 4;
     private static final int DEFAULT_MAJORITY_TRANSPARENCY = 128; // 0-255, transparent-opaque
     private static final int DEFAULT_MINORITY_TRANSPARENCY = 255; // 0-255, transparent-opaque
@@ -45,11 +56,12 @@ public class ParticlesNode extends PComposite {
     private Double _pH; // used to watch for pH change in the liquid
     private int _numberOfParticlesAtPH7; // number of particles created when pH=7
     private int _numberOfParticlesAtPH15; // number of particles created when pH=15
+    private int _minMinorityParticles; // min number of minority type of particle
     private double _diameter; // diameter of all particles, view coordinates
-    private int _majorityTransparency; // transparency of majority type of particle
-    private int _minorityTransparency; // transparency of minorty type of particle
+    private int _majorityTransparency; // transparency of majority type of particle, 0-255 
+    private int _minorityTransparency; // transparency of minority type of particle, 0-255
     private Color _h3oColor, _ohColor; // base colors, no alpha
-    private int _numberOfH3O, _numberOfOH; // number of each type of particle
+    private int _numberOfH3O, _numberOfOH; // current number of each type of particle
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -76,8 +88,9 @@ public class ParticlesNode extends PComposite {
         _particlesParent = new PNode();
         addChild( _particlesParent );
         
-        _numberOfParticlesAtPH15 = DEFAULT_MAX_PARTICLES;
-        _numberOfParticlesAtPH7 = DEFAULT_NEUTRAL_PARTICLES;
+        _numberOfParticlesAtPH15 = DEFAULT_NUM_PARTICLES_AT_PH15;
+        _numberOfParticlesAtPH7 = DEFAULT_NUM_PARTICLES_AT_PH7;
+        _minMinorityParticles = DEFAULT_MIN_MINORITY_PARTICLES;
         _diameter = DEFAULT_DIAMETER;
         _majorityTransparency = DEFAULT_MAJORITY_TRANSPARENCY;
         _minorityTransparency = DEFAULT_MINORITY_TRANSPARENCY;
@@ -117,6 +130,17 @@ public class ParticlesNode extends PComposite {
             _numberOfParticlesAtPH7 = num;
             createParticles();
         }
+    }
+    
+    public void setMinMinorityParticles( int num ) {
+        if ( num != _minMinorityParticles ) {
+            _minMinorityParticles = num;
+            createParticles();
+        }
+    }
+    
+    public int getMinMinorityParticles() {
+        return _minMinorityParticles;
     }
     
     public void setParticleDiameter( double diameter ) {
@@ -252,26 +276,25 @@ public class ParticlesNode extends PComposite {
 
         if ( pH >= ACID_PH_THRESHOLD && pH <= BASE_PH_THRESHOLD ) {
             // # particles varies logarithmically in this range
-            _numberOfH3O = getNumberOfH3OParticles( pH );
-            _numberOfOH = getNumberOfOHParticles( pH );
+            _numberOfH3O = Math.max( _minMinorityParticles, getNumberOfH3OParticles( pH ) );
+            _numberOfOH = Math.max( _minMinorityParticles, getNumberOfOHParticles( pH ) );
         }
         else {
             // # particles varies linearly in this range
             final double pH15 = 15;
-            final double minParticles = 1;
             // N is the number of particles to add for each 1 unit of pH above or below the thresholds
             final double N = ( _numberOfParticlesAtPH15 - getNumberOfOHParticles( BASE_PH_THRESHOLD ) ) / ( pH15 - BASE_PH_THRESHOLD );
             if ( pH > BASE_PH_THRESHOLD ) {
                 // strong base
                 final double phDiff = pH - BASE_PH_THRESHOLD;
-                _numberOfH3O = (int) Math.max( minParticles, ( getNumberOfH3OParticles( BASE_PH_THRESHOLD ) - phDiff ) );
+                _numberOfH3O = (int) Math.max( _minMinorityParticles, ( getNumberOfH3OParticles( BASE_PH_THRESHOLD ) - phDiff ) );
                 _numberOfOH = (int) ( getNumberOfOHParticles( BASE_PH_THRESHOLD ) + ( phDiff * N ) );
             }
             else {
                 // strong acid
                 final double phDiff = ACID_PH_THRESHOLD - pH;
                 _numberOfH3O = (int) ( getNumberOfH3OParticles( ACID_PH_THRESHOLD ) + ( phDiff * N ) );
-                _numberOfOH = (int) Math.max( minParticles, ( getNumberOfOHParticles( ACID_PH_THRESHOLD ) - phDiff ) );
+                _numberOfOH = (int) Math.max( _minMinorityParticles, ( getNumberOfOHParticles( ACID_PH_THRESHOLD ) - phDiff ) );
             }
         }
         System.out.println( "#H3O=" + _numberOfH3O + " #OH=" + _numberOfOH );
