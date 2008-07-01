@@ -31,10 +31,11 @@ public class CalorieNode extends PNode {
     private String availableTitle;
     private GradientButtonNode editButton;
     private ArrayList closedListeners = new ArrayList();
-    private double maxY;
+//    private double maxY;
     private PImage plateImage;
     private PlateTopSummaryNode plateTopSummaryNode;
     private CalorieDragStrip calorieDragStrip;
+    private static final double SPACING_BETWEEN_PLATE_AND_TOOLBOX = 20;
 
     public CalorieNode( Frame parentFrame, String editButtonText, Color editButtonColor, final CalorieSet available, final CalorieSet calorieSet, String availableTitle, String selectedTitle, String dropTargetIcon ) {
         this.parentFrame = parentFrame;
@@ -206,15 +207,20 @@ public class CalorieNode extends PNode {
         closedListeners.add( actionListener );
     }
 
-    public void setMaxY( double maxY ) {
-        this.maxY = maxY;
-        relayout();
-    }
+//    public void setMaxY( double maxY ) {
+//        this.maxY = maxY;
+//        relayout();
+//    }
 
     private void relayout() {
 //        editButton.setOffset( 0, maxY - editButton.getFullBounds().getHeight() );
-        plateImage.setOffset( 0, maxY - plateImage.getFullBounds().getHeight() );
+//        plateImage.setOffset( 0, maxY - plateImage.getFullBounds().getHeight() );
+        plateImage.setOffset( 0, calorieDragStrip.getFullBounds().getMaxY() + SPACING_BETWEEN_PLATE_AND_TOOLBOX );
         plateTopSummaryNode.relayout();
+    }
+
+    public double getCalorieDragStripMaxY(){
+        return calorieDragStrip.getFullBounds().getMaxY();
     }
 
     public PNode getTooltipLayer() {
@@ -224,5 +230,9 @@ public class CalorieNode extends PNode {
     public void resetAll() {
         calorieDragStrip.resetAll();
         addPreExistingItems();
+    }
+
+    public double getPlateBottomY() {
+        return plateImage.getFullBounds().getMaxY();
     }
 }

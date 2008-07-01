@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ActionEvent;
-
-import javax.swing.*;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
@@ -135,13 +132,14 @@ public class CaloriePanel extends PNode {
     }
 
     private void relayout() {
-        double w = phetPCanvas.getWidth() - phetPCanvas.getControlPanelWidth();
-        chartNode.relayout( w, phetPCanvas.getHeight() );
-        foodNode.setMaxY( chartNode.getFullBounds().getY() );
-        exerciseNode.setMaxY( chartNode.getFullBounds().getY() );
         double width = phetPCanvas.getWidth() - getOffset().getX();
-        stackedBarChart.setOffset( width / 2 - stackedBarChart.getFullBounds().getWidth() / 2, chartNode.getFullBounds().getY() );
+        stackedBarChart.setOffset( width / 2 - stackedBarChart.getFullBounds().getWidth() / 2, foodNode.getPlateBottomY() );
+
         foodNode.setOffset( stackedBarChart.getFullBounds().getX() - foodNode.getFullBounds().getWidth() - 5, 0 );
         exerciseNode.setOffset( stackedBarChart.getFullBounds().getMaxX() + 20, 0 );
+
+        double w = phetPCanvas.getWidth() - phetPCanvas.getControlPanelWidth();
+        chartNode.relayout( w, phetPCanvas.getHeight() - foodNode.getPlateBottomY() );
+        chartNode.setOffset( 0, foodNode.getPlateBottomY() );
     }
 }
