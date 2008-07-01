@@ -181,7 +181,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 Human.Gender.P0 = p0Slider.getValue();
             }
         } );
-        add( p0Slider );
+//        add( p0Slider );
 
         pheart = new JLabel( );
         p0Slider.addChangeListener( new ChangeListener() {
@@ -195,7 +195,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
         updateHeartAttackProbabilityLabel();
-        add( pheart );
+//        add( pheart );
 
         updateBodyFatSlider();
         addComponentListener( new ComponentAdapter() {
