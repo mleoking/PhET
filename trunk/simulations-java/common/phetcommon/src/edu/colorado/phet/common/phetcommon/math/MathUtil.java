@@ -520,6 +520,22 @@ public class MathUtil {
     }
 
     /**
+     * Returns the largest element in the array, determined by >.  Array must have at least one element.
+     * @param v
+     * @return
+     */
+    public static double max( double[] v ) {
+        assert v.length > 0;
+        double max = v[0];
+        for ( int i = 0; i < v.length; i++ ) {
+            if ( v[i] > max ) {
+                max = v[i];
+            }
+        }
+        return max;
+    }
+
+    /**
      * This class manages a running average.
      */
     public static class Average {
