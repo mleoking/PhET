@@ -19,6 +19,7 @@ MEDIUM PRIORITY:
 - address Kathy's problem with Java 1.4 Random class
 
 LOW PRIORITY:
+- can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it (PSwing issue?)
 - add plumbing to liquid and water faucets?
 - replace molecule image files with SphericalNode subclasses?
