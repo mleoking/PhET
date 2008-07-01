@@ -117,7 +117,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         rulerNode = createRulerNode();
 //        addWorldChild( rulerNode );
 
-        humanControlPanel = new HumanControlPanel( model, model.getHuman() );
+        humanControlPanel = new HumanControlPanel( this, model, model.getHuman() );
         humanControlPanel.addListener( new HumanControlPanel.Listener() {
             public void ageManuallyChanged() {
                 caloriePanel.clearAndResetDomains();
@@ -243,5 +243,9 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
     public double getAvailableWorldWidth() {
         return humanControlPanelPSwing.getFullBounds().getWidth() * 1.1;//okay to overlap by 10%
+    }
+
+    public double getControlPanelY() {
+        return humanControlPanelPSwing.getFullBounds().getY();
     }
 }
