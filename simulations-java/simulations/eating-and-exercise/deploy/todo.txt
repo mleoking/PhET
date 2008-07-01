@@ -21,8 +21,6 @@ Clarify the meaning of "lifestyle" vs. other daily exercises
 
 -If I set a height and weight and adjust body fat, the muscles get smaller, but the rest of the body does not get bigger.
 
--The "Starving" message did not come up immediately below a certain body fat (4% female / 2% male). It came up only after body fat reached 0% (as far as I could tell).
-
 -On the heart attack, the message also does not come up for this right away (above even 50% fat).
     >>NP My bad - I had p_0 set to 0. In that case, the warning did not come up. When I set p_0 to non-zero it worked (but there was a slight delay for %fat above 30%).
 

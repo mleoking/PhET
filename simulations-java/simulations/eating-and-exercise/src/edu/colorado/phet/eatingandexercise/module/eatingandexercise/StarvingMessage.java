@@ -15,7 +15,7 @@ public class StarvingMessage extends LabelNode {
         this.human = human;
 
         human.addListener( new Human.Adapter() {
-            public void ageChanged() {
+            public void starvingChanged() {
                 updateVisibility();
             }
         } );
@@ -23,7 +23,7 @@ public class StarvingMessage extends LabelNode {
     }
 
     protected void updateVisibility() {//todo: remove awkwardness
-        setVisible( human.getStarvingTimeDays() > 30 );
+        setVisible( human.isStarving() );
     }
 
 
