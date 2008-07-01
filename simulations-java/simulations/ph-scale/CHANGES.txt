@@ -19,6 +19,7 @@ MEDIUM PRIORITY:
 - disable liquid and water sliders when beaker is full
 
 LOW PRIORITY:
+- add one more significant digit to water molecule count?
 - add plumbing to liquid and water faucets?
 - replace molecule image files with SphericalNode subclasses
 - change layout of molecule counts display
@@ -37,6 +38,7 @@ CLEANUP:
 
 
 DONE:
+7/1/08 - put a translucent background behind molecule counts
 ******* version 0.00.06 (22824)
 6/30/08 - add developer only display of particle counts, in lower left of beaker
 6/30/08 - add property for min # particles of minority species, with developer control
