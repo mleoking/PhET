@@ -17,7 +17,7 @@ Clarify the meaning of "lifestyle" vs. other daily exercises
     >>SR: need to decide whether this panel will be Piccolo or Swing before proceeding with JComboBox (unless incompatibility bugs can be fixed)
 
 -"Just right" (green) body fat should be different for men / women.
-    >>SR: This will be a heart strength/strain anyways
+    >>SR: This will be converted to heart strength/strain anyways (which may be gender-specific)
 -If I set a height and weight and adjust body fat, the muscles get smaller, but the rest of the body does not get bigger.
 -The "Starving" message did not come up immediately below a certain body fat (4% female / 2% male). It came up only after body fat reached 0% (as far as I could tell).
 -On the heart attack, the message also does not come up for this right away (above even 50% fat).
