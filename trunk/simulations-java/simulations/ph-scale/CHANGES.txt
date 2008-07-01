@@ -44,6 +44,7 @@ CLEANUP:
 
 
 DONE:
+6/30/08 - add property for min # particles of minority species, with developer control
 6/30/08 - add developer control for # particles at pH=7
 6/30/08 - add developer control for majority & minority species transparency
 6/30/08 - use separate transparency for majority and minority species of particles
