@@ -3,13 +3,6 @@ Change history for ph-scale
 ================================================================================
 
 DESIGN ISSUES
-- Laurie's # (or ratio) of particles for pH=6=8 (see her Excel document):
-    pH      H3O+    OH-
-    8.0      5      500
-    7.5     16      160
-    7.0     50       50
-    6.5    160       16
-    6.0    500        5
 - how to combine color of liquid + water?
 - what happens when dragging bars would result in pH outside range?
 
