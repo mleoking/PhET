@@ -24,6 +24,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -63,10 +64,6 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
     public EatingAndExerciseCanvas( final EatingAndExerciseModel model, final Frame parentFrame ) {
         super( new PDimension( 15, 15 ) );
-//        super( new PDimension( 10, 10 ) );
-
-        // Set the transform strategy in such a way that the center of the
-        // visible canvas will be at 0,0.
 
         _model = model;
 
@@ -143,7 +140,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
                 requestFocus();
             }
         } );
-        setWorldTransformStrategy( new EatingAndExerciseRenderingSizeStrategy( this, CANVAS_WIDTH, CANVAS_HEIGHT ) );
+        setWorldTransformStrategy( new EatingAndExerciseRenderingSizeStrategy( this ) );
 
         ageRangeMessage = new AgeRangeMessage( model.getHuman() );
         addScreenChild( ageRangeMessage );
@@ -156,6 +153,8 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
         healthIndicator = new HealthIndicator( model.getHuman() );
         addScreenChild( healthIndicator );
+
+        setZoomEventHandler( new PZoomEventHandler() );
     }
 
     private void updateHeartHealthButtonNodeLayout() {
@@ -210,7 +209,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         starvingMessage.setOffset( humanAreaNode.getGlobalFullBounds().getMaxX(), humanAreaNode.getGlobalFullBounds().getCenterY() );
         heartAttackMessage.setOffset( starvingMessage.getFullBounds().getX(), starvingMessage.getFullBounds().getMaxY() );
 
-        healthIndicator.setOffset( 5, humanControlPanelPSwing.getFullBounds().getMinY()-healthIndicator.getFullBounds().getHeight() );
+        healthIndicator.setOffset( 5, humanControlPanelPSwing.getFullBounds().getMinY() - healthIndicator.getFullBounds().getHeight() );
 
     }
 
@@ -229,5 +228,9 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
     public void addEditorClosedListener( ActionListener actionListener ) {
         caloriePanel.addEditorClosedListener( actionListener );
+    }
+
+    public double getAvailableWorldHeight() {
+        return getHeight() - humanControlPanelPSwing.getFullBounds().getHeight();
     }
 }

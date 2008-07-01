@@ -3,25 +3,26 @@ package edu.colorado.phet.eatingandexercise.module.eatingandexercise;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.util.PDimension;
+import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 
 /**
  * Created by: Sam
  * Apr 18, 2008 at 1:14:25 AM
  */
-public class EatingAndExerciseRenderingSizeStrategy extends PhetPCanvas.RenderingSizeStrategy {
+public class EatingAndExerciseRenderingSizeStrategy implements PhetPCanvas.TransformStrategy {
     private EatingAndExerciseCanvas canvas;
 
-    public EatingAndExerciseRenderingSizeStrategy( EatingAndExerciseCanvas canvas, double CANVAS_WIDTH, double CANVAS_HEIGHT ) {
-        super( canvas, new PDimension( CANVAS_WIDTH * 1.2, CANVAS_HEIGHT * 1.2 ) );//todo: remove the need for layout magic numbers
+    public EatingAndExerciseRenderingSizeStrategy( EatingAndExerciseCanvas canvas ) {
         this.canvas = canvas;
     }
 
-    protected AffineTransform getPreprocessedTransform() {
-        return AffineTransform.getTranslateInstance( canvas.getWidth() * 0.15, canvas.getHeight() - canvas.getHumanControlPanelHeight() - 50 );//todo: remove magic numbers in layout
-    }
-
+    //todo: remove magic numbers in layout
     public AffineTransform getTransform() {
-        return super.getTransform();
+        double availableHeight = canvas.getAvailableWorldHeight();
+        double maxVisibleHeight = EatingAndExerciseUnits.feetToMeters( 7.5 );//extra padding for scale node
+        double scale = availableHeight / maxVisibleHeight;
+        AffineTransform transform = AffineTransform.getScaleInstance( scale, scale );
+        transform.translate( maxVisibleHeight / 2, EatingAndExerciseUnits.feetToMeters( 6.5 ) );//translate down a bit to keep the scale onscreen
+        return transform;
     }
 }
