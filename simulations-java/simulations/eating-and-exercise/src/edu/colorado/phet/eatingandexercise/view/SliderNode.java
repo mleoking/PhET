@@ -186,6 +186,8 @@ public class SliderNode extends PNode {
             thumb.setOffset( -thumb.getFullBounds().getWidth() / 2, height / 2 - thumb.getFullBounds().getHeight() / 2 );
             addInputEventListener( new CursorHandler() );//fails for PNode inside PhetPCanvas wrapped inside JComponent inside PSwing inside PhetPCanvas
             addInputEventListener( new PBasicInputEventHandler() {
+
+                //todo: remove this workaround for cursor handling on pswing double embedding
                 public void mouseEntered( PInputEvent event ) {
                     handleMouse( event, Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
                 }
