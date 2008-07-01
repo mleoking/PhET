@@ -56,7 +56,7 @@ public class MultipleParticleModel {
                                                                  // way to do this (i.e. that it is based on the
                                                                  // number of ticks).  Should it instead be based on
                                                                  // the time step defined above?
-    private static final int MAX_NUM_PARTICLES = 200;
+    private static final int MAX_NUM_PARTICLES = 300;
     private static final double INJECTED_PARTICLE_VELOCITY_SCALING_FACTOR = 1.0;
 
     //----------------------------------------------------------------------------
