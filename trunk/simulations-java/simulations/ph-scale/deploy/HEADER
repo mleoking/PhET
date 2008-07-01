@@ -15,6 +15,7 @@ Click to launch English version:
 <li>New algorithm for # of particles shown in "H3O/OH ratio" view.  See new developer controls for this algorithm, in the menu bar
 under Developer.  The # of particles varies logarithmically with pH in the range 6 to 8.  Outside of this range, the # of particles
 varies linearly.
+<li>Counts of H3O and OH particles is displayed in lower-left corner of the beaker. This will appear only in development versions.
 </ul>
 <p>
 <b>Not implemented:</b>
