@@ -14,10 +14,9 @@ DESIGN ISSUES
 - what happens when dragging bars would result in pH outside range?
 
 HIGH PRIORITY:
-- use Laurie's algorithm for # particles to create
 
 MEDIUM PRIORITY:
-- make LiquidListener more specific about what changed so that ParticlesNode doesn't have to save and compare pH
+- pH text field isn't fully selected when it gains focus or when you double-click in it
 - make particles of minority species more opaque
 - add bars to graph
 - make bars interactive
@@ -46,6 +45,8 @@ CLEANUP:
 
 
 DONE:
+6/30/08 - use my algorithm for linear # particles to create outside pH range 6-8
+6/30/08 - use Laurie's algorithm for # particles to create in pH range 6-8
 ******* version 0.00.05 (22811)
 6/30/08 - connect particle developer control panel to ParticlesNode
 6/30/08 - fix: liquid and water sliders are stuck "on" when beaker is full
@@ -143,6 +144,7 @@ DONE:
 5/20/08 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+6/30/08 - make LiquidListener more specific about what changed so that ParticlesNode doesn't have to save and compare pH (complicates model, only affects ParticlesNode)
 6/25/08 - change color of liquid in beaker when pH slider or graph bars are changed (no, don't change color)
 
 

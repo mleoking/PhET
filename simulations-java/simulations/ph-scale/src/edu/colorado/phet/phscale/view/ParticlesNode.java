@@ -200,59 +200,40 @@ public class ParticlesNode extends PComposite {
      * Creates particle nodes based on the current pH value.
      */
     private void createParticles() {
+        assert( _pH != null );
         
         deleteAllParticles();
+        
+        final double pH = _pH.doubleValue();
+        double numH3O = 0;
+        double numOH = 0;
 
-        // calculate the ratio of H30 to OH
-        final double ratio = ratio_H30_to_OH( _pH.doubleValue() );
-
-        // calculate the number of H30 and OH particles
-        final double multiplier = _maxParticles / ratio_H30_to_OH( 0 );
-        int numH30, numOH;
-        if ( ratio == 1 ) {
-            numH30 = numOH = (int) Math.max( 1, multiplier );
-        }
-        else if ( ratio > 1 ) {
-            numH30 = (int) ( multiplier * ratio );
-            numOH = (int) Math.max( 1, multiplier );
+        if ( pH >= 6 && pH <= 8 ) {
+            numH3O = ( _liquid.getConcentrationH3O() * 50 / 1E-7 );
+            numOH = ( _liquid.getConcentrationOH() * 50 / 1E-7 );
         }
         else {
-            numH30 = (int) Math.max( 1, multiplier );
-            numOH = (int) ( multiplier / ratio );
+            final double N = ( _maxParticles - 500 ) / 7;
+            if ( pH < 6 ) {
+                numH3O = Math.min( _maxParticles, ( Liquid.getConcentrationH3O( 6 ) * 50 / 1E-7 ) + ( ( 6 - pH ) * N ) );
+                numOH = Math.max( 1, ( Liquid.getConcentrationOH( 6 ) * 50 / 1E-7 )  - ( 6 - pH ) );
+            }
+            else { /* pH > 8 */
+                numH3O = Math.max( 1, ( Liquid.getConcentrationH3O( 8 ) * 50 / 1E-7 ) - ( pH - 8 ) );
+                numOH = Math.min( _maxParticles, (Liquid.getConcentrationOH( 8 ) * 50 / 1E-7 ) + ( ( pH - 8 ) * N ) );
+            }
         }
-
+        System.out.println( "#H3O=" + numH3O + " #OH=" + numOH );
+        
         // create particles, minority species in foreground
-        if ( numH30 > numOH ) {
-            createH3ONodes( numH30 );
-            createOHNodes( numOH );
+        if ( numH3O > numOH ) {
+            createH3ONodes( (int) numH3O );
+            createOHNodes( (int) numOH );
         }
         else {
-            createOHNodes( numOH );
-            createH3ONodes( numH30 );
+            createOHNodes( (int) numOH );
+            createH3ONodes( (int) numH3O );
         }
-    }
-    
-    /* 
-     * Computes the ratio of H3O to OH.
-     * Between pH of 6 and 8, we use the actual log scale.
-     * Below 6 and above 8, use a linear scale for "Hollywood" visualization.
-     */
-    private static double ratio_H30_to_OH( double pH ) {
-        double ratio;
-        if ( pH >= ACID_PH_THRESHOLD && pH <= BASE_PH_THRESHOLD ) {
-            ratio = Liquid.getConcentrationH3O( pH ) / Liquid.getConcentrationOH( pH );
-        }
-        else if ( pH < ACID_PH_THRESHOLD ) {
-            // strong acid
-            double multiplier = ACID_PH_THRESHOLD - pH + 1;
-            ratio = multiplier * Liquid.getConcentrationH3O( ACID_PH_THRESHOLD ) / Liquid.getConcentrationOH( ACID_PH_THRESHOLD );
-        }
-        else {
-            // strong base
-            double multiplier = 1 / ( pH - BASE_PH_THRESHOLD + 1 );
-            ratio = multiplier * Liquid.getConcentrationH3O( BASE_PH_THRESHOLD ) / Liquid.getConcentrationOH( BASE_PH_THRESHOLD );
-        }
-        return ratio;
     }
     
     /*
