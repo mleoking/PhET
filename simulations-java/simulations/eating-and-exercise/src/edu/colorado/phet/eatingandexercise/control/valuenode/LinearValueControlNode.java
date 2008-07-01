@@ -4,11 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.eatingandexercise.view.SliderNode;
@@ -40,11 +43,16 @@ public class LinearValueControlNode extends PNode {
 
         field = new JFormattedTextField( numberFormat );
         field.setColumns( 4 );
-        field.setText( value + "" );
+        field.setValue( new Double( value ) );
         field.setHorizontalAlignment( JTextField.RIGHT );
         field.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setValueAndNotifyModel( Double.parseDouble( field.getText() ) );
+                try {
+                    setValueAndNotifyModel( parseText() );
+                }
+                catch( ParseException e1 ) {
+                    e1.printStackTrace();
+                }
             }
         } );
         readoutNode = new PSwing( field );
@@ -64,6 +72,10 @@ public class LinearValueControlNode extends PNode {
         relayout();
     }
 
+    private double parseText() throws ParseException {
+        return LinearValueControlNode.this.numberFormat.parse( field.getText() ).doubleValue();
+    }
+
     public void setSliderRange( double min, double max ) {
         sliderNode.setRange( min, max );
     }
@@ -81,11 +93,16 @@ public class LinearValueControlNode extends PNode {
      */
     public void setValue( double v ) {
         //run the value through the numberformat, so that the displayed value matches the internal model value
-        v = Double.parseDouble( numberFormat.format( v ) );
-        if ( this.value != v ) {
-            this.value = v;
-            field.setValue( new Double( v ) );
-            sliderNode.setValue( v );
+        try {
+            v = numberFormat.parse( String.valueOf( v ) ).doubleValue();
+            if ( this.value != v ) {
+                this.value = v;
+                field.setValue( new Double( v ) );
+                sliderNode.setValue( v );
+            }
+        }
+        catch( ParseException e ) {
+            e.printStackTrace();
         }
     }
 
@@ -115,6 +132,11 @@ public class LinearValueControlNode extends PNode {
 
     public void setUnits( String unit ) {
         unitsNode.setText( unit );
+    }
+
+    public void setTextFieldFormat( NumberFormat numberFormat ) {
+        this.numberFormat = numberFormat;
+        field.setFormatterFactory( new DefaultFormatterFactory( new NumberFormatter( numberFormat ) ) );
     }
 
     public static interface Listener {
