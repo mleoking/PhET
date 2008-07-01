@@ -77,8 +77,8 @@ public class HumanNode extends PNode {
 
         double m = getScaledMass();
 
-        Line2D.Double leftLeg = ( new Line2D.Double( 0, hipY,-distBetweenShoulders / 2, 0 ) );
-        Line2D.Double rightLeg = ( new Line2D.Double( 0, hipY,+distBetweenShoulders / 2, 0 ) );
+        Line2D.Double leftLeg = ( new Line2D.Double( 0, hipY, -distBetweenShoulders / 2, 0 ) );
+        Line2D.Double rightLeg = ( new Line2D.Double( 0, hipY, +distBetweenShoulders / 2, 0 ) );
         Line2D.Double body = ( new Line2D.Double( 0, hipY, 0, neckY ) );
         Line2D.Double leftArm = ( new Line2D.Double( 0, shoulderY, -armLength, shoulderY ) );
         Line2D.Double rightArm = ( new Line2D.Double( 0, shoulderY, armLength, shoulderY ) );
@@ -110,9 +110,7 @@ public class HumanNode extends PNode {
 
     private Shape createMuscle( Line2D.Double rightArm, BasicStroke limbStroke ) {
         double leanMusclePercent = human.getFatFreeMassPercent();
-//        System.out.println( "leanMusclePercent = " + leanMusclePercent );
         double width = limbStroke.getLineWidth() * ( 1 + ( leanMusclePercent / 100.0 ) );
-//        System.out.println( "width = " + width + ", LMP=" + leanMusclePercent );
         Vector2D.Double vector = new Vector2D.Double( rightArm.getP1(), rightArm.getP2() );
         double distAlongArmToCenter = 0.35;//assumes arm is one segment
         Ellipse2D.Double aDouble = new Ellipse2D.Double();
@@ -125,7 +123,10 @@ public class HumanNode extends PNode {
     //set this scale here as desired
     //todo: could use nonlinear function if necessary
     private double getScaledMass() {
-        return human.getMass() / 75 * 1.75;
+
+        double leanMuscleFraction = human.getFatFreeMassPercent() / 100.0;
+
+        return human.getMass() / 75 * 1.75 + ( 1 - leanMuscleFraction )*0.2;
     }
 
     private Shape createStomachShape( Shape bodyShape ) {
@@ -166,7 +167,7 @@ public class HumanNode extends PNode {
                 human.setFatMassPercent( control2.getValue() );
             }
         } );
-        human.addListener( new Human.Adapter(){
+        human.addListener( new Human.Adapter() {
             public void fatPercentChanged() {
                 control2.setValue( human.getFatMassPercent() );
             }
