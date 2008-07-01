@@ -78,6 +78,12 @@ public class LinearValueControlNode extends PNode {
         relayout();
     }
 
+    public void setTextFieldColumns( int c ) {
+        field.setColumns( c );
+        readoutNode.computeBounds();
+        relayout();
+    }
+
     private double parseText() throws ParseException {
         return LinearValueControlNode.this.numberFormat.parse( field.getText() ).doubleValue();
     }
