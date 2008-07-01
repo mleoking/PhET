@@ -29,22 +29,6 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
     bearing activities should be based upon a per body weight value. What was your source for this information?
 
 >>>Need to determine the range for heart strength.
-
-____________________________________________________________________________________________
-WEIGHT DEPENDENT EXERCISE
-
-
->>>> Figure the given values for exercise are for an average person.
-
->>>Model for exercise calories burned: 
-
-	Caliories_burned = Cal * [1 + beta (W - W_0)/W_0]
-
-	...where Cal is the base calories for a person of weight W_0 (say 160 lb), W is the person's weight, and beta is 0 or 1 depending on whether the activity is weight dependent (1) or not (0). Beta could also be used to make activities more or less weight dependent (but for now leave it 0 or 1). Cal and beta are adjustable for each exercise, W_0 is a single constant for all exercises.
-
->>>Fix text for "simulation age out of range" message
-
-Come up with definitions for different lifestyles
 ____________________________________________________________________________________________
 CALCULATING BODY FAT BASED ON HEIGHT, WEIGHT, ACTIVITY LEVEL  
 
@@ -196,3 +180,6 @@ Add popup-question mark button for BMI readout near scale
     >>SR: I can't reproduce this delay.  Can you confirm the steps to repeat this problem?  Prehaps the problem is just that thresholds are 25/32% (male/female)
 
 Need explanations for different activity levels from Noah
+    >>Come up with definitions for different lifestyles
+
+Fix text for "simulation age out of range" message
