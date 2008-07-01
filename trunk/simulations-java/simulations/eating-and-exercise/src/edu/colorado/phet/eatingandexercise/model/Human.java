@@ -458,7 +458,7 @@ public class Human {
         return EatingAndExerciseUnits.secondsToDays( starvingTime );
     }
 
-    private boolean isStarving() {
+    public boolean isStarving() {
         return gender.isStarving( this );
     }
 
@@ -487,6 +487,7 @@ public class Human {
     }
 
     public void setFatMassPercent( double value ) {
+        boolean starving=isStarving();
         fatMassFraction.setValue( gender.clampFatMassPercent( value ) / 100.0 );
 //        fatMassFraction.setValue( value / 100.0 );
         updateBMR();
@@ -494,6 +495,16 @@ public class Human {
 
         //todo: not all of these notifications are from true changes
         notifyHeartAttackProbabilityChanged();
+        
+        if (starving!=isStarving()){
+            notifyStarvingChanged();
+        }
+    }
+
+    private void notifyStarvingChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener) listeners.get( i )).starvingChanged();
+        }
     }
 
     private void notifyHeartAttackProbabilityChanged() {
@@ -681,6 +692,8 @@ public class Human {
         void aliveChanged();
 
         void heartAttackProbabilityChanged();
+        
+        void starvingChanged();
     }
 
     public static class Adapter implements Listener {
@@ -725,6 +738,9 @@ public class Human {
         }
 
         public void heartAttackProbabilityChanged() {
+        }
+
+        public void starvingChanged() {
         }
     }
 
