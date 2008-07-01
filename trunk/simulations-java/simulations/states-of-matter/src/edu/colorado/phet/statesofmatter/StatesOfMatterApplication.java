@@ -140,7 +140,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     public Color getControlPanelBackground() {
         return ( (Module) getModule( 0 ) ).getControlPanel().getBackground();
     }
-
+    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
