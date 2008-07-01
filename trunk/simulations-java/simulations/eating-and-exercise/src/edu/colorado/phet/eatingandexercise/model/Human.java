@@ -487,23 +487,25 @@ public class Human {
     }
 
     public void setFatMassPercent( double value ) {
-        boolean starving=isStarving();
+        boolean starving = isStarving();
+        double heartAttackProbabilityPerDay = getHeartAttackProbabilityPerDay();
+
         fatMassFraction.setValue( gender.clampFatMassPercent( value ) / 100.0 );
-//        fatMassFraction.setValue( value / 100.0 );
         updateBMR();
         notifyFatPercentChanged();
 
-        //todo: not all of these notifications are from true changes
-        notifyHeartAttackProbabilityChanged();
-        
-        if (starving!=isStarving()){
+        if ( heartAttackProbabilityPerDay != getHeartAttackProbabilityPerDay() ) {
+            notifyHeartAttackProbabilityChanged();
+        }
+
+        if ( starving != isStarving() ) {
             notifyStarvingChanged();
         }
     }
 
     private void notifyStarvingChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener) listeners.get( i )).starvingChanged();
+            ( (Listener) listeners.get( i ) ).starvingChanged();
         }
     }
 
@@ -692,7 +694,7 @@ public class Human {
         void aliveChanged();
 
         void heartAttackProbabilityChanged();
-        
+
         void starvingChanged();
     }
 
