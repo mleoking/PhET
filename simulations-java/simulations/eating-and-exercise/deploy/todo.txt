@@ -10,8 +10,6 @@ The lower limits above assume a very low FFM with average % fat - you can go bel
 Note that the lower limit is around a BMI of 16. At this point, you will be very low % fat and can begin removing FFM to drop weight,
 but you are now in the danger zone.
 
-Play area scale doesn't respect control panel width.
-
 New sliders need to update when units change english/metric
 
 New sliders need better aligned layout
@@ -222,4 +220,7 @@ What are parameters for health indicators?
 
 Add popup-question mark button for BMI readout near scale
     >>Not a great place for this near the scale, should it go below the scale?  Just appear when help is pressed?
-    >>Ingrid said her students didn't use the near-the-heart-and-bmi version during class use. 
+    >>Ingrid said her students didn't use the near-the-heart-and-bmi version during class use.
+
+Play area scale doesn't respect control panel width.
+    >>This is only a problem for skinny window sizes, does it need to be addressed?
