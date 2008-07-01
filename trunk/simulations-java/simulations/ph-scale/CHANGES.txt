@@ -20,7 +20,6 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - pH text field isn't fully selected when it gains focus or when you double-click in it (PSwing issue?)
-- add one more significant digit to water molecule count?
 - add plumbing to liquid and water faucets?
 - replace molecule image files with SphericalNode subclasses?
 - change layout of molecule counts display?
