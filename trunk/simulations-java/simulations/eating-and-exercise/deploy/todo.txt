@@ -57,26 +57,6 @@ WEIGHT DEPENDENT EXERCISE
 >>>Fix text for "simulation age out of range" message
 
 Come up with definitions for different lifestyles
-
-____________________________________________________________________________________________
-ADD TO FOODS LIST
-
-
-Add the following to foods list:
->>1 large size fast food value meal
-	1/4 pounder with cheese: 510 cal, 26 g fat, 40 g carb, 29 g protein
-	Large fries: 		 500 cal, 25 g fat, 63 g carb,  6 g protein
-	Large soft drink: 	 310 cal,  0 g fat, 86 g carb,  0 g protein
-
-	Total:			1320 cal, 51 g fat, 189 g carb, 35 g protein
- 
-	Source http://www.mcdonalds.com/app_controller.nutrition.index1.html
-
->>Coffee shop, sugary drink
-	Large sugary coffee blended drink with whipped cream: 590 cal, 22 g fat, 96 g carb, 9 g protein
-	
-	Source http://www.starbucks.com/retail/nutrition_beverage_detail.asp
-
 ____________________________________________________________________________________________
 CALCULATING BODY FAT BASED ON HEIGHT, WEIGHT, ACTIVITY LEVEL  
 
