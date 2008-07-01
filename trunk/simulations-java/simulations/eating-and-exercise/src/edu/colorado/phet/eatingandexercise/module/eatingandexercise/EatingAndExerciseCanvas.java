@@ -240,4 +240,8 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
     public double getAvailableWorldHeight() {
         return getHeight() - humanControlPanelPSwing.getFullBounds().getHeight();
     }
+
+    public double getAvailableWorldWidth() {
+        return humanControlPanelPSwing.getFullBounds().getWidth() * 1.1;//okay to overlap by 10%
+    }
 }
