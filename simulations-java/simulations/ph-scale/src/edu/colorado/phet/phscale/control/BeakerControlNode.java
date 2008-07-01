@@ -91,8 +91,8 @@ public class BeakerControlNode extends PNode {
         _liquidNode.setOffset( _beakerNode.getOffset() );
         _drainControlNode.setOffset( b.getX() + 10,  b.getY() + 585 );
         _probeNode.setOffset( b.getX() + 152, b.getY() + 85 );
-        viewControlPanelWrapper.setOffset( b.getX() + 190,  b.getY() + 585 );
         _moleculeCountNode.setOffset( b.getX() + 50,  b.getY() + 260 );
+        viewControlPanelWrapper.setOffset( b.getX() + 220,  b.getY() + 585 );
     }
     
     public void cleanup() {
