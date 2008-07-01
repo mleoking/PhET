@@ -226,9 +226,16 @@ public class ChartNode extends PNode {
         return EatingAndExerciseUnits.secondsToYears( model.getHuman().getAge() );
     }
 
-    public void relayout( int width, int height ) {
+    public void relayout( double width, double height ) {
+        weightChart.setAvailableBounds( width, height / 4 );
+        calorieChart.setAvailableBounds( width, height / 4 );
         weightChart.setOffset( 0, height - weightChart.getFullBounds().getHeight() - calorieChart.getFullBounds().getHeight() );
         calorieChart.setOffset( 0, weightChart.getFullBounds().getMaxY() );
+
+        //have to relayout after both are resized
+        //todo: internalize this
+        weightChart.relayoutControlGraph();
+        calorieChart.relayoutControlGraph();
     }
 
     public void resetAll() {

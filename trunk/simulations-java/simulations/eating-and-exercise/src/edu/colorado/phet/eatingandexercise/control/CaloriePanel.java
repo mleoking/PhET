@@ -4,13 +4,16 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ActionEvent;
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseCanvas;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.view.EatingAndExerciseColorScheme;
 import edu.colorado.phet.eatingandexercise.view.StackedBarChartNode;
@@ -22,22 +25,16 @@ import edu.umd.cs.piccolo.PNode;
  * Apr 9, 2008 at 8:59:34 PM
  */
 public class CaloriePanel extends PNode {
-    private PhetPCanvas phetPCanvas;
+    private EatingAndExerciseCanvas phetPCanvas;
     private StackedBarChartNode stackedBarChart;
     private CalorieNode foodNode;
     private CalorieNode exerciseNode;
     private ChartNode chartNode;
 
-    public CaloriePanel( final EatingAndExerciseModel model, PhetPCanvas phetPCanvas, Frame parentFrame ) {
+    public CaloriePanel( final EatingAndExerciseModel model, final EatingAndExerciseCanvas phetPCanvas, Frame parentFrame ) {
         this.phetPCanvas = phetPCanvas;
         this.chartNode = new ChartNode( model, phetPCanvas );
         addChild( chartNode );
-
-        phetPCanvas.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                relayout();
-            }
-        } );
 
         Function.LinearFunction transform = new Function.LinearFunction( 0, 3000, 0, 250 );
         stackedBarChart = new StackedBarChartNode( transform, EatingAndExerciseResources.getString( "units.cal-per-day" ), 10, 250, 1000, 8000 );
@@ -80,6 +77,16 @@ public class CaloriePanel extends PNode {
         addChild( exerciseNode.getTooltipLayer() );
 
         relayout();
+
+        phetPCanvas.addComponentListener( new ComponentAdapter() {
+            public void componentShown( ComponentEvent e ) {
+                relayout();
+            }
+
+            public void componentResized( ComponentEvent e ) {
+                relayout();
+            }
+        } );
     }
 
     public void resetAll() {
@@ -128,7 +135,8 @@ public class CaloriePanel extends PNode {
     }
 
     private void relayout() {
-        chartNode.relayout( phetPCanvas.getWidth(), phetPCanvas.getHeight() );
+        double w = phetPCanvas.getWidth() - phetPCanvas.getControlPanelWidth();
+        chartNode.relayout( w, phetPCanvas.getHeight() );
         foodNode.setMaxY( chartNode.getFullBounds().getY() );
         exerciseNode.setMaxY( chartNode.getFullBounds().getY() );
         double width = phetPCanvas.getWidth() - getOffset().getX();

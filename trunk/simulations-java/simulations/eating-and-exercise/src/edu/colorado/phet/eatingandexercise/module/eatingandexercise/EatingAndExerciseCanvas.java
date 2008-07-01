@@ -128,7 +128,6 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         addScreenChild( humanControlPanelPSwing );
 
         caloriePanel = new CaloriePanel( model, this, parentFrame );
-        caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
         addScreenChild( caloriePanel );
 
         setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
@@ -155,6 +154,8 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         addScreenChild( healthIndicator );
 
         setZoomEventHandler( new PZoomEventHandler() );
+
+        updateLayout();
     }
 
     private void updateHeartHealthButtonNodeLayout() {
@@ -208,9 +209,15 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         ageRangeMessage.setOffset( humanControlPanelPSwing.getFullBounds().getMaxX(), humanControlPanelPSwing.getFullBounds().getY() + humanControlPanel.getAgeSliderY() );
         starvingMessage.setOffset( humanAreaNode.getGlobalFullBounds().getMaxX(), humanAreaNode.getGlobalFullBounds().getCenterY() );
         heartAttackMessage.setOffset( starvingMessage.getFullBounds().getX(), starvingMessage.getFullBounds().getMaxY() );
-
         healthIndicator.setOffset( 5, humanControlPanelPSwing.getFullBounds().getMinY() - healthIndicator.getFullBounds().getHeight() );
 
+        caloriePanel.setOffset( humanControlPanelPSwing.getFullBounds().getWidth(), 0 );
+//        caloriePanel.setLayoutSize(getWidth()-humanControlPanelPSwing.getFullBounds().getWidth(),getHeight());
+    }
+
+
+    public double getControlPanelWidth() {
+        return humanControlPanelPSwing.getFullBounds().getWidth();
     }
 
     //reset any view settings
