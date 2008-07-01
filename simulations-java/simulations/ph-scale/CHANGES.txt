@@ -37,7 +37,8 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.06 (?)
+******* version 0.00.06 (22821)
+6/30/08 - add developer only display of particle counts, in lower left of beaker
 6/30/08 - add property for min # particles of minority species, with developer control
 6/30/08 - add developer control for # particles at pH=7
 6/30/08 - add developer control for majority & minority species transparency

@@ -8,7 +8,11 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.phscale.PHScaleApplication;
 import edu.colorado.phet.phscale.PHScaleConstants;
+import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
@@ -52,6 +56,7 @@ public class ParticlesNode extends PComposite {
     private final PBounds _containerBounds;
     private final PNode _particlesParent;
     private final Random _randomX, _randomY;
+    private HTMLNode _numbersNode;
    
     private Double _pH; // used to watch for pH change in the liquid
     private int _numberOfParticlesAtPH7; // number of particles created when pH=7
@@ -87,6 +92,14 @@ public class ParticlesNode extends PComposite {
         
         _particlesParent = new PNode();
         addChild( _particlesParent );
+        
+        // developer only, display particle counts in lower left of container
+        if ( PHScaleApplication.instance().isDeveloperControlsEnabled() ) {
+            _numbersNode = new HTMLNode( "?" );
+            _numbersNode.setFont( new PhetFont( 14 ) );
+            addChild( _numbersNode );
+            _numbersNode.setOffset( containerBounds.getX() + 5, containerBounds.getMaxY() - _numbersNode.getFullBoundsReference().getHeight() - 15 );
+        }
         
         _numberOfParticlesAtPH15 = DEFAULT_NUM_PARTICLES_AT_PH15;
         _numberOfParticlesAtPH7 = DEFAULT_NUM_PARTICLES_AT_PH7;
@@ -258,6 +271,16 @@ public class ParticlesNode extends PComposite {
         }
     }
     
+    /*
+     * Updates the debugging display that shows the number of each particle type
+     */
+    private void updateNumbersNode( int h3o, int oh ) {
+        if ( _numbersNode != null ) {
+            // eg: H3O/OH=500/5
+            _numbersNode.setHTML( "<html>" + PHScaleStrings.LABEL_H3O + "/" + PHScaleStrings.LABEL_OH + "= " + h3o + "/" + oh + "<html>" );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Particle creation
     //----------------------------------------------------------------------------
@@ -304,7 +327,7 @@ public class ParticlesNode extends PComposite {
                 _numberOfOH = (int) Math.max( _minMinorityParticles, ( getNumberOfOHParticles( ACID_PH_THRESHOLD ) - phDiff ) );
             }
         }
-        System.out.println( "#H3O=" + _numberOfH3O + " #OH=" + _numberOfOH );
+        updateNumbersNode( _numberOfH3O, _numberOfOH );
         
         // create particles, minority species in foreground
         if ( _numberOfH3O > _numberOfOH ) {
