@@ -1,5 +1,6 @@
 New in 0.00.51
 Fixed: Play area scale doesn't respect control panel height.
+Fixed: Default height was 6'4" (should probably be put back to 5-8 or 5-6 for female?)
 
 New in 0.00.50
 Changed starving message to “Starving!”

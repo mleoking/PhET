@@ -96,7 +96,11 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         //todo: factor out slider that accommodates units
         final double minHeight = 1;
         final double maxHeight = 2.72;
-        heightSlider = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ), model.getUnits().modelToViewDistance( human.getHeight() ), EatingAndExerciseResources.getString( "height" ), "0.00", model.getUnits().getDistanceUnit() );
+        double origHeight = model.getUnits().modelToViewDistance( human.getHeight() );
+        System.out.println( "origHeight = " + origHeight );
+        heightSlider = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ),
+                                        origHeight, EatingAndExerciseResources.getString( "height" ), "0.00", model.getUnits().getDistanceUnit() );
+        heightSlider.setTextFieldFormat( new FeetInchesFormat() );
         heightSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setHeight( model.getUnits().viewToModelDistance( heightSlider.getValue() ) );

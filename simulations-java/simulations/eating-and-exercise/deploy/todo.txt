@@ -27,8 +27,6 @@ Clarify the meaning of "lifestyle" vs. other daily exercises
 >>Add popups with explanations (from Noah)
     >>SR: need to decide whether this panel will be Piccolo or Swing before proceeding with JComboBox (unless incompatibility bugs can be fixed)
 
--When the sim loaded on my laptop (1920x1200) the person's head was cut off.
--Default height was 6'4" (should probably be put back to 5-8 or 5-6 for female?)
 -If I set a value beyond the slider, the arrow comes up (very nice) but the tip of the arrow is cut off.
 -I could be wrong, but I thought you could enter height in x'y" format before - it is now just a regular decimal format.
 -The adjustable balanced diet works nicely, but I think the text box for calories is too small (on my screen anyway, it cuts off the edges of the number.)
