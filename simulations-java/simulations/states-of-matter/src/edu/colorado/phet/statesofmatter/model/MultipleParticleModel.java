@@ -92,6 +92,7 @@ public class MultipleParticleModel {
     private double m_particleDiameter;
     private double m_pressure;
     private PressureCalculator m_pressureCalculator;
+    private boolean m_thermostatEnabled;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -101,6 +102,7 @@ public class MultipleParticleModel {
         
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
+        m_thermostatEnabled = true;
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -200,6 +202,15 @@ public class MultipleParticleModel {
         
         // This causes a reset - otherwise it would be too hard to do.
         reset();
+    }
+    
+    public boolean getIsThermostatEnabled() {
+        return m_thermostatEnabled;
+    }
+
+    
+    public void setIsThermostatEnabled( boolean enabled ) {
+        m_thermostatEnabled = enabled;
     }
 
     //----------------------------------------------------------------------------
@@ -660,21 +671,23 @@ public class MultipleParticleModel {
                     (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
         }
         
-        // Isokinetic thermostat
-        
-        double temperatureScaleFactor;
-        if (temperature == 0){
-            temperatureScaleFactor = 0;
-        }
-        else{
-            temperatureScaleFactor = Math.sqrt( temperature * numParticles / kineticEnergy );
-        }
-        kineticEnergy = 0;
-        for (int i = 0; i < numParticles; i++){
-            particleVelocities[i].setComponents( particleVelocities[i].getX() * temperatureScaleFactor, 
-                    particleVelocities[i].getY() * temperatureScaleFactor );
-            kineticEnergy += ((particleVelocities[i].getX() * particleVelocities[i].getX()) + 
-                    (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
+        if (m_thermostatEnabled){
+            // Isokinetic thermostat
+            
+            double temperatureScaleFactor;
+            if (temperature == 0){
+                temperatureScaleFactor = 0;
+            }
+            else{
+                temperatureScaleFactor = Math.sqrt( temperature * numParticles / kineticEnergy );
+            }
+            kineticEnergy = 0;
+            for (int i = 0; i < numParticles; i++){
+                particleVelocities[i].setComponents( particleVelocities[i].getX() * temperatureScaleFactor, 
+                        particleVelocities[i].getY() * temperatureScaleFactor );
+                kineticEnergy += ((particleVelocities[i].getX() * particleVelocities[i].getX()) + 
+                        (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
+            }
         }
         
         // Replace the new forces with the old ones.

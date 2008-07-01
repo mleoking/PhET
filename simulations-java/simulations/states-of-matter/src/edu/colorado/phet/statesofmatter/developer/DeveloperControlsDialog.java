@@ -8,6 +8,7 @@ import java.awt.Frame;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -82,6 +83,27 @@ public class DeveloperControlsDialog extends JDialog {
                 _app.setSelectedTabColor( selectedTabColorControl.getColor() );
             }
         } );
+
+        // Thermostat on/off check box.
+        final JCheckBox thermostatCheckBox = new JCheckBox("Use Thermostat");
+        Module activeModule = _app.getActiveModule();
+        if ( activeModule instanceof SolidLiquidGasModule ){
+            thermostatCheckBox.setSelected( ((SolidLiquidGasModule)activeModule).getMultiParticleModel().getIsThermostatEnabled() );
+        }
+        else if ( activeModule instanceof PhaseChangesModule ){
+            thermostatCheckBox.setSelected( ((PhaseChangesModule)activeModule).getMultiParticleModel().getIsThermostatEnabled() );
+        }
+        thermostatCheckBox.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                Module activeModule = _app.getActiveModule();
+                if ( activeModule instanceof SolidLiquidGasModule ){
+                    ((SolidLiquidGasModule)activeModule).getMultiParticleModel().setIsThermostatEnabled( thermostatCheckBox.isSelected() );
+                }
+                else if ( activeModule instanceof PhaseChangesModule ){
+                    ((PhaseChangesModule)activeModule).getMultiParticleModel().setIsThermostatEnabled( thermostatCheckBox.isSelected() );
+                }
+            }
+        });
         
         // Add the slider that controls the temperature of the system.
         final LinearValueControl temperatureControl;
@@ -118,6 +140,7 @@ public class DeveloperControlsDialog extends JDialog {
         int column = 0;
         layout.addComponent( controlPanelColorControl, row++, column );
         layout.addComponent( selectedTabColorControl, row++, column );
+        layout.addComponent( thermostatCheckBox, row++, column );
         layout.addComponent( temperatureControl, row++, column );
 
         return panel;
