@@ -194,7 +194,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     
     private class ParticleSystemControlPanel extends JPanel {
         
-        private LinearValueControl m_temperatureControl;
         private LinearValueControl m_gravitationalAccControl;
         
         ParticleSystemControlPanel(){
@@ -214,35 +213,13 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             // Register as a listener with the model so that we know when it gets
             // reset.
             m_model.addListener( new MultipleParticleModel.Adapter(){
-                public void temperatureChanged(){
-                    m_temperatureControl.setValue( m_model.getTemperature() );
-                }
                 public void resetOccurred(){
                     m_gravitationalAccControl.setValue( m_model.getGravitationalAcceleration() );
                 }
             });
             
-            // Add the slider that controls the temperature of the system.
-            m_temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE, 
-                    MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "##.##", "Control" );
-            m_temperatureControl.setUpDownArrowDelta( 0.05 );
-            m_temperatureControl.setTextFieldEditable( true );
-            m_temperatureControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_temperatureControl.setTickPattern( "0" );
-            m_temperatureControl.setMajorTickSpacing( 2.5 );
-            m_temperatureControl.setMinorTickSpacing( 1.25 );
-            m_temperatureControl.setBorder( BorderFactory.createEtchedBorder() );
-            m_temperatureControl.setValue( m_model.getTemperature() );
-            m_temperatureControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    m_model.setTemperature( m_temperatureControl.getValue() );
-                }
-            });
-            
-            add(m_temperatureControl);
-            
             // Add the slider that controls the gravitational acceleration of the system.
-            m_gravitationalAccControl = new LinearValueControl( 0, 0.4, "Gravity", "##.##", "Control" );
+            m_gravitationalAccControl = new LinearValueControl( 0, 0.4, "Gravity", "##.##", "Control" ); // TODO: JPB TBD - Make this a string if we keep it.
             m_gravitationalAccControl.setUpDownArrowDelta( 0.0025 );
             m_gravitationalAccControl.setTextFieldEditable( true );
             m_gravitationalAccControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
