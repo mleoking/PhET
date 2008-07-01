@@ -93,6 +93,7 @@ public class LinearValueControlNode extends PNode {
      */
     public void setValue( double v ) {
         //run the value through the numberformat, so that the displayed value matches the internal model value
+        //todo: is this necessary?
         try {
             v = numberFormat.parse( String.valueOf( v ) ).doubleValue();
             if ( this.value != v ) {
