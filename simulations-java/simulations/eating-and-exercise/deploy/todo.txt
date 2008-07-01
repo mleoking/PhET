@@ -13,12 +13,6 @@ The lower limits above assume a very low FFM with average % fat - you can go bel
 -"Just right" (green) body fat should be different for men / women.
     >>SR: This will be converted to heart strength/strain anyways (which may be gender-specific)
     >>NP: see below
-
--Zero delay on danger messages (starving and heart attack).
-
--Try to approximate conservation of area in body for exchanging muscle and fat mass. OK for now to only have biceps bulge.
-
-
 ____________________________________________________________________________________________
 HEART STRENGTH / STRAIN
 
