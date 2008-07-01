@@ -15,14 +15,31 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
-
+/**
+ * ViewControlPanel selects the things that are visible in the beaker.
+ * The choices are to show a "molecule count" and/or "H3O/OH ratio".
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ViewControlPanel extends JPanel {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, 18 );;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final ArrayList _listeners;
     private final JCheckBox _countCheckBox;
     private final JCheckBox _ratioCheckBox;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ViewControlPanel() {
         super();
@@ -54,6 +71,10 @@ public class ViewControlPanel extends JPanel {
         layout.addComponent( _ratioCheckBox, row++, col );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public boolean isCountSelected() {
         return _countCheckBox.isSelected();
     }
@@ -75,6 +96,10 @@ public class ViewControlPanel extends JPanel {
             notifyRatioChanged();
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Listener interface
+    //----------------------------------------------------------------------------
     
     public interface ViewControlPanelListener {
         public void countChanged( boolean selected );

@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.phscale.view;
 
 import java.awt.image.BufferedImage;
@@ -10,8 +12,18 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * FaucetNode is the visual representation of a faucet.
+ * This implementation assumes that the faucet image file contains a faucet 
+ * whose spigot is pointing to the right.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class FaucetNode extends PNode {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     // We expect the image to be this size, warn if not this size.
     public static final PDimension IMAGE_SIZE = new PDimension( 125, 90 );
@@ -19,7 +31,12 @@ public class FaucetNode extends PNode {
     public static final int ORIENTATION_LEFT = SwingConstants.LEFT;
     public static final int ORIENTATION_RIGHT = SwingConstants.RIGHT;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public FaucetNode( int orientation ) {
+        
         BufferedImage image = null;
         if ( orientation == ORIENTATION_RIGHT ) {
             image = PHScaleImages.FAUCET;

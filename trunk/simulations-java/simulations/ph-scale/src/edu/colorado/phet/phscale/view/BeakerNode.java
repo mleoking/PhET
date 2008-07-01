@@ -8,14 +8,21 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.phscale.model.Liquid;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * BeakerNode is the visual representation of a beaker.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class BeakerNode extends PComposite {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final String[] MAJOR_TICK_LABELS = { "\u00bc L", "\u00bd L", "\u00be L", "1 L", "1\u00bc L" }; // 1/4, 1/2, 3/4, 1,...
     
@@ -34,10 +41,18 @@ public class BeakerNode extends PComposite {
     private static final double SPACE_BETWEEN_TOP_OF_BEAKER_AND_TOP_TICK = 10;
     private static final Point2D BEAKER_LIP_OFFSET = new Point2D.Double( 20, 20 );
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final GeneralPath _beakerPath;
     private final PPath _beakerNode;
     
-    public BeakerNode( Liquid liquid, PDimension size ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    public BeakerNode( PDimension size, final double maxVolume ) {
         super();
         
         // outline
@@ -62,7 +77,6 @@ public class BeakerNode extends PComposite {
         // tick marks
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
-        double maxVolume = liquid.getMaxVolume();
         int numberOfTicks = (int) Math.floor( maxVolume / MINOR_TICK_SPACING );
         final double rightX = size.getWidth(); // don't use bounds or position will be off because of stroke width
         final double bottomY = size.getHeight(); // don't use bounds or position will be off because of stroke width

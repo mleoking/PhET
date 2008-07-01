@@ -9,22 +9,22 @@ DESIGN ISSUES
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- pH text field isn't fully selected when it gains focus or when you double-click in it
 - add bars to graph
 - make bars interactive
 - tick marks on graph
 - implement linear and log scale switching
 - 10x zoom feature for linear graph, zoom into zero
 - line up pH slider ticks with bar graph ticks
-- disable liquid and water sliders when beaker is full
-
-LOW PRIORITY:
-- add one more significant digit to water molecule count?
-- add plumbing to liquid and water faucets?
-- replace molecule image files with SphericalNode subclasses
-- change layout of molecule counts display
 - generalize layout code
 - address Kathy's problem with prototype and Java 1.4 Random class
+
+LOW PRIORITY:
+- pH text field isn't fully selected when it gains focus or when you double-click in it (PSwing issue?)
+- add one more significant digit to water molecule count?
+- add plumbing to liquid and water faucets?
+- replace molecule image files with SphericalNode subclasses?
+- change layout of molecule counts display?
+- disable liquid and water sliders when beaker is full?
 
 PERFORMANCE OPTIMIZATIONS:
 
@@ -35,9 +35,11 @@ CLEANUP:
 - rescale image files to minimize file size
 - disable all debug output
 - optimize memory management by reusing mutable objects
+- javadoc
 
 
 DONE:
+7/1/08 - javadoc everything done up to this point
 7/1/08 - put a translucent background behind molecule counts
 ******* version 0.00.06 (22824)
 6/30/08 - add developer only display of particle counts, in lower left of beaker

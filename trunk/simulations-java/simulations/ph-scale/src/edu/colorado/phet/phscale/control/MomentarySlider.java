@@ -20,11 +20,23 @@ import javax.swing.event.ChangeListener;
  */
 public class MomentarySlider extends JSlider {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final int OFF_VALUE = 0;
     private static final int ON_VALUE = 100;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private boolean _on;
     private final ArrayList _listeners;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public MomentarySlider() {
         this( false /* on */ );
@@ -47,13 +59,9 @@ public class MomentarySlider extends JSlider {
         setValue( false );
     }
     
-    private void handleSliderChange() {
-        final boolean on = ( getValue() != OFF_VALUE );
-        if ( on != _on ) {
-            _on = on;
-            notifyOnOffChanged();
-        }
-    }
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public boolean isOn() {
         return _on;
@@ -71,9 +79,21 @@ public class MomentarySlider extends JSlider {
         setValue( on ? ON_VALUE : OFF_VALUE );
     }
     
-    public void setValue( int value ) {
-        super.setValue( value );
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
+    
+    private void handleSliderChange() {
+        final boolean on = ( getValue() != OFF_VALUE );
+        if ( on != _on ) {
+            _on = on;
+            notifyOnOffChanged();
+        }
     }
+    
+    //----------------------------------------------------------------------------
+    // Listener interface
+    //----------------------------------------------------------------------------
     
     public interface MomentarySliderListener {
         public void onOffChanged( boolean on );
@@ -82,7 +102,6 @@ public class MomentarySlider extends JSlider {
     public void addMomentarySliderListener( MomentarySliderListener listener ) {
         _listeners.add( listener );
     }
-    
     
     public void removeMomentarySliderListener( MomentarySliderListener listener ) {
         _listeners.remove( listener );

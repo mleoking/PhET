@@ -6,7 +6,11 @@ import edu.colorado.phet.phscale.PHScaleImages;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * OHNode is the visual representation of a hydroxide molecule.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class OHNode extends PComposite {
 
     public OHNode() {

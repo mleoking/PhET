@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.phscale.view;
 
 import java.awt.geom.Rectangle2D;
@@ -10,8 +12,18 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * LiquidNode represents the liquid in the beaker.
+ * It plays a secondary role, used as a clipping path for the particles shown
+ * in the "H3O/OH ratio" view.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LiquidNode extends PComposite {
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
@@ -19,6 +31,10 @@ public class LiquidNode extends PComposite {
     private final Rectangle2D _liquidPath;
     private final PPath _liquidNode;
     private final ParticlesNode _particlesNode;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public LiquidNode( Liquid liquid, PDimension maxSize ) {
         setPickable( false );
@@ -49,6 +65,10 @@ public class LiquidNode extends PComposite {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public void setParticlesVisible( boolean visible ) {
         _particlesNode.setVisible( visible );
     }
@@ -61,6 +81,10 @@ public class LiquidNode extends PComposite {
     public ParticlesNode getParticlesNode() {
         return _particlesNode;
     }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
     
     private void update() {
 

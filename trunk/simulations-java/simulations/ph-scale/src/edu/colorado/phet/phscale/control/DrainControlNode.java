@@ -17,8 +17,16 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * DrainControlNode is the faucet used to drain the beaker.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class DrainControlNode extends PNode {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 500 );
     private static final double DRAINING_RATE = 0.01; // liters per clock tick
@@ -27,10 +35,18 @@ public class DrainControlNode extends PNode {
     private static final Color PIPE_STROKE_COLOR = Color.BLACK;
     private static final Stroke PIPE_STROKE = new BasicStroke( 2f );
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final FaucetControlNode _faucetControlNode;
     private final PPath _liquidColumnNode;
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public DrainControlNode( Liquid liquid ) {
         super();
@@ -81,14 +97,26 @@ public class DrainControlNode extends PNode {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public boolean isOn() {
         return _faucetControlNode.isOn();
     }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
     
     private void update() {
         _liquidColumnNode.setVisible( _liquid.isDraining() );
         _liquidColumnNode.setPaint( _liquid.getColor() );
     }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
     
     /*
      * Creates the shape of the pipe, using constructive area geometry.

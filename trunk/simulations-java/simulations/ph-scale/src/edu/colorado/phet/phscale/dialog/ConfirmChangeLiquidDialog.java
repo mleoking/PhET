@@ -13,12 +13,26 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
-
+/**
+ * ConfirmChangeLiquidDialog is a dialog used to confirm whether the user wants
+ * to switch liquids.  It has a "Don't ask me again" option to turn off this 
+ * annoying "feature".
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ConfirmChangeLiquidDialog extends JDialog {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final JCheckBox _dontAskAgainCheckBox;
     private boolean _confirmed;
     private JButton _yesButton, _noButton;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ConfirmChangeLiquidDialog( Frame parent ) {
         super( parent );
@@ -71,6 +85,10 @@ public class ConfirmChangeLiquidDialog extends JDialog {
         getContentPane().add( panel );
         pack();
     }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public boolean isConfirmed() {
         return _confirmed;

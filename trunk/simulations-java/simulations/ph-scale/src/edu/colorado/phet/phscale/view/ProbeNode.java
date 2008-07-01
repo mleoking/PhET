@@ -25,6 +25,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public class ProbeNode extends PComposite {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Color SHAFT_COLOR = Color.DARK_GRAY;
     private static final double SHAFT_WIDTH = 10;
     
@@ -39,9 +43,17 @@ public class ProbeNode extends PComposite {
     private static final double DISPLAY_X_SPACING = 8;
     private static final Color DISPLAY_BACKGROUND = Color.LIGHT_GRAY;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     private final DisplayNode _displayNode;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ProbeNode( double height, Liquid liquid ) {
         super();
@@ -83,9 +95,20 @@ public class ProbeNode extends PComposite {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the display to show the liquid's pH value.
+     */
     private void update() {
         _displayNode.setValue( _liquid.getPH() );
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
     
     /*
      * Read-out that displays the pH value.

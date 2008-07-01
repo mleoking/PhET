@@ -14,14 +14,31 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
-
+/**
+ * GraphScaleControlPanel contains the controls for switching the graph's scale.
+ * The scale can be either log or linear.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class GraphScaleControlPanel extends JPanel {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, 18 );;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final ArrayList _listeners;
     private final JRadioButton _logRadioButton;
     private final JRadioButton _linearRadioButton;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public GraphScaleControlPanel() {
         super();
@@ -49,6 +66,10 @@ public class GraphScaleControlPanel extends JPanel {
         _logRadioButton.setSelected( true );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public boolean isLogSelected() {
         return _logRadioButton.isSelected();
     }
@@ -67,6 +88,10 @@ public class GraphScaleControlPanel extends JPanel {
     public void setLinearSelected( boolean selected ) {
         setLogSelected( !selected );
     }
+    
+    //----------------------------------------------------------------------------
+    // Listener interface
+    //----------------------------------------------------------------------------
     
     public interface GraphScaleControlPanelListener {
         public void selectionChanged();
