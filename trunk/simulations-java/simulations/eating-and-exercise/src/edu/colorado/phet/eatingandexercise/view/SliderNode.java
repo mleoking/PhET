@@ -164,7 +164,7 @@ public class SliderNode extends PNode {
             PPath path = new PhetPPath( createTrackShape( min, max ), Color.lightGray, new BasicStroke( 1 ), Color.black );
             addChild( path );
 
-            //todo: this should probably be moved to an invisible background node
+            //todo: this should probably be moved to an invisible background node, to get a larger selection radius
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
 
