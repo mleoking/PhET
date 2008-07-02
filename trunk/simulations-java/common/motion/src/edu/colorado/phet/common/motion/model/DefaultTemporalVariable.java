@@ -116,10 +116,24 @@ public class DefaultTemporalVariable implements ITemporalVariable {
     }
 
     public double estimateAverage( double startTime, double endTime ) {
-        Function.LinearFunction linearFit = MotionMath.getLinearFit( getData( startTime, endTime ) );
+        TimeData[] data = getData( startTime, endTime );
+        if ( data.length == 0 ) {
+            throw new RuntimeException( "Insufficient data" );
+        }
+        else if ( data.length == 1 ) {
+//            System.out.println( "one data point" );
+            return data[0].getValue();
+        }
+        else {
+            Function.LinearFunction linearFit = MotionMath.getLinearFit( data );
+//            System.out.println( "linearFit = " + linearFit );
+            if ( Double.isNaN( linearFit.getMinOutput() ) || Double.isNaN( linearFit.getMaxOutput() ) ) {//could happen if there are duplicate points in the series
+                return data[0].getValue();
+            }
 
-        //evaluate at midpoint
-        return linearFit.evaluate( ( endTime + startTime ) / 2.0 );
+            //evaluate at midpoint
+            return linearFit.evaluate( ( endTime + startTime ) / 2.0 );
+        }
     }
 
     /*
