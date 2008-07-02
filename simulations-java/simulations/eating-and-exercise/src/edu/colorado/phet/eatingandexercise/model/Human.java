@@ -358,7 +358,7 @@ public class Human {
 
     private void notifyActivityLevelChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener) listeners.get( i )).activityLevelChanged();
+            ( (Listener) listeners.get( i ) ).activityLevelChanged();
         }
     }
 
@@ -417,30 +417,20 @@ public class Human {
 
         caloricBurnVariable.setValue( getDailyCaloricBurn() );
         caloricBurnVariable.addValue( getDailyCaloricBurn(), getAge() );
+        handleStarving( simulationTimeChange );
+        handleHeartAttack( simulationTimeChange );
+    }
 
-        /*
-         * Model for starvation:
-	        If you drop below 2%/4% (men/women) fat, you can live for 2 months and then death occurs. If you go above this level, the clock resets.
-         */
-        if ( isStarving() ) {
-            starvingTime += simulationTimeChange;
-        }
-        else {
-            starvingTime = 0;
-        }
-        if ( getStarvingTimeDays() > 30 * 2 && isAlive() ) {
-            setAlive( false );
-        }
-
+    private void handleHeartAttack( double simulationTimeChange ) {
         /*Model for heart attack:
-      If you go above 25%/32% (men/women) fat, you begin to have a probability of heart attack each day, p_attack.
-      Below these %fat thresholds, p_attack = 0.
+        If you go above 25%/32% (men/women) fat, you begin to have a probability of heart attack each day, p_attack.
+        Below these %fat thresholds, p_attack = 0.
 
-      p_attack = p_0 * (%fat - %fat_0)
+        p_attack = p_0 * (%fat - %fat_0)
 
-      ...where p_0 is a constant we adjust to make heart attack fairly likely
-      (within a couple of years) for $fat > 50, %fat_0 = 25%/32% for men/women.
-      */
+        ...where p_0 is a constant we adjust to make heart attack fairly likely
+        (within a couple of years) for $fat > 50, %fat_0 = 25%/32% for men/women.
+        */
 
         double heartAttackProbabilityPerDay = getHeartAttackProbabilityPerDay();
         double heartAttackProbabilityPerSec = heartAttackProbabilityPerDay / EatingAndExerciseUnits.daysToSeconds( 1 );
@@ -450,8 +440,22 @@ public class Human {
         if ( rand < heartAttackProbabilityPerDT ) {
             addHeartAttack();
         }
+    }
 
-//        System.out.println( "getDailyCaloricIntake() = " + getDailyCaloricIntake() );
+    private void handleStarving( double simulationTimeChange ) {
+        /*
+        * Model for starvation:
+           If you drop below 2%/4% (men/women) fat, you can live for 2 months and then death occurs. If you go above this level, the clock resets.
+        */
+        if ( isStarving() ) {
+            starvingTime += simulationTimeChange;
+        }
+        else {
+            starvingTime = 0;
+        }
+        if ( getStarvingTimeDays() > 30 * 2 && isAlive() ) {
+            setAlive( false );
+        }
     }
 
     private void addHeartAttack() {
