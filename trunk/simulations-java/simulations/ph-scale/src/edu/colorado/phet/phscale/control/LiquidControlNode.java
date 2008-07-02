@@ -102,7 +102,7 @@ public class LiquidControlNode extends PNode {
         comboBoxWrapper.setOffset( 0, 0 );
         PBounds cb = comboBoxWrapper.getFullBoundsReference();
         _faucetControlNode.setOffset( cb.getX(), cb.getMaxY() + 5 );
-        _liquidColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMaxX() - _liquidColumnNode.getFullBoundsReference().getWidth() - 3, _faucetControlNode.getFullBoundsReference().getMaxY() );
+        _liquidColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMaxX() - _liquidColumnNode.getFullBoundsReference().getWidth() - 8, _faucetControlNode.getFullBoundsReference().getMaxY() );
         
         update();
     }
