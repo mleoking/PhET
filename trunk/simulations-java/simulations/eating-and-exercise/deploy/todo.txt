@@ -25,8 +25,8 @@ ________________________________________________________________________________
 HEART STRENGTH / STRAIN
 
 - Heart strength: this is a bar chart based a running average of exercise amount over the last X days (let's try X=30 days to start).
-There should also be the possibility of adding/subtracting constants based on other accumulated factors (e.g., if you go into starvation mode,
- you should lose some constant amount of heart strength that you can never gain back).
+NP will determine the range for heart strength based on exercise. For now, lets make it 250-1000 cal/day as the healthy range.
+    >>SR: Should this account for activity (lifestyle), or just exercise on top of that?
 
 - Heart strain: this is a bar chart based on a running average of % fat over the last Y days (again, try Y=30 to start).
 Similarly, there should be possibility of more permanent constants that can accumulate (to be determined).
@@ -34,10 +34,8 @@ Similarly, there should be possibility of more permanent constants that can accu
 The green area of each bar will mean good, red bad. The bright green area should be extended to include all acceptable values.
  So for heart strain, base this on 6-25% for men, 16-31% for women. (See below in CALCULATING BODY FAT... for where these values come from.)
 
-NP will determine the range for heart strength based on exercise. For now, lets make it 250-1000 cal/day as the healthy range.
-    >>SR: Should this account for activity (lifestyle), or just exercise on top of that?
-
->>>Need to determine the range for heart strength.
+There should also be the possibility of adding/subtracting constants based on other accumulated factors (e.g., if you go into starvation mode,
+ you should lose some constant amount of heart strength that you can never gain back).
 ____________________________________________________________________________________________
 MUSCLE AND FAT MASS LOSS
 
