@@ -22,6 +22,8 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
 
 Wendy wants exercise to be in 1/2 hour units in stead of 1 hour. This should be as simple as dividing all the calories by 2. There should be some indicator in the sim that these exercise calories are for 1/2 hour.
 
+Add and change all images for food and exercise.
+
 ____________________________________________________________________________________________
 FOOD LIST
 
