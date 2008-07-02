@@ -76,17 +76,27 @@ Franny said on 6/13/2008:
 ____________________________________________________________________________________________
 MUSCLE GAINED FROM EXERCISING
 
-   - there should be some muscle gained from exercising, to a point. This should be limited (you can only get so muscular). I had trouble finding anything on this, so I made up a model that seemed reasonable.
+   - there should be some muscle gained from exercising, to a point. This should be limited (you can only get so muscular).
+   I had trouble finding anything on this, so I made up a model that seemed reasonable.
 
->>>Model: For every calorie exercised, all of the calories are burned. In addition, your body tries to make 10% of that number of calories into muscle, at a rate of 1/4 g of muscle per calorie. So for example, if you do 1000 calories of exercise, all of those calories are burned. In addition, 100 calories of what you eat are are turned into muscle (or 25 g). These calories are in addition to those burned to do the exercise itself. At this rate, one would build about 1 lb of muscle in 18 days, which seems reasonable. There is also feedback so that the more muscle you have, the less you can build, and at some point you cannot get any more muscular. 
+>>>Model: For every calorie exercised, all of the calories are burned.
+In addition, your body tries to make 10% of that number of calories into muscle, at a rate of 1/4 g of muscle per calorie.
+So for example, if you do 1000 calories of exercise, all of those calories are burned.
+In addition, 100 calories of what you eat are are turned into muscle (or 25 g).
+These calories are in addition to those burned to do the exercise itself.
+At this rate, one would build about 1 lb of muscle in 18 days, which seems reasonable.
+There is also feedback so that the more muscle you have, the less you can build,
+and at some point you cannot get any more muscular.
 
 >>>Model for muscle building from exercise:
 
 	Muscle_mass_gained = 0.1 * Cal_exercise * (LBM_0 - LBM)
 	
-	...where LBM is lean body mass, LBM_0 is 0.96 * sqrt(height / 30), or the lean body mass of a person with 4% body fat and a BMI of 30.
+	...where LBM is lean body mass, LBM_0 is 0.96 * sqrt(height / 30),
+	or the lean body mass of a person with 4% body fat and a BMI of 30.
 
->>>These two features above will effectively make BMR vary according to your caloric intake (if you undereat, your BMR should drop some to compensate, vise versa for eating more and exercising).
+>>>These two features above will effectively make BMR vary according to
+your caloric intake (if you undereat, your BMR should drop some to compensate, vice versa for eating more and exercising).
    
 >>> all other weight gained is added fat mass.
 
