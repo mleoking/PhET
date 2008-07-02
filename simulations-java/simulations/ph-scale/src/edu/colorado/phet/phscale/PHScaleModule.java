@@ -72,7 +72,7 @@ public class PHScaleModule extends PiccoloModule {
         System.out.println( "PHScaleModule.reset" );//XXX
         
         // Model
-        _model.getLiquid().setLiquidDescriptor( LiquidDescriptor.LEMON_JUICE );
+        _model.getLiquid().setLiquidDescriptor( LiquidDescriptor.getDefaultLiquid() );
         
         // View-specific controls
         _canvas.getBeakerControlNode().setMoleculeCountSelected( true );
