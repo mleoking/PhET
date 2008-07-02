@@ -16,12 +16,12 @@ import edu.colorado.phet.phscale.PHScaleApplication;
 import edu.colorado.phet.phscale.view.ParticlesNode;
 
 /**
- * DeveloperControlsDialog is a dialog that contains "developer only" controls.
+ * ParticleControlsDialog is contains "developer only" controls for particles.
  * These controls will not be available to the user, and are not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperControlsDialog extends JDialog {
+public class ParticleControlsDialog extends JDialog {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -33,8 +33,8 @@ public class DeveloperControlsDialog extends JDialog {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControlsDialog( Frame owner, PHScaleApplication app ) {
-        super( owner, "Developer Controls" );
+    public ParticleControlsDialog( Frame owner, PHScaleApplication app ) {
+        super( owner, "Particle Controls" );
         setResizable( false );
         setModal( false );
 
@@ -55,7 +55,7 @@ public class DeveloperControlsDialog extends JDialog {
 
         Frame dialogOwner = PHScaleApplication.instance().getPhetFrame();
         ParticlesNode particlesNode = _app.getModule().getParticlesNode();
-        ParticlesControlPanel particlesPanel = new ParticlesControlPanel( dialogOwner, particlesNode );
+        ParticleControlsPanel particlesPanel = new ParticleControlsPanel( dialogOwner, particlesNode );
 
         // Layout
         JPanel panel = new JPanel();
