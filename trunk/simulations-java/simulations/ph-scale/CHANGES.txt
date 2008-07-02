@@ -42,7 +42,7 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.08 (?)
+******* version 0.00.08 (22958)
 7/2/08 - add listener interface so that liquid in beaker changes immediately when LiquidDescriptor color is changed by dev control
 7/2/08 - sort liquid colors in dev controls in by descending pH
 7/2/08 - fix: water liquid column is too long
