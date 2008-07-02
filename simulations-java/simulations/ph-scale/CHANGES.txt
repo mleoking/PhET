@@ -40,7 +40,7 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.07 (?)
+******* version 0.00.07 (22914)
 7/2/08 - add water to list of liquids
 7/2/08 - flesh out the list of liquids
 7/2/08 - setOpaque(false) for PSwing JComponents
