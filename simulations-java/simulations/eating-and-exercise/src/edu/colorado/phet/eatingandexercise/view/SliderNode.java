@@ -1,8 +1,8 @@
 package edu.colorado.phet.eatingandexercise.view;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
@@ -140,7 +140,7 @@ public class SliderNode extends PNode {
     public void setValue( double value ) {
         if ( this.value != value ) {
             this.value = value;
-            notifyValueChanged();
+            notifyValueChanged();//todo: external set of value shouldn't fire notification
             update();
         }
     }
@@ -163,7 +163,26 @@ public class SliderNode extends PNode {
         protected TrackNode() {
             PPath path = new PhetPPath( createTrackShape( min, max ), Color.lightGray, new BasicStroke( 1 ), Color.black );
             addChild( path );
+
+            //todo: this should probably be moved to an invisible background node
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+
+                    double viewPoint = event.getPositionRelativeTo( SliderNode.this ).getX();
+                    double modelvalue = viewToModel( viewPoint );
+
+                    double range = getRange();
+                    double dx = range / 20;
+                    double sign = modelvalue > value ? 1 : -1;
+                    setValue( getValue() + sign * dx );
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
         }
+    }
+
+    private double getRange() {
+        return max - min;
     }
 
     protected class ThumbNode extends PNode {
