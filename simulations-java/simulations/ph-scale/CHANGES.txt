@@ -12,7 +12,6 @@ HIGH PRIORITY:
 - make bars interactive
 
 MEDIUM PRIORITY:
-- add developer controls for liquid colors?
 - replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
 - implement linear and log scale switching
 - 10x zoom feature for linear graph, zoom into zero
@@ -20,7 +19,6 @@ MEDIUM PRIORITY:
 - generalize layout code
 
 LOW PRIORITY:
-- assign colors to the liquids
 - can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it (PSwing issue?)
 - add plumbing to liquid and water faucets?
