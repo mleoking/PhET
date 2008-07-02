@@ -156,9 +156,9 @@ public class StackedBarChartNode extends PNode {
         barNode.addElement( new StackedBarNode.BarChartElement( "Exercise", EatingAndExerciseColorScheme.EXERCISE, 50 ) );
 
         StackedBarNode barNode2 = new StackedBarNode( 100 );
-        barNode2.addElement( new StackedBarNode.BarChartElement( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, 150 ) );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Carbs", EatingAndExerciseColorScheme.CARBS, 75 ) );
-        barNode2.addElement( new StackedBarNode.BarChartElement( "Proteins", EatingAndExerciseColorScheme.PROTEIN, 150 ) );
+        barNode2.addElement( new StackedBarNode.BarChartElement( EatingAndExerciseStrings.FATS, EatingAndExerciseColorScheme.FATS, 150 ) , StackedBarNode.LEFT );
+        barNode2.addElement( new StackedBarNode.BarChartElement( "Carbs", EatingAndExerciseColorScheme.CARBS, 75 ) ,StackedBarNode.RIGHT );
+        barNode2.addElement( new StackedBarNode.BarChartElement( "Proteins", EatingAndExerciseColorScheme.PROTEIN, 150 ) ,StackedBarNode.LEFT );
 
         stackedBarChart.addStackedBarNode( barNode2 );
         stackedBarChart.addStackedBarNode( barNode );
