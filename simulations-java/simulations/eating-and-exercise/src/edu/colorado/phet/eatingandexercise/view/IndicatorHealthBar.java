@@ -7,8 +7,8 @@ package edu.colorado.phet.eatingandexercise.view;
 public class IndicatorHealthBar extends HealthBar {
     private HealthLevel healthLevel;
 
-    public IndicatorHealthBar( String name, double min, double max, double optimal, double viewHeight ) {
-        super( name, min, max, optimal, viewHeight );
+    public IndicatorHealthBar( String name, double min, double max, double minOptimal, double maxOptimal,double viewHeight ) {
+        super( name, min, max, minOptimal, maxOptimal, viewHeight );
         healthLevel = new HealthLevel( this );
         addChild( healthLevel );
     }
