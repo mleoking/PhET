@@ -37,6 +37,7 @@ public class SliderNode extends PNode {
     private double value;
     private ThumbNode thumbNode;
     private TrackNode trackNode;
+    private PhetPPath backgroundForMouseEventHandling;
 
     private ArrayList listeners = new ArrayList();
 
@@ -52,12 +53,32 @@ public class SliderNode extends PNode {
 
         trackNode = new TrackNode();
         thumbNode = new ThumbNode();
+        backgroundForMouseEventHandling = new PhetPPath( new Color( 0, 0, 0, 0 ) );
+        backgroundForMouseEventHandling.addInputEventListener( new PBasicInputEventHandler() {
+            public void mousePressed( PInputEvent event ) {
+
+                double viewPoint = event.getPositionRelativeTo( SliderNode.this ).getX();
+                double modelvalue = viewToModel( viewPoint );
+
+                double range = getRange();
+                double dx = range / 20;
+                double sign = modelvalue > getValue() ? 1 : -1;
+                setValue( getValue() + sign * dx );
+            }
+        } );
+        addInputEventListener( new CursorHandler() );
 
         addChild( trackNode );
+        addChild( backgroundForMouseEventHandling );
         addChild( thumbNode );
 
-        update();
+        updateThumb();
+        updateLayout();
 //        System.out.println( "trackNode.getFullBounds() = " + trackNode.getFullBounds() );
+    }
+
+    private void updateLayout() {
+        backgroundForMouseEventHandling.setPathTo( trackNode.getFullBounds().createUnion( thumbNode.getFullBounds() ) );
     }
 
     public double getValue() {
@@ -71,7 +92,7 @@ public class SliderNode extends PNode {
     public void setRange( double min, double max ) {
         this.min = min;
         this.max = max;
-        update();
+        updateThumbLocation();
         //todo: check that the value appears in the range
     }
 
@@ -79,7 +100,7 @@ public class SliderNode extends PNode {
         return new BasicStroke( 2 ).createStrokedShape( new Line2D.Double( modelToView( min ), height / 2, modelToView( max ), height / 2 ) );
     }
 
-    protected void update() {
+    protected void updateThumb() {
         updateThumbLocation();
         Shape shape = new RoundRectangle2D.Double( 0, 0, thumbNode.getThumbWidth(), thumbNode.getThumbHeight(), 6, 6 );
         if ( value < min ) {
@@ -141,7 +162,7 @@ public class SliderNode extends PNode {
         if ( this.value != value ) {
             this.value = value;
             notifyValueChanged();//todo: external set of value shouldn't fire notification
-            update();
+            updateThumb();
         }
     }
 
@@ -163,21 +184,6 @@ public class SliderNode extends PNode {
         protected TrackNode() {
             PPath path = new PhetPPath( createTrackShape( min, max ), Color.lightGray, new BasicStroke( 1 ), Color.black );
             addChild( path );
-
-            //todo: this should probably be moved to an invisible background node, to get a larger selection radius
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-
-                    double viewPoint = event.getPositionRelativeTo( SliderNode.this ).getX();
-                    double modelvalue = viewToModel( viewPoint );
-
-                    double range = getRange();
-                    double dx = range / 20;
-                    double sign = modelvalue > value ? 1 : -1;
-                    setValue( getValue() + sign * dx );
-                }
-            } );
-            addInputEventListener( new CursorHandler() );
         }
     }
 
