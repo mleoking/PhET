@@ -14,9 +14,21 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
     They seem a bit high and in many cases are absolute values. The total caloric cost for weight
     bearing activities should be based upon a per body weight value. What was your source for this information?
 
-Wendy wants exercise to be in 1/2 hour units in stead of 1 hour. This should be as simple as dividing all the calories by 2. There should be some indicator in the sim that these exercise calories are for 1/2 hour.
+Wendy wants exercise to be in 15 minute units instead of 1 hour. This should be as simple as dividing all the calories by 2. There should be some indicator in the sim that these exercise calories are for 15 minutes
 
 Add and change all images for food and exercise.
+
+Heart attack should be based on heart strength and strain, not previous algorithm for heart attack.
+
+After 6 hours exercise, no more benefit
+
+happy heart should be A+B
+
+gradient color red to green, inverses for A + B
+
+Noah: construct text for heart ? explanation
+
+Add heart ? that show's text
 
 ____________________________________________________________________________________________
 FOOD LIST
@@ -37,6 +49,7 @@ HEART STRENGTH / STRAIN
 - Heart strength: this is a bar chart based a running average of exercise amount over the last X days (let's try X=30 days to start).
 NP will determine the range for heart strength based on exercise. For now, lets make it 250-1000 cal/day as the healthy range.
     >>SR: Should this account for activity (lifestyle), or just exercise on top of that?
+    >>Yes, should add activity
 
 - Heart strain: this is a bar chart based on a running average of % fat over the last Y days (again, try Y=30 to start).
 Similarly, there should be possibility of more permanent constants that can accumulate (to be determined).
@@ -46,7 +59,7 @@ The green area of each bar will mean good, red bad. The bright green area should
 
 There should also be the possibility of adding/subtracting constants based on other accumulated factors (e.g., if you go into starvation mode,
  you should lose some constant amount of heart strength that you can never gain back).
-    >>SR: let's wait and see how the rest of the model looks before implementing this case
+    >>every day starving decreases total possible heart strength
 ____________________________________________________________________________________________
 MUSCLE AND FAT MASS LOSS
 
@@ -78,8 +91,8 @@ Results: ***Subjects lost mean of 4.9 kg body mass, 4.3 kg as fat and 0.6 kg as 
 
 >>>Model for weight loss:
 
-	LBM_lost (g) = 0.12 * 4 * Cal_burned
-	Fat_lost (g) = 0.88 * 9 * Cal_burned
+	LBM_lost (g) = 0.12 / 4 * Cal_burned
+	Fat_lost (g) = 0.88 / 9 * Cal_burned
 
 >>>Starvation mode:
 	When starving (<2%/4% for men/women) make the ratio switch, with buffering as follows:
@@ -97,6 +110,8 @@ Franny said on 6/13/2008:
 
 ____________________________________________________________________________________________
 MUSCLE GAINED FROM EXERCISING
+
+keeps mass constant, changes only % fat
 
 >>SR: How does this relate to the MUSCLE AND FAT MASS LOSS section?
 >>SR: Does this account for lifestyle/activity, or just exercise?
@@ -149,38 +164,21 @@ NP - let's say 2% for men, 4% for women.
 ##############                    To Discuss                             ##############
 #######################################################################################
 
-Add Eating / Exercise labels to each side of the screen?  We removed the Edit Diet/Exercise buttons, which were partially serving as labels.
-
-Shouldn't be able to set more than 24 hours/day
-    >>SR: Is this a real problem?  If each icon is one hour, then the screen will be too overloaded at 24 to make any sense.  I'm not sure this problem is worth addressing.
-
 Performance: consider profiling or changing clock rate
     >>How severe is this problem?
 
 Time readouts should be Years:Months, not years in decimal
     >>Wait for interviews
 
-Consider a 2-layer human graphic to show a "layer" of fat over a muscular interior
-
-How should health indicators be wired up to heart health?
-
-What are parameters for health indicators?
-
-Add popup-question mark button for BMI readout near scale
-    >>Not a great place for this near the scale, should it go below the scale?  Just appear when help is pressed?
-    >>Ingrid said her students didn't use the near-the-heart-and-bmi version during class use.
-
--On the heart attack, the message also does not come up for this right away (above even 50% fat).
-    >>NP My bad - I had p_0 set to 0. In that case, the warning did not come up. When I set p_0 to non-zero it worked (but there was a slight delay for %fat above 30%).
-    >>SR: I can't reproduce this delay.  Can you confirm the steps to repeat this problem?  Prehaps the problem is just that thresholds are 25/32% (male/female)
-
 Need explanations for different activity levels from Noah
     >>Come up with definitions for different lifestyles
 
 Fix text for "simulation age out of range" message
+    >>Remove the warning
 
 Added calculation for body fat % based on height, weight and activity level
     >>SR: Perhaps this should be a relative model instead of an absolute model so that changes are tracked
     >> and so that making a minor modification to one parameter doesn't dramatically change the body fat %
 
 Should the click-to-move slider feature have a cursor hand?
+    >>Reduce clickable area, and add cursor hand

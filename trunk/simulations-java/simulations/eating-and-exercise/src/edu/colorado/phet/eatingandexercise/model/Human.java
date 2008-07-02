@@ -457,8 +457,8 @@ public class Human {
             // added this to make expected mass change equal known mass change
             //actually, maybe this is okay, since the previous value probably had a different distribution of calories
 
-            double deltaLBM = -0.12 * 4 * caloriesBurned / 1000 * scaleFix;
-            double deltaFatMass = -0.88 * 9 * caloriesBurned / 1000 * scaleFix;
+            double deltaLBM = -0.12 / 4 * caloriesBurned / 1000 * scaleFix;
+            double deltaFatMass = -0.88/ 9 * caloriesBurned / 1000 * scaleFix;
 
             double deltaMass = deltaLBM + deltaFatMass;
             double expectedDeltaMass = EatingAndExerciseUnits.caloriesToKG( caloriesGained );

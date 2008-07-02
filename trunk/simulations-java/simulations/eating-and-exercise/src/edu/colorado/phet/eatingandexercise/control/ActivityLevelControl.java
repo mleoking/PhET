@@ -14,7 +14,7 @@ import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExe
  */
 public class ActivityLevelControl extends JPanel {
     public ActivityLevelControl( EatingAndExerciseCanvas canvas, Human human ) {
-        add( new JLabel( "Activity Level" ) );
+//        add( new JLabel( "Activity Level" ) );
         add( new ActivityLevelComboBox( canvas, human ) );
         final JButton button = new JButton( "?" );
         add( button );
