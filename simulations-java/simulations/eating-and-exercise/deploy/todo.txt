@@ -143,3 +143,7 @@ Need explanations for different activity levels from Noah
     >>Come up with definitions for different lifestyles
 
 Fix text for "simulation age out of range" message
+
+Added calculation for body fat % based on height, weight and activity level
+    >>SR: Perhaps this should be a relative model instead of an absolute model so that changes are tracked
+    >> and so that making a minor modification to one parameter doesn't dramatically change the body fat % 
