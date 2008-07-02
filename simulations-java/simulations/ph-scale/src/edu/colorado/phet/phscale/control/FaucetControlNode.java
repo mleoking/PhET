@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import javax.swing.SwingConstants;
 
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.phscale.control.MomentarySlider.MomentarySliderListener;
 import edu.colorado.phet.phscale.view.FaucetNode;
 import edu.umd.cs.piccolo.PNode;
@@ -57,6 +58,7 @@ public class FaucetControlNode extends PNode {
             }
         });
         PSwing sliderWrapper = new PSwing( _slider );
+        sliderWrapper.addInputEventListener( new CursorHandler() );
         
         addChild( faucetNode );
         addChild( sliderWrapper );

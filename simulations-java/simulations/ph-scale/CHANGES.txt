@@ -7,12 +7,14 @@ DESIGN ISSUES
 - what happens when dragging bars would result in pH outside range?
 
 HIGH PRIORITY:
-
-MEDIUM PRIORITY:
-- replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
+- tick marks on graph
 - add bars to graph
 - make bars interactive
-- tick marks on graph
+
+MEDIUM PRIORITY:
+- add cursors all things that are draggable
+- add developer controls for liquid colors?
+- replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
 - implement linear and log scale switching
 - 10x zoom feature for linear graph, zoom into zero
 - line up pH slider ticks with bar graph ticks
@@ -40,6 +42,7 @@ CLEANUP:
 
 
 DONE:
+7/2/08 - add hand cursor to faucet sliders and liquid combo box
 7/2/08 - rename developer menu item to "Particle Controls", rename associated classes
 7/2/08 - make liquid instances private, add getters
 7/2/08 - sort liquids by decreasing pH in liquid combo box
