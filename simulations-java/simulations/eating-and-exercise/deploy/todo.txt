@@ -31,6 +31,7 @@ The green area of each bar will mean good, red bad. The bright green area should
  So for heart strain, base this on 6-25% for men, 16-31% for women. (See below in CALCULATING BODY FAT... for where these values come from.)
 
 NP will determine the range for heart strength based on exercise. For now, lets make it 250-1000 cal/day as the healthy range.
+    >>SR: Should this account for activity (lifestyle), or just exercise on top of that?
 
 I am not sure that I entirely agree with your calorie expenditures for physical activity.
     They seem a bit high and in many cases are absolute values. The total caloric cost for weight
