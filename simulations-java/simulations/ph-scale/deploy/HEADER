@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.07
+ph-scale 0.00.08
 </b></big></big>
 <p>
 Click to launch English version:
@@ -11,10 +11,11 @@ Click to launch English version:
 <p>
 <b>What's new:</b>
 <p>
-<ul>fix problem with distribution of particles that Kathy was experiencing on Java 1.4
-<li>add more liquids
-<li>keep constant power of ten (10^25) for H2O molecule count, add 1 significant digit to mantissa
-<li>put a translucent background behind molecule counts
+<ul>
+<li>shortened liquid choices to those proposed by Trish
+<li>assigned a different color to each liquid
+<li>added developer controls from playing with liquid colors (see menu bar, Developer>Liquid Colors)
+<li>sort liquids by decreasing pH value
 </ul>
 <p>
 <b>Not implemented:</b>
@@ -25,7 +26,6 @@ Click to launch English version:
 <li>pH slider scale doesn't line up with bar graph
 <li>linear and log scale options for bar graph don't work
 <li>no zoom buttons for linear graph
-<li>not all liquids have been assigned colors
 <li>liquid color does not change when diluted with water
 </ul>
 <p>
