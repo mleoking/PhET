@@ -48,6 +48,7 @@ public class ViewControlPanel extends JPanel {
         _listeners = new ArrayList();
         
         _countCheckBox = new JCheckBox( PHScaleStrings.CHECK_BOX_MOLECULE_COUNT );
+        _countCheckBox.setOpaque( false );
         _countCheckBox.setFont( CONTROL_FONT );
         _countCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
@@ -56,6 +57,7 @@ public class ViewControlPanel extends JPanel {
         });
         
         _ratioCheckBox = new JCheckBox( PHScaleStrings.getBeakerViewRatioString() );
+        _ratioCheckBox.setOpaque( false );
         _ratioCheckBox.setFont( CONTROL_FONT );
         _ratioCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
