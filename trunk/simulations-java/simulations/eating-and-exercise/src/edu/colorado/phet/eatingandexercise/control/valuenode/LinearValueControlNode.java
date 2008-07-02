@@ -213,7 +213,7 @@ public class LinearValueControlNode extends PNode {
                     return n.sliderNode.getFullBounds().getWidth();
                 }
             } );
-            System.out.println( "maxLabelNodeWidth = " + maxLabelNodeWidth );
+//            System.out.println( "maxLabelNodeWidth = " + maxLabelNodeWidth );
             labelNode.setOffset( 0, maxHeight / 2 - labelNode.getFullBounds().getHeight() / 2 );
             readoutNode.setOffset( maxLabelNodeWidth + SPACING, maxHeight / 2 - readoutNode.getFullBounds().getHeight() / 2 );
             unitsNode.setOffset( maxReadoutNodeWidth + maxLabelNodeWidth + SPACING * 2, maxHeight / 2 - unitsNode.getFullBounds().getHeight() / 2 );

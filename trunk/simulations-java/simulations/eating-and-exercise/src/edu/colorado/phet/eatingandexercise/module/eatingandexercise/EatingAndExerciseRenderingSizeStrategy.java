@@ -24,11 +24,11 @@ public class EatingAndExerciseRenderingSizeStrategy implements PhetPCanvas.Trans
         double maxVisibleWidth = EatingAndExerciseUnits.feetToMeters( 6 );//extra padding for scale node
         double scaleVert = availableHeight / maxVisibleHeight;
         double scaleHoriz = availableWidth / maxVisibleWidth;
-        System.out.println( "scaleVert = " + scaleVert );
-        System.out.println( "scaleHoriz = " + scaleHoriz );
+//        System.out.println( "scaleVert = " + scaleVert );
+//        System.out.println( "scaleHoriz = " + scaleHoriz );
 
         double scale = Math.min( scaleHoriz, scaleVert );
-        System.out.println( "scale = " + scale );
+//        System.out.println( "scale = " + scale );
 
         AffineTransform transform = AffineTransform.getScaleInstance( scale, scale );
         transform.translate( maxVisibleHeight * 0.36,//center of human graphic is at x=0, translate onscreen
