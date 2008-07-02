@@ -3,12 +3,13 @@
 package edu.colorado.phet.statesofmatter.model;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import javax.sound.midi.SysexMessage;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -60,6 +61,15 @@ public class MultipleParticleModel {
     private static final double INJECTED_PARTICLE_VELOCITY = 1.0;
     private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.97;
     private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
+    
+    // Constants used for setting the phase directly.
+    public static final int PHASE_SOLID = 1;
+    public static final int PHASE_LIQUID = 2;
+    public static final int PHASE_GAS = 3;
+    private static final double SOLID_TEMPERATURE = 0.2;
+    private static final double LIQUID_TEMPERATURE = 0.5;
+    private static final double GAS_TEMPERATURE = 1.0;
+    
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -332,6 +342,38 @@ public class MultipleParticleModel {
         notifyResetOccurred();
     }
     
+    
+    /**
+     * Set the phase of the particles in the simulation.
+     * 
+     * @param state
+     */
+    public void setPhase(int state){
+        double newTemperature;
+        
+        switch (state){
+        case PHASE_SOLID:
+            newTemperature = SOLID_TEMPERATURE;
+            break;
+            
+        case PHASE_LIQUID:
+            newTemperature = LIQUID_TEMPERATURE;
+            break;
+            
+        case PHASE_GAS:
+            randomizePositions();
+            newTemperature = GAS_TEMPERATURE;
+            break;
+            
+        default:
+            System.err.println("Error: Invalid state specified.");
+            // Treat is as a solid.
+            newTemperature = SOLID_TEMPERATURE;
+            break;
+        }
+        setTemperature( newTemperature );
+    }
+    
     /**
      * Sets the amount of heating or cooling that the system is undergoing.
      * 
@@ -478,6 +520,23 @@ public class MultipleParticleModel {
     }
     
     /**
+     * Randomize the positions of the particles within the container.
+     */
+    private void randomizePositions(){
+        Random rand = new Random();
+        double newPosX, newPosY;
+        double minWallDistance = 0.5; // TODO: JPB TBD - This is arbitrary, should eventually be a const.
+        double rangeX = m_normalizedContainerWidth - (2 * minWallDistance);
+        double rangeY = m_normalizedContainerHeight - (2 * minWallDistance);
+        for (int i = 0; i < m_numberOfParticles; i++){
+            newPosX = minWallDistance + (rand.nextDouble() * rangeX);
+            newPosY = minWallDistance + (rand.nextDouble() * rangeY);
+            m_particlePositions[i].setLocation( newPosX, newPosY );
+        }
+        syncParticlePositions();
+    }
+    
+    /**
      * Create positions corresponding to a hexagonal 2d "crystal" structure
      * for a set of particles.  Note that this assumes a normalized value
      * of 1.0 for the diameter of the particles.
@@ -487,7 +546,7 @@ public class MultipleParticleModel {
      * @param particlePositions
      * @param normalizedContainerWidth
      * @param normalizedContainerHeight
-     * @param diatomic TODO
+     * @param diatomic
      */
     private void insertCrystal( int numLayers, int numParticles, Point2D [] particlePositions,
             double normalizedContainerWidth, double normalizedContainerHeight, boolean diatomic ){

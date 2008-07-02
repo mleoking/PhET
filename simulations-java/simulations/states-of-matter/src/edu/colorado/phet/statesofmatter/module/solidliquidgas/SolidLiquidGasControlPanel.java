@@ -104,21 +104,21 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             m_solidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_solidRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setTemperature( SOLID_TEMPERATURE );
+                    m_model.setPhase( MultipleParticleModel.PHASE_SOLID );
                 }
             } );
             m_liquidRadioButton = new JRadioButton( StatesOfMatterStrings.PHASE_STATE_LIQUID );
             m_liquidRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_liquidRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setTemperature( LIQUID_TEMPERATURE );
+                    m_model.setPhase( MultipleParticleModel.PHASE_LIQUID );
                 }
             } );
             m_gasRadioButton = new JRadioButton( StatesOfMatterStrings.PHASE_STATE_GAS );
             m_gasRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_gasRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setTemperature( GAS_TEMPERATURE );
+                    m_model.setPhase( MultipleParticleModel.PHASE_GAS );
                 }
             } );
             
