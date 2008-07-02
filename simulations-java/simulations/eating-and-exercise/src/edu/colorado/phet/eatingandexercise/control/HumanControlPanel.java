@@ -99,7 +99,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         final double minHeight = 1;
         final double maxHeight = 2.72;
         double origHeight = model.getUnits().modelToViewDistance( human.getHeight() );
-        System.out.println( "origHeight = " + origHeight );
+//        System.out.println( "origHeight = " + origHeight );
         heightSlider = new HumanSlider( model.getUnits().modelToViewDistance( minHeight ), model.getUnits().modelToViewDistance( maxHeight ),
                                         origHeight, EatingAndExerciseResources.getString( "height" ), "0.00", model.getUnits().getDistanceUnit() );
         heightSlider.setTextFieldFormat( new FeetInchesFormat() );

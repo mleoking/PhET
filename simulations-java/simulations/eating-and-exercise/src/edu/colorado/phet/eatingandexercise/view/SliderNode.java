@@ -57,7 +57,7 @@ public class SliderNode extends PNode {
         addChild( thumbNode );
 
         update();
-        System.out.println( "trackNode.getFullBounds() = " + trackNode.getFullBounds() );
+//        System.out.println( "trackNode.getFullBounds() = " + trackNode.getFullBounds() );
     }
 
     public double getValue() {

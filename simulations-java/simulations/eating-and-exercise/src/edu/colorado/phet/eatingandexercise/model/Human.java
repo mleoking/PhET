@@ -118,8 +118,8 @@ public class Human {
 
         setGender( DEFAULT_VALUE.getGender() );
         double heightMeters = DEFAULT_VALUE.getHeightMeters();
-        System.out.println( "heightMeters = " + heightMeters );
-        System.out.println( "heightFt=" + metersToFeetStr( heightMeters ) );
+//        System.out.println( "heightMeters = " + heightMeters );
+//        System.out.println( "heightFt=" + metersToFeetStr( heightMeters ) );
         setHeight( heightMeters );
         setMass( DEFAULT_VALUE.getMassKG() );
         setAge( DEFAULT_VALUE.getAgeSeconds() );
