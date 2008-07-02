@@ -19,6 +19,20 @@ I was wondering if you could add a feature to the slider that makes it so clicki
 I am not sure that I entirely agree with your calorie expenditures for physical activity.
     They seem a bit high and in many cases are absolute values. The total caloric cost for weight
     bearing activities should be based upon a per body weight value. What was your source for this information?
+
+____________________________________________________________________________________________
+FOOD LIST
+
+NP: I added some more food items to the foods list. Some things to note:
+
+-I added a hot dog with bun - I think you should remove the just plain hot dog (almost nobody eats just a plain hot dog, and the graphic shows a hot dog with bun...and a graphic for just a plain hot dog might be, well, distracting...)
+
+-The "tall hot choclolate" should be changed to "regular hot chocolate" or maybe "large..." Tall sounds too much like Starbucks. We want to avoid reference to them.
+
+-There should be a different graphic for diet cola and regular cola, if possible. Even if it is just a different color - just to show they are different. Same would be nice for milk, but I'm not sure right now how to do that.
+
+
+
 ____________________________________________________________________________________________
 HEART STRENGTH / STRAIN
 
