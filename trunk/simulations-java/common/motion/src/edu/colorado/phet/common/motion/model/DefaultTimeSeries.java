@@ -118,4 +118,15 @@ public class DefaultTimeSeries {
     public void insertValue( int index, double time, double value ) {
         data.add( index, new TimeData( value, time ) );
     }
+
+    public TimeData[] getData( double startTime, double endTime ) {
+        ArrayList inrange = new ArrayList();
+        for ( int i = 0; i < data.size(); i++ ) {
+            TimeData timeData = (TimeData) data.get( i );
+            if ( timeData.getTime() >= startTime && timeData.getTime() <= endTime ) {
+                inrange.add( timeData );
+            }
+        }
+        return (TimeData[]) inrange.toArray( new TimeData[inrange.size()] );
+    }
 }

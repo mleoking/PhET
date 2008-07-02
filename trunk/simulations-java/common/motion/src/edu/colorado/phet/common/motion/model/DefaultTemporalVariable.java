@@ -3,6 +3,7 @@ package edu.colorado.phet.common.motion.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.MotionMath;
+import edu.colorado.phet.common.phetcommon.math.Function;
 
 /**
  * Author: Sam Reid
@@ -76,8 +77,7 @@ public class DefaultTemporalVariable implements ITemporalVariable {
 
     public TimeData[] getData( int index, int requestedPoints ) {
         ArrayList t = new ArrayList();
-        for ( int i = index - requestedPoints / 2; t.size() <= requestedPoints && i < index + requestedPoints / 2 + 1; i++ )
-        {
+        for ( int i = index - requestedPoints / 2; t.size() <= requestedPoints && i < index + requestedPoints / 2 + 1; i++ ) {
             if ( i >= 0 && i < getSampleCount() ) {
                 t.add( getData( i ) );
             }
@@ -113,6 +113,20 @@ public class DefaultTemporalVariable implements ITemporalVariable {
     public void removeListener( ITemporalVariable.Listener listener ) {
         series.removeListener( listener );
         variable.removeListener( listener );
+    }
+
+    public double estimateAverage( double startTime, double endTime ) {
+        Function.LinearFunction linearFit = MotionMath.getLinearFit( getData( startTime, endTime ) );
+
+        //evaluate at midpoint
+        return linearFit.evaluate( ( endTime + startTime ) / 2.0 );
+    }
+
+    /*
+    * Get all data between the specified times.
+     */
+    private TimeData[] getData( double startTime, double endTime ) {
+        return series.getData( startTime, endTime );
     }
 
     //computes an average using min(s,numSamples) data points
