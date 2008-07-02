@@ -9,6 +9,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
 
 /**
  * Liquid is the model of the liquid. The liquid can be "filled" with a combination
@@ -38,6 +39,7 @@ public class Liquid extends ClockAdapter {
     private final ArrayList _listeners;
     
     private LiquidDescriptor _liquidDescriptor;
+    private final LiquidDescriptorListener _liquidDescriptorListener;
     private Double _pH;
     private double _volume; // L
 
@@ -60,6 +62,12 @@ public class Liquid extends ClockAdapter {
     public Liquid( LiquidDescriptor liquidDescriptor ) {
         
         _listeners = new ArrayList();
+        _liquidDescriptorListener = new LiquidDescriptorListener() {
+            public void colorChanged( Color color ) {
+                notifyStateChanged();
+            }
+        };
+        
         _pH = null;
         _volume = 0;
 
@@ -83,7 +91,11 @@ public class Liquid extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public void setLiquidDescriptor( LiquidDescriptor liquidDescriptor ) {
+        if ( _liquidDescriptor != null ) {
+            _liquidDescriptor.removeLiquidDescriptorListener( _liquidDescriptorListener );
+        }
         _liquidDescriptor = liquidDescriptor;
+        _liquidDescriptor.addLiquidDescriptorListener( _liquidDescriptorListener );
         drainImmediately();
         startFillingLiquid( FAST_FILL_RATE, FAST_FILL_VOLUME );
         notifyStateChanged();
