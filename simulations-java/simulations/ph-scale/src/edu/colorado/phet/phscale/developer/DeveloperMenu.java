@@ -24,26 +24,26 @@ import edu.colorado.phet.phscale.PHScaleApplication;
 public class DeveloperMenu extends JMenu implements ActionListener {
 
     private PHScaleApplication _app;
-    private JCheckBoxMenuItem _developerControlsItem;
-    private JDialog _developerControlsDialog;
+    private JCheckBoxMenuItem _particlesControlsMenuItem;
+    private JDialog _particleControlsDialog;
 
     public DeveloperMenu( PHScaleApplication app ) {
         super( "Developer" );
 
         _app = app;
 
-        _developerControlsItem = new JCheckBoxMenuItem( "Developer Controls..." );
-        add( _developerControlsItem );
-        _developerControlsItem.addActionListener( this );
+        _particlesControlsMenuItem = new JCheckBoxMenuItem( "Particle Controls..." );
+        add( _particlesControlsMenuItem );
+        _particlesControlsMenuItem.addActionListener( this );
     }
 
     public void actionPerformed( ActionEvent event ) {
-        if ( event.getSource() == _developerControlsItem ) {
-            if ( _developerControlsItem.isSelected() ) {
+        if ( event.getSource() == _particlesControlsMenuItem ) {
+            if ( _particlesControlsMenuItem.isSelected() ) {
                 Frame owner = PhetApplication.instance().getPhetFrame();
-                _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
-                _developerControlsDialog.setVisible( true );
-                _developerControlsDialog.addWindowListener( new WindowAdapter() {
+                _particleControlsDialog = new ParticleControlsDialog( owner, _app );
+                _particleControlsDialog.setVisible( true );
+                _particleControlsDialog.addWindowListener( new WindowAdapter() {
                     public void windowClosed( WindowEvent e ) {
                         cleanup();
                     }
@@ -51,13 +51,13 @@ public class DeveloperMenu extends JMenu implements ActionListener {
                         cleanup();
                     }
                     private void cleanup() {
-                        _developerControlsItem.setSelected( false );
-                        _developerControlsDialog = null;
+                        _particlesControlsMenuItem.setSelected( false );
+                        _particleControlsDialog = null;
                     }
                 } );
             }
             else {
-                _developerControlsDialog.dispose();
+                _particleControlsDialog.dispose();
             }
         }
     }

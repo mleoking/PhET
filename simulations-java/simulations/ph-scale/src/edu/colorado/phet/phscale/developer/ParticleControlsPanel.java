@@ -18,13 +18,12 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.phscale.view.ParticlesNode;
 
 /**
- * This is a developer control panel that controls the "look" of 
- * the particle view (aka ratio view) in the beaker.  
- * This panel is not localized.
+ * This is a developer control panel that controls the "look" of the particle view (aka ratio view) in the beaker.  
+ * These controls will not be available to the user, and are not localized.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ParticlesControlPanel extends JPanel {
+public class ParticleControlsPanel extends JPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -69,7 +68,7 @@ public class ParticlesControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ParticlesControlPanel( Frame dialogOwner, ParticlesNode particlesNode ) {
+    public ParticleControlsPanel( Frame dialogOwner, ParticlesNode particlesNode ) {
         
         _particlesNode = particlesNode;
 
@@ -157,7 +156,6 @@ public class ParticlesControlPanel extends JPanel {
             }
         } );
 
-        setBorder( new TitledBorder( "particle controls" ) );
         EasyGridBagLayout particlePanelLayout = new EasyGridBagLayout( this );
         this.setLayout( particlePanelLayout );
         int row = 0;
