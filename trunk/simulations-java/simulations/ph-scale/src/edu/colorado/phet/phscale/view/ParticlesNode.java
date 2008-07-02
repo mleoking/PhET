@@ -55,7 +55,7 @@ public class ParticlesNode extends PComposite {
     private final LiquidListener _liquidListener;
     private final PBounds _containerBounds;
     private final PNode _particlesParent;
-    private final Random _randomX, _randomY;
+    private final Random _randomCoordinate;
     private HTMLNode _numbersNode;
    
     private Double _pH; // used to watch for pH change in the liquid
@@ -86,8 +86,7 @@ public class ParticlesNode extends PComposite {
         _liquid.addLiquidListener( _liquidListener );
         
         _containerBounds = new PBounds( containerBounds );
-        _randomX = new Random();
-        _randomY = new Random();
+        _randomCoordinate = new Random();
         _pH = _liquid.getPH();
         
         _particlesParent = new PNode();
@@ -380,8 +379,8 @@ public class ParticlesNode extends PComposite {
      * Gets a random point inside some bounds.
      */
     private void getRandomPoint( PBounds bounds, Point2D pOutput ) {
-        double x = bounds.getX() + ( _randomX.nextDouble() * bounds.getWidth() );
-        double y = bounds.getY() + ( _randomY.nextDouble() * bounds.getHeight() );
+        double x = bounds.getX() + ( _randomCoordinate.nextDouble() * bounds.getWidth() );
+        double y = bounds.getY() + ( _randomCoordinate.nextDouble() * bounds.getHeight() );
         pOutput.setLocation( x, y );
     }
     

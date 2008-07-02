@@ -9,6 +9,8 @@ DESIGN ISSUES
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- setOpaque(false) for PSwing JComponents
+- replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
 - add bars to graph
 - make bars interactive
 - tick marks on graph
@@ -16,7 +18,6 @@ MEDIUM PRIORITY:
 - 10x zoom feature for linear graph, zoom into zero
 - line up pH slider ticks with bar graph ticks
 - generalize layout code
-- address Kathy's problem with Java 1.4 Random class
 
 LOW PRIORITY:
 - can't align baselines of text and numbers drawn using HTMLNode
@@ -39,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+7/2/08 - fix problem with Random particle coordinate generation reported by Kathy
 7/1/08 - keep constant power of ten 10^25 on H2O molecule count
 7/1/08 - restructure bar graph code in preparation for flashing out this feature
 7/1/08 - make molecules in count view the same size as molecules in legend
