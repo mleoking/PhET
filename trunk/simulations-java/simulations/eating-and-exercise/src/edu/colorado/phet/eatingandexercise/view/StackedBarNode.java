@@ -387,7 +387,7 @@ public class StackedBarNode extends PNode {
         frame.setContentPane( contentPane );
 
 //        StackedBarNode barNode = new StackedBarNode( new Function.IdentityFunction(), 100 );
-        StackedBarNode barNode = new StackedBarNode( new Function.LinearFunction( 0.5 ), 100 );
+        StackedBarNode barNode = new StackedBarNode( new Function.LinearFunction( 0, 1, 0, 0.5 ), 100 );
         barNode.setOffset( 100, 360 );
         final BarChartElement bmr = new BarChartElement( "BMR", Color.red, 100, EatingAndExerciseResources.getImage( "eye.png" ) );
         barNode.addElement( bmr );

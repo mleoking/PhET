@@ -44,13 +44,8 @@ public interface Function {
         private double scale;
         private double t2;
 
-        /**
-         * Creates a linear function y=scale*x, with no offset
-         * @param scale the scaling of the function
-         */
-        public LinearFunction( double scale) {
-            this.scale=scale;
-            //todo: calls to setInput and setOutput can cause problems, since data is stored in incompatible formats
+        public LinearFunction( double offset, double scale ) {
+            this( 0, 1, offset, offset + scale*1 );
         }
 
         public LinearFunction( double minInput, double maxInput, double minOutput, double maxOutput ) {
