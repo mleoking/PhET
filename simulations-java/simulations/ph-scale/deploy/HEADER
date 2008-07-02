@@ -11,8 +11,10 @@ Click to launch English version:
 <p>
 <b>What's new:</b>
 <p>
-<ul>
-<li>
+<ul>fix problem with distribution of particles that Kathy was experiencing on Java 1.4
+<li>add more liquids
+<li>keep constant power of ten (10^25) for H2O molecule count, add 1 significant digit to mantissa
+<li>put a translucent background behind molecule counts
 </ul>
 <p>
 <b>Not implemented:</b>
@@ -23,8 +25,7 @@ Click to launch English version:
 <li>pH slider scale doesn't line up with bar graph
 <li>linear and log scale options for bar graph don't work
 <li>no zoom buttons for linear graph
-<li>layout and "look" of molecule counts is not as shown in design doc
-<li>a small subset of liquids is provided
+<li>not all liquids have been assigned colors
 <li>liquid color does not change when diluted with water
 </ul>
 <p>
