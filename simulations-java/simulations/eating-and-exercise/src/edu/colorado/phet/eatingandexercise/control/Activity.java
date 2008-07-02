@@ -11,24 +11,38 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 public class Activity {
     private String name;
     private double activityLevel;
-    public static final Activity DEFAULT_ACTIVITY_LEVEL = new Activity( EatingAndExerciseResources.getString( "activity.moderate" ), 1.5 );
+    private double BMI_0;
+    public static final Activity DEFAULT_ACTIVITY_LEVEL = new Activity( EatingAndExerciseResources.getString( "activity.moderate" ), 1.5, 22.5 );
+
+    /*
+    BMI_0
+    18.5 (very sedentary)
+		20.0 (sedentary)
+		22.5 (moderately active)
+		25.0 (active)
+     */
 
     public static final Activity[] DEFAULT_ACTIVITY_LEVELS = {
-            new Activity( EatingAndExerciseResources.getString( "activity.very-sedentary" ), 1.3 ),
-            new Activity( EatingAndExerciseResources.getString( "activity.sedentary" ), 1.4 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.very-sedentary" ), 1.3, 18.5 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.sedentary" ), 1.4, 20 ),
             DEFAULT_ACTIVITY_LEVEL,
-            new Activity( EatingAndExerciseResources.getString( "activity.active" ), 1.6 ),
+            new Activity( EatingAndExerciseResources.getString( "activity.active" ), 1.6, 25 ),
 //            new Activity( EatingAndExerciseResources.getString( "activity.athletic" ), 1.7 )
     };
 
 
-    public Activity( String name, double activityLevel ) {
+    public Activity( String name, double activityLevel, double BMI_0 ) {
         this.name = name;
         this.activityLevel = activityLevel;
+        this.BMI_0 = BMI_0;
     }
 
     public String toString() {
         return name;
+    }
+
+    public double getBMI_0() {
+        return BMI_0;
     }
 
     public double getValue() {

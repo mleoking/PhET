@@ -30,63 +30,6 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
 
 >>>Need to determine the range for heart strength.
 ____________________________________________________________________________________________
-CALCULATING BODY FAT BASED ON HEIGHT, WEIGHT, ACTIVITY LEVEL  
-
-The sim will automatically calculate an approximate % fat based on height, weight, activity level, and sex.
-The range will be based on the "healthy" BMI (18.5-25) for a person with healthy body fat (Men 15%, Women 22%).
-
-
->>>Model for calculating body fat:
-	
-	First calculate LBM:
-
-	LBM_men = BMI_0 * height^2 / 1.15
-	LBM_women = BMI_0 * height^2 / 1.22
-
-	%_fat = (weight - LBM)/weight
-
-	BMI_0 = 18.5 (very sedentary)
-		20.0 (sedentary)
-		22.5 (moderately active)
-		25.0 (active)
-
-% fat is updated whenever someone manually changes height, weight, activity level, and/or sex.
-Or maybe this should only happen on startup and when someone does "Reset All"?? Otherwise, these parameters are all independent.
-
-
->>Old notes on this:
-
-How would a student know their % body fat to put in the simulation?
-
-
-	NP – most people don’t know this. It is done either with a skin fold test (calipers), electric current (this is how these scales do it, not entirely accurate), or a submersion in water test (need a special facility). With skin fold, all the numbers are entered in a spreadsheet and it spits out a %. Electronic scales use weight, height, and conductivity (I don’t know the equation. I know it depends on how hydrated you are, and how long your legs are.)
-	SR - Noah will come up with an equation for this based on other parameters
->>    SR - Problem: Fat % should be based on height and weight and gender, and update whenever height or weight or gender changes.  Fat free mass depends on height & gender only, not on weight, thus BMR depends only on height and gender
-        Noah P will provide these functions
-
-We could have the little question mark by the heart pop up a window with the list of risk factors for the heart from the American Heart Association. (smoking, etc)
-
-    Description             Women   Men
-    Essential fat           12–15%  2–5%
-    Athletes                16–20%  6–13%
-    Fitness                 21–24%  14–17%
-    Acceptable              25–31%  18–25%
-    Obese                   32%+    25%+
-    source: http://en.wikipedia.org/wiki/Body_fat_percentage
-
-I found this page somewhat helpful in thinking about the above.
-http://weightloss.about.com/od/eatsmart/a/blcalintake.htm
-
-Franny said on 6/13/2008:
-    I have been playing with the Simulation this morning and had a question for you. 
-    If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change.
-    I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my %
-    fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures)
-    in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there
-    was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in,
-    but that portion is not very realistic, so i thought i'd point it out.
-
-____________________________________________________________________________________________
 MUSCLE AND FAT MASS LOSS
 
 
@@ -120,6 +63,15 @@ Results: ***Subjects lost mean of 4.9 kg body mass, 4.3 kg as fat and 0.6 kg as 
 	When starving (<2%/4% for men/women) make the ratio switch, with buffering as follows:
 		%fat 2-4% (men), 4-6% (women): 	LBM loss 50%, Fat loss 50%
 		%fat < 2% (men), < 4% (women): 	LBM loss 95%, Fat loss 5%. (this might become 100% LBM...not yet sure).
+
+Franny said on 6/13/2008:
+    I have been playing with the Simulation this morning and had a question for you.
+    If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change.
+    I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my %
+    fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures)
+    in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there
+    was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in,
+    but that portion is not very realistic, so i thought i'd point it out.
 
 ____________________________________________________________________________________________
 MUSCLE GAINED FROM EXERCISING

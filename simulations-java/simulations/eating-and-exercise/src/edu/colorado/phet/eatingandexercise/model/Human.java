@@ -54,6 +54,7 @@ public class Human {
     private double starvingTime = 0;
     private Random random = new Random();
     private int heartAttacks = 0;
+    private Activity activityObject;
 
     public Human() {
         lipids.addListener( new IVariable.Listener() {
@@ -125,7 +126,7 @@ public class Human {
         setFatMassPercent( ( 100 - DEFAULT_VALUE.getFatFreeMassPercent() ) );
 
         updateBMR();
-        setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2].getValue() );
+        setActivityLevel( Activity.DEFAULT_ACTIVITY_LEVELS[2] );
         Diet initialDiet = EatingAndExerciseModel.BALANCED_DIET;
         foodItems.clear();
         exerciseItems.clear();
@@ -327,8 +328,7 @@ public class Human {
 
     private void notifyFatPercentChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
-            listener.fatPercentChanged();
+            ( (Listener) listeners.get( i ) ).fatPercentChanged();
         }
     }
 
@@ -347,10 +347,19 @@ public class Human {
     //    }
 
 
-    public void setActivityLevel( double val ) {
-        activityLevel = val;
-        updateActivity();
-//        this.activity.setValue( val );
+    public void setActivityLevel( Activity activity ) {
+        if ( this.activityObject != activity ) {
+            this.activityObject = activity;
+            activityLevel = activity.getValue();
+            updateActivity();
+            notifyActivityLevelChanged();
+        }
+    }
+
+    private void notifyActivityLevelChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener) listeners.get( i )).activityLevelChanged();
+        }
     }
 
     private void updateActivity() {
@@ -531,22 +540,47 @@ public class Human {
         }
     }
 
+    public double getNormativePercentFat() {
+
+//        	First calculate LBM:
+//
+//	LBM_men = BMI_0 * height^2 / 1.15
+//	LBM_women = BMI_0 * height^2 / 1.22
+
+//
+//	BMI_0 = 18.5 (very sedentary)
+//		20.0 (sedentary)
+//		22.5 (moderately active)
+//		25.0 (active)
+
+
+        double BMI_0 = activityObject.getBMI_0();
+        double LBM = BMI_0 * getHeight() * getHeight() / getGender().getLBMScaleFactor();
+//
+//	%_fat = (weight - LBM)/weight
+
+        double percentFat = ( getMass() - LBM ) / getMass() * 100;
+        return percentFat;
+    }
+
     public static class Gender {
-        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25 );
-        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25, 1.15 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32, 1.22 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
         private double starvingFatMassPercentThreshold;
         private double heartAttackFatMassPercentThreshold;
         public static double P0 = 1.0 / 100.0;
+        private double LMBScaleFactor;
 
-        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold ) {
+        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold, double lmbScaleFactor ) {
             this.name = name;
             this.minFatMassPercent = minFatMassPercent;
             this.maxFatMassPercent = maxFatMassPercent;
             this.starvingFatMassPercentThreshold = starvingFatMassPercentThreshold;
             this.heartAttackFatMassPercentThreshold = heartAttackFatMassPercentThreshold;
+            LMBScaleFactor = lmbScaleFactor;
         }
 
         public String toString() {
@@ -581,6 +615,10 @@ public class Human {
             else {
                 return P0 * ( human.getFatMassPercent() - heartAttackFatMassPercentThreshold );
             }
+        }
+
+        public double getLBMScaleFactor() {
+            return LMBScaleFactor;
         }
     }
 
@@ -696,6 +734,8 @@ public class Human {
         void heartAttackProbabilityChanged();
 
         void starvingChanged();
+
+        void activityLevelChanged();
     }
 
     public static class Adapter implements Listener {
@@ -743,6 +783,9 @@ public class Human {
         }
 
         public void starvingChanged() {
+        }
+
+        public void activityLevelChanged() {
         }
     }
 
