@@ -50,11 +50,17 @@ public class Human {
     private ITemporalVariable caloricBurnVariable = new DefaultTemporalVariable();
     private CaloricFoodItem defaultIntake;
     public static final String FOOD_PYRAMID = "food-pyramid.png";
+
+    //alive, starvation and heart attacks
     private boolean alive = true;
     private double starvingTime = 0;
     private Random random = new Random();
     private int heartAttacks = 0;
     private Activity activityObject;
+
+    //health monitors
+    private double heartStrain;
+    private double heartStrength;
 
     public Human() {
         lipids.addListener( new IVariable.Listener() {
@@ -486,6 +492,32 @@ public class Human {
 
         handleStarving( simulationTimeChange );
         handleHeartAttack( simulationTimeChange );
+
+        updateHealthIndicators();
+    }
+
+    private void updateHealthIndicators() {
+        exercise.addValue( exercise.getValue(), getAge() );
+        //- Heart strength: this is a bar chart based a running average of exercise amount over the last X days (let's try X=30 days to start).
+//NP will determine the range for heart strength based on exercise. For now, lets make it 250-1000 cal/day as the healthy range.
+//    >>SR: Should this account for activity (lifestyle), or just exercise on top of that?
+
+        double averageExercise = exercise.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
+        setHeartStrength( averageExercise );
+
+    }
+
+    private void setHeartStrength( double heartStrength ) {
+        if ( heartStrength != this.heartStrength ) {
+            this.heartStrength = heartStrength;
+            notifyHeartStrengthChanged();
+        }
+    }
+
+    private void notifyHeartStrengthChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).heartStrengthChanged();
+        }
     }
 
     private void handleHeartAttack( double simulationTimeChange ) {
@@ -632,6 +664,10 @@ public class Human {
 
         double percentFat = ( getMass() - LBM ) / getMass() * 100;
         return percentFat;
+    }
+
+    public double getHeartStrength() {
+        return heartStrength;
     }
 
     public static class Gender {
@@ -807,6 +843,10 @@ public class Human {
         void starvingChanged();
 
         void activityLevelChanged();
+
+        void heartStrainChanged();
+
+        void heartStrengthChanged();
     }
 
     public static class Adapter implements Listener {
@@ -857,6 +897,12 @@ public class Human {
         }
 
         public void activityLevelChanged() {
+        }
+
+        public void heartStrainChanged() {
+        }
+
+        public void heartStrengthChanged() {
         }
     }
 
