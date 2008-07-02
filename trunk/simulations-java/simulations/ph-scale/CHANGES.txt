@@ -9,7 +9,6 @@ DESIGN ISSUES
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- setOpaque(false) for PSwing JComponents
 - replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
 - add bars to graph
 - make bars interactive
@@ -20,6 +19,7 @@ MEDIUM PRIORITY:
 - generalize layout code
 
 LOW PRIORITY:
+- assign colors to the liquids
 - can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it (PSwing issue?)
 - add plumbing to liquid and water faucets?
@@ -40,6 +40,10 @@ CLEANUP:
 
 
 DONE:
+******* version 0.00.07 (?)
+7/2/08 - add water to list of liquids
+7/2/08 - flesh out the list of liquids
+7/2/08 - setOpaque(false) for PSwing JComponents
 7/2/08 - fix problem with Random particle coordinate generation reported by Kathy
 7/1/08 - keep constant power of ten 10^25 on H2O molecule count
 7/1/08 - restructure bar graph code in preparation for flashing out this feature

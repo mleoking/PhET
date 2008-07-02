@@ -34,7 +34,7 @@ public class LiquidComboBox extends PComboBox {
         setBorder( BorderFactory.createLineBorder( Color.BLACK, 2 ) );
         setBackground( Color.WHITE );
         
-        LiquidDescriptor[] choices = LiquidDescriptor.getAllInstancesExceptWater();
+        LiquidDescriptor[] choices = LiquidDescriptor.getAllInstances();
         for ( int i = 0; i < choices.length; i++ ) {
             addItem( choices[i] );
         }

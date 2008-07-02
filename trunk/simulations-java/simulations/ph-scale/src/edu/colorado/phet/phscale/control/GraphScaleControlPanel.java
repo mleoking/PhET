@@ -47,9 +47,11 @@ public class GraphScaleControlPanel extends JPanel {
         _listeners = new ArrayList();
         
         _logRadioButton = new JRadioButton( PHScaleStrings.RADIO_BUTTON_LOGARITHMIC_SCALE );
+        _logRadioButton.setOpaque( false );
         _logRadioButton.setFont( CONTROL_FONT );
         
         _linearRadioButton = new JRadioButton( PHScaleStrings.RADIO_BUTTON_LINEAR_SCALE );
+        _linearRadioButton.setOpaque( false );
         _linearRadioButton.setFont( CONTROL_FONT );
         
         ButtonGroup buttonGroup = new ButtonGroup();

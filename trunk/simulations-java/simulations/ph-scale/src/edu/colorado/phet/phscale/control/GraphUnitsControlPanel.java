@@ -49,6 +49,7 @@ public class GraphUnitsControlPanel extends JPanel {
         _listeners = new ArrayList();
         
         _concentrationRadioButton = new JRadioButton( PHScaleStrings.getConcentrationString() );
+        _concentrationRadioButton.setOpaque( false );
         _concentrationRadioButton.setFont( CONTROL_FONT );
         _concentrationRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -57,6 +58,7 @@ public class GraphUnitsControlPanel extends JPanel {
         } );
         
         _molesRadioButton = new JRadioButton( PHScaleStrings.getNumberOfMolesString() );
+        _molesRadioButton.setOpaque( false );
         _molesRadioButton.setFont( CONTROL_FONT );
         _molesRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
