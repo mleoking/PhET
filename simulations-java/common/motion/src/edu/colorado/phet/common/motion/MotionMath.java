@@ -4,6 +4,7 @@ import JSci.maths.LinearMath;
 import JSci.maths.vectors.AbstractDoubleVector;
 
 import edu.colorado.phet.common.motion.model.TimeData;
+import edu.colorado.phet.common.phetcommon.math.Function;
 
 /**
  * User: Sam Reid
@@ -13,6 +14,19 @@ import edu.colorado.phet.common.motion.model.TimeData;
 
 public class MotionMath {
     public static double estimateDerivative( TimeData[] timeSeries ) {
+        AbstractDoubleVector out = getLinearRegressionCoefficients( timeSeries );
+        if ( Double.isNaN( out.getComponent( 1 ) ) || Double.isInfinite( out.getComponent( 1 ) ) ) {
+            //todo handle this error elsewhere
+            return 0.0;
+        }
+        return out.getComponent( 1 );
+    }
+
+    /**
+     * @return a vector containing the coefficients (zero component is the intercept, the rest are gradient components). E.g. y(x1, x2, ...) = coeffs(0) + coeffs(1) * x1 + coeffs(2) * x2 + ...
+     *         see http://jsci.sourceforge.net/api/JSci/maths/LinearMath.html#linearRegression(double[][])
+     */
+    public static AbstractDoubleVector getLinearRegressionCoefficients( TimeData[] timeSeries ) {
         double[] x = new double[timeSeries.length];
         double[] y = new double[timeSeries.length];
         for ( int i = 0; i < y.length; i++ ) {
@@ -22,12 +36,7 @@ public class MotionMath {
         double[][] data = new double[2][timeSeries.length];
         data[0] = x;
         data[1] = y;
-        AbstractDoubleVector out = LinearMath.linearRegression( data );
-        if ( Double.isNaN( out.getComponent( 1 ) ) || Double.isInfinite( out.getComponent( 1 ) ) ) {
-            //todo handle this error elsewhere
-            return 0.0;
-        }
-        return out.getComponent( 1 );
+        return LinearMath.linearRegression( data );
     }
 
     public static double averageTime( TimeData[] datas ) {
@@ -100,5 +109,8 @@ public class MotionMath {
         return smooth;
     }
 
-
+    public static Function.LinearFunction getLinearFit( TimeData[] data ) {
+        AbstractDoubleVector model = MotionMath.getLinearRegressionCoefficients( data );
+        return new Function.LinearFunction( model.getComponent( 0 ), model.getComponent( 1 ) );
+    }
 }
