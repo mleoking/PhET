@@ -103,6 +103,7 @@ public class MultipleParticleModel {
     private double m_pressure;
     private PressureCalculator m_pressureCalculator;
     private boolean m_thermostatEnabled;
+    private boolean m_diatomic;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -129,6 +130,7 @@ public class MultipleParticleModel {
         // Set the default particle type.
         m_particleType = StatesOfMatterParticleType.NEON;
         m_particleDiameter = StatesOfMatterParticleType.getParticleDiameter( m_particleType );
+        m_diatomic = false;
 
         reset();
     }
@@ -209,6 +211,12 @@ public class MultipleParticleModel {
         
         m_particleType = particleType;
         m_particleDiameter = StatesOfMatterParticleType.getParticleDiameter( particleType );
+        if (m_particleType == StatesOfMatterParticleType.OXYGEN){
+            m_diatomic = true;
+        }
+        else{
+            m_diatomic = false;
+        }
         
         // This causes a reset - otherwise it would be too hard to do.
         reset();
@@ -296,12 +304,7 @@ public class MultipleParticleModel {
         }
         
         // Initialize the particle positions.
-        boolean diatomic = false;
-        if (m_particleType == StatesOfMatterParticleType.OXYGEN){
-            diatomic = true;
-        }
-        insertCrystal( numInitialLayers, m_numberOfParticles, m_particlePositions,
-                m_normalizedContainerWidth, m_normalizedContainerHeight, diatomic );
+        crystalizePositions();
         
         // Initialize particle velocities.
         for (int i = 0; i < m_numberOfParticles; i++){
@@ -353,15 +356,17 @@ public class MultipleParticleModel {
         
         switch (state){
         case PHASE_SOLID:
+            crystalizePositions();
             newTemperature = SOLID_TEMPERATURE;
             break;
             
         case PHASE_LIQUID:
             newTemperature = LIQUID_TEMPERATURE;
+            randomizePositionsWithGradient();
             break;
             
         case PHASE_GAS:
-            randomizePositions();
+            gasifyParticles();
             newTemperature = GAS_TEMPERATURE;
             break;
             
@@ -520,17 +525,70 @@ public class MultipleParticleModel {
     }
     
     /**
-     * Randomize the positions of the particles within the container.
+     * Randomize the positions of the particles within the container and give
+     * them velocity equivalent to that of a gas.
      */
-    private void randomizePositions(){
+    private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.5;
+    private static final int MAX_PLACEMENT_ATTEMPTS = 500;
+    private void gasifyParticles(){
+        Random rand = new Random();
+        double temperatureSqrt = Math.sqrt( GAS_TEMPERATURE );
+        for (int i = 0; i < m_numberOfParticles; i++){
+            // Temporarily position the particles at (0,0).
+            m_particlePositions[i].setLocation( 0, 0 );
+            
+            // Assign each particle an initial velocity.
+            m_particleVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
+                    temperatureSqrt * rand.nextGaussian() );
+        }
+        
+        // Redistribute the particles randomly around the container, but make
+        // sure that they are not too close together or weird things may
+        // happen.
+        double newPosX, newPosY;
+        double minWallDistance = 1.5; // TODO: JPB TBD - This is arbitrary, should eventually be a const.
+        double rangeX = m_normalizedContainerWidth - (2 * minWallDistance);
+        double rangeY = m_normalizedContainerHeight - (2 * minWallDistance);
+        for (int i = 0; i < m_numberOfParticles; i++){
+            for (int j = 0; j < 100; j++){
+                // Pick a random position.
+                newPosX = minWallDistance + (rand.nextDouble() * rangeX);
+                newPosY = minWallDistance + (rand.nextDouble() * rangeY);
+                boolean positionAvailable = true;
+                // See if this position is available.
+                for (int k = 0; k < i; k++){
+                    if (m_particlePositions[k].distance( newPosX, newPosY ) < MIN_INITIAL_INTER_PARTICLE_DISTANCE){
+                        positionAvailable = false;
+                        break;
+                    }
+                }
+                if (positionAvailable){
+                    // We found an open position.
+                    m_particlePositions[i].setLocation( newPosX, newPosY );
+                    break;
+                }
+                else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
+                    // This is the last attempt, so use this position anyway.
+                    m_particlePositions[i].setLocation( newPosX, newPosY );
+                }
+            }
+        }
+        syncParticlePositions();
+    }
+    
+    /**
+     * Randomize the positions of the particles within the container such
+     * that they are more concentrated towards the bottom of the container.
+     */
+    private void randomizePositionsWithGradient(){
         Random rand = new Random();
         double newPosX, newPosY;
-        double minWallDistance = 0.5; // TODO: JPB TBD - This is arbitrary, should eventually be a const.
+        double minWallDistance = 1; // TODO: JPB TBD - This is arbitrary, should eventually be a const.
         double rangeX = m_normalizedContainerWidth - (2 * minWallDistance);
         double rangeY = m_normalizedContainerHeight - (2 * minWallDistance);
         for (int i = 0; i < m_numberOfParticles; i++){
             newPosX = minWallDistance + (rand.nextDouble() * rangeX);
-            newPosY = minWallDistance + (rand.nextDouble() * rangeY);
+            newPosY = minWallDistance + (rand.nextDouble() * rand.nextDouble() * rangeY);
             m_particlePositions[i].setLocation( newPosX, newPosY );
         }
         syncParticlePositions();
@@ -540,34 +598,27 @@ public class MultipleParticleModel {
      * Create positions corresponding to a hexagonal 2d "crystal" structure
      * for a set of particles.  Note that this assumes a normalized value
      * of 1.0 for the diameter of the particles.
-     * 
-     * @param numLayers
-     * @param numParticles
-     * @param particlePositions
-     * @param normalizedContainerWidth
-     * @param normalizedContainerHeight
      * @param diatomic
      */
-    private void insertCrystal( int numLayers, int numParticles, Point2D [] particlePositions,
-            double normalizedContainerWidth, double normalizedContainerHeight, boolean diatomic ){
+    private void crystalizePositions(){
         
-        int particlesPerLayer = (int)(numParticles / numLayers);
-        if ((diatomic) && (particlesPerLayer % 2 != 0)){
+        int particlesPerLayer = (int)Math.round( Math.sqrt( m_numberOfParticles ) );
+        if ((m_diatomic) && (particlesPerLayer % 2 != 0)){
             // We must have an even number of particles per layer if the
             // molecules need to be diatomic or we will run into problems.
             particlesPerLayer++;
         }
-        double startingPosX = (normalizedContainerWidth / 2) - (double)(particlesPerLayer / 2) - 
+        double startingPosX = (m_normalizedContainerWidth / 2) - (double)(particlesPerLayer / 2) - 
                 ((particlesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
         double startingPosY = 1.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
         
         int particlesPlaced = 0;
         double xPos, yPos;
-        for (int i = 0; particlesPlaced < numParticles; i++){ // One iteration per layer.
-            for (int j = 0; (j < particlesPerLayer) && (particlesPlaced < numParticles); j++){
-                if ((diatomic) && (j % 2 != 0)){
+        for (int i = 0; particlesPlaced < m_numberOfParticles; i++){ // One iteration per layer.
+            for (int j = 0; (j < particlesPerLayer) && (particlesPlaced < m_numberOfParticles); j++){
+                if ((m_diatomic) && (j % 2 != 0)){
                     // We are adding a partner to an atom to create a diatomic pair.
-                    Point2D prevParticlePos = particlePositions[(i * particlesPerLayer) + (j - 1)];
+                    Point2D prevParticlePos = m_particlePositions[(i * particlesPerLayer) + (j - 1)];
                     xPos = prevParticlePos.getX() + DISTANCE_BETWEEN_DIATOMIC_PAIRS;
                     StatesOfMatterParticle particleA = (StatesOfMatterParticle)(m_particles.get( (i * particlesPerLayer) + (j - 1) ));
                     StatesOfMatterParticle particleB = (StatesOfMatterParticle)(m_particles.get( (i * particlesPerLayer) + (j) ));
@@ -582,7 +633,7 @@ public class MultipleParticleModel {
                     }
                 }
                 yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
-                particlePositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );
+                m_particlePositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );
                 particlesPlaced++;
             }
         }
@@ -868,7 +919,7 @@ public class MultipleParticleModel {
      */
     private class PressureCalculator{
         
-        private final static int WINDOW_SIZE = 500;
+        private final static int WINDOW_SIZE = 1000;
         
         private double [] m_pressueSamples;
         private int       m_accumulationPosition;
