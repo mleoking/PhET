@@ -36,6 +36,7 @@ The green area of each bar will mean good, red bad. The bright green area should
 
 There should also be the possibility of adding/subtracting constants based on other accumulated factors (e.g., if you go into starvation mode,
  you should lose some constant amount of heart strength that you can never gain back).
+    >>SR: let's wait and see how the rest of the model looks before implementing this case
 ____________________________________________________________________________________________
 MUSCLE AND FAT MASS LOSS
 

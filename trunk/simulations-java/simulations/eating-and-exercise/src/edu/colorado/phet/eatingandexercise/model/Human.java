@@ -177,6 +177,11 @@ public class Human {
         heartAttacks = 0;
         setAlive( true );
         starvingTime = 0;
+
+        //need some data in the exercise and fat % for updating the health indicators
+        exercise.addValue( exercise.getValue(), getAge() );
+        fatMassFraction.addValue( fatMassFraction.getValue(), getAge() );
+        updateHealthIndicators();
     }
 
     public double getActivityLevel() {
@@ -498,19 +503,37 @@ public class Human {
 
     private void updateHealthIndicators() {
         exercise.addValue( exercise.getValue(), getAge() );
+        fatMassFraction.addValue( fatMassFraction.getValue(), getAge() );
         //- Heart strength: this is a bar chart based a running average of exercise amount over the last X days (let's try X=30 days to start).
 //NP will determine the range for heart strength based on exercise. For now, lets make it 250-1000 cal/day as the healthy range.
 //    >>SR: Should this account for activity (lifestyle), or just exercise on top of that?
 
         double averageExercise = exercise.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
+//        System.out.println( "averageExercise = " + averageExercise );
         setHeartStrength( averageExercise );
 
+        double averagePercentFat = fatMassFraction.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() ) * 100;
+//        System.out.println( "averagePercentFat = " + averagePercentFat );
+        setHeartStrain( averagePercentFat );
     }
 
     private void setHeartStrength( double heartStrength ) {
         if ( heartStrength != this.heartStrength ) {
             this.heartStrength = heartStrength;
             notifyHeartStrengthChanged();
+        }
+    }
+
+    private void setHeartStrain( double heartStrain ) {
+        if ( this.heartStrain != heartStrain ) {
+            this.heartStrain = heartStrain;
+            notifyHeartStrainChanged();
+        }
+    }
+
+    private void notifyHeartStrainChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).heartStrainChanged();
         }
     }
 
@@ -668,6 +691,10 @@ public class Human {
 
     public double getHeartStrength() {
         return heartStrength;
+    }
+
+    public double getHeartStrain() {
+        return heartStrain;
     }
 
     public static class Gender {
