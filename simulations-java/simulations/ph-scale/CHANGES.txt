@@ -40,6 +40,8 @@ CLEANUP:
 
 
 DONE:
+7/2/08 - sort liquids by decreasing pH in liquid combo box
+7/2/08 - use on color for all of the liquids that don't have an assigned color
 ******* version 0.00.07 (22914)
 7/2/08 - add water to list of liquids
 7/2/08 - flesh out the list of liquids
