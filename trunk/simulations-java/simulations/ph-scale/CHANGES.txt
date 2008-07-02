@@ -40,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+7/2/08 - make liquid instances private, add getters
 7/2/08 - sort liquids by decreasing pH in liquid combo box
 7/2/08 - use on color for all of the liquids that don't have an assigned color
 ******* version 0.00.07 (22914)

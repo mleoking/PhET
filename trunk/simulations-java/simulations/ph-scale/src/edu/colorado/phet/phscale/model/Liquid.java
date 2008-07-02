@@ -458,7 +458,7 @@ public class Liquid extends ClockAdapter {
             newVolume = _fillWaterVolume;
             _fillingWater = false;
         }
-        increaseVolume( newVolume, LiquidDescriptor.WATER );
+        increaseVolume( newVolume, LiquidDescriptor.getWater() );
     }
     
     /*

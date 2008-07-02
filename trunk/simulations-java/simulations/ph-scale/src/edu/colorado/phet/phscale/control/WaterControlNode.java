@@ -56,7 +56,7 @@ public class WaterControlNode extends PNode {
         };
         _liquid.addLiquidListener( _liquidListener );
         
-        JLabel label = new JLabel( LiquidDescriptor.WATER.toString() );
+        JLabel label = new JLabel( LiquidDescriptor.getWater().toString() );
         label.setFont( FONT );
         PSwing labelWrapper = new PSwing( label );
         
@@ -68,7 +68,7 @@ public class WaterControlNode extends PNode {
         });
         
         _waterColumnNode = new PPath( new Rectangle2D.Double( 0, 0, WATER_COLUMN_SIZE.getWidth(), WATER_COLUMN_SIZE.getHeight() ) );
-        _waterColumnNode.setPaint( LiquidDescriptor.WATER.getColor() );
+        _waterColumnNode.setPaint( LiquidDescriptor.getWater().getColor() );
         _waterColumnNode.setStroke( null );
         _waterColumnNode.setVisible( _faucetControlNode.isOn() );
         
