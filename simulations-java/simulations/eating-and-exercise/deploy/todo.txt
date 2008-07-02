@@ -20,6 +20,8 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
     They seem a bit high and in many cases are absolute values. The total caloric cost for weight
     bearing activities should be based upon a per body weight value. What was your source for this information?
 
+Wendy wants exercise to be in 1/2 hour units in stead of 1 hour. This should be as simple as dividing all the calories by 2. There should be some indicator in the sim that these exercise calories are for 1/2 hour.
+
 ____________________________________________________________________________________________
 FOOD LIST
 
