@@ -71,6 +71,8 @@ public class WaterControlNode extends PNode {
         _waterColumnNode.setPaint( LiquidDescriptor.getWater().getColor() );
         _waterColumnNode.setStroke( null );
         _waterColumnNode.setVisible( _faucetControlNode.isOn() );
+        _waterColumnNode.setPickable( false );
+        _waterColumnNode.setChildrenPickable( false );
         
         addChild( labelWrapper );
         addChild( _waterColumnNode );

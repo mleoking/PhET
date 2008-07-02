@@ -29,25 +29,16 @@ public class PHScaleStrings {
     public static final String CHECK_BOX_DONT_ASK_AGAIN = PHScaleResources.getString( "checkBox.dontAskAgain" );
     
     public static final String CHOICE_BATTERY_ACID = PHScaleResources.getString( "choice.batteryAcid" );
-    public static final String CHOICE_BILE = PHScaleResources.getString( "choice.bile" );
-    public static final String CHOICE_LEMON_JUICE = PHScaleResources.getString( "choice.lemonJuice" );
+    public static final String CHOICE_VOMIT = PHScaleResources.getString( "choice.vomit" );
     public static final String CHOICE_COLA = PHScaleResources.getString( "choice.cola" );
-    public static final String CHOICE_VINEGAR = PHScaleResources.getString( "choice.vinegar" );
-    public static final String CHOICE_ORANGE_JUICE = PHScaleResources.getString( "choice.orangeJuice" );
     public static final String CHOICE_BEER = PHScaleResources.getString( "choice.beer" );
     public static final String CHOICE_COFFEE = PHScaleResources.getString( "choice.coffee" );
-    public static final String CHOICE_TEA = PHScaleResources.getString( "choice.tea" );
-    public static final String CHOICE_ACID_RAIN = PHScaleResources.getString( "choice.acidRain" );
     public static final String CHOICE_MILK = PHScaleResources.getString( "choice.milk" );
     public static final String CHOICE_WATER = PHScaleResources.getString( "choice.water" );
-    public static final String CHOICE_SALIVA = PHScaleResources.getString( "choice.saliva" );
+    public static final String CHOICE_SPIT = PHScaleResources.getString( "choice.spit" );
     public static final String CHOICE_BLOOD = PHScaleResources.getString( "choice.blood" );
-    public static final String CHOICE_SEA_WATER = PHScaleResources.getString( "choice.seaWater" );
     public static final String CHOICE_HAND_SOAP = PHScaleResources.getString( "choice.handSoap" );
-    public static final String CHOICE_AMMONIA = PHScaleResources.getString( "choice.ammonia" );
-    public static final String CHOICE_BLEACH = PHScaleResources.getString( "choice.bleach" );
     public static final String CHOICE_DRAIN_CLEANER = PHScaleResources.getString( "choice.drainCleaner" );
-    public static final String CHOICE_LYE = PHScaleResources.getString( "choice.lye" );
 
     public static final String CONFIRM_CHANGE_LIQUID = PHScaleResources.getString( "confirm.changeLiquid" );
     

@@ -12,7 +12,6 @@ HIGH PRIORITY:
 - make bars interactive
 
 MEDIUM PRIORITY:
-- add cursors all things that are draggable
 - add developer controls for liquid colors?
 - replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
 - implement linear and log scale switching
@@ -34,6 +33,7 @@ PERFORMANCE OPTIMIZATIONS:
 MIGRATE TO PHETCOMMON:
 
 CLEANUP:
+- add cursors to all things that are interactive
 - setPickable(false) on non-interactive nodes
 - rescale image files to minimize file size
 - disable all debug output
@@ -42,6 +42,8 @@ CLEANUP:
 
 
 DONE:
+7/2/08 - reduce # of liquids to Trish's set
+7/2/08 - add developer controls for liquid colors
 7/2/08 - add hand cursor to faucet sliders and liquid combo box
 7/2/08 - rename developer menu item to "Particle Controls", rename associated classes
 7/2/08 - make liquid instances private, add getters

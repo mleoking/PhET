@@ -55,6 +55,8 @@ public class MoleculeCountNode extends PComposite {
     
     public MoleculeCountNode( Liquid liquid ) {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {

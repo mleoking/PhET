@@ -62,17 +62,28 @@ public class BarGraphNode extends PNode {
         _graphOutlineNode.setStroke( OUTLINE_STROKE );
         _graphOutlineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
         _graphOutlineNode.setPaint( OUTLINE_FILL_COLOR );
+        _graphOutlineNode.setPickable( false );
+        _graphOutlineNode.setChildrenPickable( false );
         addChild( _graphOutlineNode );
         
         _h3oNode = new FormattedNumberNode( H3O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
         _h3oNode.rotate( -Math.PI / 2 );
+        _h3oNode.setPickable( false );
+        _h3oNode.setChildrenPickable( false );
         addChild( _h3oNode );
+        
         _ohNode = new FormattedNumberNode( OH_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
         _ohNode.rotate( -Math.PI / 2 );
+        _ohNode.setPickable( false );
+        _ohNode.setChildrenPickable( false );
         addChild( _ohNode );
+        
         _h2oNode = new FormattedNumberNode( H2O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
         _h2oNode.rotate( -Math.PI / 2 );
+        _h2oNode.setPickable( false );
+        _h2oNode.setChildrenPickable( false );
         addChild( _h2oNode );
+        
         updateValues(); // do this before setting offsets so that bounds are reasonable
         
         _graphOutlineNode.setOffset( 0, 0 );
