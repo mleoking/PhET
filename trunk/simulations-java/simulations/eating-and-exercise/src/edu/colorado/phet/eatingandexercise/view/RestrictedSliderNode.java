@@ -27,7 +27,7 @@ public class RestrictedSliderNode extends SliderNode {
         addChild( lowerRestrictedRange );
         addChild( upperRestrictedRange );
 
-        update();
+        updateThumb();
     }
 
     protected double clamp( double a ) {

@@ -1,5 +1,6 @@
 New in 0.00.55
 Fixed: Graph time range doesn't update when the user modifies the age
+Clicking on the track of the slider changes its value.
 
 New in 0.00.54
 Clean up foods and exercises

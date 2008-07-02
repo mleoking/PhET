@@ -10,10 +10,6 @@ The lower limits above assume a very low FFM with average % fat - you can go bel
     Note that the lower limit is around a BMI of 16. At this point, you will be very low % fat and can begin removing FFM to drop weight,
     but you are now in the danger zone.
 
-I was wondering if you could add a feature to the slider that makes it so clicking ahead of
-    the arrow in the slider increments the slider in small steps?  It’s hard to set things with them (as you predicted). 
-    I can use the text box or I was wondering if it’s easy since you wrote them, to add this feature?
-
 I am not sure that I entirely agree with your calorie expenditures for physical activity.
     They seem a bit high and in many cases are absolute values. The total caloric cost for weight
     bearing activities should be based upon a per body weight value. What was your source for this information?
