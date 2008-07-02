@@ -112,8 +112,7 @@ public class TestParticleViews extends JFrame {
     private final PCanvas _canvas;
     private final BeakerNode _beakerNode;
     private final MicroscopeNode _microscopeNode;
-    private final Random _randomX, _randomY;
-    private final Random _randomDistance, _randomAngle;
+    private final Random _random;
     private Color _colorH3O, _colorOH;
 
     //----------------------------------------------------------------------------
@@ -123,10 +122,7 @@ public class TestParticleViews extends JFrame {
     public TestParticleViews() {
         super( FRAME_TITLE );
 
-        _randomX = new Random();
-        _randomY = new Random();
-        _randomDistance = new Random();
-        _randomAngle = new Random();
+        _random = new Random();
         _colorH3O = DEFAULT_H3O_COLOR;
         _colorOH = DEFAULT_OH_COLOR;
 
@@ -603,8 +599,8 @@ public class TestParticleViews extends JFrame {
     private void getRandomPointInBeaker( Point2D pOutput ) {
         double beakerWidth = _beakerWidthControl.getValue();
         double beakerHeight = _beakerHeightControl.getValue();
-        double x = ( -beakerWidth/2 ) + ( _randomX.nextDouble() * beakerWidth );
-        double y = ( -beakerHeight/2 ) + ( _randomY.nextDouble() * beakerHeight );
+        double x = ( -beakerWidth/2 ) + ( _random.nextDouble() * beakerWidth );
+        double y = ( -beakerHeight/2 ) + ( _random.nextDouble() * beakerHeight );
         pOutput.setLocation( x, y );
     }
     
@@ -613,8 +609,8 @@ public class TestParticleViews extends JFrame {
      */
     private void getRandomPointInMicroscope( Point2D pOutput ) {
         double circleRadius = _microscopeDiameterControl.getValue() / 2;
-        double distance = Math.sqrt( _randomDistance.nextDouble() ) * circleRadius;
-        double angle = _randomAngle.nextDouble() * ( 2 * Math.PI );
+        double distance = Math.sqrt( _random.nextDouble() ) * circleRadius;
+        double angle = _random.nextDouble() * ( 2 * Math.PI );
         double x = PolarCartesianConverter.getX( distance, angle );
         double y = PolarCartesianConverter.getY( distance, angle );
         pOutput.setLocation( x, y );
