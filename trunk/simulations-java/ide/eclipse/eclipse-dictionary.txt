@@ -15,6 +15,7 @@ extrude
 extruded
 extruding
 faucet
+faucets
 femto
 femtometer
 femtometers
