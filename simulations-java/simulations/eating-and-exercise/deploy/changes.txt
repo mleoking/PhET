@@ -1,3 +1,5 @@
+New in 0.00.53
+
 New in 0.00.52
 Finished adding fast food meal and coffee drink to menu
 Increased columns in balanced food slider
