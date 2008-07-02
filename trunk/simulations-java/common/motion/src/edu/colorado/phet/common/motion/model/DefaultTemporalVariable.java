@@ -116,6 +116,7 @@ public class DefaultTemporalVariable implements ITemporalVariable {
     }
 
     //computes an average using min(s,numSamples) data points
+    //assumes an equal distance between all samples
     public double estimateAverage( int s ) {
         double sum = 0;
         int count = Math.min( s, getSampleCount() );
