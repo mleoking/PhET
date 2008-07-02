@@ -1,3 +1,6 @@
+New in 0.00.55
+Fixed: Graph time range doesn't update when the user modifies the age
+
 New in 0.00.54
 Clean up foods and exercises
 

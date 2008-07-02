@@ -65,32 +65,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
 
-        //todo: find a more elegant way to decide when to reset the chart regions
-        ageSlider.getTextField().addKeyListener( new KeyAdapter() {
-            public void keyReleased( KeyEvent e ) {
-                notifyAgeManuallyChanged();
-            }
-        } );
-        ageSlider.getTextField().addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifyAgeManuallyChanged();
-            }
-        } );
-        ageSlider.getTextField().addFocusListener( new FocusListener() {
-            public void focusGained( FocusEvent e ) {
-            }
-
-            public void focusLost( FocusEvent e ) {
-                notifyAgeManuallyChanged();
-            }
-        } );
-        ageSlider.getSlider().addMouseListener( new MouseAdapter() {
-            public void mouseReleased( MouseEvent e ) {
-                notifyAgeManuallyChanged();
-            }
-        } );
-        ageSlider.getSlider().addMouseMotionListener( new MouseMotionAdapter() {
-            public void mouseDragged( MouseEvent e ) {
+        ageSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
                 notifyAgeManuallyChanged();
             }
         } );
