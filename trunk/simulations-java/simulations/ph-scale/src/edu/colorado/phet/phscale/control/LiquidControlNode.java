@@ -8,6 +8,7 @@ import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.phscale.PHScaleApplication;
 import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
 import edu.colorado.phet.phscale.dialog.ConfirmChangeLiquidDialog;
@@ -76,6 +77,7 @@ public class LiquidControlNode extends PNode {
             }
         } );
         PSwing comboBoxWrapper = new PSwing( _comboBox );
+        comboBoxWrapper.addInputEventListener( new CursorHandler() );
         _comboBox.setEnvironment( comboBoxWrapper, canvas ); // hack required by PComboBox
         
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_RIGHT );
