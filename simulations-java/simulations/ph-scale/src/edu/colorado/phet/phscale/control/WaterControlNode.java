@@ -29,7 +29,7 @@ public class WaterControlNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final PDimension WATER_COLUMN_SIZE = new PDimension( 20, 450 );
+    private static final PDimension WATER_COLUMN_SIZE = new PDimension( 20, 438 );
     public static final Font FONT = PHScaleConstants.CONTROL_FONT;
     
     //----------------------------------------------------------------------------
@@ -82,7 +82,7 @@ public class WaterControlNode extends PNode {
         PBounds lb = labelWrapper.getFullBoundsReference();
         PBounds fb = _faucetControlNode.getFullBoundsReference();
         _faucetControlNode.setOffset( lb.getMaxX() - fb.getWidth(), lb.getMaxY() + 5 );
-        _waterColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 4, _faucetControlNode.getFullBoundsReference().getMaxY() );   
+        _waterColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 8, _faucetControlNode.getFullBoundsReference().getMaxY() );   
         
         update();
     }
