@@ -75,12 +75,16 @@ public class DrainControlNode extends PNode {
         _liquidColumnNode = new PPath( new Rectangle2D.Double( 0, 0, LIQUID_COLUMN_SIZE.getWidth(), LIQUID_COLUMN_SIZE.getHeight() ) );
         _liquidColumnNode.setStroke( null );
         _liquidColumnNode.setVisible( _faucetControlNode.isOn() );
+        _liquidColumnNode.setPickable( false );
+        _liquidColumnNode.setChildrenPickable( false );
         
         Shape pipeShape = createPipeShape();
         PPath pipeNode = new PPath( pipeShape );
         pipeNode.setPaint( PIPE_FILL_COLOR );
         pipeNode.setStrokePaint( PIPE_STROKE_COLOR );
         pipeNode.setStroke( PIPE_STROKE );
+        pipeNode.setPickable( false );
+        pipeNode.setChildrenPickable( false );
         
         addChild( pipeNode );
         addChild( _liquidColumnNode );

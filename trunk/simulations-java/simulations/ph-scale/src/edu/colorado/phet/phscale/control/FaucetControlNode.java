@@ -47,6 +47,8 @@ public class FaucetControlNode extends PNode {
         _listeners = new ArrayList();
         
         PNode faucetNode = new FaucetNode( orientation );
+        faucetNode.setPickable( false );
+        faucetNode.setChildrenPickable( false );
         
         _slider = new MomentarySlider();
         final int sliderWidth = (int) ( faucetNode.getFullBoundsReference().getWidth() - ( 2 * MARGIN ) );

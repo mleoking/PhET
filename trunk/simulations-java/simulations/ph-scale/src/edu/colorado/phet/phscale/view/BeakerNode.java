@@ -54,6 +54,8 @@ public class BeakerNode extends PComposite {
     
     public BeakerNode( PDimension size, final double maxVolume ) {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
         
         // outline
         final float width = (float) size.getWidth();

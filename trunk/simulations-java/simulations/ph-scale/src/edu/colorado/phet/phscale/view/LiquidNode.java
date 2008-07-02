@@ -37,7 +37,9 @@ public class LiquidNode extends PComposite {
     //----------------------------------------------------------------------------
     
     public LiquidNode( Liquid liquid, PDimension maxSize ) {
+        super();
         setPickable( false );
+        setChildrenPickable( false );
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {

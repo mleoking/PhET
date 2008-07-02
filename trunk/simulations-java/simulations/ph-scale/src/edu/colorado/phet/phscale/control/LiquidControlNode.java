@@ -92,6 +92,8 @@ public class LiquidControlNode extends PNode {
         _liquidColumnNode = new PPath( new Rectangle2D.Double( 0, 0, LIQUID_COLUMN_SIZE.getWidth(), LIQUID_COLUMN_SIZE.getHeight() ) );
         _liquidColumnNode.setStroke( null );
         _liquidColumnNode.setVisible( _faucetControlNode.isOn() );
+        _liquidColumnNode.setPickable( false );
+        _liquidColumnNode.setChildrenPickable( false );
         
         addChild( comboBoxWrapper );
         addChild( _liquidColumnNode );

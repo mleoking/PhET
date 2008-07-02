@@ -40,7 +40,7 @@ public class ParticleControlsDialog extends JDialog {
 
         _app = app;
 
-        JPanel inputPanel = createInputPanel();
+        JPanel inputPanel = createInputPanel( owner );
 
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
         panel.setFillHorizontal();
@@ -51,11 +51,10 @@ public class ParticleControlsDialog extends JDialog {
         SwingUtils.centerDialogInParent( this );
     }
 
-    private JPanel createInputPanel() {
+    private JPanel createInputPanel( Frame owner ) {
 
-        Frame dialogOwner = PHScaleApplication.instance().getPhetFrame();
         ParticlesNode particlesNode = _app.getModule().getParticlesNode();
-        ParticleControlsPanel particlesPanel = new ParticleControlsPanel( dialogOwner, particlesNode );
+        ParticleControlsPanel particlesPanel = new ParticleControlsPanel( owner, particlesNode );
 
         // Layout
         JPanel panel = new JPanel();

@@ -35,6 +35,8 @@ public class LegendNode extends PComposite {
     
     public LegendNode() {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
         
         // icons
         PNode h3oIconNode = new H3ONode();
