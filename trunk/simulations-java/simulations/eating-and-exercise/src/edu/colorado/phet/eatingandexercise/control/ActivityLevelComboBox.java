@@ -32,7 +32,7 @@ public class ActivityLevelComboBox extends JComboBox {
         setFont( new PhetFont( 13, true ) );
         addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
-                human.setActivityLevel( ( (Activity) e.getItem() ).getValue() );
+                human.setActivityLevel( ( (Activity) e.getItem() ) );
             }
         } );
         //todo: remove this workaround, which is necessary since piccolo pswing doesn't support jcombobox or pcombobox embedded in container within pswing

@@ -24,7 +24,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Created by: Sam
  * Jun 24, 2008 at 4:01:47 PM
  * <p/>
- * Todo: make sure readout value is identical to model value
  */
 public class LinearValueControlNode extends PNode {
     private PText labelNode;
@@ -38,6 +37,7 @@ public class LinearValueControlNode extends PNode {
     private double min;
     private double max;
     private LayoutStrategy layoutStrategy = new DefaultLayoutStrategy();
+    private ArrayList listeners = new ArrayList();
 
     public LinearValueControlNode( String label, String units, double min, double max, double value, NumberFormat numberFormat ) {
         this.min = min;
@@ -232,8 +232,6 @@ public class LinearValueControlNode extends PNode {
     public static interface Listener {
         void valueChanged( double value );
     }
-
-    private ArrayList listeners = new ArrayList();
 
     public void addListener( Listener listener ) {
         listeners.add( listener );

@@ -108,6 +108,11 @@ public class HumanControlPanel extends VerticalLayoutPanel {
                 human.setHeight( model.getUnits().viewToModelDistance( heightSlider.getValue() ) );
             }
         } );
+        heightSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updatePercentFat();
+            }
+        } );
         human.addListener( new Human.Adapter() {
             public void heightChanged() {
                 heightSlider.setValue( model.getUnits().modelToViewDistance( human.getHeight() ) );
@@ -146,6 +151,11 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         weightSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 human.setMass( model.getUnits().viewToModelMass( weightSlider.getValue() ) );
+            }
+        } );
+        weightSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updatePercentFat();
             }
         } );
         human.addListener( new Human.Adapter() {
@@ -206,6 +216,18 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         updateHeartAttackProbabilityLabel();
 //        add( pheart );
 
+        //wire up listeners to these properties directly, since they are independent variables (ie won't be changed by the model)
+        human.addListener( new Human.Adapter(){
+            public void genderChanged() {
+                updatePercentFat();
+            }
+
+            public void activityLevelChanged() {
+                updatePercentFat();
+            }
+        });
+        updatePercentFat();
+
         updateBodyFatSlider();
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -215,13 +237,18 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         updateLayout();
     }
 
+    private void updatePercentFat() {
+        double percentFat=human.getNormativePercentFat();
+        human.setFatMassPercent( percentFat );
+    }
+
     private void updateLayout() {
         updateBodyFatSlider();
         relayoutSliders();
     }
 
     private void relayoutSliders() {
-        HumanSlider[]s= (HumanSlider[]) sliders.toArray( new HumanSlider[0] );
+        HumanSlider[]s= (HumanSlider[]) sliders.toArray( new HumanSlider[sliders.size()] );
         HumanSlider.layout(s);
     }
 
