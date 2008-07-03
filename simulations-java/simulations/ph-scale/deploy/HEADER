@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.08
+ph-scale 0.00.09
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,10 +12,12 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>shortened liquid choices to those proposed by Trish
-<li>assigned a different color to each liquid
-<li>added developer controls from playing with liquid colors (see menu bar, Developer>Liquid Colors)
-<li>sort liquids by decreasing pH value
+<li>implemented Kathy's proposal for diluted liquid colors: draw liquid color on top of water color,
+modulate the liquid color's alpha channel based on percentage of water in the beaker
+<li>liquid color in beaker and drain faucet changes when diluted with water
+<li>water color does not change when diluted with water
+<li>liquid color coming out of left faucet is drawn on top of water color so that it matches color in beaker
+<li>changed the color for drain cleaner and battery acid to the color we had for lemon juice
 </ul>
 <p>
 <b>Not implemented:</b>
@@ -26,7 +28,6 @@ Click to launch English version:
 <li>pH slider scale doesn't line up with bar graph
 <li>linear and log scale options for bar graph don't work
 <li>no zoom buttons for linear graph
-<li>liquid color does not change when diluted with water
 </ul>
 <p>
 <b>Know issues:</b>
