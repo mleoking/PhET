@@ -42,7 +42,7 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.09 (?)
+******* version 0.00.09 (22992)
 7/3/08 - change water color to [193, 222, 227, 127]
 7/3/08 - display RGBA values in LiquidColorDialog
 7/3/08 - set color of liquid in beaker by changing alpha channel of liquid based on % water
