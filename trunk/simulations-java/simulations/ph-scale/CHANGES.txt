@@ -3,7 +3,6 @@ Change history for ph-scale
 ================================================================================
 
 DESIGN ISSUES
-- how to combine color of liquid + water?
 - what happens when dragging bars would result in pH outside range?
 
 HIGH PRIORITY:
@@ -21,7 +20,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it (PSwing issue?)
-- add plumbing to liquid and water faucets?
 - replace molecule image files with SphericalNode subclasses?
 - change layout of molecule counts display?
 - disable liquid and water sliders when beaker is full?
@@ -40,6 +38,7 @@ CLEANUP:
 
 
 DONE:
+******* version 0.00.09 (?)
 7/3/08 - set color of liquid in beaker by changing alpha channel of liquid based on % water
 7/3/08 - add water shape to liquid faucet, drain faucet, and liquid node so that colors will match what appears in beaker
 7/3/08 - draw liquid color in beaker on top of a rectangle that is set to water color
@@ -172,6 +171,7 @@ DONE:
 5/20/08 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+7/2/08 - add plumbing to liquid and water faucets (not needed, per 7/2 status meeting)
 6/30/08 - make LiquidListener more specific about what changed so that ParticlesNode doesn't have to save and compare pH (complicates model, only affects ParticlesNode)
 6/25/08 - change color of liquid in beaker when pH slider or graph bars are changed (no, don't change color)
 
