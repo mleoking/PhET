@@ -44,8 +44,8 @@ public class PHSliderNode extends PNode {
     private static final float TRACK_STROKE_WIDTH = 1f;
     private static final Stroke TRACK_STROKE = new BasicStroke( TRACK_STROKE_WIDTH );
     private static final Color TRACK_COLOR = Color.BLACK;
-    private static final Color ACID_COLOR = PHScaleConstants.H3O_COLOR;
-    private static final Color BASE_COLOR = PHScaleConstants.OH_COLOR;
+    private static final Color ACID_COLOR = PHScaleConstants.ACID_COLOR;
+    private static final Color BASE_COLOR = PHScaleConstants.BASE_COLOR;
     
     // Knob
     private static final int KNOB_STROKE_WIDTH = 1;

@@ -32,7 +32,7 @@ public class ProbeNode extends PComposite {
     private static final Color SHAFT_COLOR = Color.DARK_GRAY;
     private static final double SHAFT_WIDTH = 10;
     
-    private static final Color TIP_COLOR = PHScaleConstants.H3O_COLOR;
+    private static final Color TIP_COLOR = PHScaleConstants.ACID_COLOR;
     
     private static final Color DISPLAY_BORDER_COLOR = SHAFT_COLOR;
     private static final double DISPLAY_BORDER_WIDTH = 3;

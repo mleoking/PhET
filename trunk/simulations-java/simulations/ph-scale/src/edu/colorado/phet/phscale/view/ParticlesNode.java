@@ -95,7 +95,7 @@ public class ParticlesNode extends PComposite {
         // developer only, display particle counts in lower left of container
         if ( PHScaleApplication.instance().isDeveloperControlsEnabled() ) {
             _numbersNode = new HTMLNode( "?" );
-            _numbersNode.setFont( new PhetFont( 14 ) );
+            _numbersNode.setFont( new PhetFont() );
             addChild( _numbersNode );
             _numbersNode.setOffset( containerBounds.getX() + 5, containerBounds.getMaxY() - _numbersNode.getFullBoundsReference().getHeight() - 15 );
         }
@@ -106,8 +106,8 @@ public class ParticlesNode extends PComposite {
         _diameter = DEFAULT_DIAMETER;
         _majorityTransparency = DEFAULT_MAJORITY_TRANSPARENCY;
         _minorityTransparency = DEFAULT_MINORITY_TRANSPARENCY;
-        _h3oColor = PHScaleConstants.H3O_COLOR;
-        _ohColor = PHScaleConstants.OH_COLOR;
+        _h3oColor = PHScaleConstants.ACID_COLOR;
+        _ohColor = PHScaleConstants.BASE_COLOR;
         _numberOfH3O = 0;
         _numberOfOH = 0;
         

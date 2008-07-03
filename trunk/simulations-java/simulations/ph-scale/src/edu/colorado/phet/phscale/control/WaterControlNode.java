@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.phscale.control;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 
@@ -12,6 +13,7 @@ import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -31,6 +33,7 @@ public class WaterControlNode extends PNode {
     
     private static final PDimension WATER_COLUMN_SIZE = new PDimension( 20, 438 );
     public static final Font FONT = PHScaleConstants.CONTROL_FONT;
+    private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -56,7 +59,13 @@ public class WaterControlNode extends PNode {
         };
         _liquid.addLiquidListener( _liquidListener );
         
-        JLabel label = new JLabel( LiquidDescriptor.getWater().toString() );
+        WATER.addLiquidDescriptorListener( new LiquidDescriptorListener() {
+            public void colorChanged( Color color ) {
+                _waterColumnNode.setPaint( WATER.getColor() );
+            }
+        } );
+        
+        JLabel label = new JLabel( WATER.toString() );
         label.setFont( FONT );
         PSwing labelWrapper = new PSwing( label );
         

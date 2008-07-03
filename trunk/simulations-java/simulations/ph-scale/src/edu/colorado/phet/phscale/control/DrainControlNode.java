@@ -12,7 +12,9 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
 import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -34,6 +36,8 @@ public class DrainControlNode extends PNode {
     private static final Color PIPE_FILL_COLOR = new Color( 233, 184, 0 ); // mustard yellow
     private static final Color PIPE_STROKE_COLOR = Color.BLACK;
     private static final Stroke PIPE_STROKE = new BasicStroke( 2f );
+    
+    private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -41,6 +45,7 @@ public class DrainControlNode extends PNode {
     
     private final FaucetControlNode _faucetControlNode;
     private final PPath _liquidColumnNode;
+    private final PPath _waterColumnNode; // put water behind liquid so that it looks the same as in beaker
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
@@ -59,6 +64,12 @@ public class DrainControlNode extends PNode {
         };
         _liquid.addLiquidListener( _liquidListener );
         
+        WATER.addLiquidDescriptorListener( new LiquidDescriptorListener() {
+            public void colorChanged( Color color ) {
+                _waterColumnNode.setPaint( WATER.getColor() );
+            }
+        } );
+        
         _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT );
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void onOffChanged( boolean on ) {
@@ -72,11 +83,19 @@ public class DrainControlNode extends PNode {
         });
         _faucetControlNode.setOn( false );
 
-        _liquidColumnNode = new PPath( new Rectangle2D.Double( 0, 0, LIQUID_COLUMN_SIZE.getWidth(), LIQUID_COLUMN_SIZE.getHeight() ) );
+        Shape liquidColumnShape = new Rectangle2D.Double( 0, 0, LIQUID_COLUMN_SIZE.getWidth(), LIQUID_COLUMN_SIZE.getHeight() );
+        _liquidColumnNode = new PPath( liquidColumnShape );
         _liquidColumnNode.setStroke( null );
         _liquidColumnNode.setVisible( _faucetControlNode.isOn() );
         _liquidColumnNode.setPickable( false );
         _liquidColumnNode.setChildrenPickable( false );
+        
+        _waterColumnNode = new PPath( liquidColumnShape );
+        _waterColumnNode.setPaint( WATER.getColor() );
+        _waterColumnNode.setStroke( null );
+        _waterColumnNode.setVisible( _faucetControlNode.isOn() );
+        _waterColumnNode.setPickable( false );
+        _waterColumnNode.setChildrenPickable( false );
         
         Shape pipeShape = createPipeShape();
         PPath pipeNode = new PPath( pipeShape );
@@ -87,11 +106,13 @@ public class DrainControlNode extends PNode {
         pipeNode.setChildrenPickable( false );
         
         addChild( pipeNode );
+        addChild( _waterColumnNode );
         addChild( _liquidColumnNode );
         addChild( _faucetControlNode );
         
         _faucetControlNode.setOffset( 0, 0 );
-        _liquidColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 4, _faucetControlNode.getFullBoundsReference().getMaxY() );
+        _liquidColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 8, _faucetControlNode.getFullBoundsReference().getMaxY() - 2 );
+        _waterColumnNode.setOffset( _liquidColumnNode.getOffset() );
         pipeNode.setOffset( _faucetControlNode.getFullBoundsReference().getMaxX() - 2, 37 );
 
         update();
@@ -114,8 +135,9 @@ public class DrainControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private void update() {
-        _liquidColumnNode.setVisible( _liquid.isDraining() );
         _liquidColumnNode.setPaint( _liquid.getColor() );
+        _liquidColumnNode.setVisible( _liquid.isDraining() );
+        _waterColumnNode.setVisible( _liquid.isDraining() );
     }
     
     //----------------------------------------------------------------------------

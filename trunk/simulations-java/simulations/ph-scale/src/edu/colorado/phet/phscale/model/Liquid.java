@@ -9,6 +9,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
 
 /**
@@ -32,6 +33,8 @@ public class Liquid extends ClockAdapter {
     private static final double AVOGADROS_NUMBER = 6.023E23;
     private static final double H2O_CONCENTRATION = 55; // moles/L
     
+    private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -42,6 +45,7 @@ public class Liquid extends ClockAdapter {
     private final LiquidDescriptorListener _liquidDescriptorListener;
     private Double _pH;
     private double _volume; // L
+    private double _waterVolume; // L
 
     private boolean _fillingLiquid;
     private double _fillLiquidRate; // L per clock tick
@@ -68,8 +72,18 @@ public class Liquid extends ClockAdapter {
             }
         };
         
+        // changing the color of water will change the color of the liquid
+        WATER.addLiquidDescriptorListener( new LiquidDescriptorListener() {
+            public void colorChanged( Color color ) {
+                if ( _waterVolume > 0 ) {
+                    notifyStateChanged();
+                }
+            }
+        } );
+        
         _pH = null;
         _volume = 0;
+        _waterVolume = 0;
 
         _fillingLiquid = false;
         _fillLiquidRate = 0;
@@ -131,7 +145,24 @@ public class Liquid extends ClockAdapter {
     }
     
     public Color getColor() {
-        return _liquidDescriptor.getColor(); //XXX need to dilute this
+        Color color = null;
+        if ( _volume > 0 ) {
+            if ( _volume == _waterVolume ) {
+                // all water
+                color = WATER.getColor();
+            }
+            else if ( _waterVolume == 0 ) {
+                // no water
+                color = _liquidDescriptor.getColor();
+            }
+            else {
+                // diluted with water
+                double liquidVolume = _volume - _waterVolume;
+                int alpha = (int) ( _liquidDescriptor.getColor().getAlpha() * ( liquidVolume / _volume ) );
+                color = ColorUtils.createColor( _liquidDescriptor.getColor(), alpha );
+            }
+        }
+        return color;
     }
     
     //----------------------------------------------------------------------------
@@ -234,6 +265,7 @@ public class Liquid extends ClockAdapter {
     public void drainImmediately() {
         if ( !isEmpty() ) {
             _volume = 0;
+            _waterVolume = 0;
             notifyStateChanged();
         }
     }
@@ -400,15 +432,18 @@ public class Liquid extends ClockAdapter {
         assert ( newVolume >= 0 );
         assert ( newVolume <= MAX_VOLUME );
         if ( newVolume != _volume ) {
+            double addedVolume = newVolume - _volume;
             if ( _volume == 0 ) {
                 _pH = new Double( addedLiquid.getPH() );
             }
             else {
-                double addedVolume = newVolume - _volume;
                 double newPH = pHCombined( _pH.doubleValue(), _volume, addedLiquid.getPH(), addedVolume );
                 _pH = new Double( newPH );
             }
             _volume = newVolume;
+            if ( addedLiquid.equals( WATER ) ) {
+                _waterVolume += addedVolume;
+            }
             notifyStateChanged();
         }
     }
@@ -423,6 +458,25 @@ public class Liquid extends ClockAdapter {
         assert ( newVolume < _volume );
         assert ( newVolume >= 0 );
         assert ( newVolume <= MAX_VOLUME );
+        if ( _waterVolume > 0 ) {
+            if ( _waterVolume == 0 ) {
+                // no water
+                _waterVolume = 0;
+            }
+            else if ( _waterVolume == _volume ) {
+                // all water
+                _waterVolume = newVolume;
+            }
+            else {
+                // diluted with water
+                if ( newVolume == 0 ) {
+                    _waterVolume = 0;
+                }
+                else {
+                    _waterVolume *= ( newVolume / _volume );
+                }
+            }
+        }
         _volume = newVolume;
         if ( _volume == 0 ) {
             _pH = null;
@@ -470,7 +524,7 @@ public class Liquid extends ClockAdapter {
             newVolume = _fillWaterVolume;
             _fillingWater = false;
         }
-        increaseVolume( newVolume, LiquidDescriptor.getWater() );
+        increaseVolume( newVolume, WATER );
     }
     
     /*
