@@ -38,7 +38,7 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.09 (22984)
+******* version 0.00.09 (?)
 7/3/08 - display RGBA values in LiquidColorDialog
 7/3/08 - set color of liquid in beaker by changing alpha channel of liquid based on % water
 7/3/08 - add water shape to liquid faucet, drain faucet, and liquid node so that colors will match what appears in beaker
