@@ -4,6 +4,7 @@ Change history for ph-scale
 
 DESIGN ISSUES
 - what happens when dragging bars would result in pH outside range?
+- is H2O bar draggable?
 
 HIGH PRIORITY:
 - tick marks on graph
@@ -11,6 +12,9 @@ HIGH PRIORITY:
 - make bars interactive
 
 MEDIUM PRIORITY:
+- add Custom to liquid combo box (pH=7)
+- switch to Custom when user touches pH slider, H3O bar or OH bar
+- hide water faucet when liquid selection is Custom
 - replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
 - implement linear and log scale switching
 - 10x zoom feature for linear graph, zoom into zero
@@ -38,7 +42,8 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.09 (22988)
+******* version 0.00.09 (?)
+7/3/08 - change water color to [193, 222, 227, 127]
 7/3/08 - display RGBA values in LiquidColorDialog
 7/3/08 - set color of liquid in beaker by changing alpha channel of liquid based on % water
 7/3/08 - add water shape to liquid faucet, drain faucet, and liquid node so that colors will match what appears in beaker
