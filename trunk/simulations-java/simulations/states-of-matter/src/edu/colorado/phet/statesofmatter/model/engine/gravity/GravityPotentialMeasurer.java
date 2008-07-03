@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import edu.colorado.phet.statesofmatter.model.engine.Measurable;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class GravityPotentialMeasurer implements Measurable {
     private final List particles;
@@ -21,7 +21,7 @@ public class GravityPotentialMeasurer implements Measurable {
         double potential = 0.0;
 
         for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
-            StatesOfMatterParticle particle = (StatesOfMatterParticle)iterator.next();
+            StatesOfMatterAtom particle = (StatesOfMatterAtom)iterator.next();
 
             potential += (floor - particle.getY()) * g * particle.getMass();
         }

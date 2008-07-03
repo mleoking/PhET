@@ -18,14 +18,14 @@ public class NonOverlappingParticleCreationStrategy extends AbstractParticleCrea
         this.particleRadius  = particleRadius;
     }
 
-    public StatesOfMatterParticle createParticle() {
+    public StatesOfMatterAtom createParticle() {
         for (int i = 0; i < MAX_TRIALS; i++) {
             boolean nonOverlapping = true;
 
-            StatesOfMatterParticle p1 = boundedStrategy.createParticle();
+            StatesOfMatterAtom p1 = boundedStrategy.createParticle();
 
             for (int j = 0; j < particles.size(); j++) {
-                StatesOfMatterParticle p2 = (StatesOfMatterParticle)particles.get(j);
+                StatesOfMatterAtom p2 = (StatesOfMatterAtom)particles.get(j);
 
                 double deltaX = p1.getX() - p2.getX();
                 double deltaY = p1.getY() - p2.getY();

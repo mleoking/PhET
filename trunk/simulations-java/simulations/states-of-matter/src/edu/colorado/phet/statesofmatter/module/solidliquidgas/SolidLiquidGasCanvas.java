@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
 import edu.colorado.phet.statesofmatter.view.ParticleNode;
@@ -78,7 +78,7 @@ public class SolidLiquidGasCanvas extends PhetPCanvas {
         
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter(){
-            public void particleAdded(StatesOfMatterParticle particle){
+            public void particleAdded(StatesOfMatterAtom particle){
                 m_particleLayer.addChild( new ParticleNode(particle, m_mvt));
             }
         });

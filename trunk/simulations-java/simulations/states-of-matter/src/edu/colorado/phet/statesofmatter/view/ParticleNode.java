@@ -9,7 +9,11 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.statesofmatter.model.StatesOfMatterParticleType;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -23,14 +27,14 @@ public class ParticleNode extends PNode {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final ParticleNode TEST = new ParticleNode( StatesOfMatterParticle.TEST, new ModelViewTransform() );
+    public static final ParticleNode TEST = new ParticleNode( StatesOfMatterAtom.TEST, new ModelViewTransform() );
 
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private StatesOfMatterParticle m_particle;
-    private final StatesOfMatterParticle.Listener m_particleListener;
+    private StatesOfMatterAtom m_particle;
+    private final StatesOfMatterAtom.Listener m_particleListener;
     private ModelViewTransform m_mvt;
     Point2D.Double m_position;
 
@@ -38,7 +42,7 @@ public class ParticleNode extends PNode {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public ParticleNode( StatesOfMatterParticle particle, ModelViewTransform mvt ) {
+    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
 
         m_particle = particle;
         m_mvt = mvt;
@@ -47,20 +51,20 @@ public class ParticleNode extends PNode {
         m_position = new Point2D.Double();
 
         // Set ourself up to listen to this particle.
-        m_particleListener = new StatesOfMatterParticle.Listener() {
+        m_particleListener = new StatesOfMatterAtom.Listener() {
 
             public void positionChanged() {
                 updatePosition();
             }
 
-            public void particleRemoved( StatesOfMatterParticle particle ) {
+            public void particleRemoved( StatesOfMatterAtom particle ) {
                 handleParticleRemoved( particle );
             }
         };
         particle.addListener( m_particleListener );
 
         // Create the image that will represent this particle.
-        SphericalNode sphere = new SphericalNode( particle.getRadius() * 2, choosePaint( particle.getRadius() ), false );
+        SphericalNode sphere = new SphericalNode( particle.getRadius() * 2, choosePaint( particle ), false );
         addChild( sphere );
 
         // Set ourself to be non-pickable so that we don't get mouse events.
@@ -93,7 +97,7 @@ public class ParticleNode extends PNode {
      * 
      * @param particle
      */
-    private void handleParticleRemoved( StatesOfMatterParticle particle ) {
+    private void handleParticleRemoved( StatesOfMatterAtom particle ) {
 
         // Remove ourself from the canvas.
         PNode parent = getParent();
@@ -111,32 +115,31 @@ public class ParticleNode extends PNode {
     /**
      * Select the color for this particle.
      * 
-     * TODO: JPB TBD - For now this is being set on the basis of the particle
-     * radius, but down the road it should by on the particle type once that
-     * is incorporated into the particle class, i.e. once there is a subclass
-     * for each particle type.
-     * 
-     * @return
+     * @return Color to use for this particle.
      */
-    Paint choosePaint( double particleRadius ) {
+    Paint choosePaint( StatesOfMatterAtom atom ) {
 
         Color baseColor;
 
-        if ( m_particle.getRadius() * 2 == StatesOfMatterParticleType.getParticleDiameter( StatesOfMatterParticleType.ARGON ) ) {
+        if ( atom instanceof ArgonAtom ) {
             baseColor = new Color( 0x0099aa );
         }
-        else if ( m_particle.getRadius() * 2 == StatesOfMatterParticleType.getParticleDiameter( StatesOfMatterParticleType.NEON ) ) {
+        else if ( atom instanceof NeonAtom ) {
             baseColor = new Color( 0xdd4400 );
         }
-        else if ( m_particle.getRadius() * 2 == StatesOfMatterParticleType.getParticleDiameter( StatesOfMatterParticleType.OXYGEN ) ) {
+        else if ( atom instanceof OxygenAtom ) {
             baseColor = new Color( 0x55aa00 );
+        }
+        else if ( atom instanceof HydrogenAtom ) {
+            baseColor = Color.ORANGE;
         }
         else {
             baseColor = Color.WHITE;
         }
 
-        Paint paint = new RoundGradientPaint( particleRadius / 3, particleRadius / 3, Color.WHITE, 
-                new Point2D.Double( particleRadius, particleRadius ), baseColor );
+        double atomRadius = atom.getRadius();
+        Paint paint = new RoundGradientPaint( atomRadius / 3, atomRadius / 3, Color.WHITE, 
+                new Point2D.Double( atomRadius, atomRadius ), baseColor );
 
         return paint;
     }

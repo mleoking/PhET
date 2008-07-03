@@ -7,7 +7,7 @@ public abstract class AbstractParticleCreationStrategy implements ParticleCreati
         int created = 0;
 
         for (int i = 0; i < maximum; i++) {
-            StatesOfMatterParticle p = createParticle();
+            StatesOfMatterAtom p = createParticle();
 
             if (p != null) {
                 ++created;

@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import edu.colorado.phet.statesofmatter.model.engine.Calculator;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class LennardJonesForceCalculator implements Calculator {
     private final LennardJonesForce ljf;
@@ -17,9 +17,9 @@ public class LennardJonesForceCalculator implements Calculator {
         this.particles = particles;
     }
 
-    public void calculate(StatesOfMatterParticle p, double[] forces) {
+    public void calculate(StatesOfMatterAtom p, double[] forces) {
         for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
-            StatesOfMatterParticle cur = (StatesOfMatterParticle)iterator.next();
+            StatesOfMatterAtom cur = (StatesOfMatterAtom)iterator.next();
 
             if (cur != p) {
                 deltaR[0] = p.getX() - cur.getX();

@@ -9,7 +9,7 @@ public class RandomParticleCreationStrategy extends AbstractParticleCreationStra
         this.mass   = mass;
     }
 
-    public StatesOfMatterParticle createParticle() {
-        return new StatesOfMatterParticle(Math.random(), Math.random(), radius, mass);
+    public StatesOfMatterAtom createParticle() {
+        return new StatesOfMatterAtom(Math.random(), Math.random(), radius, mass);
     }
 }

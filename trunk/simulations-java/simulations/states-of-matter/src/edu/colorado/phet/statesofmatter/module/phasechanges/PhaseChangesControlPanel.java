@@ -93,21 +93,21 @@ public class PhaseChangesControlPanel extends ControlPanel {
             m_oxygenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_oxygenRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setParticleType( StatesOfMatterParticleType.OXYGEN );
+                    m_model.setMolecule( StatesOfMatterParticleType.OXYGEN );
                 }
             } );
             m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
             m_neonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setParticleType( StatesOfMatterParticleType.NEON );
+                    m_model.setMolecule( StatesOfMatterParticleType.NEON );
                 }
             } );
             m_argonRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
             m_argonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setParticleType( StatesOfMatterParticleType.ARGON );
+                    m_model.setMolecule( StatesOfMatterParticleType.ARGON );
                 }
             } );
             

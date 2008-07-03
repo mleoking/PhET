@@ -3,18 +3,18 @@ package edu.colorado.phet.statesofmatter.view;
 import junit.framework.TestCase;
 import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.umd.cs.piccolo.util.PBounds;
 
 public class ZParticleNodeTester extends TestCase {
     private volatile ParticleNode node;
-    private volatile StatesOfMatterParticle modelObject;
+    private volatile StatesOfMatterAtom modelObject;
 
     public ZParticleNodeTester() {
     }
 
     protected void setUp() throws Exception {
-        this.modelObject = new StatesOfMatterParticle(0.0, 0.0, 1.0, 1.0);
+        this.modelObject = new StatesOfMatterAtom(0.0, 0.0, 1.0, 1.0);
         this.node        = new ParticleNode(modelObject, new ModelViewTransform());
     }
 
@@ -41,7 +41,7 @@ public class ZParticleNodeTester extends TestCase {
     }
 
     public void testParticleNodesLocationIsSameAsModel() {
-        modelObject = new StatesOfMatterParticle(3.0, 2.0, 1.0, 1.0);
+        modelObject = new StatesOfMatterAtom(3.0, 2.0, 1.0, 1.0);
         node        = new ParticleNode(modelObject, new ModelViewTransform());
 
         assertEquals(modelObject.getX(), node.getFullBounds().getCenterX(), 0);

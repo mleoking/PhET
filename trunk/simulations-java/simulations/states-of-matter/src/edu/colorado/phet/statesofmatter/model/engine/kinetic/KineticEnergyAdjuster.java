@@ -2,7 +2,7 @@ package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 
 import java.util.List;
 
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class KineticEnergyAdjuster {
     private static final double TARGET_PRECISION_EPS = 0.00000001;
@@ -34,7 +34,7 @@ public class KineticEnergyAdjuster {
             }
 
             for (int i = 0; i < particles.size(); i++) {
-                StatesOfMatterParticle p = (StatesOfMatterParticle)particles.get(i);
+                StatesOfMatterAtom p = (StatesOfMatterAtom)particles.get(i);
 
                 if (givingEnergy || particleHasEnergy(p)) {
                     double particleCurKe = p.getKineticEnergy();
@@ -56,7 +56,7 @@ public class KineticEnergyAdjuster {
         int count = 0;
 
         for (int i = 0; i < particles.size(); i++) {
-            StatesOfMatterParticle p = (StatesOfMatterParticle)particles.get(i);
+            StatesOfMatterAtom p = (StatesOfMatterAtom)particles.get(i);
 
             if (particleHasEnergy(p)) {
                 count++;
@@ -66,7 +66,7 @@ public class KineticEnergyAdjuster {
         return count;
     }
 
-    private boolean particleHasEnergy(StatesOfMatterParticle p) {
+    private boolean particleHasEnergy(StatesOfMatterAtom p) {
         return p.getKineticEnergy() > 0.000001;
     }
 

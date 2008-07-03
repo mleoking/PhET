@@ -3,7 +3,7 @@ package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 import java.util.List;
 
 import edu.colorado.phet.statesofmatter.model.engine.Measurable;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class KineticEnergyMeasurer implements Measurable {
     private final List particles;
@@ -16,7 +16,7 @@ public class KineticEnergyMeasurer implements Measurable {
         double ke = 0.0;
 
         for (int i = 0; i < particles.size(); i++) {
-            StatesOfMatterParticle p = (StatesOfMatterParticle)particles.get(i);
+            StatesOfMatterAtom p = (StatesOfMatterAtom)particles.get(i);
 
             ke += p.getKineticEnergy();
         }

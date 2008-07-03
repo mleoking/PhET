@@ -9,7 +9,7 @@ public interface ParticleCreationStrategy {
      * @return The new particle, or <code>null</code> if the strategy
      *         cannot create any new particles.
      */
-    StatesOfMatterParticle createParticle();
+    StatesOfMatterAtom createParticle();
 
     /**
      * Creates a collection of particles, up to the specified maximum.

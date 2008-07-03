@@ -41,10 +41,10 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
 
         Collections.sort(list, new Comparator() {
             public int compare(Object o1, Object o2) {
-                StatesOfMatterParticle p1, p2;
+                StatesOfMatterAtom p1, p2;
 
-                p1 = (StatesOfMatterParticle)o1;
-                p2 = (StatesOfMatterParticle)o2;
+                p1 = (StatesOfMatterAtom)o1;
+                p2 = (StatesOfMatterAtom)o2;
 
                 return (int)Math.round(1000 * dist(p1.getX(), p1.getY(), x, y)) -
                        (int)Math.round(1000 * dist(p2.getX(), p2.getY(), x, y));
@@ -61,7 +61,7 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
             double x = Math.random() * (b.getWidth()  - 2 * MARGIN) + b.getMinX() + MARGIN;
             double y = Math.random() * (b.getHeight() - 2 * MARGIN) + b.getMinY() + MARGIN;
 
-            StatesOfMatterParticle closest = (StatesOfMatterParticle)getClosest(x, y).iterator().next();
+            StatesOfMatterAtom closest = (StatesOfMatterAtom)getClosest(x, y).iterator().next();
 
             List list = getClosest(closest.getX(), closest.getY());
 
@@ -69,12 +69,12 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
 
             list.remove(0);
 
-            StatesOfMatterParticle p = (StatesOfMatterParticle)list.get(0);
+            StatesOfMatterAtom p = (StatesOfMatterAtom)list.get(0);
 
             double dist = dist(closest.getX(), closest.getY(), p.getX(), p.getY());
 
             for (int j = 1; j < 6; j++) {
-                p = (StatesOfMatterParticle)list.get(j);
+                p = (StatesOfMatterAtom)list.get(j);
 
                 double curDist = dist(closest.getX(), closest.getY(), p.getX(), p.getY());
 
@@ -92,14 +92,14 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
             double x = Math.random() * (b.getWidth()  - 2 * MARGIN) + b.getMinX() + MARGIN;
             double y = Math.random() * (b.getHeight() - 2 * MARGIN) + b.getMinY() + MARGIN;
 
-            StatesOfMatterParticle closest = (StatesOfMatterParticle)getClosest(x, y).iterator().next();
+            StatesOfMatterAtom closest = (StatesOfMatterAtom)getClosest(x, y).iterator().next();
 
             List list = getClosest(closest.getX(), closest.getY());
 
             list.remove(0);
 
             for (int j = 1; j < 6; j++) {
-                StatesOfMatterParticle p = (StatesOfMatterParticle)list.get(j);
+                StatesOfMatterAtom p = (StatesOfMatterAtom)list.get(j);
 
                 double curDist = dist(closest.getX(), closest.getY(), p.getX(), p.getY());
 
@@ -113,7 +113,7 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
 
         List list = getClosest(ICE_CUBE.getBounds2D().getMinX(), maxY);
 
-        StatesOfMatterParticle p = (StatesOfMatterParticle)list.get(0);
+        StatesOfMatterAtom p = (StatesOfMatterAtom)list.get(0);
 
         assertEquals(DIST_FROM_BOTTOM, maxY - p.getY(), 0.000001);
     }

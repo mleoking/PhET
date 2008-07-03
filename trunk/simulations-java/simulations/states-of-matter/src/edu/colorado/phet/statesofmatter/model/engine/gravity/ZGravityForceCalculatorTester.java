@@ -1,11 +1,11 @@
 package edu.colorado.phet.statesofmatter.model.engine.gravity;
 
 import junit.framework.TestCase;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class ZGravityForceCalculatorTester extends TestCase {
-    private static final StatesOfMatterParticle P1 = new StatesOfMatterParticle(0.0, 0.0, 1.0, 1.0);
-    private static final StatesOfMatterParticle P2 = new StatesOfMatterParticle(0.0, 0.0, 1.0, 2.0);
+    private static final StatesOfMatterAtom P1 = new StatesOfMatterAtom(0.0, 0.0, 1.0, 1.0);
+    private static final StatesOfMatterAtom P2 = new StatesOfMatterAtom(0.0, 0.0, 1.0, 2.0);
 
     private static final double G = 2.0;
 
@@ -48,7 +48,7 @@ public class ZGravityForceCalculatorTester extends TestCase {
         return forces[1];
     }
 
-    private void calc(StatesOfMatterParticle p) {
+    private void calc(StatesOfMatterAtom p) {
         c.calculate(p, forces);
     }
 }

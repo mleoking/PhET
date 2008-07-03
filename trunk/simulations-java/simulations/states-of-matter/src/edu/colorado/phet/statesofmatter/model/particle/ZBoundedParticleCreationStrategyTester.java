@@ -29,7 +29,7 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
         strategy.createParticles(particles, NUM_PARTICLES_TO_TEST);
 
         for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
-            StatesOfMatterParticle particle = (StatesOfMatterParticle)iterator.next();
+            StatesOfMatterAtom particle = (StatesOfMatterAtom)iterator.next();
 
             assertTrue(bounds.contains(particle.getX(), particle.getY()));
         }
@@ -47,7 +47,7 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
         strategy.createParticles(particles, NUM_PARTICLES_TO_TEST);
 
         for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
-            StatesOfMatterParticle particle = (StatesOfMatterParticle)iterator.next();
+            StatesOfMatterAtom particle = (StatesOfMatterAtom)iterator.next();
 
             assertTrue(narrow.contains(particle.getX(), particle.getY()));
         }
@@ -58,7 +58,7 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
 
         assertEquals(3, strategy.createParticles(particles, 3));
 
-        assertTrue(particles.iterator().next() instanceof StatesOfMatterParticle);
+        assertTrue(particles.iterator().next() instanceof StatesOfMatterAtom);
     }
 
     public void testListCreationAddsToExistingList() {

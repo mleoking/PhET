@@ -6,9 +6,9 @@ import junit.framework.TestCase;
 import edu.colorado.phet.common.phetcommon.util.testing.TestingUtils;
 
 public class ZStatesOfMatterParticleTester extends TestCase {
-    private static final StatesOfMatterParticle P              = new StatesOfMatterParticle(1, 2, 3, 4);
-    private static final StatesOfMatterParticle EQUAL_TO_P     = new StatesOfMatterParticle(1, 2, 3, 4);
-    private static final StatesOfMatterParticle NOT_EQUAL_TO_P = new StatesOfMatterParticle(1, 2, 3, 5);
+    private static final StatesOfMatterAtom P              = new StatesOfMatterAtom(1, 2, 3, 4);
+    private static final StatesOfMatterAtom EQUAL_TO_P     = new StatesOfMatterAtom(1, 2, 3, 4);
+    private static final StatesOfMatterAtom NOT_EQUAL_TO_P = new StatesOfMatterAtom(1, 2, 3, 5);
 
     public void setUp() {
     }
@@ -26,9 +26,9 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testEqualsHashCodeWithOnlyAccelXDifference() {
-        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1, 2, 3, 4);
-        StatesOfMatterParticle p2 = new StatesOfMatterParticle(1, 2, 3, 4);
-        StatesOfMatterParticle p3 = new StatesOfMatterParticle(1, 2, 3, 4);
+        StatesOfMatterAtom p1 = new StatesOfMatterAtom(1, 2, 3, 4);
+        StatesOfMatterAtom p2 = new StatesOfMatterAtom(1, 2, 3, 4);
+        StatesOfMatterAtom p3 = new StatesOfMatterAtom(1, 2, 3, 4);
 
         p3.setAx(1.0);
         
@@ -36,9 +36,9 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
     
     public void testEqualsHashCodeWithOnlyAccelYDifference() {
-        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1, 2, 3, 4);
-        StatesOfMatterParticle p2 = new StatesOfMatterParticle(1, 2, 3, 4);
-        StatesOfMatterParticle p3 = new StatesOfMatterParticle(1, 2, 3, 4);
+        StatesOfMatterAtom p1 = new StatesOfMatterAtom(1, 2, 3, 4);
+        StatesOfMatterAtom p2 = new StatesOfMatterAtom(1, 2, 3, 4);
+        StatesOfMatterAtom p3 = new StatesOfMatterAtom(1, 2, 3, 4);
 
         p3.setAy(1.0);
 
@@ -50,13 +50,13 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testGetInverseMass() {
-        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 1, 2);
+        StatesOfMatterAtom p = new StatesOfMatterAtom(0, 0, 1, 2);
 
         assertEquals(1.0/2.0, p.getInverseMass(), 0.00000001);
     }
 
     public void testGetKineticEnergy() {
-        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+        StatesOfMatterAtom p = new StatesOfMatterAtom(0, 0, 4, 3);
 
         p.setVx(2.0);
         p.setVy(1.0);
@@ -65,7 +65,7 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testSetKineticEnergy() {
-        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+        StatesOfMatterAtom p = new StatesOfMatterAtom(0, 0, 4, 3);
 
         p.setVx(2.0);
         p.setVy(1.0);
@@ -77,7 +77,7 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testSetKineticEnergyOnParticleHavingNoKineticEnergy() {
-        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+        StatesOfMatterAtom p = new StatesOfMatterAtom(0, 0, 4, 3);
 
         p.setKineticEnergy(37);
 
@@ -86,7 +86,7 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testSetKineticEnergyToZero() {
-        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+        StatesOfMatterAtom p = new StatesOfMatterAtom(0, 0, 4, 3);
 
         p.setVx(2.0);
         p.setVy(1.0);
@@ -97,7 +97,7 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
     
     public void testGetPositionReflectsSetPosition() {
-        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+        StatesOfMatterAtom p = new StatesOfMatterAtom(0, 0, 4, 3);
 
         p.setPosition( 9923, 9392);
 
@@ -105,8 +105,8 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testCloneIsDeepForPos() {
-        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
-        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+        StatesOfMatterAtom p1 = new StatesOfMatterAtom(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterAtom p2 = (StatesOfMatterAtom)p1.clone();
 
         p2.setPosition( 2.0, 2.0 );
 
@@ -115,8 +115,8 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testCloneIsDeepForVx() {
-        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
-        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+        StatesOfMatterAtom p1 = new StatesOfMatterAtom(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterAtom p2 = (StatesOfMatterAtom)p1.clone();
 
         p2.setVx(2.0);
 
@@ -124,8 +124,8 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testCloneIsDeepForVy() {
-        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
-        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+        StatesOfMatterAtom p1 = new StatesOfMatterAtom(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterAtom p2 = (StatesOfMatterAtom)p1.clone();
 
         p2.setVy(2.0);
 
@@ -133,8 +133,8 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testCloneIsDeepForAx() {
-        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
-        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+        StatesOfMatterAtom p1 = new StatesOfMatterAtom(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterAtom p2 = (StatesOfMatterAtom)p1.clone();
 
         p2.setAx(2.0);
 
@@ -142,8 +142,8 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testCloneIsDeepForAy() {
-        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
-        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+        StatesOfMatterAtom p1 = new StatesOfMatterAtom(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterAtom p2 = (StatesOfMatterAtom)p1.clone();
 
         p2.setAy(2.0);
 
@@ -152,7 +152,7 @@ public class ZStatesOfMatterParticleTester extends TestCase {
 
     public void testIllegalArgumentExceptionThrownForOutOfRangeRadius() {
         try {
-            new StatesOfMatterParticle(0, 0, -1, 1);
+            new StatesOfMatterAtom(0, 0, -1, 1);
 
             fail();
         }
@@ -162,7 +162,7 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     
     public void testIllegalArgumentExceptionThrownForOutOfRangeMass() {
         try {
-            new StatesOfMatterParticle(0, 0, 1, -1);
+            new StatesOfMatterAtom(0, 0, 1, -1);
 
             fail();
         }
