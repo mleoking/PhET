@@ -438,9 +438,7 @@ public class MultipleParticleModel {
         
         // Execute the Verlet algorithm.
         for (int i = 0; i < 8; i++ ){
-            verlet( m_numberOfParticles, m_particlePositions, m_particleVelocities, m_normalizedContainerWidth, 
-                    m_normalizedContainerHeight, m_gravitationalAcceleration, m_particleForces, TIME_STEP, 
-                    m_temperature );
+            verlet();
         }
         syncParticlePositions();
         if (m_pressure != m_pressureCalculator.getPressure()){
@@ -657,32 +655,22 @@ public class MultipleParticleModel {
     /**
      * Runs one iteration of the Verlet implementation of the Lennard-Jones
      * force calculation on a set of particles.
-     * 
-     * @param numParticles
-     * @param particlePositions
-     * @param particleVelocities
-     * @param containerWidth
-     * @param containerHeight
-     * @param time
-     * @param timeStep
      */
-    private void verlet(int numParticles, Point2D [] particlePositions, Vector2D [] particleVelocities,
-            double containerWidth, double containerHeight, double gravitationalForce, Vector2D [] particleForces, 
-            double timeStep, double temperature){
+    private void verlet(){
         
         double kineticEnergy = 0;
         
-        double timeStepSqrHalf = timeStep * timeStep * 0.5;
-        double timeStepHalf = timeStep / 2;
+        double timeStepSqrHalf = TIME_STEP * TIME_STEP * 0.5;
+        double timeStepHalf = TIME_STEP / 2;
         
         // Update the positions of all particles based on their current
         // velocities and the forces acting on them.
-        for (int i = 0; i < numParticles; i++){
-            double xPos = particlePositions[i].getX() + (timeStep * particleVelocities[i].getX()) + 
-                    (timeStepSqrHalf * particleForces[i].getX());
-            double yPos = particlePositions[i].getY() + (timeStep * particleVelocities[i].getY()) + 
-                    (timeStepSqrHalf * particleForces[i].getY());
-            particlePositions[i].setLocation( xPos, yPos );
+        for (int i = 0; i < m_numberOfParticles; i++){
+            double xPos = m_particlePositions[i].getX() + (TIME_STEP * m_particleVelocities[i].getX()) + 
+                    (timeStepSqrHalf * m_particleForces[i].getX());
+            double yPos = m_particlePositions[i].getY() + (TIME_STEP * m_particleVelocities[i].getY()) + 
+                    (timeStepSqrHalf * m_particleForces[i].getY());
+            m_particlePositions[i].setLocation( xPos, yPos );
         }
         
         // Zero out potential energy.
@@ -690,20 +678,21 @@ public class MultipleParticleModel {
         
         // Calculate the forces exerted on the particles by the container
         // walls and by gravity.
-        for (int i = 0; i < numParticles; i++){
+        for (int i = 0; i < m_numberOfParticles; i++){
             
             // Clear the previous calculation's particle forces.
             m_nextParticleForces[i].setComponents( 0, 0 );
             
             // Get the force values caused by the container walls.
-            calculateWallForce(particlePositions[i], m_nextParticleForces[i], containerWidth, containerHeight);
+            calculateWallForce(m_particlePositions[i], m_nextParticleForces[i], m_normalizedContainerWidth, 
+                    m_normalizedContainerHeight);
             
             // Accumulate this force value as part of the pressure being
             // exerted on the walls of the container.
             m_pressureCalculator.accumulatePressureValue( m_nextParticleForces[i] );
             
             // Add in the effect of gravity.
-            m_nextParticleForces[i].setY( m_nextParticleForces[i].getY() - gravitationalForce );
+            m_nextParticleForces[i].setY( m_nextParticleForces[i].getY() - m_gravitationalAcceleration );
         }
         
         // Advance the moving average window of the pressure calculator.
@@ -714,14 +703,14 @@ public class MultipleParticleModel {
         Vector2D force = new Vector2D.Double();
         StatesOfMatterParticle particle1, particle2;
         double particle1NormalizedPosX, particle1NormalizedPosY;
-        for (int i = 0; i < numParticles; i++){
+        for (int i = 0; i < m_numberOfParticles; i++){
             particle1 = (StatesOfMatterParticle)m_particles.get( i );
-            particle1NormalizedPosX = particlePositions[i].getX();
-            particle1NormalizedPosY = particlePositions[i].getY();
-            for (int j = i + 1; j < numParticles; j++){
+            particle1NormalizedPosX = m_particlePositions[i].getX();
+            particle1NormalizedPosY = m_particlePositions[i].getY();
+            for (int j = i + 1; j < m_numberOfParticles; j++){
                 
-                double dx = particle1NormalizedPosX - particlePositions[j].getX();
-                double dy = particle1NormalizedPosY - particlePositions[j].getY();
+                double dx = particle1NormalizedPosX - m_particlePositions[j].getX();
+                double dy = particle1NormalizedPosY - m_particlePositions[j].getY();
                 double distanceSqrd = (dx * dx) + (dy * dy);
                 // TODO: JPB TBD - Limit the max forces to prevent weird behavior.  Is this
                 // worth keeping?
@@ -773,36 +762,36 @@ public class MultipleParticleModel {
         
         // Calculate the new velocities.
         Vector2D.Double velocityIncrement = new Vector2D.Double();
-        for (int i = 0; i < numParticles; i++){
-            velocityIncrement.setX( timeStepHalf * (particleForces[i].getX() + m_nextParticleForces[i].getX()));
-            velocityIncrement.setY( timeStepHalf * (particleForces[i].getY() + m_nextParticleForces[i].getY()));
-            particleVelocities[i].add( velocityIncrement );
-            kineticEnergy += ((particleVelocities[i].getX() * particleVelocities[i].getX()) + 
-                    (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
+        for (int i = 0; i < m_numberOfParticles; i++){
+            velocityIncrement.setX( timeStepHalf * (m_particleForces[i].getX() + m_nextParticleForces[i].getX()));
+            velocityIncrement.setY( timeStepHalf * (m_particleForces[i].getY() + m_nextParticleForces[i].getY()));
+            m_particleVelocities[i].add( velocityIncrement );
+            kineticEnergy += ((m_particleVelocities[i].getX() * m_particleVelocities[i].getX()) + 
+                    (m_particleVelocities[i].getY() * m_particleVelocities[i].getY())) / 2;
         }
         
         if (m_thermostatEnabled){
             // Isokinetic thermostat
             
             double temperatureScaleFactor;
-            if (temperature == 0){
+            if (m_temperature == 0){
                 temperatureScaleFactor = 0;
             }
             else{
-                temperatureScaleFactor = Math.sqrt( temperature * numParticles / kineticEnergy );
+                temperatureScaleFactor = Math.sqrt( m_temperature * m_numberOfParticles / kineticEnergy );
             }
             kineticEnergy = 0;
-            for (int i = 0; i < numParticles; i++){
-                particleVelocities[i].setComponents( particleVelocities[i].getX() * temperatureScaleFactor, 
-                        particleVelocities[i].getY() * temperatureScaleFactor );
-                kineticEnergy += ((particleVelocities[i].getX() * particleVelocities[i].getX()) + 
-                        (particleVelocities[i].getY() * particleVelocities[i].getY())) / 2;
+            for (int i = 0; i < m_numberOfParticles; i++){
+                m_particleVelocities[i].setComponents( m_particleVelocities[i].getX() * temperatureScaleFactor, 
+                        m_particleVelocities[i].getY() * temperatureScaleFactor );
+                kineticEnergy += ((m_particleVelocities[i].getX() * m_particleVelocities[i].getX()) + 
+                        (m_particleVelocities[i].getY() * m_particleVelocities[i].getY())) / 2;
             }
         }
         
         // Replace the new forces with the old ones.
-        for (int i = 0; i < numParticles; i++){
-            particleForces[i].setComponents( m_nextParticleForces[i].getX(), m_nextParticleForces[i].getY() );
+        for (int i = 0; i < m_numberOfParticles; i++){
+            m_particleForces[i].setComponents( m_nextParticleForces[i].getX(), m_nextParticleForces[i].getY() );
         }
     }
     
