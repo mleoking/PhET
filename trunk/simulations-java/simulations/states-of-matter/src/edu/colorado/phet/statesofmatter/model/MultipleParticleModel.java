@@ -69,7 +69,7 @@ public class MultipleParticleModel {
     private static final double SOLID_TEMPERATURE = 0.2;
     private static final double LIQUID_TEMPERATURE = 0.5;
     private static final double GAS_TEMPERATURE = 1.0;
-    
+    private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.5;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -352,31 +352,26 @@ public class MultipleParticleModel {
      * @param state
      */
     public void setPhase(int state){
-        double newTemperature;
         
         switch (state){
         case PHASE_SOLID:
             crystalizePositions();
-            newTemperature = SOLID_TEMPERATURE;
             break;
             
         case PHASE_LIQUID:
-            newTemperature = LIQUID_TEMPERATURE;
-            randomizePositionsWithGradient();
+            liquifyParticles();
             break;
             
         case PHASE_GAS:
             gasifyParticles();
-            newTemperature = GAS_TEMPERATURE;
             break;
             
         default:
             System.err.println("Error: Invalid state specified.");
             // Treat is as a solid.
-            newTemperature = SOLID_TEMPERATURE;
+            crystalizePositions();
             break;
         }
-        setTemperature( newTemperature );
     }
     
     /**
@@ -526,11 +521,11 @@ public class MultipleParticleModel {
      * Randomize the positions of the particles within the container and give
      * them velocity equivalent to that of a gas.
      */
-    private static final double MIN_INITIAL_INTER_PARTICLE_DISTANCE = 1.5;
     private static final int MAX_PLACEMENT_ATTEMPTS = 500;
     private void gasifyParticles(){
+        setTemperature( GAS_TEMPERATURE );
         Random rand = new Random();
-        double temperatureSqrt = Math.sqrt( GAS_TEMPERATURE );
+        double temperatureSqrt = Math.sqrt( m_temperature );
         for (int i = 0; i < m_numberOfParticles; i++){
             // Temporarily position the particles at (0,0).
             m_particlePositions[i].setLocation( 0, 0 );
@@ -541,8 +536,8 @@ public class MultipleParticleModel {
         }
         
         // Redistribute the particles randomly around the container, but make
-        // sure that they are not too close together or weird things may
-        // happen.
+        // sure that they are not too close together or they end up with a
+        // disproportionate amount of kinetic energy.
         double newPosX, newPosY;
         double minWallDistance = 1.5; // TODO: JPB TBD - This is arbitrary, should eventually be a const.
         double rangeX = m_normalizedContainerWidth - (2 * minWallDistance);
@@ -575,20 +570,13 @@ public class MultipleParticleModel {
     }
     
     /**
-     * Randomize the positions of the particles within the container such
-     * that they are more concentrated towards the bottom of the container.
+     * Set the particles to be in a liquid state.
      */
-    private void randomizePositionsWithGradient(){
-        Random rand = new Random();
-        double newPosX, newPosY;
-        double minWallDistance = 1; // TODO: JPB TBD - This is arbitrary, should eventually be a const.
-        double rangeX = m_normalizedContainerWidth - (2 * minWallDistance);
-        double rangeY = m_normalizedContainerHeight - (2 * minWallDistance);
-        for (int i = 0; i < m_numberOfParticles; i++){
-            newPosX = minWallDistance + (rand.nextDouble() * rangeX);
-            newPosY = minWallDistance + (rand.nextDouble() * rand.nextDouble() * rangeY);
-            m_particlePositions[i].setLocation( newPosX, newPosY );
-        }
+    private void liquifyParticles(){
+        
+        // TODO: JPB TBD - This is faked for now and needs to be complete.
+        gasifyParticles();
+        setTemperature( LIQUID_TEMPERATURE );
         syncParticlePositions();
     }
     
@@ -599,7 +587,10 @@ public class MultipleParticleModel {
      * @param diatomic
      */
     private void crystalizePositions(){
-        
+
+        setTemperature( SOLID_TEMPERATURE );
+        Random rand = new Random();
+        double temperatureSqrt = Math.sqrt( m_temperature );
         int particlesPerLayer = (int)Math.round( Math.sqrt( m_numberOfParticles ) );
         if ((m_diatomic) && (particlesPerLayer % 2 != 0)){
             // We must have an even number of particles per layer if the
@@ -608,7 +599,7 @@ public class MultipleParticleModel {
         }
         double startingPosX = (m_normalizedContainerWidth / 2) - (double)(particlesPerLayer / 2) - 
                 ((particlesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
-        double startingPosY = 1.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
+        double startingPosY = 2.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
         
         int particlesPlaced = 0;
         double xPos, yPos;
@@ -633,6 +624,10 @@ public class MultipleParticleModel {
                 yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
                 m_particlePositions[(i * particlesPerLayer) + j].setLocation( xPos, yPos );
                 particlesPlaced++;
+
+                // Assign each particle an initial velocity.
+                m_particleVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
+                        temperatureSqrt * rand.nextGaussian() );
             }
         }
     }
