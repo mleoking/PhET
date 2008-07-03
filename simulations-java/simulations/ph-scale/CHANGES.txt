@@ -5,17 +5,17 @@ Change history for ph-scale
 DESIGN ISSUES
 - what happens when dragging bars would result in pH outside range?
 - is H2O bar draggable?
+- add Custom to liquid combo box (pH=7) ?
+- switch to Custom when user touches pH slider, H3O bar or OH bar ?
+- hide water faucet when liquid selection is Custom ?
 
 HIGH PRIORITY:
+- replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
 - tick marks on graph
 - add bars to graph
 - make bars interactive
 
 MEDIUM PRIORITY:
-- add Custom to liquid combo box (pH=7)
-- switch to Custom when user touches pH slider, H3O bar or OH bar
-- hide water faucet when liquid selection is Custom
-- replace JSliders on faucets with a Piccolo-based slider, for predictable look & layout
 - implement linear and log scale switching
 - 10x zoom feature for linear graph, zoom into zero
 - line up pH slider ticks with bar graph ticks
