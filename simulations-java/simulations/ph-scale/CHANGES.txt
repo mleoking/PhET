@@ -40,6 +40,10 @@ CLEANUP:
 
 
 DONE:
+7/3/08 - set color of liquid in beaker by changing alpha channel of liquid based on % water
+7/3/08 - add water shape to liquid faucet, drain faucet, and liquid node so that colors will match what appears in beaker
+7/3/08 - draw liquid color in beaker on top of a rectangle that is set to water color
+7/3/08 - keep track of how much water is in the beaker, for adjusting color
 ******* version 0.00.08 (22958)
 7/2/08 - add listener interface so that liquid in beaker changes immediately when LiquidDescriptor color is changed by dev control
 7/2/08 - sort liquid colors in dev controls in by descending pH

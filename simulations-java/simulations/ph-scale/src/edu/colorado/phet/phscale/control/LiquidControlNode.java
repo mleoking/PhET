@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.phscale.control;
 
+import java.awt.Color;
 import java.awt.Frame;
+import java.awt.Shape;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
@@ -15,6 +17,7 @@ import edu.colorado.phet.phscale.dialog.ConfirmChangeLiquidDialog;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -35,6 +38,7 @@ public class LiquidControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 440 );
+    private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -43,6 +47,7 @@ public class LiquidControlNode extends PNode {
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     private final LiquidComboBox _comboBox;
+    private final PPath _waterColumnNode; // put water behind liquid so that it looks the same as in beaker
     private final PPath _liquidColumnNode;
     private final FaucetControlNode _faucetControlNode;
     
@@ -65,6 +70,12 @@ public class LiquidControlNode extends PNode {
             }
         };
         _liquid.addLiquidListener( _liquidListener );
+        
+        WATER.addLiquidDescriptorListener( new LiquidDescriptorListener() {
+            public void colorChanged( Color color ) {
+                _waterColumnNode.setPaint( WATER.getColor() );
+            }
+        } );
         
         _comboBox = new LiquidComboBox();
         _comboBox.setChoice( _liquid.getLiquidDescriptor() );
@@ -89,13 +100,22 @@ public class LiquidControlNode extends PNode {
             }
         });
         
-        _liquidColumnNode = new PPath( new Rectangle2D.Double( 0, 0, LIQUID_COLUMN_SIZE.getWidth(), LIQUID_COLUMN_SIZE.getHeight() ) );
+        Shape liquidColumnShape = new Rectangle2D.Double( 0, 0, LIQUID_COLUMN_SIZE.getWidth(), LIQUID_COLUMN_SIZE.getHeight() );
+        _liquidColumnNode = new PPath( liquidColumnShape );
         _liquidColumnNode.setStroke( null );
         _liquidColumnNode.setVisible( _faucetControlNode.isOn() );
         _liquidColumnNode.setPickable( false );
         _liquidColumnNode.setChildrenPickable( false );
         
+        _waterColumnNode = new PPath( liquidColumnShape );
+        _waterColumnNode.setPaint( WATER.getColor() );
+        _waterColumnNode.setStroke( null );
+        _waterColumnNode.setVisible( _faucetControlNode.isOn() );
+        _waterColumnNode.setPickable( false );
+        _waterColumnNode.setChildrenPickable( false );
+        
         addChild( comboBoxWrapper );
+        addChild( _waterColumnNode );
         addChild( _liquidColumnNode );
         addChild( _faucetControlNode );
         
@@ -103,6 +123,7 @@ public class LiquidControlNode extends PNode {
         PBounds cb = comboBoxWrapper.getFullBoundsReference();
         _faucetControlNode.setOffset( cb.getX(), cb.getMaxY() + 5 );
         _liquidColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMaxX() - _liquidColumnNode.getFullBoundsReference().getWidth() - 8, _faucetControlNode.getFullBoundsReference().getMaxY() );
+        _waterColumnNode.setOffset( _liquidColumnNode.getOffset() );
         
         update();
     }
@@ -126,30 +147,26 @@ public class LiquidControlNode extends PNode {
     
     private void update() {
         _faucetControlNode.setOn( _liquid.isFillingLiquid() );
+        _liquidColumnNode.setPaint( _liquid.getLiquidDescriptor().getColor() );
         _liquidColumnNode.setVisible( _liquid.isFillingLiquid() );
-        _liquidColumnNode.setPaint( _liquid.getColor() );
+        _waterColumnNode.setVisible( _liquid.isFillingLiquid() );
         _comboBox.setChoice( _liquid.getLiquidDescriptor() );
     }
     
     private void handleLiquidSelection( boolean confirm ) {
         LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
-        if ( liquidDescriptor != null ) {
-            if ( liquidDescriptor != _selectedLiquidDescriptor ) {
-                boolean confirmed = true;
-                if ( !_liquid.isEmpty() && confirm ) {
-                    confirmed = confirmChangeLiquid();
-                }
-                if ( confirmed ) {
-                    _selectedLiquidDescriptor = liquidDescriptor;
-                    _liquid.setLiquidDescriptor( liquidDescriptor );
-                }
-                else {
-                    _comboBox.setChoice( _selectedLiquidDescriptor );
-                }
+        if ( liquidDescriptor != _selectedLiquidDescriptor ) {
+            boolean confirmed = true;
+            if ( !_liquid.isEmpty() && confirm ) {
+                confirmed = confirmChangeLiquid();
             }
-        }
-        else {
-            _liquidColumnNode.setPaint( null );
+            if ( confirmed ) {
+                _selectedLiquidDescriptor = liquidDescriptor;
+                _liquid.setLiquidDescriptor( liquidDescriptor );
+            }
+            else {
+                _comboBox.setChoice( _selectedLiquidDescriptor );
+            }
         }
         _faucetControlNode.setOn( liquidDescriptor != null ); // automatically turn on the faucet
         _faucetControlNode.setEnabled( liquidDescriptor != null ); // automatically turn on the faucet
