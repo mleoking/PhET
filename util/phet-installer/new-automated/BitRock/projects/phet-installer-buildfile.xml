@@ -255,7 +255,7 @@
             <actionList>
                 <!--If Java is not installed, ask the user if they want it installed now -->
                 <showQuestion>
-                    <text>A current version of Java does not appear to be installed on this computer.  Would you like to install it now?</text>
+                    <text>A current version of Java does not appear to be installed on this computer.  Would you like to install it now? (Java is necessary for running most PhET simulations.)</text>
                     <variable>install_java</variable>
                 </showQuestion>
             </actionList>
