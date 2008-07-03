@@ -31,7 +31,7 @@ public class LiquidDescriptor {
     private static final LiquidDescriptor HAND_SOAP = new LiquidDescriptor( PHScaleStrings.CHOICE_HAND_SOAP, 10, new Color( 204, 0, 204, ALPHA ) );
     private static final LiquidDescriptor BLOOD = new LiquidDescriptor( PHScaleStrings.CHOICE_BLOOD, 7.4, new Color( 255, 0, 0, ALPHA ) );
     private static final LiquidDescriptor SPIT = new LiquidDescriptor( PHScaleStrings.CHOICE_SPIT, 7.4, new Color( 255, 255, 255, ALPHA ) );
-    private static final LiquidDescriptor WATER = new LiquidDescriptor( PHScaleStrings.CHOICE_WATER, 7, new Color( 102, 242, 241, ALPHA ) );
+    private static final LiquidDescriptor WATER = new LiquidDescriptor( PHScaleStrings.CHOICE_WATER, 7, new Color( 193, 222, 227, 127 ) );
     private static final LiquidDescriptor MILK = new LiquidDescriptor( PHScaleStrings.CHOICE_MILK, 6.5, new Color( 255, 255, 255, ALPHA ) );
     private static final LiquidDescriptor COFFEE = new LiquidDescriptor( PHScaleStrings.CHOICE_COFFEE, 5.0, new Color( 74, 44, 30, ALPHA ) );
     private static final LiquidDescriptor BEER = new LiquidDescriptor( PHScaleStrings.CHOICE_BEER, 4.5, new Color( 185, 79, 5, ALPHA ) );
