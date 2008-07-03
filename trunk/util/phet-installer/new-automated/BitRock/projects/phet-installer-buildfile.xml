@@ -224,10 +224,11 @@
 
     <postInstallationActionList>
 
-        <actionGroup>
-            <!-- Set the variable that will be set to the JRE path if it is present.  -->
-            <setInstallerVariable name="java_executable" persist="1" value="none"></setInstallerVariable>
-        <actionGroup>
+        <!-- Set the variable that will be set to the JRE path if it is present.  -->
+        <setInstallerVariable>
+            <name>java_executable</name>
+            <value>none</value>
+        </setInstallerVariable>
 
         <!--Detect whether a reasonably current version of Java is present -->
         <autodetectJava>
@@ -255,7 +256,7 @@
             <actionList>
                 <!--If Java is not installed, ask the user if they want it installed now -->
                 <showQuestion>
-                    <text>A current version of Java does not appear to be installed on this computer.  Would you like to install it now? (Java is necessary for running most PhET simulations.)</text>
+                    <text>A current version of Java does not appear to be installed on this computer.  Would you like to install it now?  (Java is necessary for running most PhET simulations.)</text>
                     <variable>install_java</variable>
                 </showQuestion>
             </actionList>
