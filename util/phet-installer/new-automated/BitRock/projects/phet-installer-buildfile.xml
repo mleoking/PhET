@@ -5,6 +5,7 @@
     <installerFilename>${product_shortname}-${product_version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>../../Installer-Resources/Install-Path/${platform_name}/readme.txt</readmeFile>
     <licenseFile>../../Installer-Resources/Install-Path/license.txt</licenseFile>
+    <installationLogFile>${installdir}/install_log.txt</installationLogFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
     <leftImage></leftImage>
     <logoImage>../../Installer-Resources/Install-Path/phet-logo-48x48.png</logoImage>
@@ -220,10 +221,16 @@
         </directoryParameter>
     </parameterList>
     <platformOptionsList/>
+
     <postInstallationActionList>
-        <!--Detect Java, but don't abort on error (yet) -->
+
+        <actionGroup>
+            <!-- Set the variable that will be set to the JRE path if it is present.  -->
+            <setInstallerVariable name="java_executable" persist="1" value="none"></setInstallerVariable>
+        <actionGroup>
+
+        <!--Detect whether a reasonably current version of Java is present -->
         <autodetectJava>
-            <promptUser>0</promptUser>
             <validVersionList>
                 <validVersion>
                     <maxVersion></maxVersion>
@@ -231,41 +238,64 @@
                     <vendor></vendor>
                 </validVersion>
             </validVersionList>
+            <showMessageOnError>0</showMessageOnError>
+            <promptUser>0</promptUser>
             <abortOnError>0</abortOnError>
         </autodetectJava>
-        
+
         <actionGroup>
-            <actionList>          
-                 <runProgram>
-                     <program>${installdir}/jre-windows.exe</program>
-                 </runProgram>
+            <actionList>
+                <logMessage>
+                   <text>java_executable value = ${java_executable}</text>
+                </logMessage>
             </actionList>
-            
-             <ruleList>
+        </actionGroup>
+
+        <actionGroup>
+            <actionList>
+                <!--If Java is not installed, ask the user if they want it installed now -->
+                <showQuestion>
+                    <text>A current version of Java does not appear to be installed on this computer.  Would you like to install it now?</text>
+                    <variable>install_java</variable>
+                </showQuestion>
+            </actionList>
+            <ruleList>
+                 <compareText>
+                     <text>${java_executable}</text>
+                     <logic>equals</logic>
+                     <value>none</value>
+                 </compareText>
                  <platformTest>
                      <type>windows</type>
                  </platformTest>
-
-                 <fileTest>
-                     <path>${java_executable}</path>
-                     <condition>not_exists</condition>
-                 </fileTest>
-              </ruleList>
+            </ruleList>
         </actionGroup>
         
-        <!-- Detect Java again; this time ABORT on error: -->
-        <autodetectJava>
-            <promptUser>0</promptUser>
-            <validVersionList>
-                <validVersion>
-                    <maxVersion></maxVersion>
-                    <minVersion>1.4.2</minVersion>
-                    <vendor></vendor>
-                </validVersion>
-            </validVersionList>
-            <abortOnError>1</abortOnError>
-        </autodetectJava>
+        <actionGroup>
+            <actionList>
+                <!--If Java is not installed and the user wants it, install it now -->
+                <logMessage>
+                   <text>Installing Java on this machine.</text>
+                </logMessage>
+                <runProgram>
+                    <program>${installdir}/jre-windows.exe</program>
+                </runProgram>
+            </actionList>
+            <ruleList>
+                <platformTest>
+                    <type>windows</type>
+                </platformTest>
+
+                <compareText>
+                    <text>${install_java}</text>
+                    <value>yes</value>
+                    <logic>equals</logic>
+                </compareText>
+            </ruleList>
+        </actionGroup>
+        
     </postInstallationActionList>
+
     <postUninstallationActionList/>
     <preBuildActionList/>
     <preInstallationActionList/>
