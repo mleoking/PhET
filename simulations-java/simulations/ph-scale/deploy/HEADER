@@ -18,6 +18,8 @@ modulate the liquid color's alpha channel based on percentage of water in the be
 <li>water color does not change when diluted with water
 <li>liquid color coming out of left faucet is drawn on top of water color so that it matches color in beaker
 <li>changed the color for drain cleaner and battery acid to the color we had for lemon juice
+<li>display RGBA values in Developer>Liquid Colors dialog (send me a snapshot of this dialog when you've picked colors)
+<li>change water to Kathy's color, RGBA=[193, 222, 227, 127]
 </ul>
 <p>
 <b>Not implemented:</b>
@@ -28,12 +30,13 @@ modulate the liquid color's alpha channel based on percentage of water in the be
 <li>pH slider scale doesn't line up with bar graph
 <li>linear and log scale options for bar graph don't work
 <li>no zoom buttons for linear graph
+<li>no Custom liquid
 </ul>
 <p>
 <b>Know issues:</b>
 <p>
 <ul>
-<li>molecule counts are hard to see when "ratio" view is on
+<li>none
 </ul>
 <p>
 </html>
