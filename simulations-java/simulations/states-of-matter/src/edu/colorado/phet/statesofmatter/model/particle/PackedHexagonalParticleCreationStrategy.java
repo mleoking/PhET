@@ -48,7 +48,7 @@ public class PackedHexagonalParticleCreationStrategy extends AbstractParticleCre
         x = startXEven;
     }
 
-    public StatesOfMatterParticle createParticle() {
+    public StatesOfMatterAtom createParticle() {
         while (true) {
             if (y < endY) {
                 return null;
@@ -69,7 +69,7 @@ public class PackedHexagonalParticleCreationStrategy extends AbstractParticleCre
                 Rectangle2D.Double bounds = new Rectangle2D.Double(x - radius, y - radius, radius * 2, radius * 2);
 
                 if (shape.contains(bounds)) {
-                    return new StatesOfMatterParticle(x, y, radius, mass);
+                    return new StatesOfMatterAtom(x, y, radius, mass);
                 }
             }
             finally {

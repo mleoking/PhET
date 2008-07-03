@@ -19,10 +19,10 @@ public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParti
         strategy.createParticles(particles, NUM_PARTICLES_TO_TEST);
 
         for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
-            StatesOfMatterParticle p1 = (StatesOfMatterParticle)iterator.next();
+            StatesOfMatterAtom p1 = (StatesOfMatterAtom)iterator.next();
 
             for (Iterator iterator2 = particles.iterator(); iterator2.hasNext();) {
-                StatesOfMatterParticle p2 = (StatesOfMatterParticle)iterator2.next();
+                StatesOfMatterAtom p2 = (StatesOfMatterAtom)iterator2.next();
 
                 if (p1 != p2) {
                     double deltaX = p1.getX() - p2.getX();

@@ -15,12 +15,12 @@ public class BoundedParticleCreationStrategy extends AbstractParticleCreationStr
         this.radius = radius;
     }
 
-    public StatesOfMatterParticle createParticle() {
+    public StatesOfMatterAtom createParticle() {
         double length = 2 * radius;
 
         double x = bounds.x + radius + random.nextDouble() * (bounds.width  - length);
         double y = bounds.y + radius + random.nextDouble() * (bounds.height - length);
 
-        return new StatesOfMatterParticle(x, y, radius, mass);
+        return new StatesOfMatterAtom(x, y, radius, mass);
     }
 }

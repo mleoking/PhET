@@ -5,7 +5,7 @@ import java.awt.geom.Line2D;
 import junit.framework.TestCase;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class ZLennardJonesWallForceCalculatorTester extends TestCase {
     private static final double RMIN    = StatesOfMatterConstants.RMIN;
@@ -15,12 +15,12 @@ public class ZLennardJonesWallForceCalculatorTester extends TestCase {
     private static final Line2D.Double     WALL  = new Line2D.Double(1, 1, -1, -1);
     private static final LennardJonesForce FORCE = new LennardJonesForce(EPSILON, RMIN);
 
-    private volatile StatesOfMatterParticle p;
+    private volatile StatesOfMatterAtom p;
     private double[] forces = new double[2];
 
 
     public void setUp() {
-        p = new StatesOfMatterParticle(0, 1, 1, 1);
+        p = new StatesOfMatterAtom(0, 1, 1, 1);
 
         for (int i = 0; i < forces.length; i++) {
             forces[i] = 0.0;

@@ -5,17 +5,17 @@ import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class ZKineticEnergyAdjusterTester extends TestCase {
-    private static final StatesOfMatterParticle P1 = new StatesOfMatterParticle(0, 2, 3, 4);
-    private static final StatesOfMatterParticle P2 = new StatesOfMatterParticle(4, 3, 2, 1);
+    private static final StatesOfMatterAtom P1 = new StatesOfMatterAtom(0, 2, 3, 4);
+    private static final StatesOfMatterAtom P2 = new StatesOfMatterAtom(4, 3, 2, 1);
 
     private volatile KineticEnergyAdjuster adjuster;
     private volatile List particles;
 
     public void setUp() {
-        StatesOfMatterParticle[] particlesList = new StatesOfMatterParticle[]{(StatesOfMatterParticle)P1.clone(), (StatesOfMatterParticle)P2.clone()};
+        StatesOfMatterAtom[] particlesList = new StatesOfMatterAtom[]{(StatesOfMatterAtom)P1.clone(), (StatesOfMatterAtom)P2.clone()};
 
         for (int i = 0; i < particlesList.length; i++) {
             particlesList[i].setVx(Math.random());
@@ -38,7 +38,7 @@ public class ZKineticEnergyAdjusterTester extends TestCase {
 
     public void testAdjustmentWithNoInitialKineticEnergy() {
         for (int i = 0; i < particles.size(); i++) {
-            StatesOfMatterParticle p = (StatesOfMatterParticle)particles.get(i);
+            StatesOfMatterAtom p = (StatesOfMatterAtom)particles.get(i);
 
             p.setVx(0);
             p.setVy(0);
@@ -65,7 +65,7 @@ public class ZKineticEnergyAdjusterTester extends TestCase {
         particles = new ArrayList();
 
         for (int i = 0; i < 1000; i++) {
-            StatesOfMatterParticle particle = new StatesOfMatterParticle(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random(), 1.0);
+            StatesOfMatterAtom particle = new StatesOfMatterAtom(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random(), 1.0);
 
             particles.add(particle);
 

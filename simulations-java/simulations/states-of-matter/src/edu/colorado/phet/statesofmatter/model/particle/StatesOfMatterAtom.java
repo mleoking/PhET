@@ -14,13 +14,13 @@ import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
  *
  * @author John De Goes, John Blanco
  */
-public final class StatesOfMatterParticle implements PubliclyCloneable {
+public class StatesOfMatterAtom implements PubliclyCloneable {
     
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final StatesOfMatterParticle TEST = new StatesOfMatterParticle(0.0, 0.0, 1.0, 1.0);
+    public static final StatesOfMatterAtom TEST = new StatesOfMatterAtom(0.0, 0.0, 1.0, 1.0);
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -32,13 +32,13 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
     private volatile double m_radius, m_mass;
     private double m_inverseMass;
     private ArrayList m_listeners = new ArrayList();
-    private StatesOfMatterParticle m_diatomicPartner;
+    private StatesOfMatterAtom m_diatomicPartner;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
     
-    public StatesOfMatterParticle(double x, double y, double radius, double mass) {
+    public StatesOfMatterAtom(double x, double y, double radius, double mass) {
         this(x, y, radius, mass, 0.0, 0.0, 0.0, 0.0);
 
         if (mass   <= 0.0) throw new IllegalArgumentException("Mass is out of range");
@@ -146,11 +146,11 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
         return m_accel;
     }
     
-    public StatesOfMatterParticle getDiatomicPartner() {
+    public StatesOfMatterAtom getDiatomicPartner() {
         return m_diatomicPartner;
     }
 
-    public void setDiatomicPartner( StatesOfMatterParticle partner ) {
+    public void setDiatomicPartner( StatesOfMatterAtom partner ) {
         m_diatomicPartner = partner;
     }
 
@@ -166,7 +166,7 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
             return false;
         }
 
-        StatesOfMatterParticle that = (StatesOfMatterParticle)o;
+        StatesOfMatterAtom that = (StatesOfMatterAtom)o;
 
         if (Double.compare(that.m_inverseMass, m_inverseMass) != 0) {
             return false;
@@ -201,7 +201,7 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
 
     public Object clone() {
         try {
-            StatesOfMatterParticle p = (StatesOfMatterParticle)super.clone();
+            StatesOfMatterAtom p = (StatesOfMatterAtom)super.clone();
 
             p.m_position = new Point2D.Double(getX(), getY());
             p.m_velocity = new Vector2D.Double(getVx(), getVy());
@@ -247,7 +247,7 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
     // Private Methods
     //----------------------------------------------------------------------------
     
-    private StatesOfMatterParticle(double x, double y, double radius, double mass, double vx, double vy, double ax, double ay) {
+    private StatesOfMatterAtom(double x, double y, double radius, double mass, double vx, double vy, double ax, double ay) {
         m_position.setLocation(x, y);
         m_velocity.setComponents(vx, vy);
         m_accel.setComponents(ax, ay);
@@ -283,6 +283,6 @@ public final class StatesOfMatterParticle implements PubliclyCloneable {
          * Inform listeners that this particle has been removed from the
          * model.
          */
-        public void particleRemoved(StatesOfMatterParticle particle);
+        public void particleRemoved(StatesOfMatterAtom particle);
     }
 }

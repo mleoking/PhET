@@ -5,7 +5,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class ZLennardJonesForceCalculatorTester extends TestCase {
     static final double RMIN    = StatesOfMatterConstants.RMIN;
@@ -13,17 +13,17 @@ public class ZLennardJonesForceCalculatorTester extends TestCase {
 
     private static final LennardJonesForce LJF = new LennardJonesForce(EPSILON, RMIN);
 
-    private static final StatesOfMatterParticle P1 = new StatesOfMatterParticle( 2,  2, 1, 1);
-    private static final StatesOfMatterParticle P2 = new StatesOfMatterParticle(-2, -2, 1, 1);
+    private static final StatesOfMatterAtom P1 = new StatesOfMatterAtom( 2,  2, 1, 1);
+    private static final StatesOfMatterAtom P2 = new StatesOfMatterAtom(-2, -2, 1, 1);
 
-    private static final StatesOfMatterParticle P3 = new StatesOfMatterParticle(0, 0, 1, 1);
-    private static final StatesOfMatterParticle P4 = new StatesOfMatterParticle(0, 0.5 * RMIN, 1, 1);
+    private static final StatesOfMatterAtom P3 = new StatesOfMatterAtom(0, 0, 1, 1);
+    private static final StatesOfMatterAtom P4 = new StatesOfMatterAtom(0, 0.5 * RMIN, 1, 1);
 
-    private static final StatesOfMatterParticle P5 = new StatesOfMatterParticle(0, 0, 1, 1);
-    private static final StatesOfMatterParticle P6 = new StatesOfMatterParticle(0, 1.5 * RMIN, 1, 1);
+    private static final StatesOfMatterAtom P5 = new StatesOfMatterAtom(0, 0, 1, 1);
+    private static final StatesOfMatterAtom P6 = new StatesOfMatterAtom(0, 1.5 * RMIN, 1, 1);
 
-    private static final StatesOfMatterParticle P7 = new StatesOfMatterParticle(0, 0, 1, 1);
-    private static final StatesOfMatterParticle P8 = new StatesOfMatterParticle(0, RMIN, 1, 1);
+    private static final StatesOfMatterAtom P7 = new StatesOfMatterAtom(0, 0, 1, 1);
+    private static final StatesOfMatterAtom P8 = new StatesOfMatterAtom(0, RMIN, 1, 1);
 
     private final double[] f1 = new double[2];
     private final double[] f2 = new double[2];
@@ -70,14 +70,14 @@ public class ZLennardJonesForceCalculatorTester extends TestCase {
         assertEquals(f2[1], 0.0, 0.00001);
     }
 
-    private void calculate(StatesOfMatterParticle p1, StatesOfMatterParticle p2) {
+    private void calculate(StatesOfMatterAtom p1, StatesOfMatterAtom p2) {
         LennardJonesForceCalculator c = new LennardJonesForceCalculator(LJF, particles(p1, p2));
 
         c.calculate(p1, f1);
         c.calculate(p2, f2);
     }
 
-    private List particles(StatesOfMatterParticle p1, StatesOfMatterParticle p2) {
-        return Arrays.asList(new StatesOfMatterParticle[]{p1, p2});
+    private List particles(StatesOfMatterAtom p1, StatesOfMatterAtom p2) {
+        return Arrays.asList(new StatesOfMatterAtom[]{p1, p2});
     }
 }

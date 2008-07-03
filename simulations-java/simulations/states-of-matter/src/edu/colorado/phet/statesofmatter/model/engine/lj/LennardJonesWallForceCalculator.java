@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.statesofmatter.model.engine.Calculator;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class LennardJonesWallForceCalculator implements Calculator {
     private final LennardJonesForce ljf;
@@ -18,7 +18,7 @@ public class LennardJonesWallForceCalculator implements Calculator {
         this.wall = wall;
     }
 
-    public void calculate(StatesOfMatterParticle p, double[] forces) {
+    public void calculate(StatesOfMatterAtom p, double[] forces) {
         Vector2D lineToPoint = MathUtil.getVectorFromLineToPoint(wall, p.getPositionReference());
 
         double dist = lineToPoint.getMagnitude();
