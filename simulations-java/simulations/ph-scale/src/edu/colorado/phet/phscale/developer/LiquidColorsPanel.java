@@ -54,8 +54,9 @@ public class LiquidColorsPanel extends JPanel {
 
     private static class LiquidColorControl extends JPanel {
         
-        final ColorControl _colorControl;
-        final JSpinner _alphaSpinner;
+        private final ColorControl _colorControl;
+        private final JSpinner _alphaSpinner;
+        private final JLabel _rgbaLabel;
         
         public LiquidColorControl( Frame owner, final LiquidDescriptor liquidDescriptor ) {
             
@@ -67,6 +68,7 @@ public class LiquidColorsPanel extends JPanel {
                 public void stateChanged( ChangeEvent e ) {
                     Color color = ColorUtils.createColor( _colorControl.getColor(), liquidDescriptor.getColor().getAlpha() );
                     liquidDescriptor.dev_setColor( color );
+                    setRGBALabel( color );
                 }
             } );
             add( _colorControl );
@@ -80,9 +82,19 @@ public class LiquidColorsPanel extends JPanel {
                     int alpha = ((Integer)_alphaSpinner.getValue()).intValue();
                     Color color = ColorUtils.createColor( liquidDescriptor.getColor(), alpha );
                     liquidDescriptor.dev_setColor( color );
+                    setRGBALabel( color );
                 }
             });
             add( _alphaSpinner );
+            
+            _rgbaLabel = new JLabel();
+            setRGBALabel( rgbaColor );
+            add( _rgbaLabel );
+        }
+        
+        private void setRGBALabel( Color c ) {
+            String s = " = [" + c.getRed() + "," + c.getGreen() + "," + c.getBlue() + "," + c.getAlpha() + "]";
+            _rgbaLabel.setText( s );
         }
     }
 }
