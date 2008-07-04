@@ -27,7 +27,7 @@ class SponsorsPage extends SitePage {
                 <h2>Financial Support</h2>
 
                 <ul>
-                    <li class="simple"><strong>Gold Level Contributors ($100k+)</strong>
+                    <li class="simple"><strong>Platinum Level Contributors ($100k+)</strong>
                         <ul>
                             <li class="hewlett"><a href="http://www.hewlett.org/Default.htm"><img class="sponsors" src="{$this->prefix}images/hewlett-logo.jpg" alt="Hewlett Logo" /><strong>The William and Flora Hewlett Foundation</strong></a></li>
 
@@ -38,7 +38,12 @@ class SponsorsPage extends SitePage {
                             <li class="cu"><a href="http://www.colorado.edu"><img class="sponsors" src="{$this->prefix}images/cu.gif" width="45" alt="CU Logo" /><strong>University of Colorado</strong></a></li>
                         </ul>
                     </li>
-                    <li class="simple"><strong>Bronze Level Contributors ($0 - $100k)</strong>
+                    <li class="simple"><strong>Gold Level Contributors ($10k - $100k)</strong>
+                        <ul>
+                            <li class="microsoft"><a href="http://research.microsoft.com/"><img class="sponsors" src="{$this->prefix}images/microsoft-research-logo.gif" alt="Microsoft Research Logo"><strong>Microsoft Research</strong></a></li>
+                        </ul>
+                    </li>
+                    <li class="simple"><strong>Bronze Level Contributors ($0 - $10k)</strong>
                         <ul>
                             <li>Dr. Andrew McNeil</li>
                         </ul>
