@@ -264,7 +264,7 @@
     define("SIM_THUMBNAILS_CACHE",      "thumbnails");
     define("SIM_TRANSLATIONS_CACHE", "translations");
     define("SIM_OFFLINE_FLASH_CACHE", "offline-flash");
-    define("SIM_OFFILNE_FLASH_CACHE_HOURS", 10);
+    define("SIM_OFFILNE_FLASH_CACHE_HOURS", 876600);  // 100 years
 
     define("SIMS_PER_PAGE", 9);
 
