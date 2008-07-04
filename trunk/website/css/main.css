@@ -814,12 +814,18 @@ div.simupgrade {
     border: solid 2px #f00;
     margin-left: 2em;
     margin-right: 2em;
-    margin-bottom: 1em;
+    margin-bottom: 0.8em;
 }
 
 div.simupgrade img {
     float: left;
-    padding-right: 1em;
+    padding-right: 0.7em;
+}
+
+div.simupgrade p {
+    padding: 0px;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
 }
 
 #content a.breadcrumbs {
