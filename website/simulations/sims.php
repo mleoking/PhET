@@ -86,11 +86,10 @@ class IndividualSimulationPage extends SitePage {
                 </p>
                 <div>
                     <p>
-                        <strong>PhET Sims Are Getting An Upgrade!</strong>
+                        <strong>PhET is upgrading to Java 1.5!</strong>
                     </p>
                     <p>
-                        PhET is considering upgrading to Java 1.5 this summer.
-                        To run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
+                        Effective <strong>September 1st</strong>, to run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
                         <a href="http://www.java.com/en/index.jsp">Upgrade now!</a>
                     </p>
                     <p>
