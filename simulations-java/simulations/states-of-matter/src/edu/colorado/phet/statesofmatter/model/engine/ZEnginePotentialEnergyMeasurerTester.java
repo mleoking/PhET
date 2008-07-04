@@ -7,19 +7,19 @@ import junit.framework.TestCase;
 import edu.colorado.phet.statesofmatter.model.engine.gravity.GravityPotentialMeasurer;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LJPotentialEnergyMeasurer;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesPotential;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class ZEnginePotentialEnergyMeasurerTester extends TestCase {
     private static final double FLOOR = 0.0;
 
     private volatile EnginePotentialEnergyMeasurer m;
 
-    public void prepare(StatesOfMatterParticle[] particles, double g, LennardJonesPotential ljp) {
+    public void prepare(StatesOfMatterAtom[] particles, double g, LennardJonesPotential ljp) {
         m = new EnginePotentialEnergyMeasurer(Arrays.asList(particles), FLOOR, g, ljp);
     }
 
     public void setUp() {
-        prepare(new StatesOfMatterParticle[]{}, -1.0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterAtom[]{}, -1.0, LennardJonesPotential.TEST);
     }
 
     public void testMeasuresGravityPotential() {
@@ -31,43 +31,43 @@ public class ZEnginePotentialEnergyMeasurerTester extends TestCase {
     }
 
     public void testNoPotentialWithNoGravityAndOneParticle() {
-        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, 1, 1, 1)}, 0.0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterAtom[]{new StatesOfMatterAtom(1, 1, 1, 1)}, 0.0, LennardJonesPotential.TEST);
 
         assertEquals(0.0, m.measure(), 0.000001);
     }
 
     public void testPositivePotentialWithGravityAndOneParticleAboveFloor() {
-        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, FLOOR - 1, 1, 1)}, -1.0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterAtom[]{new StatesOfMatterAtom(1, FLOOR - 1, 1, 1)}, -1.0, LennardJonesPotential.TEST);
 
         assertTrue(m.measure() > 0.0);
     }
 
     public void testNegativePotentialWithGravityAndOneParticleBelowFloor() {
-        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, FLOOR + 1, 1, 1)}, -1.0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterAtom[]{new StatesOfMatterAtom(1, FLOOR + 1, 1, 1)}, -1.0, LennardJonesPotential.TEST);
 
         assertTrue(m.measure() < 0.0);
     }
 
     public void testZeroPotentialWithGravityAndOneParticleAtFloor() {
-        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, FLOOR, 1, 1)}, -1.0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterAtom[]{new StatesOfMatterAtom(1, FLOOR, 1, 1)}, -1.0, LennardJonesPotential.TEST);
 
         assertEquals(0.0, m.measure(), 0.0);
     }
 
     public void testPositivePotentialEnergyWithTwoParticlesMuchCloserThanRMinAndNoGravity() {
-        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, 1, 1, 1), new StatesOfMatterParticle(1 + 0.5 * LennardJonesPotential.TEST.getRMin(), 1, 1, 1)}, 0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterAtom[]{new StatesOfMatterAtom(1, 1, 1, 1), new StatesOfMatterAtom(1 + 0.5 * LennardJonesPotential.TEST.getRMin(), 1, 1, 1)}, 0, LennardJonesPotential.TEST);
 
         assertTrue(m.measure() > 0.0);
     }
 
     public void testNegativePotentialEnergyWithTwoParticlesFartherThanRMinAndNoGravity() {
-        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, 1, 1, 1), new StatesOfMatterParticle(1 + 1.5 * LennardJonesPotential.TEST.getRMin(), 1, 1, 1)}, 0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterAtom[]{new StatesOfMatterAtom(1, 1, 1, 1), new StatesOfMatterAtom(1 + 1.5 * LennardJonesPotential.TEST.getRMin(), 1, 1, 1)}, 0, LennardJonesPotential.TEST);
 
         assertTrue(m.measure() < 0.0);
     }
 
     public void testMinusEpsilonPotentialEnergyWithTwoParticlesSeparatedByRMinAndNoGravity() {
-        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, 1, 1, 1), new StatesOfMatterParticle(1 + LennardJonesPotential.TEST.getRMin(), 1, 1, 1)}, 0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterAtom[]{new StatesOfMatterAtom(1, 1, 1, 1), new StatesOfMatterAtom(1 + LennardJonesPotential.TEST.getRMin(), 1, 1, 1)}, 0, LennardJonesPotential.TEST);
 
         assertEquals(-LennardJonesPotential.TEST.getEpsilon(), m.measure(), 0.000001);
     }

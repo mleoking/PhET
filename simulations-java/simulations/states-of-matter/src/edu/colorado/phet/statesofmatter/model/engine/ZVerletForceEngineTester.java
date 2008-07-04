@@ -7,7 +7,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCreationStrategy;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class ZVerletForceEngineTester extends TestCase {
     private volatile ForceEngine engine;
@@ -28,7 +28,7 @@ public class ZVerletForceEngineTester extends TestCase {
 
         createParticles(1);
 
-        StatesOfMatterParticle originalP = (StatesOfMatterParticle)((StatesOfMatterParticle)particles.get(0)).clone();
+        StatesOfMatterAtom originalP = (StatesOfMatterAtom)((StatesOfMatterAtom)particles.get(0)).clone();
 
         performComputation(d);
 
@@ -55,7 +55,7 @@ public class ZVerletForceEngineTester extends TestCase {
 
         createParticles(1);
 
-        StatesOfMatterParticle originalP = (StatesOfMatterParticle)((StatesOfMatterParticle)particles.get(0)).clone();
+        StatesOfMatterAtom originalP = (StatesOfMatterAtom)((StatesOfMatterAtom)particles.get(0)).clone();
 
         performAndApplyComputation(d, 2);
 

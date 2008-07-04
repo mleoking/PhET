@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyMeasurer;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class ZMultipleParticleModelTester extends TestCase {
     private volatile MultipleParticleModel model;
@@ -34,7 +34,7 @@ public class ZMultipleParticleModelTester extends TestCase {
 
     public void testThatParticleListIsUnmodifiable() {
         try {
-            model.getParticles().add(StatesOfMatterParticle.TEST);
+            model.getParticles().add(StatesOfMatterAtom.TEST);
 
             fail();
         }
@@ -59,7 +59,7 @@ public class ZMultipleParticleModelTester extends TestCase {
             waitForParticleToMove();
 
             for (int j = 0; j < model.getNumParticles(); j++) {
-                StatesOfMatterParticle p = model.getParticle(j);
+                StatesOfMatterAtom p = model.getParticle(j);
 
                 Rectangle2D particleContainer = model.getParticleContainer().getShape().getBounds2D();
 
@@ -75,7 +75,7 @@ public class ZMultipleParticleModelTester extends TestCase {
             waitForParticleToMove();
 
             for (int j = 0; j < model.getNumParticles(); j++) {
-                StatesOfMatterParticle p = model.getParticle(j);
+                StatesOfMatterAtom p = model.getParticle(j);
 
                 assertTrue("Particle " + p + " has kinetic energy " + p.getKineticEnergy(), p.getKineticEnergy() <= StatesOfMatterConstants.PARTICLE_MAX_KE + 0.00001);
             }
@@ -115,9 +115,9 @@ public class ZMultipleParticleModelTester extends TestCase {
     private void waitForParticleToMove() {
         long startTime = System.currentTimeMillis();
 
-        StatesOfMatterParticle p = model.getParticle(0);
+        StatesOfMatterAtom p = model.getParticle(0);
 
-        StatesOfMatterParticle originalP = (StatesOfMatterParticle)p.clone();
+        StatesOfMatterAtom originalP = (StatesOfMatterAtom)p.clone();
 
         while (p.getPositionReference().equals(originalP.getPositionReference())) {
             if (clock.isPaused()) {
