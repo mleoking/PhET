@@ -82,7 +82,7 @@ class IndividualSimulationPage extends SitePage {
         return <<<EOT
             <div class="simupgrade">
                 <p>
-                    <a href="http://www.java.com/en/index.jsp"><img src="{$this->prefix}images/javalogo52x88.gif" alt="Java Jump" /></a>
+                    <a href="http://www.java.com/"><img src="{$this->prefix}images/javalogo52x88.gif" alt="Java Jump" /></a>
                 </p>
                 <div>
                     <p>
@@ -90,7 +90,7 @@ class IndividualSimulationPage extends SitePage {
                     </p>
                     <p>
                         Effective <strong>September 1st</strong>, to run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
-                        <a href="http://www.java.com/en/index.jsp">Upgrade now!</a>
+                        <a href="http://www.java.com/">Upgrade now!</a>
                     </p>
                     <p>
                         <a href="{$this->prefix}tech_support/support-java.php#q4">How do I check my computer's current version of Java?</a>
