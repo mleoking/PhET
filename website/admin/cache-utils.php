@@ -126,7 +126,7 @@
             $dir = cache_get_cache_root_dir().$cache_name.DIRECTORY_SEPARATOR;
         }
         else {
-            return;
+            return false;
         }
 
         exec("rm -rf {$dir}");
@@ -138,17 +138,19 @@
     }
 
     function cache_clear_simulations() {
-        return cache_clear("simulations");
+        // Need to clear simulations to clear the web pages, thumbnails, etc
+        // Need to clear admin to get rid of the cached flash i18n JAR files
+        // Need to clear teacher ideas, since that references the simulations
+        return (cache_clear("simulations") && cache_clear("admin") && cache_clear("teacher_ideas"));
     }
-
 
     function cache_clear_admin() {
-        return cache_clear_dir("admin");
+        return cache_clear("admin");
     }
 
-
     function cache_clear_teacher_ideas() {
-        return cache_clear("teacher_ideas");
+        // Teacher ideas and simulations both reference each other, need to clear both
+        return (cache_clear("simulations") && cache_clear("teacher_ideas"));
     }
 
     /**
