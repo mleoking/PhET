@@ -401,7 +401,7 @@ EOT;
                 <tr>
                     <td colspan="2">
 
-                        <p class="footnote">Your email address will not be given to anyone, and is used strictly for login purposes (and optionally, for receiving the quaterly PhET newsletter).</p>
+                        <p class="footnote">Your email address will not be given to anyone, and is used strictly for login purposes (and optionally, for receiving the quarterly PhET newsletter).</p>
                     </td>
                 </tr>
             </table>
