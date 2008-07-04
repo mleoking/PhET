@@ -263,6 +263,8 @@
 
     define("SIM_THUMBNAILS_CACHE",      "thumbnails");
     define("SIM_TRANSLATIONS_CACHE", "translations");
+    define("SIM_OFFLINE_FLASH_CACHE", "offline-flash");
+    define("SIM_OFFILNE_FLASH_CACHE_HOURS", 10);
 
     define("SIMS_PER_PAGE", 9);
 
@@ -822,6 +824,8 @@
      **/
     function sim_get_run_offline($simulation, $language_code = null) {
 
+        $verbose = debug_is_on();
+
         $dirname     = $simulation['sim_dirname'];
         $flavorname  = $simulation['sim_flavorname'];
 
@@ -856,6 +860,14 @@
         $jar_template_dir = PORTAL_ROOT."phet-dist/flash-launcher/";
         $output_jar_name = $flavorname."_".$lang.".jar";
 
+        // Check if this sim has been cached
+        $jar_cache_id = md5($dirname.$output_jar_name);
+        $jar_cache_resource = "${jar_cache_id}.jar.cache";
+        $cached_jar = cache_get(SIM_OFFLINE_FLASH_CACHE, $jar_cache_resource, SIM_OFFILNE_FLASH_CACHE_HOURS);
+        if ($cached_jar) {
+            return array($output_jar_name, $cached_jar);
+        }
+
         //
         // Prepares temporary files and directories
 
@@ -877,7 +889,9 @@
         // Create the flash-launcher-args.txt file
         $fp = fopen($temp_dir_name."flash-launcher-args.txt", "w");
         if ($fp === false) {
-            print "ERROR: cannot open file 'flash-launcher-args.txt'";
+            if ($verbose) {
+                print "ERROR: cannot open file 'flash-launcher-args.txt'";
+            }
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
@@ -887,7 +901,9 @@
         // Fromat: sim_flavorname language_code [flags]
         $result = fwrite($fp, "{$flavorname} {$lang}");
         if ($result === false) {
-            print "ERROR: cannot write to file 'flash-launcher-args.txt'";
+            if ($verbose) {
+                print "ERROR: cannot write to file 'flash-launcher-args.txt'";
+            }
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
@@ -896,7 +912,9 @@
         // Close flash-launcher-args.txt file...
         $result = fclose($fp);
         if ($fp === false) {
-            print "ERROR: cannot close file 'flash-launcher-args.txt'";
+            if ($verbose) {
+                print "ERROR: cannot close file 'flash-launcher-args.txt'";
+            }
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
@@ -905,7 +923,9 @@
         // Create temp jar file...
         $temp_jar_name = tempnam(sys_get_temp_dir(), "phet_jar_");
         if ($temp_jar_name === false) {
-            print "ERROR: cannot create temp jar file";
+            if ($verbose) {
+                print "ERROR: cannot create temp jar file";
+            }
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
@@ -937,8 +957,10 @@
         $sys_ret = 0;
         $result = system($command, $sys_ret);
         if ($sys_ret != 0) {
-            print "ERROR: fastjar command failed, exit code: {$sys_ret}<br />\n";
-            print "command: {$command}<br />\n";
+            if ($verbose) {
+                print "ERROR: fastjar command failed, exit code: {$sys_ret}<br />\n";
+                print "command: {$command}<br />\n";
+            }
             $result = unlink($tmp_jar_name);
             assert($result === true);
             $result = unlink($temp_dir_name."flash-launcher-args.txt");
@@ -957,7 +979,9 @@
         // Delete temp jar file
         $result = unlink($temp_jar_name);
         if ($result === false) {
-            print "ERROR: cannot delete file 'flash-launcher-args.txt'";
+            if ($verbose) {
+                print "ERROR: cannot delete file 'flash-launcher-args.txt'";
+            }
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
@@ -966,7 +990,9 @@
         // Delete flash-launcher-args.txt file
         $result = unlink($temp_dir_name."flash-launcher-args.txt");
         if ($result === false) {
-            print "ERROR: cannot delete file 'flash-launcher-args.txt'";
+            if ($verbose) {
+                print "ERROR: cannot delete file 'flash-launcher-args.txt'";
+            }
             $result = rmdir($temp_dir_name);
             assert($result === true);
             exit;
@@ -975,9 +1001,14 @@
         // Delete temp directory
         $result = rmdir($temp_dir_name);
         if ($result === false) {
-            print "ERROR: cannot delete file 'flash-launcher-args.txt'";
+            if ($verbose) {
+                print "ERROR: cannot delete file 'flash-launcher-args.txt'";
+            }
             exit;
         }
+
+        // Put the jar in cache
+        cache_put(SIM_OFFLINE_FLASH_CACHE, $jar_cache_resource, $jar_content);
 
         // Return the content
         return array($output_jar_name, $jar_content);
