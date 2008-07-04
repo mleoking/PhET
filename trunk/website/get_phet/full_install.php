@@ -42,15 +42,19 @@ class FullInstallPage extends SitePage {
             </p>
 
             <p>
+                Java is included in the Windows download.  Mac OS X users alroady have Java preinstalled.  Linux users are recommended to find a suitable version for their system.
+            </p>
+
+            <p>
                 These installers of the PhET Simulations are updated daily. We suggest uninstalling your earlier versions of PhET before installing.
             </p>
 
             <ul>
                 <li><a href="{$this->prefix}admin/get-member-file.php?file={$win_url}">Download installer for Windows (includes Java)</a> - {$win_size} MB</li>
 
-                <li><a href="{$this->prefix}admin/get-member-file.php?file={$mac_url}">Download installer for Mac OS X (does not include Java)</a> - {$mac_size} MB</li>
+                <li><a href="{$this->prefix}admin/get-member-file.php?file={$mac_url}">Download installer for Mac OS X</a> - {$mac_size} MB</li>
 
-                <li><a href="{$this->prefix}admin/get-member-file.php?file={$lin_url}">Download installer for Linux (does not include Java)</a> - {$lin_size} MB</li>
+                <li><a href="{$this->prefix}admin/get-member-file.php?file={$lin_url}">Download installer for Linux</a> - {$lin_size} MB</li>
             </ul>
 
             <hr/>
