@@ -83,7 +83,7 @@ public class StatesOfMatterConstants {
     
     // Dimensions of the container in which the particles will reside, in picometers.
     private static double PARTICLE_CONTAINER_WIDTH = 10000;
-    private static double PARTICLE_CONTAINER_HEIGHT = 10600;
+    private static double PARTICLE_CONTAINER_HEIGHT = PARTICLE_CONTAINER_WIDTH * 1.05;
     public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(0, 0, PARTICLE_CONTAINER_WIDTH,
             PARTICLE_CONTAINER_HEIGHT);
     

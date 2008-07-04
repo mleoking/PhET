@@ -100,13 +100,15 @@ public class MultipleParticleModel {
     private int m_atomsPerMolecule;
     
     private Point2D [] m_moleculeCentersOfMass;
+    private Vector2D [] m_moleculeVelocities;
+    private Vector2D [] m_moleculeForces;
     private double [] m_moleculeRotationAngles;
     private double [] m_moleculeRotationRates;
     private double [] m_moleculeTorque;
     private double m_triatomicMoleculeMass;
     private double m_triatomicRotationalInertia;
-    double [] m_x0;
-    double [] m_y0;
+    double [] m_x0 = new double [3];
+    double [] m_y0 = new double [3];
 
     private double m_normalizedContainerWidth;
     private double m_normalizedContainerHeight;
@@ -490,7 +492,12 @@ public class MultipleParticleModel {
         
         // Execute the Verlet algorithm.
         for (int i = 0; i < 8; i++ ){
-            verlet();
+            if (m_atomsPerMolecule == 1){
+                verletMonotomic();
+            }
+            else if (m_atomsPerMolecule == 3){
+                verletTriatomic();
+            }
         }
         syncParticlePositions();
         if (m_pressure != m_pressureCalculator.getPressure()){
@@ -608,7 +615,7 @@ public class MultipleParticleModel {
         particleDiameter = OxygenAtom.RADIUS * 2.5; // TODO: This is just a guess, not sure if it's right.
        
         m_numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
-                (( particleDiameter + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL ) * 3), 2);
+                (( particleDiameter + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL ) * 3), 2) * 3;
         
         // Initialize the arrays that define the normalized attributes for
         // each individual atom.
@@ -616,14 +623,6 @@ public class MultipleParticleModel {
         m_atomVelocities = new Vector2D [MAX_NUM_ATOMS];
         m_atomForces     = new Vector2D [MAX_NUM_ATOMS];
         m_nextAtomForces = new Vector2D [MAX_NUM_ATOMS];
-        
-        // Initialize the arrays that define the normalized attributes for
-        // each molecule.
-        m_atomsPerMolecule = 3;
-        m_moleculeCentersOfMass = new Point2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
-        m_moleculeRotationAngles = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
-        m_moleculeRotationRates = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
-        m_moleculeTorque = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
         
         for (int i = 0; i < m_numberOfAtoms; i++){
             
@@ -644,6 +643,43 @@ public class MultipleParticleModel {
             m_particles.add( atom );
             notifyParticleAdded( atom );
         }
+        
+        // Initialize the arrays that define the normalized attributes for
+        // each molecule.
+        m_atomsPerMolecule = 3;
+        m_moleculeCentersOfMass = new Point2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeVelocities = new Vector2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeForces = new Vector2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeRotationAngles = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeRotationRates = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeTorque = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        
+        // JPB TBD - The following initializations are taken directly from
+        // Paul Beale's code, and I need some clarification on exactly what
+        // they do.
+        double aOH = 1.0 / 3.12;
+        double thetaHOH = 109.47122*Math.PI/180;
+        m_x0[0] = 0;
+        m_y0[0] = 0;
+        m_x0[1] = aOH;
+        m_y0[1] = 0;
+        m_x0[2] = aOH*Math.cos( thetaHOH );
+        m_y0[2] = aOH*Math.sin( thetaHOH );
+        double xcm0 = (m_x0[0]+0.25*m_x0[1]*m_x0[2])/1.5;
+        double ycm0 = (m_y0[0]+0.25*m_y0[1]*m_y0[2])/1.5;
+        for (int i = 0; i < 3; i++){
+            m_x0[i] -= xcm0;
+            m_y0[i] -= ycm0;
+        }
+        
+        for (int i = 0; i < MAX_NUM_ATOMS / m_atomsPerMolecule; i++){
+            m_moleculeCentersOfMass[i] = new Point2D.Double();
+            m_moleculeVelocities[i] = new Vector2D.Double();
+            m_moleculeForces[i] = new Vector2D.Double();
+        }
+        
+        m_triatomicMoleculeMass = 1.5;
+        m_triatomicRotationalInertia = 1.0*(Math.pow(m_x0[0],2)+Math.pow(m_y0[0],2))+0.25*(Math.pow(m_x0[1],2)+Math.pow(m_y0[1],2))+0.25*(Math.pow(m_x0[2],2)+Math.pow(m_y0[2],2));
         
         // Initialize the particle positions.
         solidifyTriatomicMolecules();
@@ -811,41 +847,53 @@ public class MultipleParticleModel {
      */
     private void solidifyTriatomicMolecules(){
 
+        // Make sure we are really running in triatomic mode.
         assert m_atomsPerMolecule == 3;
         
         setTemperature( SOLID_TEMPERATURE );
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_temperature );
         int moleculesPerLayer = (int)Math.round( Math.sqrt( m_numberOfAtoms / 3 ) );
+        
         double startingPosX = (m_normalizedContainerWidth / 2) - (double)(moleculesPerLayer / 2) - 
                 ((moleculesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
         double startingPosY = 2.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
         
-        int atomsPlaced = 0;
+        // Place the molecules by placing their centers of mass.
+        
+        int moleculesPlaced = 0;
         double xPos, yPos;
-        for (int i = 0; atomsPlaced < m_numberOfAtoms; i++){ // One iteration per layer.
-            for (int j = 0; (j < moleculesPerLayer) && (atomsPlaced < m_numberOfAtoms); j+=3){
+        for (int i = 0; moleculesPlaced < m_numberOfAtoms / 3; i++){ // One iteration per layer.
+            for (int j = 0; (j < moleculesPerLayer) && (moleculesPlaced < m_numberOfAtoms / 3); j++){
                 xPos = startingPosX + j + (j * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
                 if (i % 2 != 0){
                     // Every other row is shifted a bit to create hexagonal pattern.
                     xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
                 }
                 yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
-                m_atomPositions[(i * moleculesPerLayer) + j].setLocation( xPos, yPos );
+                m_moleculeCentersOfMass[(i * moleculesPerLayer) + j].setLocation( xPos, yPos );
                 
-                // TODO: JPB TBD - Total temporary hack until I figure out how to do this
-                // for real.
-                m_atomPositions[(i * moleculesPerLayer) + j + 1].setLocation( xPos + .5, yPos );
-                m_atomPositions[(i * moleculesPerLayer) + j + 2].setLocation( xPos = .5, yPos );
-                
-                atomsPlaced+=3;
+                moleculesPlaced++;
 
-                // Assign each particle an initial velocity.
+                // Assign each molecule an initial velocity.
                 double xVel = temperatureSqrt * rand.nextGaussian();
                 double yVel = temperatureSqrt * rand.nextGaussian();
-                m_atomVelocities[(i * moleculesPerLayer) + j].setComponents( xVel, yVel ); 
-                m_atomVelocities[(i * moleculesPerLayer) + j + 1].setComponents( xVel, yVel ); 
-                m_atomVelocities[(i * moleculesPerLayer) + j + 2].setComponents( xVel, yVel ); 
+                m_moleculeVelocities[(i * moleculesPerLayer) + j].setComponents( xVel, yVel ); 
+            }
+        }
+        
+        // Position the individual atoms based on their centers of mass and
+        // initial angle.  !IMPORTANT NOTE - This assumes that the molecules
+        // are positioned in groups of three in the arrays.  For instance, a
+        // water molecule will be Oxygen followed by two Hydrogens.
+        
+        for (int i = 0; i < m_numberOfAtoms / 3; i++){
+            double cosineTheta = Math.cos( m_moleculeRotationAngles[i] );
+            double sineTheta = Math.sin( m_moleculeRotationAngles[i] );
+            for (int j = 0; j < 3; j++){
+                xPos = m_moleculeCentersOfMass[i].getX() + cosineTheta * m_x0[j] - sineTheta * m_y0[j];
+                yPos = m_moleculeCentersOfMass[i].getY() + sineTheta * m_x0[j] + cosineTheta * m_y0[j];
+                m_atomPositions[i * 3 + j].setLocation( xPos, yPos );
             }
         }
     }
@@ -869,7 +917,7 @@ public class MultipleParticleModel {
      * Runs one iteration of the Verlet implementation of the Lennard-Jones
      * force calculation on a set of particles.
      */
-    private void verlet(){
+    private void verletMonotomic(){
         
         double kineticEnergy = 0;
         
@@ -1006,6 +1054,14 @@ public class MultipleParticleModel {
         for (int i = 0; i < m_numberOfAtoms; i++){
             m_atomForces[i].setComponents( m_nextAtomForces[i].getX(), m_nextAtomForces[i].getY() );
         }
+    }
+    
+    /**
+     * Runs one iteration of the Verlet implementation of the Lennard-Jones
+     * force calculation on a set of triatomic molecules.
+     */
+    public void verletTriatomic(){
+        
     }
     
     /**

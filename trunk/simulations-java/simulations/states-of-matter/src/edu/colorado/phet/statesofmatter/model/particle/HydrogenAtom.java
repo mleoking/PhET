@@ -9,7 +9,7 @@ package edu.colorado.phet.statesofmatter.model.particle;
  */
 public class HydrogenAtom extends StatesOfMatterAtom {
     
-    public static final double RADIUS = 60;
+    public static final double RADIUS = 120;
     private static final double MASS = 1.0; // TODO: JPB TBD - This is not currently used, clean up eventually.
     
     public HydrogenAtom(double xPos, double yPos){
