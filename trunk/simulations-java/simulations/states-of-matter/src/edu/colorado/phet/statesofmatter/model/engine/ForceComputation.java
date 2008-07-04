@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class ForceComputation {
     private final Point2D.Double[] newPositions;
@@ -35,7 +35,7 @@ public class ForceComputation {
         int i = 0;
 
         for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
-            StatesOfMatterParticle p = (StatesOfMatterParticle)iterator.next();
+            StatesOfMatterAtom p = (StatesOfMatterAtom)iterator.next();
 
             p.setPosition(newPositions[i].getX(), newPositions[i].getY());
 

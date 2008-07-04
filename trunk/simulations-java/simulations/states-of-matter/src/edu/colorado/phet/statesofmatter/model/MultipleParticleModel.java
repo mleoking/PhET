@@ -20,6 +20,7 @@ import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.NeonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.OxygenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -312,8 +313,7 @@ public class MultipleParticleModel {
             initializeMonotomic(m_currentMolecule);
             break;
         case WATER:
-//            yugga;
-//            initializeTriatomic(m_currentMolecule);
+            initializeTriatomic(m_currentMolecule);
             break;
         default:
             System.err.println("Error: Unrecognized particle type, using default number of layers.");
@@ -412,7 +412,7 @@ public class MultipleParticleModel {
         
         switch (state){
         case PHASE_SOLID:
-            solidifyParticles();
+            solidifyMonatomicMolecules();
             break;
             
         case PHASE_LIQUID:
@@ -426,7 +426,7 @@ public class MultipleParticleModel {
         default:
             System.err.println("Error: Invalid state specified.");
             // Treat is as a solid.
-            solidifyParticles();
+            solidifyMonatomicMolecules();
             break;
         }
     }
@@ -533,6 +533,12 @@ public class MultipleParticleModel {
         */
     }
     
+    /**
+     * Initialize the various model components to handle a simulation in which
+     * all the molecules are single atoms.
+     * 
+     * @param moleculeID
+     */
     private void initializeMonotomic(int moleculeID){
         
         // Verify that a valid molecule ID was provided.
@@ -557,6 +563,7 @@ public class MultipleParticleModel {
         m_atomVelocities = new Vector2D [MAX_NUM_ATOMS];
         m_atomForces     = new Vector2D [MAX_NUM_ATOMS];
         m_nextAtomForces = new Vector2D [MAX_NUM_ATOMS];
+        m_atomsPerMolecule = 1;
         
         for (int i = 0; i < m_numberOfAtoms; i++){
             
@@ -579,10 +586,70 @@ public class MultipleParticleModel {
         }
         
         // Initialize the particle positions.
-        solidifyParticles();
+        solidifyMonatomicMolecules();
         syncParticlePositions();
     }
 
+    /**
+     * Initialize the various model components to handle a simulation in which
+     * each molecule consists of three atoms, e.g. water.
+     * 
+     * @param moleculeID
+     */
+    private void initializeTriatomic(int moleculeID){
+        
+        // Verify that a valid molecule ID was provided.
+        assert (moleculeID == WATER); // Only water is supported so far.
+        
+        // Determine the number of molecules to create.  This will be a cube
+        // (really a square, since it's 2D, but you get the idea) that takes
+        // up a fixed amount of the bottom of the container.
+        double particleDiameter;
+        particleDiameter = OxygenAtom.RADIUS * 2.5; // TODO: This is just a guess, not sure if it's right.
+       
+        m_numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
+                (( particleDiameter + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL ) * 3), 2);
+        
+        // Initialize the arrays that define the normalized attributes for
+        // each individual atom.
+        m_atomPositions  = new Point2D [MAX_NUM_ATOMS];
+        m_atomVelocities = new Vector2D [MAX_NUM_ATOMS];
+        m_atomForces     = new Vector2D [MAX_NUM_ATOMS];
+        m_nextAtomForces = new Vector2D [MAX_NUM_ATOMS];
+        
+        // Initialize the arrays that define the normalized attributes for
+        // each molecule.
+        m_atomsPerMolecule = 3;
+        m_moleculeCentersOfMass = new Point2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeRotationAngles = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeRotationRates = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeTorque = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        
+        for (int i = 0; i < m_numberOfAtoms; i++){
+            
+            // Add particle and its velocity and forces to normalized set.
+            m_atomPositions[i] = new Point2D.Double();
+            m_atomVelocities[i] = new Vector2D.Double();
+            m_atomForces[i] = new Vector2D.Double();
+            m_nextAtomForces[i] = new Vector2D.Double();
+            
+            // Add particle to model set.
+            StatesOfMatterAtom atom;
+            if (i % 3 == 0){
+                atom = new OxygenAtom(0, 0);
+            }
+            else{
+                atom = new HydrogenAtom(0, 0);
+            }
+            m_particles.add( atom );
+            notifyParticleAdded( atom );
+        }
+        
+        // Initialize the particle positions.
+        solidifyTriatomicMolecules();
+        syncParticlePositions();
+    }
+    
     private void notifyResetOccurred(){
         for (int i = 0; i < _listeners.size(); i++){
             ((Listener)_listeners.get( i )).resetOccurred();
@@ -691,9 +758,8 @@ public class MultipleParticleModel {
      * Create positions corresponding to a hexagonal 2d "crystal" structure
      * for a set of particles.  Note that this assumes a normalized value
      * of 1.0 for the diameter of the particles.
-     * @param diatomic
      */
-    private void solidifyParticles(){
+    private void solidifyMonatomicMolecules(){
 
         setTemperature( SOLID_TEMPERATURE );
         Random rand = new Random();
@@ -733,12 +799,57 @@ public class MultipleParticleModel {
                 particlesPlaced++;
 
                 // Assign each particle an initial velocity.
-                m_atomVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
+                m_atomVelocities[(i * particlesPerLayer) + j].setComponents( temperatureSqrt * rand.nextGaussian(), 
                         temperatureSqrt * rand.nextGaussian() );
             }
         }
     }
     
+    /**
+     * Create positions for a solid composed of triatomic molecules,
+     * such as water.
+     */
+    private void solidifyTriatomicMolecules(){
+
+        assert m_atomsPerMolecule == 3;
+        
+        setTemperature( SOLID_TEMPERATURE );
+        Random rand = new Random();
+        double temperatureSqrt = Math.sqrt( m_temperature );
+        int moleculesPerLayer = (int)Math.round( Math.sqrt( m_numberOfAtoms / 3 ) );
+        double startingPosX = (m_normalizedContainerWidth / 2) - (double)(moleculesPerLayer / 2) - 
+                ((moleculesPerLayer / 2) * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
+        double startingPosY = 2.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
+        
+        int atomsPlaced = 0;
+        double xPos, yPos;
+        for (int i = 0; atomsPlaced < m_numberOfAtoms; i++){ // One iteration per layer.
+            for (int j = 0; (j < moleculesPerLayer) && (atomsPlaced < m_numberOfAtoms); j+=3){
+                xPos = startingPosX + j + (j * DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL);
+                if (i % 2 != 0){
+                    // Every other row is shifted a bit to create hexagonal pattern.
+                    xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
+                }
+                yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
+                m_atomPositions[(i * moleculesPerLayer) + j].setLocation( xPos, yPos );
+                
+                // TODO: JPB TBD - Total temporary hack until I figure out how to do this
+                // for real.
+                m_atomPositions[(i * moleculesPerLayer) + j + 1].setLocation( xPos + .5, yPos );
+                m_atomPositions[(i * moleculesPerLayer) + j + 2].setLocation( xPos = .5, yPos );
+                
+                atomsPlaced+=3;
+
+                // Assign each particle an initial velocity.
+                double xVel = temperatureSqrt * rand.nextGaussian();
+                double yVel = temperatureSqrt * rand.nextGaussian();
+                m_atomVelocities[(i * moleculesPerLayer) + j].setComponents( xVel, yVel ); 
+                m_atomVelocities[(i * moleculesPerLayer) + j + 1].setComponents( xVel, yVel ); 
+                m_atomVelocities[(i * moleculesPerLayer) + j + 2].setComponents( xVel, yVel ); 
+            }
+        }
+    }
+
     /**
      * Set the positions of the non-normalized particles based on the positions
      * of the normalized ones.

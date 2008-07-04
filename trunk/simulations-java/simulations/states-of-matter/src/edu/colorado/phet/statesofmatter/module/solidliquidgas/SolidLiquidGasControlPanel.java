@@ -33,10 +33,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
     // Class Data
     //----------------------------------------------------------------------------
     
-    public static final double SOLID_TEMPERATURE = 0.2;
-    public static final double LIQUID_TEMPERATURE = 0.5;
-    public static final double GAS_TEMPERATURE = 1.0;
-    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -143,6 +139,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         private JRadioButton m_neonRadioButton;
         private JRadioButton m_argonRadioButton;
         private JRadioButton m_oxygenRadioButton;
+        private JRadioButton m_waterRadioButton;
         
         MoleculeSelectionPanel(){
             
@@ -179,16 +176,25 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
                     m_model.setMolecule( MultipleParticleModel.ARGON );
                 }
             } );
+            m_waterRadioButton = new JRadioButton( "Water" ); // TODO: JPB TBD - Make into a string resource if kept.
+            m_waterRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_waterRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setMolecule( MultipleParticleModel.WATER );
+                }
+            } );
             
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( m_neonRadioButton );
             buttonGroup.add( m_argonRadioButton );
             buttonGroup.add( m_oxygenRadioButton );
+            buttonGroup.add( m_waterRadioButton );
             m_neonRadioButton.setSelected( true );
             
             add( m_neonRadioButton );
             add( m_argonRadioButton );
             add( m_oxygenRadioButton );
+            add( m_waterRadioButton );
         }
     }
     

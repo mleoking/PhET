@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 
 public class CompositeCalculator implements Calculator {
     private final Collection calculators;
@@ -18,7 +18,7 @@ public class CompositeCalculator implements Calculator {
         this(Arrays.asList(calculators));
     }
 
-    public void calculate(StatesOfMatterParticle p, double[] forces) {
+    public void calculate(StatesOfMatterAtom p, double[] forces) {
         if (calculators.size() == 0) return;
         
         if (temp == null || temp.length != forces.length) {
