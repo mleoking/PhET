@@ -14,8 +14,6 @@ Here is the idea: height, weight, and % fat will be totally independent, within 
 
 Along with this we will have a button near the % fat slider that says "Auto" or something like that. When you click it, it automatically calculates a % fat based on activity, height, and weight.
 
-
-
 I am not sure that I entirely agree with your calorie expenditures for physical activity.
     They seem a bit high and in many cases are absolute values. The total caloric cost for weight
     bearing activities should be based upon a per body weight value. What was your source for this information?
@@ -35,6 +33,17 @@ gradient color red to green, inverses for A + B
 Noah: construct text for heart ? explanation
 
 Add heart ? that show's text
+
+Ah good. I found the warning message. I think there should be a warning for the 35-50% fat range also...but I'm not sure what. "low" doesn't really work, because that is true for the whole range. Maybe "above normal", then "moderate", etc.?
+
+ Wendy said:
+ 	The equations below for muscle gained due to exercise still have the
+algebra error.  LBM_O = W *96% = BMI*h2 * 96%  You also don't mention this
+is for men and that women would be 91% and BMI 26 I think you found.  I also
+don't see the muscle mass loss due to lack of exercise.
+
+Noah said:
+The heart attack feature seems to work - though p_0 may need to be even lower (at p_0 = 0.0001 it usually kills the person within the year). So do we want the heart attack to happen at a typical time of 2-3 years? In the sim, when you go beyond 1 year, nothing happens in the charts. Maybe they should scroll as you advance beyond 1 year? 
 
 ____________________________________________________________________________________________
 FOOD LIST
