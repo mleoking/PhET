@@ -155,7 +155,7 @@ EOT;
         $sim_design_team = $this->simulation["sim_design_team"];
         $sim_libraries = $this->simulation["sim_libraries"];
         $sim_thanks_to = $this->simulation["sim_thanks_to"];
-        $sim_sample_goals = $this->simulation["sim_sample_goals"];
+        $formatted_sim_sample_goals = format_string_for_html($this->simulation["sim_sample_goals"]);
         $sim_sorting_name = $this->simulation["sim_sorting_name"];
         $sim_animated_image_url = $this->simulation["sim_animated_image_url"];
         $sim_is_real = $this->simulation["sim_is_real"];
@@ -325,7 +325,7 @@ EOT;
 
 EOT;
 
-        print_comma_list_as_bulleted_list($sim_sample_goals);
+        print_comma_list_as_bulleted_list($formatted_sim_sample_goals);
 
         $teachers_guide = sim_get_teachers_guide($sim_teachers_guide_id);
 
