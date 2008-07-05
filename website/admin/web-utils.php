@@ -211,6 +211,8 @@
     }
 
     function format_greek_symbols($input) {
+        // ** THIS FUNCTION DOES NOT WORK **
+
         $letter_to_code = array(
             '$Alpha$'         => '&Alpha;',
             '$Beta$'         => '&Beta;',
