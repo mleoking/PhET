@@ -6,7 +6,7 @@ DESIGN ISSUES
 
 HIGH PRIORITY:
 - make Custom liquid mutable
-- switch to Custom when user touches pH slider, H3O bar or OH bar
+- switch to Custom liquid when user touches pH slider, H3O bar or OH bar
 - tick marks on graph
 - add bars to graph
 - make bars interactive
