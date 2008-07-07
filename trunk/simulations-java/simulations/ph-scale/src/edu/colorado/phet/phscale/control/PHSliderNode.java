@@ -260,6 +260,16 @@ public class PHSliderNode extends PNode {
     public void setEnabled( boolean enabled ) {
         setKnobVisible( enabled );
     }
+
+    /**
+     * Is this slider enabled?
+     * It's enabled if the knob is visible.
+     * 
+     * @return
+     */
+    public boolean isEnabled() {
+        return _knobNode.getVisible();
+    }
     
     /*
      * Sets the visibility of the knob.
