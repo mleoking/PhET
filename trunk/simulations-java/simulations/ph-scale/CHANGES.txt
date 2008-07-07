@@ -5,9 +5,8 @@ Change history for ph-scale
 DESIGN ISSUES
 
 HIGH PRIORITY:
-- add Custom to liquid combo box (pH=7)
+- make Custom liquid mutable
 - switch to Custom when user touches pH slider, H3O bar or OH bar
-- hide water faucet when liquid selection is Custom
 - tick marks on graph
 - add bars to graph
 - make bars interactive
@@ -41,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+7/7/08 - hide water faucet when liquid selection is Custom
 7/7/08 - delete sorting of liquids by pH, Custom liquid breaks the previous ordering method
 7/7/08 - add Custom to liquid choices, last choice in combo box
 7/7/08 - disable confirmation dialog when switching liquids, by request for "Custom liquid" feature

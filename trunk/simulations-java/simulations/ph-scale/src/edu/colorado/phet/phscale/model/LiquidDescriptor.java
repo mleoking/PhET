@@ -7,8 +7,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
-import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
 /**
@@ -82,6 +80,10 @@ public class LiquidDescriptor {
     
     public static LiquidDescriptor getWater() {
         return WATER;
+    }
+    
+    public static LiquidDescriptor getCustom() {
+        return CUSTOM;
     }
     
     public static LiquidDescriptor getDefaultLiquid() {
