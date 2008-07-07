@@ -10,6 +10,8 @@ HIGH PRIORITY:
 - tick marks on graph
 - add bars to graph
 - make bars interactive
+- break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
+- rename Liquid and LiquidDescriptor
 
 MEDIUM PRIORITY:
 - implement linear and log scale switching
