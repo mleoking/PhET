@@ -2,17 +2,16 @@
 
 package edu.colorado.phet.phscale.control;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.SwingConstants;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.phscale.control.MomentarySlider.MomentarySliderListener;
+import edu.colorado.phet.phscale.control.MomentarySliderNode.MomentarySliderListener;
 import edu.colorado.phet.phscale.view.FaucetNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * FaucetControlNode is a general faucet control. It has 2 states: on or off.
@@ -28,13 +27,14 @@ public class FaucetControlNode extends PNode {
     public static final int ORIENTATION_LEFT = SwingConstants.LEFT;
     public static final int ORIENTATION_RIGHT = SwingConstants.RIGHT;
     
-    private static final int MARGIN = 15;
+    public static final PDimension SLIDER_TRACK_SIZE = new PDimension( 75, 6 );
+    public static final PDimension SLIDER_KNOB_SIZE = new PDimension( 15, 20 );
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final MomentarySlider _slider;
+    private final MomentarySliderNode _sliderNode;
     private final ArrayList _listeners;
     
     //----------------------------------------------------------------------------
@@ -50,22 +50,18 @@ public class FaucetControlNode extends PNode {
         faucetNode.setPickable( false );
         faucetNode.setChildrenPickable( false );
         
-        _slider = new MomentarySlider();
-        final int sliderWidth = (int) ( faucetNode.getFullBoundsReference().getWidth() - ( 2 * MARGIN ) );
-        final int sliderHeight = (int) ( _slider.getPreferredSize().getHeight() );
-        _slider.setPreferredSize( new Dimension( sliderWidth, sliderHeight ) );
-        _slider.addMomentarySliderListener( new MomentarySliderListener() {
+        _sliderNode = new MomentarySliderNode( SLIDER_TRACK_SIZE, SLIDER_KNOB_SIZE );
+        _sliderNode.addMomentarySliderListener( new MomentarySliderListener() {
             public void onOffChanged( boolean on ) {
                 notifyOnOffChanged();
             }
         });
-        PSwing sliderWrapper = new PSwing( _slider );
-        sliderWrapper.addInputEventListener( new CursorHandler() );
+        _sliderNode.addInputEventListener( new CursorHandler() );
         
         addChild( faucetNode );
-        addChild( sliderWrapper );
-        
-        sliderWrapper.setOffset( MARGIN, 0.42 * faucetNode.getFullBoundsReference().getHeight() ); //XXX image specific
+        addChild( _sliderNode );
+
+        _sliderNode.setOffset( 26, 0.55 * faucetNode.getFullBoundsReference().getHeight() ); //XXX image specific
     }
     
     //----------------------------------------------------------------------------
@@ -73,15 +69,15 @@ public class FaucetControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     public void setOn( boolean on ) {
-        _slider.setOn( on );
+        _sliderNode.setOn( on );
     }
     
     public boolean isOn() {
-        return _slider.isOn();
+        return _sliderNode.isOn();
     }
     
     public void setEnabled( boolean enabled ) {
-        _slider.setEnabled( enabled );
+        _sliderNode.setVisible( enabled );
     }
     
     //----------------------------------------------------------------------------
@@ -101,7 +97,7 @@ public class FaucetControlNode extends PNode {
     }
     
     private void notifyOnOffChanged() {
-        final boolean b = _slider.isOn();
+        final boolean b = _sliderNode.isOn();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (FaucetControlListener) i.next() ).onOffChanged( b );
