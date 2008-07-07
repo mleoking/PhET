@@ -39,6 +39,7 @@ public class PHScaleStrings {
     public static final String CHOICE_BLOOD = PHScaleResources.getString( "choice.blood" );
     public static final String CHOICE_HAND_SOAP = PHScaleResources.getString( "choice.handSoap" );
     public static final String CHOICE_DRAIN_CLEANER = PHScaleResources.getString( "choice.drainCleaner" );
+    public static final String CHOICE_CUSTOM = PHScaleResources.getString( "choice.custom" );
 
     public static final String CONFIRM_CHANGE_LIQUID = PHScaleResources.getString( "confirm.changeLiquid" );
     
