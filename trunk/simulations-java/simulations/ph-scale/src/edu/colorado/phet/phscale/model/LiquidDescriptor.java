@@ -46,7 +46,7 @@ public class LiquidDescriptor {
 
     // all instances
     private static final LiquidDescriptor[] ALL_INSTANCES = new LiquidDescriptor[] {
-        DRAIN_CLEANER, HAND_SOAP, BLOOD, SPIT, WATER, MILK, COFFEE, BEER, COLA, VOMIT, BATTERY_ACID, CUSTOM
+        DRAIN_CLEANER, HAND_SOAP, BLOOD, SPIT, WATER, MILK, COFFEE, BEER, COLA, VOMIT, BATTERY_ACID, CUSTOM /* put Custom last! */
     };
     
     //----------------------------------------------------------------------------
