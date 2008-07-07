@@ -20,6 +20,7 @@ MEDIUM PRIORITY:
 - generalize layout code
 - adjust liquid colors
 - adjust fill and drain rates
+- pH slider jerks around if you drag it while beaker is filling
 
 LOW PRIORITY:
 - can't align baselines of text and numbers drawn using HTMLNode
