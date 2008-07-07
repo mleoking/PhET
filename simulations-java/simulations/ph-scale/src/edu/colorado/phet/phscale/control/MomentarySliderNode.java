@@ -22,8 +22,19 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * MomentarySliderNode is a slider with two states: on & off.
+ * Listeners are notified when the state changes.
+ * The slider can be "on" only while the user is dragging it.
+ * When the user releases the slider knob, it snaps to the "off" position.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class MomentarySliderNode extends PNode {
+    
+  //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     // track
     private static final float TRACK_STROKE_WIDTH = 2f;
@@ -37,6 +48,10 @@ public class MomentarySliderNode extends PNode {
     private static final Color KNOB_FILL_COLOR = new Color( 255, 255, 255, 210 );
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final ArrayList _listeners;
     private boolean _on;
     private final PDimension _trackSize;
@@ -44,13 +59,18 @@ public class MomentarySliderNode extends PNode {
     private final KnobNode _knobNode;
     private boolean _dragging;
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public MomentarySliderNode( PDimension trackSize, PDimension knobSize ) {
+        
         _listeners = new ArrayList();
         _on = false;
-        _dragging = false;
         _trackSize = new PDimension( trackSize );
         _trackNode = new TrackNode( trackSize );
         _knobNode = new KnobNode( knobSize );
+        _dragging = false;
         
         addChild( _trackNode );
         addChild( _knobNode );
@@ -104,13 +124,9 @@ public class MomentarySliderNode extends PNode {
                 // move the knob
                 _knobNode.setOffset( xOffset, _knobNode.getYOffset() );
                 
-                // notify listeners of state change
-                if ( xOffset == 0 && _on == true ) {
-                    _on = false;
-                    notifyOnOffChanged();
-                }
-                else if ( xOffset != 0 && _on == false ) {
-                    _on = true;
+                // if state changed, notify listeners
+                if ( ( xOffset == 0 && _on == true ) || ( xOffset != 0 && _on == false ) ) {
+                    _on = !_on;
                     notifyOnOffChanged();
                 }
             }
@@ -118,7 +134,9 @@ public class MomentarySliderNode extends PNode {
             protected void endDrag( PInputEvent event ) {
                 super.endDrag( event );
                 _dragging = false;
+                // snap to off position
                 _knobNode.setOffset( 0, _knobNode.getYOffset() );
+                // if state changed, notify listeners
                 if ( _on  ) {
                     _on = false;
                     notifyOnOffChanged();
@@ -127,6 +145,17 @@ public class MomentarySliderNode extends PNode {
         } );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Set the slider to on or off state.
+     * If the user is dragging the slider, or if the slider is already in
+     * the specified state, this method does nothing.
+     * 
+     * @param on true=on, false=off
+     */
     public void setOn( boolean on ) {
         if ( on != _on && !_dragging ) {
             _on = on;
@@ -140,9 +169,18 @@ public class MomentarySliderNode extends PNode {
         }
     }
     
+    /**
+     * Is the slider in the "on" state?
+     * 
+     * @return true or false
+     */
     public boolean isOn() {
         return _on;
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
     
     /*
      * The slider track, horizontal orientation.
@@ -212,9 +250,10 @@ public class MomentarySliderNode extends PNode {
         }
     }
     
-    /*
-     * Example
-     */
+    //----------------------------------------------------------------------------
+    // Example
+    //----------------------------------------------------------------------------
+    
     public static void main( String args[] ) {
         
         PDimension trackSize = new PDimension( 200, 5 );
