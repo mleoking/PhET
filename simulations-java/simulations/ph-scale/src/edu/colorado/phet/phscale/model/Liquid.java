@@ -396,10 +396,6 @@ public class Liquid extends ClockAdapter {
         return _volume * getConcentrationOH();
     }
     
-    public void setMolesH2O( double m ) {
-        //XXX how to do this?...
-    }
-    
     public double getMolesH2O() {
         return _volume * getConcentrationH2O();
     }
