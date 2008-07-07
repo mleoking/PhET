@@ -13,9 +13,9 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
 
 /**
- * Liquid is the model of the liquid. The liquid can be "filled" with a combination
- * of liquids, or drained.  Filling and draining are subject to maximum and minimum
- * volume constraints.
+ * Liquid is the model of the liquid in the beaker. 
+ * The liquid can be "filled" with a combination of liquids, or drained.
+ * Filling and draining are subject to maximum and minimum volume constraints.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
