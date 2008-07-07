@@ -37,6 +37,7 @@ public class LiquidControlNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final boolean CONFIRM_CHANGE_LIQUID_ENABLED = false; // feature disabled by request
     private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 440 );
     private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
 
@@ -61,7 +62,7 @@ public class LiquidControlNode extends PNode {
     public LiquidControlNode( PSwingCanvas canvas, Liquid liquid ) {
         super();
         
-        _confirmChangeLiquid = true;
+        _confirmChangeLiquid = CONFIRM_CHANGE_LIQUID_ENABLED;
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
