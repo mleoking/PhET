@@ -4,6 +4,7 @@ package edu.colorado.phet.phscale.control;
 
 import edu.colorado.phet.phscale.control.ViewControlPanel.ViewControlPanelListener;
 import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.view.*;
@@ -47,11 +48,11 @@ public class BeakerControlNode extends PNode {
         super();
         
         _model = model;
-        Liquid liquid = model.getLiquid();
+        final Liquid liquid = model.getLiquid();
         
         _liquidListener = new LiquidListener() {
             public void stateChanged() {
-                //XXX update everything
+                _waterControlNode.setVisible( !liquid.getLiquidDescriptor().equals( LiquidDescriptor.getCustom() ) );
             }
         };
         liquid.addLiquidListener( _liquidListener );
