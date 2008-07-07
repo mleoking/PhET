@@ -25,8 +25,8 @@ public class Liquid extends ClockAdapter {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final double SLOW_FILL_RATE = 0.01; // liters per clock tick
-    public static final double FAST_FILL_RATE = 0.2; // liters per clock tick
+    public static final double SLOW_FILL_RATE = 0.005; // liters per clock tick
+    public static final double FAST_FILL_RATE = 0.03; // liters per clock tick
     public static final double FAST_FILL_VOLUME = 1.0; // liters
     
     private static final double MAX_VOLUME = 1.25;
