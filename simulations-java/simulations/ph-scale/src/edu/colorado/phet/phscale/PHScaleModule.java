@@ -69,8 +69,6 @@ public class PHScaleModule extends PiccoloModule {
     public void reset() {
         super.reset();
         
-        System.out.println( "PHScaleModule.reset" );//XXX
-        
         // Model
         _model.getLiquid().setLiquidDescriptor( LiquidDescriptor.getDefaultLiquid() );
         
