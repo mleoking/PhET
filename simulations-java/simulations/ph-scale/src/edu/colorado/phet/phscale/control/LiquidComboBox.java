@@ -4,8 +4,6 @@ package edu.colorado.phet.phscale.control;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.util.Arrays;
-import java.util.Comparator;
 
 import javax.swing.BorderFactory;
 
@@ -36,29 +34,9 @@ public class LiquidComboBox extends PComboBox {
         setBorder( BorderFactory.createLineBorder( Color.BLACK, 2 ) );
         setBackground( Color.WHITE );
         
-        // sort the choices by ascending pH value
+        // add the choices
         LiquidDescriptor[] choices = LiquidDescriptor.getAllInstances();
-        Comparator comparator = new Comparator() {
-            public int compare( Object o1, Object o2 ) {
-                int rval = 0;
-                final double pH1 = ((LiquidDescriptor)o1).getPH();
-                final double pH2 = ((LiquidDescriptor)o2).getPH();
-                if ( pH1 == pH2 ) {
-                    rval = 0;
-                }
-                else if ( pH1 < pH2 ) {
-                    rval = -1;
-                }
-                else {
-                    rval = 1;
-                }
-                return rval;
-            }
-        };
-        Arrays.sort( choices, comparator );
-        
-        // add the choices in descending pH value
-        for ( int i = choices.length - 1; i >= 0; i-- ) {
+        for ( int i = 0; i < choices.length; i++ ) {
             addItem( choices[i] );
         }
         

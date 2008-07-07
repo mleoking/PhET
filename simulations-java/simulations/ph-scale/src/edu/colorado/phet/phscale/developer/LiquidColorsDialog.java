@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.phscale.developer;
 
 import java.awt.Frame;
@@ -8,7 +10,12 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 
-
+/**
+ * LiquidColorsDialog contains developer controls for experimenting with liquid colors.
+ * This dialog will not be available to the user, and is not localized.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class LiquidColorsDialog extends JDialog {
 
     public LiquidColorsDialog( Frame owner ) {

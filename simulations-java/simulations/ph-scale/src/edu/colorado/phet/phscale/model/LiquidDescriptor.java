@@ -38,10 +38,17 @@ public class LiquidDescriptor {
     private static final LiquidDescriptor COLA = new LiquidDescriptor( PHScaleStrings.CHOICE_COLA, 2.5, new Color( 179, 119, 87, ALPHA ) );
     private static final LiquidDescriptor VOMIT = new LiquidDescriptor( PHScaleStrings.CHOICE_VOMIT, 2, new Color( 0, 255, 0, ALPHA ) );
     private static final LiquidDescriptor BATTERY_ACID = new LiquidDescriptor( PHScaleStrings.CHOICE_BATTERY_ACID, 1, new Color( 255, 255, 0, ALPHA ) );
+    
+    private static final LiquidDescriptor CUSTOM = new LiquidDescriptor( PHScaleStrings.CHOICE_CUSTOM, 7, new Color( 255, 0, 0, ALPHA ) ) {
+        public String toString() {
+            // no pH value shown for Custom liquid
+            return getName();
+        }
+    };
 
     // all instances
     private static final LiquidDescriptor[] ALL_INSTANCES = new LiquidDescriptor[] {
-        DRAIN_CLEANER, HAND_SOAP, BLOOD, SPIT, WATER, MILK, COFFEE, BEER, COLA, VOMIT, BATTERY_ACID
+        DRAIN_CLEANER, HAND_SOAP, BLOOD, SPIT, WATER, MILK, COFFEE, BEER, COLA, VOMIT, BATTERY_ACID, CUSTOM
     };
     
     //----------------------------------------------------------------------------
