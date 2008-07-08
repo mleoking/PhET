@@ -156,7 +156,7 @@ public class LiquidControlNode extends PNode {
     
     private void handleLiquidSelection( boolean confirm ) {
         LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
-        if ( liquidDescriptor != _selectedLiquidDescriptor ) {
+        if ( !liquidDescriptor.equals( _selectedLiquidDescriptor ) ) {
             boolean confirmed = true;
             if ( !_liquid.isEmpty() && confirm ) {
                 confirmed = confirmChangeLiquid();
@@ -169,8 +169,6 @@ public class LiquidControlNode extends PNode {
                 _comboBox.setChoice( _selectedLiquidDescriptor );
             }
         }
-        _faucetControlNode.setOn( liquidDescriptor != null ); // automatically turn on the faucet
-        _faucetControlNode.setEnabled( liquidDescriptor != null ); // automatically turn on the faucet
     }
     
     private void handleFaucetOnOff( boolean on ) {
@@ -183,7 +181,7 @@ public class LiquidControlNode extends PNode {
     }
     
     /*
-     * Opens a dialog to confirm whether the user wantes to change the liquid.
+     * Opens a dialog to confirm whether the user wants to change the liquid.
      * As a side effect, the flag is set that determines whether this dialog is shown again.
      * 
      * @return true or false
