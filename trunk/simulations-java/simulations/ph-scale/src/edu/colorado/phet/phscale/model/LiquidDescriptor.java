@@ -104,8 +104,10 @@ public class LiquidDescriptor {
     
     // For use by developer controls only!
     public void dev_setColor( Color color ) {
-        _color = color;
-        notifyColorChanged( color );
+        if ( !color.equals( _color ) ) {
+            _color = color;
+            notifyColorChanged( color );
+        }
     }
     
     public String toString() { 
@@ -129,11 +131,8 @@ public class LiquidDescriptor {
     // Listeners interface
     //----------------------------------------------------------------------------
     
-    /*
-     * This interface is for developer controls.
-     */
     public interface LiquidDescriptorListener {
-        public void colorChanged( Color color );
+        public void colorChanged( Color newColor );
     }
     
     public void addLiquidDescriptorListener( LiquidDescriptorListener listener ) {
