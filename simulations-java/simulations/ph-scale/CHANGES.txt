@@ -22,6 +22,7 @@ MEDIUM PRIORITY:
 - adjust liquid colors
 - adjust fill and drain rates
 - pH slider jerks around if you drag it while beaker is filling
+- vary flow rate of faucets depending on how far slider is dragged?
 
 LOW PRIORITY:
 - can't align baselines of text and numbers drawn using HTMLNode
