@@ -49,15 +49,12 @@ public class LiquidComboBox extends PComboBox {
     //----------------------------------------------------------------------------
     
     public void setChoice( LiquidDescriptor liquid ) {
-        setSelectedItem( liquid );
+        if ( !liquid.equals( getChoice() ) ) {
+            setSelectedItem( liquid );
+        }
     }
     
     public LiquidDescriptor getChoice() {
-        LiquidDescriptor choice = null;
-        Object selectedItem = getSelectedItem();
-        if ( selectedItem instanceof LiquidDescriptor ) {
-            choice = (LiquidDescriptor) selectedItem;
-        }
-        return choice;
+        return (LiquidDescriptor) getSelectedItem();
     }
 }
