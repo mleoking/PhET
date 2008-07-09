@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.phscale.test;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,13 +14,21 @@ import javax.swing.event.ChangeListener;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.labels.ItemLabelAnchor;
+import org.jfree.chart.labels.ItemLabelPosition;
+import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
+import org.jfree.chart.plot.CategoryMarker;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.ClusteredXYBarRenderer;
-import org.jfree.data.time.Day;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.IntervalXYDataset;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.general.DatasetUtilities;
+import org.jfree.ui.Layer;
+import org.jfree.ui.LengthAdjustmentType;
+import org.jfree.ui.RectangleAnchor;
+import org.jfree.ui.TextAnchor;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -41,7 +47,7 @@ public class TestBarGraph extends JFrame {
     public TestBarGraph() {
         super( "TestBarGraph" );
         
-        IntervalXYDataset dataset = createDataset();
+        CategoryDataset dataset = createDataset();
         JFreeChart chart = createChart( dataset );
         ChartPanel chartPanel = new ChartPanel( chart );
         
@@ -159,40 +165,17 @@ public class TestBarGraph extends JFrame {
         
         getContentPane().add( panel );
     }
-    
-    private static IntervalXYDataset createDataset() {
-        
-        TimeSeries series1 = new TimeSeries("Series 1", Day.class);
-        series1.add(new Day(1, 1, 2003), 54.3);
-        series1.add(new Day(2, 1, 2003), 20.3);
-        series1.add(new Day(3, 1, 2003), 43.4);
-        series1.add(new Day(4, 1, 2003), -12.0);
 
-        TimeSeries series2 = new TimeSeries("Series 2", Day.class);
-        series2.add(new Day(1, 1, 2003), 8.0);
-        series2.add(new Day(2, 1, 2003), 16.0);
-        series2.add(new Day(3, 1, 2003), 21.0);
-        series2.add(new Day(4, 1, 2003), 5.0);
-
-        TimeSeriesCollection dataset = new TimeSeriesCollection();
-        dataset.addSeries(series1);
-        dataset.addSeries(series2);
-        return dataset;
+    private static CategoryDataset createDataset() {
+        double[][] data = new double[][] { { 4.0, 3.0, 2.0 } };
+        return DatasetUtilities.createCategoryDataset( "Series ", "Category ", data );
     }
     
-    /** 
-     * Creates a chart.
-     * 
-     * @param dataset  the dataset.
-     * 
-     * @return The chart.
-     */
-    private static JFreeChart createChart( IntervalXYDataset dataset ) {
+    private static JFreeChart createChart( CategoryDataset dataset ) {
         
-        JFreeChart chart = ChartFactory.createXYBarChart(
+        JFreeChart chart = ChartFactory.createBarChart(
             "",      // chart title
             "default X-axis label",
-            false, // dataAxis
             "default Y-axis label",
             dataset,
             PlotOrientation.VERTICAL,
@@ -201,10 +184,25 @@ public class TestBarGraph extends JFrame {
             false // urls
         );
 
-        XYPlot plot = (XYPlot) chart.getPlot(); 
-        ClusteredXYBarRenderer r = new ClusteredXYBarRenderer();
-        plot.setRenderer(r);
-        return chart;        
+        // get a reference to the plot for further customization...
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
+        plot.setNoDataMessage( "NO DATA!" );
+
+        // render each category in a different color
+        CategoryItemRenderer renderer = new CustomRenderer( new Paint[] { Color.RED, Color.GREEN, Color.BLUE } );
+        renderer.setItemLabelGenerator( new StandardCategoryItemLabelGenerator() );
+        renderer.setItemLabelsVisible( true );
+        ItemLabelPosition p = new ItemLabelPosition( ItemLabelAnchor.CENTER, TextAnchor.CENTER, TextAnchor.CENTER, -45.0 );
+        renderer.setPositiveItemLabelPosition( p );
+        plot.setRenderer( renderer );
+        
+        // change the margin at the top of the range (y) axis
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        rangeAxis.setLowerMargin( 0.15 );
+        rangeAxis.setUpperMargin( 0.15 );
+
+        return chart;      
     }
     
     private void handlePHSliderChanged() {
@@ -213,11 +211,53 @@ public class TestBarGraph extends JFrame {
     }
     
     private void handleUnitsChanged() {
-        //XXX
+        if ( _concentrationRadioButton.isSelected() ) {
+            //XXX change series values for moles/L
+        }
+        else {
+            //XXX change series values for moles
+        }
     }
     
     private void handleScaleChanged() {
-        //XXX
+        if ( _logRadioButton.isSelected() ) {
+            //XXX log
+        }
+        else {
+            //XXX linear
+        }
+    }
+    
+    /**
+     * A custom renderer that returns a different color for each item in a 
+     * single series.
+     */
+    static class CustomRenderer extends BarRenderer {
+
+        /** The colors. */
+        private Paint[] colors;
+
+        /**
+         * Creates a new renderer.
+         *
+         * @param colors  the colors.
+         */
+        public CustomRenderer( Paint[] colors ) {
+            this.colors = colors;
+        }
+
+        /**
+         * Returns the paint for an item.  
+         * Overrides the default behavior inherited from AbstractSeriesRenderer.
+         *
+         * @param row  the series.
+         * @param column  the category.
+         *
+         * @return The item color.
+         */
+        public Paint getItemPaint( int row, int column ) {
+            return this.colors[column % this.colors.length];
+        }
     }
     
     public static void main( String args[] ) {
