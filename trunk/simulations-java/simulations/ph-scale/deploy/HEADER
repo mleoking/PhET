@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.09
+ph-scale 0.00.10
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,14 +12,9 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>implemented Kathy's proposal for diluted liquid colors: draw liquid color on top of water color,
-modulate the liquid color's alpha channel based on percentage of water in the beaker
-<li>liquid color in beaker and drain faucet changes when diluted with water
-<li>water color does not change when diluted with water
-<li>liquid color coming out of left faucet is drawn on top of water color so that it matches color in beaker
-<li>changed the color for drain cleaner and battery acid to the color we had for lemon juice
-<li>display RGBA values in Developer>Liquid Colors dialog (send me a snapshot of this dialog when you've picked colors)
-<li>change water to Kathy's color, RGBA=[193, 222, 227, 127]
+<li>replace JSlider with Piccolo slider on faucets
+adjust clock framerate and faucet flow rates to make animation smoother
+<li>add "Custom liquid" feature. When user changes pH slider or pH text field, liquid changes to "custom". When "custom" is explicitly selected, its pH is 7
 </ul>
 <p>
 <b>Not implemented:</b>
@@ -30,7 +25,6 @@ modulate the liquid color's alpha channel based on percentage of water in the be
 <li>pH slider scale doesn't line up with bar graph
 <li>linear and log scale options for bar graph don't work
 <li>no zoom buttons for linear graph
-<li>no Custom liquid
 </ul>
 <p>
 <b>Know issues:</b>
