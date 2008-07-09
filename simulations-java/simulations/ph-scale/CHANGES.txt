@@ -45,6 +45,8 @@ CLEANUP:
 
 
 DONE:
+7/9/08 - cleanup in Liquid, preparing for refactor
+7/8/08 - did a bunch of work on Custom liquid feature, but reverted
 7/7/08 - adjust clock framerate and faucet flow rates to make animation smoother
 7/7/08 - hide water faucet when liquid selection is Custom
 7/7/08 - delete sorting of liquids by pH, Custom liquid breaks the previous ordering method
