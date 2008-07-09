@@ -109,6 +109,7 @@ public class LiquidDescriptor {
     protected void setPH( double pH ) {
         if ( pH != _pH ) {
             _pH = pH;
+            notifyPHChanged( pH );
         }
     }
     
@@ -150,7 +151,13 @@ public class LiquidDescriptor {
     //----------------------------------------------------------------------------
     
     public interface LiquidDescriptorListener {
+        public void pHChanged( double newPH );
         public void colorChanged( Color newColor );
+    }
+    
+    public static class LiquidDescriptorAdapter implements LiquidDescriptorListener {
+        public void pHChanged( double newPH ) {}
+        public void colorChanged( Color newColor ) {}
     }
     
     public void addLiquidDescriptorListener( LiquidDescriptorListener listener ) {
@@ -159,6 +166,13 @@ public class LiquidDescriptor {
     
     public void removeLiquidDescriptorListener( LiquidDescriptorListener listener ) {
         _listeners.remove( listener );
+    }
+    
+    private void notifyPHChanged( double newPH ) {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (LiquidDescriptorListener) i.next() ).pHChanged( newPH );
+        }
     }
     
     private void notifyColorChanged( Color newColor ) {

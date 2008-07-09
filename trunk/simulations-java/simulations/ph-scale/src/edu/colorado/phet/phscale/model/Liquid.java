@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorAdapter;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
 
 /**
@@ -67,14 +68,14 @@ public class Liquid extends ClockAdapter {
     public Liquid( LiquidDescriptor liquidDescriptor ) {
         
         _listeners = new ArrayList();
-        _liquidDescriptorListener = new LiquidDescriptorListener() {
+        _liquidDescriptorListener = new LiquidDescriptorAdapter() {
             public void colorChanged( Color color ) {
                 notifyStateChanged();
             }
         };
         
         // changing the color of water will change the color of the liquid
-        WATER.addLiquidDescriptorListener( new LiquidDescriptorListener() {
+        WATER.addLiquidDescriptorListener( new LiquidDescriptorAdapter() {
             public void colorChanged( Color color ) {
                 if ( _waterVolume > 0 ) {
                     notifyStateChanged();

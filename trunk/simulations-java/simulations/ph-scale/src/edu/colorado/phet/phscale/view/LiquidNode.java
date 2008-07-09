@@ -10,7 +10,7 @@ import edu.colorado.phet.phscale.PHScaleApplication;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorAdapter;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -63,7 +63,7 @@ public class LiquidNode extends PComposite {
         };
         _liquid.addLiquidListener( _liquidListener );
         
-        WATER.addLiquidDescriptorListener( new LiquidDescriptorListener() {
+        WATER.addLiquidDescriptorListener( new LiquidDescriptorAdapter() {
             public void colorChanged( Color color ) {
                 _waterNode.setPaint( WATER.getColor() );
             }
