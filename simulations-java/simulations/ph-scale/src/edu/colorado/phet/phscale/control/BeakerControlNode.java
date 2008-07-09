@@ -7,6 +7,7 @@ import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.CustomLiquidDescriptor;
 import edu.colorado.phet.phscale.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -25,8 +26,14 @@ public class BeakerControlNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
+    
     private static final double PROBE_LENGTH = 475;
     private static final PDimension BEAKER_SIZE = new PDimension( 350, 400 );
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final PHScaleModel _model;
     private final LiquidListener _liquidListener;
@@ -52,7 +59,8 @@ public class BeakerControlNode extends PNode {
         
         _liquidListener = new LiquidListener() {
             public void stateChanged() {
-                _waterControlNode.setVisible( !liquid.getLiquidDescriptor().equals( LiquidDescriptor.getCustom() ) );
+                // hide the water faucet if the Custom liquid is selected
+                _waterControlNode.setVisible( !liquid.getLiquidDescriptor().equals( CUSTOM_LIQUID ) );
             }
         };
         liquid.addLiquidListener( _liquidListener );

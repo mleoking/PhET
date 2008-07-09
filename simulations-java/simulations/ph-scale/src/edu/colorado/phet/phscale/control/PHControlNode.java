@@ -31,9 +31,10 @@ public class PHControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final int MARGIN = 15;
-
     private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 400 );
     private static final PDimension KNOB_SIZE = new PDimension( 40, 30 );
+    
+    private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -107,11 +108,10 @@ public class PHControlNode extends PNode {
     
     private void updateModelPH( double pH ) {
         if ( _notifyEnabled ) {
-            CustomLiquidDescriptor customLiquid = LiquidDescriptor.getCustom();
-            if ( !_liquid.getLiquidDescriptor().equals( customLiquid ) ) {
-                _liquid.setLiquidDescriptor( customLiquid );
+            if ( !_liquid.getLiquidDescriptor().equals( CUSTOM_LIQUID ) ) {
+                _liquid.setLiquidDescriptor( CUSTOM_LIQUID );
             }
-            customLiquid.setPH( pH );
+            CUSTOM_LIQUID.setPH( pH );
             _liquid.setPH( pH );
         }
     }
