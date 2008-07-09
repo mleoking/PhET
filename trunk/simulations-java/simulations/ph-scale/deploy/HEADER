@@ -13,7 +13,7 @@ Click to launch English version:
 <p>
 <ul>
 <li>replace JSlider with Piccolo slider on faucets
-adjust clock framerate and faucet flow rates to make animation smoother
+<li>adjust clock framerate and faucet flow rates to make animation smoother
 <li>add "Custom liquid" feature. When user changes pH slider or pH text field, liquid changes to "custom". When "custom" is explicitly selected, its pH is 7
 </ul>
 <p>
