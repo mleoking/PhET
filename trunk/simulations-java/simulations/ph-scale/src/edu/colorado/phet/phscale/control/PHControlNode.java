@@ -11,6 +11,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -42,6 +43,7 @@ public class PHControlNode extends PNode {
     
     private final PHTextFieldNode _textFieldNode;
     private final PHSliderNode _sliderNode;
+    private boolean _notifyEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -49,6 +51,8 @@ public class PHControlNode extends PNode {
     
     public PHControlNode( IntegerRange range, Liquid liquid ) {
         super();
+        
+        _notifyEnabled = false;
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
@@ -84,12 +88,12 @@ public class PHControlNode extends PNode {
         
         _textFieldNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _liquid.setPH( _textFieldNode.getPH() );
+                updateModelPH(_textFieldNode.getPH() );
             }
         });
         _sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                _liquid.setPH( _sliderNode.getPH() );
+                updateModelPH(_sliderNode.getPH() );
             }
         });
         
@@ -100,11 +104,23 @@ public class PHControlNode extends PNode {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
+    private void updateModelPH( double pH ) {
+        if ( _notifyEnabled ) {
+            LiquidDescriptor customLiquid = LiquidDescriptor.getCustom();
+            if ( !_liquid.getLiquidDescriptor().equals( customLiquid ) ) {
+                _liquid.setLiquidDescriptor( customLiquid );
+            }
+            customLiquid.setPH( pH );
+            _liquid.setPH( pH );
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
     private void update() {
+        _notifyEnabled = false;
         Double pH = _liquid.getPH();
         if ( pH != null ) {
             _sliderNode.setEnabled( true );
@@ -116,5 +132,6 @@ public class PHControlNode extends PNode {
             _sliderNode.setEnabled( false );
             _textFieldNode.setEnabled( false );
         }
+        _notifyEnabled = true;
     }
 }
