@@ -5,21 +5,20 @@ Change history for ph-scale
 DESIGN ISSUES
 
 HIGH PRIORITY:
-- tick marks on graph
-- add bars to graph
-- make bars interactive
+- implement non-interactive bar graph
+- make H3O and OH bars interactive
+- implement linear and log scale switching
 
 MEDIUM PRIORITY:
-- implement linear and log scale switching
-- 10x zoom feature for linear graph, zoom into zero
 - line up pH slider ticks with bar graph ticks
-- generalize layout code
 - adjust liquid colors
 - adjust fill and drain rates
-- vary flow rate of faucets depending on how far slider is dragged?
-- break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
 
 LOW PRIORITY:
+- break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
+- vary flow rate of faucets depending on how far slider is dragged?
+- generalize layout code
+- 10x zoom feature for linear graph, zoom into zero
 - can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it, selection is generally flakey (PSwing issue?)
 - replace molecule image files with SphericalNode subclasses?
