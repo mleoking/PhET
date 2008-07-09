@@ -17,6 +17,7 @@ import edu.colorado.phet.phscale.dialog.ConfirmChangeLiquidDialog;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.CustomLiquidDescriptor;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -40,7 +41,8 @@ public class LiquidControlNode extends PNode {
     private static final boolean CONFIRM_CHANGE_LIQUID_ENABLED = false; // feature disabled by request
     private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 440 );
     private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
-
+    private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -163,8 +165,8 @@ public class LiquidControlNode extends PNode {
         LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
         if ( !liquidDescriptor.equals( _selectedLiquidDescriptor ) ) {
             
-            if ( liquidDescriptor.equals( LiquidDescriptor.getCustom() ) ) {
-                LiquidDescriptor.getCustom().resetPH();
+            if ( liquidDescriptor.equals( CUSTOM_LIQUID ) ) {
+                CUSTOM_LIQUID.resetPH();
             }
             
             boolean confirmed = true;
