@@ -43,6 +43,7 @@ CLEANUP:
 
 
 DONE:
+7/9/08 - add LiquidDescriptorListener.pHChanged
 7/9/08 - subclass CustomLiquidDescriptor so that base class pH values can't be changed
 7/9/08 - switch to Custom liquid when user changes pH slider or pH text field
 7/9/08 - make Custom liquid mutable
