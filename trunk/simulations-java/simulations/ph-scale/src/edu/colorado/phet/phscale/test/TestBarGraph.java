@@ -4,11 +4,12 @@ package edu.colorado.phet.phscale.test;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -31,7 +32,12 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestBarGraph extends JFrame {
-
+    
+    private final JSlider _pHSlider;
+    private final JLabel _pHValue;
+    private final JRadioButton _concentrationRadioButton, _molesRadioButton;
+    private final JRadioButton _logRadioButton, _linearRadioButton;
+    
     public TestBarGraph() {
         super( "TestBarGraph" );
         
@@ -39,31 +45,117 @@ public class TestBarGraph extends JFrame {
         JFreeChart chart = createChart( dataset );
         ChartPanel chartPanel = new ChartPanel( chart );
         
-        JLabel pHLabel = new JLabel( "pH:" );
+        // pH control
+        JPanel pHControlPanel = new JPanel();
+        {
+            pHControlPanel.setBorder( new TitledBorder( "pH" ) );
+            
+            _pHSlider = new JSlider( -1, 15 );
+            _pHSlider.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    handlePHSliderChanged();
+                }
+            } );
+            
+            _pHValue = new JLabel( String.valueOf( _pHSlider.getValue() ) );
+
+            // layout
+            EasyGridBagLayout pHControlPanelLayout = new EasyGridBagLayout( pHControlPanel );
+            pHControlPanel.setLayout( pHControlPanelLayout );
+            int row = 0;
+            int column = 0;
+            pHControlPanelLayout.addComponent( _pHSlider, row, column++ );
+            pHControlPanelLayout.addComponent( _pHValue, row, column++ );
+            
+            // default state
+            _pHSlider.setValue( 7 );
+        }
         
-        final JSlider pHSlider = new JSlider( -1, 15 );
-        pHSlider.setValue( 7 );
+        // units control
+        JPanel unitsControlPanel = new JPanel();
+        {
+            unitsControlPanel.setBorder( new TitledBorder( "Y-Axis Units" ) );
+            
+            _concentrationRadioButton = new JRadioButton( "moles/L" );
+            _concentrationRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    handleUnitsChanged();
+                }
+            });
+            
+            _molesRadioButton = new JRadioButton( "moles" );
+            _molesRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    handleUnitsChanged();
+                }
+            });
+            
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( _concentrationRadioButton );
+            buttonGroup.add( _molesRadioButton );
+            
+            // layout
+            EasyGridBagLayout unitsControlPanelLayout = new EasyGridBagLayout( unitsControlPanel );
+            unitsControlPanel.setLayout( unitsControlPanelLayout );
+            int row = 0;
+            int column = 0;
+            unitsControlPanelLayout.addComponent( _concentrationRadioButton, row++, column );
+            unitsControlPanelLayout.addComponent( _molesRadioButton, row++, column );
+            
+            // default state
+            _concentrationRadioButton.setSelected( true );
+        }
         
-        final JLabel pHValue = new JLabel( String.valueOf( pHSlider.getValue() ) );
+        // scale control
+        JPanel scaleControlPanel = new JPanel();
+        {
+            scaleControlPanel.setBorder( new TitledBorder( "Y-Axis Scale" ) );
+            
+            _logRadioButton = new JRadioButton( "logarithmic" );
+            _logRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    handleScaleChanged();
+                }
+            });
+            
+            _linearRadioButton = new JRadioButton( "linear" );
+            _linearRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    handleScaleChanged();
+                }
+            });
+            
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( _logRadioButton );
+            buttonGroup.add( _linearRadioButton );
+            
+            // layout
+            EasyGridBagLayout scaleControlPanelLayout = new EasyGridBagLayout( scaleControlPanel );
+            scaleControlPanel.setLayout( scaleControlPanelLayout );
+            int row = 0;
+            int column = 0;
+            scaleControlPanelLayout.addComponent( _logRadioButton, row++, column );
+            scaleControlPanelLayout.addComponent( _linearRadioButton, row++, column );
+            
+            // default state
+            _logRadioButton.setSelected( true );
+        }
         
-        pHSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                pHValue.setText( String.valueOf( pHSlider.getValue() ) );
-            }
-        });
-        
+        // control panel, contains all of the above controls
         JPanel controlPanel = new JPanel();
-        EasyGridBagLayout controlPanelLayout = new EasyGridBagLayout( controlPanel );
-        controlPanel.setLayout( controlPanelLayout );
-        int row = 0;
-        int column = 0;
-        controlPanelLayout.addComponent( pHLabel, row, column++ );
-        controlPanelLayout.addComponent( pHSlider, row, column++ );
-        controlPanelLayout.addComponent( pHValue, row, column++ );
+        {
+            EasyGridBagLayout controlPanelLayout = new EasyGridBagLayout( controlPanel );
+            controlPanel.setLayout( controlPanelLayout );
+            int row = 0;
+            int column = 0;
+            controlPanelLayout.addFilledComponent( pHControlPanel, row++, column, GridBagConstraints.HORIZONTAL );
+            controlPanelLayout.addFilledComponent( unitsControlPanel, row++, column, GridBagConstraints.HORIZONTAL );
+            controlPanelLayout.addFilledComponent( scaleControlPanel, row++, column, GridBagConstraints.HORIZONTAL );
+        }
         
         JPanel panel = new JPanel( new BorderLayout() );
         panel.add( chartPanel, BorderLayout.CENTER );
-        panel.add( controlPanel, BorderLayout.SOUTH );
+        panel.add( controlPanel, BorderLayout.EAST );
         
         getContentPane().add( panel );
     }
@@ -99,9 +191,9 @@ public class TestBarGraph extends JFrame {
         
         JFreeChart chart = ChartFactory.createXYBarChart(
             "",      // chart title
-            "X",  // domain (x) axis label
-            true,
-            "Y",     // range (y) axis label
+            "default X-axis label",
+            false, // dataAxis
+            "default Y-axis label",
             dataset,
             PlotOrientation.VERTICAL,
             false,  // legend
@@ -113,6 +205,19 @@ public class TestBarGraph extends JFrame {
         ClusteredXYBarRenderer r = new ClusteredXYBarRenderer();
         plot.setRenderer(r);
         return chart;        
+    }
+    
+    private void handlePHSliderChanged() {
+        _pHValue.setText( String.valueOf( _pHSlider.getValue() ) );
+        //XXX update chart
+    }
+    
+    private void handleUnitsChanged() {
+        //XXX
+    }
+    
+    private void handleScaleChanged() {
+        //XXX
     }
     
     public static void main( String args[] ) {
