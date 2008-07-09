@@ -16,13 +16,12 @@ MEDIUM PRIORITY:
 - generalize layout code
 - adjust liquid colors
 - adjust fill and drain rates
-- pH slider jerks around if you drag it while beaker is filling
 - vary flow rate of faucets depending on how far slider is dragged?
 - break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
 
 LOW PRIORITY:
 - can't align baselines of text and numbers drawn using HTMLNode
-- pH text field isn't fully selected when it gains focus or when you double-click in it (PSwing issue?)
+- pH text field isn't fully selected when it gains focus or when you double-click in it, selection is generally flakey (PSwing issue?)
 - replace molecule image files with SphericalNode subclasses?
 - change layout of molecule counts display?
 - disable liquid and water sliders when beaker is full?
