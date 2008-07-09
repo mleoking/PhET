@@ -13,15 +13,15 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * PenguinNode is a node used to control the horizontal position of the zoomed viewport.
- * A penguin image is displayed, and can be dragged horizontally.
+ * PanControlNode is a node used to control the horizontal position of the zoomed viewport.
+ * An image is displayed, and can be dragged horizontally.
  * The location of the node is used to adjust the center of the zoomed viewport.
  * Horizontal dragging is limited such that the left and right edges of the zoomed viewport are
  * always within the birds-eye viewport.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PenguinNode extends PImage {
+public class PanControlNode extends PImage {
     
     private static final double X_UNDEFINED = -1;
     
@@ -42,7 +42,7 @@ public class PenguinNode extends PImage {
      * Constructor that allows the zoomed viewport to be dragged 
      * across the full width of the birds-eye viewport.
      */
-    public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt ) {
+    public PanControlNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt ) {
         this( birdsEyeViewport, zoomedViewport, mvt, X_UNDEFINED );
     }
     
@@ -55,8 +55,8 @@ public class PenguinNode extends PImage {
      * @param mvt
      * @param zoomedViewportMaxCenterX
      */
-    public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt, double zoomedViewportMaxCenterX ) {
-        super( GlaciersImages.PENGUIN );
+    public PanControlNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt, double zoomedViewportMaxCenterX ) {
+        super( GlaciersImages.PAN_CHARACTER );
         
         _birdsEyeViewport = birdsEyeViewport;
         _birdsEyeViewport.addViewportListener( new ViewportListener() {
@@ -137,7 +137,7 @@ public class PenguinNode extends PImage {
     //----------------------------------------------------------------------------
     
     /*
-     * Centers the penguin at the bottom of the birds-eye viewport.
+     * Centers the image at the bottom of the birds-eye viewport.
      */
     private void updateOffset() {
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
@@ -148,23 +148,23 @@ public class PenguinNode extends PImage {
     }
     
     /*
-     * Scales the penguin to fit into the birds-eye viewport.
+     * Scales the image to fit into the birds-eye viewport.
      */
     private void updateScale() {
         setScale( 1 );
-        final double portionOfViewportToFill = 0.75; // percent of birds-eye view height to be filled by the penguin
+        final double portionOfViewportToFill = 0.75; // percent of birds-eye view height to be filled by the pan control
         double desiredHeight = portionOfViewportToFill * _mvt.modelToView( _birdsEyeViewport.getBoundsReference() ).getHeight();
-        double penguinHeight = getFullBoundsReference().getHeight();
+        double imageHeight = getFullBoundsReference().getHeight();
         double yScale = 1;
-        if ( penguinHeight > desiredHeight ) {
-            // scale the penguin down
-            yScale = 1 - ( ( penguinHeight - desiredHeight ) / penguinHeight );
-//            System.out.println( "PenguinNode.updateScale, scaling penguin down yScale=" + yScale + " ph=" + penguinHeight + " dh=" + desiredHeight );//XXX
+        if ( imageHeight > desiredHeight ) {
+            // scale the image down
+            yScale = 1 - ( ( imageHeight - desiredHeight ) / imageHeight );
+//            System.out.println( "PaneControlNode.updateScale, scaling down, yScale=" + yScale + " ih=" + imageHeight + " dh=" + desiredHeight );//XXX
         }
         else {
-            // scale the penguin up
-            yScale = 1 + ( ( desiredHeight - penguinHeight ) / desiredHeight );
-//            System.out.println( "PenguinNode.updateScale, scaling penguin up yScale=" + yScale + " ph=" + penguinHeight + " dh=" + desiredHeight );//XXX
+            // scale the image up
+            yScale = 1 + ( ( desiredHeight - imageHeight ) / desiredHeight );
+//            System.out.println( "PaneControlNode.updateScale, scaling up, yScale=" + yScale + " ih=" + imageHeight + " dh=" + desiredHeight );//XXX
         }
         setScale( yScale );
     }
