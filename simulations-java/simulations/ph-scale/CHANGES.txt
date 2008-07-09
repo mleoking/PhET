@@ -40,6 +40,7 @@ CLEANUP:
 
 
 DONE:
+******* version 0.00.10 (?)
 7/9/08 - reset Custom pH to 7 when user explicitly selects it
 7/9/08 - add LiquidDescriptorListener.pHChanged
 7/9/08 - subclass CustomLiquidDescriptor so that base class pH values can't be changed

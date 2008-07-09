@@ -23,6 +23,10 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 public class BarGraphNode extends PNode {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
     private static final Color OUTLINE_FILL_COLOR = Color.WHITE;
@@ -34,16 +38,25 @@ public class BarGraphNode extends PNode {
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0" );
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
     private final PPath _graphOutlineNode;
-    private final FormattedNumberNode _h3oNode, _ohNode, _h2oNode;
+    private final FormattedNumberNode _h3oNumberNode, _ohNumberNode, _h2oNumberNode;
+    private PNode _ticksLogConcentrationNode, _ticksLogMolesNode, _ticksLinearConcentrationNode, _ticksLinearMolesNode;
+    private PNode _h3oBarNode, _ohBarNode, _h2oBarNode;
     
     private boolean _logScale;
     private boolean _concentrationUnits;
     
-
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public BarGraphNode( PDimension graphOutlineSize, Liquid liquid ) {
         
         _logScale = true;
@@ -52,7 +65,8 @@ public class BarGraphNode extends PNode {
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
             public void stateChanged() {
-                update();
+                updateValues();
+                updateBars();
             }
         };
         _liquid.addLiquidListener( _liquidListener );
@@ -66,23 +80,23 @@ public class BarGraphNode extends PNode {
         _graphOutlineNode.setChildrenPickable( false );
         addChild( _graphOutlineNode );
         
-        _h3oNode = new FormattedNumberNode( H3O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
-        _h3oNode.rotate( -Math.PI / 2 );
-        _h3oNode.setPickable( false );
-        _h3oNode.setChildrenPickable( false );
-        addChild( _h3oNode );
+        _h3oNumberNode = new FormattedNumberNode( H3O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
+        _h3oNumberNode.rotate( -Math.PI / 2 );
+        _h3oNumberNode.setPickable( false );
+        _h3oNumberNode.setChildrenPickable( false );
+        addChild( _h3oNumberNode );
         
-        _ohNode = new FormattedNumberNode( OH_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
-        _ohNode.rotate( -Math.PI / 2 );
-        _ohNode.setPickable( false );
-        _ohNode.setChildrenPickable( false );
-        addChild( _ohNode );
+        _ohNumberNode = new FormattedNumberNode( OH_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
+        _ohNumberNode.rotate( -Math.PI / 2 );
+        _ohNumberNode.setPickable( false );
+        _ohNumberNode.setChildrenPickable( false );
+        addChild( _ohNumberNode );
         
-        _h2oNode = new FormattedNumberNode( H2O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
-        _h2oNode.rotate( -Math.PI / 2 );
-        _h2oNode.setPickable( false );
-        _h2oNode.setChildrenPickable( false );
-        addChild( _h2oNode );
+        _h2oNumberNode = new FormattedNumberNode( H2O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
+        _h2oNumberNode.rotate( -Math.PI / 2 );
+        _h2oNumberNode.setPickable( false );
+        _h2oNumberNode.setChildrenPickable( false );
+        addChild( _h2oNumberNode );
         
         updateValues(); // do this before setting offsets so that bounds are reasonable
         
@@ -92,10 +106,11 @@ public class BarGraphNode extends PNode {
         final double xOH = 0.5 * gob.getWidth();
         final double xH2O = 0.75 * gob.getWidth();
         
-        _h3oNode.setOffset( xH3O - _h3oNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _h3oNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
-        _ohNode.setOffset( xOH - _ohNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _ohNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
-        _h2oNode.setOffset( xH2O - _h2oNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _h2oNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
+        _h3oNumberNode.setOffset( xH3O - _h3oNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _h3oNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
+        _ohNumberNode.setOffset( xOH - _ohNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _ohNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
+        _h2oNumberNode.setOffset( xH2O - _h2oNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _h2oNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
         
+        updateTicks();
         updateBars();
     }
     
@@ -103,10 +118,15 @@ public class BarGraphNode extends PNode {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public void setLogScale( boolean logScale ) {
         if ( logScale != _logScale ) {
             _logScale = logScale;
-            update();
+            updateTicks();
+            updateBars();
         }
     }
     
@@ -117,7 +137,9 @@ public class BarGraphNode extends PNode {
     public void setConcentrationUnits( boolean concentrationUnits ) {
         if ( concentrationUnits != _concentrationUnits ) {
             _concentrationUnits = concentrationUnits;
-            update();
+            updateValues();
+            updateTicks();
+            updateBars();
         }
     }
     
@@ -125,21 +147,39 @@ public class BarGraphNode extends PNode {
         return _concentrationUnits;
     }
     
-    private void update() {
-       updateValues();        
-       updateBars();
-    }
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
     
     private void updateValues() {
         if ( _concentrationUnits ) {
-            _h3oNode.setValue( _liquid.getConcentrationH3O() );
-            _ohNode.setValue( _liquid.getConcentrationOH() );
-            _h2oNode.setValue( _liquid.getConcentrationH2O() );
+            _h3oNumberNode.setValue( _liquid.getConcentrationH3O() );
+            _ohNumberNode.setValue( _liquid.getConcentrationOH() );
+            _h2oNumberNode.setValue( _liquid.getConcentrationH2O() );
         }
         else {
-            _h3oNode.setValue( _liquid.getMolesH3O() );
-            _ohNode.setValue( _liquid.getMolesOH() );
-            _h2oNode.setValue( _liquid.getMolesH2O() );
+            _h3oNumberNode.setValue( _liquid.getMolesH3O() );
+            _ohNumberNode.setValue( _liquid.getMolesOH() );
+            _h2oNumberNode.setValue( _liquid.getMolesH2O() );
+        }
+    }
+    
+    private void updateTicks() {
+        if ( _concentrationUnits ) {
+            if ( _logScale ) {
+                //XXX
+            }
+            else { /* linear */
+                //XXX
+            }
+        }
+        else { /* moles */
+            if ( _logScale ) {
+                //XXX
+            }
+            else { /* linear */
+                //XXX
+            }
         }
     }
     
