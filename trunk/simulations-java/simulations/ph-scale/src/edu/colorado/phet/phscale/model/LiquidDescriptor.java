@@ -106,7 +106,7 @@ public class LiquidDescriptor {
     }
     
     public static LiquidDescriptor getDefaultLiquid() {
-        return BLOOD;
+        return MILK;
     }
     
     public String getName() {
