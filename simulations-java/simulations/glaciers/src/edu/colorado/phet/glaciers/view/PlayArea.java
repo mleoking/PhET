@@ -41,7 +41,7 @@ import edu.umd.cs.piccolo.PNode;
  * <p>
  * The birds-eye view appears at the top of the play area, and shows a tiny
  * overview picture of the world. A viewport shown in the birds-eye view indicates the 
- * portion of the world shown in the zoomed view. A penguin image can be dragged 
+ * portion of the world shown in the zoomed view. A pan control can be dragged 
  * horizontally to move the zoomed viewport.
  * <p>
  * The zoomed view appears below the birds-eye view, and displays a zoomed-in 
@@ -103,7 +103,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     private final PLayer _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
     private final IceFlowNode _iceFlowNode;
     private final ToolboxNode _toolboxNode;
-    private final PNode _penguinNode;
+    private final PNode _panControlNode;
     private final EquilibriumLineNode _equilibriumLineNode;
     private final ELAValueNode _elaValueNode;
     private final ElevationAxisNode _leftElevationAxisNode, _rightElevationAxisNode;
@@ -288,10 +288,10 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
         _elaValueNode.setVisible( DEBUG_ELA_VALUE_VISIBLE );
         _toolboxLayer.addChild( _elaValueNode );
         
-        // Penguin is the control for moving the zoomed viewport
+        // Pan control, for moving the zoomed viewport
         final double maxX = headwallPosition.getX() + MAX_GLACIER_LENGTH;
-        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt, maxX );
-        _viewportLayer.addChild( _penguinNode );
+        _panControlNode = new PanControlNode( _birdsEyeViewport, _zoomedViewport, _mvt, maxX );
+        _viewportLayer.addChild( _panControlNode );
         
         // Arrows for moving zoomed viewport
         _leftScrollArrowNode = new LeftScrollArrowNode( _birdsEyeViewport, _zoomedViewport );
