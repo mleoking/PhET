@@ -54,6 +54,7 @@ public class LiquidControlNode extends PNode {
     
     private LiquidDescriptor _selectedLiquidDescriptor;
     private boolean _confirmChangeLiquid;
+    private boolean _notifyEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,6 +62,8 @@ public class LiquidControlNode extends PNode {
     
     public LiquidControlNode( PSwingCanvas canvas, Liquid liquid ) {
         super();
+        
+        _notifyEnabled = true;
         
         _confirmChangeLiquid = CONFIRM_CHANGE_LIQUID_ENABLED;
         
@@ -83,7 +86,7 @@ public class LiquidControlNode extends PNode {
         _selectedLiquidDescriptor = _comboBox.getChoice();
         _comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
-                if ( e.getStateChange() == ItemEvent.SELECTED ) {
+                if ( e.getStateChange() == ItemEvent.SELECTED && _notifyEnabled ) {
                     handleLiquidSelection( _confirmChangeLiquid );
                 }
             }
@@ -147,20 +150,28 @@ public class LiquidControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private void update() {
+        _notifyEnabled = false;
         _faucetControlNode.setOn( _liquid.isFillingLiquid() );
         _liquidColumnNode.setPaint( _liquid.getLiquidDescriptor().getColor() );
         _liquidColumnNode.setVisible( _liquid.isFillingLiquid() );
         _waterColumnNode.setVisible( _liquid.isFillingLiquid() );
         _comboBox.setChoice( _liquid.getLiquidDescriptor() );
+        _notifyEnabled = true;
     }
     
     private void handleLiquidSelection( boolean confirm ) {
         LiquidDescriptor liquidDescriptor = _comboBox.getChoice();
         if ( !liquidDescriptor.equals( _selectedLiquidDescriptor ) ) {
+            
+            if ( liquidDescriptor.equals( LiquidDescriptor.getCustom() ) ) {
+                LiquidDescriptor.getCustom().resetPH();
+            }
+            
             boolean confirmed = true;
             if ( !_liquid.isEmpty() && confirm ) {
                 confirmed = confirmChangeLiquid();
             }
+            
             if ( confirmed ) {
                 _selectedLiquidDescriptor = liquidDescriptor;
                 _liquid.setLiquidDescriptor( liquidDescriptor );

@@ -39,13 +39,20 @@ public class LiquidDescriptor {
     
     public static class CustomLiquidDescriptor extends LiquidDescriptor {
         
+        private final double _defaultPH;
+        
         private CustomLiquidDescriptor( ) {
             super( PHScaleStrings.CHOICE_CUSTOM, 7, new Color( 255, 255, 156, ALPHA )  );
+            _defaultPH = getPH();
         }
         
         // make this interface public
         public void setPH( double pH ) {
             super.setPH( pH );
+        }
+        
+        public void resetPH() {
+            setPH( _defaultPH );
         }
         
         // no pH value shown for Custom liquid
