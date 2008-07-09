@@ -54,7 +54,7 @@ public class LiquidDescriptor {
     //----------------------------------------------------------------------------
     
     private final String _name;
-    private final double _pH;
+    private double _pH;
     private Color _color;
     private final ArrayList _listeners;
     
@@ -92,6 +92,12 @@ public class LiquidDescriptor {
     
     public String getName() {
         return _name;
+    }
+    
+    public void setPH( double pH ) {
+        if ( pH != _pH ) {
+            _pH = pH;
+        }
     }
     
     public double getPH() {
