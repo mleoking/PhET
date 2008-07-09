@@ -37,13 +37,25 @@ public class LiquidDescriptor {
     private static final LiquidDescriptor VOMIT = new LiquidDescriptor( PHScaleStrings.CHOICE_VOMIT, 2, new Color( 0, 255, 0, ALPHA ) );
     private static final LiquidDescriptor BATTERY_ACID = new LiquidDescriptor( PHScaleStrings.CHOICE_BATTERY_ACID, 1, new Color( 255, 255, 0, ALPHA ) );
     
-    private static final LiquidDescriptor CUSTOM = new LiquidDescriptor( PHScaleStrings.CHOICE_CUSTOM, 7, new Color( 255, 255, 156, ALPHA ) ) {
+    public static class CustomLiquidDescriptor extends LiquidDescriptor {
+        
+        private CustomLiquidDescriptor( ) {
+            super( PHScaleStrings.CHOICE_CUSTOM, 7, new Color( 255, 255, 156, ALPHA )  );
+        }
+        
+        // make this interface public
+        public void setPH( double pH ) {
+            super.setPH( pH );
+        }
+        
+        // no pH value shown for Custom liquid
         public String toString() {
-            // no pH value shown for Custom liquid
             return getName();
         }
-    };
-
+    }
+    
+    private static final CustomLiquidDescriptor CUSTOM = new CustomLiquidDescriptor();
+    
     // all instances
     private static final LiquidDescriptor[] ALL_INSTANCES = new LiquidDescriptor[] {
         DRAIN_CLEANER, HAND_SOAP, BLOOD, SPIT, WATER, MILK, COFFEE, BEER, COLA, VOMIT, BATTERY_ACID, CUSTOM /* put Custom last! */
@@ -82,7 +94,7 @@ public class LiquidDescriptor {
         return WATER;
     }
     
-    public static LiquidDescriptor getCustom() {
+    public static CustomLiquidDescriptor getCustom() {
         return CUSTOM;
     }
     
@@ -94,7 +106,7 @@ public class LiquidDescriptor {
         return _name;
     }
     
-    public void setPH( double pH ) {
+    protected void setPH( double pH ) {
         if ( pH != _pH ) {
             _pH = pH;
         }

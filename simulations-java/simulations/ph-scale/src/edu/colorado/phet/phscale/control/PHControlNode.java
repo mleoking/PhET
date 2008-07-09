@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.CustomLiquidDescriptor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -106,7 +107,7 @@ public class PHControlNode extends PNode {
     
     private void updateModelPH( double pH ) {
         if ( _notifyEnabled ) {
-            LiquidDescriptor customLiquid = LiquidDescriptor.getCustom();
+            CustomLiquidDescriptor customLiquid = LiquidDescriptor.getCustom();
             if ( !_liquid.getLiquidDescriptor().equals( customLiquid ) ) {
                 _liquid.setLiquidDescriptor( customLiquid );
             }
