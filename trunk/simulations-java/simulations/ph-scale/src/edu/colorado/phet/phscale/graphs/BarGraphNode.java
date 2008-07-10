@@ -3,24 +3,35 @@
 package edu.colorado.phet.phscale.graphs;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.phscale.PHScaleConstants;
+import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 public class BarGraphNode extends PNode {
@@ -33,6 +44,14 @@ public class BarGraphNode extends PNode {
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
     private static final Color OUTLINE_FILL_COLOR = Color.WHITE;
+    
+    // units label
+    private static final Font UNITS_FONT = new PhetFont( 14 );
+    private static final Color UNITS_COLOR = Color.BLACK;
+    
+    // bars
+    private static final Stroke BAR_STROKE = null;
+    private static final Color BAR_STROKE_COLOR = Color.BLACK;
     
     // numeric values
     private static final Font VALUE_FONT = new PhetFont( 16 );
@@ -74,13 +93,20 @@ public class BarGraphNode extends PNode {
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
+    private final PDimension _graphOutlineSize;
     private final PPath _graphOutlineNode;
     private final FormattedNumberNode _h3oNumberNode, _ohNumberNode, _h2oNumberNode;
     private final PNode _logTicksNode, _linearTicksNode;
-    private PNode _h3oBarNode, _ohBarNode, _h2oBarNode;
+    private final PNode _linearTicksParentNode;
+    private final GeneralPath _h3oBarShape, _ohBarShape, _h2oBarShape;
+    private final PPath _h3oBarNode, _ohBarNode, _h2oBarNode;
+    private final PText _unitsNode;
+    private final JButton _zoomInButton, _zoomOutButton;
+    private final PSwing _zoomPanelWrapper;
     
     private boolean _logScale;
     private boolean _concentrationUnits;
+    private int _linearTicksExponent;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -88,8 +114,10 @@ public class BarGraphNode extends PNode {
     
     public BarGraphNode( PDimension graphOutlineSize, Liquid liquid ) {
         
+        _graphOutlineSize = new PDimension( graphOutlineSize );
         _logScale = true;
         _concentrationUnits = true;
+        _linearTicksExponent = BIGGEST_LINEAR_TICK_EXPONENT;
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
@@ -109,6 +137,11 @@ public class BarGraphNode extends PNode {
         _graphOutlineNode.setChildrenPickable( false );
         addChild( _graphOutlineNode );
         
+        _unitsNode = new PText( "?" );
+        _unitsNode.setFont( UNITS_FONT );
+        _unitsNode.setTextPaint( UNITS_COLOR );
+        addChild( _unitsNode );
+        
         _h3oNumberNode = createNumberNode( H3O_FORMAT );
         addChild( _h3oNumberNode );
         
@@ -124,23 +157,82 @@ public class BarGraphNode extends PNode {
         _logTicksNode.setVisible( _logScale );
         addChild( _logTicksNode );
         
-        _linearTicksNode = createLinearTicksNode( graphOutlineSize );
+        _linearTicksNode = createLinearTicksNode( graphOutlineSize, _linearTicksExponent );
         _logTicksNode.setVisible( !_logScale );
-        addChild( _linearTicksNode );
+        _linearTicksParentNode = new PNode();
+        _linearTicksParentNode.addChild( _linearTicksNode );
+        addChild( _linearTicksParentNode );
+        
+        _h3oBarShape = new GeneralPath();
+        _ohBarShape = new GeneralPath();
+        _h2oBarShape = new GeneralPath();
+        
+        _h3oBarNode = new PPath();
+        _h3oBarNode.setPaint( PHScaleConstants.H3O_COLOR );
+        _h3oBarNode.setStroke( BAR_STROKE );
+        _h3oBarNode.setStrokePaint( BAR_STROKE_COLOR );
+        addChild( _h3oBarNode );
+        
+        _ohBarNode = new PPath();
+        _ohBarNode.setPaint( PHScaleConstants.OH_COLOR );
+        _ohBarNode.setStroke( BAR_STROKE );
+        _ohBarNode.setStrokePaint( BAR_STROKE_COLOR );
+        addChild( _ohBarNode );
+        
+        _h2oBarNode = new PPath();
+        _h2oBarNode.setPaint( PHScaleConstants.H2O_COLOR );
+        _h2oBarNode.setStroke( BAR_STROKE );
+        _h2oBarNode.setStrokePaint( BAR_STROKE_COLOR );
+        addChild( _h2oBarNode );
+        
+        // Zoom controls
+        {
+            _zoomInButton = new JButton( PHScaleStrings.BUTTON_ZOOM_IN );
+            _zoomInButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    zoomIn();
+                }
+            } );
+
+            _zoomOutButton = new JButton( PHScaleStrings.BUTTON_ZOOM_OUT );
+            _zoomOutButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    zoomOut();
+                }
+            } );
+
+            JPanel zoomPanel = new JPanel();
+            zoomPanel.setOpaque( false );
+            EasyGridBagLayout zoomPanelLayout = new EasyGridBagLayout( zoomPanel );
+            zoomPanel.setLayout( zoomPanelLayout );
+            int row = 0;
+            int column = 0;
+            zoomPanelLayout.addFilledComponent( _zoomInButton, row++, column, GridBagConstraints.HORIZONTAL );
+            zoomPanelLayout.addFilledComponent( _zoomOutButton, row++, column, GridBagConstraints.HORIZONTAL );
+            
+            _zoomPanelWrapper = new PSwing( zoomPanel );
+            _zoomPanelWrapper.setVisible( !_logScale );
+            addChild( _zoomPanelWrapper );
+        }
         
         _graphOutlineNode.setOffset( 0, 0 );
-        _logTicksNode.setOffset( _graphOutlineNode.getOffset() );
         PBounds gob = _graphOutlineNode.getFullBoundsReference();
+        _logTicksNode.setOffset( _graphOutlineNode.getOffset() );
+        _linearTicksParentNode.setOffset( _graphOutlineNode.getOffset() );
+        _unitsNode.setOffset( gob.getX() + 10, gob.getY() + 5 );
         final double xH3O = 0.25 * gob.getWidth();
         final double xOH = 0.5 * gob.getWidth();
         final double xH2O = 0.75 * gob.getWidth();
-        
         _h3oNumberNode.setOffset( xH3O - _h3oNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _h3oNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
         _ohNumberNode.setOffset( xOH - _ohNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _ohNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
         _h2oNumberNode.setOffset( xH2O - _h2oNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _h2oNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
+        //XXX set offsets for bars
+        _zoomPanelWrapper.setOffset( gob.getCenterX() - _zoomPanelWrapper.getFullBoundsReference().getWidth()/2, 30 );
         
+        updateUnits();
         updateTicks();
         updateBars();
+        updateControls();
     }
     
     public void cleanup() {
@@ -213,11 +305,10 @@ public class BarGraphNode extends PNode {
      * Creates the tick marks and labels for the linear scale,
      * starting from the bottom of the graph and working up.
      */
-    private static PNode createLinearTicksNode( PDimension graphOutlineSize ) {
+    private static PNode createLinearTicksNode( PDimension graphOutlineSize, final int exponent ) {
 
         PNode parentNode = new PComposite();
 
-        final int exponent = BIGGEST_LINEAR_TICK_EXPONENT; //TODO: vary this exponent to zoom in/out
         final double numberOfTicks = NUMBER_OF_LINEAR_TICKS;
         final double usableHeight = graphOutlineSize.getHeight() - TICKS_TOP_MARGIN;
         final double tickSpacing = usableHeight / ( numberOfTicks - 1 );
@@ -280,6 +371,7 @@ public class BarGraphNode extends PNode {
             _logScale = logScale;
             updateTicks();
             updateBars();
+            updateControls();
         }
     }
     
@@ -290,6 +382,7 @@ public class BarGraphNode extends PNode {
     public void setConcentrationUnits( boolean concentrationUnits ) {
         if ( concentrationUnits != _concentrationUnits ) {
             _concentrationUnits = concentrationUnits;
+            updateUnits();
             updateValues();
             updateTicks();
             updateBars();
@@ -301,8 +394,31 @@ public class BarGraphNode extends PNode {
     }
     
     //----------------------------------------------------------------------------
+    // Zoom
+    //----------------------------------------------------------------------------
+    
+    private void zoomIn() {
+        _linearTicksExponent--;
+        updateTicks();
+        updateBars();
+        updateControls();
+    }
+    
+    private void zoomOut() {
+        _linearTicksExponent++;
+        updateTicks();
+        updateBars();
+        updateControls();
+    }
+    
+    //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
+    
+    private void updateUnits() {
+        String s = ( _concentrationUnits ? PHScaleStrings.UNITS_MOLES_PER_LITER : PHScaleStrings.UNITS_MOLES );
+        _unitsNode.setText( s );
+    }
     
     private void updateValues() {
         if ( _concentrationUnits ) {
@@ -318,42 +434,57 @@ public class BarGraphNode extends PNode {
     }
     
     private void updateTicks() {
+        if ( !_logScale ) {
+            // update linear ticks to match zoom level
+            _linearTicksParentNode.removeAllChildren();
+            PNode linearTicksNode = createLinearTicksNode( _graphOutlineSize, _linearTicksExponent );
+            _linearTicksParentNode.addChild( linearTicksNode  );
+        }
         _logTicksNode.setVisible( _logScale );
         _linearTicksNode.setVisible( !_logScale );
-        if ( _concentrationUnits ) {
-            if ( _logScale ) {
-                //XXX
-            }
-            else { /* linear */
-                //XXX
-            }
-        }
-        else { /* moles */
-            if ( _logScale ) {
-                //XXX
-            }
-            else { /* linear */
-                //XXX
-            }
-        }
     }
     
     private void updateBars() {
+        
+        _h3oBarShape.reset();
+        _ohBarShape.reset();
+        _h2oBarShape.reset();
+        
+        if ( !_liquid.isEmpty() ) {
+            if ( _logScale ) {
+                updateBarShapesLog();
+            }
+            else { /* linear */
+                updateBarsShapesLinear();
+            }
+        }
+        
+        _h3oBarNode.setPathTo( _h3oBarShape );
+        _ohBarNode.setPathTo( _ohBarShape );
+        _h2oBarNode.setPathTo( _h2oBarShape );
+    }
+    
+    private void updateBarShapesLog() {
         if ( _concentrationUnits ) {
-            if ( _logScale ) {
-                //XXX
-            }
-            else { /* linear */
-                //XXX
-            }
+            //XXX
         }
-        else { /* moles */
-            if ( _logScale ) {
-                //XXX
-            }
-            else { /* linear */
-                //XXX
-            }
+        else {
+            //XXX
         }
+    }
+    
+    private void updateBarsShapesLinear() {
+        if ( _concentrationUnits ) {
+            //XXX
+        }
+        else {
+            //XXX
+        }
+    }
+    
+    private void updateControls() {
+        _zoomInButton.setEnabled( _linearTicksExponent != SMALLEST_LINEAR_TICK_EXPONENT );
+        _zoomOutButton.setEnabled( _linearTicksExponent != BIGGEST_LINEAR_TICK_EXPONENT );
+        _zoomPanelWrapper.setVisible( !_logScale );
     }
 }
