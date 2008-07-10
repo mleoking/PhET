@@ -3,7 +3,6 @@ package edu.colorado.phet.phscale.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
