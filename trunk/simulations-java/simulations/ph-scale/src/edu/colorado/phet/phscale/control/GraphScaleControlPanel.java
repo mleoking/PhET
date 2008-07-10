@@ -3,6 +3,8 @@
 package edu.colorado.phet.phscale.control;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -49,10 +51,20 @@ public class GraphScaleControlPanel extends JPanel {
         _logRadioButton = new JRadioButton( PHScaleStrings.RADIO_BUTTON_LOGARITHMIC_SCALE );
         _logRadioButton.setOpaque( false );
         _logRadioButton.setFont( CONTROL_FONT );
+        _logRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifySelectionChanged();
+            }
+        } );
         
         _linearRadioButton = new JRadioButton( PHScaleStrings.RADIO_BUTTON_LINEAR_SCALE );
         _linearRadioButton.setOpaque( false );
         _linearRadioButton.setFont( CONTROL_FONT );
+        _linearRadioButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifySelectionChanged();
+            }
+        } );
         
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _logRadioButton );
