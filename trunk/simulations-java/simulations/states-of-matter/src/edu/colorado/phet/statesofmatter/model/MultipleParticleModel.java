@@ -78,6 +78,11 @@ public class MultipleParticleModel {
     public static final int ARGON = 2;
     public static final int DIATOMIC_OXYGEN = 3;
     public static final int WATER = 4;
+    
+    // Possible thermostat settings.
+    public static final int NO_THERMOSTAT = 0;
+    public static final int ISOKINETIC_THERMOSTAT = 1;
+    public static final int ANDERSEN_THERMOSTAT = 2;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -128,7 +133,7 @@ public class MultipleParticleModel {
     private double m_particleDiameter;
     private double m_pressure;
     private PressureCalculator m_pressureCalculator;
-    private boolean m_thermostatEnabled;
+    private int    m_thermostatType;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -138,7 +143,7 @@ public class MultipleParticleModel {
         
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
-        m_thermostatEnabled = true;
+        setThermostatType( ANDERSEN_THERMOSTAT );
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -265,13 +270,21 @@ public class MultipleParticleModel {
         reset();
     }
     
-    public boolean getIsThermostatEnabled() {
-        return m_thermostatEnabled;
+    public int getThermostatType() {
+        return m_thermostatType;
     }
 
     
-    public void setIsThermostatEnabled( boolean enabled ) {
-        m_thermostatEnabled = enabled;
+    public void setThermostatType( int type ) {
+        if ((type == NO_THERMOSTAT) ||
+            (type == ISOKINETIC_THERMOSTAT) ||
+            (type == ANDERSEN_THERMOSTAT))
+        {
+            m_thermostatType = type;
+        }
+        else{
+            throw new IllegalArgumentException( "Thermostat type setting out of range: " + type );
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -1028,7 +1041,7 @@ public class MultipleParticleModel {
                     (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
         }
         
-        if (m_thermostatEnabled){
+        if (m_thermostatType == ISOKINETIC_THERMOSTAT){
             // Isokinetic thermostat
             
             double temperatureScaleFactor;
@@ -1046,6 +1059,17 @@ public class MultipleParticleModel {
                         (m_atomVelocities[i].getY() * m_atomVelocities[i].getY())) / 2;
             }
         }
+        else if (m_thermostatType == ANDERSEN_THERMOSTAT){
+            // Modified Andersen Thermostat to maintain fixed temperature
+            // modification to reduce abruptness of heat bath interactions.
+            // For bare Andersen, set gamma=0.0d0.
+            double gamma = 0.99;
+            for (int i = 0; i < m_numberOfAtoms; i++){
+                double xVel = m_atomVelocities[i].getX() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
+                double yVel = m_atomVelocities[i].getY() * gamma + m_rand.nextGaussian() * Math.sqrt(  m_temperature * (1 - Math.pow(gamma, 2)) );
+                m_atomVelocities[i].setComponents( xVel, yVel );
+            }
+        }
         
         // Replace the new forces with the old ones.
         for (int i = 0; i < m_numberOfAtoms; i++){
@@ -1056,6 +1080,9 @@ public class MultipleParticleModel {
     /**
      * Runs one iteration of the Verlet implementation of the Lennard-Jones
      * force calculation on a set of triatomic molecules.
+     */
+    /**
+     * 
      */
     private void verletTriatomic(){
         
@@ -1126,25 +1153,6 @@ public class MultipleParticleModel {
                 double dx = m_moleculeCenterOfMassPositions[i].getX() - m_moleculeCenterOfMassPositions[j].getX();
                 double dy = m_moleculeCenterOfMassPositions[i].getY() - m_moleculeCenterOfMassPositions[j].getY();
                 double distanceSquared = dx * dx + dy * dy;
-                double minDistanceSquared = 0.8;
-                /*
-                 * JPB TBD - Temporarily removing the cutoffs.
-                if (distanceSquared == 0){
-                    // Handle the special case where the particles are right
-                    // on top of each other by assigning an arbitrary
-                    // artificial spacing.
-                    dx = 1;
-                    dy = 1;
-                    distanceSquared = 2;
-                }
-                else {
-                    while (distanceSquared < minDistanceSquared){
-                        dx *= 1.1;
-                        dy *= 1.1;
-                        distanceSquared = (dx * dx) + (dy * dy);
-                    }
-                }
-                */
                 
                 if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
                     // Calculate the Lennard-Jones interaction forces.
@@ -1209,7 +1217,7 @@ public class MultipleParticleModel {
         }
 //        System.out.println("kecm/n = " + kecm/numberOfMolecules + ", kerot/n = " + kerot/numberOfMolecules);
         
-        if (m_thermostatEnabled){
+        if (m_thermostatType == ISOKINETIC_THERMOSTAT){
             // Isokinetic thermostat
             
             double temperatureScaleFactor;
@@ -1226,6 +1234,23 @@ public class MultipleParticleModel {
             }
             kecm = kecm * temperatureScaleFactor * temperatureScaleFactor;
             kerot = kerot * temperatureScaleFactor * temperatureScaleFactor;
+        }
+        else if (m_thermostatType == ANDERSEN_THERMOSTAT){
+            // Modified Andersen Thermostat to maintain fixed temperature
+            // modification to reduce abruptness of heat bath interactions.
+            // For bare Andersen, set gamma=0.0d0.
+            double gamma = 0.99;
+            double velocityScalingFactor = Math.sqrt( m_temperature * massInverse * (1 - Math.pow( gamma, 2)));
+            double rotationScalingFactor = Math.sqrt( m_temperature * inertiaInverse * (1 - Math.pow( gamma, 2)));
+            
+            for (int i = 0; i < numberOfMolecules; i++){
+                double xVel = m_moleculeVelocities[i].getX() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
+                double yVel = m_moleculeVelocities[i].getY() * gamma + m_rand.nextGaussian() * velocityScalingFactor;
+                m_moleculeVelocities[i].setComponents( xVel, yVel );
+                m_moleculeRotationRates[i] = gamma * m_moleculeRotationRates[i] + 
+                        m_rand.nextGaussian() * rotationScalingFactor;
+            }
+
         }
     }
 
