@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
@@ -41,6 +42,10 @@ public class BarGraphNode extends PNode {
     private static final double TICK_LENGTH = 6;
     private static final Stroke TICK_STROKE = new BasicStroke( 1f );
     private static final Paint TICK_COLOR = Color.BLACK;
+    private static final Font TICK_LABEL_FONT = new PhetFont();
+    private static final Color TICK_LABEL_COLOR = Color.BLACK;
+    private static final int BIGGEST_TICK_EXPONENT = 2;
+    private static final int TICK_EXPONENT_SPACING = 2;
     private static final Stroke GRIDLINE_STROKE = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 ); // dashed
     private static final Paint GRIDLINE_COLOR = new Color(192, 192, 192, 100 ); // translucent gray
     private static final boolean DRAW_TICKS_ON_RIGHT = false;
@@ -138,6 +143,7 @@ public class BarGraphNode extends PNode {
         final double tickSpacing = usableHeight / ( numberOfTicks - 1 );
         
         double y = topMargin;
+        int exponent = BIGGEST_TICK_EXPONENT;
         for ( int i = 0; i < numberOfTicks; i++ ) {
             
             PPath leftTickNode = new PPath( new Line2D.Double( -( TICK_LENGTH / 2 ), y, +( TICK_LENGTH / 2 ), y ) );
@@ -159,7 +165,19 @@ public class BarGraphNode extends PNode {
                 parentNode.addChild( gridlineNode );
             }
             
+            if ( i % TICK_EXPONENT_SPACING == 0 ) {
+                String s = "<html>10<sup>" + String.valueOf( exponent ) + "</sup></html>";
+                HTMLNode labelNode = new HTMLNode( s );
+                labelNode.setFont( TICK_LABEL_FONT );
+                labelNode.setHTMLColor( TICK_LABEL_COLOR );
+                double xOffset = leftTickNode.getFullBoundsReference().getMinX() - labelNode.getFullBoundsReference().getWidth() - 5;
+                double yOffset = leftTickNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
+                labelNode.setOffset( xOffset, yOffset );
+                parentNode.addChild( labelNode );
+            }
+            
             y += tickSpacing;
+            exponent--;
         }
         
         return parentNode;
