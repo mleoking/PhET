@@ -41,6 +41,7 @@ CLEANUP:
 DONE:
 7/9/08 - wire up log/linear scale control to bar graph
 7/9/08 - add linear ticks and labels to bar graph
+7/9/08 - add simple format for 0 and 1 exponents to ConstantPowerOfTenNumberFormat
 7/9/08 - fix some constructors to take Liquid instead of PHScaleModel
 7/9/08 - adjust layout of bar graph components
 7/9/08 - add labels to major log tick marks
