@@ -37,6 +37,8 @@ CLEANUP:
 
 
 DONE:
+7/9/08 - make icons in molecule view transparent
+7/9/08 - add BufferedImageUtils.scaleAlpha
 7/9/08 - add developer control for switching to alternate (simpler) molecule count view
 7/9/08 - implement the molecule count view shown in the design doc
 7/9/08 - add Shapes and nodes for bars, but shapes are not updated yet
