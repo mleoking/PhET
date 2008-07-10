@@ -49,7 +49,7 @@ public class MultipleParticleModel {
     public static final double TIME_STEP = Math.pow( 0.5, 6.0 );
     public static final double INITIAL_TEMPERATURE = 0.2;
     public static final double MAX_TEMPERATURE = 4.0;
-    public static final double MIN_TEMPERATURE = 0.01;
+    public static final double MIN_TEMPERATURE = 0.001;
     public static final double TEMPERATURE_STEP = -0.1;
     private static final double WALL_DISTANCE_THRESHOLD = 1.122462048309373017;
     private static final double PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD = 6.25;
@@ -99,12 +99,18 @@ public class MultipleParticleModel {
     private int m_numberOfAtoms;
     private int m_atomsPerMolecule;
     
-    private Point2D [] m_moleculeCentersOfMass;
+    // JPB TBD - Important note to myself about refactoring: I think I can
+    // consolidate a lot of the molecular arrays with the atomic arrays, like
+    // the ones for the forces, and generalize them such that they are used
+    // when the molecule and atom are the same thing.
+    private Point2D [] m_moleculeCenterOfMassPositions;
     private Vector2D [] m_moleculeVelocities;
     private Vector2D [] m_moleculeForces;
+    private Vector2D [] m_nextMoleculeForces;
     private double [] m_moleculeRotationAngles;
     private double [] m_moleculeRotationRates;
-    private double [] m_moleculeTorque;
+    private double [] m_moleculeTorques;
+    private double [] m_nextMoleculeTorques;
     private double m_triatomicMoleculeMass;
     private double m_triatomicRotationalInertia;
     double [] m_x0 = new double [3];
@@ -647,12 +653,14 @@ public class MultipleParticleModel {
         // Initialize the arrays that define the normalized attributes for
         // each molecule.
         m_atomsPerMolecule = 3;
-        m_moleculeCentersOfMass = new Point2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeCenterOfMassPositions = new Point2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
         m_moleculeVelocities = new Vector2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
         m_moleculeForces = new Vector2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_nextMoleculeForces = new Vector2D [MAX_NUM_ATOMS / m_atomsPerMolecule];
         m_moleculeRotationAngles = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
         m_moleculeRotationRates = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
-        m_moleculeTorque = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_moleculeTorques = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
+        m_nextMoleculeTorques = new double [MAX_NUM_ATOMS / m_atomsPerMolecule];
         
         // JPB TBD - The following initializations are taken directly from
         // Paul Beale's code, and I need some clarification on exactly what
@@ -665,17 +673,18 @@ public class MultipleParticleModel {
         m_y0[1] = 0;
         m_x0[2] = aOH*Math.cos( thetaHOH );
         m_y0[2] = aOH*Math.sin( thetaHOH );
-        double xcm0 = (m_x0[0]+0.25*m_x0[1]*m_x0[2])/1.5;
-        double ycm0 = (m_y0[0]+0.25*m_y0[1]*m_y0[2])/1.5;
+        double xcm0 = (m_x0[0]+0.25*m_x0[1]+0.25*m_x0[2])/1.5;
+        double ycm0 = (m_y0[0]+0.25*m_y0[1]+0.25*m_y0[2])/1.5;
         for (int i = 0; i < 3; i++){
             m_x0[i] -= xcm0;
             m_y0[i] -= ycm0;
         }
         
         for (int i = 0; i < MAX_NUM_ATOMS / m_atomsPerMolecule; i++){
-            m_moleculeCentersOfMass[i] = new Point2D.Double();
+            m_moleculeCenterOfMassPositions[i] = new Point2D.Double();
             m_moleculeVelocities[i] = new Vector2D.Double();
             m_moleculeForces[i] = new Vector2D.Double();
+            m_nextMoleculeForces[i] = new Vector2D.Double();
         }
         
         m_triatomicMoleculeMass = 1.5;
@@ -871,7 +880,8 @@ public class MultipleParticleModel {
                     xPos += (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL) / 2;
                 }
                 yPos = startingPosY + (double)i * (1 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL)* 0.7071;
-                m_moleculeCentersOfMass[(i * moleculesPerLayer) + j].setLocation( xPos, yPos );
+                m_moleculeCenterOfMassPositions[(i * moleculesPerLayer) + j].setLocation( xPos, yPos );
+                m_moleculeRotationAngles[(i * moleculesPerLayer) + j] = m_rand.nextDouble() * 2 * Math.PI;
                 
                 moleculesPlaced++;
 
@@ -882,20 +892,7 @@ public class MultipleParticleModel {
             }
         }
         
-        // Position the individual atoms based on their centers of mass and
-        // initial angle.  !IMPORTANT NOTE - This assumes that the molecules
-        // are positioned in groups of three in the arrays.  For instance, a
-        // water molecule will be Oxygen followed by two Hydrogens.
-        
-        for (int i = 0; i < m_numberOfAtoms / 3; i++){
-            double cosineTheta = Math.cos( m_moleculeRotationAngles[i] );
-            double sineTheta = Math.sin( m_moleculeRotationAngles[i] );
-            for (int j = 0; j < 3; j++){
-                xPos = m_moleculeCentersOfMass[i].getX() + cosineTheta * m_x0[j] - sineTheta * m_y0[j];
-                yPos = m_moleculeCentersOfMass[i].getY() + sineTheta * m_x0[j] + cosineTheta * m_y0[j];
-                m_atomPositions[i * 3 + j].setLocation( xPos, yPos );
-            }
-        }
+        updateTriatomicAtomPositions();
     }
 
     /**
@@ -1060,8 +1057,199 @@ public class MultipleParticleModel {
      * Runs one iteration of the Verlet implementation of the Lennard-Jones
      * force calculation on a set of triatomic molecules.
      */
-    public void verletTriatomic(){
+    private void verletTriatomic(){
         
+        assert m_atomsPerMolecule == 3;
+        
+        int numberOfMolecules = m_numberOfAtoms / 3;
+        
+        // JPB TBD - Go over this with Paul and understand it.
+        double q0 = 3;
+        double [] q = new double [] {-2*q0, q0, q0};
+        
+        // JPB TBD - I skipped initializing m_x0 and m_y0 here, as they were
+        // in the code that Paul supplied, because I thought it to be
+        // redundant.  Check on this.
+        
+        double timeStepSqrHalf = TIME_STEP * TIME_STEP / 2;
+        double timeStepHalf = TIME_STEP / 2;
+        double massInverse = 1 / m_triatomicMoleculeMass;
+        double inertiaInverse = 1 / m_triatomicRotationalInertia;
+        
+        // Update center of mass positions and angles for the molecules.
+        for (int i = 0; i < numberOfMolecules; i++){
+            
+            double xPos = m_moleculeCenterOfMassPositions[i].getX() + (TIME_STEP * m_moleculeVelocities[i].getX()) +
+                (timeStepSqrHalf * m_moleculeForces[i].getX() * massInverse);
+            double yPos = m_moleculeCenterOfMassPositions[i].getY() + (TIME_STEP * m_moleculeVelocities[i].getY()) +
+                (timeStepSqrHalf * m_moleculeForces[i].getY() * massInverse);
+            
+            m_moleculeCenterOfMassPositions[i].setLocation( xPos, yPos );
+            
+            m_moleculeRotationAngles[i] += (TIME_STEP * m_moleculeRotationRates[i]) +
+                (timeStepSqrHalf * m_moleculeTorques[i] * inertiaInverse);
+        }
+        
+        updateTriatomicAtomPositions();
+        
+        // Calculate the force from the walls.  This force is assumed to act
+        // on the center of mass, so there is no torque.
+        // Calculate the forces exerted on the particles by the container
+        // walls and by gravity.
+        for (int i = 0; i < numberOfMolecules; i++){
+            
+            // Clear the previous calculation's particle forces and torques.
+            m_nextMoleculeForces[i].setComponents( 0, 0 );
+            m_nextMoleculeTorques[i] = 0;
+            
+            // Get the force values caused by the container walls.
+            calculateWallForce(m_moleculeCenterOfMassPositions[i], m_nextMoleculeForces[i], m_normalizedContainerWidth, 
+                    m_normalizedContainerHeight);
+            
+            // Accumulate this force value as part of the pressure being
+            // exerted on the walls of the container.
+            m_pressureCalculator.accumulatePressureValue( m_nextMoleculeForces[i] );
+            
+            // Add in the effect of gravity.
+            m_nextMoleculeForces[i].setY( m_nextMoleculeForces[i].getY() - m_gravitationalAcceleration );
+        }
+        
+        // Advance the moving average window of the pressure calculator.
+        m_pressureCalculator.advanceWindow();
+        
+        // Calculate the force and torque due to inter-particle interactions.
+        Vector2D force = new Vector2D.Double();
+        for (int i = 0; i < numberOfMolecules; i++){
+            for (int j = i + 1; j < numberOfMolecules; j++){
+                
+                // Calculate Lennard-Jones potential between mass centers.
+                double dx = m_moleculeCenterOfMassPositions[i].getX() - m_moleculeCenterOfMassPositions[j].getX();
+                double dy = m_moleculeCenterOfMassPositions[i].getY() - m_moleculeCenterOfMassPositions[j].getY();
+                double distanceSquared = dx * dx + dy * dy;
+                double minDistanceSquared = 0.8;
+                /*
+                 * JPB TBD - Temporarily removing the cutoffs.
+                if (distanceSquared == 0){
+                    // Handle the special case where the particles are right
+                    // on top of each other by assigning an arbitrary
+                    // artificial spacing.
+                    dx = 1;
+                    dy = 1;
+                    distanceSquared = 2;
+                }
+                else {
+                    while (distanceSquared < minDistanceSquared){
+                        dx *= 1.1;
+                        dy *= 1.1;
+                        distanceSquared = (dx * dx) + (dy * dy);
+                    }
+                }
+                */
+                
+                if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
+                    // Calculate the Lennard-Jones interaction forces.
+                    double r2inv = 1 / distanceSquared;
+                    double r6inv = r2inv * r2inv * r2inv;
+                    double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
+                    force.setX( dx * forceScaler );
+                    force.setY( dy * forceScaler );
+                    m_nextMoleculeForces[i].add( force );
+                    m_nextMoleculeForces[j].subtract( force );
+                    m_potentialEnergy += 4*r6inv*(r6inv-1) + 0.016316891136;
+                }
+
+                if (distanceSquared < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
+                    // Calculate coulomb-like interactions between atoms on
+                    // different water molecules.
+                    for (int ii = 0; ii < 3; ii++){
+                        for (int jj = 0; jj < 3; jj++){
+                            dx = m_atomPositions[3 * i + ii].getX() - m_atomPositions[3 * j + jj].getX();
+                            dy = m_atomPositions[3 * i + ii].getY() - m_atomPositions[3 * j + jj].getY();
+                            double r2inv = 1/(dx*dx + dy*dy);
+                            double forceScaler=q[ii]*q[jj]*r2inv*r2inv;
+                            force.setX( dx * forceScaler );
+                            force.setY( dy * forceScaler );
+                            
+                            m_nextMoleculeForces[i].add( force );
+                            m_nextMoleculeForces[j].subtract( force );
+                            m_nextMoleculeTorques[i] += (m_atomPositions[3 * i + ii].getX() - 
+                                    m_moleculeCenterOfMassPositions[i].getX()) * force.getY() -
+                                   (m_atomPositions[3 * i + ii].getY() - 
+                                           m_moleculeCenterOfMassPositions[i].getY()) * force.getX();
+                            m_nextMoleculeTorques[j] -= (m_atomPositions[3 * j + jj].getX() - m_moleculeCenterOfMassPositions[j].getX()) * force.getY() -
+                                (m_atomPositions[3 * j + jj].getY() - m_moleculeCenterOfMassPositions[j].getY()) * force.getX();
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Update center of mass velocities and angles and calculate kinetic
+        // energy.
+        // JPB TBD - Come up with better names for these terms?
+        double kecm = 0;
+        double kerot = 0;
+        for (int i = 0; i < numberOfMolecules; i++){
+            
+            double xVel = m_moleculeVelocities[i].getX() + 
+                timeStepHalf * (m_moleculeForces[i].getX() + m_nextMoleculeForces[i].getX()) * massInverse;
+            double yVel = m_moleculeVelocities[i].getY() + 
+                timeStepHalf * (m_moleculeForces[i].getY() + m_nextMoleculeForces[i].getY()) * massInverse;
+            m_moleculeVelocities[i].setComponents( xVel, yVel );
+            
+            m_moleculeRotationRates[i] += timeStepHalf * (m_moleculeTorques[i] + m_nextMoleculeTorques[i]) * inertiaInverse;
+            
+            kecm += 0.5 * m_triatomicMoleculeMass * 
+               (Math.pow( m_moleculeVelocities[i].getX(), 2 ) + Math.pow( m_moleculeVelocities[i].getY(), 2 ));
+            kerot += 0.5 * m_triatomicRotationalInertia * Math.pow(m_moleculeRotationRates[i], 2);
+            
+            // Move the newly calculated forces and torques into the current spots.
+            m_moleculeForces[i].setComponents( m_nextMoleculeForces[i].getX(), m_nextMoleculeForces[i].getY());
+            m_moleculeTorques[i] = m_nextMoleculeTorques[i];
+        }
+//        System.out.println("kecm/n = " + kecm/numberOfMolecules + ", kerot/n = " + kerot/numberOfMolecules);
+        
+        if (m_thermostatEnabled){
+            // Isokinetic thermostat
+            
+            double temperatureScaleFactor;
+            if (m_temperature == 0){
+                temperatureScaleFactor = 0;
+            }
+            else{
+                temperatureScaleFactor = Math.sqrt( 1.5 * m_temperature * numberOfMolecules / (kecm + kerot) );
+            }
+            for (int i = 0; i < numberOfMolecules; i++){
+                m_moleculeVelocities[i].setComponents( m_moleculeVelocities[i].getX() * temperatureScaleFactor, 
+                        m_moleculeVelocities[i].getY() * temperatureScaleFactor );
+                m_moleculeRotationRates[i] *= temperatureScaleFactor;
+            }
+            kecm = kecm * temperatureScaleFactor * temperatureScaleFactor;
+            kerot = kerot * temperatureScaleFactor * temperatureScaleFactor;
+        }
+    }
+
+    /**
+     * Position the individual atoms based on their centers of mass and
+     * initial angle.  !IMPORTANT NOTE - This assumes that the molecules
+     * are positioned in groups of three in the arrays.  For instance, a
+     * water molecule will be Oxygen followed by two Hydrogens.
+     */
+    private void updateTriatomicAtomPositions(){
+      
+        assert m_atomsPerMolecule == 3;
+
+        double xPos, yPos;
+        
+        for (int i = 0; i < m_numberOfAtoms / 3; i++){
+            double cosineTheta = Math.cos( m_moleculeRotationAngles[i] );
+            double sineTheta = Math.sin( m_moleculeRotationAngles[i] );
+            for (int j = 0; j < 3; j++){
+                xPos = m_moleculeCenterOfMassPositions[i].getX() + cosineTheta * m_x0[j] - sineTheta * m_y0[j];
+                yPos = m_moleculeCenterOfMassPositions[i].getY() + sineTheta * m_x0[j] + cosineTheta * m_y0[j];
+                m_atomPositions[i * 3 + j].setLocation( xPos, yPos );
+            }
+        }
     }
     
     /**
