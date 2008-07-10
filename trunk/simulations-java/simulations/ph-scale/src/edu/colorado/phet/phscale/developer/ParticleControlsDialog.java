@@ -53,7 +53,7 @@ public class ParticleControlsDialog extends JDialog {
 
     private JPanel createInputPanel( Frame owner ) {
 
-        ParticlesNode particlesNode = _app.getModule().getParticlesNode();
+        ParticlesNode particlesNode = _app.getModule().dev_getParticlesNode();
         ParticleControlsPanel particlesPanel = new ParticleControlsPanel( owner, particlesNode );
 
         // Layout

@@ -42,9 +42,12 @@ public class BeakerControlNode extends PNode {
     private final BeakerNode _beakerNode;
     private final LiquidNode _liquidNode;
     private final ProbeNode _probeNode;
-    private final MoleculeCountNode _moleculeCountNode;
+    private final MoleculeCountNode _moleculeCountAlternateNode;
+    private final MoleculeCountNode2 _moleculeCountNode;
     private final ViewControlPanel _viewControlPanel;
     private final DrainControlNode _drainControlNode;
+
+    private boolean _useAlternateMoleculeCountView;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -52,6 +55,8 @@ public class BeakerControlNode extends PNode {
     
     public BeakerControlNode( PSwingCanvas pSwingCanvas, Liquid liquid ) {
         super();
+        
+        _useAlternateMoleculeCountView = false;
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
@@ -74,14 +79,18 @@ public class BeakerControlNode extends PNode {
         
         _beakerNode = new BeakerNode( BEAKER_SIZE, liquid.getMaxVolume() );
         
-        _moleculeCountNode = new MoleculeCountNode( liquid );
+        _moleculeCountAlternateNode = new MoleculeCountNode( liquid );
+        _moleculeCountAlternateNode.setVisible( _useAlternateMoleculeCountView );
+        _moleculeCountNode = new MoleculeCountNode2( liquid );
+        _moleculeCountNode.setVisible( !_useAlternateMoleculeCountView  );
         
         _viewControlPanel = new ViewControlPanel();
         PSwing viewControlPanelWrapper = new PSwing( _viewControlPanel );
         _viewControlPanel.addViewControlPanelListener( new ViewControlPanelListener() {
 
             public void countChanged( boolean selected ) {
-                _moleculeCountNode.setVisible( selected );
+                _moleculeCountNode.setVisible( selected && !_useAlternateMoleculeCountView );
+                _moleculeCountAlternateNode.setVisible( selected && _useAlternateMoleculeCountView );
             }
 
             public void ratioChanged( boolean selected ) {
@@ -97,6 +106,7 @@ public class BeakerControlNode extends PNode {
         addChild( _drainControlNode );
         addChild( _liquidNode );
         addChild( _beakerNode );
+        addChild( _moleculeCountAlternateNode );
         addChild( _moleculeCountNode );
         addChild( viewControlPanelWrapper );
         
@@ -109,7 +119,8 @@ public class BeakerControlNode extends PNode {
         _liquidNode.setOffset( _beakerNode.getOffset() );
         _drainControlNode.setOffset( b.getX() + 10,  b.getY() + 585 );
         _probeNode.setOffset( b.getX() + 152, b.getY() + 85 );
-        _moleculeCountNode.setOffset( b.getX() + 50,  b.getY() + 260 );
+        _moleculeCountAlternateNode.setOffset( b.getX() + 50,  b.getY() + 260 );
+        _moleculeCountNode.setOffset( 140, 230 );
         viewControlPanelWrapper.setOffset( b.getX() + 220,  b.getY() + 585 );
     }
     
@@ -123,7 +134,8 @@ public class BeakerControlNode extends PNode {
     
     public void setMoleculeCountSelected( boolean selected ) {
         _viewControlPanel.setCountSelected( selected );
-        _moleculeCountNode.setVisible( selected );
+        _moleculeCountAlternateNode.setVisible( selected && _useAlternateMoleculeCountView );
+        _moleculeCountNode.setVisible( selected && !_useAlternateMoleculeCountView );
     }
     
     public boolean isMoleculeCountSelected() {
@@ -140,8 +152,15 @@ public class BeakerControlNode extends PNode {
     }
     
     // for attaching developer control panel
-    public ParticlesNode getParticlesNode() {
+    public ParticlesNode dev_getParticlesNode() {
         return _liquidNode.getParticlesNode();
     }
     
+    public void dev_setUseAlternateMoleculeCountView( boolean b ) {
+        _useAlternateMoleculeCountView = b;
+        if ( _viewControlPanel.isCountSelected() ) {
+            _moleculeCountNode.setVisible( !_useAlternateMoleculeCountView );
+            _moleculeCountAlternateNode.setVisible( _useAlternateMoleculeCountView );
+        }
+    }
 }
