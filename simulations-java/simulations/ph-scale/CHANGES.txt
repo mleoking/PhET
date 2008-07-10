@@ -9,7 +9,6 @@ HIGH PRIORITY:
 - make H3O and OH bars interactive
 
 MEDIUM PRIORITY:
-- change layout of molecule counts display
 - line up pH slider ticks with bar graph ticks
 - adjust liquid colors
 - adjust fill and drain rates
