@@ -78,6 +78,8 @@ public class MomentarySliderNode extends PNode {
         _trackNode.setOffset( 0, 0 );
         _knobNode.setOffset( 0, _trackNode.getFullBoundsReference().getCenterY() + _knobNode.getFullBoundsReference().getHeight() / 2 );
         
+        _knobNode.addInputEventListener( new CursorHandler() );
+        
         initInteractivity();
     }
     
