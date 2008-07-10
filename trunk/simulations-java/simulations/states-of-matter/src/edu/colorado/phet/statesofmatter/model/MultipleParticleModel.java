@@ -76,8 +76,9 @@ public class MultipleParticleModel {
     // Supported molecules.
     public static final int NEON = 1;
     public static final int ARGON = 2;
-    public static final int DIATOMIC_OXYGEN = 3;
-    public static final int WATER = 4;
+    public static final int MONATOMIC_OXYGEN = 3;
+    public static final int DIATOMIC_OXYGEN = 4;
+    public static final int WATER = 5;
     
     // Possible thermostat settings.
     public static final int NO_THERMOSTAT = 0;
@@ -324,8 +325,8 @@ public class MultipleParticleModel {
         // Initialize the particles.
         switch (m_currentMolecule){
         case DIATOMIC_OXYGEN:
-//            yugga;
 //            initializeDiatomic(m_currentMolecule);
+            initializeMonotomic(MONATOMIC_OXYGEN);
             break;
         case NEON:
             initializeMonotomic(m_currentMolecule);
@@ -481,7 +482,24 @@ public class MultipleParticleModel {
             m_numberOfAtoms++;
             
             // Add particle to model set.
-            StatesOfMatterAtom particle = new StatesOfMatterAtom(0, 0, m_particleDiameter/2, 10);
+            StatesOfMatterAtom particle;
+            switch (m_currentMolecule){
+            case DIATOMIC_OXYGEN:
+                particle = new OxygenAtom(0, 0);
+                break;
+            case MONATOMIC_OXYGEN:
+                particle = new OxygenAtom(0, 0);
+                break;
+            case ARGON:
+                particle = new ArgonAtom(0, 0);
+                break;
+            case NEON:
+                particle = new NeonAtom(0, 0);
+                break;
+            default:
+                particle = new StatesOfMatterAtom(0, 0, m_particleDiameter/2, 10);
+                break;
+            }
             m_particles.add( particle );
             syncParticlePositions();
             notifyParticleAdded( particle );
@@ -567,8 +585,9 @@ public class MultipleParticleModel {
      */
     private void initializeMonotomic(int moleculeID){
         
+        // TODO: JPB TBD - Decide whether to remove support for monatomic oxygen at some point.
         // Verify that a valid molecule ID was provided.
-        assert (moleculeID == NEON) || (moleculeID == ARGON);
+        assert (moleculeID == NEON) || (moleculeID == ARGON) || (moleculeID == MONATOMIC_OXYGEN);
         
         // Determine the number of molecules to create.  This will be a cube
         // (really a square, since it's 2D, but you get the idea) that takes
@@ -577,8 +596,16 @@ public class MultipleParticleModel {
         if (moleculeID == NEON){
             particleDiameter = NeonAtom.RADIUS * 2;
         }
-        else{
+        else if (moleculeID == ARGON){
             particleDiameter = ArgonAtom.RADIUS * 2;
+        }
+        else if (moleculeID == MONATOMIC_OXYGEN){
+            particleDiameter = OxygenAtom.RADIUS * 2;
+        }
+        else{
+            // Force it to neon.
+            moleculeID = NEON;
+            particleDiameter = NeonAtom.RADIUS * 2;
         }
         
         m_numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
@@ -604,8 +631,11 @@ public class MultipleParticleModel {
             if (moleculeID == NEON){
                 atom = new NeonAtom(0, 0);
             }
-            else{
+            else if (moleculeID == ARGON){
                 atom = new ArgonAtom(0, 0);
+            }
+            else{
+                atom = new OxygenAtom(0, 0);
             }
             m_particles.add( atom );
             notifyParticleAdded( atom );
