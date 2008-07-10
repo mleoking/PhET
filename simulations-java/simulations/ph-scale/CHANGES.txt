@@ -36,6 +36,7 @@ CLEANUP:
 
 
 DONE:
+7/10/08 - fix: select some liquid (eg, blood), change pH, selecting blood again doesn't do anything
 ******* version 0.00.11 (23070)
 7/9/08 - organize imports
 7/9/08 - make icons in molecule view transparent
