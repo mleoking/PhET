@@ -5,9 +5,8 @@ Change history for ph-scale
 DESIGN ISSUES
 
 HIGH PRIORITY:
-- implement non-interactive bar graph
+- create geometry for bars in graph
 - make H3O and OH bars interactive
-- implement linear and log scale switching
 
 MEDIUM PRIORITY:
 - change layout of molecule counts display
@@ -19,7 +18,6 @@ LOW PRIORITY:
 - break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
 - vary flow rate of faucets depending on how far slider is dragged?
 - generalize layout code
-- 10x zoom feature for linear graph, zoom into zero
 - can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it, selection is generally flakey (PSwing issue?)
 - replace molecule image files with SphericalNode subclasses?
