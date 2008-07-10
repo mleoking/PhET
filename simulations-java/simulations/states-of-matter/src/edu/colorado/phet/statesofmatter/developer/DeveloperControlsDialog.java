@@ -5,13 +5,20 @@ package edu.colorado.phet.statesofmatter.developer;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -24,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
@@ -40,7 +48,7 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private StatesOfMatterApplication _app;
+    private StatesOfMatterApplication m_app;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -51,7 +59,7 @@ public class DeveloperControlsDialog extends JDialog {
         setResizable( false );
         setModal( false );
 
-        _app = app;
+        m_app = app;
 
         JPanel inputPanel = createInputPanel();
 
@@ -68,42 +76,24 @@ public class DeveloperControlsDialog extends JDialog {
 
         Frame parentFrame = PhetApplication.instance().getPhetFrame();
 
-        Color controlPanelBackground = _app.getControlPanelBackground();
+        Color controlPanelBackground = m_app.getControlPanelBackground();
         final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );
         controlPanelColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                _app.setControlPanelBackground( controlPanelColorControl.getColor() );
+                m_app.setControlPanelBackground( controlPanelColorControl.getColor() );
             }
         } );
 
-        Color selectedTabColor = _app.getSelectedTabColor();
+        Color selectedTabColor = m_app.getSelectedTabColor();
         final ColorControl selectedTabColorControl = new ColorControl( parentFrame, "selected module tab color: ", selectedTabColor );
         selectedTabColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                _app.setSelectedTabColor( selectedTabColorControl.getColor() );
+                m_app.setSelectedTabColor( selectedTabColorControl.getColor() );
             }
         } );
 
-        // Thermostat on/off check box.
-        final JCheckBox thermostatCheckBox = new JCheckBox("Use Thermostat");
-        Module activeModule = _app.getActiveModule();
-        if ( activeModule instanceof SolidLiquidGasModule ){
-            thermostatCheckBox.setSelected( ((SolidLiquidGasModule)activeModule).getMultiParticleModel().getIsThermostatEnabled() );
-        }
-        else if ( activeModule instanceof PhaseChangesModule ){
-            thermostatCheckBox.setSelected( ((PhaseChangesModule)activeModule).getMultiParticleModel().getIsThermostatEnabled() );
-        }
-        thermostatCheckBox.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                Module activeModule = _app.getActiveModule();
-                if ( activeModule instanceof SolidLiquidGasModule ){
-                    ((SolidLiquidGasModule)activeModule).getMultiParticleModel().setIsThermostatEnabled( thermostatCheckBox.isSelected() );
-                }
-                else if ( activeModule instanceof PhaseChangesModule ){
-                    ((PhaseChangesModule)activeModule).getMultiParticleModel().setIsThermostatEnabled( thermostatCheckBox.isSelected() );
-                }
-            }
-        });
+        // Thermostat selection.
+        ThermostatSelectionPanel thermostatSelectionPanel = new ThermostatSelectionPanel();
         
         // Add the slider that controls the temperature of the system.
         final LinearValueControl temperatureControl;
@@ -120,7 +110,7 @@ public class DeveloperControlsDialog extends JDialog {
         temperatureControl.setValue( MultipleParticleModel.MIN_TEMPERATURE );
         temperatureControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                Module activeModule = _app.getActiveModule();
+                Module activeModule = m_app.getActiveModule();
                 if ( activeModule instanceof SolidLiquidGasModule ){
                     ((SolidLiquidGasModule)activeModule).getMultiParticleModel().setTemperature( temperatureControl.getValue() );
                 }
@@ -140,9 +130,83 @@ public class DeveloperControlsDialog extends JDialog {
         int column = 0;
         layout.addComponent( controlPanelColorControl, row++, column );
         layout.addComponent( selectedTabColorControl, row++, column );
-        layout.addComponent( thermostatCheckBox, row++, column );
+        layout.addComponent( thermostatSelectionPanel, row++, column );
         layout.addComponent( temperatureControl, row++, column );
 
         return panel;
+    }
+    
+    /**
+     * This class defines the selection panel that allows the user to choose
+     * the type of thermostat being used in the model.
+     */
+    private class ThermostatSelectionPanel extends JPanel {
+        
+        private JRadioButton m_noThermostatRadioButton;
+        private JRadioButton m_isokineticThermostatRadioButton;
+        private JRadioButton m_andersenThermostatRadioButton;
+
+        MultipleParticleModel m_model = ((SolidLiquidGasModule)m_app.getActiveModule()).getMultiParticleModel();
+        
+        ThermostatSelectionPanel(){
+            
+            setLayout( new GridLayout(0, 1) );
+            
+            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                    "Thermostat Type",
+                    TitledBorder.LEFT,
+                    TitledBorder.TOP,
+                    new PhetFont( Font.BOLD, 14 ),
+                    Color.GRAY );
+            
+            setBorder( titledBorder );
+
+            m_andersenThermostatRadioButton = new JRadioButton( "Andersen Thermostat" );
+            m_andersenThermostatRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_andersenThermostatRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setThermostatType( MultipleParticleModel.ANDERSEN_THERMOSTAT );
+                }
+            } );
+            m_noThermostatRadioButton = new JRadioButton( "No Thermostat" );
+            m_noThermostatRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_noThermostatRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setThermostatType( MultipleParticleModel.NO_THERMOSTAT );
+                }
+            } );
+            m_isokineticThermostatRadioButton = new JRadioButton( "Isokinetic Thermostat" );
+            m_isokineticThermostatRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
+            m_isokineticThermostatRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    m_model.setThermostatType( MultipleParticleModel.ISOKINETIC_THERMOSTAT );
+                }
+            } );
+            
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( m_noThermostatRadioButton );
+            buttonGroup.add( m_isokineticThermostatRadioButton );
+            buttonGroup.add( m_andersenThermostatRadioButton );
+            
+            switch (m_model.getThermostatType()){
+            case MultipleParticleModel.NO_THERMOSTAT:
+                m_noThermostatRadioButton.setSelected( true );
+                break;
+            case MultipleParticleModel.ANDERSEN_THERMOSTAT:
+                m_andersenThermostatRadioButton.setSelected( true );
+                break;
+            case MultipleParticleModel.ISOKINETIC_THERMOSTAT:
+                m_isokineticThermostatRadioButton.setSelected( true );
+                break;
+            default:
+                assert false;
+                break;
+            }
+            
+            add( m_noThermostatRadioButton );
+            add( m_isokineticThermostatRadioButton );
+            add( m_andersenThermostatRadioButton );
+        }
     }
 }
