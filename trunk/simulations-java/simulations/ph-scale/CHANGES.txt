@@ -7,15 +7,16 @@ DESIGN ISSUES
 HIGH PRIORITY:
 - create geometry for bars in graph
 - make H3O and OH bars interactive
+- Laurie can't run version 0.00.11
 
 MEDIUM PRIORITY:
 - line up pH slider ticks with bar graph ticks
 - adjust liquid colors
 - adjust fill and drain rates
+- add sim description
 
 LOW PRIORITY:
 - break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
-- vary flow rate of faucets depending on how far slider is dragged?
 - generalize layout code
 - can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it, selection is generally flakey (PSwing issue?)
@@ -36,6 +37,7 @@ CLEANUP:
 
 
 DONE:
+7/10/08 - fix: hand cursor should be on faucet slider knob only, not on track
 7/10/08 - fix: select some liquid (eg, blood), change pH, selecting blood again doesn't do anything
 ******* version 0.00.11 (23070)
 7/9/08 - organize imports
@@ -204,6 +206,7 @@ DONE:
 5/20/08 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+7/10/08 - vary flow rate of faucets depending on how far slider is dragged? (no one asked for this, on/off seems enough)
 7/5/08 - is H2O bar draggable? (no, per Kathy)
 7/2/08 - add plumbing to liquid and water faucets (not needed, per 7/2 status meeting)
 6/30/08 - make LiquidListener more specific about what changed so that ParticlesNode doesn't have to save and compare pH (complicates model, only affects ParticlesNode)

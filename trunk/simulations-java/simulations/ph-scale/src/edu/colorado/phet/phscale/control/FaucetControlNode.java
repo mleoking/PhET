@@ -56,7 +56,6 @@ public class FaucetControlNode extends PNode {
                 notifyOnOffChanged();
             }
         });
-        _sliderNode.addInputEventListener( new CursorHandler() );
         
         addChild( faucetNode );
         addChild( _sliderNode );
