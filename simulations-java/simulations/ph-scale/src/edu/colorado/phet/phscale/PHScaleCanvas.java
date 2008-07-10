@@ -106,7 +106,11 @@ public class PHScaleCanvas extends PhetPCanvas {
     }
     
     // for attaching developer control panel
-    public ParticlesNode getParticlesNode() {
-        return _beakerControlNode.getParticlesNode();
+    public ParticlesNode dev_getParticlesNode() {
+        return _beakerControlNode.dev_getParticlesNode();
+    }
+    
+    public void dev_setUseAlternateMoleculeCountView( boolean b ) {
+        _beakerControlNode.dev_setUseAlternateMoleculeCountView( b );
     }
 }

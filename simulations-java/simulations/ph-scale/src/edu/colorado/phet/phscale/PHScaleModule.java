@@ -84,7 +84,11 @@ public class PHScaleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     
     // for attaching developer controls
-    public ParticlesNode getParticlesNode() {
-       return _canvas.getParticlesNode();
+    public ParticlesNode dev_getParticlesNode() {
+       return _canvas.dev_getParticlesNode();
+    }
+    
+    public void dev_setUseAlternateMoleculeCountView( boolean b ) {
+        _canvas.dev_setUseAlternateMoleculeCountView( b );
     }
 }
