@@ -106,8 +106,8 @@ public class ParticlesNode extends PComposite {
         _diameter = DEFAULT_DIAMETER;
         _majorityTransparency = DEFAULT_MAJORITY_TRANSPARENCY;
         _minorityTransparency = DEFAULT_MINORITY_TRANSPARENCY;
-        _h3oColor = PHScaleConstants.ACID_COLOR;
-        _ohColor = PHScaleConstants.BASE_COLOR;
+        _h3oColor = PHScaleConstants.H3O_COLOR;
+        _ohColor = PHScaleConstants.OH_COLOR;
         _numberOfH3O = 0;
         _numberOfOH = 0;
         
