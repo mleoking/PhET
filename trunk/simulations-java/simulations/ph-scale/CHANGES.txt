@@ -10,6 +10,7 @@ HIGH PRIORITY:
 - implement linear and log scale switching
 
 MEDIUM PRIORITY:
+- change layout of molecule counts display
 - line up pH slider ticks with bar graph ticks
 - adjust liquid colors
 - adjust fill and drain rates
@@ -22,7 +23,6 @@ LOW PRIORITY:
 - can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it, selection is generally flakey (PSwing issue?)
 - replace molecule image files with SphericalNode subclasses?
-- change layout of molecule counts display?
 - disable liquid and water sliders when beaker is full?
 
 PERFORMANCE OPTIMIZATIONS:
