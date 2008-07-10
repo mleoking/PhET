@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.10
+ph-scale 0.00.11
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,19 +12,18 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>replace JSlider with Piccolo slider on faucets
-<li>adjust clock framerate and faucet flow rates to make animation smoother
-<li>add "Custom liquid" feature. When user changes pH slider or pH text field, liquid changes to "custom". When "custom" is explicitly selected, its pH is 7
+<li>new Molecule Count view (for comparison, older version is still available via "Developer>Use alternate Molecule Count view")
+<li>added tick marks and labels to bar graph
+<li>added zoom buttons to bar graph in linear mode, zooming changes the y-axis range
+<li>changed color of pH probe to black
+<li>changed default liquid to milk
 </ul>
 <p>
 <b>Not implemented:</b>
 <p>
 <ul>
 <li>no bars in bar graph
-<li>no tick marks on bar graph
 <li>pH slider scale doesn't line up with bar graph
-<li>linear and log scale options for bar graph don't work
-<li>no zoom buttons for linear graph
 </ul>
 <p>
 <b>Know issues:</b>
