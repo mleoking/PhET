@@ -5,7 +5,6 @@ package edu.colorado.phet.phscale.control;
 import edu.colorado.phet.phscale.control.ViewControlPanel.ViewControlPanelListener;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
-import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.CustomLiquidDescriptor;
 import edu.colorado.phet.phscale.view.*;
@@ -35,7 +34,7 @@ public class BeakerControlNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final PHScaleModel _model;
+    private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
     private final LiquidControlNode _liquidControlNode;
@@ -51,19 +50,17 @@ public class BeakerControlNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BeakerControlNode( PSwingCanvas pSwingCanvas, PHScaleModel model ) {
+    public BeakerControlNode( PSwingCanvas pSwingCanvas, Liquid liquid ) {
         super();
         
-        _model = model;
-        final Liquid liquid = model.getLiquid();
-        
+        _liquid = liquid;
         _liquidListener = new LiquidListener() {
             public void stateChanged() {
                 // hide the water faucet if the Custom liquid is selected
-                _waterControlNode.setVisible( !liquid.getLiquidDescriptor().equals( CUSTOM_LIQUID ) );
+                _waterControlNode.setVisible( !_liquid.getLiquidDescriptor().equals( CUSTOM_LIQUID ) );
             }
         };
-        liquid.addLiquidListener( _liquidListener );
+        _liquid.addLiquidListener( _liquidListener );
         
         _probeNode = new ProbeNode( PROBE_LENGTH, liquid );
         
@@ -117,7 +114,7 @@ public class BeakerControlNode extends PNode {
     }
     
     public void cleanup() {
-        _model.getLiquid().removeLiquidListener( _liquidListener );
+        _liquid.removeLiquidListener( _liquidListener );
     }
    
     //----------------------------------------------------------------------------
