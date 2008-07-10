@@ -23,6 +23,8 @@ public class PHScaleStrings {
     public static final String BUTTON_YES = PHScaleResources.getCommonString( PhetCommonResources.STRING_YES );
     public static final String BUTTON_NO = PHScaleResources.getCommonString( PhetCommonResources.STRING_NO );
     public static final String BUTTON_RESET_ALL = PHScaleResources.getCommonString( PhetCommonResources.STRING_RESET_ALL );
+    public static final String BUTTON_ZOOM_IN = PHScaleResources.getString( "button.zoomIn" );
+    public static final String BUTTON_ZOOM_OUT = PHScaleResources.getString( "button.zoomOut" );
 
     public static final String CHECK_BOX_MOLECULE_COUNT = PHScaleResources.getString( "checkBox.moleculeCount" );
     private static final String CHECK_BOX_H3O_OH_RATIO = PHScaleResources.getString( "checkBox.H3O_OH_ratio" );
