@@ -17,11 +17,14 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
  */
 public class ConstantPowerOfTenNumberFormat extends NumberFormat {
     
-    private static final String FORMAT = "<html>{0} x 10<sup>{1}</sup></html>";
-
+    private static final String PATTERN = "<html>{0} x 10<sup>{1}</sup></html>";
+    private static final String PATTERN_ONE_EXPONENT = "<html>{0} x 10</html>";
+    private static final String PATTERN_ZERO_EXPONENT = "{0}";
+    
     private final DefaultDecimalFormat _decimalFormat;
     private boolean _simpleZeroFormat;
     private final int _constantExponent;
+    private boolean _simpleExponentFormat;
     
     /**
      * Constructor.
@@ -33,6 +36,7 @@ public class ConstantPowerOfTenNumberFormat extends NumberFormat {
         _decimalFormat = new DefaultDecimalFormat( mantissaFormat );
         _constantExponent = constantExponent;
         _simpleZeroFormat = true;
+        _simpleExponentFormat = true;
     }
     
     /**
@@ -55,19 +59,37 @@ public class ConstantPowerOfTenNumberFormat extends NumberFormat {
         return _simpleZeroFormat;
     }
     
+    public void setSimpleExponentFormat( boolean b ) {
+        _simpleExponentFormat = b;
+    }
+    
+    public boolean isSimpleExponentFormat() {
+        return _simpleExponentFormat;
+    }
+    
     /**
      * TODO: handle the pos argument
      */
     public StringBuffer format( double number, StringBuffer toAppendTo, FieldPosition pos ) {
         String valueString = "0";
         if ( number != 0 || !_simpleZeroFormat ) {
+            String pattern = PATTERN;
+            // determine which format to use
+            if ( _simpleExponentFormat ) {
+                if ( _constantExponent == 1 ) {
+                    pattern = PATTERN_ONE_EXPONENT;
+                }
+                else if ( _constantExponent == 0 ) {
+                    pattern = PATTERN_ZERO_EXPONENT;
+                }
+            }
             // determine the mantissa
             double mantissa = number / Math.pow( 10, _constantExponent );
             // use a DecimalFormat to format the mantissa
             String mantissaString = _decimalFormat.format( mantissa );
             // put the mantissa and exponent into our format
             Object[] args = { mantissaString, new Integer( _constantExponent ) };
-            valueString = MessageFormat.format( FORMAT, args );
+            valueString = MessageFormat.format( pattern, args );
         }
         toAppendTo.append( valueString );
         return toAppendTo;
