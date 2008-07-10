@@ -7,7 +7,6 @@ import java.util.Iterator;
 
 import javax.swing.SwingConstants;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.phscale.control.MomentarySliderNode.MomentarySliderListener;
 import edu.colorado.phet.phscale.view.FaucetNode;
 import edu.umd.cs.piccolo.PNode;

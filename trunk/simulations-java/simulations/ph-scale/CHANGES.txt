@@ -34,9 +34,11 @@ CLEANUP:
 - disable all debug output
 - optimize memory management by reusing mutable objects
 - javadoc
+- organize imports
 
 
 DONE:
+7/10/08 - organize imports
 7/10/08 - fix: hand cursor should be on faucet slider knob only, not on track
 7/10/08 - fix: select some liquid (eg, blood), change pH, selecting blood again doesn't do anything
 ******* version 0.00.11 (23070)
