@@ -137,10 +137,10 @@ public class ParticleNode extends PNode {
             baseColor = Color.WHITE;
         }
 
-        double atomRadius = atom.getRadius();
-        Paint paint = new RoundGradientPaint( atomRadius / 3, atomRadius / 3, Color.WHITE, 
-                new Point2D.Double( atomRadius, atomRadius ), baseColor );
+//        double atomRadius = atom.getRadius();
+//        Paint paint = new RoundGradientPaint( atomRadius / 3, atomRadius / 3, Color.WHITE, 
+//                new Point2D.Double( atomRadius, atomRadius ), baseColor );
 
-        return paint;
+        return baseColor;
     }
 }
