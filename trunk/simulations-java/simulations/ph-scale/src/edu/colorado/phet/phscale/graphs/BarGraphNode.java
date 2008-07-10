@@ -2,12 +2,11 @@
 
 package edu.colorado.phet.phscale.graphs;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
@@ -19,6 +18,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 public class BarGraphNode extends PNode {
@@ -38,6 +38,14 @@ public class BarGraphNode extends PNode {
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0" );
     
+    private static final double TICK_LENGTH = 6;
+    private static final Stroke TICK_STROKE = new BasicStroke( 1f );
+    private static final Paint TICK_COLOR = Color.BLACK;
+    private static final Stroke GRIDLINE_STROKE = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 ); // dashed
+    private static final Paint GRIDLINE_COLOR = new Color(192, 192, 192, 100 ); // translucent gray
+    private static final boolean DRAW_TICKS_ON_RIGHT = false;
+    private static final boolean DRAW_GRIDLINES = true;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -47,7 +55,7 @@ public class BarGraphNode extends PNode {
     
     private final PPath _graphOutlineNode;
     private final FormattedNumberNode _h3oNumberNode, _ohNumberNode, _h2oNumberNode;
-    private PNode _ticksLogConcentrationNode, _ticksLogMolesNode, _ticksLinearConcentrationNode, _ticksLinearMolesNode;
+    private PNode _logTicksNode, _linearTicksNode;
     private PNode _h3oBarNode, _ohBarNode, _h2oBarNode;
     
     private boolean _logScale;
@@ -80,27 +88,22 @@ public class BarGraphNode extends PNode {
         _graphOutlineNode.setChildrenPickable( false );
         addChild( _graphOutlineNode );
         
-        _h3oNumberNode = new FormattedNumberNode( H3O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
-        _h3oNumberNode.rotate( -Math.PI / 2 );
-        _h3oNumberNode.setPickable( false );
-        _h3oNumberNode.setChildrenPickable( false );
+        _h3oNumberNode = createNumberNode( H3O_FORMAT );
         addChild( _h3oNumberNode );
         
-        _ohNumberNode = new FormattedNumberNode( OH_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
-        _ohNumberNode.rotate( -Math.PI / 2 );
-        _ohNumberNode.setPickable( false );
-        _ohNumberNode.setChildrenPickable( false );
+        _ohNumberNode = createNumberNode( OH_FORMAT );
         addChild( _ohNumberNode );
         
-        _h2oNumberNode = new FormattedNumberNode( H2O_FORMAT, 0, VALUE_FONT, VALUE_COLOR );
-        _h2oNumberNode.rotate( -Math.PI / 2 );
-        _h2oNumberNode.setPickable( false );
-        _h2oNumberNode.setChildrenPickable( false );
+        _h2oNumberNode = createNumberNode( H2O_FORMAT );
         addChild( _h2oNumberNode );
         
         updateValues(); // do this before setting offsets so that bounds are reasonable
         
+        _logTicksNode = createLogTicksNode( graphOutlineSize, 10 /* topMargin */, 10 /* bottomMargin */ );
+        addChild( _logTicksNode );
+        
         _graphOutlineNode.setOffset( 0, 0 );
+        _logTicksNode.setOffset( _graphOutlineNode.getOffset() );
         PBounds gob = _graphOutlineNode.getFullBoundsReference();
         final double xH3O = 0.25 * gob.getWidth();
         final double xOH = 0.5 * gob.getWidth();
@@ -116,6 +119,50 @@ public class BarGraphNode extends PNode {
     
     public void cleanup() {
         _liquid.removeLiquidListener( _liquidListener );
+    }
+    
+    private static FormattedNumberNode createNumberNode( NumberFormat format ) {
+        FormattedNumberNode node = new FormattedNumberNode( format, 0, VALUE_FONT, VALUE_COLOR );
+        node.rotate( -Math.PI / 2 );
+        node.setPickable( false );
+        node.setChildrenPickable( false );
+        return node;
+    }
+    
+    private static PNode createLogTicksNode( PDimension graphOutlineSize, double topMargin, double bottomMargin ) {
+        
+        PNode parentNode = new PComposite();
+        
+        final double numberOfTicks = 18;
+        final double usableHeight = graphOutlineSize.getHeight() - topMargin - bottomMargin;
+        final double tickSpacing = usableHeight / ( numberOfTicks - 1 );
+        
+        double y = topMargin;
+        for ( int i = 0; i < numberOfTicks; i++ ) {
+            
+            PPath leftTickNode = new PPath( new Line2D.Double( -( TICK_LENGTH / 2 ), y, +( TICK_LENGTH / 2 ), y ) );
+            leftTickNode.setStroke( TICK_STROKE );
+            leftTickNode.setStrokePaint( TICK_COLOR );
+            parentNode.addChild( leftTickNode );
+            
+            if ( DRAW_TICKS_ON_RIGHT ) {
+                PPath rightTickNode = new PPath( new Line2D.Double( -( TICK_LENGTH / 2 ) + graphOutlineSize.getWidth(), y, +( TICK_LENGTH / 2 ) + graphOutlineSize.getWidth(), y ) );
+                rightTickNode.setStroke( TICK_STROKE );
+                rightTickNode.setStrokePaint( TICK_COLOR );
+                parentNode.addChild( rightTickNode );
+            }
+            
+            if ( DRAW_GRIDLINES ) {
+                PPath gridlineNode = new PPath( new Line2D.Double( +( TICK_LENGTH / 2 ), y, graphOutlineSize.getWidth() - ( TICK_LENGTH / 2 ), y ) );
+                gridlineNode.setStroke( GRIDLINE_STROKE );
+                gridlineNode.setStrokePaint( GRIDLINE_COLOR );
+                parentNode.addChild( gridlineNode );
+            }
+            
+            y += tickSpacing;
+        }
+        
+        return parentNode;
     }
     
     //----------------------------------------------------------------------------
