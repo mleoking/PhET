@@ -7,7 +7,7 @@ DESIGN ISSUES
 HIGH PRIORITY:
 - create geometry for bars in graph
 - make H3O and OH bars interactive
-- Laurie can't run version 0.00.11
+- Laurie can't run version 0.00.11, ScaleAlphaImageOpARGB.filter throws an UnsupportedOperationException in MoleculeCountNode
 
 MEDIUM PRIORITY:
 - line up pH slider ticks with bar graph ticks
