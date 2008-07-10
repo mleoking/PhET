@@ -36,6 +36,7 @@ CLEANUP:
 
 
 DONE:
+******* version 0.00.11 (?)
 7/9/08 - organize imports
 7/9/08 - make icons in molecule view transparent
 7/9/08 - add BufferedImageUtils.scaleAlpha
