@@ -31,7 +31,7 @@ public class MoleculeCountAlternateNode extends PComposite {
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final ConstantPowerOfTenNumberFormat H2O_FORMAT = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
     
-    private static final double X_SPACING = 15;
+    private static final double X_SPACING = 10;
     private static final double Y_SPACING = 20;
     private static final Font VALUE_FONT = new PhetFont( 16 );
     private static final Color VALUE_COLOR = Color.BLACK;

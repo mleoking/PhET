@@ -16,6 +16,8 @@ import java.awt.image.*;
 
 import javax.swing.*;
 
+import edu.colorado.phet.phscale.PHScaleImages;
+
 /**
  * BufferedImageUtils
  *
@@ -343,5 +345,19 @@ public class BufferedImageUtils {
         } while ( w > targetWidth || h >targetHeight );
 
         return ret;
+    }
+    
+    /**
+     * Creates a BufferedImage by scaling the alpha channel of a provided image.
+     * 
+     * @param srcImage
+     * @param alphaScale
+     * @return
+     */
+    public static BufferedImage scaleAlpha( BufferedImage srcImage, double alphaScale ) {
+        ScaleAlphaImageOpARGB scaleOp = new ScaleAlphaImageOpARGB( alphaScale );
+        BufferedImage destImage = scaleOp.createCompatibleDestImage( srcImage, srcImage.getColorModel() );
+        scaleOp.filter( srcImage, destImage );
+        return destImage;
     }
 }
