@@ -3,13 +3,11 @@ package edu.colorado.phet.phscale.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
-import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.ScaleAlphaImageOpARGB;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
 import edu.colorado.phet.phscale.PHScaleImages;

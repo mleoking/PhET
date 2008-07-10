@@ -37,6 +37,7 @@ CLEANUP:
 
 
 DONE:
+7/9/08 - organize imports
 7/9/08 - make icons in molecule view transparent
 7/9/08 - add BufferedImageUtils.scaleAlpha
 7/9/08 - add developer control for switching to alternate (simpler) molecule count view
