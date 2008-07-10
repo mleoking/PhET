@@ -49,6 +49,9 @@ public class DeveloperControlsDialog extends JDialog {
     //----------------------------------------------------------------------------
 
     private StatesOfMatterApplication m_app;
+    private MultipleParticleModel m_model;
+    private LinearValueControl m_temperatureControl;
+
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,6 +63,14 @@ public class DeveloperControlsDialog extends JDialog {
         setModal( false );
 
         m_app = app;
+        m_model = ((SolidLiquidGasModule)m_app.getActiveModule()).getMultiParticleModel();
+        
+        // Register with the model for temperature change events.
+        m_model.addListener( new MultipleParticleModel.Adapter(){
+            public void temperatureChanged(){
+                m_temperatureControl.setValue( m_model.getTemperature() );
+            }
+        });
 
         JPanel inputPanel = createInputPanel();
 
@@ -95,27 +106,24 @@ public class DeveloperControlsDialog extends JDialog {
         // Thermostat selection.
         ThermostatSelectionPanel thermostatSelectionPanel = new ThermostatSelectionPanel();
         
-        // Add the slider that controls the temperature of the system.
-        final LinearValueControl temperatureControl;
-
-        temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE, 
-                MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "##.##", "Control" );
-        temperatureControl.setUpDownArrowDelta( 0.05 );
-        temperatureControl.setTextFieldEditable( true );
-        temperatureControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
-        temperatureControl.setTickPattern( "0" );
-        temperatureControl.setMajorTickSpacing( 2.5 );
-        temperatureControl.setMinorTickSpacing( 1.25 );
-        temperatureControl.setBorder( BorderFactory.createEtchedBorder() );
-        temperatureControl.setValue( MultipleParticleModel.MIN_TEMPERATURE );
-        temperatureControl.addChangeListener( new ChangeListener() {
+        m_temperatureControl = new LinearValueControl( MultipleParticleModel.MIN_TEMPERATURE, 
+                MultipleParticleModel.MAX_TEMPERATURE, "Temperature", "#.###", "Control" );
+        m_temperatureControl.setUpDownArrowDelta( 0.05 );
+        m_temperatureControl.setTextFieldEditable( true );
+        m_temperatureControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
+        m_temperatureControl.setTickPattern( "0" );
+        m_temperatureControl.setMajorTickSpacing( 2.5 );
+        m_temperatureControl.setMinorTickSpacing( 1.25 );
+        m_temperatureControl.setBorder( BorderFactory.createEtchedBorder() );
+        m_temperatureControl.setValue( m_model.getTemperature() );
+        m_temperatureControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Module activeModule = m_app.getActiveModule();
                 if ( activeModule instanceof SolidLiquidGasModule ){
-                    ((SolidLiquidGasModule)activeModule).getMultiParticleModel().setTemperature( temperatureControl.getValue() );
+                    ((SolidLiquidGasModule)activeModule).getMultiParticleModel().setTemperature( m_temperatureControl.getValue() );
                 }
                 else if ( activeModule instanceof PhaseChangesModule ){
-                    ((PhaseChangesModule)activeModule).getMultiParticleModel().setTemperature( temperatureControl.getValue() );
+                    ((PhaseChangesModule)activeModule).getMultiParticleModel().setTemperature( m_temperatureControl.getValue() );
                 }
             }
         });
@@ -131,7 +139,7 @@ public class DeveloperControlsDialog extends JDialog {
         layout.addComponent( controlPanelColorControl, row++, column );
         layout.addComponent( selectedTabColorControl, row++, column );
         layout.addComponent( thermostatSelectionPanel, row++, column );
-        layout.addComponent( temperatureControl, row++, column );
+        layout.addComponent( m_temperatureControl, row++, column );
 
         return panel;
     }
@@ -146,8 +154,6 @@ public class DeveloperControlsDialog extends JDialog {
         private JRadioButton m_isokineticThermostatRadioButton;
         private JRadioButton m_andersenThermostatRadioButton;
 
-        MultipleParticleModel m_model = ((SolidLiquidGasModule)m_app.getActiveModule()).getMultiParticleModel();
-        
         ThermostatSelectionPanel(){
             
             setLayout( new GridLayout(0, 1) );
