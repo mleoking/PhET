@@ -39,6 +39,7 @@ CLEANUP:
 
 
 DONE:
+7/9/08 - fix some constructors to take Liquid instead of PHScaleModel
 7/9/08 - adjust layout of bar graph components
 7/9/08 - add labels to major log tick marks
 7/9/08 - add log tick marks to bar graph
