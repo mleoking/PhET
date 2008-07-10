@@ -42,8 +42,8 @@ public class BeakerControlNode extends PNode {
     private final BeakerNode _beakerNode;
     private final LiquidNode _liquidNode;
     private final ProbeNode _probeNode;
-    private final MoleculeCountNode _moleculeCountAlternateNode;
-    private final MoleculeCountNode2 _moleculeCountNode;
+    private final MoleculeCountAlternateNode _moleculeCountAlternateNode;
+    private final MoleculeCountNode _moleculeCountNode;
     private final ViewControlPanel _viewControlPanel;
     private final DrainControlNode _drainControlNode;
 
@@ -79,9 +79,9 @@ public class BeakerControlNode extends PNode {
         
         _beakerNode = new BeakerNode( BEAKER_SIZE, liquid.getMaxVolume() );
         
-        _moleculeCountAlternateNode = new MoleculeCountNode( liquid );
+        _moleculeCountAlternateNode = new MoleculeCountAlternateNode( liquid );
         _moleculeCountAlternateNode.setVisible( _useAlternateMoleculeCountView );
-        _moleculeCountNode = new MoleculeCountNode2( liquid );
+        _moleculeCountNode = new MoleculeCountNode( liquid );
         _moleculeCountNode.setVisible( !_useAlternateMoleculeCountView  );
         
         _viewControlPanel = new ViewControlPanel();

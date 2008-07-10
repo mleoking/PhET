@@ -3,7 +3,6 @@ package edu.colorado.phet.phscale.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
@@ -13,7 +12,6 @@ import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -31,12 +29,10 @@ public class MoleculeCountNode extends PComposite {
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final ConstantPowerOfTenNumberFormat H2O_FORMAT = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
     
-    private static final double X_SPACING = 15;
-    private static final double Y_SPACING = 20;
     private static final Font VALUE_FONT = new PhetFont( 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
-    private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 );
+    private static final Insets VALUE_INSETS = new Insets( 1, 1, 1, 1 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -68,11 +64,11 @@ public class MoleculeCountNode extends PComposite {
         
         // icons
         H3ONode h3oNode = new H3ONode();
-        h3oNode.scale( 0.4 ); //XXX
+        h3oNode.scale( 1.3 ); //XXX
         OHNode ohNode = new OHNode();
-        ohNode.scale( 0.4 ); //XXX
+        ohNode.scale( 1.3 ); //XXX
         H2ONode h2oNode = new H2ONode();
-        h2oNode.scale( 0.4 ); //XXX
+        h2oNode.scale( 1.3 ); //XXX
         
         // values
         _h3oCountNode = new ValueNode( H3O_FORMAT );
@@ -82,23 +78,19 @@ public class MoleculeCountNode extends PComposite {
         // update before setting offsets so that we have meaningful sizes for the value nodes
         update();
         
+        addChild( h2oNode );
         addChild( h3oNode );
         addChild( ohNode );
-        addChild( h2oNode );
         addChild( _h3oCountNode );
-        addChild( _ohCountNode );
         addChild( _h2oCountNode );
+        addChild( _ohCountNode );
         
-        h3oNode.setOffset( 0, 0 );
-        ohNode.setOffset( h3oNode.getFullBoundsReference().getX(), h3oNode.getFullBoundsReference().getMaxY() + Y_SPACING );
-        h2oNode.setOffset( ohNode.getFullBoundsReference().getX(), ohNode.getFullBoundsReference().getMaxY() + Y_SPACING );
-        PBounds bH3O = h3oNode.getFullBoundsReference();
-        PBounds bOH = ohNode.getFullBoundsReference();
-        PBounds bH2O = h2oNode.getFullBoundsReference();
-        final double maxX = Math.max( bH3O.getMaxX(), Math.max( bOH.getMaxX(), bH2O.getMaxX() ) );
-        _h3oCountNode.setOffset( maxX + X_SPACING, bH3O.getCenterY() - _h3oCountNode.getFullBoundsReference().getHeight() / 2 );
-        _ohCountNode.setOffset( maxX + X_SPACING, bOH.getCenterY() - _ohCountNode.getFullBoundsReference().getHeight() / 2 );
-        _h2oCountNode.setOffset( maxX + X_SPACING, bH2O.getCenterY() - _h2oCountNode.getFullBoundsReference().getHeight() / 2 );
+        h2oNode.setOffset( 0, 0 );
+        h3oNode.setOffset( h2oNode.getFullBoundsReference().getCenterX() - h3oNode.getFullBoundsReference().getWidth() - 15, h2oNode.getFullBoundsReference().getHeight() + 10 );
+        ohNode.setOffset( h2oNode.getFullBoundsReference().getCenterX() + 15, h2oNode.getFullBoundsReference().getHeight() + 40 );
+        _h2oCountNode.setOffset( h2oNode.getFullBoundsReference().getCenterX() - 25, h2oNode.getFullBoundsReference().getCenterY() + 5 );
+        _h3oCountNode.setOffset( h3oNode.getFullBoundsReference().getCenterX() - 50, h3oNode.getFullBoundsReference().getCenterY() - 10 );
+        _ohCountNode.setOffset( ohNode.getFullBoundsReference().getX() + 5, ohNode.getFullBoundsReference().getCenterY() - 15 );
     }
     
     public void cleanup() {
