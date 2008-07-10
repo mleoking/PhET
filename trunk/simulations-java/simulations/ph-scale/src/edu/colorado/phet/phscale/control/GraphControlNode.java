@@ -86,8 +86,8 @@ public class GraphControlNode extends PNode {
         _graphNode.setOffset( ub.getX(), ub.getMaxY() + 10 );
         PBounds gb = _graphNode.getFullBoundsReference();
         PBounds lb = legendNode.getFullBoundsReference();
-        legendNode.setOffset( ( gb.getWidth() - lb.getWidth() ) / 2, gb.getMaxY() + 10 );
+        legendNode.setOffset( ( OUTLINE_SIZE.getWidth() - lb.getWidth() ) / 2, gb.getMaxY() + 10 );
         lb = legendNode.getFullBoundsReference();
-        scaleControlPanelWrapper.setOffset( gb.getX(), lb.getMaxY() + 10 );
+        scaleControlPanelWrapper.setOffset( unitsControlPanelWrapper.getX(), lb.getMaxY() + 10 );
     }
 }
