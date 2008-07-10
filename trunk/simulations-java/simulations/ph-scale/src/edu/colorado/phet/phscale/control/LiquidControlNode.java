@@ -153,6 +153,7 @@ public class LiquidControlNode extends PNode {
     
     private void update() {
         _notifyEnabled = false;
+        _selectedLiquidDescriptor = _liquid.getLiquidDescriptor();
         _faucetControlNode.setOn( _liquid.isFillingLiquid() );
         _liquidColumnNode.setPaint( _liquid.getLiquidDescriptor().getColor() );
         _liquidColumnNode.setVisible( _liquid.isFillingLiquid() );
