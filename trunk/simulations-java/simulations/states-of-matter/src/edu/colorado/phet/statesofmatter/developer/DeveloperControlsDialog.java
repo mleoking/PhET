@@ -63,7 +63,14 @@ public class DeveloperControlsDialog extends JDialog {
         setModal( false );
 
         m_app = app;
-        m_model = ((SolidLiquidGasModule)m_app.getActiveModule()).getMultiParticleModel();
+        
+        Module activeModule = m_app.getActiveModule();
+        if (activeModule instanceof SolidLiquidGasModule){
+            m_model = ((SolidLiquidGasModule)activeModule).getMultiParticleModel();
+        }
+        else if (activeModule instanceof PhaseChangesModule){
+            m_model = ((PhaseChangesModule)activeModule).getMultiParticleModel();
+        }
         
         // Register with the model for temperature change events.
         m_model.addListener( new MultipleParticleModel.Adapter(){
