@@ -10,7 +10,6 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - line up pH slider ticks with bar graph ticks
-- adjust liquid colors
 
 LOW PRIORITY:
 - break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
@@ -35,6 +34,7 @@ CLEANUP:
 
 
 DONE:
+7/11/08 - implement Rest All for all controls
 7/11/08 - refactor linear and log y-axes into separate classes
 ******* version 0.00.14 (23105)
 7/11/08 - when switching from log to linear scale, reset y-axis range so that it's zoomed all the way out
