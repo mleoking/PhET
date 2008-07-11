@@ -35,7 +35,7 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.14 (?)
+******* version 0.00.14 (23105)
 7/11/08 - when switching from log to linear scale, reset y-axis range so that it's zoomed all the way out
 7/11/08 - add y-axis label to bar graph, remove units from upper-left corner of graph interior
 7/11/08 - handle 10^1 display differently, for example display 9x10 as 90
