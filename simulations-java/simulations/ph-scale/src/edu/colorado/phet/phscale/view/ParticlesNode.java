@@ -41,11 +41,13 @@ public class ParticlesNode extends PComposite {
     private static final double BASE_PH_THRESHOLD = 8;
     
     private static final int DEFAULT_NUM_PARTICLES_AT_PH7 = 100;
-    private static final int DEFAULT_NUM_PARTICLES_AT_PH15 = 5000;
+    private static final int DEFAULT_NUM_PARTICLES_AT_PH15 = 3000;
     private static final int DEFAULT_MIN_MINORITY_PARTICLES = 5;
-    private static final double DEFAULT_DIAMETER = 4;
-    private static final int DEFAULT_MAJORITY_TRANSPARENCY = 128; // 0-255, transparent-opaque
+    private static final double DEFAULT_DIAMETER = 6;
+    private static final int DEFAULT_MAJORITY_TRANSPARENCY = 140; // 0-255, transparent-opaque
     private static final int DEFAULT_MINORITY_TRANSPARENCY = 255; // 0-255, transparent-opaque
+    private static final Color DEFAULT_H3O_COLOR = new Color( 204, 0, 0 );
+    private static final Color DEFAULT_OH_COLOR = new Color( 0, 0, 255 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -106,8 +108,8 @@ public class ParticlesNode extends PComposite {
         _diameter = DEFAULT_DIAMETER;
         _majorityTransparency = DEFAULT_MAJORITY_TRANSPARENCY;
         _minorityTransparency = DEFAULT_MINORITY_TRANSPARENCY;
-        _h3oColor = PHScaleConstants.H3O_COLOR;
-        _ohColor = PHScaleConstants.OH_COLOR;
+        _h3oColor = DEFAULT_H3O_COLOR;
+        _ohColor = DEFAULT_OH_COLOR;
         _numberOfH3O = 0;
         _numberOfOH = 0;
         
