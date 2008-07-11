@@ -45,10 +45,6 @@ public class BarGraphNode extends PNode {
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
     private static final Color OUTLINE_FILL_COLOR = Color.WHITE;
     
-    // units label
-    private static final Font UNITS_FONT = new PhetFont( 14 );
-    private static final Color UNITS_COLOR = Color.BLACK;
-    
     // bars
     private static final Stroke BAR_STROKE = null;
     private static final Color BAR_STROKE_COLOR = Color.BLACK;
@@ -60,6 +56,13 @@ public class BarGraphNode extends PNode {
     private static final TimesTenNumberFormat H3O_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0" );
+    
+    // axis label
+    private static final Font AXIS_LABEL_FONT = new PhetFont( 14 );
+    private static final Color AXIS_LABEL_COLOR = Color.BLACK;
+    private static final double AXIS_LABEL_X_MARGIN = 4;
+    private static final String AXIS_LABEL_CONCENTRATION = PHScaleStrings.getConcentrationString();
+    private static final String AXIS_LABEL_NUMBER_OF_MOLES = PHScaleStrings.getNumberOfMolesString();
     
     // ticks
     private static final boolean DRAW_TICKS_ON_RIGHT = false;
@@ -97,12 +100,11 @@ public class BarGraphNode extends PNode {
     private final PPath _graphOutlineNode;
     private final FormattedNumberNode _h3oNumberNode, _ohNumberNode, _h2oNumberNode;
     private final PNode _logTicksNode, _linearTicksNode;
-    private final PNode _linearTicksParentNode;
     private final GeneralPath _h3oBarShape, _ohBarShape, _h2oBarShape;
     private final PPath _h3oBarNode, _ohBarNode, _h2oBarNode;
-    private final PText _unitsNode;
     private final JButton _zoomInButton, _zoomOutButton;
     private final PSwing _zoomPanelWrapper;
+    private final PText _yAxisLabel;
     
     private boolean _logScale;
     private boolean _concentrationUnits;
@@ -137,11 +139,6 @@ public class BarGraphNode extends PNode {
         _graphOutlineNode.setChildrenPickable( false );
         addChild( _graphOutlineNode );
         
-        _unitsNode = new PText( "?" );
-        _unitsNode.setFont( UNITS_FONT );
-        _unitsNode.setTextPaint( UNITS_COLOR );
-        addChild( _unitsNode );
-        
         _h3oNumberNode = createNumberNode( H3O_FORMAT );
         addChild( _h3oNumberNode );
         
@@ -157,11 +154,15 @@ public class BarGraphNode extends PNode {
         _logTicksNode.setVisible( _logScale );
         addChild( _logTicksNode );
         
-        _linearTicksNode = createLinearTicksNode( graphOutlineSize, _linearTicksExponent );
-        _logTicksNode.setVisible( !_logScale );
-        _linearTicksParentNode = new PNode();
-        _linearTicksParentNode.addChild( _linearTicksNode );
-        addChild( _linearTicksParentNode );
+        _linearTicksNode = new PNode();
+        _linearTicksNode.addChild( createLinearTicksNode( graphOutlineSize, _linearTicksExponent ) );
+        addChild( _linearTicksNode );
+        
+        _yAxisLabel = new PText();
+        _yAxisLabel.rotate( -Math.PI / 2 );
+        _yAxisLabel.setFont( AXIS_LABEL_FONT );
+        _yAxisLabel.setTextPaint( AXIS_LABEL_COLOR );
+        addChild( _yAxisLabel );
         
         _h3oBarShape = new GeneralPath();
         _ohBarShape = new GeneralPath();
@@ -218,8 +219,7 @@ public class BarGraphNode extends PNode {
         _graphOutlineNode.setOffset( 0, 0 );
         PBounds gob = _graphOutlineNode.getFullBoundsReference();
         _logTicksNode.setOffset( _graphOutlineNode.getOffset() );
-        _linearTicksParentNode.setOffset( _graphOutlineNode.getOffset() );
-        _unitsNode.setOffset( gob.getX() + 10, gob.getY() + 5 );
+        _linearTicksNode.setOffset( _graphOutlineNode.getOffset() );
         final double xH3O = 0.25 * gob.getWidth();
         final double xOH = 0.5 * gob.getWidth();
         final double xH2O = 0.75 * gob.getWidth();
@@ -229,8 +229,7 @@ public class BarGraphNode extends PNode {
         //XXX set offsets for bars
         _zoomPanelWrapper.setOffset( gob.getCenterX() - _zoomPanelWrapper.getFullBoundsReference().getWidth()/2, 30 );
         
-        updateUnits();
-        updateTicks();
+        updateYAxis();
         updateBars();
         updateControls();
     }
@@ -369,7 +368,11 @@ public class BarGraphNode extends PNode {
     public void setLogScale( boolean logScale ) {
         if ( logScale != _logScale ) {
             _logScale = logScale;
-            updateTicks();
+            if ( !_logScale ) {
+                // reset linear scale so that it's zoomed all the way out
+                _linearTicksExponent = BIGGEST_LINEAR_TICK_EXPONENT;
+            }
+            updateYAxis();
             updateBars();
             updateControls();
         }
@@ -382,9 +385,8 @@ public class BarGraphNode extends PNode {
     public void setConcentrationUnits( boolean concentrationUnits ) {
         if ( concentrationUnits != _concentrationUnits ) {
             _concentrationUnits = concentrationUnits;
-            updateUnits();
             updateValues();
-            updateTicks();
+            updateYAxis();
             updateBars();
         }
     }
@@ -399,14 +401,14 @@ public class BarGraphNode extends PNode {
     
     private void zoomIn() {
         _linearTicksExponent--;
-        updateTicks();
+        updateYAxis();
         updateBars();
         updateControls();
     }
     
     private void zoomOut() {
         _linearTicksExponent++;
-        updateTicks();
+        updateYAxis();
         updateBars();
         updateControls();
     }
@@ -414,11 +416,6 @@ public class BarGraphNode extends PNode {
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
-    
-    private void updateUnits() {
-        String s = ( _concentrationUnits ? PHScaleStrings.UNITS_MOLES_PER_LITER : PHScaleStrings.UNITS_MOLES );
-        _unitsNode.setText( s );
-    }
     
     private void updateValues() {
         if ( _concentrationUnits ) {
@@ -433,15 +430,25 @@ public class BarGraphNode extends PNode {
         }
     }
     
-    private void updateTicks() {
+    private void updateYAxis() {
         if ( !_logScale ) {
             // update linear ticks to match zoom level
-            _linearTicksParentNode.removeAllChildren();
-            PNode linearTicksNode = createLinearTicksNode( _graphOutlineSize, _linearTicksExponent );
-            _linearTicksParentNode.addChild( linearTicksNode  );
+            _linearTicksNode.removeAllChildren();
+            _linearTicksNode.addChild( createLinearTicksNode( _graphOutlineSize, _linearTicksExponent )  );
         }
         _logTicksNode.setVisible( _logScale );
-        _linearTicksParentNode.setVisible( !_logScale );
+        _linearTicksNode.setVisible( !_logScale );
+        _yAxisLabel.setText( _concentrationUnits ? AXIS_LABEL_CONCENTRATION : AXIS_LABEL_NUMBER_OF_MOLES );
+        if ( _logScale ) {
+            double xOffset = _logTicksNode.getFullBoundsReference().getX() - _yAxisLabel.getFullBoundsReference().getWidth() - AXIS_LABEL_X_MARGIN;
+            double yOffset = _logTicksNode.getFullBoundsReference().getCenterY() + ( _yAxisLabel.getFullBoundsReference().getHeight() / 2 );
+            _yAxisLabel.setOffset( xOffset, yOffset );
+        }
+        else {
+            double xOffset = _linearTicksNode.getFullBoundsReference().getX() - _yAxisLabel.getFullBoundsReference().getWidth() - AXIS_LABEL_X_MARGIN;
+            double yOffset = _linearTicksNode.getFullBoundsReference().getCenterY() + ( _yAxisLabel.getFullBoundsReference().getHeight() / 2 );
+            _yAxisLabel.setOffset( xOffset, yOffset );
+        }
     }
     
     private void updateBars() {

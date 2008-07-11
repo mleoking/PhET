@@ -114,7 +114,7 @@ public class BeakerControlNode extends PNode {
         //XXX this needs to be generalized
         _liquidControlNode.setOffset( 0, 0  );
         PBounds b = _liquidControlNode.getFullBoundsReference();
-        _waterControlNode.setOffset( b.getX() + 385, b.getY() + 5 );
+        _waterControlNode.setOffset( b.getX() + 390, b.getY() + 5 );
         _beakerNode.setOffset( 20,  b.getY() + 160 );
         _liquidNode.setOffset( _beakerNode.getOffset() );
         _drainControlNode.setOffset( b.getX() + 10,  b.getY() + 623 );
