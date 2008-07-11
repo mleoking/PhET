@@ -13,6 +13,7 @@ import edu.colorado.phet.phscale.control.PHScaleResetAllButton;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.view.ParticlesNode;
+import edu.colorado.phet.phscale.view.TickAlignmentNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -28,6 +29,8 @@ public class PHScaleCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private static final Dimension RENDERING_SIZE = new Dimension( 1024, 768 );
+    
+    private static final boolean DEBUG_TICKS_ALIGNMENT = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -73,7 +76,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         _beakerControlNode.setOffset( 25, 15 );
         // pH control to right of beaker
         double x = _beakerControlNode.getFullBoundsReference().getMaxX() + 35;
-        double y = _beakerControlNode.getFullBoundsReference().getY() + 55;
+        double y = _beakerControlNode.getFullBoundsReference().getY() + 56;
         _pHControlNode.setOffset( x, y );
         // Reset All button centered below pH control
         x = _pHControlNode.getFullBoundsReference().getX() + ( ( _pHControlNode.getFullBoundsReference().getWidth() - resetAllButtonWrapper.getFullBoundsReference().getWidth() ) / 2 );
@@ -83,6 +86,14 @@ public class PHScaleCanvas extends PhetPCanvas {
         x = _pHControlNode.getFullBoundsReference().getMaxX() + 120;
         y = 10;
         _graphControlNode.setOffset( x, y );
+        
+        // Debug: check alignment of pH slider and bar graph
+        if ( DEBUG_TICKS_ALIGNMENT ){
+            double tickSpacing = _graphControlNode.dev_getLogTickSpacing();
+            TickAlignmentNode alignmentNode = new TickAlignmentNode( 17, tickSpacing, 185 );
+            _rootNode.addChild( alignmentNode );
+            alignmentNode.setOffset( 645, 153 );
+        }
     }
     
     //----------------------------------------------------------------------------

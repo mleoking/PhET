@@ -19,6 +19,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class LogYAxisNode extends PComposite {
     
+    private final double _tickSpacing;
+    
     public LogYAxisNode( PDimension graphOutlineSize, int numberOfTicks, 
             double topMargin, int maxExponent, int exponentSpacing, double tickLength, 
             Stroke tickStroke, Color tickColor, Font labelFont, Color labelColor,
@@ -27,7 +29,7 @@ public class LogYAxisNode extends PComposite {
         setPickable( false );
         
         final double usableHeight = graphOutlineSize.getHeight() - topMargin;
-        final double tickSpacing = usableHeight / ( numberOfTicks - 1 );
+        _tickSpacing = usableHeight / ( numberOfTicks - 1 );
         
         double y = topMargin;
         int exponent = maxExponent;
@@ -55,8 +57,12 @@ public class LogYAxisNode extends PComposite {
             gridlineNode.setStrokePaint( gridlineColor );
             addChild( gridlineNode );
 
-            y += tickSpacing;
+            y += _tickSpacing;
             exponent--;
         }
+    }
+    
+    public double getTickSpacing() {
+        return _tickSpacing;
     }
 }
