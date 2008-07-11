@@ -96,6 +96,7 @@ public class BarGraphNode extends PNode {
     private final LinearYAxisNode _linearYAxisNode;
     private final GeneralPath _h3oBarShape, _ohBarShape, _h2oBarShape;
     private final PPath _h3oBarNode, _ohBarNode, _h2oBarNode;
+    private final BarDragHandleNode _h3oDragHandleNode, _ohDragHandleNode;
     private final JButton _zoomInButton, _zoomOutButton;
     private final PSwing _zoomPanelWrapper;
     private final PText _yAxisLabel;
@@ -211,6 +212,12 @@ public class BarGraphNode extends PNode {
             addChild( _zoomPanelWrapper );
         }
         
+        // drag handles
+        _h3oDragHandleNode = new BarDragHandleNode();
+        addChild( _h3oDragHandleNode );
+        _ohDragHandleNode = new BarDragHandleNode();
+        addChild( _ohDragHandleNode );
+        
         _graphOutlineNode.setOffset( 0, 0 );
         PBounds gob = _graphOutlineNode.getFullBoundsReference();
         _logYAxisNode.setOffset( _graphOutlineNode.getOffset() );
@@ -223,7 +230,9 @@ public class BarGraphNode extends PNode {
         _h2oNumberNode.setOffset( xH2O - _h2oNumberNode.getFullBoundsReference().getWidth()/2, gob.getMaxY() - _h2oNumberNode.getFullBoundsReference().getHeight() - VALUE_Y_MARGIN );
         //XXX set offsets for bars
         _zoomPanelWrapper.setOffset( gob.getCenterX() - _zoomPanelWrapper.getFullBoundsReference().getWidth()/2, 30 );
-        
+        _h3oDragHandleNode.setOffset( xH3O - _h3oDragHandleNode.getFullBoundsReference().getWidth() / 2, graphOutlineSize.getHeight() - _h3oDragHandleNode.getFullBoundsReference().getHeight() / 2 );
+        _ohDragHandleNode.setOffset( xOH - _ohDragHandleNode.getFullBoundsReference().getWidth() / 2, graphOutlineSize.getHeight() - _ohDragHandleNode.getFullBoundsReference().getHeight() / 2 );
+
         updateYAxis();
         updateBars();
         updateControls();
