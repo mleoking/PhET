@@ -33,6 +33,7 @@ CLEANUP:
 
 
 DONE:
+7/11/08 - remove dependency on jfreechart
 7/11/08 - add bar drag handles, they don't do anything yet
 7/11/08 - make chart a big shorter so that Linear radio button has some space below it on WinXP
 7/11/08 - line up pH slider ticks with bar graph ticks, using TickAlignmentNode
