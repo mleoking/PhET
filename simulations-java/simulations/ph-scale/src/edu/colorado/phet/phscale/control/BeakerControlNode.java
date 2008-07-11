@@ -27,8 +27,8 @@ public class BeakerControlNode extends PNode {
     
     private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
     
-    private static final double PROBE_LENGTH = 475;
-    private static final PDimension BEAKER_SIZE = new PDimension( 350, 400 );
+    private static final double PROBE_LENGTH = 525;
+    private static final PDimension BEAKER_SIZE = new PDimension( 450, 450 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -114,14 +114,14 @@ public class BeakerControlNode extends PNode {
         //XXX this needs to be generalized
         _liquidControlNode.setOffset( 0, 0  );
         PBounds b = _liquidControlNode.getFullBoundsReference();
-        _waterControlNode.setOffset( b.getX() + 330, b.getY() + 5 );
-        _beakerNode.setOffset( b.getX() + 40,  b.getY() + 160 );
+        _waterControlNode.setOffset( b.getX() + 385, b.getY() + 5 );
+        _beakerNode.setOffset( 20,  b.getY() + 160 );
         _liquidNode.setOffset( _beakerNode.getOffset() );
-        _drainControlNode.setOffset( b.getX() + 10,  b.getY() + 585 );
-        _probeNode.setOffset( b.getX() + 152, b.getY() + 85 );
-        _moleculeCountNode.setOffset( 140, 230 );
+        _drainControlNode.setOffset( b.getX() + 10,  b.getY() + 623 );
+        _probeNode.setOffset( b.getX() + 185, b.getY() + 85 );
+        _moleculeCountNode.setOffset( 170, 230 );
         _moleculeCountAlternateNode.setOffset( b.getX() + 60,  b.getY() + 320 );
-        viewControlPanelWrapper.setOffset( b.getX() + 220,  b.getY() + 585 );
+        viewControlPanelWrapper.setOffset( b.getX() + 220,  b.getY() + 635 );
     }
     
     public void cleanup() {

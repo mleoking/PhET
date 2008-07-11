@@ -31,7 +31,7 @@ public class WaterControlNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final PDimension WATER_COLUMN_SIZE = new PDimension( 20, 438 );
+    private static final PDimension WATER_COLUMN_SIZE = new PDimension( 20, 488 );
     public static final Font FONT = PHScaleConstants.CONTROL_FONT;
     private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
     

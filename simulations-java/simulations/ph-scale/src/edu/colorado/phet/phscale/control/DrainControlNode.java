@@ -152,7 +152,7 @@ public class DrainControlNode extends PNode {
         
         final double pipeWidth = 31;
         final double horizontalLength = 20; // horizontal section of pipe
-        final double verticalLength = 64; // vertical section of pipe
+        final double verticalLength = 50; // vertical section of pipe
         final double elbowRadius = 20; // elbow where the horizontal and vertical sections are joined
         assert( elbowRadius < pipeWidth );
         

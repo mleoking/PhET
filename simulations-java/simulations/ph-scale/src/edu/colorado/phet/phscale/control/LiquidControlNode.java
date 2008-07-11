@@ -39,7 +39,7 @@ public class LiquidControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final boolean CONFIRM_CHANGE_LIQUID_ENABLED = false; // feature disabled by request
-    private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 440 );
+    private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 490 );
     private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
     private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
     
