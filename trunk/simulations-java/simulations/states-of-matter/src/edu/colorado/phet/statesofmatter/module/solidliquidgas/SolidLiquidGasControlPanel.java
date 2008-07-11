@@ -11,8 +11,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -64,7 +66,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         addControlFullWidth( new MoleculeSelectionPanel() );
         
         // Add the panel that allows the user to control the system temperature.
-        addControlFullWidth( new ParticleSystemControlPanel() );
+        addControlFullWidth( new GravityControlPanel() );
         
         // Add the Reset All button.
         addVerticalSpace( 10 );
@@ -197,17 +199,19 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         }
     }
     
-    private class ParticleSystemControlPanel extends JPanel {
+    private class GravityControlPanel extends JPanel {
         
-        private LinearValueControl m_gravitationalAccControl;
+        private static final int GRAV_SLIDER_RANGE = 100;
+        private JSlider m_gravitationalAccControl;
+        private Font labelFont = new PhetFont(14, true);
         
-        ParticleSystemControlPanel(){
+        GravityControlPanel(){
             
             setLayout( new GridLayout(0, 1) );
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    "System Control", // JPB TBD - Make this into a string if we keep it.
+                    "Gravity Control", // JPB TBD - Make this into a string if we keep it.
                     TitledBorder.LEFT,
                     TitledBorder.TOP,
                     new PhetFont( Font.BOLD, 14 ),
@@ -219,23 +223,36 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             // reset.
             m_model.addListener( new MultipleParticleModel.Adapter(){
                 public void resetOccurred(){
-                    m_gravitationalAccControl.setValue( m_model.getGravitationalAcceleration() );
+                    m_gravitationalAccControl.setValue((int)((m_model.getGravitationalAcceleration() / 
+                            MultipleParticleModel.MAX_GRAVITATIONAL_ACCEL) * GRAV_SLIDER_RANGE));
                 }
             });
             
-            // Add the slider that controls the gravitational acceleration of the system.
-            m_gravitationalAccControl = new LinearValueControl( 0, 0.4, "Gravity", "##.##", "Control" ); // TODO: JPB TBD - Make this a string if we keep it.
-            m_gravitationalAccControl.setUpDownArrowDelta( 0.0025 );
-            m_gravitationalAccControl.setTextFieldEditable( true );
+            // Add the labels.
+            JPanel labelPanel = new JPanel();
+            labelPanel.setLayout( new GridLayout(1,4) );
+            JLabel leftLabel = new JLabel("None    ");
+            leftLabel.setFont( labelFont );
+            labelPanel.add( leftLabel );
+            labelPanel.add(new JLabel(""));
+            labelPanel.add(new JLabel(""));
+            JLabel rightLabel = new JLabel("    Lots");
+            rightLabel.setFont( labelFont );
+            labelPanel.add( rightLabel );
+            add( labelPanel );
+            
+            // Add the slider that will control the gravitational acceleration of the system.
+            m_gravitationalAccControl = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
             m_gravitationalAccControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_gravitationalAccControl.setTickPattern( "0.0" );
-            m_gravitationalAccControl.setMajorTickSpacing( 0.1 );
-            m_gravitationalAccControl.setMinorTickSpacing( 0.05 );
-            m_gravitationalAccControl.setBorder( BorderFactory.createEtchedBorder() );
-            m_gravitationalAccControl.setValue( m_model.getTemperature() );
+            m_gravitationalAccControl.setPaintTicks( true );
+            m_gravitationalAccControl.setMajorTickSpacing( GRAV_SLIDER_RANGE / 10 );
+            m_gravitationalAccControl.setMinorTickSpacing( GRAV_SLIDER_RANGE / 20 );
+            m_gravitationalAccControl.setValue((int)((m_model.getGravitationalAcceleration() / 
+                    MultipleParticleModel.MAX_GRAVITATIONAL_ACCEL) * GRAV_SLIDER_RANGE));
             m_gravitationalAccControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    m_model.setGravitationalAcceleration( m_gravitationalAccControl.getValue() );
+                    m_model.setGravitationalAcceleration( m_gravitationalAccControl.getValue() * 
+                            (MultipleParticleModel.MAX_GRAVITATIONAL_ACCEL / GRAV_SLIDER_RANGE));
                 }
             });
             
