@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.phscale.view;
 
 import java.awt.Color;
@@ -6,7 +8,6 @@ import java.awt.Insets;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
@@ -37,8 +38,6 @@ public class MoleculeCountNode extends PComposite {
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
     private static final Insets VALUE_INSETS = new Insets( 1, 1, 1, 1 );
     
-    private static final double ICON_ALPHA_SCALE = 0.5;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -68,12 +67,9 @@ public class MoleculeCountNode extends PComposite {
         _liquid.addLiquidListener( _liquidListener );
         
         // icons
-        PImage h3oNode = new PImage( BufferedImageUtils.scaleAlpha( PHScaleImages.H3O, ICON_ALPHA_SCALE ) );
-        h3oNode.scale( 1.3 ); //XXX
-        PImage ohNode = new PImage( BufferedImageUtils.scaleAlpha( PHScaleImages.OH, ICON_ALPHA_SCALE ) );
-        ohNode.scale( 1.3 ); //XXX
-        PImage h2oNode = new PImage( BufferedImageUtils.scaleAlpha( PHScaleImages.H2O, ICON_ALPHA_SCALE ) );
-        h2oNode.scale( 1.3 ); //XXX
+        H3ONode h3oNode = new H3ONode.Big();
+        OHNode ohNode = new OHNode.Big();
+        H2ONode h2oNode = new H2ONode.Big();
         
         // values
         _h3oCountNode = new ValueNode( H3O_FORMAT );
