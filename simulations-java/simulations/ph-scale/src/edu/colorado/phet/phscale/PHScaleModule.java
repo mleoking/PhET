@@ -77,6 +77,8 @@ public class PHScaleModule extends PiccoloModule {
         // View-specific controls
         _canvas.getBeakerControlNode().setMoleculeCountSelected( false );
         _canvas.getBeakerControlNode().setRatioSelected( false );
+        _canvas.getGraphControlNode().setConcentrationSelected( true );
+        _canvas.getGraphControlNode().setLogSelected( true );
     }
     
     //----------------------------------------------------------------------------

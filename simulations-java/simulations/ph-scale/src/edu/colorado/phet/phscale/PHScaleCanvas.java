@@ -97,7 +97,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         return _pHControlNode;
     }
     
-    public GraphControlNode getBarGraphNode() {
+    public GraphControlNode getGraphControlNode() {
         return _graphControlNode;
     }
     

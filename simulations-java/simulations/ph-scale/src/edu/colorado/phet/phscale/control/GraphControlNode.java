@@ -90,4 +90,16 @@ public class GraphControlNode extends PNode {
         lb = legendNode.getFullBoundsReference();
         scaleControlPanelWrapper.setOffset( unitsControlPanelWrapper.getX(), lb.getMaxY() + 10 );
     }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public void setConcentrationSelected( boolean selected ) {
+        _unitsControlPanel.setConcentrationSelected( selected );
+    }
+    
+    public void setLogSelected( boolean selected ) {
+        _scaleControlPanel.setLogSelected( selected );
+    }
 }
