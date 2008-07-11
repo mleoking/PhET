@@ -92,7 +92,7 @@ public class BarGraphNode extends PNode {
     
     private final PPath _graphOutlineNode;
     private final FormattedNumberNode _h3oNumberNode, _ohNumberNode, _h2oNumberNode;
-    private final PNode _logYAxisNode;
+    private final LogYAxisNode _logYAxisNode;
     private final LinearYAxisNode _linearYAxisNode;
     private final GeneralPath _h3oBarShape, _ohBarShape, _h2oBarShape;
     private final PPath _h3oBarNode, _ohBarNode, _h2oBarNode;
@@ -273,6 +273,10 @@ public class BarGraphNode extends PNode {
     
     public boolean isConcentrationUnits() {
         return _concentrationUnits;
+    }
+    
+    public double dev_getLogTickSpacing() {
+        return _logYAxisNode.getTickSpacing();
     }
     
     //----------------------------------------------------------------------------

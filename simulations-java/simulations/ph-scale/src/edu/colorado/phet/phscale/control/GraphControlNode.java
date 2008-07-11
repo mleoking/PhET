@@ -102,4 +102,8 @@ public class GraphControlNode extends PNode {
     public void setLogSelected( boolean selected ) {
         _scaleControlPanel.setLogSelected( selected );
     }
+    
+    public double dev_getLogTickSpacing() {
+        return _graphNode.dev_getLogTickSpacing();
+    }
 }
