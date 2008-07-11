@@ -23,6 +23,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
+import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
@@ -75,6 +77,22 @@ public class DeveloperControlsDialog extends JDialog {
         else if (activeModule instanceof ExpSolidLiquidGasModule){
             m_model = ((ExpSolidLiquidGasModule)activeModule).getMultiParticleModel();
         }
+        
+        // Register with the application for module change events.
+        m_app.addModuleObserver( new ModuleObserver(){
+            public void moduleAdded( ModuleEvent event ) {
+            }
+
+            public void activeModuleChanged( ModuleEvent event ) {
+                // Since these developer controls are specific to the selected
+                // module, the controls should disappear if the module changes.
+                DeveloperControlsDialog.this.dispose();
+            }
+
+            public void moduleRemoved( ModuleEvent event ) {
+            }
+
+        });
         
         // Register with the model for temperature change events.
         m_model.addListener( new MultipleParticleModel.Adapter(){
