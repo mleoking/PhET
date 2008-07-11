@@ -11,7 +11,6 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 - line up pH slider ticks with bar graph ticks
 - adjust liquid colors
-- adjust fill and drain rates
 
 LOW PRIORITY:
 - break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
