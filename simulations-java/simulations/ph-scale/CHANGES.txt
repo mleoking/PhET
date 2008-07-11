@@ -35,8 +35,8 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.13 (23094)
-7/11/08 - do a quick approximating of lining up pH slider with bar graph ticks
+******* version 0.00.13 (23096)
+7/11/08 - do a quick approximation of lining up pH slider ticks with bar graph ticks
 7/11/08 - fix layout of everything
 7/11/08 - increase height of graph
 7/11/08 - increase size of beaker
