@@ -15,8 +15,6 @@ LOW PRIORITY:
 - generalize layout code
 - can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it, selection is generally flakey (PSwing issue?)
-- replace molecule image files with SphericalNode subclasses?
-- disable liquid and water sliders when beaker is full?
 
 PERFORMANCE OPTIMIZATIONS:
 
@@ -33,7 +31,7 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.15 (?)
+******* version 0.00.15 (23115)
 7/11/08 - remove dependency on jfreechart
 7/11/08 - add bar drag handles, they don't do anything yet
 7/11/08 - make chart a big shorter so that Linear radio button has some space below it on WinXP
@@ -230,6 +228,8 @@ DONE:
 5/20/08 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+7/11/08 - disable liquid and water sliders when beaker is full? (ok as is)
+7/11/08 - replace molecule image files with SphericalNode subclasses? (no, can't partially embed small spheres inside big sphere) 
 7/10/08 - vary flow rate of faucets depending on how far slider is dragged? (no one asked for this, on/off seems enough)
 7/5/08 - is H2O bar draggable? (no, per Kathy)
 7/2/08 - add plumbing to liquid and water faucets (not needed, per 7/2 status meeting)
