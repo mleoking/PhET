@@ -66,12 +66,9 @@ public class MoleculeCountAlternateNode extends PComposite {
         _liquid.addLiquidListener( _liquidListener );
         
         // icons
-        H3ONode h3oNode = new H3ONode();
-        h3oNode.scale( 0.4 ); //XXX
-        OHNode ohNode = new OHNode();
-        ohNode.scale( 0.4 ); //XXX
-        H2ONode h2oNode = new H2ONode();
-        h2oNode.scale( 0.4 ); //XXX
+        H3ONode h3oNode = new H3ONode.Small();
+        OHNode ohNode = new OHNode.Small();
+        H2ONode h2oNode = new H2ONode.Small();
         
         // values
         _h3oCountNode = new ValueNode( H3O_FORMAT );

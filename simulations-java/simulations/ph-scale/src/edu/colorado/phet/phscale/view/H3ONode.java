@@ -13,9 +13,27 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class H3ONode extends PComposite {
 
-    public H3ONode() {
+    protected H3ONode( boolean bigImage ) {
         super();
-        PImage imageNode = new PImage( PHScaleImages.H3O );
-        addChild( imageNode );
+        if ( bigImage ) {
+            PImage imageNode = new PImage( PHScaleImages.H3O_BIG );
+            addChild( imageNode );
+        }
+        else {
+            PImage imageNode = new PImage( PHScaleImages.H3O_SMALL );
+            addChild( imageNode );
+        }
+    }
+    
+    public static class Big extends H3ONode {
+        public Big() {
+            super( true );
+        }
+    }
+    
+    public static class Small extends H3ONode {
+        public Small() {
+            super( false );
+        }
     }
 }
