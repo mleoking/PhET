@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.11
+ph-scale 0.00.12
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,11 +12,9 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>new Molecule Count view (for comparison, older version is still available via "Developer>Use alternate Molecule Count view")
-<li>added tick marks and labels to bar graph
-<li>added zoom buttons to bar graph in linear mode, zooming changes the y-axis range
-<li>changed color of pH probe to black
-<li>changed default liquid to milk
+<li>fix Laurie's problem (ScaleAlphaImageOpARGB throws an exception) by using image files that have alpha in them
+<li>add abstract to Help>About dialog
+<li>fix this bug: select some liquid (eg, blood), change pH, selecting blood again doesn't do anything
 </ul>
 <p>
 <b>Not implemented:</b>
