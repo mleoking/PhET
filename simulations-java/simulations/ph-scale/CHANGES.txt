@@ -35,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+7/11/08 - use bold font for molecule counts and bar values
 ******* version 0.00.13 (23096)
 7/11/08 - do a quick approximation of lining up pH slider ticks with bar graph ticks
 7/11/08 - fix layout of everything

@@ -33,7 +33,7 @@ public class MoleculeCountNode extends PComposite {
     private static final TimesTenNumberFormat OH_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final ConstantPowerOfTenNumberFormat H2O_FORMAT = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
     
-    private static final Font VALUE_FONT = new PhetFont( 16 );
+    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
     private static final Insets VALUE_INSETS = new Insets( 1, 1, 1, 1 );

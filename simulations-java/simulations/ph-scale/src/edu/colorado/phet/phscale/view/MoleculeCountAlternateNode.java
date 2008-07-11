@@ -32,7 +32,7 @@ public class MoleculeCountAlternateNode extends PComposite {
     
     private static final double X_SPACING = 10;
     private static final double Y_SPACING = 20;
-    private static final Font VALUE_FONT = new PhetFont( 16 );
+    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
     private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 );

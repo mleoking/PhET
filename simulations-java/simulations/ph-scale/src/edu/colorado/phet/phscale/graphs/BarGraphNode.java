@@ -54,7 +54,7 @@ public class BarGraphNode extends PNode {
     private static final Color BAR_STROKE_COLOR = Color.BLACK;
     
     // numeric values
-    private static final Font VALUE_FONT = new PhetFont( 16 );
+    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final double VALUE_Y_MARGIN = 10;
     private static final TimesTenNumberFormat H3O_FORMAT = new TimesTenNumberFormat( "0.00" );
