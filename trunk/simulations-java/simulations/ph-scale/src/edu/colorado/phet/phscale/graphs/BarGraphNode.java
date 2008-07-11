@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -19,18 +18,15 @@ import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
-import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
@@ -65,10 +61,9 @@ public class BarGraphNode extends PNode {
     private static final String AXIS_LABEL_NUMBER_OF_MOLES = PHScaleStrings.getNumberOfMolesString();
     
     // ticks
-    private static final boolean DRAW_TICKS_ON_RIGHT = false;
     private static final double TICK_LENGTH = 6;
     private static final Stroke TICK_STROKE = new BasicStroke( 1f );
-    private static final Paint TICK_COLOR = Color.BLACK;
+    private static final Color TICK_COLOR = Color.BLACK;
     private static final Font TICK_LABEL_FONT = new PhetFont( 14 );
     private static final Color TICK_LABEL_COLOR = Color.BLACK;
     private static final double TICKS_TOP_MARGIN = 10;
@@ -85,9 +80,8 @@ public class BarGraphNode extends PNode {
     private static final int SMALLEST_LINEAR_TICK_EXPONENT = -15;
     
     // horizontal gridlines
-    private static final boolean DRAW_GRIDLINES = true;
     private static final Stroke GRIDLINE_STROKE = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 ); // dashed
-    private static final Paint GRIDLINE_COLOR = new Color(192, 192, 192, 100 ); // translucent gray
+    private static final Color GRIDLINE_COLOR = new Color(192, 192, 192, 100 ); // translucent gray
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -96,10 +90,10 @@ public class BarGraphNode extends PNode {
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
-    private final PDimension _graphOutlineSize;
     private final PPath _graphOutlineNode;
     private final FormattedNumberNode _h3oNumberNode, _ohNumberNode, _h2oNumberNode;
-    private final PNode _logTicksNode, _linearTicksNode;
+    private final PNode _logYAxisNode;
+    private final LinearYAxisNode _linearYAxisNode;
     private final GeneralPath _h3oBarShape, _ohBarShape, _h2oBarShape;
     private final PPath _h3oBarNode, _ohBarNode, _h2oBarNode;
     private final JButton _zoomInButton, _zoomOutButton;
@@ -116,7 +110,6 @@ public class BarGraphNode extends PNode {
     
     public BarGraphNode( PDimension graphOutlineSize, Liquid liquid ) {
         
-        _graphOutlineSize = new PDimension( graphOutlineSize );
         _logScale = true;
         _concentrationUnits = true;
         _linearTicksExponent = BIGGEST_LINEAR_TICK_EXPONENT;
@@ -150,13 +143,15 @@ public class BarGraphNode extends PNode {
         
         updateValues(); // do this before setting offsets so that bounds are reasonable
         
-        _logTicksNode = createLogTicksNode( graphOutlineSize );
-        _logTicksNode.setVisible( _logScale );
-        addChild( _logTicksNode );
+        _logYAxisNode = new LogYAxisNode( graphOutlineSize, NUMBER_OF_LOG_TICKS, TICKS_TOP_MARGIN, 
+                BIGGEST_LOG_TICK_EXPONENT,  LOG_TICK_EXPONENT_SPACING, TICK_LENGTH,
+                TICK_STROKE, TICK_COLOR, TICK_LABEL_FONT, TICK_LABEL_COLOR, GRIDLINE_STROKE, GRIDLINE_COLOR );
+        addChild( _logYAxisNode );
         
-        _linearTicksNode = new PNode();
-        _linearTicksNode.addChild( createLinearTicksNode( graphOutlineSize, _linearTicksExponent ) );
-        addChild( _linearTicksNode );
+        _linearYAxisNode =new LinearYAxisNode( graphOutlineSize, NUMBER_OF_LINEAR_TICKS, TICKS_TOP_MARGIN, 
+                BIGGEST_LINEAR_TICK_EXPONENT,  LINEAR_TICK_MANTISSA_SPACING, TICK_LENGTH,
+                TICK_STROKE, TICK_COLOR, TICK_LABEL_FONT, TICK_LABEL_COLOR, GRIDLINE_STROKE, GRIDLINE_COLOR );
+        addChild( _linearYAxisNode );
         
         _yAxisLabel = new PText();
         _yAxisLabel.rotate( -Math.PI / 2 );
@@ -191,14 +186,14 @@ public class BarGraphNode extends PNode {
             _zoomInButton = new JButton( PHScaleStrings.BUTTON_ZOOM_IN );
             _zoomInButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    zoomIn();
+                    zoomInLinear();
                 }
             } );
 
             _zoomOutButton = new JButton( PHScaleStrings.BUTTON_ZOOM_OUT );
             _zoomOutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    zoomOut();
+                    zoomOutLinear();
                 }
             } );
 
@@ -218,8 +213,8 @@ public class BarGraphNode extends PNode {
         
         _graphOutlineNode.setOffset( 0, 0 );
         PBounds gob = _graphOutlineNode.getFullBoundsReference();
-        _logTicksNode.setOffset( _graphOutlineNode.getOffset() );
-        _linearTicksNode.setOffset( _graphOutlineNode.getOffset() );
+        _logYAxisNode.setOffset( _graphOutlineNode.getOffset() );
+        _linearYAxisNode.setOffset( _graphOutlineNode.getOffset() );
         final double xH3O = 0.25 * gob.getWidth();
         final double xOH = 0.5 * gob.getWidth();
         final double xH2O = 0.75 * gob.getWidth();
@@ -246,121 +241,6 @@ public class BarGraphNode extends PNode {
         return node;
     }
     
-    /*
-     * Creates the tick marks and labels for the log scale,
-     * starting from the top of the graph and working down.
-     */
-    private static PNode createLogTicksNode( PDimension graphOutlineSize ) {
-        
-        PNode parentNode = new PComposite();
-        
-        final double numberOfTicks = NUMBER_OF_LOG_TICKS;
-        final double usableHeight = graphOutlineSize.getHeight() - TICKS_TOP_MARGIN;
-        final double tickSpacing = usableHeight / ( numberOfTicks - 1 );
-        
-        double y = TICKS_TOP_MARGIN;
-        int exponent = BIGGEST_LOG_TICK_EXPONENT;
-        for ( int i = 0; i < numberOfTicks; i++ ) {
-            
-            if ( i % LOG_TICK_EXPONENT_SPACING == 0 ) {
-                
-                PPath leftTickNode = new PPath( new Line2D.Double( -( TICK_LENGTH / 2 ), y, +( TICK_LENGTH / 2 ), y ) );
-                leftTickNode.setStroke( TICK_STROKE );
-                leftTickNode.setStrokePaint( TICK_COLOR );
-                parentNode.addChild( leftTickNode );
-                
-                if ( DRAW_TICKS_ON_RIGHT ) {
-                    PPath rightTickNode = new PPath( new Line2D.Double( -( TICK_LENGTH / 2 ) + graphOutlineSize.getWidth(), y, +( TICK_LENGTH / 2 ) + graphOutlineSize.getWidth(), y ) );
-                    rightTickNode.setStroke( TICK_STROKE );
-                    rightTickNode.setStrokePaint( TICK_COLOR );
-                    parentNode.addChild( rightTickNode );
-                }
-                
-                String s = "<html>10<sup>" + String.valueOf( exponent ) + "</sup></html>";
-                HTMLNode labelNode = new HTMLNode( s );
-                labelNode.setFont( TICK_LABEL_FONT );
-                labelNode.setHTMLColor( TICK_LABEL_COLOR );
-                double xOffset = leftTickNode.getFullBoundsReference().getMinX() - labelNode.getFullBoundsReference().getWidth() - 5;
-                double yOffset = leftTickNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
-                labelNode.setOffset( xOffset, yOffset );
-                parentNode.addChild( labelNode );
-            }
-            
-            if ( DRAW_GRIDLINES ) {
-                PPath gridlineNode = new PPath( new Line2D.Double( +( TICK_LENGTH / 2 ), y, graphOutlineSize.getWidth() - ( TICK_LENGTH / 2 ), y ) );
-                gridlineNode.setStroke( GRIDLINE_STROKE );
-                gridlineNode.setStrokePaint( GRIDLINE_COLOR );
-                parentNode.addChild( gridlineNode );
-            }
-            
-            y += tickSpacing;
-            exponent--;
-        }
-        
-        return parentNode;
-    }
-
-    /*
-     * Creates the tick marks and labels for the linear scale,
-     * starting from the bottom of the graph and working up.
-     */
-    private static PNode createLinearTicksNode( PDimension graphOutlineSize, final int exponent ) {
-
-        PNode parentNode = new PComposite();
-
-        final double numberOfTicks = NUMBER_OF_LINEAR_TICKS;
-        final double usableHeight = graphOutlineSize.getHeight() - TICKS_TOP_MARGIN;
-        final double tickSpacing = usableHeight / ( numberOfTicks - 1 );
-        
-        final ConstantPowerOfTenNumberFormat labelFormat = new ConstantPowerOfTenNumberFormat( "0", exponent );
-
-        double y = graphOutlineSize.getHeight();
-        for ( int i = 0; i < numberOfTicks; i++ ) {
-
-            if ( i % 2 == 0 ) {
-                
-                PPath leftTickNode = new PPath( new Line2D.Double( -( TICK_LENGTH / 2 ), y, +( TICK_LENGTH / 2 ), y ) );
-                leftTickNode.setStroke( TICK_STROKE );
-                leftTickNode.setStrokePaint( TICK_COLOR );
-                parentNode.addChild( leftTickNode );
-                
-                if ( DRAW_TICKS_ON_RIGHT ) {
-                    PPath rightTickNode = new PPath( new Line2D.Double( -( TICK_LENGTH / 2 ) + graphOutlineSize.getWidth(), y, +( TICK_LENGTH / 2 ) + graphOutlineSize.getWidth(), y ) );
-                    rightTickNode.setStroke( TICK_STROKE );
-                    rightTickNode.setStrokePaint( TICK_COLOR );
-                    parentNode.addChild( rightTickNode );
-                }
-                
-                String s = null;
-                if ( i == 0 ) {
-                    s = "0";
-                }
-                else { 
-                    double mantissa = i * LINEAR_TICK_MANTISSA_SPACING * Math.pow( 10, exponent );
-                    s = labelFormat.format( mantissa );
-                }
-                HTMLNode labelNode = new HTMLNode( s );
-                labelNode.setFont( TICK_LABEL_FONT );
-                labelNode.setHTMLColor( TICK_LABEL_COLOR );
-                double xOffset = leftTickNode.getFullBoundsReference().getMinX() - labelNode.getFullBoundsReference().getWidth() - 5;
-                double yOffset = leftTickNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
-                labelNode.setOffset( xOffset, yOffset );
-                parentNode.addChild( labelNode );
-            }
-            
-            if ( DRAW_GRIDLINES ) {
-                PPath gridlineNode = new PPath( new Line2D.Double( +( TICK_LENGTH / 2 ), y, graphOutlineSize.getWidth() - ( TICK_LENGTH / 2 ), y ) );
-                gridlineNode.setStroke( GRIDLINE_STROKE );
-                gridlineNode.setStrokePaint( GRIDLINE_COLOR );
-                parentNode.addChild( gridlineNode );
-            }
-
-            y -= tickSpacing;
-        }
-
-        return parentNode;
-    }
-
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
@@ -399,14 +279,14 @@ public class BarGraphNode extends PNode {
     // Zoom
     //----------------------------------------------------------------------------
     
-    private void zoomIn() {
+    private void zoomInLinear() {
         _linearTicksExponent--;
         updateYAxis();
         updateBars();
         updateControls();
     }
     
-    private void zoomOut() {
+    private void zoomOutLinear() {
         _linearTicksExponent++;
         updateYAxis();
         updateBars();
@@ -431,22 +311,26 @@ public class BarGraphNode extends PNode {
     }
     
     private void updateYAxis() {
+        
         if ( !_logScale ) {
             // update linear ticks to match zoom level
-            _linearTicksNode.removeAllChildren();
-            _linearTicksNode.addChild( createLinearTicksNode( _graphOutlineSize, _linearTicksExponent )  );
+            _linearYAxisNode.setTicksExponent( _linearTicksExponent );
         }
-        _logTicksNode.setVisible( _logScale );
-        _linearTicksNode.setVisible( !_logScale );
+        
+        // make the proper axis visible
+        _logYAxisNode.setVisible( _logScale );
+        _linearYAxisNode.setVisible( !_logScale );
+        
+        // update the y-axis label and center it on the axis
         _yAxisLabel.setText( _concentrationUnits ? AXIS_LABEL_CONCENTRATION : AXIS_LABEL_NUMBER_OF_MOLES );
         if ( _logScale ) {
-            double xOffset = _logTicksNode.getFullBoundsReference().getX() - _yAxisLabel.getFullBoundsReference().getWidth() - AXIS_LABEL_X_MARGIN;
-            double yOffset = _logTicksNode.getFullBoundsReference().getCenterY() + ( _yAxisLabel.getFullBoundsReference().getHeight() / 2 );
+            double xOffset = _logYAxisNode.getFullBoundsReference().getX() - _yAxisLabel.getFullBoundsReference().getWidth() - AXIS_LABEL_X_MARGIN;
+            double yOffset = _logYAxisNode.getFullBoundsReference().getCenterY() + ( _yAxisLabel.getFullBoundsReference().getHeight() / 2 );
             _yAxisLabel.setOffset( xOffset, yOffset );
         }
         else {
-            double xOffset = _linearTicksNode.getFullBoundsReference().getX() - _yAxisLabel.getFullBoundsReference().getWidth() - AXIS_LABEL_X_MARGIN;
-            double yOffset = _linearTicksNode.getFullBoundsReference().getCenterY() + ( _yAxisLabel.getFullBoundsReference().getHeight() / 2 );
+            double xOffset = _linearYAxisNode.getFullBoundsReference().getX() - _yAxisLabel.getFullBoundsReference().getWidth() - AXIS_LABEL_X_MARGIN;
+            double yOffset = _linearYAxisNode.getFullBoundsReference().getCenterY() + ( _yAxisLabel.getFullBoundsReference().getHeight() / 2 );
             _yAxisLabel.setOffset( xOffset, yOffset );
         }
     }
