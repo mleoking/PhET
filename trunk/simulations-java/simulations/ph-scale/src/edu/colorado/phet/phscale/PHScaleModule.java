@@ -75,7 +75,7 @@ public class PHScaleModule extends PiccoloModule {
         _model.getLiquid().setLiquidDescriptor( LiquidDescriptor.getDefaultLiquid() );
         
         // View-specific controls
-        _canvas.getBeakerControlNode().setMoleculeCountSelected( true );
+        _canvas.getBeakerControlNode().setMoleculeCountSelected( false );
         _canvas.getBeakerControlNode().setRatioSelected( false );
     }
     

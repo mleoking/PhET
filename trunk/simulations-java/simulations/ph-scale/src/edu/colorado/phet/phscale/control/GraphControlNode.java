@@ -28,7 +28,7 @@ public class GraphControlNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final PDimension OUTLINE_SIZE = new PDimension( 225, 400 );
+    private static final PDimension OUTLINE_SIZE = new PDimension( 225, 450 );
     private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 24 );
     
     //----------------------------------------------------------------------------

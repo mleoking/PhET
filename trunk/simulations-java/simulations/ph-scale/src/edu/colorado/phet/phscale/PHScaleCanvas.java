@@ -72,16 +72,16 @@ public class PHScaleCanvas extends PhetPCanvas {
         // beaker at left
         _beakerControlNode.setOffset( 35, 15 );
         // pH control to right of beaker
-        double x = _beakerControlNode.getFullBoundsReference().getMaxX() + 60;
-        double y = _beakerControlNode.getFullBoundsReference().getY();
+        double x = _beakerControlNode.getFullBoundsReference().getMaxX() + 40;
+        double y = _beakerControlNode.getFullBoundsReference().getY() + 55;
         _pHControlNode.setOffset( x, y );
         // Reset All button centered below pH control
         x = _pHControlNode.getFullBoundsReference().getX() + ( ( _pHControlNode.getFullBoundsReference().getWidth() - resetAllButtonWrapper.getFullBoundsReference().getWidth() ) / 2 );
-        y = _pHControlNode.getFullBoundsReference().getMaxY() + 35;
+        y = _pHControlNode.getFullBoundsReference().getMaxY() + 70;
         resetAllButtonWrapper.setOffset( x, y );
         // bar graph to right of pH control
-        x = _pHControlNode.getFullBoundsReference().getMaxX() + 120;
-        y = _pHControlNode.getFullBoundsReference().getY();
+        x = _pHControlNode.getFullBoundsReference().getMaxX() + 80;
+        y = 10;
         _graphControlNode.setOffset( x, y );
     }
     
