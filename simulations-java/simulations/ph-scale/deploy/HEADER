@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.12
+ph-scale 0.00.13
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,16 +12,17 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>fix Laurie's problem (ScaleAlphaImageOpARGB throws an exception) by using image files that have alpha in them
-<li>add abstract to Help>About dialog
-<li>fix this bug: select some liquid (eg, blood), change pH, selecting blood again doesn't do anything
+<li>increase width and height of beaker
+<li>increase height of bar graph
+<li>do a quick approximation of lining up pH slider ticks with bar graph ticks
+<li>molecule count check box is now off by default
 </ul>
 <p>
 <b>Not implemented:</b>
 <p>
 <ul>
 <li>no bars in bar graph
-<li>pH slider scale doesn't line up with bar graph
+<li>pH slider ticks doesn't line up with bar graph ticks
 </ul>
 <p>
 <b>Know issues:</b>
