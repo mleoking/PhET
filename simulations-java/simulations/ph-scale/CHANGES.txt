@@ -36,7 +36,7 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.12 (?)
+******* version 0.00.12 (23089)
 7/10/08 - fix: resolve Laurie's problem by replacing ScaleAlphaImageOpARGB with image files for big, transparent molecules
 7/10/08 - remove scaling of small molecule images, scale the image files
 7/10/08 - change sim description
