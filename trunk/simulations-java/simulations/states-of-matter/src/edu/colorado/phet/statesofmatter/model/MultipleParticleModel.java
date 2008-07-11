@@ -145,7 +145,7 @@ public class MultipleParticleModel {
         
         m_clock = clock;
         m_pressureCalculator = new PressureCalculator();
-        setThermostatType( ANDERSEN_THERMOSTAT );
+        setThermostatType( ISOKINETIC_THERMOSTAT );
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
