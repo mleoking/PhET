@@ -441,7 +441,7 @@ public class BarGraphNode extends PNode {
             _linearTicksParentNode.addChild( linearTicksNode  );
         }
         _logTicksNode.setVisible( _logScale );
-        _linearTicksNode.setVisible( !_logScale );
+        _linearTicksParentNode.setVisible( !_logScale );
     }
     
     private void updateBars() {
