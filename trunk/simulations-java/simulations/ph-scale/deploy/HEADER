@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.13
+ph-scale 0.00.14
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,10 +12,14 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>increase width and height of beaker
-<li>increase height of bar graph
-<li>do a quick approximation of lining up pH slider ticks with bar graph ticks
-<li>molecule count check box is now off by default
+<li>change default particle settings
+<li>change default liquid colors
+<li>replace cola with lime soda
+<li>add y-axis label to bar graph, remove units from upper-left corner of graph interior, adjust layout
+<li>when switching from log to linear scale, reset y-axis range so that it's zoomed all the way out
+<li>display 10^1 as (for example) 90 instead of 9x10
+<li>fix: linear ticks don't go away when switching from log to linear
+<li>use bold font for molecule counts and bar values
 </ul>
 <p>
 <b>Not implemented:</b>
