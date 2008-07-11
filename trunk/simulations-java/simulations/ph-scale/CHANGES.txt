@@ -5,7 +5,6 @@ Change history for ph-scale
 DESIGN ISSUES
 
 HIGH PRIORITY:
-- bug: linear ticks don't go away when switching from log to linear
 - create geometry for bars in graph
 - make H3O and OH bars interactive
 
@@ -36,6 +35,8 @@ CLEANUP:
 
 
 DONE:
+7/11/08 - handle 10^1 display differently, for example display 9x10 as 90
+7/11/08 - fix: linear ticks don't go away when switching from log to linear
 7/11/08 - change particle default settings
 7/11/08 - change liquid colors
 7/11/08 - replace cola with lime soda

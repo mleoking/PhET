@@ -18,11 +18,10 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 public class ConstantPowerOfTenNumberFormat extends NumberFormat {
     
     private static final String PATTERN = "<html>{0} x 10<sup>{1}</sup></html>";
-    private static final String PATTERN_ONE_EXPONENT = "<html>{0} x 10</html>";
-    private static final String PATTERN_ZERO_EXPONENT = "{0}";
+    private static final DefaultDecimalFormat SIMPLE_FORMAT = new DefaultDecimalFormat( "0" );
     
     private final DefaultDecimalFormat _decimalFormat;
-    private boolean _simpleZeroFormat;
+    private boolean _simpleMantissaFormat;
     private final int _constantExponent;
     private boolean _simpleExponentFormat;
     
@@ -35,28 +34,26 @@ public class ConstantPowerOfTenNumberFormat extends NumberFormat {
     public ConstantPowerOfTenNumberFormat( String mantissaFormat, int constantExponent ) {
         _decimalFormat = new DefaultDecimalFormat( mantissaFormat );
         _constantExponent = constantExponent;
-        _simpleZeroFormat = true;
+        _simpleMantissaFormat = true;
         _simpleExponentFormat = true;
     }
     
     /**
-     * Specifies whether to display zero as "0".
-     * If true, display zero as "0"; this is the default.
-     * If false, display zero in the same format as other values.
+     * Specifies whether to display zero as "0" and something like 9x10 as "90".
      * 
      * @param b
      */
-    public void setSimpleZeroFormat( boolean b ) {
-        _simpleZeroFormat = b;
+    public void setSimpleMantissaFormat( boolean b ) {
+        _simpleMantissaFormat = b;
     }
     
     /**
-     * Is zero displayed as "0" ?
+     * Is zero displayed as "0" and 9x10 as "90"?
      * 
      * @return true or false
      */
-    public boolean isSimpleZeroFormat() {
-        return _simpleZeroFormat;
+    public boolean isSimpleMantissaFormat() {
+        return _simpleMantissaFormat;
     }
     
     public void setSimpleExponentFormat( boolean b ) {
@@ -71,25 +68,21 @@ public class ConstantPowerOfTenNumberFormat extends NumberFormat {
      * TODO: handle the pos argument
      */
     public StringBuffer format( double number, StringBuffer toAppendTo, FieldPosition pos ) {
-        String valueString = "0";
-        if ( number != 0 || !_simpleZeroFormat ) {
-            String pattern = PATTERN;
-            // determine which format to use
-            if ( _simpleExponentFormat ) {
-                if ( _constantExponent == 1 ) {
-                    pattern = PATTERN_ONE_EXPONENT;
-                }
-                else if ( _constantExponent == 0 ) {
-                    pattern = PATTERN_ZERO_EXPONENT;
-                }
-            }
+        String valueString = null;
+        if ( number == 0 && _simpleMantissaFormat ) {
+            valueString = "0";
+        }
+        else if ( ( _constantExponent == 0 || _constantExponent == 1 ) && _simpleExponentFormat ) {
+            valueString = SIMPLE_FORMAT.format( number );
+        }
+        else {
             // determine the mantissa
             double mantissa = number / Math.pow( 10, _constantExponent );
             // use a DecimalFormat to format the mantissa
             String mantissaString = _decimalFormat.format( mantissa );
             // put the mantissa and exponent into our format
             Object[] args = { mantissaString, new Integer( _constantExponent ) };
-            valueString = MessageFormat.format( pattern, args );
+            valueString = MessageFormat.format( PATTERN, args );
         }
         toAppendTo.append( valueString );
         return toAppendTo;
@@ -121,10 +114,12 @@ public class ConstantPowerOfTenNumberFormat extends NumberFormat {
         String p4 = "0";
         
         ConstantPowerOfTenNumberFormat f1 = new ConstantPowerOfTenNumberFormat( p1, 5 );
-        f1.setSimpleZeroFormat( false );
+        f1.setSimpleMantissaFormat( false );
         NumberFormat f2 = new ConstantPowerOfTenNumberFormat( p2, 5 );
         NumberFormat f3 = new ConstantPowerOfTenNumberFormat( p3, 5);
         NumberFormat f4 = new ConstantPowerOfTenNumberFormat( p4, 5 );
+        NumberFormat f5 = new ConstantPowerOfTenNumberFormat( p4, 1 );
+        NumberFormat f6 = new ConstantPowerOfTenNumberFormat( p4, 0 );
         
         System.out.println( "pattern=" + p1 + " value=" + zero  + " formatted=" + f1.format( zero ) );
         System.out.println( "pattern=" + p1 + " value=" + value + " formatted=" + f1.format( value ) );
@@ -134,5 +129,9 @@ public class ConstantPowerOfTenNumberFormat extends NumberFormat {
         System.out.println( "pattern=" + p3 + " value=" + value + " formatted=" + f3.format( value ) );
         System.out.println( "pattern=" + p4 + " value=" + zero  + " formatted=" + f4.format( zero ) );
         System.out.println( "pattern=" + p4 + " value=" + value + " formatted=" + f4.format( value ) );
+        System.out.println( "pattern=" + p4 + " value=" + zero  + " formatted=" + f5.format( zero ) );
+        System.out.println( "pattern=" + p4 + " value=" + value + " formatted=" + f5.format( value ) );
+        System.out.println( "pattern=" + p4 + " value=" + zero  + " formatted=" + f6.format( zero ) );
+        System.out.println( "pattern=" + p4 + " value=" + value + " formatted=" + f6.format( value ) );
     }
 }
