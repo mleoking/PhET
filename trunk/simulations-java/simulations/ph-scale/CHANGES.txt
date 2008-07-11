@@ -7,7 +7,6 @@ DESIGN ISSUES
 HIGH PRIORITY:
 - create geometry for bars in graph
 - make H3O and OH bars interactive
-- Laurie can't run version 0.00.11, ScaleAlphaImageOpARGB.filter throws an UnsupportedOperationException in MoleculeCountNode
 
 MEDIUM PRIORITY:
 - line up pH slider ticks with bar graph ticks
@@ -37,7 +36,8 @@ CLEANUP:
 
 
 DONE:
-7/10/08 - replace ScaleAlphaImageOpARGB with image files for big, transparent molecules
+******* version 0.00.12 (?)
+7/10/08 - fix: resolve Laurie's problem by replacing ScaleAlphaImageOpARGB with image files for big, transparent molecules
 7/10/08 - remove scaling of small molecule images, scale the image files
 7/10/08 - change sim description
 7/10/08 - add sim description
