@@ -33,6 +33,7 @@ CLEANUP:
 
 
 DONE:
+7/11/08 - make chart a big shorter so that Linear radio button has some space below it on WinXP
 7/11/08 - line up pH slider ticks with bar graph ticks, using TickAlignmentNode
 7/11/08 - implement Rest All for all controls
 7/11/08 - refactor linear and log y-axes into separate classes
