@@ -2,6 +2,8 @@
 License information for image files 
 =============================================================================
 
+bear.png source=http://openclipart.org/people/lemmling/lemmling_Cartoon_bear.svg author=lemmling license=http://creativecommons.org
+
 boreholeDrill.png source=http://openclipart.org author=Machovka license=http://creativecommons.org
 
 boreholdDrillOnButton.png source=PhET author=Chris Malley
