@@ -87,6 +87,7 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.31 (?)
 7/12/08 - replace penguin with bear
 7/9/08 - rename "penguin" to "pan control" throughout, in anticipation of changing the penguin to something else
 7/9/08 - change "Sea-level temperature" to "Sea-level air temperature"
