@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.30
+glaciers 0.00.31
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,14 +12,17 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>modified climate model to fix problems with ELA location
-<li>fixed bug in ice visualization that caused the sim to hang for glaciers less than 80m long
-<li>fixed some debris that we getting stuck on the valley floor
+<li>replace penguin with bear
+<li>change "Sea-level temperature" to "Sea-level air temperature" on climate control
+<li>change "temperature" to "air temperature" on graphs
+<li>update equilibrium line if climate is changed while clock is paused
+<li>remove Restart clock button, semantics don't make sense for this sim
+<li>fix algorithm for ELA ice surface intersection, it was broken close to terminus
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>when ELA is below terminus, the drawn ELA jumps around a bit when the terminus reaches the ELA
+<li>none
 </ul>
 <p>
 <b>Not implemented:</b>
