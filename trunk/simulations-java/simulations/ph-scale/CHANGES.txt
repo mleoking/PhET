@@ -7,6 +7,8 @@ DESIGN ISSUES
 HIGH PRIORITY:
 - create geometry for bars in graph
 - make H3O and OH bars interactive
+- what happens when bar drag handles get in the way of zoom buttons?
+- how does it look when bar drag handles overlap bar values?
 
 MEDIUM PRIORITY:
 
@@ -32,6 +34,11 @@ CLEANUP:
 
 
 DONE:
+7/12/08 - move origin to the geometric center of drag handle
+7/12/08 - fix horizontal positioning of bars and their drag handles
+7/12/08 - if a bar is taller than the chart, give it an arrowhead and hide its drag handle
+7/12/08 - add stubs to determine bar heights from model and graph settings
+7/12/08 - add all view code to create bars and position drag handles
 7/12/08 - make bar graph drag handles visible
 ******* version 0.00.16 (23133)
 7/12/08 - hide bar graph drag handles

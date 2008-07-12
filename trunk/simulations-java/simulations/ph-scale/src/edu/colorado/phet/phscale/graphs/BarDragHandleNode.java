@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -26,7 +27,7 @@ public class BarDragHandleNode extends PPath {
     
     private static final float ARROW_SCALE = 24f; // change this to make the arrow bigger or smaller
     
-    private static final Color DEFAULT_NORMAL_COLOR = Color.WHITE;
+    private static final Color DEFAULT_NORMAL_COLOR = new Color( 255, 255, 255, 200 ); // translucent white
     private static final Color DEFAULT_HILITE_COLOR = Color.YELLOW;
     private static final Color DEFAULT_STROKE_COLOR = Color.BLACK;
     private static final Stroke DEFAULT_STROKE = new BasicStroke( 1f );
@@ -74,12 +75,14 @@ public class BarDragHandleNode extends PPath {
      * Gets the shape for an "arrow" drag handles, with a specified scale.
      * The shape is a double-headed arrow.
      * A scale of 1 will create an arrow who largest dimension is 1 pixel.
+     * Origin is at the geometric center of the shape.
      * 
      * @param scale
      * @return
      */
     private static Shape createArrowShape( float scale ) {
         
+        // double-headed arrow, pointing up & down, origin at tip of arrow that points up
         GeneralPath path = new GeneralPath();
         path.moveTo( 0, 0 );
         path.lineTo( .25f * scale, .33f * scale );
@@ -93,7 +96,12 @@ public class BarDragHandleNode extends PPath {
         path.lineTo( -.25f * scale, .33f * scale );
         path.closePath();
         
-        return path;
+        // move origin to geometric center (so we don't have to modify the above code)
+        AffineTransform transform = new AffineTransform();
+        transform.translate( 0, -scale / 2 );
+        Shape shape = transform.createTransformedShape( path );
+        
+        return shape;
     }
     
     //----------------------------------------------------------------------------
