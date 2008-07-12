@@ -6,7 +6,6 @@ HIGHEST PRIORITY:
 
 HIGH PRIORITY:
 - visual representation of snowfall (gradient paint, clipped to sky)
-- replace penguin with an image supplied by Archie
 - increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
 - BUG: very short advancing glacier starts off advancing very slowly, then speeds up (model problem)
 - switch user-interface between English and metric units
@@ -84,9 +83,11 @@ CLEANUP:
 - rescale image files to minimize file size
 - disable all debug output
 - optimize memory management by reusing mutable objects
+- remove unused images (eg, penguin)
 
 
 DONE:
+7/12/08 - replace penguin with bear
 7/9/08 - rename "penguin" to "pan control" throughout, in anticipation of changing the penguin to something else
 7/9/08 - change "Sea-level temperature" to "Sea-level air temperature"
 7/9/08 - change x-axis and title to "air temperature" on "Temperature vs Elevation" chart
