@@ -11,6 +11,7 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 
 LOW PRIORITY:
+- delete MoleculeCountAlternateNode and associated developer controls
 - break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
 - generalize layout code
 - can't align baselines of text and numbers drawn using HTMLNode
@@ -31,6 +32,8 @@ CLEANUP:
 
 
 DONE:
+7/12/08 - hide bar graph drag handles
+7/12/08 - make alternate Molecule Count view the primary view
 ******* version 0.00.15 (23115)
 7/11/08 - remove dependency on jfreechart
 7/11/08 - add bar drag handles, they don't do anything yet

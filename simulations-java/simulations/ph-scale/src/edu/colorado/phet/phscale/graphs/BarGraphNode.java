@@ -214,9 +214,9 @@ public class BarGraphNode extends PNode {
         
         // drag handles
         _h3oDragHandleNode = new BarDragHandleNode();
-        addChild( _h3oDragHandleNode );
+//        addChild( _h3oDragHandleNode );
         _ohDragHandleNode = new BarDragHandleNode();
-        addChild( _ohDragHandleNode );
+//        addChild( _ohDragHandleNode );
         
         _graphOutlineNode.setOffset( 0, 0 );
         PBounds gob = _graphOutlineNode.getFullBoundsReference();
