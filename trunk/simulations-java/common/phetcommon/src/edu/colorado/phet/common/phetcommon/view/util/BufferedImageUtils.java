@@ -14,9 +14,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 
-import javax.swing.*;
-
-import edu.colorado.phet.phscale.PHScaleImages;
+import javax.swing.ImageIcon;
 
 /**
  * BufferedImageUtils
