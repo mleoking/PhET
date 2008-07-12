@@ -32,7 +32,7 @@ public class PHScaleStrings {
     
     public static final String CHOICE_BATTERY_ACID = PHScaleResources.getString( "choice.batteryAcid" );
     public static final String CHOICE_VOMIT = PHScaleResources.getString( "choice.vomit" );
-    public static final String LIME_SODA = PHScaleResources.getString( "choice.limeSoda" );
+    public static final String SODA = PHScaleResources.getString( "choice.soda" );
     public static final String CHOICE_BEER = PHScaleResources.getString( "choice.beer" );
     public static final String CHOICE_COFFEE = PHScaleResources.getString( "choice.coffee" );
     public static final String CHOICE_MILK = PHScaleResources.getString( "choice.milk" );
