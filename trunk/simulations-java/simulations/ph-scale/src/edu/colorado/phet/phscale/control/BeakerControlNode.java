@@ -42,8 +42,8 @@ public class BeakerControlNode extends PNode {
     private final BeakerNode _beakerNode;
     private final LiquidNode _liquidNode;
     private final ProbeNode _probeNode;
-    private final MoleculeCountAlternateNode _moleculeCountAlternateNode;
     private final MoleculeCountNode _moleculeCountNode;
+    private final MoleculeCountAlternateNode _moleculeCountAlternateNode;
     private final ViewControlPanel _viewControlPanel;
     private final DrainControlNode _drainControlNode;
 
@@ -79,10 +79,10 @@ public class BeakerControlNode extends PNode {
         
         _beakerNode = new BeakerNode( BEAKER_SIZE, liquid.getMaxVolume() );
         
-        _moleculeCountAlternateNode = new MoleculeCountAlternateNode( liquid );
-        _moleculeCountAlternateNode.setVisible( _useAlternateMoleculeCountView );
         _moleculeCountNode = new MoleculeCountNode( liquid );
-        _moleculeCountNode.setVisible( !_useAlternateMoleculeCountView  );
+        _moleculeCountNode.setVisible( !_useAlternateMoleculeCountView );
+        _moleculeCountAlternateNode = new MoleculeCountAlternateNode( liquid );
+        _moleculeCountAlternateNode.setVisible( _useAlternateMoleculeCountView  );
         
         _viewControlPanel = new ViewControlPanel();
         PSwing viewControlPanelWrapper = new PSwing( _viewControlPanel );
@@ -106,8 +106,8 @@ public class BeakerControlNode extends PNode {
         addChild( _drainControlNode );
         addChild( _liquidNode );
         addChild( _beakerNode );
-        addChild( _moleculeCountAlternateNode );
         addChild( _moleculeCountNode );
+        addChild( _moleculeCountAlternateNode );
         addChild( viewControlPanelWrapper );
         
         // Layout
@@ -119,8 +119,8 @@ public class BeakerControlNode extends PNode {
         _liquidNode.setOffset( _beakerNode.getOffset() );
         _drainControlNode.setOffset( b.getX() + 10,  b.getY() + 623 );
         _probeNode.setOffset( b.getX() + 185, b.getY() + 85 );
-        _moleculeCountNode.setOffset( 170, 230 );
-        _moleculeCountAlternateNode.setOffset( b.getX() + 60,  b.getY() + 320 );
+        _moleculeCountAlternateNode.setOffset( 170, 230 );
+        _moleculeCountNode.setOffset( b.getX() + 60,  b.getY() + 320 );
         viewControlPanelWrapper.setOffset( b.getX() + 220,  b.getY() + 635 );
     }
     
@@ -134,8 +134,8 @@ public class BeakerControlNode extends PNode {
     
     public void setMoleculeCountSelected( boolean selected ) {
         _viewControlPanel.setCountSelected( selected );
-        _moleculeCountAlternateNode.setVisible( selected && _useAlternateMoleculeCountView );
-        _moleculeCountNode.setVisible( selected && !_useAlternateMoleculeCountView );
+        _moleculeCountNode.setVisible( selected && _useAlternateMoleculeCountView );
+        _moleculeCountAlternateNode.setVisible( selected && !_useAlternateMoleculeCountView );
     }
     
     public boolean isMoleculeCountSelected() {
