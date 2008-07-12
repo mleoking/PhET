@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.15
+ph-scale 0.00.16
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,16 +12,13 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>add bar drag handles (they don't do anything yet)
-<li>make chart a big shorter so that Linear radio button has some space below it on WinXP
-<li>line up pH slider ticks with bar graph log ticks
-<li>implement Rest All for all controls
+<li>make alternate Molecule Count view the primary view (Developer menu still works)
+<li>hide bar drag handles (since they don't do anything yet)
 </ul>
 <p>
 <b>Not implemented:</b>
 <p>
 <ul>
-<li>bar drag handles don't do anything yet
 <li>no bars in bar graph
 <li>pH slider ticks doesn't line up with bar graph ticks
 </ul>
