@@ -32,7 +32,8 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.16 (?)
+7/12/08 - make bar graph drag handles visible
+******* version 0.00.16 (23133)
 7/12/08 - hide bar graph drag handles
 7/12/08 - make alternate Molecule Count view the primary view
 ******* version 0.00.15 (23115)
