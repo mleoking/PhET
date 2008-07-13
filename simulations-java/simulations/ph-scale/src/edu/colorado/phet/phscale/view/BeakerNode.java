@@ -30,10 +30,11 @@ public class BeakerNode extends PComposite {
     private static final double MINOR_TICK_SPACING = 1./16.; // liters
     private static final int MINOR_TICKS_PER_MAJOR_TICK = 4;
     private static final double MAJOR_TICK_LENGTH = 20;
-    private static final double MINOR_TICK_LENGTH = 15;
+    private static final double MINOR_TICK_LENGTH = 12;
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Font TICK_LABEL_FONT = new PhetFont( 20 );
+    private static final double TICK_LABEL_X_SPACING = 8;
     
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 6f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Color OUTLINE_COLOR = Color.BLACK;
@@ -100,7 +101,7 @@ public class BeakerNode extends PComposite {
                     textNode.setFont( TICK_LABEL_FONT );
                     textNode.setTextPaint( TICK_COLOR );
                     ticksNode.addChild( textNode );
-                    double xOffset = tickNode.getFullBounds().getMinX() - textNode.getFullBoundsReference().getWidth();
+                    double xOffset = tickNode.getFullBounds().getMinX() - textNode.getFullBoundsReference().getWidth() - TICK_LABEL_X_SPACING;
                     double yOffset = tickNode.getFullBounds().getMinY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
                     textNode.setOffset( xOffset, yOffset );
                 }
