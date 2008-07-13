@@ -5,7 +5,8 @@ Change history for ph-scale
 DESIGN ISSUES
 
 HIGH PRIORITY:
-- create geometry for bars in graph
+- implement BarGraphNode.calculateBarLength
+- make alignment of pH slider ticks and bar graph ticks independent of font size of things above bar graph
 - make H3O and OH bars interactive
 - what happens when bar drag handles get in the way of zoom buttons?
 - how does it look when bar drag handles overlap bar values?
@@ -34,6 +35,7 @@ CLEANUP:
 
 
 DONE:
+7/13/08 - implement bar updaters in terms of BarGraphNode.calculateBarLength
 7/12/08 - rename "soda" to "soda pop"
 7/12/08 - move origin to the geometric center of drag handle
 7/12/08 - fix horizontal positioning of bars and their drag handles

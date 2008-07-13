@@ -241,9 +241,9 @@ public class BarGraphNode extends PNode {
         _h3oBarNode.setOffset( xH3O, graphOutlineSize.getHeight() );
         _ohBarNode.setOffset( xOH, graphOutlineSize.getHeight() );
         _h2oBarNode.setOffset( xH2O, graphOutlineSize.getHeight() );
-        _zoomPanelWrapper.setOffset( gob.getCenterX() - _zoomPanelWrapper.getFullBoundsReference().getWidth()/2, 30 );
-        _h3oDragHandleNode.setOffset( xH3O, graphOutlineSize.getHeight() - _h3oDragHandleNode.getFullBoundsReference().getHeight() / 2 );
-        _ohDragHandleNode.setOffset( xOH, graphOutlineSize.getHeight() - _ohDragHandleNode.getFullBoundsReference().getHeight() / 2 );
+        _zoomPanelWrapper.setOffset( gob.getCenterX() - _zoomPanelWrapper.getFullBoundsReference().getWidth()/2, 60 );
+        _h3oDragHandleNode.setOffset( xH3O - BAR_WIDTH / 2 + 10, graphOutlineSize.getHeight() - _h3oDragHandleNode.getFullBoundsReference().getHeight() / 2 );
+        _ohDragHandleNode.setOffset( xOH - BAR_WIDTH / 2 + 10, graphOutlineSize.getHeight() - _ohDragHandleNode.getFullBoundsReference().getHeight() / 2 );
 
         updateYAxis();
         updateBars();
@@ -379,7 +379,14 @@ public class BarGraphNode extends PNode {
     private double getH3OBarLength() {
         double length = 0;
         if ( !_liquid.isEmpty() ) {
-            length = 150; //XXX
+            double value = 0;
+            if ( _concentrationUnits ) {
+                value = _liquid.getConcentrationH3O();
+            }
+            else {
+                value = _liquid.getMolesH3O();
+            }
+            length = calculateBarLength( value );
         }
         return length;
     }
@@ -387,7 +394,14 @@ public class BarGraphNode extends PNode {
     private double getOHBarLength() {
         double length = 0;
         if ( !_liquid.isEmpty() ) {
-            length = 250; //XXX
+            double value = 0;
+            if ( _concentrationUnits ) {
+                value = _liquid.getConcentrationOH();
+            }
+            else {
+                value = _liquid.getMolesOH();
+            }
+            length = calculateBarLength( value );
         }
         return length;
     }
@@ -395,9 +409,31 @@ public class BarGraphNode extends PNode {
     private double getH2OLength() {
         double length = 0;
         if ( !_liquid.isEmpty() ) {
-            length = _graphOutlineSize.getHeight() + 10; //XXX
+            double value = 0;
+            if ( _concentrationUnits ) {
+                value = _liquid.getConcentrationH2O();
+            }
+            else {
+                value = _liquid.getMolesH2O();
+            }
+            length = calculateBarLength( value );
         }
         return length;
+    }
+    
+    private double calculateBarLength( final double modelValue ) {
+        double viewValue = 0;
+        if ( _logScale ) {
+            //XXX implement this
+            viewValue = _graphOutlineSize.getHeight() / 2;//XXX
+        }
+        else {
+            double divisor = Math.pow( 10, _linearTicksExponent );
+            double mantissa = modelValue / divisor;
+            //XXX finish implementing this
+            viewValue = _graphOutlineSize.getHeight() + 10;//XXX
+        }
+        return viewValue;
     }
     
     private static void updateBar( PPath barNode, GeneralPath shape, final double barLength, final double graphHeight ) {
