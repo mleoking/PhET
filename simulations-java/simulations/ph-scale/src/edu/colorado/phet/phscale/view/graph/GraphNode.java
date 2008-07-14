@@ -150,7 +150,6 @@ public class GraphNode extends PNode {
         
         // log y axis
         PDimension graphOutlineSize = new PDimension( graphOutlineWidth, _graphOutlineHeight );
-        System.out.println( "graphOutlineSize=" + graphOutlineSize );//XXX
         _logYAxisNode = new LogYAxisNode( graphOutlineSize, NUMBER_OF_LOG_TICKS, TICKS_TOP_MARGIN, 
                 BIGGEST_LOG_TICK_EXPONENT,  LOG_TICK_EXPONENT_SPACING, TICK_LENGTH,
                 TICK_STROKE, TICK_COLOR, TICK_LABEL_FONT, TICK_LABEL_COLOR, GRIDLINE_STROKE, GRIDLINE_COLOR );

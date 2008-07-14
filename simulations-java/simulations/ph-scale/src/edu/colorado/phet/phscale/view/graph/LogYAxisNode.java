@@ -60,7 +60,6 @@ public class LogYAxisNode extends PComposite {
             y += _tickSpacing;
             exponent--;
         }
-        System.out.println( "LogYAxisNode tickSpacing=" + _tickSpacing );//XXX
     }
     
     public double getTickSpacing() {
