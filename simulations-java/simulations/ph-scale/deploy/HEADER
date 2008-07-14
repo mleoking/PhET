@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.16
+ph-scale 0.00.17
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,15 +12,15 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>make alternate Molecule Count view the primary view (Developer menu still works)
-<li>hide bar drag handles (since they don't do anything yet)
-</ul>
-<p>
-<b>Not implemented:</b>
-<p>
-<ul>
-<li>no bars in bar graph
-<li>pH slider ticks doesn't line up with bar graph ticks
+<li>add bars to bar graph
+<li>if a bar is taller than the graph, add an arrowhead to the top of the bar, arrowhead extends slightly beyond top of graph
+<li>drag handles can be used to change H3O and OH bars
+<li>position drag handles at upper-left corners of bars, so they don't interfere with displayed values
+<li>put drag handles in front of zoom buttons, so that drag handles are still accessible when they overlap zoom buttons
+<li>constrain dragging of bars so that pH remains in range -1 to 15
+<li>fix alignment of pH slider ticks and bar graph ticks
+<li>rename "soda" to "soda pop"
+<li>make beaker's minor ticks noticeably short than major ticks
 </ul>
 <p>
 <b>Know issues:</b>
