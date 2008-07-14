@@ -167,6 +167,7 @@ public class GraphNode extends PNode {
         _yAxisLabel.rotate( -Math.PI / 2 );
         _yAxisLabel.setFont( AXIS_LABEL_FONT );
         _yAxisLabel.setTextPaint( AXIS_LABEL_COLOR );
+        _yAxisLabel.setPickable( false );
         addChild( _yAxisLabel );
         
         // bars
@@ -181,6 +182,7 @@ public class GraphNode extends PNode {
         PPath bottomLineNode = new PPath( new Line2D.Double( 0, _graphOutlineHeight, graphOutlineWidth, _graphOutlineHeight ) );
         bottomLineNode.setStroke( OUTLINE_STROKE );
         bottomLineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
+        bottomLineNode.setPickable( false );
         addChild( bottomLineNode );
         
         // numbers

@@ -306,6 +306,9 @@ public class PHSliderNode extends PNode {
     private static class TrackNode extends PNode {
         public TrackNode( PDimension size ) {
             super();
+            setPickable( false );
+            setChildrenPickable( false );
+            
             PPath pathNode = new PPath();
             final double width = size.getWidth() - TRACK_STROKE_WIDTH;
             final double height = size.getHeight() - TRACK_STROKE_WIDTH;
