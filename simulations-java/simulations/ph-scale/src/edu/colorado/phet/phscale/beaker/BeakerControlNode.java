@@ -1,8 +1,8 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.control;
+package edu.colorado.phet.phscale.beaker;
 
-import edu.colorado.phet.phscale.control.ViewControlPanel.ViewControlPanelListener;
+import edu.colorado.phet.phscale.beaker.ViewControlPanel.ViewControlPanelListener;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;

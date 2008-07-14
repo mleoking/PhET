@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.control;
+package edu.colorado.phet.phscale.beaker;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.phscale.PHScaleApplication;
-import edu.colorado.phet.phscale.control.FaucetControlNode.FaucetControlListener;
+import edu.colorado.phet.phscale.beaker.FaucetControlNode.FaucetControlListener;
 import edu.colorado.phet.phscale.dialog.ConfirmChangeLiquidDialog;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;

@@ -1,13 +1,13 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.control;
+package edu.colorado.phet.phscale.beaker;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.SwingConstants;
 
-import edu.colorado.phet.phscale.control.MomentarySliderNode.MomentarySliderListener;
+import edu.colorado.phet.phscale.beaker.MomentarySliderNode.MomentarySliderListener;
 import edu.colorado.phet.phscale.view.FaucetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;

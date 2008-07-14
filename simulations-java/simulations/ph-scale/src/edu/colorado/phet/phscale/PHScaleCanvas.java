@@ -6,7 +6,7 @@ import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.phscale.control.BeakerControlNode;
+import edu.colorado.phet.phscale.beaker.BeakerControlNode;
 import edu.colorado.phet.phscale.control.GraphControlNode;
 import edu.colorado.phet.phscale.control.PHControlNode;
 import edu.colorado.phet.phscale.control.PHScaleResetAllButton;
