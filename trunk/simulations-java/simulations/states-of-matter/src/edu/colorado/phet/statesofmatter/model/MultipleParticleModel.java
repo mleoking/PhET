@@ -1019,7 +1019,6 @@ public class MultipleParticleModel {
                 }
                 yPos = startingPosY + (double)i + DISTANCE_BETWEEN_DIATOMIC_PAIRS;
                 m_moleculeCenterOfMassPositions[(i * moleculesPerLayer) + j].setLocation( xPos, yPos );
-//                m_moleculeRotationAngles[(i * moleculesPerLayer) + j] = m_rand.nextDouble() * 2 * Math.PI;
                 m_moleculeRotationAngles[(i * moleculesPerLayer) + j] = 0;
                 
                 moleculesPlaced++;
