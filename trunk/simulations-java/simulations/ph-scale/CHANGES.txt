@@ -27,7 +27,7 @@ CLEANUP:
 
 
 DONE:
-******* version 0.00.17 (?)
+******* version 0.00.17 (23184)
 7/14/08 - changing a bar sets liquid to Custom
 7/14/08 - modify Custom liquid pH when Liquid.setPH is called
 7/14/08 - setPickable(false) on non-interactive nodes
