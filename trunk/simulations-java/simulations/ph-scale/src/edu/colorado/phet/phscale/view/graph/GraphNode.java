@@ -2,20 +2,17 @@
 
 package edu.colorado.phet.phscale.view.graph;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.phscale.PHScaleConstants;
@@ -31,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * BarGraphNode is the bar graph.
+ * GraphNode is the bar graph.
  * The y-axis units can be either concentration (moles/L) or moles.
  * The y-axis scale can be either log10 or linear.
  * <p>
@@ -41,7 +38,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BarGraphNode extends PNode {
+public class GraphNode extends PNode {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -118,7 +115,7 @@ public class BarGraphNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BarGraphNode( PDimension graphOutlineSize, Liquid liquid ) {
+    public GraphNode( PDimension graphOutlineSize, Liquid liquid ) {
         
         _graphOutlineHeight = graphOutlineSize.getHeight();
         _logScale = true;
