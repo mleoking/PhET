@@ -6,7 +6,6 @@ import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.CustomLiquidDescriptor;
-import edu.colorado.phet.phscale.view.*;
 import edu.colorado.phet.phscale.view.beaker.ViewControlPanel.ViewControlPanelListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
