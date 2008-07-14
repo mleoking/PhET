@@ -20,7 +20,9 @@ import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.CustomLiquidDescriptor;
 import edu.colorado.phet.phscale.view.graph.ZoomControlPanel.ZoomControlPanelListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -96,6 +98,8 @@ public class GraphNode extends PNode {
     // horizontal gridlines
     private static final Stroke GRIDLINE_STROKE = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 ); // dashed
     private static final Color GRIDLINE_COLOR = new Color(192, 192, 192, 100 ); // translucent gray
+    
+    private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -579,6 +583,11 @@ public class GraphNode extends PNode {
                 final double maxMantissa = ( NUMBER_OF_LINEAR_TICKS - 1 ) * LINEAR_TICK_MANTISSA_SPACING;
                 final double maxTickValue = maxMantissa * Math.pow( 10, _linearTicksExponent );
                 modelValue = maxTickValue * yOffset / maxTickHeight;
+            }
+            
+            // switch to Custom liquid
+            if ( !_liquid.getLiquidDescriptor().equals( CUSTOM_LIQUID ) ) {
+                _liquid.setLiquidDescriptor( CUSTOM_LIQUID );
             }
 
             // update the model

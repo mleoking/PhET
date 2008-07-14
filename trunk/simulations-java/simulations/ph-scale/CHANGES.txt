@@ -5,7 +5,6 @@ Change history for ph-scale
 DESIGN ISSUES
 
 HIGH PRIORITY:
-- changing a bar should set liquid to Custom
 
 MEDIUM PRIORITY:
 
@@ -29,6 +28,8 @@ CLEANUP:
 
 DONE:
 ******* version 0.00.17 (?)
+7/14/08 - changing a bar sets liquid to Custom
+7/14/08 - modify Custom liquid pH when Liquid.setPH is called
 7/14/08 - setPickable(false) on non-interactive nodes
 7/14/08 - use common font size for all controls
 7/14/08 - add a line to bottom of graph, on top of bars, makes it look cleaner

@@ -130,7 +130,6 @@ public class PHControlNode extends PNode {
             if ( !_liquid.getLiquidDescriptor().equals( CUSTOM_LIQUID ) ) {
                 _liquid.setLiquidDescriptor( CUSTOM_LIQUID );
             }
-            CUSTOM_LIQUID.setPH( pH );
             _liquid.setPH( pH );
         }
     }
