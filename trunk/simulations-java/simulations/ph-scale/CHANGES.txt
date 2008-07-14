@@ -6,7 +6,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY:
 - make alignment of pH slider ticks and bar graph ticks independent of font size of things above bar graph
-- how to handle overlapping of bar drag handles and zoom buttons?
 
 MEDIUM PRIORITY:
 
@@ -14,7 +13,6 @@ LOW PRIORITY:
 - delete MoleculeCountAlternateNode and associated developer controls
 - break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
 - generalize layout code
-- can't align baselines of text and numbers drawn using HTMLNode
 - pH text field isn't fully selected when it gains focus or when you double-click in it, selection is generally flakey (PSwing issue?)
 
 PERFORMANCE OPTIMIZATIONS:
@@ -46,6 +44,7 @@ DONE:
 7/13/08 - implement model-view transform for linear scale bar graph
 7/13/08 - add x spacing between beaker ticks and labels
 7/13/08 - make beaker's minor ticks noticeably short than major ticks
+7/13/08 - handle overlapping of bar drag handles and zoom buttons by putting drag handles in front
 7/13/08 - move bar drag handles to top-left edge of bars so that they don't obscure bar values
 7/13/08 - implement bar updaters in terms of BarGraphNode.calculateBarLength
 7/12/08 - rename "soda" to "soda pop"
@@ -255,6 +254,7 @@ DONE:
 5/20/08 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+7/14/08 - generalize alignment of baselines for text and numbers drawn using HTMLNode (not possible)
 7/11/08 - disable liquid and water sliders when beaker is full? (ok as is)
 7/11/08 - replace molecule image files with SphericalNode subclasses? (no, can't partially embed small spheres inside big sphere) 
 7/10/08 - vary flow rate of faucets depending on how far slider is dragged? (no one asked for this, on/off seems enough)
