@@ -22,6 +22,7 @@ Click to launch English version:
 <li>fix alignment of pH slider ticks and bar graph ticks
 <li>rename "soda" to "soda pop"
 <li>make beaker's minor ticks noticeably short than major ticks
+<li>generalized all layout code
 </ul>
 <p>
 <b>Know issues:</b>
