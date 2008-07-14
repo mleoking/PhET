@@ -64,6 +64,7 @@ public class MultipleParticleModel {
     private static final double INJECTED_MOLECULE_VELOCITY = 1.0;
     private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.97;
     private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
+    private static final int MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
     
     // Constants used for setting the phase directly.
     public static final int PHASE_SOLID = 1;
@@ -446,7 +447,15 @@ public class MultipleParticleModel {
         
         switch (state){
         case PHASE_SOLID:
-            solidifyMonatomicMolecules();
+            if (m_atomsPerMolecule == 1){
+                solidifyMonatomicMolecules();
+            }
+            else if (m_atomsPerMolecule == 2){
+                solidifyDiatomicMolecules();
+            }
+            else if ( m_atomsPerMolecule == 3){
+                solidifyTriatomicMolecules();
+            }
             break;
             
         case PHASE_LIQUID:
@@ -454,7 +463,12 @@ public class MultipleParticleModel {
             break;
             
         case PHASE_GAS:
-            gasifyParticles();
+            if (m_atomsPerMolecule == 1){
+                gasifyMonatomicMolecules();
+            }
+            else{
+                gasifyMultiAtomicMolecules();
+            }
             break;
             
         default:
@@ -878,8 +892,7 @@ public class MultipleParticleModel {
      * Randomize the positions of the particles within the container and give
      * them velocity equivalent to that of a gas.
      */
-    private static final int MAX_PLACEMENT_ATTEMPTS = 500;
-    private void gasifyParticles(){
+    private void gasifyMonatomicMolecules(){
         setTemperature( GAS_TEMPERATURE );
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_temperature );
@@ -900,7 +913,7 @@ public class MultipleParticleModel {
         double rangeX = m_normalizedContainerWidth - (2 * minWallDistance);
         double rangeY = m_normalizedContainerHeight - (2 * minWallDistance);
         for (int i = 0; i < m_numberOfAtoms; i++){
-            for (int j = 0; j < 100; j++){
+            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
                 // Pick a random position.
                 newPosX = minWallDistance + (rand.nextDouble() * rangeX);
                 newPosY = minWallDistance + (rand.nextDouble() * rangeY);
@@ -927,12 +940,89 @@ public class MultipleParticleModel {
     }
     
     /**
+     * Randomize the positions of the molecules that comprise a gas.  This
+     * works for diatomic and triatomic molecules.
+     */
+    private void gasifyMultiAtomicMolecules(){
+        
+        setTemperature( GAS_TEMPERATURE );
+        Random rand = new Random();
+        double temperatureSqrt = Math.sqrt( m_temperature );
+        int numberOfMolecules = m_numberOfAtoms / m_atomsPerMolecule;
+        
+        for (int i = 0; i < numberOfMolecules; i++){
+            // Temporarily position the molecules at (0,0).
+            m_moleculeCenterOfMassPositions[i].setLocation( 0, 0 );
+            
+            // Assign each molecule an initial velocity.
+            m_moleculeVelocities[i].setComponents( temperatureSqrt * rand.nextGaussian(), 
+                    temperatureSqrt * rand.nextGaussian() );
+            
+            // Assign each molecule an initial rotational position.
+            m_moleculeRotationAngles[i] = rand.nextDouble() * Math.PI * 2;
+
+            // Assign each molecule an initial rotation rate.
+            // TODO: JPB TBD - Check with Paul if this is a reasonable way to do this.
+            m_moleculeRotationRates[i] = rand.nextDouble() * temperatureSqrt * Math.PI * 2;
+        }
+        
+        // Redistribute the molecules randomly around the container, but make
+        // sure that they are not too close together or they end up with a
+        // disproportionate amount of kinetic energy.
+        double newPosX, newPosY;
+        double minWallDistance = 1.5; // TODO: JPB TBD - This is arbitrary, should eventually be a const.
+        double rangeX = m_normalizedContainerWidth - (2 * minWallDistance);
+        double rangeY = m_normalizedContainerHeight - (2 * minWallDistance);
+        for (int i = 0; i < numberOfMolecules; i++){
+            for (int j = 0; j < MAX_PLACEMENT_ATTEMPTS; j++){
+                // Pick a random position.
+                newPosX = minWallDistance + (rand.nextDouble() * rangeX);
+                newPosY = minWallDistance + (rand.nextDouble() * rangeY);
+                boolean positionAvailable = true;
+                // See if this position is available.
+                for (int k = 0; k < i; k++){
+                    if (m_moleculeCenterOfMassPositions[k].distance( newPosX, newPosY ) < MIN_INITIAL_INTER_PARTICLE_DISTANCE){
+                        positionAvailable = false;
+                        break;
+                    }
+                }
+                if (positionAvailable){
+                    // We found an open position.
+                    m_moleculeCenterOfMassPositions[i].setLocation( newPosX, newPosY );
+                    break;
+                }
+                else if (j == MAX_PLACEMENT_ATTEMPTS - 1){
+                    // This is the last attempt, so use this position anyway.
+                    m_moleculeCenterOfMassPositions[i].setLocation( newPosX, newPosY );
+                }
+            }
+        }
+        
+        // Move the atoms to correspond to the molecule positions.
+        if (m_atomsPerMolecule == 2){
+            updateDiatomicAtomPositions();
+        }
+        else{
+            // Must be triatomic.
+            updateTriatomicAtomPositions();
+        }
+        
+        // Sync up with the model-view interaction particles.
+        syncParticlePositions();
+    }
+
+    /**
      * Set the particles to be in a liquid state.
      */
     private void liquifyParticles(){
         
         // TODO: JPB TBD - This is faked for now and needs to be complete.
-        gasifyParticles();
+        if (m_atomsPerMolecule == 1){
+            gasifyMonatomicMolecules();
+        }
+        else{
+            gasifyMultiAtomicMolecules();
+        }
         setTemperature( LIQUID_TEMPERATURE );
         syncParticlePositions();
     }
