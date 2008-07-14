@@ -14,7 +14,8 @@ LOW PRIORITY:
 
 
 DONE:
-******* version 0.00.18 (?)
+7/14/08 - update model documentation to correct mistakes
+******* version 0.00.18 (23214)
 7/14/08 - move switch to custom liquid into Liquid.setPH, so that you can't set the pH unless it's a Custom liquid
 7/14/08 - fix: hide drag handle for linear scale when bar height is zero
 7/14/08 - rewrite portions of fill/drain model, simplify
