@@ -678,7 +678,7 @@ public class MultipleParticleModel {
         double largeMoleculeDimension = 1.8;
         int numberOfMoleculesAcross = 
             (int)Math.floor( m_normalizedContainerWidth / 3 / largeMoleculeDimension );
-        m_numberOfAtoms = numberOfMoleculesAcross * numberOfMoleculesAcross * 2;
+        m_numberOfAtoms = numberOfMoleculesAcross * numberOfMoleculesAcross * 4;
         
         // Initialize the arrays that define the normalized attributes for
         // each individual atom.
@@ -1000,7 +1000,7 @@ public class MultipleParticleModel {
         setTemperature( SOLID_TEMPERATURE );
         Random rand = new Random();
         double temperatureSqrt = Math.sqrt( m_temperature );
-        int moleculesPerLayer = (int)Math.round( Math.sqrt( m_numberOfAtoms / 2 ) );
+        int moleculesPerLayer = (int)Math.round( Math.sqrt( m_numberOfAtoms ) / 2 );
         
         double startingPosX = (m_normalizedContainerWidth / 2) - 
             ((double)moleculesPerLayer + (((double)moleculesPerLayer / 2 - 1) * DISTANCE_BETWEEN_DIATOMIC_PAIRS / 2));
