@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
@@ -59,7 +60,7 @@ public class GraphNode extends PNode {
     private static final double BAR_WIDTH = 50;
     
     // numeric values
-    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, PHScaleConstants.CONTROL_FONT_SIZE );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final double VALUE_Y_MARGIN = 10;
     private static final TimesTenNumberFormat H3O_FORMAT = new TimesTenNumberFormat( "0.00" );
@@ -175,6 +176,12 @@ public class GraphNode extends PNode {
         addChild( _ohBarNode );
         _h2oBarNode = new BarNode( BAR_WIDTH, PHScaleConstants.H2O_COLOR, _graphOutlineHeight );
         addChild( _h2oBarNode );
+        
+        // line along the bottom of the graph, where bars overlap the outline
+        PPath bottomLineNode = new PPath( new Line2D.Double( 0, _graphOutlineHeight, graphOutlineWidth, _graphOutlineHeight ) );
+        bottomLineNode.setStroke( OUTLINE_STROKE );
+        bottomLineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
+        addChild( bottomLineNode );
         
         // numbers
         _h3oNumberNode = createNumberNode( H3O_FORMAT );

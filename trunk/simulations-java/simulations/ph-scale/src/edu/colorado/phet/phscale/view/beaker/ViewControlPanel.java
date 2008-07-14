@@ -12,7 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
 /**
@@ -27,7 +27,7 @@ public class ViewControlPanel extends JPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, 18 );;
+    private static final Font CONTROL_FONT = PHScaleConstants.CONTROL_FONT;
     
     //----------------------------------------------------------------------------
     // Instance data

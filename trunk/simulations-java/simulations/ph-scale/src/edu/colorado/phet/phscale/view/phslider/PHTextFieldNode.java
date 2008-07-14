@@ -20,6 +20,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -35,8 +36,8 @@ public class PHTextFieldNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 18 );
-    private static final Font VALUE_FONT = new PhetFont( 18 );
+    private static final Font LABEL_FONT = new PhetFont( Font.BOLD, PHScaleConstants.CONTROL_FONT_SIZE );
+    private static final Font VALUE_FONT = new PhetFont( PHScaleConstants.CONTROL_FONT_SIZE );
     private static final int VALUE_COLUMNS = 4;
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "#0.00" );
     private static final double ARROW_KEY_DELTA = 0.01;

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.view.graph.ScaleControlPanel.ScaleControlPanelListener;
@@ -26,7 +27,7 @@ public class GraphControlNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 20 );
+    private static final Font TITLE_FONT = new PhetFont( Font.BOLD, PHScaleConstants.CONTROL_FONT_SIZE + 2 );
     private static final double GRAPH_OUTLINE_WIDTH = 225;
     
     //----------------------------------------------------------------------------

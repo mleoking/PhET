@@ -63,7 +63,8 @@ public class PHScaleConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, 18 );
+    public static final int CONTROL_FONT_SIZE = 18;
+    public static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, CONTROL_FONT_SIZE );
     
     //----------------------------------------------------------------------------
     // Strokes
