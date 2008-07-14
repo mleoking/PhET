@@ -29,6 +29,7 @@ CLEANUP:
 
 
 DONE:
+******* version 0.00.17 (?)
 7/14/08 - generalize alignment of pH slider ticks and bar graph ticks
 7/14/08 - reorder some constructor args for symmetry with other interfaces
 7/14/08 - constrain pH range in draggable bars via the model
