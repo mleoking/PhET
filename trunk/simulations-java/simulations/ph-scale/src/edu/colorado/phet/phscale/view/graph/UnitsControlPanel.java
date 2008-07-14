@@ -17,12 +17,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
 /**
- * GraphUnitsControlPanel contains the controls for switching the graph's units.
+ * UnitsControlPanel contains the controls for switching the graph's units.
  * The units can be either concentration (moles/L) or moles.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GraphUnitsControlPanel extends JPanel {
+public class UnitsControlPanel extends JPanel {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -42,7 +42,7 @@ public class GraphUnitsControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GraphUnitsControlPanel() {
+    public UnitsControlPanel() {
         super();
         setOpaque( false );
 
@@ -110,22 +110,22 @@ public class GraphUnitsControlPanel extends JPanel {
     // Listener interface
     //----------------------------------------------------------------------------
     
-    public interface GraphUnitsControlPanelListener {
+    public interface UnitsControlPanelListener {
         public void selectionChanged();
     }
     
-    public void addGraphUnitsControlPanelListener( GraphUnitsControlPanelListener listener ) {
+    public void addUnitsControlPanelListener( UnitsControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeGraphUnitsControlPanelListener( GraphUnitsControlPanelListener listener ) {
+    public void removeUnitsControlPanelListener( UnitsControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
     private void notifySelectionChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (GraphUnitsControlPanelListener) i.next() ).selectionChanged();
+            ( (UnitsControlPanelListener) i.next() ).selectionChanged();
         }
     }
 }

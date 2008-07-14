@@ -17,12 +17,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
 
 /**
- * GraphScaleControlPanel contains the controls for switching the graph's scale.
+ * ScaleControlPanel contains the controls for switching the graph's scale.
  * The scale can be either log or linear.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GraphScaleControlPanel extends JPanel {
+public class ScaleControlPanel extends JPanel {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -42,7 +42,7 @@ public class GraphScaleControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GraphScaleControlPanel() {
+    public ScaleControlPanel() {
         super();
         setOpaque( false );
 
@@ -107,22 +107,22 @@ public class GraphScaleControlPanel extends JPanel {
     // Listener interface
     //----------------------------------------------------------------------------
     
-    public interface GraphScaleControlPanelListener {
+    public interface ScaleControlPanelListener {
         public void selectionChanged();
     }
     
-    public void addGraphScaleControlPanelListener( GraphScaleControlPanelListener listener ) {
+    public void addScaleControlPanelListener( ScaleControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeGraphScaleControlPanelListener( GraphScaleControlPanelListener listener ) {
+    public void removeScaleControlPanelListener( ScaleControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
     private void notifySelectionChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (GraphScaleControlPanelListener) i.next() ).selectionChanged();
+            ( (ScaleControlPanelListener) i.next() ).selectionChanged();
         }
     }
 }
