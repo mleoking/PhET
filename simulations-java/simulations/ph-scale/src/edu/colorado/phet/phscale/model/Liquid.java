@@ -452,14 +452,26 @@ public class Liquid extends ClockAdapter {
     
     /*
      * Gets the pH of two combined volumes of liquid.
+     * Combining acids and bases is not supported by this model.
      * 
      * @param pH1
      * @param volume1 (L)
      * @param pH2 
      * @param volume2 (L)
+     * @throws UnsupportedOperationException if you try to combine an acid and base
      */
     private static final double pHCombined( double pH1, double volume1, double pH2, double volume2 ) {
-        return -MathUtil.log10( ( Math.pow( 10, -pH1 ) * volume1 + Math.pow( 10, -pH2 ) * volume2 ) / ( volume1 + volume2 ) );
+        if ( ( pH1 < 7 && pH2 > 7 ) || ( pH1 > 7 && pH2 < 7 ) ) {
+            throw new UnsupportedOperationException( "combining acids and bases is not supported" );
+        }
+        double newPH = 0;
+        if ( pH1 < 7 ) {
+            newPH = -MathUtil.log10( ( Math.pow( 10, -pH1 ) * volume1 + Math.pow( 10, -pH2 ) * volume2 ) / ( volume1 + volume2 ) );
+        }
+        else {
+            newPH = 14 + MathUtil.log10( ( Math.pow( 10, pH1 - 14 ) * volume1 + Math.pow( 10, pH2 - 14 ) * volume2 ) / ( volume1 + volume2 ) );
+        }
+        return newPH;
     }
     
     /*
