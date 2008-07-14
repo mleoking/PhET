@@ -33,7 +33,7 @@ public class GraphControlNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final BarGraphNode _graphNode;
+    private final GraphNode _graphNode;
     private final UnitsControlPanel _unitsControlPanel;
     private final ScaleControlPanel _scaleControlPanel;
     
@@ -59,7 +59,7 @@ public class GraphControlNode extends PNode {
         addChild( unitsControlPanelWrapper );
         
         // graph
-        _graphNode = new BarGraphNode( OUTLINE_SIZE, liquid );
+        _graphNode = new GraphNode( OUTLINE_SIZE, liquid );
         addChild( _graphNode );
         
         // legend
