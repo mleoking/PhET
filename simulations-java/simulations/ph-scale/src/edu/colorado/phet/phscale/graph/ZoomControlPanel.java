@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.graphs;
+package edu.colorado.phet.phscale.graph;
 
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
