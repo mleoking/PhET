@@ -547,36 +547,51 @@ public class GraphNode extends PNode {
             Point2D pHandleGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
             Point2D pHandleLocal = GraphNode.this.globalToLocal( pHandleGlobal );
             
+            // y offset, constrained to graph bounds
             double yOffset = _graphOutlineHeight - pHandleLocal.getY();
-            if ( yOffset >= 0 && yOffset <= _graphOutlineHeight ) {
+            if ( yOffset < 0 ) {
+                yOffset = 0;
+            }
+            else if ( yOffset > _graphOutlineHeight ) {
+                yOffset = _graphOutlineHeight;
+            }
 
-                double modelValue = 0;
-                final double maxTickHeight = _graphOutlineHeight - TICKS_TOP_MARGIN;
-                if ( _logScale ) {
-                    // log scale
-                    final double maxExponent = BIGGEST_LOG_TICK_EXPONENT;
-                    final double minExponent = BIGGEST_LOG_TICK_EXPONENT - NUMBER_OF_LOG_TICKS + 1;
-                    final double modelValueExponent = minExponent + ( ( maxExponent - minExponent ) * ( yOffset / maxTickHeight ) );
-                    modelValue = Math.pow( 10, modelValueExponent );
-                }
-                else {
-                    // linear scale, assumes that the y-axis starts at zero!
-                    final double maxMantissa = ( NUMBER_OF_LINEAR_TICKS - 1 ) * LINEAR_TICK_MANTISSA_SPACING;
-                    final double maxTickValue = maxMantissa * Math.pow( 10, _linearTicksExponent );
-                    modelValue = maxTickValue * yOffset / maxTickHeight;
-                }
+            // convert y offset to a model value
+            double modelValue = 0;
+            final double maxTickHeight = _graphOutlineHeight - TICKS_TOP_MARGIN;
+            if ( _logScale ) {
+                // log scale
+                final double maxExponent = BIGGEST_LOG_TICK_EXPONENT;
+                final double minExponent = BIGGEST_LOG_TICK_EXPONENT - NUMBER_OF_LOG_TICKS + 1;
+                final double modelValueExponent = minExponent + ( ( maxExponent - minExponent ) * ( yOffset / maxTickHeight ) );
+                modelValue = Math.pow( 10, modelValueExponent );
+            }
+            else {
+                // linear scale, assumes that the y-axis starts at zero!
+                final double maxMantissa = ( NUMBER_OF_LINEAR_TICKS - 1 ) * LINEAR_TICK_MANTISSA_SPACING;
+                final double maxTickValue = maxMantissa * Math.pow( 10, _linearTicksExponent );
+                modelValue = maxTickValue * yOffset / maxTickHeight;
+            }
 
-                if ( _concentrationUnits ) {
-                    setConcentration( modelValue );
-                }
-                else {
-                    setMoles( modelValue );
-                }
+            // update the model
+            if ( _concentrationUnits ) {
+                setConcentration( modelValue );
+            }
+            else {
+                setMoles( modelValue );
             }
         }
 
+        /**
+         * Updates the model's concentration.
+         * @param concentration
+         */
         protected abstract void setConcentration( double concentration );
 
+        /**
+         * Updates the model's number of moles.
+         * @param moles
+         */
         protected abstract void setMoles( double moles );
     }
 }
