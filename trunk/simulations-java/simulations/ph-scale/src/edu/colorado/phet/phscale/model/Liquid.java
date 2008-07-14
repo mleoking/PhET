@@ -147,6 +147,11 @@ public class Liquid extends ClockAdapter {
     
     /**
      * Sets the pH.
+     * <p>
+     * If the liquid type is not already "Custom", automatically switch
+     * to the custom liquid, since that's the only liquid whose pH the
+     * user can manipulate directly.
+     * <p>
      * If the pH is out of range, it is silently clamped to the range.
      * NOTE: This clamping behavior is essential to other parts of the sim 
      * (eg, dragging bars in the bar graph).
@@ -154,6 +159,11 @@ public class Liquid extends ClockAdapter {
      * @param pH
      */
     public void setPH( final double pH ) {
+        
+        // switch to Custom liquid
+        if ( !_liquidDescriptor.equals( CUSTOM_LIQUID ) ) {
+            setLiquidDescriptor( CUSTOM_LIQUID );
+        }
         
         // clamp to the pH range
         double clampedPH = pH;
