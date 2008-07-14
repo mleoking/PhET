@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.beaker;
+package edu.colorado.phet.phscale.view.beaker;
 
 import java.awt.Frame;
 import java.awt.GridBagConstraints;

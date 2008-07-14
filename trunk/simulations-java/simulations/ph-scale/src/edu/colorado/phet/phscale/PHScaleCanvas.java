@@ -6,12 +6,12 @@ import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.phscale.beaker.BeakerControlNode;
-import edu.colorado.phet.phscale.beaker.ParticlesNode;
-import edu.colorado.phet.phscale.graph.GraphControlNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHScaleModel;
 import edu.colorado.phet.phscale.view.TickAlignmentNode;
+import edu.colorado.phet.phscale.view.beaker.BeakerControlNode;
+import edu.colorado.phet.phscale.view.beaker.ParticlesNode;
+import edu.colorado.phet.phscale.view.graph.GraphControlNode;
 import edu.colorado.phet.phscale.view.phslider.PHControlNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
