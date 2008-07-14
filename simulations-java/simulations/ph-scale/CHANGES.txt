@@ -9,6 +9,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - delete MoleculeCountAlternateNode, associated developer controls, image files
 - hand cursors don't work on PSwing check boxes and radio buttons [Unfuddle #653]
+- selection in PTextFieldNode doesn't behave properly [Unfuddle #660]
 
 
 DONE:
