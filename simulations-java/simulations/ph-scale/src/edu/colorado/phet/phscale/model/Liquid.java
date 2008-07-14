@@ -9,6 +9,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorAdapter;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
@@ -42,6 +43,8 @@ public class Liquid extends ClockAdapter {
     
     private final ArrayList _listeners;
     
+    private final IntegerRange _pHRange;
+    
     private LiquidDescriptor _liquidDescriptor;
     private final LiquidDescriptorListener _liquidDescriptorListener;
     
@@ -65,7 +68,9 @@ public class Liquid extends ClockAdapter {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Liquid( LiquidDescriptor liquidDescriptor ) {
+    public Liquid( IntegerRange pHRange, LiquidDescriptor liquidDescriptor ) {
+        
+        _pHRange = new IntegerRange( pHRange );
         
         _listeners = new ArrayList();
         _liquidDescriptorListener = new LiquidDescriptorAdapter() {
@@ -106,6 +111,18 @@ public class Liquid extends ClockAdapter {
     // Properties
     //----------------------------------------------------------------------------
     
+    public IntegerRange getPHRange() {
+        return _pHRange;
+    }
+    
+    public int getMaxPH() {
+        return _pHRange.getMax();
+    }
+    
+    public int getMinPH() {
+        return _pHRange.getMin();
+    }
+    
     public void setLiquidDescriptor( LiquidDescriptor liquidDescriptor ) {
         
         if ( _liquidDescriptor != null ) {
@@ -124,9 +141,21 @@ public class Liquid extends ClockAdapter {
         return _liquidDescriptor;
     }
     
+    /**
+     * Sets the pH.
+     * This is a no-op if the liquid is empty or the pH is out of range.
+     * @param pH
+     */
     public void setPH( double pH ) {
         if ( _pH != null && pH != _pH.doubleValue() ) {
-            _pH = new Double( pH );
+            double clampedPH = pH;
+            if ( pH < _pHRange.getMin() ) {
+                clampedPH = _pHRange.getMin();
+            }
+            else if ( pH > _pHRange.getMax() ) {
+                clampedPH = _pHRange.getMax();
+            }
+            _pH = new Double( clampedPH );
             notifyStateChanged();
         }
     }
@@ -328,8 +357,7 @@ public class Liquid extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public void setConcentrationH3O( double c ) {
-        _pH = new Double( -MathUtil.log10( c ) );
-        notifyStateChanged();
+        setPH( -MathUtil.log10( c ) );
     }
     
     public double getConcentrationH3O() {
@@ -345,8 +373,7 @@ public class Liquid extends ClockAdapter {
     }
   
     public void setConcentrationOH( double c ) {
-        _pH = new Double( 14 - ( -MathUtil.log10( c ) ) );
-        notifyStateChanged();
+        setPH( 14 - ( -MathUtil.log10( c ) ) );
     }
     
     public double getConcentrationOH() {
@@ -386,8 +413,7 @@ public class Liquid extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public void setMolesH3O( double m ) {
-        _pH = new Double( -MathUtil.log10( m / _volume ) );
-        notifyStateChanged();
+        setPH( -MathUtil.log10( m / _volume ) );
     }
     
     public double getMolesH3O() {
@@ -395,8 +421,7 @@ public class Liquid extends ClockAdapter {
     }
     
     public void setMolesOH( double m ) {
-        _pH = new Double( 14 - ( -MathUtil.log10( m / _volume ) ) );
-        notifyStateChanged();
+        setPH( 14 - ( -MathUtil.log10( m / _volume ) ) );
     }
     
     public double getMolesOH() {

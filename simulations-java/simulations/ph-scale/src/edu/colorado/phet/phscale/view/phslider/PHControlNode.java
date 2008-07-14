@@ -9,7 +9,6 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
@@ -51,7 +50,7 @@ public class PHControlNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHControlNode( IntegerRange range, Liquid liquid ) {
+    public PHControlNode( Liquid liquid ) {
         super();
         
         _notifyEnabled = false;
@@ -64,8 +63,8 @@ public class PHControlNode extends PNode {
         };
         _liquid.addLiquidListener( _liquidListener );
         
-        _textFieldNode = new PHTextFieldNode( range );
-        _sliderNode = new PHSliderNode( range, SLIDER_TRACK_SIZE, KNOB_SIZE );
+        _textFieldNode = new PHTextFieldNode( liquid.getPHRange() );
+        _sliderNode = new PHSliderNode( liquid.getPHRange(), SLIDER_TRACK_SIZE, KNOB_SIZE );
         
         PNode parentNode = new PNode();
         parentNode.addChild( _textFieldNode );
