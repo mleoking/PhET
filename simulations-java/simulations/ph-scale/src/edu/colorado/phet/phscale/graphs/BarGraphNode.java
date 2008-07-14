@@ -423,15 +423,17 @@ public class BarGraphNode extends PNode {
     
     private double calculateBarLength( final double modelValue ) {
         double viewValue = 0;
+        final double maxTickHeight = _graphOutlineSize.getHeight() - TICKS_TOP_MARGIN;
         if ( _logScale ) {
+            final double maxModelValue = Math.pow( 10, BIGGEST_LOG_TICK_EXPONENT );
+            final double minModelValue = Math.pow( 10, BIGGEST_LOG_TICK_EXPONENT - NUMBER_OF_LOG_TICKS );
             //XXX implement this
             viewValue = _graphOutlineSize.getHeight() / 2;//XXX
         }
         else {
-            double divisor = Math.pow( 10, _linearTicksExponent );
-            double mantissa = modelValue / divisor;
-            //XXX finish implementing this
-            viewValue = _graphOutlineSize.getHeight() + 10;//XXX
+            final double maxModelValue = 9 * Math.pow( 10, _linearTicksExponent );
+            final double minModelValue = 0;
+            viewValue = maxTickHeight * ( modelValue - minModelValue ) / ( maxModelValue - minModelValue );
         }
         return viewValue;
     }
