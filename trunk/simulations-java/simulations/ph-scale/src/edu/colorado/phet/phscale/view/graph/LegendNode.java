@@ -39,9 +39,9 @@ public class LegendNode extends PComposite {
         setChildrenPickable( false );
         
         // icons
-        PNode h3oIconNode = new H3ONode.Small();
-        PNode ohIconNode = new OHNode.Small();
-        PNode h2oIconNode = new H2ONode.Small();
+        PNode h3oIconNode = new H3ONode();
+        PNode ohIconNode = new OHNode();
+        PNode h2oIconNode = new H2ONode();
         
         // labels
         HTMLNode h3oLabelNode = new HTMLNode( PHScaleStrings.LABEL_H3O );

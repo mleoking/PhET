@@ -7,12 +7,13 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 
 LOW PRIORITY:
-- delete MoleculeCountAlternateNode, associated developer controls, image files
+- delete MoleculeCountAlternateNode, associated developer controls, image files (*-big.png)
 - hand cursors don't work on PSwing check boxes and radio buttons [Unfuddle #653]
 - selection in PTextFieldNode doesn't behave properly [Unfuddle #660]
 
 
 DONE:
+7/14/08 - decouple MoleculeCountAlternateNode from the rest of the code base so that it's easy to delete
 7/14/08 - workaround: clicking twice in PHTextFieldNode causes liquid to change to Custom [Unfuddle #660]
 ******* version 0.00.17 (23184)
 7/14/08 - changing a bar sets liquid to Custom
