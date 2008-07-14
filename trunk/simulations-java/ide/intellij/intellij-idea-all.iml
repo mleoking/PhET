@@ -59,7 +59,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/moving-man/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/mri/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/mvc-example/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../simulations/nuclear-physics-2/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/nuclear-physics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/ohm-1d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../simulations/optical-quantum-control/src" isTestSource="false" />
@@ -93,7 +92,7 @@
     <content url="file://$MODULE_DIR$/../../../util/translation-utility">
       <sourceFolder url="file://$MODULE_DIR$/../../../util/translation-utility/src" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../../../../../../svn-working-copy/trunk/projects/phet" />
+    <content url="file://$MODULE_DIR$/../../../../../../../reid/svn-working-copy/trunk/projects/phet" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
