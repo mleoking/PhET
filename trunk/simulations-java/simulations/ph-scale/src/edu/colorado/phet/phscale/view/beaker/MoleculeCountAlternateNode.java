@@ -11,15 +11,12 @@ import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
-import edu.colorado.phet.phscale.PHScaleImages;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.phscale.view.H2ONode;
 import edu.colorado.phet.phscale.view.H3ONode;
 import edu.colorado.phet.phscale.view.OHNode;
-import edu.colorado.phet.phscale.view.OHNode.Big;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**

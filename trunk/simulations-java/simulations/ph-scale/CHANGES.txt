@@ -33,6 +33,7 @@ CLEANUP:
 
 
 DONE:
+7/13/08 - organize imports
 7/13/08 - add drag handlers for bars, update model as bars are dragged
 7/13/08 - major reorganization and rename of packages, done in phases to workaround Subversive issues
 7/13/08 - move zoom controls to their own class

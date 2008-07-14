@@ -15,7 +15,6 @@ import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.phscale.view.H2ONode;
 import edu.colorado.phet.phscale.view.H3ONode;
 import edu.colorado.phet.phscale.view.OHNode;
-import edu.colorado.phet.phscale.view.H3ONode.Small;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
