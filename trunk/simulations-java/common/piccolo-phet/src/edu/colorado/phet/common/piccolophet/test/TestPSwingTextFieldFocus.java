@@ -4,8 +4,8 @@ package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,24 +15,27 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Demonstrates problems with JTextField and PSwing.
- * The JTextField gains focus for every click in the text field,
- * even when the text field already has focus.
+ * Demonstrates problems with JTextField focus and PSwing.
+ * Every time that you click in the JTextField, focusLost and focusGained are both called.
+ * When the JTextField already has focus, nothing should happen.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestPSwingTextField extends JFrame {
+public class TestPSwingTextFieldFocus extends JFrame {
 
-    public TestPSwingTextField() {
+    public TestPSwingTextFieldFocus() {
         
         // JTextField off the canvas.
         // This demonstrates typical Swing cursor behavior, when Piccolo isn't involved.
         final JTextField textField1 = new JTextField( "textField1 outside of Piccolo" );
         textField1.setColumns( 20 );
-        textField1.addFocusListener( new FocusAdapter() {
+        textField1.addFocusListener( new FocusListener() {
             public void focusGained( FocusEvent e ) {
                 System.out.println( "textField1 gained focus" );
                 textField1.selectAll();
+            }
+            public void focusLost( FocusEvent e ) {
+                System.out.println( "textField1 lost focus" );
             }
         });
         JPanel controlPanel = new JPanel();
@@ -41,10 +44,13 @@ public class TestPSwingTextField extends JFrame {
         // JTextField on the canvas.
         final JTextField textField2 = new JTextField( "textField2 on a PCanvas" );
         textField2.setColumns( 20 );
-        textField2.addFocusListener( new FocusAdapter() {
+        textField2.addFocusListener( new FocusListener() {
             public void focusGained( FocusEvent e ) {
                 System.out.println( "textField2 gained focus" );
                 textField2.selectAll();
+            }
+            public void focusLost( FocusEvent e ) {
+                System.out.println( "textField2 lost focus" );
             }
         });
         PSwing textField2Wrapper = new PSwing( textField2 );
@@ -61,7 +67,7 @@ public class TestPSwingTextField extends JFrame {
     }
     
     public static void main( String args[] ) {
-        TestPSwingTextField frame = new TestPSwingTextField();
+        TestPSwingTextFieldFocus frame = new TestPSwingTextFieldFocus();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( new Dimension( 400, 400 ) );
         frame.setVisible( true );
