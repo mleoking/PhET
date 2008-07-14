@@ -16,9 +16,11 @@ import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorAdapter;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
 
 /**
- * Liquid is the model of the liquid in the beaker. 
- * The liquid can be "filled" with a combination of liquids, or drained.
+ * Liquid is the model of the liquid in the beaker.
+ * The liquid can be "filled" with a combination one liquid and water.
+ * The liquid can also be drained.
  * Filling and draining are subject to maximum and minimum volume constraints.
+ * Changing the liquid type immediately drains and refills.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -51,7 +53,7 @@ public class Liquid extends ClockAdapter {
     private final LiquidDescriptorListener _liquidDescriptorListener;
     
     private Double _pH;
-    private double _volume; // L
+    private double _liquidVolume; // L
     private double _waterVolume; // L
 
     private boolean _isFillingLiquid;
@@ -91,7 +93,7 @@ public class Liquid extends ClockAdapter {
         } );
         
         _pH = null;
-        _volume = 0;
+        _liquidVolume = 0;
         _waterVolume = 0;
 
         _isFillingLiquid = false;
@@ -179,7 +181,7 @@ public class Liquid extends ClockAdapter {
     }
     
     public double getVolume() {
-        return _volume;
+        return _liquidVolume + _waterVolume;
     }
     
     public double getMaxVolume() {
@@ -187,17 +189,18 @@ public class Liquid extends ClockAdapter {
     }
     
     public boolean isEmpty() {
-        return _volume == 0;
+        return getVolume() == 0;
     }
     
     public boolean isFull() {
-        return _volume == MAX_VOLUME;
+        return getVolume() == MAX_VOLUME;
     }
     
     public Color getColor() {
         Color color = null;
-        if ( _volume > 0 ) {
-            if ( _volume == _waterVolume ) {
+        final double volume = getVolume();
+        if ( volume > 0 ) {
+            if ( volume == _waterVolume ) {
                 // all water
                 color = WATER.getColor();
             }
@@ -207,8 +210,7 @@ public class Liquid extends ClockAdapter {
             }
             else {
                 // diluted with water
-                double liquidVolume = _volume - _waterVolume;
-                int alpha = (int) ( _liquidDescriptor.getColor().getAlpha() * ( liquidVolume / _volume ) );
+                int alpha = (int) ( _liquidDescriptor.getColor().getAlpha() * ( _liquidVolume / volume ) );
                 color = ColorUtils.createColor( _liquidDescriptor.getColor(), alpha );
             }
         }
@@ -237,7 +239,7 @@ public class Liquid extends ClockAdapter {
      * @param fillVolume stop filling when we reach this volume (L)
      */
     public void startFillingLiquid( double fillRate, double fillVolume ) {
-        if ( !_isFillingLiquid && !isFull() && fillVolume > _volume ) {
+        if ( !_isFillingLiquid && !isFull() && fillVolume > getVolume() ) {
             _isFillingLiquid = true;
             _fillLiquidRate = fillRate;
             _fillLiquidVolume = fillVolume;
@@ -282,7 +284,7 @@ public class Liquid extends ClockAdapter {
      * @param fillVolume stop filling when we reach this volume (L)
      */
     public void startFillingWater( double fillRate, double fillVolume ) {
-        if ( !_isFillingWater && !isFull() && fillVolume > _volume ) {
+        if ( !_isFillingWater && !isFull() && fillVolume > getVolume() ) {
             _isFillingWater = true;
             _fillWaterRate = fillRate;
             _fillWaterVolume = fillVolume;
@@ -314,7 +316,7 @@ public class Liquid extends ClockAdapter {
      */
     public void drainImmediately() {
         if ( !isEmpty() ) {
-            _volume = 0;
+            _liquidVolume = 0;
             _waterVolume = 0;
             notifyStateChanged();
         }
@@ -338,7 +340,7 @@ public class Liquid extends ClockAdapter {
      * @param drainVolume stop draining when we reach this volume (liters)
      */
     public void startDraining( double drainRate, double drainVolume ) {
-        if ( !_isDraining && drainVolume < _volume ) {
+        if ( !_isDraining && drainVolume < getVolume() ) {
             _isFillingLiquid = false;
             _isDraining = true;
             _drainRate = drainRate;
@@ -411,15 +413,15 @@ public class Liquid extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public double getMoleculesH3O() {
-        return getConcentrationH3O() * AVOGADROS_NUMBER * _volume;
+        return getConcentrationH3O() * AVOGADROS_NUMBER * getVolume();
     }
 
     public double getMoleculesOH() {
-        return getConcentrationOH() * AVOGADROS_NUMBER * _volume;
+        return getConcentrationOH() * AVOGADROS_NUMBER * getVolume();
     }
 
     public double getMoleculesH2O() {
-        return getConcentrationH2O() * AVOGADROS_NUMBER * _volume;
+        return getConcentrationH2O() * AVOGADROS_NUMBER * getVolume();
     }
     
     //----------------------------------------------------------------------------
@@ -427,28 +429,107 @@ public class Liquid extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public void setMolesH3O( double m ) {
-        setPH( -MathUtil.log10( m / _volume ) );
+        setPH( -MathUtil.log10( m / getVolume() ) );
     }
     
     public double getMolesH3O() {
-        return _volume * getConcentrationH3O();
+        return getVolume() * getConcentrationH3O();
     }
     
     public void setMolesOH( double m ) {
-        setPH( 14 - ( -MathUtil.log10( m / _volume ) ) );
+        setPH( 14 - ( -MathUtil.log10( m / getVolume() ) ) );
     }
     
     public double getMolesOH() {
-        return _volume * getConcentrationOH();
+        return getVolume() * getConcentrationOH();
     }
     
     public double getMolesH2O() {
-        return _volume * getConcentrationH2O();
+        return getVolume() * getConcentrationH2O();
     }
     
     //----------------------------------------------------------------------------
-    // Private
+    // Filling and draining over time
     //----------------------------------------------------------------------------
+    
+    /**
+     * Fills or drains some liquid when the clock ticks.
+     */
+    public void clockTicked( ClockEvent clockEvent ) {
+        if ( _isFillingLiquid ) {
+            stepFillLiquid();
+        }
+        if ( _isFillingWater ) {
+            stepFillWater();
+        }
+        if ( _isDraining ) {
+            stepDrain();
+        }
+    }
+    
+    /*
+     * Fills liquid by one step, stops filling when the desired volume is reached.
+     */
+    private void stepFillLiquid() {
+        final double currentVolume = getVolume();
+        final double volumeIncrease = Math.min( _fillLiquidRate, _fillLiquidVolume - currentVolume );
+        _liquidVolume += volumeIncrease;
+        if ( getVolume() == _fillLiquidVolume ) {
+            _isFillingLiquid = false;
+        }
+        updatePH();
+    }
+    
+    /*
+     * Fills water by one step, stops filling when the desired volume is reached.
+     */
+    private void stepFillWater() {
+        final double currentVolume = getVolume();
+        final double volumeIncrease = Math.min( _fillWaterRate, _fillWaterVolume - currentVolume );
+        _waterVolume += volumeIncrease;
+        if ( getVolume() == _fillWaterVolume ) {
+            _isFillingWater = false;
+        }
+        updatePH();
+    }
+    
+    /*
+     * Drains by one step, stops draining when the desired volume is reached.
+     * The same percentage of water and liquid are drained.
+     */
+    private void stepDrain() {
+        final double currentVolume = getVolume();
+        final double volumeDecrease = Math.min( _drainRate, currentVolume - _drainVolume );
+        _waterVolume -= ( volumeDecrease * _waterVolume / currentVolume );
+        _liquidVolume -= ( volumeDecrease * _liquidVolume / currentVolume );
+        if ( getVolume() == _drainVolume ) {
+            _isDraining = false;
+        }
+        updatePH();
+    }
+    
+    /*
+     * Updates the pH based on the volume of liquid and water.
+     */
+    private void updatePH() {
+        if ( getVolume() == 0 ) {
+            // empty
+            _pH = null;
+        }
+        else if ( _waterVolume == 0 ) {
+            // all liquid
+            _pH = new Double( _liquidDescriptor.getPH() );
+        }
+        else if ( _liquidVolume == 0 ) {
+            // all water
+            _pH = new Double( WATER.getPH() );
+        }
+        else {
+            // some liquid and some water
+            _pH = new Double( pHCombined( _liquidDescriptor.getPH(), _liquidVolume, WATER.getPH(), _waterVolume ) );
+        }
+        notifyStateChanged();
+    }
     
     /*
      * Gets the pH of two combined volumes of liquid.
@@ -472,125 +553,6 @@ public class Liquid extends ClockAdapter {
             newPH = 14 + MathUtil.log10( ( Math.pow( 10, pH1 - 14 ) * volume1 + Math.pow( 10, pH2 - 14 ) * volume2 ) / ( volume1 + volume2 ) );
         }
         return newPH;
-    }
-    
-    /*
-     * Increases the volume by adding a liquid.
-     * This changes the volume and the pH.
-     * 
-     * @param newVolume (L)
-     * @param addedLiquid
-     */
-    private void increaseVolume( double newVolume, LiquidDescriptor addedLiquid ) {
-        assert ( newVolume > _volume );
-        assert ( newVolume >= 0 );
-        assert ( newVolume <= MAX_VOLUME );
-        if ( newVolume != _volume ) {
-            double addedVolume = newVolume - _volume;
-            if ( _volume == 0 ) {
-                _pH = new Double( addedLiquid.getPH() );
-            }
-            else {
-                double newPH = pHCombined( _pH.doubleValue(), _volume, addedLiquid.getPH(), addedVolume );
-                _pH = new Double( newPH );
-            }
-            _volume = newVolume;
-            if ( addedLiquid.equals( WATER ) ) {
-                _waterVolume += addedVolume;
-            }
-            notifyStateChanged();
-        }
-    }
-    
-    /*
-     * Decreases the volume by removing some liquid.
-     * This changes the volume, but pH is the same.
-     * 
-     * @param newVolume (L)
-     */
-    private void decreaseVolume( double newVolume ) {
-        assert ( newVolume < _volume );
-        assert ( newVolume >= 0 );
-        assert ( newVolume <= MAX_VOLUME );
-        if ( _waterVolume > 0 ) {
-            if ( _waterVolume == 0 ) {
-                // no water
-                _waterVolume = 0;
-            }
-            else if ( _waterVolume == _volume ) {
-                // all water
-                _waterVolume = newVolume;
-            }
-            else {
-                // diluted with water
-                if ( newVolume == 0 ) {
-                    _waterVolume = 0;
-                }
-                else {
-                    _waterVolume *= ( newVolume / _volume );
-                }
-            }
-        }
-        _volume = newVolume;
-        if ( _volume == 0 ) {
-            _pH = null;
-        }
-        notifyStateChanged();
-    }
-    
-    //----------------------------------------------------------------------------
-    // ClockAdapter overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Fills or drains some liquid when the clock ticks.
-     */
-    public void clockTicked( ClockEvent clockEvent ) {
-        if ( _isFillingLiquid ) {
-            stepFillLiquid();
-        }
-        if ( _isFillingWater ) {
-            stepFillWater();
-        }
-        if ( _isDraining ) {
-            stepDrain();
-        }
-    }
-    
-    /*
-     * Fills liquid by one step, stops filling when the desired volume is reached.
-     */
-    private void stepFillLiquid() {
-        double newVolume = _volume + _fillLiquidRate;
-        if ( newVolume >= _fillLiquidVolume ) {
-            newVolume = _fillLiquidVolume;
-            _isFillingLiquid = false;
-        }
-        increaseVolume( newVolume, _liquidDescriptor );
-    }
-    
-    /*
-     * Fills water by one step, stops filling when the desired volume is reached.
-     */
-    private void stepFillWater() {
-        double newVolume = _volume + _fillWaterRate;
-        if ( newVolume >= _fillWaterVolume ) {
-            newVolume = _fillWaterVolume;
-            _isFillingWater = false;
-        }
-        increaseVolume( newVolume, WATER );
-    }
-    
-    /*
-     * Drains by one step, stops draining when the desired volume is reached.
-     */
-    private void stepDrain() {
-        double newVolume = _volume - _drainRate;
-        if ( newVolume <= _drainVolume ) {
-            newVolume = _drainVolume;
-            _isDraining = false;
-        }
-        decreaseVolume( newVolume );
     }
     
     //----------------------------------------------------------------------------
