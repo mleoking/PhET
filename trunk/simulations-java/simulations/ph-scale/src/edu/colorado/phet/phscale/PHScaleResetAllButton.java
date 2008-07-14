@@ -1,13 +1,12 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.control;
+package edu.colorado.phet.phscale;
 
 import java.awt.Component;
 import java.awt.Insets;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
-import edu.colorado.phet.phscale.PHScaleConstants;
 
 /**
  * PHScaleResetAllButton is the "Reset All" button.
