@@ -27,6 +27,7 @@ public class LogYAxisNode extends PComposite {
             Stroke gridlineStroke, Color gridlineColor ) {
         
         setPickable( false );
+        setChildrenPickable( false );
         
         final double usableHeight = graphOutlineSize.getHeight() - topMargin;
         _tickSpacing = usableHeight / ( numberOfTicks - 1 );

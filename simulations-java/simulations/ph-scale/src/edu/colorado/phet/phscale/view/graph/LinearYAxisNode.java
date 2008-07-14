@@ -42,6 +42,7 @@ public class LinearYAxisNode extends PComposite {
             Stroke gridlineStroke, Color gridlineColor ) {
         
         setPickable( false );
+        setChildrenPickable( false );
         
         _graphOutlineSize = new PDimension( graphOutlineSize );
         _numberOfTicks = numberOfTicks;
