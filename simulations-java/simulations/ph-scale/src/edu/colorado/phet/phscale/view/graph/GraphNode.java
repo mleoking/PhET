@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -21,6 +22,8 @@ import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.view.graph.ZoomControlPanel.ZoomControlPanelListener;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -194,8 +197,10 @@ public class GraphNode extends PNode {
         
         // drag handles
         _h3oDragHandleNode = new BarDragHandleNode();
+        _h3oDragHandleNode.addInputEventListener( new H3OBarDragHandler() );
         addChild( _h3oDragHandleNode );
         _ohDragHandleNode = new BarDragHandleNode();
+        _ohDragHandleNode.addInputEventListener( new OHBarDragHandler() );
         addChild( _ohDragHandleNode );
         
         // layout
@@ -470,5 +475,87 @@ public class GraphNode extends PNode {
         _zoomControlPanel.setZoomInEnabled( _linearTicksExponent != SMALLEST_LINEAR_TICK_EXPONENT );
         // disable the "zoom out" button when we are fully zoomed out
         _zoomControlPanel.setZoomOutEnabled( _linearTicksExponent != BIGGEST_LINEAR_TICK_EXPONENT );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Bar drag handlers
+    //----------------------------------------------------------------------------
+    
+    private class H3OBarDragHandler extends BarDragHandler {
+
+        protected void setConcentration( double concentration ) {
+            _liquid.setConcentrationH3O( concentration );
+        }
+
+        protected void setMoles( double moles ) {
+            _liquid.setMolesH3O( moles );
+        }
+        
+    }
+    
+    private class OHBarDragHandler extends BarDragHandler {
+
+        protected void setConcentration( double concentration ) {
+            _liquid.setConcentrationOH( concentration );
+        }
+
+        protected void setMoles( double moles ) {
+            _liquid.setMolesOH( moles );
+        }
+        
+    }
+    
+    private abstract class BarDragHandler extends PDragEventHandler {
+        
+        private double _globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
+
+        protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            // note the offset between the mouse click and the knob's origin
+            Point2D pMouseLocal = event.getPositionRelativeTo( GraphNode.this );
+            Point2D pMouseGlobal = GraphNode.this.localToGlobal( pMouseLocal );
+            Point2D pKnobGlobal = GraphNode.this.localToGlobal( event.getPickedNode().getOffset() );
+            _globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
+        }
+        
+        protected void drag(PInputEvent event) {
+            
+            // determine the handle's new offset
+            Point2D pMouseLocal = event.getPositionRelativeTo( GraphNode.this );
+            Point2D pMouseGlobal = GraphNode.this.localToGlobal( pMouseLocal );
+            Point2D pHandleGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
+            Point2D pHandleLocal = GraphNode.this.globalToLocal( pHandleGlobal );
+            
+            double yOffset = _graphOutlineHeight - pHandleLocal.getY();
+            if ( yOffset >= 0 && yOffset <= _graphOutlineHeight ) {
+
+                double modelValue = 0;
+                final double maxTickHeight = _graphOutlineHeight - TICKS_TOP_MARGIN;
+                if ( _logScale ) {
+                    // log scale
+                    final double maxExponent = BIGGEST_LOG_TICK_EXPONENT;
+                    final double minExponent = BIGGEST_LOG_TICK_EXPONENT - NUMBER_OF_LOG_TICKS + 1;
+                    final double modelValueExponent = minExponent + ( ( maxExponent - minExponent ) * ( yOffset / maxTickHeight ) );
+                    modelValue = Math.pow( 10, modelValueExponent );
+                }
+                else {
+                    // linear scale, assumes that the y-axis starts at zero!
+                    final double maxMantissa = ( NUMBER_OF_LINEAR_TICKS - 1 ) * LINEAR_TICK_MANTISSA_SPACING;
+                    final double maxTickValue = maxMantissa * Math.pow( 10, _linearTicksExponent );
+                    modelValue = maxTickValue * yOffset / maxTickHeight;
+                }
+
+                if ( _concentrationUnits ) {
+                    setConcentration( modelValue );
+                }
+                else {
+                    setMoles( modelValue );
+                }
+            }
+        }
+
+        protected abstract void setConcentration( double concentration );
+
+        protected abstract void setMoles( double moles );
     }
 }
