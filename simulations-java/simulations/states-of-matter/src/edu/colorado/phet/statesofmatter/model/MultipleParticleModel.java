@@ -246,6 +246,10 @@ public class MultipleParticleModel {
         return m_pressure;
     }
     
+    public int getMolecule(){
+        return m_currentMolecule;
+    }
+    
     public void setMolecule(int moleculeID){
         
         // Verify that this is a supported value.

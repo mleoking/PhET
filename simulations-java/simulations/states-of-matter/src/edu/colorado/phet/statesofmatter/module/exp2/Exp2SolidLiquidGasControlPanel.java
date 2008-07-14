@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasControlPanel;
 
 
 public class Exp2SolidLiquidGasControlPanel extends ControlPanel {
@@ -39,6 +40,7 @@ public class Exp2SolidLiquidGasControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     MultipleParticleModel m_model;
+    StateSelectionPanel m_stateSelectionPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,7 +62,8 @@ public class Exp2SolidLiquidGasControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Add the panel that allows the user to select the phase state.
-        addControlFullWidth( new StateSelectionPanel() );
+        m_stateSelectionPanel = new StateSelectionPanel();
+        addControlFullWidth( m_stateSelectionPanel );
         
         // Add the panel that allows the user to select molecule type.
         addControlFullWidth( new MoleculeSelectionPanel() );
@@ -129,6 +132,10 @@ public class Exp2SolidLiquidGasControlPanel extends ControlPanel {
             add( m_liquidRadioButton );
             add( m_gasRadioButton );
         }
+        
+        public void reset(){
+            m_solidRadioButton.setSelected( true );
+        }
     }
 
     /**
@@ -148,8 +155,7 @@ public class Exp2SolidLiquidGasControlPanel extends ControlPanel {
             
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-//                    StatesOfMatterStrings.MOLECULE_TYPE_SELECT_LABEL,
-                    "Pick Sumthin'",
+                    StatesOfMatterStrings.MOLECULE_TYPE_SELECT_LABEL,
                     TitledBorder.LEFT,
                     TitledBorder.TOP,
                     new PhetFont( Font.BOLD, 14 ),
@@ -161,28 +167,40 @@ public class Exp2SolidLiquidGasControlPanel extends ControlPanel {
             m_oxygenRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_oxygenRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setMolecule( MultipleParticleModel.DIATOMIC_OXYGEN );
+                    if (m_model.getMolecule() != MultipleParticleModel.DIATOMIC_OXYGEN){
+                        Exp2SolidLiquidGasControlPanel.this.m_stateSelectionPanel.reset();
+                        m_model.setMolecule( MultipleParticleModel.DIATOMIC_OXYGEN );
+                    }
                 }
             } );
             m_neonRadioButton = new JRadioButton( StatesOfMatterStrings.NEON_SELECTION_LABEL );
             m_neonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_neonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setMolecule( MultipleParticleModel.NEON );
+                    if (m_model.getMolecule() != MultipleParticleModel.NEON){
+                        Exp2SolidLiquidGasControlPanel.this.m_stateSelectionPanel.reset();
+                        m_model.setMolecule( MultipleParticleModel.NEON );
+                    }
                 }
             } );
             m_argonRadioButton = new JRadioButton( StatesOfMatterStrings.ARGON_SELECTION_LABEL );
             m_argonRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_argonRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setMolecule( MultipleParticleModel.ARGON );
+                    if (m_model.getMolecule() != MultipleParticleModel.ARGON){
+                        Exp2SolidLiquidGasControlPanel.this.m_stateSelectionPanel.reset();
+                        m_model.setMolecule( MultipleParticleModel.ARGON );
+                    }
                 }
             } );
             m_waterRadioButton = new JRadioButton( "Water" ); // TODO: JPB TBD - Make into a string resource if kept.
             m_waterRadioButton.setFont( new PhetFont( Font.PLAIN, 14 ) );
             m_waterRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    m_model.setMolecule( MultipleParticleModel.WATER );
+                    if (m_model.getMolecule() != MultipleParticleModel.WATER){
+                        Exp2SolidLiquidGasControlPanel.this.m_stateSelectionPanel.reset();
+                        m_model.setMolecule( MultipleParticleModel.WATER );
+                    }
                 }
             } );
             
