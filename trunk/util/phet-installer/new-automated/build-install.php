@@ -17,6 +17,38 @@
         flushing_echo($result);
     }
 
+    // JPB TBD !!! - Temp for making flash internationalization work.
+    function copy_flash_files() {
+        flushing_echo("Copying flash files into ripped website directory");
+
+        exec("cp ../sims/arithmetic/*.xml ./temp/website/phet.colorado.edu/sims/arithmetic/");
+        exec("cp ../sims/arithmetic/*.properties ./temp/website/phet.colorado.edu/sims/arithmetic/");
+        exec("cp ../sims/black-body-radiation/*.xml ./temp/website/phet.colorado.edu/sims/black-body-radiation/");
+        exec("cp ../sims/black-body-radiation/*.properties ./temp/website/phet.colorado.edu/sims/black-body-radiation/");
+        exec("cp ../sims/charges-and-fields/*.xml ./temp/website/phet.colorado.edu/sims/charges-and-fields/");
+        exec("cp ../sims/charges-and-fields/*.properties ./temp/website/phet.colorado.edu/sims/charges-and-fields/");
+        exec("cp ../sims/curve-fit/*.xml ./temp/website/phet.colorado.edu/sims/curve-fit/");
+        exec("cp ../sims/curve-fit/*.properties ./temp/website/phet.colorado.edu/sims/curve-fit/");
+        exec("cp ../sims/equation-grapher/*.xml ./temp/website/phet.colorado.edu/sims/equation-grapher/");
+        exec("cp ../sims/equation-grapher/*.properties ./temp/website/phet.colorado.edu/sims/equation-grapher/");
+        exec("cp ../sims/lens/*.xml ./temp/website/phet.colorado.edu/sims/lens/");
+        exec("cp ../sims/lens/*.properties ./temp/website/phet.colorado.edu/sims/lens/");
+        exec("cp ../sims/lunar-lander/*.xml ./temp/website/phet.colorado.edu/sims/lunar-lander/");
+        exec("cp ../sims/lunar-lander/*.properties ./temp/website/phet.colorado.edu/sims/lunar-lander/");
+        exec("cp ../sims/mass-spring-lab/*.xml ./temp/website/phet.colorado.edu/sims/mass-spring-lab/");
+        exec("cp ../sims/mass-spring-lab/*.properties ./temp/website/phet.colorado.edu/sims/mass-spring-lab/");
+        exec("cp ../sims/my-solar-system/*.xml ./temp/website/phet.colorado.edu/sims/my-solar-system/");
+        exec("cp ../sims/my-solar-system/*.properties ./temp/website/phet.colorado.edu/sims/my-solar-system/");
+        exec("cp ../sims/projectile-motion/*.xml ./temp/website/phet.colorado.edu/sims/projectile-motion/");
+        exec("cp ../sims/projectile-motion/*.properties ./temp/website/phet.colorado.edu/sims/projectile-motion/");
+        exec("cp ../sims/string-wave/*.xml ./temp/website/phet.colorado.edu/sims/string-wave/");
+        exec("cp ../sims/string-wave/*.properties ./temp/website/phet.colorado.edu/sims/string-wave/");
+        exec("cp ../sims/vector-math/*.xml ./temp/website/phet.colorado.edu/sims/vector-math/");
+        exec("cp ../sims/vector-math/*.properties ./temp/website/phet.colorado.edu/sims/vector-math/");
+
+    }
+    // End JPB TBD
+
     function builder_download_sims() {
         // Here we have to find and parse all jnlp files, and download all the
         // resources referenced in the codebase.
@@ -90,7 +122,7 @@
     function builder_download_installer_webpages() {
         // Here we download all the '-installer' versions of webpages, which are
         // not linked into the website and therefore not ripped.
-        flushing_echo("SKIPPING: Downloading installer versions of webpages is old...");
+        flushing_echo("SKIPPING: Not downloading installer versions of webpages...");
 	return;
 
         flushing_echo("Downloading installer versions of webpages...");
@@ -183,8 +215,10 @@
         }
         else {
             if (file_lock("install-builder")) {
-                if (is_checked('rip-website'))
+                if (is_checked('rip-website')){
                     builder_rip_website();
+                    copy_flash_files();
+                }
 
                 if (is_checked('download-sims'))
                     builder_download_sims();
