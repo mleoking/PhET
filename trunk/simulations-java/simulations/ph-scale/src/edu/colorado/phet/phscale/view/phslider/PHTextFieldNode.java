@@ -110,8 +110,11 @@ public class PHTextFieldNode extends PNode {
         if ( !_range.contains( pH ) ) {
             throw new IllegalArgumentException( "pH is out of range: " + pH );
         }
-        if ( pH != _pH ) {
+        // do comparison on strings, so that we're using the precision displayed by the text field
+        String pHString = VALUE_FORMAT.format( pH );
+        if ( !pHString.equals( _textField.getText() ) ) {
             _pH = pH;
+            System.out.println( "PHTextFieldNode pH=" + pH );
             setTextField( pH );
             notifyChanged();
         }
@@ -206,7 +209,7 @@ public class PHTextFieldNode extends PNode {
         /* Selects the entire text field when it gains focus. */
         public void focusGained( FocusEvent e ) {
             if ( e.getSource() == _textField ) {
-                _textField.selectAll();
+//                _textField.selectAll();  // disabled, see Unfuddle #660
             }
         }
 
