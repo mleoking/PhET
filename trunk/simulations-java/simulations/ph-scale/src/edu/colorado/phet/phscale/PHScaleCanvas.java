@@ -29,9 +29,6 @@ public class PHScaleCanvas extends PhetPCanvas {
     
     private static final Dimension RENDERING_SIZE = new Dimension( 1024, 768 );
     
-    // vertical spacing of pH slider ticks and bar graph log scale ticks
-    private static final double LOG_TICKS_Y_SPACING = 24;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -60,8 +57,8 @@ public class PHScaleCanvas extends PhetPCanvas {
         
         // Nodes
         _beakerControlNode = new BeakerControlNode( liquid, this );
-        _pHControlNode = new PHControlNode( liquid, LOG_TICKS_Y_SPACING );
-        _graphControlNode = new GraphControlNode( liquid, LOG_TICKS_Y_SPACING );
+        _pHControlNode = new PHControlNode( liquid, PHScaleConstants.LOG_TICKS_Y_SPACING );
+        _graphControlNode = new GraphControlNode( liquid, PHScaleConstants.LOG_TICKS_Y_SPACING );
         _resetAllButton = new PHScaleResetAllButton( resettable, this );
         PSwing resetAllButtonWrapper = new PSwing( _resetAllButton );
         
