@@ -491,7 +491,7 @@ public class GraphNode extends PNode {
      */
     private static void updateDragHandle( PNode dragHandleNode, final double barHeight, final double graphHeight ) {
         // handles are invisible if the bar extends above or below the graph's bounds
-        dragHandleNode.setVisible( barHeight >= 0 && barHeight <= graphHeight );
+        dragHandleNode.setVisible( barHeight > 0 && barHeight <= graphHeight );
         if ( dragHandleNode.getVisible() ) {
             // position the handle at the top of the bar
             dragHandleNode.setOffset( dragHandleNode.getXOffset(), graphHeight - barHeight );
