@@ -14,6 +14,7 @@ LOW PRIORITY:
 
 
 DONE:
+7/14/08 - change model for combining liquids, I was given an incorrect model
 7/14/08 - decouple MoleculeCountAlternateNode from the rest of the code base so that it's easy to delete
 7/14/08 - workaround: clicking twice in PHTextFieldNode causes liquid to change to Custom [Unfuddle #660]
 ******* version 0.00.17 (23184)
