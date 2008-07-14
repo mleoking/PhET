@@ -30,7 +30,7 @@ public class PHScaleCanvas extends PhetPCanvas {
     private static final Dimension RENDERING_SIZE = new Dimension( 1024, 768 );
     
     // vertical spacing of pH slider ticks and bar graph log scale ticks
-    private static final double LOG_TICKS_Y_SPACING = 25;
+    private static final double LOG_TICKS_Y_SPACING = 24;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -87,11 +87,9 @@ public class PHScaleCanvas extends PhetPCanvas {
         y = 10;
         _graphControlNode.setOffset( x, y );
         
-        // Tweak the layout to align the pH slider ticks and bar graph ticks
-        Point2D sliderOffset = _rootNode.globalToLocal( _pHControlNode.getTickAlignmentOffset() );
-        System.out.println( "sliderOffset.y=" + sliderOffset.getY() );//XXX
-        Point2D graphOffset = _rootNode.globalToLocal( _graphControlNode.getTickAlignmentOffset() );
-        System.out.println( "graphOffset.y=" + graphOffset.getY() );//XXX
+        // Tweak the layout to align the pH slider ticks and bar graph log ticks
+        Point2D sliderOffset = _rootNode.globalToLocal( _pHControlNode.getTickAlignmentGlobalOffset() );
+        Point2D graphOffset = _rootNode.globalToLocal( _graphControlNode.getTickAlignmentGlobalOffset() );
         _pHControlNode.setOffset( _pHControlNode.getXOffset(), _pHControlNode.getYOffset() + ( graphOffset.getY() - sliderOffset.getY() ) );
     }
     

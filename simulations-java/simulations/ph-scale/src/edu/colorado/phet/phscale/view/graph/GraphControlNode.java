@@ -41,7 +41,7 @@ public class GraphControlNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GraphControlNode( Liquid liquid, double ticksYSpacing ) {
+    public GraphControlNode( Liquid liquid, double logTicksYSpacing ) {
         super();
         
         PText titleNode = new PText( PHScaleStrings.TITLE_WATER_COMPONENTS );
@@ -59,7 +59,7 @@ public class GraphControlNode extends PNode {
         addChild( unitsControlPanelWrapper );
         
         // graph
-        _graphNode = new GraphNode( liquid, GRAPH_OUTLINE_WIDTH, ticksYSpacing );
+        _graphNode = new GraphNode( liquid, GRAPH_OUTLINE_WIDTH, logTicksYSpacing );
         addChild( _graphNode );
         
         // legend
@@ -103,11 +103,12 @@ public class GraphControlNode extends PNode {
     
     /**
      * Gets the offset used to vertically align the graph ticks with the pH slider ticks.
+     * Offset is in global coordinates.
      * Only the y offset is meaningful.
      * 
      * @return
      */
-    public Point2D getTickAlignmentOffset() {
-        return _graphNode.getTickAlignmentOffset();
+    public Point2D getTickAlignmentGlobalOffset() {
+        return _graphNode.getTickAlignmentGlobalOffset();
     }
 }

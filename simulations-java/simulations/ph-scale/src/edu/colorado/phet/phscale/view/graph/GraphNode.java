@@ -121,9 +121,9 @@ public class GraphNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GraphNode( Liquid liquid, double graphOutlineWidth, double ticksYSpacing ) {
+    public GraphNode( Liquid liquid, double graphOutlineWidth, double logTicksYSpacing ) {
         
-        _graphOutlineHeight = ( ( NUMBER_OF_LOG_TICKS - 1 ) * ticksYSpacing ) + TICKS_TOP_MARGIN;
+        _graphOutlineHeight = ( ( NUMBER_OF_LOG_TICKS - 1 ) * logTicksYSpacing ) + TICKS_TOP_MARGIN;
         _logScale = true;
         _concentrationUnits = true;
         _linearTicksExponent = BIGGEST_LINEAR_TICK_EXPONENT;
@@ -309,11 +309,12 @@ public class GraphNode extends PNode {
     
     /**
      * Gets the offset used to vertically align the graph ticks with the pH slider ticks.
+     * Offset is in global coordinates.
      * Only the y offset is meaningful.
      * 
      * @return
      */
-    public Point2D getTickAlignmentOffset() {
+    public Point2D getTickAlignmentGlobalOffset() {
         // 2nd tick from the top
         return localToGlobal( new Point2D.Double( 0, _logYAxisNode.getYOffset() + TICKS_TOP_MARGIN + _logYAxisNode.getTickSpacing() ) );
     }

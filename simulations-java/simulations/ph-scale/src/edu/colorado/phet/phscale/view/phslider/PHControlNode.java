@@ -112,12 +112,13 @@ public class PHControlNode extends PNode {
     
     /**
      * Gets the offset used to vertically align the graph ticks with the pH slider ticks.
+     * Offset is in global coordinates.
      * Only the y offset is meaningful.
      * 
      * @return
      */
-    public Point2D getTickAlignmentOffset() {
-        return _sliderNode.getTickAlignmentOffset();
+    public Point2D getTickAlignmentGlobalOffset() {
+        return _sliderNode.getTickAlignmentGlobalOffset();
     }
     
     //----------------------------------------------------------------------------
