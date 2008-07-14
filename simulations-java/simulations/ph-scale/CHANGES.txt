@@ -5,7 +5,6 @@ Change history for ph-scale
 DESIGN ISSUES
 
 HIGH PRIORITY:
-- implement BarGraphNode.calculateBarLength
 - make alignment of pH slider ticks and bar graph ticks independent of font size of things above bar graph
 - make H3O and OH bars interactive
 - how to handle overlapping of bar drag handles and zoom buttons?
@@ -34,6 +33,7 @@ CLEANUP:
 
 
 DONE:
+7/13/08 - javadoc BarGraphNode and BarDragHandleNode
 7/13/08 - implement model-view transform for log scale bar graph
 7/13/08 - implement model-view transform for linear scale bar graph
 7/13/08 - add x spacing between beaker ticks and labels

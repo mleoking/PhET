@@ -16,7 +16,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 
 /**
- *
+ * BarDragHandleNode is the drag handle used to manipulate the bars in the bar graph.
+ * It looks like a double-headed arrow, pointing up and down.
+ * The arrow highlights when the mouse is over it.
+ * The origin is at the geometric center.
+ * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BarDragHandleNode extends PPath {
@@ -59,13 +63,9 @@ public class BarDragHandleNode extends PPath {
         // Cursor behavior
         addInputEventListener( new CursorHandler() );
 
-        // Make drag handle hilite when the mouse is over it or it's being dragged.
-        addInputEventListener( new HiliteHandler() );
+        // Make drag handle highlight when the mouse is over it or it's being dragged.
+        addInputEventListener( new HighlightHandler() );
     }
-    
-    //----------------------------------------------------------------------------
-    // Setters and getters
-    //----------------------------------------------------------------------------
     
     //----------------------------------------------------------------------------
     // Shape for the drag handle.
@@ -109,15 +109,15 @@ public class BarDragHandleNode extends PPath {
     //----------------------------------------------------------------------------
     
     /*
-     * Hilites the handle while dragging the handle, 
+     * Highlights the handle while dragging the handle, 
      * or while the mouse is inside the handle.
      */
-    private class HiliteHandler extends PBasicInputEventHandler {
+    private class HighlightHandler extends PBasicInputEventHandler {
         
         private boolean _mouseIsPressed;
         private boolean _mouseIsInside;
 
-        public HiliteHandler() {
+        public HighlightHandler() {
             super();
         }
         
