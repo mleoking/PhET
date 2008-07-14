@@ -30,7 +30,17 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * BarGraphNode is the bar graph.
+ * The y-axis units can be either concentration (moles/L) or moles.
+ * The y-axis scale can be either log10 or linear.
+ * <p>
+ * NOTE: This implementation assumes that the y-axis only changes when
+ * we switch between log10 and linear scales.  When we switch units,
+ * the y-axis scale does not change.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class BarGraphNode extends PNode {
     
     //----------------------------------------------------------------------------
@@ -248,7 +258,7 @@ public class BarGraphNode extends PNode {
 
         updateYAxis();
         updateBars();
-        updateControls();
+        updateZoomControls();
     }
     
     public void cleanup() {
@@ -267,6 +277,11 @@ public class BarGraphNode extends PNode {
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the scale to either log10 or linear.
+     * 
+     * @param logScale true=log10, false=linear
+     */
     public void setLogScale( boolean logScale ) {
         if ( logScale != _logScale ) {
             _logScale = logScale;
@@ -276,14 +291,24 @@ public class BarGraphNode extends PNode {
             }
             updateYAxis();
             updateBars();
-            updateControls();
+            updateZoomControls();
         }
     }
     
+    /**
+     * Is the scale log10?
+     * 
+     * @return true=log10, false=linear
+     */
     public boolean isLogScale() {
         return _logScale;
     }
     
+    /**
+     * Sets the units to concentration or moles.
+     * 
+     * @param concentrationUnits true=concentration, false=moles
+     */
     public void setConcentrationUnits( boolean concentrationUnits ) {
         if ( concentrationUnits != _concentrationUnits ) {
             _concentrationUnits = concentrationUnits;
@@ -292,7 +317,12 @@ public class BarGraphNode extends PNode {
             updateBars();
         }
     }
-    
+
+    /**
+     * Are the units set to concentration?
+     * 
+     * @return true=concentration, false=moles
+     */
     public boolean isConcentrationUnits() {
         return _concentrationUnits;
     }
@@ -305,24 +335,33 @@ public class BarGraphNode extends PNode {
     // Zoom
     //----------------------------------------------------------------------------
     
+    /*
+     * Zooms the y-axis in 1 power of 10 for the linear y-axis scale.
+     */
     private void zoomInLinear() {
         _linearTicksExponent--;
         updateYAxis();
         updateBars();
-        updateControls();
+        updateZoomControls();
     }
     
+    /*
+     * Zooms the y-axis out 1 power of 10 for the linear y-axis scale.
+     */
     private void zoomOutLinear() {
         _linearTicksExponent++;
         updateYAxis();
         updateBars();
-        updateControls();
+        updateZoomControls();
     }
     
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the values on the bars to match the model.
+     */
     private void updateValues() {
         if ( _concentrationUnits ) {
             _h3oNumberNode.setValue( _liquid.getConcentrationH3O() );
@@ -336,6 +375,9 @@ public class BarGraphNode extends PNode {
         }
     }
     
+    /*
+     * Updates the y axis to match the model.
+     */
     private void updateYAxis() {
         
         if ( !_logScale ) {
@@ -361,22 +403,29 @@ public class BarGraphNode extends PNode {
         }
     }
     
+    /*
+     * Updates the bars (and their drag handles) to match the model.
+     */
     private void updateBars() {
         
         final double h3oBarLength = getH3OBarLength();
         final double ohBarLength = getOHBarLength();
         final double h2oBarLength = getH2OLength();
-        
         final double graphHeight = _graphOutlineSize.getHeight();
         
+        // bars
         updateBar( _h3oBarNode, _h3oBarShape, h3oBarLength, graphHeight );
         updateBar( _ohBarNode, _ohBarShape, ohBarLength, graphHeight );
         updateBar( _h2oBarNode, _h2oBarShape, h2oBarLength, graphHeight );
         
+        // drag handles
         updateDragHandle( _h3oDragHandleNode, h3oBarLength, graphHeight );
         updateDragHandle( _ohDragHandleNode, ohBarLength, graphHeight );
     }
     
+    /*
+     * Gets the length of the H3O bar, in view coordinates.
+     */
     private double getH3OBarLength() {
         double length = 0;
         if ( !_liquid.isEmpty() ) {
@@ -392,6 +441,9 @@ public class BarGraphNode extends PNode {
         return length;
     }
     
+    /*
+     * Gets the length of the OH bar, in view coordinates.
+     */
     private double getOHBarLength() {
         double length = 0;
         if ( !_liquid.isEmpty() ) {
@@ -407,6 +459,9 @@ public class BarGraphNode extends PNode {
         return length;
     }
     
+    /*
+     * Gets the length of the H2O bar, in view coordinates.
+     */
     private double getH2OLength() {
         double length = 0;
         if ( !_liquid.isEmpty() ) {
@@ -422,17 +477,21 @@ public class BarGraphNode extends PNode {
         return length;
     }
     
+    /*
+     * Calculates a bar length in view coordinates, given a model value.
+     */
     private double calculateBarLength( final double modelValue ) {
         double viewValue = 0;
         final double maxTickHeight = _graphOutlineSize.getHeight() - TICKS_TOP_MARGIN;
         if ( _logScale ) {
+            // log scale
             final double maxExponent = BIGGEST_LOG_TICK_EXPONENT;
             final double minExponent = BIGGEST_LOG_TICK_EXPONENT - NUMBER_OF_LOG_TICKS + 1;
             final double modelValueExponent = MathUtil.log10( modelValue );
             viewValue = maxTickHeight * ( modelValueExponent - minExponent ) / ( maxExponent - minExponent );
         }
         else {
-            // this algorithm assumes that the y-axis starts at zero!
+            // linear scale, assumes that the y-axis starts at zero!
             final double maxMantissa = ( NUMBER_OF_LINEAR_TICKS - 1 ) * LINEAR_TICK_MANTISSA_SPACING;
             final double maxTickValue = maxMantissa * Math.pow( 10, _linearTicksExponent );
             viewValue = maxTickHeight * modelValue / maxTickValue;
@@ -440,6 +499,10 @@ public class BarGraphNode extends PNode {
         return viewValue;
     }
     
+    /*
+     * Utility that updates the Shape for a bar.
+     * The Shape has its origin at the bottom center.
+     */
     private static void updateBar( PPath barNode, GeneralPath shape, final double barLength, final double graphHeight ) {
         shape.reset();
         if ( barLength > graphHeight ) {
@@ -464,14 +527,24 @@ public class BarGraphNode extends PNode {
         barNode.setPathTo( shape );
     }
     
+    /*
+     * Utility that updates the position of a drag handle.
+     * The handle's y offset is adjusted so that the handle is at the top of the bar.
+     */
     private static void updateDragHandle( PNode dragHandleNode, final double barLength, final double graphHeight ) {
         dragHandleNode.setVisible( barLength <= graphHeight  );
         dragHandleNode.setOffset( dragHandleNode.getXOffset(), graphHeight - barLength );
     }
     
-    private void updateControls() {
-        _zoomInButton.setEnabled( _linearTicksExponent != SMALLEST_LINEAR_TICK_EXPONENT );
-        _zoomOutButton.setEnabled( _linearTicksExponent != BIGGEST_LINEAR_TICK_EXPONENT );
+    /*
+     * Updates the state of the Zoom controls.
+     */
+    private void updateZoomControls() {
+        // zoom controls are only visible for linear scale
         _zoomPanelWrapper.setVisible( !_logScale );
+        // hide the "zoom in" button when we are fully zoomed in
+        _zoomInButton.setEnabled( _linearTicksExponent != SMALLEST_LINEAR_TICK_EXPONENT );
+        // hide the "zoom out" button when we are fully zoomed out
+        _zoomOutButton.setEnabled( _linearTicksExponent != BIGGEST_LINEAR_TICK_EXPONENT );
     }
 }
