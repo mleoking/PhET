@@ -4,6 +4,8 @@ package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -31,11 +33,16 @@ public class TestPSwingTextFieldFocus extends JFrame {
         textField1.setColumns( 20 );
         textField1.addFocusListener( new FocusListener() {
             public void focusGained( FocusEvent e ) {
-                System.out.println( "textField1 gained focus" );
+                System.out.println( "textField1 focusGained" );
                 textField1.selectAll();
             }
             public void focusLost( FocusEvent e ) {
-                System.out.println( "textField1 lost focus" );
+                System.out.println( "textField1 focusLost" );
+            }
+        });
+        textField1.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.print( "textField1 actionPerformed" );
             }
         });
         JPanel controlPanel = new JPanel();
@@ -46,11 +53,16 @@ public class TestPSwingTextFieldFocus extends JFrame {
         textField2.setColumns( 20 );
         textField2.addFocusListener( new FocusListener() {
             public void focusGained( FocusEvent e ) {
-                System.out.println( "textField2 gained focus" );
+                System.out.println( "textField2 focusGained" );
                 textField2.selectAll();
             }
             public void focusLost( FocusEvent e ) {
-                System.out.println( "textField2 lost focus" );
+                System.out.println( "textField2 focusLost" );
+            }
+        });
+        textField2.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.print( "textField2 actionPerformed" );
             }
         });
         PSwing textField2Wrapper = new PSwing( textField2 );
