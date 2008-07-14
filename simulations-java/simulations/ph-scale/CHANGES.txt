@@ -5,6 +5,7 @@ Change history for ph-scale
 DESIGN ISSUES
 
 HIGH PRIORITY:
+- changing a bar should set liquid to Custom
 
 MEDIUM PRIORITY:
 
