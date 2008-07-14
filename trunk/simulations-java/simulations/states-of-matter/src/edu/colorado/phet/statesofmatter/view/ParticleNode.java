@@ -129,7 +129,8 @@ public class ParticleNode extends PNode {
             baseColor = new Color( 0x55aa00 );
         }
         else if ( atom instanceof HydrogenAtom ) {
-            baseColor = new Color( 0xcc00cc );
+//            baseColor = new Color( 0xdd00dd );
+            baseColor = Color.RED;
         }
         else {
             baseColor = Color.WHITE;
