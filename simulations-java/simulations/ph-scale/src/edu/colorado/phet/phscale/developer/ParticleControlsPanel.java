@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.phscale.beaker.ParticlesNode;
+import edu.colorado.phet.phscale.view.beaker.ParticlesNode;
 
 /**
  * This is a developer control panel that controls the "look" of the particle view (aka ratio view) in the beaker.  

@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.graph;
+package edu.colorado.phet.phscale.view.graph;
 
 import java.awt.Font;
 

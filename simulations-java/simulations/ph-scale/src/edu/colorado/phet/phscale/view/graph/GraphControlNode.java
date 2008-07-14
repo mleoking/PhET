@@ -1,14 +1,14 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.graph;
+package edu.colorado.phet.phscale.view.graph;
 
 import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
-import edu.colorado.phet.phscale.graph.GraphScaleControlPanel.GraphScaleControlPanelListener;
-import edu.colorado.phet.phscale.graph.GraphUnitsControlPanel.GraphUnitsControlPanelListener;
 import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.view.graph.GraphScaleControlPanel.GraphScaleControlPanelListener;
+import edu.colorado.phet.phscale.view.graph.GraphUnitsControlPanel.GraphUnitsControlPanelListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
