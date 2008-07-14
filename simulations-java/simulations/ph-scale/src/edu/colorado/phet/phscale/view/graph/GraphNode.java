@@ -585,11 +585,6 @@ public class GraphNode extends PNode {
                 modelValue = maxTickValue * yOffset / maxTickHeight;
             }
             
-            // switch to Custom liquid
-            if ( !_liquid.getLiquidDescriptor().equals( CUSTOM_LIQUID ) ) {
-                _liquid.setLiquidDescriptor( CUSTOM_LIQUID );
-            }
-
             // update the model
             if ( _concentrationUnits ) {
                 setConcentration( modelValue );
