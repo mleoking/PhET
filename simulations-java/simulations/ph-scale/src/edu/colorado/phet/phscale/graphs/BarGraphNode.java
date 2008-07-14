@@ -54,11 +54,6 @@ public class BarGraphNode extends PNode {
     
     // bars
     private static final double BAR_WIDTH = 50;
-    private static final Stroke BAR_STROKE = null;
-    private static final Color BAR_STROKE_COLOR = Color.BLACK;
-    private static final double BAR_ARROW_HEAD_WIDTH = BAR_WIDTH + 15;
-    private static final double BAR_ARROW_HEAD_HEIGHT = 60;
-    private static final double BAR_ARROW_PERCENT_ABOVE_GRAPH = 0.15;
     
     // numeric values
     private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 16 );
@@ -105,12 +100,11 @@ public class BarGraphNode extends PNode {
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
     
-    private final PDimension _graphOutlineSize;
+    private final double _graphOutlineHeight;
     private final FormattedNumberNode _h3oNumberNode, _ohNumberNode, _h2oNumberNode;
     private final LogYAxisNode _logYAxisNode;
     private final LinearYAxisNode _linearYAxisNode;
-    private final GeneralPath _h3oBarShape, _ohBarShape, _h2oBarShape;
-    private final PPath _h3oBarNode, _ohBarNode, _h2oBarNode;
+    private final BarNode _h3oBarNode, _ohBarNode, _h2oBarNode;
     private final BarDragHandleNode _h3oDragHandleNode, _ohDragHandleNode;
     private final JButton _zoomInButton, _zoomOutButton;
     private final PSwing _zoomPanelWrapper;
@@ -126,7 +120,7 @@ public class BarGraphNode extends PNode {
     
     public BarGraphNode( PDimension graphOutlineSize, Liquid liquid ) {
         
-        _graphOutlineSize = new PDimension( graphOutlineSize );
+        _graphOutlineHeight = graphOutlineSize.getHeight();
         _logScale = true;
         _concentrationUnits = true;
         _linearTicksExponent = BIGGEST_LINEAR_TICK_EXPONENT;
@@ -151,53 +145,40 @@ public class BarGraphNode extends PNode {
         graphOutlineNode.setChildrenPickable( false );
         addChild( graphOutlineNode );
         
+        // log y axis
         _logYAxisNode = new LogYAxisNode( graphOutlineSize, NUMBER_OF_LOG_TICKS, TICKS_TOP_MARGIN, 
                 BIGGEST_LOG_TICK_EXPONENT,  LOG_TICK_EXPONENT_SPACING, TICK_LENGTH,
                 TICK_STROKE, TICK_COLOR, TICK_LABEL_FONT, TICK_LABEL_COLOR, GRIDLINE_STROKE, GRIDLINE_COLOR );
         addChild( _logYAxisNode );
         
+        // linear y axis
         _linearYAxisNode =new LinearYAxisNode( graphOutlineSize, NUMBER_OF_LINEAR_TICKS, TICKS_TOP_MARGIN, 
                 BIGGEST_LINEAR_TICK_EXPONENT,  LINEAR_TICK_MANTISSA_SPACING, TICK_LENGTH,
                 TICK_STROKE, TICK_COLOR, TICK_LABEL_FONT, TICK_LABEL_COLOR, GRIDLINE_STROKE, GRIDLINE_COLOR );
         addChild( _linearYAxisNode );
         
+        // y-axis label
         _yAxisLabel = new PText();
         _yAxisLabel.rotate( -Math.PI / 2 );
         _yAxisLabel.setFont( AXIS_LABEL_FONT );
         _yAxisLabel.setTextPaint( AXIS_LABEL_COLOR );
         addChild( _yAxisLabel );
         
-        _h3oBarShape = new GeneralPath();
-        _ohBarShape = new GeneralPath();
-        _h2oBarShape = new GeneralPath();
-        
-        _h3oBarNode = new PPath();
-        _h3oBarNode.setPaint( PHScaleConstants.H3O_COLOR );
-        _h3oBarNode.setStroke( BAR_STROKE );
-        _h3oBarNode.setStrokePaint( BAR_STROKE_COLOR );
+        // bars
+        _h3oBarNode = new BarNode( BAR_WIDTH, PHScaleConstants.H3O_COLOR, _graphOutlineHeight );
         addChild( _h3oBarNode );
-        
-        _ohBarNode = new PPath();
-        _ohBarNode.setPaint( PHScaleConstants.OH_COLOR );
-        _ohBarNode.setStroke( BAR_STROKE );
-        _ohBarNode.setStrokePaint( BAR_STROKE_COLOR );
+        _ohBarNode = new BarNode( BAR_WIDTH, PHScaleConstants.OH_COLOR, _graphOutlineHeight );
         addChild( _ohBarNode );
-        
-        _h2oBarNode = new PPath();
-        _h2oBarNode.setPaint( PHScaleConstants.H2O_COLOR );
-        _h2oBarNode.setStroke( BAR_STROKE );
-        _h2oBarNode.setStrokePaint( BAR_STROKE_COLOR );
+        _h2oBarNode = new BarNode( BAR_WIDTH, PHScaleConstants.H2O_COLOR, _graphOutlineHeight );
         addChild( _h2oBarNode );
         
+        // numbers
         _h3oNumberNode = createNumberNode( H3O_FORMAT );
         addChild( _h3oNumberNode );
-        
         _ohNumberNode = createNumberNode( OH_FORMAT );
         addChild( _ohNumberNode );
-        
         _h2oNumberNode = createNumberNode( H2O_FORMAT );
         addChild( _h2oNumberNode );
-        
         updateValues(); // do this before setting offsets so that bounds are reasonable
         
         // Zoom controls
@@ -381,11 +362,11 @@ public class BarGraphNode extends PNode {
     private void updateYAxis() {
         
         if ( !_logScale ) {
-            // update linear ticks to match zoom level
+            // update linear y-axis ticks to match zoom level
             _linearYAxisNode.setTicksExponent( _linearTicksExponent );
         }
         
-        // make the proper axis visible
+        // make the proper y axis (log or linear) visible
         _logYAxisNode.setVisible( _logScale );
         _linearYAxisNode.setVisible( !_logScale );
         
@@ -408,81 +389,68 @@ public class BarGraphNode extends PNode {
      */
     private void updateBars() {
         
-        final double h3oBarLength = getH3OBarLength();
-        final double ohBarLength = getOHBarLength();
-        final double h2oBarLength = getH2OLength();
-        final double graphHeight = _graphOutlineSize.getHeight();
+        final double h3oBarHeight = getH3OBarHeight();
+        final double ohBarHeight = getOHBarHeight();
+        final double h2oBarHeight = getH2OHeight();
         
         // bars
-        updateBar( _h3oBarNode, _h3oBarShape, h3oBarLength, graphHeight );
-        updateBar( _ohBarNode, _ohBarShape, ohBarLength, graphHeight );
-        updateBar( _h2oBarNode, _h2oBarShape, h2oBarLength, graphHeight );
+        _h3oBarNode.setBarHeight( h3oBarHeight );
+        _ohBarNode.setBarHeight( ohBarHeight );
+        _h2oBarNode.setBarHeight( h2oBarHeight );
         
         // drag handles
-        updateDragHandle( _h3oDragHandleNode, h3oBarLength, graphHeight );
-        updateDragHandle( _ohDragHandleNode, ohBarLength, graphHeight );
+        updateDragHandle( _h3oDragHandleNode, h3oBarHeight, _graphOutlineHeight );
+        updateDragHandle( _ohDragHandleNode, ohBarHeight, _graphOutlineHeight );
     }
     
     /*
-     * Gets the length of the H3O bar, in view coordinates.
+     * Gets the height of the H3O bar, in view coordinates.
      */
-    private double getH3OBarLength() {
-        double length = 0;
-        if ( !_liquid.isEmpty() ) {
-            double value = 0;
-            if ( _concentrationUnits ) {
-                value = _liquid.getConcentrationH3O();
-            }
-            else {
-                value = _liquid.getMolesH3O();
-            }
-            length = calculateBarLength( value );
+    private double getH3OBarHeight() {
+        double value = 0;
+        if ( _concentrationUnits ) {
+            value = _liquid.getConcentrationH3O();
         }
-        return length;
-    }
-    
-    /*
-     * Gets the length of the OH bar, in view coordinates.
-     */
-    private double getOHBarLength() {
-        double length = 0;
-        if ( !_liquid.isEmpty() ) {
-            double value = 0;
-            if ( _concentrationUnits ) {
-                value = _liquid.getConcentrationOH();
-            }
-            else {
-                value = _liquid.getMolesOH();
-            }
-            length = calculateBarLength( value );
+        else {
+            value = _liquid.getMolesH3O();
         }
-        return length;
+        return calculateBarHeight( value );
     }
     
     /*
-     * Gets the length of the H2O bar, in view coordinates.
+     * Gets the height of the OH bar, in view coordinates.
      */
-    private double getH2OLength() {
-        double length = 0;
-        if ( !_liquid.isEmpty() ) {
-            double value = 0;
-            if ( _concentrationUnits ) {
-                value = _liquid.getConcentrationH2O();
-            }
-            else {
-                value = _liquid.getMolesH2O();
-            }
-            length = calculateBarLength( value );
+    private double getOHBarHeight() {
+        double value = 0;
+        if ( _concentrationUnits ) {
+            value = _liquid.getConcentrationOH();
         }
-        return length;
+        else {
+            value = _liquid.getMolesOH();
+        }
+        return calculateBarHeight( value );
     }
     
     /*
-     * Calculates a bar length in view coordinates, given a model value.
+     * Gets the height of the H2O bar, in view coordinates.
      */
-    private double calculateBarLength( final double modelValue ) {
+    private double getH2OHeight() {
+        double value = 0;
+        if ( _concentrationUnits ) {
+            value = _liquid.getConcentrationH2O();
+        }
+        else {
+            value = _liquid.getMolesH2O();
+        }
+        return calculateBarHeight( value );
+    }
+    
+    /*
+     * Calculates a bar height in view coordinates, given a model value.
+     */
+    private double calculateBarHeight( final double modelValue ) {
         double viewValue = 0;
-        final double maxTickHeight = _graphOutlineSize.getHeight() - TICKS_TOP_MARGIN;
+        final double maxTickHeight = _graphOutlineHeight - TICKS_TOP_MARGIN;
         if ( _logScale ) {
             // log scale
             final double maxExponent = BIGGEST_LOG_TICK_EXPONENT;
@@ -500,44 +468,19 @@ public class BarGraphNode extends PNode {
     }
     
     /*
-     * Utility that updates the Shape for a bar.
-     * The Shape has its origin at the bottom center.
+     * Utility that updates a drag handle.
      */
-    private static void updateBar( PPath barNode, GeneralPath shape, final double barLength, final double graphHeight ) {
-        shape.reset();
-        if ( barLength > graphHeight ) {
-            // if barLength taller than graph, draw bar with arrow at top
-            final double adjustedBarLength = graphHeight - ( ( 1 - BAR_ARROW_PERCENT_ABOVE_GRAPH ) * BAR_ARROW_HEAD_HEIGHT );
-            shape.moveTo( (float) -( BAR_WIDTH / 2 ), 0f );
-            shape.lineTo( (float) ( BAR_WIDTH / 2 ), 0f );
-            shape.lineTo( (float) ( BAR_WIDTH / 2 ), (float) -adjustedBarLength );
-            shape.lineTo( (float) ( BAR_ARROW_HEAD_WIDTH / 2 ), (float) -adjustedBarLength );
-            shape.lineTo( 0f, (float) -( adjustedBarLength + BAR_ARROW_HEAD_HEIGHT ) );
-            shape.lineTo( (float) -( BAR_ARROW_HEAD_WIDTH / 2 ), (float) -adjustedBarLength );
-            shape.lineTo( (float) -( BAR_WIDTH / 2 ), (float) -adjustedBarLength );
-            shape.closePath();
+    private static void updateDragHandle( PNode dragHandleNode, final double barHeight, final double graphHeight ) {
+        // handles are invisible if the bar extends above or below the graph's bounds
+        dragHandleNode.setVisible( barHeight >= 0 && barHeight <= graphHeight );
+        if ( dragHandleNode.getVisible() ) {
+            // position the handle at the top of the bar
+            dragHandleNode.setOffset( dragHandleNode.getXOffset(), graphHeight - barHeight );
         }
-        else if ( barLength > 0 ) {
-            shape.moveTo( (float) -( BAR_WIDTH / 2 ), 0f );
-            shape.lineTo( (float) ( BAR_WIDTH / 2 ), 0f );
-            shape.lineTo( (float) ( BAR_WIDTH / 2 ), (float) -barLength );
-            shape.lineTo( (float) -( BAR_WIDTH / 2 ), (float) -barLength );
-            shape.closePath();
-        }
-        barNode.setPathTo( shape );
     }
     
     /*
-     * Utility that updates the position of a drag handle.
-     * The handle's y offset is adjusted so that the handle is at the top of the bar.
-     */
-    private static void updateDragHandle( PNode dragHandleNode, final double barLength, final double graphHeight ) {
-        dragHandleNode.setVisible( barLength <= graphHeight  );
-        dragHandleNode.setOffset( dragHandleNode.getXOffset(), graphHeight - barLength );
-    }
-    
-    /*
-     * Updates the state of the Zoom controls.
+     * Updates the Zoom controls.
      */
     private void updateZoomControls() {
         // zoom controls are only visible for linear scale
