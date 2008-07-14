@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.phscale.model.LiquidDescriptor.CustomLiquidDescriptor;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorAdapter;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
 
@@ -36,6 +37,7 @@ public class Liquid extends ClockAdapter {
     private static final double H2O_CONCENTRATION = 55; // moles/L
     
     private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
+    private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -143,22 +145,30 @@ public class Liquid extends ClockAdapter {
     
     /**
      * Sets the pH.
-     * This is a no-op if the liquid is empty.
      * If the pH is out of range, it is silently clamped to the range.
      * NOTE: This clamping behavior is essential to other parts of the sim 
      * (eg, dragging bars in the bar graph).
      * 
      * @param pH
      */
-    public void setPH( double pH ) {
+    public void setPH( final double pH ) {
+        
+        // clamp to the pH range
+        double clampedPH = pH;
+        if ( pH < _pHRange.getMin() ) {
+            clampedPH = _pHRange.getMin();
+        }
+        else if ( pH > _pHRange.getMax() ) {
+            clampedPH = _pHRange.getMax();
+        }
+        
+        // adjust pH of Custom liquid
+        if ( _liquidDescriptor.equals( CUSTOM_LIQUID ) ) {
+            CUSTOM_LIQUID.setPH( clampedPH );
+        }
+        
+        // adjust pH of this liquid
         if ( _pH != null && pH != _pH.doubleValue() ) {
-            double clampedPH = pH;
-            if ( pH < _pHRange.getMin() ) {
-                clampedPH = _pHRange.getMin();
-            }
-            else if ( pH > _pHRange.getMax() ) {
-                clampedPH = _pHRange.getMax();
-            }
             _pH = new Double( clampedPH );
             notifyStateChanged();
         }
