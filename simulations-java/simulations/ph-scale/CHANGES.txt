@@ -5,6 +5,7 @@ Change history for ph-scale
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- make zoom buttons more fun looking, maybe using GradientButtonNode?
 
 LOW PRIORITY:
 - delete MoleculeCountAlternateNode, associated developer controls, image files (*-big.png)
