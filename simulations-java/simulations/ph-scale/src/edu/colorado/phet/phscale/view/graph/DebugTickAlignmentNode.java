@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.view;
+package edu.colorado.phet.phscale.view.graph;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -18,12 +18,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TickAlignmentNode extends PComposite {
+public class DebugTickAlignmentNode extends PComposite {
     
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color COLOR = Color.RED;
     
-    public TickAlignmentNode( int numberOfTicks, double tickSpacing, double width ) {
+    public DebugTickAlignmentNode( int numberOfTicks, double tickSpacing, double width ) {
         setPickable( false );
         
         double y = 0;

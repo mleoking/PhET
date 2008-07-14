@@ -75,6 +75,7 @@ public class PHSliderNode extends PNode {
     private final IntegerRange _range;
     private final TrackNode _trackNode;
     private final KnobNode _knobNode;
+    private PComposite _ticksNode;
     private final ArrayList _listeners;
     private double _pH;
     
@@ -82,20 +83,23 @@ public class PHSliderNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHSliderNode( IntegerRange range, PDimension trackSize, PDimension knobSize ) {
+    public PHSliderNode( IntegerRange range, double trackWidth, double ticksYSpacing, PDimension knobSize ) {
         super();
         
         _range = new IntegerRange( range );
         _listeners = new ArrayList();
             
+        PDimension trackSize = new PDimension( trackWidth, range.getLength() * ticksYSpacing );
+        System.out.println( "trackSize=" + trackSize );//XXX
+        
         _trackNode = new TrackNode( trackSize );
         _knobNode = new KnobNode( knobSize );
         
-        PComposite tickNodes = new PComposite();
+        _ticksNode = new PComposite();
         TickMarkNode tickMarkNode = null;
         final double xOffset = 0;
         double yOffset = 0;
-        final double yDelta = _trackNode.getFullBoundsReference().getHeight() / _range.getLength();
+        final double yDelta = trackSize.getHeight() / _range.getLength();
         if ( MAX_AT_TOP ) {
             for ( int i = _range.getMax(); i >= _range.getMin(); i-- ) {
                 if ( i % TICK_SPACING == 0 ) {
@@ -104,7 +108,7 @@ public class PHSliderNode extends PNode {
                 else {
                     tickMarkNode = new TickMarkNode();
                 }
-                tickNodes.addChild( tickMarkNode );
+                _ticksNode.addChild( tickMarkNode );
                 tickMarkNode.setOffset( xOffset, yOffset );
                 yOffset += yDelta;
             }
@@ -117,7 +121,7 @@ public class PHSliderNode extends PNode {
                 else {
                     tickMarkNode = new TickMarkNode();
                 }
-                tickNodes.addChild( tickMarkNode );
+                _ticksNode.addChild( tickMarkNode );
                 tickMarkNode.setOffset( xOffset, yOffset );
                 yOffset += yDelta;
             }
@@ -135,16 +139,16 @@ public class PHSliderNode extends PNode {
         addChild( _trackNode );
         addChild( acidLabelNode );
         addChild( baseLabelNode );
-        addChild( tickNodes );
+        addChild( _ticksNode );
         addChild( _knobNode );
         
         // Positions:
         // origin at the upper-left corner of the track
         _trackNode.setOffset( 0, 0 );
         // ticks to right of track
-        tickNodes.setOffset( _trackNode.getFullBoundsReference().getMaxX() + TICK_TRACK_SPACING, _trackNode.getYOffset() );
+        _ticksNode.setOffset( _trackNode.getFullBoundsReference().getMaxX() + TICK_TRACK_SPACING, _trackNode.getYOffset() );
         // knob overlaps the track
-        _knobNode.setOffset( _trackNode.getFullBoundsReference().getMaxX() + ( 0.25 * _knobNode.getFullBoundsReference().getWidth() ), 0 ); // y offset doesn't matter
+        _knobNode.setOffset( _trackNode.getFullBoundsReference().getMaxX() + ( 0.25 * _knobNode.getFullBoundsReference().getWidth() ), 0 ); // y offset doesn't matter yet
         // acid/base labels at top-left and bottom-left of track
         if ( MAX_AT_TOP ) {
             acidLabelNode.setOffset( -( acidLabelNode.getFullBoundsReference().getWidth() + ACID_BASE_TRACK_SPACING ), _trackNode.getFullBoundsReference().getHeight() - ACID_BASE_MARGIN ); 
@@ -280,6 +284,16 @@ public class PHSliderNode extends PNode {
         _knobNode.setVisible( visible );
     }
     
+    /**
+     * Gets the offset used to vertically align the graph ticks with the pH slider ticks.
+     * Only the y offset is meaningful.
+     * 
+     * @return
+     */
+    public Point2D getTickAlignmentOffset() {
+        return localToGlobal( new Point2D.Double( 0, _ticksNode.getYOffset() ) );
+    }
+    
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
@@ -354,7 +368,6 @@ public class PHSliderNode extends PNode {
             PPath tickNode = new PPath( new Line2D.Double( 0, 0, TICK_LENGTH, 0 ) );
             tickNode.setStroke( TICK_STROKE );
             tickNode.setStrokePaint( TICK_COLOR );
-            tickNode.setOffset( 0, -tickNode.getFullBoundsReference().getHeight() / 2 );
             addChild( tickNode );
             
             PText labelNode = null;
