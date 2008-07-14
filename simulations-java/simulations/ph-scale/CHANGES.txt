@@ -33,6 +33,7 @@ CLEANUP:
 
 
 DONE:
+7/13/08 - move zoom controls to their own class
 7/13/08 - clean up BarGraphNode, remove some duplicate and unnecessary code
 7/13/08 - refactor graph bars into their own class, BarNode
 7/13/08 - javadoc BarGraphNode and BarDragHandleNode

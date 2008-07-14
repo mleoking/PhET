@@ -5,7 +5,6 @@ package edu.colorado.phet.phscale.graphs;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -21,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
+import edu.colorado.phet.phscale.graphs.ZoomControlPanel.ZoomControlPanelListener;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
@@ -106,7 +106,7 @@ public class BarGraphNode extends PNode {
     private final LinearYAxisNode _linearYAxisNode;
     private final BarNode _h3oBarNode, _ohBarNode, _h2oBarNode;
     private final BarDragHandleNode _h3oDragHandleNode, _ohDragHandleNode;
-    private final JButton _zoomInButton, _zoomOutButton;
+    private final ZoomControlPanel _zoomControlPanel;
     private final PSwing _zoomPanelWrapper;
     private final PText _yAxisLabel;
     
@@ -182,34 +182,18 @@ public class BarGraphNode extends PNode {
         updateValues(); // do this before setting offsets so that bounds are reasonable
         
         // Zoom controls
-        {
-            _zoomInButton = new JButton( PHScaleStrings.BUTTON_ZOOM_IN );
-            _zoomInButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    zoomInLinear();
-                }
-            } );
-
-            _zoomOutButton = new JButton( PHScaleStrings.BUTTON_ZOOM_OUT );
-            _zoomOutButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    zoomOutLinear();
-                }
-            } );
-
-            JPanel zoomPanel = new JPanel();
-            zoomPanel.setOpaque( false );
-            EasyGridBagLayout zoomPanelLayout = new EasyGridBagLayout( zoomPanel );
-            zoomPanel.setLayout( zoomPanelLayout );
-            int row = 0;
-            int column = 0;
-            zoomPanelLayout.addFilledComponent( _zoomInButton, row++, column, GridBagConstraints.HORIZONTAL );
-            zoomPanelLayout.addFilledComponent( _zoomOutButton, row++, column, GridBagConstraints.HORIZONTAL );
-            
-            _zoomPanelWrapper = new PSwing( zoomPanel );
-            _zoomPanelWrapper.setVisible( !_logScale );
-            addChild( _zoomPanelWrapper );
-        }
+        _zoomControlPanel = new ZoomControlPanel();
+        _zoomControlPanel.addZoomControlPanelListener( new ZoomControlPanelListener() {
+            public void zoomIn() {
+                zoomInLinear();
+            }
+            public void zoomOut() {
+                zoomOutLinear();
+            }
+        } );
+        _zoomPanelWrapper = new PSwing( _zoomControlPanel );
+        _zoomPanelWrapper.setVisible( !_logScale );
+        addChild( _zoomPanelWrapper );
         
         // drag handles
         _h3oDragHandleNode = new BarDragHandleNode();
@@ -485,9 +469,9 @@ public class BarGraphNode extends PNode {
     private void updateZoomControls() {
         // zoom controls are only visible for linear scale
         _zoomPanelWrapper.setVisible( !_logScale );
-        // hide the "zoom in" button when we are fully zoomed in
-        _zoomInButton.setEnabled( _linearTicksExponent != SMALLEST_LINEAR_TICK_EXPONENT );
-        // hide the "zoom out" button when we are fully zoomed out
-        _zoomOutButton.setEnabled( _linearTicksExponent != BIGGEST_LINEAR_TICK_EXPONENT );
+        // disable the "zoom in" button when we are fully zoomed in
+        _zoomControlPanel.setZoomInEnabled( _linearTicksExponent != SMALLEST_LINEAR_TICK_EXPONENT );
+        // disable the "zoom out" button when we are fully zoomed out
+        _zoomControlPanel.setZoomOutEnabled( _linearTicksExponent != BIGGEST_LINEAR_TICK_EXPONENT );
     }
 }
