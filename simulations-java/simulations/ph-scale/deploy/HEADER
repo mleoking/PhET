@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.17
+ph-scale 0.00.18
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,17 +12,10 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>add bars to bar graph
-<li>if a bar is taller than the graph, add an arrowhead to the top of the bar, arrowhead extends slightly beyond top of graph
-<li>drag handles can be used to change H3O and OH bars
-<li>dragging a bar sets the liquid to Custom
-<li>position drag handles at upper-left corners of bars, so they don't interfere with displayed values
-<li>put drag handles in front of zoom buttons, so that drag handles are still accessible when they overlap zoom buttons
-<li>constrain dragging of bars so that pH remains in range -1 to 15
-<li>fix vertical alignment of pH slider ticks and bar graph ticks
-<li>rename "soda" to "soda pop"
-<li>make beaker's minor tick marks noticeably short than major tick marks
-<li>generalized all layout code
+<li>change the model for combining liquids to deal with dilution of bases properly
+<li>rewrite major portions of the model dealing with filling and draining to accommodate above change
+<li>hide drag handle for linear scale when bar value is zero
+<li>workaround for pH text field selection problem (Piccolo issue, see Unfuddle #660)
 </ul>
 <p>
 <b>Know issues:</b>
