@@ -33,6 +33,8 @@ CLEANUP:
 
 
 DONE:
+7/13/08 - clean up BarGraphNode, remove some duplicate and unnecessary code
+7/13/08 - refactor graph bars into their own class, BarNode
 7/13/08 - javadoc BarGraphNode and BarDragHandleNode
 7/13/08 - implement model-view transform for log scale bar graph
 7/13/08 - implement model-view transform for linear scale bar graph
