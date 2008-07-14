@@ -13,6 +13,7 @@ import java.text.NumberFormat;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -425,15 +426,16 @@ public class BarGraphNode extends PNode {
         double viewValue = 0;
         final double maxTickHeight = _graphOutlineSize.getHeight() - TICKS_TOP_MARGIN;
         if ( _logScale ) {
-            final double maxModelValue = Math.pow( 10, BIGGEST_LOG_TICK_EXPONENT );
-            final double minModelValue = Math.pow( 10, BIGGEST_LOG_TICK_EXPONENT - NUMBER_OF_LOG_TICKS );
-            //XXX implement this
-            viewValue = _graphOutlineSize.getHeight() / 2;//XXX
+            final double maxExponent = BIGGEST_LOG_TICK_EXPONENT;
+            final double minExponent = BIGGEST_LOG_TICK_EXPONENT - NUMBER_OF_LOG_TICKS + 1;
+            final double modelValueExponent = MathUtil.log10( modelValue );
+            viewValue = maxTickHeight * ( modelValueExponent - minExponent ) / ( maxExponent - minExponent );
         }
         else {
-            final double maxModelValue = 9 * Math.pow( 10, _linearTicksExponent );
-            final double minModelValue = 0;
-            viewValue = maxTickHeight * ( modelValue - minModelValue ) / ( maxModelValue - minModelValue );
+            // this algorithm assumes that the y-axis starts at zero!
+            final double maxMantissa = ( NUMBER_OF_LINEAR_TICKS - 1 ) * LINEAR_TICK_MANTISSA_SPACING;
+            final double maxTickValue = maxMantissa * Math.pow( 10, _linearTicksExponent );
+            viewValue = maxTickHeight * modelValue / maxTickValue;
         }
         return viewValue;
     }

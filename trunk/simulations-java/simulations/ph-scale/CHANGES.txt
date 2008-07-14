@@ -34,6 +34,7 @@ CLEANUP:
 
 
 DONE:
+7/13/08 - implement model-view transform for log scale bar graph
 7/13/08 - implement model-view transform for linear scale bar graph
 7/13/08 - add x spacing between beaker ticks and labels
 7/13/08 - make beaker's minor ticks noticeably short than major ticks
