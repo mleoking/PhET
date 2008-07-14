@@ -7,8 +7,8 @@ import java.awt.Font;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
-import edu.colorado.phet.phscale.view.graph.GraphScaleControlPanel.GraphScaleControlPanelListener;
-import edu.colorado.phet.phscale.view.graph.GraphUnitsControlPanel.GraphUnitsControlPanelListener;
+import edu.colorado.phet.phscale.view.graph.ScaleControlPanel.ScaleControlPanelListener;
+import edu.colorado.phet.phscale.view.graph.UnitsControlPanel.UnitsControlPanelListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -34,8 +34,8 @@ public class GraphControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private final BarGraphNode _graphNode;
-    private final GraphUnitsControlPanel _unitsControlPanel;
-    private final GraphScaleControlPanel _scaleControlPanel;
+    private final UnitsControlPanel _unitsControlPanel;
+    private final ScaleControlPanel _scaleControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -49,8 +49,8 @@ public class GraphControlNode extends PNode {
         addChild( titleNode );
         
         // units controls
-        _unitsControlPanel = new GraphUnitsControlPanel();
-        _unitsControlPanel.addGraphUnitsControlPanelListener( new GraphUnitsControlPanelListener() {
+        _unitsControlPanel = new UnitsControlPanel();
+        _unitsControlPanel.addUnitsControlPanelListener( new UnitsControlPanelListener() {
             public void selectionChanged() {
                 _graphNode.setConcentrationUnits( _unitsControlPanel.isConcentrationSelected() );
             }
@@ -67,8 +67,8 @@ public class GraphControlNode extends PNode {
         addChild( legendNode );
         
         // scale controls
-        _scaleControlPanel = new GraphScaleControlPanel();
-        _scaleControlPanel.addGraphScaleControlPanelListener( new GraphScaleControlPanelListener() {
+        _scaleControlPanel = new ScaleControlPanel();
+        _scaleControlPanel.addScaleControlPanelListener( new ScaleControlPanelListener() {
             public void selectionChanged() {
                 _graphNode.setLogScale( _scaleControlPanel.isLogSelected() );
             }
