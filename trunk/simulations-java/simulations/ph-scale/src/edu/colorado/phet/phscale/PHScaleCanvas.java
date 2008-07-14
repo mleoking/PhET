@@ -3,12 +3,12 @@
 package edu.colorado.phet.phscale;
 
 import java.awt.Dimension;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHScaleModel;
-import edu.colorado.phet.phscale.view.TickAlignmentNode;
 import edu.colorado.phet.phscale.view.beaker.BeakerControlNode;
 import edu.colorado.phet.phscale.view.beaker.ParticlesNode;
 import edu.colorado.phet.phscale.view.graph.GraphControlNode;
@@ -29,7 +29,8 @@ public class PHScaleCanvas extends PhetPCanvas {
     
     private static final Dimension RENDERING_SIZE = new Dimension( 1024, 768 );
     
-    private static final boolean DEBUG_TICKS_ALIGNMENT = false;
+    // vertical spacing of pH slider ticks and bar graph log scale ticks
+    private static final double LOG_TICKS_Y_SPACING = 25;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -59,8 +60,8 @@ public class PHScaleCanvas extends PhetPCanvas {
         
         // Nodes
         _beakerControlNode = new BeakerControlNode( liquid, this );
-        _pHControlNode = new PHControlNode( liquid );
-        _graphControlNode = new GraphControlNode( liquid );
+        _pHControlNode = new PHControlNode( liquid, LOG_TICKS_Y_SPACING );
+        _graphControlNode = new GraphControlNode( liquid, LOG_TICKS_Y_SPACING );
         _resetAllButton = new PHScaleResetAllButton( resettable, this );
         PSwing resetAllButtonWrapper = new PSwing( _resetAllButton );
         
@@ -86,13 +87,12 @@ public class PHScaleCanvas extends PhetPCanvas {
         y = 10;
         _graphControlNode.setOffset( x, y );
         
-        // Debug: check alignment of pH slider and bar graph
-        if ( DEBUG_TICKS_ALIGNMENT ){
-            double tickSpacing = _graphControlNode.dev_getLogTickSpacing();
-            TickAlignmentNode alignmentNode = new TickAlignmentNode( 17, tickSpacing, 185 );
-            _rootNode.addChild( alignmentNode );
-            alignmentNode.setOffset( 645, 153 );
-        }
+        // Tweak the layout to align the pH slider ticks and bar graph ticks
+        Point2D sliderOffset = _rootNode.globalToLocal( _pHControlNode.getTickAlignmentOffset() );
+        System.out.println( "sliderOffset.y=" + sliderOffset.getY() );//XXX
+        Point2D graphOffset = _rootNode.globalToLocal( _graphControlNode.getTickAlignmentOffset() );
+        System.out.println( "graphOffset.y=" + graphOffset.getY() );//XXX
+        _pHControlNode.setOffset( _pHControlNode.getXOffset(), _pHControlNode.getYOffset() + ( graphOffset.getY() - sliderOffset.getY() ) );
     }
     
     //----------------------------------------------------------------------------
@@ -120,6 +120,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         return _beakerControlNode.dev_getParticlesNode();
     }
     
+    // for switching to alternate molecule view view developer control
     public void dev_setUseAlternateMoleculeCountView( boolean b ) {
         _beakerControlNode.dev_setUseAlternateMoleculeCountView( b );
     }

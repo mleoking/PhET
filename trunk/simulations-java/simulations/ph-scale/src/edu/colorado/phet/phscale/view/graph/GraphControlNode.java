@@ -3,6 +3,7 @@
 package edu.colorado.phet.phscale.view.graph;
 
 import java.awt.Font;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleStrings;
@@ -12,7 +13,6 @@ import edu.colorado.phet.phscale.view.graph.UnitsControlPanel.UnitsControlPanelL
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -26,8 +26,8 @@ public class GraphControlNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final PDimension OUTLINE_SIZE = new PDimension( 225, 440 );
-    private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 24 );
+    private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 20 );
+    private static final double GRAPH_OUTLINE_WIDTH = 225;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -41,7 +41,7 @@ public class GraphControlNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GraphControlNode( Liquid liquid ) {
+    public GraphControlNode( Liquid liquid, double ticksYSpacing ) {
         super();
         
         PText titleNode = new PText( PHScaleStrings.TITLE_WATER_COMPONENTS );
@@ -59,7 +59,7 @@ public class GraphControlNode extends PNode {
         addChild( unitsControlPanelWrapper );
         
         // graph
-        _graphNode = new GraphNode( OUTLINE_SIZE, liquid );
+        _graphNode = new GraphNode( liquid, GRAPH_OUTLINE_WIDTH, ticksYSpacing );
         addChild( _graphNode );
         
         // legend
@@ -84,7 +84,7 @@ public class GraphControlNode extends PNode {
         _graphNode.setOffset( ub.getX(), ub.getMaxY() + 10 );
         PBounds gb = _graphNode.getFullBoundsReference();
         PBounds lb = legendNode.getFullBoundsReference();
-        legendNode.setOffset( ( OUTLINE_SIZE.getWidth() - lb.getWidth() ) / 2, gb.getMaxY() + 2 );
+        legendNode.setOffset( ( GRAPH_OUTLINE_WIDTH - lb.getWidth() ) / 2, gb.getMaxY() + 2 );
         lb = legendNode.getFullBoundsReference();
         scaleControlPanelWrapper.setOffset( unitsControlPanelWrapper.getX(), lb.getMaxY() + 10 );
     }
@@ -101,7 +101,13 @@ public class GraphControlNode extends PNode {
         _scaleControlPanel.setLogSelected( selected );
     }
     
-    public double dev_getLogTickSpacing() {
-        return _graphNode.dev_getLogTickSpacing();
+    /**
+     * Gets the offset used to vertically align the graph ticks with the pH slider ticks.
+     * Only the y offset is meaningful.
+     * 
+     * @return
+     */
+    public Point2D getTickAlignmentOffset() {
+        return _graphNode.getTickAlignmentOffset();
     }
 }

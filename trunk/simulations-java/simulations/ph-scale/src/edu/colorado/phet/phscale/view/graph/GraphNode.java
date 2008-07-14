@@ -47,6 +47,9 @@ public class GraphNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    // set this to true to see how log scale ticks align with pH slider ticks
+    private static final boolean DEBUG_TICKS_ALIGNMENT = false;
+    
     // graph outline
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
@@ -118,9 +121,9 @@ public class GraphNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GraphNode( PDimension graphOutlineSize, Liquid liquid ) {
+    public GraphNode( Liquid liquid, double graphOutlineWidth, double ticksYSpacing ) {
         
-        _graphOutlineHeight = graphOutlineSize.getHeight();
+        _graphOutlineHeight = ( ( NUMBER_OF_LOG_TICKS - 1 ) * ticksYSpacing ) + TICKS_TOP_MARGIN;
         _logScale = true;
         _concentrationUnits = true;
         _linearTicksExponent = BIGGEST_LINEAR_TICK_EXPONENT;
@@ -136,7 +139,7 @@ public class GraphNode extends PNode {
         
         // graphOutlineNode is not instance data because we do NOT want to use its bounds for calculations.
         // It's stroke width will cause calculation errors.  Use _graphOutlineSize instead.
-        Rectangle2D r = new Rectangle2D.Double( 0, 0, graphOutlineSize.getWidth(), graphOutlineSize.getHeight() );
+        Rectangle2D r = new Rectangle2D.Double( 0, 0, graphOutlineWidth, _graphOutlineHeight );
         PPath graphOutlineNode = new PPath( r );
         graphOutlineNode.setStroke( OUTLINE_STROKE );
         graphOutlineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
@@ -146,6 +149,8 @@ public class GraphNode extends PNode {
         addChild( graphOutlineNode );
         
         // log y axis
+        PDimension graphOutlineSize = new PDimension( graphOutlineWidth, _graphOutlineHeight );
+        System.out.println( "graphOutlineSize=" + graphOutlineSize );//XXX
         _logYAxisNode = new LogYAxisNode( graphOutlineSize, NUMBER_OF_LOG_TICKS, TICKS_TOP_MARGIN, 
                 BIGGEST_LOG_TICK_EXPONENT,  LOG_TICK_EXPONENT_SPACING, TICK_LENGTH,
                 TICK_STROKE, TICK_COLOR, TICK_LABEL_FONT, TICK_LABEL_COLOR, GRIDLINE_STROKE, GRIDLINE_COLOR );
@@ -226,6 +231,14 @@ public class GraphNode extends PNode {
         updateYAxis();
         updateBars();
         updateZoomControls();
+        
+        // Debug: extend tick marks to the left of the graph, to check alignment of pH slider and bar graph.
+        if ( DEBUG_TICKS_ALIGNMENT ){
+            final double lineLength = 185;
+            DebugTickAlignmentNode alignmentNode = new DebugTickAlignmentNode( NUMBER_OF_LOG_TICKS, _logYAxisNode.getTickSpacing(), lineLength );
+            addChild( alignmentNode );
+            alignmentNode.setOffset( -lineLength, TICKS_TOP_MARGIN );
+        }
     }
     
     public void cleanup() {
@@ -294,8 +307,15 @@ public class GraphNode extends PNode {
         return _concentrationUnits;
     }
     
-    public double dev_getLogTickSpacing() {
-        return _logYAxisNode.getTickSpacing();
+    /**
+     * Gets the offset used to vertically align the graph ticks with the pH slider ticks.
+     * Only the y offset is meaningful.
+     * 
+     * @return
+     */
+    public Point2D getTickAlignmentOffset() {
+        // 2nd tick from the top
+        return localToGlobal( new Point2D.Double( 0, _logYAxisNode.getYOffset() + TICKS_TOP_MARGIN + _logYAxisNode.getTickSpacing() ) );
     }
     
     //----------------------------------------------------------------------------

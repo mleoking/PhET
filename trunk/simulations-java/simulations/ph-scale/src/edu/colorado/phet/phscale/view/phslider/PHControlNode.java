@@ -4,6 +4,7 @@ package edu.colorado.phet.phscale.view.phslider;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.event.ChangeEvent;
@@ -30,7 +31,7 @@ public class PHControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final int MARGIN = 15;
-    private static final PDimension SLIDER_TRACK_SIZE = new PDimension( 10, 380 );
+    private static final double TRACK_WIDTH = 10;
     private static final PDimension KNOB_SIZE = new PDimension( 40, 30 );
     
     private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
@@ -50,7 +51,7 @@ public class PHControlNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PHControlNode( Liquid liquid ) {
+    public PHControlNode( Liquid liquid, double ticksYSpacing ) {
         super();
         
         _notifyEnabled = false;
@@ -64,14 +65,14 @@ public class PHControlNode extends PNode {
         _liquid.addLiquidListener( _liquidListener );
         
         _textFieldNode = new PHTextFieldNode( liquid.getPHRange() );
-        _sliderNode = new PHSliderNode( liquid.getPHRange(), SLIDER_TRACK_SIZE, KNOB_SIZE );
+        _sliderNode = new PHSliderNode( liquid.getPHRange(), TRACK_WIDTH, ticksYSpacing, KNOB_SIZE );
         
         PNode parentNode = new PNode();
         parentNode.addChild( _textFieldNode );
         parentNode.addChild( _sliderNode );
         _textFieldNode.setOffset( 0, 0 );
         PBounds vb = _textFieldNode.getFullBoundsReference();
-        _sliderNode.setOffset( ( vb.getWidth() / 2 ) - ( SLIDER_TRACK_SIZE.getWidth() / 2 ), vb.getHeight() + KNOB_SIZE.getWidth()/2 + 10 );
+        _sliderNode.setOffset( ( vb.getWidth() / 2 ) - ( TRACK_WIDTH / 2 ), vb.getHeight() + KNOB_SIZE.getWidth()/2 + 10 );
         
         double w = parentNode.getFullBoundsReference().getWidth() + ( 2 * MARGIN );
         double h = parentNode.getFullBoundsReference().getHeight() + ( 2 * MARGIN ) + KNOB_SIZE.getWidth()/2;
@@ -105,6 +106,24 @@ public class PHControlNode extends PNode {
         _liquid.removeLiquidListener( _liquidListener );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the offset used to vertically align the graph ticks with the pH slider ticks.
+     * Only the y offset is meaningful.
+     * 
+     * @return
+     */
+    public Point2D getTickAlignmentOffset() {
+        return _sliderNode.getTickAlignmentOffset();
+    }
+    
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
     private void updateModelPH( double pH ) {
         if ( _notifyEnabled ) {
             if ( !_liquid.getLiquidDescriptor().equals( CUSTOM_LIQUID ) ) {
@@ -114,10 +133,6 @@ public class PHControlNode extends PNode {
             _liquid.setPH( pH );
         }
     }
-    
-    //----------------------------------------------------------------------------
-    // Updaters
-    //----------------------------------------------------------------------------
     
     private void update() {
         _notifyEnabled = false;
