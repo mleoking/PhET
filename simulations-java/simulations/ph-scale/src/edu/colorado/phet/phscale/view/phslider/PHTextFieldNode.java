@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.control;
+package edu.colorado.phet.phscale.view.phslider;
 
 import java.awt.Font;
 import java.awt.Toolkit;
