@@ -3,6 +3,7 @@
 package edu.colorado.phet.phscale.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.phscale.PHScaleConstants;
 
 /**
  * PHScaleModel is the model for PHScaleModule.
@@ -23,7 +24,7 @@ public class PHScaleModel {
     
     public PHScaleModel( IClock clock ) {
         super();
-        _liquid = new Liquid( LiquidDescriptor.getDefaultLiquid() );
+        _liquid = new Liquid( PHScaleConstants.PH_RANGE, LiquidDescriptor.getDefaultLiquid() );
         clock.addClockListener( _liquid );
     }
     
