@@ -2,8 +2,6 @@
 Change history for ph-scale
 ================================================================================
 
-DESIGN ISSUES
-
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
