@@ -29,6 +29,8 @@ CLEANUP:
 
 DONE:
 ******* version 0.00.17 (?)
+7/14/08 - use common font size for all controls
+7/14/08 - add a line to bottom of graph, on top of bars, makes it look cleaner
 7/14/08 - move some things that should be easier to find into PHScaleConstants
 7/14/08 - generalize layout code in BeakerControlNode constructor
 7/14/08 - fix bar drag handlers so that we can get to min values in linear scale

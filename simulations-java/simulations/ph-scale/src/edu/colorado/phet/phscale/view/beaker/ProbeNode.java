@@ -13,6 +13,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
@@ -37,7 +38,7 @@ public class ProbeNode extends PComposite {
     private static final double DISPLAY_BORDER_WIDTH = 3;
     private static final double DISPLAY_BORDER_MARGIN = 8;
     
-    private static final Font DISPLAY_FONT = new PhetFont( Font.BOLD, 18 );
+    private static final Font DISPLAY_FONT = new PhetFont( Font.BOLD, PHScaleConstants.CONTROL_FONT_SIZE );
     private static final DecimalFormat DISPLAY_FORMAT = new DecimalFormat( "#0.00" );
     private static final double DISPLAY_X_SPACING = 8;
     private static final Color DISPLAY_BACKGROUND = Color.LIGHT_GRAY;

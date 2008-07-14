@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
@@ -35,7 +36,7 @@ public class MoleculeCountNode extends PComposite {
     
     private static final double X_SPACING = 10;
     private static final double Y_SPACING = 20;
-    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, PHScaleConstants.CONTROL_FONT_SIZE );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
     private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 );
