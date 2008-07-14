@@ -14,6 +14,8 @@ LOW PRIORITY:
 
 
 DONE:
+7/14/08 - fix: hide drag handle for linear scale when bar height is zero
+7/14/08 - rewrite portions of fill/drain model, simplify
 7/14/08 - change model for combining liquids, I was given an incorrect model
 7/14/08 - decouple MoleculeCountAlternateNode from the rest of the code base so that it's easy to delete
 7/14/08 - workaround: clicking twice in PHTextFieldNode causes liquid to change to Custom [Unfuddle #660]
