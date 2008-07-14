@@ -8,7 +8,6 @@ import java.util.Iterator;
 import javax.swing.SwingConstants;
 
 import edu.colorado.phet.phscale.beaker.MomentarySliderNode.MomentarySliderListener;
-import edu.colorado.phet.phscale.view.FaucetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 

@@ -5,9 +5,9 @@ package edu.colorado.phet.phscale;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.phscale.beaker.ParticlesNode;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.PHScaleModel;
-import edu.colorado.phet.phscale.view.ParticlesNode;
 
 /**
  * PHScaleModule is the sole module for this sim.

@@ -1,4 +1,4 @@
-package edu.colorado.phet.phscale.view;
+package edu.colorado.phet.phscale.beaker;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,6 +12,10 @@ import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
+import edu.colorado.phet.phscale.view.H2ONode;
+import edu.colorado.phet.phscale.view.H3ONode;
+import edu.colorado.phet.phscale.view.OHNode;
+import edu.colorado.phet.phscale.view.H3ONode.Small;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
