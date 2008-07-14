@@ -58,7 +58,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         addWorldChild( _rootNode );
         
         // Nodes
-        _beakerControlNode = new BeakerControlNode( this, liquid );
+        _beakerControlNode = new BeakerControlNode( liquid, this );
         _pHControlNode = new PHControlNode( liquid );
         _graphControlNode = new GraphControlNode( liquid );
         _resetAllButton = new PHScaleResetAllButton( resettable, this );

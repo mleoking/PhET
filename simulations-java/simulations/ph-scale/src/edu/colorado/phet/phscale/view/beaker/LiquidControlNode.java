@@ -61,7 +61,13 @@ public class LiquidControlNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public LiquidControlNode( PSwingCanvas canvas, Liquid liquid ) {
+    /**
+     * Constructor.
+     * 
+     * @param liquid
+     * @parma canvas PComboBox workaround required for LiquidComboBox 
+     */
+    public LiquidControlNode( Liquid liquid, PSwingCanvas canvas ) {
         super();
         
         _notifyEnabled = true;

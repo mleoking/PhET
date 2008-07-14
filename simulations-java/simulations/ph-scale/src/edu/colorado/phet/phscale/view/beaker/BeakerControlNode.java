@@ -52,7 +52,13 @@ public class BeakerControlNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BeakerControlNode( PSwingCanvas pSwingCanvas, Liquid liquid ) {
+    /**
+     * Constructor.
+     * 
+     * @param liquid
+     * @parma canvas PComboBox workaround required for LiquidComboBox 
+     */
+    public BeakerControlNode( Liquid liquid, PSwingCanvas pSwingCanvas ) {
         super();
         
         _useAlternateMoleculeCountView = false;
@@ -68,7 +74,7 @@ public class BeakerControlNode extends PNode {
         
         _probeNode = new ProbeNode( PROBE_LENGTH, liquid );
         
-        _liquidControlNode = new LiquidControlNode( pSwingCanvas, liquid );
+        _liquidControlNode = new LiquidControlNode( liquid, pSwingCanvas );
         
         _waterControlNode = new WaterControlNode( liquid );
         

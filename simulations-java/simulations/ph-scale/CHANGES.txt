@@ -32,6 +32,7 @@ CLEANUP:
 
 
 DONE:
+7/14/08 - reorder some constructor args for symmetry with other interfaces
 7/14/08 - constrain pH range in draggable bars via the model
 7/14/08 - move pH range into model, make Liquid.setPH clamp to range
 7/13/08 - organize imports
