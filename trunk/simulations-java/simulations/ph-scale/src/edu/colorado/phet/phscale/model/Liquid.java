@@ -143,7 +143,11 @@ public class Liquid extends ClockAdapter {
     
     /**
      * Sets the pH.
-     * This is a no-op if the liquid is empty or the pH is out of range.
+     * This is a no-op if the liquid is empty.
+     * If the pH is out of range, it is silently clamped to the range.
+     * NOTE: This clamping behavior is essential to other parts of the sim 
+     * (eg, dragging bars in the bar graph).
+     * 
      * @param pH
      */
     public void setPH( double pH ) {
