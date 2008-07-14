@@ -9,7 +9,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.phscale.beaker.BeakerControlNode;
 import edu.colorado.phet.phscale.beaker.ParticlesNode;
 import edu.colorado.phet.phscale.control.PHControlNode;
-import edu.colorado.phet.phscale.control.PHScaleResetAllButton;
 import edu.colorado.phet.phscale.graph.GraphControlNode;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHScaleModel;
