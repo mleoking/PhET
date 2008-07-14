@@ -114,7 +114,6 @@ public class PHTextFieldNode extends PNode {
         String pHString = VALUE_FORMAT.format( pH );
         if ( !pHString.equals( _textField.getText() ) ) {
             _pH = pH;
-            System.out.println( "PHTextFieldNode pH=" + pH );
             setTextField( pH );
             notifyChanged();
         }
