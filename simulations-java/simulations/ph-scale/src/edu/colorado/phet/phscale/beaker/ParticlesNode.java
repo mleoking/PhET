@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.view;
+package edu.colorado.phet.phscale.beaker;
 
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;

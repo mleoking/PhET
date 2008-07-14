@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.phscale.PHScaleApplication;
-import edu.colorado.phet.phscale.view.ParticlesNode;
+import edu.colorado.phet.phscale.beaker.ParticlesNode;
 
 /**
  * ParticleControlsDialog is contains "developer only" controls for particles.
