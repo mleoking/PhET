@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.statesofmatter.module.experimental;
+package edu.colorado.phet.statesofmatter.module.exp2;
 
 import java.awt.Frame;
 
@@ -18,32 +18,32 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
  *
  * @author John Blanco
  */
-public class ExpSolidLiquidGasModule extends Module {
+public class Exp2SolidLiquidGasModule extends Module {
     
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
     private MultipleParticleModel m_model;
-    private ExpSolidLiquidGasCanvas  m_canvas;
+    private Exp2SolidLiquidGasCanvas  m_canvas;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
     
-    public ExpSolidLiquidGasModule( Frame parentFrame ) {
+    public Exp2SolidLiquidGasModule( Frame parentFrame ) {
         
-        super("3D Cylinder", new ConstantDtClock(10, StatesOfMatterConstants.DELTA_T));
+        super("Simple Box", new ConstantDtClock(10, StatesOfMatterConstants.DELTA_T));
 
         // Model
         m_model = new MultipleParticleModel( getClock() );
 
         // Canvas
-        m_canvas = new ExpSolidLiquidGasCanvas( m_model );
+        m_canvas = new Exp2SolidLiquidGasCanvas( m_model );
         setSimulationPanel( m_canvas );
         
         // Control panel
-        setControlPanel( new ExpSolidLiquidGasControlPanel( this, parentFrame ) );
+        setControlPanel( new Exp2SolidLiquidGasControlPanel( this, parentFrame ) );
         
         // Clock controls
         setClockControlPanel( new ClockControlPanel( getClock() ) );

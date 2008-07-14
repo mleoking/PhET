@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.menu.OptionsMenu;
+import edu.colorado.phet.statesofmatter.module.exp2.Exp2SolidLiquidGasModule;
 import edu.colorado.phet.statesofmatter.module.experimental.ExpSolidLiquidGasModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
@@ -39,6 +40,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     private SolidLiquidGasModule _solidLiquidGasModule;
     private PhaseChangesModule   _phaseChangesModule;
     private ExpSolidLiquidGasModule   _experimentalModule;
+    private Exp2SolidLiquidGasModule   _experimentalModule2;
     private static TabbedModulePanePiccolo _tabbedModulePane;
     
     // TODO: JPB TBD - Temp var for putting up dummy tab. 
@@ -93,6 +95,9 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
 
         _experimentalModule = new ExpSolidLiquidGasModule( parentFrame );
         addModule( _experimentalModule );
+
+        _experimentalModule2 = new Exp2SolidLiquidGasModule( parentFrame );
+        addModule( _experimentalModule2 );
     }
 
     /**
