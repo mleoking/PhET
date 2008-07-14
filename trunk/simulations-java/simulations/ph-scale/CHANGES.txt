@@ -9,21 +9,9 @@ HIGH PRIORITY:
 MEDIUM PRIORITY:
 
 LOW PRIORITY:
-- delete MoleculeCountAlternateNode and associated developer controls
-- break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
-- pH text field isn't fully selected when it gains focus or when you double-click in it, selection is generally flakey (PSwing issue?)
-
-PERFORMANCE OPTIMIZATIONS:
-
-MIGRATE TO PHETCOMMON:
-
-CLEANUP:
-- add cursors to all things that are interactive
-- rescale image files to minimize file size
-- disable all debug output
-- optimize memory management by reusing mutable objects
-- javadoc
-- organize imports
+- delete MoleculeCountAlternateNode, associated developer controls, image files
+- clicking twice in pH text field causes liquid to change to Custom [Unfuddle #660]
+- hand cursors don't work on PSwing check boxes and radio buttons [Unfuddle #653]
 
 
 DONE:
@@ -261,6 +249,7 @@ DONE:
 5/20/08 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+7/14/08  - break up Liquid into a few smaller classes (fine as is) 
 7/14/08 - generalize alignment of baselines for text and numbers drawn using HTMLNode (not possible)
 7/11/08 - disable liquid and water sliders when beaker is full? (ok as is)
 7/11/08 - replace molecule image files with SphericalNode subclasses? (no, can't partially embed small spheres inside big sphere) 
