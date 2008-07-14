@@ -116,4 +116,8 @@ public class BeakerNode extends PComposite {
             }
         }
     }
+    
+    public static Point2D getLipOffset() {
+        return BEAKER_LIP_OFFSET;
+    }
 }

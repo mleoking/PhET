@@ -10,6 +10,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
@@ -30,7 +31,7 @@ public class DrainControlNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 500 );
+    private static final PDimension LIQUID_COLUMN_SIZE = PHScaleConstants.LIQUID_COLUMN_SIZE;
     private static final double DRAINING_RATE = 0.01; // liters per clock tick
     
     private static final Color PIPE_FILL_COLOR = new Color( 233, 184, 0 ); // mustard yellow

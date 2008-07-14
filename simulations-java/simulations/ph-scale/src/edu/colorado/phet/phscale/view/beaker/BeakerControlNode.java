@@ -2,14 +2,13 @@
 
 package edu.colorado.phet.phscale.view.beaker;
 
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.CustomLiquidDescriptor;
 import edu.colorado.phet.phscale.view.beaker.ViewControlPanel.ViewControlPanelListener;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -25,9 +24,6 @@ public class BeakerControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
-    
-    private static final double PROBE_LENGTH = 525;
-    private static final PDimension BEAKER_SIZE = new PDimension( 450, 450 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -72,7 +68,7 @@ public class BeakerControlNode extends PNode {
         };
         _liquid.addLiquidListener( _liquidListener );
         
-        _probeNode = new ProbeNode( PROBE_LENGTH, liquid );
+        _probeNode = new ProbeNode( PHScaleConstants.PH_PROBE_LENGTH, liquid );
         
         _liquidControlNode = new LiquidControlNode( liquid, pSwingCanvas );
         
@@ -80,9 +76,9 @@ public class BeakerControlNode extends PNode {
         
         _drainControlNode = new DrainControlNode( liquid );
 
-        _liquidNode = new LiquidNode( liquid, BEAKER_SIZE );
+        _liquidNode = new LiquidNode( liquid, PHScaleConstants.BEAKER_SIZE );
         
-        _beakerNode = new BeakerNode( BEAKER_SIZE, liquid.getMaxVolume() );
+        _beakerNode = new BeakerNode( PHScaleConstants.BEAKER_SIZE, liquid.getMaxVolume() );
         
         _moleculeCountNode = new MoleculeCountNode( liquid );
         _moleculeCountNode.setVisible( !_useAlternateMoleculeCountView );
@@ -116,17 +112,32 @@ public class BeakerControlNode extends PNode {
         addChild( viewControlPanelWrapper );
         
         // Layout
-        //XXX this needs to be generalized
-        _liquidControlNode.setOffset( 0, 0  );
-        PBounds b = _liquidControlNode.getFullBoundsReference();
-        _waterControlNode.setOffset( b.getX() + 390, b.getY() + 5 );
-        _beakerNode.setOffset( 20,  b.getY() + 160 );
+        _liquidControlNode.setOffset( 0, 0 );
+        // left-aligned with liquid faucet, liquid column hits bottom of beaker
+        _beakerNode.setOffset(
+                BeakerNode.getLipOffset().getX(),
+                _liquidControlNode.getFullBoundsReference().getMaxY() - _beakerNode.getFullBounds().getHeight() + ( 2 * BeakerNode.getLipOffset().getY() ) );
+        // liquid has same offset as beaker, so that it's inside the beaker
         _liquidNode.setOffset( _beakerNode.getOffset() );
-        _drainControlNode.setOffset( b.getX() + 10,  b.getY() + 623 );
-        _probeNode.setOffset( b.getX() + 185, b.getY() + 85 );
+        // at right edge of beaker, bottom aligned with liquid faucet
+        _waterControlNode.setOffset(
+                _beakerNode.getFullBoundsReference().getWidth() - _waterControlNode.getFullBoundsReference().getWidth() + BeakerNode.getLipOffset().getX(), 
+                _liquidControlNode.getFullBoundsReference().getMaxY() - _waterControlNode.getFullBoundsReference().getHeight() );
+        // probe horizontally centered in beaker, tip of probe at bottom of beaker
+        _probeNode.setOffset( 
+                _beakerNode.getFullBoundsReference().getCenterX() - _probeNode.getFullBoundsReference().getWidth() / 2, 
+                _beakerNode.getFullBoundsReference().getMaxY() - _probeNode.getFullBoundsReference().getHeight() );
+        // at left edge of beaker, vertically centered in beaker
+        _moleculeCountNode.setOffset( 
+                _beakerNode.getFullBoundsReference().getX() + 50,  
+                _beakerNode.getFullBoundsReference().getCenterY() - _moleculeCountNode.getFullBoundsReference().getHeight() / 2  );
         _moleculeCountAlternateNode.setOffset( 170, 230 );
-        _moleculeCountNode.setOffset( b.getX() + 60,  b.getY() + 320 );
-        viewControlPanelWrapper.setOffset( b.getX() + 220,  b.getY() + 635 );
+        // below beaker, to the left
+        _drainControlNode.setOffset( 10,  _beakerNode.getFullBoundsReference().getMaxY() + 12 );
+        // below beaker, to the right of the drain control
+        viewControlPanelWrapper.setOffset( 
+                _drainControlNode.getFullBoundsReference().getMaxX() + 30,
+                _beakerNode.getFullBoundsReference().getMaxY() + 20 );
     }
     
     public void cleanup() {

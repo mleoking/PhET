@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.phscale.PHScaleApplication;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.LiquidDescriptor;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
@@ -38,7 +39,7 @@ public class LiquidControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final boolean CONFIRM_CHANGE_LIQUID_ENABLED = false; // feature disabled by request
-    private static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, 490 );
+    private static final PDimension LIQUID_COLUMN_SIZE = PHScaleConstants.LIQUID_COLUMN_SIZE;
     private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
     private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
     

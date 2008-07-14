@@ -10,6 +10,7 @@ import java.awt.Stroke;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -45,13 +46,23 @@ public class PHScaleConstants {
     public static final IntegerRange PH_RANGE = new IntegerRange( -1, 15, 7 ); // min, max, default
     
     //----------------------------------------------------------------------------
+    // View
+    //----------------------------------------------------------------------------
+    
+    public static final PDimension BEAKER_SIZE = new PDimension( 450, 450 );
+    
+    // size of the liquid column that comes out of the faucets
+    public static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, BEAKER_SIZE.getHeight() + 30 );
+    
+    public static final double PH_PROBE_LENGTH = BEAKER_SIZE.getHeight() + 75;
+    
+    // vertical spacing of pH slider ticks and bar graph log scale ticks
+    public static final double LOG_TICKS_Y_SPACING = 24;
+    
+    //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
 
-    // Default font properties
-    public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
-    public static final int DEFAULT_FONT_SIZE = 18;
-    
     public static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, 18 );
     
     //----------------------------------------------------------------------------

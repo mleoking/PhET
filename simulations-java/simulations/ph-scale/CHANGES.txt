@@ -11,7 +11,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - delete MoleculeCountAlternateNode and associated developer controls
 - break up Liquid into a few smaller classes (separate pH model, fill/drain mechanism, etc) 
-- generalize layout code
 - pH text field isn't fully selected when it gains focus or when you double-click in it, selection is generally flakey (PSwing issue?)
 
 PERFORMANCE OPTIMIZATIONS:
@@ -30,6 +29,8 @@ CLEANUP:
 
 DONE:
 ******* version 0.00.17 (?)
+7/14/08 - move some things that should be easier to find into PHScaleConstants
+7/14/08 - generalize layout code in BeakerControlNode constructor
 7/14/08 - fix bar drag handlers so that we can get to min values in linear scale
 7/14/08 - generalize alignment of pH slider ticks and bar graph ticks
 7/14/08 - reorder some constructor args for symmetry with other interfaces
