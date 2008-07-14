@@ -11,16 +11,18 @@ import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
+import edu.colorado.phet.phscale.PHScaleImages;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
-import edu.colorado.phet.phscale.view.H2ONode;
-import edu.colorado.phet.phscale.view.H3ONode;
-import edu.colorado.phet.phscale.view.OHNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * MoleculeCountNode displays the molecule counts shown in the beaker.
+ * This is an alternate view, where 3 large translucent molecules are
+ * arranged in a triangle, with numbers positioned inside of the molecules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -68,9 +70,9 @@ public class MoleculeCountAlternateNode extends PComposite {
         _liquid.addLiquidListener( _liquidListener );
         
         // icons
-        H3ONode h3oNode = new H3ONode.Big();
-        OHNode ohNode = new OHNode.Big();
-        H2ONode h2oNode = new H2ONode.Big();
+        PNode h3oNode = new PImage( PHScaleImages.H3O_BIG );
+        PNode ohNode = new PImage( PHScaleImages.OH_BIG );
+        PNode h2oNode = new PImage( PHScaleImages.H2O_BIG );
         
         // values
         _h3oCountNode = new ValueNode( H3O_FORMAT );
