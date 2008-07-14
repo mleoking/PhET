@@ -90,7 +90,6 @@ public class PHSliderNode extends PNode {
         _listeners = new ArrayList();
             
         PDimension trackSize = new PDimension( trackWidth, range.getLength() * ticksYSpacing );
-        System.out.println( "trackSize=" + trackSize );//XXX
         
         _trackNode = new TrackNode( trackSize );
         _knobNode = new KnobNode( knobSize );
