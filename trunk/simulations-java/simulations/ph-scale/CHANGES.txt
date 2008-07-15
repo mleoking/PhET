@@ -5,6 +5,7 @@ Change history for ph-scale
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- use consistent H3O/OH/H2O colors for bars, molecules, particles and Water
 - make zoom buttons more fun looking, maybe using GradientButtonNode?
 
 LOW PRIORITY:
