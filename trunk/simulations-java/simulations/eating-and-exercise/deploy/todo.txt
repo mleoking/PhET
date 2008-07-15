@@ -2,20 +2,11 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
-After 6 hours exercise, no more benefit
-
-happy heart should be A+B
-
-gradient color red to green, inverses for A + B
-
 Noah: construct text for heart ? explanation
 
 Add heart ? that shows text
 
-I think there should be a warning for the 35-50% fat range also...but I'm not sure what.
-"low" doesn't really work, because that is true for the whole range. Maybe "above normal", then "moderate", etc.?
-
-Add and check all images for food and exercise.
+Finish adding images for food and exercise.
 ___________________________________________________________________________________________
 USER SPECIFIED BODY PARAMETERS
 
@@ -65,6 +56,12 @@ The green area of each bar will mean good, red bad. The bright green area should
 There should also be the possibility of adding/subtracting constants based on other accumulated factors (e.g., if you go into starvation mode,
  you should lose some constant amount of heart strength that you can never gain back).
     >>every day starving decreases total possible heart strength
+
+After 6 hours exercise, no more benefit
+
+happy heart should be A+B
+
+gradient color red to green, inverses for A + B
 ____________________________________________________________________________________________
 MUSCLE AND FAT MASS LOSS
 
@@ -175,6 +172,9 @@ The heart attack feature seems to work - though p_0 may need to be even lower (a
  Maybe they should scroll as you advance beyond 1 year?
 
 Heart attack should be based on heart strength and strain, not previous algorithm for heart attack.
+
+I think there should be a warning for the 35-50% fat range also...but I'm not sure what.
+"low" doesn't really work, because that is true for the whole range. Maybe "above normal", then "moderate", etc.?
 
 #######################################################################################
 ##############                    To Discuss                             ##############
