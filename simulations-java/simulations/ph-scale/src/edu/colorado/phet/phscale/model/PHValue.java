@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.phscale.model;
 
+import edu.colorado.phet.phscale.util.PrecisionDecimal;
+
 
 /**
  * PHValue is an immutable pH value that is constrained to some precision.
