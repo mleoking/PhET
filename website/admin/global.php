@@ -33,7 +33,7 @@
     }
 
     define("PHET_DOMAIN_NAME", "phet.colorado.edu");
-    define("PHET_HELP_EMAIL", "phethelp@phet.colorado.edu");
+    define("PHET_HELP_EMAIL", "phethelp@colorado.edu");
 
     // Latest versions of flash and java
     define("JAVA_MIN_VERSION", "1.4.2_17");
