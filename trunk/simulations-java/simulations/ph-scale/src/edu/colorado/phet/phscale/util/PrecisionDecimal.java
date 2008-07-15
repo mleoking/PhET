@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.phscale.model;
+package edu.colorado.phet.phscale.util;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
