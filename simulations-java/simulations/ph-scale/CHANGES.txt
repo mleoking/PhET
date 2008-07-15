@@ -15,7 +15,7 @@ LOW PRIORITY:
 
 
 DONE:
-******* version 0.00.19 (?)
+******* version 0.00.19 (23240)
 7/15/08 - change type of Liquid's pH property from Double to PHValue
 7/15/08 - implement PHValue as an extension of PrecisionDecimal, with 2 significant decimal places
 7/15/08 - write PrecisionDecimal for constraining doubles to some number of decimal places
