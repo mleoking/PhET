@@ -8,7 +8,7 @@ public class DefaultHumanUpdate implements HumanUpdate {
     private CompositeHumanUpdate compositeHumanUpdate = new CompositeHumanUpdate();
 
     public DefaultHumanUpdate() {
-        compositeHumanUpdate.add( new MuscleAndFatMassLoss() );
+        compositeHumanUpdate.add( new MuscleAndFatMassLoss2() );
     }
 
     public void update( Human human, double dt ) {
