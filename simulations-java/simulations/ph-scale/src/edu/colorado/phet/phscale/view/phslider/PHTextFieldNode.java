@@ -110,9 +110,7 @@ public class PHTextFieldNode extends PNode {
         if ( !_range.contains( pH ) ) {
             throw new IllegalArgumentException( "pH is out of range: " + pH );
         }
-        // do comparison on strings, so that we're using the precision displayed by the text field
-        String pHString = VALUE_FORMAT.format( pH );
-        if ( !pHString.equals( _textField.getText() ) ) {
+        if ( pH != _pH ) {
             _pH = pH;
             setTextField( pH );
             notifyChanged();

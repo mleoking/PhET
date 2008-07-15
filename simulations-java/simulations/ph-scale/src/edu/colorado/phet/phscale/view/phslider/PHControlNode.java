@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.PHValue;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -129,12 +130,12 @@ public class PHControlNode extends PNode {
     
     private void update() {
         _notifyEnabled = false;
-        Double pH = _liquid.getPH();
+        PHValue pH = _liquid.getPH();
         if ( pH != null ) {
             _sliderNode.setEnabled( true );
             _textFieldNode.setEnabled( true );
-            _sliderNode.setPH( pH.doubleValue() );
-            _textFieldNode.setPH( pH.doubleValue() );
+            _sliderNode.setPH( pH.getValue() );
+            _textFieldNode.setPH( pH.getValue() );
         }
         else {
             _sliderNode.setEnabled( false );

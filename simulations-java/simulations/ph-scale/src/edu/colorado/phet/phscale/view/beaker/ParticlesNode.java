@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.phscale.PHScaleApplication;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.PHValue;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -59,7 +60,7 @@ public class ParticlesNode extends PComposite {
     private final Random _randomCoordinate;
     private HTMLNode _numbersNode;
    
-    private Double _pH; // used to watch for pH change in the liquid
+    private PHValue _pH; // used to watch for pH change in the liquid
     private int _numberOfParticlesAtPH7; // number of particles created when pH=7
     private int _numberOfParticlesAtPH15; // number of particles created when pH=15
     private int _minMinorityParticles; // min number of minority type of particle
@@ -260,7 +261,7 @@ public class ParticlesNode extends PComposite {
      */
     private void update() {
         if ( getVisible() ) {
-            Double previousPH = _pH;
+            PHValue previousPH = _pH;
             _pH = _liquid.getPH();
             if ( _pH == null ) {
                 deleteAllParticles();
@@ -294,7 +295,7 @@ public class ParticlesNode extends PComposite {
     
     /*
      * Creates particle nodes based on the current pH value.
-     * Particles are spread throughout the container without consideratin of actual liquid volume.
+     * Particles are spread throughout the container without consideration of actual liquid volume.
      * This allows us to simply expose more particles (via LiquidNode) as the liquid's volume increases.
      */
     private void createParticles() {
@@ -302,7 +303,7 @@ public class ParticlesNode extends PComposite {
         
         deleteAllParticles();
         
-        final double pH = _pH.doubleValue();
+        final double pH = _pH.getValue();
 
         if ( pH >= ACID_PH_THRESHOLD && pH <= BASE_PH_THRESHOLD ) {
             // # particles varies logarithmically in this range

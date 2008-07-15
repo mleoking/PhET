@@ -52,7 +52,7 @@ public class Liquid extends ClockAdapter {
     private LiquidDescriptor _liquidDescriptor;
     private final LiquidDescriptorListener _liquidDescriptorListener;
     
-    private Double _pH;
+    private PHValue _pH;
     private double _liquidVolume; // L
     private double _waterVolume; // L
 
@@ -180,13 +180,13 @@ public class Liquid extends ClockAdapter {
         }
         
         // adjust pH of this liquid
-        if ( _pH != null && pH != _pH.doubleValue() ) {
-            _pH = new Double( clampedPH );
+        if ( _pH != null && pH != _pH.getValue() ) {
+            _pH = new PHValue( clampedPH );
             notifyStateChanged();
         }
     }
     
-    public Double getPH() {
+    public PHValue getPH() {
         return _pH;
     }
     
@@ -389,7 +389,7 @@ public class Liquid extends ClockAdapter {
     public double getConcentrationH3O() {
         double c = 0;
         if ( _pH != null ) {
-            c = getConcentrationH3O( _pH.doubleValue() );
+            c = getConcentrationH3O( _pH.getValue() );
         }
         return c;
     }
@@ -405,7 +405,7 @@ public class Liquid extends ClockAdapter {
     public double getConcentrationOH() {
         double c = 0;
         if ( _pH != null ) {
-            c = getConcentrationOH( _pH.doubleValue() );
+            c = getConcentrationOH( _pH.getValue() );
         }
         return c;
     }
@@ -528,15 +528,15 @@ public class Liquid extends ClockAdapter {
         }
         else if ( _waterVolume == 0 ) {
             // all liquid
-            _pH = new Double( _liquidDescriptor.getPH() );
+            _pH = new PHValue( _liquidDescriptor.getPH() );
         }
         else if ( _liquidVolume == 0 ) {
             // all water
-            _pH = new Double( WATER.getPH() );
+            _pH = new PHValue( WATER.getPH() );
         }
         else {
             // some liquid and some water
-            _pH = new Double( pHCombined( _liquidDescriptor.getPH(), _liquidVolume, WATER.getPH(), _waterVolume ) );
+            _pH = new PHValue( pHCombined( _liquidDescriptor.getPH(), _liquidVolume, WATER.getPH(), _waterVolume ) );
         }
         notifyStateChanged();
     }
