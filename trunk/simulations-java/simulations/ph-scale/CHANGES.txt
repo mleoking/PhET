@@ -3,8 +3,6 @@ Change history for ph-scale
 ================================================================================
 
 HIGH PRIORITY:
-- Laurie can't type into pH text field in 0.00.18, everyone else can
-- Kathy reports that least significant digit of H3O concentration doesn't match what is expected
 
 MEDIUM PRIORITY:
 - use consistent H3O/OH/H2O colors for bars, molecules, particles and Water
@@ -17,6 +15,10 @@ LOW PRIORITY:
 
 
 DONE:
+7/15/08 - change type of Liquid's pH property from Double to PHValue
+7/15/08 - implement PHValue as an extension of PrecisionDecimal, with 2 significant decimal places
+7/15/08 - write PrecisionDecimal for constraining doubles to some number of decimal places
+7/15/08 - revert PHTextFieldNode workaround for Unfuddle #660, caused value entry problems
 7/14/08 - update model documentation to correct mistakes
 ******* version 0.00.18 (23214)
 7/14/08 - move switch to custom liquid into Liquid.setPH, so that you can't set the pH unless it's a Custom liquid

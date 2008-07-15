@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
+import edu.colorado.phet.phscale.model.PHValue;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -143,9 +144,11 @@ public class ProbeNode extends PComposite {
             parentNode.setOffset( DISPLAY_BORDER_MARGIN, DISPLAY_BORDER_MARGIN );
         }
         
-        public void setValue( Double pH ) {
+        public void setValue( PHValue pH ) {
             if ( pH != null ) {
-                _valueNode.setText( DISPLAY_FORMAT.format( pH ) );
+                final double doubleValue = pH.getValue();
+                String stringValue = DISPLAY_FORMAT.format( doubleValue );
+                _valueNode.setText( stringValue );
             }
             else {
                 _valueNode.setText( "" );  
