@@ -2,6 +2,7 @@ New in 0.00.55
 Fixed: Graph time range doesn't update when the user modifies the age
 Clicking on the track of the slider changes its value.
 Changed exercise time increment from 1 hour to 15 minutes
+Cleaned up food and exercise text
 
 New in 0.00.54
 Clean up foods and exercises
