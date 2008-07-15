@@ -17,7 +17,8 @@ For instance, you could have 2% fat and be as muscular as a pro body builder - b
 it would automatically start adding fat. Likewise, if you were at the low end of FFM and had 15% fat,
 if you went below this weight it would start removing fat (since you would be nearly out of muscle to remove).
 
-Along with this we will have a button near the % fat slider that says "Auto" or something like that. When you click it, it automatically calculates a % fat based on activity, height, and weight.
+Along with this we will have a button near the % fat slider that says "Auto" or something like that.
+When you click it, it automatically calculates a % fat based on activity, height, and weight.
 
 Heart attack should be based on heart strength and strain, not previous algorithm for heart attack.
 
@@ -31,7 +32,8 @@ Noah: construct text for heart ? explanation
 
 Add heart ? that shows text
 
-Ah good. I found the warning message. I think there should be a warning for the 35-50% fat range also...but I'm not sure what. "low" doesn't really work, because that is true for the whole range. Maybe "above normal", then "moderate", etc.?
+Ah good. I found the warning message. I think there should be a warning for the 35-50% fat range also...but I'm not sure what.
+"low" doesn't really work, because that is true for the whole range. Maybe "above normal", then "moderate", etc.?
 
  Wendy said:
  	The equations below for muscle gained due to exercise still have the
@@ -40,7 +42,9 @@ is for men and that women would be 91% and BMI 26 I think you found.  I also
 don't see the muscle mass loss due to lack of exercise.
 
 Noah said:
-The heart attack feature seems to work - though p_0 may need to be even lower (at p_0 = 0.0001 it usually kills the person within the year). So do we want the heart attack to happen at a typical time of 2-3 years? In the sim, when you go beyond 1 year, nothing happens in the charts. Maybe they should scroll as you advance beyond 1 year? 
+The heart attack feature seems to work - though p_0 may need to be even lower (at p_0 = 0.0001 it usually kills the person within the year).
+ So do we want the heart attack to happen at a typical time of 2-3 years? In the sim, when you go beyond 1 year, nothing happens in the charts.
+ Maybe they should scroll as you advance beyond 1 year? 
 
 Add and change all images for food and exercise.
 ____________________________________________________________________________________________
