@@ -62,6 +62,8 @@ public class Human {
     private double heartStrain;
     private double heartStrength;
 
+    private HumanUpdate humanUpdate = new DefaultHumanUpdate();
+
     public Human() {
         lipids.addListener( new IVariable.Listener() {
             public void valueChanged() {
@@ -286,11 +288,11 @@ public class Human {
     }
 
 
-    private double getFatMass() {
+    public double getFatMass() {
         return getFatMassPercent() / 100.0 * getMass();
     }
 
-    private double getLeanBodyMass() {
+    public double getLeanBodyMass() {
         return getFatFreeMassPercent() / 100.0 * getMass();
     }
 
@@ -421,73 +423,9 @@ public class Human {
     }
 
     public void simulationTimeChanged( double simulationTimeChange ) {
-
-        double originalBodyFatPercent = getFatMassPercent();
-        double originalMass = getMass();
-
         setAge( getAge() + simulationTimeChange );
-        double caloriesGainedPerDay = getDeltaCaloriesGainedPerDay();
-//        double kgGainedPerDay = EatingAndExerciseUnits.caloriesToKG( caloriesGainedPerDay );
 
-        double caloriesGained = caloriesGainedPerDay * EatingAndExerciseUnits.secondsToDays( simulationTimeChange );
-
-
-        if ( caloriesGained < 0 ) {//losing weight
-            double caloriesBurned = -caloriesGained;
-            //free parameters:
-            // a) LBM + FAT mass
-            // b) BodyFatPercent + total mass
-
-//        >>>Model for weight loss:
-//
-//	LBM_lost (g) = 0.12 * 4 * Cal_burned
-//	Fat_lost (g) = 0.88 * 9 * Cal_burned
-//
-//>>>Starvation mode:
-//	When starving (<2%/4% for men/women) make the ratio switch, with buffering as follows:
-//		%fat 2-4% (men), 4-6% (women): 	LBM loss 50%, Fat loss 50%
-//		%fat < 2% (men), < 4% (women): 	LBM loss 95%, Fat loss 5%. (this might become 100% LBM...not yet sure).
-
-
-            double LBM = getLeanBodyMass();
-            double fatMass = getFatMass();
-
-//            double scaleFix = 0.428 / 27.742;//todo: fix this
-            double scaleFix = 1;
-            // added this to make expected mass change equal known mass change
-            //actually, maybe this is okay, since the previous value probably had a different distribution of calories
-
-            double deltaLBM = -0.12 / 4 * caloriesBurned / 1000 * scaleFix;
-            double deltaFatMass = -0.88/ 9 * caloriesBurned / 1000 * scaleFix;
-
-            double deltaMass = deltaLBM + deltaFatMass;
-            double expectedDeltaMass = EatingAndExerciseUnits.caloriesToKG( caloriesGained );
-
-            double newLBM = deltaLBM + LBM;
-            double newFatMass = deltaFatMass + fatMass;
-
-            if ( newFatMass < 0 ) {
-                double massThatShouldHaveComeFromFatButCouldntBecauseFatIsDepleted = -newFatMass;
-                newFatMass = 1E-6;
-
-                newLBM = newLBM - massThatShouldHaveComeFromFatButCouldntBecauseFatIsDepleted;
-                if ( newLBM < 0 ) {
-                    newLBM = 1E-6;
-                }
-
-            }
-
-            double newMass = newLBM + fatMass;
-            double newFatPercent = newFatMass / newMass * 100.0;
-
-            setMass( newMass );
-            setFatMassPercent( newFatPercent );
-            mass.addValue( getMass(), getAge() );
-        }
-        else {
-            setMass( getMass() + EatingAndExerciseUnits.caloriesToKG( caloriesGained ) );
-            mass.addValue( getMass(), getAge() );
-        }
+        humanUpdate.update( this, simulationTimeChange );
 
         caloricIntakeVariable.setValue( getDailyCaloricIntake() );
         caloricIntakeVariable.addValue( getDailyCaloricIntake(), getAge() );
@@ -597,7 +535,7 @@ public class Human {
         return gender.isStarving( this );
     }
 
-    private double getDeltaCaloriesGainedPerDay() {
+    public double getDeltaCaloriesGainedPerDay() {
         return getDailyCaloricIntake() - getDailyCaloricBurn();
     }
 

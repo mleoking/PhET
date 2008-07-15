@@ -32,7 +32,7 @@ gradient color red to green, inverses for A + B
 
 Noah: construct text for heart ? explanation
 
-Add heart ? that show's text
+Add heart ? that shows text
 
 Ah good. I found the warning message. I think there should be a warning for the 35-50% fat range also...but I'm not sure what. "low" doesn't really work, because that is true for the whole range. Maybe "above normal", then "moderate", etc.?
 
