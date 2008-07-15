@@ -74,17 +74,16 @@ public class EatingAndExerciseFileParser {
 
     private static class ExerciseItemParser implements IParser {
         public Object parseLine( String line, double referenceWeightPounds, Human human ) {
-            String name = line.substring( 0, line.indexOf( ":" ) );
-//            System.out.println( "name = " + name );
+            String key = line.substring( 0, line.indexOf( ":" ) );
             String remainder = line.substring( line.indexOf( ":" ) + 1 );
             StringTokenizer st = new StringTokenizer( remainder, "," );
-            double baseCalories = Double.parseDouble( st.nextToken() );
+            double baseCalories = Double.parseDouble( st.nextToken() ) / 4;
             double weightDependence = Double.parseDouble( st.nextToken() );
             String image = "";
             if ( st.hasMoreTokens() ) {
                 image = st.nextToken().trim();
             }
-            return new ExerciseItem( EatingAndExerciseResources.getString( name ), image, baseCalories, weightDependence, referenceWeightPounds, human );
+            return new ExerciseItem( "15 minutes " + EatingAndExerciseResources.getString( key ), image, baseCalories, weightDependence, referenceWeightPounds, human );
         }
     }
 }
