@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
- * PrecisionDecimal is value that is constrained to some specified number of decimal places.
+ * PrecisionDecimal is a value that is constrained to some specified number of decimal places.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -37,7 +37,7 @@ public class PrecisionDecimal {
     }
     
     /*
-     * Creates a formatter for numbers.
+     * Creates a formatter for decimal numbers.
      */
     private static DecimalFormat createFormat( int numberOfDecimalPlaces ) {
         String pattern = "0";
@@ -105,10 +105,15 @@ public class PrecisionDecimal {
         PrecisionDecimal d1 = new PrecisionDecimal( 12.345678, 2 );
         System.out.println( d1.getPreciseValue() + " to " + d1.getNumberOfDecimalPlaces() + " places = " + d1.getValue() );
         
-        PrecisionDecimal d2 = new PrecisionDecimal( 9.876543210, 3 );
+        PrecisionDecimal d2 = new PrecisionDecimal( 12.345678, 3 );
         System.out.println( d2.getPreciseValue() + " to " + d2.getNumberOfDecimalPlaces() + " places = " + d2.getValue() );
         
         PrecisionDecimal d3 = new PrecisionDecimal( -1.456789, 1 );
         System.out.println( d3.getPreciseValue() + " to " + d3.getNumberOfDecimalPlaces() + " places = " + d3.getValue() );
+        
+        PrecisionDecimal d4 = new PrecisionDecimal( 1.344, 2 );
+        PrecisionDecimal d5 = new PrecisionDecimal( 1.340, 2 );
+        
+        System.out.println( d4.getPreciseValue() + ( ( d4.getValue() == d5.getValue() ) ? " == " : " != " ) + d5.getPreciseValue() );
     }
 }
