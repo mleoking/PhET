@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.18
+ph-scale 0.00.19
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,10 +12,8 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>change the model for combining liquids to deal with dilution of bases properly
-<li>rewrite major portions of the model dealing with filling and draining to accommodate above change
-<li>hide drag handle for linear scale when bar value is zero
-<li>workaround for pH text field selection problem (Piccolo issue, see Unfuddle #660)
+<li>fix problem with pH text field, it would ignore values that had 2 or more decimal places
+<li>limit precision of pH value to 2 decimal places throughout the model, so that student calculations match displayed values
 </ul>
 <p>
 <b>Know issues:</b>
