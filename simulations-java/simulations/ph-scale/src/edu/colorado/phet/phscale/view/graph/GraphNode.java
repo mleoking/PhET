@@ -99,8 +99,6 @@ public class GraphNode extends PNode {
     private static final Stroke GRIDLINE_STROKE = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 ); // dashed
     private static final Color GRIDLINE_COLOR = new Color(192, 192, 192, 100 ); // translucent gray
     
-    private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
