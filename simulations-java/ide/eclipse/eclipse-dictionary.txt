@@ -28,6 +28,8 @@ glyphs
 Google
 headwall
 Hollywood
+hydronium
+hydroxide
 javadoc
 javaws
 jblanco
