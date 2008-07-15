@@ -3,6 +3,7 @@ Change history for ph-scale
 ================================================================================
 
 HIGH PRIORITY:
+- Laurie can't type into pH text field in 0.00.18, everyone else can
 
 MEDIUM PRIORITY:
 - use consistent H3O/OH/H2O colors for bars, molecules, particles and Water
