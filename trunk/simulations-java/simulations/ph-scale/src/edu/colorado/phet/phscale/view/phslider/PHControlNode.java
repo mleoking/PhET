@@ -34,8 +34,6 @@ public class PHControlNode extends PNode {
     private static final double TRACK_WIDTH = 10;
     private static final PDimension KNOB_SIZE = new PDimension( 40, 30 );
     
-    private static final CustomLiquidDescriptor CUSTOM_LIQUID = LiquidDescriptor.getCustom();
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
