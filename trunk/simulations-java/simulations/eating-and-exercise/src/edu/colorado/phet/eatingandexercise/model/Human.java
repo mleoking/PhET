@@ -535,6 +535,10 @@ public class Human {
         return gender.isStarving( this );
     }
 
+    public boolean isAlmostStarving() {
+        return gender.isAlmostStarving( this );
+    }
+
     public double getDeltaCaloriesGainedPerDay() {
         return getDailyCaloricIntake() - getDailyCaloricBurn();
     }
@@ -636,8 +640,8 @@ public class Human {
     }
 
     public static class Gender {
-        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25, 1.15 );
-        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32, 1.22 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25, 1.15, 4 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32, 1.22, 6 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
@@ -645,14 +649,16 @@ public class Human {
         private double heartAttackFatMassPercentThreshold;
         public static double P0 = 1.0 / 100.0;
         private double LMBScaleFactor;
+        private double almostStarvingUpperThreshold;
 
-        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold, double lmbScaleFactor ) {
+        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold, double lmbScaleFactor, double almostStarvingUpperThreshold ) {
             this.name = name;
             this.minFatMassPercent = minFatMassPercent;
             this.maxFatMassPercent = maxFatMassPercent;
             this.starvingFatMassPercentThreshold = starvingFatMassPercentThreshold;
             this.heartAttackFatMassPercentThreshold = heartAttackFatMassPercentThreshold;
-            LMBScaleFactor = lmbScaleFactor;
+            this.LMBScaleFactor = lmbScaleFactor;
+            this.almostStarvingUpperThreshold = almostStarvingUpperThreshold;
         }
 
         public String toString() {
@@ -691,6 +697,10 @@ public class Human {
 
         public double getLBMScaleFactor() {
             return LMBScaleFactor;
+        }
+
+        public boolean isAlmostStarving( Human human ) {
+            return human.getFatMassPercent() >= starvingFatMassPercentThreshold && human.getFatMassPercent() <= almostStarvingUpperThreshold;
         }
     }
 

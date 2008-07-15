@@ -12,13 +12,26 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
         double caloriesGainedPerDay = human.getDeltaCaloriesGainedPerDay();
         double caloriesGained = caloriesGainedPerDay * EatingAndExerciseUnits.secondsToDays( dt );
 
+        double fractionFatLost = 0.88;
+        if ( human.isAlmostStarving() ) {
+            fractionFatLost = 0.5;
+        }
+        else if ( human.isStarving() ) {
+            fractionFatLost = 0.05;
+        }
+
         if ( caloriesGained < 0 ) {//losing weight
             double caloriesLost = -caloriesGained;
             double totalKGLost = EatingAndExerciseUnits.caloriesToKG( caloriesLost );
-            double kgFatLost = totalKGLost * 0.88;
-            double kgLBMLost = totalKGLost * 0.12;
+            double kgFatLost = totalKGLost * fractionFatLost;
             double newMass = human.getMass() - totalKGLost;
+            if ( newMass <= 0 ) {
+                newMass = 0;
+            }
             double newFatMass = human.getFatMass() - kgFatLost;
+            if ( newFatMass <= 0 ) {//todo: better corner case handling
+                newFatMass = 0;
+            }
             double newFatMassPercent = newFatMass / newMass * 100.0;
             updateMass( human, newMass );
             human.setFatMassPercent( newFatMassPercent );
