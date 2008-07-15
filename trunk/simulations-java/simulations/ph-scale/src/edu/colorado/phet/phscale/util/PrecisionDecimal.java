@@ -79,6 +79,25 @@ public class PrecisionDecimal {
     }
     
     /**
+     * Equal if their constrained values are the same.
+     */
+    public boolean equals( Object o ) {
+        boolean equals = false;
+        if ( o instanceof PrecisionDecimal ) {
+            PrecisionDecimal d = (PrecisionDecimal) o;
+            equals = ( d.getValue() == getValue() );
+        }
+        return equals;
+    }
+    
+    /**
+     * String representation of the constrained value.
+     */
+    public String toString() {
+        return _bigDecimal.toString();
+    }
+    
+    /**
      * Test & examples.
      */
     public static void main( String[] args ) {
