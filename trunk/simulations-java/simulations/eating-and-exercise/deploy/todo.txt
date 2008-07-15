@@ -2,6 +2,23 @@
 ##############                    To Do                                  ##############
 #######################################################################################
 
+After 6 hours exercise, no more benefit
+
+happy heart should be A+B
+
+gradient color red to green, inverses for A + B
+
+Noah: construct text for heart ? explanation
+
+Add heart ? that shows text
+
+I think there should be a warning for the 35-50% fat range also...but I'm not sure what.
+"low" doesn't really work, because that is true for the whole range. Maybe "above normal", then "moderate", etc.?
+
+Add and check all images for food and exercise.
+___________________________________________________________________________________________
+USER SPECIFIED BODY PARAMETERS
+
 height, weight and fat % will be the independent variables, but fat will be constrained by (the explanation below)
     >>NP - FFM range for men is 18.5/1.15*h^2 to 30/1.15*h^2, for women 18.5/1.23*h^2 to 30/1.23*h^2.
         >>This comes from assuming average % fat for people in this range (15% for men, 23% for women).
@@ -20,33 +37,6 @@ if you went below this weight it would start removing fat (since you would be ne
 Along with this we will have a button near the % fat slider that says "Auto" or something like that.
 When you click it, it automatically calculates a % fat based on activity, height, and weight.
 
-Heart attack should be based on heart strength and strain, not previous algorithm for heart attack.
-
-After 6 hours exercise, no more benefit
-
-happy heart should be A+B
-
-gradient color red to green, inverses for A + B
-
-Noah: construct text for heart ? explanation
-
-Add heart ? that shows text
-
-Ah good. I found the warning message. I think there should be a warning for the 35-50% fat range also...but I'm not sure what.
-"low" doesn't really work, because that is true for the whole range. Maybe "above normal", then "moderate", etc.?
-
- Wendy said:
- 	The equations below for muscle gained due to exercise still have the
-algebra error.  LBM_O = W *96% = BMI*h2 * 96%  You also don't mention this
-is for men and that women would be 91% and BMI 26 I think you found.  I also
-don't see the muscle mass loss due to lack of exercise.
-
-Noah said:
-The heart attack feature seems to work - though p_0 may need to be even lower (at p_0 = 0.0001 it usually kills the person within the year).
- So do we want the heart attack to happen at a typical time of 2-3 years? In the sim, when you go beyond 1 year, nothing happens in the charts.
- Maybe they should scroll as you advance beyond 1 year? 
-
-Add and change all images for food and exercise.
 ____________________________________________________________________________________________
 FOOD LIST
 
@@ -154,6 +144,12 @@ your caloric intake (if you undereat, your BMR should drop some to compensate, v
    
 >>> all other weight gained is added fat mass.
 
+ Wendy said:
+ 	The equations below for muscle gained due to exercise still have the
+algebra error.  LBM_O = W *96% = BMI*h2 * 96%  You also don't mention this
+is for men and that women would be 91% and BMI 26 I think you found.  I also
+don't see the muscle mass loss due to lack of exercise.
+
 ____________________________________________________________________________________________
 STARVATION AND HEART ATTACK
 
@@ -172,7 +168,13 @@ NP - let's say 2% for men, 4% for women.
 	p_attack = p_0 * (%fat - %fat_0)
 
 	...where p_0 is a constant we adjust to make heart attack fairly likely (within a couple of years) for $fat > 50, %fat_0 = 25%/32% for men/women.
-	
+
+Noah said:
+The heart attack feature seems to work - though p_0 may need to be even lower (at p_0 = 0.0001 it usually kills the person within the year).
+ So do we want the heart attack to happen at a typical time of 2-3 years? In the sim, when you go beyond 1 year, nothing happens in the charts.
+ Maybe they should scroll as you advance beyond 1 year?
+
+Heart attack should be based on heart strength and strain, not previous algorithm for heart attack.
 
 #######################################################################################
 ##############                    To Discuss                             ##############
