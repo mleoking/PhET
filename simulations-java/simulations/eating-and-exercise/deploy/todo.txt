@@ -6,7 +6,7 @@ Noah: construct text for heart ? explanation
 
 Add heart ? that shows text
 
-Finish adding images for food and exercise.
+Finish adding images for food and exercise
 ___________________________________________________________________________________________
 USER SPECIFIED BODY PARAMETERS
 

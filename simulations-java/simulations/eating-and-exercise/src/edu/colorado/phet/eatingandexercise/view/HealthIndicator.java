@@ -1,5 +1,7 @@
 package edu.colorado.phet.eatingandexercise.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
@@ -34,7 +36,7 @@ public class HealthIndicator extends PNode {
         private Human human;
 
         public HeartStrengthIndicatorBar( final Human human ) {
-            super( "<html>Heart Strength</html>", 0, 2000, 250, 1000, INDICATOR_BAR_HEIGHT );
+            super( "<html>Heart Strength</html>", 0, 2000, 250, 1000, INDICATOR_BAR_HEIGHT, Color.red, Color.green );
             this.human = human;
             human.addListener( new Human.Adapter() {
                 public void heartStrengthChanged() {
@@ -53,7 +55,7 @@ public class HealthIndicator extends PNode {
         private Human human;
 
         public HeartStrainIndicatorBar( Human human ) {
-            super( "<html>Heart Strain</html>", 0, 100, 16, 31, INDICATOR_BAR_HEIGHT );
+            super( "<html>Heart Strain</html>", 0, 100, 16, 31, INDICATOR_BAR_HEIGHT, Color.green, Color.red );
             this.human = human;
             human.addListener( new Human.Adapter() {
                 public void heartStrainChanged() {

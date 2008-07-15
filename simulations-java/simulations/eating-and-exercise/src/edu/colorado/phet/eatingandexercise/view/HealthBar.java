@@ -22,7 +22,7 @@ public class HealthBar extends PNode {
     private double viewHeight;
     private double viewWidth = 20;
 
-    public HealthBar( String name, double min, double max, double minOptimal, double maxOptimal, double viewHeight ) {
+    public HealthBar( String name, double min, double max, double minOptimal, double maxOptimal, double viewHeight, Color minColor, Color maxColor ) {
         this.modelToView = new Function.LinearFunction( max, min, 0, viewHeight );//flip y axis
         this.min = min;
         this.max = max;
@@ -35,11 +35,14 @@ public class HealthBar extends PNode {
         addChild( label );
         label.rotate( -Math.PI / 2 );
         label.translate( -label.getFullBounds().getHeight() - boundary.getFullBounds().getHeight() - 4, 0 );
-        addChild( getPath( min, minOptimal, Color.red, Color.green ) );
-        addChild( getPath( minOptimal, maxOptimal, Color.green, Color.green ) );//todo :could be done with solid color
-        addChild( getPath( maxOptimal, max, Color.green, Color.red ) );
+//        addChild( getPath( min, minOptimal, Color.red, Color.green ) );
+//        addChild( getPath( minOptimal, maxOptimal, Color.green, Color.green ) );//todo :could be done with solid color
+//        addChild( getPath( maxOptimal, max, Color.green, Color.red ) );
 //        addChild( getPath( max ) );
 //        addChild( getPath( min ) );
+
+//        double avgOptimal = ( minOptimal + maxOptimal ) / 2;
+        addChild( getPath( min, max, minColor, maxColor ) );
 
         addChild( boundary );
     }
