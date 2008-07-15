@@ -1,5 +1,7 @@
 package edu.colorado.phet.eatingandexercise.model;
 
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.CaloricFoodItem;
+
 /**
  * Created by: Sam
  * Jul 14, 2008 at 8:12:19 PM
@@ -46,6 +48,7 @@ public class MuscleAndFatMassLoss implements HumanUpdate {
             double newFatMass = deltaFatMass + fatMass;
 
             if ( newFatMass < 0 ) {
+                System.out.println( "new fat mass was negative" );
                 double massThatShouldHaveComeFromFatButCouldntBecauseFatIsDepleted = -newFatMass;
                 newFatMass = 1E-6;
 
@@ -67,4 +70,21 @@ public class MuscleAndFatMassLoss implements HumanUpdate {
             human.getMassVariable().addValue( human.getMass(), human.getAge() );
         }
     }
+
+    public static void main( String[] args ) {
+        MuscleAndFatMassLoss muscleAndFatMassLoss = new MuscleAndFatMassLoss();
+        Human h = new Human();
+        System.out.println( "  expected weight gain in one day "
+                            + EatingAndExerciseUnits.caloriesToKG( h.getDeltaCaloriesGainedPerDay() ) );
+        double mass = h.getMass();
+        muscleAndFatMassLoss.update( h, EatingAndExerciseUnits.daysToSeconds( 1 ) );
+        double finalMass = h.getMass();
+//        System.out.println( "mass = " + mass+",finalMass" );
+        double delta = finalMass - mass;
+        System.out.println( "delta = " + delta );
+        h.getSelectedFoods().addItem( new CaloricFoodItem( "Asparagus", "", 10, 10, 10 ) );
+        System.out.println( "  h.getDailyCaloricIntake() = " + h.getDailyCaloricIntake() );
+
+    }
+
 }
