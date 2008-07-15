@@ -18,8 +18,6 @@ I am not sure that I entirely agree with your calorie expenditures for physical 
     They seem a bit high and in many cases are absolute values. The total caloric cost for weight
     bearing activities should be based upon a per body weight value. What was your source for this information?
 
-Wendy wants exercise to be in 15 minute units instead of 1 hour. This should be as simple as dividing all the calories by 2. There should be some indicator in the sim that these exercise calories are for 15 minutes
-
 Add and change all images for food and exercise.
 
 Heart attack should be based on heart strength and strain, not previous algorithm for heart attack.
