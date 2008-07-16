@@ -49,7 +49,7 @@ public class PHScaleConstants {
     // View
     //----------------------------------------------------------------------------
     
-    public static final PDimension BEAKER_SIZE = new PDimension( 450, 450 );
+    public static final PDimension BEAKER_SIZE = new PDimension( 435, 450 );
     
     // size of the liquid column that comes out of the faucets
     public static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, BEAKER_SIZE.getHeight() + 30 );

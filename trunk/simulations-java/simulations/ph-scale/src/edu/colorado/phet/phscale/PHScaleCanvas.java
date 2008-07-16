@@ -72,7 +72,7 @@ public class PHScaleCanvas extends PhetPCanvas {
         // beaker at left
         _beakerControlNode.setOffset( 25, 15 );
         // pH control to right of beaker
-        double x = _beakerControlNode.getFullBoundsReference().getMaxX() + 35;
+        double x = _beakerControlNode.getFullBoundsReference().getMaxX() + 15;
         double y = _beakerControlNode.getFullBoundsReference().getY() + 56;
         _pHControlNode.setOffset( x, y );
         // Reset All button centered below pH control
