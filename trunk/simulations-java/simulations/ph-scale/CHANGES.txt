@@ -5,8 +5,9 @@ Change history for ph-scale
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- add volume display
-- variable rate flow for faucets
+- add volume display to right edge of beaker, 2 decimals of precision
+- VolumeValue in model, limited to 2 decimals of precision
+- linearly variable rate flow for faucets
 - use consistent H3O/OH/H2O colors for bars, molecules, particles and Water
 - make zoom buttons more fun looking, maybe using GradientButtonNode?
 
@@ -18,8 +19,11 @@ LOW PRIORITY:
 
 
 DONE:
-7/15/08 - use RGB=[193, 222, 227] for water liquid & graph bar
-7/15/08 - move all H3O/OH/H2O color specifications to PHScaleConstants
+7/16/08 - beaker minor ticks spaced at 0.1L intervals
+7/16/08 - beaker ticks labels at 1/2L and 1L only
+7/19/08 - maximum beaker volume of 1.2L
+7/16/08 - use RGB=[193, 222, 227] for water liquid & graph bar
+7/16/08 - move all H3O/OH/H2O color specifications to PHScaleConstants
 ******* version 0.00.19 (23240)
 7/15/08 - change type of Liquid's pH property from Double to PHValue
 7/15/08 - implement PHValue as an extension of PrecisionDecimal, with 2 significant decimal places
