@@ -5,6 +5,8 @@ Change history for ph-scale
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
+- add volume display
+- variable rate flow for faucets
 - use consistent H3O/OH/H2O colors for bars, molecules, particles and Water
 - make zoom buttons more fun looking, maybe using GradientButtonNode?
 
@@ -12,9 +14,12 @@ LOW PRIORITY:
 - delete MoleculeCountAlternateNode, associated developer controls, image files (*-big.png)
 - hand cursors don't work on PSwing check boxes and radio buttons [Unfuddle #653]
 - selection in PTextFieldNode doesn't behave properly [Unfuddle #660]
+- clicking twice in PTextFieldNode fires a change [Unfuddle #660]
 
 
 DONE:
+7/15/08 - use RGB=[193, 222, 227] for water liquid & graph bar
+7/15/08 - move all H3O/OH/H2O color specifications to PHScaleConstants
 ******* version 0.00.19 (23240)
 7/15/08 - change type of Liquid's pH property from Double to PHValue
 7/15/08 - implement PHValue as an extension of PrecisionDecimal, with 2 significant decimal places
