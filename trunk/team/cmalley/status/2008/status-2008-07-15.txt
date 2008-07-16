@@ -1,0 +1,61 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: July 9-15, 2008 (Wed-Tue)
+
+ACCOMPLISHMENTS:
+
+  pH Scale:
+  - set July 25 deadline for use by Science Discovery
+  - publish 0.00.10,11,12,13,14,15,16,17,18
+  - new "custom liquid" feature
+  - bar graph feature (with draggable bars, log & linear scales, zoom buttons)
+  - new "molecule counts" view (that we decided not to use)
+  - change defaults for liquid colors and particle parameters
+  - revised model to handle dilution of bases properly
+  - change representation of pH so that model doesn't use more than 2 decimal places
+  - rewrite significant portions of the model to accommodate changes
+  - Reset All feature
+  - generalize layout code
+  - fix misc reported bugs
+  - investigate general problems with Piccolo and Swing text fields
+  - internal code documentation
+  - general cleanup in preparation for 1.00 release
+  
+  Glaciers:
+  - set July 25 deadline for use by Science Discovery
+  - meeting to define review NOAA/Science Discovery feedback, summarized decisions in an email
+  - summarize background image change requests for Archie
+  - change x-axis and title to "air temperature" on "Temperature vs Elevation" chart
+  - change "Sea-level temperature" to "Sea-level air temperature"
+  - replace penguin with bear
+  - publish 0.00.32
+  
+  Flash sims:
+  - test JAR files with Translation Utility, discovered that most Flash sims won't run in anything but English
+  - test "Run Offline" website feature, discovered it was broken for most Flash sims
+  - create Unfuddle #655 to track Flash names changes needed in SVN
+  - verify misc changes made by Mike Dubson
+  
+  Misc:
+  - test installer on Mac OS, verify that all Flash sims run
+  - look at issue with LiquidExpansionThermometerNode on Mac for John Blanco (Unfuddle #656)
+ 
+WHAT'S NEXT:
+    
+  - wrap up ph-scale and publish 1.00 to PhET website for July 25 deadline
+    
+  - continue work on glaciers for July 25 deadline, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup
+ 
+  - continue working on deploy process for Flash sims
+       
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  July 26 - August 10
+  
+--
