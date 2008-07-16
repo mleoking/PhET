@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.phscale.PHScaleApplication;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.PHScaleStrings;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.PHValue;
@@ -46,8 +47,8 @@ public class ParticlesNode extends PComposite {
     private static final double DEFAULT_DIAMETER = 6;
     private static final int DEFAULT_MAJORITY_TRANSPARENCY = 140; // 0-255, transparent-opaque
     private static final int DEFAULT_MINORITY_TRANSPARENCY = 255; // 0-255, transparent-opaque
-    private static final Color DEFAULT_H3O_COLOR = new Color( 204, 0, 0 );
-    private static final Color DEFAULT_OH_COLOR = new Color( 0, 0, 255 );
+    private static final Color DEFAULT_H3O_COLOR = PHScaleConstants.H3O_PARTICLES_COLOR;
+    private static final Color DEFAULT_OH_COLOR = PHScaleConstants.OH_PARTICLES_COLOR;
     
     //----------------------------------------------------------------------------
     // Instance data

@@ -58,6 +58,9 @@ public class GraphNode extends PNode {
     
     // bars
     private static final double BAR_WIDTH = 50;
+    private static final Color H3O_BAR_COLOR = PHScaleConstants.H3O_COLOR;
+    private static final Color OH_BAR_COLOR = PHScaleConstants.OH_COLOR;
+    private static final Color H2O_BAR_COLOR = PHScaleConstants.H2O_COLOR;   
     
     // numeric values
     private static final Font VALUE_FONT = new PhetFont( Font.BOLD, PHScaleConstants.CONTROL_FONT_SIZE );
@@ -171,11 +174,11 @@ public class GraphNode extends PNode {
         addChild( _yAxisLabel );
         
         // bars
-        _h3oBarNode = new BarNode( BAR_WIDTH, PHScaleConstants.H3O_COLOR, _graphOutlineHeight );
+        _h3oBarNode = new BarNode( BAR_WIDTH, H3O_BAR_COLOR, _graphOutlineHeight );
         addChild( _h3oBarNode );
-        _ohBarNode = new BarNode( BAR_WIDTH, PHScaleConstants.OH_COLOR, _graphOutlineHeight );
+        _ohBarNode = new BarNode( BAR_WIDTH, OH_BAR_COLOR, _graphOutlineHeight );
         addChild( _ohBarNode );
-        _h2oBarNode = new BarNode( BAR_WIDTH, PHScaleConstants.H2O_COLOR, _graphOutlineHeight );
+        _h2oBarNode = new BarNode( BAR_WIDTH, H2O_BAR_COLOR, _graphOutlineHeight );
         addChild( _h2oBarNode );
         
         // line along the bottom of the graph, where bars overlap the outline

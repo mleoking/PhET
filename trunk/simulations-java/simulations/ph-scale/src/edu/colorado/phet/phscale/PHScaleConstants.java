@@ -74,16 +74,18 @@ public class PHScaleConstants {
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
 
     //----------------------------------------------------------------------------
-    // Paints
+    // Colors
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
     
-    // H3O, OH, H2O colors
+    // H3O, OH, H2O colors (used for pH slider track & bars)
     public static final Color H3O_COLOR = new Color( 242, 102, 101 );
     public static final Color OH_COLOR = new Color( 102, 132, 242 );
-    public static final Color H2O_COLOR = new Color( 102, 242, 241 );
+    public static final Color H2O_COLOR = new Color( 193, 222, 227 );
 
-    
+    // H3O and OH particle colors
+    public static final Color H3O_PARTICLES_COLOR = new Color( 204, 0, 0 );
+    public static final Color OH_PARTICLES_COLOR = new Color( 0, 0, 255 );
 }
