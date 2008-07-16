@@ -45,6 +45,7 @@ public class LiquidNode extends PComposite {
     private final PPath _liquidNode;
     private final ParticlesNode _particlesNode;
     private final PText _rgbaNode; // displays RGBA color of liquid, for debugging
+    private final VolumeValueNode _volumeValueNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -80,6 +81,10 @@ public class LiquidNode extends PComposite {
         _liquidNode = new PClip(); // clip particles to liquid
         _liquidNode.setStroke( null );
         addChild( _liquidNode );
+        
+        _volumeValueNode = new VolumeValueNode();
+        _volumeValueNode.setOffset( maxSize.getWidth() + 3, 0 ); // y offset will be set by update
+        addChild( _volumeValueNode );
         
         PBounds containerBounds = new PBounds( 0, 0, maxSize.getWidth(), maxSize.getHeight() );
         _particlesNode = new ParticlesNode( _liquid, containerBounds );
@@ -122,7 +127,7 @@ public class LiquidNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private void update() {
-
+        
         // color
         Color c = _liquid.getColor();
         _liquidNode.setPaint( c );
@@ -139,5 +144,9 @@ public class LiquidNode extends PComposite {
         _liquidPath.setRect( 0, _maxSize.getHeight() - liquidHeight, _maxSize.getWidth(), liquidHeight );
         _liquidNode.setPathTo( _liquidPath );
         _waterNode.setPathTo( _liquidPath );
+        
+        // value display, at right-top of volume
+        _volumeValueNode.setValue( _liquid.getVolume() );
+        _volumeValueNode.setOffset( _volumeValueNode.getXOffset(), _maxSize.getHeight() - liquidHeight );
     }
 }

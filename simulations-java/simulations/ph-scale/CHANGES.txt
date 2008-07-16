@@ -3,12 +3,12 @@ Change history for ph-scale
 ================================================================================
 
 HIGH PRIORITY:
-
-MEDIUM PRIORITY:
-- add volume display to right edge of beaker, 2 decimals of precision
 - VolumeValue in model, limited to 2 decimals of precision
 - linearly variable rate flow for faucets
-- use consistent H3O/OH/H2O colors for bars, molecules, particles and Water
+- get new H2O molecule SVG image from Archie
+- add SVG assets for H3O and OH molecules
+
+MEDIUM PRIORITY:
 - make zoom buttons more fun looking, maybe using GradientButtonNode?
 
 LOW PRIORITY:
@@ -19,6 +19,9 @@ LOW PRIORITY:
 
 
 DONE:
+7/16/08 - remove space between number and L units label to save room
+7/16/08 - reduce beaker width (15 pixels) to get space for volume value display
+7/16/08 - add volume display to right edge of beaker, 2 decimals of precision
 7/16/08 - beaker minor ticks spaced at 0.1L intervals
 7/16/08 - beaker ticks labels at 1/2L and 1L only
 7/19/08 - maximum beaker volume of 1.2L
