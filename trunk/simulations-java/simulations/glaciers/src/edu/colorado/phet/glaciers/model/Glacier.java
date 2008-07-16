@@ -156,10 +156,12 @@ public class Glacier extends ClockAdapter {
      */
     public void setSteadyState() {
         if ( !_steadyState ) {
-            _qela = Math.min( _climate.getELA(), _valley.getMaxElevation() );
+            final double maxElevation = _valley.getMaxElevation();
+            _qela = Math.min( _climate.getELA(), maxElevation );
             updateIceThickness();
             _steadyState = true;
             notifySteadyStateChanged();
+            assert( _qela < maxElevation );
         }
     }
     
