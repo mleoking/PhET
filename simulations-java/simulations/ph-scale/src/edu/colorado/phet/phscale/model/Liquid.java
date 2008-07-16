@@ -34,7 +34,7 @@ public class Liquid extends ClockAdapter {
     public static final double FAST_FILL_RATE = 0.03; // liters per clock tick
     public static final double FAST_FILL_VOLUME = 1.0; // liters
     
-    private static final double MAX_VOLUME = 1.125;
+    private static final double MAX_VOLUME = 1.2;
     private static final double AVOGADROS_NUMBER = 6.023E23;
     private static final double H2O_CONCENTRATION = 55; // moles/L
     

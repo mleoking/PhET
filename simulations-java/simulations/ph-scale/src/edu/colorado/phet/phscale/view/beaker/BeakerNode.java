@@ -24,11 +24,11 @@ public class BeakerNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String[] MAJOR_TICK_LABELS = { "\u00bc L", "\u00bd L", "\u00be L", "1 L", "1\u00bc L" }; // 1/4, 1/2, 3/4, 1,...
+    private static final String[] MAJOR_TICK_LABELS = { "\u00bd L", "1 L" }; // 1/2L, 1L
     
     private static final Color TICK_COLOR = Color.BLACK;
-    private static final double MINOR_TICK_SPACING = 1./16.; // liters
-    private static final int MINOR_TICKS_PER_MAJOR_TICK = 4;
+    private static final double MINOR_TICK_SPACING = 0.1; // L
+    private static final int MINOR_TICKS_PER_MAJOR_TICK = 5;
     private static final double MAJOR_TICK_LENGTH = 20;
     private static final double MINOR_TICK_LENGTH = 12;
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
@@ -80,7 +80,7 @@ public class BeakerNode extends PComposite {
         // tick marks
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
-        int numberOfTicks = (int) Math.floor( maxVolume / MINOR_TICK_SPACING );
+        int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
         final double rightX = size.getWidth(); // don't use bounds or position will be off because of stroke width
         final double bottomY = size.getHeight(); // don't use bounds or position will be off because of stroke width
         double deltaY = size.getHeight() / numberOfTicks;
