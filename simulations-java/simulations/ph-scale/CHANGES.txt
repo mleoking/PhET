@@ -19,6 +19,7 @@ LOW PRIORITY:
 
 
 DONE:
+7/16/08 - add SVG assets for H3O and OH molecules
 7/16/08 - remove space between number and L units label to save room
 7/16/08 - reduce beaker width (15 pixels) to get space for volume value display
 7/16/08 - add volume display to right edge of beaker, 2 decimals of precision
