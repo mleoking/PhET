@@ -3,42 +3,46 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-
-HIGH PRIORITY:
+- change timescale so that there is no difference between retreating and advancing (use receding model for both)
+- change timescale max to 200 
 - visual representation of snowfall (gradient paint, clipped to sky)
+- change snowfall visibility with snowfall checkbox
 - increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
 - BUG: very short advancing glacier starts off advancing very slowly, then speeds up (model problem)
-- switch user-interface between English and metric units
 - get new background image from Archie, add more to left of headwall, improve colors, add 3D cues, stretch y-axis of valley floor, reduce height of mountains to show more peaks
-
-MEDIUM PRIORITY:
-- add yaw to fake 3D perspective (terminus, ELA, etc) 
-? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
-- make sure everything works properly when clock is paused
 - start with terminus at far right of zoomed viewport
-- new image with more to right of headwall and stretched elevation
+
+HIGH PRIORITY:
+- rename module.basic package to module.intro
 - make shape of surface ripples look random
-- make default speed 2 years per sec
-- provide time estimate for climate experiments interface
+- make sure everything works properly when clock is paused
+- distribute features between Intro, Advanced, and Experiments panels
+- main control panel should be the same height in all modules
 - Intro View panel: units, equil line, snowfall, picture
 - Advanced View panel: units, equil line, ice flow, coordinates, snowfall, picture
+- hide any features that aren't implemented for July 25 deadline
+- close & reopen graph windows when switching modules
+
+MEDIUM PRIORITY:
+- start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
+- tweak alignment of mountains image, perspective (or image?) is a little off at headwall
+- switch user-interface between English and metric units
+- add yaw to fake 3D perspective (terminus, ELA, etc) 
+? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
+- make default speed 2 years per sec
+- provide time estimate for climate experiments interface
+- Experiments panel
 - more "cartoonish" view for Basic panel?
 - move steady state button to play area?
 - change color of ice flow vectors so that they are different than debris color?
-- change snowfall visibility with snowfall checkbox
-- start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
 - "steady state" button needs to advance clock to the time at which the glacier would reach its steady state
 - "steady state" button needs to fill in missing data in time-dependent graphs
 - "steady state" button needs to fill glacier with debris and surface ripples
 - always collect data for time-based graphs, keep "latest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
-- distribute features between Intro, Advanced, and Experiments panels
 - implement Save/Load feature
-- close & reopen graph windows when switching modules
-- main control panel should be the same height in all modules
 - PlayArea class is too big, refactor
 - AbstractModel class is too big, refactor
-- tweak alignment of mountains image, perspective (or image?) is a little off at headwall
 - improve performance on slower machines
 
 LOW PRIORITY:
