@@ -176,8 +176,19 @@ public class Liquid extends ClockAdapter {
         return _pH;
     }
     
+    /**
+     * Gets the volume of the liquid.
+     * <p>
+     * This implementation is an inelegant way to constrain the volume to a fixed number
+     * of decimal places, so that student calculations will match displayed values.
+     * The success of this approach relies on this method being called in all cases
+     * where volume is needed.  That includes public interfaces used by clients,
+     * and private methods within this class.
+     * 
+     * @return
+     */
     public double getVolume() {
-        return _liquidVolume + _waterVolume;
+        return new VolumeValue( _liquidVolume + _waterVolume ).getValue();
     }
     
     public double getMaxVolume() {
@@ -196,7 +207,7 @@ public class Liquid extends ClockAdapter {
         Color color = null;
         final double volume = getVolume();
         if ( volume > 0 ) {
-            if ( volume == _waterVolume ) {
+            if ( _liquidVolume == 0 ) {
                 // all water
                 color = WATER.getColor();
             }

@@ -20,9 +20,7 @@ public class PHScaleModule extends PiccoloModule {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final int CLOCK_FRAME_RATE = 25; // fps
-    private static final double CLOCK_DT = 1;
-    private static final IClock CLOCK = new ConstantDtClock( 1000 / CLOCK_FRAME_RATE, CLOCK_DT );
+    private static final IClock CLOCK = new ConstantDtClock( 1000 / PHScaleConstants.CLOCK_FRAME_RATE, PHScaleConstants.CLOCK_DT );
     
     //----------------------------------------------------------------------------
     // Instance data
