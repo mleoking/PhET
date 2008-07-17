@@ -3,8 +3,6 @@ Change history for ph-scale
 ================================================================================
 
 HIGH PRIORITY:
-- VolumeValue in model, limited to 2 decimals of precision
-- linearly variable rate flow for faucets
 
 MEDIUM PRIORITY:
 - make zoom buttons more fun looking, maybe using GradientButtonNode?
@@ -16,6 +14,9 @@ LOW PRIORITY:
 
 
 DONE:
+7/16/08 - tweak clock framerate and faucet fill rates, tradeoff of animation smoothness and titration precision
+7/16/08 - move clock constants into PHScaleConstants
+7/16/08 - VolumeValue in model, limited to 2 decimals of precision
 7/16/08 - generalize OnOffSliderNode and move to piccolo-phet
 7/16/08 - FaucetSliderNode, a slider for linearly variable flow rates
 7/16/08 - major changes to faucet controls to support variable flow rates
