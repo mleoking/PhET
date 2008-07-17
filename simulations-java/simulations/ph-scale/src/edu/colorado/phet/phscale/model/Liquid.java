@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.CustomLiquidDescriptor;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorAdapter;
 import edu.colorado.phet.phscale.model.LiquidDescriptor.LiquidDescriptorListener;
@@ -30,11 +31,10 @@ public class Liquid extends ClockAdapter {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final double SLOW_FILL_RATE = 0.005; // liters per clock tick
-    public static final double FAST_FILL_RATE = 0.03; // liters per clock tick
-    public static final double FAST_FILL_VOLUME = 1.0; // liters
+    private static final double MAX_VOLUME = 1.2; // L
+    private static final double AUTO_FILL_VOLUME = 1.0; // L
+    private static final double AUTO_FILL_RATE = PHScaleConstants.AUTO_FILL_RATE;
     
-    private static final double MAX_VOLUME = 1.2;
     private static final double AVOGADROS_NUMBER = 6.023E23;
     private static final double H2O_CONCENTRATION = 55; // moles/L
     
@@ -56,17 +56,10 @@ public class Liquid extends ClockAdapter {
     private double _liquidVolume; // L
     private double _waterVolume; // L
 
-    private boolean _isFillingLiquid;
-    private double _fillLiquidRate; // L per clock tick
-    private double _fillLiquidVolume; // L
-    
-    private boolean _isFillingWater;
-    private double _fillWaterRate; // L per clock tick
-    private double _fillWaterVolume; // L
-    
-    private boolean _isDraining;
+    private double _fillVolume; // L
+    private double _liquidFillRate; // L per clock tick
+    private double _waterFillRate; // L per clock tick
     private double _drainRate; // L per clock tick
-    private double _drainVolume; // L
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -96,17 +89,10 @@ public class Liquid extends ClockAdapter {
         _liquidVolume = 0;
         _waterVolume = 0;
 
-        _isFillingLiquid = false;
-        _fillLiquidRate = 0;
-        _fillLiquidVolume = MAX_VOLUME;
-
-        _isFillingWater = false;
-        _fillWaterRate = 0;
-        _fillWaterVolume = MAX_VOLUME;
-        
-        _isDraining = false;
+        _fillVolume = MAX_VOLUME;
+        _liquidFillRate = 0;
+        _waterFillRate = 0;
         _drainRate = 0;
-        _drainVolume = 0;
         
         setLiquidDescriptor( liquidDescriptor );
     }
@@ -137,7 +123,7 @@ public class Liquid extends ClockAdapter {
         _liquidDescriptor.addLiquidDescriptorListener( _liquidDescriptorListener );
         
         drainImmediately();
-        startFillingLiquid( FAST_FILL_RATE, FAST_FILL_VOLUME );
+        setLiquidFillRate( AUTO_FILL_RATE, AUTO_FILL_VOLUME);
         notifyStateChanged();
     }
     
@@ -228,43 +214,41 @@ public class Liquid extends ClockAdapter {
     }
     
     //----------------------------------------------------------------------------
-    // Filling & draining
+    // Filling
     //----------------------------------------------------------------------------
     
     /**
-     * Starts filling with the liquid specified via setLiquidDescriptor.
-     * Filling will continue until full.
+     * Sets the rate at which liquid will be filled to max volume.
      * 
      * @param fillRate how much to add each time the clock ticks (L)
      */
-    public void startFillingLiquid( double fillRate ) {
-        startFillingLiquid( fillRate, MAX_VOLUME );
+    public void setLiquidFillRate( double fillRate ) {
+        setLiquidFillRate( fillRate, MAX_VOLUME );
     }
     
-    /**
-     * Starts filling with the liquid specified via setLiquidDescriptor.
-     * Filling will continue until the specified volume is reached.
+    /*
+     * Sets the rate at which liquid will be filled to a specific volume.
      * 
      * @param fillRate how much to add each time the clock ticks (L)
-     * @param fillVolume stop filling when we reach this volume (L)
+     * @param fillVolume volume to fill to (L)
      */
-    public void startFillingLiquid( double fillRate, double fillVolume ) {
-        if ( !_isFillingLiquid && !isFull() && fillVolume > getVolume() ) {
-            _isFillingLiquid = true;
-            _fillLiquidRate = fillRate;
-            _fillLiquidVolume = fillVolume;
+    private void setLiquidFillRate( double fillRate, double fillVolume ) {
+        if ( fillRate != _liquidFillRate || fillVolume != _fillVolume ) {
+            _liquidFillRate = fillRate;
+            _fillVolume = fillVolume;
             notifyStateChanged();
         }
+    }
+    
+    public double getFillLiquidRate() {
+        return _liquidFillRate;
     }
     
     /**
      * Stops filling liquid.
      */
     public void stopFillingLiquid() {
-        if ( _isFillingLiquid ) {
-            _isFillingLiquid = false;
-            notifyStateChanged();
-        }
+        setLiquidFillRate( 0 );
     }
     
     /**
@@ -273,43 +257,30 @@ public class Liquid extends ClockAdapter {
      * @return true or false
      */
     public boolean isFillingLiquid() {
-        return _isFillingLiquid;
+        return ( _liquidFillRate != 0 );
     }
     
     /**
-     * Starts filling with water.
-     * Filling will continue until full.
+     * Sets the rate at which water will be filled.
      * 
      * @param fillRate how much to add each time the clock ticks (L)
      */
-    public void startFillingWater( double fillRate ) {
-        startFillingWater( fillRate, MAX_VOLUME );
-    }
-    
-    /**
-     * Starts filling with water.
-     * Filling will continue until the specified volume is reached.
-     * 
-     * @param fillRate how much to add each time the clock ticks (L)
-     * @param fillVolume stop filling when we reach this volume (L)
-     */
-    public void startFillingWater( double fillRate, double fillVolume ) {
-        if ( !_isFillingWater && !isFull() && fillVolume > getVolume() ) {
-            _isFillingWater = true;
-            _fillWaterRate = fillRate;
-            _fillWaterVolume = fillVolume;
+    public void setWaterFillRate( double fillRate ) {
+        if ( fillRate != _waterFillRate ) {
+            _waterFillRate = fillRate;
             notifyStateChanged();
         }
     }
     
+    public double getWaterFillRate() {
+        return _waterFillRate;
+    }
+    
     /**
-     * Stops filling.
+     * Stops filling water.
      */
     public void stopFillingWater() {
-        if ( _isFillingWater ) {
-            _isFillingWater = false;
-            notifyStateChanged();
-        }
+        setWaterFillRate( 0 );
     }
     
     /**
@@ -318,8 +289,12 @@ public class Liquid extends ClockAdapter {
      * @return true or false
      */
     public boolean isFillingWater() {
-        return _isFillingWater;
+        return ( _waterFillRate != 0 );
     }
+    
+    //----------------------------------------------------------------------------
+    // Draining
+    //----------------------------------------------------------------------------
     
     /**
      * Immediately drains to empty.
@@ -328,54 +303,41 @@ public class Liquid extends ClockAdapter {
         if ( !isEmpty() ) {
             _liquidVolume = 0;
             _waterVolume = 0;
+            _drainRate = 0;
             notifyStateChanged();
         }
     }
     
     /**
-     * Starts draining.
-     * Draining will continue until empty.
+     * Sets the drain rate.
      * 
      * @param drainRate how much to add each time the clock ticks (liters)
      */
-    public void startDraining( double drainRate ) {
-        startDraining( drainRate, 0 );
-    }
-    
-    /**
-     * Starts draining.
-     * Draining will continue until the specified volume is reached.
-     * 
-     * @param drainRate how much to add each time the clock ticks (liters)
-     * @param drainVolume stop draining when we reach this volume (liters)
-     */
-    public void startDraining( double drainRate, double drainVolume ) {
-        if ( !_isDraining && drainVolume < getVolume() ) {
-            _isFillingLiquid = false;
-            _isDraining = true;
+    public void setDrainRate( double drainRate ) {
+        if ( drainRate != _drainRate ) {
             _drainRate = drainRate;
-            _drainVolume = drainVolume;
             notifyStateChanged();
         }
+    }
+    
+    public double getDrainRate() {
+        return _drainRate;
     }
     
     /**
      * Stops draining.
      */
     public void stopDraining() {
-        if ( _isDraining ) {
-            _isDraining = false;
-            notifyStateChanged();
-        }
+        setDrainRate( 0 );
     }
     
     /**
-     * Are we in the process of draining?
+     * Are we draining?
      * 
      * @return true or false
      */
     public boolean isDraining() {
-        return _isDraining;
+        return ( _drainRate != 0 );
     }
     
     //----------------------------------------------------------------------------
@@ -466,13 +428,13 @@ public class Liquid extends ClockAdapter {
      * Fills or drains some liquid when the clock ticks.
      */
     public void clockTicked( ClockEvent clockEvent ) {
-        if ( _isFillingLiquid ) {
+        if ( isFillingLiquid() ) {
             stepFillLiquid();
         }
-        if ( _isFillingWater ) {
+        if ( isFillingWater() ) {
             stepFillWater();
         }
-        if ( _isDraining ) {
+        if ( isDraining() ) {
             stepDrain();
         }
     }
@@ -482,10 +444,10 @@ public class Liquid extends ClockAdapter {
      */
     private void stepFillLiquid() {
         final double currentVolume = getVolume();
-        final double volumeIncrease = Math.min( _fillLiquidRate, _fillLiquidVolume - currentVolume );
+        final double volumeIncrease = Math.min( _liquidFillRate, _fillVolume - currentVolume );
         _liquidVolume += volumeIncrease;
-        if ( getVolume() == _fillLiquidVolume ) {
-            _isFillingLiquid = false;
+        if ( getVolume() >= _fillVolume ) {
+            stopFillingLiquid();
         }
         updatePH();
     }
@@ -495,10 +457,10 @@ public class Liquid extends ClockAdapter {
      */
     private void stepFillWater() {
         final double currentVolume = getVolume();
-        final double volumeIncrease = Math.min( _fillWaterRate, _fillWaterVolume - currentVolume );
+        final double volumeIncrease = Math.min( _waterFillRate, _fillVolume - currentVolume );
         _waterVolume += volumeIncrease;
-        if ( getVolume() == _fillWaterVolume ) {
-            _isFillingWater = false;
+        if ( getVolume() >= _fillVolume ) {
+            stopFillingWater();
         }
         updatePH();
     }
@@ -509,11 +471,11 @@ public class Liquid extends ClockAdapter {
      */
     private void stepDrain() {
         final double currentVolume = getVolume();
-        final double volumeDecrease = Math.min( _drainRate, currentVolume - _drainVolume );
-        _waterVolume -= ( volumeDecrease * _waterVolume / currentVolume );
-        _liquidVolume -= ( volumeDecrease * _liquidVolume / currentVolume );
-        if ( getVolume() == _drainVolume ) {
-            _isDraining = false;
+        final double volumeDecrease = Math.min( _drainRate, currentVolume );
+        _waterVolume = Math.max( 0, _waterVolume - ( volumeDecrease * _waterVolume / currentVolume ) );
+        _liquidVolume = Math.max( 0, _liquidVolume - ( volumeDecrease * _liquidVolume / currentVolume ) );
+        if ( getVolume() <= 0 ) {
+            stopDraining();
         }
         updatePH();
     }

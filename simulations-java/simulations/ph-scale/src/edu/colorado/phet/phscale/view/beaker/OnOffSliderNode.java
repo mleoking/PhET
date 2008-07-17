@@ -23,14 +23,14 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * MomentarySliderNode is a slider with two states: on & off.
+ * OnOffSliderNode is a slider with two states: on & off.
  * Listeners are notified when the state changes.
  * The slider can be "on" only while the user is dragging it.
  * When the user releases the slider knob, it snaps to the "off" position.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MomentarySliderNode extends PNode {
+public class OnOffSliderNode extends PNode {
     
   //----------------------------------------------------------------------------
     // Class data
@@ -63,7 +63,7 @@ public class MomentarySliderNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MomentarySliderNode( PDimension trackSize, PDimension knobSize ) {
+    public OnOffSliderNode( PDimension trackSize, PDimension knobSize ) {
         
         _listeners = new ArrayList();
         _on = false;
@@ -100,19 +100,19 @@ public class MomentarySliderNode extends PNode {
                 super.startDrag( event );
                 _dragging = true;
                 // note the offset between the mouse click and the knob's origin
-                Point2D pMouseLocal = event.getPositionRelativeTo( MomentarySliderNode.this );
-                Point2D pMouseGlobal = MomentarySliderNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = MomentarySliderNode.this.localToGlobal( _knobNode.getOffset() );
+                Point2D pMouseLocal = event.getPositionRelativeTo( OnOffSliderNode.this );
+                Point2D pMouseGlobal = OnOffSliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pKnobGlobal = OnOffSliderNode.this.localToGlobal( _knobNode.getOffset() );
                 _globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
             }
 
             protected void drag(PInputEvent event) {
                 
                 // determine the knob's new offset
-                Point2D pMouseLocal = event.getPositionRelativeTo( MomentarySliderNode.this );
-                Point2D pMouseGlobal = MomentarySliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pMouseLocal = event.getPositionRelativeTo( OnOffSliderNode.this );
+                Point2D pMouseGlobal = OnOffSliderNode.this.localToGlobal( pMouseLocal );
                 Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
-                Point2D pKnobLocal = MomentarySliderNode.this.globalToLocal( pKnobGlobal );
+                Point2D pKnobLocal = OnOffSliderNode.this.globalToLocal( pKnobGlobal );
                 
                 // constrain the drag to the track
                 double xOffset = pKnobLocal.getX();
@@ -260,7 +260,7 @@ public class MomentarySliderNode extends PNode {
         
         PDimension trackSize = new PDimension( 200, 5 );
         PDimension knobSize = new PDimension( 15, 20 );
-        final MomentarySliderNode sliderNode = new MomentarySliderNode( trackSize, knobSize );
+        final OnOffSliderNode sliderNode = new OnOffSliderNode( trackSize, knobSize );
         
         final PPath onOffNode = new PPath( new Rectangle2D.Double( 0, 0, 50, 50 ) );
         onOffNode.setPaint( sliderNode.isOn() ? Color.GREEN : Color.RED );

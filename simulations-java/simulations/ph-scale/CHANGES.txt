@@ -16,6 +16,10 @@ LOW PRIORITY:
 
 
 DONE:
+7/16/08 - FaucetSliderNode, a slider for linearly variable flow rates
+7/16/08 - major changes to faucet controls to support variable flow rates
+7/16/08 - major changes to Liquid fill/drain model to support variable flow rates
+7/16/08 - rename MomentarySliderNode to OnOffSliderNode (to be deleted)
 7/16/08 - delete MoleculeCountAlternateNode, associated developer controls, image files (out of sync with new H2O color)
 7/16/08 - rename molecule image files
 7/16/08 - get new H2O molecule SVG image from Archie

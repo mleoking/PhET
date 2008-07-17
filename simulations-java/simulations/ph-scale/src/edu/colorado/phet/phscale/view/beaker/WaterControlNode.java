@@ -31,7 +31,8 @@ public class WaterControlNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final PDimension WATER_COLUMN_SIZE = PHScaleConstants.LIQUID_COLUMN_SIZE;
+    private static final PDimension LIQUID_COLUMN_SIZE = PHScaleConstants.LIQUID_COLUMN_SIZE;
+    private static final double MIN_LIQUID_COLUMN_WIDTH = PHScaleConstants.MIN_LIQUID_COLUMN_WIDTH;
     public static final Font FONT = PHScaleConstants.CONTROL_FONT;
     private static final LiquidDescriptor WATER = LiquidDescriptor.getWater();
     
@@ -41,15 +42,19 @@ public class WaterControlNode extends PNode {
     
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
+    private final Rectangle2D _waterColumnShape;
     private final PPath _waterColumnNode;
     private final FaucetControlNode _faucetControlNode;
+    private boolean _notifyEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public WaterControlNode( Liquid liquid ) {
+    public WaterControlNode( Liquid liquid, double maxFillRate ) {
         super();
+        
+        _notifyEnabled = true;
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
@@ -69,14 +74,17 @@ public class WaterControlNode extends PNode {
         label.setFont( FONT );
         PSwing labelWrapper = new PSwing( label );
         
-        _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT );
+        _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT, maxFillRate );
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
-            public void onOffChanged( boolean on ) {
-                handleFaucetOnOff( on );
+            public void valueChanged() {
+                if ( _notifyEnabled ) {
+                    _liquid.setWaterFillRate( _faucetControlNode.getValue() );
+                }
             }
         });
         
-        _waterColumnNode = new PPath( new Rectangle2D.Double( 0, 0, WATER_COLUMN_SIZE.getWidth(), WATER_COLUMN_SIZE.getHeight() ) );
+        _waterColumnShape = new Rectangle2D.Double();
+        _waterColumnNode = new PPath( _waterColumnShape );
         _waterColumnNode.setPaint( LiquidDescriptor.getWater().getColor() );
         _waterColumnNode.setStroke( null );
         _waterColumnNode.setVisible( _faucetControlNode.isOn() );
@@ -91,7 +99,7 @@ public class WaterControlNode extends PNode {
         PBounds lb = labelWrapper.getFullBoundsReference();
         PBounds fb = _faucetControlNode.getFullBoundsReference();
         _faucetControlNode.setOffset( lb.getMaxX() - fb.getWidth(), lb.getMaxY() + 5 );
-        _waterColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 8, _faucetControlNode.getFullBoundsReference().getMaxY() );   
+        _waterColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 18, _faucetControlNode.getFullBoundsReference().getMaxY() );   
         
         update();
     }
@@ -105,16 +113,19 @@ public class WaterControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private void update() {
-        _faucetControlNode.setOn( _liquid.isFillingWater() );
+        
+        _notifyEnabled = false;
+        _faucetControlNode.setValue( _liquid.getWaterFillRate() );
+        _faucetControlNode.setEnabled( !_liquid.isFull() );
+        _notifyEnabled = true;
+        
         _waterColumnNode.setVisible( _liquid.isFillingWater() );
+        
+        // shape of the water column
+        final double percentOn = _faucetControlNode.getPercentOn();
+        final double columnWidth = MIN_LIQUID_COLUMN_WIDTH + ( percentOn * ( LIQUID_COLUMN_SIZE.getWidth() - MIN_LIQUID_COLUMN_WIDTH ) );
+        _waterColumnShape.setRect( -columnWidth/2, 0, columnWidth, LIQUID_COLUMN_SIZE.getHeight() );
+        _waterColumnNode.setPathTo( _waterColumnShape );
     }
     
-    private void handleFaucetOnOff( boolean on ) {
-        if ( on ) {
-            _liquid.startFillingWater( Liquid.SLOW_FILL_RATE );
-        }
-        else {
-            _liquid.stopFillingWater();
-        }
-    }
 }

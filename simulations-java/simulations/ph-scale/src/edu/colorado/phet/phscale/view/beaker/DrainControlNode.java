@@ -32,7 +32,7 @@ public class DrainControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final PDimension LIQUID_COLUMN_SIZE = PHScaleConstants.LIQUID_COLUMN_SIZE;
-    private static final double DRAINING_RATE = 0.01; // liters per clock tick
+    private static final double MIN_LIQUID_COLUMN_WIDTH = PHScaleConstants.MIN_LIQUID_COLUMN_WIDTH;
     
     private static final Color PIPE_FILL_COLOR = new Color( 233, 184, 0 ); // mustard yellow
     private static final Color PIPE_STROKE_COLOR = Color.BLACK;
@@ -45,17 +45,21 @@ public class DrainControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private final FaucetControlNode _faucetControlNode;
+    private final Rectangle2D _liquidColumnShape;
     private final PPath _liquidColumnNode;
     private final PPath _waterColumnNode; // put water behind liquid so that it looks the same as in beaker
     private final Liquid _liquid;
     private final LiquidListener _liquidListener;
+    private boolean _notifyEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DrainControlNode( Liquid liquid ) {
+    public DrainControlNode( Liquid liquid, double maxDrainRate ) {
         super();
+        
+        _notifyEnabled = true;
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
@@ -71,27 +75,23 @@ public class DrainControlNode extends PNode {
             }
         } );
         
-        _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT );
+        _faucetControlNode = new FaucetControlNode( FaucetControlNode.ORIENTATION_LEFT, maxDrainRate);
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
-            public void onOffChanged( boolean on ) {
-                if ( on ) {
-                    _liquid.startDraining( DRAINING_RATE );
-                }
-                else {
-                    _liquid.stopDraining();
+            public void valueChanged() {
+                if ( _notifyEnabled ) {
+                    _liquid.setDrainRate( _faucetControlNode.getValue() );
                 }
             }
-        });
-        _faucetControlNode.setOn( false );
+        } );
 
-        Shape liquidColumnShape = new Rectangle2D.Double( 0, 0, LIQUID_COLUMN_SIZE.getWidth(), LIQUID_COLUMN_SIZE.getHeight() );
-        _liquidColumnNode = new PPath( liquidColumnShape );
+        _liquidColumnShape = new Rectangle2D.Double();
+        _liquidColumnNode = new PPath( _liquidColumnShape );
         _liquidColumnNode.setStroke( null );
         _liquidColumnNode.setVisible( _faucetControlNode.isOn() );
         _liquidColumnNode.setPickable( false );
         _liquidColumnNode.setChildrenPickable( false );
         
-        _waterColumnNode = new PPath( liquidColumnShape );
+        _waterColumnNode = new PPath( _liquidColumnShape );
         _waterColumnNode.setPaint( WATER.getColor() );
         _waterColumnNode.setStroke( null );
         _waterColumnNode.setVisible( _faucetControlNode.isOn() );
@@ -112,7 +112,7 @@ public class DrainControlNode extends PNode {
         addChild( _faucetControlNode );
         
         _faucetControlNode.setOffset( 0, 0 );
-        _liquidColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 8, _faucetControlNode.getFullBoundsReference().getMaxY() - 2 );
+        _liquidColumnNode.setOffset( _faucetControlNode.getFullBoundsReference().getMinX() + 18, _faucetControlNode.getFullBoundsReference().getMaxY() - 2 );
         _waterColumnNode.setOffset( _liquidColumnNode.getOffset() );
         pipeNode.setOffset( _faucetControlNode.getFullBoundsReference().getMaxX() - 2, 37 );
 
@@ -136,9 +136,22 @@ public class DrainControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     private void update() {
+        
+        _notifyEnabled = false;
+        _faucetControlNode.setValue( _liquid.getDrainRate() );
+        _faucetControlNode.setEnabled( !_liquid.isEmpty() );
+        _notifyEnabled = true;
+        
         _liquidColumnNode.setPaint( _liquid.getColor() );
         _liquidColumnNode.setVisible( _liquid.isDraining() );
         _waterColumnNode.setVisible( _liquid.isDraining() );
+        
+        // shape of the water column
+        final double percentOn = _faucetControlNode.getPercentOn();
+        final double columnWidth = MIN_LIQUID_COLUMN_WIDTH + ( percentOn * ( LIQUID_COLUMN_SIZE.getWidth() - MIN_LIQUID_COLUMN_WIDTH ) );
+        _liquidColumnShape.setRect( -columnWidth/2, 0, columnWidth, LIQUID_COLUMN_SIZE.getHeight() );
+        _liquidColumnNode.setPathTo( _liquidColumnShape );
+        _waterColumnNode.setPathTo( _liquidColumnShape );
     }
     
     //----------------------------------------------------------------------------
