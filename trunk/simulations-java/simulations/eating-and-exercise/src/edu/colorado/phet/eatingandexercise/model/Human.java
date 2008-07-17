@@ -381,8 +381,12 @@ public class Human {
     }
 
     private void updateActivity() {
-        this.activity.setValue( activityLevel * bmr.getValue() );
+        this.activity.setValue( getActivityCaloriesPerDay() );
         notifyActivityChanged();
+    }
+
+    private double getActivityCaloriesPerDay() {
+        return activityLevel * bmr.getValue();
     }
 
     private void notifyActivityChanged() {
@@ -639,9 +643,17 @@ public class Human {
         return heartStrain;
     }
 
+    public double getCaloriesExerciseAndActivityPerDay() {
+        return exerciseItems.getTotalCalories() + getActivityCaloriesPerDay();
+    }
+
+    public void setLeanFraction( double fracLean ) {
+        setFatMassPercent( 100 - fracLean * 100 );
+    }
+
     public static class Gender {
-        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25, 1.15, 4 );
-        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32, 1.22, 6 );
+        public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25, 1.15, 4, 30, 4 );
+        public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32, 1.22, 6, 26, 9 );
         private String name;
         private double minFatMassPercent;
         private double maxFatMassPercent;
@@ -650,8 +662,10 @@ public class Human {
         public static double P0 = 1.0 / 100.0;
         private double LMBScaleFactor;
         private double almostStarvingUpperThreshold;
+        private double stdBMI;
+        private double stdPercentFat;
 
-        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold, double lmbScaleFactor, double almostStarvingUpperThreshold ) {
+        private Gender( String name, double minFatMassPercent, double maxFatMassPercent, double starvingFatMassPercentThreshold, double heartAttackFatMassPercentThreshold, double lmbScaleFactor, double almostStarvingUpperThreshold, double stdBMI, double stdPercentFat ) {
             this.name = name;
             this.minFatMassPercent = minFatMassPercent;
             this.maxFatMassPercent = maxFatMassPercent;
@@ -659,6 +673,16 @@ public class Human {
             this.heartAttackFatMassPercentThreshold = heartAttackFatMassPercentThreshold;
             this.LMBScaleFactor = lmbScaleFactor;
             this.almostStarvingUpperThreshold = almostStarvingUpperThreshold;
+            this.stdBMI = stdBMI;
+            this.stdPercentFat = stdPercentFat;
+        }
+
+        public double getStdBMI() {
+            return stdBMI;
+        }
+
+        public double getStdPercentFat() {
+            return stdPercentFat;
         }
 
         public String toString() {
@@ -701,6 +725,10 @@ public class Human {
 
         public boolean isAlmostStarving( Human human ) {
             return human.getFatMassPercent() >= starvingFatMassPercentThreshold && human.getFatMassPercent() <= almostStarvingUpperThreshold;
+        }
+
+        public double getStdLeanMassFraction() {
+            return 1 - stdPercentFat / 100.0;
         }
     }
 
