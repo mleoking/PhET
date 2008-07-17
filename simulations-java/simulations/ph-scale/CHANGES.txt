@@ -13,6 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
+7/17/08 - reimplement PrecisionDecimal, previous implementation using BigDecimal only worked for English
 ******* version 0.00.20 (23265)
 7/16/08 - tweak clock framerate and faucet fill rates, tradeoff of animation smoothness and titration precision
 7/16/08 - move clock constants into PHScaleConstants
