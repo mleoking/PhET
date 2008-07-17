@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 
-import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.reids.admin.TimesheetData;
 
 /**

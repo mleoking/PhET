@@ -9,8 +9,6 @@ import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-
 /**
  * Created by: Sam
  * Feb 13, 2008 at 10:32:31 PM
@@ -118,7 +116,7 @@ public class EntryPanel extends JPanel {
                         TimesheetDataEntry timesheetDataEntry = s[i];
                         int startIndex = data.indexOf( timesheetDataEntry );
                         int endIndex = data.indexOf( entry );
-                        int dk = MathUtil.getSign( endIndex - startIndex );
+                        int dk = getSign( endIndex - startIndex );
 //                        System.out.println( "startIndex = " + startIndex +" end="+endIndex+", dk="+dk);
                         for ( int k = startIndex; k != endIndex + dk; k += dk ) {
 //                            System.out.println( "k = " + k );
@@ -140,6 +138,17 @@ public class EntryPanel extends JPanel {
 
         updateBackground();
 
+    }
+
+    private int getSign( double d ) {
+        if ( d != 0
+             && !Double.isNaN( d )
+             && !Double.isInfinite( d ) ) {
+            return (int) ( Math.abs( d ) / d );
+        }
+        else {
+            return 1;
+        }
     }
 
     public int getCurrent( int field ) {

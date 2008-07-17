@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.reids.admin.TimesheetData;
 import edu.colorado.phet.reids.admin.TimesheetDataEntry;
 

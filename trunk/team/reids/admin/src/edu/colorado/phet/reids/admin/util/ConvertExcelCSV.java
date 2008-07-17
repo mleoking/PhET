@@ -9,7 +9,6 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.reids.admin.TimesheetData;
 import edu.colorado.phet.reids.admin.TimesheetDataEntry;
 

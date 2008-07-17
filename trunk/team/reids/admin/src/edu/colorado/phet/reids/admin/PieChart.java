@@ -15,7 +15,8 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.util.SortOrder;
 
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.reids.admin.util.FrameSetup;
+
 
 /**
  * Created by: Sam
