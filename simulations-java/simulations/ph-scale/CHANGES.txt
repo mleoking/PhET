@@ -10,10 +10,10 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - hand cursors don't work on PSwing check boxes and radio buttons [Unfuddle #653]
 - selection in PTextFieldNode doesn't behave properly [Unfuddle #660]
-- clicking twice in PTextFieldNode fires a change [Unfuddle #660]
 
 
 DONE:
+******* version 0.00.20 (?)
 7/16/08 - tweak clock framerate and faucet fill rates, tradeoff of animation smoothness and titration precision
 7/16/08 - move clock constants into PHScaleConstants
 7/16/08 - VolumeValue in model, limited to 2 decimals of precision
