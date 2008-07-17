@@ -13,7 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
-******* version 0.00.21 (?)
+******* version 0.00.21 (23274)
 7/17/08 - reimplement PrecisionDecimal, previous implementation using BigDecimal only worked for English
 ******* version 0.00.20 (23265)
 7/16/08 - tweak clock framerate and faucet fill rates, tradeoff of animation smoothness and titration precision
