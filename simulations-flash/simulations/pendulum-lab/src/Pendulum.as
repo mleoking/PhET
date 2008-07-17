@@ -17,7 +17,10 @@ class Pendulum{
 	var E:Number;			//total energy E = KE + PE
 	private var t:Number;			//time in seconds
 	private var dt:Number;			//time step in seconds
-	private var updateCount:Number;
+	private var dtMax:Number;		//diagnostic use only: max value of real timestep (msec)
+	private var dtMin:Number;		//diagnostic use only: min value of real timestep (msec)
+	private var dtAvg:Number;		//diagnostic use only: avg value of real timestep (msec)
+	private var updateCount:Number; //number of times evolve() called so far (nbr of time steps)
 	private var timeFactor:Number;	//timefactor = 10 means make time go 10 time slower
 	//private var g:Number;			//global variable: acceleration due to gravity in m/s^2
 	var view:Object;				//view of pendulum on main stage
@@ -43,6 +46,8 @@ class Pendulum{
 		//this.g = 9.81;
 		this.theta = 0;
 		this.dt = _global.r*0.02;		//in seconds 
+		this.dtMax = 0;					//diagnostic use only
+		this.dtMin = 1000;				//diagnostic use only
 		
 	}//end of constructor
 	
@@ -67,7 +72,7 @@ class Pendulum{
 		this.t = 0;
 		this.updateCount = 0;
 		this.lastTime = getTimer();
-		this.intervalID = setInterval(this, "evolve", 1); //dt/1000);
+		this.intervalID = setInterval(this, "evolve", 2); //dt/1000);
 	}//end of startMotion()
 	
 	function stopMotion():Void{
@@ -82,7 +87,20 @@ class Pendulum{
 		
 		this.dt = Math.min(0.05, _global.r*timeSinceLastStep/1000);
 		//trace("this.dt: "+this.dt);
-		_root.dtLabel.text = timeSinceLastStep;
+		//Following is diagnostic code
+		_root.dt.text = timeSinceLastStep;
+		if(timeSinceLastStep > this.dtMax){
+			this.dtMax = timeSinceLastStep;
+		}
+		if(timeSinceLastStep < this.dtMin){
+			this.dtMin = timeSinceLastStep;
+		}
+		this.dtAvg = 1000*(this.t/this.updateCount);
+		_root.dtMax.text = this.dtMax;
+		_root.dtMin.text = this.dtMin;
+		_root.dtAvg.text = this.dtAvg;
+		//end of diagnostic code
+		
 		var oldTheta = this.theta;
 		this.theta = this.theta + this.omega*dt + (0.5)*this.alpha*dt*dt;
 		var oldAlpha:Number = this.alpha;
@@ -91,7 +109,7 @@ class Pendulum{
 		//var ratio:Number = ((_global.drag/this.mPowThird)*this.omega)/((_global.g/this.length)*Math.sin(this.theta));
 		//trace("drag to weight"+ratio);
 		this.omega = this.omega + (0.5)*(this.alpha + oldAlpha)*dt;
-		this.updateEnergy();
+		//this.updateEnergy();
 		var oldTime = this.t;
 		this.t += this.dt;
 		this.updateCount += 1;
@@ -119,12 +137,15 @@ class Pendulum{
 			}
 		}//if(gettingPeriod)
 		//redraw screen every 4 time steps, needed for precision of numerical integration
-		if(updateCount%2 == 0){
+		if(updateCount%1 == 0){
 			this.updateView();
 			this.updateGraph();
+			this.updateEnergy();
+			
 		}
 		//trace("t: "+this.t+"    theta: "+this.theta*180/Math.PI);
-	}
+		updateAfterEvent();
+	}//evolve()
 	
 	function updateEnergy():Void{
 		this.h = this.length*(1-Math.cos(this.theta));

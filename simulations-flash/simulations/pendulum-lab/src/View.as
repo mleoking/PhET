@@ -164,6 +164,7 @@
 		var lineWidth:Number = 3;
 		this.arcClip.lineStyle(lineWidth, this.pendulumColor, 100);
 		this.arcClip._alpha = 100;
+		this.arcClip.onEnterFrame = undefined;
 		this.arcRadius = this.pendulum.length*this.scaleFactor - 50;
 		this.arcClip.moveTo(0,this.arcRadius);
 		var omega:Number = this.pendulum.omega;
@@ -178,7 +179,7 @@
 		this.arcClip.lineTo(pendulumScrnX, pendulumScrnY);
 		//make arc fade away
 		this.arcClip.onEnterFrame = function(){
-			this._alpha -= 0.5;
+			this._alpha -= 1;
 			if (this._alpha <= 1){
 				this.onEnterFrame = undefined;
 			}
@@ -188,7 +189,7 @@
 	
 	function update():Void{
 		this.clip.pendulum_mc._rotation = -this.pendulum.getAngleInDeg();
-		updateAfterEvent();
+		//updateAfterEvent();
 		var R:Number = this.pendulum.length;
 		var omega:Number = this.pendulum.omega;
 		if(velocityShown){
