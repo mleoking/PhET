@@ -36,14 +36,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" afterPath="$PROJECT_DIR$/../../../../../../svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/MuscleGainedFromExercising.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/Human.java" afterPath="$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/Human.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../../../../../../reid/svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" afterPath="$PROJECT_DIR$/../../../../../../../reid/svn-working-copy/trunk/projects/phet/phet-timesheet-2008.csv" />
     </list>
     <list name="rotation-render" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.iws" afterPath="$PROJECT_DIR$/intellij-idea-all.iws" />
-    </list>
-    <list name="build-12-7-2007" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/intellij-idea-all.ipr" afterPath="$PROJECT_DIR$/intellij-idea-all.ipr" />
     </list>
+    <list name="build-12-7-2007" comment="" />
     <list name="bsp" comment="" />
     <list name="ipr" comment="" />
   </component>
@@ -174,6 +175,123 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/module/eatingandexercise/TimeoutWarningMessage.java" line="42" class="edu.colorado.phet.eatingandexercise.module.eatingandexercise.TimeoutWarningMessage" package="edu.colorado.phet.eatingandexercise.module.eatingandexercise">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/Human.java" line="159" class="Class at Human.java:159" package="edu.colorado.phet.eatingandexercise.model">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/control/ExerciseItem.java" line="43" class="edu.colorado.phet.eatingandexercise.control.ExerciseItem" package="edu.colorado.phet.eatingandexercise.control">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/control/ExerciseItem.java" line="42" class="edu.colorado.phet.eatingandexercise.control.ExerciseItem" package="edu.colorado.phet.eatingandexercise.control">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/Human.java" line="247" class="edu.colorado.phet.eatingandexercise.model.Human" package="edu.colorado.phet.eatingandexercise.model">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/view/HealthIndicator.java" line="30" class="edu.colorado.phet.eatingandexercise.view.HealthIndicator" package="edu.colorado.phet.eatingandexercise.view">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/view/HealthBar.java" line="25" class="edu.colorado.phet.eatingandexercise.view.HealthBar" package="edu.colorado.phet.eatingandexercise.view">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/view/HealthIndicator.java" line="74" class="edu.colorado.phet.eatingandexercise.view.HealthIndicator" package="edu.colorado.phet.eatingandexercise.view">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/MuscleGainedFromExercising.java" line="33" class="edu.colorado.phet.eatingandexercise.model.MuscleGainedFromExercising" package="edu.colorado.phet.eatingandexercise.model">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
     </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
@@ -222,8 +340,8 @@
       <property name="field_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByClasses" value="true" />
       <property name="exception_breakpoints_viewId" value="TABLE" />
-      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
       <property name="method_breakpoints_groupByMethods" value="false" />
     </ui_properties>
   </component>
@@ -246,97 +364,91 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="build-ancillary.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../build-ancillary.xml">
+      <file leaf-file-name="DischargeLampsApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/discharge-lamps/src/edu/colorado/phet/dischargelamps/DischargeLampsApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="321" column="23" selection-start="14830" selection-end="14830" vertical-scroll-proportion="0.025835866">
+            <state line="112" column="78" selection-start="5691" selection-end="5691" vertical-scroll-proportion="0.6902465">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhetBuildGUI.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../build-tools/phet-build/src/edu/colorado/phet/build/PhetBuildGUI.java">
+      <file leaf-file-name="LaserConfig.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/lasers/src/edu/colorado/phet/lasers/controller/LaserConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="224" column="14" selection-start="8355" selection-end="8355" vertical-scroll-proportion="0.02503682">
+            <state line="20" column="89" selection-start="553" selection-end="553" vertical-scroll-proportion="0.14345992">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbstractPhetTask.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../build-tools/phet-build/src/edu/colorado/phet/build/AbstractPhetTask.java">
+      <file leaf-file-name="common-projects.properties" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../util/translation-utility/data/translation-utility/common-projects.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="16" selection-start="234" selection-end="234" vertical-scroll-proportion="0.25036818">
+            <state line="4" column="0" selection-start="264" selection-end="264" vertical-scroll-proportion="0.07172996">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WaveInterferenceApplication.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/wave-interference/src/edu/colorado/phet/waveinterference/WaveInterferenceApplication.java">
+      <file leaf-file-name="JavaSimulation.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../../util/translation-utility/src/edu/colorado/phet/translationutility/simulations/JavaSimulation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="28" selection-start="877" selection-end="877" vertical-scroll-proportion="0.4005891">
+            <state line="149" column="12" selection-start="5979" selection-end="5979" vertical-scroll-proportion="0.20471597">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PressureWaveGraphic.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../simulations/wave-interference/src/edu/colorado/phet/waveinterference/view/PressureWaveGraphic.java">
+      <file leaf-file-name="EatingAndExerciseApplication.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/EatingAndExerciseApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="369" column="23" selection-start="13089" selection-end="13089" vertical-scroll-proportion="0.3328424">
+            <state line="2" column="46" selection-start="90" selection-end="90" vertical-scroll-proportion="0.036441587">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Module.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/application/Module.java">
+      <file leaf-file-name="MuscleAndFatMassLoss2.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/MuscleAndFatMassLoss2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="8" selection-start="1763" selection-end="1763" vertical-scroll-proportion="0.02503682">
+            <state line="22" column="0" selection-start="697" selection-end="697" vertical-scroll-proportion="0.19198312">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClockControlPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/ClockControlPanel.java">
+      <file leaf-file-name="MuscleGainedFromExercising.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/MuscleGainedFromExercising.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="52" selection-start="1891" selection-end="1891" vertical-scroll-proportion="0.076368876">
+            <state line="43" column="29" selection-start="2440" selection-end="2440" vertical-scroll-proportion="0.59914255">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhetFileMenu.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/components/menu/PhetFileMenu.java">
+      <file leaf-file-name="Human.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/Human.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="42" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.61239195">
-              <folding>
-                <marker date="1213752710324" expanded="false" signature="1216:1334" placeholder="{...}" />
-                <marker date="1213752710324" expanded="true" signature="1275:1324" placeholder="{...}" />
-              </folding>
+            <state line="650" column="31" selection-start="21879" selection-end="21879" vertical-scroll-proportion="0.2561629">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HelpMenu.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/components/menu/HelpMenu.java">
+      <file leaf-file-name="Activity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/control/Activity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="44" selection-start="1714" selection-end="1714" vertical-scroll-proportion="0.02503682">
-              <folding>
-                <marker date="1213752783303" expanded="false" signature="2225:2402" placeholder="{...}" />
-                <marker date="1213752783303" expanded="true" signature="2284:2392" placeholder="{...}" />
-              </folding>
+            <state line="35" column="13" selection-start="1193" selection-end="1206" vertical-scroll-proportion="0.60548526">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HelpPanel.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/help/HelpPanel.java">
+      <file leaf-file-name="todo.txt" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/deploy/todo.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="33" selection-start="799" selection-end="799" vertical-scroll-proportion="0.02503682">
+            <state line="95" column="0" selection-start="6237" selection-end="7017" vertical-scroll-proportion="0.20042872">
               <folding />
             </state>
           </provider>
@@ -408,7 +520,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -422,11 +534,123 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java" />
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:C:\reid\phet\svn\trunk\simulations-java\simulations" />
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise\src\edu\colorado\phet\eatingandexercise" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise\src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise\src\edu\colorado\phet\eatingandexercise" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise\src\edu\colorado\phet\eatingandexercise\model" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="intellij-idea-all" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise\deploy" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -443,19 +667,19 @@
       <showLibraryContents PackagesPane="false" />
       <hideEmptyPackages PackagesPane="false" ProjectPane="true" />
       <abbreviatePackageNames />
-      <showStructure PackagesPane="false" Scope="false" Favorites="false" ProjectPane="false" />
+      <showStructure ProjectPane="false" Scope="false" PackagesPane="false" Favorites="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
     </navigator>
   </component>
   <component name="PropertiesComponent">
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="231" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="178" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="233" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="180" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="34" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="208" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="210" />
     <property name="cvs_file_history_treeOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
     <property name="cvs_file_history_treeOrder1" value="1" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
@@ -463,58 +687,58 @@
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
     <property name="cvs_file_history_treeOrder3" value="3" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="167" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="188" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="168" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="189" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="165" />
-    <property name="last_opened_file_path" value="C:\Users\Sam\Desktop\text\text" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="166" />
+    <property name="last_opened_file_path" value="C:\Users\Sam\Desktop" />
     <property name="TEMP_MODULE_EXPLODED_DIR_FOR_intellij-idea-all/web/Web2" value="C:\Users\Sam\AppData\Local\Temp\webExplodedDir7459tmp" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="816" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="167" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="811" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="169" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="cvs_file_history_treeWidth0" value="374" />
     <property name="cvs_file_history_treeWidth1" value="374" />
     <property name="cvs_file_history_treeWidth2" value="375" />
-    <property name="cvs_file_history_flatWidth2" value="375" />
     <property name="cvs_file_history_treeWidth3" value="374" />
-    <property name="cvs_file_history_flatWidth3" value="374" />
+    <property name="cvs_file_history_flatWidth2" value="375" />
     <property name="cvs_file_history_treeOrder0" value="0" />
+    <property name="cvs_file_history_flatWidth3" value="374" />
     <property name="MemberChooser.showClasses" value="true" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="852" />
     <property name="cvs_file_history_flatWidth0" value="374" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="846" />
     <property name="cvs_file_history_flatWidth1" value="374" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="RunManagerConfig.compileBeforeRunning" value="true" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="cvs_file_history_flatOrder2" value="2" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
     <property name="cvs_file_history_flatOrder3" value="3" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
     <property name="cvs_file_history_flatOrder0" value="0" />
-    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
     <property name="cvs_file_history_flatOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="TEMP_MODULE_EXPLODED_DIR_FOR_intellij-idea-all/web/Web" value="C:\Users\Sam\AppData\Local\Temp\webExplodedDir7458tmp" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="edu.colorado.phet.fitness.control" />
-      <recent name="edu.colorado.phet.common.testing" />
-      <recent name="edu.colorado.phet.fitness.view" />
-      <recent name="edu.colorado.phet.fitness.module.fitness" />
-      <recent name="edu.colorado.phet.nuclearphysics2.view" />
+      <recent name="edu.colorado.phet.reids.admin.util" />
+      <recent name="edu.colorado.phet.eatingandexercise.model" />
+      <recent name="edu.colorado.phet.eatingandexercise.view" />
+      <recent name="edu.colorado.phet.eatingandexercise.module.eatingandexercise" />
+      <recent name="edu.colorado.phet.eatingandexercise.control" />
     </key>
     <key name="MoveMembersDialog.RECENTS_KEY">
       <recent name="edu.colorado.phet.circuitconstructionkit.model.CCKDefaults" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
-      <recent name="edu.colorado.phet.circuitconstructionkit.controls" />
+      <recent name="edu.colorado.phet.eatingandexercise.model" />
       <recent name="edu.colorado.phet.eatingandexercise.control" />
-      <recent name="edu.colorado.phet.fitness.module.fitness" />
-      <recent name="edu.colorado.phet.fitness.control" />
-      <recent name="edu.colorado.phet.lasers.controller" />
+      <recent name="edu.colorado.phet.eatingandexercise.view" />
+      <recent name="edu.colorado.phet.eatingandexercise.module.eatingandexercise" />
+      <recent name="edu.colorado.phet.eatingandexercise.control.valuenode" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="edu.colorado.phet.common.phetgraphics.test" />
@@ -522,7 +746,7 @@
     </key>
   </component>
   <component name="RestoreUpdateTree">
-    <UpdateInfo date="6/23/08 12:19 PM" ActionInfo="_Update">
+    <UpdateInfo date="7/17/08 10:48 AM" ActionInfo="_Update">
       <UpdatedFiles>
         <FILE-GROUP>
           <option name="myUpdateName" value="Updated from server" />
@@ -536,6 +760,39 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\doc\ph-scale-model.doc</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\CHANGES.txt</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\model\LiquidDescriptor.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\model\Liquid.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\PHScaleImages.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\PHScaleModule.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\developer\DeveloperMenu.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\graph\LegendNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\graph\GraphNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\BeakerNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\BeakerControlNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\DrainControlNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\ProbeNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\FaucetControlNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\MoleculeCountNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\WaterControlNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\ParticlesNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\LiquidNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\LiquidControlNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\phslider\PHTextFieldNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\phslider\PHControlNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\PHScaleCanvas.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\PHScaleConstants.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\ph-scale.properties</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\deploy\HEADER</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\states-of-matter\src\edu\colorado\phet\statesofmatter\model\MultipleParticleModel.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\states-of-matter\src\edu\colorado\phet\statesofmatter\module\experimental\ExpSolidLiquidGasControlPanel.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\states-of-matter\src\edu\colorado\phet\statesofmatter\module\solidliquidgas\SolidLiquidGasControlPanel.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\states-of-matter\src\edu\colorado\phet\statesofmatter\module\exp2\Exp2SolidLiquidGasControlPanel.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\states-of-matter\src\edu\colorado\phet\statesofmatter\view\ParticleNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\states-of-matter\data\states-of-matter\states-of-matter.properties</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\glaciers\CHANGES.txt</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\glaciers\src\edu\colorado\phet\glaciers\model\Glacier.java</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Created" />
@@ -543,7 +800,20 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="CREATED" />
-            <PATH vcs="svn" revision="22517">C:\reid\phet\svn\trunk\simulations-java\simulations\electric-hockey\data\electric-hockey\localization\electric-hockey-strings_it.properties</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\assets\OH-molecule.svg</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\assets\H2O-molecule.svg</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\assets\H3O-molecule.svg</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\model\PHValue.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\model\VolumeValue.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\OHMoleculeNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\H2OMoleculeNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\H3OMoleculeNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\VolumeValueNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\FaucetSliderNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\util\PrecisionDecimal.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\images\H3O-molecule.png</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\images\OH-molecule.png</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\images\H2O-molecule.png</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Deleted" />
@@ -551,6 +821,17 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="true" />
             <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\H3ONode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\OHNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\H2ONode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\MoleculeCountAlternateNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\src\edu\colorado\phet\phscale\view\beaker\MomentarySliderNode.java</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\images\OH-small.png</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\images\H2O-small.png</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\images\H3O-small.png</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\images\OH-big.png</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\images\H2O-big.png</PATH>
+            <PATH vcs="svn" revision="23270">C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\ph-scale\data\ph-scale\images\H3O-big.png</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
             <option name="myUpdateName" value="Restored" />
@@ -594,10 +875,8 @@
           <option name="mySupportsDeletion" value="true" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UNKNOWN" />
-          <PATH>C:\reid\phet\svn\trunk\simulations-java\simulations\all-sims\all-sims-build.properties</PATH>
-          <PATH>C:\reid\phet\svn\trunk\simulations-java\simulations\all-sims\deploy\all-sims.jar</PATH>
-          <PATH>C:\reid\phet\svn\trunk\simulations-java\simulations\eating-and-exercise\deploy\eating-and-exercise.jar</PATH>
-          <PATH>C:\reid\phet\svn\trunk\simulations-java\simulations\eating-and-exercise\deploy\eating-and-exercise.jnlp</PATH>
+          <PATH>C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise\deploy\eating-and-exercise.jar</PATH>
+          <PATH>C:\reid-not-backed-up\phet\svn\trunk2\simulations-java\simulations\eating-and-exercise\deploy\eating-and-exercise.jnlp</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Locally added" />
@@ -616,9 +895,9 @@
       </UpdatedFiles>
     </UpdateInfo>
   </component>
-  <component name="RunManager" selected="Application.WaveInterferenceApplication">
-    <tempConfiguration default="false" name="WaveInterferenceApplication" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.waveinterference.WaveInterferenceApplication" />
+  <component name="RunManager" selected="Application.MuscleGainedFromExercising">
+    <tempConfiguration default="false" name="MuscleGainedFromExercising" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.eatingandexercise.model.MuscleGainedFromExercising" />
       <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
@@ -629,42 +908,40 @@
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="intellij-idea-all" />
       <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="50119" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="JProfiler">
         <option name="WINDOW" value="false" />
         <option name="JVMPI" value="false" />
         <option name="INTERPRETED" value="false" />
       </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method>
         <option name="Make" value="true" />
       </method>
     </tempConfiguration>
-    <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
-      <module name="" />
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="ANNOTATION_TYPE" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <option name="PROPERTIES_FILE" />
+      <module name="" />
       <envs />
-      <properties />
-      <listeners />
+      <RunnerSettings RunnerId="JProfiler">
+        <option name="WINDOW" value="false" />
+        <option name="JVMPI" value="false" />
+        <option name="INTERPRETED" value="false" />
+      </RunnerSettings>
       <method>
         <option name="Make" value="true" />
       </method>
@@ -698,6 +975,35 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -715,52 +1021,8 @@
         <option name="INTERPRETED" value="false" />
       </RunnerSettings>
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="" />
-      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="" />
-      <envs />
-      <RunnerSettings RunnerId="JProfiler">
-        <option name="WINDOW" value="false" />
-        <option name="JVMPI" value="false" />
-        <option name="INTERPRETED" value="false" />
-      </RunnerSettings>
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="false" name="PhetFont" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.common.phetcommon.view.util.PhetFont" />
-      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="intellij-idea-all" />
-      <envs />
-      <RunnerSettings RunnerId="JProfiler">
-        <option name="WINDOW" value="false" />
-        <option name="JVMPI" value="false" />
-        <option name="INTERPRETED" value="false" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="false" name="HumanAreaNode" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.eatingandexercise.view.HumanAreaNode" />
+    <configuration default="false" name="HumanNode" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.eatingandexercise.view.HumanNode" />
       <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
@@ -783,6 +1045,26 @@
       </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+    </configuration>
+    <configuration default="false" name="PhetFont" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.common.phetcommon.view.util.PhetFont" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="JProfiler">
+        <option name="WINDOW" value="false" />
+        <option name="JVMPI" value="false" />
+        <option name="INTERPRETED" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method>
         <option name="Make" value="true" />
@@ -1153,29 +1435,6 @@
     </configuration>
     <configuration default="false" name="PieChartNode" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.common.piccolophet.nodes.PieChartNode" />
-      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" value="" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="intellij-idea-all" />
-      <envs />
-      <RunnerSettings RunnerId="JProfiler">
-        <option name="WINDOW" value="false" />
-        <option name="JVMPI" value="false" />
-        <option name="INTERPRETED" value="false" />
-      </RunnerSettings>
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="false" name="SliderNode" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.eatingandexercise.view.SliderNode" />
       <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
@@ -1632,9 +1891,127 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <list size="39">
-      <item index="0" class="java.lang.String" itemvalue="Application.PhetFont" />
-      <item index="1" class="java.lang.String" itemvalue="Application.HumanAreaNode" />
+    <configuration default="false" name="LinearValueControlNode" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.eatingandexercise.control.valuenode.LinearValueControlNode" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="JProfiler">
+        <option name="WINDOW" value="false" />
+        <option name="JVMPI" value="false" />
+        <option name="INTERPRETED" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="BalancedDietDialog" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.eatingandexercise.control.BalancedDietDialog" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="JProfiler">
+        <option name="WINDOW" value="false" />
+        <option name="JVMPI" value="false" />
+        <option name="INTERPRETED" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+    </configuration>
+    <configuration default="false" name="WaveInterferenceApplication" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.waveinterference.WaveInterferenceApplication" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="JProfiler">
+        <option name="WINDOW" value="false" />
+        <option name="JVMPI" value="false" />
+        <option name="INTERPRETED" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="HealthIndicator" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.eatingandexercise.view.HealthIndicator" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="52843" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="JProfiler">
+        <option name="WINDOW" value="false" />
+        <option name="JVMPI" value="false" />
+        <option name="INTERPRETED" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="TestYears" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" value="edu.colorado.phet.eatingandexercise.model.TestYears" />
+      <option name="VM_PARAMETERS" value="-Dsun.java2d.noddraw=true -Djava.library.path=C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\lwjgl-1.1.4\native\win32;C:\reid\phet\svn\trunk\team\reids\mr-tompkins\contrib\jogl-1.1.0-windows-i586\lib" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/../.." />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="intellij-idea-all" />
+      <envs />
+      <RunnerSettings RunnerId="JProfiler">
+        <option name="WINDOW" value="false" />
+        <option name="JVMPI" value="false" />
+        <option name="INTERPRETED" value="false" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
+    <list size="43">
+      <item index="0" class="java.lang.String" itemvalue="Application.HumanNode" />
+      <item index="1" class="java.lang.String" itemvalue="Application.PhetFont" />
       <item index="2" class="java.lang.String" itemvalue="Application.EatingAndExerciseApplication" />
       <item index="3" class="java.lang.String" itemvalue="Application.GreenhouseApplication" />
       <item index="4" class="java.lang.String" itemvalue="Application.ImportAndAddBatch" />
@@ -1652,26 +2029,30 @@
       <item index="16" class="java.lang.String" itemvalue="Application.MovingManApplication" />
       <item index="17" class="java.lang.String" itemvalue="Application.CalorieSelectionPanel" />
       <item index="18" class="java.lang.String" itemvalue="Application.PieChartNode" />
-      <item index="19" class="java.lang.String" itemvalue="Application.SliderNode" />
-      <item index="20" class="java.lang.String" itemvalue="Application.BoundStatesApplication" />
-      <item index="21" class="java.lang.String" itemvalue="Application.EatingAndExerciseFileParser" />
-      <item index="22" class="java.lang.String" itemvalue="Application.TorqueApplication" />
-      <item index="23" class="java.lang.String" itemvalue="Application.NeutronSourceNode" />
-      <item index="24" class="java.lang.String" itemvalue="Application.BalloonsApplication" />
-      <item index="25" class="java.lang.String" itemvalue="Application.BatchSimTest" />
-      <item index="26" class="java.lang.String" itemvalue="Application.CaptureScreenshot" />
-      <item index="27" class="java.lang.String" itemvalue="Application.TestPhetApplicationUsage" />
-      <item index="28" class="java.lang.String" itemvalue="Application.DistanceLadderApplication" />
-      <item index="29" class="java.lang.String" itemvalue="Application.RadioWavesApplication" />
-      <item index="30" class="java.lang.String" itemvalue="Application.FaradayApplication" />
-      <item index="31" class="java.lang.String" itemvalue="Application.SemiconductorApplication" />
-      <item index="32" class="java.lang.String" itemvalue="Application.LasersApplication" />
-      <item index="33" class="java.lang.String" itemvalue="Application.DischargeLampsApplication" />
-      <item index="34" class="java.lang.String" itemvalue="JUnit.ZBasalMetabolicRateTester.testBMR" />
-      <item index="35" class="java.lang.String" itemvalue="Application.CircuitConstructionKitACApplication" />
-      <item index="36" class="java.lang.String" itemvalue="Application.RotationApplication" />
-      <item index="37" class="java.lang.String" itemvalue="Application.TranslationUtility" />
-      <item index="38" class="java.lang.String" itemvalue="Application.WaveInterferenceApplication" />
+      <item index="19" class="java.lang.String" itemvalue="Application.BoundStatesApplication" />
+      <item index="20" class="java.lang.String" itemvalue="Application.EatingAndExerciseFileParser" />
+      <item index="21" class="java.lang.String" itemvalue="Application.TorqueApplication" />
+      <item index="22" class="java.lang.String" itemvalue="Application.NeutronSourceNode" />
+      <item index="23" class="java.lang.String" itemvalue="Application.BalloonsApplication" />
+      <item index="24" class="java.lang.String" itemvalue="Application.BatchSimTest" />
+      <item index="25" class="java.lang.String" itemvalue="Application.CaptureScreenshot" />
+      <item index="26" class="java.lang.String" itemvalue="Application.TestPhetApplicationUsage" />
+      <item index="27" class="java.lang.String" itemvalue="Application.DistanceLadderApplication" />
+      <item index="28" class="java.lang.String" itemvalue="Application.RadioWavesApplication" />
+      <item index="29" class="java.lang.String" itemvalue="Application.FaradayApplication" />
+      <item index="30" class="java.lang.String" itemvalue="Application.SemiconductorApplication" />
+      <item index="31" class="java.lang.String" itemvalue="Application.LasersApplication" />
+      <item index="32" class="java.lang.String" itemvalue="Application.DischargeLampsApplication" />
+      <item index="33" class="java.lang.String" itemvalue="JUnit.ZBasalMetabolicRateTester.testBMR" />
+      <item index="34" class="java.lang.String" itemvalue="Application.CircuitConstructionKitACApplication" />
+      <item index="35" class="java.lang.String" itemvalue="Application.RotationApplication" />
+      <item index="36" class="java.lang.String" itemvalue="Application.TranslationUtility" />
+      <item index="37" class="java.lang.String" itemvalue="Application.LinearValueControlNode" />
+      <item index="38" class="java.lang.String" itemvalue="Application.BalancedDietDialog" />
+      <item index="39" class="java.lang.String" itemvalue="Application.WaveInterferenceApplication" />
+      <item index="40" class="java.lang.String" itemvalue="Application.HealthIndicator" />
+      <item index="41" class="java.lang.String" itemvalue="Application.TestYears" />
+      <item index="42" class="java.lang.String" itemvalue="Application.MuscleGainedFromExercising" />
     </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -1758,31 +2139,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="1126" extended-state="7" />
-    <editor active="false" />
+    <frame x="-8" y="-8" width="1616" height="1126" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998997" order="12" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15775917" order="1" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.113972954" order="1" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33801404" order="1" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3099298" order="4" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39618856" order="4" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="15" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2778335" order="9" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21263792" order="10" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35205618" order="9" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36208627" order="10" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998997" order="7" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39987123" order="0" />
       <window_info id="Maven projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296845" order="5" />
       <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32898697" order="8" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26336125" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15067612" order="0" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6018054" order="11" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22021893" order="2" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.10045074" order="2" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39919758" order="6" />
-      <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="13" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24774323" order="2" />
+      <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47442326" order="13" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26078236" order="2" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="5" />
@@ -1810,7 +2191,7 @@
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reformatted" />
+    <option name="LAST_COMMIT_MESSAGE" value="added model &amp; tests" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -1821,31 +2202,31 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="converted from ColorDialog to ColorChooserFactory" />
-    <MESSAGE value="updated to phetcommon implementatino of" />
-    <MESSAGE value="removed duplicate common code" />
-    <MESSAGE value="repackage" />
-    <MESSAGE value="remove references to phetgraphics" />
-    <MESSAGE value="removed unnecessary ICCKModule interface" />
-    <MESSAGE value="Renamed Clear to Reset, moved out of File Save/Load panel&#10;Renamed File to Circuit in Save/Load panel" />
-    <MESSAGE value="6-14-2008: Neon Light &amp; Other Discharge Lamps (1.08) - minor user interface improvements for low screen resolution" />
-    <MESSAGE value="bugfixes for domain range (visible vs allowed issue)" />
-    <MESSAGE value="added tostring for debug purposes" />
-    <MESSAGE value="bugfix (beetle units was wrong)" />
-    <MESSAGE value="added learning goals" />
-    <MESSAGE value="fixed typos&#10;converted from &quot;have-listeners-on-construction&quot; pattern to &quot;able to add listeners after construction&quot; pattern" />
-    <MESSAGE value="minor cleanup&#10;reformat" />
-    <MESSAGE value="renamed restart to play" />
-    <MESSAGE value="moved docs from DOC to TXT format" />
-    <MESSAGE value="added docs" />
-    <MESSAGE value="minor cleanup" />
-    <MESSAGE value="added bug report" />
-    <MESSAGE value="removed support for user.language command line argument&#10;refactored locale identification to use PhetResources implementation" />
-    <MESSAGE value="update project file" />
-    <MESSAGE value="Updated to do list" />
-    <MESSAGE value="Updated to do list based on meeting with Noah" />
-    <MESSAGE value="Rewrote to use phetresources instead of simstrings" />
-    <MESSAGE value="Reformatted" />
+    <MESSAGE value="clea" />
+    <MESSAGE value="typo fix" />
+    <MESSAGE value="added a scale+offset constructor" />
+    <MESSAGE value="added average estimation with linear fit" />
+    <MESSAGE value="first draft of heart health" />
+    <MESSAGE value="added handling for special cases" />
+    <MESSAGE value="initial draft of HEART STRENGTH / STRAIN" />
+    <MESSAGE value="clean up broken file" />
+    <MESSAGE value="update project files to reflect nuclear-physics project move" />
+    <MESSAGE value="update paths to reflect local system move" />
+    <MESSAGE value="update time sheets" />
+    <MESSAGE value="removed reference to rugby.png" />
+    <MESSAGE value="refactor update to composite/strategy" />
+    <MESSAGE value="added tests and improved strategy" />
+    <MESSAGE value="Wendy wants exercise to be in 15 minute units instead of 1 hour. This should be as simple as dividing all the calories by 4.&#10;There should be some indicator in the sim that these exercise calories are for 15 minutes" />
+    <MESSAGE value="Changed exercise time increment from 1 hour to 15 minutes" />
+    <MESSAGE value="Cleaned up food and exercise text" />
+    <MESSAGE value="cleanup docs" />
+    <MESSAGE value="cleanup health indicators" />
+    <MESSAGE value="converted timesheet to standalone jar app" />
+    <MESSAGE value="docs" />
+    <MESSAGE value="ipr" />
+    <MESSAGE value="update docs" />
+    <MESSAGE value="moved model issue to unfuddle" />
+    <MESSAGE value="added model &amp; tests" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1948,10 +2329,15 @@
       <verbose value="false" />
       <viewClosedWhenNoErrors value="false" />
     </buildFile>
-    <buildFile url="file://$PROJECT_DIR$/../../../simulations-flash/flash-launcher/build.xml">
+    <buildFile url="file://$PROJECT_DIR$/../../../team/reids/admin/build.xml">
       <antCommandLine value="" />
       <runInBackground value="true" />
-      <targetFilters />
+      <targetFilters>
+        <filter targetName="clean" isVisible="true" />
+        <filter targetName="compile" isVisible="true" />
+        <filter targetName="dist" isVisible="true" />
+        <filter targetName="init" isVisible="false" />
+      </targetFilters>
       <treeView value="true" />
       <verbose value="true" />
       <viewClosedWhenNoErrors value="false" />
@@ -1968,122 +2354,120 @@
     <option name="myLastEditedConfigurable" value="find-deprecated" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../../../team/reids/admin/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="34" selection-start="883" selection-end="883" vertical-scroll-proportion="0.14738806">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/photoelectric/data/photoelectric/localization/photoelectric-strings.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.17378049">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/discharge-lamps/data/discharge-lamps/localization/discharge-lamps-strings.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="ResourceBundle">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/photoelectric/src/edu/colorado/phet/photoelectric/PhotoelectricApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="73" selection-start="3867" selection-end="3867" vertical-scroll-proportion="1.0945946">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/photoelectric/src/edu/colorado/phet/photoelectric/PhotoelectricConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="4" selection-start="879" selection-end="879" vertical-scroll-proportion="0.4743025">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/discharge-lamps/src/edu/colorado/phet/dischargelamps/DischargeLampsConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="109" selection-start="703" selection-end="703" vertical-scroll-proportion="0.2804699">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/discharge-lamps/src/edu/colorado/phet/dischargelamps/DischargeLampsApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="78" selection-start="5691" selection-end="5691" vertical-scroll-proportion="0.6902465">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../simulations/lasers/src/edu/colorado/phet/lasers/controller/LaserConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="89" selection-start="553" selection-end="553" vertical-scroll-proportion="0.14345992">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../util/translation-utility/data/translation-utility/common-projects.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="264" selection-end="264" vertical-scroll-proportion="0.07172996">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../util/translation-utility/src/edu/colorado/phet/translationutility/simulations/JavaSimulation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="149" column="12" selection-start="5979" selection-end="5979" vertical-scroll-proportion="0.20471597">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/EatingAndExerciseApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="13" selection-start="1072" selection-end="1072" vertical-scroll-proportion="0.018220793">
+        <state line="2" column="46" selection-start="90" selection-end="90" vertical-scroll-proportion="0.036441587">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/EatingAndExerciseResources.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/control/Activity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="551" selection-end="948" vertical-scroll-proportion="0.23312236">
+        <state line="35" column="13" selection-start="1193" selection-end="1206" vertical-scroll-proportion="0.60548526">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/application/ApplicationModel.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/Human.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="8" selection-start="1495" selection-end="1495" vertical-scroll-proportion="0.018220793">
+        <state line="650" column="31" selection-start="21879" selection-end="21879" vertical-scroll-proportion="0.2561629">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/forces1d/Forces1DApplication.java">
+    <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/MuscleAndFatMassLoss2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="321" column="11" selection-start="11447" selection-end="11447" vertical-scroll-proportion="0.3118971">
-          <folding>
-            <marker date="1213752754319" expanded="false" signature="44:1322" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/forces1d/Force1DResources.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="70" selection-start="873" selection-end="873" vertical-scroll-proportion="0.0">
+        <state line="22" column="0" selection-start="697" selection-end="697" vertical-scroll-proportion="0.19198312">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../build.xml">
+    <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/deploy/todo.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="15" selection-start="2427" selection-end="2427" vertical-scroll-proportion="0.01864035">
+        <state line="95" column="0" selection-start="6237" selection-end="7017" vertical-scroll-proportion="0.20042872">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../build-ancillary.xml">
+    <entry file="file://$PROJECT_DIR$/../../simulations/eating-and-exercise/src/edu/colorado/phet/eatingandexercise/model/MuscleGainedFromExercising.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="321" column="23" selection-start="14830" selection-end="14830" vertical-scroll-proportion="0.025835866">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/application/Module.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="8" selection-start="1763" selection-end="1763" vertical-scroll-proportion="0.02503682">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/ClockControlPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="52" selection-start="1891" selection-end="1891" vertical-scroll-proportion="0.076368876">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/components/menu/PhetFileMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="42" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.61239195">
-          <folding>
-            <marker date="1213752710324" expanded="false" signature="1216:1334" placeholder="{...}" />
-            <marker date="1213752710324" expanded="true" signature="1275:1324" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/components/menu/HelpMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="44" selection-start="1714" selection-end="1714" vertical-scroll-proportion="0.02503682">
-          <folding>
-            <marker date="1213752783303" expanded="false" signature="2225:2402" placeholder="{...}" />
-            <marker date="1213752783303" expanded="true" signature="2284:2392" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/forces-1d/src/edu/colorado/phet/common_force1d/view/help/HelpPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="33" selection-start="799" selection-end="799" vertical-scroll-proportion="0.02503682">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../build-tools/phet-build/src/edu/colorado/phet/build/PhetBuildGUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="224" column="14" selection-start="8355" selection-end="8355" vertical-scroll-proportion="0.02503682">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../build-tools/phet-build/src/edu/colorado/phet/build/AbstractPhetTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="16" selection-start="234" selection-end="234" vertical-scroll-proportion="0.25036818">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/wave-interference/src/edu/colorado/phet/waveinterference/WaveInterferenceApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="28" selection-start="877" selection-end="877" vertical-scroll-proportion="0.4005891">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../simulations/wave-interference/src/edu/colorado/phet/waveinterference/view/PressureWaveGraphic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="369" column="23" selection-start="13089" selection-end="13089" vertical-scroll-proportion="0.3328424">
+        <state line="43" column="29" selection-start="2440" selection-end="2440" vertical-scroll-proportion="0.59914255">
           <folding />
         </state>
       </provider>
