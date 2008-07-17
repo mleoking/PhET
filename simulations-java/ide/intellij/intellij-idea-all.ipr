@@ -11,10 +11,10 @@
         <property name="sun.java2d.noddraw" value="true" />
       </properties>
     </buildFile>
-    <buildFile url="file://$PROJECT_DIR$/../../../simulations-flash/flash-launcher/build.xml">
+    <buildFile url="file://$PROJECT_DIR$/../../../team/reids/admin/build.xml">
       <additionalClassPath />
       <antReference projectDefault="true" />
-      <customJdkName value="" />
+      <customJdkName value="1.6" />
       <maximumHeapSize value="128" />
       <properties />
     </buildFile>
@@ -321,6 +321,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/../translation-utility" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/../../../team/reids" vcs="svn" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">
