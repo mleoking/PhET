@@ -27,18 +27,6 @@ if you went below this weight it would start removing fat (since you would be ne
 
 Along with this we will have a button near the % fat slider that says "Auto" or something like that.
 When you click it, it automatically calculates a % fat based on activity, height, and weight.
-
-____________________________________________________________________________________________
-FOOD LIST
-
-NP: I added some more food items to the foods list. Some things to note:
-
--I added a hot dog with bun - I think you should remove the just plain hot dog (almost nobody eats just a plain hot dog, and the graphic shows a hot dog with bun...and a graphic for just a plain hot dog might be, well, distracting...)
-
--The "tall hot choclolate" should be changed to "regular hot chocolate" or maybe "large..." Tall sounds too much like Starbucks. We want to avoid reference to them.
-
--There should be a different graphic for diet cola and regular cola, if possible. Even if it is just a different color - just to show they are different. Same would be nice for milk, but I'm not sure right now how to do that.
-
 ____________________________________________________________________________________________
 HEART STRENGTH / STRAIN
 
