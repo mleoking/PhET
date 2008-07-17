@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.21
+ph-scale 1.00.00
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,7 +12,7 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>fix ability to specify pH and volume precision so that it works for all languages
+<li>same as version 0.00.21, publish to PhET website
 </ul>
 <p>
 <b>Know issues:</b>
