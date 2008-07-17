@@ -126,7 +126,7 @@ public class HumanNode extends PNode {
 
         double leanMuscleFraction = human.getFatFreeMassPercent() / 100.0;
 
-        return human.getMass() / 75 * 1.75 + ( 1 - leanMuscleFraction )*0.2;
+        return human.getMass() / 75 * 1.75 + ( 1 - leanMuscleFraction ) * 0.2;
     }
 
     private Shape createStomachShape( Shape bodyShape ) {
@@ -173,6 +173,22 @@ public class HumanNode extends PNode {
             }
         } );
         contentPane.add( control2 );
+
+        final LinearValueControl strength = new LinearValueControl( 0, 1, "heart strength", "0.00", "" );
+        strength.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                human.setHeartStrength( strength.getValue() );
+            }
+        } );
+        contentPane.add( strength );
+
+        final LinearValueControl strain = new LinearValueControl( 0, 1, "heart strain", "0.00", "" );
+        strain.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                human.setHeartStrain( strain.getValue() );
+            }
+        } );
+        contentPane.add( strain );
 
         controlFrame.setVisible( true );
         controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

@@ -48,16 +48,12 @@ public class HeartNode extends PImage {
     }
 
     private void updateSmile() {
-//        double optimalBMI = 21.5;//median of WHO values according to: http://en.wikipedia.org/wiki/Body_mass_index
-        double distFromOptimal = Math.abs( human.getHeartHealth() - 1 ) * 10;
-        Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 3, 1, 0 );
-
         DoubleGeneralPath smile = new DoubleGeneralPath();
         double smileInsetScaleX = 0.3;
         double smileYFrac = 0.6;
-//        double happiness = ( human.getLeanMuscleMass() / 100.0 - 0.5 ) * 2;//between 0 and 1
-//        double happiness = MathUtil.clamp( -0.5, linearFunction.evaluate( distFromOptimal ), 1 );
-        double happiness = MathUtil.clamp( -0.5, linearFunction.evaluate( distFromOptimal ), 1 );
+        double happiness = new Function.LinearFunction( 0, 1, -0.5, 1 ).evaluate( human.getHeartHealth() );
+        happiness = MathUtil.clamp( -0.5, happiness, 1 );
+//        System.out.println( "human.getHeartHealth(); = " + human.getHeartHealth() + ", happiness=" + happiness );
         double controlPointDY = 50 * happiness;
         smile.moveTo( heart.getFullBounds().getWidth() * smileInsetScaleX, heart.getFullBounds().getHeight() * smileYFrac );
         smile.curveTo( heart.getFullBounds().getWidth() * 0.4, heart.getFullBounds().getHeight() * smileYFrac + controlPointDY,
