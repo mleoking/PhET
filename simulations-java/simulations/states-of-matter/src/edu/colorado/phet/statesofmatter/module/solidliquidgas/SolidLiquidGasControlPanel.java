@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
+import edu.colorado.phet.statesofmatter.control.GravityControlSlider;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 
@@ -62,7 +63,7 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
         addControlFullWidth( new MoleculeSelectionPanel() );
         
         // Add the panel that allows the user to control the system temperature.
-        addControlFullWidth( new GravityControlPanel() );
+        addControlFullWidth( new GravityControlSlider(m_model) );
         
         // Add the Reset All button.
         addVerticalSpace( 10 );
@@ -208,67 +209,6 @@ public class SolidLiquidGasControlPanel extends ControlPanel {
             add( m_argonRadioButton );
             add( m_oxygenRadioButton );
             add( m_waterRadioButton );
-        }
-    }
-    
-    private class GravityControlPanel extends JPanel {
-        
-        private static final int GRAV_SLIDER_RANGE = 100;
-        private JSlider m_gravitationalAccControl;
-        private Font labelFont = new PhetFont(14, true);
-        
-        GravityControlPanel(){
-            
-            setLayout( new GridLayout(0, 1) );
-            
-            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    "Gravity Control", // JPB TBD - Make this into a string if we keep it.
-                    TitledBorder.LEFT,
-                    TitledBorder.TOP,
-                    new PhetFont( Font.BOLD, 14 ),
-                    Color.GRAY );
-            
-            setBorder( titledBorder );
-            
-            // Register as a listener with the model so that we know when it gets
-            // reset.
-            m_model.addListener( new MultipleParticleModel.Adapter(){
-                public void resetOccurred(){
-                    m_gravitationalAccControl.setValue((int)((m_model.getGravitationalAcceleration() / 
-                            MultipleParticleModel.MAX_GRAVITATIONAL_ACCEL) * GRAV_SLIDER_RANGE));
-                }
-            });
-            
-            // Add the labels.
-            JPanel labelPanel = new JPanel();
-            labelPanel.setLayout( new GridLayout(1,4) );
-            JLabel leftLabel = new JLabel("None    ");
-            leftLabel.setFont( labelFont );
-            labelPanel.add( leftLabel );
-            labelPanel.add(new JLabel(""));
-            labelPanel.add(new JLabel(""));
-            JLabel rightLabel = new JLabel("    Lots");
-            rightLabel.setFont( labelFont );
-            labelPanel.add( rightLabel );
-            add( labelPanel );
-            
-            // Add the slider that will control the gravitational acceleration of the system.
-            m_gravitationalAccControl = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
-            m_gravitationalAccControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
-            m_gravitationalAccControl.setPaintTicks( true );
-            m_gravitationalAccControl.setMajorTickSpacing( GRAV_SLIDER_RANGE / 10 );
-            m_gravitationalAccControl.setMinorTickSpacing( GRAV_SLIDER_RANGE / 20 );
-            m_gravitationalAccControl.setValue((int)((m_model.getGravitationalAcceleration() / 
-                    MultipleParticleModel.MAX_GRAVITATIONAL_ACCEL) * GRAV_SLIDER_RANGE));
-            m_gravitationalAccControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    m_model.setGravitationalAcceleration( m_gravitationalAccControl.getValue() * 
-                            (MultipleParticleModel.MAX_GRAVITATIONAL_ACCEL / GRAV_SLIDER_RANGE));
-                }
-            });
-            
-            add(m_gravitationalAccControl);
         }
     }
 }
