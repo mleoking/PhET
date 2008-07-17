@@ -130,7 +130,7 @@ public class BicyclePumpNode extends PNode {
                         m_currentPumpingAmount += d.getHeight();
                         if (m_currentPumpingAmount >= m_pumpingRequiredToInject){
                             // Enough pumping has been done to inject a new particle.
-                            m_model.injectParticle();
+                            m_model.injectMolecule();
                             m_currentPumpingAmount = 0;
                         }
                     }
