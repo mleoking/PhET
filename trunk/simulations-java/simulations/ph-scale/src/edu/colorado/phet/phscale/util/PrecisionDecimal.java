@@ -2,70 +2,52 @@
 
 package edu.colorado.phet.phscale.util;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
  * PrecisionDecimal is a value that is constrained to some specified number of decimal places.
+ * The value can be changed, but the precision is immutable.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PrecisionDecimal {
     
-    private final double _preciseValue; // the precise value
-    private final BigDecimal _bigDecimal; // delegate for constraining precision
+    private final int _numberOfDecimalPlaces;
+    private double _preciseValue; // the precise value
+    private double _value;
     
     /**
      * Constructor
      * 
-     * @param value
+     * @param preciseValue
      * @param numberOfDecimalPlaces
      */
-    public PrecisionDecimal( double value, int numberOfDecimalPlaces ) {
+    public PrecisionDecimal( double preciseValue, int numberOfDecimalPlaces ) {
         if ( numberOfDecimalPlaces < 0 ) {
             throw new IllegalArgumentException( "numberOfDecimalPlaces must be >= 0" );
         }
-        // save the precise value
-        _preciseValue = value;
-        // format the value as a string with the specified number of decimal places
-        DecimalFormat format = createFormat( numberOfDecimalPlaces );
-        String stringValue = format.format( value );
-        // provide the string to BigDecimal, which will use the string to determine how precision is constrained
-        _bigDecimal = new BigDecimal( stringValue );
+        _numberOfDecimalPlaces = numberOfDecimalPlaces;
+        setValue( preciseValue );
+    }
+    
+    /**
+     * Copy constructor.
+     * 
+     * @param d
+     */
+    public PrecisionDecimal( PrecisionDecimal d ) {
+        this( d.getPreciseValue(), d.getNumberOfDecimalPlaces() );
     }
     
     /*
-     * Creates a formatter for decimal numbers.
+     * Trims a value to the specified number of decimal places.
+     * Decimal places that will be dropped are rounded towards "nearest neighbor"
+     * unless both neighbors are equidistant, in which case round up.
+     * Note that this is the rounding method that most of us were taught in grade school.
      */
-    private static DecimalFormat createFormat( int numberOfDecimalPlaces ) {
-        String pattern = "0";
-        for ( int i = 0; i < numberOfDecimalPlaces; i++ ) {
-            if ( i == 0 ) {
-                pattern += ".";
-            }
-            pattern += "0";
-        }
-        return new DefaultDecimalFormat( pattern );
-    }
-    
-    /**
-     * Gets the value, constrained to the number of significant decimal places
-     * indicated in the constructor.
-     * 
-     * @return
-     */
-    public double getValue() {
-        return _bigDecimal.doubleValue();
-    }
-    
-    /**
-     * Gets the precise value, as provided to the constructor.
-     * @return
-     */
-    public double getPreciseValue() {
-        return _preciseValue;
+    private static double adjustPrecision( double value, int numberOfDecimalPlaces ) {
+        int sign = ( value >= 0 ) ? 1 : -1;
+        final double pow10 = Math.pow( 10, numberOfDecimalPlaces );
+        return sign * Math.round( Math.abs( value ) * pow10 ) / pow10;
     }
     
     /**
@@ -75,7 +57,35 @@ public class PrecisionDecimal {
      * @return
      */
     public int getNumberOfDecimalPlaces() {
-        return _bigDecimal.scale();
+        return _numberOfDecimalPlaces;
+    }
+    
+    /**
+     * Sets the value.
+     * 
+     * @param value
+     */
+    public void setValue( double value ) {
+        _preciseValue = value;
+        _value = adjustPrecision( value, _numberOfDecimalPlaces );
+    }
+    
+    /**
+     * Gets the value, constrained to the number of significant decimal places
+     * indicated in the constructor.
+     * 
+     * @return
+     */
+    public double getValue() {
+        return _value;
+    }
+    
+    /**
+     * Gets the precise value, as provided to the constructor or setValue.
+     * @return
+     */
+    public double getPreciseValue() {
+        return _preciseValue;
     }
     
     /**
@@ -91,29 +101,29 @@ public class PrecisionDecimal {
     }
     
     /**
-     * String representation of the constrained value.
-     */
-    public String toString() {
-        return _bigDecimal.toString();
-    }
-    
-    /**
      * Test & examples.
      */
     public static void main( String[] args ) {
         
-        PrecisionDecimal d1 = new PrecisionDecimal( 12.345678, 2 );
+        PrecisionDecimal d1 = new PrecisionDecimal( 12.3456, 2 );
         System.out.println( d1.getPreciseValue() + " to " + d1.getNumberOfDecimalPlaces() + " places = " + d1.getValue() );
+        assert( d1.getValue() == 12.35 );
         
-        PrecisionDecimal d2 = new PrecisionDecimal( 12.345678, 3 );
+        PrecisionDecimal d2 = new PrecisionDecimal( 12.3456, 3 );
         System.out.println( d2.getPreciseValue() + " to " + d2.getNumberOfDecimalPlaces() + " places = " + d2.getValue() );
+        assert( d2.getValue() == 12.346 );
         
-        PrecisionDecimal d3 = new PrecisionDecimal( -1.456789, 1 );
+        PrecisionDecimal d3 = new PrecisionDecimal( -1.45, 1 );
         System.out.println( d3.getPreciseValue() + " to " + d3.getNumberOfDecimalPlaces() + " places = " + d3.getValue() );
+        assert( d3.getValue() == -1.5 );
+        
+        PrecisionDecimal d6 = new PrecisionDecimal( -1.44, 1 );
+        System.out.println( d6.getPreciseValue() + " to " + d6.getNumberOfDecimalPlaces() + " places = " + d6.getValue() );
+        assert( d6.getValue() == -1.4 );
         
         PrecisionDecimal d4 = new PrecisionDecimal( 1.344, 2 );
         PrecisionDecimal d5 = new PrecisionDecimal( 1.340, 2 );
-        
         System.out.println( d4.getPreciseValue() + ( ( d4.getValue() == d5.getValue() ) ? " == " : " != " ) + d5.getPreciseValue() );
+        assert( d4.getValue() == d5.getValue() );
     }
 }
