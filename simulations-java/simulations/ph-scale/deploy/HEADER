@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-ph-scale 0.00.19
+ph-scale 0.00.20
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,8 +12,19 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>fix problem with pH text field, it would ignore values that had 2 or more decimal places
-<li>limit precision of pH value to 2 decimal places throughout the model, so that student calculations match displayed values
+<li>use consistent colors for H2O, H3O and OH throughout (water, bars, molecules, particles, pH slider)
+<li>adjust color of H2O molecule image (done by Archie)
+<li>minor tick marks on beaker at 0.1L increments
+<li>maximum beaker volume of 1.2L
+<li>label only the 1/2L and 1L ticks on beaker
+<li>volume readout that moves up the outside right edge of the beaker
+<li>beaker is 15 pixels narrower to make room for volume readout
+<li>add linearly variable flow rate to the faucets
+<li>major model changes to support variable flow rate
+<li>limit volume precision to 2 decimal places in the model, so that student calculations match what is displayed
+<li>tweak clock framerate and faucet flow rates to support titration precision, while keeping fill/drain animation reasonably smooth 
+(clock rate = 10 ticks per second, fastest flow = 1L/sec, liquid selection flow = 0.75L/sec)
+<li>delete alternate "molecule counts" view, colors of its H2O image file was now out of date
 </ul>
 <p>
 <b>Know issues:</b>
