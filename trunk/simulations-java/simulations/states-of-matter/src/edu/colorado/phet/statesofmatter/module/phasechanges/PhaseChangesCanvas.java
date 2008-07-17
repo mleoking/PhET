@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
+import edu.colorado.phet.statesofmatter.model.particle.HydrogenAtom;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
 import edu.colorado.phet.statesofmatter.view.ModelViewTransform;
 import edu.colorado.phet.statesofmatter.view.ParticleContainerNode;
@@ -57,7 +58,8 @@ public class PhaseChangesCanvas extends PhetPCanvas {
     
     private MultipleParticleModel m_model;
     private ParticleContainerNode m_particleContainer;
-    private PNode m_particleLayer;
+    private PNode m_upperParticleLayer;
+    private PNode m_lowerParticleLayer;
     private ModelViewTransform m_mvt;
     private DialGaugeNode m_pressureMeter;
 
@@ -86,7 +88,12 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         // Set ourself up as a listener to the model.
         m_model.addListener( new MultipleParticleModel.Adapter(){
             public void particleAdded(StatesOfMatterAtom particle){
-                m_particleLayer.addChild( new ParticleNode(particle, m_mvt));
+                if (particle instanceof HydrogenAtom){
+                    m_lowerParticleLayer.addChild( new ParticleNode(particle, m_mvt));
+                }
+                else{
+                    m_upperParticleLayer.addChild( new ParticleNode(particle, m_mvt));
+                }
             }
             public void pressureChanged(){
                 m_pressureMeter.setValue(m_model.getPressure());
@@ -134,11 +141,18 @@ public class PhaseChangesCanvas extends PhetPCanvas {
         tempContainerNode.setStrokePaint( Color.red );
         addWorldChild( tempContainerNode );
         
-        // Create and add the particle layer node.
-        m_particleLayer = new PNode();
-        m_particleLayer.setPickable( false );
-        m_particleLayer.setChildrenPickable( false );
-        addWorldChild( m_particleLayer );
+        // Create and add the lower particle layer node.  We create two so
+        // that we can control which particles go on top of each other.
+        m_lowerParticleLayer = new PNode();
+        m_lowerParticleLayer.setPickable( false );
+        m_lowerParticleLayer.setChildrenPickable( false );
+        addWorldChild( m_lowerParticleLayer );
+        
+        // Create and add the upper particle layer node.
+        m_upperParticleLayer = new PNode();
+        m_upperParticleLayer.setPickable( false );
+        m_upperParticleLayer.setChildrenPickable( false );
+        addWorldChild( m_upperParticleLayer );
         
         // Add a burner that the user can use to add or remove heat from the
         // particle container.
