@@ -13,6 +13,8 @@ LOW PRIORITY:
 
 
 DONE:
+******* version 1.00.00 (?)
+7/17/08 - confirm that all dev controls disappear when -dev commandline arg is not supplied
 7/17/08 - organize imports
 ******* version 0.00.21 (23274)
 7/17/08 - reimplement PrecisionDecimal, previous implementation using BigDecimal only worked for English
