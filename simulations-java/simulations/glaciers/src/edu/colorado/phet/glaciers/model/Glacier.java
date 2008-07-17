@@ -32,7 +32,7 @@ public class Glacier extends ClockAdapter {
     private static final double U_DEFORM = 20; // contribution of vertical deformation to ice speed (meters/year)
     
     private static final double MIN_TIMESCALE = 50; // min value for evolution timescale
-    private static final double MAX_TIMESCALE = 300; // max value for evolution timescale
+    private static final double MAX_TIMESCALE = 200; // max value for evolution timescale
     
     private static final double ELAX_B0 = 157076;
     private static final double ELAX_M0 = -37.57;
@@ -161,7 +161,7 @@ public class Glacier extends ClockAdapter {
             updateIceThickness();
             _steadyState = true;
             notifySteadyStateChanged();
-            assert( _qela < maxElevation );
+            assert( _qela <= maxElevation );
         }
     }
     
@@ -564,17 +564,7 @@ public class Glacier extends ClockAdapter {
      */
     private double getTimescale() {
         
-        // use a different timescale for receding vs advancing glacier
-        double timescale;
-        final double ela = _climate.getELA();
-        if ( ela > _qela ) {
-            // receding
-            timescale = ( -0.22 * ela ) + 1026;
-        }
-        else {
-            // advancing
-            timescale = ( 0.35 * ela ) - 1139;
-        }
+        double timescale = ( -0.22 * _climate.getELA() ) + 1026;
         
         // limit range
         if ( timescale < MIN_TIMESCALE ) {
