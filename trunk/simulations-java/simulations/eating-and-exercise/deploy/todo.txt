@@ -68,35 +68,6 @@ algebra error.  LBM_O = W *96% = BMI*h2 * 96%  You also don't mention this
 is for men and that women would be 91% and BMI 26 I think you found.  I also
 don't see the muscle mass loss due to lack of exercise.
 
-____________________________________________________________________________________________
-STARVATION AND HEART ATTACK
-
-Starvation mode should be Gender specific: what are the threshould %fat values for male & female?
-
-NP - let's say 2% for men, 4% for women.
-
->>>Model for starvation:
-	If you drop below 2%/4% (men/women) fat, you can live for 2 months and then death occurs. If you go above this level, the clock resets.
-	
-	See MUSCLE AND FAT MASS LOSS section above for LBM and Fat loss when in starvation mode. (Basically you burn more muscle since you have so little fat.)
-
->>>Model for heart attack:
-	If you go above 25%/32% (men/women) fat, you begin to have a probability of heart attack each day, p_attack. Below these %fat thresholds, p_attack = 0.
-
-	p_attack = p_0 * (%fat - %fat_0)
-
-	...where p_0 is a constant we adjust to make heart attack fairly likely (within a couple of years) for $fat > 50, %fat_0 = 25%/32% for men/women.
-
-Noah said:
-The heart attack feature seems to work - though p_0 may need to be even lower (at p_0 = 0.0001 it usually kills the person within the year).
- So do we want the heart attack to happen at a typical time of 2-3 years? In the sim, when you go beyond 1 year, nothing happens in the charts.
- Maybe they should scroll as you advance beyond 1 year?
-
-Heart attack should be based on heart strength and strain, not previous algorithm for heart attack.
-
-I think there should be a warning for the 35-50% fat range also...but I'm not sure what.
-"low" doesn't really work, because that is true for the whole range. Maybe "above normal", then "moderate", etc.?
-
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
@@ -128,3 +99,6 @@ Franny said on 6/13/2008:
     in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there
     was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in,
     but that portion is not very realistic, so i thought i'd point it out.
+
+In the sim, when you go beyond 1 year, nothing happens in the charts.
+ Maybe they should scroll as you advance beyond 1 year?

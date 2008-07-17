@@ -190,7 +190,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
         updateHeartAttackProbabilityLabel();
-//        add( pheart );
+        add( pheart );
 
         //wire up listeners to these properties directly, since they are independent variables (ie won't be changed by the model)
         human.addListener( new Human.Adapter(){
@@ -229,7 +229,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     }
 
     private void updateHeartAttackProbabilityLabel() {
-        pheart.setText( "probability of heart attack per day=" + new DecimalFormat( "0.0000" ).format( human.getHeartAttackProbabilityPerDay() ) );
+        pheart.setText( "probability of heart attack per day=" + new DecimalFormat( "0.0000000" ).format( human.getHeartAttackProbabilityPerDay() ) );
     }
 
     public double getAgeSliderY() {

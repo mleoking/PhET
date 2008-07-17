@@ -4,6 +4,7 @@ Clicking on the track of the slider changes its value.
 Changed exercise time increment from 1 hour to 15 minutes
 Cleaned up food and exercise text
 Improved model for weight loss (88% fat)
+Heart attack probability is based on heart health, not previous model
 
 New in 0.00.54
 Clean up foods and exercises
