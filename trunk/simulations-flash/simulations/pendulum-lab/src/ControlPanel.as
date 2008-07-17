@@ -11,6 +11,7 @@
 	var energyGraph:Object;
 	var stageW:Number;
 	var stageH:Number;
+	var myKeyListener:Object;				//used for diagnostics only
 	
 	
 	function ControlPanel(view_arr:Array){
@@ -23,6 +24,8 @@
 		this.stageW = Util.STAGEW;
 		this.stageH = Util.STAGEH;
 		this.activePendulum = 0;
+		myKeyListener = new Object();
+		Key.addListener(myKeyListener);
 		this.initialize();
 	}//end of constuctor;
 	
@@ -138,22 +141,30 @@
 		//this.photogate.time_txt.backgroundColor = 0x000000;
 		//this.setActivePendulum(0);
 		this.resetPendula(this);   //needed to set velocity and acceleration arrows to zero
-
+		
+		myKeyListener.onKeyDown = function(){
+			var pressedKeyCode:Number = Key.getCode();
+			if(pressedKeyCode == Key.SPACE){
+				controllerRef.view_arr[0].pendulum.dtMax = 0;
+				controllerRef.view_arr[0].pendulum.dtMin = 1000;
+				controllerRef.view_arr[0].pendulum.dtAvg = 0;
+				controllerRef.view_arr[1].pendulum.dtMax = 0;
+				controllerRef.view_arr[1].pendulum.dtMin = 1000;
+				controllerRef.view_arr[1].pendulum.dtAvg = 0;
+				_root.dt._visible = !_root.dt._visible;
+				_root.dtMax._visible = !_root.dtMax._visible;
+				_root.dtMin._visible = !_root.dtMin._visible;
+				_root.dtAvg._visible = !_root.dtAvg._visible;
+			}
+		}
+		
+		_root.dt._visible = false;
+		_root.dtMax._visible = false;
+		_root.dtMin._visible = false;
+		_root.dtAvg._visible = false;
 	}//end of initialize()
 	
-	/*
-	function setActivePendulum(nbr:Number):Void{  //nbr is 0 or 1 (0 for pendulum 1, 1 for pendulum 2 ..sorry)
-		this.activePendulum = nbr;
-		var currentLength:Number = this.view_arr[nbr].pendulum.getLength();
-		//trace("pendulm "+nbr+"   length: "+currentLength);
-		var currentMass:Number = this.view_arr[nbr].pendulum.getMass();
-		//trace("this.panelClip.lengthSlider_mc.setSlider before: "+this.panelClip.lengthSlider_mc.setSlider);
-		this.panelClip.lengthSlider_mc.setSlider(currentLength);
-		//trace("this.panelClip.lengthSlider_mc.value after: "+this.panelClip.lengthSlider_mc.value);
-		this.panelClip.massSlider_mc.setSlider(currentMass);
-		this.panelClip.colorClue_mc.gotoAndStop(nbr+1);
-	}
-	*/
+
 	
 	function setPeriodPendulum(nbr:Number):Void{  //number (0 or 1) of pendulum whose period is measured by photogat
 		this.periodPendulum = nbr;
