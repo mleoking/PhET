@@ -17,42 +17,11 @@
         flushing_echo($result);
     }
 
-    // JPB TBD !!! - Temp for making flash internationalization work.
-    function copy_flash_files() {
-        flushing_echo("Copying flash files into ripped website directory");
+    function builder_download_java_rsrcs() {
+        // Download needed Java resources that can't be obtained by ripping
+        // the main web site (because there are no direct links to them).
 
-        exec("cp ../sims/arithmetic/*.xml ./temp/website/phet.colorado.edu/sims/arithmetic/");
-        exec("cp ../sims/arithmetic/*.properties ./temp/website/phet.colorado.edu/sims/arithmetic/");
-        exec("cp ../sims/black-body-radiation/*.xml ./temp/website/phet.colorado.edu/sims/black-body-radiation/");
-        exec("cp ../sims/black-body-radiation/*.properties ./temp/website/phet.colorado.edu/sims/black-body-radiation/");
-        exec("cp ../sims/charges-and-fields/*.xml ./temp/website/phet.colorado.edu/sims/charges-and-fields/");
-        exec("cp ../sims/charges-and-fields/*.properties ./temp/website/phet.colorado.edu/sims/charges-and-fields/");
-        exec("cp ../sims/curve-fit/*.xml ./temp/website/phet.colorado.edu/sims/curve-fit/");
-        exec("cp ../sims/curve-fit/*.properties ./temp/website/phet.colorado.edu/sims/curve-fit/");
-        exec("cp ../sims/equation-grapher/*.xml ./temp/website/phet.colorado.edu/sims/equation-grapher/");
-        exec("cp ../sims/equation-grapher/*.properties ./temp/website/phet.colorado.edu/sims/equation-grapher/");
-        exec("cp ../sims/lens/*.xml ./temp/website/phet.colorado.edu/sims/lens/");
-        exec("cp ../sims/lens/*.properties ./temp/website/phet.colorado.edu/sims/lens/");
-        exec("cp ../sims/lunar-lander/*.xml ./temp/website/phet.colorado.edu/sims/lunar-lander/");
-        exec("cp ../sims/lunar-lander/*.properties ./temp/website/phet.colorado.edu/sims/lunar-lander/");
-        exec("cp ../sims/mass-spring-lab/*.xml ./temp/website/phet.colorado.edu/sims/mass-spring-lab/");
-        exec("cp ../sims/mass-spring-lab/*.properties ./temp/website/phet.colorado.edu/sims/mass-spring-lab/");
-        exec("cp ../sims/my-solar-system/*.xml ./temp/website/phet.colorado.edu/sims/my-solar-system/");
-        exec("cp ../sims/my-solar-system/*.properties ./temp/website/phet.colorado.edu/sims/my-solar-system/");
-        exec("cp ../sims/projectile-motion/*.xml ./temp/website/phet.colorado.edu/sims/projectile-motion/");
-        exec("cp ../sims/projectile-motion/*.properties ./temp/website/phet.colorado.edu/sims/projectile-motion/");
-        exec("cp ../sims/string-wave/*.xml ./temp/website/phet.colorado.edu/sims/string-wave/");
-        exec("cp ../sims/string-wave/*.properties ./temp/website/phet.colorado.edu/sims/string-wave/");
-        exec("cp ../sims/vector-math/*.xml ./temp/website/phet.colorado.edu/sims/vector-math/");
-        exec("cp ../sims/vector-math/*.properties ./temp/website/phet.colorado.edu/sims/vector-math/");
-
-    }
-    // End JPB TBD
-
-    function builder_download_sims() {
-        // Here we have to find and parse all jnlp files, and download all the
-        // resources referenced in the codebase.
-        flushing_echo("Downloading all simulations and their resources...");
+        flushing_echo("Downloading all Java simulation resources...");
 
         $jnlp_files = jnlp_get_all_in_directory(RIPPED_WEBSITE_TOP);
 
@@ -77,9 +46,11 @@
                 flushing_echo("Downloading resource $resource_num of ".count($hrefs)."...");
 
                 if (!web_is_absolute_url($href)) {
+                    flushing_echo("TOP");
                     $absolute_url = file_get_real_path($codebase.$href);
                 }
                 else {
+                    flushing_echo("BOTTOM");
                     $absolute_url = $href;
                 }
 
@@ -113,10 +84,100 @@
             $jnlp = jnlp_replace_absolute_links_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
 
             // Output the new JNLP file:
-            file_put_contents($jnlp_filename, $jnlp);
-
+            file_put_contents($jnlp_filename, $jnlp); 
             ++$file_num;
         }
+    }
+
+    function builder_download_flash_rsrcs() {
+        // Download needed flash resources that can't be obtained by ripping
+        // the main web site (because there are no direct links to them).
+
+        flushing_echo("Downloading all Flash simulation resources...");
+
+        // Find all of the swf (for Shock Wave Flash) files in the ripped web
+        // site files.
+        $swf_files = file_list_in_directory(RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR, "*.swf");
+
+        if ( count( $swf_files) == 0 ){
+            // No flash files were found.  This is unexpected.
+            flushing_echo("WARNING: No swf (i.e. Flash) sims detected.");
+        }
+
+        foreach ($swf_files as $swf_full_path) {
+            // Extract key portions of the full path name in order to figure
+            // out what needs to be requested from the web server.
+            $last_slash_pos = strripos($swf_full_path, "/");
+            $swf_filename = substr($swf_full_path, $last_slash_pos + 1);
+            $core_filename = substr_replace($swf_filename, "", strripos($swf_filename, ".swf"));
+            $destination_dir = substr_replace($swf_full_path, "", $last_slash_pos);
+            flushing_echo("Obtaining resources for Flash sim $swf_filename");
+
+            // Obtain a listing of all files in the corresponding directory
+            // of the web site.  Note that this requires htaccess to be
+            // turned on for this directory.
+            $flash_resource_dir_listing = file_get_contents(PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$core_filename);
+
+            // Go through the listing and extract the names of all .xml files,
+            // and then copy them into the local directory containing the
+            // ripped website.
+            $regex = '/href=".*\.xml"/';
+            preg_match_all($regex, $flash_resource_dir_listing, $xml_hrefs);
+
+            if ( count ( $xml_hrefs[0] ) == 0 ){
+                // This can happen if the Flash sim has never been translated,
+                // but it is worth logging a warning.
+                flushing_echo("WARNING: No xml files found for the $core_filename sim.");
+            }
+            else{
+                foreach ($xml_hrefs[0] as $xml_href){
+                    $xml_file_name = str_ireplace("href=\"", "", $xml_href);
+                    $xml_file_name = str_ireplace("\"", "", $xml_file_name);
+                    flushing_echo("Retrieving file $xml_file_name");
+                    $xml_file_url = PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$core_filename."/".$xml_file_name;
+                    $xml_local_name = $destination_dir."/".$xml_file_name;
+                    $xml_file_contents = file_get_contents($xml_file_url);
+                    file_put_contents_anywhere($xml_local_name, $xml_file_contents);
+                }
+            } 
+
+            // Go through the listing and extract the names of all .properties
+            // files (generally there will be only one), and then copy them
+            // into the local directory containing the ripped website.
+
+            $regex = '/href=".*\.properties"/';
+            preg_match_all($regex, $flash_resource_dir_listing, $properties_hrefs);
+
+            if ( count ( $properties_hrefs[0] ) == 0 ){
+                // This can happen if the Flash sim has never been translated,
+                // but it is worth logging a warning.
+                flushing_echo("WARNING: No properties file found for the $core_filename sim.");
+            }
+            else {
+                foreach ($properties_hrefs[0] as $properties_href){
+                    $properties_file_name = str_ireplace("href=\"", "", $properties_href);
+                    $properties_file_name = str_ireplace("\"", "", $properties_file_name);
+                    flushing_echo("Retrieving file $properties_file_name");
+                    $properties_file_url = PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$core_filename."/".$properties_file_name;
+                    $properties_local_name = $destination_dir."/".$properties_file_name;
+                    $properties_file_contents = file_get_contents($properties_file_url);
+                    file_put_contents_anywhere($properties_local_name, $properties_file_contents);
+                }
+            }
+        }
+    }
+
+    function builder_download_sims() {
+        // Ripping the web site obtains some of the files needed for running
+        // the sims, but not all of them, since some files are not directly
+        // referenced by the main web site.  This function obtains the other
+        // required resources.
+
+        // Get the resources for the Java sims.
+        builder_download_java_rsrcs();
+
+        // Get the resources for the Flash sims.
+        builder_download_flash_rsrcs();
     }
 
     function builder_download_installer_webpages() {
@@ -215,10 +276,8 @@
         }
         else {
             if (file_lock("install-builder")) {
-                if (is_checked('rip-website')){
+                if (is_checked('rip-website'))
                     builder_rip_website();
-                    copy_flash_files();
-                }
 
                 if (is_checked('download-sims'))
                     builder_download_sims();
