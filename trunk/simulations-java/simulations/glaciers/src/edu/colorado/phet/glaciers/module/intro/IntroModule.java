@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.module.basic;
+package edu.colorado.phet.glaciers.module.intro;
 
 import java.awt.Frame;
 
