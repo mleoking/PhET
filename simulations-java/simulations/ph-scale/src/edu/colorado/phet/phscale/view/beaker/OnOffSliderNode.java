@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.phscale.view.beaker;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -32,22 +29,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class OnOffSliderNode extends PNode {
     
-  //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // track
-    private static final float TRACK_STROKE_WIDTH = 2f;
-    private static final Stroke TRACK_STROKE = new BasicStroke( TRACK_STROKE_WIDTH );
-    private static final Color TRACK_STROKE_COLOR = Color.BLACK;
-    private static final Color TRACK_FILL_COLOR = Color.LIGHT_GRAY;
-    
-    // knob
-    private static final int KNOB_STROKE_WIDTH = 1;
-    private static final Stroke KNOB_STROKE = new BasicStroke( KNOB_STROKE_WIDTH );
-    private static final Color KNOB_FILL_COLOR = new Color( 255, 255, 255, 210 );
-    private static final Color KNOB_STROKE_COLOR = Color.BLACK;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -63,13 +44,14 @@ public class OnOffSliderNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public OnOffSliderNode( PDimension trackSize, PDimension knobSize ) {
+    public OnOffSliderNode( PDimension trackSize, Paint trackFillPaint, Paint trackStrokePaint, float trackStrokeWidth, 
+            PDimension knobSize, Paint knobFillPaint, Paint knobStrokePaint, float knobStrokeWidth ) {
         
         _listeners = new ArrayList();
         _on = false;
         _trackSize = new PDimension( trackSize );
-        _trackNode = new TrackNode( trackSize );
-        _knobNode = new KnobNode( knobSize );
+        _trackNode = new TrackNode( trackSize, trackFillPaint, trackStrokePaint, trackStrokeWidth );
+        _knobNode = new KnobNode( knobSize, knobFillPaint, knobStrokePaint, knobStrokeWidth );
         _dragging = false;
         
         addChild( _trackNode );
@@ -189,15 +171,21 @@ public class OnOffSliderNode extends PNode {
      * Origin is at the upper left corner.
      */
     private static class TrackNode extends PNode {
-        public TrackNode( PDimension size ) {
+        public TrackNode( PDimension size, Paint fillPaint, Paint strokePaint, float strokeWidth ) {
             super();
             PPath pathNode = new PPath();
-            final double width = size.getWidth() - TRACK_STROKE_WIDTH;
-            final double height = size.getHeight() - TRACK_STROKE_WIDTH;
+            final double width = size.getWidth() - strokeWidth;
+            final double height = size.getHeight() - strokeWidth;
             pathNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
-            pathNode.setPaint( TRACK_FILL_COLOR );
-            pathNode.setStroke( TRACK_STROKE );
-            pathNode.setStrokePaint( TRACK_STROKE_COLOR );
+            pathNode.setPaint( fillPaint );
+            if ( strokeWidth > 0 ) {
+                pathNode.setStrokePaint( strokePaint );
+                pathNode.setStroke( new BasicStroke( strokeWidth ) );
+            }
+            else {
+                pathNode.setStrokePaint( null );
+                pathNode.setStroke( null );
+            }
             addChild( pathNode );
         }
     }
@@ -207,7 +195,7 @@ public class OnOffSliderNode extends PNode {
      * Origin is at the knob's tip.
      */
     private static class KnobNode extends PNode {
-        public KnobNode( PDimension size ) {
+        public KnobNode( PDimension size, Paint fillPaint, Paint strokePaint, float strokeWidth ) {
 
             float w = (float) size.getWidth();
             float h = (float) size.getHeight();
@@ -221,9 +209,15 @@ public class OnOffSliderNode extends PNode {
 
             PPath pathNode = new PPath();
             pathNode.setPathTo( knobPath );
-            pathNode.setPaint( KNOB_FILL_COLOR );
-            pathNode.setStroke( KNOB_STROKE );
-            pathNode.setStrokePaint( KNOB_STROKE_COLOR );
+            pathNode.setPaint( fillPaint );
+            if ( strokeWidth > 0 ) {
+                pathNode.setStrokePaint( strokePaint );
+                pathNode.setStroke( new BasicStroke( strokeWidth ) );
+            }
+            else {
+                pathNode.setStrokePaint( null );
+                pathNode.setStroke( null );
+            }
             addChild( pathNode );
         }
     }
@@ -258,9 +252,21 @@ public class OnOffSliderNode extends PNode {
     
     public static void main( String args[] ) {
         
-        PDimension trackSize = new PDimension( 200, 5 );
+        // track
+        Color trackFillColor = Color.LIGHT_GRAY;
+        Color trackStrokeColor = Color.BLACK;
+        float trackStrokeWidth = 2f;
+        
+        // knob
+        Color knobFillColor = new Color( 255, 255, 255, 210 );
+        Color knobStrokeColor = Color.BLACK;
+        int knobStrokeWidth = 1;
+        
+        PDimension trackSize = new PDimension( 200, 8 );
         PDimension knobSize = new PDimension( 15, 20 );
-        final OnOffSliderNode sliderNode = new OnOffSliderNode( trackSize, knobSize );
+        final OnOffSliderNode sliderNode = new OnOffSliderNode( 
+                trackSize, trackFillColor, trackStrokeColor, trackStrokeWidth,
+                knobSize, knobFillColor, knobStrokeColor, knobStrokeWidth );
         
         final PPath onOffNode = new PPath( new Rectangle2D.Double( 0, 0, 50, 50 ) );
         onOffNode.setPaint( sliderNode.isOn() ? Color.GREEN : Color.RED );
