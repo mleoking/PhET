@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+7/16/08 - generalize OnOffSliderNode and move to piccolo-phet
 7/16/08 - FaucetSliderNode, a slider for linearly variable flow rates
 7/16/08 - major changes to faucet controls to support variable flow rates
 7/16/08 - major changes to Liquid fill/drain model to support variable flow rates
