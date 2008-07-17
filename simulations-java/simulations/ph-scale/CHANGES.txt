@@ -5,8 +5,6 @@ Change history for ph-scale
 HIGH PRIORITY:
 - VolumeValue in model, limited to 2 decimals of precision
 - linearly variable rate flow for faucets
-- get new H2O molecule SVG image from Archie
-- add SVG assets for H3O and OH molecules
 
 MEDIUM PRIORITY:
 - make zoom buttons more fun looking, maybe using GradientButtonNode?
@@ -19,6 +17,7 @@ LOW PRIORITY:
 
 
 DONE:
+7/16/08 - get new H2O molecule SVG image from Archie
 7/16/08 - add SVG assets for H3O and OH molecules
 7/16/08 - remove space between number and L units label to save room
 7/16/08 - reduce beaker width (15 pixels) to get space for volume value display
