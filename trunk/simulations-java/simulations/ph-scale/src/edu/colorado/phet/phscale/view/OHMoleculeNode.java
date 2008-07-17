@@ -7,15 +7,15 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * OHNode is the visual representation of a hydroxide molecule.
+ * OHMoleculeNode is the visual representation of a hydroxide molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OHNode extends PComposite {
+public class OHMoleculeNode extends PComposite {
 
-    public OHNode() {
+    public OHMoleculeNode() {
         super();
-        PImage imageNode = new PImage( PHScaleImages.OH_SMALL );
+        PImage imageNode = new PImage( PHScaleImages.OH_MOLECULE );
         addChild( imageNode );
     }
 }

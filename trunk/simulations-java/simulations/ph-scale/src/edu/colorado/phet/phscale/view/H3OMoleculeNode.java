@@ -7,15 +7,15 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * H3ONode is the visual representation of a hydronium molecule.
+ * H3OMoleculeNode is the visual representation of a hydronium molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class H3ONode extends PComposite {
+public class H3OMoleculeNode extends PComposite {
 
-    public H3ONode() {
+    public H3OMoleculeNode() {
         super();
-        PImage imageNode = new PImage( PHScaleImages.H3O_SMALL );
+        PImage imageNode = new PImage( PHScaleImages.H3O_Molecule );
         addChild( imageNode );
     }
 }

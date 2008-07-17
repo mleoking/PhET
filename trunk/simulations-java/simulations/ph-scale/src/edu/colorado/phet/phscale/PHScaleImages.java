@@ -16,10 +16,7 @@ public class PHScaleImages {
     private PHScaleImages() {}
     
     public static final BufferedImage FAUCET = PHScaleResources.getImage( "faucet.png" );
-    public static final BufferedImage H2O_SMALL = PHScaleResources.getImage( "H2O-small.png" );
-    public static final BufferedImage H3O_SMALL = PHScaleResources.getImage( "H3O-small.png" );
-    public static final BufferedImage OH_SMALL = PHScaleResources.getImage( "OH-small.png" );
-    public static final BufferedImage H2O_BIG = PHScaleResources.getImage( "H2O-big.png" );
-    public static final BufferedImage H3O_BIG = PHScaleResources.getImage( "H3O-big.png" );
-    public static final BufferedImage OH_BIG = PHScaleResources.getImage( "OH-big.png" );
+    public static final BufferedImage H2O_MOLECULE = PHScaleResources.getImage( "H2O-molecule.png" );
+    public static final BufferedImage H3O_Molecule = PHScaleResources.getImage( "H3O-molecule.png" );
+    public static final BufferedImage OH_MOLECULE = PHScaleResources.getImage( "OH-molecule.png" );
 }

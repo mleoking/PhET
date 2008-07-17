@@ -38,12 +38,9 @@ public class BeakerControlNode extends PNode {
     private final LiquidNode _liquidNode;
     private final ProbeNode _probeNode;
     private final MoleculeCountNode _moleculeCountNode;
-    private final MoleculeCountAlternateNode _moleculeCountAlternateNode;
     private final ViewControlPanel _viewControlPanel;
     private final DrainControlNode _drainControlNode;
 
-    private boolean _useAlternateMoleculeCountView;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -56,8 +53,6 @@ public class BeakerControlNode extends PNode {
      */
     public BeakerControlNode( Liquid liquid, PSwingCanvas pSwingCanvas ) {
         super();
-        
-        _useAlternateMoleculeCountView = false;
         
         _liquid = liquid;
         _liquidListener = new LiquidListener() {
@@ -81,17 +76,13 @@ public class BeakerControlNode extends PNode {
         _beakerNode = new BeakerNode( PHScaleConstants.BEAKER_SIZE, liquid.getMaxVolume() );
         
         _moleculeCountNode = new MoleculeCountNode( liquid );
-        _moleculeCountNode.setVisible( !_useAlternateMoleculeCountView );
-        _moleculeCountAlternateNode = new MoleculeCountAlternateNode( liquid );
-        _moleculeCountAlternateNode.setVisible( _useAlternateMoleculeCountView  );
         
         _viewControlPanel = new ViewControlPanel();
         PSwing viewControlPanelWrapper = new PSwing( _viewControlPanel );
         _viewControlPanel.addViewControlPanelListener( new ViewControlPanelListener() {
 
             public void countChanged( boolean selected ) {
-                _moleculeCountNode.setVisible( selected && !_useAlternateMoleculeCountView );
-                _moleculeCountAlternateNode.setVisible( selected && _useAlternateMoleculeCountView );
+                _moleculeCountNode.setVisible( selected );
             }
 
             public void ratioChanged( boolean selected ) {
@@ -108,7 +99,6 @@ public class BeakerControlNode extends PNode {
         addChild( _liquidNode );
         addChild( _beakerNode );
         addChild( _moleculeCountNode );
-        addChild( _moleculeCountAlternateNode );
         addChild( viewControlPanelWrapper );
         
         // Layout
@@ -131,7 +121,6 @@ public class BeakerControlNode extends PNode {
         _moleculeCountNode.setOffset( 
                 _beakerNode.getFullBoundsReference().getX() + 50,  
                 _beakerNode.getFullBoundsReference().getCenterY() - _moleculeCountNode.getFullBoundsReference().getHeight() / 2  );
-        _moleculeCountAlternateNode.setOffset( 170, 230 );
         // below beaker, to the left
         _drainControlNode.setOffset( 10,  _beakerNode.getFullBoundsReference().getMaxY() + 12 );
         // below beaker, to the right of the drain control
@@ -150,8 +139,7 @@ public class BeakerControlNode extends PNode {
     
     public void setMoleculeCountSelected( boolean selected ) {
         _viewControlPanel.setCountSelected( selected );
-        _moleculeCountNode.setVisible( selected && _useAlternateMoleculeCountView );
-        _moleculeCountAlternateNode.setVisible( selected && !_useAlternateMoleculeCountView );
+        _moleculeCountNode.setVisible( selected );
     }
     
     public boolean isMoleculeCountSelected() {
@@ -170,13 +158,5 @@ public class BeakerControlNode extends PNode {
     // for attaching developer control panel
     public ParticlesNode dev_getParticlesNode() {
         return _liquidNode.getParticlesNode();
-    }
-    
-    public void dev_setUseAlternateMoleculeCountView( boolean b ) {
-        _useAlternateMoleculeCountView = b;
-        if ( _viewControlPanel.isCountSelected() ) {
-            _moleculeCountNode.setVisible( !_useAlternateMoleculeCountView );
-            _moleculeCountAlternateNode.setVisible( _useAlternateMoleculeCountView );
-        }
     }
 }

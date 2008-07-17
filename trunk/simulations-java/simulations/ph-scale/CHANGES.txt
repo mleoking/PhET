@@ -10,13 +10,14 @@ MEDIUM PRIORITY:
 - make zoom buttons more fun looking, maybe using GradientButtonNode?
 
 LOW PRIORITY:
-- delete MoleculeCountAlternateNode, associated developer controls, image files (*-big.png)
 - hand cursors don't work on PSwing check boxes and radio buttons [Unfuddle #653]
 - selection in PTextFieldNode doesn't behave properly [Unfuddle #660]
 - clicking twice in PTextFieldNode fires a change [Unfuddle #660]
 
 
 DONE:
+7/16/08 - delete MoleculeCountAlternateNode, associated developer controls, image files (out of sync with new H2O color)
+7/16/08 - rename molecule image files
 7/16/08 - get new H2O molecule SVG image from Archie
 7/16/08 - add SVG assets for H3O and OH molecules
 7/16/08 - remove space between number and L units label to save room

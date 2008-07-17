@@ -27,7 +27,6 @@ public class DeveloperMenu extends JMenu {
     private JCheckBoxMenuItem _liquidColorsMenuItem;
     private JDialog _particleControlsDialog;
     private JDialog _liquidColorsDialog;
-    private JCheckBoxMenuItem _useAlternateMoleculeCountViewMenuItem;
 
     public DeveloperMenu( PHScaleApplication app ) {
         super( "Developer" );
@@ -49,14 +48,6 @@ public class DeveloperMenu extends JMenu {
             }
         }); 
         add( _liquidColorsMenuItem );
-        
-        _useAlternateMoleculeCountViewMenuItem = new JCheckBoxMenuItem( "Use alternate Molecule Count view" );
-        _useAlternateMoleculeCountViewMenuItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleUseAlternateMoleculeCountView();
-            }
-        });
-        add( _useAlternateMoleculeCountViewMenuItem );
     }
 
     private void handleParticleControls() {
@@ -103,9 +94,5 @@ public class DeveloperMenu extends JMenu {
         else {
             _liquidColorsDialog.dispose();
         }
-    }
-    
-    private void handleUseAlternateMoleculeCountView() {
-        _app.getModule().dev_setUseAlternateMoleculeCountView( _useAlternateMoleculeCountViewMenuItem.isSelected() );
     }
 }
