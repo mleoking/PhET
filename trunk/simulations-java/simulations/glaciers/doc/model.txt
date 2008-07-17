@@ -7,9 +7,20 @@ model.  For that reason, the physical reasoning behind these
 calculations is not apparent.
 
 author: Archie Paulson
-last modified: Jun 8, 2008
+last modified: July 16, 2008
 
 ****************************************************************
+* contents
+
+-  variables and constants used
+A. mountain valley geometry
+B. climate model
+C. steady state glacier model
+D. ice velocities
+E. time-evolution of glacier
+
+****************************************************************
+
 * variable names
     - x, horizontal distance, x=0 at glacier head (meters, m)
     - z, elevation (meters, m)
@@ -20,7 +31,7 @@ last modified: Jun 8, 2008
     - qela, quasi-ela, like the ela except that it describes the
       glacier, not the climate.  It is used for the
       time-dependence of the glacier. It should never be greater
-      than max(F).
+      than max_F
     - elax, the x-position of the intersection of the glacier
       surface and the quasi-ela
     - temp, temperature at sea level (degrees Celcius, C)
@@ -44,23 +55,23 @@ last modified: Jun 8, 2008
     - max_F                     max(F), or F(x=0)
     - temp_lapse_rate           6.5e-3 C/m
     - melt_v_elev               30 
-    - melt_z0                   1100        # new
-    - melt_z1                   4300        # new
-    - melt_v_temp               80          # new
-    - modern_temp               21          # new
+    - melt_z0                   1100        
+    - melt_z1                   4300        
+    - melt_v_temp               80          
+    - modern_temp               21          
     - snow_max                  2.0
-    - snow_min_elev             1800        # new
-    - snow_max_elev             4600        # new
+    - snow_min_elev             1800        
+    - snow_max_elev             4600        
     - snow_transition_width     300
-    - elax_b0                   157076      # new
-    - elax_m0                   -37.57      # new
-    - elax_m2                   -3.12489    # new
-    - elax_b2                   14118       # new
-    - elax_x1                   3800        # new
-    - elax_x2                   4150        # new
-    - elax_y1                   14300       # new
-    - elax_c3                   -0.098411   # new
-    - elax_c4                   0.000281185 # new
+    - elax_b0                   157076      
+    - elax_m0                   -37.57      
+    - elax_m2                   -3.12489    
+    - elax_b2                   14118       
+    - elax_x1                   3800        
+    - elax_x2                   4150        
+    - elax_y1                   14300       
+    - elax_c3                   -0.098411   
+    - elax_c4                   0.000281185 
     - elax_terminus             0.6
     - hmax_scale                2.3
 
@@ -85,7 +96,7 @@ B. climate model
    between 13 and 20
 
 2. snow is controlled by the sim user, and can be any value
-   between 0 and 1.5            # new
+   between 0 and 1.5
 
 3. given temp, the temperature versus elevation is given by
 
@@ -94,7 +105,7 @@ B. climate model
 4. given temp and z, ablation is calculated by    
 
     temp_diff=(temp-modern_temp)
-    offset = 5.5e-5*(temp_diff+9)**5 + 0.01*(temp_diff-9) + 0.3  # new
+    offset = 5.5e-5*((temp_diff+9)**5) + 0.01*(temp_diff-9) + 0.3
     min_ablation_elev= temp_diff*melt_v_temp + melt_z1
     if ( z > min_ablation_elev ):
         abl = offset
@@ -102,7 +113,7 @@ B. climate model
         abl = offset + (melt_v_elev  * (1.-sin((z-melt_z0- 
               temp_diff*melt_v_temp) / ((melt_z1-melt_z0)*2/pi)) ))
 
-5. given snow and z, accumulation is calculated by       # new
+5. given snow and z, accumulation is calculated by
 
     s = snow/1.5                                  
     p0 = snow_max_elev - ((snow_max_elev-snow_min_elev)*s)
@@ -118,7 +129,7 @@ B. climate model
    elevation at which mass_balance=0 (or acc=abl).  The ela
    should be limited at some elevation above max_F (say, 8km).
 
-8. initial climate should be               # new
+8. initial climate should be
     temp = 19.0
     snow = 0.95
 
@@ -131,13 +142,13 @@ C. steady state glacier model
    glacier is in steady state when the qela=ela.  This section
    describes how to compute H(x) for a given qela.
    
-1. given qela, compute elax by    # new
+1. given qela, compute elax by
 
     if qela < elax_x1:
         elax = qela*elax_m0 + elax_b0
     elif qela < elax_x2:
         x = qela-elax_x1
-        elax = elax_y1 + elax_m0*x + elax_c3*x**2 + elax_c4*x**3
+        elax = elax_y1 + elax_m0*x + elax_c3*(x**2) + elax_c4*(x**3)
     else:
         elax = qela*elax_m2 + elax_b2
 
@@ -159,7 +170,7 @@ C. steady state glacier model
         p = max(42-0.01*qela,1.5)
         r = 1.5*x_peak
         H(x) = sqrt(r**2 - (x-x_peak)**2) * H_max/r
-        H(x) = H(x) * ( x_peak**p - (abs(x-x_peak)**p))/ x_peak**p
+        H(x) = H(x) * ( x_peak**p - (abs(x-x_peak)**p))/ (x_peak**p)
     else if x < xterm:
         H(x) = sqrt(x_peak**2 - (x-x_peak)**2) * H_max/x_peak
     else:
@@ -184,25 +195,25 @@ E. time-evolution of glacier
 
 1. Set the timescale for evolution according to the ela:
 
-    if ela > qela: 
-        timescale =  -0.22*ela + 1026
-    else:                         
-        timescale =   0.35*ela - 1139
+    timescale =  -0.22*ela + 1026               # changed
     minimum timescale is 50
-    maximum timescale is 300
+    maximum timescale is 200                    # changed
 
 2. Every timestep, if qela is not the same as ela (ie, the
    glacier is out of equilibrium) change the qela by dqela.
    (note the special treatment for an advancing glacier):
 
-    if (abs(qela-ela) > ela_tolerance):
+    if ( (abs(qela-ela) > ela_tolerance) and (qela<=max_F) ):
         dqela = (ela-qela)*( 1. - exp(-dt/timescale) )
         if (ela<qela):
             q_advance_limit = (-0.06*qela + 300) * elax_terminus / elax_m0
             dqela = max( dqela, dt*q_advance_limit )
         qela = qela + dqela
+    if ( qela > max_F):
+        qela = max_F
 
-3. The time computation may cease when qela>max_F (this indicates
-   that the glacier is completely gone).
+3. The qela should no longer change when qela>max_F (this
+   indicates that the glacier is completely gone),  as shown in
+   the 'if' statment in part 2.
 
 ****************************************************************
