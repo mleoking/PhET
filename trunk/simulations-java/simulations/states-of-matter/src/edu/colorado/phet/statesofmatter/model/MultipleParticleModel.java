@@ -62,9 +62,10 @@ public class MultipleParticleModel {
                                                                  // the time step defined above?
     private static final int MAX_NUM_ATOMS = 300;
     private static final double INJECTED_MOLECULE_VELOCITY = 1.0;
-    private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.97;
+    private static final double INJECTION_POINT_HORIZ_PROPORTION = 0.95;
     private static final double INJECTION_POINT_VERT_PROPORTION = 0.5;
     private static final int MAX_PLACEMENT_ATTEMPTS = 500; // For random placement when creating gas or liquid.
+    private static final double SAFE_INTER_MOLECULE_DISTANCE = 2.0;
     
     // Constants used for setting the phase directly.
     public static final int PHASE_SOLID = 1;
@@ -105,6 +106,7 @@ public class MultipleParticleModel {
     private Vector2D [] m_atomForces;
     private Vector2D [] m_nextAtomForces;
     private int m_numberOfAtoms;
+    private int m_numberOfSafeAtoms;
     private int m_atomsPerMolecule;
     
     // JPB TBD - Important note to myself about refactoring: I think I can
@@ -496,43 +498,105 @@ public class MultipleParticleModel {
     }
     
     /**
-     * Inject a new particle of the current type into the model.  This uses
+     * Inject a new molecule of the current type into the model.  This uses
      * the current temperature to assign an initial velocity.
      */
-    public void injectParticle(){
+    public void injectMolecule(){
         
-        if ( m_numberOfAtoms < MAX_NUM_ATOMS ){
-            // Add particle and its velocity and forces to normalized set.
-            m_atomPositions[m_numberOfAtoms] = 
-                new Point2D.Double(m_normalizedContainerWidth * INJECTION_POINT_HORIZ_PROPORTION,
-                    m_normalizedContainerHeight * INJECTION_POINT_VERT_PROPORTION);
-            m_atomVelocities[m_numberOfAtoms] = new Vector2D.Double( -INJECTED_MOLECULE_VELOCITY, 0 );
-            m_atomForces[m_numberOfAtoms] = new Vector2D.Double();
-            m_nextAtomForces[m_numberOfAtoms] = new Vector2D.Double();
-            m_numberOfAtoms++;
-            
-            // Add particle to model set.
-            StatesOfMatterAtom particle;
-            switch (m_currentMolecule){
-            case DIATOMIC_OXYGEN:
-                particle = new OxygenAtom(0, 0);
-                break;
-            case MONATOMIC_OXYGEN:
-                particle = new OxygenAtom(0, 0);
-                break;
-            case ARGON:
-                particle = new ArgonAtom(0, 0);
-                break;
-            case NEON:
-                particle = new NeonAtom(0, 0);
-                break;
-            default:
-                particle = new StatesOfMatterAtom(0, 0, m_particleDiameter/2, 10);
-                break;
+        double angle = (m_rand.nextDouble() + 1) * (2 * Math.PI / 3);
+        double xVel = Math.cos( angle ) * INJECTED_MOLECULE_VELOCITY;
+        double yVel = Math.sin( angle ) * INJECTED_MOLECULE_VELOCITY;
+        
+        if ( m_numberOfAtoms + m_atomsPerMolecule <= MAX_NUM_ATOMS ){
+            if (m_atomsPerMolecule == 1){
+                // Add particle and its velocity and forces to normalized set.
+                m_atomPositions[m_numberOfAtoms] = 
+                    new Point2D.Double(m_normalizedContainerWidth * INJECTION_POINT_HORIZ_PROPORTION,
+                        m_normalizedContainerHeight * INJECTION_POINT_VERT_PROPORTION);
+                m_atomVelocities[m_numberOfAtoms] = new Vector2D.Double( xVel, yVel );
+                m_atomForces[m_numberOfAtoms] = new Vector2D.Double();
+                m_nextAtomForces[m_numberOfAtoms] = new Vector2D.Double();
+                m_numberOfAtoms++;
+                
+                // Add particle to model set.
+                StatesOfMatterAtom particle;
+                switch (m_currentMolecule){
+                case MONATOMIC_OXYGEN:
+                    particle = new OxygenAtom(0, 0);
+                    break;
+                case ARGON:
+                    particle = new ArgonAtom(0, 0);
+                    break;
+                case NEON:
+                    particle = new NeonAtom(0, 0);
+                    break;
+                default:
+                    particle = new StatesOfMatterAtom(0, 0, m_particleDiameter/2, 10);
+                    break;
+                }
+                m_particles.add( particle );
+                syncParticlePositions();
+                notifyParticleAdded( particle );
             }
-            m_particles.add( particle );
-            syncParticlePositions();
-            notifyParticleAdded( particle );
+            else if (m_atomsPerMolecule == 2){
+
+                assert m_currentMolecule == DIATOMIC_OXYGEN;
+                
+                // Add particles to model set.
+                for (int i = 0; i < m_atomsPerMolecule; i++){
+                    StatesOfMatterAtom atom;
+                    atom = new OxygenAtom(0, 0);
+                    m_particles.add( atom );
+                    notifyParticleAdded( atom );
+                    m_atomPositions[m_numberOfAtoms + i] = new Point2D.Double(); 
+                }
+                
+                m_numberOfAtoms += 2;
+                int numberOfMolecules = m_numberOfAtoms / 2;
+                
+                m_moleculeCenterOfMassPositions[numberOfMolecules - 1] = 
+                    new Point2D.Double(m_normalizedContainerWidth * INJECTION_POINT_HORIZ_PROPORTION,
+                        m_normalizedContainerHeight * INJECTION_POINT_VERT_PROPORTION);
+                m_moleculeVelocities[numberOfMolecules - 1] = new Vector2D.Double( xVel, yVel );
+                m_moleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
+                m_nextMoleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
+                m_moleculeRotationRates[numberOfMolecules - 1] = (m_rand.nextDouble() - 0.5) * (Math.PI / 2);
+                
+                updateDiatomicAtomPositions();
+                syncParticlePositions();
+            }
+            else if (m_atomsPerMolecule == 3){
+
+                assert m_currentMolecule == WATER;
+                
+                // Add atoms to model set.
+                StatesOfMatterAtom atom;
+                atom = new OxygenAtom(0, 0);
+                m_particles.add( atom );
+                notifyParticleAdded( atom );
+                m_atomPositions[m_numberOfAtoms] = new Point2D.Double(); 
+                atom = new HydrogenAtom(0, 0);
+                m_particles.add( atom );
+                notifyParticleAdded( atom );
+                m_atomPositions[m_numberOfAtoms + 1] = new Point2D.Double(); 
+                atom = new HydrogenAtom(0, 0);
+                m_particles.add( atom );
+                notifyParticleAdded( atom );
+                m_atomPositions[m_numberOfAtoms + 2] = new Point2D.Double(); 
+                
+                m_numberOfAtoms += 3;
+                int numberOfMolecules = m_numberOfAtoms / 3;
+                
+                m_moleculeCenterOfMassPositions[numberOfMolecules - 1] = 
+                    new Point2D.Double(m_normalizedContainerWidth * INJECTION_POINT_HORIZ_PROPORTION,
+                        m_normalizedContainerHeight * INJECTION_POINT_VERT_PROPORTION);
+                m_moleculeVelocities[numberOfMolecules - 1] = new Vector2D.Double( xVel, yVel );
+                m_moleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
+                m_nextMoleculeForces[numberOfMolecules - 1] = new Vector2D.Double();
+                
+                updateTriatomicAtomPositions();
+                syncParticlePositions();
+            }
         }
     }
     
@@ -643,6 +707,7 @@ public class MultipleParticleModel {
         
         m_numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
                 (( particleDiameter + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL ) * 3), 2);
+        m_numberOfSafeAtoms = m_numberOfAtoms;
         
         // Initialize the vectors that define the normalized particle attributes.
         m_atomPositions  = new Point2D [MAX_NUM_ATOMS];
@@ -697,6 +762,7 @@ public class MultipleParticleModel {
         int numberOfMoleculesAcross = 
             (int)Math.floor( m_normalizedContainerWidth / 3 / largeMoleculeDimension );
         m_numberOfAtoms = numberOfMoleculesAcross * numberOfMoleculesAcross * 4;
+        m_numberOfSafeAtoms = m_numberOfAtoms;
         
         // Initialize the arrays that define the normalized attributes for
         // each individual atom.
@@ -778,6 +844,7 @@ public class MultipleParticleModel {
        
         m_numberOfAtoms = (int)Math.pow( StatesOfMatterConstants.CONTAINER_BOUNDS.width / 
                 (( particleDiameter + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL ) * 3), 2) * 3;
+        m_numberOfSafeAtoms = m_numberOfAtoms;
         
         // Initialize the arrays that define the normalized attributes for
         // each individual atom.
@@ -1233,56 +1300,35 @@ public class MultipleParticleModel {
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
         
+        // If there are any atoms that are currently designated as "unsafe",
+        // check them to see if they can be moved into the "safe" category.
+        if (m_numberOfSafeAtoms < m_numberOfAtoms){
+            updateMoleculeSafety();
+        }
+        
         // Calculate the forces created through interactions with other
         // particles.
         Vector2D force = new Vector2D.Double();
-        StatesOfMatterAtom particle1, particle2;
-        double particle1NormalizedPosX, particle1NormalizedPosY;
-        for (int i = 0; i < m_numberOfAtoms; i++){
-            particle1 = (StatesOfMatterAtom)m_particles.get( i );
-            particle1NormalizedPosX = m_atomPositions[i].getX();
-            particle1NormalizedPosY = m_atomPositions[i].getY();
-            for (int j = i + 1; j < m_numberOfAtoms; j++){
+        for (int i = 0; i < m_numberOfSafeAtoms; i++){
+            for (int j = i + 1; j < m_numberOfSafeAtoms; j++){
                 
-                double dx = particle1NormalizedPosX - m_atomPositions[j].getX();
-                double dy = particle1NormalizedPosY - m_atomPositions[j].getY();
+                double dx = m_atomPositions[i].getX() - m_atomPositions[j].getX();
+                double dy = m_atomPositions[i].getY() - m_atomPositions[j].getY();
                 double distanceSqrd = (dx * dx) + (dy * dy);
-                // TODO: JPB TBD - Limit the max forces to prevent weird behavior.  Is this
-                // worth keeping?
-                double minDistanceSquared = 0.8;
+
                 if (distanceSqrd == 0){
                     // Handle the special case where the particles are right
-                    // on top of each other by assigning an arbitrary
-                    // artificial spacing.
+                    // on top of each other by assigning an arbitrary spacing.
+                    // In general, this only happens when injecting new
+                    // particles.
                     dx = 1;
                     dy = 1;
                     distanceSqrd = 2;
                 }
-                else {
-                    while (distanceSqrd < minDistanceSquared){
-                        dx *= 1.1;
-                        dy *= 1.1;
-                        distanceSqrd = (dx * dx) + (dy * dy);
-                    }
-                }
                 
-                double distance = Math.sqrt( distanceSqrd );
-                // End JPB TBD.
-                
-                particle2 = (StatesOfMatterAtom)m_particles.get( j );
-                if (particle1.getDiatomicPartner() == particle2){
-                    // This is a diatomic pair of particles, so calculate the
-                    // force accordingly.  Basically, this acts as though
-                    // there is a spring between the two particles.
-                    double springDistance = distance - DISTANCE_BETWEEN_DIATOMIC_PAIRS;
-                    force.setX( springDistance * DIATOMIC_FORCE_CONSTANT * dx / distance);
-                    force.setY( springDistance * DIATOMIC_FORCE_CONSTANT * dy / distance);
-                    m_nextAtomForces[i].subtract( force );
-                    m_nextAtomForces[j].add( force );
-                }
-                else if (distanceSqrd < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
+                if (distanceSqrd < PARTICLE_INTERACTION_DISTANCE_THRESH_SQRD){
                     // This pair of particles is close enough to one another
-                    // that we consider them in the calculation.
+                    // that we need to calculate their interaction forces.
                     double r2inv = 1 / distanceSqrd;
                     double r6inv = r2inv * r2inv * r2inv;
                     double forceScaler = 48 * r2inv * r6inv * (r6inv - 0.5);
@@ -1401,10 +1447,17 @@ public class MultipleParticleModel {
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
         
+        // If there are any atoms that are currently designated as "unsafe",
+        // check them to see if they can be moved into the "safe" category.
+        if (m_numberOfSafeAtoms < m_numberOfAtoms){
+            updateMoleculeSafety();
+        }
+        double numberOfSafeMolecules = m_numberOfSafeAtoms / m_atomsPerMolecule;
+        
         // Calculate the force and torque due to inter-particle interactions.
         Vector2D force = new Vector2D.Double();
-        for (int i = 0; i < numberOfMolecules; i++){
-            for (int j = i + 1; j < numberOfMolecules; j++){
+        for (int i = 0; i < numberOfSafeMolecules; i++){
+            for (int j = i + 1; j < numberOfSafeMolecules; j++){
                 for (int ii = 0; ii < 2; ii++){
                     for (int jj = 0; jj < 2; jj++){
                         // Calculate the distance between the potentially
@@ -1561,10 +1614,17 @@ public class MultipleParticleModel {
         // Advance the moving average window of the pressure calculator.
         m_pressureCalculator.advanceWindow();
         
+        // If there are any atoms that are currently designated as "unsafe",
+        // check them to see if they can be moved into the "safe" category.
+        if (m_numberOfSafeAtoms < m_numberOfAtoms){
+            updateMoleculeSafety();
+        }
+        double numberOfSafeMolecules = m_numberOfSafeAtoms / m_atomsPerMolecule;
+        
         // Calculate the force and torque due to inter-particle interactions.
         Vector2D force = new Vector2D.Double();
-        for (int i = 0; i < numberOfMolecules; i++){
-            for (int j = i + 1; j < numberOfMolecules; j++){
+        for (int i = 0; i < numberOfSafeMolecules; i++){
+            for (int j = i + 1; j < numberOfSafeMolecules; j++){
                 
                 // Calculate Lennard-Jones potential between mass centers.
                 double dx = m_moleculeCenterOfMassPositions[i].getX() - m_moleculeCenterOfMassPositions[j].getX();
@@ -1714,6 +1774,48 @@ public class MultipleParticleModel {
                 xPos = m_moleculeCenterOfMassPositions[i].getX() + cosineTheta * m_x0[j] - sineTheta * m_y0[j];
                 yPos = m_moleculeCenterOfMassPositions[i].getY() + sineTheta * m_x0[j] + cosineTheta * m_y0[j];
                 m_atomPositions[i * 3 + j].setLocation( xPos, yPos );
+            }
+        }
+    }
+    
+    /**
+     * Update the safety status of any molecules that may have previously been
+     * designated as unsafe.  An "unsafe" molecule is one that was injected
+     * into the container and was found to be so close to one or more of the
+     * other molecules that if its interaction forces were calculated, it
+     * would be given a ridiculously large amount of kinetic energy that might
+     * end up launching it out of the container.
+     */
+    private void updateMoleculeSafety(){
+        
+        // Important Note: We only check the molecules in order, so for
+        // example if the first molecule is still unsafe, all the ones behind
+        // it will not be checked.
+        boolean unsafeMoleculeFound = false;
+        for (int i = m_numberOfSafeAtoms; (i < m_numberOfAtoms) && !unsafeMoleculeFound; i += m_atomsPerMolecule){
+            
+            // Find out if this molecule is still to close to all the "safe"
+            // molecules.
+            if (m_atomsPerMolecule == 1){
+                for (int j = 0; j < m_numberOfSafeAtoms; j++){
+                    if ( m_atomPositions[i].distance( m_atomPositions[j] ) < SAFE_INTER_MOLECULE_DISTANCE ){
+                        unsafeMoleculeFound = true;
+                        break;
+                    }
+                }
+            }
+            else{
+                for (int j = 0; j < m_numberOfSafeAtoms; j += m_atomsPerMolecule){
+                    if ( m_moleculeCenterOfMassPositions[i / m_atomsPerMolecule].distance( m_moleculeCenterOfMassPositions[j / m_atomsPerMolecule] ) < SAFE_INTER_MOLECULE_DISTANCE ){
+                        unsafeMoleculeFound = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (!unsafeMoleculeFound){
+                // The molecule just tested was safe, so increment the count.
+                m_numberOfSafeAtoms += m_atomsPerMolecule;
             }
         }
     }
