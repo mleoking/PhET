@@ -89,8 +89,4 @@ public class PHScaleModule extends PiccoloModule {
     public ParticlesNode dev_getParticlesNode() {
        return _canvas.dev_getParticlesNode();
     }
-    
-    public void dev_setUseAlternateMoleculeCountView( boolean b ) {
-        _canvas.dev_setUseAlternateMoleculeCountView( b );
-    }
 }

@@ -7,9 +7,9 @@ import java.awt.Font;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.phscale.PHScaleStrings;
-import edu.colorado.phet.phscale.view.H2ONode;
-import edu.colorado.phet.phscale.view.H3ONode;
-import edu.colorado.phet.phscale.view.OHNode;
+import edu.colorado.phet.phscale.view.H2OMoleculeNode;
+import edu.colorado.phet.phscale.view.H3OMoleculeNode;
+import edu.colorado.phet.phscale.view.OHMoleculeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -39,9 +39,9 @@ public class LegendNode extends PComposite {
         setChildrenPickable( false );
         
         // icons
-        PNode h3oIconNode = new H3ONode();
-        PNode ohIconNode = new OHNode();
-        PNode h2oIconNode = new H2ONode();
+        PNode h3oMoleculeNode = new H3OMoleculeNode();
+        PNode ohMoleculeNode = new OHMoleculeNode();
+        PNode h2oMoleculeNode = new H2OMoleculeNode();
         
         // labels
         HTMLNode h3oLabelNode = new HTMLNode( PHScaleStrings.LABEL_H3O );
@@ -51,22 +51,22 @@ public class LegendNode extends PComposite {
         HTMLNode h2oLabelNode = new HTMLNode( PHScaleStrings.LABEL_H2O );
         h2oLabelNode.setFont( FONT );
         
-        addChild( h3oIconNode );
-        addChild( ohIconNode );
-        addChild( h2oIconNode );
+        addChild( h3oMoleculeNode );
+        addChild( ohMoleculeNode );
+        addChild( h2oMoleculeNode );
         addChild( h3oLabelNode );
         addChild( ohLabelNode );
         addChild( h2oLabelNode );
         
         // vertically align centers of the icons
-        h3oIconNode.setOffset( 0, 0 );
-        PBounds h3ob = h3oIconNode.getFullBoundsReference();
-        PBounds ohb = ohIconNode.getFullBoundsReference();
-        PBounds h2ob = h2oIconNode.getFullBoundsReference();
-        ohIconNode.setOffset( h3ob.getMaxX() + ICON_X_SPACING, h3ob.getCenterY() - ohb.getHeight() / 2 );
-        ohb = ohIconNode.getFullBoundsReference();
-        h2oIconNode.setOffset( ohb.getMaxX() + ICON_X_SPACING, h3ob.getCenterY() - h2ob.getHeight() / 2 );
-        h2ob = h2oIconNode.getFullBoundsReference();
+        h3oMoleculeNode.setOffset( 0, 0 );
+        PBounds h3ob = h3oMoleculeNode.getFullBoundsReference();
+        PBounds ohb = ohMoleculeNode.getFullBoundsReference();
+        PBounds h2ob = h2oMoleculeNode.getFullBoundsReference();
+        ohMoleculeNode.setOffset( h3ob.getMaxX() + ICON_X_SPACING, h3ob.getCenterY() - ohb.getHeight() / 2 );
+        ohb = ohMoleculeNode.getFullBoundsReference();
+        h2oMoleculeNode.setOffset( ohb.getMaxX() + ICON_X_SPACING, h3ob.getCenterY() - h2ob.getHeight() / 2 );
+        h2ob = h2oMoleculeNode.getFullBoundsReference();
         
         // center labels below the icons
         final double y = Math.max( h3ob.getMaxY(), Math.max( ohb.getMaxY(), h2ob.getMaxY() ) ) + Y_SPACING;

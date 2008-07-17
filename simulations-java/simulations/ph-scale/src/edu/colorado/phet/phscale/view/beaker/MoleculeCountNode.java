@@ -13,9 +13,9 @@ import edu.colorado.phet.phscale.PHScaleConstants;
 import edu.colorado.phet.phscale.model.Liquid;
 import edu.colorado.phet.phscale.model.Liquid.LiquidListener;
 import edu.colorado.phet.phscale.util.ConstantPowerOfTenNumberFormat;
-import edu.colorado.phet.phscale.view.H2ONode;
-import edu.colorado.phet.phscale.view.H3ONode;
-import edu.colorado.phet.phscale.view.OHNode;
+import edu.colorado.phet.phscale.view.H2OMoleculeNode;
+import edu.colorado.phet.phscale.view.H3OMoleculeNode;
+import edu.colorado.phet.phscale.view.OHMoleculeNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -70,9 +70,9 @@ public class MoleculeCountNode extends PComposite {
         _liquid.addLiquidListener( _liquidListener );
         
         // icons
-        H3ONode h3oNode = new H3ONode();
-        OHNode ohNode = new OHNode();
-        H2ONode h2oNode = new H2ONode();
+        H3OMoleculeNode h3oMoleculeNode = new H3OMoleculeNode();
+        OHMoleculeNode ohMoleculeNode = new OHMoleculeNode();
+        H2OMoleculeNode h2oMoleculeNode = new H2OMoleculeNode();
         
         // values
         _h3oCountNode = new ValueNode( H3O_FORMAT );
@@ -82,19 +82,19 @@ public class MoleculeCountNode extends PComposite {
         // update before setting offsets so that we have meaningful sizes for the value nodes
         update();
         
-        addChild( h3oNode );
-        addChild( ohNode );
-        addChild( h2oNode );
+        addChild( h3oMoleculeNode );
+        addChild( ohMoleculeNode );
+        addChild( h2oMoleculeNode );
         addChild( _h3oCountNode );
         addChild( _ohCountNode );
         addChild( _h2oCountNode );
         
-        h3oNode.setOffset( 0, 0 );
-        ohNode.setOffset( h3oNode.getFullBoundsReference().getX(), h3oNode.getFullBoundsReference().getMaxY() + Y_SPACING );
-        h2oNode.setOffset( ohNode.getFullBoundsReference().getX(), ohNode.getFullBoundsReference().getMaxY() + Y_SPACING );
-        PBounds bH3O = h3oNode.getFullBoundsReference();
-        PBounds bOH = ohNode.getFullBoundsReference();
-        PBounds bH2O = h2oNode.getFullBoundsReference();
+        h3oMoleculeNode.setOffset( 0, 0 );
+        ohMoleculeNode.setOffset( h3oMoleculeNode.getFullBoundsReference().getX(), h3oMoleculeNode.getFullBoundsReference().getMaxY() + Y_SPACING );
+        h2oMoleculeNode.setOffset( ohMoleculeNode.getFullBoundsReference().getX(), ohMoleculeNode.getFullBoundsReference().getMaxY() + Y_SPACING );
+        PBounds bH3O = h3oMoleculeNode.getFullBoundsReference();
+        PBounds bOH = ohMoleculeNode.getFullBoundsReference();
+        PBounds bH2O = h2oMoleculeNode.getFullBoundsReference();
         final double maxX = Math.max( bH3O.getMaxX(), Math.max( bOH.getMaxX(), bH2O.getMaxX() ) );
         _h3oCountNode.setOffset( maxX + X_SPACING, bH3O.getCenterY() - _h3oCountNode.getFullBoundsReference().getHeight() / 2 );
         _ohCountNode.setOffset( maxX + X_SPACING, bOH.getCenterY() - _ohCountNode.getFullBoundsReference().getHeight() / 2 );
