@@ -6,6 +6,7 @@ import java.util.Random;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.Activity;
@@ -65,6 +66,11 @@ public class Human {
     private HumanUpdate humanUpdate = new DefaultHumanUpdate();
 
     public Human() {
+        addListener( new Adapter(){
+            public void heartHealthChanged() {
+                notifyHeartAttackProbabilityChanged();
+            }
+        } );
         lipids.addListener( new IVariable.Listener() {
             public void valueChanged() {
                 notifyDietChanged();
@@ -722,13 +728,18 @@ public class Human {
 //  likely (within a couple of years) for %fat > 50
 //  %fat_0 = 25%/32% for men/women.
 
+        //new model should depend on heart health, as defined in Human
+
         public double getHeartAttackProbabilityPerDay( Human human ) {
-            if ( human.getFatMassPercent() < heartAttackFatMassPercentThreshold ) {
-                return 0;
-            }
-            else {
-                return P0 * ( human.getFatMassPercent() - heartAttackFatMassPercentThreshold );
-            }
+            double heartHealth = human.getHeartHealth();//1 is perfect health
+
+            int MIN_PROB = 0;
+            double MAX_PROB = 1E-3;
+            Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 0.35, MAX_PROB, MIN_PROB );
+            double prob = linearFunction.evaluate( heartHealth );
+            prob = MathUtil.clamp( MIN_PROB, prob, MAX_PROB );
+//            System.out.println( "prob = " + prob );
+            return prob;
         }
 
         public double getLBMScaleFactor() {
