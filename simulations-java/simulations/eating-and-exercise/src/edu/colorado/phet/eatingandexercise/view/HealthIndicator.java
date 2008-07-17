@@ -36,7 +36,7 @@ public class HealthIndicator extends PNode {
         private Human human;
 
         public HeartStrengthIndicatorBar( final Human human ) {
-            super( "<html>Heart Strength</html>", 0, 2000, 250, 1000, INDICATOR_BAR_HEIGHT, Color.red, Color.green );
+            super( "<html>Heart Strength</html>", 0, 1, 250 / 1000.0, 1000 / 1000.0, INDICATOR_BAR_HEIGHT, Color.red, Color.green );
             this.human = human;
             human.addListener( new Human.Adapter() {
                 public void heartStrengthChanged() {
@@ -55,7 +55,7 @@ public class HealthIndicator extends PNode {
         private Human human;
 
         public HeartStrainIndicatorBar( Human human ) {
-            super( "<html>Heart Strain</html>", 0, 100, 16, 31, INDICATOR_BAR_HEIGHT, Color.green, Color.red );
+            super( "<html>Heart Strain</html>", 0, 1, 16 / 100.0, 31 / 100.0, INDICATOR_BAR_HEIGHT, Color.green, Color.red );
             this.human = human;
             human.addListener( new Human.Adapter() {
                 public void heartStrainChanged() {

@@ -452,17 +452,18 @@ public class Human {
 
         double averageExercise = exercise.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() );
 //        System.out.println( "averageExercise = " + averageExercise );
-        setHeartStrength( averageExercise );
+        setHeartStrength( MathUtil.clamp( 0, averageExercise / 1000.0, 1.0 ) );
 
         double averagePercentFat = fatMassFraction.estimateAverage( getAge() - EatingAndExerciseUnits.daysToSeconds( 30 ), getAge() ) * 100;
 //        System.out.println( "averagePercentFat = " + averagePercentFat );
-        setHeartStrain( averagePercentFat );
+        setHeartStrain( MathUtil.clamp( 0, averagePercentFat / 100.0, 1.0 ) );
     }
 
     private void setHeartStrength( double heartStrength ) {
         if ( heartStrength != this.heartStrength ) {
             this.heartStrength = heartStrength;
             notifyHeartStrengthChanged();
+            notifyHeartHealthChanged();
         }
     }
 
@@ -470,6 +471,13 @@ public class Human {
         if ( this.heartStrain != heartStrain ) {
             this.heartStrain = heartStrain;
             notifyHeartStrainChanged();
+            notifyHeartHealthChanged();
+        }
+    }
+
+    private void notifyHeartHealthChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).heartHealthChanged();
         }
     }
 
@@ -556,7 +564,11 @@ public class Human {
     }
 
     public double getHeartHealth() {
-        return 0.5;
+        return ( getHeartStrength() + getHeartNonStrain() ) / 2;
+    }
+
+    private double getHeartNonStrain() {
+        return 1 - getHeartStrain();
     }
 
     public double getFatMassPercent() {
@@ -850,6 +862,8 @@ public class Human {
         void heartStrainChanged();
 
         void heartStrengthChanged();
+
+        void heartHealthChanged();
     }
 
     public static class Adapter implements Listener {
@@ -906,6 +920,9 @@ public class Human {
         }
 
         public void heartStrengthChanged() {
+        }
+
+        public void heartHealthChanged() {
         }
     }
 
