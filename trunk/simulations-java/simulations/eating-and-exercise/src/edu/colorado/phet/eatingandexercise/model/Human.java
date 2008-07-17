@@ -459,7 +459,7 @@ public class Human {
         setHeartStrain( MathUtil.clamp( 0, averagePercentFat / 100.0, 1.0 ) );
     }
 
-    private void setHeartStrength( double heartStrength ) {
+    public void setHeartStrength( double heartStrength ) {
         if ( heartStrength != this.heartStrength ) {
             this.heartStrength = heartStrength;
             notifyHeartStrengthChanged();
@@ -467,7 +467,7 @@ public class Human {
         }
     }
 
-    private void setHeartStrain( double heartStrain ) {
+    public void setHeartStrain( double heartStrain ) {
         if ( this.heartStrain != heartStrain ) {
             this.heartStrain = heartStrain;
             notifyHeartStrainChanged();
