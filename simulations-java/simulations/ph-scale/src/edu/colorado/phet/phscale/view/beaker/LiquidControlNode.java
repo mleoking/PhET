@@ -4,7 +4,6 @@ package edu.colorado.phet.phscale.view.beaker;
 
 import java.awt.Color;
 import java.awt.Frame;
-import java.awt.Shape;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
