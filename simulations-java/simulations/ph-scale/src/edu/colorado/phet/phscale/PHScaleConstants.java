@@ -43,14 +43,14 @@ public class PHScaleConstants {
     // Model
     //----------------------------------------------------------------------------
     
-    public static final int CLOCK_FRAME_RATE = 10; // fps
+    public static final int CLOCK_FRAME_RATE = 10; // clock ticks per second
     public static final double CLOCK_DT = 1; // value isn't used in this sim, unitless
     
     public static final IntegerRange PH_RANGE = new IntegerRange( -1, 15, 7 ); // min, max, default
     
     public static final double MAX_FILL_RATE = 0.1; // L per clock tick
     public static final double MAX_DRAIN_RATE = MAX_FILL_RATE; // L per clock tick
-    public static final double AUTO_FILL_RATE = 0.08; // L per clock tick
+    public static final double AUTO_FILL_RATE = 0.075; // L per clock tick
     
     //----------------------------------------------------------------------------
     // View
