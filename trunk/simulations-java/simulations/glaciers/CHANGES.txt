@@ -3,25 +3,22 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- change timescale so that there is no difference between retreating and advancing (use receding model for both)
-- change timescale max to 200 
+- rename module.basic package to module.intro
+- get new background image from Archie, add more to left of headwall, improve colors, add 3D cues, stretch y-axis of valley floor, reduce height of mountains to show more peaks
+- increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
+- start with terminus at far right of zoomed viewport
 - visual representation of snowfall (gradient paint, clipped to sky)
 - change snowfall visibility with snowfall checkbox
-- increase mvt y-scale by 2x, decrease birds-eye view camera y-scale by 2x
-- BUG: very short advancing glacier starts off advancing very slowly, then speeds up (model problem)
-- get new background image from Archie, add more to left of headwall, improve colors, add 3D cues, stretch y-axis of valley floor, reduce height of mountains to show more peaks
-- start with terminus at far right of zoomed viewport
 
 HIGH PRIORITY:
-- rename module.basic package to module.intro
-- make shape of surface ripples look random
-- make sure everything works properly when clock is paused
 - distribute features between Intro, Advanced, and Experiments panels
-- main control panel should be the same height in all modules
 - Intro View panel: units, equil line, snowfall, picture
 - Advanced View panel: units, equil line, ice flow, coordinates, snowfall, picture
-- hide any features that aren't implemented for July 25 deadline
+- main control panel should be the same height in all modules
+- make shape of surface ripples look random
+- make sure everything works properly when clock is paused
 - close & reopen graph windows when switching modules
+- hide any features that aren't implemented for July 25 deadline
 
 MEDIUM PRIORITY:
 - start sim in steady state, with debris & ripples across entire glacier length, and moraine at terminus
@@ -91,6 +88,10 @@ CLEANUP:
 
 
 DONE:
+7/17/08 - fix: very short advancing glacier starts off advancing very slowly, then speeds up (fixed by previous 2 changes)
+7/17/08 - change timescale so that there is no difference between retreating and advancing (use receding model for both)
+7/17/08 - change timescale max to 200 
+7/17/08 - fix incorrect assert in setSteadyState
 ******* 0.00.31 (23129)
 7/12/08 - replace penguin with bear
 7/9/08 - rename "penguin" to "pan control" throughout, in anticipation of changing the penguin to something else
