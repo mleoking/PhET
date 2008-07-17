@@ -56,8 +56,8 @@ public class PHScaleConstants {
     public static final PDimension BEAKER_SIZE = new PDimension( 435, 450 );
     
     // size of the liquid column that comes out of the faucets
-    public static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, BEAKER_SIZE.getHeight() + 30 );
-    public static final double MIN_LIQUID_COLUMN_WIDTH = 5;
+    public static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 22, BEAKER_SIZE.getHeight() + 30 );
+    public static final double MIN_LIQUID_COLUMN_WIDTH = 2;
     
     public static final double PH_PROBE_LENGTH = BEAKER_SIZE.getHeight() + 75;
     

@@ -78,7 +78,7 @@ public class WaterControlNode extends PNode {
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void valueChanged() {
                 if ( _notifyEnabled ) {
-                    _liquid.setWaterFillRate( _faucetControlNode.getValue() );
+                    _liquid.setWaterFillRate( _faucetControlNode.getRate() );
                 }
             }
         });
@@ -115,7 +115,7 @@ public class WaterControlNode extends PNode {
     private void update() {
         
         _notifyEnabled = false;
-        _faucetControlNode.setValue( _liquid.getWaterFillRate() );
+        _faucetControlNode.setRate( _liquid.getWaterFillRate() );
         _faucetControlNode.setEnabled( !_liquid.isFull() );
         _notifyEnabled = true;
         
