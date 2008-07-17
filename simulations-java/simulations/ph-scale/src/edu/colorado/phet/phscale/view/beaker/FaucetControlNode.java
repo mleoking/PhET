@@ -73,11 +73,11 @@ public class FaucetControlNode extends PNode {
         _enabled = enabled;
     }
     
-    public void setValue( double value ) {
+    public void setRate( double value ) {
         _sliderNode.setRate( value );
     }
     
-    public double getValue() {
+    public double getRate() {
         double rate = 0;
         if ( _enabled ) {
             rate = _sliderNode.getRate();

@@ -110,7 +110,7 @@ public class LiquidControlNode extends PNode {
         _faucetControlNode.addFaucetControlListener( new FaucetControlListener() {
             public void valueChanged() {
                 if ( _notifyEnabled ) {
-                    _liquid.setLiquidFillRate( _faucetControlNode.getValue() );
+                    _liquid.setLiquidFillRate( _faucetControlNode.getRate() );
                 }
             }
         });
@@ -165,7 +165,7 @@ public class LiquidControlNode extends PNode {
         _notifyEnabled = false;
         _selectedLiquidDescriptor = _liquid.getLiquidDescriptor();
         _comboBox.setChoice( _liquid.getLiquidDescriptor() );
-        _faucetControlNode.setValue( _liquid.getFillLiquidRate() );
+        _faucetControlNode.setRate( _liquid.getFillLiquidRate() );
         _faucetControlNode.setEnabled( !_liquid.isFull() );
         _notifyEnabled = true;
 

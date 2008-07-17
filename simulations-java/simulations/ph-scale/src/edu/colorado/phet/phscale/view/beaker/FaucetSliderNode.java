@@ -133,20 +133,13 @@ public class FaucetSliderNode extends PNode {
                 
                 // map the offset to a value
                 double modelValue = viewToModel( xOffset );
-                _value = modelValue;
-                notifyValueChanged();
+                setRate( modelValue );
             }
             
             protected void endDrag( PInputEvent event ) {
                 super.endDrag( event );
                 _dragging = false;
-                // snap to off position
-                _knobNode.setOffset( 0, _knobNode.getYOffset() );
-                // if value changed, notify
-                if ( _value != 0 ) {
-                    _value = 0;
-                    notifyValueChanged();
-                }
+                setRate( 0 );
             }
         } );
     }
@@ -163,7 +156,11 @@ public class FaucetSliderNode extends PNode {
         if ( value < 0 || value > _maxRate ) {
             throw new IllegalArgumentException( "value is out of range" );
         }
-        if ( !_dragging && value != _value ) {
+        if ( !_dragging ) {
+            double xOffset = modelToView( value );
+            _knobNode.setOffset( xOffset, _knobNode.getYOffset() );
+        }
+        if ( value != _value ) {
             _value = value;
             notifyValueChanged();
         }
