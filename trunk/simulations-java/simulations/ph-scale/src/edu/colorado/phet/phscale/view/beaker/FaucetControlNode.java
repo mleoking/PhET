@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 import javax.swing.SwingConstants;
 
-import edu.colorado.phet.phscale.view.beaker.MomentarySliderNode.MomentarySliderListener;
+import edu.colorado.phet.phscale.view.beaker.FaucetSliderNode.FaucetSliderListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -32,26 +32,30 @@ public class FaucetControlNode extends PNode {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final MomentarySliderNode _sliderNode;
+    private final FaucetSliderNode _sliderNode;
     private final ArrayList _listeners;
+    private boolean _enabled;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public FaucetControlNode( int orientation ) {
+    public FaucetControlNode( int orientation, double maxFlowRate ) {
         super();
         
         _listeners = new ArrayList();
+        _enabled = true;
         
         PNode faucetNode = new FaucetNode( orientation );
         faucetNode.setPickable( false );
         faucetNode.setChildrenPickable( false );
         
-        _sliderNode = new MomentarySliderNode( SLIDER_TRACK_SIZE, SLIDER_KNOB_SIZE );
-        _sliderNode.addMomentarySliderListener( new MomentarySliderListener() {
-            public void onOffChanged( boolean on ) {
-                notifyOnOffChanged();
+        _sliderNode = new FaucetSliderNode( maxFlowRate, SLIDER_TRACK_SIZE, SLIDER_KNOB_SIZE );
+        _sliderNode.addFaucetSliderListener( new FaucetSliderListener() {
+            public void valueChanged() {
+                if ( _enabled ) {
+                    notifyValueChanged();
+                }
             }
         });
         
@@ -65,16 +69,46 @@ public class FaucetControlNode extends PNode {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setOn( boolean on ) {
-        _sliderNode.setOn( on );
+    public void setEnabled( boolean enabled ) {
+        _enabled = enabled;
+    }
+    
+    public void setValue( double value ) {
+        _sliderNode.setRate( value );
+    }
+    
+    public double getValue() {
+        double rate = 0;
+        if ( _enabled ) {
+            rate = _sliderNode.getRate();
+        }
+        return rate;
+    }
+    
+    public void setOff() {
+        _sliderNode.setOff();
+    }
+    
+    public void setFullOn() {
+        if ( _enabled ) {
+            _sliderNode.setFullOn();
+        }
     }
     
     public boolean isOn() {
-        return _sliderNode.isOn();
+        boolean on = false;
+        if ( _enabled ) {
+            on = _sliderNode.isOn();
+        }
+        return on;
     }
     
-    public void setEnabled( boolean enabled ) {
-        _sliderNode.setVisible( enabled );
+    public double getPercentOn() {
+        double percentOn = 0;
+        if ( _enabled ) {
+            percentOn = _sliderNode.getPercentOn();
+        }
+        return percentOn;
     }
     
     //----------------------------------------------------------------------------
@@ -82,7 +116,7 @@ public class FaucetControlNode extends PNode {
     //----------------------------------------------------------------------------
     
     public interface FaucetControlListener {
-        public void onOffChanged( boolean on );
+        public void valueChanged();
     }
     
     public void addFaucetControlListener( FaucetControlListener listener ) {
@@ -93,11 +127,10 @@ public class FaucetControlNode extends PNode {
         _listeners.remove( listener );
     }
     
-    private void notifyOnOffChanged() {
-        final boolean b = _sliderNode.isOn();
+    private void notifyValueChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (FaucetControlListener) i.next() ).onOffChanged( b );
+            ( (FaucetControlListener) i.next() ).valueChanged();
         }
     }
 }

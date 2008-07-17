@@ -45,6 +45,10 @@ public class PHScaleConstants {
     
     public static final IntegerRange PH_RANGE = new IntegerRange( -1, 15, 7 ); // min, max, default
     
+    public static final double MAX_FILL_RATE = 0.05; // L per clock tick
+    public static final double MAX_DRAIN_RATE = MAX_FILL_RATE; // L per clock tick
+    public static final double AUTO_FILL_RATE = 0.03; // L per clock tick
+    
     //----------------------------------------------------------------------------
     // View
     //----------------------------------------------------------------------------
@@ -53,6 +57,7 @@ public class PHScaleConstants {
     
     // size of the liquid column that comes out of the faucets
     public static final PDimension LIQUID_COLUMN_SIZE = new PDimension( 20, BEAKER_SIZE.getHeight() + 30 );
+    public static final double MIN_LIQUID_COLUMN_WIDTH = 5;
     
     public static final double PH_PROBE_LENGTH = BEAKER_SIZE.getHeight() + 75;
     

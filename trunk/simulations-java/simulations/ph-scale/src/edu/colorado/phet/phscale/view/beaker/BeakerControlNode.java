@@ -55,6 +55,21 @@ public class BeakerControlNode extends PNode {
         super();
         
         _liquid = liquid;
+        
+        _probeNode = new ProbeNode( PHScaleConstants.PH_PROBE_LENGTH, liquid );
+        
+        _liquidControlNode = new LiquidControlNode( liquid, PHScaleConstants.MAX_FILL_RATE, pSwingCanvas );
+        
+        _waterControlNode = new WaterControlNode( liquid, PHScaleConstants.MAX_FILL_RATE );
+        
+        _drainControlNode = new DrainControlNode( liquid, PHScaleConstants.MAX_DRAIN_RATE );
+
+        _liquidNode = new LiquidNode( liquid, PHScaleConstants.BEAKER_SIZE );
+        
+        _beakerNode = new BeakerNode( PHScaleConstants.BEAKER_SIZE, liquid.getMaxVolume() );
+        
+        _moleculeCountNode = new MoleculeCountNode( liquid );
+        
         _liquidListener = new LiquidListener() {
             public void stateChanged() {
                 // hide the water faucet if the Custom liquid is selected
@@ -62,20 +77,6 @@ public class BeakerControlNode extends PNode {
             }
         };
         _liquid.addLiquidListener( _liquidListener );
-        
-        _probeNode = new ProbeNode( PHScaleConstants.PH_PROBE_LENGTH, liquid );
-        
-        _liquidControlNode = new LiquidControlNode( liquid, pSwingCanvas );
-        
-        _waterControlNode = new WaterControlNode( liquid );
-        
-        _drainControlNode = new DrainControlNode( liquid );
-
-        _liquidNode = new LiquidNode( liquid, PHScaleConstants.BEAKER_SIZE );
-        
-        _beakerNode = new BeakerNode( PHScaleConstants.BEAKER_SIZE, liquid.getMaxVolume() );
-        
-        _moleculeCountNode = new MoleculeCountNode( liquid );
         
         _viewControlPanel = new ViewControlPanel();
         PSwing viewControlPanelWrapper = new PSwing( _viewControlPanel );
