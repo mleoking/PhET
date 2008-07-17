@@ -15,8 +15,8 @@ import java.util.StringTokenizer;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import edu.colorado.phet.build.FileUtils;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.reids.admin.util.FileUtils;
+import edu.colorado.phet.reids.admin.util.FrameSetup;
 
 /**
  * Created by: Sam
