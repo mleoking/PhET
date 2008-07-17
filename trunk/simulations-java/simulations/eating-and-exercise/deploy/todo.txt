@@ -63,53 +63,6 @@ happy heart should be A+B
 
 gradient color red to green, inverses for A + B
 ____________________________________________________________________________________________
-MUSCLE AND FAT MASS LOSS
-
-NP - weight lost should be both muscle and fat. There should be some ratio of FFM to Fat mass that is probably constant
-whenever someone loses weight.
-
-Article: Weight Loss-Induced Skeletal Muscle Loss: Accurate Estimation by Bioimpedance Analysis (BIA)
-
-http://www.halls.md/fat/muscle.htm
-
-Authors: Nuñez C, Kovera A, Wang ZM, Heymsfield SB.
-Presented at : 8th International Congress on Obesity, Paris, August 29-September 3. 1998.
-Abstract
-
-Objective: Loss of skeletal muscle (SM) is a characteristic body composition change associated with weight reduction treatment.
-    Prevention of dieting-SM atrophy with appropriate food composition or exercise is an important research goal.
-Design: This study evaluated the accuracy of BIA (50kHz) in monitoring leg SM changes in a group of 71
-        obese women (X±SD, age, 40.0±7.3 yrs; BMI, 31.1±2.8kg/m2)
-        undergoing 16-week weight loss treatment on conventional low calorie diet.
-Results: ***Subjects lost mean of 4.9 kg body mass, 4.3 kg as fat and 0.6 kg as fat-free mass.*** 
-
->>> So based on this, muscle loss is maybe 12% of total weight loss when dieting. Seems reasonable.
-
->>> Model: when weight is lost due to lower calorie intake than expenditure, 12% of calories come from lean body mass, 88 % come from fat mass. 		    
-	Remove 4 g for every LBM calorie lost, 9 g for every fat calorie lost.
-
-	So for example, if you take in 100 calories less than you burn, 12*4=48 g of LBM and 88*9=792 g of fat are lost.
-
->>>Model for weight loss:
-
-	LBM_lost (g) = 0.12 / 4 * Cal_burned
-	Fat_lost (g) = 0.88 / 9 * Cal_burned
-
->>>Starvation mode:
-	When starving (<2%/4% for men/women) make the ratio switch, with buffering as follows:
-		%fat 2-4% (men), 4-6% (women): 	LBM loss 50%, Fat loss 50%
-		%fat < 2% (men), < 4% (women): 	LBM loss 95%, Fat loss 5%. (this might become 100% LBM...not yet sure).
-
-Franny said on 6/13/2008:
-    I have been playing with the Simulation this morning and had a question for you.
-    If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change.
-    I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my %
-    fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures)
-    in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there
-    was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in,
-    but that portion is not very realistic, so i thought i'd point it out.
-
-____________________________________________________________________________________________
 MUSCLE GAINED FROM EXERCISING
 
 keeps mass constant, changes only % fat
@@ -198,3 +151,12 @@ Added calculation for body fat % based on height, weight and activity level
 
 Should the click-to-move slider feature have a cursor hand?
     >>Reduce clickable area, and add cursor hand
+
+Franny said on 6/13/2008:
+    I have been playing with the Simulation this morning and had a question for you.
+    If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change.
+    I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my %
+    fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures)
+    in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there
+    was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in,
+    but that portion is not very realistic, so i thought i'd point it out.
