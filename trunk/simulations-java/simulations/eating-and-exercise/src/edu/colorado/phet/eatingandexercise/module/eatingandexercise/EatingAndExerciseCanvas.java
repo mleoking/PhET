@@ -7,6 +7,8 @@ import java.awt.event.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -93,6 +95,11 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
 
         _rootNode.addChild( new ScaleNode( model, model.getHuman() ) );
         humanAreaNode = new HumanNode( model.getHuman() );
+        humanAreaNode.addListener( new HumanNode.Listener() {
+            public void infoButtonPressed() {
+                JOptionPane.showMessageDialog( EatingAndExerciseCanvas.this, "Information about health goes here" );
+            }
+        } );
 
         _rootNode.addChild( humanAreaNode );
 
