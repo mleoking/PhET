@@ -1788,18 +1788,16 @@ public class MultipleParticleModel {
      */
     private void updateMoleculeSafety(){
         
-        // Important Note: We only check the molecules in order, so for
-        // example if the first molecule is still unsafe, all the ones behind
-        // it will not be checked.
-        boolean unsafeMoleculeFound = false;
-        for (int i = m_numberOfSafeAtoms; (i < m_numberOfAtoms) && !unsafeMoleculeFound; i += m_atomsPerMolecule){
+        for (int i = m_numberOfSafeAtoms; i < m_numberOfAtoms; i += m_atomsPerMolecule){
             
+            boolean moleculeIsUnsafe = false;
+
             // Find out if this molecule is still to close to all the "safe"
             // molecules.
             if (m_atomsPerMolecule == 1){
                 for (int j = 0; j < m_numberOfSafeAtoms; j++){
                     if ( m_atomPositions[i].distance( m_atomPositions[j] ) < SAFE_INTER_MOLECULE_DISTANCE ){
-                        unsafeMoleculeFound = true;
+                        moleculeIsUnsafe = true;
                         break;
                     }
                 }
@@ -1807,14 +1805,68 @@ public class MultipleParticleModel {
             else{
                 for (int j = 0; j < m_numberOfSafeAtoms; j += m_atomsPerMolecule){
                     if ( m_moleculeCenterOfMassPositions[i / m_atomsPerMolecule].distance( m_moleculeCenterOfMassPositions[j / m_atomsPerMolecule] ) < SAFE_INTER_MOLECULE_DISTANCE ){
-                        unsafeMoleculeFound = true;
+                        moleculeIsUnsafe = true;
                         break;
                     }
                 }
             }
             
-            if (!unsafeMoleculeFound){
-                // The molecule just tested was safe, so increment the count.
+            if (!moleculeIsUnsafe){
+                // The molecule just tested was safe, so adjust the arrays
+                // accordingly.
+                if (i != m_numberOfSafeAtoms){
+                    // There is at least one unsafe atom in front of this one
+                    // in the arrays, so some swapping must be done before the
+                    // number of safe atoms can be incremented.
+                    // TODO: JPB TBD - This is ugly, and should be radically
+                    // improved when the refactoring of the model takes place.
+                    
+                    // Swap the safe atom with the first unsafe one.
+                    Point2D tempAtomPosition;
+                    Vector2D tempAtomVelocity;
+                    Vector2D tempAtomForce;
+                    
+                    for (int j = 0; j < m_atomsPerMolecule; j++){
+                        tempAtomPosition = m_atomPositions[m_numberOfSafeAtoms + j];
+                        tempAtomVelocity = m_atomVelocities[m_numberOfSafeAtoms + j];
+                        tempAtomForce = m_atomForces[m_numberOfSafeAtoms + j];
+                        m_atomPositions[m_numberOfSafeAtoms + j] = m_atomPositions[i + j];
+                        m_atomVelocities[m_numberOfSafeAtoms + j] = m_atomVelocities[i + j];
+                        m_atomForces[m_numberOfSafeAtoms + j] = m_atomForces[i + j];
+                        m_atomPositions[i + j] = tempAtomPosition;
+                        m_atomVelocities[i + j] = tempAtomVelocity;
+                        m_atomForces[i + j] = tempAtomForce;
+                    }
+                    
+                    // Now swap the molecule.  Note that we don't worry about
+                    // torque here because there shouldn't be any until the
+                    // molecule is deemed safe.
+                    Point2D tempMoleculeCenterOfMassPosition;
+                    Vector2D tempMoleculeVelocity;
+                    Vector2D tempMoleculeForce;
+                    double tempMoleculeRotationAngle;
+                    double tempMoleculeRotationRate;
+                    
+                    if (m_atomsPerMolecule > 1){
+                        int firstUnsafeMoleculeIndex = m_numberOfSafeAtoms / m_atomsPerMolecule;
+                        int safeMoleculeIndex = i / m_atomsPerMolecule;
+                        tempMoleculeCenterOfMassPosition = m_moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex];
+                        tempMoleculeVelocity = m_moleculeVelocities[firstUnsafeMoleculeIndex];
+                        tempMoleculeForce = m_moleculeForces[firstUnsafeMoleculeIndex];
+                        tempMoleculeRotationAngle = m_moleculeRotationAngles[firstUnsafeMoleculeIndex];
+                        tempMoleculeRotationRate = m_moleculeRotationRates[firstUnsafeMoleculeIndex];
+                        m_moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex] = m_moleculeCenterOfMassPositions[safeMoleculeIndex];
+                        m_moleculeVelocities[firstUnsafeMoleculeIndex] = m_moleculeVelocities[safeMoleculeIndex];
+                        m_moleculeForces[firstUnsafeMoleculeIndex] = m_moleculeForces[safeMoleculeIndex];
+                        m_moleculeRotationAngles[firstUnsafeMoleculeIndex] = m_moleculeRotationAngles[safeMoleculeIndex];
+                        m_moleculeRotationRates[firstUnsafeMoleculeIndex] = m_moleculeRotationRates[safeMoleculeIndex];
+                        m_moleculeCenterOfMassPositions[safeMoleculeIndex] = tempMoleculeCenterOfMassPosition;
+                        m_moleculeVelocities[safeMoleculeIndex] = tempMoleculeVelocity;
+                        m_moleculeForces[safeMoleculeIndex] = tempMoleculeForce;
+                        m_moleculeRotationAngles[safeMoleculeIndex] = tempMoleculeRotationAngle;
+                        m_moleculeRotationRates[safeMoleculeIndex] = tempMoleculeRotationRate;
+                    }
+                }
                 m_numberOfSafeAtoms += m_atomsPerMolecule;
             }
         }
