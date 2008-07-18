@@ -1,3 +1,4 @@
+7-18-2008: ph Scale (1.00) - added
 6-27-2008: Nuclear Physics (3.00) - major physics and user interface improvements
 6-14-2008: Neon Light & Other Discharge Lamps (1.08) - minor user interface improvements for low screen resolution
 6-5-2008: Neon Light & Other Discharge Lamps (1.07) - minor user interface improvements
