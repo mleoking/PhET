@@ -57,8 +57,13 @@ public class PhaseChangesControlPanel extends ControlPanel {
         // Add the panel that allows the user to select molecule type.
         addControlFullWidth( new MoleculeSelectionPanel() );
         
-        // Add the panel that allows the user to control the system temperature.
-        addControlFullWidth( new ParticleSystemControlPanel() );
+        // Add the panel that allows the user to control the amount of gravity.
+        addControlFullWidth( new GravityControlSlider( m_model ) );
+        
+        // Add the phase diagram.
+        JPanel phaseDiagramPanel = new JPanel();
+        phaseDiagramPanel.add( new PhaseDiagram() );
+        addControlFullWidth( phaseDiagramPanel );
         
         // Add the Reset All button.
         addVerticalSpace( 10 );
@@ -130,31 +135,6 @@ public class PhaseChangesControlPanel extends ControlPanel {
             add( m_argonRadioButton );
             add( m_oxygenRadioButton );
             add( m_waterRadioButton );
-        }
-    }
-    
-    private class ParticleSystemControlPanel extends JPanel {
-        
-        private GravityControlSlider m_gravitationalAccControl;
-        
-        ParticleSystemControlPanel(){
-            
-            setLayout( new GridLayout(0, 1) );
-            
-            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
-            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    "System Control", // JPB TBD - Make this into a string if we keep it.
-                    TitledBorder.LEFT,
-                    TitledBorder.TOP,
-                    new PhetFont( Font.BOLD, 14 ),
-                    Color.GRAY );
-            
-            setBorder( titledBorder );
-            
-            // Add the slider that controls the gravitational acceleration of the system.
-            m_gravitationalAccControl = new GravityControlSlider( m_model );
-            
-            add(m_gravitationalAccControl);
         }
     }
 }
