@@ -29,18 +29,18 @@ public class PhaseDiagram extends PhetPCanvas {
 
     // Constants that control the size of the canvas.
     public static final int WIDTH = 200;
-    public static final int HEIGHT = WIDTH;
+    public static final int HEIGHT = (int)((double)WIDTH * 0.8);
     
     // Constants that control the look of the axes.
     public static final double AXES_LINE_WIDTH = 1;
     public static final double AXES_ARROW_HEAD_WIDTH = 5 * AXES_LINE_WIDTH;
     public static final double AXES_ARROW_HEAD_HEIGHT = 8 * AXES_LINE_WIDTH;
     public static final double HORIZ_AXIS_SIZE_PROPORTION = 0.8;
-    public static final double VERT_AXIS_SIZE_PROPORTION = 0.8;
+    public static final double VERT_AXIS_SIZE_PROPORTION = 0.80;
     
     // Constants that control the location of the origin for the graph.
     public static final double xOriginOffset = 0.10 * (double)WIDTH;
-    public static final double yOriginOffset = 0.90 * (double)HEIGHT;
+    public static final double yOriginOffset = 0.85 * (double)HEIGHT;
     public static final double xUsableRange = WIDTH * HORIZ_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
     public static final double yUsableRange = HEIGHT * VERT_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
     
@@ -79,6 +79,10 @@ public class PhaseDiagram extends PhetPCanvas {
     private PText m_solidLabel;
     private PText m_liquidLabel;
     private PText m_gasLabel;
+    private PText m_triplePointLabel1;
+    private PText m_triplePointLabel2;
+    private PText m_criticalPointLabel1;
+    private PText m_criticalPointLabel2;
     
     /**
      * Constructor.
@@ -115,7 +119,7 @@ public class PhaseDiagram extends PhetPCanvas {
         
         PText verticalAxisLabel = new PText("Pressure");
         verticalAxisLabel.setOffset( xOriginOffset - (verticalAxisLabel.getFullBoundsReference().height * 1.1),
-                verticalAxisLabel.getFullBoundsReference().width * 1.3);
+                verticalAxisLabel.getFullBoundsReference().width * 1.6);
         verticalAxisLabel.rotate( 3 * Math.PI / 2 );
         addWorldChild( verticalAxisLabel );
         
@@ -147,6 +151,18 @@ public class PhaseDiagram extends PhetPCanvas {
         m_gasLabel = new PText("gas");
         m_gasLabel.setFont( LARGER_INNER_FONT );
         addWorldChild( m_gasLabel );
+        m_triplePointLabel1 = new PText("triple");
+        m_triplePointLabel1.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_triplePointLabel1 );
+        m_triplePointLabel2 = new PText("point");
+        m_triplePointLabel2.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_triplePointLabel2 );
+        m_criticalPointLabel1 = new PText("critical");
+        m_criticalPointLabel1.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_criticalPointLabel1 );
+        m_criticalPointLabel2 = new PText("point");
+        m_criticalPointLabel2.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_criticalPointLabel2 );
         
         // Draw the initial phase diagram.
         drawPhaseDiagram( 0 );
@@ -186,5 +202,12 @@ public class PhaseDiagram extends PhetPCanvas {
                 DEFAULT_LIQUID_LABEL_LOCATION.getY() - m_liquidLabel.getFullBoundsReference().height / 2);
         m_gasLabel.setOffset( DEFAULT_GAS_LABEL_LOCATION.getX() - m_gasLabel.getFullBoundsReference().width / 2,
                 DEFAULT_GAS_LABEL_LOCATION.getY() - m_gasLabel.getFullBoundsReference().height / 2);
+        m_triplePointLabel2.setOffset( DEFAULT_TRIPLE_POINT.getX() - m_triplePointLabel2.getFullBoundsReference().width * 1.2,
+                DEFAULT_TRIPLE_POINT.getY() - m_triplePointLabel2.getFullBoundsReference().height * 0.5 );
+        m_triplePointLabel1.setOffset( m_triplePointLabel2.getFullBoundsReference().x,
+                m_triplePointLabel2.getFullBoundsReference().y - m_triplePointLabel2.getFullBoundsReference().height * 0.8);
+        m_criticalPointLabel2.setOffset( DEFAULT_CRITICAL_POINT.getX() + 4, DEFAULT_CRITICAL_POINT.getY() );
+        m_criticalPointLabel1.setOffset( m_criticalPointLabel2.getFullBoundsReference().x,
+                m_criticalPointLabel2.getFullBoundsReference().y - m_criticalPointLabel2.getFullBoundsReference().height * 0.8);
     }
 }
