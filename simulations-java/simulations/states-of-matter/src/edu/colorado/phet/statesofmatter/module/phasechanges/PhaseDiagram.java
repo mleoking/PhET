@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 
@@ -16,6 +17,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
+// TODO: JPB TBD - Make the labels into translatable strings.
 
 /**
  * This class displays a phase diagram suitable for inclusion on the control
@@ -49,13 +51,23 @@ public class PhaseDiagram extends PhetPCanvas {
     // Constants that control the appearance of the phase diagram for the
     // various substances.  Note that all points are controlled as proportions
     // of the overall graph size and not as absolute values.
+    public static final double POINT_MARKER_DIAMETER = 4;
     public static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_CURVE = new Point2D.Double(xUsableRange/2 + xOriginOffset, 
             yOriginOffset - yUsableRange);
+    public static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.32), 
+            yOriginOffset - (yUsableRange * 0.2));
+    public static final Point2D DEFAULT_CRITICAL_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.8), 
+            yOriginOffset - (yUsableRange * 0.45));
     
     // Variables that define the appearance of the phase diagram.
+    private PPath m_triplePoint;
+    private PPath m_criticalPoint;
     private PPath m_solidLiquidLine;
+    private PPath m_liquidGasLine;
     
-    
+    /**
+     * Constructor.
+     */
     public PhaseDiagram(){
 
         setPreferredSize( new Dimension(WIDTH, HEIGHT) );
@@ -101,6 +113,14 @@ public class PhaseDiagram extends PhetPCanvas {
         // Create the variables that will define the look of the phase diagram.
         m_solidLiquidLine = new PPath();
         addWorldChild( m_solidLiquidLine );
+        m_liquidGasLine = new PPath();
+        addWorldChild( m_liquidGasLine );
+        m_triplePoint = new PPath(new Ellipse2D.Double(0, 0, POINT_MARKER_DIAMETER, POINT_MARKER_DIAMETER));
+        m_triplePoint.setPaint( Color.BLACK );
+        addWorldChild( m_triplePoint );
+        m_criticalPoint = new PPath(new Ellipse2D.Double(0, 0, POINT_MARKER_DIAMETER, POINT_MARKER_DIAMETER));
+        m_criticalPoint.setPaint( Color.BLACK );
+        addWorldChild( m_criticalPoint );
         
         // Draw the initial phase diagram.
         drawPhaseDiagram( 0 );
@@ -108,10 +128,29 @@ public class PhaseDiagram extends PhetPCanvas {
     
     private void drawPhaseDiagram(int substance){
         
+        // Locate the triple point marker.
+        m_triplePoint.setOffset( DEFAULT_TRIPLE_POINT.getX() - POINT_MARKER_DIAMETER / 2, 
+                DEFAULT_TRIPLE_POINT.getY() - POINT_MARKER_DIAMETER / 2 );
+        
+        // Add the curve that separates solid and liquid.
         QuadCurve2D solidLiquidCurve = new QuadCurve2D.Double(xOriginOffset, yOriginOffset, 
                 (xOriginOffset + xUsableRange) * 0.5, yOriginOffset, DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX(),
                 DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
         
         m_solidLiquidLine.setPathTo( solidLiquidCurve );
+
+        // Locate the critical point marker.
+        m_criticalPoint.setOffset( DEFAULT_CRITICAL_POINT.getX() - POINT_MARKER_DIAMETER / 2, 
+                DEFAULT_CRITICAL_POINT.getY() - POINT_MARKER_DIAMETER / 2 );
+
+        // Add the curve that separates liquid and gas.
+        double controlCurveXPos = DEFAULT_TRIPLE_POINT.getX() + 
+            ((DEFAULT_CRITICAL_POINT.getX() - DEFAULT_TRIPLE_POINT.getX()) / 2);
+        double controlCurveYPos = DEFAULT_TRIPLE_POINT.getY();
+        QuadCurve2D liquidGasCurve = new QuadCurve2D.Double( DEFAULT_TRIPLE_POINT.getX(), DEFAULT_TRIPLE_POINT.getY(),
+                controlCurveXPos, controlCurveYPos, DEFAULT_CRITICAL_POINT.getX(), DEFAULT_CRITICAL_POINT.getY() );
+
+        m_liquidGasLine.setPathTo( liquidGasCurve );
+        
     }
 }
