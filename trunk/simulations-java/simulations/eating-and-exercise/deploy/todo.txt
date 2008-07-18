@@ -6,46 +6,6 @@ Noah: construct text for heart ? explanation
 
 Noah: Finish adding images for food and exercise
 
-The green area of each bar will mean good, red bad. The bright green area should be extended to include all acceptable values.
-So for heart strain, base this on 6-25% for men, 16-31% for women. (See below in CALCULATING BODY FAT... for where these values come from.) 
-____________________________________________________________________________________________
-MUSCLE GAINED FROM EXERCISING
-
-keeps mass constant, changes only % fat
-
->>SR: How does this relate to the MUSCLE AND FAT MASS LOSS section?
->>SR: Does this account for lifestyle/activity, or just exercise?
-
-   - there should be some muscle gained from exercising, to a point. This should be limited (you can only get so muscular).
-   I had trouble finding anything on this, so I made up a model that seemed reasonable.
-
->>>Model: For every calorie exercised, all of the calories are burned.
-In addition, your body tries to make 10% of that number of calories into muscle, at a rate of 1/4 g of muscle per calorie.
-So for example, if you do 1000 calories of exercise, all of those calories are burned.
-In addition, 100 calories of what you eat are are turned into muscle (or 25 g).
-These calories are in addition to those burned to do the exercise itself.
-At this rate, one would build about 1 lb of muscle in 18 days, which seems reasonable.
-There is also feedback so that the more muscle you have, the less you can build,
-and at some point you cannot get any more muscular.
-
->>>Model for muscle building from exercise:
-
-	Muscle_mass_gained = 0.1 * Cal_exercise * (LBM_0 - LBM)
-	
-	...where LBM is lean body mass, LBM_0 is 0.96 * sqrt(height / 30),
-	or the lean body mass of a person with 4% body fat and a BMI of 30.
-
->>>These two features above will effectively make BMR vary according to
-your caloric intake (if you undereat, your BMR should drop some to compensate, vice versa for eating more and exercising).
-   
->>> all other weight gained is added fat mass.
-
- Wendy said:
- 	The equations below for muscle gained due to exercise still have the
-algebra error.  LBM_O = W *96% = BMI*h2 * 96%  You also don't mention this
-is for men and that women would be 91% and BMI 26 I think you found.  I also
-don't see the muscle mass loss due to lack of exercise.
-
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
