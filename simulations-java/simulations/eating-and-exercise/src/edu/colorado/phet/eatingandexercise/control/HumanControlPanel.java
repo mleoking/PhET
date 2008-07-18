@@ -70,6 +70,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
 
         ageSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
+                updatePercentFat();
                 notifyAgeManuallyChanged();
             }
         } );
@@ -229,8 +230,10 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     }
 
     private void updatePercentFat() {
-        double percentFat = human.getNormativePercentFat();
-        human.setFatMassPercent( percentFat );
+//        double percentFat = human.getNormativePercentFat();
+//        human.setFatMassPercent( percentFat );
+//        System.out.println( "HumanControlPanel.updatePercentFat based on user specified change" );
+        human.setFatMassPercent( model.getUserSpecifiedBodyParameters().getPreferredFatMassPercent( human ) );
     }
 
     private void updateLayout() {

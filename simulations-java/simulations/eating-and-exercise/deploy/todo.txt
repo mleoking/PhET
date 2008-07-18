@@ -10,23 +10,6 @@ Finish adding images for food and exercise
 
 The green area of each bar will mean good, red bad. The bright green area should be extended to include all acceptable values.
 So for heart strain, base this on 6-25% for men, 16-31% for women. (See below in CALCULATING BODY FAT... for where these values come from.) 
-___________________________________________________________________________________________
-USER SPECIFIED BODY PARAMETERS
-
-height, weight and fat % will be the independent variables, but fat will be constrained by (the explanation below)
-    >>NP - FFM range for men is 18.5/1.15*h^2 to 30/1.15*h^2, for women 18.5/1.23*h^2 to 30/1.23*h^2.
-        >>This comes from assuming average % fat for people in this range (15% for men, 23% for women).
-
-The lower limits above assume a very low FFM with average % fat - you can go below this limit by pushing down % body fat.
-    Note that the lower limit is around a BMI of 16. At this point, you will be very low % fat and can begin removing FFM to drop weight,
-    but you are now in the danger zone.
-
-Here is the idea: height, weight, and % fat will be totally independent, within certain limits.
-If you set a height, then LBM (or FFM) is limited based on that height (as described above).
-If you try to move the weight above or below this range, fat is then added or removed to make up for the difference in weight.
-For instance, you could have 2% fat and be as muscular as a pro body builder - but if you tried to add more weight than that,
-it would automatically start adding fat. Likewise, if you were at the low end of FFM and had 15% fat,
-if you went below this weight it would start removing fat (since you would be nearly out of muscle to remove).
 ____________________________________________________________________________________________
 MUSCLE GAINED FROM EXERCISING
 
