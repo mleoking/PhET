@@ -16,10 +16,6 @@ class GetPhETPage extends SitePage {
             <div id="get_phet">
                 <table>
                     
-                    <caption>
-                        If you would like to be notified when new versions of the PhET simulations are available, send us a note with the word "Subscribe" in the subject line: <a href="mailto:physphet@colorado.edu">physphet@colorado.edu</a>
-                    </caption>
-                    
                     <tr>
                         <th scope="row" abbr="" class="specalt-none"></th>
 
