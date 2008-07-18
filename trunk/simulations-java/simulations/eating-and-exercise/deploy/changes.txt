@@ -8,6 +8,7 @@ Heart attack probability is based on heart health, not previous model
 Added button for estimating body fat percent, see http://www.halls.md/bmi/fat.htm
 Added heart health information button
 Converted to use the same 12% rule for weight gain as weight loss (this makes the muscle gained from exercising algorithm less important)
+Removed "simulation age out of range" message
 
 New in 0.00.54
 Clean up foods and exercises
