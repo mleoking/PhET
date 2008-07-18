@@ -37,9 +37,9 @@ public class MuscleGainedFromExercising implements HumanUpdate {
         System.out.println( "stdLeanMassFraction = " + stdLeanMassFraction );
         double LBM_0 = stdBMI * human.getHeight() * human.getHeight() * stdLeanMassFraction;//todo: should use standard height instead of actual human instance height?
         System.out.println( "LBM_0 = human.getGender().getStdBMI() * human.getHeight() * human.getHeight() * human.getGender().getStdLeanMassFraction() =" + LBM_0 + " kg" );
-        double muscleMassGained = 0.1 * calExercise * ( LBM_0 - human.getLeanBodyMass() );
+        double muscleMassGained = 0.02 * calExercise * ( LBM_0 - human.getLeanBodyMass() ) / 4000.0;
         System.out.println( "Human lean body mass=" + human.getLeanBodyMass() );
-        System.out.println( "muscleMassGained= 0.1 * calExercise * ( LBM_0 - human.getLeanBodyMass() ) = " + muscleMassGained + " kg" );
+        System.out.println( "muscleMassGained= 0.1 * calExercise * ( LBM_0 - human.getLeanBodyMass() )/4000.0 = " + muscleMassGained + " kg" );
         double origMass = human.getMass();
         double newLeanMass = muscleMassGained + human.getLeanBodyMass();
         double fracLean = newLeanMass / origMass;
