@@ -7,16 +7,10 @@
       <antReference projectDefault="true" />
       <customJdkName value="1.6" />
       <maximumHeapSize value="512" />
+      <maximumStackSize value="32" />
       <properties>
         <property name="sun.java2d.noddraw" value="true" />
       </properties>
-    </buildFile>
-    <buildFile url="file://$PROJECT_DIR$/../../../team/reids/admin/build.xml">
-      <additionalClassPath />
-      <antReference projectDefault="true" />
-      <customJdkName value="1.6" />
-      <maximumHeapSize value="128" />
-      <properties />
     </buildFile>
   </component>
   <component name="BuildJarProjectSettings">
@@ -263,6 +257,9 @@
       </item>
     </group>
   </component>
+  <component name="ProjectDetails">
+    <option name="projectName" value="intellij-idea-all" />
+  </component>
   <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectModuleManager">
     <modules>
@@ -317,6 +314,7 @@
         </entry>
       </map>
     </option>
+    <option name="myVersion" value="123" />
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
