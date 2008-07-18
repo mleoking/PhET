@@ -46,7 +46,13 @@ public class PhaseDiagram extends PhetPCanvas {
     
     // Font for the labels used on the axes.
     public static final int AXIS_LABEL_FONT_SIZE = 14;
-    public static final Font axisLabelFont = new PhetFont(AXIS_LABEL_FONT_SIZE);
+    public static final Font AXIS_LABEL_FONT = new PhetFont(AXIS_LABEL_FONT_SIZE);
+    
+    // Fonts for labels in the interior of the diagram.
+    public static final int LARGER_INNER_FONT_SIZE = 14;
+    public static final Font LARGER_INNER_FONT = new PhetFont(LARGER_INNER_FONT_SIZE);
+    public static final int SMALLER_INNER_FONT_SIZE = 12;
+    public static final Font SMALLER_INNER_FONT = new PhetFont(SMALLER_INNER_FONT_SIZE);
     
     // Constants that control the appearance of the phase diagram for the
     // various substances.  Note that all points are controlled as proportions
@@ -58,12 +64,21 @@ public class PhaseDiagram extends PhetPCanvas {
             yOriginOffset - (yUsableRange * 0.2));
     public static final Point2D DEFAULT_CRITICAL_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.8), 
             yOriginOffset - (yUsableRange * 0.45));
+    public static final Point2D DEFAULT_SOLID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.2), 
+            yOriginOffset - (yUsableRange * 0.6));
+    public static final Point2D DEFAULT_LIQUID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.7), 
+            yOriginOffset - (yUsableRange * 0.7));
+    public static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.7), 
+            yOriginOffset - (yUsableRange * 0.1));
     
     // Variables that define the appearance of the phase diagram.
     private PPath m_triplePoint;
     private PPath m_criticalPoint;
     private PPath m_solidLiquidLine;
     private PPath m_liquidGasLine;
+    private PText m_solidLabel;
+    private PText m_liquidLabel;
+    private PText m_gasLabel;
     
     /**
      * Constructor.
@@ -110,7 +125,7 @@ public class PhaseDiagram extends PhetPCanvas {
         verticalAxisOriginLabel.rotate( 3 * Math.PI / 2 );
         addWorldChild( verticalAxisOriginLabel );
         
-        // Create the variables that will define the look of the phase diagram.
+        // Initialize the variables for the lines and points in the phase diagram.
         m_solidLiquidLine = new PPath();
         addWorldChild( m_solidLiquidLine );
         m_liquidGasLine = new PPath();
@@ -121,6 +136,17 @@ public class PhaseDiagram extends PhetPCanvas {
         m_criticalPoint = new PPath(new Ellipse2D.Double(0, 0, POINT_MARKER_DIAMETER, POINT_MARKER_DIAMETER));
         m_criticalPoint.setPaint( Color.BLACK );
         addWorldChild( m_criticalPoint );
+        
+        // Create the labels that will exist inside the phase diagram.
+        m_solidLabel = new PText("solid");
+        m_solidLabel.setFont( LARGER_INNER_FONT );
+        addWorldChild( m_solidLabel );
+        m_liquidLabel = new PText("liquid");
+        m_liquidLabel.setFont( LARGER_INNER_FONT );
+        addWorldChild( m_liquidLabel );
+        m_gasLabel = new PText("gas");
+        m_gasLabel.setFont( LARGER_INNER_FONT );
+        addWorldChild( m_gasLabel );
         
         // Draw the initial phase diagram.
         drawPhaseDiagram( 0 );
@@ -152,5 +178,13 @@ public class PhaseDiagram extends PhetPCanvas {
 
         m_liquidGasLine.setPathTo( liquidGasCurve );
         
+        // Locate the labels.  They are centered on their locations, which
+        // hopefully will work better for translated strings.
+        m_solidLabel.setOffset( DEFAULT_SOLID_LABEL_LOCATION.getX() - m_solidLabel.getFullBoundsReference().width / 2,
+                DEFAULT_SOLID_LABEL_LOCATION.getY() - m_solidLabel.getFullBoundsReference().height / 2);
+        m_liquidLabel.setOffset( DEFAULT_LIQUID_LABEL_LOCATION.getX() - m_liquidLabel.getFullBoundsReference().width / 2,
+                DEFAULT_LIQUID_LABEL_LOCATION.getY() - m_liquidLabel.getFullBoundsReference().height / 2);
+        m_gasLabel.setOffset( DEFAULT_GAS_LABEL_LOCATION.getX() - m_gasLabel.getFullBoundsReference().width / 2,
+                DEFAULT_GAS_LABEL_LOCATION.getY() - m_gasLabel.getFullBoundsReference().height / 2);
     }
 }
