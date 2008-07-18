@@ -1,7 +1,10 @@
 package edu.colorado.phet.eatingandexercise.view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -12,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.umd.cs.piccolo.PNode;
@@ -30,6 +34,8 @@ public class HumanNode extends PNode {
     private PImage heartNode;
     private BasicStroke stroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER );
     private PhetPPath areaNode = new PhetPPath( Color.white, stroke, Color.black );
+    private GradientButtonNode infoButton;
+    private ArrayList listeners = new ArrayList();
 
     public HumanNode( Human human ) {
         this.human = human;
@@ -57,6 +63,15 @@ public class HumanNode extends PNode {
                 update();
             }
         } );
+
+        infoButton = new GradientButtonNode( "?", 12, Color.red );
+        infoButton.setScale( 0.007 );
+        infoButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyInfoButtonPressed();
+            }
+        } );
+        addChild( infoButton );
         update();
     }
 
@@ -106,6 +121,8 @@ public class HumanNode extends PNode {
         areaNode.setStroke( new BasicStroke( (float) ( Math.min( 0.02f * m, 0.025f ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
 
         heartNode.setOffset( -heartNode.getFullBounds().getWidth() * 0.15, neckY + heartNode.getFullBounds().getHeight() * 1.25 );
+
+        infoButton.setOffset( heartNode.getFullBounds().getMaxX(), heartNode.getFullBounds().getMinY() );
     }
 
     private Shape createMuscle( Line2D.Double rightArm, BasicStroke limbStroke ) {
@@ -194,5 +211,19 @@ public class HumanNode extends PNode {
         controlFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         controlFrame.pack();
         controlFrame.setLocation( frame.getX() + frame.getWidth(), frame.getY() );
+    }
+
+    public static interface Listener {
+        void infoButtonPressed();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyInfoButtonPressed() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).infoButtonPressed();
+        }
     }
 }

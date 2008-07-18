@@ -6,6 +6,7 @@ Cleaned up food and exercise text
 Improved model for weight loss (88% fat)
 Heart attack probability is based on heart health, not previous model
 Added button for estimating body fat percent, see http://www.halls.md/bmi/fat.htm
+Added heart health information button
 
 New in 0.00.54
 Clean up foods and exercises

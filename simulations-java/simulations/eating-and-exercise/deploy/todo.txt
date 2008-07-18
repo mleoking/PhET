@@ -4,9 +4,7 @@
 
 Noah: construct text for heart ? explanation
 
-Add heart ? that shows text
-
-Finish adding images for food and exercise
+Noah: Finish adding images for food and exercise
 
 The green area of each bar will mean good, red bad. The bright green area should be extended to include all acceptable values.
 So for heart strain, base this on 6-25% for men, 16-31% for women. (See below in CALCULATING BODY FAT... for where these values come from.) 
