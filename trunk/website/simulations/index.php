@@ -245,7 +245,7 @@ EOT;
 
                 $sim_sorting_name = get_sorting_name($sim_name);
 
-                $cur_char = $sim_sorting_name[0];
+                $cur_char = strtoupper($sim_sorting_name[0]);
 
                 if ($cur_char !== $last_printed_char) {
                     print "<a class=\"pg\" href=\"#$cur_char\">$cur_char</a> ";
@@ -292,7 +292,7 @@ EOT;
 
                 $sim_sorting_name = get_sorting_name($sim_name);
 
-                $cur_char = $sim_sorting_name[0];
+                $cur_char = strtoupper($sim_sorting_name[0]);
 
                 if ($cur_char !== $last_printed_char) {
                     print "<h3 id=\"$cur_char\">$cur_char</h3>";
