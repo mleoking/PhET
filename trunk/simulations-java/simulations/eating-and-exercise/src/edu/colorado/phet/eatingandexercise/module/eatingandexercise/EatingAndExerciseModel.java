@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.control.CalorieDragStrip;
+import edu.colorado.phet.eatingandexercise.control.UserSpecifiedBodyParameters;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.Diet;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
@@ -15,6 +16,11 @@ import edu.colorado.phet.eatingandexercise.model.Human;
 import edu.colorado.phet.eatingandexercise.util.EatingAndExerciseFileParser;
 
 public class EatingAndExerciseModel {
+    private UserSpecifiedBodyParameters userSpecifiedBodyParameters=new UserSpecifiedBodyParameters();
+
+    public UserSpecifiedBodyParameters getUserSpecifiedBodyParameters() {
+        return userSpecifiedBodyParameters;
+    }
 
     public static class Units {
         public static final Units ENGLISH = new Units( EatingAndExerciseResources.getString( "units.english" ), EatingAndExerciseResources.getString( "units.lbs" ), EatingAndExerciseResources.getString( "units.feet.in" ) ) {

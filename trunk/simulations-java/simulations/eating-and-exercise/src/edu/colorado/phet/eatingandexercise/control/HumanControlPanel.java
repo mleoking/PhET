@@ -1,6 +1,9 @@
 package edu.colorado.phet.eatingandexercise.control;
 
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -15,8 +18,8 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseStrings;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
-import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseCanvas;
+import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModel;
 import edu.colorado.phet.eatingandexercise.util.FeetInchesFormat;
 
 /**
@@ -151,6 +154,16 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( weightSlider );
         sliders.add( weightSlider );
 
+        JButton autoBodyFat = new JButton( "<html>Estimate Body Fat %</html>" );
+        autoBodyFat.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                human.setFatMassPercent( model.getUserSpecifiedBodyParameters().getPreferredFatMassPercent( human ) );
+            }
+        } );
+        setFillNone();
+        add( autoBodyFat );
+        setFillHorizontal();
+
         bodyFatSlider = new HumanSlider( 0, 100, human.getFatMassPercent(), EatingAndExerciseResources.getString( "body.fat" ), "0.0", "%" );
         bodyFatSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -169,6 +182,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         } );
         add( bodyFatSlider );
         sliders.add( bodyFatSlider );
+
+
 
         p0Slider = new HumanSlider( Math.min( 0, Human.Gender.P0 ), Math.max( 1 / 100.0, Human.Gender.P0 ), Human.Gender.P0, "p0", "0.0000", "units" );
         p0Slider.addChangeListener( new ChangeListener() {
@@ -193,7 +208,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( pheart );
 
         //wire up listeners to these properties directly, since they are independent variables (ie won't be changed by the model)
-        human.addListener( new Human.Adapter(){
+        human.addListener( new Human.Adapter() {
             public void genderChanged() {
                 updatePercentFat();
             }
@@ -201,7 +216,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             public void activityLevelChanged() {
                 updatePercentFat();
             }
-        });
+        } );
         updatePercentFat();
 
         updateBodyFatSlider();
@@ -214,7 +229,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     }
 
     private void updatePercentFat() {
-        double percentFat=human.getNormativePercentFat();
+        double percentFat = human.getNormativePercentFat();
         human.setFatMassPercent( percentFat );
     }
 
@@ -224,8 +239,8 @@ public class HumanControlPanel extends VerticalLayoutPanel {
     }
 
     private void relayoutSliders() {
-        HumanSlider[]s= (HumanSlider[]) sliders.toArray( new HumanSlider[sliders.size()] );
-        HumanSlider.layout(s);
+        HumanSlider[] s = (HumanSlider[]) sliders.toArray( new HumanSlider[sliders.size()] );
+        HumanSlider.layout( s );
     }
 
     private void updateHeartAttackProbabilityLabel() {
