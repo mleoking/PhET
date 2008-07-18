@@ -391,7 +391,7 @@ public class Human {
         notifyActivityChanged();
     }
 
-    private double getActivityCaloriesPerDay() {
+    public double getActivityCaloriesPerDay() {
         return activityLevel * bmr.getValue();
     }
 

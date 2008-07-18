@@ -27,9 +27,6 @@ If you try to move the weight above or below this range, fat is then added or re
 For instance, you could have 2% fat and be as muscular as a pro body builder - but if you tried to add more weight than that,
 it would automatically start adding fat. Likewise, if you were at the low end of FFM and had 15% fat,
 if you went below this weight it would start removing fat (since you would be nearly out of muscle to remove).
-
-Along with this we will have a button near the % fat slider that says "Auto" or something like that.
-When you click it, it automatically calculates a % fat based on activity, height, and weight.
 ____________________________________________________________________________________________
 MUSCLE GAINED FROM EXERCISING
 
