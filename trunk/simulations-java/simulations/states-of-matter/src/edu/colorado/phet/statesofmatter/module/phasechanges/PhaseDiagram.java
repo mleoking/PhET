@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 
@@ -54,6 +55,10 @@ public class PhaseDiagram extends PhetPCanvas {
     public static final int SMALLER_INNER_FONT_SIZE = 12;
     public static final Font SMALLER_INNER_FONT = new PhetFont(SMALLER_INNER_FONT_SIZE);
     
+    // Colors for the various sections of the diagram.
+    public static final Color BACKGROUND_COLOR_FOR_SOLID = new Color(0x9999FF);
+    public static final Color BACKGROUND_COLOR_FOR_LIQUID = new Color(0xFFFFCC);
+    
     // Constants that control the appearance of the phase diagram for the
     // various substances.  Note that all points are controlled as proportions
     // of the overall graph size and not as absolute values.
@@ -75,7 +80,9 @@ public class PhaseDiagram extends PhetPCanvas {
     private PPath m_triplePoint;
     private PPath m_criticalPoint;
     private PPath m_solidLiquidLine;
+    private PPath m_solidAreaBackground;
     private PPath m_liquidGasLine;
+    private PPath m_liquidAreaBackground;
     private PText m_solidLabel;
     private PText m_liquidLabel;
     private PText m_gasLabel;
@@ -91,6 +98,50 @@ public class PhaseDiagram extends PhetPCanvas {
 
         setPreferredSize( new Dimension(WIDTH, HEIGHT) );
 
+        // Initialize the variables for the lines, points, and shapes in the
+        // phase diagram.  The order in which these are added is important.
+        m_liquidAreaBackground = new PPath();
+        m_liquidAreaBackground.setPaint( BACKGROUND_COLOR_FOR_LIQUID );
+        m_liquidAreaBackground.setStrokePaint( BACKGROUND_COLOR_FOR_LIQUID );
+        addWorldChild( m_liquidAreaBackground );
+        m_solidAreaBackground = new PPath();
+        m_solidAreaBackground.setPaint( BACKGROUND_COLOR_FOR_SOLID );
+        m_solidAreaBackground.setStrokePaint( BACKGROUND_COLOR_FOR_SOLID );
+        addWorldChild( m_solidAreaBackground );
+        m_solidLiquidLine = new PPath();
+        addWorldChild( m_solidLiquidLine );
+        m_liquidGasLine = new PPath();
+        addWorldChild( m_liquidGasLine );
+        m_triplePoint = new PPath(new Ellipse2D.Double(0, 0, POINT_MARKER_DIAMETER, POINT_MARKER_DIAMETER));
+        m_triplePoint.setPaint( Color.BLACK );
+        addWorldChild( m_triplePoint );
+        m_criticalPoint = new PPath(new Ellipse2D.Double(0, 0, POINT_MARKER_DIAMETER, POINT_MARKER_DIAMETER));
+        m_criticalPoint.setPaint( Color.BLACK );
+        addWorldChild( m_criticalPoint );
+        
+        // Create the labels that will exist inside the phase diagram.
+        m_solidLabel = new PText("solid");
+        m_solidLabel.setFont( LARGER_INNER_FONT );
+        addWorldChild( m_solidLabel );
+        m_liquidLabel = new PText("liquid");
+        m_liquidLabel.setFont( LARGER_INNER_FONT );
+        addWorldChild( m_liquidLabel );
+        m_gasLabel = new PText("gas");
+        m_gasLabel.setFont( LARGER_INNER_FONT );
+        addWorldChild( m_gasLabel );
+        m_triplePointLabel1 = new PText("triple");
+        m_triplePointLabel1.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_triplePointLabel1 );
+        m_triplePointLabel2 = new PText("point");
+        m_triplePointLabel2.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_triplePointLabel2 );
+        m_criticalPointLabel1 = new PText("critical");
+        m_criticalPointLabel1.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_criticalPointLabel1 );
+        m_criticalPointLabel2 = new PText("point");
+        m_criticalPointLabel2.setFont( SMALLER_INNER_FONT );
+        addWorldChild( m_criticalPointLabel2 );
+        
         // Create and add the axes for the graph.
         
         ArrowNode horizontalAxis = new ArrowNode( new Point2D.Double(xOriginOffset, yOriginOffset), 
@@ -129,48 +180,13 @@ public class PhaseDiagram extends PhetPCanvas {
         verticalAxisOriginLabel.rotate( 3 * Math.PI / 2 );
         addWorldChild( verticalAxisOriginLabel );
         
-        // Initialize the variables for the lines and points in the phase diagram.
-        m_solidLiquidLine = new PPath();
-        addWorldChild( m_solidLiquidLine );
-        m_liquidGasLine = new PPath();
-        addWorldChild( m_liquidGasLine );
-        m_triplePoint = new PPath(new Ellipse2D.Double(0, 0, POINT_MARKER_DIAMETER, POINT_MARKER_DIAMETER));
-        m_triplePoint.setPaint( Color.BLACK );
-        addWorldChild( m_triplePoint );
-        m_criticalPoint = new PPath(new Ellipse2D.Double(0, 0, POINT_MARKER_DIAMETER, POINT_MARKER_DIAMETER));
-        m_criticalPoint.setPaint( Color.BLACK );
-        addWorldChild( m_criticalPoint );
-        
-        // Create the labels that will exist inside the phase diagram.
-        m_solidLabel = new PText("solid");
-        m_solidLabel.setFont( LARGER_INNER_FONT );
-        addWorldChild( m_solidLabel );
-        m_liquidLabel = new PText("liquid");
-        m_liquidLabel.setFont( LARGER_INNER_FONT );
-        addWorldChild( m_liquidLabel );
-        m_gasLabel = new PText("gas");
-        m_gasLabel.setFont( LARGER_INNER_FONT );
-        addWorldChild( m_gasLabel );
-        m_triplePointLabel1 = new PText("triple");
-        m_triplePointLabel1.setFont( SMALLER_INNER_FONT );
-        addWorldChild( m_triplePointLabel1 );
-        m_triplePointLabel2 = new PText("point");
-        m_triplePointLabel2.setFont( SMALLER_INNER_FONT );
-        addWorldChild( m_triplePointLabel2 );
-        m_criticalPointLabel1 = new PText("critical");
-        m_criticalPointLabel1.setFont( SMALLER_INNER_FONT );
-        addWorldChild( m_criticalPointLabel1 );
-        m_criticalPointLabel2 = new PText("point");
-        m_criticalPointLabel2.setFont( SMALLER_INNER_FONT );
-        addWorldChild( m_criticalPointLabel2 );
-        
         // Draw the initial phase diagram.
         drawPhaseDiagram( 0 );
     }
     
     private void drawPhaseDiagram(int substance){
         
-        // Locate the triple point marker.
+        // Place the triple point marker.
         m_triplePoint.setOffset( DEFAULT_TRIPLE_POINT.getX() - POINT_MARKER_DIAMETER / 2, 
                 DEFAULT_TRIPLE_POINT.getY() - POINT_MARKER_DIAMETER / 2 );
         
@@ -180,8 +196,15 @@ public class PhaseDiagram extends PhetPCanvas {
                 DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
         
         m_solidLiquidLine.setPathTo( solidLiquidCurve );
+        
+        // Update the shape of the background for the area that represents the solid phase.
+        GeneralPath solidBackground = new GeneralPath(solidLiquidCurve);
+        solidBackground.lineTo( (float)xOriginOffset, (float)DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getY() );
+        solidBackground.lineTo( (float)xOriginOffset, (float)yOriginOffset );
+        solidBackground.closePath();
+        m_solidAreaBackground.setPathTo( solidBackground );
 
-        // Locate the critical point marker.
+        // Place the critical point marker.
         m_criticalPoint.setOffset( DEFAULT_CRITICAL_POINT.getX() - POINT_MARKER_DIAMETER / 2, 
                 DEFAULT_CRITICAL_POINT.getY() - POINT_MARKER_DIAMETER / 2 );
 
@@ -194,6 +217,17 @@ public class PhaseDiagram extends PhetPCanvas {
 
         m_liquidGasLine.setPathTo( liquidGasCurve );
         
+        // Update the shape of the background for the area that represents the
+        // liquid phase.  It is expected that the solid shape overlays this one.
+        GeneralPath liquidBackground = new GeneralPath( liquidGasCurve );
+        liquidBackground.lineTo( (float)(xOriginOffset + xUsableRange), (float)(yOriginOffset - yUsableRange));
+        liquidBackground.lineTo( (float)(DEFAULT_TOP_OF_SOLID_LIQUID_CURVE.getX()),
+                (float)(yOriginOffset - yUsableRange));
+        liquidBackground.lineTo( (float)(DEFAULT_TRIPLE_POINT.getX()), (float)(DEFAULT_TRIPLE_POINT.getY()) );
+        liquidBackground.append( liquidGasCurve, true );
+        liquidBackground.closePath();
+        m_liquidAreaBackground.setPathTo( liquidBackground );
+
         // Locate the labels.  They are centered on their locations, which
         // hopefully will work better for translated strings.
         m_solidLabel.setOffset( DEFAULT_SOLID_LABEL_LOCATION.getX() - m_solidLabel.getFullBoundsReference().width / 2,
