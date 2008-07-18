@@ -22,10 +22,6 @@ Need explanations for different activity levels from Noah
 Fix text for "simulation age out of range" message
     >>Remove the warning
 
-Added calculation for body fat % based on height, weight and activity level
-    >>SR: Perhaps this should be a relative model instead of an absolute model so that changes are tracked
-    >> and so that making a minor modification to one parameter doesn't dramatically change the body fat %
-
 Should the click-to-move slider feature have a cursor hand?
     >>Reduce clickable area, and add cursor hand
 
@@ -39,4 +35,4 @@ Franny said on 6/13/2008:
     but that portion is not very realistic, so i thought i'd point it out.
 
 In the sim, when you go beyond 1 year, nothing happens in the charts.
- Maybe they should scroll as you advance beyond 1 year?
+    >>Maybe they should scroll as you advance beyond 1 year?
