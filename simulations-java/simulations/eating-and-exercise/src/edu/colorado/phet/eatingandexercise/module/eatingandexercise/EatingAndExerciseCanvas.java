@@ -149,7 +149,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         setWorldTransformStrategy( new EatingAndExerciseRenderingSizeStrategy( this ) );
 
         ageRangeMessage = new AgeRangeMessage( model.getHuman() );
-        addScreenChild( ageRangeMessage );
+//        addScreenChild( ageRangeMessage );
 
         starvingMessage = new StarvingMessage( model.getHuman() );
         addScreenChild( starvingMessage );

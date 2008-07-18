@@ -155,15 +155,15 @@ public class HumanControlPanel extends VerticalLayoutPanel {
         add( weightSlider );
         sliders.add( weightSlider );
 
-        JButton autoBodyFat = new JButton( "<html>Estimate Body Fat %</html>" );
-        autoBodyFat.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                human.setFatMassPercent( model.getUserSpecifiedBodyParameters().getPreferredFatMassPercent( human ) );
-            }
-        } );
-        setFillNone();
-        add( autoBodyFat );
-        setFillHorizontal();
+//        JButton autoBodyFat = new JButton( "<html>Estimate Body Fat %</html>" );
+//        autoBodyFat.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                human.setFatMassPercent( model.getUserSpecifiedBodyParameters().getPreferredFatMassPercent( human ) );
+//            }
+//        } );
+//        setFillNone();
+//        add( autoBodyFat );
+//        setFillHorizontal();
 
         bodyFatSlider = new HumanSlider( 0, 100, human.getFatMassPercent(), EatingAndExerciseResources.getString( "body.fat" ), "0.0", "%" );
         bodyFatSlider.addChangeListener( new ChangeListener() {
@@ -206,7 +206,7 @@ public class HumanControlPanel extends VerticalLayoutPanel {
             }
         } );
         updateHeartAttackProbabilityLabel();
-        add( pheart );
+//        add( pheart );
 
         //wire up listeners to these properties directly, since they are independent variables (ie won't be changed by the model)
         human.addListener( new Human.Adapter() {

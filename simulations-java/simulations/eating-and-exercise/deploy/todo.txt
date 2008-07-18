@@ -6,33 +6,11 @@ Noah: construct text for heart ? explanation
 
 Noah: Finish adding images for food and exercise
 
+Noah: write explanations for different activity levels
+
 #######################################################################################
 ##############                    To Discuss                             ##############
 #######################################################################################
 
-Performance: consider profiling or changing clock rate
-    >>How severe is this problem?
-
-Time readouts should be Years:Months, not years in decimal
-    >>Wait for interviews
-
-Need explanations for different activity levels from Noah
-    >>Come up with definitions for different lifestyles
-
-Fix text for "simulation age out of range" message
-    >>Remove the warning
-
 Should the click-to-move slider feature have a cursor hand?
     >>Reduce clickable area, and add cursor hand
-
-Franny said on 6/13/2008:
-    I have been playing with the Simulation this morning and had a question for you.
-    If in this simulation it appears that the change in percent body fat is at a high rate when making even the smallest change.
-    I had a diet that I let run for a few years that was 50 cal above my energy expenditure and i watched my %
-    fat go up by about 15% in a few years and then when I added a walking exercise (one of the lowest calorie expenditures)
-    in a matter of 1 year I went from 30% body fat to about 10% body fat. I was wondering if there
-    was a way to slow down the change in % body fat. i am not sure if it is equation based and has a time function built in,
-    but that portion is not very realistic, so i thought i'd point it out.
-
-In the sim, when you go beyond 1 year, nothing happens in the charts.
-    >>Maybe they should scroll as you advance beyond 1 year?
