@@ -4,11 +4,13 @@ package edu.colorado.phet.glaciers.module.advanced;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
@@ -43,14 +45,14 @@ public class AdvancedControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AdvancedControlPanel( GlaciersModel model, GlaciersPlayArea playArea ) {
+    public AdvancedControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner ) {
         super();
         
-        _viewControlPanel = new ViewControlPanel( playArea );
+        _viewControlPanel = new ViewControlPanel( playArea, dialogOwner );
         _climateControlPanel = new ClimateControlPanel( model.getClimate() );
-        _graphsControlPanel = new GraphsControlPanel( model );
+        _graphsControlPanel = new GraphsControlPanel( model, dialogOwner );
         _clockControlPanel = new GlaciersClockControlPanel( model.getClock() );
-        _miscControlPanel = new MiscControlPanel( model.getGlacier() );
+        _miscControlPanel = new MiscControlPanel( model.getGlacier(), dialogOwner );
         
         int row;
         int column;
@@ -103,5 +105,13 @@ public class AdvancedControlPanel extends JPanel {
     
     public MiscControlPanel getMiscControlPanel() {
         return _miscControlPanel;
+    }
+    
+    public ResetAllButton getResetAllButton() {
+        return _miscControlPanel.getResetAllButton();
+    }
+    
+    public JButton getHelpButton() {
+        return _miscControlPanel.getHelpButton();
     }
 }

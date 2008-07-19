@@ -12,7 +12,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.dialog.GlacierPictureDialog;
@@ -29,8 +28,6 @@ public class ViewControlPanel extends AbstractSubPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static Frame DIALOG_OWNER = GlaciersApplication.instance().getPhetFrame();
-    
     private static final Color BACKGROUND_COLOR = GlaciersConstants.SUBPANEL_BACKGROUND_COLOR;
     private static final String TITLE_STRING = GlaciersStrings.TITLE_VIEW_CONTROLS;
     private static final Color TITLE_COLOR = GlaciersConstants.SUBPANEL_TITLE_COLOR;
@@ -43,6 +40,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     //----------------------------------------------------------------------------
     
     private final GlaciersPlayArea _playArea;
+    private final Frame _dialogOwner;
     
     private final JRadioButton _englishUnitsButton, _metricUnitsButton;
     private final JCheckBox _equilibriumLineCheckBox;
@@ -56,10 +54,11 @@ public class ViewControlPanel extends AbstractSubPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ViewControlPanel( GlaciersPlayArea playArea ) {
+    public ViewControlPanel( GlaciersPlayArea playArea, Frame dialogOwner ) {
         super( TITLE_STRING, TITLE_COLOR, TITLE_FONT );
         
         _playArea = playArea;
+        _dialogOwner = dialogOwner;
         
         JPanel unitsPanel = new JPanel();
         {
@@ -267,7 +266,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     
     private void handleGlacierPictureCheckBox() {
         if ( _glacierPictureCheckBox.isSelected() ) {
-            _glacierPictureDialog = new GlacierPictureDialog( DIALOG_OWNER );
+            _glacierPictureDialog = new GlacierPictureDialog( _dialogOwner );
             _glacierPictureDialog.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {

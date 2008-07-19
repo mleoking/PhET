@@ -6,17 +6,12 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Glacier;
@@ -34,18 +29,20 @@ public class MiscControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private final Glacier _glacier;
+    private final Frame _dialogOwner;
     
     private final JButton _equilibriumButton;
-    private final JButton _resetAllButton;
+    private final ResetAllButton _resetAllButton;
     private final JButton _helpButton;
-    private final ArrayList _listeners; // list of MiscControlPanelListener
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MiscControlPanel( Glacier glacier ) {
+    public MiscControlPanel( Glacier glacier, Frame dialogOwner ) {
         super();
+        
+        _dialogOwner = dialogOwner;
         
         _glacier = glacier;
         glacier.addGlacierListener( new GlacierAdapter() {
@@ -54,8 +51,6 @@ public class MiscControlPanel extends JPanel {
             }
         } );
         
-        _listeners = new ArrayList();
-        
         _equilibriumButton = new JButton( GlaciersStrings.BUTTON_STEADY_STATE );
         _equilibriumButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -63,17 +58,7 @@ public class MiscControlPanel extends JPanel {
             }
         });
         
-        _resetAllButton = new JButton( GlaciersStrings.BUTTON_RESET_ALL );
-        _resetAllButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                Frame frame = PhetApplication.instance().getPhetFrame();
-                String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
-                int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
-                if ( option == JOptionPane.YES_OPTION ) {
-                    notifyResetAllButtonPressed();
-                }
-            }
-        });
+        _resetAllButton = new ResetAllButton( _dialogOwner );
         
         _helpButton = new JButton();
         // set button to maximum width
@@ -85,7 +70,6 @@ public class MiscControlPanel extends JPanel {
         _helpButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setHelpEnabled( !isHelpEnabled() );
-                notifyHelpButtonPressed();
             }
         });
         
@@ -120,61 +104,11 @@ public class MiscControlPanel extends JPanel {
         return _equilibriumButton;
     }
     
-    /**
-     *  For attaching Help items.
-     */
-    public JComponent getResetAllButton() {
+    public ResetAllButton getResetAllButton() {
         return _resetAllButton;
     }
     
-    /**
-     *  For attaching Help items.
-     */
-    public JComponent getHelpButton() {
+    public JButton getHelpButton() {
         return _helpButton;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Listeners
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Interface implemented by all listeners who are interested in events related to this control panel.
-     */
-    public interface MiscControlPanelListener {
-        public void resetAllButtonPressed();
-        public void setHelpEnabled( boolean enabled );
-    }
-    
-    public static class MiscControlPanelAdapter implements MiscControlPanelListener {
-        public void resetAllButtonPressed() {};
-        public void setHelpEnabled( boolean enabled ) {};
-    }
-    
-    public void addMiscControlPanelListener( MiscControlPanelListener listener ) {
-        _listeners.add( listener );
-    }
-    
-    public void removeMiscControlPanelListener( MiscControlPanelListener listener ) {
-        _listeners.remove( listener );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Notification
-    //----------------------------------------------------------------------------
-    
-    private void notifyResetAllButtonPressed() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (MiscControlPanelListener) i.next() ).resetAllButtonPressed();
-        }
-    }
-    
-    private void notifyHelpButtonPressed() {
-        boolean enabled =  isHelpEnabled();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (MiscControlPanelListener) i.next() ).setHelpEnabled( enabled );
-        }
     }
 }
