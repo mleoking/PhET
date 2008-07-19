@@ -143,7 +143,7 @@ public class GlaciersApplication extends PiccoloPhetApplication {
             frame.addMenu( developerMenu );
         }
     }
-
+    
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------

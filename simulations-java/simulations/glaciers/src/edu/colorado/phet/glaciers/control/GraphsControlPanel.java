@@ -16,7 +16,6 @@ import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.charts.EquilibriumLineAltitudeVersusTimeChart;
@@ -36,7 +35,6 @@ public class GraphsControlPanel extends AbstractSubPanel {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static Frame DIALOG_OWNER = GlaciersApplication.instance().getPhetFrame();
     private static Dimension CHART_SIZE = new Dimension( 900, 350 );
     
     private static final Color BACKGROUND_COLOR = GlaciersConstants.SUBPANEL_BACKGROUND_COLOR;
@@ -51,6 +49,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
     //----------------------------------------------------------------------------
 
     private final GlaciersModel _model;
+    private final Frame _dialogOwner;
     
     private final JCheckBox _glacierLengthVersusTimeCheckBox;
     private final JCheckBox _equilibriumLineAltitudeVersusTimeCheckBox;
@@ -66,10 +65,11 @@ public class GraphsControlPanel extends AbstractSubPanel {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GraphsControlPanel( GlaciersModel model ) {
+    public GraphsControlPanel( GlaciersModel model, Frame dialogOwner ) {
         super( TITLE_STRING, TITLE_COLOR, TITLE_FONT );
 
         _model = model;
+        _dialogOwner = dialogOwner;
         
         _glacierLengthVersusTimeCheckBox = new JCheckBox( GlaciersStrings.TITLE_GLACIER_LENGTH_VERSUS_TIME );
         _glacierLengthVersusTimeCheckBox.setFont( CONTROL_FONT );
@@ -169,7 +169,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
     
     private void handleGlacierLengthVersusTimeCheckBox() {
         if ( _glacierLengthVersusTimeCheckBox.isSelected() ) {
-            _glacierLengthVersusTimeChart = new GlacierLengthVersusTimeChart( DIALOG_OWNER, CHART_SIZE, _model.getGlacier(), _model.getClock() );
+            _glacierLengthVersusTimeChart = new GlacierLengthVersusTimeChart( _dialogOwner, CHART_SIZE, _model.getGlacier(), _model.getClock() );
             _glacierLengthVersusTimeChart.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
@@ -187,7 +187,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
     
     private void handleEquilibriumLineAltitudeVersusTimeCheckBox() {
         if ( _equilibriumLineAltitudeVersusTimeCheckBox.isSelected() ) {
-            _equilibriumLineAltitudeVersusTimeChart = new EquilibriumLineAltitudeVersusTimeChart( DIALOG_OWNER, CHART_SIZE, _model.getClimate(), _model.getClock() );
+            _equilibriumLineAltitudeVersusTimeChart = new EquilibriumLineAltitudeVersusTimeChart( _dialogOwner, CHART_SIZE, _model.getClimate(), _model.getClock() );
             _equilibriumLineAltitudeVersusTimeChart.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
@@ -205,7 +205,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
 
     private void handleGlacialBudgetVersusElevationCheckBox() {
         if ( _glacialBudgetVersusElevationCheckBox.isSelected() ) {
-            _glacialBudgetVersusElevationChart = new GlacialBudgetVersusElevationChart( DIALOG_OWNER, CHART_SIZE, _model.getClimate() );
+            _glacialBudgetVersusElevationChart = new GlacialBudgetVersusElevationChart( _dialogOwner, CHART_SIZE, _model.getClimate() );
             _glacialBudgetVersusElevationChart.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
@@ -223,7 +223,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
     
     private void handleTemperatureVersusElevationCheckBox() {
         if ( _temperatureVersusElevationCheckBox.isSelected() ) {
-            _temperatureVersusElevationChart = new TemperatureVersusElevationChart( DIALOG_OWNER, CHART_SIZE, _model.getClimate() );
+            _temperatureVersusElevationChart = new TemperatureVersusElevationChart( _dialogOwner, CHART_SIZE, _model.getClimate() );
             _temperatureVersusElevationChart.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {

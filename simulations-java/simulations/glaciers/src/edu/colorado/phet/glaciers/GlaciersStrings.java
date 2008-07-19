@@ -98,7 +98,6 @@ public class GlaciersStrings {
     // Common library strings
     //----------------------------------------------------------------------------
 
-    public static final String BUTTON_RESET_ALL = GlaciersResources.getCommonString( "ControlPanel.button.resetAll" );
     public static final String BUTTON_SHOW_HELP = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpPanel.ShowHelp" );
     public static final String BUTTON_HIDE_HELP = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpPanel.HideHelp" );
 }

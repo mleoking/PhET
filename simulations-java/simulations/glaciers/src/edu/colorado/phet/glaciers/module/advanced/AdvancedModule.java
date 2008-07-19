@@ -13,7 +13,6 @@ import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
-import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -41,7 +40,7 @@ public class AdvancedModule extends GlaciersModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public AdvancedModule( Frame parentFrame ) {
+    public AdvancedModule( Frame dialogOwner ) {
         super( GlaciersStrings.TITLE_ADVANCED, new GlaciersClock() );
         
         // Model
@@ -53,17 +52,25 @@ public class AdvancedModule extends GlaciersModule {
         setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
-        _controlPanel = new AdvancedControlPanel( _model, _playArea );
+        _controlPanel = new AdvancedControlPanel( _model, _playArea, dialogOwner );
         setClockControlPanel( _controlPanel );
-        _controlPanel.getMiscControlPanel().addMiscControlPanelListener( new MiscControlPanelAdapter() {
-            public void resetAllButtonPressed() {
-                resetAll();
-            }
-            public void setHelpEnabled( boolean enabled ) {
-                System.out.println( "BasicModule.setHelpEnabled " + enabled );//XXX
-                AdvancedModule.this.setHelpEnabled( enabled );
-            }
-        });
+        
+        _controlPanel.getResetAllButton().addResettable( this );
+        
+//        _controlPanel.getHelpButton().addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                setHelpEnabled( enabled );
+//            }
+//        } );
+//        _controlPanel.getMiscControlPanel().addMiscControlPanelListener( new MiscControlPanelAdapter() {
+//            public void resetAllButtonPressed() {
+//                resetAll();
+//            }
+//            public void setHelpEnabled( boolean enabled ) {
+//                System.out.println( "BasicModule.setHelpEnabled " + enabled );//XXX
+//                AdvancedModule.this.setHelpEnabled( enabled );
+//            }
+//        });
         
         // Help
         if ( hasHelp() ) {

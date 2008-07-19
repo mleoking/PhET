@@ -12,7 +12,6 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
-import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -40,7 +39,7 @@ public class IntroModule extends GlaciersModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public IntroModule( Frame parentFrame ) {
+    public IntroModule( Frame dialogOwner ) {
         super( GlaciersStrings.TITLE_INTRO, new GlaciersClock() );
         
         // Model
@@ -52,17 +51,18 @@ public class IntroModule extends GlaciersModule {
         setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
-        _controlPanel = new IntroControlPanel( _model, _playArea );
+        _controlPanel = new IntroControlPanel( _model, _playArea, dialogOwner );
         setClockControlPanel( _controlPanel );
-        _controlPanel.getMiscControlPanel().addMiscControlPanelListener( new MiscControlPanelAdapter() {
-            public void resetAllButtonPressed() {
-                resetAll();
-            }
-            public void setHelpEnabled( boolean enabled ) {
-                System.out.println( "BasicModule.setHelpEnabled " + enabled );//XXX
-                IntroModule.this.setHelpEnabled( enabled );
-            }
-        });
+        _controlPanel.getResetAllButton().addResettable( this );
+//        _controlPanel.getMiscControlPanel().addMiscControlPanelListener( new MiscControlPanelAdapter() {
+//            public void resetAllButtonPressed() {
+//                resetAll();
+//            }
+//            public void setHelpEnabled( boolean enabled ) {
+//                System.out.println( "BasicModule.setHelpEnabled " + enabled );//XXX
+//                IntroModule.this.setHelpEnabled( enabled );
+//            }
+//        });
         
         // Help
         if ( hasHelp() ) {
