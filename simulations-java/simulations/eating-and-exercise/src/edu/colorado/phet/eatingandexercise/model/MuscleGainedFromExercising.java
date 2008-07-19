@@ -28,7 +28,8 @@ public class MuscleGainedFromExercising implements HumanUpdate {
      * @param dt
      */
     public void update( Human human, double dt ) {
-        double calExercise = human.getCaloriesExerciseAndActivityPerDay() * EatingAndExerciseUnits.secondsToDays( dt );
+//        double calExercise = human.getCaloriesExerciseAndActivityPerDay() * EatingAndExerciseUnits.secondsToDays( dt );
+        double calExercise = human.getCaloriesExercisePerDay() * EatingAndExerciseUnits.secondsToDays( dt );
         System.out.println( "Calories exercise: " + calExercise );
 //        double percentFat = human.getGender().getStdPercentFat();
         double stdBMI = human.getGender().getStdBMI();

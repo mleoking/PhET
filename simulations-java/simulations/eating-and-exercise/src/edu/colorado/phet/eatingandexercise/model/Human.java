@@ -669,6 +669,10 @@ public class Human {
         setFatMassPercent( 100 - fracLean * 100 );
     }
 
+    public double getCaloriesExercisePerDay() {
+        return exerciseItems.getTotalCalories();
+    }
+
     public static class Gender {
         public static Gender MALE = new Gender( EatingAndExerciseResources.getString( "gender.male" ).toLowerCase(), 0, 100, 2, 25, 1.15, 4, 30, 4 );
         public static Gender FEMALE = new Gender( EatingAndExerciseResources.getString( "gender.female" ).toLowerCase(), 0, 100, 4, 32, 1.22, 6, 26, 9 );
