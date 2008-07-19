@@ -52,25 +52,8 @@ public class AdvancedModule extends GlaciersModule {
         setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
-        _controlPanel = new AdvancedControlPanel( _model, _playArea, dialogOwner );
+        _controlPanel = new AdvancedControlPanel( _model, _playArea, dialogOwner, this );
         setClockControlPanel( _controlPanel );
-        
-        _controlPanel.getResetAllButton().addResettable( this );
-        
-//        _controlPanel.getHelpButton().addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                setHelpEnabled( enabled );
-//            }
-//        } );
-//        _controlPanel.getMiscControlPanel().addMiscControlPanelListener( new MiscControlPanelAdapter() {
-//            public void resetAllButtonPressed() {
-//                resetAll();
-//            }
-//            public void setHelpEnabled( boolean enabled ) {
-//                System.out.println( "BasicModule.setHelpEnabled " + enabled );//XXX
-//                AdvancedModule.this.setHelpEnabled( enabled );
-//            }
-//        });
         
         // Help
         if ( hasHelp() ) {
@@ -105,7 +88,7 @@ public class AdvancedModule extends GlaciersModule {
      */
     public void setHelpEnabled( boolean enabled ) {
         super.setHelpEnabled( enabled );
-        _controlPanel.getMiscControlPanel().setHelpEnabled( enabled );
+        _controlPanel.setHelpEnabled( enabled );
         GlaciersApplication.instance().getPhetFrame().getHelpMenu().setHelpSelected( enabled );
     }
     

@@ -88,6 +88,7 @@ CLEANUP:
 
 
 DONE:
+7/19/08 - implement HelpButton, delete listener interface from MiscControlPanel
 7/19/08 - pass dialog owner Frame to control panels
 7/19/08 - use ResetAllButton in misc control panel
 7/19/08 - move more constants to GlaciersConstants
