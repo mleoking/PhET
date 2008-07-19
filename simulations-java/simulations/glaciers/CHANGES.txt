@@ -63,6 +63,7 @@ LOW PRIORITY:
 - add assets/LICENSE.txt
 - Spanish translation
 - put "published data" that Archie has approximated in a document, check in to SVN for future reference
+- Help for modules
 
 PERFORMANCE OPTIMIZATIONS:
 - Valley.getX uses divide-and-conquer
@@ -84,6 +85,7 @@ CLEANUP:
 
 
 DONE:
+7/19/08 - turn off help for modules, since we don't have any yet
 7/19/08 - organize imports
 7/19/08 - keep track of dialog positions, always reopen dialog where it was previously
 7/19/08 - close & reopen graph windows when switching modules

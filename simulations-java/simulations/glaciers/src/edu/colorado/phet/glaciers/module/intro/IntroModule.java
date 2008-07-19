@@ -87,7 +87,7 @@ public class IntroModule extends GlaciersModule {
      * @return true or false
      */
     public boolean hasHelp() {
-        return true;
+        return false;
     }
     
     /**
