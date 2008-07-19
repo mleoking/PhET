@@ -20,9 +20,13 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
             fractionFatLost = 0.05;
         }
 
-//        if ( caloriesGained < 0 ||true) {//losing weight
+        // Make sure that the 88% rule is only used for losing weight.
+        // If you gain weight just from taking in excess calories, it should all go to fat.
+        // You should only be able to turn food and fat into muscle by exercising. 
+        if ( caloriesGained > 0 ) {
+            fractionFatLost = 1.0;
+        }
 
-        //use the 12% rule for both gaining and losing weight
         double caloriesLost = -caloriesGained;
         double totalKGLost = EatingAndExerciseUnits.caloriesToKG( caloriesLost );
         double kgFatLost = totalKGLost * fractionFatLost;
@@ -37,12 +41,6 @@ public class MuscleAndFatMassLoss2 implements HumanUpdate {
         double newFatMassPercent = newFatMass / newMass * 100.0;
         updateMass( human, newMass );
         human.setFatMassPercent( newFatMassPercent );
-//        }
-//        else {
-//            //gain weight at constant body fat %
-//            double m = human.getMass() + EatingAndExerciseUnits.caloriesToKG( caloriesGained );
-//            updateMass( human, m );
-//        }
     }
 
     private void updateMass( Human human, double m ) {
