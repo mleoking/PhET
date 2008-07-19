@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * GlaciersStrings is a collection of localized strings used by this simulation.
@@ -93,11 +92,4 @@ public class GlaciersStrings {
     public static final String UNITS_CELSIUS = GlaciersResources.getString( "units.celsius" );
     public static final String UNITS_FAHRENHEIT = GlaciersResources.getString( "units.fahrenheit" );
     public static final String UNITS_TIME = GlaciersResources.getString( "units.time" );
-    
-    //----------------------------------------------------------------------------
-    // Common library strings
-    //----------------------------------------------------------------------------
-
-    public static final String BUTTON_SHOW_HELP = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpPanel.ShowHelp" );
-    public static final String BUTTON_HIDE_HELP = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpPanel.HideHelp" );
 }
