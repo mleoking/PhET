@@ -88,6 +88,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     private final PLayer _backgroundLayer, _iceLayer, _ripplesLayer, _debrisLayer, _velocityLayer, _boreholeLayer;
     private final PLayer _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
     private final IceFlowNode _iceFlowNode;
+    private final SnowfallNode _snowfallNode;
     private final ToolboxNode _toolboxNode;
     private final PNode _panControlNode;
     private final EquilibriumLineNode _equilibriumLineNode;
@@ -253,6 +254,10 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _iceFlowNode = new IceFlowNode( _model.getGlacier(), _mvt );
         _velocityLayer.addChild( _iceFlowNode );
         
+        // Snowfall
+        _snowfallNode = new SnowfallNode( _model.getClimate(), _mvt );
+        _backgroundLayer.addChild( _snowfallNode );//XXX snowfall should have its own layer
+        
         // Axes
         _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false );
         _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, true );
@@ -309,7 +314,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     }
     
     public void setSnowfallVisible( boolean visible ) {
-        //TODO set visibility of snowfall node
+        _snowfallNode.setVisible( visible );
     }
     
     public static Point2D getBirdsEyeViewportOffset() {
