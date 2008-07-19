@@ -17,7 +17,6 @@ import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ScrollArrowNode;
@@ -36,8 +35,8 @@ import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * PlayArea is the area of the application that contains the birds-eye and zoomed views
- * of the world.  
+ * GlaciersPlayArea is "play area" for the glaciers sim.
+ * It contains the birds-eye and zoomed views of the world.  
  * <p>
  * The birds-eye view appears at the top of the play area, and shows a tiny
  * overview picture of the world. A viewport shown in the birds-eye view indicates the 
@@ -53,7 +52,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener, IIceSurfaceRippleProducerListener {
+public class GlaciersPlayArea extends JPanel implements IToolProducerListener, IBoreholeProducerListener, IDebrisProducerListener, IIceSurfaceRippleProducerListener {
     
     //----------------------------------------------------------------------------
     // Debug
@@ -119,7 +118,7 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PlayArea( AbstractModel model, ModelViewTransform mvt ) {
+    public GlaciersPlayArea( AbstractModel model, ModelViewTransform mvt ) {
         super();
         
         assert( ZOOMED_CAMERA_VIEW_SCALE >= BIRDS_EYE_CAMERA_VIEW_SCALE );
@@ -647,10 +646,10 @@ public class PlayArea extends JPanel implements IToolProducerListener, IBorehole
      */
     private static class PlayAreaResizeListener extends ComponentAdapter implements AncestorListener {
 
-        private PlayArea _playArea;
+        private GlaciersPlayArea _playArea;
         private boolean _layoutDirty;
 
-        public PlayAreaResizeListener( PlayArea playArea ) {
+        public PlayAreaResizeListener( GlaciersPlayArea playArea ) {
             _playArea = playArea;
             _layoutDirty = true;
         }

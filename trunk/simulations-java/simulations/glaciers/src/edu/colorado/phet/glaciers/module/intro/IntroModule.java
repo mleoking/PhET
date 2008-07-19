@@ -21,7 +21,7 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.persistence.BasicConfig;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
-import edu.colorado.phet.glaciers.view.PlayArea;
+import edu.colorado.phet.glaciers.view.GlaciersPlayArea;
 
 /**
  * This is the "Intro" module.
@@ -47,7 +47,7 @@ public class IntroModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private final IntroModel _model;
-    private final PlayArea _playArea;
+    private final GlaciersPlayArea _playArea;
     private final IntroControlPanel _controlPanel;
     private final IntroController _controller;
 
@@ -75,7 +75,7 @@ public class IntroModule extends PiccoloModule {
 
         // Play Area
         ModelViewTransform mvt = new ModelViewTransform( MVT_X_SCALE, MVT_Y_SCALE, MVT_X_OFFSET, MVT_Y_OFFSET, MVT_FLIP_SIGN_X, MVT_FLIP_SIGN_Y );
-        _playArea = new PlayArea( _model, mvt );
+        _playArea = new GlaciersPlayArea( _model, mvt );
         setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
