@@ -11,6 +11,7 @@ HIGHEST PRIORITY:
 HIGH PRIORITY:
 - make shape of surface ripples look random
 - make sure everything works properly when clock is paused
+- make default speed 2 years per sec
 - hide any features that aren't implemented for July 25 deadline
 
 MEDIUM PRIORITY:
@@ -21,7 +22,6 @@ MEDIUM PRIORITY:
 - switch user-interface between English and metric units
 - add yaw to fake 3D perspective (terminus, ELA, etc) 
 ? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
-- make default speed 2 years per sec
 - provide time estimate for climate experiments interface
 - Experiments module
 - more "cartoonish" view for Basic panel?
