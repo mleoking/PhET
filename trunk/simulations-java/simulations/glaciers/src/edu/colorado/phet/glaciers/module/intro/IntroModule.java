@@ -4,23 +4,21 @@ package edu.colorado.phet.glaciers.module.intro;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.glaciers.GlaciersApplication;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ClimateControlPanel;
-import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
-import edu.colorado.phet.glaciers.defaults.IntroDefaults;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
-import edu.colorado.phet.glaciers.model.Valley;
-import edu.colorado.phet.glaciers.persistence.BasicConfig;
-import edu.colorado.phet.glaciers.view.ModelViewTransform;
+import edu.colorado.phet.glaciers.model.GlaciersModel;
+import edu.colorado.phet.glaciers.module.GlaciersModule;
+import edu.colorado.phet.glaciers.persistence.IntroConfig;
 import edu.colorado.phet.glaciers.view.GlaciersPlayArea;
 
 /**
@@ -28,58 +26,33 @@ import edu.colorado.phet.glaciers.view.GlaciersPlayArea;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IntroModule extends PiccoloModule {
+public class IntroModule extends GlaciersModule {
 
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    // ModelViewTransform (MVT) parameters
-    private static final double MVT_X_SCALE = 0.062; // scale x by this amount when going from model to view
-    private static final double MVT_Y_SCALE = 0.1; // scale y by this amount when going from model to view
-    private static final double MVT_X_OFFSET = 0; // translate x by this amount when going from model to view
-    private static final double MVT_Y_OFFSET = 0; // translate y by this amount when going from model to view
-    private static final boolean MVT_FLIP_SIGN_X = false;
-    private static final boolean MVT_FLIP_SIGN_Y = true;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final IntroModel _model;
+    private final GlaciersModel _model;
     private final GlaciersPlayArea _playArea;
     private final IntroControlPanel _controlPanel;
-    private final IntroController _controller;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public IntroModule( Frame parentFrame ) {
-        super( GlaciersStrings.TITLE_INTRO, IntroDefaults.CLOCK );
+        super( GlaciersStrings.TITLE_INTRO, new GlaciersClock() );
         
-        // we won't be using any of the standard subpanels
-        setMonitorPanel( null );
-        setSimulationPanel( null );
-        setClockControlPanel( null );
-        setLogoPanel( null );
-        setControlPanel( null );
-        setHelpPanel( null );
-
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
-        Valley valley = new Valley();
-        Climate climate = new Climate( IntroDefaults.TEMPERATURE_RANGE.getDefault(), IntroDefaults.SNOWFALL_RANGE.getDefault() );
-        Glacier glacier = new Glacier( valley, climate );
-        _model = new IntroModel( clock, glacier );
+        _model = new GlaciersModel( clock );
 
         // Play Area
-        ModelViewTransform mvt = new ModelViewTransform( MVT_X_SCALE, MVT_Y_SCALE, MVT_X_OFFSET, MVT_Y_OFFSET, MVT_FLIP_SIGN_X, MVT_FLIP_SIGN_Y );
-        _playArea = new GlaciersPlayArea( _model, mvt );
+        _playArea = new GlaciersPlayArea( _model );
         setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
-        _controlPanel = new IntroControlPanel( clock );
+        _controlPanel = new IntroControlPanel( _model, _playArea );
         setClockControlPanel( _controlPanel );
         _controlPanel.getMiscControlPanel().addMiscControlPanelListener( new MiscControlPanelAdapter() {
             public void resetAllButtonPressed() {
@@ -91,9 +64,6 @@ public class IntroModule extends PiccoloModule {
             }
         });
         
-        // Controller
-        _controller = new IntroController( _model, _playArea, _controlPanel );
-
         // Help
         if ( hasHelp() ) {
             //XXX add help items
@@ -140,28 +110,14 @@ public class IntroModule extends PiccoloModule {
         
         // Model ---------------------------------------------
         
-        // Clock
-        GlaciersClock clock = _model.getClock();
-        clock.setFrameRate( IntroDefaults.CLOCK_FRAME_RATE_RANGE.getDefault() );
-        clock.resetSimulationTime();
-        setClockRunningWhenActive( IntroDefaults.CLOCK_RUNNING );
+        _model.reset();
+        setClockRunningWhenActive( GlaciersConstants.CLOCK_RUNNING );
 
-        // Climate
-        Climate climate = _model.getClimate();
-        climate.setTemperature( IntroDefaults.TEMPERATURE_RANGE.getDefault() );
-        climate.setSnowfall( IntroDefaults.SNOWFALL_RANGE.getDefault() );
-
-        // Glacier
-        Glacier glacier = _model.getGlacier();
-        glacier.setSteadyState();
-
-        // Tools
-        _model.removeAllTools();
-        _model.removeAllBoreholes();
-        _model.removeAllDebris();
-        
         // Controls ---------------------------------------------
 
+        Glacier glacier = _model.getGlacier();
+        Climate climate = _model.getClimate();
+        
         ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
         viewControlPanel.setEnglishUnitsSelected( true );
         viewControlPanel.setEquilibriumLineSelected( false );
@@ -172,12 +128,6 @@ public class IntroModule extends PiccoloModule {
         ClimateControlPanel climateControlPanel = _controlPanel.getClimateControlPanel();
         climateControlPanel.setSnowfall( climate.getSnowfall() );
         climateControlPanel.setTemperature( climate.getTemperature() );
-        
-        GraphsControlPanel graphsControlPanel = _controlPanel.getGraphsControlPanel();
-        graphsControlPanel.setGlacierLengthVerusTimeSelected( false );
-        graphsControlPanel.setEquilibriumLineAltitudeVersusTimeSelected( false );
-        graphsControlPanel.setGlacialBudgetVersusElevationSelected( false );
-        graphsControlPanel.setTemperatureVersusElevationSelected( false );
         
         MiscControlPanel miscControlPanel = _controlPanel.getMiscControlPanel();
         miscControlPanel.setEquilibriumButtonEnabled( !glacier.isSteadyState() );
@@ -193,9 +143,9 @@ public class IntroModule extends PiccoloModule {
     // Persistence
     //----------------------------------------------------------------------------
 
-    public BasicConfig save() {
+    public IntroConfig save() {
 
-        BasicConfig config = new BasicConfig();
+        IntroConfig config = new IntroConfig();
 
         // Module
         config.setActive( isActive() );
@@ -216,7 +166,7 @@ public class IntroModule extends PiccoloModule {
         return config;
     }
 
-    public void load( BasicConfig config ) {
+    public void load( IntroConfig config ) {
 
         // Module
         if ( config.isActive() ) {

@@ -9,6 +9,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.AbstractTool.ToolAdapter;
 import edu.colorado.phet.glaciers.model.AbstractTool.ToolListener;
 import edu.colorado.phet.glaciers.model.Borehole.BoreholeAdapter;
@@ -21,11 +22,11 @@ import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleListene
 
 
 /**
- * AbstractModel is the base class for all models.
+ * GlaciersModel is the model for all modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractModel implements IToolProducer, IBoreholeProducer, IDebrisProducer, IIceSurfaceRippleProducer {
+public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisProducer, IIceSurfaceRippleProducer {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -72,13 +73,16 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractModel( GlaciersClock clock, Glacier glacier ) {
+    public GlaciersModel( GlaciersClock clock ) {
         super();
         
         _clock = clock;
-        _glacier = glacier;
         
-        _clock.addClockListener( glacier );
+        Valley valley = new Valley();
+        Climate climate = new Climate( GlaciersConstants.TEMPERATURE_RANGE.getDefault(), GlaciersConstants.SNOWFALL_RANGE.getDefault() );
+        _glacier = new Glacier( valley, climate );;
+        
+        _clock.addClockListener( _glacier );
         
         _tools = new ArrayList();
         _toolProducerListeners = new ArrayList();
@@ -86,10 +90,10 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
         _boreholes = new ArrayList();
         _boreholeProducerListeners = new ArrayList();
         
-        _endMoraine = new EndMoraine( glacier );
+        _endMoraine = new EndMoraine( _glacier );
         _debris = new ArrayList();
         _debrisProducerListeners = new ArrayList();
-        _debrisGenerator = new DebrisGenerator( glacier );
+        _debrisGenerator = new DebrisGenerator( _glacier );
         _pDebris = new Point3D.Double();
         _timeSinceLastDebrisGenerated = YEARS_PER_DEBRIS_GENERATED; // generate one on first clock tick
         
@@ -165,6 +169,25 @@ public abstract class AbstractModel implements IToolProducer, IBoreholeProducer,
     
     public Climate getClimate() {
         return _glacier.getClimate();
+    }
+    
+    public void reset() {
+        
+        // Clock
+        _clock.setFrameRate( GlaciersConstants.CLOCK_FRAME_RATE_RANGE.getDefault() );
+        _clock.resetSimulationTime();
+
+        // Climate
+        getClimate().setTemperature( GlaciersConstants.TEMPERATURE_RANGE.getDefault() );
+        getClimate().setSnowfall( GlaciersConstants.SNOWFALL_RANGE.getDefault() );
+
+        // Glacier
+        _glacier.setSteadyState();
+
+        // Tools
+        removeAllTools();
+        removeAllBoreholes();
+        removeAllDebris();
     }
     
     //----------------------------------------------------------------------------

@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.*;
-import edu.colorado.phet.glaciers.defaults.IntroDefaults;
-import edu.colorado.phet.glaciers.model.GlaciersClock;
+import edu.colorado.phet.glaciers.model.GlaciersModel;
+import edu.colorado.phet.glaciers.view.GlaciersPlayArea;
 
 /**
  * Control panel for the "Intro" module.
@@ -35,7 +35,6 @@ public class IntroControlPanel extends JPanel {
     
     private final ViewControlPanel _viewControlPanel;
     private final ClimateControlPanel _climateControlPanel;
-    private final GraphsControlPanel _graphsControlPanel;
     private final GlaciersClockControlPanel _clockControlPanel;
     private final MiscControlPanel _miscControlPanel;
     
@@ -43,15 +42,16 @@ public class IntroControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IntroControlPanel( GlaciersClock clock ) {
+    public IntroControlPanel( GlaciersModel model, GlaciersPlayArea playArea ) {
         super();
         
-        _viewControlPanel = new ViewControlPanel();
-        _climateControlPanel = new ClimateControlPanel( IntroDefaults.TEMPERATURE_RANGE, IntroDefaults.SNOWFALL_RANGE );
+        _viewControlPanel = new ViewControlPanel( playArea );
+        getViewControlPanel().setCoordinatesCheckBoxVisible( false );
+        getViewControlPanel().setIceFlowCheckBoxVisible( false );
         
-        _graphsControlPanel = new GraphsControlPanel();
-        _clockControlPanel = new GlaciersClockControlPanel( clock, IntroDefaults.CLOCK_FRAME_RATE_RANGE, IntroDefaults.CLOCK_DISPLAY_FORMAT, IntroDefaults.CLOCK_DISPLAY_COLUMNS );
-        _miscControlPanel = new MiscControlPanel();
+        _climateControlPanel = new ClimateControlPanel( model.getClimate() );
+        _clockControlPanel = new GlaciersClockControlPanel( model.getClock() );
+        _miscControlPanel = new MiscControlPanel( model.getGlacier() );
         
         int row;
         int column;
@@ -63,7 +63,6 @@ public class IntroControlPanel extends JPanel {
         column = 0;
         topLayout.addFilledComponent( _viewControlPanel, row, column++, GridBagConstraints.VERTICAL );
         topLayout.addFilledComponent( _climateControlPanel, row, column++, GridBagConstraints.VERTICAL  );
-        topLayout.addFilledComponent( _graphsControlPanel, row, column++, GridBagConstraints.VERTICAL  );
         
         JPanel bottomPanel = new JPanel();
         EasyGridBagLayout bottomLayout = new EasyGridBagLayout( bottomPanel );
@@ -96,10 +95,6 @@ public class IntroControlPanel extends JPanel {
     
     public ClimateControlPanel getClimateControlPanel() {
         return _climateControlPanel;
-    }
-    
-    public GraphsControlPanel getGraphsControlPanel() {
-        return _graphsControlPanel;
     }
     
     public MiscControlPanel getMiscControlPanel() {

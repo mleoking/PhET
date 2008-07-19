@@ -3,6 +3,7 @@
 package edu.colorado.phet.glaciers.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 
 /**
  * GlaciersClock is the clock for this simulation.
@@ -17,8 +18,8 @@ public class GlaciersClock extends ConstantDtClock {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlaciersClock( int frameRate, double dt ) {
-        super( 1000 / frameRate, dt );
+    public GlaciersClock( ) {
+        super( 1000 / GlaciersConstants.CLOCK_FRAME_RATE_RANGE.getDefault(), GlaciersConstants.CLOCK_DT );
     }
     
     //----------------------------------------------------------------------------

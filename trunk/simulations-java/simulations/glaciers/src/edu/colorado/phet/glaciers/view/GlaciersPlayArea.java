@@ -93,7 +93,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     //----------------------------------------------------------------------------
     
     // Model
-    private final AbstractModel _model;
+    private final GlaciersModel _model;
     private final Viewport _birdsEyeViewport, _zoomedViewport;
     
     // View
@@ -118,7 +118,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlaciersPlayArea( AbstractModel model, ModelViewTransform mvt ) {
+    public GlaciersPlayArea( GlaciersModel model ) {
         super();
         
         assert( ZOOMED_CAMERA_VIEW_SCALE >= BIRDS_EYE_CAMERA_VIEW_SCALE );
@@ -131,7 +131,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _model.addDebrisProducerListener( this ); // manage nodes when debris is added/removed
         _model.addIceSurfaceRippleProducerListener( this ); // manage nodes when ripples are added/removed
 
-        _mvt = mvt;
+        _mvt = new GlaciersModelViewTransform();
         
         _toolsMap = new HashMap();
         _boreholesMap = new HashMap();
