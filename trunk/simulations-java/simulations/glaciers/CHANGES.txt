@@ -10,7 +10,7 @@ HIGHEST PRIORITY:
 - change snowfall visibility with snowfall checkbox
 
 HIGH PRIORITY:
-- distribute features between Intro, Advanced, and Experiments panels
+- distribute features between Intro & Advanced modules
 - Intro View panel: units, equil line, snowfall, picture
 - Advanced View panel: units, equil line, ice flow, coordinates, snowfall, picture
 - main control panel should be the same height in all modules
@@ -27,7 +27,7 @@ MEDIUM PRIORITY:
 ? add headwallX to new ice thickness model in model.txt, which assumes headwallX=0
 - make default speed 2 years per sec
 - provide time estimate for climate experiments interface
-- Experiments panel
+- Experiments module
 - more "cartoonish" view for Basic panel?
 - move steady state button to play area?
 - change color of ice flow vectors so that they are different than debris color?
@@ -87,7 +87,7 @@ CLEANUP:
 
 
 DONE:
-7/19/08 - hide Experiments module for 7/25 deadline
+7/19/08 - hide Experiments module, Save/Load, time-based graphs, English/metric radio buttons, for 7/25 deadline (search for "XXX hide")
 7/19/08 - rename PlayArea to GlaciersPlayArea
 7/17/08 - rename module.basic package to module.intro
 7/17/08 - fix: very short advancing glacier starts off advancing very slowly, then speeds up (fixed by previous 2 changes)

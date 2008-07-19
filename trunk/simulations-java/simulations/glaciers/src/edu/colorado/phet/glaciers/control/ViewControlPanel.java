@@ -171,7 +171,7 @@ public class ViewControlPanel extends AbstractSubPanel {
         setLayout( layout );
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
         layout.setAnchor( GridBagConstraints.WEST );
-        layout.addComponent( unitsPanel, 0, 0, 2, 1 );
+//        layout.addComponent( unitsPanel, 0, 0, 2, 1 ); //XXX hide for 7/25/08 deadline
         layout.addComponent( equilibriumLinePanel, 1, 0 );
         layout.addComponent( snowfallPanel, 2, 0 );
         layout.addComponent( glacierPicturePanel, 3, 0 );

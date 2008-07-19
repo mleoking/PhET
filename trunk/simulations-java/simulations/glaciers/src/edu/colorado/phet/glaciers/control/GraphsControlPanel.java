@@ -97,8 +97,8 @@ public class GraphsControlPanel extends AbstractSubPanel {
         setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( _glacierLengthVersusTimeCheckBox, row++, column );
-        layout.addComponent( _equilibriumLineAltitudeVersusTimeCheckBox, row++, column );
+//        layout.addComponent( _glacierLengthVersusTimeCheckBox, row++, column ); //XXX hide for 7/25/08 deadline
+//        layout.addComponent( _equilibriumLineAltitudeVersusTimeCheckBox, row++, column ); // hide for 7/25/08 deadline
         layout.addComponent( _glacialBudgetVersusElevationCheckBox, row++, column );
         layout.addComponent( _temperatureVersusElevationCheckBox, row++, column );
 
