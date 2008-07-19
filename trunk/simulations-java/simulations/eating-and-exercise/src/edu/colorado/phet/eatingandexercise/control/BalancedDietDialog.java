@@ -30,7 +30,7 @@ public class BalancedDietDialog extends JDialog {
         contentPane.add( label );
         //todo: this slider is limited to 5 because its scaling is done locally (based on previous value), so allowing it to go to zero causes failure
         //correct solution is to update value not based on previous value
-        LinearValueControlNode linearValueControlNode = new LinearValueControlNode( "Calories", "Cal", 5, 4000, item.getCalories(), new DefaultDecimalFormat( "0.0" ) );
+        LinearValueControlNode linearValueControlNode = new LinearValueControlNode( EatingAndExerciseResources.getString( "units.calories" ), EatingAndExerciseResources.getString( "units.cal" ), 5, 4000, item.getCalories(), new DefaultDecimalFormat( "0.0" ) );
         linearValueControlNode.setTextFieldColumns( 6 );
 
         linearValueControlNode.addListener( new LinearValueControlNode.Listener() {
