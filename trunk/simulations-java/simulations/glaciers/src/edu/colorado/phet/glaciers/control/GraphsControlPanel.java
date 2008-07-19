@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -61,6 +58,16 @@ public class GraphsControlPanel extends AbstractSubPanel {
     private JDialog _glacialBudgetVersusElevationChart;
     private JDialog _temperatureVersusElevationChart;
 
+    private boolean _glacierLengthVersusTimeChartWasOpen;
+    private boolean _equilibriumLineAltitudeVersusTimeChartWasOpen;
+    private boolean _glacialBudgetVersusElevationChartWasOpen;
+    private boolean _temperatureVersusElevationChartWasOpen;
+    
+    private Point _glacierLengthVersusTimeChartLocation;
+    private Point _equilibriumLineAltitudeVersusTimeChartLocation;
+    private Point _glacialBudgetVersusElevationChartLocation;
+    private Point _temperatureVersusElevationChartLocation;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -126,6 +133,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
     public void setGlacierLengthVerusTimeSelected( boolean selected ) {
         if ( selected != isGlacierLengthVerusTimeSelected() ) {
             _glacierLengthVersusTimeCheckBox.setSelected( selected );
+            handleGlacierLengthVersusTimeCheckBox();
         }
     }
 
@@ -136,6 +144,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
     public void setEquilibriumLineAltitudeVersusTimeSelected( boolean selected ) {
         if ( selected != isEquilibriumLineAltitudeVersusTimeSelected() ) {
             _equilibriumLineAltitudeVersusTimeCheckBox.setSelected( selected );
+            handleEquilibriumLineAltitudeVersusTimeCheckBox();
         }
     }
 
@@ -146,6 +155,7 @@ public class GraphsControlPanel extends AbstractSubPanel {
     public void setGlacialBudgetVersusElevationSelected( boolean selected ) {
         if ( selected != isGlacialBudgetVersusElevationSelected() ) {
             _glacialBudgetVersusElevationCheckBox.setSelected( selected );
+            handleGlacialBudgetVersusElevationCheckBox();
         }
     }
 
@@ -156,11 +166,30 @@ public class GraphsControlPanel extends AbstractSubPanel {
     public void setTemperatureVersusElevationSelected( boolean selected ) {
         if ( selected != isTemperatureVersusElevationSelected() ) {
             _temperatureVersusElevationCheckBox.setSelected( selected );
+            handleTemperatureVersusElevationCheckBox();
         }
     }
 
     public boolean isTemperatureVersusElevationSelected() {
         return _temperatureVersusElevationCheckBox.isSelected();
+    }
+    
+    public void activate() {
+        setGlacierLengthVerusTimeSelected( _glacierLengthVersusTimeChartWasOpen );
+        setEquilibriumLineAltitudeVersusTimeSelected( _equilibriumLineAltitudeVersusTimeChartWasOpen );
+        setGlacialBudgetVersusElevationSelected( _glacialBudgetVersusElevationChartWasOpen );
+        setTemperatureVersusElevationSelected( _temperatureVersusElevationChartWasOpen );
+    }
+    
+    public void deactivate() {
+        _glacierLengthVersusTimeChartWasOpen = isGlacierLengthVerusTimeSelected();
+        _equilibriumLineAltitudeVersusTimeChartWasOpen = isEquilibriumLineAltitudeVersusTimeSelected();
+        _glacialBudgetVersusElevationChartWasOpen = isGlacialBudgetVersusElevationSelected();
+        _temperatureVersusElevationChartWasOpen = isTemperatureVersusElevationSelected();
+        setGlacierLengthVerusTimeSelected( false );
+        setEquilibriumLineAltitudeVersusTimeSelected( false );
+        setGlacialBudgetVersusElevationSelected( false );
+        setTemperatureVersusElevationSelected( false );
     }
     
     //----------------------------------------------------------------------------
@@ -170,16 +199,17 @@ public class GraphsControlPanel extends AbstractSubPanel {
     private void handleGlacierLengthVersusTimeCheckBox() {
         if ( _glacierLengthVersusTimeCheckBox.isSelected() ) {
             _glacierLengthVersusTimeChart = new GlacierLengthVersusTimeChart( _dialogOwner, CHART_SIZE, _model.getGlacier(), _model.getClock() );
+            setDialogLocation( _glacierLengthVersusTimeChart, _glacierLengthVersusTimeChartLocation );
             _glacierLengthVersusTimeChart.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
                     setGlacierLengthVerusTimeSelected( false );
                 }
             } );
-            SwingUtils.centerDialogInParent( _glacierLengthVersusTimeChart );
             _glacierLengthVersusTimeChart.setVisible( true );
         }
         else {
+            _glacierLengthVersusTimeChartLocation = _glacierLengthVersusTimeChart.getLocation();
             _glacierLengthVersusTimeChart.dispose();
             _glacierLengthVersusTimeChart = null;
         }
@@ -188,16 +218,17 @@ public class GraphsControlPanel extends AbstractSubPanel {
     private void handleEquilibriumLineAltitudeVersusTimeCheckBox() {
         if ( _equilibriumLineAltitudeVersusTimeCheckBox.isSelected() ) {
             _equilibriumLineAltitudeVersusTimeChart = new EquilibriumLineAltitudeVersusTimeChart( _dialogOwner, CHART_SIZE, _model.getClimate(), _model.getClock() );
+            setDialogLocation( _equilibriumLineAltitudeVersusTimeChart, _equilibriumLineAltitudeVersusTimeChartLocation );
             _equilibriumLineAltitudeVersusTimeChart.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
                     setEquilibriumLineAltitudeVersusTimeSelected( false );
                 }
             } );
-            SwingUtils.centerDialogInParent( _equilibriumLineAltitudeVersusTimeChart );
             _equilibriumLineAltitudeVersusTimeChart.setVisible( true );
         }
         else {
+            _equilibriumLineAltitudeVersusTimeChartLocation = _equilibriumLineAltitudeVersusTimeChart.getLocation();
             _equilibriumLineAltitudeVersusTimeChart.dispose();
             _equilibriumLineAltitudeVersusTimeChart = null;
         }
@@ -206,16 +237,17 @@ public class GraphsControlPanel extends AbstractSubPanel {
     private void handleGlacialBudgetVersusElevationCheckBox() {
         if ( _glacialBudgetVersusElevationCheckBox.isSelected() ) {
             _glacialBudgetVersusElevationChart = new GlacialBudgetVersusElevationChart( _dialogOwner, CHART_SIZE, _model.getClimate() );
+            setDialogLocation( _glacialBudgetVersusElevationChart, _glacialBudgetVersusElevationChartLocation );
             _glacialBudgetVersusElevationChart.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
                     setGlacialBudgetVersusElevationSelected( false );
                 }
             } );
-            SwingUtils.centerDialogInParent( _glacialBudgetVersusElevationChart );
             _glacialBudgetVersusElevationChart.setVisible( true );
         }
         else {
+            _glacialBudgetVersusElevationChartLocation = _glacialBudgetVersusElevationChart.getLocation();
             _glacialBudgetVersusElevationChart.dispose();
             _glacialBudgetVersusElevationChart = null;
         }
@@ -224,19 +256,32 @@ public class GraphsControlPanel extends AbstractSubPanel {
     private void handleTemperatureVersusElevationCheckBox() {
         if ( _temperatureVersusElevationCheckBox.isSelected() ) {
             _temperatureVersusElevationChart = new TemperatureVersusElevationChart( _dialogOwner, CHART_SIZE, _model.getClimate() );
+            setDialogLocation( _temperatureVersusElevationChart, _temperatureVersusElevationChartLocation );
             _temperatureVersusElevationChart.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
                     setTemperatureVersusElevationSelected( false );
                 }
             } );
-            SwingUtils.centerDialogInParent( _temperatureVersusElevationChart );
             _temperatureVersusElevationChart.setVisible( true );
         }
         else {
+            _temperatureVersusElevationChartLocation = _temperatureVersusElevationChart.getLocation();
             _temperatureVersusElevationChart.dispose();
             _temperatureVersusElevationChart = null;
         }
     }
     
+    /*
+     * Sets a dialog's location. 
+     * If the location is null, center the dialog in its parent Frame.
+     */
+    private static void setDialogLocation( JDialog dialog, Point location ) {
+        if ( location != null ) {
+            dialog.setLocation( location );
+        }
+        else {
+            SwingUtils.centerDialogInParent( dialog );
+        }
+    }
 }

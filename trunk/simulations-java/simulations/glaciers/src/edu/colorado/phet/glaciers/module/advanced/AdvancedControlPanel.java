@@ -111,4 +111,14 @@ public class AdvancedControlPanel extends JPanel {
     public void setHelpEnabled( boolean enabled ) {
         _miscControlPanel.setHelpEnabled( enabled );
     }
+    
+    public void activate() {
+        _viewControlPanel.activate();
+        _graphsControlPanel.activate();
+    }
+    
+    public void deactivate() {
+        _viewControlPanel.deactivate();
+        _graphsControlPanel.deactivate();
+    }
 }
