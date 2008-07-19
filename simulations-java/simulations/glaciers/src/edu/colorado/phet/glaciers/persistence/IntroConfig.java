@@ -6,11 +6,11 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
 /**
- * BasicConfig is a Java Bean compliant configuration of BasicModule.
+ * IntroConfig is a Java Bean compliant configuration of IntroModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BasicConfig implements IProguardKeepClass {
+public class IntroConfig implements IProguardKeepClass {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -30,7 +30,7 @@ public class BasicConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance.
      */
-    public BasicConfig() {}
+    public IntroConfig() {}
     
     //----------------------------------------------------------------------------
     // Accessors

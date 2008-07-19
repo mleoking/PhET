@@ -21,12 +21,10 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
 import edu.colorado.phet.glaciers.module.advanced.AdvancedModule;
-import edu.colorado.phet.glaciers.module.experiments.ExperimentsModule;
 import edu.colorado.phet.glaciers.module.intro.IntroModule;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
-import edu.colorado.phet.glaciers.persistence.BasicConfig;
-import edu.colorado.phet.glaciers.persistence.ExperimentsConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
+import edu.colorado.phet.glaciers.persistence.IntroConfig;
 
 /**
  * GlaciersApplication is the main application for this simulation.
@@ -41,7 +39,6 @@ public class GlaciersApplication extends PiccoloPhetApplication {
 
     private IntroModule _introModule;
     private AdvancedModule _advancedModule;
-    private ExperimentsModule _experimentsModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -97,9 +94,6 @@ public class GlaciersApplication extends PiccoloPhetApplication {
 
         _advancedModule = new AdvancedModule( parentFrame );
         addModule( _advancedModule );
-        
-        _experimentsModule = new ExperimentsModule( parentFrame );
-//        addModule( _experimentsModule ); //XXX hide for 7/25/08 deadline
     }
 
     /*
@@ -167,14 +161,11 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
         
-        BasicConfig basicConfig = _introModule.save();
+        IntroConfig basicConfig = _introModule.save();
         appConfig.setBasicConfig( basicConfig );
         
         AdvancedConfig advancedConfig = _advancedModule.save();
         appConfig.setAdvancedConfig( advancedConfig );
-        
-        ExperimentsConfig experimentsConfig = _experimentsModule.save();
-        appConfig.setExperimentsConfig( experimentsConfig );
         
         _persistenceManager.save( appConfig );
     }
@@ -190,14 +181,11 @@ public class GlaciersApplication extends PiccoloPhetApplication {
             if ( object instanceof GlaciersConfig ) {
                 GlaciersConfig appConfig = (GlaciersConfig) object;
                 
-                BasicConfig basicConfig = appConfig.getBasicConfig();
+                IntroConfig basicConfig = appConfig.getBasicConfig();
                 _introModule.load( basicConfig );
                 
                 AdvancedConfig advancedConfig = appConfig.getAdvancedConfig();
                 _advancedModule.load( advancedConfig );
-                
-                ExperimentsConfig experimentsConfig = appConfig.getExperimentsConfig();
-                _experimentsModule.load( experimentsConfig );
             }
             else {
                 DialogUtils.showErrorDialog( getPhetFrame(), GlaciersStrings.MESSAGE_NOT_A_CONFIG_FILE, GlaciersStrings.TITLE_ERROR );

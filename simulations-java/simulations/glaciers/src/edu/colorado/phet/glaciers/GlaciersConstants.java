@@ -6,8 +6,10 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -43,6 +45,21 @@ public class GlaciersConstants {
     public static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
     
     //----------------------------------------------------------------------------
+    // Model
+    //----------------------------------------------------------------------------
+    
+    // Clock
+    public static final boolean CLOCK_RUNNING = true;
+    public static final double CLOCK_DT = 1; // years
+    public static final IntegerRange CLOCK_FRAME_RATE_RANGE = new IntegerRange( 1, 24, 12 ); // frames per second (years per second)
+    public static final DecimalFormat CLOCK_DISPLAY_FORMAT = new DecimalFormat( "0" );
+    public static final int CLOCK_DISPLAY_COLUMNS = 10;
+    
+    // Climate
+    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 13, 20, 19 );  // temperature at sea level (degrees C)
+    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 1.5, 0.95 ); // average snow accumulation (meters/year)
+    
+    //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
 
@@ -54,7 +71,7 @@ public class GlaciersConstants {
         new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
 
     //----------------------------------------------------------------------------
-    // Paints
+    // Colors
     //----------------------------------------------------------------------------
     
     // Generic transparent color

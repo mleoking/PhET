@@ -6,10 +6,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.Iterator;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -17,13 +15,14 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
+import edu.colorado.phet.glaciers.model.Climate;
+import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 
 /**
  * ClimateControlPanel contains climate controls.
@@ -47,25 +46,34 @@ public class ClimateControlPanel extends AbstractSubPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private final Climate _climate;
     private final LinearValueControl _temperatureControl;
     private final LinearValueControl _snowfallControl;
-    
-    private final ArrayList _listeners; // list of ClimateControlPanelListener
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ClimateControlPanel( DoubleRange temperatureRange, DoubleRange snowfallRange ) {
+    public ClimateControlPanel( Climate climate ) {
         super( TITLE_STRING, TITLE_COLOR, TITLE_FONT );
         
-        _listeners = new ArrayList();
+        _climate = climate;
+        _climate.addClimateListener( new ClimateListener() {
+
+            public void snowfallChanged() {
+                setSnowfall( _climate.getSnowfall() );
+            }
+
+            public void temperatureChanged() {
+                setTemperature( _climate.getTemperature() );
+            }
+        } );
         
         // temperature
         JLabel temperatureLabel = new JLabel( GlaciersStrings.SLIDER_TEMPERATURE );
         {
-            double min = temperatureRange.getMin();
-            double max = temperatureRange.getMax();
+            double min = GlaciersConstants.TEMPERATURE_RANGE.getMin();
+            double max = GlaciersConstants.TEMPERATURE_RANGE.getMax();
             String label = "";
             String textfieldPattern = "#0.00";
             String units = GlaciersStrings.UNITS_CELSIUS;
@@ -75,7 +83,7 @@ public class ClimateControlPanel extends AbstractSubPanel {
             _temperatureControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_temperatureControl.isAdjusting() ) {
-                        notifyTemperatureChanged();
+                        _climate.setTemperature( getTemperature() );
                     }
                 }
             } );
@@ -98,8 +106,8 @@ public class ClimateControlPanel extends AbstractSubPanel {
         // snowfall
         JLabel snowfallLabel = new JLabel( GlaciersStrings.SLIDER_SNOWFALL );        
         {
-            double min = snowfallRange.getMin();
-            double max = snowfallRange.getMax();
+            double min = GlaciersConstants.SNOWFALL_RANGE.getMin();
+            double max = GlaciersConstants.SNOWFALL_RANGE.getMax();
             String label = "";
             String textfieldPattern = "#0.00";
             String units = GlaciersStrings.UNITS_ACCUMULATION;
@@ -109,7 +117,7 @@ public class ClimateControlPanel extends AbstractSubPanel {
             _snowfallControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallControl.isAdjusting() ) {
-                        notifySnowfallChanged();
+                        _climate.setSnowfall( getSnowfall() );
                     }
                 }
             } );
@@ -150,68 +158,21 @@ public class ClimateControlPanel extends AbstractSubPanel {
     
     public void setSnowfall( double snowfall ) {
         if ( snowfall != getSnowfall() ) {
-        _snowfallControl.setValue( snowfall );
-            notifySnowfallChanged();
+            _snowfallControl.setValue( snowfall );
         }
     }
-    
+
     public double getSnowfall() {
         return _snowfallControl.getValue();
     }
-    
+
     public void setTemperature( double temperature ) {
         if ( temperature != getTemperature() ) {
             _temperatureControl.setValue( temperature );
-            notifyTemperatureChanged();
         }
     }
-    
+
     public double getTemperature() {
         return _temperatureControl.getValue();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Listeners
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Interface implemented by all listeners who are interested in events related to this control panel.
-     */
-    public interface ClimateControlPanelListener {
-        public void temperatureChanged( double temperature );
-        public void snowfallChanged( double snowfall );
-    }
-    
-    public static class ClimateControlPanelAdapter implements ClimateControlPanelListener {
-        public void temperatureChanged( double temperature ) {}
-        public void snowfallChanged( double snowfall ) {}
-    }
-    
-    public void addClimateControlPanelListener( ClimateControlPanelListener listener ) {
-        _listeners.add( listener );
-    }
-    
-    public void removeClimateControlPanelListener( ClimateControlPanelListener listener ) {
-        _listeners.remove( listener );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Notification
-    //----------------------------------------------------------------------------
-    
-    private void notifySnowfallChanged() {
-        double value = getSnowfall();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ClimateControlPanelListener) i.next() ).snowfallChanged( value );
-        }
-    }
-    
-    private void notifyTemperatureChanged() {
-        double value = getTemperature();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ClimateControlPanelListener) i.next() ).temperatureChanged( value );
-        }
     }
 }

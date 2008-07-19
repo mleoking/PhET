@@ -19,6 +19,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.glaciers.GlaciersStrings;
+import edu.colorado.phet.glaciers.model.Glacier;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 
 /**
  * MiscControlPanel contains miscellaneous controls.
@@ -31,6 +33,8 @@ public class MiscControlPanel extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private final Glacier _glacier;
+    
     private final JButton _equilibriumButton;
     private final JButton _resetAllButton;
     private final JButton _helpButton;
@@ -40,15 +44,22 @@ public class MiscControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MiscControlPanel() {
+    public MiscControlPanel( Glacier glacier ) {
         super();
+        
+        _glacier = glacier;
+        glacier.addGlacierListener( new GlacierAdapter() {
+            public void steadyStateChanged() {
+                setEquilibriumButtonEnabled( !_glacier.isSteadyState() );
+            }
+        } );
         
         _listeners = new ArrayList();
         
         _equilibriumButton = new JButton( GlaciersStrings.BUTTON_STEADY_STATE );
         _equilibriumButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                notifyEquilibriumButtonPressed();
+                _glacier.setSteadyState();
             }
         });
         
@@ -131,13 +142,11 @@ public class MiscControlPanel extends JPanel {
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
     public interface MiscControlPanelListener {
-        public void equilibriumButtonPressed();
         public void resetAllButtonPressed();
         public void setHelpEnabled( boolean enabled );
     }
     
     public static class MiscControlPanelAdapter implements MiscControlPanelListener {
-        public void equilibriumButtonPressed() {};
         public void resetAllButtonPressed() {};
         public void setHelpEnabled( boolean enabled ) {};
     }
@@ -154,13 +163,6 @@ public class MiscControlPanel extends JPanel {
     // Notification
     //----------------------------------------------------------------------------
     
-    private void notifyEquilibriumButtonPressed() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (MiscControlPanelListener) i.next() ).equilibriumButtonPressed();
-        }
-    }
-
     private void notifyResetAllButtonPressed() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {

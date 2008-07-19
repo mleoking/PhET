@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.text.NumberFormat;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -15,10 +14,10 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockListener;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
@@ -44,11 +43,11 @@ public class GlaciersClockControlPanel extends ClockControlPanel {
     //----------------------------------------------------------------------------
     
     /**
-     * Sole constructor.
+     * Constructor.
      * 
      * @param clock
      */
-    public GlaciersClockControlPanel( GlaciersClock clock, IntegerRange frameRateRange, NumberFormat displayFormat, int displayColumns ) {
+    public GlaciersClockControlPanel( GlaciersClock clock ) {
         super( clock );
         
         // Clock
@@ -65,14 +64,14 @@ public class GlaciersClockControlPanel extends ClockControlPanel {
         setRestartButtonVisible( false );
         setTimeDisplayVisible( true );
         setUnits( GlaciersStrings.UNITS_TIME );
-        setTimeFormat( displayFormat );
-        setTimeColumns( displayColumns );
+        setTimeFormat( GlaciersConstants.CLOCK_DISPLAY_FORMAT );
+        setTimeColumns( GlaciersConstants.CLOCK_DISPLAY_COLUMNS );
 
         
         // Frame Rate control
         {
-            double min = frameRateRange.getMin();
-            double max = frameRateRange.getMax();
+            double min = GlaciersConstants.CLOCK_FRAME_RATE_RANGE.getMin();
+            double max = GlaciersConstants.CLOCK_FRAME_RATE_RANGE.getMax();
             String label = "";
             String textFieldPattern = "";
             String units = "";
