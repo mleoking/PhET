@@ -99,7 +99,7 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         addModule( _advancedModule );
         
         _experimentsModule = new ExperimentsModule( parentFrame );
-        addModule( _experimentsModule );
+//        addModule( _experimentsModule ); //XXX hide this module for 7/25 deadline
     }
 
     /*

@@ -87,6 +87,7 @@ CLEANUP:
 
 
 DONE:
+7/19/08 - hide Experiments module for 7/25 deadline
 7/19/08 - rename PlayArea to GlaciersPlayArea
 7/17/08 - rename module.basic package to module.intro
 7/17/08 - fix: very short advancing glacier starts off advancing very slowly, then speeds up (fixed by previous 2 changes)
