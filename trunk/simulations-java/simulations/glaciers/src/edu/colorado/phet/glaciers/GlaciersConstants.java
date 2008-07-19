@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -58,6 +59,31 @@ public class GlaciersConstants {
     // Climate
     public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 13, 20, 19 );  // temperature at sea level (degrees C)
     public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 1.5, 0.95 ); // average snow accumulation (meters/year)
+    
+    //----------------------------------------------------------------------------
+    // View
+    //----------------------------------------------------------------------------
+    
+    // model-view transform (MVT) parameters
+    public static final double MVT_X_SCALE = 0.062; // scale x by this amount when going from model to view
+    public static final double MVT_Y_SCALE = 0.1; // scale y by this amount when going from model to view
+    public static final double MVT_X_OFFSET = 0; // translate x by this amount when going from model to view
+    public static final double MVT_Y_OFFSET = 0; // translate y by this amount when going from model to view
+    public static final boolean MVT_FLIP_SIGN_X = false;
+    public static final boolean MVT_FLIP_SIGN_Y = true;
+    
+    // maximum x coordinate for panning the zoomed view
+    public static final double ZOOMED_VIEW_MAX_X = 80000; // meters
+    
+    // constant height of the birds-eye view, in pixels
+    public static final double BIRDS_EYE_VIEW_HEIGHT = 75;
+    
+    // camera view scales
+    public static final double BIRDS_EYE_CAMERA_VIEW_SCALE = 0.2;
+    public static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
+    
+    // offset of upper-left corner of birds-eye viewport from highest point on the glacier
+    public static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -1500, +1000 ); // meters
     
     //----------------------------------------------------------------------------
     // Fonts

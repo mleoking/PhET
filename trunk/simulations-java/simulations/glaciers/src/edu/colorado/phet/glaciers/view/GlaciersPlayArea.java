@@ -65,19 +65,6 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     // Class data
     //----------------------------------------------------------------------------
     
-    // maximum glacier length of interest
-    private static final double MAX_GLACIER_LENGTH = 80000;
-    
-    // constant height of the birds-eye view, in pixels
-    private static final double BIRDS_EYE_VIEW_HEIGHT = 75;
-    
-    // camera view scales
-    private static final double BIRDS_EYE_CAMERA_VIEW_SCALE = 0.2;
-    private static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
-    
-    // offset of upper-left corner of birds-eye viewport from highest point on the glacier
-    private static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -1500, +1000 ); // meters
-    
     // width of the stroke used to display the zoomed viewport, in pixels
     private static final float VIEWPORT_STROKE_WIDTH = 1;
     
@@ -121,9 +108,9 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     public GlaciersPlayArea( GlaciersModel model ) {
         super();
         
-        assert( ZOOMED_CAMERA_VIEW_SCALE >= BIRDS_EYE_CAMERA_VIEW_SCALE );
-        assert( BIRDS_EYE_CAMERA_VIEW_SCALE > 0 );
-        assert( ZOOMED_CAMERA_VIEW_SCALE > 0 );
+        assert( GlaciersConstants.ZOOMED_CAMERA_VIEW_SCALE >= GlaciersConstants.BIRDS_EYE_CAMERA_VIEW_SCALE );
+        assert( GlaciersConstants.BIRDS_EYE_CAMERA_VIEW_SCALE > 0 );
+        assert( GlaciersConstants.ZOOMED_CAMERA_VIEW_SCALE > 0 );
         
         _model = model;
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
@@ -143,7 +130,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         
         // birds-eye viewport
         _birdsEyeViewport = new Viewport( "birds-eye" ); // bounds will be set when play area is resized
-        _birdsEyeViewport.setPosition( headwallPosition.getX() + BIRDS_EYE_VIEWPORT_OFFSET.getX(), headwallPosition.getY() + BIRDS_EYE_VIEWPORT_OFFSET.getY() );
+        _birdsEyeViewport.setPosition( headwallPosition.getX() + GlaciersConstants.BIRDS_EYE_VIEWPORT_OFFSET.getX(), headwallPosition.getY() + GlaciersConstants.BIRDS_EYE_VIEWPORT_OFFSET.getY() );
         _birdsEyeViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleBirdsEyeViewportChanged();
@@ -164,20 +151,20 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _birdsEyeCanvas = new PhetPCanvas();
         _birdsEyeCanvas.setBorder( null ); // no border on the canvas, because we use canvas bounds in calculations
         _birdsEyeCanvas.setBackground( GlaciersConstants.BIRDS_EYE_CANVAS_COLOR );
-        _birdsEyeCanvas.getCamera().setViewScale( BIRDS_EYE_CAMERA_VIEW_SCALE );
+        _birdsEyeCanvas.getCamera().setViewScale( GlaciersConstants.BIRDS_EYE_CAMERA_VIEW_SCALE );
         
         // zoomed view
         _zoomedCanvas = new PhetPCanvas();
         _zoomedCanvas.setBorder( null ); // no border on the canvas, because we use canvas bounds in calculations
         _zoomedCanvas.setBackground( GlaciersConstants.ZOOMED_CANVAS_COLOR );
-        _zoomedCanvas.getCamera().setViewScale( ZOOMED_CAMERA_VIEW_SCALE );
+        _zoomedCanvas.getCamera().setViewScale( GlaciersConstants.ZOOMED_CAMERA_VIEW_SCALE );
         // zoomed camera offset will be set based on viewport position
 
         // Layout the panel
         {
             // put a border around the birds-eye canvas, and constrain its height
             JPanel birdsEyeWrapperPanel = new JPanel( new BorderLayout() );
-            birdsEyeWrapperPanel.add( Box.createVerticalStrut( (int) BIRDS_EYE_VIEW_HEIGHT ), BorderLayout.WEST ); // fixed height
+            birdsEyeWrapperPanel.add( Box.createVerticalStrut( (int) GlaciersConstants.BIRDS_EYE_VIEW_HEIGHT ), BorderLayout.WEST ); // fixed height
             birdsEyeWrapperPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
             birdsEyeWrapperPanel.setBorder( CANVAS_BORDER );
 
@@ -229,7 +216,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         addToBothViews( _debugLayer );
         
         // viewport in the birds-eye view indicates what is shown in zoomed view
-        float strokeWidth = VIEWPORT_STROKE_WIDTH / (float)BIRDS_EYE_CAMERA_VIEW_SCALE;
+        float strokeWidth = VIEWPORT_STROKE_WIDTH / (float) GlaciersConstants.BIRDS_EYE_CAMERA_VIEW_SCALE;
         ViewportNode viewportNode = new ViewportNode( _zoomedViewport, strokeWidth, _mvt );
         _viewportLayer.addChild( viewportNode );
         
@@ -288,7 +275,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _toolboxLayer.addChild( _elaValueNode );
         
         // Pan control, for moving the zoomed viewport
-        final double maxX = headwallPosition.getX() + MAX_GLACIER_LENGTH;
+        final double maxX = headwallPosition.getX() + GlaciersConstants.ZOOMED_VIEW_MAX_X;
         _panControlNode = new PanControlNode( _birdsEyeViewport, _zoomedViewport, _mvt, maxX );
         _viewportLayer.addChild( _panControlNode );
         
@@ -326,7 +313,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     }
     
     public static Point2D getBirdsEyeViewportOffset() {
-        return new Point2D.Double( BIRDS_EYE_VIEWPORT_OFFSET.getX(), BIRDS_EYE_VIEWPORT_OFFSET.getY() );
+        return new Point2D.Double( GlaciersConstants.BIRDS_EYE_VIEWPORT_OFFSET.getX(), GlaciersConstants.BIRDS_EYE_VIEWPORT_OFFSET.getY() );
     }
     
     //----------------------------------------------------------------------------

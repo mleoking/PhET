@@ -87,6 +87,7 @@ CLEANUP:
 
 
 DONE:
+7/19/08 - move more constants to GlaciersConstants
 7/19/08 - start distribution functionality between Intro and Advanced panels
 7/19/08 - delete defaults classes, move constants to GlaciersConstants
 7/19/08 - use a common model for all modules
