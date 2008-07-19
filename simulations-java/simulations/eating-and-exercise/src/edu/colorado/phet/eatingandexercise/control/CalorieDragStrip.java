@@ -359,7 +359,7 @@ public class CalorieDragStrip extends PNode {
     private void decorateFoodPyramid( final CaloricFoodItem item, DefaultDragNode dragNode ) {
         final BalancedDietDialog dialog = new BalancedDietDialog( item );
 
-        GradientButtonNode gradientButtonNode = new GradientButtonNode( "Edit", 12, Color.red );
+        GradientButtonNode gradientButtonNode = new GradientButtonNode( EatingAndExerciseResources.getString( "edit.edit" ), 12, Color.red );
         gradientButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dialog.setVisible( true );
