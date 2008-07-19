@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.glaciers;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
