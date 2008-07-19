@@ -11,8 +11,6 @@
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.util.ArrayList;
 
 import javax.swing.JComponent;
