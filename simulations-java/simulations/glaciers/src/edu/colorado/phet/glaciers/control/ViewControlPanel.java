@@ -50,6 +50,9 @@ public class ViewControlPanel extends AbstractSubPanel {
     private final JCheckBox _glacierPictureCheckBox;
     private JDialog _glacierPictureDialog;
     
+    private boolean _glacierPictureDialogWasOpen;
+    private Point _glacierPictureDialogLocation;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -60,6 +63,8 @@ public class ViewControlPanel extends AbstractSubPanel {
         _playArea = playArea;
         _dialogOwner = dialogOwner;
         
+        _glacierPictureDialogWasOpen = false;
+        
         JPanel unitsPanel = new JPanel();
         {
             JLabel unitsLabel = new JLabel( GlaciersStrings.LABEL_UNITS );
@@ -69,10 +74,20 @@ public class ViewControlPanel extends AbstractSubPanel {
             _englishUnitsButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_ENGLISH_UNITS );
             _englishUnitsButton.setFont( CONTROL_FONT );
             _englishUnitsButton.setForeground( CONTROL_COLOR );
+            _englishUnitsButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    handleUnitsButton();
+                }
+            });
             
             _metricUnitsButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_METRIC_UNITS );
             _metricUnitsButton.setFont( CONTROL_FONT );
             _metricUnitsButton.setForeground( CONTROL_COLOR );
+            _englishUnitsButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    handleUnitsButton();
+                }
+            });
             
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _englishUnitsButton );
@@ -91,7 +106,7 @@ public class ViewControlPanel extends AbstractSubPanel {
             _equilibriumLineCheckBox.setForeground( CONTROL_COLOR );
             _equilibriumLineCheckBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _playArea.setEquilibriumLineVisible( _equilibriumLineCheckBox.isSelected() );
+                    handleEquilibriumLineCheckBox();
                 }
             } );
             
@@ -108,7 +123,7 @@ public class ViewControlPanel extends AbstractSubPanel {
             _iceFlowCheckBox.setForeground( CONTROL_COLOR );
             _iceFlowCheckBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _playArea.setIceFlowVisible( _iceFlowCheckBox.isSelected() );
+                    handleIceFlowCheckBox();
                 }
             } );
             
@@ -125,7 +140,7 @@ public class ViewControlPanel extends AbstractSubPanel {
             _coordinatesCheckBox.setForeground( CONTROL_COLOR );
             _coordinatesCheckBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _playArea.setAxesVisible( _coordinatesCheckBox.isSelected() );
+                    handleCoordinatesCheckBox();
                 }
             } );
             
@@ -142,7 +157,7 @@ public class ViewControlPanel extends AbstractSubPanel {
             _snowfallCheckBox.setForeground( CONTROL_COLOR );
             _snowfallCheckBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _playArea.setSnowfallVisible( _snowfallCheckBox.isSelected() );
+                    handleSnowfallCheckBox();
                 }
             } );
             
@@ -187,6 +202,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     public void setEnglishUnitsSelected( boolean selected ) {
         if ( selected != isEnglishUnitsSelected() ) {
             _englishUnitsButton.setSelected( selected );
+            handleUnitsButton();
         }
     }
     
@@ -205,6 +221,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     public void setEquilibriumLineSelected( boolean selected ) {
         if ( selected != isEquilibriumLineSelected() ) {
             _equilibriumLineCheckBox.setSelected( selected );
+            handleEquilibriumLineCheckBox();
         }
     }
     
@@ -215,6 +232,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     public void setIceFlowSelected( boolean selected ) {
         if ( selected != isIceFlowSelected() ) {
             _iceFlowCheckBox.setSelected( selected );
+            handleIceFlowCheckBox();
         }
     }
     
@@ -225,6 +243,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     public void setCoordinatesSelected( boolean selected ) {
         if ( selected != isCoordinatesSelected() ) {
             _coordinatesCheckBox.setSelected( selected );
+            handleCoordinatesCheckBox();
         }
     }
     
@@ -235,6 +254,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     public void setSnowfallSelected( boolean selected ) {
         if ( selected != isSnowfallSelected() ) {
             _snowfallCheckBox.setSelected( selected );
+            handleSnowfallCheckBox();
         }
     }
     
@@ -245,6 +265,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     public void setGlacierPictureSelected( boolean selected ) {
         if ( selected != isGlacierPictureSelected() ) {
             _glacierPictureCheckBox.setSelected( selected );
+            handleGlacierPictureCheckBox();
         }
     }
     
@@ -260,23 +281,58 @@ public class ViewControlPanel extends AbstractSubPanel {
         _iceFlowCheckBox.setVisible( visible );
     }
     
+    public void activate() {
+        setGlacierPictureSelected( _glacierPictureDialogWasOpen );
+    }
+    
+    public void deactivate() {
+        _glacierPictureDialogWasOpen = isGlacierPictureSelected();
+        setGlacierPictureSelected( false );
+    }
+    
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
     
+    private void handleUnitsButton() {
+        //XXX
+    }
+    
+    private void handleEquilibriumLineCheckBox() {
+        _playArea.setEquilibriumLineVisible( _equilibriumLineCheckBox.isSelected() );
+    }
+    
+    private void handleIceFlowCheckBox() {
+        _playArea.setIceFlowVisible( _iceFlowCheckBox.isSelected() );
+    }
+    
+    private void handleCoordinatesCheckBox() {
+        _playArea.setAxesVisible( _coordinatesCheckBox.isSelected() );
+    }
+    
+    private void handleSnowfallCheckBox() {
+        _playArea.setSnowfallVisible( _snowfallCheckBox.isSelected() );
+    }
+    
     private void handleGlacierPictureCheckBox() {
         if ( _glacierPictureCheckBox.isSelected() ) {
             _glacierPictureDialog = new GlacierPictureDialog( _dialogOwner );
+            if ( _glacierPictureDialogLocation != null ) {
+                _glacierPictureDialog.setLocation( _glacierPictureDialogLocation );
+            }
+            else {
+                SwingUtils.centerDialogInParent( _glacierPictureDialog );
+            }
             _glacierPictureDialog.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
                     setGlacierPictureSelected( false );
                 }
             } );
-            SwingUtils.centerDialogInParent( _glacierPictureDialog );
             _glacierPictureDialog.setVisible( true );
         }
         else {
+            _glacierPictureDialogLocation = _glacierPictureDialog.getLocation();
             _glacierPictureDialog.dispose();
             _glacierPictureDialog = null;
         }

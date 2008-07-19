@@ -72,6 +72,16 @@ public class AdvancedModule extends GlaciersModule {
     // Module overrides
     //----------------------------------------------------------------------------
 
+    public void activate() {
+        super.activate();
+        _controlPanel.activate();
+    }
+    
+    public void deactivate() {
+        _controlPanel.deactivate();
+        super.deactivate();
+    }
+    
     /**
      * Does this module have help
      * 

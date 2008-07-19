@@ -107,4 +107,12 @@ public class IntroControlPanel extends JPanel {
     public void setHelpEnabled( boolean enabled ) {
         _miscControlPanel.setHelpEnabled( enabled );
     }
+    
+    public void activate() {
+        _viewControlPanel.activate();
+    }
+    
+    public void deactivate() {
+        _viewControlPanel.deactivate();
+    }
 }
