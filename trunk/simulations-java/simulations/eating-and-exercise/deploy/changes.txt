@@ -1,6 +1,7 @@
 New in 0.00.57
 Moved health indicators behind drag and drop panel (tooltips were obscured)
 Converted muscle gained from exercise algorithm to use exercise only (instead of exercise + activity)
+If net calories are gained, then 100% goes into fat (used to be 88% rule as in net calories lost)
 
 New in 0.00.55
 Fixed: Graph time range doesn't update when the user modifies the age
