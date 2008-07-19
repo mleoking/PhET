@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers.model;
 
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 
 /**

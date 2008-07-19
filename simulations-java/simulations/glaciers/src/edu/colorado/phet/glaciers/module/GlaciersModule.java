@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.glaciers.module;
 
-import javax.swing.JPanel;
-
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
