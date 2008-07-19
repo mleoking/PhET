@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.glaciers.GlaciersStrings;
@@ -33,13 +33,13 @@ public class MiscControlPanel extends JPanel {
     
     private final JButton _equilibriumButton;
     private final ResetAllButton _resetAllButton;
-    private final JButton _helpButton;
+    private final HelpButton _helpButton;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MiscControlPanel( Glacier glacier, Frame dialogOwner ) {
+    public MiscControlPanel( Glacier glacier, Frame dialogOwner, Module module ) {
         super();
         
         _dialogOwner = dialogOwner;
@@ -58,20 +58,9 @@ public class MiscControlPanel extends JPanel {
             }
         });
         
-        _resetAllButton = new ResetAllButton( _dialogOwner );
+        _resetAllButton = new ResetAllButton( module, _dialogOwner );
         
-        _helpButton = new JButton();
-        // set button to maximum width
-        _helpButton.setText( GlaciersStrings.BUTTON_HIDE_HELP );
-        double hideWidth = _helpButton.getPreferredSize().getWidth();
-        _helpButton.setText( GlaciersStrings.BUTTON_SHOW_HELP );
-        double showWidth = _helpButton.getPreferredSize().getWidth();
-        _helpButton.setPreferredSize( new Dimension( (int) Math.max( hideWidth, showWidth ), (int) _helpButton.getPreferredSize().getHeight() ) );
-        _helpButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setHelpEnabled( !isHelpEnabled() );
-            }
-        });
+        _helpButton = new HelpButton( module );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -85,16 +74,12 @@ public class MiscControlPanel extends JPanel {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setHelpEnabled( boolean enabled ) {
-        _helpButton.setText( enabled ? GlaciersStrings.BUTTON_HIDE_HELP : GlaciersStrings.BUTTON_SHOW_HELP );
-    }
-    
-    public boolean isHelpEnabled() {
-        return _helpButton.getText().equals( GlaciersStrings.BUTTON_HIDE_HELP );
-    }
-    
     public void setEquilibriumButtonEnabled( boolean enabled ) {
         _equilibriumButton.setEnabled( enabled );
+    }
+    
+    public void setHelpEnabled( boolean enabled ) {
+        _helpButton.setHelpEnabled( enabled );
     }
     
     /**
@@ -102,13 +87,5 @@ public class MiscControlPanel extends JPanel {
      */
     public JComponent getEquilibriumButton() {
         return _equilibriumButton;
-    }
-    
-    public ResetAllButton getResetAllButton() {
-        return _resetAllButton;
-    }
-    
-    public JButton getHelpButton() {
-        return _helpButton;
     }
 }

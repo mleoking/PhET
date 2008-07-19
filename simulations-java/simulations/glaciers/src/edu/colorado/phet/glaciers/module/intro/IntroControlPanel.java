@@ -10,6 +10,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -44,7 +45,7 @@ public class IntroControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IntroControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner ) {
+    public IntroControlPanel( GlaciersModel model, GlaciersPlayArea playArea, Frame dialogOwner, Module module ) {
         super();
         
         _viewControlPanel = new ViewControlPanel( playArea, dialogOwner );
@@ -53,7 +54,7 @@ public class IntroControlPanel extends JPanel {
         
         _climateControlPanel = new ClimateControlPanel( model.getClimate() );
         _clockControlPanel = new GlaciersClockControlPanel( model.getClock() );
-        _miscControlPanel = new MiscControlPanel( model.getGlacier(), dialogOwner );
+        _miscControlPanel = new MiscControlPanel( model.getGlacier(), dialogOwner, module );
         
         int row;
         int column;
@@ -103,11 +104,7 @@ public class IntroControlPanel extends JPanel {
         return _miscControlPanel;
     }
     
-    public ResetAllButton getResetAllButton() {
-        return _miscControlPanel.getResetAllButton();
-    }
-    
-    public JButton getHelpButton() {
-        return _miscControlPanel.getHelpButton();
+    public void setHelpEnabled( boolean enabled ) {
+        _miscControlPanel.setHelpEnabled( enabled );
     }
 }
