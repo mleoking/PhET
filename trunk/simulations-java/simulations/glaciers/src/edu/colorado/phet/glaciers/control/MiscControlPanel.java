@@ -67,7 +67,9 @@ public class MiscControlPanel extends JPanel {
         int column = 0;
         layout.addComponent( _equilibriumButton, 0, column++ );
         layout.addComponent( _resetAllButton, 0, column++ );
-        layout.addComponent( _helpButton, 0, column++ );
+        if ( module.hasHelp() ) {
+            layout.addComponent( _helpButton, 0, column++ );
+        }
     }
     
     //----------------------------------------------------------------------------
