@@ -134,6 +134,9 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         humanControlPanelPSwing = new PSwing( humanControlPanel );
         addScreenChild( humanControlPanelPSwing );
 
+        healthIndicator = new HealthIndicator( model.getHuman() );
+        addScreenChild( healthIndicator );
+
         caloriePanel = new CaloriePanel( model, this, parentFrame );
         addScreenChild( caloriePanel );
 
@@ -157,10 +160,7 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         heartAttackMessage = new HeartAttackMessage( model.getHuman() );
         addScreenChild( heartAttackMessage );
 
-        healthIndicator = new HealthIndicator( model.getHuman() );
-        addScreenChild( healthIndicator );
-
-        setZoomEventHandler( new PZoomEventHandler() );
+//        setZoomEventHandler( new PZoomEventHandler() );
 
         updateLayout();
     }
