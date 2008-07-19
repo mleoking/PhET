@@ -92,7 +92,7 @@ public class EquilibriumLineNode extends PhetPNode {
         
         // start drawing at the left edge of the birds-eye view bounds
         double ela = _glacier.getClimate().getELA();
-        _pModel.setLocation( PlayArea.getBirdsEyeViewportOffset().getX(), ela );
+        _pModel.setLocation( GlaciersPlayArea.getBirdsEyeViewportOffset().getX(), ela );
         _mvt.modelToView( _pModel, _pView );
         _path.moveTo( (float)_pView.getX(), (float)_pView.getY() );
         

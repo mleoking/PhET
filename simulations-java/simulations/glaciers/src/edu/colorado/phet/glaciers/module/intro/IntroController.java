@@ -29,7 +29,7 @@ import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
-import edu.colorado.phet.glaciers.view.PlayArea;
+import edu.colorado.phet.glaciers.view.GlaciersPlayArea;
 
 /**
  * Controller portion of the MVC architecture for the "Intro" module.
@@ -48,7 +48,7 @@ public class IntroController {
     private JDialog _temperatureVersusElevationChart;
     private JDialog _glacierPictureDialog;
     
-    public IntroController( final IntroModel model, final PlayArea playArea, final IntroControlPanel controlPanel ) {
+    public IntroController( final IntroModel model, final GlaciersPlayArea playArea, final IntroControlPanel controlPanel ) {
         
         // Model
         final GlaciersClock clock = model.getClock();
