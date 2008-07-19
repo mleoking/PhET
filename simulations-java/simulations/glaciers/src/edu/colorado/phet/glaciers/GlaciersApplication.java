@@ -99,7 +99,7 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         addModule( _advancedModule );
         
         _experimentsModule = new ExperimentsModule( parentFrame );
-//        addModule( _experimentsModule ); //XXX hide this module for 7/25 deadline
+//        addModule( _experimentsModule ); //XXX hide for 7/25/08 deadline
     }
 
     /*
@@ -131,9 +131,10 @@ public class GlaciersApplication extends PiccoloPhetApplication {
                 }
             } );
 
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
+            //XXX hide for 7/25/08 deadline
+//            frame.addFileMenuItem( saveItem );
+//            frame.addFileMenuItem( loadItem );
+//            frame.addFileMenuSeparator();
         }
 
         // Options menu
