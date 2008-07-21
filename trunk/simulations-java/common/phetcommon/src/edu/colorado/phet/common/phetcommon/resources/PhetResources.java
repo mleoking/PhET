@@ -111,9 +111,9 @@ public class PhetResources {
     * @return Locale
     */
     public static Locale readLocale() {
-//        Locale locale = Locale.getDefault();
+        Locale locale = Locale.getDefault();
         //if no language is specified, default locale used by phet common should be english, not system default
-        Locale locale = new Locale( "en" );
+//        Locale locale = new Locale( "en" );
         String javawsLocale = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
         if ( javawsLocale != null ) {
             locale = new Locale( javawsLocale );
