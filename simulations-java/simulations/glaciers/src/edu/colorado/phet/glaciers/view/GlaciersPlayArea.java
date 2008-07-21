@@ -256,7 +256,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         
         // Snowfall
         _snowfallNode = new SnowfallNode( _model.getClimate(), _mvt );
-//        _backgroundLayer.addChild( _snowfallNode );//XXX snowfall should have its own layer
+        _backgroundLayer.addChild( _snowfallNode );//XXX snowfall should have its own layer
         
         // Axes
         _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false );
