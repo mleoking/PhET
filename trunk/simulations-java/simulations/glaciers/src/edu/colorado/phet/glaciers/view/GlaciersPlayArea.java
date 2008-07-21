@@ -457,8 +457,8 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         // move the ELA value display
         updateELAValuePosition();
         
-        // move the vertical (elevation) axis
-        updateElevationAxis();
+        // update the coordinate
+        updateCoordinateAxes();
         
         // reposition the left/right scroll arrows
         updateScrollArrows();
@@ -509,9 +509,10 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     }
     
     /*
-     * Moves the elevation (vertical) coordinate axes to the left & right edges of the zoomed viewport.
+     * Moves the elevation (y) axes to the left & right edges of the zoomed viewport.
+     * Rebuilds the distance (x) axis.
      */
-    private void updateElevationAxis() {
+    private void updateCoordinateAxes() {
         
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
         Rectangle2D rView = _mvt.modelToView( rModel );
@@ -523,7 +524,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         
         // rebuild the horizontal (distance) axis, ticks in multiples of 1000 meters
         final int precision = 1000;
-        final int minX = precision * (int)( ( rModel.getX() / precision ) - 1 );
+        final int minX = Math.max( 0, precision * (int)( ( rModel.getX() / precision ) - 1 ) ); // don't draw axis for x < 0
         final int maxX = precision * (int)( ( ( rModel.getX() + rModel.getWidth() ) / precision ) + 1 );
         _distanceAxisNode.setRange( minX, maxX );
     }

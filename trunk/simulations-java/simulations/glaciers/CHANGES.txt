@@ -3,7 +3,6 @@ Change history for glaciers
 ================================================================================
 
 HIGHEST PRIORITY:
-- don't show x coordinate axis for x < 0
 - visual representation of snowfall (gradient paint, clipped to sky)
 
 HIGH PRIORITY:
@@ -81,6 +80,7 @@ CLEANUP:
 
 
 DONE:
+7/21/08 - don't draw x coordinate axis for x < 0
 7/21/08 - temporarily remove snowfall node
 7/21/08 - remove tools from bird-eye view, they are too small to be usable
 7/21/08 - move x=0 further to the right in birds-eye viewport
