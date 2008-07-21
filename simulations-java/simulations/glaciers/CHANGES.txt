@@ -84,6 +84,7 @@ CLEANUP:
 
 
 DONE:
+7/21/08 - create ripples at random times, with random sizes and z offsets
 7/21/08 - set up model & view for ripples to support random ripple size and z offset
 7/18/08 - change snowfall visibility with snowfall check box
 7/18/08 - create a temporary node for snowfall
