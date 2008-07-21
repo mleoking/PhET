@@ -52,7 +52,7 @@ public class GlaciersConstants {
     // Clock
     public static final boolean CLOCK_RUNNING = true;
     public static final double CLOCK_DT = 1; // years
-    public static final IntegerRange CLOCK_FRAME_RATE_RANGE = new IntegerRange( 1, 24, 12 ); // frames per second (years per second)
+    public static final IntegerRange CLOCK_FRAME_RATE_RANGE = new IntegerRange( 1, 24, 2 ); // frames per second (years per second)
     public static final DecimalFormat CLOCK_DISPLAY_FORMAT = new DecimalFormat( "0" );
     public static final int CLOCK_DISPLAY_COLUMNS = 10;
     

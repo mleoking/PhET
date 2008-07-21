@@ -7,7 +7,6 @@ HIGHEST PRIORITY:
 
 HIGH PRIORITY:
 - make sure everything works properly when clock is paused
-- make default speed 2 years per sec
 - hide any features that aren't implemented for July 25 deadline
 
 MEDIUM PRIORITY:
@@ -80,6 +79,7 @@ CLEANUP:
 
 
 DONE:
+7/21/08 - make default clock speed 2 years per sec (2 fps)
 7/21/08 - don't draw x coordinate axis for x < 0
 7/21/08 - temporarily remove snowfall node
 7/21/08 - remove tools from bird-eye view, they are too small to be usable
