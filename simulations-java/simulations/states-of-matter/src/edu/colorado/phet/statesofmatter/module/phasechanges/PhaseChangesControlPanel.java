@@ -65,6 +65,11 @@ public class PhaseChangesControlPanel extends ControlPanel {
         phaseDiagramPanel.add( new PhaseDiagram() );
         addControlFullWidth( phaseDiagramPanel );
         
+        // Add the interaction potential diagram.
+        JPanel interactionDiagramPanel = new JPanel();
+        interactionDiagramPanel.add( new InteractionPotentialDiagram() );
+        addControlFullWidth( interactionDiagramPanel );
+        
         // Add the Reset All button.
         addVerticalSpace( 10 );
         addResetAllButton( phaseChangesModule );

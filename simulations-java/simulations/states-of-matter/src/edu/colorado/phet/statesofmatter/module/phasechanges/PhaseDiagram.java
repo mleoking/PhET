@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -32,52 +33,52 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class PhaseDiagram extends PhetPCanvas {
 
     // Constants that control the size of the canvas.
-    public static final int WIDTH = 200;
-    public static final int HEIGHT = (int)((double)WIDTH * 0.8);
+    private static final int WIDTH = 200;
+    private static final int HEIGHT = (int)((double)WIDTH * 0.8);
     
     // Constants that control the look of the axes.
-    public static final double AXES_LINE_WIDTH = 1;
-    public static final double AXES_ARROW_HEAD_WIDTH = 5 * AXES_LINE_WIDTH;
-    public static final double AXES_ARROW_HEAD_HEIGHT = 8 * AXES_LINE_WIDTH;
-    public static final double HORIZ_AXIS_SIZE_PROPORTION = 0.8;
-    public static final double VERT_AXIS_SIZE_PROPORTION = 0.80;
+    private static final double AXES_LINE_WIDTH = 1;
+    private static final double AXES_ARROW_HEAD_WIDTH = 5 * AXES_LINE_WIDTH;
+    private static final double AXES_ARROW_HEAD_HEIGHT = 8 * AXES_LINE_WIDTH;
+    private static final double HORIZ_AXIS_SIZE_PROPORTION = 0.8;
+    private static final double VERT_AXIS_SIZE_PROPORTION = 0.80;
     
     // Constants that control the location of the origin for the graph.
-    public static final double xOriginOffset = 0.10 * (double)WIDTH;
-    public static final double yOriginOffset = 0.85 * (double)HEIGHT;
-    public static final double xUsableRange = WIDTH * HORIZ_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
-    public static final double yUsableRange = HEIGHT * VERT_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
+    private static final double xOriginOffset = 0.10 * (double)WIDTH;
+    private static final double yOriginOffset = 0.85 * (double)HEIGHT;
+    private static final double xUsableRange = WIDTH * HORIZ_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
+    private static final double yUsableRange = HEIGHT * VERT_AXIS_SIZE_PROPORTION - AXES_ARROW_HEAD_HEIGHT;
     
     // Font for the labels used on the axes.
-    public static final int AXIS_LABEL_FONT_SIZE = 14;
-    public static final Font AXIS_LABEL_FONT = new PhetFont(AXIS_LABEL_FONT_SIZE);
+    private static final int AXIS_LABEL_FONT_SIZE = 14;
+    private static final Font AXIS_LABEL_FONT = new PhetFont(AXIS_LABEL_FONT_SIZE);
     
     // Fonts for labels in the interior of the diagram.
-    public static final int LARGER_INNER_FONT_SIZE = 14;
-    public static final Font LARGER_INNER_FONT = new PhetFont(LARGER_INNER_FONT_SIZE);
-    public static final int SMALLER_INNER_FONT_SIZE = 12;
-    public static final Font SMALLER_INNER_FONT = new PhetFont(SMALLER_INNER_FONT_SIZE);
+    private static final int LARGER_INNER_FONT_SIZE = 14;
+    private static final Font LARGER_INNER_FONT = new PhetFont(LARGER_INNER_FONT_SIZE);
+    private static final int SMALLER_INNER_FONT_SIZE = 12;
+    private static final Font SMALLER_INNER_FONT = new PhetFont(SMALLER_INNER_FONT_SIZE);
     
     // Colors for the various sections of the diagram.
-    public static final Color BACKGROUND_COLOR_FOR_SOLID = new Color(0xC6BDD6);
-    public static final Color BACKGROUND_COLOR_FOR_LIQUID = new Color(0xFFFFCC);
-    public static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xCEF0CE);
+    private static final Color BACKGROUND_COLOR_FOR_SOLID = new Color(0xC6BDD6);
+    private static final Color BACKGROUND_COLOR_FOR_LIQUID = new Color(0xFFFFCC);
+    private static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xCEF0CE);
     
     // Constants that control the appearance of the phase diagram for the
     // various substances.  Note that all points are controlled as proportions
     // of the overall graph size and not as absolute values.
-    public static final double POINT_MARKER_DIAMETER = 4;
-    public static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_CURVE = new Point2D.Double(xUsableRange/2 + xOriginOffset, 
+    private static final double POINT_MARKER_DIAMETER = 4;
+    private static final Point2D DEFAULT_TOP_OF_SOLID_LIQUID_CURVE = new Point2D.Double(xUsableRange/2 + xOriginOffset, 
             yOriginOffset - yUsableRange);
-    public static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.32), 
+    private static final Point2D DEFAULT_TRIPLE_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.32), 
             yOriginOffset - (yUsableRange * 0.2));
-    public static final Point2D DEFAULT_CRITICAL_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.8), 
+    private static final Point2D DEFAULT_CRITICAL_POINT = new Point2D.Double(xOriginOffset + (xUsableRange * 0.8), 
             yOriginOffset - (yUsableRange * 0.45));
-    public static final Point2D DEFAULT_SOLID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.2), 
+    private static final Point2D DEFAULT_SOLID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.2), 
             yOriginOffset - (yUsableRange * 0.6));
-    public static final Point2D DEFAULT_LIQUID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.7), 
+    private static final Point2D DEFAULT_LIQUID_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.7), 
             yOriginOffset - (yUsableRange * 0.7));
-    public static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.7), 
+    private static final Point2D DEFAULT_GAS_LABEL_LOCATION = new Point2D.Double(xOriginOffset + (xUsableRange * 0.7), 
             yOriginOffset - (yUsableRange * 0.1));
     
     // Variables that define the appearance of the phase diagram.
@@ -103,6 +104,8 @@ public class PhaseDiagram extends PhetPCanvas {
     public PhaseDiagram(){
 
         setPreferredSize( new Dimension(WIDTH, HEIGHT) );
+        setBackground( StatesOfMatterConstants.CONTROL_PANEL_COLOR );
+        setBorder( null );
 
         // Initialize the variables for the lines, points, and shapes in the
         // phase diagram.  The order in which these are added is important.
