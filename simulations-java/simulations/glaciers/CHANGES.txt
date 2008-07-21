@@ -9,7 +9,6 @@ HIGHEST PRIORITY:
 - visual representation of snowfall (gradient paint, clipped to sky)
 
 HIGH PRIORITY:
-- make shape of surface ripples look random
 - make sure everything works properly when clock is paused
 - make default speed 2 years per sec
 - hide any features that aren't implemented for July 25 deadline
@@ -84,6 +83,8 @@ CLEANUP:
 
 
 DONE:
+******* 0.00.32 (?)
+7/21/08 - temporarily remove snowfall node
 7/21/08 - create ripples at random times, with random sizes and z offsets
 7/21/08 - set up model & view for ripples to support random ripple size and z offset
 7/18/08 - change snowfall visibility with snowfall check box

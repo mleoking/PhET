@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-glaciers 0.00.31
+glaciers 0.00.32
 </b></big></big>
 <p>
 Click to launch English version:
@@ -12,27 +12,31 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>replace penguin with bear
-<li>change "Sea-level temperature" to "Sea-level air temperature" on climate control
-<li>change "temperature" to "air temperature" on graphs
-<li>update equilibrium line if climate is changed while clock is paused
-<li>remove Restart clock button, semantics don't make sense for this sim
-<li>fix algorithm for ELA ice surface intersection, it was broken close to terminus
+<li>change max timescale to 200, use the same timescale model for receding and advancing glaciers
+<li>add randomness to ice surface ripples.  They are created at random time intervals (20-100 years), and with random lengths (50-180m)
+<li>distribute features between Introduction and Advanced tabs
+<li>hide some features (Experiments tab, English/metric, Save/Load, time-based graphs, Help)
+<li>close dialogs when switching tabs, restore their state when switching back
+<li>keep track of dialog positions, always reopen dialog where it was previously
+<li>many internal framework changes related to controller
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
-<li>none
+<li>"Steady State" button doesn't advance clock time
+<li>glacier starts up in steady state, but with no debris or ripple in the ice, and no moraine
+<li>registration points (small red circles and blue dots) are shown in the background image
 </ul>
 <p>
 <b>Not implemented:</b>
 <ul>
+<li>y axis needs to be scaled by 2x
 <li>snowfall is not visible
-<li>can't switch between English and metric units
-<li>time-based graphs are not implemented
-<li>"Steady State" button doesn't advance clock time
-<li>features need to be split into Intro, Advanced, and Climate Experiments panels
-<li>interface for climate experiments is not implemented
+<li>Experiments tab
+<li>Englis/metric units control
+<li>time-based graphs
+<li>Save/Load
+<li>Help
 </ul>
 <p>
 <b>Remaining work:</b>
