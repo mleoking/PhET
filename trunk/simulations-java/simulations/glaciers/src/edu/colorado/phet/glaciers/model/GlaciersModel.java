@@ -6,10 +6,12 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.AbstractTool.ToolAdapter;
 import edu.colorado.phet.glaciers.model.AbstractTool.ToolListener;
@@ -39,7 +41,11 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
     private static final boolean ENABLE_RIPPLE_DEBUG_OUTPUT = false;
     
     private static final double YEARS_PER_DEBRIS_GENERATED = 1; // debris is generated this many years apart
-    private static final double YEARS_PER_RIPPLE_GENERATED = 35; // ripples are generated this many years apart
+    
+    private static final DoubleRange YEARS_PER_RIPPLE_GENERATED_RANGE = new DoubleRange( 20, 100 ); // ripples are generated this many years apart
+    private static final double RIPPLE_WIDTH = 25; // meters
+    private static final DoubleRange RIPPLE_LENGTH_RANGE = new DoubleRange( 0.2 * Valley.getPerspectiveHeight(), 0.75 * Valley.getPerspectiveHeight() ); // meters
+    private static final DoubleRange RIPPLE_ZOFFSET_FACTOR_RANGE = new DoubleRange( 0.3, 0.8 ); // percent of Valley.getPerspectiveHeight() - rippleLength
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -69,6 +75,7 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
     private final ArrayList _rippleProducerListeners; // list of IceSurfaceRippleProducerListeners
     private final IceSurfaceRippleListener _rippleSelfDeletionListener;
     private double _timeSinceLastRippleGenerated;
+    private final Random _randomRippleTime, _randomRippleHeight, _randomRippleZOffset;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -100,7 +107,10 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
         
         _ripples = new ArrayList();
         _rippleProducerListeners = new ArrayList();
-        _timeSinceLastRippleGenerated = YEARS_PER_RIPPLE_GENERATED; // generate one on first clock tick
+        _timeSinceLastRippleGenerated = YEARS_PER_RIPPLE_GENERATED_RANGE.getMax(); // generate one on first clock tick
+        _randomRippleTime = new Random();
+        _randomRippleHeight = new Random();
+        _randomRippleZOffset = new Random();
         
         // create a borehole when the drill is pressed
         _boreholeDrillListener = new BoreholeDrillListener() {
@@ -489,10 +499,14 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
     private void generateRipple( ClockEvent clockEvent ) {
         if ( _glacier.getLength() > 0 ) {
             _timeSinceLastRippleGenerated += clockEvent.getSimulationTimeChange();
-            if ( _timeSinceLastRippleGenerated >= YEARS_PER_RIPPLE_GENERATED ) {
+            final double yearsPerRipple = YEARS_PER_RIPPLE_GENERATED_RANGE.getMin() + _randomRippleTime.nextDouble() * YEARS_PER_RIPPLE_GENERATED_RANGE.getLength();
+            if ( _timeSinceLastRippleGenerated >= yearsPerRipple ) {
                 final double x = _glacier.getHeadwallX() + 1;
-                final Dimension size = new Dimension( 20, 150 );
-                final double zOffset = 50;
+                final double width = RIPPLE_WIDTH;
+                final double height = RIPPLE_LENGTH_RANGE.getMin() + _randomRippleHeight.nextDouble() * RIPPLE_LENGTH_RANGE.getLength();
+                final Dimension size = new Dimension( (int)width, (int)height );
+                final double zOffsetFactor = RIPPLE_ZOFFSET_FACTOR_RANGE.getMin() + _randomRippleZOffset.nextDouble() * RIPPLE_ZOFFSET_FACTOR_RANGE.getLength();
+                final double zOffset = 0.75 * zOffsetFactor * ( Valley.getPerspectiveHeight() - height );
                 addIceSurfaceRipple( x, size, zOffset );
                 _timeSinceLastRippleGenerated = 0;
             }
