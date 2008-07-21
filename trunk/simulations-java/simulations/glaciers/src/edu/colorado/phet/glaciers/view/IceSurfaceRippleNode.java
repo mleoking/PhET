@@ -2,16 +2,12 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.IceSurfaceRipple;
-import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.colorado.phet.glaciers.model.IceSurfaceRipple.IceSurfaceRippleAdapter;
@@ -29,8 +25,6 @@ public class IceSurfaceRippleNode extends PComposite {
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color COLOR_ABOVE_ELA = new Color( 230, 230, 230 );
     private static final Color COLOR_BELOW_ELA = new Color( 200, 200, 200 );
-    private static final double RIPPLE_WIDTH = 25; // meters
-    private static final double MARGIN_PERCENTAGE = 0.2;
     
     private final Glacier _glacier;
     private final IceSurfaceRipple _ripple;
@@ -63,26 +57,31 @@ public class IceSurfaceRippleNode extends PComposite {
         };
         _ripple.addIceSurfaceRippleListener( _rippleListener );
         
+        Point2D pModel = new Point2D.Double();
         _pView = new Point2D.Double();
-       
-        Point2D pModel = new Point2D.Double( RIPPLE_WIDTH, 0 );
+        
+        Dimension rippleSize = _ripple.getSize();
+        pModel.setLocation( rippleSize.getWidth(), rippleSize.getHeight() );
         mvt.modelToView( pModel, _pView );
-        final double rippleWidth = Math.abs( _pView.getX() );
+        final double rippleWidth = _pView.getX();
+        final double rippleHeight = Math.abs( _pView.getY() );
+        
+        pModel.setLocation( 0, _ripple.getZOffset() );
+        mvt.modelToView( pModel, _pView );
+        final double rippleZOffset = Math.abs( _pView.getY() );
+        
         final double arcWidth = 2 * rippleWidth;
-        pModel = new Point2D.Double( 0, Valley.getPerspectiveHeight() );
-        mvt.modelToView( pModel, _pView );
-        final double surfaceHeight = Math.abs( _pView.getY() );
-        final double margin = MARGIN_PERCENTAGE * surfaceHeight;
-        final double rippleHeight = surfaceHeight - ( 2 * margin );
-        Shape topArc = new Arc2D.Double( 0, 0, arcWidth, 0.35 * rippleHeight, 270, 180, Arc2D.OPEN ); // angles specified in degrees!
-        Shape bottomArc = new Arc2D.Double( 0, 0, arcWidth, 0.65 * rippleHeight, 270, 180, Arc2D.OPEN );
+        final double startAngle = 270; // degrees
+        final double extent = 180; // degrees
+        Shape topArc = new Arc2D.Double( 0, 0, arcWidth, 0.35 * rippleHeight, startAngle, extent, Arc2D.OPEN );
+        Shape bottomArc = new Arc2D.Double( 0, 0, arcWidth, 0.65 * rippleHeight, startAngle, extent, Arc2D.OPEN );
         _topArcNode = new PPath( topArc );
         _topArcNode.setStroke( STROKE );
         _bottomArcNode = new PPath( bottomArc );
         _bottomArcNode.setStroke( STROKE );
         
-        _bottomArcNode.setOffset( -arcWidth/2, -( _bottomArcNode.getFullBoundsReference().getHeight() + margin ) );
-        _topArcNode.setOffset( -arcWidth/2, -( _topArcNode.getFullBoundsReference().getHeight() + _bottomArcNode.getFullBoundsReference().getHeight() + margin ) );
+        _bottomArcNode.setOffset( -arcWidth/2, -( _bottomArcNode.getFullBoundsReference().getHeight() + rippleZOffset ) );
+        _topArcNode.setOffset( -arcWidth/2, -( _topArcNode.getFullBoundsReference().getHeight() + _bottomArcNode.getFullBoundsReference().getHeight() + rippleZOffset ) );
         addChild( _topArcNode );
         addChild( _bottomArcNode );
         

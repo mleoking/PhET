@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.glaciers.model;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,7 +25,10 @@ public class IceSurfaceRipple extends ClockAdapter {
     //  Instance data
     //----------------------------------------------------------------------------
     
-    private final Point2D _position;
+    private Point2D _position; // point on the glacier's surface
+    private final Dimension _size;
+    private final double _zOffset; // z offset from surface cross section at z=0
+    
     private final Glacier _glacier;
     private final GlacierListener _glacierListener;
     private boolean _deletedSelf;
@@ -34,12 +38,14 @@ public class IceSurfaceRipple extends ClockAdapter {
     //  Constructors
     //----------------------------------------------------------------------------
     
-    public IceSurfaceRipple( double x, Glacier glacier ) {
+    public IceSurfaceRipple( double x, Dimension size, double zOffset, Glacier glacier ) {
         super();
         
         _position = new Point2D.Double( x, glacier.getSurfaceElevation( x ) );
-        _glacier = glacier;
+        _size = new Dimension( size );
+        _zOffset = zOffset;
         
+        _glacier = glacier;
         _glacierListener = new GlacierAdapter() {
             public void iceThicknessChanged() {
                 checkForDeletion();
@@ -83,6 +89,14 @@ public class IceSurfaceRipple extends ClockAdapter {
     
     public double getY() {
         return _position.getY();
+    }
+    
+    public Dimension getSize() {
+        return new Dimension( _size );
+    }
+    
+    public double getZOffset() {
+        return _zOffset;
     }
     
     //----------------------------------------------------------------------------

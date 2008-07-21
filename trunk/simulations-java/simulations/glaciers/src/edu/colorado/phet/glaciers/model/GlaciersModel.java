@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.glaciers.model;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -429,11 +430,11 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
     // IIceSurfaceRippleProducer
     //----------------------------------------------------------------------------
     
-    public IceSurfaceRipple addIceSurfaceRipple( double x ) {
+    public IceSurfaceRipple addIceSurfaceRipple( double x, Dimension size, double yOffset ) {
         if ( ENABLE_RIPPLE_DEBUG_OUTPUT ) {
             System.out.println( "AbstractModel.addIceSurfaceRipple " + x );
         }
-        IceSurfaceRipple ripple = new IceSurfaceRipple( x, _glacier );
+        IceSurfaceRipple ripple = new IceSurfaceRipple( x, size, yOffset, _glacier );
         ripple.addIceSurfaceRippleListener( _rippleSelfDeletionListener );
         _ripples.add( ripple );
         _clock.addClockListener( ripple );
@@ -489,7 +490,10 @@ public class GlaciersModel implements IToolProducer, IBoreholeProducer, IDebrisP
         if ( _glacier.getLength() > 0 ) {
             _timeSinceLastRippleGenerated += clockEvent.getSimulationTimeChange();
             if ( _timeSinceLastRippleGenerated >= YEARS_PER_RIPPLE_GENERATED ) {
-                addIceSurfaceRipple( _glacier.getHeadwallX() + 1 );
+                final double x = _glacier.getHeadwallX() + 1;
+                final Dimension size = new Dimension( 20, 150 );
+                final double zOffset = 50;
+                addIceSurfaceRipple( x, size, zOffset );
                 _timeSinceLastRippleGenerated = 0;
             }
         }

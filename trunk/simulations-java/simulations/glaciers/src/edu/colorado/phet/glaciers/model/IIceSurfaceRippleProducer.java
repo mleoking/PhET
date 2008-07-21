@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers.model;
 
+import java.awt.Dimension;
+
 
 
 /**
@@ -14,10 +16,12 @@ public interface IIceSurfaceRippleProducer {
     /**
      * Adds ripple as a specified x coordinate.
      * The 2D position will always be on the surface of the ice, so we only specify x.
-     * @param x
+     * @param x initial x position of the ripple (meters)
+     * @param size (x and z dimensions, in meters)
+     * @param zOffset offset of the ripple from the far wall of the valley (z dimension, i meters)
      * @return
      */
-    public IceSurfaceRipple addIceSurfaceRipple( double x );
+    public IceSurfaceRipple addIceSurfaceRipple( double x, Dimension size, double zOffset );
     
     /**
      * Removes the specified ripple.

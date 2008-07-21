@@ -84,23 +84,24 @@ CLEANUP:
 
 
 DONE:
-7/19/08 - change snowfall visibility with snowfall check box
-7/19/08 - create a temporary node for snowfall
-7/19/08 - turn off help for modules, since we don't have any yet
-7/19/08 - organize imports
-7/19/08 - keep track of dialog positions, always reopen dialog where it was previously
-7/19/08 - close & reopen graph windows when switching modules
-7/19/08 - implement HelpButton, delete listener interface from MiscControlPanel
-7/19/08 - pass dialog owner Frame to control panels
-7/19/08 - use ResetAllButton in misc control panel
-7/19/08 - move more constants to GlaciersConstants
-7/19/08 - start distribution functionality between Intro and Advanced panels
-7/19/08 - delete defaults classes, move constants to GlaciersConstants
-7/19/08 - use a common model for all modules
-7/19/08 - merge controller code into control panels to simplify and eliminate duplicate code, delete controller classes
-7/19/08 - delete Experiments module classes, they were empty and in the way
-7/19/08 - hide Experiments module, Save/Load, time-based graphs, English/metric radio buttons, for 7/25 deadline (search for "XXX hide")
-7/19/08 - rename PlayArea to GlaciersPlayArea
+7/21/08 - set up model & view for ripples to support random ripple size and z offset
+7/18/08 - change snowfall visibility with snowfall check box
+7/18/08 - create a temporary node for snowfall
+7/18/08 - turn off help for modules, since we don't have any yet
+7/18/08 - organize imports
+7/18/08 - keep track of dialog positions, always reopen dialog where it was previously
+7/18/08 - close & reopen graph windows when switching modules
+7/18/08 - implement HelpButton, delete listener interface from MiscControlPanel
+7/18/08 - pass dialog owner Frame to control panels
+7/18/08 - use ResetAllButton in misc control panel
+7/18/08 - move more constants to GlaciersConstants
+7/18/08 - start distribution functionality between Intro and Advanced panels
+7/18/08 - delete defaults classes, move constants to GlaciersConstants
+7/18/08 - use a common model for all modules
+7/18/08 - merge controller code into control panels to simplify and eliminate duplicate code, delete controller classes
+7/18/08 - delete Experiments module classes, they were empty and in the way
+7/18/08 - hide Experiments module, Save/Load, time-based graphs, English/metric radio buttons, for 7/25 deadline (search for "XXX hide")
+7/18/08 - rename PlayArea to GlaciersPlayArea
 7/17/08 - rename module.basic package to module.intro
 7/17/08 - fix: very short advancing glacier starts off advancing very slowly, then speeds up (fixed by previous 2 changes)
 7/17/08 - change timescale so that there is no difference between retreating and advancing (use receding model for both)
