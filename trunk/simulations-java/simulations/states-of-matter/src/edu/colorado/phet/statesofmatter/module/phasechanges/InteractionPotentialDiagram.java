@@ -46,9 +46,9 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
     private static final float AXIS_LINE_WIDTH = 1;
     private static final Stroke AXIS_LINE_STROKE = new BasicStroke(AXIS_LINE_WIDTH);
     private static final Color AXIS_LINE_COLOR = Color.LIGHT_GRAY;
-    private static final double ARROW_LINE_WIDTH = 0.75;
-    private static final double ARROW_HEAD_WIDTH = 6 * ARROW_LINE_WIDTH;
-    private static final double ARROW_HEAD_HEIGHT = 8 * ARROW_LINE_WIDTH;
+    private static final double ARROW_LINE_WIDTH = 0.50;
+    private static final double ARROW_HEAD_WIDTH = 8 * ARROW_LINE_WIDTH;
+    private static final double ARROW_HEAD_HEIGHT = 10 * ARROW_LINE_WIDTH;
     private static final double POTENTIAL_ENERGY_LINE_WIDTH = 2;
     private static final Stroke POTENTIAL_ENERGY_LINE_STROKE = new BasicStroke(AXIS_LINE_WIDTH);
     private static final Color POTENTIAL_ENERGY_LINE_COLOR = Color.red;
@@ -68,9 +68,11 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
     private static final double GRAPH_WIDTH = WIDTH * HORIZ_AXIS_SIZE_PROPORTION;
     private static final double GRAPH_HEIGHT = HEIGHT * VERT_AXIS_SIZE_PROPORTION;
     
-    // Font for the labels used on the axes.
+    // Font for the labels used on the axes and within the graph.
     private static final int AXIS_LABEL_FONT_SIZE = 14;
     private static final Font AXIS_LABEL_FONT = new PhetFont(AXIS_LABEL_FONT_SIZE);
+    private static final int GREEK_LETTER_FONT_SIZE = 16;
+    private static final Font GREEK_LETTER_FONT = new PhetFont(GREEK_LETTER_FONT_SIZE);
     
     /**
      * Constructor.
@@ -129,6 +131,18 @@ public class InteractionPotentialDiagram extends PhetPCanvas {
                 new Point2D.Double( graphMin.getX(), GRAPH_HEIGHT / 2 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
         epsilonArrow.setPaint( Color.BLACK );
         ljPotentialGraph.addChild( epsilonArrow );
+        
+        PText epsilon = new PText("\u03B5");
+        epsilon.setFont( GREEK_LETTER_FONT );
+        epsilon.setOffset( graphMin.getX() + epsilon.getFullBoundsReference().width * 0.5, 
+                GRAPH_HEIGHT / 2 + epsilon.getFullBoundsReference().height * 0.5 );
+        ljPotentialGraph.addChild( epsilon );
+
+        PText sigma = new PText("\u03C3");
+        sigma.setFont( GREEK_LETTER_FONT );
+        sigma.setOffset( zeroCrossingPoint.getX() / 2 - sigma.getFullBoundsReference().width / 2, 
+                GRAPH_HEIGHT / 2 );
+        ljPotentialGraph.addChild( sigma );
 
         DoubleArrowNode sigmaArrow = new DoubleArrowNode(new Point2D.Double(0, GRAPH_HEIGHT / 2), zeroCrossingPoint, 
                 ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_LINE_WIDTH);
