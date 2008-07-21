@@ -13,6 +13,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -60,7 +61,7 @@ public class PhaseDiagram extends PhetPCanvas {
     // Colors for the various sections of the diagram.
     public static final Color BACKGROUND_COLOR_FOR_SOLID = new Color(0xC6BDD6);
     public static final Color BACKGROUND_COLOR_FOR_LIQUID = new Color(0xFFFFCC);
-    public static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xCEE5CE);
+    public static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xCEF0CE);
     
     // Constants that control the appearance of the phase diagram for the
     // various substances.  Note that all points are controlled as proportions
@@ -291,8 +292,21 @@ public class PhaseDiagram extends PhetPCanvas {
 //        green = (color1.getGreen() + color2.getGreen()) / 2;
 //        blue = (color1.getBlue() + color2.getBlue()) / 2;
 //        return(new Color(red, green, blue));
-        Point2D top = new Point2D.Double(xOriginOffset + (0.9 * xUsableRange), yOriginOffset - (yUsableRange * 0.9));
-        Point2D bottom = new Point2D.Double(xOriginOffset + (0.9 * xUsableRange), yOriginOffset + (yUsableRange * 0.1));
-        return new GradientPaint(bottom, BACKGROUND_COLOR_FOR_GAS, top, BACKGROUND_COLOR_FOR_LIQUID);
+        
+        if (PhetUtilities.getOperatingSystem() == PhetUtilities.OS_MACINTOSH){
+            // We have been having problems with gradients causing Java apps
+            // running on Macs to crash.  To avoid this, we use a solid point
+            // color that is between the color of the two other regions.
+          int red, green, blue;
+          red = (BACKGROUND_COLOR_FOR_GAS.getRed() + BACKGROUND_COLOR_FOR_LIQUID.getRed()) / 2;
+          green = (BACKGROUND_COLOR_FOR_GAS.getGreen() + BACKGROUND_COLOR_FOR_LIQUID.getGreen()) / 2;
+          blue = (BACKGROUND_COLOR_FOR_GAS.getBlue() + BACKGROUND_COLOR_FOR_LIQUID.getBlue()) / 2;
+          return(new Color(red, green, blue));
+        }
+        else{
+            Point2D top = new Point2D.Double(xOriginOffset + (0.8 * xUsableRange), yOriginOffset - (yUsableRange * 0.9));
+            Point2D bottom = new Point2D.Double(xOriginOffset + (0.8 * xUsableRange), yOriginOffset - (yUsableRange * 0.1));
+            return new GradientPaint(bottom, BACKGROUND_COLOR_FOR_GAS, top, BACKGROUND_COLOR_FOR_LIQUID);
+        }
     }
 }
