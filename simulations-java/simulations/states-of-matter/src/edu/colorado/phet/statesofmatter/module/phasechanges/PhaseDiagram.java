@@ -5,6 +5,8 @@ package edu.colorado.phet.statesofmatter.module.phasechanges;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -56,9 +58,9 @@ public class PhaseDiagram extends PhetPCanvas {
     public static final Font SMALLER_INNER_FONT = new PhetFont(SMALLER_INNER_FONT_SIZE);
     
     // Colors for the various sections of the diagram.
-    public static final Color BACKGROUND_COLOR_FOR_SOLID = new Color(0x9999FF);
+    public static final Color BACKGROUND_COLOR_FOR_SOLID = new Color(0xC6BDD6);
     public static final Color BACKGROUND_COLOR_FOR_LIQUID = new Color(0xFFFFCC);
-    public static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xCCFFCC);
+    public static final Color BACKGROUND_COLOR_FOR_GAS = new Color(0xCEE5CE);
     
     // Constants that control the appearance of the phase diagram for the
     // various substances.  Note that all points are controlled as proportions
@@ -88,6 +90,7 @@ public class PhaseDiagram extends PhetPCanvas {
     private PText m_liquidLabel;
     private PText m_gasLabel;
     private PPath m_gasAreaBackground;
+    private PPath m_superCriticalAreaBackground;
     private PText m_triplePointLabel1;
     private PText m_triplePointLabel2;
     private PText m_criticalPointLabel1;
@@ -106,6 +109,10 @@ public class PhaseDiagram extends PhetPCanvas {
         m_gasAreaBackground.setPaint( BACKGROUND_COLOR_FOR_GAS );
         m_gasAreaBackground.setStrokePaint( BACKGROUND_COLOR_FOR_GAS );
         addWorldChild( m_gasAreaBackground );
+        m_superCriticalAreaBackground = new PPath();
+        m_superCriticalAreaBackground.setPaint( getSuperCriticalRegionPaint() );
+        m_superCriticalAreaBackground.setStrokePaint( getSuperCriticalRegionPaint() );
+        addWorldChild( m_superCriticalAreaBackground );
         m_liquidAreaBackground = new PPath();
         m_liquidAreaBackground.setPaint( BACKGROUND_COLOR_FOR_LIQUID );
         m_liquidAreaBackground.setStrokePaint( BACKGROUND_COLOR_FOR_LIQUID );
@@ -245,6 +252,16 @@ public class PhaseDiagram extends PhetPCanvas {
         gasBackground.closePath();
         m_gasAreaBackground.setPathTo( gasBackground );
 
+        // Update the shape of the background for the area that represents the
+        // liquid phase.  It is expected that the liquid shape overlays this one.
+        GeneralPath superCriticalBackground = new GeneralPath();
+        superCriticalBackground.moveTo( (float)(DEFAULT_CRITICAL_POINT.getX()), (float)(DEFAULT_CRITICAL_POINT.getY()));
+        superCriticalBackground.lineTo( (float)(xOriginOffset + xUsableRange), (float)(yOriginOffset));
+        superCriticalBackground.lineTo( (float)(xOriginOffset + xUsableRange), (float)(yOriginOffset - yUsableRange));
+        superCriticalBackground.lineTo( (float)(DEFAULT_CRITICAL_POINT.getX()), (float)(DEFAULT_CRITICAL_POINT.getY()));
+        superCriticalBackground.closePath();
+        m_superCriticalAreaBackground.setPathTo( superCriticalBackground );
+
         // Locate the labels.  They are centered on their locations, which
         // hopefully will work better for translated strings.
         m_solidLabel.setOffset( DEFAULT_SOLID_LABEL_LOCATION.getX() - m_solidLabel.getFullBoundsReference().width / 2,
@@ -260,5 +277,22 @@ public class PhaseDiagram extends PhetPCanvas {
         m_criticalPointLabel2.setOffset( DEFAULT_CRITICAL_POINT.getX() + 4, DEFAULT_CRITICAL_POINT.getY() );
         m_criticalPointLabel1.setOffset( m_criticalPointLabel2.getFullBoundsReference().x,
                 m_criticalPointLabel2.getFullBoundsReference().y - m_criticalPointLabel2.getFullBoundsReference().height * 0.8);
+    }
+    
+    /**
+     * Create a paint that is a good transition between the color in the gaseous
+     * region and the color in the liquid region.
+     */
+    private Paint getSuperCriticalRegionPaint(){
+        
+        
+//        int red, green, blue;
+//        red = (color1.getRed() + color2.getRed()) / 2;
+//        green = (color1.getGreen() + color2.getGreen()) / 2;
+//        blue = (color1.getBlue() + color2.getBlue()) / 2;
+//        return(new Color(red, green, blue));
+        Point2D top = new Point2D.Double(xOriginOffset + (0.9 * xUsableRange), yOriginOffset - (yUsableRange * 0.9));
+        Point2D bottom = new Point2D.Double(xOriginOffset + (0.9 * xUsableRange), yOriginOffset + (yUsableRange * 0.1));
+        return new GradientPaint(bottom, BACKGROUND_COLOR_FOR_GAS, top, BACKGROUND_COLOR_FOR_LIQUID);
     }
 }
