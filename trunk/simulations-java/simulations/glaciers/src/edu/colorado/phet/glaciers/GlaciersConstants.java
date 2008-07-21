@@ -64,9 +64,12 @@ public class GlaciersConstants {
     // View
     //----------------------------------------------------------------------------
     
+    // How y axis scaling is built into the background image
+    public static final double Y_AXIS_SCALE_IN_IMAGE = 2.0;
+    
     // model-view transform (MVT) parameters
     public static final double MVT_X_SCALE = 0.062; // scale x by this amount when going from model to view
-    public static final double MVT_Y_SCALE = 0.1; // scale y by this amount when going from model to view
+    public static final double MVT_Y_SCALE = 0.1 * Y_AXIS_SCALE_IN_IMAGE; // scale y by this amount when going from model to view
     public static final double MVT_X_OFFSET = 0; // translate x by this amount when going from model to view
     public static final double MVT_Y_OFFSET = 0; // translate y by this amount when going from model to view
     public static final boolean MVT_FLIP_SIGN_X = false;
@@ -79,11 +82,14 @@ public class GlaciersConstants {
     public static final double BIRDS_EYE_VIEW_HEIGHT = 75;
     
     // camera view scales
-    public static final double BIRDS_EYE_CAMERA_VIEW_SCALE = 0.2;
+    public static final double BIRDS_EYE_CAMERA_VIEW_SCALE = 0.2 / Y_AXIS_SCALE_IN_IMAGE;
     public static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
     
     // offset of upper-left corner of birds-eye viewport from highest point on the glacier
-    public static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -1500, +1000 ); // meters
+    public static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -4400, +1000 ); // meters
+    
+    // where the glacier intersects the right edge of the zoomed viewport, percentage of zoomed viewport height
+    public static final double ALIGNMENT_FACTOR_FOR_GLACIER_IN_ZOOMED_VIEWPORT = 0.25; // percent
     
     //----------------------------------------------------------------------------
     // Fonts
