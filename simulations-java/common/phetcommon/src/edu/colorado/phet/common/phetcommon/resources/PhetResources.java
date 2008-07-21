@@ -47,7 +47,7 @@ public class PhetResources {
     private static final String PROPERTY_JAVAWS_PHET_LOCALE = "javaws.phet.locale";
 
     private static final char PATH_SEPARATOR = '/';
-    
+
     private static final String PROPERTIES_SUFFIX = ".properties";
 
     //----------------------------------------------------------------------------
@@ -67,16 +67,16 @@ public class PhetResources {
 
     /**
      * Constructor, default locale and default resource loader.
-     * 
+     *
      * @param projectName
      */
     public PhetResources( String projectName ) {
         this( projectName, readLocale(), new DefaultResourceLoader() );
     }
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param projectName
      * @param locale
      * @param resourceLoader
@@ -111,7 +111,9 @@ public class PhetResources {
     * @return Locale
     */
     public static Locale readLocale() {
-        Locale locale = Locale.getDefault();
+//        Locale locale = Locale.getDefault();
+        //if no language is specified, default locale used by phet common should be english, not system default
+        Locale locale = new Locale( "en" );
         String javawsLocale = System.getProperty( PROPERTY_JAVAWS_PHET_LOCALE );
         if ( javawsLocale != null ) {
             locale = new Locale( javawsLocale );
