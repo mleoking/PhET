@@ -12,7 +12,7 @@ Click to launch English version:
 <b>What's new:</b>
 <p>
 <ul>
-<li>change max timescale to 200, use the same timescale model for receding and advancing glaciers
+<li>fix timescale model: change max timescale to 200, use the same timescale model for receding and advancing glaciers
 <li>add randomness to ice surface ripples.  They are created at random time intervals (20-100 years), and with random lengths (50-180m)
 <li>distribute features between Introduction and Advanced tabs
 <li>hide some features (Experiments tab, English/metric, Save/Load, time-based graphs, Help)
